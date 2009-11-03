@@ -344,8 +344,8 @@ void Kanjidic2EntryFormatter::draw(const Entry *_entry, QPainter &painter, const
 		QPen pen(painter.pen());
 		pen.setWidth(5);
 		pen.setCapStyle(Qt::RoundCap);
-		painter.scale(printSize.value() / 109.0, printSize.value() / 109.0);
 		painter.translate((leftArea.width() - printSize.value()) / 2.0, 0.0);
+		painter.scale(printSize.value() / 109.0, printSize.value() / 109.0);
 		painter.setRenderHint(QPainter::Antialiasing);
 
 		const QList<const KanjiComponent *> &kComponents(entry->rootComponents());
