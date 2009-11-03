@@ -1,0 +1,91 @@
+/*
+ *  Copyright (C) 2009  Alexandre Courbot
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+#ifndef __GUI_KANJIDIC2_ENTRYFORMATTER_H
+#define __GUI_KANJIDIC2_ENTRYFORMATTER_H
+
+#include "core/kanjidic2/Kanjidic2Entry.h"
+#include "core/EntriesCache.h"
+#include "EntryFormatter.h"
+#include "DetailedView.h"
+
+class Kanjidic2EntryFormatter : public EntryFormatter
+{
+protected:
+	virtual void _detailedVersion(const Entry *entry, QTextCursor &cursor, DetailedView *view) const;
+
+public:
+	Kanjidic2EntryFormatter();
+
+	void writeJapanese(const Kanjidic2Entry *entry, QTextCursor &cursor, DetailedView *view) const;
+	void writeTranslation(const Kanjidic2Entry *entry, QTextCursor &cursor, DetailedView *view) const;
+	void writeKanjiInfo(const Kanjidic2Entry *entry, QTextCursor &cursor, DetailedView *view) const;
+
+	virtual void writeShortDesc(const Entry *entry, QTextCursor &cursor) const;
+	virtual void draw(const Entry *entry, QPainter &painter, const QRectF &rectangle, QRectF &usedSpace, const QFont &textFont = QFont()) const;
+	virtual void detailedVersionPart1(const Entry *entry, QTextCursor &cursor, DetailedView *view) const;
+	virtual void detailedVersionPart2(const Entry *entry, QTextCursor &cursor, DetailedView *view) const;
+
+	virtual void showToolTip(const Entry *entry, const QPoint &pos) const;
+
+	static QString getQueryUsedInWordsSql(int kanji, int limit, bool onlyStudied);
+	static QString getQueryUsedInKanjiSql(int kanji, int limit, bool onlyStudied);
+
+	static PreferenceItem<bool> showReadings;
+	static PreferenceItem<bool> showUnicode;
+	static PreferenceItem<bool> showJLPT;
+	static PreferenceItem<bool> showGrade;
+	static PreferenceItem<bool> showComponents;
+	static PreferenceItem<bool> showStrokesNumber;
+	static PreferenceItem<bool> showFrequency;
+	static PreferenceItem<bool> showVariations;
+	static PreferenceItem<bool> showVariationOf;
+
+	static PreferenceItem<int> maxWordsToDisplay;
+	static PreferenceItem<int> maxParentKanjiToDisplay;
+
+	static PreferenceItem<int> printSize;
+	static PreferenceItem<bool> printWithFont;
+	static PreferenceItem<bool> printComponents;
+	static PreferenceItem<bool> printOnlyStudiedVocab;
+	static PreferenceItem<int> maxWordsToPrint;
+};
+
+class ShowUsedInJob : public DetailedViewJob {
+	Q_DECLARE_TR_FUNCTIONS(ShowUsedInJob)
+private:
+	QString _kanji;
+	bool _gotResult;
+public:
+	ShowUsedInJob(const QString &kanji, int maxParentKanjisToDisplay, const QTextCursor &cursor);
+	virtual void firstResult();
+	virtual void result(EntryPointer<Entry> entry);
+	virtual void completed();
+};
+
+class ShowUsedInWordsJob : public DetailedViewJob {
+	Q_DECLARE_TR_FUNCTIONS(ShowUsedInWordsJob)
+private:
+	QString _kanji;
+	bool _gotResult;
+public:
+	ShowUsedInWordsJob(const QString &kanji, int maxWordsToDisplay, const QTextCursor &cursor);
+	virtual void firstResult();
+	virtual void result(EntryPointer<Entry> entry);
+	virtual void completed();
+};
+
+#endif

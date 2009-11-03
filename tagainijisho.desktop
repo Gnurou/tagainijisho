@@ -1,0 +1,13 @@
+[Desktop Entry]
+Encoding=UTF-8
+Type=Application
+Name=Tagaini Jisho
+GenericName=Japanese dictionary and study assistant
+GenericName[fr]=Dictionnaire et assistant d'étude du japonais
+Comment=A free Japanese dictionary and study assistant
+Comment[fr]=Un dictionnaire et assistant d'étude du japonais
+TryExec=tagainijisho
+Exec=tagainijisho
+Icon=tagainijisho
+Terminal=false
+Categories=Qt;Education;

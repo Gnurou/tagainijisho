@@ -1,0 +1,148 @@
+0.2.4 released on
+* Updated to SQLite 3.6.19
+* Huge reorganization of the source code, separation of the functional
+  aspects from the GUI
+* Now directly using KanjiVG data
+* Kanjis components now accurately reflected in the stroke animations
+* Search is now hiragana/katakana insensitive
+* Now possible to perform training on a given set
+* Reading trainer now hiragana/katakana insensitive and accepts alternate
+  readings
+* Graphical variations of a kanji now displayed
+* Surrogate characters are now be correctly handled
+* Kanji entries can now use the KanjiVG vectors as reference when being
+  printed
+* A new, more robust preferences system
+* Smooth scrolling for the results and detailed view
+* Furiganas display setting now available directly from training window
+* A new entry menu action to mark an entry as mistaken and downgrade
+  its score accordingly
+* Meaning now displayed in reading trainer
+* Flashcard training possible on whole study list or currently displayed set
+* Anki export fixed
+
+0.2.3 released on 2009/07/27
+* Fixed display bug when selecting multiple entries in the results view
+* Added "sets" that act like search bookmarks
+* Added a "Train settings" configuration dialog
+* New reading practice mode, where the user must guess the correct reading
+  of studied entries containing studied kanjis
+* Added print preview options for regular and booklet printing
+* Added page range and selection printing
+* Added reset buttons to extenders
+* Icons appear in result views for entries that are tagged or annnotated
+* Training history not limited to last two weeks anymore
+* Better dates handling, featuring both relative and absolute dates
+* Added last trained date search option
+* Extender buttons size now limited, tooltip displays entire content
+  when useful
+* Uses flow layout to handle extender buttons
+* Improved and simplified notes edit dialog
+* ... plenty of small fixes and improvements
+
+0.2.2a released on 2009/06/16
+* Fixed serious bug that prevented some Windows Vista users to install
+  Tagaini in Program Files
+* Added progress bar for long operations in the results view
+
+0.2.2 released on 2009/06/14
+* Added search bar extenders to better control search parameters
+* Removed PyQt dependencies for building databases, now only relies on
+  Python standard libraries
+* New compilation scheme that does not require scons - only
+  Python. Contrary to the scons one, it should work on all platforms.
+* Fixed bug when assigning a tag for the first time
+* Alternate writings now accurately written before the senses they apply
+  to in detailed view
+* Training window keyboard shortcuts do not require to press "Alt"
+  anymore
+* Layout improved, less space wasted in OSX
+* Fixed compilation errors with GCC 4.4
+* Fixed geometry problem with the kanji popup window on small displays
+
+0.2.1a released on 2009/04/05
+* Fixed crash on when displaying some entries
+* Reordered senses so that languages other than English are displayed
+  first when using non-English dictionaries
+
+0.2.1 released on 2009/04/02
+* New (and beautiful) application icon! (thanks Philip Seifi!)
+* Now uses official KanjiVG data
+* Updated to SQLite 3.6.12
+* Many kanjis stroke order fixes (thanks Benoit Cerrina!)
+* Better ordering of JMdict results
+* Preferences window now allows customization of results and detailed view
+  fonts, stroke order animation, and much more
+* :jlpt and :grade commands now accept multiple arguments
+* :jmdict command now accepts entry id as argument (useful for debugging
+  purposes)
+* Right-click menu of the detailed list moved into a more convenient
+  toolbar
+* Clicking on short descriptions link directly opens the entry into the
+  detailed view
+* Right clicking on a short description link or kanji popups the menu
+  for that entry and not the one in the detailed view
+* Fixed a crash when displaying a JMdict entry without any readings
+* Fixed count bug with the :haskanji command
+* Added JLPT level 1 vocabulary
+* New :withstudiedkanjis to search vocabulary using only studied kanjis
+* Option to display or not furiganas during training
+* Fixed tab-separated file export to export all readings and meanings
+* Added an option to export/import the user data
+
+0.2.0 released on 2009/01/11
+* Upgraded JMdict and Kanjidic2 to 2009/01/11 versions
+* Totally reworked data-base engine - now asynchronous and multi-threaded
+* Background information displayed in detailed view: words using a given
+  kanji, transitive/intransitive counterpart of verbs, etc.
+* Bigger, more readable display in results view
+* Added :score command, which allows filter entries according to a score
+  range.
+* Kanji hint tooltip improved and now also used in kanji popup.
+* :haskanji command now supports multiple arguments
+
+0.1.2 released on 2008/12/15
+* Updated JMdict and Kanjidic2 to 2008/12/14 versions
+* Dramatically improved print output, with detailed information about both
+  vocabulary and kanji entries, plus references to studied material
+* Booklet output with adapted font size
+* Uses better kanji component and radical information from the soon-to-be 
+  KanjiVG project
+* Tooltip with kanji meaning now appears when the mouse cursor is over a kanji
+* Added "Add tags..." menu entry
+* Completion proposals for tag edition dialogs
+* Quick repeat of recently added tags
+* Added history to detailed view (accessible through right click or keyboard
+  shortcut)
+* Kanji popup now able to pseudo-display kanjis not in database
+* Platform-standardized and improved keyboard shortcuts
+* :radical command renamed to :component and now supports multiple arguments
+* Added answers counter to trainer
+* Added :unicode command to search for kanjis by their hexadecimal unicode
+* Automatically checks for new versions of the software if connected to the
+  internet.
+* Slightly improved database performance
+
+0.1.1 released on 2008/10/24
+* Uses icons from the Oxygen theme
+* Selecting a training session brings the window in front of the screen if it
+  is already open (bug #279982)
+* Kanji popup size problem fixed
+* Plenty of kanji stroke orders fixed
+* Kanjis stroke count now taken from animations when available
+* Entries proxy that ensures an entry is only present once in memory
+* Entries reference counter that allows entries to survive outside of the
+  search results
+* Consistent menus for editing entries properties in the results view,
+  detailed view, training window and kanji popup
+* Application font size now selectable through preference window
+* Menu entry to export the content of the results view into a tab-separated
+  file (suitable for importing into Anki)
+* Tags list in search menu
+* Improved feeling of notes taking window
+* Added "Add tags..." option to entries menu
+* Links to the manual and relevant Launchpad pages in the Help menu
+* Updated JMdict and kanjidic2 to latest versions
+
+0.1.0 released on 2008/10/03
+* Initial release
