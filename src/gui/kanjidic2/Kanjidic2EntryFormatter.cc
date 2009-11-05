@@ -266,7 +266,7 @@ void Kanjidic2EntryFormatter::writeKanjiInfo(const Kanjidic2Entry *entry, QTextC
 		if (++cellCpt % 2 == 0) { table->insertRows(table->rows(), 1); cursor.movePosition(QTextCursor::PreviousBlock); }
 		else cursor.movePosition(QTextCursor::NextBlock);
 	}
-	if (showSKIP.value()) {
+        if (showSKIP.value() && !entry->skipCode().isEmpty()) {
 		cursor.setCharFormat(bold);
 		cursor.insertText(tr("SKIP:"));
 		cursor.setCharFormat(normal);
