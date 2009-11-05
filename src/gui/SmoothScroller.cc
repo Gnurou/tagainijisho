@@ -116,7 +116,8 @@ bool SmoothScroller::eventFilter(QObject *src, QEvent *event)
 		// If we have a uniform list, set the step size to the items size
 		// TODO cumulatively store the deltas until the ideal value is reached
 		int itemSize(listView->itemDelegate()->sizeHint(QStyleOptionViewItem(), listView->rootIndex()).height());
-		int nbItems = listView->height() / itemSize;
+		int displayedItems = listView->height() / itemSize;
+		int nbItems = displayedItems > 3 ? 3 : displayedItems;
 		scrollValue = (_steps / STEP_SIZE) * itemSize * nbItems;
 		if (_dest % itemSize) {
 			if (scrollValue > 0) scrollValue -= _dest % itemSize;
