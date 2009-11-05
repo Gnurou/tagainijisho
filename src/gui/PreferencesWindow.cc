@@ -62,10 +62,19 @@ PreferencesWindow::PreferencesWindow(QWidget *parent, Qt::WindowFlags f) : QDial
 void PreferencesWindow::addCategory(PreferencesWindowCategory *category)
 {
 	Q_ASSERT(category != 0);
+
 	categories->addItem(category->name());
 	stackedWidget->addWidget(category);
 	category->refresh();
-	connect(this, SIGNAL(accepted()), category, SLOT(applySettings()));
+	connect(this, SIGNAL(accepted()), this, SLOT(applySettings()));
+}
+
+void PreferencesWindow::applySettings() {
+	QList<PreferencesWindowCategory *> cats;
+	for (int i = 0; i < stackedWidget->count(); i++)
+		cats << qobject_cast<PreferencesWindowCategory *> (stackedWidget->widget(i));
+	foreach (PreferencesWindowCategory *category, cats) category->applySettings();
+	foreach (PreferencesWindowCategory *category, cats) category->updateUI();
 }
 
 PreferenceItem<QString> GeneralPreferences::applicationFont("", "defaultFont", "");
@@ -251,12 +260,15 @@ void ResultsViewPreferences::applySettings()
 
 	if (oneLine->isChecked()) ResultsView::displayMode.set(ResultsViewFonts::OneLine);
 	else ResultsView::displayMode.set(ResultsViewFonts::TwoLines);
+}
 
+void ResultsViewPreferences::updateUI()
+{
 	// Results view fonts
 	applyFontSetting(romajifontChooser, &ResultsViewFonts::textFont, ResultsViewFonts::DefaultText);
 	applyFontSetting(kanafontChooser, &ResultsViewFonts::kanaFont, ResultsViewFonts::Kana);
 	applyFontSetting(kanjifontChooser, &ResultsViewFonts::kanjiFont, ResultsViewFonts::Kanji);
-	
+
 	ResultsViewFonts::fontsChanged();
 }
 
@@ -346,6 +358,10 @@ void DetailedViewPreferences::applySettings()
 	applyFontSetting(kanjiHeaderfontChooser, &DetailedViewFonts::kanjiHeaderFont, DetailedViewFonts::KanjiHeader);
 	applyFontSetting(kanafontChooser, &DetailedViewFonts::kanaFont, DetailedViewFonts::Kana);
 	applyFontSetting(kanjifontChooser, &DetailedViewFonts::kanjiFont, DetailedViewFonts::Kanji);
+}
+
+void DetailedViewPreferences::updateUI()
+{
 	DetailedViewFonts::fontsChanged();
 }
 

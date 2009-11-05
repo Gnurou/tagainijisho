@@ -49,6 +49,7 @@ private:
 public slots:
 	virtual void applySettings() = 0;
 	virtual void refresh() = 0;
+	virtual void updateUI() {}
 
 public:
 	PreferencesWindowCategory(const QString &name, QWidget *parent = 0);
@@ -59,7 +60,10 @@ class PreferencesWindow : public QDialog, private Ui::PreferencesWindow
 {
 	Q_OBJECT
 private:
-	 static QList<const QMetaObject *> _pluginPanels;
+	static QList<const QMetaObject *> _pluginPanels;
+
+private slots:
+	void applySettings();
 
 public:
 	PreferencesWindow(QWidget *parent = 0, Qt::WindowFlags f = 0);
@@ -124,6 +128,7 @@ private:
 public slots:
 	void applySettings();
 	void refresh();
+	void updateUI();
 	void onResultsDefaultToggled(bool status);
 
 public:
@@ -142,9 +147,10 @@ private:
 
 	void applyFontSetting(PreferencesFontChooser *fontChooser, PreferenceItem<QString> *prefItem, const DetailedViewFonts::FontRole fontRole);
 
-protected slots:
+public slots:
 	void applySettings();
 	void refresh();
+	void updateUI();
 
 public:
 	DetailedViewPreferences(QWidget *parent = 0);
