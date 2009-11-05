@@ -440,14 +440,33 @@ Kanjidic2OptionsWidget::Kanjidic2OptionsWidget(QWidget *parent) : SearchBarExten
 		connect(_components, SIGNAL(textChanged(const QString &)), this, SLOT(commandUpdate()));
 		hLayout->addWidget(_components);
 	}
-	QGroupBox *codeGroupBox = new QGroupBox(tr("Unicode"), this);
+	QGroupBox *unicodeGroupBox = new QGroupBox(tr("Unicode"), this);
 	{
-		QHBoxLayout *hLayout = new QHBoxLayout(codeGroupBox);
-		_code = new HexSpinBox(codeGroupBox);
-		_code->setRange(0, 0x2A6DF);
-		_code->setPrefix("0x");
-		connect(_code, SIGNAL(valueChanged(int)), this, SLOT(delayedCommandUpdate()));
-		hLayout->addWidget(_code);
+		QHBoxLayout *hLayout = new QHBoxLayout(unicodeGroupBox);
+		_unicode = new HexSpinBox(unicodeGroupBox);
+		_unicode->setRange(0, 0x2A6DF);
+		_unicode->setPrefix("0x");
+		connect(_unicode, SIGNAL(valueChanged(int)), this, SLOT(delayedCommandUpdate()));
+		hLayout->addWidget(_unicode);
+	}
+	QGroupBox *skipGroupBox = new QGroupBox(tr("SKIP code"), this);
+	{
+		QHBoxLayout *hLayout = new QHBoxLayout(skipGroupBox);
+		_skip1 = new QSpinBox(unicodeGroupBox);
+		_skip1->setRange(0, 4);
+		_skip1->setSpecialValueText(" ");
+		hLayout->addWidget(_skip1);
+		connect(_skip1, SIGNAL(valueChanged(int)), this, SLOT(delayedCommandUpdate()));
+		_skip2 = new QSpinBox(unicodeGroupBox);
+		_skip2->setRange(0, 30);
+		_skip2->setSpecialValueText(" ");
+		hLayout->addWidget(_skip2);
+		connect(_skip2, SIGNAL(valueChanged(int)), this, SLOT(delayedCommandUpdate()));
+		_skip3 = new QSpinBox(unicodeGroupBox);
+		_skip3->setRange(0, 30);
+		_skip3->setSpecialValueText(" ");
+		hLayout->addWidget(_skip3);
+		connect(_skip3, SIGNAL(valueChanged(int)), this, SLOT(delayedCommandUpdate()));
 	}
 	QGroupBox *gradeGroupBox = new QGroupBox(tr("School grade"), this);
 	{
@@ -500,7 +519,8 @@ Kanjidic2OptionsWidget::Kanjidic2OptionsWidget(QWidget *parent) : SearchBarExten
 	QHBoxLayout *mainLayout = new QHBoxLayout(this);
 	mainLayout->addWidget(_strokeCountGroupBox);
 	mainLayout->addWidget(componentsGroupBox);
-	mainLayout->addWidget(codeGroupBox);
+	mainLayout->addWidget(unicodeGroupBox);
+	mainLayout->addWidget(skipGroupBox);
 	mainLayout->addWidget(gradeGroupBox);
 	mainLayout->setContentsMargins(0, 0, 0, 0);
 }
@@ -558,7 +578,8 @@ QString Kanjidic2OptionsWidget::currentCommand() const
 			ret += QString("\"%1\"").arg(c);
 		}
 	}
-	if (_code->value()) ret += QString(" :unicode=%1").arg(_code->text());
+	if (_unicode->value()) ret += QString(" :unicode=%1").arg(_unicode->text());
+	if (_skip1->value() || _skip2->value() || _skip3->value()) ret += QString(" :skip=%1-%2-%3").arg(_skip1->value()).arg(_skip2->value()).arg(_skip3->value());
 	if (!_gradesList.isEmpty()) ret += " :grade=" + _gradesList.join(",");
 	return ret;
 }
@@ -582,7 +603,8 @@ QString Kanjidic2OptionsWidget::currentTitle() const
 		if (_strokeCountSpinBox->value() == 1) ret += tr(", 1 stroke");
 		else ret += tr(", %1 strokes").arg(_strokeCountSpinBox->value());
 	}
-	if (_code->value()) ret += tr(", unicode: ") + _code->text();
+	if (_unicode->value()) ret += tr(", unicode: ") + _unicode->text();
+	if (_skip1->value() || _skip2->value() || _skip3->value()) ret += tr(", skip: %1-%2-%3").arg(_skip1->value() ? QString::number(_skip1->value()) : "?").arg(_skip2->value() ? QString::number(_skip2->value()) : "?").arg(_skip3->value() ? QString::number(_skip3->value()) : "?");
 	if (!_gradesList.isEmpty()) ret += tr(", grade:") + _gradesList.join(",");
 	if (!ret.isEmpty()) ret = tr("Kanji") + ret;
 	else ret = tr("Kanjis");
@@ -605,14 +627,17 @@ void Kanjidic2OptionsWidget::onGradeTriggered(QAction *action)
 
 void Kanjidic2OptionsWidget::updateFeatures()
 {
-	if (_strokeCountSpinBox->value() || !_components->text().isEmpty() || !_gradesList.isEmpty() || _code->value()) emit disableFeature("wordsdic");
+	if (_strokeCountSpinBox->value() || !_components->text().isEmpty() || !_gradesList.isEmpty() || _unicode->value()) emit disableFeature("wordsdic");
 	else emit enableFeature("wordsdic");
 }
 
 void Kanjidic2OptionsWidget::_reset()
 {
 	_strokeCountSpinBox->setValue(0);
-	_code->setValue(0);
+	_unicode->setValue(0);
+	_skip1->setValue(0);
+	_skip2->setValue(0);
+	_skip3->setValue(0);
 	_gradesList.clear();
 	foreach (QAction *action, _gradeButton->menu()->actions()) if (action->isChecked()) action->trigger();
 	_components->clear();

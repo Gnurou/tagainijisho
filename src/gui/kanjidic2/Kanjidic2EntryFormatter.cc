@@ -34,6 +34,7 @@
 
 PreferenceItem<bool> Kanjidic2EntryFormatter::showReadings("kanjidic", "showReadings", true);
 PreferenceItem<bool> Kanjidic2EntryFormatter::showUnicode("kanjidic", "showUnicode", true);
+PreferenceItem<bool> Kanjidic2EntryFormatter::showSKIP("kanjidic", "showSKIP", true);
 PreferenceItem<bool> Kanjidic2EntryFormatter::showJLPT("kanjidic", "showJLPT", true);
 PreferenceItem<bool> Kanjidic2EntryFormatter::showGrade("kanjidic", "showGrade", true);
 PreferenceItem<bool> Kanjidic2EntryFormatter::showComponents("kanjidic", "showComponents", true);
@@ -262,6 +263,14 @@ void Kanjidic2EntryFormatter::writeKanjiInfo(const Kanjidic2Entry *entry, QTextC
 		cursor.insertText(tr("Unicode:"));
 		cursor.setCharFormat(normal);
 		cursor.insertText(" 0x" + QString::number(TextTools::singleCharToUnicode(entry->kanji()), 16));
+		if (++cellCpt % 2 == 0) { table->insertRows(table->rows(), 1); cursor.movePosition(QTextCursor::PreviousBlock); }
+		else cursor.movePosition(QTextCursor::NextBlock);
+	}
+	if (showSKIP.value()) {
+		cursor.setCharFormat(bold);
+		cursor.insertText(tr("SKIP:"));
+		cursor.setCharFormat(normal);
+		cursor.insertText(entry->skipCode());
 		if (++cellCpt % 2 == 0) { table->insertRows(table->rows(), 1); cursor.movePosition(QTextCursor::PreviousBlock); }
 		else cursor.movePosition(QTextCursor::NextBlock);
 	}

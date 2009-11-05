@@ -31,7 +31,7 @@ Kanjidic2EntrySearcher::Kanjidic2EntrySearcher(QObject *parent) : EntrySearcher(
 
 	QueryBuilder::Order::orderingWay["freq"] = QueryBuilder::Order::DESC;
 
-	validCommands << "kanji" << "kana" << "mean" << "jlpt" << "grade" << "stroke" << "component" << "unicode" << "kanjidic";
+	validCommands << "kanji" << "kana" << "mean" << "jlpt" << "grade" << "stroke" << "component" << "unicode" << "skip" << "kanjidic";
 }
 
 SearchCommand Kanjidic2EntrySearcher::commandFromWord(const QString &word) const
@@ -131,6 +131,20 @@ void Kanjidic2EntrySearcher::buildStatement(QList<SearchCommand> &commands, Quer
 				if (!ok) continue;
 				statement.addWhere(QString("kanjidic2.entries.id = %1").arg(code));
 			}
+		}
+		else if (command.command() == "skip") {
+			if (command.args().size() != 1) continue;
+			QStringList codeParts = command.args()[0].split('-');
+			if (codeParts.size() != 3) continue;
+			bool ok;
+			int t = codeParts[0].toInt(&ok); if (!ok) continue;
+			int c1 = codeParts[1].toInt(&ok); if (!ok) continue;
+			int c2 = codeParts[2].toInt(&ok); if (!ok) continue;
+			if (!t && !c1 && !c2) continue;
+			statement.addJoin(QueryBuilder::Join(QueryBuilder::Column("kanjidic2.skip", "entry")));
+			if (t) statement.addWhere(QString("kanjidic2.skip.type = %1").arg(t));
+			if (c1) statement.addWhere(QString("kanjidic2.skip.c1 = %1").arg(c1));
+			if (c2) statement.addWhere(QString("kanjidic2.skip.c2 = %1").arg(c2));
 		}
 		// Filter command
 		else if (command.command() == "kanjidic") ;
@@ -291,6 +305,14 @@ Entry *Kanjidic2EntrySearcher::loadEntry(int id)
 	}
 	// For kanjis that have no component at all, add a dummy root component.
 	if (entry->components().isEmpty()) entry->addComponent(0, TextTools::unicodeToSingleChar(id), 0, 0);
+
+	// Load skip code
+	query.prepare("select type, c1, c2 from skip where entry = ? limit 1");
+	query.addBindValue(id);
+	query.exec();
+	if (query.next()) {
+		entry->_skip = QString("%1-%2-%3").arg(query.value(0).toInt()).arg(query.value(1).toInt()).arg(query.value(2).toInt());
+	}
 
 	return entry;
 }

@@ -51,6 +51,7 @@ void Kanjidic2Preferences::refresh()
 	showJLPT->setChecked(Kanjidic2EntryFormatter::showJLPT.value());
 	showStrokesNumber->setChecked(Kanjidic2EntryFormatter::showStrokesNumber.value());
 	showUnicode->setChecked(Kanjidic2EntryFormatter::showUnicode.value());
+	showSKIP->setChecked(Kanjidic2EntryFormatter::showSKIP.value());
 	showVariations->setChecked(Kanjidic2EntryFormatter::showVariations.value());
 	showVariationOf->setChecked(Kanjidic2EntryFormatter::showVariationOf.value());
 
@@ -79,6 +80,7 @@ void Kanjidic2Preferences::applySettings()
 	Kanjidic2EntryFormatter::showJLPT.set(showJLPT->isChecked());
 	Kanjidic2EntryFormatter::showStrokesNumber.set(showStrokesNumber->isChecked());
 	Kanjidic2EntryFormatter::showUnicode.set(showUnicode->isChecked());
+	Kanjidic2EntryFormatter::showSKIP.set(showSKIP->isChecked());
 	Kanjidic2EntryFormatter::showVariations.set(showVariations->isChecked());
 	Kanjidic2EntryFormatter::showVariationOf.set(showVariationOf->isChecked());
 

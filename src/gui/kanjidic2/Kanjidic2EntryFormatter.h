@@ -46,6 +46,7 @@ public:
 
 	static PreferenceItem<bool> showReadings;
 	static PreferenceItem<bool> showUnicode;
+	static PreferenceItem<bool> showSKIP;
 	static PreferenceItem<bool> showJLPT;
 	static PreferenceItem<bool> showGrade;
 	static PreferenceItem<bool> showComponents;

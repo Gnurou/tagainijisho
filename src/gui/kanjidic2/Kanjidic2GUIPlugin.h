@@ -102,7 +102,8 @@ private:
 	QPushButton *_gradeButton;
 	QStringList _gradesList;
 	QLineEdit *_components;
-	HexSpinBox *_code;
+	HexSpinBox *_unicode;
+	QSpinBox *_skip1, *_skip2, *_skip3;
 	/// Actiongroup used to store the kanjis grades options
 	QActionGroup *actionGroup;
 	QAction *allKyouku, *allJouyou;
@@ -126,8 +127,8 @@ public:
 	void setComponents(const QString &value) { _components->setText(value); }
 	Q_PROPERTY(QString components READ components WRITE setComponents)
 
-	int unicode() const { return _code->value(); }
-	void setUnicode(int value) { _code->setValue(value); }
+	int unicode() const { return _unicode->value(); }
+	void setUnicode(int value) { _unicode->setValue(value); }
 	Q_PROPERTY(int unicode READ unicode WRITE setUnicode)
 
 	QStringList grades() const { return _gradesList; }

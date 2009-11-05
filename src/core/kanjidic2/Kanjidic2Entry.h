@@ -116,6 +116,7 @@ private:
 	int _strokeCount;
 	int _kanjiFrequency;
 	int _jlpt;
+	QString _skip;
 
 	/**
 	 * Contains the components of the kanji, in their order of appearance.
@@ -144,6 +145,7 @@ public:
 	bool inDB() const { return _inDB; }
 	const QString &kanji() const { return _kanji; }
 	int unicode() const { return id(); }
+	const QString &skipCode() const { return _skip; }
 	const QList<KanjiReading> &kanjiReadings() const { return _readings; }
 	const QList<KanjiMeaning> &kanjiMeanings() const { return _meanings; }
 	const QStringList &nanoris() const { return _nanoris; }

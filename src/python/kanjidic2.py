@@ -63,6 +63,7 @@ class Kanji:
 		self.jlpt = None
 		self.jis = None
 		self.euc = None
+		self.skip = []
 		
 		self.readings = []	# Pair of (type, reading) TODO change type to generated integers?
 		self.meanings = []	# Pair of (lang, meaning)
@@ -123,6 +124,12 @@ class Kanji:
 			# Ensure the number of stroke count is consistent
 			query.execute("update entries set strokeCount = ? where id = ?", (len(structuredKanji.strokes), self.literal))
 
+		# Now insert kanji codes
+		# SKIP
+		for skipCode in self.skip:
+			t, c1, c2 = skipCode.split('-')
+			query.execute("insert into skip values(?, ?, ?, ?)", (self.literal, int(t), int(c1), int(c2)))
+
 class Kanjidic2Handler(BasicHandler):
 	def startDocument(self):
 		self.entryCpt = 0
@@ -174,9 +181,8 @@ class Kanjidic2Handler(BasicHandler):
 		del self.currentReading
 
 	def handle_start_meaning(self, attrs):
-		if attrs.has_key("m_lang"): m_lang = str(attrs["m_lang"])
-		else: m_lang = "en"
-		self.m_lang = m_lang
+		if attrs.has_key("m_lang"): self.m_lang = str(attrs["m_lang"])
+		else: self.m_lang = "en"
 
 	def handle_data_meaning(self, string):
 		self.currentKanji.meanings.append((self.m_lang, unicode(string)))
@@ -186,6 +192,18 @@ class Kanjidic2Handler(BasicHandler):
 
 	def handle_data_nanori(self, string):
 		self.currentKanji.nanori.append(unicode(string))
+
+	def handle_start_q_code(self, attrs):
+		if attrs.has_key("qc_type") and attrs["qc_type"] == "skip":
+			if not attrs.has_key("skip_misclass"): self.qc_type = "skip"
+
+	def handle_data_q_code(self, string):
+		if hasattr(self, "qc_type"):
+			if self.qc_type == "skip":
+				self.currentKanji.skip.append(string)
+
+	def handle_end_q_code(self):
+		if hasattr(self, "qc_type"): del self.qc_type
 
 def usage():
 	print "Usage: %s <kanjidic2 DB> <kanjidic2> <kanjicomponents" % (sys.argv[0])
@@ -222,6 +240,7 @@ def createDB(dbFile, kanjidic2File, kanjivgdata, jlptFiles = None):
 
 	query.execute("create table strokeGroups(kanji INTEGER, parentGroup INTEGER SECONDARY KEY REFERENCES strokeGroups, number TINYINT, element INTEGER, original INTEGER)")
 	query.execute("create table strokes(parentGroup INTEGER SECONDARY KEY REFERENCES strokeGroups, strokeType INTEGER, path TEXT)")
+	query.execute("create table skip(entry INTEGER, type TINYINT, c1 TINYINT, c2 TINYINT)")
 
 	print "[kanjidic2] Parsing KanjiVG data..."
 	handler = kanjivg.KanjisHandler()
@@ -267,6 +286,8 @@ def createDB(dbFile, kanjidic2File, kanjivgdata, jlptFiles = None):
 	query.execute("create index idx_strokeGroups_original on strokeGroups(original)")
 	query.execute("create index idx_strokes_parentGroup on strokes(parentGroup)")
 	query.execute("create index idx_strokes_strokeType on strokes(strokeType)")
+	query.execute("create index idx_skip on skip(entry)")
+	query.execute("create index idx_skip_type on skip(type, c1, c2)")
 
 	# And vacuum everything!
 	print "[kanjidic2] Optimizing database organization..."
