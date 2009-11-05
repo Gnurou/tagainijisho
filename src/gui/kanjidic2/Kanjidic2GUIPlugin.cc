@@ -170,7 +170,7 @@ void Kanjidic2GUIPlugin::trainingKanjiSet()
 	}
 
 	QString queryString(stat->buildSqlStatement());
-	queryString += " " + TrainSettings::buildOrderString("3");
+	queryString += " " + TrainSettings::buildOrderString("score");
 	training(YesNoTrainer::Japanese, queryString);
 }
 
@@ -188,7 +188,7 @@ void Kanjidic2GUIPlugin::trainingMeaningSet()
 	}
 
 	QString queryString(stat->buildSqlStatement());
-	queryString += " " + TrainSettings::buildOrderString("3");
+	queryString += " " + TrainSettings::buildOrderString("score");
 	training(YesNoTrainer::Translation, queryString);
 }
 

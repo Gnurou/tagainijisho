@@ -188,7 +188,8 @@ void JMdictGUIPlugin::trainingJapaneseSet()
 	}
 
 	QString queryString(stat->buildSqlStatement());
-	queryString += " " + TrainSettings::buildOrderString("3");
+	queryString += " " + TrainSettings::buildOrderString("score");
+	qDebug() << queryString;
 	training(YesNoTrainer::Japanese, queryString);
 }
 
@@ -207,7 +208,7 @@ void JMdictGUIPlugin::trainingTranslationSet()
 	}
 
 	QString queryString(stat->buildSqlStatement());
-	queryString += " " + TrainSettings::buildOrderString("3");
+	queryString += " " + TrainSettings::buildOrderString("score");
 	training(YesNoTrainer::Translation, queryString);
 }
 
