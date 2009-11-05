@@ -228,35 +228,26 @@ void Kanjidic2EntryFormatter::writeKanjiInfo(const Kanjidic2Entry *entry, QTextC
 			else cursor.movePosition(QTextCursor::NextBlock);
 		}
 	}
-	if (showVariationOf.value()) {
-		QSqlQuery query;
-		query.prepare("select distinct original from strokeGroups where element = ? and original not null");
-		query.addBindValue(entry->id());
-		query.exec();
-		if (query.next()) {
-			cursor.setCharFormat(bold);
-			cursor.insertText(tr("Variation of:"));
-			cursor.setCharFormat(normal);
-			QList<EntryPointer<const Entry> > entries;
-			do entries << EntriesCache::get(KANJIDIC2ENTRY_GLOBALID, query.value(0).toUInt());
-			while (query.next());
-
-			for (int i = 0; i < entries.size(); i++) {
-				cursor.insertText(" ");
-				const Kanjidic2Entry *kEntry(static_cast<const Kanjidic2Entry *>(entries[i].data()));
-				QTextCharFormat charFormat;
-				if (kEntry->trained()) {
-					const EntryFormatter *formatter(EntryFormatter::getFormatter(kEntry));
-					if (formatter) charFormat.setBackground(formatter->scoreColor(kEntry));
-				}
-				charFormat.merge(kanjiF);
-				cursor.setCharFormat(charFormat);
-				cursor.insertText(kEntry->kanji());
-				cursor.setCharFormat(normal);
+	if (showVariationOf.value() && !entry->variationOf().isEmpty()) {
+		cursor.setCharFormat(bold);
+		cursor.insertText(tr("Variation of:"));
+		cursor.setCharFormat(normal);
+		foreach (quint32 kid, entry->variationOf()) {
+			EntryPointer<const Entry> varOf = EntriesCache::get(KANJIDIC2ENTRY_GLOBALID, kid);
+			const Kanjidic2Entry *kEntry(static_cast<const Kanjidic2Entry *>(varOf.data()));
+			cursor.insertText(" ");
+			QTextCharFormat charFormat;
+			if (kEntry->trained()) {
+				const EntryFormatter *formatter(EntryFormatter::getFormatter(kEntry));
+				if (formatter) charFormat.setBackground(formatter->scoreColor(kEntry));
 			}
-			if (++cellCpt % 2 == 0) { table->insertRows(table->rows(), 1); cursor.movePosition(QTextCursor::PreviousBlock); }
-			else cursor.movePosition(QTextCursor::NextBlock);
+			charFormat.merge(kanjiF);
+			cursor.setCharFormat(charFormat);
+			cursor.insertText(kEntry->kanji());
+			cursor.setCharFormat(normal);
 		}
+		if (++cellCpt % 2 == 0) { table->insertRows(table->rows(), 1); cursor.movePosition(QTextCursor::PreviousBlock); }
+		else cursor.movePosition(QTextCursor::NextBlock);
 	}
 	if (showUnicode.value()) {
 		cursor.setCharFormat(bold);

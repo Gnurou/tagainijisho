@@ -110,7 +110,7 @@ private:
 	QList<KanjiReading> _readings;
 	QList<KanjiMeaning> _meanings;
 	QStringList _nanoris;
-	QList<int> _variationOf;
+        QList<quint32> _variationOf;
 
 	int _grade;
 	int _strokeCount;
@@ -149,6 +149,7 @@ public:
 	const QList<KanjiReading> &kanjiReadings() const { return _readings; }
 	const QList<KanjiMeaning> &kanjiMeanings() const { return _meanings; }
 	const QStringList &nanoris() const { return _nanoris; }
+	const QList<quint32> &variationOf() const { return _variationOf; }
 
 	const QList<KanjiComponent> &components() const { return _components; }
 	const QList<KanjiStroke> &strokes() const { return _strokes; }

@@ -224,7 +224,7 @@ Entry *Kanjidic2EntrySearcher::loadEntry(int id)
 	loadMiscData(entry);
 
 	// Find the kanjis this one is a variation of
-	query.prepare("select distinct original from strokeGroups where element = ?");
+        query.prepare("select distinct original from strokeGroups where element = ? and original not null");
 	query.addBindValue(id);
 	query.exec();
 	while (query.next()) {
