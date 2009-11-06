@@ -745,7 +745,7 @@ SearchBar::SearchBar(QWidget *parent) : QWidget(parent)
 	QToolButton *resetText = new QToolButton(this);
 	resetText->setIcon(QIcon(":/images/icons/reset-search.png"));
 	resetText->setToolTip(tr("Clear search text"));
-	connect(resetText, SIGNAL(clicked()), _searchField, SLOT(clearEditText()));
+	connect(resetText, SIGNAL(clicked()), this, SLOT(resetSearchText()));
 
 	connect(_entryTypeSelector, SIGNAL(commandUpdated()),searchButton, SLOT(click()));
 
@@ -784,6 +784,12 @@ SearchBar::SearchBar(QWidget *parent) : QWidget(parent)
 	registerExtender(new TagsSearchWidget(this));
 	registerExtender(new NotesSearchWidget(this));
 	registerExtender(new JLPTOptionsWidget(this));
+}
+
+void SearchBar::resetSearchText()
+{
+	_searchField->clearEditText();
+	searchButtonClicked();
 }
 
 void SearchBar::enableFeature(const QString &feature)

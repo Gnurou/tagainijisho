@@ -383,6 +383,7 @@ private slots:
 	void searchButtonClicked();
 	void enableFeature(const QString &feature);
 	void disableFeature(const QString &feature);
+	void resetSearchText();
 
 public:
 	SearchBar(QWidget *parent = 0);
