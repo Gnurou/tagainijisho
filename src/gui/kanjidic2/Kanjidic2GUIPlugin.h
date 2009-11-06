@@ -131,6 +131,10 @@ public:
 	void setUnicode(int value) { _unicode->setValue(value); }
 	Q_PROPERTY(int unicode READ unicode WRITE setUnicode)
 
+	QString skip() const;
+	void setSkip(const QString &value);
+	Q_PROPERTY(QString skip READ skip WRITE setSkip)
+
 	QStringList grades() const { return _gradesList; }
 	void setGrades(const QStringList &list);
 	Q_PROPERTY(QStringList grades READ grades WRITE setGrades)

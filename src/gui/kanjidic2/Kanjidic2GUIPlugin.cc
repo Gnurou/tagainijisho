@@ -419,7 +419,7 @@ void KanjiAllComponentsOfHandler::handleUrl(const QUrl &url, DetailedView *view)
 
 Kanjidic2OptionsWidget::Kanjidic2OptionsWidget(QWidget *parent) : SearchBarExtender(parent, "kanjidic")
 {
-	_propsToSave << "strokeCount" << "components" << "unicode" << "grades";
+	_propsToSave << "strokeCount" << "components" << "unicode" << "skip" << "grades";
 
 	QGroupBox *_strokeCountGroupBox = new QGroupBox(tr("Stroke count"), this);
 	connect(_strokeCountGroupBox, SIGNAL(toggled(bool)), this, SLOT(commandUpdate()));
@@ -604,7 +604,7 @@ QString Kanjidic2OptionsWidget::currentTitle() const
 		else ret += tr(", %1 strokes").arg(_strokeCountSpinBox->value());
 	}
 	if (_unicode->value()) ret += tr(", unicode: ") + _unicode->text();
-	if (_skip1->value() || _skip2->value() || _skip3->value()) ret += tr(", skip: %1-%2-%3").arg(_skip1->value() ? QString::number(_skip1->value()) : "?").arg(_skip2->value() ? QString::number(_skip2->value()) : "?").arg(_skip3->value() ? QString::number(_skip3->value()) : "?");
+	if (_skip1->value() || _skip2->value() || _skip3->value()) ret += tr(", skip: ") + skip();
 	if (!_gradesList.isEmpty()) ret += tr(", grade:") + _gradesList.join(",");
 	if (!ret.isEmpty()) ret = tr("Kanji") + ret;
 	else ret = tr("Kanjis");
@@ -627,7 +627,7 @@ void Kanjidic2OptionsWidget::onGradeTriggered(QAction *action)
 
 void Kanjidic2OptionsWidget::updateFeatures()
 {
-	if (_strokeCountSpinBox->value() || !_components->text().isEmpty() || !_gradesList.isEmpty() || _unicode->value()) emit disableFeature("wordsdic");
+	if (_strokeCountSpinBox->value() || !_components->text().isEmpty() || !_gradesList.isEmpty() || _unicode->value() ||_skip1->value() || _skip2->value() || _skip3->value()) emit disableFeature("wordsdic");
 	else emit enableFeature("wordsdic");
 }
 
@@ -650,4 +650,23 @@ void Kanjidic2OptionsWidget::setGrades(const QStringList &list)
 		if (action->isChecked()) action->trigger();
 		if (list.contains(action->property("Agrade").toString())) action->trigger();
 	}
+}
+
+QString Kanjidic2OptionsWidget::skip() const
+{
+	return QString("%1-%2-%3").arg(_skip1->value() ? QString::number(_skip1->value()) : "?").arg(_skip2->value() ? QString::number(_skip2->value()) : "?").arg(_skip3->value() ? QString::number(_skip3->value()) : "?");
+}
+
+void Kanjidic2OptionsWidget::setSkip(const QString &value)
+{
+	QStringList skipList(value.split('-'));
+	if (skipList.size() != 3) return;
+	bool ok;
+	int t, c1, c2;
+	t = skipList[0].toInt(&ok); if (!ok && skipList[0] != "?") return;
+	c1 = skipList[1].toInt(&ok); if (!ok && skipList[1] != "?") return;
+	c2 = skipList[2].toInt(&ok); if (!ok && skipList[2] != "?") return;
+	_skip1->setValue(t);
+	_skip2->setValue(c1);
+	_skip3->setValue(c2);
 }
