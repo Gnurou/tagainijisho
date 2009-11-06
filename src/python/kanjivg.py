@@ -34,6 +34,9 @@ Under the following conditions:
 
 See http://creativecommons.org/licenses/by-sa/3.0/ for more details."""
 
+def isKanji(v):
+	return (v >= 0x4E00 and v <= 0x9FC3) or (v >= 0x3400 and v <= 0x4DBF) or (v >= 0xF900 and v <= 0xFAD9) or (v >= 0x2E80 and v <= 0x2EFF) or (v >= 0x20000 and v <= 0x2A6DF)
+
 # Returns the unicode of a character in a unicode string, taking surrogate pairs into account
 def realord(s, pos = 0):
 	if s == None: return None
@@ -44,8 +47,12 @@ def realord(s, pos = 0):
 			return 0
 		code2 = ord(s[pos + 1])
 		if code2 >= 0xDC00 and code < 0xE000:
-			code = 0x10000 + ((code - 0xD800) * 0x400) + (code2 - 0xDC00)	
+			code = 0x10000 + ((code - 0xD800) << 10) + (code2 - 0xDC00)	
 	return code
+
+def realchr(i):
+	if i < 0x10000: return unichr(i)
+	else: return unichr(((i - 0x10000) >> 10) + 0xD800) + unichr(0xDC00 + (i & 0x3ff))
 
 class Kanji:
 	"""Describes a kanji. The root stroke group is accessible from the root member."""

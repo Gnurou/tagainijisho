@@ -21,7 +21,7 @@ import xml.sax
 import pysqlite2
 from xmlhandler import BasicHandler
 from jmdictentities import *
-from kanjivg import realord
+from kanjivg import realord, isKanji
 
 JMDICTDB_REVISION = 3
 
@@ -32,10 +32,6 @@ entitiesCoding = None
 
 # Languages to insert into DB
 languages = ( "en" )
-
-def isKanji(c):
-	v = realord(c)
-	return (v >= 0x4E00 and v <= 0x9FC3) or (v >= 0x3400 and v <= 0x4DBF) or (v >= 0xF900 and v <= 0xFAD9) or (v >= 0x2E80 and v <= 0x2EFF) or (v >= 0x20000 and v <= 0x2A6DF)
 
 class KanjiReading:
 	def __init__(self):
@@ -127,7 +123,7 @@ class DictionaryEntry:
 		kanjiCount = 0
 		if len(self.kanji):
 			for c in self.kanji[0].reading:
-				if isKanji(c): kanjiCount += 1
+				if isKanji(realord(c)): kanjiCount += 1
 
 		query.execute("insert into entries values(?, ?, ?)", (self.seq, self.frequency, kanjiCount));
 		
@@ -141,7 +137,7 @@ class DictionaryEntry:
 
 			for char in kanji.reading:
 				# TODO Does not handle surrogates
-				if isKanji(char) and not (char, priority) in writtenKanjis:
+				if isKanji(realord(char)) and not (char, priority) in writtenKanjis:
 					writtenKanjis.append((char, priority))
 					query.execute("insert into kanjiChar values(?, ?, ?)", ( ord(char), self.seq, priority ))
 

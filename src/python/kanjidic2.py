@@ -54,6 +54,7 @@ def makeStrokesString(kanji):
 	s += "]"
 	return s
 
+kanjisInDb = set()
 class Kanji:
 	def __init__(self):
 		self.literal = None	# Unicode of the kanji
@@ -129,6 +130,10 @@ class Kanji:
 		for skipCode in self.skip:
 			t, c1, c2 = skipCode.split('-')
 			query.execute("insert into skip values(?, ?, ?, ?)", (self.literal, int(t), int(c1), int(c2)))
+
+		# Also track the kanji as being inserted in the database
+		global kanjisInDb
+		kanjisInDb.add(self.literal)
 
 class Kanjidic2Handler(BasicHandler):
 	def startDocument(self):
@@ -259,6 +264,17 @@ def createDB(dbFile, kanjidic2File, kanjivgdata, jlptFiles = None):
 		usage()
 		sys.exit(1)
 	xml.sax.parse(file, handler)
+
+	# Insert KanjiVG components that are not referenced by Kanjidic2Handler
+	print "[kanjidic2] Inserting missing entries of KanjiVG..."
+	global kanjisInDb
+	for key in kanjivgs.keys():
+		if not kanjivg.isKanji(key): continue
+		kvg = kanjivgs[key]
+		if not key in kanjisInDb:
+			kanji = Kanji()
+			kanji.literal = key
+			kanji.outputToDB()
 
 	# Update JLPT levels
 	print "[kanjidic2] Inserting JLPT levels..."
