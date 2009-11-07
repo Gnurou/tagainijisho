@@ -15,12 +15,41 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "core/jmdict/JMdictDefs.h"
 #include "gui/jmdict/JMdictPreferences.h"
 #include "gui/jmdict/JMdictGUIPlugin.h"
 
 JMdictPreferences::JMdictPreferences(QWidget *parent) : PreferencesWindowCategory(tr("Vocabulary entries"), parent)
 {
 	setupUi(this);
+
+	// Initialize the definitions list
+	for (int i = 0; !JMdictMiscEntitiesLongDesc[i].isEmpty(); i++) {
+		QString s(JMdictMiscEntitiesLongDesc[i]);
+		s[0] = s[0].toUpper();
+		displayedDefs->addItem(s);
+	}
+
+	connect(filterButton, SIGNAL(clicked()), this, SLOT(onFilterButtonClicked()));
+	connect(unFilterButton, SIGNAL(clicked()), this, SLOT(onUnFilterButtonClicked()));
+}
+
+void JMdictPreferences::onFilterButtonClicked()
+{
+	foreach (QListWidgetItem *item, displayedDefs->selectedItems()) {
+		QString s(item->text());
+		delete item;
+		filteredDefs->addItem(s);
+	}
+}
+
+void JMdictPreferences::onUnFilterButtonClicked()
+{
+	foreach (QListWidgetItem *item, filteredDefs->selectedItems()) {
+		QString s(item->text());
+		delete item;
+		displayedDefs->addItem(s);
+	}
 }
 
 void JMdictPreferences::refresh()
