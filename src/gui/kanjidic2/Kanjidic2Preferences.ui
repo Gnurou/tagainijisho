@@ -149,13 +149,6 @@
             </item>
            </layout>
           </item>
-          <item>
-           <widget class="QCheckBox" name="checkBox">
-            <property name="text">
-             <string>Only studied</string>
-            </property>
-           </widget>
-          </item>
          </layout>
         </widget>
        </item>

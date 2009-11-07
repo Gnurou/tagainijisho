@@ -128,13 +128,6 @@
         </item>
        </layout>
       </item>
-      <item>
-       <widget class="QCheckBox" name="smoothScrolling">
-        <property name="text">
-         <string>Smooth scrolling</string>
-        </property>
-       </widget>
-      </item>
      </layout>
     </widget>
    </item>
