@@ -102,6 +102,7 @@ public:
 
 	static PreferenceItem<int> historySize;
 	static PreferenceItem<int> animationSize;
+	static PreferenceItem<bool> autoStartAnim;
 
 public slots:
 	void updateInfo();

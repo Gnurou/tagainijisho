@@ -69,6 +69,7 @@ void Kanjidic2Preferences::refresh()
 	animSpeedDefault->setChecked(KanjiPlayer::animationSpeed.isDefault());
 	animDelaySlider->setValue(KanjiPlayer::delayBetweenStrokes.value());
 	animDelayDefault->setChecked(KanjiPlayer::delayBetweenStrokes.isDefault());
+	autoStartAnim->setChecked(KanjiPopup::autoStartAnim.value());
 }
 
 void Kanjidic2Preferences::applySettings()
@@ -97,6 +98,7 @@ void Kanjidic2Preferences::applySettings()
 	else KanjiPlayer::animationSpeed.set(animSpeedSlider->value());
 	if (animDelayDefault->isChecked()) KanjiPlayer::delayBetweenStrokes.reset();
 	else KanjiPlayer::delayBetweenStrokes.set(animDelaySlider->value());
+	KanjiPopup::autoStartAnim.set(autoStartAnim->isChecked());
 }
 
 bool Kanjidic2Preferences::eventFilter(QObject *obj, QEvent *event)

@@ -385,6 +385,13 @@
         </layout>
        </item>
        <item>
+        <widget class="QCheckBox" name="autoStartAnim">
+         <property name="text">
+          <string>Play animation when the kanji popup appears</string>
+         </property>
+        </widget>
+       </item>
+       <item>
         <spacer name="verticalSpacer">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
