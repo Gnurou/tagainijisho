@@ -204,9 +204,7 @@ bool KanjiPlayer::eventFilter(QObject *obj, QEvent *event)
 		QMouseEvent *mEvent = static_cast<QMouseEvent *>(event);
 		// First translate the coordinates to the strokes coordinates system
 		QPointF pos(mEvent->posF());
-		QPointF fPos(pos);
-		fPos.setX(pos.x() * (109.0 / pictureSize()));
-		fPos.setY(pos.y() * (109.0 / pictureSize()));
+		QPointF fPos(pos.x() * (109.0 / pictureSize()), pos.y() * (109.0 / pictureSize()));
 		const QList<KanjiRenderer::Stroke> &strokes(renderer.strokes());
 		QPainterPathStroker stroker;
 		stroker.setWidth(20);
@@ -215,7 +213,7 @@ bool KanjiPlayer::eventFilter(QObject *obj, QEvent *event)
 			QPainterPath nPath(stroker.createStroke(stroke.painterPath()));
 			if (nPath.contains(fPos)) {
 				const KanjiComponent *parent(stroke.stroke()->parent());
-				// Do not add the root component
+				// Do not consider the root component
 				if (!parent->parent()) continue;
 				while (parent->parent() != _kanji->root()) parent = parent->parent();
 				comp = parent;
