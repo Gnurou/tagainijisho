@@ -48,6 +48,9 @@ PreferenceItem<int> Kanjidic2EntryFormatter::maxParentKanjiToDisplay("kanjidic",
 
 PreferenceItem<int> Kanjidic2EntryFormatter::printSize("kanjidic", "printSize", 80);
 PreferenceItem<bool> Kanjidic2EntryFormatter::printWithFont("kanjidic", "printWithFont", false);
+PreferenceItem<bool> Kanjidic2EntryFormatter::printMeanings("kanjidic", "printMeanings", true);
+PreferenceItem<bool> Kanjidic2EntryFormatter::printOnyomi("kanjidic", "printOnyomi", true);
+PreferenceItem<bool> Kanjidic2EntryFormatter::printKunyomi("kanjidic", "printKunyomi", true);
 PreferenceItem<bool> Kanjidic2EntryFormatter::printComponents("kanjidic", "printComponents", true);
 PreferenceItem<int> Kanjidic2EntryFormatter::maxWordsToPrint("kanjidic", "maxWordsToPrint", 5);
 PreferenceItem<bool> Kanjidic2EntryFormatter::printOnlyStudiedVocab("kanjidic", "printOnlyStudiedVocab", false);
@@ -321,6 +324,11 @@ void Kanjidic2EntryFormatter::_detailedVersion(const Entry *_entry, QTextCursor 
 
 void Kanjidic2EntryFormatter::draw(const Entry *_entry, QPainter &painter, const QRectF &rectangle, QRectF &usedSpace, const QFont &textFont) const
 {
+	drawCustom(_entry, painter, rectangle, usedSpace, textFont);
+}
+
+void Kanjidic2EntryFormatter::drawCustom(const Entry *_entry, QPainter &painter, const QRectF &rectangle, QRectF &usedSpace, const QFont &textFont, int printSize, bool printWithFont, bool printMeanings, bool printOnyomi, bool printKunyomi, int printComponents, int maxWordsToPrint, bool printOnlyStudiedVocab) const
+{
 	const Kanjidic2Entry *entry(static_cast<const Kanjidic2Entry *>(_entry));
 	QFont kanjiFont;
 	kanjiFont.setPointSizeF(textFont.pointSize() * 5);
@@ -337,15 +345,15 @@ void Kanjidic2EntryFormatter::draw(const Entry *_entry, QPainter &painter, const
 
 	QRectF textBB;
 	// Draw the kanji
-	if (!printWithFont.value()) {
+	if (!printWithFont) {
 		//painter.setFont(kanjiFont);
 		KanjiRenderer renderer(entry);
 		painter.save();
 		QPen pen(painter.pen());
 		pen.setWidth(5);
 		pen.setCapStyle(Qt::RoundCap);
-		painter.translate((leftArea.width() - printSize.value()) / 2.0, 0.0);
-		painter.scale(printSize.value() / 109.0, printSize.value() / 109.0);
+		painter.translate((leftArea.width() - printSize) / 2.0, 0.0);
+		painter.scale(printSize / 109.0, printSize / 109.0);
 		painter.setRenderHint(QPainter::Antialiasing);
 
 		const QList<const KanjiComponent *> &kComponents(entry->rootComponents());
@@ -358,11 +366,11 @@ void Kanjidic2EntryFormatter::draw(const Entry *_entry, QPainter &painter, const
 		}
 		painter.restore();
 		textBB.setTop(leftArea.top());
-		textBB.setBottom(leftArea.top() + printSize.value());
+		textBB.setBottom(leftArea.top() + printSize);
 	} else {
 		painter.save();
 		QFont font;
-		font.setPixelSize(printSize.value());
+		font.setPixelSize(printSize);
 		painter.setFont(font);
 		textBB = painter.boundingRect(leftArea, Qt::AlignHCenter | Qt::AlignTop, entry->kanji());
 		painter.drawText(leftArea, Qt::AlignHCenter | Qt::AlignTop, entry->kanji());
@@ -370,7 +378,7 @@ void Kanjidic2EntryFormatter::draw(const Entry *_entry, QPainter &painter, const
 	}
 	leftArea.setTop(textBB.bottom());
 
-	if (printComponents.value()) {
+	if (printComponents) {
 		// Draw the components
 		painter.setFont(textFont);
 		foreach(const KanjiComponent *c, entry->rootComponents()) {
@@ -393,64 +401,70 @@ void Kanjidic2EntryFormatter::draw(const Entry *_entry, QPainter &painter, const
 	QRectF rightArea = rectangle;
 	QString str;
 	rightArea.setTopLeft(QPointF(rectangle.left() + leftArea.width() + leftArea.width() / 20.0, rectangle.top()));
-	// Print the meaning
-	painter.setFont(italFont);
-	str = entry->meaningsString();
-	if (!str.isEmpty()) str[0] = str[0].toUpper();
-	str = QFontMetrics(painter.font(), painter.device()).elidedText(str, Qt::ElideRight, rightArea.width());
-	textBB = painter.boundingRect(rightArea, Qt::AlignHCenter, str);
-	painter.drawText(textBB, Qt::AlignHCenter, str);
-	rightArea.setTop(textBB.bottom());
-
-	QStringList onRead = entry->onyomiReadings();
-	QStringList kunRead = entry->kunyomiReadings();
-	QRectF tempBox;
-	int onLength = 0;
-	if (!onRead.isEmpty()) {
-		painter.setFont(boldFont);
-		rightArea.setTop(textBB.bottom());
-		str = "On:";
-		textBB = painter.boundingRect(rightArea, Qt::AlignLeft, str);
-		onLength += textBB.width();
-		painter.drawText(textBB, Qt::AlignLeft, str);
-		painter.setFont(textFont);
-		tempBox = rightArea;
-		tempBox.setLeft(textBB.right());
-		tempBox.setRight(rightArea.center().x());
-		str = " " + onRead.join(", ");
-		str = QFontMetrics(painter.font(), painter.device()).elidedText(str, Qt::ElideRight, tempBox.width());
-		onLength += painter.boundingRect(tempBox, Qt::AlignLeft, str).width();
-		painter.drawText(tempBox, Qt::AlignLeft, str);
+	// Print the meanings
+	if (printMeanings) {
+		painter.setFont(italFont);
+		str = entry->meaningsString();
+		if (!str.isEmpty()) str[0] = str[0].toUpper();
+		str = QFontMetrics(painter.font(), painter.device()).elidedText(str, Qt::ElideRight, rightArea.width());
+		textBB = painter.boundingRect(rightArea, Qt::AlignHCenter, str);
+		painter.drawText(textBB, Qt::AlignHCenter, str);
 		rightArea.setTop(textBB.bottom());
 	}
 
-	if (!kunRead.isEmpty()) {
-		tempBox.setLeft(rightArea.center().x());
-		tempBox.setRight(rightArea.right());
-		str = "Kun:";
-		painter.setFont(boldFont);
-		textBB = painter.boundingRect(tempBox, Qt::AlignLeft, str);
-		painter.drawText(tempBox, Qt::AlignLeft, str);
-		painter.setFont(textFont);
-		tempBox.setLeft(textBB.right());
-		str = " " + kunRead.join(", ");
-		str = QFontMetrics(painter.font(), painter.device()).elidedText(str, Qt::ElideRight, tempBox.width());
-		painter.drawText(tempBox, Qt::AlignLeft, str);
-		rightArea.setTop(textBB.bottom());
+	QRectF tempBox(rightArea);
+	if (printOnyomi) {
+		QStringList onRead = entry->onyomiReadings();
+		int onLength = 0;
+		if (!onRead.isEmpty()) {
+			painter.setFont(boldFont);
+			str = "On:";
+			textBB = painter.boundingRect(rightArea, Qt::AlignLeft, str);
+			onLength += textBB.width();
+			painter.drawText(textBB, Qt::AlignLeft, str);
+			painter.setFont(textFont);
+			tempBox.setLeft(textBB.right());
+			tempBox.setRight(rightArea.center().x());
+			str = " " + onRead.join(", ");
+			str = QFontMetrics(painter.font(), painter.device()).elidedText(str, Qt::ElideRight, tempBox.width());
+			onLength += painter.boundingRect(tempBox, Qt::AlignLeft, str).width();
+			painter.drawText(tempBox, Qt::AlignLeft, str);
+			rightArea.setTop(textBB.bottom());
+		}
 	}
+
+	if (printKunyomi) {
+		QStringList kunRead = entry->kunyomiReadings();
+		if (!kunRead.isEmpty()) {
+			tempBox.setLeft(rightArea.center().x());
+			tempBox.setRight(rightArea.right());
+			str = "Kun:";
+			painter.setFont(boldFont);
+			textBB = painter.boundingRect(tempBox, Qt::AlignLeft, str);
+			painter.drawText(tempBox, Qt::AlignLeft, str);
+			painter.setFont(textFont);
+			tempBox.setLeft(textBB.right());
+			str = " " + kunRead.join(", ");
+			str = QFontMetrics(painter.font(), painter.device()).elidedText(str, Qt::ElideRight, tempBox.width());
+			painter.drawText(tempBox, Qt::AlignLeft, str);
+			rightArea.setTop(textBB.bottom());
+		}
+	}
+
 	// Now display words using this kanji
-	QSqlQuery query;
-	query.exec(getQueryUsedInWordsSql(entry->id(), maxWordsToPrint.value(), true));
-	painter.setFont(textFont);
-	while (query.next()) {
-		EntryPointer<Entry> _entry(EntriesCache::get(query.value(0).toInt(), query.value(1).toInt()));
-		JMdictEntry *jmEntry = qobject_cast<JMdictEntry *>(_entry.data());
+	if (maxWordsToPrint) {
+		QSqlQuery query;
+		query.exec(getQueryUsedInWordsSql(entry->id(), maxWordsToPrint, printOnlyStudiedVocab));
+		painter.setFont(textFont);
+		while (query.next()) {
+			EntryPointer<Entry> _entry(EntriesCache::get(query.value(0).toInt(), query.value(1).toInt()));
+			JMdictEntry *jmEntry = qobject_cast<JMdictEntry *>(_entry.data());
 
-		if (printOnlyStudiedVocab.value() && !jmEntry->trained()) break;
-		QString str = QFontMetrics(painter.font(), painter.device()).elidedText(jmEntry->shortVersion(Entry::TinyVersion), Qt::ElideRight, rightArea.width());
-		textBB = painter.boundingRect(rightArea, Qt::AlignLeft, str);
-		painter.drawText(textBB, Qt::AlignLeft, str);
-		rightArea.setTop(textBB.bottom());
+			QString str = QFontMetrics(painter.font(), painter.device()).elidedText(jmEntry->shortVersion(Entry::TinyVersion), Qt::ElideRight, rightArea.width());
+			textBB = painter.boundingRect(rightArea, Qt::AlignLeft, str);
+			painter.drawText(textBB, Qt::AlignLeft, str);
+			rightArea.setTop(textBB.bottom());
+		}
 	}
 	drawInfo(entry, painter, rightArea, textFont);
 
@@ -460,6 +474,7 @@ void Kanjidic2EntryFormatter::draw(const Entry *_entry, QPainter &painter, const
 	painter.drawLine(QPointF(rectangle.left() + leftArea.width(), usedSpace.top()),
 					 QPointF(rectangle.left() + leftArea.width(), usedSpace.bottom()));
 }
+
 
 void Kanjidic2EntryFormatter::detailedVersionPart1(const Entry *entry, QTextCursor &cursor, DetailedView *view) const
 {

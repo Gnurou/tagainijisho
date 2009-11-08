@@ -18,8 +18,12 @@
 #ifndef __GUI_KANJIDIC2_PREFERENCES_H
 #define __GUI_KANJIDIC2_PREFERENCES_H
 
+#include "core/kanjidic2/Kanjidic2Entry.h"
+#include "core/EntriesCache.h"
 #include "gui/PreferencesWindow.h"
 #include "gui/ui_Kanjidic2Preferences.h"
+
+#include <QPicture>
 
 class KanjiPlayer;
 class Kanjidic2Preferences : public PreferencesWindowCategory, private Ui::Kanjidic2Preferences
@@ -28,11 +32,15 @@ class Kanjidic2Preferences : public PreferencesWindowCategory, private Ui::Kanji
 private:
 	KanjiPlayer *_player;
 	QTimer _endOfPlayTimer;
+	QPicture previewPic;
+	EntryPointer<const Entry> _previewEntry;
+	const Kanjidic2Entry *previewEntry;
 
 protected:
 	virtual bool eventFilter(QObject *obj, QEvent *event);
 
 protected slots:
+	void updatePrintPreview();
 	void onAnimSpeedDefaultChecked(bool checked);
 	void onAnimDelayDefaultChecked(bool checked);
 	void onAnimationCompleted();

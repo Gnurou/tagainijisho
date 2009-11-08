@@ -15,7 +15,6 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "core/kanjidic2/Kanjidic2Entry.h"
 #include "gui/kanjidic2/Kanjidic2EntryFormatter.h"
 #include "gui/kanjidic2/KanjiPlayer.h"
 #include "gui/kanjidic2/KanjiPopup.h"
@@ -25,13 +24,25 @@ Kanjidic2Preferences::Kanjidic2Preferences(QWidget *parent) : PreferencesWindowC
 {
 	setupUi(this);
 
+	connect(kanjiPrintSize, SIGNAL(valueChanged(int)), this, SLOT(updatePrintPreview()));
+	connect(printMeanings, SIGNAL(toggled(bool)), this, SLOT(updatePrintPreview()));
+	connect(printOnyomi, SIGNAL(toggled(bool)), this, SLOT(updatePrintPreview()));
+	connect(printKunyomi, SIGNAL(toggled(bool)), this, SLOT(updatePrintPreview()));
+	connect(printComponents, SIGNAL(toggled(bool)), this, SLOT(updatePrintPreview()));
+	connect(maxWordsPrint, SIGNAL(valueChanged(int)), this, SLOT(updatePrintPreview()));
+	connect(fontButton, SIGNAL(toggled(bool)), this, SLOT(updatePrintPreview()));
+	connect(printOnlyStudiedVocab, SIGNAL(toggled(bool)), this, SLOT(updatePrintPreview()));
+	previewLabel->installEventFilter(this);
+
 	connect(animSpeedDefault, SIGNAL(toggled(bool)), this, SLOT(onAnimSpeedDefaultChecked(bool)));
 	connect(animDelayDefault, SIGNAL(toggled(bool)), this, SLOT(onAnimDelayDefaultChecked(bool)));
 
+	previewLabel->setPicture(previewPic);
+
 	_player = new KanjiPlayer(KanjiPopup::animationSize.value(), animationTab);
-	EntryPointer<Entry> entry(EntriesCache::get(KANJIDIC2ENTRY_GLOBALID, 0x6f22));
-	Kanjidic2Entry *kEntry = static_cast<Kanjidic2Entry *>(entry.data());
-	_player->setKanji(kEntry);
+	_previewEntry = EntriesCache::get(KANJIDIC2ENTRY_GLOBALID, 0x9593);
+	previewEntry = static_cast<const Kanjidic2Entry *>(_previewEntry.data());
+	_player->setKanji(previewEntry);
 	connect(animSpeedSlider, SIGNAL(valueChanged(int)), _player, SLOT(setAnimationSpeed(int)));
 	connect(animDelaySlider, SIGNAL(valueChanged(int)), _player, SLOT(setDelayBetweenStrokes(int)));
 	animationLayout->addWidget(_player, 0, Qt::AlignVCenter);
@@ -59,10 +70,14 @@ void Kanjidic2Preferences::refresh()
 	maxWords->setValue(Kanjidic2EntryFormatter::maxWordsToDisplay.value());
 
 	kanjiPrintSize->setValue(Kanjidic2EntryFormatter::printSize.value());
+	printMeanings->setChecked(Kanjidic2EntryFormatter::printMeanings.value());
+	printOnyomi->setChecked(Kanjidic2EntryFormatter::printOnyomi.value());
+	printKunyomi->setChecked(Kanjidic2EntryFormatter::printKunyomi.value());
 	printComponents->setChecked(Kanjidic2EntryFormatter::printComponents.value());
 	maxWordsPrint->setValue(Kanjidic2EntryFormatter::maxWordsToPrint.value());
 	if (Kanjidic2EntryFormatter::printWithFont.value()) fontButton->setChecked(true);
 	else handWritingButton->setChecked(true);
+	printOnlyStudiedVocab->setChecked(Kanjidic2EntryFormatter::printOnlyStudiedVocab.value());
 
 	animSize->setValue(KanjiPopup::animationSize.value());
 	animSpeedSlider->setValue(KanjiPlayer::animationSpeed.value());
@@ -70,6 +85,8 @@ void Kanjidic2Preferences::refresh()
 	animDelaySlider->setValue(KanjiPlayer::delayBetweenStrokes.value());
 	animDelayDefault->setChecked(KanjiPlayer::delayBetweenStrokes.isDefault());
 	autoStartAnim->setChecked(KanjiPopup::autoStartAnim.value());
+
+	updatePrintPreview();
 }
 
 void Kanjidic2Preferences::applySettings()
@@ -89,9 +106,13 @@ void Kanjidic2Preferences::applySettings()
 	Kanjidic2EntryFormatter::maxWordsToDisplay.set(maxWords->value());
 
 	Kanjidic2EntryFormatter::printSize.set(kanjiPrintSize->value());
+	Kanjidic2EntryFormatter::printMeanings.set(printMeanings->isChecked());
+	Kanjidic2EntryFormatter::printOnyomi.set(printOnyomi->isChecked());
+	Kanjidic2EntryFormatter::printKunyomi.set(printKunyomi->isChecked());
 	Kanjidic2EntryFormatter::printComponents.set(printComponents->isChecked());
 	Kanjidic2EntryFormatter::maxWordsToPrint.set(maxWordsPrint->value());
 	Kanjidic2EntryFormatter::printWithFont.set(fontButton->isChecked());
+	Kanjidic2EntryFormatter::printOnlyStudiedVocab.set(printOnlyStudiedVocab->isChecked());
 
 	KanjiPopup::animationSize.set(animSize->value());
 	if (animSpeedDefault->isChecked()) KanjiPlayer::animationSpeed.reset();
@@ -103,20 +124,47 @@ void Kanjidic2Preferences::applySettings()
 
 bool Kanjidic2Preferences::eventFilter(QObject *obj, QEvent *event)
 {
-	switch (event->type()) {
-	case QEvent::Show:
-		connect(_player, SIGNAL(animationStopped()), this, SLOT(onAnimationCompleted()));
-		_player->startAnimation();
-		return true;
-	 case QEvent::Hide:
-		disconnect(_player, SIGNAL(animationStopped()), this, SLOT(onAnimationCompleted()));
-		_endOfPlayTimer.stop();
-		_player->stopAnimation();
-		_player->resetAnimation();
-		return true;
-	 default:
-		return false;
+	if (obj == previewLabel) {
+		switch (event->type()) {
+		case QEvent::Show:
+		case QEvent::Resize:
+			updatePrintPreview();
+			return false;
+		default:
+			return false;
+
+		}
 	}
+	else if (obj == _player) {
+		switch (event->type()) {
+		case QEvent::Show:
+			connect(_player, SIGNAL(animationStopped()), this, SLOT(onAnimationCompleted()));
+			_player->startAnimation();
+			return false;
+		case QEvent::Hide:
+			disconnect(_player, SIGNAL(animationStopped()), this, SLOT(onAnimationCompleted()));
+			_endOfPlayTimer.stop();
+			_player->stopAnimation();
+			_player->resetAnimation();
+			return false;
+		default:
+			return false;
+		}
+	}
+	return false;
+}
+
+void Kanjidic2Preferences::updatePrintPreview()
+{
+	if (!isVisible()) return;
+
+	const Kanjidic2EntryFormatter *formatter = static_cast<const Kanjidic2EntryFormatter *>(EntryFormatter::getFormatter(previewEntry));
+	QPainter painter(&previewPic);
+	QRectF usedSpace;
+	formatter->drawCustom(previewEntry, painter, QRectF(0, 0, printPreviewScrollArea->viewport()->contentsRect().width() - 20, 300), usedSpace, QFont(), kanjiPrintSize->value(), fontButton->isChecked(), printMeanings->isChecked(), printOnyomi->isChecked(), printKunyomi->isChecked(), printComponents->isChecked(), maxWordsPrint->value(), printOnlyStudiedVocab->isChecked());
+	previewPic.setBoundingRect(usedSpace.toRect());
+	previewLabel->clear();
+	previewLabel->setPicture(previewPic);
 }
 
 void Kanjidic2Preferences::onAnimationCompleted()
