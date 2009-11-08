@@ -84,8 +84,8 @@ void SmoothScroller::scrollBarReleased()
 	if (listView && listView->uniformItemSizes()) {
 		int itemSize(listView->itemDelegate()->sizeHint(QStyleOptionViewItem(), listView->rootIndex()).height());
 		if (_dest % itemSize != 0) {
-			if (_dest > oldDest) _dest += itemSize - (_dest % itemSize);
-			else _dest -= _dest % itemSize;
+			if (_dest > oldDest) _dest = qMin(_dest + itemSize - (_dest % itemSize), _user->verticalScrollBar()->maximum());
+			else _dest = qMax(_dest - _dest % itemSize, _user->verticalScrollBar()->minimum());
 		}
 	}
 	if (_dest != oldDest && !_timer.isActive()) _timer.start(TIMER_DELAY, this);
