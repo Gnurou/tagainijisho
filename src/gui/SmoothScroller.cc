@@ -52,10 +52,9 @@ void SmoothScroller::timerEvent(QTimerEvent *event)
 	event->accept();
 }
 
-bool SmoothScroller::activateOn(QWidget *widget)
+void SmoothScroller::activateOn(QAbstractScrollArea *scrollArea)
 {
-	QAbstractScrollArea *scrollArea(qobject_cast<QAbstractScrollArea *>(widget));
-	if (!scrollArea) return false;
+	if (_user == scrollArea) return;
 
 	if (_user) deactivate();
 	_user = scrollArea;
@@ -63,17 +62,16 @@ bool SmoothScroller::activateOn(QWidget *widget)
 	_dest = _user->verticalScrollBar()->value();
 	connect(_user->verticalScrollBar(), SIGNAL(sliderReleased()), this, SLOT(scrollBarReleased()));
 	connect(_user->verticalScrollBar(), SIGNAL(valueChanged(int)), this, SLOT(scrollBarValueChanged(int)));
-	return true;
 }
 
 void SmoothScroller::deactivate()
 {
 	if (!_user) return;
-	_user->removeEventFilter(this);
-	_user = 0;
-	_dest = 0;
 	disconnect(_user->verticalScrollBar(), SIGNAL(sliderReleased()), this, SLOT(scrollBarReleased()));
 	disconnect(_user->verticalScrollBar(), SIGNAL(valueChanged(int)), this, SLOT(scrollBarValueChanged(int)));
+	_user->viewport()->removeEventFilter(this);
+	_user = 0;
+	_dest = 0;
 }
 
 void SmoothScroller::scrollBarReleased()

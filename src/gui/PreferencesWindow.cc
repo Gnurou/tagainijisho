@@ -200,6 +200,8 @@ ResultsViewPreferences::ResultsViewPreferences(QWidget *parent) : PreferencesWin
 	connect(oneLine, SIGNAL(clicked()), delegate, SLOT(setOneLineDisplay()));
 	connect(twoLines, SIGNAL(clicked()), delegate, SLOT(setTwoLinesDisplay()));
 
+	connect(smoothScrolling, SIGNAL(toggled(bool)), this, SLOT(onSmoothScrollingToggled(bool)));
+
 	QVBoxLayout *vLayout = new QVBoxLayout(fontsBox);
 	QFont kFont;
 	kFont.fromString(ResultsViewFonts::kanjiFont.defaultValue());
@@ -235,13 +237,14 @@ void ResultsViewPreferences::refresh()
 	if (ResultsView::displayMode.value() == ResultsViewFonts::OneLine) oneLine->click();
 	else twoLines->click();
 
+	smoothScrolling->setChecked(ResultsView::smoothScrolling.value());
+
 	kanjifontChooser->setDefault(ResultsViewFonts::kanjiFont.isDefault());
 	kanjifontChooser->setFont(ResultsViewFonts::font(ResultsViewFonts::Kanji));
 	kanafontChooser->setDefault(ResultsViewFonts::kanaFont.isDefault());
 	kanafontChooser->setFont(ResultsViewFonts::font(ResultsViewFonts::Kana));
 	romajifontChooser->setDefault(ResultsViewFonts::textFont.isDefault());
 	romajifontChooser->setFont(ResultsViewFonts::font(ResultsViewFonts::DefaultText));
-
 }
 
 void ResultsViewPreferences::onResultsDefaultToggled(bool status)
@@ -256,6 +259,7 @@ void ResultsViewPreferences::applySettings()
 	else SearchWidget::resultsPerPagePref.set(nbResults->value());
 	MainWindow::instance()->searchWidget()->setResultsPerPage(SearchWidget::resultsPerPagePref.value());
 
+	ResultsView::smoothScrolling.set(smoothScrolling->isChecked());
 	EntrySearcherManager::studiedEntriesFirst.set(resultsOrder->currentIndex());
 
 	if (oneLine->isChecked()) ResultsView::displayMode.set(ResultsViewFonts::OneLine);
@@ -264,6 +268,7 @@ void ResultsViewPreferences::applySettings()
 
 void ResultsViewPreferences::updateUI()
 {
+	MainWindow::instance()->searchWidget()->resultsView()->setSmoothScrolling(smoothScrolling->isChecked());
 	// Results view fonts
 	applyFontSetting(romajifontChooser, &ResultsViewFonts::textFont, ResultsViewFonts::DefaultText);
 	applyFontSetting(kanafontChooser, &ResultsViewFonts::kanaFont, ResultsViewFonts::Kana);
@@ -284,7 +289,7 @@ DetailedViewPreferences::DetailedViewPreferences(QWidget *parent) : PreferencesW
 {
 	setupUi(this);
 
-	PreferencesDetailedViewExample *detailedExample = new PreferencesDetailedViewExample(previewBox);
+	detailedExample = new PreferencesDetailedViewExample(previewBox);
 	{
 		QVBoxLayout *layout = new QVBoxLayout(previewBox);
 		layout->addWidget(detailedExample);
@@ -329,6 +334,7 @@ DetailedViewPreferences::DetailedViewPreferences(QWidget *parent) : PreferencesW
 
 void DetailedViewPreferences::refresh()
 {
+	smoothScrolling->setChecked(DetailedView::smoothScrolling.value());
 	romajifontChooser->setDefault(DetailedViewFonts::textFont.isDefault());
 	romajifontChooser->setFont(DetailedViewFonts::font(DetailedViewFonts::DefaultText));
 	kanaHeaderfontChooser->setDefault(DetailedViewFonts::kanaHeaderFont.isDefault());
@@ -352,6 +358,7 @@ void DetailedViewPreferences::applyFontSetting(PreferencesFontChooser *fontChoos
 
 void DetailedViewPreferences::applySettings()
 {
+	DetailedView::smoothScrolling.set(smoothScrolling->isChecked());
 	// Detailed view fonts
 	applyFontSetting(romajifontChooser, &DetailedViewFonts::textFont, DetailedViewFonts::DefaultText);
 	applyFontSetting(kanaHeaderfontChooser, &DetailedViewFonts::kanaHeaderFont, DetailedViewFonts::KanaHeader);
@@ -362,6 +369,7 @@ void DetailedViewPreferences::applySettings()
 
 void DetailedViewPreferences::updateUI()
 {
+	foreach (DetailedView *view, DetailedView::instances()) view->setSmoothScrolling(smoothScrolling->isChecked());
 	DetailedViewFonts::fontsChanged();
 }
 
@@ -454,8 +462,9 @@ void PreferencesEntryDelegate::setTwoLinesDisplay()
 	_watchedView->updateFonts();
 }
 
-PreferencesDetailedViewExample::PreferencesDetailedViewExample(QWidget *parent) : QTextBrowser(parent)
+PreferencesDetailedViewExample::PreferencesDetailedViewExample(QWidget *parent) : DetailedView(parent)
 {
+	setKanjisClickable(false);
 	QTextCursor cursor(document());
 	QTextBlockFormat blockFormat;
 	blockFormat.setAlignment(Qt::AlignHCenter);

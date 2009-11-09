@@ -125,6 +125,9 @@ private:
 
 	void applyFontSetting(PreferencesFontChooser *fontChooser, PreferenceItem<QString> *prefItem, const ResultsViewFonts::FontRole fontRole);
 
+protected slots:
+	void onSmoothScrollingToggled(bool value) { _view->setSmoothScrolling(value); }
+
 public slots:
 	void applySettings();
 	void refresh();
@@ -133,6 +136,20 @@ public slots:
 
 public:
 	ResultsViewPreferences(QWidget *parent = 0);
+};
+
+class PreferencesDetailedViewExample : public DetailedView
+{
+	Q_OBJECT
+public:
+	PreferencesDetailedViewExample(QWidget *parent = 0);
+
+public slots:
+	void redrawKanasHeader(const QFont &font);
+	void redrawKanjisHeader(const QFont &font);
+	void redrawKanas(const QFont &font);
+	void redrawKanjis(const QFont &font);
+	void redrawRomajis(const QFont &font);
 };
 
 class DetailedViewPreferences : public PreferencesWindowCategory, private Ui::DetailedViewPreferences
@@ -144,8 +161,12 @@ private:
 	PreferencesFontChooser *kanjiHeaderfontChooser;
 	PreferencesFontChooser *kanjifontChooser;
 	PreferencesFontChooser *kanafontChooser;
+	PreferencesDetailedViewExample *detailedExample;
 
 	void applyFontSetting(PreferencesFontChooser *fontChooser, PreferenceItem<QString> *prefItem, const DetailedViewFonts::FontRole fontRole);
+
+protected slots:
+	void onSmoothScrollingToggled(bool value) { this->detailedExample->setSmoothScrolling(value); }
 
 public slots:
 	void applySettings();
@@ -198,20 +219,6 @@ public slots:
 	void setTextFont(const QFont &font);
 	void setOneLineDisplay();
 	void setTwoLinesDisplay();
-};
-
-class PreferencesDetailedViewExample : public QTextBrowser
-{
-	Q_OBJECT
-public:
-	PreferencesDetailedViewExample(QWidget *parent = 0);
-
-public slots:
-	void redrawKanasHeader(const QFont &font);
-	void redrawKanjisHeader(const QFont &font);
-	void redrawKanas(const QFont &font);
-	void redrawKanjis(const QFont &font);
-	void redrawRomajis(const QFont &font);
 };
 
 #endif

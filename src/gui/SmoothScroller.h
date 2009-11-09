@@ -46,7 +46,7 @@ protected slots:
 public:
 	SmoothScroller(QObject *parent = 0);
 	~SmoothScroller();
-	bool activateOn(QWidget *widget);
+	void activateOn(QAbstractScrollArea *scrollArea);
 	void deactivate();
 	bool eventFilter(QObject *src, QEvent *event);
 };

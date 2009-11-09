@@ -31,9 +31,11 @@
 #include <QFontMetrics>
 #include <QProgressDialog>
 #include <QPixmap>
+#include <QScrollBar>
 
 ResultsViewFonts *ResultsViewFonts::_instance = 0;
 PreferenceItem<int> ResultsView::displayMode("mainWindow/resultsView", "displayMode", ResultsViewFonts::TwoLines);
+PreferenceItem<bool> ResultsView::smoothScrolling("mainWindow/resultsView", "smoothScrolling", true);
 
 PreferenceItem<QString> ResultsViewFonts::textFont("mainWindow/resultsView", "textFont", "");
 PreferenceItem<QString> ResultsViewFonts::kanaFont("mainWindow/resultsView", "kanaFont", "");
@@ -181,8 +183,6 @@ ResultsView::ResultsView(bool viewOnly, QWidget *parent) : QListView(parent), en
 	setSelectionMode(QAbstractItemView::ExtendedSelection);
 	setUniformItemSizes(true);
 	setAlternatingRowColors(true);
-//	setVerticalScrollMode(QAbstractItemView::ScrollPerItem);
-	setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
 	selectAllAction = contextMenu.addAction(tr("Select All"));
 	selectAllAction->setShortcuts(QKeySequence::SelectAll);
 	connect(selectAllAction, SIGNAL(triggered()),
@@ -194,7 +194,19 @@ ResultsView::ResultsView(bool viewOnly, QWidget *parent) : QListView(parent), en
 	}
 	setItemDelegate(new EntryDelegate(this));
 	updateFonts();
-	_charm.activateOn(this);
+	setSmoothScrolling(smoothScrolling.value());
+}
+
+void ResultsView::setSmoothScrolling(bool value)
+{
+	if (value) {
+		setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
+		_charm.activateOn(this);
+	}
+	else {
+		_charm.deactivate();
+		setVerticalScrollMode(QAbstractItemView::ScrollPerItem);
+	}
 }
 
 void ResultsView::contextMenuEvent(QContextMenuEvent *event)

@@ -223,12 +223,14 @@ public:
 
 	DetailedView(QWidget *parent = 0);
 	virtual ~DetailedView();
+	void setSmoothScrolling(bool value);
 
 	bool kanjisClickable() const { return _kanjisClickable; }
 	void setKanjisClickable(bool clickable);
 	void setHistoryEnabled(bool enabled);
 
 	void addBackgroundJob(DetailedViewJob *job);
+	static const QSet<DetailedView *> &instances() { return _instances; }
 
 	/**
 	 * Fake a click event on the provided URL.
@@ -241,6 +243,7 @@ public:
 	void addWatchEntry(const EntryPointer<Entry> &entry);
 
 	static PreferenceItem<int> historySize;
+	static PreferenceItem<bool> smoothScrolling;
 
 	void populateToolBar(QToolBar *toolbar);
 
