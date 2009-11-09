@@ -247,7 +247,7 @@ bool Kanjidic2GUIPlugin::eventFilter(QObject *obj, QEvent *_event)
 							// Only show the tooltip if the entry exists in the database!
 							if (entry.data()) {
 								view->viewport()->setCursor(QCursor(Qt::PointingHandCursor));
-								const EntryFormatter *formatter(EntryFormatter::getFormatter(entry.data()));
+								const Kanjidic2EntryFormatter *formatter(static_cast<const Kanjidic2EntryFormatter *>(EntryFormatter::getFormatter(KANJIDIC2ENTRY_GLOBALID)));
 								formatter->showToolTip(entry.data(), QCursor::pos());
 							}
 							return false;
