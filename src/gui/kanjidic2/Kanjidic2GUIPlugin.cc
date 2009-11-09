@@ -249,8 +249,8 @@ bool Kanjidic2GUIPlugin::eventFilter(QObject *obj, QEvent *_event)
 								view->viewport()->setCursor(QCursor(Qt::PointingHandCursor));
 								const EntryFormatter *formatter(EntryFormatter::getFormatter(entry.data()));
 								formatter->showToolTip(entry.data(), QCursor::pos());
-								return true;
-							} else return false;
+							}
+							return false;
 						}
 					} else return false;
 				}
