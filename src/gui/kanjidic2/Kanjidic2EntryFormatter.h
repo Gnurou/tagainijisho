@@ -40,7 +40,10 @@ public:
 	virtual void detailedVersionPart1(const Entry *entry, QTextCursor &cursor, DetailedView *view) const;
 	virtual void detailedVersionPart2(const Entry *entry, QTextCursor &cursor, DetailedView *view) const;
 
-	virtual void showToolTip(const Entry *entry, const QPoint &pos) const;
+	/**
+	 * Shows a tooltip with a short description of the kanji
+	 */
+	void showToolTip(const Entry *entry, const QPoint &pos) const;
 
 	static QString getQueryUsedInWordsSql(int kanji, int limit, bool onlyStudied);
 	static QString getQueryUsedInKanjiSql(int kanji, int limit, bool onlyStudied);

@@ -503,6 +503,7 @@ void Kanjidic2EntryFormatter::showToolTip(const Entry *_entry, const QPoint &pos
 	else if (!entry->readings().isEmpty()) {
 		s += entry->readings()[0];
 	}
+	if (entry->jlpt() != -1) s += QString("<br/><b>JLPT:</b> %1").arg(entry->jlpt());
 	if (!entry->meanings().isEmpty()) {
 		QString s2 = entry->meaningsString();
 		if (!s2.isEmpty()) s2[0] = s2[0].toUpper();
