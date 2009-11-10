@@ -95,7 +95,6 @@ DetailedView::DetailedView(QWidget *parent) : QTextBrowser(parent), _kanjisClick
 
 	clear();
 	setSmoothScrolling(smoothScrolling.value());
-	_charm.activateOn(this);
 }
 
 DetailedView::~DetailedView()
