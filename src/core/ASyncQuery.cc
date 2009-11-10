@@ -17,6 +17,7 @@
 
 #include "sqlite/qsql_sqlite.h"
 #include "sqlite3.h"
+#include "core/Paths.h"
 #include "core/ASyncQuery.h"
 #include "core/Database.h"
 
@@ -258,7 +259,7 @@ DatabaseThread::DatabaseThread() : _startSem(0)
 	_startSem.acquire();
 
 	// Connect to the main database
-	connection()->connect(QDir(Database::userProfile.value()).absoluteFilePath("user.db"));
+	connection()->connect(QDir(userProfile()).absoluteFilePath("user.db"));
 
 	// Attach all databases
 	const QMap<QString, QString> &dbsToAttach(Database::attachedDBs());

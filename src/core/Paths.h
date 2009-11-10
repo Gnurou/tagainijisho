@@ -18,6 +18,14 @@
 #ifndef __CORE_PATHS_H
 #define __CORE_PATHS_H
 
+#include <QString>
+
+extern QString __userProfile;
+inline const QString& userProfile()
+{
+	return __userProfile;
+}
+
 #define _QUOTEMACRO(x) #x
 #define QUOTEMACRO(x) _QUOTEMACRO(x)
 

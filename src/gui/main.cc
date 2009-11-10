@@ -69,26 +69,44 @@ void messageHandler(QtMsgType type, const char *msg)
 }
 
 /**
+ * Used to keep track of the configuration version format. This is useful
+ * to update configuration options that have changed or to remove obsolete
+ * ones.
+ */
+#define CONFIG_VERSION 1
+PreferenceItem<int> configVersion("", "configVersion", 0);
+
+void checkConfigurationVersion()
+{
+	if (configVersion.value() >= CONFIG_VERSION) return;
+	QSettings settings;
+	switch (configVersion.value()) {
+	case 0:
+		settings.remove("userProfile");
+		break;
+	default:
+		break;
+	}
+	configVersion.setValue(CONFIG_VERSION);
+}
+
+QString __userProfile;
+/**
  * Check if a user DB directory is defined in the application settings, and
  * create a default one in case it doesn't exist.
  */
 void checkUserProfileDirectory()
 {
-	QString profileDirName;
-	// Set the userProfile variable if not existing
-	if (Database::userProfile.isDefault()) {
-		profileDirName = QDesktopServices::storageLocation(QDesktopServices::DataLocation);
-		Database::userProfile.set(profileDirName);
-	}
-	else profileDirName = Database::userProfile.value();
-
+	// Set the user profile location
+	// This is done here because this function requires the QtGui module
+	__userProfile = QDesktopServices::storageLocation(QDesktopServices::DataLocation);
 	// Create the user profile directory if not existing
-	QDir profileDir(profileDirName);
+	QDir profileDir(userProfile());
 	if (!profileDir.exists()) profileDir.mkpath(".");
 
 	// Replace the data file by the imported one if existing
-	QFile dataFile(QDir(Database::userProfile.value()).absoluteFilePath("user.db"));
-	QFile importedDataFile(QDir(Database::userProfile.value()).absoluteFilePath("user.db.import"));
+	QFile dataFile(QDir(userProfile()).absoluteFilePath("user.db"));
+	QFile importedDataFile(QDir(userProfile()).absoluteFilePath("user.db.import"));
 	if (importedDataFile.exists()) {
 		dataFile.remove();
 		importedDataFile.rename(dataFile.fileName());
@@ -109,6 +127,7 @@ int main(int argc, char *argv[])
 	QCoreApplication::setApplicationName(__APPLICATION_NAME);
 	QCoreApplication::setApplicationVersion(QUOTEMACRO(VERSION));
 
+	checkConfigurationVersion();
 
 	// Get the default font from the settings, if set
 	if (!GeneralPreferences::applicationFont.value().isEmpty()) {
