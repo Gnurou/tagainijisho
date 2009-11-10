@@ -57,6 +57,8 @@ PreferencesWindow::PreferencesWindow(QWidget *parent, Qt::WindowFlags f) : QDial
 	}
 
 	categories->setCurrentRow(0);
+
+	connect(this, SIGNAL(accepted()), this, SLOT(applySettings()));
 }
 
 void PreferencesWindow::addCategory(PreferencesWindowCategory *category)
@@ -66,7 +68,6 @@ void PreferencesWindow::addCategory(PreferencesWindowCategory *category)
 	categories->addItem(category->name());
 	stackedWidget->addWidget(category);
 	category->refresh();
-	connect(this, SIGNAL(accepted()), this, SLOT(applySettings()));
 }
 
 void PreferencesWindow::applySettings() {
