@@ -32,6 +32,9 @@
 #include "gui/jmdict/JMdictGUIPlugin.h"
 #include "gui/kanjidic2/Kanjidic2GUIPlugin.h"
 
+// Required for exit()
+#include <stdlib.h>
+
 #include <QApplication>
 #include <QSettings>
 #include <QDesktopServices>
@@ -76,9 +79,33 @@ void messageHandler(QtMsgType type, const char *msg)
 #define CONFIG_VERSION 1
 PreferenceItem<int> configVersion("", "configVersion", 0);
 
+void migrateOldData()
+{
+	QCoreApplication::setApplicationName("tagainijisho");
+	QString oldDataDir(QDesktopServices::storageLocation(QDesktopServices::DataLocation));
+	QCoreApplication::setApplicationName(__APPLICATION_NAME);
+	QString newDataDir(QDesktopServices::storageLocation(QDesktopServices::DataLocation));
+	// If the old DB directory exists, this means we have an old installation there and must
+	// rename it
+	if (QDir(oldDataDir).exists()) {
+		if (!QFile(oldDataDir).rename(newDataDir))
+			qFatal("Error while migrating profile data! Please rename the %s directory to %s.", oldDataDir.toLatin1().data(), newDataDir.toLatin1().data());
+
+		// Also migrate the settings data
+		QSettings newSettings(__ORGANIZATION_NAME, __APPLICATION_NAME);
+		QSettings oldSettings(__ORGANIZATION_NAME, "tagainijisho");
+		foreach (const QString &key, oldSettings.allKeys())
+			newSettings.setValue(key, oldSettings.value(key));
+		oldSettings.clear();
+		QMessageBox::information(0, QCoreApplication::translate("main.cc", "User data migrated"), QCoreApplication::translate("main.cc", "Your user data and settings have successfully been migrated. Tagaini Jisho needs to be restarted and will now exit."));
+		exit(0);
+	}
+}
+
 void checkConfigurationVersion()
 {
 	if (configVersion.value() >= CONFIG_VERSION) return;
+
 	QSettings settings;
 	switch (configVersion.value()) {
 	case 0:
@@ -123,10 +150,10 @@ int main(int argc, char *argv[])
 	QApplication app(argc, argv);
 
 	QCoreApplication::setOrganizationDomain(__ORGANIZATION_NAME);
-	// TODO: move all settings from "tagainijisho" to "Tagaini Jisho" for better display under OSX
 	QCoreApplication::setApplicationName(__APPLICATION_NAME);
 	QCoreApplication::setApplicationVersion(QUOTEMACRO(VERSION));
 
+	migrateOldData();
 	checkConfigurationVersion();
 
 	// Get the default font from the settings, if set
