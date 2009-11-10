@@ -25,7 +25,7 @@
 #include <QMutex>
 
 #define __ORGANIZATION_NAME "tagaini.net"
-#define __APPLICATION_NAME "tagainijisho"
+#define __APPLICATION_NAME "Tagaini Jisho"
 
 /**
  * Necessary to put some determinism in the static

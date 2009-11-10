@@ -41,7 +41,7 @@ private:
 
 	SearchBar *_searchBar;
 	ResultsList *_results;
-	QListView *_resultsView;
+	ResultsView *_resultsView;
 	ToolBarDetailedView *_detailedView;
 
 	QSplitter *splitter;
@@ -93,7 +93,7 @@ public:
 
 	SearchBar *searchBar() { return _searchBar; }
 	ResultsList *resultsList() { return _results; }
-	QListView *resultsView() { return _resultsView; }
+	ResultsView *resultsView() { return _resultsView; }
 	DetailedView *detailedView() { return _detailedView->detailedView(); }
 	int resultsPerPage() const { return _resultsPerPage; }
 	void setResultsPerPage(int nbr) { _resultsPerPage = nbr; }

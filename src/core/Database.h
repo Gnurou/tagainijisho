@@ -73,8 +73,6 @@ public:
 	static bool commit() { return instance->database.commit(); }
 	static QSqlError lastError() { return instance->database.lastError(); }
 
-	static PreferenceItem<QString> userProfile;
-
 	/**
 	 * Interrupt the running query in the database thread. When this function returns,
 	 * the query is completely stopped.

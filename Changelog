@@ -3,6 +3,8 @@
 * Huge reorganization of the source code, separation of the functional
   aspects from the GUI
 * Now directly using KanjiVG data
+* Fixed a bug which caused Mac OS users who upgraded to OSX 10.6 to be
+  unable to run the application
 * Kanjis components now accurately reflected in the stroke animations
 * Search is now hiragana/katakana insensitive
 * Now possible to perform training on a given set

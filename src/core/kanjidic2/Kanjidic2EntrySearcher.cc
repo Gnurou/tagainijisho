@@ -196,6 +196,13 @@ QList<Kanjidic2Entry::KanjiMeaning> Kanjidic2EntrySearcher::getMeanings(int id)
 	while(query.next()) {
 		ret << Kanjidic2Entry::KanjiMeaning(query.value(0).toString(), query.value(1).toString());
 	}
+	if (ret.isEmpty()) {
+		QString character = TextTools::unicodeToSingleChar(id);
+		// Handle characters without any description
+		if (TextTools::isKatakana(character)) ret << Kanjidic2Entry::KanjiMeaning("en", QString("Katakana %1").arg(character));
+		if (TextTools::isHiragana(character)) ret << Kanjidic2Entry::KanjiMeaning("en", QString("Hiragana %1").arg(character));
+		if (TextTools::isRomaji(character)) ret << Kanjidic2Entry::KanjiMeaning("en", QString("Roman letter %1").arg(character));
+	}
 	return ret;
 }
 
@@ -224,7 +231,7 @@ Entry *Kanjidic2EntrySearcher::loadEntry(int id)
 	loadMiscData(entry);
 
 	// Find the kanjis this one is a variation of
-        query.prepare("select distinct original from strokeGroups where element = ? and original not null");
+	query.prepare("select distinct original from strokeGroups where element = ? and original not null");
 	query.addBindValue(id);
 	query.exec();
 	while (query.next()) {
@@ -312,6 +319,13 @@ Entry *Kanjidic2EntrySearcher::loadEntry(int id)
 	query.exec();
 	if (query.next()) {
 		entry->_skip = QString("%1-%2-%3").arg(query.value(0).toInt()).arg(query.value(1).toInt()).arg(query.value(2).toInt());
+	}
+
+	// Try to add a description for characters that have nothing
+	if (entry->meanings().size() == 0) {
+		if (TextTools::isKatakana(character)) entry->_meanings << Kanjidic2Entry::KanjiMeaning("en", QString("Katakana %1").arg(character));
+		if (TextTools::isHiragana(character)) entry->_meanings << Kanjidic2Entry::KanjiMeaning("en", QString("Hiragana %1").arg(character));
+		if (TextTools::isRomaji(character)) entry->_meanings << Kanjidic2Entry::KanjiMeaning("en", QString("Roman letter %1").arg(character));
 	}
 
 	return entry;

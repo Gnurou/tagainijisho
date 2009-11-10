@@ -18,6 +18,7 @@
 #include "sqlite/qsql_sqlite.h"
 #include "sqlite3.h"
 
+#include "core/Paths.h"
 #include "core/TextTools.h"
 #include "core/Database.h"
 #include "core/ASyncQuery.h"
@@ -30,7 +31,6 @@
 #define QUERY(Q) if (!query.exec(Q)) return false
 
 QMap<QString, QString> Database::_attachedDBs;
-PreferenceItem<QString> Database::userProfile("", "userProfile", "");
 
 bool Database::createUserDB()
 {
@@ -225,7 +225,7 @@ void uniquecount_aggr_finalize(sqlite3_context *context)
 void Database::connectUserDB()
 {
 	// Connect to the user DB
-	QString filename(QDir(userProfile.value()).absoluteFilePath("user.db"));
+	QString filename(QDir(userProfile()).absoluteFilePath("user.db"));
 
 	// Instanciate our custom driver
 	QSQLiteDriver *driver = new QSQLiteDriver();

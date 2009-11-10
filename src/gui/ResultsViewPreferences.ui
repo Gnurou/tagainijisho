@@ -43,6 +43,20 @@
           </property>
          </widget>
         </item>
+        <item>
+         <widget class="Line" name="line">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="smoothScrolling">
+          <property name="text">
+           <string>Smooth scrolling</string>
+          </property>
+         </widget>
+        </item>
        </layout>
       </item>
       <item>

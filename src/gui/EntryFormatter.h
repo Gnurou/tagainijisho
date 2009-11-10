@@ -99,12 +99,6 @@ public:
 	 */
 	void writeUserData(const Entry *entry, QTextCursor &cursor, DetailedView *view) const;
 
-	/**
-	 * Show a tooltip with a short description of the entry at the given
-	 * position.
-	 */
-	virtual void showToolTip(const Entry *entry, const QPoint &pos) const;
-
 	void autoFormat(const Entry *entry, const QString &str, QTextCursor &cursor, const QTextCharFormat &mergeWith = QTextCharFormat()) const;
 
 	/**

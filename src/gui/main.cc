@@ -32,6 +32,9 @@
 #include "gui/jmdict/JMdictGUIPlugin.h"
 #include "gui/kanjidic2/Kanjidic2GUIPlugin.h"
 
+// Required for exit()
+#include <stdlib.h>
+
 #include <QApplication>
 #include <QSettings>
 #include <QDesktopServices>
@@ -69,26 +72,68 @@ void messageHandler(QtMsgType type, const char *msg)
 }
 
 /**
+ * Used to keep track of the configuration version format. This is useful
+ * to update configuration options that have changed or to remove obsolete
+ * ones.
+ */
+#define CONFIG_VERSION 1
+PreferenceItem<int> configVersion("", "configVersion", 0);
+
+void migrateOldData()
+{
+	QCoreApplication::setApplicationName("tagainijisho");
+	QString oldDataDir(QDesktopServices::storageLocation(QDesktopServices::DataLocation));
+	QCoreApplication::setApplicationName(__APPLICATION_NAME);
+	QString newDataDir(QDesktopServices::storageLocation(QDesktopServices::DataLocation));
+	// If the old DB directory exists, this means we have an old installation there and must
+	// rename it
+	if (QDir(oldDataDir).exists()) {
+		if (!QFile(oldDataDir).rename(newDataDir))
+			qFatal("Error while migrating profile data! Please rename the %s directory to %s.", oldDataDir.toLatin1().data(), newDataDir.toLatin1().data());
+
+		// Also migrate the settings data
+		QSettings newSettings(__ORGANIZATION_NAME, __APPLICATION_NAME);
+		QSettings oldSettings(__ORGANIZATION_NAME, "tagainijisho");
+		foreach (const QString &key, oldSettings.allKeys())
+			newSettings.setValue(key, oldSettings.value(key));
+		oldSettings.clear();
+		QMessageBox::information(0, QCoreApplication::translate("main.cc", "User data migrated"), QCoreApplication::translate("main.cc", "Your user data and settings have successfully been migrated. Tagaini Jisho needs to be restarted and will now exit."));
+		exit(0);
+	}
+}
+
+void checkConfigurationVersion()
+{
+	if (configVersion.value() >= CONFIG_VERSION) return;
+
+	QSettings settings;
+	switch (configVersion.value()) {
+	case 0:
+		settings.remove("userProfile");
+		break;
+	default:
+		break;
+	}
+	configVersion.setValue(CONFIG_VERSION);
+}
+
+QString __userProfile;
+/**
  * Check if a user DB directory is defined in the application settings, and
  * create a default one in case it doesn't exist.
  */
 void checkUserProfileDirectory()
 {
-	QString profileDirName;
-	// Set the userProfile variable if not existing
-	if (Database::userProfile.isDefault()) {
-		profileDirName = QDesktopServices::storageLocation(QDesktopServices::DataLocation);
-		Database::userProfile.set(profileDirName);
-	}
-	else profileDirName = Database::userProfile.value();
-
+	// Set the user profile location
+	// This is done here because this function requires the QtGui module
+	__userProfile = QDesktopServices::storageLocation(QDesktopServices::DataLocation);
 	// Create the user profile directory if not existing
-	QDir profileDir(profileDirName);
+	QDir profileDir(userProfile());
 	if (!profileDir.exists()) profileDir.mkpath(".");
 
 	// Replace the data file by the imported one if existing
-	QFile dataFile(QDir(Database::userProfile.value()).absoluteFilePath("user.db"));
-	QFile importedDataFile(QDir(Database::userProfile.value()).absoluteFilePath("user.db.import"));
+	QFile dataFile(QDir(userProfile()).absoluteFilePath("user.db"));
+	QFile importedDataFile(QDir(userProfile()).absoluteFilePath("user.db.import"));
 	if (importedDataFile.exists()) {
 		dataFile.remove();
 		importedDataFile.rename(dataFile.fileName());
@@ -105,10 +150,11 @@ int main(int argc, char *argv[])
 	QApplication app(argc, argv);
 
 	QCoreApplication::setOrganizationDomain(__ORGANIZATION_NAME);
-	// TODO: move all settings from "tagainijisho" to "Tagaini Jisho" for better display under OSX
 	QCoreApplication::setApplicationName(__APPLICATION_NAME);
 	QCoreApplication::setApplicationVersion(QUOTEMACRO(VERSION));
 
+	migrateOldData();
+	checkConfigurationVersion();
 
 	// Get the default font from the settings, if set
 	if (!GeneralPreferences::applicationFont.value().isEmpty()) {

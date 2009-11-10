@@ -123,7 +123,10 @@ public:
 	void contextMenuEvent(QContextMenuEvent *event);
 	virtual void setModel(QAbstractItemModel *model);
 
+	void setSmoothScrolling(bool value);
+
 	static PreferenceItem<int> displayMode;
+	static PreferenceItem<bool> smoothScrolling;
 
 public slots:
 	void updateFonts();

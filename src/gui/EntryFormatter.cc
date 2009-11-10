@@ -137,30 +137,6 @@ void EntryFormatter::detailedVersion(const Entry *entry, QTextCursor &cursor, De
 	cursor.insertBlock(QTextBlockFormat());
 }
 
-void EntryFormatter::showToolTip(const Entry *entry, const QPoint &pos) const
-{
-	QString s;
-	if (entry->trained()) {
-		QColor scoreColor(this->scoreColor(entry));
-		s = QString("<font size=\"+3\" style=\"background-color: #%1%2%3\">").arg(QString::number(scoreColor.red(), 16)).arg(QString::number(scoreColor.green(), 16)).arg(QString::number(scoreColor.blue(), 16));
-	} else s = QString("<font size=\"+3\">");
-	if (!entry->writings().isEmpty()) {
-		s += entry->writings()[0] + "</font> ";
-		if (!entry->readings().isEmpty()) {
-			s += "(" + entry->readings()[0] + ")";
-		}
-	}
-	else if (!entry->readings().isEmpty()) {
-		s += entry->readings()[0];
-	}
-	if (!entry->meanings().isEmpty()) {
-		QString s2 = entry->meanings()[0];
-		if (!s2.isEmpty()) s2[0] = s2[0].toUpper();
-		s += "<br/>" + s2;
-	}
-	QToolTip::showText(pos, s);
-}
-
 void EntryFormatter::autoFormat(const Entry *entry, const QString &str, QTextCursor &cursor, const QTextCharFormat &mergeWith) const
 {
 	if (str.isEmpty()) return;

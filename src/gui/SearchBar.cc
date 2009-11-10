@@ -788,6 +788,7 @@ SearchBar::SearchBar(QWidget *parent) : QWidget(parent)
 
 void SearchBar::resetSearchText()
 {
+	if (_searchField->lineEdit()->text().isEmpty()) return;
 	_searchField->clearEditText();
 	searchButtonClicked();
 }

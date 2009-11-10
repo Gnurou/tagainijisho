@@ -44,6 +44,7 @@ PreferenceItem<QString> DetailedViewFonts::kanaFont("mainWindow/detailedView", "
 PreferenceItem<QString> DetailedViewFonts::kanjiHeaderFont("mainWindow/detailedView", "kanjiHeaderFont", QFont("Helvetica", 28).toString());
 PreferenceItem<QString> DetailedViewFonts::kanaHeaderFont("mainWindow/detailedView", "kanaHeaderFont", "");
 
+PreferenceItem<bool> DetailedView::smoothScrolling("mainWindow/detailedView", "smoothScrolling", true);
 PreferenceItem<int> DetailedView::historySize("mainWindow/detailedView", "historySize", 1000);
 EntryMenuHandler DetailedView::_entryHandler;
 TagsLinkHandler DetailedView::_tagsLinkHandler;
@@ -93,7 +94,7 @@ DetailedView::DetailedView(QWidget *parent) : QTextBrowser(parent), _kanjisClick
 	addAction(_historyNextAction);
 
 	clear();
-	_charm.activateOn(this);
+	setSmoothScrolling(smoothScrolling.value());
 }
 
 DetailedView::~DetailedView()
@@ -116,6 +117,16 @@ void DetailedView::_display(Entry *entry, bool update)
 	if (formatter) formatter->detailedVersion(entry, cursor, this);
 	else qWarning("%s %d: %s", __FILE__, __LINE__, "No formatter found for entry!");
 	_jobsRunner.runAllJobs();
+}
+
+void DetailedView::setSmoothScrolling(bool value)
+{
+	if (value) {
+		_charm.activateOn(this);
+	}
+	else {
+		_charm.deactivate();
+	}
 }
 
 void DetailedView::display(Entry *entry)
