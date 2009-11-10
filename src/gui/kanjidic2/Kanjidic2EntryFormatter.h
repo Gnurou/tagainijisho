@@ -36,7 +36,7 @@ public:
 
 	virtual void writeShortDesc(const Entry *entry, QTextCursor &cursor) const;
 	virtual void draw(const Entry *entry, QPainter &painter, const QRectF &rectangle, QRectF &usedSpace, const QFont &textFont = QFont()) const;
-	void drawCustom(const Entry *entry, QPainter &painter, const QRectF &rectangle, QRectF &usedSpace, const QFont &textFont = QFont(), int printSize = Kanjidic2EntryFormatter::printSize.value(), bool printWithFont = Kanjidic2EntryFormatter::printWithFont.value(), bool printMeanings = Kanjidic2EntryFormatter::printMeanings.value(), bool printOnyomi = Kanjidic2EntryFormatter::printOnyomi.value(), bool printKunyomi = Kanjidic2EntryFormatter::printKunyomi.value(), int printComponents = Kanjidic2EntryFormatter::printComponents.value(), int maxWordsToPrint = Kanjidic2EntryFormatter::maxWordsToPrint.value(), bool printOnlyStudiedVocab = Kanjidic2EntryFormatter::printOnlyStudiedVocab.value()) const;
+	void drawCustom(const Entry *entry, QPainter &painter, const QRectF &rectangle, QRectF &usedSpace, const QFont &textFont = QFont(), int printSize = Kanjidic2EntryFormatter::printSize.value(), bool printWithFont = Kanjidic2EntryFormatter::printWithFont.value(), bool printMeanings = Kanjidic2EntryFormatter::printMeanings.value(), bool printOnyomi = Kanjidic2EntryFormatter::printOnyomi.value(), bool printKunyomi = Kanjidic2EntryFormatter::printKunyomi.value(), bool printComponents = Kanjidic2EntryFormatter::printComponents.value(), bool printOnlyStudiedComponents = Kanjidic2EntryFormatter::printOnlyStudiedComponents.value(), int maxWordsToPrint = Kanjidic2EntryFormatter::maxWordsToPrint.value(), bool printOnlyStudiedVocab = Kanjidic2EntryFormatter::printOnlyStudiedVocab.value()) const;
 	virtual void detailedVersionPart1(const Entry *entry, QTextCursor &cursor, DetailedView *view) const;
 	virtual void detailedVersionPart2(const Entry *entry, QTextCursor &cursor, DetailedView *view) const;
 
@@ -68,6 +68,7 @@ public:
 	static PreferenceItem<bool> printOnyomi;
 	static PreferenceItem<bool> printKunyomi;
 	static PreferenceItem<bool> printComponents;
+	static PreferenceItem<bool> printOnlyStudiedComponents;
 	static PreferenceItem<bool> printOnlyStudiedVocab;
 	static PreferenceItem<int> maxWordsToPrint;
 };

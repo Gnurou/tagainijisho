@@ -29,10 +29,13 @@ Kanjidic2Preferences::Kanjidic2Preferences(QWidget *parent) : PreferencesWindowC
 	connect(printOnyomi, SIGNAL(toggled(bool)), this, SLOT(updatePrintPreview()));
 	connect(printKunyomi, SIGNAL(toggled(bool)), this, SLOT(updatePrintPreview()));
 	connect(printComponents, SIGNAL(toggled(bool)), this, SLOT(updatePrintPreview()));
+	connect(printOnlyStudiedComponents, SIGNAL(toggled(bool)), this, SLOT(updatePrintPreview()));
 	connect(maxWordsPrint, SIGNAL(valueChanged(int)), this, SLOT(updatePrintPreview()));
 	connect(fontButton, SIGNAL(toggled(bool)), this, SLOT(updatePrintPreview()));
 	connect(printOnlyStudiedVocab, SIGNAL(toggled(bool)), this, SLOT(updatePrintPreview()));
 	previewLabel->installEventFilter(this);
+
+	connect(printComponents, SIGNAL(toggled(bool)), printOnlyStudiedComponents, SLOT(setEnabled(bool)));
 
 	connect(animSpeedDefault, SIGNAL(toggled(bool)), this, SLOT(onAnimSpeedDefaultChecked(bool)));
 	connect(animDelayDefault, SIGNAL(toggled(bool)), this, SLOT(onAnimDelayDefaultChecked(bool)));
@@ -74,6 +77,7 @@ void Kanjidic2Preferences::refresh()
 	printOnyomi->setChecked(Kanjidic2EntryFormatter::printOnyomi.value());
 	printKunyomi->setChecked(Kanjidic2EntryFormatter::printKunyomi.value());
 	printComponents->setChecked(Kanjidic2EntryFormatter::printComponents.value());
+	printOnlyStudiedComponents->setChecked(Kanjidic2EntryFormatter::printOnlyStudiedComponents.value());
 	maxWordsPrint->setValue(Kanjidic2EntryFormatter::maxWordsToPrint.value());
 	if (Kanjidic2EntryFormatter::printWithFont.value()) fontButton->setChecked(true);
 	else handWritingButton->setChecked(true);
@@ -110,6 +114,7 @@ void Kanjidic2Preferences::applySettings()
 	Kanjidic2EntryFormatter::printOnyomi.set(printOnyomi->isChecked());
 	Kanjidic2EntryFormatter::printKunyomi.set(printKunyomi->isChecked());
 	Kanjidic2EntryFormatter::printComponents.set(printComponents->isChecked());
+	Kanjidic2EntryFormatter::printOnlyStudiedComponents.set(printOnlyStudiedComponents->isChecked());
 	Kanjidic2EntryFormatter::maxWordsToPrint.set(maxWordsPrint->value());
 	Kanjidic2EntryFormatter::printWithFont.set(fontButton->isChecked());
 	Kanjidic2EntryFormatter::printOnlyStudiedVocab.set(printOnlyStudiedVocab->isChecked());
@@ -161,7 +166,7 @@ void Kanjidic2Preferences::updatePrintPreview()
 	const Kanjidic2EntryFormatter *formatter = static_cast<const Kanjidic2EntryFormatter *>(EntryFormatter::getFormatter(previewEntry));
 	QPainter painter(&previewPic);
 	QRectF usedSpace;
-	formatter->drawCustom(previewEntry, painter, QRectF(0, 0, printPreviewScrollArea->viewport()->contentsRect().width() - 20, 300), usedSpace, QFont(), kanjiPrintSize->value(), fontButton->isChecked(), printMeanings->isChecked(), printOnyomi->isChecked(), printKunyomi->isChecked(), printComponents->isChecked(), maxWordsPrint->value(), printOnlyStudiedVocab->isChecked());
+	formatter->drawCustom(previewEntry, painter, QRectF(0, 0, printPreviewScrollArea->viewport()->contentsRect().width() - 20, 300), usedSpace, QFont(), kanjiPrintSize->value(), fontButton->isChecked(), printMeanings->isChecked(), printOnyomi->isChecked(), printKunyomi->isChecked(), printComponents->isChecked(), printOnlyStudiedComponents->isChecked(), maxWordsPrint->value(), printOnlyStudiedVocab->isChecked());
 	previewPic.setBoundingRect(usedSpace.toRect());
 	previewLabel->clear();
 	previewLabel->setPicture(previewPic);

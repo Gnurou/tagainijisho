@@ -52,6 +52,7 @@ PreferenceItem<bool> Kanjidic2EntryFormatter::printMeanings("kanjidic", "printMe
 PreferenceItem<bool> Kanjidic2EntryFormatter::printOnyomi("kanjidic", "printOnyomi", true);
 PreferenceItem<bool> Kanjidic2EntryFormatter::printKunyomi("kanjidic", "printKunyomi", true);
 PreferenceItem<bool> Kanjidic2EntryFormatter::printComponents("kanjidic", "printComponents", true);
+PreferenceItem<bool> Kanjidic2EntryFormatter::printOnlyStudiedComponents("kanjidic", "printOnlyStudiedComponents", false);
 PreferenceItem<int> Kanjidic2EntryFormatter::maxWordsToPrint("kanjidic", "maxWordsToPrint", 5);
 PreferenceItem<bool> Kanjidic2EntryFormatter::printOnlyStudiedVocab("kanjidic", "printOnlyStudiedVocab", false);
 
@@ -327,7 +328,7 @@ void Kanjidic2EntryFormatter::draw(const Entry *_entry, QPainter &painter, const
 	drawCustom(_entry, painter, rectangle, usedSpace, textFont);
 }
 
-void Kanjidic2EntryFormatter::drawCustom(const Entry *_entry, QPainter &painter, const QRectF &rectangle, QRectF &usedSpace, const QFont &textFont, int printSize, bool printWithFont, bool printMeanings, bool printOnyomi, bool printKunyomi, int printComponents, int maxWordsToPrint, bool printOnlyStudiedVocab) const
+void Kanjidic2EntryFormatter::drawCustom(const Entry *_entry, QPainter &painter, const QRectF &rectangle, QRectF &usedSpace, const QFont &textFont, int printSize, bool printWithFont, bool printMeanings, bool printOnyomi, bool printKunyomi, bool printComponents, bool printOnlyStudiedComponents, int maxWordsToPrint, bool printOnlyStudiedVocab) const
 {
 	const Kanjidic2Entry *entry(static_cast<const Kanjidic2Entry *>(_entry));
 	QFont kanjiFont;
@@ -388,12 +389,15 @@ void Kanjidic2EntryFormatter::drawCustom(const Entry *_entry, QPainter &painter,
 				_entry = EntriesCache::get(KANJIDIC2ENTRY_GLOBALID, TextTools::singleCharToUnicode(c->original()));
 			else _entry = EntriesCache::get(KANJIDIC2ENTRY_GLOBALID, c->unicode());
 			Kanjidic2Entry *component = qobject_cast<Kanjidic2Entry *>(_entry.data());
+			if (printOnlyStudiedComponents && !component->trained()) continue;
 			QString s = c->repr();
 			QString meanings(component->meaningsString());
 			if (!meanings.isEmpty()) s += ": " + meanings;
-			s = QFontMetrics(painter.font(), painter.device()).elidedText(s, Qt::ElideRight, leftArea.width());
+			QFontMetrics metrics(painter.font(), painter.device());
+			s = metrics.elidedText(s, Qt::ElideRight, leftArea.width());
 			textBB = painter.boundingRect(leftArea, Qt::AlignLeft, s);
 			painter.drawText(leftArea, Qt::AlignLeft, s);
+			if (!printOnlyStudiedComponents && component->trained()) painter.drawLine(textBB.topLeft() + QPoint(0, metrics.ascent() + metrics.underlinePos()), textBB.topRight() + QPoint(0, metrics.ascent() + metrics.underlinePos()));
 			leftArea.setTop(textBB.bottom());
 		}
 	}
