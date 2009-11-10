@@ -48,6 +48,8 @@ public:
 	virtual QueryBuilder::Column canSort(const QString &sort, const QueryBuilder::Statement &statement);
 
 	virtual Entry *loadEntry(int id);
+
+	static PreferenceItem<QStringList> miscPropertiesFilter;
 };
 
 #endif

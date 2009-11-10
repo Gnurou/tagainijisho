@@ -19,6 +19,7 @@
 #include "core/ASyncQuery.h"
 #include "core/QueryBuilder.h"
 #include "core/jmdict/JMdictDefs.h"
+#include "core/jmdict/JMdictEntrySearcher.h"
 #include "core/jmdict/JMdictPlugin.h"
 #include "gui/EntryFormatter.h"
 #include "gui/jmdict/JMdictEntryFormatter.h"
@@ -143,10 +144,17 @@ QActionGroup *JMdictGUIPlugin::addCheckableProperties(const QString defs[], QMen
 	QActionGroup *actionGroup = new QActionGroup(menu);
 	actionGroup->setExclusive(false);
 	foreach(QString str, sortedList) {
+		int idx = strList.indexOf(str);
 		QAction *action = actionGroup->addAction(str);
+/*		// TODO very specific code - this is dirty!
+		if (defs == JMdictMiscEntitiesLongDesc && JMdictEntrySearcher::miscPropertiesFilter.value().contains(JMdictMiscEntitiesShortDesc[idx])) {
+			QFont font(action->font());
+			font.setItalic(true);
+			action->setFont(font);
+		}*/
 		action->setCheckable(true);
 		menu->addAction(action);
-		action->setProperty("TJpropertyIndex", strList.indexOf(str));
+		action->setProperty("TJpropertyIndex", idx);
 	}
 	return actionGroup;
 }

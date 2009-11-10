@@ -16,19 +16,13 @@
  */
 
 #include "core/jmdict/JMdictDefs.h"
+#include "core/jmdict/JMdictEntrySearcher.h"
 #include "gui/jmdict/JMdictPreferences.h"
 #include "gui/jmdict/JMdictGUIPlugin.h"
 
 JMdictPreferences::JMdictPreferences(QWidget *parent) : PreferencesWindowCategory(tr("Vocabulary entries"), parent)
 {
 	setupUi(this);
-
-	// Initialize the definitions list
-	for (int i = 0; !JMdictMiscEntitiesLongDesc[i].isEmpty(); i++) {
-		QString s(JMdictMiscEntitiesLongDesc[i]);
-		s[0] = s[0].toUpper();
-		displayedDefs->addItem(s);
-	}
 
 	connect(filterButton, SIGNAL(clicked()), this, SLOT(onFilterButtonClicked()));
 	connect(unFilterButton, SIGNAL(clicked()), this, SLOT(onUnFilterButtonClicked()));
@@ -37,25 +31,40 @@ JMdictPreferences::JMdictPreferences(QWidget *parent) : PreferencesWindowCategor
 void JMdictPreferences::onFilterButtonClicked()
 {
 	foreach (QListWidgetItem *item, displayedDefs->selectedItems()) {
-		QString s(item->text());
+		filteredDefs->addItem(item->text());
 		delete item;
-		filteredDefs->addItem(s);
 	}
 }
 
 void JMdictPreferences::onUnFilterButtonClicked()
 {
 	foreach (QListWidgetItem *item, filteredDefs->selectedItems()) {
-		QString s(item->text());
+		displayedDefs->addItem(item->text());
 		delete item;
-		displayedDefs->addItem(s);
 	}
 }
 
 void JMdictPreferences::refresh()
 {
+	filteredDefs->clear();
+	displayedDefs->clear();
+	const QStringList &filtered(JMdictEntrySearcher::miscPropertiesFilter.value());
+	for (int i = 0; !JMdictMiscEntitiesLongDesc[i].isEmpty(); i++) {
+		QString s(JMdictMiscEntitiesLongDesc[i]);
+		s[0] = s[0].toUpper();
+		if (filtered.contains(JMdictMiscEntitiesShortDesc[i])) filteredDefs->addItem(s);
+		else displayedDefs->addItem(s);
+	}
 }
 
 void JMdictPreferences::applySettings()
 {
+	QStringList filtered, res;
+	for (int i = 0; i < filteredDefs->model()->rowCount(); i++) filtered << filteredDefs->item(i)->text();
+	for (int i = 0; JMdictMiscEntitiesLongDesc[i] != ""; i++) {
+		QString s(JMdictMiscEntitiesLongDesc[i]);
+		s[0] = s[0].toUpper();
+		if (filtered.contains(s)) res << JMdictMiscEntitiesShortDesc[i];
+	}
+	JMdictEntrySearcher::miscPropertiesFilter.set(res);
 }
