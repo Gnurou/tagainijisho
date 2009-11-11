@@ -52,6 +52,7 @@ void EntryMenu::populateToolBar(QToolBar *bar)
 	bar->addAction(&alreadyKnownAction);
 	bar->addAction(&resetTrainingAction);
 	bar->addAction(&markAsMistakenAction);
+	bar->addSeparator();
 	bar->addAction(&setTagsAction);
 	bar->addAction(&addTagsAction);
 //	bar->addMenu(&lastTagsMenu);
