@@ -59,7 +59,7 @@ JMdictEntrySearcher::JMdictEntrySearcher(QObject *parent) : EntrySearcher(parent
 	QueryBuilder::Order::orderingWay["freq"] = QueryBuilder::Order::DESC;
 
 	// Register text search commands
-	validCommands << "mean" << "kana" << "kanji" << "jmdict" << "haskanji" << "jlpt" << "withstudiedkanjis";
+	validCommands << "mean" << "kana" << "kanji" << "jmdict" << "haskanji" << "jlpt" << "withstudiedkanjis" << "hascomponent";
 	// Also register commands that are sense properties
 	for (int i = 0; i < JMdictNbSenseTags; i++) validCommands << JMdictSenseTagsList[i];
 
@@ -121,6 +121,7 @@ void JMdictEntrySearcher::buildStatement(QList<SearchCommand> &commands, QueryBu
 	QStringList kanaReadingsMatch;
 	QStringList transReadingsMatch;
 	QStringList hasKanjiSearch;
+	QStringList hasComponentSearch;
 	QVector<quint64> senseFilters(JMdictNbSenseTags);
 	foreach(const SearchCommand &command, commands) {
 		const QString &commandLabel = command.command();
@@ -176,13 +177,30 @@ void JMdictEntrySearcher::buildStatement(QList<SearchCommand> &commands, QueryBu
 			if (command.args().size() == 0) continue;
 			bool valid = true;
 			foreach (const QString &arg, command.args()) {
-				if (arg.size() != 1 || !TextTools::isKanjiChar(arg[0])) {
+				if (arg.size() != 1 || !TextTools::isKanjiChar(arg)) {
 					valid = false;
 					break;
 				}
 				else {
-					QString kNumber = QString::number(arg[0].unicode());
+					QString kNumber = QString::number(TextTools::singleCharToUnicode(arg));
 					if (!hasKanjiSearch.contains(kNumber)) hasKanjiSearch << kNumber;
+				}
+			}
+			// Break command if one of the arguments were invalid
+			if (!valid) continue;
+			commands.removeOne(command);
+		}
+		else if (commandLabel == "hascomponent") {
+			if (command.args().size() == 0) continue;
+			bool valid = true;
+			foreach (const QString &arg, command.args()) {
+				if (arg.size() != 1 || !TextTools::isKanjiChar(arg)) {
+					valid = false;
+					break;
+				}
+				else {
+					QString kNumber = QString::number(TextTools::singleCharToUnicode(arg));
+					if (!hasComponentSearch.contains(kNumber)) hasComponentSearch << kNumber;
 				}
 			}
 			// Break command if one of the arguments were invalid
@@ -270,6 +288,11 @@ void JMdictEntrySearcher::buildStatement(QList<SearchCommand> &commands, QueryBu
 	if (!hasKanjiSearch.isEmpty()) {
 		statement.addJoin(QueryBuilder::Column("jmdict.entries", "id"));
 		statement.addWhere(QString("{{leftcolumn}} in (select jmdict.kanjiChar.id from jmdict.kanjiChar where jmdict.kanjiChar.kanji in (%1) group by jmdict.kanjiChar.id, jmdict.kanjiChar.priority having count(jmdict.kanjiChar.kanji) = %2)").arg(hasKanjiSearch.join(", ")).arg(hasKanjiSearch.size()));
+	}
+
+	if (!hasComponentSearch.isEmpty()) {
+		statement.addJoin(QueryBuilder::Column("jmdict.entries", "id"));
+		statement.addWhere(QString("{{leftcolumn}} in (select distinct jmdict.kanjiChar.id from jmdict.kanjiChar join kanjidic2.strokeGroups on jmdict.kanjiChar.kanji = kanjidic2.strokeGroups.kanji where kanjidic2.strokeGroups.element in (%1) or kanjidic2.strokeGroups.original in (%1) group by jmdict.kanjiChar.id, jmdict.kanjiChar.priority HAVING UNIQUECOUNT(CASE WHEN kanjidic2.strokeGroups.element IN (%1) THEN kanjidic2.strokeGroups.element ELSE NULL END, CASE WHEN kanjidic2.strokeGroups.original IN (%1) THEN kanjidic2.strokeGroups.original ELSE NULL END) >= %2)").arg(hasComponentSearch.join(", ")).arg(hasComponentSearch.size()));
 	}
 }
 

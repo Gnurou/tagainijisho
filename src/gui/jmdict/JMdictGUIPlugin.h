@@ -76,6 +76,7 @@ class JMdictOptionsWidget : public SearchBarExtender
 	Q_OBJECT
 private:
 	QLineEdit *_containedKanjis;
+	QLineEdit *_containedComponents;
 	QCheckBox *_studiedKanjisCheckBox;
 
 	QPushButton *_posButton;
@@ -104,6 +105,10 @@ public:
 	QString containedKanjis() const { return _containedKanjis->text(); }
 	void setContainedKanjis(const QString &kanjis) { _containedKanjis->setText(kanjis); }
 	Q_PROPERTY(QString containedKanjis READ containedKanjis WRITE setContainedKanjis)
+
+	 QString containedComponents() const { return _containedComponents->text(); }
+	 void setContainedComponents(const QString &components) { _containedComponents->setText(components); }
+	 Q_PROPERTY(QString containedComponents READ containedComponents WRITE setContainedComponents)
 
 	bool studiedKanjisOnly() const { return _studiedKanjisCheckBox->isChecked(); }
 	void setStudiedKanjisOnly(bool value) { _studiedKanjisCheckBox->setChecked(value); }

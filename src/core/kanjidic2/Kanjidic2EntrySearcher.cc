@@ -113,11 +113,11 @@ void Kanjidic2EntrySearcher::buildStatement(QList<SearchCommand> &commands, Quer
 			if (command.args().size() > 0) {
 				bool valid = true;
 				foreach (const QString &arg, command.args()) {
-					if (arg.size() != 1 || !TextTools::isKanjiChar(arg[0])) {
+					if (arg.size() != 1 || !TextTools::isKanjiChar(arg)) {
 						valid = false;
 						break;
 					}
-					else componentSearch << QString::number(arg[0].unicode());
+					else componentSearch << QString::number(TextTools::singleCharToUnicode(arg));
 				}
 				// Break command if one of the arguments were invalid
 				if (!valid) continue;

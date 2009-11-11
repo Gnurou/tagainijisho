@@ -239,24 +239,31 @@ QString JMdictGUIPlugin::pluginInfo() const
 
 JMdictOptionsWidget::JMdictOptionsWidget(QWidget *parent) : SearchBarExtender(parent, "wordsdic")
 {
-	_propsToSave << "containedKanjis" << "studiedKanjisOnly" << "pos" << "dial" << "field" << "misc";
-	QGroupBox *_groupBox = new QGroupBox(tr("Vocabulary"));
-	QVBoxLayout *vLayout = new QVBoxLayout(_groupBox);
+	_propsToSave << "containedKanjis" << "containedComponents" << "studiedKanjisOnly" << "pos" << "dial" << "field" << "misc";
+	QVBoxLayout *mainLayout = new QVBoxLayout(this);
 	{
 		QHBoxLayout *hLayout = new QHBoxLayout();
-		hLayout->addWidget(new QLabel(tr("With kanjis:"), this));
 		_containedKanjis = new QLineEdit(this);
-		KanjiValidator *kanjiValidator = new KanjiValidator(_containedKanjis);
+		KanjiValidator *kanjiValidator = new KanjiValidator(this);
 		_containedKanjis->setValidator(kanjiValidator);
+		_containedComponents = new QLineEdit(this);
+		_containedComponents->setValidator(kanjiValidator);
 
 		_studiedKanjisCheckBox = new QCheckBox(tr("Using studied kanjis only"));
+		hLayout->addWidget(new QLabel(tr("With kanjis:"), this));
 		hLayout->addWidget(_containedKanjis);
 		hLayout->addWidget(_studiedKanjisCheckBox);
+		mainLayout->addLayout(hLayout);
+
+		hLayout = new QHBoxLayout();
+		hLayout->addWidget(new QLabel(tr("With components:"), this));
+		hLayout->addWidget(_containedComponents);
+		mainLayout->addLayout(hLayout);
 
 		connect(_containedKanjis, SIGNAL(textChanged(const QString &)), this, SLOT(commandUpdate()));
+		connect(_containedComponents, SIGNAL(textChanged(const QString &)), this, SLOT(commandUpdate()));
 		connect(_studiedKanjisCheckBox, SIGNAL(toggled(bool)), this, SLOT(commandUpdate()));
 
-		vLayout->addLayout(hLayout);
 	}
 	{
 		QHBoxLayout *hLayout = new QHBoxLayout();
@@ -288,10 +295,8 @@ JMdictOptionsWidget::JMdictOptionsWidget(QWidget *parent) : SearchBarExtender(pa
 		updateMiscFilteredProperties();
 		connect(&JMdictEntrySearcher::miscPropertiesFilter, SIGNAL(valueChanged(QVariant)), this, SLOT(updateMiscFilteredProperties()));
 
-		vLayout->addLayout(hLayout);
+		mainLayout->addLayout(hLayout);
 	}
-	QVBoxLayout *mainLayout = new QVBoxLayout(this);
-	mainLayout->addWidget(_groupBox);
 	mainLayout->setContentsMargins(0, 0, 0, 0);
 }
 
@@ -309,6 +314,16 @@ QString JMdictOptionsWidget::currentCommand() const
 		}
 	}
 	if (_studiedKanjisCheckBox->isChecked()) ret += " :withstudiedkanjis";
+	kanjis = _containedComponents->text();
+	if (!kanjis.isEmpty()) {
+		bool first = true;
+		ret += " :hascomponent=";
+		foreach(QChar c, kanjis) {
+			if (!first) ret +=",";
+			else first = false;
+			ret += QString("\"%1\"").arg(c);
+		}
+	}
 	if (!_posList.isEmpty()) ret += " :pos=" + _posList.join(",");
 	if (!_dialList.isEmpty()) ret += " :dial=" + _dialList.join(",");
 	if (!_fieldList.isEmpty()) ret += " :field=" + _fieldList.join(",");
@@ -332,6 +347,16 @@ QString JMdictOptionsWidget::currentTitle() const
 	if (_studiedKanjisCheckBox->isChecked()) {
 		if (!kanjis.isEmpty()) contains += tr(", studied kanjis only");
 		else contains += tr(" with studied kanjis");
+	}
+	kanjis = _containedComponents->text();
+	if (!kanjis.isEmpty()) {
+		bool first = true;
+		contains += tr(" with component ");
+		foreach(QChar c, kanjis) {
+			if (!first) contains +=",";
+			else first = false;
+			contains += c;
+		}
 	}
 
 	QStringList propsList = _posList + _dialList + _fieldList + _miscList;
@@ -407,6 +432,7 @@ void JMdictOptionsWidget::onMiscTriggered(QAction *action)
 void JMdictOptionsWidget::_reset()
 {
 	_containedKanjis->clear();
+	_containedComponents->clear();
 	_studiedKanjisCheckBox->setChecked(false);
 	foreach (QAction *action, _posButton->menu()->actions()) if (action->isChecked()) action->trigger();
 	_posList.clear();
@@ -420,7 +446,7 @@ void JMdictOptionsWidget::_reset()
 
 void JMdictOptionsWidget::updateFeatures()
 {
-	if (!_containedKanjis->text().isEmpty() || _studiedKanjisCheckBox->isChecked() || !_posList.isEmpty() || !_dialList.isEmpty() || !_fieldList.isEmpty() || !_miscList.isEmpty()) emit disableFeature("kanjidic");
+	if (!_containedKanjis->text().isEmpty() || !_containedComponents->text().isEmpty() || _studiedKanjisCheckBox->isChecked() || !_posList.isEmpty() || !_dialList.isEmpty() || !_fieldList.isEmpty() || !_miscList.isEmpty()) emit disableFeature("kanjidic");
 	else emit enableFeature("kanjidic");
 }
 

@@ -9,6 +9,7 @@
   (e.g. do not display archaic or vulgar expressions, etc)
 * Kanjis components now accurately reflected in the stroke animations
 * Search is now hiragana/katakana insensitive
+* Possibility to search words from the kanji components visible in them
 * Now possible to perform training on a given set
 * Reading trainer now hiragana/katakana insensitive and accepts alternate
   readings
