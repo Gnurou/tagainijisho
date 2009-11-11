@@ -104,18 +104,24 @@ void migrateOldData()
 
 void checkConfigurationVersion()
 {
+	// Are we running the program for the first time or updating from a previous version?
 	if (configVersion.value() >= CONFIG_VERSION) return;
 
 	QSettings settings;
-	switch (configVersion.value()) {
-	case 0:
-		settings.remove("userProfile");
-		settings.remove("kanjidic/delayBetweenStrokes");
-		settings.remove("kanjidic/animationSpeed");
-		break;
-	default:
-		break;
+	// If there is no key, then we are running the program for the first time and do not need to update.
+	if (!settings.allKeys().isEmpty()) {
+		switch (configVersion.value()) {
+		case 0:
+			settings.remove("userProfile");
+			settings.remove("kanjidic/delayBetweenStrokes");
+			settings.remove("kanjidic/animationSpeed");
+			break;
+		default:
+			// If we arrive here, this means we are running an older version - do nothing in that case
+			break;
+		}
 	}
+	// Finally, update the configuration version
 	configVersion.setValue(CONFIG_VERSION);
 }
 
