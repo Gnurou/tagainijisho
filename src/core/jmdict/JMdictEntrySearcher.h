@@ -30,6 +30,7 @@ class JMdictEntrySearcher : public EntrySearcher
 	Q_OBJECT
 private:
 	static JMdictMiscTagType _miscFilterMask;
+	static JMdictMiscTagType _explicitlyRequestedMiscs;
 
 protected:
 	QSqlQuery kanjiQuery, kanaQuery, sensesQuery, glossQuery, jlptQuery, stagKQuery, stagRQuery;
@@ -43,6 +44,7 @@ protected slots:
 
 public:
 	static JMdictMiscTagType miscFilterMask() { return _miscFilterMask; }
+	static JMdictMiscTagType explicitlyRequestedMiscs() { return _explicitlyRequestedMiscs; }
 
 	JMdictEntrySearcher(QObject *parent = 0);
 	virtual ~JMdictEntrySearcher() {}

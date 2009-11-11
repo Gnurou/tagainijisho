@@ -23,7 +23,8 @@
 QVector<QMap<QString, quint64> > JMdictEntrySearcher::JMdictReversedSenseTags;
 
 PreferenceItem<QStringList> JMdictEntrySearcher::miscPropertiesFilter("jmdict", "miscPropertiesFilter", QStringList());
-JMdictMiscTagType JMdictEntrySearcher::_miscFilterMask;
+JMdictMiscTagType JMdictEntrySearcher::_miscFilterMask = 0;
+JMdictMiscTagType JMdictEntrySearcher::_explicitlyRequestedMiscs = 0;
 
 void JMdictEntrySearcher::buildJMdictReversedSenseTags()
 {
@@ -247,8 +248,9 @@ void JMdictEntrySearcher::buildStatement(QList<SearchCommand> &commands, QueryBu
 
 	// Add where statements for sense filters
 	// Cancel misc filters that have explicitly been required
+	_explicitlyRequestedMiscs = senseFilters[JMdictMiscIndex];
 	JMdictMiscTagType _miscFilterMask = miscFilterMask();
-	_miscFilterMask &= ~senseFilters[JMdictMiscIndex];
+	_miscFilterMask &= ~_explicitlyRequestedMiscs;
 
 
 	bool mustJoinSenses = false;
