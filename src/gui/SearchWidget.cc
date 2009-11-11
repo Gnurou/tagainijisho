@@ -91,7 +91,7 @@ SearchWidget::SearchWidget(QWidget *parent) : QWidget(parent), _history(historyS
 	connect(showAllResultsButton, SIGNAL(clicked()), this, SLOT(scheduleShowAllResults()));
 
 	// Start of search
-	connect(_searchBar, SIGNAL(startSearch(const QString &)), this, SLOT(search()));
+	connect(_searchBar, SIGNAL(startSearch(const QString &)), this, SLOT(search(const QString &)));
 
 	// Now on to the query/result logic
 	// Results emitted by a query are sent to the results list
@@ -125,19 +125,17 @@ void SearchWidget::display(const QItemSelection &selected, const QItemSelection 
 	_detailedView->detailedView()->display(entry);
 }
 
-void SearchWidget::search()
+void SearchWidget::search(const QString &commands)
 {
-	QString text = _searchBar->text();
-	if (!(text.isEmpty() || text == ":jmdict" || text == ":kanjidic")) _history.add(_searchBar->getState());
-	_search();
+	if (!(commands.isEmpty() || commands == ":jmdict" || commands == ":kanjidic")) _history.add(_searchBar->getState());
+	_search(commands);
 }
 
-void SearchWidget::_search()
+void SearchWidget::_search(const QString &commands)
 {
 	_results->clear();
-	QString searchText = _searchBar->text();
 
-	if (searchText.isEmpty() || searchText == ":jmdict" || searchText == ":kanjidic") {
+	if (commands.isEmpty() || commands == ":jmdict" || commands == ":kanjidic") {
 		_queryBuilder.clear();
 		_searchBar->searchCompleted();
 		totalResults = -1;
@@ -157,7 +155,7 @@ void SearchWidget::_search()
 	nextButton->setEnabled(_history.hasNext());
 
 	// If we cannot build a valid query, no need to continue
-	if (!EntrySearcherManager::instance().buildQuery(searchText, _queryBuilder)) {
+	if (!EntrySearcherManager::instance().buildQuery(commands, _queryBuilder)) {
 		_searchBar->searchCompleted();
 		return;
 	}
@@ -282,7 +280,7 @@ void SearchWidget::goPrev()
 	bool ok = _history.previous(q);
 	if (ok) {
 		_searchBar->restoreState(q);
-		_search();
+		_search(_searchBar->text());
 	}
 }
 
@@ -292,7 +290,7 @@ void SearchWidget::goNext()
 	bool ok = _history.next(q);
 	if (ok) {
 		_searchBar->restoreState(q);
-		_search();
+		_search(_searchBar->text());
 	}
 }
 

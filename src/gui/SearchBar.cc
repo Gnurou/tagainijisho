@@ -845,7 +845,6 @@ void SearchBar::searchButtonClicked()
 		_searchField->insertItem(0, _searchField->lineEdit()->text());
 		_searchField->setCurrentIndex(0);
 	}
-	QString searchText = text();
 	emit startSearch(text());
 	//stealFocus();
 }

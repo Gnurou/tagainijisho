@@ -85,7 +85,7 @@ private:
 	/**
 	 * Run the search without touching the history.
 	 */
-	void _search();
+	void _search(const QString &commands);
 
 public:
 	SearchWidget(QWidget *parent = 0);
@@ -115,7 +115,7 @@ protected slots:
 	/// total number of results
 	void updateNbResultsDisplay();
 	/// Start a search with the content of the search field
-	void search();
+	void search(const QString &commands);
 	/// Display the latest selected result in the detailed view
 	void display(const QItemSelection &selected, const QItemSelection &deselected);
 
