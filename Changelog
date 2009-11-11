@@ -5,6 +5,8 @@
 * Now directly using KanjiVG data
 * Fixed a bug which caused Mac OS users who upgraded to OSX 10.6 to be
   unable to run the application
+* Possibility to filter vocabulary entries according to their properties
+  (e.g. do not display archaic or vulgar expressions, etc)
 * Kanjis components now accurately reflected in the stroke animations
 * Search is now hiragana/katakana insensitive
 * Now possible to perform training on a given set
