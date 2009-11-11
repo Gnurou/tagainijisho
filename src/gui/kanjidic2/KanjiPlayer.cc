@@ -69,7 +69,7 @@ KanjiPlayer::KanjiPlayer(int size, QWidget *parent) : QWidget(parent), _timer(),
 
 	setPictureSize(size);
 
-	_timer.setInterval(20);
+	_timer.setInterval(TIMER_INTERVAL);
 	connect(&_timer, SIGNAL(timeout()), this, SLOT(updateAnimation()));
 }
 
