@@ -191,8 +191,6 @@ ResultsViewPreferences::ResultsViewPreferences(QWidget *parent) : PreferencesWin
 {
 	setupUi(this);
 
-	connect(nbResultsDefault, SIGNAL(toggled(bool)), this, SLOT(onResultsDefaultToggled(bool)));
-
 	_list = new ResultsList(this);
 	_view = new ResultsView(true, this);
 	_view->setModel(_list);
@@ -231,8 +229,6 @@ ResultsViewPreferences::ResultsViewPreferences(QWidget *parent) : PreferencesWin
 void ResultsViewPreferences::refresh()
 {
 	nbResults->setValue(SearchWidget::resultsPerPagePref.value());
-	nbResultsDefault->setChecked(SearchWidget::resultsPerPagePref.isDefault());
-	onResultsDefaultToggled(nbResultsDefault->isChecked());
 
 	resultsOrder->setCurrentIndex(EntrySearcherManager::studiedEntriesFirst.value());
 	if (ResultsView::displayMode.value() == ResultsViewFonts::OneLine) oneLine->click();
@@ -248,16 +244,9 @@ void ResultsViewPreferences::refresh()
 	romajifontChooser->setFont(ResultsViewFonts::font(ResultsViewFonts::DefaultText));
 }
 
-void ResultsViewPreferences::onResultsDefaultToggled(bool status)
-{
-	if (status) nbResults->setValue(SearchWidget::resultsPerPagePref.defaultValue());
-	nbResults->setEnabled(!status);
-}
-
 void ResultsViewPreferences::applySettings()
 {
-	if (nbResultsDefault->isChecked()) SearchWidget::resultsPerPagePref.reset();
-	else SearchWidget::resultsPerPagePref.set(nbResults->value());
+	SearchWidget::resultsPerPagePref.set(nbResults->value());
 	MainWindow::instance()->searchWidget()->setResultsPerPage(SearchWidget::resultsPerPagePref.value());
 
 	ResultsView::smoothScrolling.set(smoothScrolling->isChecked());

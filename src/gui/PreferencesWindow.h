@@ -132,7 +132,6 @@ public slots:
 	void applySettings();
 	void refresh();
 	void updateUI();
-	void onResultsDefaultToggled(bool status);
 
 public:
 	ResultsViewPreferences(QWidget *parent = 0);
