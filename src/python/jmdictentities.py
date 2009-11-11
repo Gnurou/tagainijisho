@@ -100,6 +100,13 @@ def produceEntitiesCFile(entitiesCoding, hFile, cFile):
 		hFile.write("#define JMdict%sTagType %s\n" % (tag.capitalize(), CTypeForCodingSize(entitiesCoding.tagsCodingSize[tag])))
 	hFile.write("\n")
 
+	hFile.write("// Index for the different properties\n")
+	i = 0
+	for tag in validEntities:
+		hFile.write("#define JMdict%sIndex %d\n" % (tag.capitalize(), i))
+		i += 1
+	hFile.write("\n")
+
 	hFile.write("extern const QString JMdictSenseTagsList[];\n")
 	cFile.write("const QString JMdictSenseTagsList[] = {\n")
 	nbTags = 0

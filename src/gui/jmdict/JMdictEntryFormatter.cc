@@ -227,7 +227,7 @@ void JMdictEntryFormatter::writeTranslation(const JMdictEntry *entry, QTextCurso
 {
 	const QList<KanjiReading> &kanjis = entry->getKanjiReadings();
 	const QList<KanaReading> &kanas = entry->getKanaReadings();
-	const QList<Sense> &senses = entry->getSenses();
+	const QList<const Sense *> senses = entry->getSenses();
 
 	Q_ASSERT(senses.size() >= 1);
 	QTextCharFormat normal(DetailedViewFonts::charFormat(DetailedViewFonts::DefaultText));
@@ -238,20 +238,20 @@ void JMdictEntryFormatter::writeTranslation(const JMdictEntry *entry, QTextCurso
 	quint16 oldField = 0;
 	QStringList oldWritingString;
 
-	foreach (const Sense &sense, senses) {
+	foreach (const Sense *sense, senses) {
 		// Shall we output the part of speech?
-		if (oldPos != sense.partOfSpeech() || oldMisc != sense.misc() ||
-			oldDialect != sense.dialect() || oldField != sense.field()) {
-			writeSensePos(sense, cursor);
-			oldPos = sense.partOfSpeech();
-			oldMisc = sense.misc();
-			oldDialect = sense.dialect();
-			oldField = sense.field();
+		if (oldPos != sense->partOfSpeech() || oldMisc != sense->misc() ||
+			oldDialect != sense->dialect() || oldField != sense->field()) {
+			writeSensePos(*sense, cursor);
+			oldPos = sense->partOfSpeech();
+			oldMisc = sense->misc();
+			oldDialect = sense->dialect();
+			oldField = sense->field();
 		}
 
 		// Write the entry
 		cursor.insertBlock(QTextBlockFormat());
-		QMap<QString, Gloss> glosses = sense.getGlosses();
+		QMap<QString, Gloss> glosses = sense->getGlosses();
 		QStringList keys;
 		// TODO separate different languages with new block
 		foreach (const QString &glossKey, glosses.keys()) {
@@ -264,7 +264,7 @@ void JMdictEntryFormatter::writeTranslation(const JMdictEntry *entry, QTextCurso
 
 		QStringList senseHeaders;
 		// Check if the writing is restricted
-		if (!sense.stagK().isEmpty()) foreach (int idx, sense.stagK()) {
+		if (!sense->stagK().isEmpty()) foreach (int idx, sense->stagK()) {
 			const KanjiReading &kReading = kanjis[idx];
 			QString str(kReading.getReading());
 			const QList<qint32> &kList = kReading.getKanaReadings();
@@ -275,7 +275,7 @@ void JMdictEntryFormatter::writeTranslation(const JMdictEntry *entry, QTextCurso
 			}
 			senseHeaders << str;
 		}
-		if (!sense.stagR().isEmpty()) foreach (int idx, sense.stagR()) {
+		if (!sense->stagR().isEmpty()) foreach (int idx, sense->stagR()) {
 			const KanaReading &kReading = kanas[idx];
 			senseHeaders << kReading.getReading();
 		}
@@ -296,7 +296,7 @@ void JMdictEntryFormatter::writeTranslation(const JMdictEntry *entry, QTextCurso
 
 void JMdictEntryFormatter::writeEntryInfo(const JMdictEntry *entry, QTextCursor &cursor, DetailedView *view) const
 {
-	const QList<Sense> &senses = entry->getSenses();
+	const QList<const Sense *> senses = entry->getSenses();
 
 	QTextCharFormat normal(DetailedViewFonts::charFormat(DetailedViewFonts::DefaultText));
 	QTextCharFormat bold(normal);
@@ -317,12 +317,12 @@ void JMdictEntryFormatter::writeEntryInfo(const JMdictEntry *entry, QTextCursor 
 	if (hasVi && !hasVt) view->addBackgroundJob(new FindVerbBuddyJob(this, JMdict_POS_vt, cursor));
 	if (hasVt && !hasVi) view->addBackgroundJob(new FindVerbBuddyJob(this, JMdict_POS_vi, cursor));*/
 
-	foreach (const Sense &sense, senses) {
-		if (sense.partOfSpeech() & JMdict_POS_vi && searchVt) {
+	foreach (const Sense *sense, senses) {
+		if (sense->partOfSpeech() & JMdict_POS_vi && searchVt) {
 			view->addBackgroundJob(new FindVerbBuddyJob(entry, JMdict_POS_vt, cursor));
 			searchVt = false;
 		}
-		if (sense.partOfSpeech() & JMdict_POS_vt && searchVi) {
+		if (sense->partOfSpeech() & JMdict_POS_vt && searchVi) {
 			view->addBackgroundJob(new FindVerbBuddyJob(entry, JMdict_POS_vi, cursor));
 			searchVi = false;
 		}
@@ -403,11 +403,11 @@ void JMdictEntryFormatter::draw(const Entry *_entry, QPainter &painter, const QR
 	}
 	int nbDefs = maxDefinitionsToPrint.value();
 	// Now print definitions.
-	foreach (const Sense &sense, entry->getSenses()) {
-		QList<int> pos = sense.partsOfSpeech();
-		QList<int> misc = sense.miscs();
-		QList<int> dialect = sense.dialects();
-		QList<int> field = sense.fields();
+	foreach (const Sense *sense, entry->getSenses()) {
+		QList<int> pos = sense->partsOfSpeech();
+		QList<int> misc = sense->miscs();
+		QList<int> dialect = sense->dialects();
+		QList<int> field = sense->fields();
 
 		QStringList posList;
 		foreach (int i, pos) { posList << JMdictPosEntitiesShortDesc[i]; }
@@ -417,7 +417,7 @@ void JMdictEntryFormatter::draw(const Entry *_entry, QPainter &painter, const QR
 
 		QString posText;
 		if (!posList.isEmpty()) posText = QString(" (") + posList.join(",") + ") ";
-		QString s(sense.senseText());
+		QString s(sense->senseText());
 		if (!s.isEmpty()) s[0] = s[0].toUpper();
 		s = " " + posText + s;
 		textBB = painter.boundingRect(rightArea, Qt::AlignLeft | Qt::TextWordWrap, s);

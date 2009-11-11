@@ -24,6 +24,10 @@
 class JMdictPreferences : public PreferencesWindowCategory, private Ui::JMdictPreferences
 {
 	Q_OBJECT
+protected slots:
+	void onFilterButtonClicked();
+	void onUnFilterButtonClicked();
+
 public slots:
 	void applySettings();
 	void refresh();

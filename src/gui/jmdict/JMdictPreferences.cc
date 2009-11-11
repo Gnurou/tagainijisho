@@ -15,18 +15,56 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "core/jmdict/JMdictDefs.h"
+#include "core/jmdict/JMdictEntrySearcher.h"
 #include "gui/jmdict/JMdictPreferences.h"
 #include "gui/jmdict/JMdictGUIPlugin.h"
 
 JMdictPreferences::JMdictPreferences(QWidget *parent) : PreferencesWindowCategory(tr("Vocabulary entries"), parent)
 {
 	setupUi(this);
+
+	connect(filterButton, SIGNAL(clicked()), this, SLOT(onFilterButtonClicked()));
+	connect(unFilterButton, SIGNAL(clicked()), this, SLOT(onUnFilterButtonClicked()));
+}
+
+void JMdictPreferences::onFilterButtonClicked()
+{
+	foreach (QListWidgetItem *item, displayedDefs->selectedItems()) {
+		filteredDefs->addItem(item->text());
+		delete item;
+	}
+}
+
+void JMdictPreferences::onUnFilterButtonClicked()
+{
+	foreach (QListWidgetItem *item, filteredDefs->selectedItems()) {
+		displayedDefs->addItem(item->text());
+		delete item;
+	}
 }
 
 void JMdictPreferences::refresh()
 {
+	filteredDefs->clear();
+	displayedDefs->clear();
+	const QStringList &filtered(JMdictEntrySearcher::miscPropertiesFilter.value());
+	for (int i = 0; !JMdictMiscEntitiesLongDesc[i].isEmpty(); i++) {
+		QString s(JMdictMiscEntitiesLongDesc[i]);
+		s[0] = s[0].toUpper();
+		if (filtered.contains(JMdictMiscEntitiesShortDesc[i])) filteredDefs->addItem(s);
+		else displayedDefs->addItem(s);
+	}
 }
 
 void JMdictPreferences::applySettings()
 {
+	QStringList filtered, res;
+	for (int i = 0; i < filteredDefs->model()->rowCount(); i++) filtered << filteredDefs->item(i)->text();
+	for (int i = 0; JMdictMiscEntitiesLongDesc[i] != ""; i++) {
+		QString s(JMdictMiscEntitiesLongDesc[i]);
+		s[0] = s[0].toUpper();
+		if (filtered.contains(s)) res << JMdictMiscEntitiesShortDesc[i];
+	}
+	JMdictEntrySearcher::miscPropertiesFilter.set(res);
 }

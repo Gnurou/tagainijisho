@@ -28,6 +28,10 @@
 class JMdictEntrySearcher : public EntrySearcher
 {
 	Q_OBJECT
+private:
+	static JMdictMiscTagType _miscFilterMask;
+	static JMdictMiscTagType _explicitlyRequestedMiscs;
+
 protected:
 	QSqlQuery kanjiQuery, kanaQuery, sensesQuery, glossQuery, jlptQuery, stagKQuery, stagRQuery;
 
@@ -35,7 +39,13 @@ protected:
 	static QVector<QMap<QString, quint64> > JMdictReversedSenseTags;
 	static void buildJMdictReversedSenseTags();
 
+protected slots:
+	void updateMiscFilterMask();
+
 public:
+	static JMdictMiscTagType miscFilterMask() { return _miscFilterMask; }
+	static JMdictMiscTagType explicitlyRequestedMiscs() { return _explicitlyRequestedMiscs; }
+
 	JMdictEntrySearcher(QObject *parent = 0);
 	virtual ~JMdictEntrySearcher() {}
 
@@ -48,6 +58,8 @@ public:
 	virtual QueryBuilder::Column canSort(const QString &sort, const QueryBuilder::Statement &statement);
 
 	virtual Entry *loadEntry(int id);
+
+	static PreferenceItem<QStringList> miscPropertiesFilter;
 };
 
 #endif

@@ -22,6 +22,10 @@
 
 QVector<QMap<QString, quint64> > JMdictEntrySearcher::JMdictReversedSenseTags;
 
+PreferenceItem<QStringList> JMdictEntrySearcher::miscPropertiesFilter("jmdict", "miscPropertiesFilter", QStringList());
+JMdictMiscTagType JMdictEntrySearcher::_miscFilterMask = 0;
+JMdictMiscTagType JMdictEntrySearcher::_explicitlyRequestedMiscs = 0;
+
 void JMdictEntrySearcher::buildJMdictReversedSenseTags()
 {
 	JMdictReversedSenseTags.resize(JMdictNbSenseTags);
@@ -35,7 +39,11 @@ void JMdictEntrySearcher::buildJMdictReversedSenseTags()
 JMdictEntrySearcher::JMdictEntrySearcher(QObject *parent) : EntrySearcher(parent)
 {
 	// First check if the entities lookup table should be built
-	if (JMdictReversedSenseTags.isEmpty()) buildJMdictReversedSenseTags();
+	if (JMdictReversedSenseTags.isEmpty()) {
+		buildJMdictReversedSenseTags();
+		updateMiscFilterMask();
+		connect(&JMdictEntrySearcher::miscPropertiesFilter, SIGNAL(valueChanged(QVariant)), this, SLOT(updateMiscFilterMask()));
+	}
 
 	QueryBuilder::Join::addTablePriority("jmdict.entries", 50);
 	QueryBuilder::Join::addTablePriority("jmdict.kanjiChar", 45);
@@ -78,7 +86,7 @@ SearchCommand JMdictEntrySearcher::commandFromWord(const QString &word) const
 	if (checkString.size() == 0) return SearchCommand::fromString(QString(":mean=\"%1\"").arg(word));
 	// Else check if the string is pure kana
 	else if (TextTools::isKana(checkString)) return SearchCommand::fromString(QString(":kana=\"%1\"").arg(word));
-	// Otherwise check if it is kanji or kanji/kana mixed Japanes
+	// Otherwise check if it is kanji or kanji/kana mixed Japanese
 	else if (TextTools::isJapanese(checkString)) return SearchCommand::fromString(QString(":kanji=\"%1\"").arg(word));
 	// Then we are probably looking for a translation
 	else return SearchCommand::fromString(QString(":mean=\"%1\"").arg(word));
@@ -239,23 +247,36 @@ void JMdictEntrySearcher::buildStatement(QList<SearchCommand> &commands, QueryBu
 	if (!transReadingsMatch.isEmpty()) statement.addWhere(ftsString.arg("jmdict.gloss").arg(transReadingsMatch.join(" ")));
 
 	// Add where statements for sense filters
-	bool sensesTableJoined = false;
-	for (int i = 0; i < JMdictNbSenseTags; i++) {
-		if (senseFilters[i] != 0) {
-			// Join the senses table if not already done
-			if (!sensesTableJoined) {
-				statement.addJoin(QueryBuilder::Join(QueryBuilder::Column("jmdict.senses", "id")));
-				sensesTableJoined = true;
-			}
+	// Cancel misc filters that have explicitly been required
+	_explicitlyRequestedMiscs = senseFilters[JMdictMiscIndex];
+	JMdictMiscTagType _miscFilterMask = miscFilterMask();
+	_miscFilterMask &= ~_explicitlyRequestedMiscs;
+
+
+	bool mustJoinSenses = false;
+	if (_miscFilterMask != 0) mustJoinSenses = true;
+	else for (int i = 0; i < JMdictNbSenseTags; i++) if (senseFilters[i] != 0) mustJoinSenses = true;
+	if (mustJoinSenses) {
+		statement.addJoin(QueryBuilder::Join(QueryBuilder::Column("jmdict.senses", "id")));
+		for (int i = 0; i < JMdictNbSenseTags; i++) if (senseFilters[i] != 0) {
 			// If we remove the right part of the == in that condition, it becomes an "OR"
 			// instead of an "AND"
 			statement.addWhere(QString("jmdict.senses.%1 & %2 == %2").arg(JMdictSenseTagsList[i]).arg(senseFilters[i]));
 		}
+		// Implicitely masked misc properties
+		if (_miscFilterMask) statement.addWhere(QString("jmdict.senses.misc & %1 == 0").arg(_miscFilterMask));
 	}
+
 	if (!hasKanjiSearch.isEmpty()) {
 		statement.addJoin(QueryBuilder::Column("jmdict.entries", "id"));
 		statement.addWhere(QString("{{leftcolumn}} in (select jmdict.kanjiChar.id from jmdict.kanjiChar where jmdict.kanjiChar.kanji in (%1) group by jmdict.kanjiChar.id, jmdict.kanjiChar.priority having count(jmdict.kanjiChar.kanji) = %2)").arg(hasKanjiSearch.join(", ")).arg(hasKanjiSearch.size()));
 	}
+}
+
+void JMdictEntrySearcher::updateMiscFilterMask()
+{
+	_miscFilterMask = 0;
+	foreach (const QString &str, miscPropertiesFilter.value()) _miscFilterMask |= JMdictReversedSenseTags[JMdictMiscIndex][str];
 }
 
 QueryBuilder::Column JMdictEntrySearcher::canSort(const QString &sort, const QueryBuilder::Statement &statement)

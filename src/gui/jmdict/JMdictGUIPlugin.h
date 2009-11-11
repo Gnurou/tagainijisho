@@ -62,8 +62,6 @@ public:
 	virtual QString pluginInfo() const;
 	bool onRegister();
 	bool onUnregister();
-
-	static QActionGroup *addCheckableProperties(const QString defs[], QMenu *menu);
 };
 
 class JMdictLinkHandler : public DetailedViewLinkHandler
@@ -91,6 +89,10 @@ private:
 
 protected:
 	virtual void _reset();
+	static QActionGroup *addCheckableProperties(const QString defs[], QMenu *menu);
+
+protected slots:
+	void updateMiscFilteredProperties();
 
 public:
 	JMdictOptionsWidget(QWidget *parent = 0);

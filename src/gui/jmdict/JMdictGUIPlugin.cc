@@ -19,6 +19,7 @@
 #include "core/ASyncQuery.h"
 #include "core/QueryBuilder.h"
 #include "core/jmdict/JMdictDefs.h"
+#include "core/jmdict/JMdictEntrySearcher.h"
 #include "core/jmdict/JMdictPlugin.h"
 #include "gui/EntryFormatter.h"
 #include "gui/jmdict/JMdictEntryFormatter.h"
@@ -131,7 +132,20 @@ void JMdictLinkHandler::handleUrl(const QUrl &url, DetailedView *view)
 	QToolTip::showText(QCursor::pos(), translated.replace(0, 1, translated[0].toUpper()), 0, QRect());
 }
 
-QActionGroup *JMdictGUIPlugin::addCheckableProperties(const QString defs[], QMenu *menu)
+void JMdictOptionsWidget::updateMiscFilteredProperties()
+{
+	const QStringList &filtered(JMdictEntrySearcher::miscPropertiesFilter.value());
+	QFont normalFont;
+	QFont italicFont;
+	italicFont.setItalic(true);
+	foreach (QAction *action, _miscButton->menu()->actions()) {
+		if (filtered.contains(JMdictMiscEntitiesShortDesc[action->property("TJpropertyIndex").toInt()]))
+			action->setFont(italicFont);
+		else action->setFont(normalFont);
+	}
+}
+
+QActionGroup *JMdictOptionsWidget::addCheckableProperties(const QString defs[], QMenu *menu)
 {
 	QList<QString> strList;
 	for (int i = 0; defs[i] != ""; i++) {
@@ -143,10 +157,11 @@ QActionGroup *JMdictGUIPlugin::addCheckableProperties(const QString defs[], QMen
 	QActionGroup *actionGroup = new QActionGroup(menu);
 	actionGroup->setExclusive(false);
 	foreach(QString str, sortedList) {
+		int idx = strList.indexOf(str);
 		QAction *action = actionGroup->addAction(str);
 		action->setCheckable(true);
 		menu->addAction(action);
-		action->setProperty("TJpropertyIndex", strList.indexOf(str));
+		action->setProperty("TJpropertyIndex", idx);
 	}
 	return actionGroup;
 }
@@ -248,28 +263,30 @@ JMdictOptionsWidget::JMdictOptionsWidget(QWidget *parent) : SearchBarExtender(pa
 
 		_posButton = new QPushButton(tr("Part of speech"), this);
 		QMenu *menu = new QMenu(this);
-		QActionGroup *actionGroup = JMdictGUIPlugin::addCheckableProperties(JMdictPosEntitiesLongDesc, menu);
+		QActionGroup *actionGroup = addCheckableProperties(JMdictPosEntitiesLongDesc, menu);
 		_posButton->setMenu(menu);
 		hLayout->addWidget(_posButton);
 		connect(actionGroup, SIGNAL(triggered(QAction *)), this, SLOT(onPosTriggered(QAction *)));
 		_dialButton = new QPushButton(tr("Dialect"), this);
 		menu = new QMenu(this);
-		actionGroup = JMdictGUIPlugin::addCheckableProperties(JMdictDialEntitiesLongDesc, menu);
+		actionGroup = addCheckableProperties(JMdictDialEntitiesLongDesc, menu);
 		_dialButton->setMenu(menu);
 		hLayout->addWidget(_dialButton);
 		connect(actionGroup, SIGNAL(triggered(QAction *)), this, SLOT(onDialTriggered(QAction *)));
 		_fieldButton = new QPushButton(tr("Field"), this);
 		menu = new QMenu(this);
-		actionGroup = JMdictGUIPlugin::addCheckableProperties(JMdictFieldEntitiesLongDesc, menu);
+		actionGroup = addCheckableProperties(JMdictFieldEntitiesLongDesc, menu);
 		_fieldButton->setMenu(menu);
 		hLayout->addWidget(_fieldButton);
 		connect(actionGroup, SIGNAL(triggered(QAction *)), this, SLOT(onFieldTriggered(QAction *)));
 		_miscButton = new QPushButton(tr("Misc"), this);
 		menu = new QMenu(this);
-		actionGroup = JMdictGUIPlugin::addCheckableProperties(JMdictMiscEntitiesLongDesc, menu);
+		actionGroup = addCheckableProperties(JMdictMiscEntitiesLongDesc, menu);
 		_miscButton->setMenu(menu);
 		hLayout->addWidget(_miscButton);
 		connect(actionGroup, SIGNAL(triggered(QAction *)), this, SLOT(onMiscTriggered(QAction *)));
+		updateMiscFilteredProperties();
+		connect(&JMdictEntrySearcher::miscPropertiesFilter, SIGNAL(valueChanged(QVariant)), this, SLOT(updateMiscFilteredProperties()));
 
 		vLayout->addLayout(hLayout);
 	}

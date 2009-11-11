@@ -140,7 +140,15 @@ public:
 	const QList<KanjiReading> &getKanjiReadings() const { return kanjis; }
 	bool hasKanjiReadings() const { return (!kanjis.isEmpty()); }
 	const QList<KanaReading> &getKanaReadings() const { return kanas; }
-	const QList<Sense> &getSenses() const { return senses; }
+	/**
+	 * Returns all the senses of this entry, without filtering anything.
+	 */
+	const QList<Sense> &getAllSenses() const { return senses; }
+	/**
+	 * This method performs like getSenses, but only returns senses that are
+	 * not filtered implicitly and have not been requested explicitly.
+	 */
+	QList<const Sense *> getSenses() const;
 
 	qint8 jlpt() const { return _jlpt; }
 

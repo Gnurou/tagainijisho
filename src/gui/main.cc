@@ -181,6 +181,7 @@ int main(int argc, char *argv[])
 	qRegisterMetaType<EntryPointer<Entry> >("EntryPointer<Entry>");
 	qRegisterMetaType<QSqlRecord>("QSqlRecord");
 	qRegisterMetaType<QSqlRecord>("QSqlError");
+	qRegisterMetaType<QVariant>("QVariant");
 
 	// Ensure the EntriesCache is instanciated in the main thread - that way we won't have to switch
 	// threads every time an Entry is deleted
