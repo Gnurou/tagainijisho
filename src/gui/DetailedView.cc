@@ -105,7 +105,7 @@ DetailedView::~DetailedView()
 
 void DetailedView::_display(Entry *entry, bool update)
 {
-	if (!update && entry == entryView.entry()) return;
+//	if (!update && entry == entryView.entry()) return;
 	clear();
 	entryView.setEntry(entry);
 	if (_historyEnabled) {
