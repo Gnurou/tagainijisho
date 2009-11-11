@@ -91,6 +91,7 @@ void SmoothScroller::scrollBarReleased()
 
 void SmoothScroller::scrollBarValueChanged(int value)
 {
+	if (_user->verticalScrollBar()->isSliderDown()) return;
 	if (!_timer.isActive()) _dest = value;
 /*	if (!value) {
 		QListView *listView(qobject_cast<QListView *>(_user));
