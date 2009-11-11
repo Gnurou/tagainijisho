@@ -457,8 +457,9 @@ FindVerbBuddyJob::FindVerbBuddyJob(const JMdictEntry *verb, JMdictPosTagType pos
 	// No writing or no reading, no way to compare
 	if (verb->writings().isEmpty() || verb->readings().isEmpty()) return;
 	matchPattern = verb->writings()[0];
-	firstReading = verb->readings()[0];
-	kanaPattern = firstReading;
+	QList<qint32> readingIndexes(verb->getKanjiReadings()[0].getKanaReadings());
+	if (readingIndexes.isEmpty()) return;
+	kanaPattern = verb->getKanaReadings()[readingIndexes[0]].getReading();
 	initialLength = matchPattern.size();
 	// Remove characters from the match pattern until we meet a kanji
 	while (!TextTools::isKanjiChar(matchPattern[matchPattern.size() - 1]) && !matchPattern.isEmpty()) {
@@ -466,7 +467,7 @@ FindVerbBuddyJob::FindVerbBuddyJob(const JMdictEntry *verb, JMdictPosTagType pos
 		kanaPattern.resize(kanaPattern.size() - 1);
 	}
 	// Only continue if the matchpattern is not empty...
-	if (matchPattern.size() == 0) return;
+	if (!matchPattern.size() || !kanaPattern.size()) return;
 
 	_sql = JMdictEntryFormatter::queryFindVerbBuddySql.arg(matchPattern).arg(pos).arg(verb->id());
 	lastKanjiPos = matchPattern.size();
@@ -475,13 +476,19 @@ FindVerbBuddyJob::FindVerbBuddyJob(const JMdictEntry *verb, JMdictPosTagType pos
 void FindVerbBuddyJob::result(EntryPointer<Entry> entry)
 {
 	JMdictEntry *jEntry = qobject_cast<JMdictEntry *>(entry.data());
-	Q_ASSERT(jEntry != 0);
+	if (!jEntry) return;
 	// We now that we have a writing, as the SQL request matched with it
-	QString writing = jEntry->writings()[0];
+	QString writing(jEntry->writings()[0]);
 	if (writing.size() < lastKanjiPos) return;
 	// Ensure we have no kanji after lastKanjiPos
 	for (int i = lastKanjiPos; i < writing.size(); i++)
 		if (TextTools::isKanjiChar(writing[i])) return;
+	// Candidates which kana reading do not even match a single character are not considered
+	{
+		QList<qint32> readingIndexes(jEntry->getKanjiReadings()[0].getKanaReadings());
+		if (readingIndexes.isEmpty()) return;
+		if (jEntry->getKanaReadings()[readingIndexes[0]].getReading()[0] != kanaPattern[0]) return;
+	}
 	// We are have a best match if
 	// 1) There is no candidate yet
 	if (!bestMatch.data()) {
