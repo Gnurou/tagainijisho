@@ -110,6 +110,8 @@ void checkConfigurationVersion()
 	switch (configVersion.value()) {
 	case 0:
 		settings.remove("userProfile");
+		settings.remove("kanjidic/delayBetweenStrokes");
+		settings.remove("kanjidic/animationSpeed");
 		break;
 	default:
 		break;
