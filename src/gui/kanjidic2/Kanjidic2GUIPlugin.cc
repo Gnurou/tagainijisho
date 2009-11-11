@@ -140,7 +140,7 @@ void Kanjidic2GUIPlugin::training(YesNoTrainer::TrainingMode mode, const QString
 	if (_trainer && (_trainer->trainingMode() != mode || _trainer->query() != queryString)) delete _trainer;
 	if (!_trainer) {
 		restart = true;
-		_trainer = new JMdictYesNoTrainer(MainWindow::instance());
+		_trainer = new YesNoTrainer(MainWindow::instance());
 		_trainer->setAttribute(Qt::WA_DeleteOnClose);
 		_trainer->setWindowFlags(Qt::Window);
 		connect(_trainer, SIGNAL(destroyed()), this, SLOT(trainerDeleted()));
