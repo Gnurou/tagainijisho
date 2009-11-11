@@ -23,6 +23,7 @@
 QVector<QMap<QString, quint64> > JMdictEntrySearcher::JMdictReversedSenseTags;
 
 PreferenceItem<QStringList> JMdictEntrySearcher::miscPropertiesFilter("jmdict", "miscPropertiesFilter", QStringList());
+JMdictMiscTagType JMdictEntrySearcher::_miscFilterMask;
 
 void JMdictEntrySearcher::buildJMdictReversedSenseTags()
 {
@@ -37,7 +38,11 @@ void JMdictEntrySearcher::buildJMdictReversedSenseTags()
 JMdictEntrySearcher::JMdictEntrySearcher(QObject *parent) : EntrySearcher(parent)
 {
 	// First check if the entities lookup table should be built
-	if (JMdictReversedSenseTags.isEmpty()) buildJMdictReversedSenseTags();
+	if (JMdictReversedSenseTags.isEmpty()) {
+		buildJMdictReversedSenseTags();
+		updateMiscFilterMask();
+		connect(&JMdictEntrySearcher::miscPropertiesFilter, SIGNAL(valueChanged(QVariant)), this, SLOT(updateMiscFilterMask()));
+	}
 
 	QueryBuilder::Join::addTablePriority("jmdict.entries", 50);
 	QueryBuilder::Join::addTablePriority("jmdict.kanjiChar", 45);
@@ -241,18 +246,13 @@ void JMdictEntrySearcher::buildStatement(QList<SearchCommand> &commands, QueryBu
 	if (!transReadingsMatch.isEmpty()) statement.addWhere(ftsString.arg("jmdict.gloss").arg(transReadingsMatch.join(" ")));
 
 	// Add where statements for sense filters
-	// First calculate the implicit misc filter mask
-	JMdictMiscTagType miscFilterMask = 0;
-	// Find the index of the misc property
-	int miscIndex = 0;
-	for (; JMdictSenseTags[miscIndex] != JMdictMiscEntitiesShortDesc; miscIndex++);
-	foreach (const QString &str, miscPropertiesFilter.value()) miscFilterMask |= JMdictReversedSenseTags[miscIndex][str];
 	// Cancel misc filters that have explicitly been required
-	miscFilterMask &= ~senseFilters[miscIndex];
+	JMdictMiscTagType _miscFilterMask = miscFilterMask();
+	_miscFilterMask &= ~senseFilters[JMdictMiscIndex];
 
 
 	bool mustJoinSenses = false;
-	if (miscFilterMask != 0) mustJoinSenses = true;
+	if (_miscFilterMask != 0) mustJoinSenses = true;
 	else for (int i = 0; i < JMdictNbSenseTags; i++) if (senseFilters[i] != 0) mustJoinSenses = true;
 	if (mustJoinSenses) {
 		statement.addJoin(QueryBuilder::Join(QueryBuilder::Column("jmdict.senses", "id")));
@@ -262,13 +262,19 @@ void JMdictEntrySearcher::buildStatement(QList<SearchCommand> &commands, QueryBu
 			statement.addWhere(QString("jmdict.senses.%1 & %2 == %2").arg(JMdictSenseTagsList[i]).arg(senseFilters[i]));
 		}
 		// Implicitely masked misc properties
-		if (miscFilterMask) statement.addWhere(QString("jmdict.senses.misc & %1 == 0").arg(miscFilterMask));
+		if (_miscFilterMask) statement.addWhere(QString("jmdict.senses.misc & %1 == 0").arg(_miscFilterMask));
 	}
 
 	if (!hasKanjiSearch.isEmpty()) {
 		statement.addJoin(QueryBuilder::Column("jmdict.entries", "id"));
 		statement.addWhere(QString("{{leftcolumn}} in (select jmdict.kanjiChar.id from jmdict.kanjiChar where jmdict.kanjiChar.kanji in (%1) group by jmdict.kanjiChar.id, jmdict.kanjiChar.priority having count(jmdict.kanjiChar.kanji) = %2)").arg(hasKanjiSearch.join(", ")).arg(hasKanjiSearch.size()));
 	}
+}
+
+void JMdictEntrySearcher::updateMiscFilterMask()
+{
+	_miscFilterMask = 0;
+	foreach (const QString &str, miscPropertiesFilter.value()) _miscFilterMask |= JMdictReversedSenseTags[JMdictMiscIndex][str];
 }
 
 QueryBuilder::Column JMdictEntrySearcher::canSort(const QString &sort, const QueryBuilder::Statement &statement)

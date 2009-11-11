@@ -19,6 +19,7 @@
 #include "core/TextTools.h"
 #include "core/EntriesCache.h"
 #include "core/jmdict/JMdictEntry.h"
+#include "core/jmdict/JMdictEntrySearcher.h"
 
 #include <QtDebug>
 #include <QSqlQuery>
@@ -135,5 +136,15 @@ QStringList JMdictEntry::meanings() const
 {
 	QStringList res;
 	foreach (const Sense &sense, getSenses()) res << sense.senseText();
+	return res;
+}
+
+QList<const Sense *> JMdictEntry::getRelevantSenses(JMdictMiscTagType counterFilter) const
+{
+	QList<const Sense *> res;
+	JMdictMiscTagType filter(JMdictEntrySearcher::miscFilterMask() | ~counterFilter);
+	foreach (const Sense &sense, getSenses()) {
+		if (!(sense.misc() & filter)) res << &sense;
+	}
 	return res;
 }

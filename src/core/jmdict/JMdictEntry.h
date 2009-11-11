@@ -141,6 +141,14 @@ public:
 	bool hasKanjiReadings() const { return (!kanjis.isEmpty()); }
 	const QList<KanaReading> &getKanaReadings() const { return kanas; }
 	const QList<Sense> &getSenses() const { return senses; }
+	/**
+	 * This method performs like getSenses, but only returns senses that are
+	 * not filtered implicitly.
+	 *
+	 * The counterFilter argument may contain a mask of tags that are normally filtered,
+	 * but that we want to get anyway.
+	 */
+	QList<const Sense *> getRelevantSenses(JMdictMiscTagType counterFilter = 0) const;
 
 	qint8 jlpt() const { return _jlpt; }
 
