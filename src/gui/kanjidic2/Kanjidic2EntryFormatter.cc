@@ -558,7 +558,7 @@ void ShowUsedInJob::completed()
 	linkFormat.setAnchor(true);
 	linkFormat.setAnchorHref(QString("component:?kanji=%1").arg(_kanji));
 	cursor.setCharFormat(linkFormat);
-	cursor.insertText(tr("(Find all)"));
+	cursor.insertText(tr("(All compounds)"));
 	cursor.setCharFormat(normal);
 }
 
