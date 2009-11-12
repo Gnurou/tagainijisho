@@ -43,19 +43,18 @@ GraphicsComponentItem::GraphicsComponentItem(int width, const KanjiComponent *co
 	_kanji = EntriesCache::get(KANJIDIC2ENTRY_GLOBALID, TextTools::singleCharToUnicode(component->element()));
 
 	EntryPointer<const Entry> original;
-	const Kanjidic2Entry *kOriginal;
+	const Kanjidic2Entry *kOriginal(0);
 	if (!component->original().isEmpty()) {
 		original = EntriesCache::get(KANJIDIC2ENTRY_GLOBALID, TextTools::singleCharToUnicode(component->original()));
 		kOriginal = static_cast<const Kanjidic2Entry *>(original.data());
 	}
-	else return;
 	QFont font;
 	QFontMetrics metrics(font);
 	_meaningsHeight = metrics.height();
 	_readingsHeight = metrics.height();
 	_kanjiSize = _meaningsHeight + _readingsHeight;
 	QString meanings;
-	if (original.data()) meanings = kOriginal->meaningsString();
+	if (kOriginal) meanings = kOriginal->meaningsString();
 	else meanings = kanji()->meaningsString();
 	if (!meanings.isEmpty()) meanings[0] = meanings[0].toUpper();
 	_meanings = metrics.elidedText(meanings, Qt::ElideRight, width - _kanjiSize);
