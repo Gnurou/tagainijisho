@@ -28,62 +28,36 @@
 #include <QGraphicsItem>
 
 #include "core/kanjidic2/Kanjidic2Entry.h"
-#include "KanjiPlayer.h"
-#include "SingleEntryView.h"
-#include "AbstractHistory.h"
+#include "gui/kanjidic2/KanjiPlayer.h"
+#include "gui/SingleEntryView.h"
+#include "gui/AbstractHistory.h"
 
-class GraphicsComponentItem : public QObject, public QGraphicsItem
+class KanjiComponentWidget : public QWidget
 {
 	Q_OBJECT
 private:
-	int _width;
-	EntryPointer<Entry> _kanji;
 	const KanjiComponent *_component;
-	QString _meanings, _readings;
-	int _meaningsHeight, _readingsHeight;
-	int _kanjiSize;
-
-	void onChildHoverLeave();
+	EntryPointer<Entry> _kanji;
 
 protected:
-	virtual void hoverEnterEvent(QGraphicsSceneHoverEvent *event);
-	virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent *event);
-	virtual void mousePressEvent(QGraphicsSceneMouseEvent *event);
-	virtual void contextMenuEvent(QGraphicsSceneContextMenuEvent *event);
+	virtual void paintEvent(QPaintEvent *event);
 
 public:
-	GraphicsComponentItem(int width, const KanjiComponent *component, QGraphicsItem *parent = 0);
-	~GraphicsComponentItem();
+	KanjiComponentWidget(QWidget *parent = 0);
+	virtual QSize sizeHint() const;
+	void setComponent(const KanjiComponent *component);
 	const KanjiComponent *component() const { return _component; }
 	const Kanjidic2Entry *kanji() const { return static_cast<Kanjidic2Entry *>(_kanji.data()); }
-	Kanjidic2Entry *kanji() { return static_cast<Kanjidic2Entry *>(_kanji.data()); }
 
-	virtual QRectF boundingRect() const;
-	virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
-
-signals:
-	void hoverEnter(const KanjiComponent *);
-	void hoverLeave(const KanjiComponent *);
-	void clicked(const KanjiComponent *);
 };
 
-class KanjiPopup : public QFrame {
+#include "gui/ui_KanjiPopup.h"
+
+class KanjiPopup : public QFrame, public Ui::KanjiPopup {
 	Q_OBJECT
 private:
-	static const int maxEltWidth = 200;
-
 	AbstractHistory<QString, QList<QString> > _history;
 	SingleEntryView entryView;
-
-	KanjiPlayer *stroke;
-	QLabel *propsLabel;
-	QLabel *meaningsLabel;
-	QLabel *readingsLabel;
-
-	QToolButton *prevButton;
-	QToolButton *nextButton;
-
-	void addComponentDescription(const KanjiComponent *component, GraphicsComponentItem *parent, int &vPos);
 
 private slots:
 	void showKanji(Kanjidic2Entry *entry);
@@ -103,9 +77,6 @@ public:
 	static PreferenceItem<int> historySize;
 	static PreferenceItem<int> animationSize;
 	static PreferenceItem<bool> autoStartAnim;
-
-public slots:
-	void updateInfo();
 
 signals:
 	void requestDisplay(Entry *entry);

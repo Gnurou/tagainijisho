@@ -43,7 +43,7 @@ public:
 	/**
 	 * Shows a tooltip with a short description of the kanji
 	 */
-	void showToolTip(const Entry *entry, const QPoint &pos) const;
+	void showToolTip(const Kanjidic2Entry *entry, const QPoint &pos) const;
 
 	static QString getQueryUsedInWordsSql(int kanji, int limit, bool onlyStudied);
 	static QString getQueryUsedInKanjiSql(int kanji, int limit, bool onlyStudied);

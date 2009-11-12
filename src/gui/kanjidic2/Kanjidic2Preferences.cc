@@ -42,7 +42,8 @@ Kanjidic2Preferences::Kanjidic2Preferences(QWidget *parent) : PreferencesWindowC
 
 	previewLabel->setPicture(previewPic);
 
-	_player = new KanjiPlayer(KanjiPopup::animationSize.value(), animationTab);
+	_player = new KanjiPlayer(animationTab);
+	_player->setPictureSize(KanjiPopup::animationSize.value());
 	_previewEntry = EntriesCache::get(KANJIDIC2ENTRY_GLOBALID, 0x9593);
 	previewEntry = static_cast<const Kanjidic2Entry *>(_previewEntry.data());
 	_player->setKanji(previewEntry);

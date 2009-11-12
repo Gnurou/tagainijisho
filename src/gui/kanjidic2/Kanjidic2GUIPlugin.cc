@@ -248,7 +248,7 @@ bool Kanjidic2GUIPlugin::eventFilter(QObject *obj, QEvent *_event)
 							if (entry.data()) {
 								view->viewport()->setCursor(QCursor(Qt::PointingHandCursor));
 								const Kanjidic2EntryFormatter *formatter(static_cast<const Kanjidic2EntryFormatter *>(EntryFormatter::getFormatter(KANJIDIC2ENTRY_GLOBALID)));
-								formatter->showToolTip(entry.data(), QCursor::pos());
+								formatter->showToolTip(static_cast<const Kanjidic2Entry *>(entry.data()), QCursor::pos());
 							}
 							return false;
 						}
@@ -348,15 +348,13 @@ void KanjiLinkHandler::handleUrl(const QUrl &url, DetailedView *view)
 
 	KanjiPopup *popup = new KanjiPopup();
 	QObject::connect(popup, SIGNAL(requestDisplay(Entry*)), MainWindow::instance()->searchWidget()->detailedView(), SLOT(display(Entry*)));
-	popup->display(entry);
 
 	popup->setFrameStyle(QFrame::StyledPanel | QFrame::Raised);
 	popup->setWindowModality(Qt::ApplicationModal);
 	popup->setWindowTitle(tr("Tracing for %1").arg(kanji));
 	popup->setAttribute(Qt::WA_DeleteOnClose);
 	popup->setWindowFlags(Qt::Popup);
-	// Must be called now so we know the actual geometry of the window
-//	popup->adjustSize();
+	popup->display(entry);
 
 	QPoint pos = QCursor::pos();
 	QPoint lowerRight = pos + QPoint(popup->size().width(), popup->size().height());
@@ -365,6 +363,8 @@ void KanjiLinkHandler::handleUrl(const QUrl &url, DetailedView *view)
 
 	popup->move(pos);
 	popup->show();
+	// Need to display a second time once the window is visible to get the labels correctly formatted.
+	popup->display(entry);
 
 	pos = QCursor::pos();
 	lowerRight = pos + QPoint(popup->size().width(), popup->size().height());

@@ -41,7 +41,7 @@
 PreferenceItem<int> KanjiPlayer::animationSpeed("kanjidic", "animationSpeed", 30);
 PreferenceItem<int> KanjiPlayer::delayBetweenStrokes("kanjidic", "delayBetweenStrokes", 10);
 
-KanjiPlayer::KanjiPlayer(int size, QWidget *parent) : QWidget(parent), _timer(), _kanji(0), renderer(), _picture(), _state(STATE_STROKE), _highlightedComponent(0)
+KanjiPlayer::KanjiPlayer(QWidget *parent) : QWidget(parent), _timer(), _kanji(0), renderer(), _picture(), _state(STATE_STROKE), _highlightedComponent(0)
 {
 	setAnimationSpeed(animationSpeed.value());
 	setDelayBetweenStrokes(delayBetweenStrokes.value());
@@ -67,7 +67,8 @@ KanjiPlayer::KanjiPlayer(int size, QWidget *parent) : QWidget(parent), _timer(),
 	mainLayout->addWidget(kanjiFrame);
 	mainLayout->addWidget(strokeCountLabel);
 
-	setPictureSize(size);
+	setPictureSize(100);
+	setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 
 	_timer.setInterval(TIMER_INTERVAL);
 	connect(&_timer, SIGNAL(timeout()), this, SLOT(updateAnimation()));

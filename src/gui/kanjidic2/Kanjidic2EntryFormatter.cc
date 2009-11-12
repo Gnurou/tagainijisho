@@ -490,9 +490,8 @@ void Kanjidic2EntryFormatter::detailedVersionPart2(const Entry *entry, QTextCurs
 	writeTranslation(static_cast<const Kanjidic2Entry *>(entry), cursor, view);
 }
 
-void Kanjidic2EntryFormatter::showToolTip(const Entry *_entry, const QPoint &pos) const
+void Kanjidic2EntryFormatter::showToolTip(const Kanjidic2Entry *entry, const QPoint &pos) const
 {
-	const Kanjidic2Entry *entry(static_cast<const Kanjidic2Entry *>(_entry));
 	QString s;
 	if (entry->trained()) {
 		QColor scoreColor(this->scoreColor(entry));

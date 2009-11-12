@@ -64,7 +64,7 @@ protected slots:
 	virtual void updateAnimation();
 
 public:
-	KanjiPlayer(int size, QWidget *parent = 0);
+	KanjiPlayer(QWidget *parent = 0);
 	const KanjiComponent *highlightedComponent() const { return _highlightedComponent; }
 	int pictureSize() const { return _pictureSize; }
 	void setPictureSize(int newSize);
