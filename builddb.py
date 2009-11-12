@@ -107,16 +107,10 @@ def getKanjiVG():
 		localFile.close()
 		sourceFile.close()
 
-def buildMakefiles():
-	os.system("qmake tagainijisho.pro")
-
-def buildSQLite():
-	os.system("make -s -C src/sqlite")
-
 def buildPySQLite():
 	wd = os.getcwd()
 	os.chdir(pysqlitedest)
-	os.system("python setup.py -q build_ext -l QtCore")
+	os.system("python setup.py -q build_ext -I ../sqlite -l QtCore")
 	os.system("python setup.py -q install --prefix=install --install-purelib=install --install-platlib=install")
 	os.chdir(wd)
 	del wd
@@ -154,8 +148,6 @@ def getAllDependencies():
 	getKanjiVG()
 
 def buildDatabases():
-	buildMakefiles()
-	buildSQLite()
 	buildPySQLite()
 	buildJMdict()
 	buildKanjidic()
