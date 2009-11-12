@@ -90,8 +90,9 @@ SOURCES = EntryFormatter.cc \
     kanjidic2/Kanjidic2GUIPlugin.cc \
     main.cc \
     jmdict/JMdictYesNoTrainer.cc
-LIBS += -L../core \
-    -ltagaini-core
+#LIBS += -L../core \
+#    -ltagaini-core
+LIBS += ../core/libtagaini-core.a ../sqlite/libsqlite3.a
 FORMS += SetsOrganizer.ui \
     TrainSettings.ui \
     ReadingTrainer.ui \

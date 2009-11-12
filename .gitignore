@@ -22,6 +22,7 @@ kanjidic2.db
 tagainijisho
 3rdparty/
 ui_*.h
+src/core/libtagaini-core.a
 src/core/libtagaini-core.so
 src/core/libtagaini-core.so.1
 src/core/libtagaini-core.so.1.0

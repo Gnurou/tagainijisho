@@ -1,7 +1,7 @@
 include(../../buildconfig.pri)
 TEMPLATE = lib
 TARGET = tagaini-core
-CONFIG += qt dll
+CONFIG += qt staticlib
 QT = core sql
 INCLUDEPATH = .. ../../3rdparty/sqlite
 HEADERS += Paths.h \
@@ -47,4 +47,4 @@ SOURCES += Database.cc \
 	kanjidic2/Kanjidic2Entry.cc \
 	kanjidic2/Kanjidic2EntrySearcher.cc \
 	kanjidic2/Kanjidic2Plugin.cc
-LIBS = ../sqlite/libsqlite3.a
+#LIBS = ../sqlite/libsqlite3.a
