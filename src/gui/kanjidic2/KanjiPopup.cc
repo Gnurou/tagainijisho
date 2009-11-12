@@ -48,6 +48,7 @@ GraphicsComponentItem::GraphicsComponentItem(int width, const KanjiComponent *co
 		original = EntriesCache::get(KANJIDIC2ENTRY_GLOBALID, TextTools::singleCharToUnicode(component->original()));
 		kOriginal = static_cast<const Kanjidic2Entry *>(original.data());
 	}
+	else return;
 	QFont font;
 	QFontMetrics metrics(font);
 	_meaningsHeight = metrics.height();
