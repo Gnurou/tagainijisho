@@ -22,6 +22,7 @@
 #include "core/jmdict/JMdictEntry.h"
 #include "gui/kanjidic2/KanjiRenderer.h"
 #include "gui/jmdict/JMdictEntryFormatter.h"
+#include "gui/kanjidic2/Kanjidic2GUIPlugin.h"
 
 #include <QUrl>
 #include <QTextList>
@@ -190,7 +191,7 @@ void Kanjidic2EntryFormatter::writeKanjiInfo(const Kanjidic2Entry *entry, QTextC
 		cursor.setCharFormat(bold);
 		cursor.insertText(tr("Grade:"));
 		cursor.setCharFormat(normal);
-		cursor.insertText(" " + QString::number(entry->grade()));
+		cursor.insertText(" " + tr(Kanjidic2GUIPlugin::kanjiGrades[entry->grade()].toLatin1()));
 		if (++cellCpt % 2 == 0) { table->insertRows(table->rows(), 1); cursor.movePosition(QTextCursor::PreviousBlock); }
 		else cursor.movePosition(QTextCursor::NextBlock);
 	}

@@ -70,6 +70,8 @@ public:
 	 * handle mouse hover and clicks on kanjis.
 	 */
 	bool eventFilter(QObject *obj, QEvent *_event);
+
+	static const QString kanjiGrades[];
 };
 
 class KanjiLinkHandler : public DetailedViewLinkHandler

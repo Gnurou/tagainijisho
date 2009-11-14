@@ -42,6 +42,20 @@
 #include <QAbstractTextDocumentLayout>
 #include <QScrollBar>
 
+const QString Kanjidic2GUIPlugin::kanjiGrades[] = {
+	QT_TRANSLATE_NOOP("Kanjidic2GUIPlugin", "Invalid"),
+	QT_TRANSLATE_NOOP("Kanjidic2GUIPlugin", "Elementary 1st grade"),
+	QT_TRANSLATE_NOOP("Kanjidic2GUIPlugin", "Elementary 2nd grade"),
+	QT_TRANSLATE_NOOP("Kanjidic2GUIPlugin", "Elementary 3rd grade"),
+	QT_TRANSLATE_NOOP("Kanjidic2GUIPlugin", "Elementary 4th grade"),
+	QT_TRANSLATE_NOOP("Kanjidic2GUIPlugin", "Elementary 5th grade"),
+	QT_TRANSLATE_NOOP("Kanjidic2GUIPlugin", "Elementary 6th grade"),
+	QT_TRANSLATE_NOOP("Kanjidic2GUIPlugin", "Invalid"),
+	QT_TRANSLATE_NOOP("Kanjidic2GUIPlugin", "Secondary school"),
+	QT_TRANSLATE_NOOP("Kanjidic2GUIPlugin", "Used for names (1)"),
+	QT_TRANSLATE_NOOP("Kanjidic2GUIPlugin", "Used for names (2)"),
+};
+
 Kanjidic2GUIPlugin::Kanjidic2GUIPlugin() : Plugin("kanjidic2GUI"), _formatter(0), _flashKL(0), _flashKS(0), _flashML(0), _flashMS(0), _readingPractice(0), _linkHandler(0), _wordsLinkHandler(0), _componentsLinkHandler(0), _extender(0), _trainer(0), _readingTrainer(0)
 {
 }
@@ -476,33 +490,12 @@ Kanjidic2OptionsWidget::Kanjidic2OptionsWidget(QWidget *parent) : SearchBarExten
 		QAction *action;
 		actionGroup = new QActionGroup(menu);
 		actionGroup->setExclusive(false);
-		action = actionGroup->addAction(tr("Elementary &1st grade"));
-		action->setProperty("Agrade", 1);
-		action->setCheckable(true);
-		action = actionGroup->addAction(tr("Elementary &2nd grade"));
-		action->setProperty("Agrade", 2);
-		action->setCheckable(true);
-		action = actionGroup->addAction(tr("Elementary &3rd grade"));
-		action->setProperty("Agrade", 3);
-		action->setCheckable(true);
-		action = actionGroup->addAction(tr("Elementary &4th grade"));
-		action->setProperty("Agrade", 4);
-		action->setCheckable(true);
-		action = actionGroup->addAction(tr("Elementary &5th grade"));
-		action->setProperty("Agrade", 5);
-		action->setCheckable(true);
-		action = actionGroup->addAction(tr("Elementary &6th grade"));
-		action->setProperty("Agrade", 6);
-		action->setCheckable(true);
-		action = actionGroup->addAction(tr("&Secondary school"));
-		action->setProperty("Agrade", 8);
-		action->setCheckable(true);
-		action = actionGroup->addAction(tr("Used for names (1)"));
-		action->setProperty("Agrade", 9);
-		action->setCheckable(true);
-		action = actionGroup->addAction(tr("Used for names (2)"));
-		action->setProperty("Agrade", 10);
-		action->setCheckable(true);
+		for (int i = 1 ; i <= 10; i++) {
+			if (i == 7) continue;
+			action = actionGroup->addAction(tr(Kanjidic2GUIPlugin::kanjiGrades[i].toLatin1()));
+			action->setProperty("Agrade", i);
+			action->setCheckable(true);
+		}
 		connect(actionGroup, SIGNAL(triggered(QAction *)), this, SLOT(onGradeTriggered(QAction *)));
 		menu->addActions(actionGroup->actions());
 		menu->addSeparator();
