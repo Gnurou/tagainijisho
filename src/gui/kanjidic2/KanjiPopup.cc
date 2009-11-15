@@ -112,6 +112,7 @@ KanjiPopup::KanjiPopup(QWidget *parent) : QFrame(parent), _history(historySize.v
 	stroke->setPictureSize(animationSize.value());
 
 	connect(&entryView, SIGNAL(entryChanged(Entry *)), &entryView, SLOT(updateMenuEntries()));
+	connect(&entryView, SIGNAL(entryChanged(Entry *)), this, SLOT(updateInfo()));
 	connect(stroke, SIGNAL(componentHighlighted(const KanjiComponent*)), this, SLOT(onComponentHighlighted(const KanjiComponent*)));
 	connect(stroke, SIGNAL(componentUnHighlighted(const KanjiComponent*)), this, SLOT(onComponentUnHighlighted(const KanjiComponent*)));
 	connect(stroke, SIGNAL(componentClicked(const KanjiComponent*)), this, SLOT(onComponentClicked(const KanjiComponent*)));
@@ -141,16 +142,7 @@ void KanjiPopup::showKanji(Kanjidic2Entry *entry)
 	meaningsLabel->setText(meaningsLabel->fontMetrics().elidedText(str, Qt::ElideRight, meaningsLabel->size().width()));
 	readingsLabel->setText(readingsLabel->fontMetrics().elidedText(entry->readings().join(", "), Qt::ElideRight, readingsLabel->size().width()));
 
-	str.clear();
-	if (entry->kanjiFrequency() != -1)
-		str += tr("<b>Freq:</b> %1<br/>").arg(entry->kanjiFrequency());
-	if (entry->jlpt() != -1)
-		str += tr("<b>Grade:</b> %1<br/>").arg(entry->grade());
-	if (entry->jlpt() != -1)
-		str += tr("<b>JLPT:</b> %1<br/>").arg(entry->jlpt());
-	if (entry->trained())
-		str += tr("<b>Score:</b> %1<br/>").arg(entry->score());
-	propsLabel->setText(str);
+	updateInfo();
 
 	stroke->stopAnimation();
 	stroke->setKanji(entry);
@@ -160,6 +152,21 @@ void KanjiPopup::showKanji(Kanjidic2Entry *entry)
 	compWidget->setComponent(0);
 
 //	adjustSize();
+}
+
+void KanjiPopup::updateInfo()
+{
+	const Kanjidic2Entry *entry(static_cast<const Kanjidic2Entry *>(entryView.entry()));
+	QString str;
+	if (entry->kanjiFrequency() != -1)
+		str += tr("<b>Freq:</b> %1<br/>").arg(entry->kanjiFrequency());
+	if (entry->jlpt() != -1)
+		str += tr("<b>Grade:</b> %1<br/>").arg(entry->grade());
+	if (entry->jlpt() != -1)
+		str += tr("<b>JLPT:</b> %1<br/>").arg(entry->jlpt());
+	if (entry->trained())
+		str += tr("<b>Score:</b> %1<br/>").arg(entry->score());
+	propsLabel->setText(str);
 }
 
 void KanjiPopup::display(Kanjidic2Entry *entry)

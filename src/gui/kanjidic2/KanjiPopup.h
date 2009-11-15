@@ -78,6 +78,9 @@ public:
 	static PreferenceItem<int> animationSize;
 	static PreferenceItem<bool> autoStartAnim;
 
+public slots:
+	void updateInfo();
+
 signals:
 	void requestDisplay(Entry *entry);
 };
