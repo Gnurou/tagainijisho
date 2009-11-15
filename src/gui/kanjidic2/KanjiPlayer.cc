@@ -71,9 +71,7 @@ KanjiPlayer::KanjiPlayer(QWidget *parent) : QWidget(parent), _timer(), _kanji(0)
 	QPushButton *pauseButton = new QPushButton(this);
 	pauseButton->setMaximumSize(20, 20);
 	controlLayout->addWidget(pauseButton);
-	controlLayout->addStretch();
 	controlLayout->addWidget(strokeCountLabel);
-	controlLayout->addStretch();
 	QPushButton *prevButton = new QPushButton(this);
 	prevButton->setMaximumSize(20, 20);
 	controlLayout->addWidget(prevButton);
@@ -81,6 +79,10 @@ KanjiPlayer::KanjiPlayer(QWidget *parent) : QWidget(parent), _timer(), _kanji(0)
 	nextButton->setMaximumSize(20, 20);
 	controlLayout->addWidget(nextButton);
 	mainLayout->addLayout(controlLayout);
+
+	QFontMetrics metrics(font);
+	strokeCountLabel->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
+	strokeCountLabel->setMinimumWidth(metrics.width("XX/XX"));
 
 	setPictureSize(100);
 	setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
@@ -125,7 +127,7 @@ void KanjiPlayer::updateAnimation()
 		return;
 	}
 
-	if (_lengthCpt == 0.0) strokeCountLabel->setText(tr("%1/%2").arg(_strokesCpt + 1).arg(renderer.strokes().size()));
+	if (_lengthCpt == 0.0) strokeCountLabel->setText(QString("%1/%2").arg(_strokesCpt + 1).arg(renderer.strokes().size()));
 
 	const KanjiRenderer::Stroke &currentStroke(renderer.strokes()[_strokesCpt]);
 	// First update the state of the animation
