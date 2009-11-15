@@ -144,9 +144,9 @@ void KanjiPopup::showKanji(Kanjidic2Entry *entry)
 
 	updateInfo();
 
-	stroke->stopAnimation();
+	stroke->stop();
 	stroke->setKanji(entry);
-	if (autoStartAnim.value()) stroke->startAnimation();
+	if (autoStartAnim.value()) stroke->play();
 	else stroke->setPosition(entry->strokeCount());
 
 	compWidget->setComponent(0);

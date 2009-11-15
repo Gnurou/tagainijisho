@@ -25,6 +25,7 @@
 #include <QTimer>
 #include <QPixmap>
 #include <QList>
+#include <QPushButton>
 
 #include "core/kanjidic2/Kanjidic2Entry.h"
 #include "gui/kanjidic2/KanjiRenderer.h"
@@ -51,6 +52,10 @@ private:
 	int _state;
 	qreal _lengthCpt;
 	const KanjiComponent *_highlightedComponent;
+	QPushButton *playButton;
+	QPushButton *resetButton;
+	QPushButton *nextButton;
+	QPushButton *prevButton;
 
 protected:
 	/**
@@ -59,9 +64,13 @@ protected:
 	void renderCurrentState();
 	virtual void paintEvent(QPaintEvent * event);
 	virtual bool eventFilter(QObject *obj, QEvent *event);
+	void updateStrokesCountLabel();
+	void updateButtonsState();
 
 protected slots:
-	virtual void updateAnimation();
+	virtual void updateAnimationState();
+	void playButtonClicked();
+	void resetButtonClicked();
 
 public:
 	KanjiPlayer(QWidget *parent = 0);
@@ -74,11 +83,6 @@ public:
 
 public slots:
 	void setKanji(const Kanjidic2Entry *entry);
-
-	void startAnimation();
-	void stopAnimation();
-	void resetAnimation();
-
 	void setPosition(int strokeNbr);
 
 	void setAnimationSpeed(int speed) { _animationSpeed = speed / 10.0; }
@@ -86,6 +90,12 @@ public slots:
 
 	void highlightComponent(const KanjiComponent *component);
 	void unHighlightComponent();
+
+	void play();
+	void stop();
+	void reset();
+	void nextStroke();
+	void prevStroke();
 
 signals:
 	void animationStarted();

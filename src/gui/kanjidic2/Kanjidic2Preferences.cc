@@ -147,13 +147,13 @@ bool Kanjidic2Preferences::eventFilter(QObject *obj, QEvent *event)
 		switch (event->type()) {
 		case QEvent::Show:
 			connect(_player, SIGNAL(animationStopped()), this, SLOT(onAnimationCompleted()));
-			_player->startAnimation();
+			_player->play();
 			return false;
 		case QEvent::Hide:
 			disconnect(_player, SIGNAL(animationStopped()), this, SLOT(onAnimationCompleted()));
 			_endOfPlayTimer.stop();
-			_player->stopAnimation();
-			_player->resetAnimation();
+			_player->stop();
+			_player->reset();
 			return false;
 		default:
 			return false;
@@ -182,8 +182,8 @@ void Kanjidic2Preferences::onAnimationCompleted()
 
 void Kanjidic2Preferences::onStartAnimation()
 {
-	_player->resetAnimation();
-	_player->startAnimation();
+	_player->reset();
+	_player->play();
 }
 
 void Kanjidic2Preferences::onAnimSpeedDefaultChecked(bool checked)

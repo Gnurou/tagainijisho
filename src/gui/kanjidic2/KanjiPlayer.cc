@@ -36,8 +36,8 @@
 #define TIMER_INTERVAL 20
 /*#endif*/
 
-#define STATE_STROKE 0
-#define STATE_WAIT 1
+#define STATE_STROKE 1
+#define STATE_WAIT 2
 
 PreferenceItem<int> KanjiPlayer::animationSpeed("kanjidic", "animationSpeed", 30);
 PreferenceItem<int> KanjiPlayer::delayBetweenStrokes("kanjidic", "delayBetweenStrokes", 10);
@@ -65,20 +65,29 @@ KanjiPlayer::KanjiPlayer(QWidget *parent) : QWidget(parent), _timer(), _kanji(0)
 	QHBoxLayout *controlLayout = new QHBoxLayout();
 	controlLayout->setContentsMargins(0, 0, 0, 0);
 	controlLayout->setSpacing(0);
-	QPushButton *playButton = new QPushButton(this);
+	playButton = new QPushButton(this);
 	playButton->setMaximumSize(20, 20);
 	controlLayout->addWidget(playButton);
-	QPushButton *pauseButton = new QPushButton(this);
-	pauseButton->setMaximumSize(20, 20);
-	controlLayout->addWidget(pauseButton);
+	resetButton = new QPushButton(this);
+	resetButton->setMaximumSize(20, 20);
+	controlLayout->addWidget(resetButton);
 	controlLayout->addWidget(strokeCountLabel);
-	QPushButton *prevButton = new QPushButton(this);
+	prevButton = new QPushButton(this);
 	prevButton->setMaximumSize(20, 20);
 	controlLayout->addWidget(prevButton);
-	QPushButton *nextButton = new QPushButton(this);
+	nextButton = new QPushButton(this);
 	nextButton->setMaximumSize(20, 20);
 	controlLayout->addWidget(nextButton);
 	mainLayout->addLayout(controlLayout);
+
+	connect(playButton, SIGNAL(clicked()), this, SLOT(playButtonClicked()));
+	connect(resetButton, SIGNAL(clicked()), this, SLOT(resetButtonClicked()));
+	connect(prevButton, SIGNAL(clicked()), this, SLOT(prevStroke()));
+	connect(nextButton, SIGNAL(clicked()), this, SLOT(nextStroke()));
+	playButton->setEnabled(false);
+	resetButton->setEnabled(false);
+	prevButton->setEnabled(false);
+	nextButton->setEnabled(false);
 
 	QFontMetrics metrics(font);
 	strokeCountLabel->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
@@ -88,7 +97,7 @@ KanjiPlayer::KanjiPlayer(QWidget *parent) : QWidget(parent), _timer(), _kanji(0)
 	setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 
 	_timer.setInterval(TIMER_INTERVAL);
-	connect(&_timer, SIGNAL(timeout()), this, SLOT(updateAnimation()));
+	connect(&_timer, SIGNAL(timeout()), this, SLOT(updateAnimationState()));
 }
 
 void KanjiPlayer::setKanji(const Kanjidic2Entry *kanji)
@@ -97,9 +106,11 @@ void KanjiPlayer::setKanji(const Kanjidic2Entry *kanji)
 	_kanji = kanji;
 	_highlightedComponent = 0;
 	strokeCountLabel->setText("");
+	playButton->setEnabled(true);
 	renderer.setKanji(kanji);
-	resetAnimation();
+	reset();
 	renderCurrentState();
+	updateStrokesCountLabel();
 	update();
 }
 
@@ -111,33 +122,39 @@ void KanjiPlayer::setPictureSize(int newSize)
 	kanjiView->setPicture(_picture);
 }
 
-void KanjiPlayer::updateAnimation()
+void KanjiPlayer::updateButtonsState()
+{
+	// Update play button pixmap
+	if (_timer.isActive()) ;
+	else {};
+	resetButton->setEnabled(_strokesCpt < renderer.strokes().size());
+	prevButton->setEnabled(_strokesCpt > 0);
+	nextButton->setEnabled(_strokesCpt < renderer.strokes().size());
+}
+
+void KanjiPlayer::updateAnimationState()
 {
 	if (_state == STATE_WAIT) {
 		if (++_lengthCpt >= _delayBetweenStrokes) {
 			_lengthCpt = 0;
 			_state = STATE_STROKE;
 		}
-		return;
 	}
-	// If we arrive here, we are in STATE_STROKE
-	// Is the animation over already?
-	if (_strokesCpt >= renderer.strokes().size()) {
-		stopAnimation();
-		return;
+	else {
+		if (_strokesCpt >= renderer.strokes().size()) {
+			stop();
+			return;
+		}
+		const KanjiRenderer::Stroke &currentStroke(renderer.strokes()[_strokesCpt]);
+		bool updateLabel = _lengthCpt == 0;
+		_lengthCpt += _animationSpeed;
+		if (updateLabel) updateStrokesCountLabel();
+		if (_lengthCpt > currentStroke.length()) {
+			nextStroke();
+			_state = STATE_WAIT;
+		}
+		update();
 	}
-
-	if (_lengthCpt == 0.0) strokeCountLabel->setText(QString("%1/%2").arg(_strokesCpt + 1).arg(renderer.strokes().size()));
-
-	const KanjiRenderer::Stroke &currentStroke(renderer.strokes()[_strokesCpt]);
-	// First update the state of the animation
-	_lengthCpt += _animationSpeed;
-	if (_lengthCpt > currentStroke.length()) {
-		_strokesCpt++;
-		_lengthCpt = 0.0;
-		_state = STATE_WAIT;
-	}
-	update();
 }
 
 void KanjiPlayer::highlightComponent(const KanjiComponent *component)
@@ -189,7 +206,7 @@ void KanjiPlayer::renderCurrentState()
 			renderer.strokes()[i].render(&painter);
 		}
 		// Render partial stroke
-		if (_strokesCpt < renderer.strokes().size()) {
+		if (_state == STATE_STROKE && _strokesCpt < renderer.strokes().size()) {
 			const KanjiRenderer::Stroke &currentStroke(renderer.strokes()[_strokesCpt]);
 			const KanjiComponent *parent(currentStroke.stroke()->parent());
 			while (parent && !kComponents.contains(parent)) parent = parent->parent();
@@ -263,26 +280,36 @@ bool KanjiPlayer::eventFilter(QObject *obj, QEvent *event)
 	return false;
 }
 
-void KanjiPlayer::startAnimation()
+void KanjiPlayer::setPosition(int strokeNbr)
+{
+	_strokesCpt = strokeNbr;
+	_lengthCpt = 0.0;
+	_state = STATE_STROKE;
+	updateButtonsState();
+	updateStrokesCountLabel();
+	update();
+}
+
+void KanjiPlayer::play()
 {
 	if (_timer.isActive()) return;
 	_timer.start();
+	updateButtonsState();
 	emit animationStarted();
 }
 
-void KanjiPlayer::stopAnimation()
+void KanjiPlayer::stop()
 {
 	if (!_timer.isActive()) return;
 	_timer.stop();
+	updateButtonsState();
 	emit animationStopped();
 }
 
-void KanjiPlayer::resetAnimation()
+void KanjiPlayer::reset()
 {
-	stopAnimation();
-	_strokesCpt = 0;
-	_lengthCpt = 0.0;
-	_state = STATE_STROKE;
+	stop();
+	setPosition(0);
 	// Reset the picture
 	QPainter painter;
 	painter.begin(&_picture);
@@ -290,9 +317,34 @@ void KanjiPlayer::resetAnimation()
 	emit animationReset();
 }
 
-void KanjiPlayer::setPosition(int strokeNbr)
+void KanjiPlayer::nextStroke()
 {
-	_strokesCpt = strokeNbr;
-	_lengthCpt = 0.0;
-	_state = STATE_STROKE;
+	if (_strokesCpt >= renderer.strokes().size()) return;
+	setPosition(_strokesCpt + 1);
+}
+
+void KanjiPlayer::prevStroke()
+{
+	if (_strokesCpt <= 0) return;
+	setPosition(_strokesCpt - 1);
+}
+
+void KanjiPlayer::playButtonClicked()
+{
+	if (_timer.isActive()) stop();
+	else {
+		if (_strokesCpt >= renderer.strokes().size()) reset();
+		play();
+	}
+}
+
+void KanjiPlayer::resetButtonClicked()
+{
+	stop();
+	setPosition(renderer.strokes().size());
+}
+
+void KanjiPlayer::updateStrokesCountLabel()
+{
+	strokeCountLabel->setText(QString("%1/%2").arg(_strokesCpt + (_lengthCpt ? 1 : 0)).arg(renderer.strokes().size()));
 }
