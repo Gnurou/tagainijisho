@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>562</width>
-    <height>428</height>
+    <height>435</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -37,41 +37,6 @@
             </property>
            </widget>
           </item>
-          <item row="0" column="1">
-           <widget class="QCheckBox" name="showStrokesNumber">
-            <property name="text">
-             <string># of strokes</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="2">
-           <widget class="QCheckBox" name="showComponents">
-            <property name="text">
-             <string>Components</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="0">
-           <widget class="QCheckBox" name="showJLPT">
-            <property name="text">
-             <string>JLPT level</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="1">
-           <widget class="QCheckBox" name="showGrade">
-            <property name="text">
-             <string>School grade</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="2">
-           <widget class="QCheckBox" name="showFrequency">
-            <property name="text">
-             <string>Frequency</string>
-            </property>
-           </widget>
-          </item>
           <item row="2" column="0">
            <widget class="QCheckBox" name="showUnicode">
             <property name="text">
@@ -97,6 +62,48 @@
            <widget class="QCheckBox" name="showSKIP">
             <property name="text">
              <string>SKIP code</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="2">
+           <widget class="QCheckBox" name="showFrequency">
+            <property name="text">
+             <string>Frequency</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="2">
+           <widget class="QCheckBox" name="showGrade">
+            <property name="text">
+             <string>School grade</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QCheckBox" name="showJLPT">
+            <property name="text">
+             <string>JLPT level</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QCheckBox" name="showComponents">
+            <property name="text">
+             <string>Components</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="2">
+           <widget class="QCheckBox" name="showStrokesNumber">
+            <property name="text">
+             <string># of strokes</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QCheckBox" name="showNanori">
+            <property name="text">
+             <string>Nanori</string>
             </property>
            </widget>
           </item>
@@ -310,8 +317,8 @@
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>495</width>
-               <height>136</height>
+               <width>146</width>
+               <height>146</height>
               </rect>
              </property>
              <layout class="QVBoxLayout" name="verticalLayout_7">

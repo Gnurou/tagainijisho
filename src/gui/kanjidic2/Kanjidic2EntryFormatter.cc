@@ -34,6 +34,7 @@
 #include <QTextList>
 
 PreferenceItem<bool> Kanjidic2EntryFormatter::showReadings("kanjidic", "showReadings", true);
+PreferenceItem<bool> Kanjidic2EntryFormatter::showNanori("kanjidic", "showNanori", true);
 PreferenceItem<bool> Kanjidic2EntryFormatter::showUnicode("kanjidic", "showUnicode", true);
 PreferenceItem<bool> Kanjidic2EntryFormatter::showSKIP("kanjidic", "showSKIP", true);
 PreferenceItem<bool> Kanjidic2EntryFormatter::showJLPT("kanjidic", "showJLPT", true);
@@ -139,20 +140,21 @@ void Kanjidic2EntryFormatter::writeTranslation(const Kanjidic2Entry *entry, QTex
 				cursor.setCharFormat(normal);
 			}
 		}
-
-		// Nanoris
-		QStringList nano = entry->nanoris();
-		if (!nano.isEmpty()) {
-			cursor.insertBlock(QTextBlockFormat());
-			cursor.setCharFormat(bold);
-			cursor.insertText(tr("Nanori:"));
-			cursor.setCharFormat(normal);
-			cursor.insertText(" ");
-			for (int i = 0; i < nano.size(); i++) {
-				if (i != 0) cursor.insertText(", ");
-				cursor.setCharFormat(kana);
-				cursor.insertText(nano[i]);
+		if (showNanori.value()) {
+			// Nanoris
+			QStringList nano = entry->nanoris();
+			if (!nano.isEmpty()) {
+				cursor.insertBlock(QTextBlockFormat());
+				cursor.setCharFormat(bold);
+				cursor.insertText(tr("Nanori:"));
 				cursor.setCharFormat(normal);
+				cursor.insertText(" ");
+				for (int i = 0; i < nano.size(); i++) {
+					if (i != 0) cursor.insertText(", ");
+					cursor.setCharFormat(kana);
+					cursor.insertText(nano[i]);
+					cursor.setCharFormat(normal);
+				}
 			}
 		}
 	}

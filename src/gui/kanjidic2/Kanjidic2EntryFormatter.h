@@ -49,6 +49,7 @@ public:
 	static QString getQueryUsedInKanjiSql(int kanji, int limit, bool onlyStudied);
 
 	static PreferenceItem<bool> showReadings;
+	static PreferenceItem<bool> showNanori;
 	static PreferenceItem<bool> showUnicode;
 	static PreferenceItem<bool> showSKIP;
 	static PreferenceItem<bool> showJLPT;
