@@ -194,6 +194,7 @@ void KanjiPlayer::renderCurrentState()
 	QList<QColor> colList;
 	colList << Qt::black << Qt::darkBlue << Qt::darkRed << Qt::darkGreen << Qt::darkCyan << Qt::darkMagenta << Qt::darkYellow << Qt::blue << Qt::red << Qt::green << Qt::cyan << Qt::magenta << Qt::yellow;
 
+	if (renderer.strokes().isEmpty()) return;
 	// No highlighted component, render the animation
 	if (!highlightedComponent()) {
 		// Render full strokes
@@ -282,6 +283,7 @@ bool KanjiPlayer::eventFilter(QObject *obj, QEvent *event)
 
 void KanjiPlayer::setPosition(int strokeNbr)
 {
+	if (strokeNbr > renderer.strokes().size()) strokeNbr = renderer.strokes().size();
 	_strokesCpt = strokeNbr;
 	_lengthCpt = 0.0;
 	_state = STATE_STROKE;
