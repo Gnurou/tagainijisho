@@ -394,9 +394,11 @@ void JMdictEntryFormatter::draw(const Entry *_entry, QPainter &painter, const QR
 				if (!_entry.data()) continue;
 				Kanjidic2Entry *kanji = qobject_cast<Kanjidic2Entry *>(_entry.data());
 				QString s = QString(c) + ": " + kanji->meanings().join(", ");
-				s = QFontMetrics(painter.font(), painter.device()).elidedText(s, Qt::ElideRight, leftArea.width());
+				QFontMetrics metrics(painter.font(), painter.device());
+				s = metrics.elidedText(s, Qt::ElideRight, leftArea.width());
 				textBB = painter.boundingRect(leftArea, Qt::AlignLeft, s);
 				painter.drawText(leftArea, Qt::AlignLeft, s);
+				if (kanji->trained()) painter.drawLine(textBB.topLeft() + QPoint(0, metrics.ascent() + metrics.underlinePos()), textBB.topRight() + QPoint(0, metrics.ascent() + metrics.underlinePos()));
 				leftArea.setTop(textBB.bottom());
 			}
 		}
