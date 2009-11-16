@@ -268,12 +268,14 @@ void Kanjidic2EntryFormatter::writeKanjiInfo(const Kanjidic2Entry *entry, QTextC
 	if (cellCpt % 2 == 0) table->removeRows(table->rows() - 1, 1);
 
 	cursor.movePosition(QTextCursor::NextBlock);
-	if (!entry->rootComponents().isEmpty() && showComponents.value()) {
+	QList<const KanjiComponent *> components(entry->rootComponents());
+	if (!components.isEmpty() && showComponents.value()) {
+		QList<const KanjiComponent *> singleComponents;
 		cursor.insertBlock(QTextBlockFormat());
 		cursor.setCharFormat(bold);
 		cursor.insertText(tr("Components:"));
 		cursor.setCharFormat(normal);
-		foreach (const KanjiComponent *component, entry->rootComponents()) {
+		foreach (const KanjiComponent *component, components) {
 			cursor.insertText("\n");
 			EntryPointer<Entry> _entry = EntriesCache::get(KANJIDIC2ENTRY_GLOBALID, component->unicode());
 			view->addWatchEntry(_entry);
