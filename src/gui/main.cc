@@ -67,7 +67,7 @@ void messageHandler(QtMsgType type, const char *msg)
 	case QtFatalMsg:
 		QMessageBox::critical(0, "Tagaini Jisho fatal error", msg);
 		fprintf(stderr, "Fatal: %s\n", msg);
-		abort();
+		exit(1);
 	}
 }
 
