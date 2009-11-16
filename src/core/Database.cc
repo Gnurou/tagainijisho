@@ -307,19 +307,19 @@ void Database::checkUserDB()
 	if (currentVersion != -1) {
 		if (currentVersion < USERDB_REVISION) {
 			if (!updateUserDB(currentVersion)) {
-				qFatal(QString("Error while upgrading user database: %1").arg(database.lastError().text()).toLatin1().data());
+				qFatal("Error while upgrading user database: %s", database.lastError().text().toLatin1().constData());
 				return;
 			}
 		}
 		// The database is more recent than our version of Tagaini - there is nothing we can do!
 		else if (currentVersion > USERDB_REVISION) {
-			qFatal(QString("Bad user database version: expected %1, got %2. Exiting.").arg(USERDB_REVISION).arg(currentVersion).toLatin1().data());
+			qFatal("Bad user database version: expected %d, got %d.", USERDB_REVISION, currentVersion);
 			return;
 		}
 	}
 	else {
 		if (!createUserDB()) {
-			qFatal(QString("Cannot create user database: %1").arg(database.lastError().text()).toLatin1().data());
+			qFatal("Cannot create user database: %s", database.lastError().text().toLatin1().constData());
 			return;
 		}
 	}
