@@ -71,6 +71,14 @@ void Kanjidic2Preferences::refresh()
 	showVariations->setChecked(Kanjidic2EntryFormatter::showVariations.value());
 	showVariationOf->setChecked(Kanjidic2EntryFormatter::showVariationOf.value());
 
+	tooltipShowScore->setChecked(Kanjidic2EntryFormatter::tooltipShowScore.value());
+	tooltipShowFrequency->setChecked(Kanjidic2EntryFormatter::tooltipShowFrequency.value());
+	tooltipShowGrade->setChecked(Kanjidic2EntryFormatter::tooltipShowGrade.value());
+	tooltipShowJLPT->setChecked(Kanjidic2EntryFormatter::tooltipShowJLPT.value());
+	tooltipShowStrokesNumber->setChecked(Kanjidic2EntryFormatter::tooltipShowStrokesNumber.value());
+	tooltipShowUnicode->setChecked(Kanjidic2EntryFormatter::tooltipShowUnicode.value());
+	tooltipShowSKIP->setChecked(Kanjidic2EntryFormatter::tooltipShowSKIP.value());
+
 	maxCompounds->setValue(Kanjidic2EntryFormatter::maxParentKanjiToDisplay.value());
 	maxWords->setValue(Kanjidic2EntryFormatter::maxWordsToDisplay.value());
 
@@ -108,6 +116,14 @@ void Kanjidic2Preferences::applySettings()
 	Kanjidic2EntryFormatter::showSKIP.set(showSKIP->isChecked());
 	Kanjidic2EntryFormatter::showVariations.set(showVariations->isChecked());
 	Kanjidic2EntryFormatter::showVariationOf.set(showVariationOf->isChecked());
+
+	Kanjidic2EntryFormatter::tooltipShowScore.set(tooltipShowScore->isChecked());
+	Kanjidic2EntryFormatter::tooltipShowFrequency.set(tooltipShowFrequency->isChecked());
+	Kanjidic2EntryFormatter::tooltipShowGrade.set(tooltipShowGrade->isChecked());
+	Kanjidic2EntryFormatter::tooltipShowJLPT.set(tooltipShowJLPT->isChecked());
+	Kanjidic2EntryFormatter::tooltipShowStrokesNumber.set(tooltipShowStrokesNumber->isChecked());
+	Kanjidic2EntryFormatter::tooltipShowUnicode.set(tooltipShowUnicode->isChecked());
+	Kanjidic2EntryFormatter::tooltipShowSKIP.set(tooltipShowSKIP->isChecked());
 
 	Kanjidic2EntryFormatter::maxParentKanjiToDisplay.set(maxCompounds->value());
 	Kanjidic2EntryFormatter::maxWordsToDisplay.set(maxWords->value());

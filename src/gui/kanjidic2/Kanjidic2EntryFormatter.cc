@@ -45,6 +45,14 @@ PreferenceItem<bool> Kanjidic2EntryFormatter::showFrequency("kanjidic", "showFre
 PreferenceItem<bool> Kanjidic2EntryFormatter::showVariations("kanjidic", "showVariations", true);
 PreferenceItem<bool> Kanjidic2EntryFormatter::showVariationOf("kanjidic", "showVariationOf", true);
 
+PreferenceItem<bool> Kanjidic2EntryFormatter::tooltipShowScore("kanjidic", "tooltipShowScore", false);
+PreferenceItem<bool> Kanjidic2EntryFormatter::tooltipShowUnicode("kanjidic", "tooltipShowUnicode", false);
+PreferenceItem<bool> Kanjidic2EntryFormatter::tooltipShowSKIP("kanjidic", "tooltipShowSKIP", false);
+PreferenceItem<bool> Kanjidic2EntryFormatter::tooltipShowJLPT("kanjidic", "tooltipShowJLPT", false);
+PreferenceItem<bool> Kanjidic2EntryFormatter::tooltipShowGrade("kanjidic", "tooltipShowGrade", false);
+PreferenceItem<bool> Kanjidic2EntryFormatter::tooltipShowStrokesNumber("kanjidic", "tooltipShowStrokesNumber", false);
+PreferenceItem<bool> Kanjidic2EntryFormatter::tooltipShowFrequency("kanjidic", "tooltipShowFrequency", false);
+
 PreferenceItem<int> Kanjidic2EntryFormatter::maxWordsToDisplay("kanjidic", "maxWordsToDisplay", 5);
 PreferenceItem<int> Kanjidic2EntryFormatter::maxParentKanjiToDisplay("kanjidic", "maxParentKanjiToDisplay", 30);
 
@@ -174,34 +182,23 @@ void Kanjidic2EntryFormatter::writeKanjiInfo(const Kanjidic2Entry *entry, QTextC
 	QTextTable *table = cursor.insertTable(1, 2, tableFormat);
 	int cellCpt = 0;
 	if (entry->strokeCount() != -1 && showStrokesNumber.value()) {
-		cursor.setCharFormat(bold);
-		cursor.insertText(tr("Strokes:"));
-		cursor.setCharFormat(normal);
-		cursor.insertText(" " + QString::number(entry->strokeCount()));
+		cursor.insertHtml(tr("<b>Strokes:</b> %1").arg(entry->strokeCount()));
 		if (++cellCpt % 2 == 0) { table->insertRows(table->rows(), 1); cursor.movePosition(QTextCursor::PreviousBlock); }
 		else cursor.movePosition(QTextCursor::NextBlock);
 	}
 	if (entry->kanjiFrequency() != -1 && showFrequency.value()) {
-		cursor.setCharFormat(bold);
-		cursor.insertText(tr("Frequency:"));
-		cursor.setCharFormat(normal);
-		cursor.insertText(" " + QString::number(entry->kanjiFrequency()));
+		cursor.insertHtml(tr("<b>Frequency:</b> %1").arg(entry->kanjiFrequency()));
 		if (++cellCpt % 2 == 0) { table->insertRows(table->rows(), 1); cursor.movePosition(QTextCursor::PreviousBlock); }
 		else cursor.movePosition(QTextCursor::NextBlock);
 	}
 	if (entry->grade() != -1 && showGrade.value()) {
-		cursor.setCharFormat(bold);
-		cursor.insertText(tr("Grade:"));
+		cursor.insertHtml(tr("<b>Grade:</b> %1").arg(tr(Kanjidic2GUIPlugin::kanjiGrades[entry->grade()].toLatin1())));
 		cursor.setCharFormat(normal);
-		cursor.insertText(" " + tr(Kanjidic2GUIPlugin::kanjiGrades[entry->grade()].toLatin1()));
 		if (++cellCpt % 2 == 0) { table->insertRows(table->rows(), 1); cursor.movePosition(QTextCursor::PreviousBlock); }
 		else cursor.movePosition(QTextCursor::NextBlock);
 	}
 	if (entry->jlpt() != -1 && showJLPT.value()) {
-		cursor.setCharFormat(bold);
-		cursor.insertText(tr("JLPT level:"));
-		cursor.setCharFormat(normal);
-		cursor.insertText(" " + QString::number(entry->jlpt()));
+		cursor.insertHtml(tr("<b>JLPT:</b> %1").arg(entry->jlpt()));
 		if (++cellCpt % 2 == 0) { table->insertRows(table->rows(), 1); cursor.movePosition(QTextCursor::PreviousBlock); }
 		else cursor.movePosition(QTextCursor::NextBlock);
 	}
@@ -257,18 +254,12 @@ void Kanjidic2EntryFormatter::writeKanjiInfo(const Kanjidic2Entry *entry, QTextC
 		else cursor.movePosition(QTextCursor::NextBlock);
 	}
 	if (showUnicode.value()) {
-		cursor.setCharFormat(bold);
-		cursor.insertText(tr("Unicode:"));
-		cursor.setCharFormat(normal);
-		cursor.insertText(" 0x" + QString::number(TextTools::singleCharToUnicode(entry->kanji()), 16));
+		cursor.insertHtml(tr("<b>Unicode:</b> 0x%1").arg(QString::number(TextTools::singleCharToUnicode(entry->kanji()), 16)));
 		if (++cellCpt % 2 == 0) { table->insertRows(table->rows(), 1); cursor.movePosition(QTextCursor::PreviousBlock); }
 		else cursor.movePosition(QTextCursor::NextBlock);
 	}
-        if (showSKIP.value() && !entry->skipCode().isEmpty()) {
-		cursor.setCharFormat(bold);
-		cursor.insertText(tr("SKIP:"));
-		cursor.setCharFormat(normal);
-		cursor.insertText(entry->skipCode());
+	if (showSKIP.value() && !entry->skipCode().isEmpty()) {
+		cursor.insertHtml(tr("<b>SKIP:</b> %1").arg(entry->skipCode()));
 		if (++cellCpt % 2 == 0) { table->insertRows(table->rows(), 1); cursor.movePosition(QTextCursor::PreviousBlock); }
 		else cursor.movePosition(QTextCursor::NextBlock);
 	}
@@ -495,26 +486,65 @@ void Kanjidic2EntryFormatter::detailedVersionPart2(const Entry *entry, QTextCurs
 
 void Kanjidic2EntryFormatter::showToolTip(const Kanjidic2Entry *entry, const QPoint &pos) const
 {
-	QString s;
-	if (entry->trained()) {
-		QColor scoreColor(this->scoreColor(entry));
-		s = QString("<font size=\"+3\" style=\"background-color: #%1%2%3\">").arg(QString::number(scoreColor.red(), 16)).arg(QString::number(scoreColor.green(), 16)).arg(QString::number(scoreColor.blue(), 16));
-	} else s = QString("<font size=\"+3\">");
+	QString writing, alt;
 	if (!entry->writings().isEmpty()) {
-		s += entry->writings()[0] + "</font> ";
+		writing = entry->writings()[0];
 		if (!entry->readings().isEmpty()) {
-			s += "(" + entry->readings()[0] + ")";
+			alt = "(" + entry->readings()[0] + ")";
 		}
 	}
-	else if (!entry->readings().isEmpty()) {
-		s += entry->readings()[0];
-	}
-	if (entry->jlpt() != -1) s += QString("<br/><b>JLPT:</b> %1").arg(entry->jlpt());
+	else if (!entry->readings().isEmpty()) writing = entry->readings()[0];
+	QString s;
+	if (tooltipShowScore.value() && entry->trained()) {
+		QColor scoreColor(this->scoreColor(entry));
+		s += QString("<div style=\"font-size: xx-large; background-color: #%1%2%3;\">%4</div> ").arg(QString::number(scoreColor.red(), 16)).arg(QString::number(scoreColor.green(), 16)).arg(QString::number(scoreColor.blue(), 16)).arg(writing);
+	} else s += QString("<div style=\"font-size: xx-large;\">%1</div> ").arg(writing);
+	s += alt;
 	if (!entry->meanings().isEmpty()) {
 		QString s2 = entry->meaningsString();
 		if (!s2.isEmpty()) s2[0] = s2[0].toUpper();
 		s += "<br/>" + s2;
 	}
+	s += "<table border=\"0\" width=\"100%\">";
+	int tCpt = 0;
+	if (entry->strokeCount() != -1 && tooltipShowStrokesNumber.value()) {
+		QString body(tr("<b>Strokes:</b> %1").arg(entry->strokeCount()));
+		if (tCpt % 2) s += "<td>" + body + "</td></tr>";
+		else s += "<tr><td>" + body + "</td>";
+		++tCpt;
+	}
+	if (entry->kanjiFrequency() != -1 && tooltipShowFrequency.value()) {
+		QString body(tr("<b>Frequency:</b> %1").arg(entry->kanjiFrequency()));
+		if (tCpt % 2) s += "<td>" + body + "</td></tr>";
+		else s += "<tr><td>" + body + "</td>";
+		++tCpt;
+	}
+	if (entry->grade() != -1 && tooltipShowGrade.value()) {
+		QString body(tr("<b>Grade:</b> %1").arg(tr(Kanjidic2GUIPlugin::kanjiGrades[entry->grade()].toLatin1())));
+		if (tCpt % 2) s += "<td>" + body + "</td></tr>";
+		else s += "<tr><td>" + body + "</td>";
+		++tCpt;
+	}
+	if (entry->jlpt() != -1 && tooltipShowJLPT.value()) {
+		QString body(tr("<b>JLPT:</b> %1").arg(entry->jlpt()));
+		if (tCpt % 2) s += "<td>" + body + "</td></tr>";
+		else s += "<tr><td>" + body + "</td>";
+		++tCpt;
+	}
+	if (tooltipShowUnicode.value()) {
+		QString body(tr("<b>Unicode:</b> 0x%1").arg(QString::number(TextTools::singleCharToUnicode(entry->kanji()), 16)));
+		if (tCpt % 2) s += "<td>" + body + "</td></tr>";
+		else s += "<tr><td>" + body + "</td>";
+		++tCpt;
+	}
+	if (!entry->skipCode().isEmpty() && tooltipShowSKIP.value()) {
+		QString body(tr("<b>SKIP:</b> %1").arg(entry->skipCode()));
+		if (tCpt % 2) s += "<td>" + body + "</td></tr>";
+		else s += "<tr><td>" + body + "</td>";
+		++tCpt;
+	}
+	if (tCpt % 2) s += "<td></td></tr>";
+	s += "</table>";
 	QToolTip::showText(pos, s);
 }
 

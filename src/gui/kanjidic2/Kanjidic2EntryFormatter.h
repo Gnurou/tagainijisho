@@ -60,6 +60,14 @@ public:
 	static PreferenceItem<bool> showVariations;
 	static PreferenceItem<bool> showVariationOf;
 
+	static PreferenceItem<bool> tooltipShowScore;
+	static PreferenceItem<bool> tooltipShowUnicode;
+	static PreferenceItem<bool> tooltipShowSKIP;
+	static PreferenceItem<bool> tooltipShowJLPT;
+	static PreferenceItem<bool> tooltipShowGrade;
+	static PreferenceItem<bool> tooltipShowStrokesNumber;
+	static PreferenceItem<bool> tooltipShowFrequency;
+
 	static PreferenceItem<int> maxWordsToDisplay;
 	static PreferenceItem<int> maxParentKanjiToDisplay;
 

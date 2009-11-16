@@ -317,7 +317,7 @@
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>146</width>
+               <width>480</width>
                <height>146</height>
               </rect>
              </property>
@@ -381,6 +381,84 @@
           </item>
          </layout>
         </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tab">
+      <attribute name="title">
+       <string>Tooltip</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_10">
+       <item>
+        <widget class="QGroupBox" name="groupBox_4">
+         <property name="title">
+          <string>Basic information</string>
+         </property>
+         <layout class="QGridLayout" name="gridLayout_5">
+          <item row="3" column="1">
+           <widget class="QCheckBox" name="tooltipShowSKIP">
+            <property name="text">
+             <string>SKIP code</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="0">
+           <widget class="QCheckBox" name="tooltipShowScore">
+            <property name="text">
+             <string>Score</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QCheckBox" name="tooltipShowStrokesNumber">
+            <property name="text">
+             <string># of strokes</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="0">
+           <widget class="QCheckBox" name="tooltipShowUnicode">
+            <property name="text">
+             <string>Unicode</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="2">
+           <widget class="QCheckBox" name="tooltipShowFrequency">
+            <property name="text">
+             <string>Frequency</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1">
+           <widget class="QCheckBox" name="tooltipShowGrade">
+            <property name="text">
+             <string>School grade</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0">
+           <widget class="QCheckBox" name="tooltipShowJLPT">
+            <property name="text">
+             <string>JLPT level</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer_4">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>273</height>
+          </size>
+         </property>
+        </spacer>
        </item>
       </layout>
      </widget>
