@@ -39,6 +39,8 @@
 #define STATE_STROKE 1
 #define STATE_WAIT 2
 
+#define CONTROL_ICON_SIZE 10
+
 PreferenceItem<int> KanjiPlayer::animationSpeed("kanjidic", "animationSpeed", 30);
 PreferenceItem<int> KanjiPlayer::delayBetweenStrokes("kanjidic", "delayBetweenStrokes", 10);
 
@@ -67,16 +69,20 @@ KanjiPlayer::KanjiPlayer(QWidget *parent) : QWidget(parent), _timer(), _kanji(0)
 	controlLayout->setSpacing(0);
 	playButton = new QPushButton(this);
 	playButton->setMaximumSize(20, 20);
+	playButton->setIcon(QIcon(QPixmap(":/images/icons/control-play.png").scaledToHeight(CONTROL_ICON_SIZE, Qt::SmoothTransformation)));
 	controlLayout->addWidget(playButton);
 	resetButton = new QPushButton(this);
 	resetButton->setMaximumSize(20, 20);
+	resetButton->setIcon(QIcon(QPixmap(":/images/icons/control-stop.png").scaledToHeight(CONTROL_ICON_SIZE, Qt::SmoothTransformation)));
 	controlLayout->addWidget(resetButton);
 	controlLayout->addWidget(strokeCountLabel);
 	prevButton = new QPushButton(this);
 	prevButton->setMaximumSize(20, 20);
+	prevButton->setIcon(QIcon(QPixmap(":/images/icons/control-fr.png").scaledToHeight(CONTROL_ICON_SIZE, Qt::SmoothTransformation)));
 	controlLayout->addWidget(prevButton);
 	nextButton = new QPushButton(this);
 	nextButton->setMaximumSize(20, 20);
+	nextButton->setIcon(QIcon(QPixmap(":/images/icons/control-ff.png").scaledToHeight(CONTROL_ICON_SIZE, Qt::SmoothTransformation)));
 	controlLayout->addWidget(nextButton);
 	mainLayout->addLayout(controlLayout);
 
@@ -125,8 +131,8 @@ void KanjiPlayer::setPictureSize(int newSize)
 void KanjiPlayer::updateButtonsState()
 {
 	// Update play button pixmap
-	if (_timer.isActive()) ;
-	else {};
+	if (_timer.isActive()) playButton->setIcon(QIcon(QPixmap(":/images/icons/control-pause.png").scaledToHeight(CONTROL_ICON_SIZE, Qt::SmoothTransformation)));
+	else playButton->setIcon(QIcon(QPixmap(":/images/icons/control-play.png").scaledToHeight(CONTROL_ICON_SIZE, Qt::SmoothTransformation)));
 	resetButton->setEnabled(_strokesCpt < renderer.strokes().size());
 	prevButton->setEnabled(_strokesCpt > 0);
 	nextButton->setEnabled(_strokesCpt < renderer.strokes().size());
