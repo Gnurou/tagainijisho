@@ -188,6 +188,7 @@ void JMdictEntrySearcher::buildStatement(QList<SearchCommand> &commands, QueryBu
 			}
 			// Break command if one of the arguments were invalid
 			if (!valid) continue;
+			statement.addJoin(QueryBuilder::Column("jmdict.senses", "id"));
 			commands.removeOne(command);
 		}
 		else if (commandLabel == "hascomponent") {
@@ -205,6 +206,7 @@ void JMdictEntrySearcher::buildStatement(QList<SearchCommand> &commands, QueryBu
 			}
 			// Break command if one of the arguments were invalid
 			if (!valid) continue;
+			statement.addJoin(QueryBuilder::Column("jmdict.senses", "id"));
 			commands.removeOne(command);
 		}
 		else if (commandLabel == "jlpt") {
@@ -287,12 +289,12 @@ void JMdictEntrySearcher::buildStatement(QList<SearchCommand> &commands, QueryBu
 
 	if (!hasKanjiSearch.isEmpty()) {
 		statement.addJoin(QueryBuilder::Column("jmdict.entries", "id"));
-		statement.addWhere(QString("{{leftcolumn}} in (select jmdict.kanjiChar.id from jmdict.kanjiChar where jmdict.kanjiChar.kanji in (%1) group by jmdict.kanjiChar.id, jmdict.kanjiChar.priority having count(jmdict.kanjiChar.kanji) = %2)").arg(hasKanjiSearch.join(", ")).arg(hasKanjiSearch.size()));
+		statement.addWhere(QString("({{leftcolumn}}, jmdict.senses.priority) in (select distinct (jmdict.kanjiChar.id, jmdict.kanjiChar.priority) from jmdict.kanjiChar where jmdict.kanjiChar.kanji in (%1) group by jmdict.kanjiChar.id, jmdict.kanjiChar.priority having count(jmdict.kanjiChar.kanji) = %2)").arg(hasKanjiSearch.join(", ")).arg(hasKanjiSearch.size()));
 	}
 
 	if (!hasComponentSearch.isEmpty()) {
 		statement.addJoin(QueryBuilder::Column("jmdict.entries", "id"));
-		statement.addWhere(QString("{{leftcolumn}} in (select distinct jmdict.kanjiChar.id from jmdict.kanjiChar join kanjidic2.strokeGroups on jmdict.kanjiChar.kanji = kanjidic2.strokeGroups.kanji where kanjidic2.strokeGroups.element in (%1) or kanjidic2.strokeGroups.original in (%1) group by jmdict.kanjiChar.id, jmdict.kanjiChar.priority HAVING UNIQUECOUNT(CASE WHEN kanjidic2.strokeGroups.element IN (%1) THEN kanjidic2.strokeGroups.element ELSE NULL END, CASE WHEN kanjidic2.strokeGroups.original IN (%1) THEN kanjidic2.strokeGroups.original ELSE NULL END) >= %2)").arg(hasComponentSearch.join(", ")).arg(hasComponentSearch.size()));
+		statement.addWhere(QString("({{leftcolumn}}, jmdict.senses.priority) in (select distinct (jmdict.kanjiChar.id, jmdict.kanjiChar.priority) from jmdict.kanjiChar join kanjidic2.strokeGroups on jmdict.kanjiChar.kanji = kanjidic2.strokeGroups.kanji where kanjidic2.strokeGroups.element in (%1) or kanjidic2.strokeGroups.original in (%1) group by jmdict.kanjiChar.id, jmdict.kanjiChar.priority HAVING UNIQUECOUNT(CASE WHEN kanjidic2.strokeGroups.element IN (%1) THEN kanjidic2.strokeGroups.element ELSE NULL END, CASE WHEN kanjidic2.strokeGroups.original IN (%1) THEN kanjidic2.strokeGroups.original ELSE NULL END) >= %2)").arg(hasComponentSearch.join(", ")).arg(hasComponentSearch.size()));
 	}
 }
 
