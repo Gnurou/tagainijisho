@@ -370,6 +370,7 @@ class SearchBar : public QWidget
 	Q_OBJECT
 private:
 	QComboBox *_searchField;
+	QToolButton *resetText;
 	EntryTypeSelectionWidget *_entryTypeSelector;
 	QPushButton *searchButton;
 	QMovie *searchAnim;
@@ -384,6 +385,7 @@ private slots:
 	void enableFeature(const QString &feature);
 	void disableFeature(const QString &feature);
 	void resetSearchText();
+	void onSearchTextChanged(const QString &text);
 
 public:
 	SearchBar(QWidget *parent = 0);

@@ -742,9 +742,10 @@ SearchBar::SearchBar(QWidget *parent) : QWidget(parent)
 	searchButton->setIcon(QIcon(":/images/icons/ldap_lookup.png"));
 	searchButton->setShortcut(QKeySequence("Ctrl+Return"));
 
-	QToolButton *resetText = new QToolButton(this);
+	resetText = new QToolButton(this);
 	resetText->setIcon(QIcon(":/images/icons/reset-search.png"));
 	resetText->setToolTip(tr("Clear search text"));
+	resetText->setEnabled(false);
 	connect(resetText, SIGNAL(clicked()), this, SLOT(resetSearchText()));
 
 	connect(_entryTypeSelector, SIGNAL(commandUpdated()),searchButton, SLOT(click()));
@@ -777,6 +778,7 @@ SearchBar::SearchBar(QWidget *parent) : QWidget(parent)
 	connect(searchButton, SIGNAL(clicked()), this, SLOT(searchButtonClicked()));
 	connect(searchStatus, SIGNAL(clicked()), this, SIGNAL(stopSearch()));
 	connect(_searchField->lineEdit(), SIGNAL(returnPressed()), searchButton, SLOT(click()));
+	connect(_searchField->lineEdit(), SIGNAL(textChanged(QString)), this, SLOT(onSearchTextChanged(QString)));
 //	connect(_searchField, SIGNAL(currentIndexChanged(int)), searchButton, SLOT(click()));
 
 	_extendersList[_entryTypeSelector->name()] = _entryTypeSelector;
@@ -784,6 +786,11 @@ SearchBar::SearchBar(QWidget *parent) : QWidget(parent)
 	registerExtender(new TagsSearchWidget(this));
 	registerExtender(new NotesSearchWidget(this));
 	registerExtender(new JLPTOptionsWidget(this));
+}
+
+void SearchBar::onSearchTextChanged(const QString &text)
+{
+	resetText->setEnabled(!text.isEmpty());
 }
 
 void SearchBar::resetSearchText()
