@@ -51,15 +51,16 @@ public:
 	static const QString queryFindVerbBuddySql;
 	static const QString queryFindHomonymsSql;
 
-	// Default settings values
+	static PreferenceItem<bool> showJLPT;
+	static PreferenceItem<bool> searchVerbBuddy;
+	static PreferenceItem<int> maxHomophonesToDisplay;
+	static PreferenceItem<bool> displayStudiedHomophonesOnly;
+
 	static PreferenceItem<bool> printKanjiMeaning;
 	static PreferenceItem<int> maxDefinitionsToPrint;
-	static PreferenceItem<int> maxHomophonesToDisplay;
-	static PreferenceItem<int> displayStudiedHomophonesOnly;
-	static const bool PRINTKANJIMEANINGS_DEFAULT = true;
-	static const int MAXDEFSTOPRINT_DEFAULT = 5;
-	static const int MAXHOMONYNSTODISPLAY_DEFAULT = 5;
-	static const bool HOMONYMSSTUDIEDONLY_DEFAULT = false;
+
+	static QString getVerbBuddySql(const QString &matchPattern, JMdictPosTagType pos, int id);
+	static QString getHomophonesSql(const QString &reading, int id, int maxToDisplay = maxHomophonesToDisplay.value(), bool studiedOnly = displayStudiedHomophonesOnly.value());
 };
 
 class FindVerbBuddyJob : public DetailedViewJob {
@@ -82,7 +83,7 @@ public:
 class FindHomonymsJob : public DetailedViewJob {
 	Q_DECLARE_TR_FUNCTIONS(FindHomonymsJob)
 public:
-	FindHomonymsJob(const JMdictEntry *entry, int maxToDisplay, int studiedOnly, const QTextCursor &cursor);
+	FindHomonymsJob(const JMdictEntry *entry, int maxToDisplay, bool studiedOnly, const QTextCursor &cursor);
 	virtual void firstResult();
 	virtual void result(EntryPointer<Entry> entry);
 	virtual void completed();

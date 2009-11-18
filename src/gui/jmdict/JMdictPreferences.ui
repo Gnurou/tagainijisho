@@ -7,13 +7,13 @@
     <x>0</x>
     <y>0</y>
     <width>477</width>
-    <height>439</height>
+    <height>351</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_2">
+  <layout class="QVBoxLayout" name="verticalLayout_8">
    <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
@@ -29,8 +29,8 @@
          <property name="title">
           <string>Basic information</string>
          </property>
-         <layout class="QFormLayout" name="formLayout">
-          <item row="0" column="0">
+         <layout class="QVBoxLayout" name="verticalLayout_2">
+          <item>
            <widget class="QCheckBox" name="showJLPT">
             <property name="text">
              <string>JLPT level</string>
@@ -47,6 +47,16 @@
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_5">
           <item>
+           <widget class="QCheckBox" name="lookupVerbBuddy">
+            <property name="toolTip">
+             <string>For transitive verbs, look for the equivalent intransitive entry and vice-versa.</string>
+            </property>
+            <property name="text">
+             <string>Search for transitive/intransitive verb buddy</string>
+            </property>
+           </widget>
+          </item>
+          <item>
            <layout class="QHBoxLayout" name="horizontalLayout_2">
             <item>
              <widget class="QSpinBox" name="homophonesCount"/>
@@ -61,25 +71,34 @@
               </property>
              </widget>
             </item>
+            <item>
+             <widget class="QCheckBox" name="studiedHomophonesOnly">
+              <property name="text">
+               <string>Studied only</string>
+              </property>
+             </widget>
+            </item>
            </layout>
-          </item>
-          <item>
-           <widget class="QCheckBox" name="lookupVerbBuddy">
-            <property name="toolTip">
-             <string>For transitive verbs, look for the equivalent intransitive entry and vice-versa.</string>
-            </property>
-            <property name="text">
-             <string>Look for verb buddy</string>
-            </property>
-           </widget>
           </item>
          </layout>
         </widget>
        </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="printingTab">
+      <attribute name="title">
+       <string>Printing</string>
+      </attribute>
+     </widget>
+     <widget class="QWidget" name="filteringTab">
+      <attribute name="title">
+       <string>Definitions filtering</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_7">
        <item>
         <widget class="QGroupBox" name="groupBox_3">
          <property name="title">
-          <string>Definitions filtering</string>
+          <string>Filtered definitions</string>
          </property>
          <layout class="QHBoxLayout" name="horizontalLayout">
           <item>
@@ -193,11 +212,6 @@
         </widget>
        </item>
       </layout>
-     </widget>
-     <widget class="QWidget" name="printingTab">
-      <attribute name="title">
-       <string>Printing</string>
-      </attribute>
      </widget>
     </widget>
    </item>

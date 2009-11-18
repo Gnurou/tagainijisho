@@ -17,6 +17,7 @@
 
 #include "core/jmdict/JMdictDefs.h"
 #include "core/jmdict/JMdictEntrySearcher.h"
+#include "gui/jmdict/JMdictEntryFormatter.h"
 #include "gui/jmdict/JMdictPreferences.h"
 #include "gui/jmdict/JMdictGUIPlugin.h"
 
@@ -46,6 +47,11 @@ void JMdictPreferences::onUnFilterButtonClicked()
 
 void JMdictPreferences::refresh()
 {
+	showJLPT->setChecked(JMdictEntryFormatter::showJLPT.value());
+	homophonesCount->setValue(JMdictEntryFormatter::maxHomophonesToDisplay.value());
+	studiedHomophonesOnly->setChecked(JMdictEntryFormatter::displayStudiedHomophonesOnly.value());
+	lookupVerbBuddy->setChecked(JMdictEntryFormatter::searchVerbBuddy.value());
+
 	filteredDefs->clear();
 	displayedDefs->clear();
 	const QStringList &filtered(JMdictEntrySearcher::miscPropertiesFilter.value());
@@ -59,6 +65,10 @@ void JMdictPreferences::refresh()
 
 void JMdictPreferences::applySettings()
 {
+	JMdictEntryFormatter::showJLPT.set(showJLPT->isChecked());
+	JMdictEntryFormatter::maxHomophonesToDisplay.set(homophonesCount->value());
+	JMdictEntryFormatter::displayStudiedHomophonesOnly.set(studiedHomophonesOnly->isChecked());
+	JMdictEntryFormatter::searchVerbBuddy.set(lookupVerbBuddy->isChecked());
 	QStringList filtered, res;
 	for (int i = 0; i < filteredDefs->model()->rowCount(); i++) filtered << filteredDefs->item(i)->text();
 	for (int i = 0; JMdictMiscEntitiesLongDesc[i] != ""; i++) {

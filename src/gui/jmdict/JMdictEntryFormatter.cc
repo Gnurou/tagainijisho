@@ -27,14 +27,28 @@
 #include <QTextBlock>
 #include <QTextList>
 
-const QString JMdictEntryFormatter::queryFindVerbBuddySql("select distinct " QUOTEMACRO(JMDICTENTRY_GLOBALID) ", jmdict.entries.id from jmdict.entries join jmdict.kanji on jmdict.kanji.id = jmdict.entries.id join jmdict.senses on jmdict.senses.id = jmdict.entries.id where jmdict.kanji.docid in (select docid from jmdict.kanjiText where jmdict.kanjiText.reading match '\"%1*\"') and jmdict.kanji.priority = 0 and jmdict.senses.pos & %2 == %2 and jmdict.entries.id != %3");
-const QString JMdictEntryFormatter::queryFindHomonymsSql("select distinct " QUOTEMACRO(JMDICTENTRY_GLOBALID) ", jmdict.entries.id from jmdict.entries join jmdict.kana on jmdict.kana.id = jmdict.entries.id %4 join training on training.id = jmdict.entries.id and training.type = " QUOTEMACRO(JMDICTENTRY_GLOBALID) " where jmdict.kana.docid in (select docid from jmdict.kanaText where jmdict.kanaText.reading match '\"%1\"') and jmdict.kana.priority = 0 and jmdict.entries.id != %3 order by training.dateAdded is null ASC, training.score ASC, jmdict.entries.frequency DESC limit %2");
+PreferenceItem<bool> JMdictEntryFormatter::showJLPT("jmdict", "showJLPT", true);
+PreferenceItem<bool> JMdictEntryFormatter::searchVerbBuddy("jmdict", "searchVerbBuddy", true);
+PreferenceItem<int> JMdictEntryFormatter::maxHomophonesToDisplay("jmdict", "maxHomophonesToDisplay", 5);
+PreferenceItem<bool> JMdictEntryFormatter::displayStudiedHomophonesOnly("jmdict", "displayStudiedHomophonesOnly", false);
 
 PreferenceItem<bool> JMdictEntryFormatter::printKanjiMeaning("jmdict", "printKanjiMeaning", true);
 PreferenceItem<int> JMdictEntryFormatter::maxDefinitionsToPrint("jmdict", "maxDefinitionsToPrint", 5);
 
-PreferenceItem<int> JMdictEntryFormatter::maxHomophonesToDisplay("jmdict", "maxHomophonesToDisplay", 5);
-PreferenceItem<int> JMdictEntryFormatter::displayStudiedHomophonesOnly("jmdict", "displayStudiedHomophonesOnly", 5);
+
+QString JMdictEntryFormatter::getVerbBuddySql(const QString &matchPattern, JMdictPosTagType pos, int id)
+{
+	const QString queryFindVerbBuddySql("select distinct " QUOTEMACRO(JMDICTENTRY_GLOBALID) ", jmdict.entries.id from jmdict.entries join jmdict.kanji on jmdict.kanji.id = jmdict.entries.id join jmdict.senses on jmdict.senses.id = jmdict.entries.id where jmdict.kanji.docid in (select docid from jmdict.kanjiText where jmdict.kanjiText.reading match '\"%1*\"') and jmdict.kanji.priority = 0 and jmdict.senses.pos & %2 == %2 and jmdict.entries.id != %3");
+
+	return	queryFindVerbBuddySql.arg(matchPattern).arg(pos).arg(id);
+}
+
+QString JMdictEntryFormatter::getHomophonesSql(const QString &reading, int id, int maxToDisplay, bool studiedOnly)
+{
+	const QString queryFindHomonymsSql("select distinct " QUOTEMACRO(JMDICTENTRY_GLOBALID) ", jmdict.entries.id from jmdict.entries join jmdict.kana on jmdict.kana.id = jmdict.entries.id %4 join training on training.id = jmdict.entries.id and training.type = " QUOTEMACRO(JMDICTENTRY_GLOBALID) " where jmdict.kana.docid in (select docid from jmdict.kanaText where jmdict.kanaText.reading match '\"%1\"') and jmdict.kana.priority = 0 and jmdict.entries.id != %3 order by training.dateAdded is null ASC, training.score ASC, jmdict.entries.frequency DESC limit %2");
+
+	return queryFindHomonymsSql.arg(reading).arg(maxToDisplay).arg(id).arg(studiedOnly ? "" : "left");
+}
 
 JMdictEntryFormatter::JMdictEntryFormatter() : EntryFormatter()
 {
@@ -301,7 +315,7 @@ void JMdictEntryFormatter::writeEntryInfo(const JMdictEntry *entry, QTextCursor 
 	QTextCharFormat normal(DetailedViewFonts::charFormat(DetailedViewFonts::DefaultText));
 	QTextCharFormat bold(normal);
 	bold.setFontWeight(QFont::Bold);
-	if (entry->jlpt() != -1) {
+	if (showJLPT.value() && entry->jlpt() != -1) {
 		cursor.insertBlock(QTextBlockFormat());
 		cursor.setCharFormat(bold);
 		cursor.insertText(tr("JLPT level:"));
@@ -471,7 +485,7 @@ FindVerbBuddyJob::FindVerbBuddyJob(const JMdictEntry *verb, JMdictPosTagType pos
 	// Only continue if the matchpattern is not empty...
 	if (!matchPattern.size() || !kanaPattern.size()) return;
 
-	_sql = JMdictEntryFormatter::queryFindVerbBuddySql.arg(matchPattern).arg(pos).arg(verb->id());
+	_sql = JMdictEntryFormatter::getVerbBuddySql(matchPattern, pos, verb->id());
 	lastKanjiPos = matchPattern.size();
 }
 
@@ -552,7 +566,7 @@ void FindVerbBuddyJob::completed()
 	if (formatter) formatter->writeShortDesc(bestMatch.data(), cursor());
 }
 
-FindHomonymsJob::FindHomonymsJob(const JMdictEntry *entry, int maxToDisplay, int studiedOnly, const QTextCursor &cursor) :
+FindHomonymsJob::FindHomonymsJob(const JMdictEntry *entry, int maxToDisplay, bool studiedOnly, const QTextCursor &cursor) :
 	DetailedViewJob(cursor)
 {
 	QString s;
@@ -560,7 +574,7 @@ FindHomonymsJob::FindHomonymsJob(const JMdictEntry *entry, int maxToDisplay, int
 	if (!entry->readings().isEmpty()) s = entry->readings()[0];
 	else if (!entry->writings().isEmpty()) s = entry->writings()[0];
 	else return;
-	_sql = JMdictEntryFormatter::queryFindHomonymsSql.arg(s).arg(maxToDisplay).arg(entry->id()).arg(studiedOnly ? "" : "left");
+	_sql = JMdictEntryFormatter::getHomophonesSql(s, entry->id(), maxToDisplay, studiedOnly);
 }
 
 void FindHomonymsJob::firstResult()
