@@ -48,7 +48,7 @@ Features
 
 Compiling
 ---------
-The only runtime dependency to run Tagaini Jisho is Qt 4.4 or higher. In order
+The only runtime dependency to run Tagaini Jisho is Qt 4.5 or higher. In order
 to compile it, you will also need Python 2.5 or higher.
 
 Compilation is made of several steps. First, you invoke a Python script that
