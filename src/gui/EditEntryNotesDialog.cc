@@ -22,7 +22,7 @@
 #include <QVBoxLayout>
 #include <QPushButton>
 
-PreferenceItem<QByteArray> EditEntryNotesDialog::windowGeometry("trainWindow", "geometry", "");
+PreferenceItem<QByteArray> EditEntryNotesDialog::windowGeometry("notesWindow", "geometry", "");
 
 QVariant EntryNotesModel::data(const QModelIndex &index, int role) const
 {
