@@ -20,6 +20,7 @@
 #include "gui/kanjidic2/Kanjidic2EntryFormatter.h"
 
 #include "core/jmdict/JMdictEntry.h"
+#include "core/jmdict/JMdictEntrySearcher.h"
 #include "gui/kanjidic2/KanjiRenderer.h"
 #include "gui/jmdict/JMdictEntryFormatter.h"
 #include "gui/kanjidic2/Kanjidic2GUIPlugin.h"
@@ -44,6 +45,10 @@ PreferenceItem<bool> Kanjidic2EntryFormatter::showStrokesNumber("kanjidic", "sho
 PreferenceItem<bool> Kanjidic2EntryFormatter::showFrequency("kanjidic", "showFrequency", true);
 PreferenceItem<bool> Kanjidic2EntryFormatter::showVariations("kanjidic", "showVariations", true);
 PreferenceItem<bool> Kanjidic2EntryFormatter::showVariationOf("kanjidic", "showVariationOf", true);
+PreferenceItem<int> Kanjidic2EntryFormatter::maxWordsToDisplay("kanjidic", "maxWordsToDisplay", 5);
+PreferenceItem<bool> Kanjidic2EntryFormatter::showOnlyStudiedVocab("kanjidic", "showOnlyStudiedVocab", false);
+PreferenceItem<int> Kanjidic2EntryFormatter::maxCompoundsToDisplay("kanjidic", "maxParentKanjiToDisplay", 30);
+PreferenceItem<bool> Kanjidic2EntryFormatter::showOnlyStudiedCompounds("kanjidic", "showOnlyStudiedComponents", false);
 
 PreferenceItem<bool> Kanjidic2EntryFormatter::tooltipShowScore("kanjidic", "tooltipShowScore", false);
 PreferenceItem<bool> Kanjidic2EntryFormatter::tooltipShowUnicode("kanjidic", "tooltipShowUnicode", false);
@@ -52,9 +57,6 @@ PreferenceItem<bool> Kanjidic2EntryFormatter::tooltipShowJLPT("kanjidic", "toolt
 PreferenceItem<bool> Kanjidic2EntryFormatter::tooltipShowGrade("kanjidic", "tooltipShowGrade", false);
 PreferenceItem<bool> Kanjidic2EntryFormatter::tooltipShowStrokesNumber("kanjidic", "tooltipShowStrokesNumber", false);
 PreferenceItem<bool> Kanjidic2EntryFormatter::tooltipShowFrequency("kanjidic", "tooltipShowFrequency", false);
-
-PreferenceItem<int> Kanjidic2EntryFormatter::maxWordsToDisplay("kanjidic", "maxWordsToDisplay", 5);
-PreferenceItem<int> Kanjidic2EntryFormatter::maxParentKanjiToDisplay("kanjidic", "maxParentKanjiToDisplay", 30);
 
 PreferenceItem<int> Kanjidic2EntryFormatter::printSize("kanjidic", "printSize", 80);
 PreferenceItem<bool> Kanjidic2EntryFormatter::printWithFont("kanjidic", "printWithFont", false);
@@ -68,9 +70,9 @@ PreferenceItem<bool> Kanjidic2EntryFormatter::printOnlyStudiedVocab("kanjidic", 
 
 QString Kanjidic2EntryFormatter::getQueryUsedInWordsSql(int kanji, int limit, bool onlyStudied)
 {
-	const QString queryUsedInWordsSql("select distinct " QUOTEMACRO(JMDICTENTRY_GLOBALID) ", jmdict.entries.id from jmdict.entries join jmdict.kanjiChar on jmdict.kanjiChar.id = jmdict.entries.id %3join training on training.id = jmdict.entries.id and training.type = " QUOTEMACRO(JMDICTENTRY_GLOBALID) " where jmdict.kanjiChar.kanji = %1 and jmdict.kanjiChar.priority = 0 order by training.dateAdded is null ASC, training.score ASC, jmdict.entries.frequency DESC limit %2");
+	const QString queryUsedInWordsSql("select distinct " QUOTEMACRO(JMDICTENTRY_GLOBALID) ", jmdict.entries.id from jmdict.entries join jmdict.kanjiChar on jmdict.kanjiChar.id = jmdict.entries.id join jmdict.senses on jmdict.senses.id = jmdict.entries.id %3join training on training.id = jmdict.entries.id and training.type = " QUOTEMACRO(JMDICTENTRY_GLOBALID) " where jmdict.kanjiChar.kanji = %1 and jmdict.kanjiChar.priority = 0 and jmdict.senses.misc & %4 == 0 order by training.dateAdded is null ASC, training.score ASC, jmdict.entries.frequency DESC limit %2");
 
-	return queryUsedInWordsSql.arg(kanji).arg(limit).arg(onlyStudied ? "" : "left ");
+	return queryUsedInWordsSql.arg(kanji).arg(limit).arg(onlyStudied ? "" : "left ").arg(JMdictEntrySearcher::miscFilterMask());
 }
 
 QString Kanjidic2EntryFormatter::getQueryUsedInKanjiSql(int kanji, int limit, bool onlyStudied)
@@ -295,8 +297,8 @@ void Kanjidic2EntryFormatter::writeKanjiInfo(const Kanjidic2Entry *entry, QTextC
 			cursor.insertImage(imgFormat);
 		}
 	}
-	if (maxParentKanjiToDisplay.value()) view->addBackgroundJob(new ShowUsedInJob(entry->kanji(), maxParentKanjiToDisplay.value(), cursor));
-	if (maxWordsToDisplay.value()) view->addBackgroundJob(new ShowUsedInWordsJob(entry->kanji(), maxWordsToDisplay.value(), cursor));
+	if (maxCompoundsToDisplay.value()) view->addBackgroundJob(new ShowUsedInKanjiJob(entry->kanji(), cursor));
+	if (maxWordsToDisplay.value()) view->addBackgroundJob(new ShowUsedInWordsJob(entry->kanji(), cursor));
 }
 
 void Kanjidic2EntryFormatter::writeShortDesc(const Entry *_entry, QTextCursor &cursor) const
@@ -550,12 +552,12 @@ void Kanjidic2EntryFormatter::showToolTip(const Kanjidic2Entry *entry, const QPo
 	QToolTip::showText(pos, s);
 }
 
-ShowUsedInJob::ShowUsedInJob(const QString &kanji, int maxParentKanjisToDisplay, const QTextCursor &cursor) :
-		DetailedViewJob(Kanjidic2EntryFormatter::getQueryUsedInKanjiSql(TextTools::singleCharToUnicode(kanji), maxParentKanjisToDisplay, false), cursor), _kanji(kanji), _gotResult(false)
+ShowUsedInKanjiJob::ShowUsedInKanjiJob(const QString &kanji, const QTextCursor &cursor) :
+		DetailedViewJob(Kanjidic2EntryFormatter::getQueryUsedInKanjiSql(TextTools::singleCharToUnicode(kanji), Kanjidic2EntryFormatter::maxCompoundsToDisplay.value(), Kanjidic2EntryFormatter::showOnlyStudiedCompounds.value()), cursor), _kanji(kanji), _gotResult(false)
 {
 }
 
-void ShowUsedInJob::firstResult()
+void ShowUsedInKanjiJob::firstResult()
 {
 	QTextCharFormat normal(DetailedViewFonts::charFormat(DetailedViewFonts::DefaultText));
 	QTextCharFormat bold(normal);
@@ -568,7 +570,7 @@ void ShowUsedInJob::firstResult()
 	cursor().setCharFormat(normal);
 }
 
-void ShowUsedInJob::result(EntryPointer<Entry> entry)
+void ShowUsedInKanjiJob::result(EntryPointer<Entry> entry)
 {
 	QTextCharFormat normal(DetailedViewFonts::charFormat(DetailedViewFonts::DefaultText));
 	cursor().setCharFormat(normal);
@@ -579,11 +581,11 @@ void ShowUsedInJob::result(EntryPointer<Entry> entry)
 	formatter->writeShortDesc(kEntry, cursor());
 }
 
-void ShowUsedInJob::completed()
+void ShowUsedInKanjiJob::completed()
 {
 	QTextCharFormat normal(DetailedViewFonts::charFormat(DetailedViewFonts::DefaultText));
 	if (!_gotResult) return;
-	QTextCursor &cursor = ShowUsedInJob::cursor();
+	QTextCursor &cursor = ShowUsedInKanjiJob::cursor();
 	cursor.setCharFormat(normal);
 	cursor.insertText(" ");
 	QTextCharFormat linkFormat(normal);
@@ -596,8 +598,8 @@ void ShowUsedInJob::completed()
 	cursor.setCharFormat(normal);
 }
 
-ShowUsedInWordsJob::ShowUsedInWordsJob(const QString &kanji, int maxWordsToDisplay, const QTextCursor &cursor) :
-		DetailedViewJob(Kanjidic2EntryFormatter::getQueryUsedInWordsSql(TextTools::singleCharToUnicode(kanji), maxWordsToDisplay, false), cursor), _kanji(kanji), _gotResult(false)
+ShowUsedInWordsJob::ShowUsedInWordsJob(const QString &kanji, const QTextCursor &cursor) :
+		DetailedViewJob(Kanjidic2EntryFormatter::getQueryUsedInWordsSql(TextTools::singleCharToUnicode(kanji), Kanjidic2EntryFormatter::maxWordsToDisplay.value(), Kanjidic2EntryFormatter::showOnlyStudiedVocab.value()), cursor), _kanji(kanji), _gotResult(false)
 {
 }
 

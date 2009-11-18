@@ -45,8 +45,8 @@ public:
 	 */
 	void showToolTip(const Kanjidic2Entry *entry, const QPoint &pos) const;
 
-	static QString getQueryUsedInWordsSql(int kanji, int limit, bool onlyStudied);
-	static QString getQueryUsedInKanjiSql(int kanji, int limit, bool onlyStudied);
+	static QString getQueryUsedInWordsSql(int kanji, int limit = maxWordsToDisplay.value(), bool onlyStudied = showOnlyStudiedVocab.value());
+	static QString getQueryUsedInKanjiSql(int kanji, int limit = maxCompoundsToDisplay.value(), bool onlyStudied = showOnlyStudiedCompounds.value());
 
 	static PreferenceItem<bool> showReadings;
 	static PreferenceItem<bool> showNanori;
@@ -59,6 +59,10 @@ public:
 	static PreferenceItem<bool> showFrequency;
 	static PreferenceItem<bool> showVariations;
 	static PreferenceItem<bool> showVariationOf;
+	static PreferenceItem<int> maxWordsToDisplay;
+	static PreferenceItem<bool> showOnlyStudiedVocab;
+	static PreferenceItem<int> maxCompoundsToDisplay;
+	static PreferenceItem<bool> showOnlyStudiedCompounds;
 
 	static PreferenceItem<bool> tooltipShowScore;
 	static PreferenceItem<bool> tooltipShowUnicode;
@@ -68,8 +72,6 @@ public:
 	static PreferenceItem<bool> tooltipShowStrokesNumber;
 	static PreferenceItem<bool> tooltipShowFrequency;
 
-	static PreferenceItem<int> maxWordsToDisplay;
-	static PreferenceItem<int> maxParentKanjiToDisplay;
 
 	static PreferenceItem<int> printSize;
 	static PreferenceItem<bool> printWithFont;
@@ -82,13 +84,13 @@ public:
 	static PreferenceItem<int> maxWordsToPrint;
 };
 
-class ShowUsedInJob : public DetailedViewJob {
+class ShowUsedInKanjiJob : public DetailedViewJob {
 	Q_DECLARE_TR_FUNCTIONS(ShowUsedInJob)
 private:
 	QString _kanji;
 	bool _gotResult;
 public:
-	ShowUsedInJob(const QString &kanji, int maxParentKanjisToDisplay, const QTextCursor &cursor);
+	ShowUsedInKanjiJob(const QString &kanji, const QTextCursor &cursor);
 	virtual void firstResult();
 	virtual void result(EntryPointer<Entry> entry);
 	virtual void completed();
@@ -100,7 +102,7 @@ private:
 	QString _kanji;
 	bool _gotResult;
 public:
-	ShowUsedInWordsJob(const QString &kanji, int maxWordsToDisplay, const QTextCursor &cursor);
+	ShowUsedInWordsJob(const QString &kanji, const QTextCursor &cursor);
 	virtual void firstResult();
 	virtual void result(EntryPointer<Entry> entry);
 	virtual void completed();
