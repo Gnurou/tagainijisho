@@ -90,6 +90,7 @@ protected slots:
 	void organizeSets();
 
 	void about();
+	void donate();
 	void manual();
 	void bugReport();
 	void featureRequest();

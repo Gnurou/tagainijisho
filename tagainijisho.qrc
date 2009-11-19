@@ -44,5 +44,6 @@
         <file>images/icons/control-pause.png</file>
         <file>images/icons/control-play.png</file>
         <file>images/icons/control-stop.png</file>
+        <file>images/icons/donate.png</file>
     </qresource>
 </RCC>

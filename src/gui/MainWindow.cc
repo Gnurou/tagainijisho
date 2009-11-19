@@ -160,6 +160,7 @@ void MainWindow::createMenus()
 	action = _helpMenu->addAction(QIcon(":/images/icons/tools-report-bug.png"), tr("&Report a bug..."), this, SLOT(bugReport()));
 	action = _helpMenu->addAction(QIcon(":/images/icons/help-hint.png"), tr("&Suggest a feature..."), this, SLOT(featureRequest()));
 	action = _helpMenu->addAction(QIcon(":/images/icons/system-help.png"), tr("Ask a &question..."), this, SLOT(askQuestion()));
+	action = _helpMenu->addAction(QIcon(":/images/icons/donate.png"), tr("Support Tagaini Jisho - Make a &donation!"), this, SLOT(donate()));
 	action = _helpMenu->addAction(QIcon(":/images/icons/help-about.png"), tr("&About..."), this, SLOT(about()));
 	action->setMenuRole(QAction::AboutRole);
 }
@@ -397,6 +398,11 @@ void MainWindow::preferences()
 	PreferencesWindow *prefsWindow = new PreferencesWindow(this);
 	prefsWindow->exec();
 	delete prefsWindow;
+}
+
+void MainWindow::donate()
+{
+	QDesktopServices::openUrl(QUrl("https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=2871686"));
 }
 
 void MainWindow::about()
