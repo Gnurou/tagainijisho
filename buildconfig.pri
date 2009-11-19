@@ -8,10 +8,9 @@ unix: {
 	BIN_DIR = $$INSTALL_PREFIX/bin
 }
 macx: {
-	CONFIG += x86 \
-		ppc
+	CONFIG += x86 ppc
 	LIBS += -bind_at_load
 }
-DEFINES += VERSION=0.2.4
+DEFINES += VERSION=0.2.395
 unix::DEFINES += DATAPREFIX=$$SHARE_DIR
 QMAKE_CXXFLAGS_WARN_ON += -Wno-unused-parameter

@@ -32,8 +32,7 @@ PARTICULAR PURPOSE.  See the COPYING file for more details.
 Features
 --------
 - Japanese dictionary based on JMdict.
-- Kanji dictionary based on kanjidic2, featuring kanji drawing animations contributed
-  by Ulrich Apel.
+- Kanji dictionary based on kanjidic2 and KanjiVG.
 - Powerful search engine with many search parameters: JLPT level, part-of-speech, etc.
 - Entries can be marked for study and have a score that evolves as you correctly
   recognize them.
@@ -51,19 +50,11 @@ Compiling
 The only runtime dependency to run Tagaini Jisho is Qt 4.5 or higher. In order
 to compile it, you will also need Python 2.5 or higher.
 
-Compilation is made of several steps. First, you invoke a Python script that
-builds the dictionary databases used by the program and generates files needed
-for compilation. Second, you compile the program.
+Compilation requires two steps: first, the program is compiled, and second,
+the dictionaries it uses are created.
 
-Generating the databases is just a matter of invoking the builddb.py script:
-
-$ python builddb.py
-
-This script can take several options, which you can list using the -h
-parameter. This is especially useful if you want to generate databases for
-languages other than english.
-
-Once the databases are built, you may invoke qmake to produce the Makefile:
+To compile the program, you first need to invoke qmake in order to generate
+Makefiles for your platform:
 
 $ qmake
 
@@ -72,7 +63,7 @@ change this by setting the INSTALL_PREFIX variable when invoking qmake:
 
 $ qmake INSTALL_PREFIX=/path/to/install/dir
 
-Finally, compilation may take place. On Unix systems, invoking make will be
+Compilation may be performed. On Unix systems, invoking make will be
 enough:
 
 $ make
@@ -88,10 +79,17 @@ Finally, you can install the program to its destination:
 
 Replace 'install' with 'release_install' if you built the release version.
 
-You may now run the 'tagainijisho' binary. It will look for the database files
-in the current directory, in the directory where the database files would end
-if you typed 'make install', and in the directory containing the binary, in that
-order.
+Generating the databases is just a matter of invoking the builddb.py script:
+
+$ python builddb.py
+
+This script can take several options, which you can list using the -h
+parameter. This is especially useful if you want to generate databases for
+languages other than english.
+
+Once the databases are built, you can invoke the tagainijisho program. It
+look for the database files in the current directory.
+
 
 Usage
 -----
