@@ -48,6 +48,7 @@ void JMdictPreferences::onUnFilterButtonClicked()
 void JMdictPreferences::refresh()
 {
 	showJLPT->setChecked(JMdictEntryFormatter::showJLPT.value());
+	showKanjis->setChecked(JMdictEntryFormatter::showKanjis.value());
 	homophonesCount->setValue(JMdictEntryFormatter::maxHomophonesToDisplay.value());
 	studiedHomophonesOnly->setChecked(JMdictEntryFormatter::displayStudiedHomophonesOnly.value());
 	lookupVerbBuddy->setChecked(JMdictEntryFormatter::searchVerbBuddy.value());
@@ -66,6 +67,7 @@ void JMdictPreferences::refresh()
 void JMdictPreferences::applySettings()
 {
 	JMdictEntryFormatter::showJLPT.set(showJLPT->isChecked());
+	JMdictEntryFormatter::showKanjis.set(showKanjis->isChecked());
 	JMdictEntryFormatter::maxHomophonesToDisplay.set(homophonesCount->value());
 	JMdictEntryFormatter::displayStudiedHomophonesOnly.set(studiedHomophonesOnly->isChecked());
 	JMdictEntryFormatter::searchVerbBuddy.set(lookupVerbBuddy->isChecked());

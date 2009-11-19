@@ -36,7 +36,6 @@ public:
 	 */
 	void writeSensePos(const Sense &sense, QTextCursor &cursor) const;
 
-
 	void writeKanaHeader(const JMdictEntry *entry, QTextCursor &cursor, DetailedView *view) const;
 	void writeKanjiHeader(const JMdictEntry *entry, QTextCursor &cursor, DetailedView *view) const;
 	void writeJapanese(const JMdictEntry *entry, QTextCursor &cursor, DetailedView *view) const;
@@ -52,6 +51,7 @@ public:
 	static const QString queryFindHomonymsSql;
 
 	static PreferenceItem<bool> showJLPT;
+	static PreferenceItem<bool> showKanjis;
 	static PreferenceItem<bool> searchVerbBuddy;
 	static PreferenceItem<int> maxHomophonesToDisplay;
 	static PreferenceItem<bool> displayStudiedHomophonesOnly;

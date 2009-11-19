@@ -28,6 +28,7 @@
 #include <QTextList>
 
 PreferenceItem<bool> JMdictEntryFormatter::showJLPT("jmdict", "showJLPT", true);
+PreferenceItem<bool> JMdictEntryFormatter::showKanjis("jmdict", "showKanjis", false);
 PreferenceItem<bool> JMdictEntryFormatter::searchVerbBuddy("jmdict", "searchVerbBuddy", true);
 PreferenceItem<int> JMdictEntryFormatter::maxHomophonesToDisplay("jmdict", "maxHomophonesToDisplay", 5);
 PreferenceItem<bool> JMdictEntryFormatter::displayStudiedHomophonesOnly("jmdict", "displayStudiedHomophonesOnly", false);
@@ -321,6 +322,40 @@ void JMdictEntryFormatter::writeEntryInfo(const JMdictEntry *entry, QTextCursor 
 		cursor.insertText(tr("JLPT level:"));
 		cursor.setCharFormat(normal);
 		cursor.insertText(" " + QString::number(entry->jlpt()));
+	}
+	if (showKanjis.value() && !entry->getKanjiReadings().isEmpty()) {
+		const QString &reading(entry->getKanjiReadings()[0].getReading());
+		bool headerPrinted(false);
+		for (int i = 0; i < reading.size(); ++i) {
+			if (TextTools::isKanjiChar(reading, i)) {
+				if (!headerPrinted) {
+					cursor.insertBlock(QTextBlockFormat());
+					cursor.setCharFormat(bold);
+					cursor.insertText(tr("Kanjis:"));
+					cursor.setCharFormat(normal);
+					headerPrinted = true;
+				}
+				QString k(reading[i]);
+				if (reading[i].isHighSurrogate()) k += reading[++i];
+				cursor.insertText("\n");
+				EntryPointer<Entry> _entry = EntriesCache::get(KANJIDIC2ENTRY_GLOBALID, TextTools::singleCharToUnicode(k));
+				view->addWatchEntry(_entry);
+				Kanjidic2Entry *kEntry = qobject_cast<Kanjidic2Entry *>(_entry.data());
+				QTextCharFormat charFormat;
+				if (kEntry->trained()) {
+					const EntryFormatter *formatter(EntryFormatter::getFormatter(kEntry));
+					if (formatter) charFormat.setBackground(formatter->scoreColor(kEntry));
+				}
+				QString str(kEntry->kanji());
+				if (!kEntry->meanings().isEmpty()) str += ": " + kEntry->meaningsString();
+				autoFormat(kEntry, str, cursor, charFormat);
+				QTextImageFormat imgFormat;
+				imgFormat.setAnchor(true);
+				imgFormat.setAnchorHref(QString("entry://?type=%1&id=%2").arg(kEntry->type()).arg(kEntry->id()));
+				imgFormat.setName("moreicon");
+				cursor.insertImage(imgFormat);
+			}
+		}
 	}
 	bool searchVi = true, searchVt = true;
 /*	bool hasVi = false, hasVt = false;

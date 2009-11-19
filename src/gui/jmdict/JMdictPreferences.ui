@@ -37,6 +37,13 @@
             </property>
            </widget>
           </item>
+          <item>
+           <widget class="QCheckBox" name="showKanjis">
+            <property name="text">
+             <string>Kanjis used in main reading</string>
+            </property>
+           </widget>
+          </item>
          </layout>
         </widget>
        </item>
