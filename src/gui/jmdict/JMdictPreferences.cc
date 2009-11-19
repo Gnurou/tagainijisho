@@ -55,7 +55,7 @@ void JMdictPreferences::refresh()
 
 	filteredDefs->clear();
 	displayedDefs->clear();
-	const QStringList &filtered(JMdictEntrySearcher::miscPropertiesFilter.value());
+	const QStringList &filtered(JMdictEntrySearcher::miscPropertiesFilter.value().split(','));
 	for (int i = 0; !JMdictMiscEntitiesLongDesc[i].isEmpty(); i++) {
 		QString s(JMdictMiscEntitiesLongDesc[i]);
 		s[0] = s[0].toUpper();
@@ -78,5 +78,5 @@ void JMdictPreferences::applySettings()
 		s[0] = s[0].toUpper();
 		if (filtered.contains(s)) res << JMdictMiscEntitiesShortDesc[i];
 	}
-	JMdictEntrySearcher::miscPropertiesFilter.set(res);
+	JMdictEntrySearcher::miscPropertiesFilter.set(res.join(","));
 }

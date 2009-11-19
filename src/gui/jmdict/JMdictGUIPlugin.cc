@@ -134,7 +134,7 @@ void JMdictLinkHandler::handleUrl(const QUrl &url, DetailedView *view)
 
 void JMdictOptionsWidget::updateMiscFilteredProperties()
 {
-	const QStringList &filtered(JMdictEntrySearcher::miscPropertiesFilter.value());
+	const QStringList &filtered(JMdictEntrySearcher::miscPropertiesFilter.value().split(','));
 	QFont normalFont;
 	QFont italicFont;
 	italicFont.setItalic(true);

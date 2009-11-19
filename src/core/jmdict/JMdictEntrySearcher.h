@@ -59,7 +59,7 @@ public:
 
 	virtual Entry *loadEntry(int id);
 
-	static PreferenceItem<QStringList> miscPropertiesFilter;
+	static PreferenceItem<QString> miscPropertiesFilter;
 };
 
 #endif

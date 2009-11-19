@@ -22,7 +22,7 @@
 
 QVector<QMap<QString, quint64> > JMdictEntrySearcher::JMdictReversedSenseTags;
 
-PreferenceItem<QStringList> JMdictEntrySearcher::miscPropertiesFilter("jmdict", "miscPropertiesFilter", QStringList());
+PreferenceItem<QString> JMdictEntrySearcher::miscPropertiesFilter("jmdict", "miscPropertiesFilter", "arch,obs");
 JMdictMiscTagType JMdictEntrySearcher::_miscFilterMask = 0;
 JMdictMiscTagType JMdictEntrySearcher::_explicitlyRequestedMiscs = 0;
 
@@ -301,7 +301,7 @@ void JMdictEntrySearcher::buildStatement(QList<SearchCommand> &commands, QueryBu
 void JMdictEntrySearcher::updateMiscFilterMask()
 {
 	_miscFilterMask = 0;
-	foreach (const QString &str, miscPropertiesFilter.value()) _miscFilterMask |= JMdictReversedSenseTags[JMdictMiscIndex][str];
+	foreach (const QString &str, miscPropertiesFilter.value().split(',')) _miscFilterMask |= JMdictReversedSenseTags[JMdictMiscIndex][str];
 }
 
 QueryBuilder::Column JMdictEntrySearcher::canSort(const QString &sort, const QueryBuilder::Statement &statement)
