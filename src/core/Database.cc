@@ -26,7 +26,7 @@
 #include <QtDebug>
 #include <QSemaphore>
 
-#define USERDB_REVISION 3
+#define USERDB_REVISION 4
 
 #define QUERY(Q) if (!query.exec(Q)) return false
 
@@ -44,7 +44,6 @@ bool Database::createUserDB()
 	QUERY("CREATE TABLE training(type INT NOT NULL, id INTEGER SECONDARY_KEY NOT NULL, score INT NOT NULL, dateAdded UNSIGNED INT NOT NULL, dateLastTrain UNSIGNED INT, nbTrained UNSIGNED INT NOT NULL, nbSuccess UNSIGNED INT NOT NULL, dateLastMistake UNSIGNED INT, CONSTRAINT training_unique_ids UNIQUE(type, id))");
 	QUERY("CREATE INDEX idx_training_type_id ON training(type, id)");
 	QUERY("CREATE INDEX idx_training_score ON training(score)");
-	QUERY("CREATE TRIGGER update_score AFTER UPDATE OF nbTrained, nbSuccess ON training begin update training set score = (nbSuccess * 100) / (nbTrained + 1) where type = old.type and id = old.id; end;");
 
 	// Tags tables
 	QUERY("CREATE VIRTUAL TABLE tags USING fts3(tag)");
@@ -98,11 +97,19 @@ bool update2to3(QSqlQuery &query) {
 	return true;
 }
 
+/// Remove the score trigger
+bool update3to4(QSqlQuery &query) {
+	QUERY("DROP TRIGGER update_score");
+
+	return true;
+}
+
 #undef QUERY
 
 bool (*dbUpdateFuncs[USERDB_REVISION - 1])(QSqlQuery &) = {
 	&update1to2,
-	&update2to3
+	&update2to3,
+	&update3to4
 };
 
 static Qt::ConnectionType alwaysSync = Qt::BlockingQueuedConnection;
