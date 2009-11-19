@@ -327,7 +327,7 @@
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>136</width>
+               <width>495</width>
                <height>136</height>
               </rect>
              </property>
@@ -400,9 +400,12 @@
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout_10">
        <item>
-        <widget class="QGroupBox" name="groupBox_4">
+        <widget class="QGroupBox" name="kanjiTooltipEnabled">
          <property name="title">
-          <string>Basic information</string>
+          <string>Kanji tooltip enabled</string>
+         </property>
+         <property name="checkable">
+          <bool>true</bool>
          </property>
          <layout class="QGridLayout" name="gridLayout_5">
           <item row="3" column="1">

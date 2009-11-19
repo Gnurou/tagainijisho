@@ -57,6 +57,7 @@ protected slots:
 	void trainingMeaningList();
 	void trainingMeaningSet();
 	void readingPractice();
+	void enableKanjiTooltip(const QVariant &variant);
 
 public:
 	Kanjidic2GUIPlugin();
@@ -72,6 +73,8 @@ public:
 	bool eventFilter(QObject *obj, QEvent *_event);
 
 	static const QString kanjiGrades[];
+
+	static PreferenceItem<bool> kanjiTooltipEnabled;
 };
 
 class KanjiLinkHandler : public DetailedViewLinkHandler

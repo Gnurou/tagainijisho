@@ -19,6 +19,7 @@
 #include "gui/kanjidic2/KanjiPlayer.h"
 #include "gui/kanjidic2/KanjiPopup.h"
 #include "gui/kanjidic2/Kanjidic2Preferences.h"
+#include "gui/kanjidic2/Kanjidic2GUIPlugin.h"
 
 Kanjidic2Preferences::Kanjidic2Preferences(QWidget *parent) : PreferencesWindowCategory(tr("Kanji entries"), parent)
 {
@@ -76,6 +77,7 @@ void Kanjidic2Preferences::refresh()
 	maxWords->setValue(Kanjidic2EntryFormatter::maxWordsToDisplay.value());
 	showOnlyStudiedVocab->setChecked(Kanjidic2EntryFormatter::showOnlyStudiedVocab.value());
 
+	kanjiTooltipEnabled->setChecked(Kanjidic2GUIPlugin::kanjiTooltipEnabled.value());
 	tooltipShowScore->setChecked(Kanjidic2EntryFormatter::tooltipShowScore.value());
 	tooltipShowFrequency->setChecked(Kanjidic2EntryFormatter::tooltipShowFrequency.value());
 	tooltipShowGrade->setChecked(Kanjidic2EntryFormatter::tooltipShowGrade.value());
@@ -124,6 +126,7 @@ void Kanjidic2Preferences::applySettings()
 	Kanjidic2EntryFormatter::maxWordsToDisplay.set(maxWords->value());
 	Kanjidic2EntryFormatter::showOnlyStudiedVocab.set(showOnlyStudiedVocab->isChecked());
 
+	Kanjidic2GUIPlugin::kanjiTooltipEnabled.set(kanjiTooltipEnabled->isChecked());
 	Kanjidic2EntryFormatter::tooltipShowScore.set(tooltipShowScore->isChecked());
 	Kanjidic2EntryFormatter::tooltipShowFrequency.set(tooltipShowFrequency->isChecked());
 	Kanjidic2EntryFormatter::tooltipShowGrade.set(tooltipShowGrade->isChecked());

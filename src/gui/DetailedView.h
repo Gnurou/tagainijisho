@@ -219,7 +219,7 @@ protected:
 
 public:
 	static void registerEventFilter(QObject *obj);
-	static void removeEventFilter(QObject *obj) { _eventFilters.remove(obj); }
+	static void removeEventFilter(QObject *obj);
 
 	DetailedView(QWidget *parent = 0);
 	virtual ~DetailedView();

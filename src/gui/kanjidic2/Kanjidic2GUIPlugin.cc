@@ -56,8 +56,11 @@ const QString Kanjidic2GUIPlugin::kanjiGrades[] = {
 	QT_TRANSLATE_NOOP("Kanjidic2GUIPlugin", "Used for names (2)"),
 };
 
+PreferenceItem<bool> Kanjidic2GUIPlugin::kanjiTooltipEnabled("kanjidic", "kanjiTooltipEnabled", true);
+
 Kanjidic2GUIPlugin::Kanjidic2GUIPlugin() : Plugin("kanjidic2GUI"), _formatter(0), _flashKL(0), _flashKS(0), _flashML(0), _flashMS(0), _readingPractice(0), _linkHandler(0), _wordsLinkHandler(0), _componentsLinkHandler(0), _extender(0), _trainer(0), _readingTrainer(0)
 {
+	connect(&kanjiTooltipEnabled, SIGNAL(valueChanged(QVariant)), this, SLOT(enableKanjiTooltip(QVariant)));
 }
 
 Kanjidic2GUIPlugin::~Kanjidic2GUIPlugin()
@@ -102,7 +105,7 @@ bool Kanjidic2GUIPlugin::onRegister()
 	mainWindow->searchWidget()->searchBar()->registerExtender(_extender);
 
 	// Register the detailed view event filter
-	DetailedView::registerEventFilter(this);
+	if (kanjiTooltipEnabled.value()) DetailedView::registerEventFilter(this);
 
 	// Register the preferences panel
 	PreferencesWindow::addPanel(&Kanjidic2Preferences::staticMetaObject);
@@ -341,6 +344,12 @@ bool Kanjidic2GUIPlugin::eventFilter(QObject *obj, QEvent *_event)
 		break;
 	}
 	return false;
+}
+
+void Kanjidic2GUIPlugin::enableKanjiTooltip(const QVariant &variant)
+{
+	if (variant.toBool()) DetailedView::registerEventFilter(this);
+	else DetailedView::removeEventFilter(this);
 }
 
 KanjiLinkHandler::KanjiLinkHandler() : DetailedViewLinkHandler("drawkanji")

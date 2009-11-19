@@ -57,6 +57,12 @@ void DetailedView::registerEventFilter(QObject *obj)
 	foreach (DetailedView *view, _instances) view->viewport()->installEventFilter(obj);
 }
 
+void DetailedView::removeEventFilter(QObject *obj)
+{
+	foreach (DetailedView *view, _instances) view->viewport()->removeEventFilter(obj);
+	_eventFilters.remove(obj);
+}
+
 DetailedView::DetailedView(QWidget *parent) : QTextBrowser(parent), _kanjisClickable(true), _historyEnabled(true), _history(historySize.value()), entryView(0), _jobsRunner(this)
 {
 	// Add the default handlers if not already done (first instanciation)
