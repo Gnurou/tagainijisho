@@ -360,7 +360,10 @@ void KanjiLinkHandler::handleUrl(const QUrl &url, DetailedView *view)
 
 	// Do it here so that the popup appears at the position we clicked, even if loading
 	// takes time and we moved the mouse.
-	QRect windowRect = QApplication::activeWindow()->frameGeometry();
+	QPoint pos = QCursor::pos();
+
+//	QRect windowRect = QApplication::activeWindow()->frameGeometry();
+	QRect windowRect = QApplication::desktop()->availableGeometry(view);
 
 	EntryPointer<Entry> entryPtr = EntriesCache::get(KANJIDIC2ENTRY_GLOBALID, TextTools::singleCharToUnicode(kanji));
 	Kanjidic2Entry *entry = static_cast<Kanjidic2Entry *>(entryPtr.data());
@@ -376,7 +379,6 @@ void KanjiLinkHandler::handleUrl(const QUrl &url, DetailedView *view)
 	popup->setWindowFlags(Qt::Popup);
 	popup->display(entry);
 
-	QPoint pos = QCursor::pos();
 	QPoint lowerRight = pos + QPoint(popup->size().width(), popup->size().height());
 	if (!windowRect.contains(QPoint(lowerRight.x(), pos.y()))) pos.setX(windowRect.right() - popup->width());
 	if (!windowRect.contains(QPoint(pos.x(), lowerRight.y()))) pos.setY(windowRect.bottom() - popup->height());
