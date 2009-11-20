@@ -60,7 +60,6 @@ PreferenceItem<bool> Kanjidic2GUIPlugin::kanjiTooltipEnabled("kanjidic", "kanjiT
 
 Kanjidic2GUIPlugin::Kanjidic2GUIPlugin() : Plugin("kanjidic2GUI"), _formatter(0), _flashKL(0), _flashKS(0), _flashML(0), _flashMS(0), _readingPractice(0), _linkHandler(0), _wordsLinkHandler(0), _componentsLinkHandler(0), _extender(0), _trainer(0), _readingTrainer(0)
 {
-	connect(&kanjiTooltipEnabled, SIGNAL(valueChanged(QVariant)), this, SLOT(enableKanjiTooltip(QVariant)));
 }
 
 Kanjidic2GUIPlugin::~Kanjidic2GUIPlugin()
@@ -105,7 +104,7 @@ bool Kanjidic2GUIPlugin::onRegister()
 	mainWindow->searchWidget()->searchBar()->registerExtender(_extender);
 
 	// Register the detailed view event filter
-	if (kanjiTooltipEnabled.value()) DetailedView::registerEventFilter(this);
+	DetailedView::registerEventFilter(this);
 
 	// Register the preferences panel
 	PreferencesWindow::addPanel(&Kanjidic2Preferences::staticMetaObject);
@@ -261,9 +260,9 @@ bool Kanjidic2GUIPlugin::eventFilter(QObject *obj, QEvent *_event)
 						}
 						if (TextTools::isKanjiChar(c)) {
 							EntryPointer<Entry> entry(EntriesCache::get(KANJIDIC2ENTRY_GLOBALID, TextTools::singleCharToUnicode(c)));
+							view->viewport()->setCursor(QCursor(Qt::PointingHandCursor));
 							// Only show the tooltip if the entry exists in the database!
-							if (entry.data()) {
-								view->viewport()->setCursor(QCursor(Qt::PointingHandCursor));
+							if (kanjiTooltipEnabled.value() && entry.data()) {
 								const Kanjidic2EntryFormatter *formatter(static_cast<const Kanjidic2EntryFormatter *>(EntryFormatter::getFormatter(KANJIDIC2ENTRY_GLOBALID)));
 								formatter->showToolTip(static_cast<const Kanjidic2Entry *>(entry.data()), QCursor::pos());
 							}
@@ -330,13 +329,17 @@ bool Kanjidic2GUIPlugin::eventFilter(QObject *obj, QEvent *_event)
 				}
 			}
 
+			QAction *openAction(0);
 			if (tview.entry()) {
 				menu = new QMenu();
+				openAction = menu->addAction(QIcon("images/icons/zoom-in.png"), tr("Open in detailed view..."));
+				menu->addSeparator();
 				tview.populateMenu(menu);
 			}
 			else return false;
 
-			menu->exec(event->globalPos());
+			QAction *selected = menu->exec(event->globalPos());
+			if (selected && selected == openAction) MainWindow::instance()->searchWidget()->detailedView()->display(tview.entry());
 			delete menu;
 			return true;
 		}
@@ -344,12 +347,6 @@ bool Kanjidic2GUIPlugin::eventFilter(QObject *obj, QEvent *_event)
 		break;
 	}
 	return false;
-}
-
-void Kanjidic2GUIPlugin::enableKanjiTooltip(const QVariant &variant)
-{
-	if (variant.toBool()) DetailedView::registerEventFilter(this);
-	else DetailedView::removeEventFilter(this);
 }
 
 KanjiLinkHandler::KanjiLinkHandler() : DetailedViewLinkHandler("drawkanji")

@@ -57,7 +57,6 @@ protected slots:
 	void trainingMeaningList();
 	void trainingMeaningSet();
 	void readingPractice();
-	void enableKanjiTooltip(const QVariant &variant);
 
 public:
 	Kanjidic2GUIPlugin();
