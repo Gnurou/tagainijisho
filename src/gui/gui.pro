@@ -95,6 +95,8 @@ SOURCES = EntryFormatter.cc \
 # -ltagaini-core
 LIBS += ../core/libtagaini-core.a \
     ../sqlite/libsqlite3.a
+POST_TARGETDEPS = ../core/libtagaini-core.a \
+	../sqlite/libsqlite3.a
 FORMS += SetsOrganizer.ui \
     TrainSettings.ui \
     ReadingTrainer.ui \

@@ -1,5 +1,5 @@
 #!/bin/sh
-VERSION=`grep "^ *VERSION" tagainijisho.pro |sed -n 's/.*=\(.*\)/\1/p'`
+VERSION=`grep "VERSION" buildconfig.pri |sed -n 's/.*=\(.*\)/\1/p'`
 
 rm -Rf tagainijisho.app
 qmake -spec macx-g++

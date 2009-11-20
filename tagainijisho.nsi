@@ -1,23 +1,14 @@
-!include MUI2.nsh
-;SetCompressor lzma
 Name "Tagaini Jisho ${VERSION}"
 OutFile "install.exe"
 
 InstallDir "$PROGRAMFILES\Tagaini Jisho"
 RequestExecutionLevel admin
 LicenseData "COPYING"
-!insertmacro MUI_PAGE_LICENSE "COPYING"
-!insertmacro MUI_PAGE_DIRECTORY
-!insertmacro MUI_PAGE_INSTFILES
-;!define MUI_FINISHPAGE_NOREBOOTSUPPORT
-;!insertmacro MUI_PAGE_FINISH
-
-!insertmacro MUI_UNPAGE_WELCOME
-!insertmacro MUI_UNPAGE_CONFIRM
-!insertmacro MUI_UNPAGE_INSTFILES
-!insertmacro MUI_UNPAGE_FINISH
-
-!insertmacro MUI_LANGUAGE "English"
+Page license
+Page directory
+Page instfiles
+UninstPage uninstConfirm
+UninstPage instfiles
 
 Section "Tagaini Jisho"
 IfFileExists "$LOCALAPPDATA\VirtualStore\Program Files\Tagaini Jisho\kanjidic2.db" VSTOREKANJIDICEXISTS VSTOREKANJIDICEND
@@ -28,7 +19,7 @@ RMDir "$LOCALAPPDATA\VirtualStore\Program Files\Tagaini Jisho"
 VSTOREKANJIDICEND:
 
 SetOutPath "$INSTDIR"
-File "release/tagainijisho.exe"
+File "tagainijisho.exe"
 File "jmdict.db"
 SetFileAttributes "jmdict.db" READONLY
 File "kanjidic2.db"
@@ -40,10 +31,10 @@ File "${QTPATH}/bin/QtNetWork4.dll"
 File "${MINGWDLLPATH}/mingwm10.dll"
 File /oname=qt.conf "qt.conf.windows"
 SetOutPath "$INSTDIR\translations"
-File "${QTPATH}/translations/qt_fr.qm"
-File "${QTPATH}/translations/qt_de.qm"
-File "${QTPATH}/translations/qt_es.qm"
-File "${QTPATH}/translations/qt_ru.qm"
+File "win32-translations/qt_fr.qm"
+File "win32-translations/qt_de.qm"
+File "win32-translations/qt_es.qm"
+File "win32-translations/qt_ru.qm"
 SetOutPath "$INSTDIR\imageformats"
 File "${QTPATH}/plugins/imageformats/qgif4.dll"
 WriteUninstaller "$INSTDIR\uninstall.exe"
