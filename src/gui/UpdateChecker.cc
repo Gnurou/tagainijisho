@@ -26,9 +26,9 @@
 #define PLATFORM "Unix/X11"
 #elif defined(Q_WS_WIN)
 #define PLATFORM "Windows"
-#elif defined(Q_WS_WIN)
+#elif defined(Q_WS_MAC)
 #define PLATFORM "Mac"
-#elif defined(Q_WS_WIN)
+#elif defined(Q_WS_QWS)
 #define PLATFORM "Unix/Embedded"
 #endif
 
