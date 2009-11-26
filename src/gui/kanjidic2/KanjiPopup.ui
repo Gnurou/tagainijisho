@@ -184,7 +184,11 @@
     </layout>
    </item>
    <item>
-    <widget class="KanjiComponentWidget" name="compWidget" native="true"/>
+    <widget class="QLabel" name="componentsLabel">
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
    </item>
   </layout>
  </widget>
@@ -193,12 +197,6 @@
    <class>KanjiPlayer</class>
    <extends>QWidget</extends>
    <header>gui/kanjidic2/KanjiPlayer.h</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>KanjiComponentWidget</class>
-   <extends>QWidget</extends>
-   <header>gui/kanjidic2/KanjiPopup.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

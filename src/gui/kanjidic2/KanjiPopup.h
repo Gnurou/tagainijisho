@@ -59,6 +59,8 @@ private:
 	AbstractHistory<QString, QList<QString> > _history;
 	SingleEntryView entryView;
 
+	void setComponentsLabelText(int highlightPos = -1);
+
 private slots:
 	void showKanji(Kanjidic2Entry *entry);
 	void onOpenClick();
@@ -67,6 +69,9 @@ private slots:
 	void onComponentHighlighted(const KanjiComponent *component);
 	void onComponentUnHighlighted(const KanjiComponent *component);
 	void onComponentClicked(const KanjiComponent *component);
+
+	void onComponentLinkHovered(const QString &link);
+	void onComponentLinkActivated(const QString &link);
 
 public:
 	KanjiPopup(QWidget *parent = 0);

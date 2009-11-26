@@ -20,6 +20,7 @@
 #include "gui/kanjidic2/KanjiPopup.h"
 #include "gui/EntryFormatter.h"
 #include "gui/SingleEntryView.h"
+#include "gui/kanjidic2/Kanjidic2EntryFormatter.h"
 
 #include <QtDebug>
 
@@ -117,6 +118,8 @@ KanjiPopup::KanjiPopup(QWidget *parent) : QFrame(parent), _history(historySize.v
 	connect(stroke, SIGNAL(componentHighlighted(const KanjiComponent*)), this, SLOT(onComponentHighlighted(const KanjiComponent*)));
 	connect(stroke, SIGNAL(componentUnHighlighted(const KanjiComponent*)), this, SLOT(onComponentUnHighlighted(const KanjiComponent*)));
 	connect(stroke, SIGNAL(componentClicked(const KanjiComponent*)), this, SLOT(onComponentClicked(const KanjiComponent*)));
+	connect(componentsLabel, SIGNAL(linkHovered(QString)), this, SLOT(onComponentLinkHovered(QString)));
+	connect(componentsLabel, SIGNAL(linkActivated(QString)), this, SLOT(onComponentLinkActivated(QString)));
 }
 
 KanjiPopup::~KanjiPopup()
@@ -150,7 +153,7 @@ void KanjiPopup::showKanji(Kanjidic2Entry *entry)
 	if (autoStartAnim.value()) stroke->play();
 	else stroke->setPosition(entry->strokeCount());
 
-	compWidget->setComponent(0);
+//	compWidget->setComponent(0);
 
 //	adjustSize();
 }
@@ -168,6 +171,24 @@ void KanjiPopup::updateInfo()
 	if (entry->trained())
 		str += tr("<b>Score:</b> %1<br/>").arg(entry->score());
 	propsLabel->setText(str);
+
+	setComponentsLabelText();
+}
+
+void KanjiPopup::setComponentsLabelText(int highlightPos)
+{
+	const Kanjidic2Entry *entry(static_cast<const Kanjidic2Entry *>(entryView.entry()));
+	QStringList componentsStrings;
+	int i = 0;
+	foreach (const KanjiComponent *component, entry->rootComponents()) {
+		componentsStrings << QString("<a %3href=\"%1\">%2</a>").arg(i).arg(component->element()).arg(highlightPos == i ? "class=\"highlighted\" " : "");
+		++i;
+	}
+
+	const QPalette &palette(componentsLabel->palette());
+
+	if (componentsStrings.isEmpty()) componentsLabel->clear();
+	else componentsLabel->setText(tr("Components: %1").arg(QString("<style>a.highlighted { background-color: %1; color: %2; }</style>").arg(palette.color(QPalette::Highlight).name()).arg(palette.color(QPalette::HighlightedText).name()) + componentsStrings.join(" ")));
 }
 
 void KanjiPopup::display(Kanjidic2Entry *entry)
@@ -204,14 +225,24 @@ void KanjiPopup::onNextClick()
 
 void KanjiPopup::onComponentHighlighted(const KanjiComponent *component)
 {
-	if (component) compWidget->setComponent(component);
+	const Kanjidic2Entry *entry(static_cast<const Kanjidic2Entry *>(entryView.entry()));
 	stroke->highlightComponent(component);
+	int pos = -1;
+	for (int i = 0; i < entry->rootComponents().size(); ++i) if (component == entry->rootComponents()[i]) { pos = i; break; }
+	setComponentsLabelText(pos);
+
+	EntryPointer<Entry> element = EntriesCache::get(KANJIDIC2ENTRY_GLOBALID, TextTools::singleCharToUnicode(component->element()));
+	Kanjidic2Entry *kElement = static_cast<const Kanjidic2Entry *>(element.data());
+	if (!kElement) return;
+
+	const Kanjidic2EntryFormatter *formatter(static_cast<const Kanjidic2EntryFormatter *>(EntryFormatter::getFormatter(kElement)));
+	formatter->showToolTip(kElement, mapToGlobal(componentsLabel->geometry().bottomLeft()));
 }
 
 void KanjiPopup::onComponentUnHighlighted(const KanjiComponent *component)
 {
+	setComponentsLabelText();
 	stroke->unHighlightComponent();
-	compWidget->setComponent(0);
 }
 
 void KanjiPopup::onComponentClicked(const KanjiComponent *component)
@@ -221,4 +252,28 @@ void KanjiPopup::onComponentClicked(const KanjiComponent *component)
 	if (!kElement) return;
 	_history.add(kElement->kanji());
 	showKanji(kElement);
+}
+
+void KanjiPopup::onComponentLinkHovered(const QString &link)
+{
+	int idx(link.toInt());
+	const Kanjidic2Entry *entry(static_cast<const Kanjidic2Entry *>(entryView.entry()));
+	const KanjiComponent *component(entry->rootComponents()[idx]);
+
+	stroke->highlightComponent(component);
+
+	EntryPointer<Entry> element = EntriesCache::get(KANJIDIC2ENTRY_GLOBALID, TextTools::singleCharToUnicode(component->element()));
+	Kanjidic2Entry *kElement = static_cast<const Kanjidic2Entry *>(element.data());
+	if (!kElement) return;
+
+	const Kanjidic2EntryFormatter *formatter(static_cast<const Kanjidic2EntryFormatter *>(EntryFormatter::getFormatter(kElement)));
+	formatter->showToolTip(kElement, QCursor::pos());
+}
+
+void KanjiPopup::onComponentLinkActivated(const QString &link)
+{
+	int idx(link.toInt());
+	const Kanjidic2Entry *entry(static_cast<const Kanjidic2Entry *>(entryView.entry()));
+	const KanjiComponent *component(entry->rootComponents()[idx]);
+	onComponentClicked(component);
 }
