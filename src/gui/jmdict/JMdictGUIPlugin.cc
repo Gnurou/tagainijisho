@@ -64,7 +64,6 @@ bool JMdictGUIPlugin::onRegister()
 	// Add the main window menu entries
 	MainWindow *mainWindow = MainWindow::instance();
 	QMenu *menu = mainWindow->trainMenu();
-	if (!menu->isEmpty()) menu->addSeparator();
 	QMenu *menu2 = menu->addMenu(tr("Vocabulary flashcards"));
 	_flashJL = menu2->addAction(tr("From &japanese, whole study list"));
 	_flashJS = menu2->addAction(tr("From &japanese, current set"));

@@ -153,6 +153,7 @@ void MainWindow::createMenus()
 
 	_trainMenu = mBar->addMenu(tr("&Practice"));
 	_trainMenu->addAction(tr("Whole study list train &settings..."), this, SLOT(trainSettings()));
+	_trainMenu->addSeparator();
 
 	_helpMenu = mBar->addMenu(tr("&Help"));
 	action = _helpMenu->addAction(QIcon(":/images/icons/help-contents.png"), tr("&Manual..."), this, SLOT(manual()));

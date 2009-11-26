@@ -84,7 +84,6 @@ bool Kanjidic2GUIPlugin::onRegister()
 	// Add the main window entries
 	MainWindow *mainWindow(MainWindow::instance());
 	QMenu *menu = mainWindow->trainMenu();
-	if (!menu->isEmpty()) menu->addSeparator();
 	QMenu *menu2 = menu->addMenu(tr("Kanji flashcards"));
 	_flashKL = menu2->addAction(tr("From &kanji, whole study list"));
 	_flashKS = menu2->addAction(tr("From &kanji, current set"));
@@ -95,7 +94,6 @@ bool Kanjidic2GUIPlugin::onRegister()
 	_flashMS = menu2->addAction(tr("From &meaning, current set"));
 	connect(_flashML, SIGNAL(triggered()), this, SLOT(trainingMeaningList()));
 	connect(_flashMS, SIGNAL(triggered()), this, SLOT(trainingMeaningSet()));
-	menu->addSeparator();
 	_readingPractice = menu->addAction(tr("&Reading practice, whole study list"));
 	connect(_readingPractice, SIGNAL(triggered()), this, SLOT(readingPractice()));
 
