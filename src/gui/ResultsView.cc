@@ -85,11 +85,11 @@ void EntryDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
 
 	QColor textColor;
 	if (option.state & QStyle::State_Selected) {
-		if (QApplication::style()->styleHint(QStyle::SH_ItemView_ChangeHighlightOnFocus, &option) && !(option.state & QStyle::State_HasFocus)) textColor = option.palette.color(QPalette::Text);
-		else textColor = option.palette.color(QPalette::HighlightedText);
+		if (QApplication::style()->styleHint(QStyle::SH_ItemView_ChangeHighlightOnFocus, &option) && !(option.state & QStyle::State_HasFocus)) textColor = option.palette.color(QPalette::Active, QPalette::HighlightedText);
+		else textColor = option.palette.color(QPalette::Inactive, QPalette::HighlightedText);
 	}
 	else {
-		// If the entry is trained, the background color is fixed and so should be the text color
+		// If the entry is trained, the background color is fixed because we know the background color
 		if (entry->trained()) textColor = Qt::black;
 		else textColor = option.palette.color(QPalette::Text);
 	}
