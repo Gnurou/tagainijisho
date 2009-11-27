@@ -61,13 +61,16 @@ private:
 
 	void setComponentsLabelText(int highlightPos = -1);
 
+protected:
+	bool eventFilter(QObject *obj, QEvent *event);
+
 private slots:
 	void showKanji(Kanjidic2Entry *entry);
 	void onOpenClick();
 	void onPreviousClick();
 	void onNextClick();
 	void onComponentHighlighted(const KanjiComponent *component);
-	void onComponentUnHighlighted(const KanjiComponent *component);
+	void onComponentUnHighlighted();
 	void onComponentClicked(const KanjiComponent *component);
 
 	void onComponentLinkHovered(const QString &link);

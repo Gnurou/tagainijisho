@@ -116,10 +116,12 @@ KanjiPopup::KanjiPopup(QWidget *parent) : QFrame(parent), _history(historySize.v
 	connect(&entryView, SIGNAL(entryChanged(Entry *)), &entryView, SLOT(updateMenuEntries()));
 	connect(&entryView, SIGNAL(entryChanged(Entry *)), this, SLOT(updateInfo()));
 	connect(stroke, SIGNAL(componentHighlighted(const KanjiComponent*)), this, SLOT(onComponentHighlighted(const KanjiComponent*)));
-	connect(stroke, SIGNAL(componentUnHighlighted(const KanjiComponent*)), this, SLOT(onComponentUnHighlighted(const KanjiComponent*)));
+	connect(stroke, SIGNAL(componentUnHighlighted(const KanjiComponent*)), this, SLOT(onComponentUnHighlighted()));
 	connect(stroke, SIGNAL(componentClicked(const KanjiComponent*)), this, SLOT(onComponentClicked(const KanjiComponent*)));
 	connect(componentsLabel, SIGNAL(linkHovered(QString)), this, SLOT(onComponentLinkHovered(QString)));
 	connect(componentsLabel, SIGNAL(linkActivated(QString)), this, SLOT(onComponentLinkActivated(QString)));
+
+	componentsLabel->installEventFilter(this);
 }
 
 KanjiPopup::~KanjiPopup()
@@ -239,7 +241,7 @@ void KanjiPopup::onComponentHighlighted(const KanjiComponent *component)
 	formatter->showToolTip(kElement, mapToGlobal(componentsLabel->geometry().bottomLeft()));
 }
 
-void KanjiPopup::onComponentUnHighlighted(const KanjiComponent *component)
+void KanjiPopup::onComponentUnHighlighted()
 {
 	setComponentsLabelText();
 	stroke->unHighlightComponent();
@@ -276,4 +278,14 @@ void KanjiPopup::onComponentLinkActivated(const QString &link)
 	const Kanjidic2Entry *entry(static_cast<const Kanjidic2Entry *>(entryView.entry()));
 	const KanjiComponent *component(entry->rootComponents()[idx]);
 	onComponentClicked(component);
+}
+
+bool KanjiPopup::eventFilter(QObject *obj, QEvent *event)
+{
+	if (obj == componentsLabel) {
+		if (event->type() == QEvent::Leave) {
+			onComponentUnHighlighted();
+		}
+	}
+	return false;
 }
