@@ -25,8 +25,38 @@ JMdictPreferences::JMdictPreferences(QWidget *parent) : PreferencesWindowCategor
 {
 	setupUi(this);
 
+	connect(printKanjis, SIGNAL(toggled(bool)), printOnlyStudiedKanjis, SLOT(setEnabled(bool)));
+	connect(headerPrintSize, SIGNAL(valueChanged(int)), this, SLOT(updatePrintPreview()));
+	connect(printKanjis, SIGNAL(toggled(bool)), this, SLOT(updatePrintPreview()));
+	connect(printOnlyStudiedKanjis, SIGNAL(toggled(bool)), this, SLOT(updatePrintPreview()));
+	connect(maxDefinitionsToPrint, SIGNAL(valueChanged(int)), this, SLOT(updatePrintPreview()));
+
 	connect(filterButton, SIGNAL(clicked()), this, SLOT(onFilterButtonClicked()));
 	connect(unFilterButton, SIGNAL(clicked()), this, SLOT(onUnFilterButtonClicked()));
+
+	_previewEntry = EntriesCache::get(JMDICTENTRY_GLOBALID, 1415000);
+	previewEntry = static_cast<const JMdictEntry *>(_previewEntry.data());
+
+	previewLabel->installEventFilter(this);
+
+	connect(printKanjis, SIGNAL(toggled(bool)), printOnlyStudiedKanjis, SLOT(setEnabled(bool)));
+
+	previewLabel->setPicture(previewPic);
+}
+
+bool JMdictPreferences::eventFilter(QObject *obj, QEvent *event)
+{
+	if (obj == previewLabel) {
+		switch (event->type()) {
+		case QEvent::Show:
+		case QEvent::Resize:
+			updatePrintPreview();
+			return false;
+		default:
+			return false;
+		}
+	}
+	return false;
 }
 
 void JMdictPreferences::onFilterButtonClicked()
@@ -53,6 +83,11 @@ void JMdictPreferences::refresh()
 	studiedHomophonesOnly->setChecked(JMdictEntryFormatter::displayStudiedHomophonesOnly.value());
 	lookupVerbBuddy->setChecked(JMdictEntryFormatter::searchVerbBuddy.value());
 
+	headerPrintSize->setValue(JMdictEntryFormatter::headerPrintSize.value());
+	printKanjis->setChecked(JMdictEntryFormatter::printKanjis.value());
+	printOnlyStudiedKanjis->setChecked(JMdictEntryFormatter::printOnlyStudiedKanjis.value());
+	maxDefinitionsToPrint->setValue(JMdictEntryFormatter::maxDefinitionsToPrint.value());
+
 	filteredDefs->clear();
 	displayedDefs->clear();
 	const QStringList &filtered(JMdictEntrySearcher::miscPropertiesFilter.value().split(','));
@@ -71,6 +106,12 @@ void JMdictPreferences::applySettings()
 	JMdictEntryFormatter::maxHomophonesToDisplay.set(homophonesCount->value());
 	JMdictEntryFormatter::displayStudiedHomophonesOnly.set(studiedHomophonesOnly->isChecked());
 	JMdictEntryFormatter::searchVerbBuddy.set(lookupVerbBuddy->isChecked());
+
+	JMdictEntryFormatter::headerPrintSize.set(headerPrintSize->value());
+	JMdictEntryFormatter::printKanjis.set(printKanjis->isChecked());
+	JMdictEntryFormatter::printOnlyStudiedKanjis.set(printOnlyStudiedKanjis->isChecked());
+	JMdictEntryFormatter::maxDefinitionsToPrint.set(maxDefinitionsToPrint->value());
+
 	QStringList filtered, res;
 	for (int i = 0; i < filteredDefs->model()->rowCount(); i++) filtered << filteredDefs->item(i)->text();
 	for (int i = 0; JMdictMiscEntitiesLongDesc[i] != ""; i++) {
@@ -79,4 +120,17 @@ void JMdictPreferences::applySettings()
 		if (filtered.contains(s)) res << JMdictMiscEntitiesShortDesc[i];
 	}
 	JMdictEntrySearcher::miscPropertiesFilter.set(res.join(","));
+}
+
+void JMdictPreferences::updatePrintPreview()
+{
+	if (!isVisible()) return;
+
+	const JMdictEntryFormatter *formatter = static_cast<const JMdictEntryFormatter*>(EntryFormatter::getFormatter(previewEntry));
+	QPainter painter(&previewPic);
+	QRectF usedSpace;
+	formatter->draw(previewEntry, painter, QRectF(0, 0, printPreviewScrollArea->viewport()->contentsRect().width() - 20, 300), usedSpace, QFont(), headerPrintSize->value(), printKanjis->isChecked(), printOnlyStudiedKanjis->isChecked(), maxDefinitionsToPrint->value());
+	previewPic.setBoundingRect(usedSpace.toRect());
+	previewLabel->clear();
+	previewLabel->setPicture(previewPic);
 }

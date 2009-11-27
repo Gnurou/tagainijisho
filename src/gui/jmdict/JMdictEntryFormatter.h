@@ -45,7 +45,7 @@ public:
 	virtual void writeShortDesc(const Entry *entry, QTextCursor &cursor) const;
 	virtual void detailedVersionPart1(const Entry *entry, QTextCursor &cursor, DetailedView *view) const;
 	virtual void detailedVersionPart2(const Entry *entry, QTextCursor &cursor, DetailedView *view) const;
-	virtual void draw(const Entry *entry, QPainter &painter, const QRectF &rectangle, QRectF &usedSpace, const QFont &textFont = QFont()) const;
+	virtual void draw(const Entry *entry, QPainter &painter, const QRectF &rectangle, QRectF &usedSpace, const QFont &textFont = QFont(), int headerPrintSize = JMdictEntryFormatter::headerPrintSize.defaultValue(), bool printKanjis = JMdictEntryFormatter::printKanjis.defaultValue(), bool printOnlyStudiedKanjis = JMdictEntryFormatter::printOnlyStudiedKanjis.defaultValue(), int maxDefinitionsToPrint = JMdictEntryFormatter::maxDefinitionsToPrint.defaultValue()) const;
 
 	static const QString queryFindVerbBuddySql;
 	static const QString queryFindHomonymsSql;
@@ -56,7 +56,9 @@ public:
 	static PreferenceItem<int> maxHomophonesToDisplay;
 	static PreferenceItem<bool> displayStudiedHomophonesOnly;
 
-	static PreferenceItem<bool> printKanjiMeaning;
+	static PreferenceItem<int> headerPrintSize;
+	static PreferenceItem<bool> printKanjis;
+	static PreferenceItem<bool> printOnlyStudiedKanjis;
 	static PreferenceItem<int> maxDefinitionsToPrint;
 
 	static QString getVerbBuddySql(const QString &matchPattern, JMdictPosTagType pos, int id);

@@ -18,12 +18,23 @@
 #ifndef __GUI_JMDICT_PREFERENCES_H
 #define __GUI_JMDICT_PREFERENCES_H
 
+#include "core/jmdict/JMdictEntry.h"
 #include "gui/PreferencesWindow.h"
 #include "gui/ui_JMdictPreferences.h"
+
+#include <QPicture>
 
 class JMdictPreferences : public PreferencesWindowCategory, private Ui::JMdictPreferences
 {
 	Q_OBJECT
+private:
+	QPicture previewPic;
+	EntryPointer<const Entry> _previewEntry;
+	const JMdictEntry *previewEntry;
+
+protected:
+	virtual bool eventFilter(QObject *obj, QEvent *event);
+
 protected slots:
 	void onFilterButtonClicked();
 	void onUnFilterButtonClicked();
@@ -31,6 +42,7 @@ protected slots:
 public slots:
 	void applySettings();
 	void refresh();
+	void updatePrintPreview();
 
 public:
 	Q_INVOKABLE JMdictPreferences(QWidget *parent = 0);

@@ -33,8 +33,10 @@ PreferenceItem<bool> JMdictEntryFormatter::searchVerbBuddy("jmdict", "searchVerb
 PreferenceItem<int> JMdictEntryFormatter::maxHomophonesToDisplay("jmdict", "maxHomophonesToDisplay", 5);
 PreferenceItem<bool> JMdictEntryFormatter::displayStudiedHomophonesOnly("jmdict", "displayStudiedHomophonesOnly", false);
 
-PreferenceItem<bool> JMdictEntryFormatter::printKanjiMeaning("jmdict", "printKanjiMeaning", true);
-PreferenceItem<int> JMdictEntryFormatter::maxDefinitionsToPrint("jmdict", "maxDefinitionsToPrint", 5);
+PreferenceItem<int> JMdictEntryFormatter::headerPrintSize("jmdict", "headerPrintSize", 20);
+PreferenceItem<bool> JMdictEntryFormatter::printKanjis("jmdict", "printKanjis", true);
+PreferenceItem<bool> JMdictEntryFormatter::printOnlyStudiedKanjis("jmdict", "printOnlyStudiedKanjis", false);
+PreferenceItem<int> JMdictEntryFormatter::maxDefinitionsToPrint("jmdict", "maxDefinitionsToPrint", 0);
 
 
 QString JMdictEntryFormatter::getVerbBuddySql(const QString &matchPattern, JMdictPosTagType pos, int id)
@@ -403,11 +405,11 @@ void JMdictEntryFormatter::_detailedVersion(const Entry *entry, QTextCursor &cur
 	writeEntryInfo(jEntry, cursor, view);
 }
 
-void JMdictEntryFormatter::draw(const Entry *_entry, QPainter &painter, const QRectF &rectangle, QRectF &usedSpace, const QFont &textFont) const
+void JMdictEntryFormatter::draw(const Entry *_entry, QPainter &painter, const QRectF &rectangle, QRectF &usedSpace, const QFont &textFont, int headerPrintSize, bool printKanjis, bool printOnlyStudiedKanjis, int maxDefinitionsToPrint) const
 {
 	const JMdictEntry *entry(static_cast<const JMdictEntry *>(_entry));
 	QFont kanjiFont;
-	kanjiFont.setPointSize(textFont.pointSize() * 2);
+	kanjiFont.setPointSize(headerPrintSize);
 	QRectF leftArea(rectangle);
 	leftArea.setWidth(rectangle.width() / 3.5);
 	QRectF rightArea(rectangle);
@@ -434,7 +436,7 @@ void JMdictEntryFormatter::draw(const Entry *_entry, QPainter &painter, const QR
 		leftArea.setTop(textBB.bottom());
 	}
 	// Print meaning of kanjis used in writing
-	if (printKanjiMeaning.value()) {
+	if (printKanjis) {
 		QList<QChar> usedKanjis;
 		foreach (const QChar &c, writing) {
 			if (TextTools::isKanjiChar(c) && !usedKanjis.contains(c)) {
@@ -442,17 +444,17 @@ void JMdictEntryFormatter::draw(const Entry *_entry, QPainter &painter, const QR
 				EntryPointer<Entry> _entry = EntriesCache::get(KANJIDIC2ENTRY_GLOBALID, c.unicode());
 				if (!_entry.data()) continue;
 				Kanjidic2Entry *kanji = qobject_cast<Kanjidic2Entry *>(_entry.data());
+				if (printOnlyStudiedKanjis && !kanji->trained()) continue;
 				QString s = QString(c) + ": " + kanji->meanings().join(", ");
 				QFontMetrics metrics(painter.font(), painter.device());
 				s = metrics.elidedText(s, Qt::ElideRight, leftArea.width());
 				textBB = painter.boundingRect(leftArea, Qt::AlignLeft, s);
 				painter.drawText(leftArea, Qt::AlignLeft, s);
-				if (kanji->trained()) painter.drawLine(textBB.topLeft() + QPoint(0, metrics.ascent() + metrics.underlinePos()), textBB.topRight() + QPoint(0, metrics.ascent() + metrics.underlinePos()));
+				if (!printOnlyStudiedKanjis && kanji->trained()) painter.drawLine(textBB.topLeft() + QPoint(0, metrics.ascent() + metrics.underlinePos()), textBB.topRight() + QPoint(0, metrics.ascent() + metrics.underlinePos()));
 				leftArea.setTop(textBB.bottom());
 			}
 		}
 	}
-	int nbDefs = maxDefinitionsToPrint.value();
 	// Now print definitions.
 	foreach (const Sense *sense, entry->getSenses()) {
 		QList<int> pos = sense->partsOfSpeech();
@@ -474,7 +476,7 @@ void JMdictEntryFormatter::draw(const Entry *_entry, QPainter &painter, const QR
 		textBB = painter.boundingRect(rightArea, Qt::AlignLeft | Qt::TextWordWrap, s);
 		painter.drawText(rightArea, Qt::AlignLeft | Qt::TextWordWrap, s);
 		rightArea.setTop(textBB.bottom());
-		if (--nbDefs == 0) break;
+		if (--maxDefinitionsToPrint == 0) break;
 	}
 	drawInfo(entry, painter, rightArea, textFont);
 
