@@ -23,7 +23,7 @@ from xmlhandler import BasicHandler
 import kanjivg
 from kanjivg import realord
 
-KANJIDIC2DB_REVISION = 3
+KANJIDIC2DB_REVISION = 4
 
 # Database connection
 db = None

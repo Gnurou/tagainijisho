@@ -23,7 +23,7 @@ from xmlhandler import BasicHandler
 from jmdictentities import *
 from kanjivg import realord, isKanji
 
-JMDICTDB_REVISION = 3
+JMDICTDB_REVISION = 4
 
 # Database connection
 db = None
