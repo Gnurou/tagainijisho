@@ -21,11 +21,11 @@
 #include <QDebug>
 #include <QtSql>
 
-Entry::Entry() : QObject(0), _type(0), _id(0), _frequency(0), _dateAdded(), _dateLastTrain(), _dateLastMistake(), _nbTrained(0), _nbSuccess(0)
+Entry::Entry() : QObject(0), _type(0), _id(0), _frequency(0), _dateAdded(), _dateLastTrain(), _dateLastMistake(), _nbTrained(0), _nbSuccess(0), _score(0)
 {
 }
 
-Entry::Entry(int type, int id) : QObject(0), _type(type), _id(id), _frequency(0), _dateAdded(), _dateLastTrain(), _dateLastMistake(), _nbTrained(0), _nbSuccess(0)
+Entry::Entry(int type, int id) : QObject(0), _type(type), _id(id), _frequency(0), _dateAdded(), _dateLastTrain(), _dateLastMistake(), _nbTrained(0), _nbSuccess(0), _score(0)
 {
 }
 
@@ -51,11 +51,35 @@ void Entry::updateTrainingData()
 	}
 }
 
-void Entry::train(bool success)
+void Entry::train(bool success, float factor)
 {
 	// Can not train entries that are not in our study list
 	if (!trained()) return;
 	QDateTime currentTime(QDateTime::currentDateTime());
+	QDateTime lastTrainTime(dateLastTrain());
+	// If this is the first time we train the entry
+	if (!lastTrainTime.isValid()) lastTrainTime = dateAdded();
+	// Should never happen
+	if (!lastTrainTime.isValid()) lastTrainTime = currentTime.addDays(-7);
+
+	// The new score depends on:
+	// - Whether we succeeded or not (of course!)
+	// - When was the last time we trained - a long time means a bigger positive factor
+	// - The factor argument.
+	int daysNotSeen = lastTrainTime.daysTo(currentTime);
+
+	int scoreChange = 5 + (daysNotSeen * 2) * factor;
+	if (scoreChange > 30) scoreChange = 30;
+	if (!success) scoreChange = -scoreChange;
+
+	int newScore(score());
+
+	newScore += scoreChange;
+	if (newScore < 0) newScore = 0;
+	else if (newScore > 100) newScore = 100;
+
+	_score = newScore;
+
 	_nbTrained++;
 	if (success) _nbSuccess++;
 	setDateLastTrained(currentTime);
@@ -81,6 +105,7 @@ void Entry::removeFromTraining()
 	setDateLastMistake(QDateTime());
 	setNbTrained(0);
 	setNbSuccess(0);
+	_score = 0;
 	// And delete the entry row from the training table
 	QString qString = QString("delete from training where type = %1 and id = %2").arg(type()).arg(id());
 	QSqlQuery query;
@@ -92,8 +117,7 @@ void Entry::setAlreadyKnown()
 {
 	if (!trained()) addToTraining();
 	if (score() < 95) {
-		setNbTrained(20);
-		setNbSuccess(20);
+		_score = 95;
 	}
 	updateTrainingData();
 }
@@ -101,8 +125,7 @@ void Entry::setAlreadyKnown()
 void Entry::resetScore()
 {
 	if (!trained()) return;
-	setNbTrained(0);
-	setNbSuccess(0);
+	_score = 0;
 	updateTrainingData();
 }
 

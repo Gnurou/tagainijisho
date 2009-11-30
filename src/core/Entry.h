@@ -72,6 +72,7 @@ private:
 	QDateTime _dateLastMistake;
 	unsigned int _nbTrained;
 	unsigned int _nbSuccess;
+	int _score;
 
 	QSet<Tag> _tags;
 	QList<Note> _notes;
@@ -115,7 +116,7 @@ public:
 	 * training list at some point.
 	 */
 	bool trained() const { return dateAdded().isValid(); }
-	int score() const { return (nbSuccess() * 100) / (nbTrained() + 1); }
+	int score() const { return _score; }
 	/**
 	 * An entry is considered as assimilated if its score is at least 95.
 	 */
@@ -134,7 +135,7 @@ public:
 	void updateNote(Note &note, const QString &noteText);
 	void deleteNote(Note &note);
 
-	void train(bool success);
+	void train(bool success, float factor = 1.0f);
 
 	typedef enum { ShortVersion, TinyVersion } VersionLength;
 	/**
