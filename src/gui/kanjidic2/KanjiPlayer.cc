@@ -1,5 +1,5 @@
 /*
- *  Copyright (C) 2008  Alexandre Courbot
+ *  Copyright (C) 2008/2009  Alexandre Courbot
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -24,17 +24,7 @@
 #include <QMouseEvent>
 #include <QPushButton>
 
-/*
-#ifdef __MINGW32__
-#define PAUSE_BETWEEN_STROKES 30
-#define ANIMATION_SPEED 1
-#define TIMER_INTERVAL 10
-#else
-#define PAUSE_BETWEEN_STROKES 15
-#define ANIMATION_SPEED 2
-*/
 #define TIMER_INTERVAL 20
-/*#endif*/
 
 #define STATE_STROKE 1
 #define STATE_WAIT 2
@@ -129,6 +119,7 @@ void KanjiPlayer::setPictureSize(int newSize)
 	_picture.setBoundingRect(QRect(0, 0, newSize, newSize));
 	kanjiView->clear();
 	kanjiView->setPicture(_picture);
+	kanjiView->setMinimumSize(newSize, newSize);
 }
 
 void KanjiPlayer::updateButtonsState()

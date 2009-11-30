@@ -172,7 +172,14 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_2">
      <item>
-      <widget class="KanjiPlayer" name="stroke" native="true"/>
+      <widget class="KanjiPlayer" name="stroke" native="true">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+      </widget>
      </item>
      <item>
       <widget class="QLabel" name="propsLabel">
