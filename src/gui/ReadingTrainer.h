@@ -17,10 +17,12 @@
 #ifndef _GUI__READINGTRAINER_H
 #define _GUI__READINGTRAINER_H
 
+#include "core/Preferences.h"
 #include "gui/ui_ReadingTrainer.h"
 
 #include <QFrame>
 #include <QSqlQuery>
+#include <QCheckBox>
 
 class ReadingTrainer : public QFrame
 {
@@ -32,6 +34,8 @@ private:
 	QSqlQuery query;
 	EntryPointer<Entry> entry;
 	unsigned int _goodCount, _wrongCount, _totalCount;
+	QCheckBox *_showMeaning;
+	QAction *_showMeaningAction;
 
 protected:
 	void updateStatusLabel();
@@ -41,9 +45,11 @@ public:
 	~ReadingTrainer();
 
 	void newSession();
+	static PreferenceItem<bool> showMeaning;
 
 protected slots:
 	void checkAnswer();
+	void onShowMeaningChecked(bool checked);
 
 public slots:
 	void train();

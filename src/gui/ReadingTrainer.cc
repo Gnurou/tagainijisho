@@ -30,6 +30,7 @@
 #include <QLabel>
 
 PreferenceItem<QByteArray> ReadingTrainer::windowGeometry("readingTrainWindow", "geometry", "");
+PreferenceItem<bool> ReadingTrainer::showMeaning("readingTrainWindow", "showMeaning", true);
 
 ReadingTrainer::ReadingTrainer(QWidget *parent) : QFrame(parent), _goodCount(0), _wrongCount(0), _totalCount(0)
 {
@@ -39,6 +40,11 @@ ReadingTrainer::ReadingTrainer(QWidget *parent) : QFrame(parent), _goodCount(0),
 	connect(ui.okButton, SIGNAL(clicked()), this, SLOT(checkAnswer()));
 	connect(ui.nextButton, SIGNAL(clicked()), this, SLOT(train()));
 	ui.detailedView->detailedView()->setKanjisClickable(true);
+
+	_showMeaning = new QCheckBox(tr("Show &meaning"), this);
+	_showMeaning->setChecked(ReadingTrainer::showMeaning.value());
+	connect(_showMeaning, SIGNAL(toggled(bool)), this, SLOT(onShowMeaningChecked(bool)));
+	_showMeaningAction = ui.detailedView->toolBar()->addWidget(_showMeaning);
 
 	restoreGeometry(windowGeometry.value());
 }
@@ -99,10 +105,12 @@ void ReadingTrainer::train()
 	if (query.next()) {
 		entry = EntriesCache::get(JMDICTENTRY_GLOBALID, (query.value(0).toInt()));
 		ui.writingLabel->setText(entry->writings()[0]);
-		ui.detailedView->detailedView()->clear();
 		QTextCursor cursor(ui.detailedView->detailedView()->document());
 		const EntryFormatter *formatter = EntryFormatter::getFormatter(entry.data());
-		formatter->detailedVersionPart2(entry.data(), cursor, ui.detailedView->detailedView());
+		if (_showMeaning->isChecked()) {
+			ui.detailedView->detailedView()->clear();
+			formatter->detailedVersionPart2(entry.data(), cursor, ui.detailedView->detailedView());
+		}
 		ui.userInput->clear();
 	} else {
 		if (_totalCount == 0) QMessageBox::information(this, tr("No matching entries found"), tr("Unable to find any entry eligible for reading practice. Entries eligible for this training mode are studied vocabulary entries for which all kanjis are also studied, and match the train settings. Please add entries or modify the train settings accordingly if you want to practice this mode."));
@@ -134,12 +142,28 @@ void ReadingTrainer::checkAnswer()
 		ui.okButton->setVisible(false);
 		ui.userInput->setVisible(false);
 		ui.nextButton->setFocus();
+		ui.detailedView->detailedView()->display(entry.data());
 	}
 	_totalCount++;
 	updateStatusLabel();
-	if (correct) train();
-	else {
-		ui.detailedView->detailedView()->display(entry.data());
+	if (correct) {
+		if (!_showMeaning->isChecked()) {
+			ui.detailedView->detailedView()->clear();
+			ui.detailedView->detailedView()->display(entry.data());
+		}
+
+		train();
+	}
+}
+
+void ReadingTrainer::onShowMeaningChecked(bool checked)
+{
+	ReadingTrainer::showMeaning.set(checked);
+	ui.detailedView->detailedView()->clear();
+	if (checked) {
+		QTextCursor cursor(ui.detailedView->detailedView()->document());
+		const EntryFormatter *formatter = EntryFormatter::getFormatter(entry.data());
+		formatter->detailedVersionPart2(entry.data(), cursor, ui.detailedView->detailedView());
 	}
 }
 
