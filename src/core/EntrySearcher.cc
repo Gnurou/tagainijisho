@@ -176,7 +176,7 @@ void EntrySearcher::loadMiscData(Entry *entry)
 	QSqlQuery query;
 
 	// Load training data
-	query.prepare("select dateAdded, dateLastTrain, nbTrained, nbSuccess, dateLastMistake from training where type = ? and id = ?");
+	query.prepare("select dateAdded, dateLastTrain, nbTrained, nbSuccess, dateLastMistake, score from training where type = ? and id = ?");
 	query.addBindValue(entry->type());
 	query.addBindValue(entry->id());
 	query.exec();
@@ -187,6 +187,7 @@ void EntrySearcher::loadMiscData(Entry *entry)
 		entry->setNbTrained(query.value(2).toInt());
 		entry->setNbSuccess(query.value(3).toInt());
 		entry->setDateLastMistake(variantToDate(query.value(4)));
+		entry->_score = query.value(5).toInt();
 	}
 
 	// Tags data
