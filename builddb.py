@@ -27,7 +27,7 @@ kanjidicDB = "kanjidic2.db"
 kanjidicdata = os.path.join("3rdparty", "kanjidic2.xml")
 kanjidicdatasource = "http://www.csse.monash.edu.au/~jwb/kanjidic2/kanjidic2.xml.gz"
 kanjivgdata = os.path.join("3rdparty", "kanjivg.xml")
-kanjivgdatasource = "http://kanjivg.tagaini.net/upload/Main/kanjivg-latest.xml.gz"
+kanjivgdatasource = "http://kanjivg.tagaini.net/upload/Main/kanjivg-latest-beta.xml.gz"
 
 sys.path.append(os.path.join("src", "python"))
 
