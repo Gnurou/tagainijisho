@@ -47,7 +47,7 @@ def uploadFile(f, fType, lang, gpgPass):
 	print "Uploading", f
 	finalDesc = FILE_DESCRIPTIONS[fType]
 	if lang: finalDesc = finalDesc % (lang)
-	releaseFile = release.add_file(filename = f, description = finalDesc, file_content = codecs.open(f, 'rb', 'latin').read(), content_type = FILE_CONTENTTYPES[fType], file_type = FILE_TYPES[fType], signature_filename = fSign, signature_content = codecs.open(fSign, 'rb', 'latin').read())
+	releaseFile = release.add_file(filename = f, description = finalDesc, file_content = open(f, 'r').read(), content_type = FILE_CONTENTTYPES[fType], file_type = FILE_TYPES[fType], signature_filename = fSign, signature_content = open(fSign, 'r').read())
 	release.lp_save()
 
 for arg in sys.argv:
@@ -65,21 +65,16 @@ if not launchpad:
 project = launchpad.projects[projectName]
 for release in project.releases:
 	if release.version == releaseVersion:
-		try:
-			sys.stdout.write("Found the release. I will now create signature files - please enter your GPG private key passphrase: ")
-			gpgPass = sys.stdin.readline()
-			# Upload the source tarball
-			#uploadFile('tagainijisho-' + releaseVersion + '.tar.gz', 'source', '', gpgPass)
-			# Upload the win32 binaries
-			for lang in LANGUAGES:
-				uploadFile('tagainijisho-' + releaseVersion + '-' + LANGUAGES_SUFFIXES[lang] + '.exe', 'win32', lang, gpgPass)
-			# Upload the mac binaries
-			#for lang in LANGUAGES:
-			#	uploadFile('Tagaini Jisho-' + releaseVersion + '-' + LANGUAGES_SUFFIXES[lang] + '.dmg', 'mac', lang, gpgPass)
-		except launchpadlib.errors.HTTPError, e:
-			print "An error happened while uploading."
-			print e.content
-			releaseFile = None
+		sys.stdout.write("Found the release. I will now create signature files - please enter your GPG private key passphrase: ")
+		gpgPass = sys.stdin.readline()
+		# Upload the source tarball
+		uploadFile('tagainijisho-' + releaseVersion + '.tar.gz', 'source', '', gpgPass)
+		# Upload the win32 binaries
+		for lang in LANGUAGES:
+			uploadFile('tagainijisho-' + releaseVersion + '-' + LANGUAGES_SUFFIXES[lang] + '.exe', 'win32', lang, gpgPass)
+		# Upload the mac binaries
+		#for lang in LANGUAGES:
+		#	uploadFile('Tagaini Jisho-' + releaseVersion + '-' + LANGUAGES_SUFFIXES[lang] + '.dmg', 'mac', lang, gpgPass)
 		sys.exit(0)
 print "Release not found - please create it on Launchpad first."
 
