@@ -9,6 +9,11 @@ qmake -spec win32-cross-g++ -config release
 make
 i486-mingw32-ranlib src/core/libtagaini-core.a
 make
+mv tagainijisho.exe tagainijisho.exe.save
+make distclean
+mv tagainijisho.exe.save tagainijisho.exe
+qmake
+make
 mkdir win32-translations
 lrelease $QTPATH/translations/qt_fr.ts -qm win32-translations/qt_fr.qm
 lrelease $QTPATH/translations/qt_de.ts -qm win32-translations/qt_de.qm

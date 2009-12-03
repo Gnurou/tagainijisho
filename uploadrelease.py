@@ -8,7 +8,7 @@ serviceRoot = EDGE_SERVICE_ROOT
 projectName = 'tagaini-jisho'
 cachedir = "/tmp/tagainiuploader/cache/"
 credentialsfile = "credentials.txt"
-releaseVersion = "0.2.1"
+releaseVersion = "0.2.396"
 launchpad = None
 
 FILE_TYPES = dict(source='Code Release Tarball',
@@ -47,7 +47,8 @@ def uploadFile(f, fType, lang, gpgPass):
 	print "Uploading", f
 	finalDesc = FILE_DESCRIPTIONS[fType]
 	if lang: finalDesc = finalDesc % (lang)
-	#releaseFile = release.add_file(filename = f, description = finalDesc, file_content = codecs.open(f, 'rb', 'latin').read(), content_type = FILE_CONTENTTYPES[fType], file_type = FILE_TYPES[fType], signature_filename = fSign, signature_content = codecs.open(fSign, 'rb', 'latin').read())
+	releaseFile = release.add_file(filename = f, description = finalDesc, file_content = codecs.open(f, 'rb', 'latin').read(), content_type = FILE_CONTENTTYPES[fType], file_type = FILE_TYPES[fType], signature_filename = fSign, signature_content = codecs.open(fSign, 'rb', 'latin').read())
+	release.lp_save()
 
 for arg in sys.argv:
 	if arg == "--auth":
@@ -68,13 +69,13 @@ for release in project.releases:
 			sys.stdout.write("Found the release. I will now create signature files - please enter your GPG private key passphrase: ")
 			gpgPass = sys.stdin.readline()
 			# Upload the source tarball
-			uploadFile('tagainijisho-' + releaseVersion + '.tar.gz', 'source', '', gpgPass)
+			#uploadFile('tagainijisho-' + releaseVersion + '.tar.gz', 'source', '', gpgPass)
 			# Upload the win32 binaries
 			for lang in LANGUAGES:
 				uploadFile('tagainijisho-' + releaseVersion + '-' + LANGUAGES_SUFFIXES[lang] + '.exe', 'win32', lang, gpgPass)
 			# Upload the mac binaries
-			for lang in LANGUAGES:
-				uploadFile('Tagaini Jisho-' + releaseVersion + '-' + LANGUAGES_SUFFIXES[lang] + '.dmg', 'mac', lang, gpgPass)
+			#for lang in LANGUAGES:
+			#	uploadFile('Tagaini Jisho-' + releaseVersion + '-' + LANGUAGES_SUFFIXES[lang] + '.dmg', 'mac', lang, gpgPass)
 		except launchpadlib.errors.HTTPError, e:
 			print "An error happened while uploading."
 			print e.content
