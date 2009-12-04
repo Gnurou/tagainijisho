@@ -29,7 +29,8 @@
 #include <QTextList>
 
 PreferenceItem<bool> JMdictEntryFormatter::showJLPT("jmdict", "showJLPT", true);
-PreferenceItem<bool> JMdictEntryFormatter::showKanjis("jmdict", "showKanjis", false);
+PreferenceItem<bool> JMdictEntryFormatter::showKanjis("jmdict", "showKanjis", true);
+PreferenceItem<bool> JMdictEntryFormatter::showKanjisJLPT("jmdict", "showKanjisJLPT", false);
 PreferenceItem<bool> JMdictEntryFormatter::searchVerbBuddy("jmdict", "searchVerbBuddy", true);
 PreferenceItem<int> JMdictEntryFormatter::maxHomophonesToDisplay("jmdict", "maxHomophonesToDisplay", 5);
 PreferenceItem<bool> JMdictEntryFormatter::displayStudiedHomophonesOnly("jmdict", "displayStudiedHomophonesOnly", false);
@@ -352,6 +353,10 @@ void JMdictEntryFormatter::writeEntryInfo(const JMdictEntry *entry, QTextCursor 
 				QString str(kEntry->kanji());
 				if (!kEntry->meanings().isEmpty()) str += ": " + kEntry->meaningsString();
 				autoFormat(kEntry, str, cursor, charFormat);
+				if (showKanjisJLPT.value() && kEntry->jlpt() != -1) {
+					charFormat.setFontWeight(QFont::Bold);
+					autoFormat(kEntry, tr(" (JLPT %1)").arg(kEntry->jlpt()), cursor, charFormat);
+				}
 				QTextImageFormat imgFormat;
 				imgFormat.setAnchor(true);
 				imgFormat.setAnchorHref(QString("entry://?type=%1&id=%2").arg(kEntry->type()).arg(kEntry->id()));

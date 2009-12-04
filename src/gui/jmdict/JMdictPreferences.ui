@@ -29,18 +29,28 @@
          <property name="title">
           <string>Basic information</string>
          </property>
-         <layout class="QVBoxLayout" name="verticalLayout_2">
-          <item>
+         <layout class="QGridLayout" name="gridLayout_3">
+          <item row="0" column="0">
            <widget class="QCheckBox" name="showJLPT">
             <property name="text">
              <string>JLPT level</string>
             </property>
            </widget>
           </item>
-          <item>
+          <item row="1" column="0">
            <widget class="QCheckBox" name="showKanjis">
             <property name="text">
              <string>Kanjis used in main reading</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QCheckBox" name="showKanjisJLPT">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="text">
+             <string>JLPT level of kanjis</string>
             </property>
            </widget>
           </item>
@@ -116,17 +126,17 @@
           <string>General</string>
          </property>
          <layout class="QGridLayout" name="gridLayout_2">
-          <item row="0" column="0">
-           <widget class="QLabel" name="label_4">
-            <property name="text">
-             <string>Header font size:</string>
-            </property>
-           </widget>
-          </item>
           <item row="0" column="1">
            <widget class="QSpinBox" name="headerPrintSize">
             <property name="maximum">
              <number>200</number>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="0">
+           <widget class="QLabel" name="label_4">
+            <property name="text">
+             <string>Header font size:</string>
             </property>
            </widget>
           </item>
@@ -147,7 +157,6 @@
          </layout>
          <zorder>headerPrintSize</zorder>
          <zorder>label_4</zorder>
-         <zorder>label_5</zorder>
          <zorder>label_5</zorder>
          <zorder>maxDefinitionsToPrint</zorder>
         </widget>
@@ -411,5 +420,22 @@
  <resources>
   <include location="../../../tagainijisho.qrc"/>
  </resources>
- <connections/>
+ <connections>
+  <connection>
+   <sender>showKanjis</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>showKanjisJLPT</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>191</x>
+     <y>104</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>272</x>
+     <y>103</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>
