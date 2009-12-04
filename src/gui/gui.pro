@@ -111,6 +111,10 @@ FORMS += SetsOrganizer.ui \
 RESOURCES += ../../tagainijisho.qrc
 RC_FILE = ../../tagainijisho.rc
 ICON = ../../images/appicon.icns
-TRANSLATIONS = ../../i18n/tagainijisho_fr.ts
+TRANSLATIONS = ../../i18n/tagainijisho_fr.ts \
+	../../i18n/tagainijisho_de.ts \
+	../../i18n/tagainijisho_es.ts \
+	../../i18n/tagainijisho_ru.ts \
+	../../i18n/tagainijisho_nl.ts
 unix::target.path = $$BIN_DIR
 INSTALLS = target
