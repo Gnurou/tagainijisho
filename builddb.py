@@ -110,7 +110,10 @@ def getKanjiVG():
 def buildPySQLite():
 	wd = os.getcwd()
 	os.chdir(pysqlitedest)
-	os.system("python setup.py -q build_ext -I ../sqlite -l QtCore")
+	buildString = "python setup.py -q build_ext -I../sqlite -lQtCore"
+	if os.environ.has_key("QT4DIR"): buildString += " -L" + os.path.join(os.environ["QT4DIR"], "lib")
+	print buildString
+	os.system(buildString)
 	os.system("python setup.py -q install --prefix=install --install-purelib=install --install-platlib=install")
 	os.chdir(wd)
 	del wd
