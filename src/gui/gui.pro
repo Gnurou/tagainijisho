@@ -111,6 +111,7 @@ FORMS += SetsOrganizer.ui \
 RESOURCES += ../../tagainijisho.qrc
 RC_FILE = ../../tagainijisho.rc
 ICON = ../../images/appicon.icns
+CODECFORTR = UTF-8
 TRANSLATIONS = ../../i18n/tagainijisho_fr.ts \
 	../../i18n/tagainijisho_de.ts \
 	../../i18n/tagainijisho_es.ts \
