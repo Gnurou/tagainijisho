@@ -173,7 +173,7 @@ void KanjiPlayer::unHighlightComponent()
 void KanjiPlayer::renderCurrentState()
 {
 	QPen pen;
-	pen.setWidth(2);
+	pen.setWidth(4);
 	pen.setColor(palette().color(QPalette::Dark));
 	pen.setCapStyle(Qt::RoundCap);
 	pen.setJoinStyle(Qt::RoundJoin);
