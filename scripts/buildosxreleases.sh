@@ -5,7 +5,6 @@ rm -Rf tagainijisho.app
 qmake -spec macx-g++
 make
 macdeployqt tagainijisho.app
-# TODO Qt translations are missing!
 echo "Translations = Translations" >> tagainijisho.app/Contents/Resources/qt.conf
 mkdir tagainijisho.app/Contents/Translations
 cp /Developer/Applications/Qt/translations/qt_fr.qm tagainijisho.app/Contents/Translations
