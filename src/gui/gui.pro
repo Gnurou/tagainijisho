@@ -110,7 +110,8 @@ FORMS += SetsOrganizer.ui \
     kanjidic2/KanjiPopup.ui
 RESOURCES += ../../tagainijisho.qrc
 RC_FILE = ../../tagainijisho.rc
-ICON = ../../images/appicon.icns
+mac:ICON = ../../images/appicon.icns
+mac:QMAKE_INFO_PLIST = ../../Info.plist
 CODECFORTR = UTF-8
 TRANSLATIONS = ../../i18n/tagainijisho_fr.ts \
 	../../i18n/tagainijisho_de.ts \
