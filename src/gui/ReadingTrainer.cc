@@ -113,7 +113,7 @@ void ReadingTrainer::train()
 		}
 		ui.userInput->clear();
 	} else {
-		if (_totalCount == 0) QMessageBox::information(this, tr("No matching entries found"), tr("Unable to find any entry eligible for reading practice. Entries eligible for this training mode are studied vocabulary entries for which all kanjis are also studied, and match the train settings. Please add entries or modify the train settings accordingly if you want to practice this mode."));
+		if (_totalCount == 0) QMessageBox::information(this, tr("No matching entries found"), tr("Unable to find any entry eligible for reading practice. Entries eligible for this training mode are studied vocabulary entries for which all kanji are also studied, and match the train settings. Please add entries or modify the train settings accordingly if you want to practice this mode."));
 		else QMessageBox::information(this, tr("No more entries to train"), tr("There are no more entries to train for the current train settings."));
 		close();
 	}

@@ -40,7 +40,7 @@
           <item row="1" column="0">
            <widget class="QCheckBox" name="showKanjis">
             <property name="text">
-             <string>Kanjis used in main reading</string>
+             <string>Kanji used in main reading</string>
             </property>
            </widget>
           </item>
@@ -50,7 +50,7 @@
              <bool>false</bool>
             </property>
             <property name="text">
-             <string>JLPT level of kanjis</string>
+             <string>JLPT level of kanji</string>
             </property>
            </widget>
           </item>
@@ -155,29 +155,25 @@
            </widget>
           </item>
          </layout>
-         <zorder>headerPrintSize</zorder>
-         <zorder>label_4</zorder>
-         <zorder>label_5</zorder>
-         <zorder>maxDefinitionsToPrint</zorder>
         </widget>
        </item>
        <item>
         <widget class="QGroupBox" name="groupBox_5">
          <property name="title">
-          <string>Kanjis</string>
+          <string>Kanji</string>
          </property>
          <layout class="QGridLayout" name="gridLayout">
           <item row="0" column="0">
            <widget class="QCheckBox" name="printKanjis">
             <property name="text">
-             <string>Kanjis used in word</string>
+             <string>Kanji used in word</string>
             </property>
            </widget>
           </item>
           <item row="0" column="1">
            <widget class="QCheckBox" name="printOnlyStudiedKanjis">
             <property name="text">
-             <string>Only studied kanjis</string>
+             <string>Only studied kanji</string>
             </property>
            </widget>
           </item>

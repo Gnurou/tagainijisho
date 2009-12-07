@@ -335,7 +335,7 @@ void JMdictEntryFormatter::writeEntryInfo(const JMdictEntry *entry, QTextCursor 
 				if (!headerPrinted) {
 					cursor.insertBlock(QTextBlockFormat());
 					cursor.setCharFormat(bold);
-					cursor.insertText(tr("Kanjis:"));
+					cursor.insertText(tr("Kanji:"));
 					cursor.setCharFormat(normal);
 					headerPrinted = true;
 				}

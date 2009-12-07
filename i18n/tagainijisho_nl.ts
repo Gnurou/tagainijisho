@@ -222,8 +222,12 @@
     </message>
     <message>
         <location filename="../src/gui/SearchBar.cc" line="97"/>
-        <source>Kanjis</source>
+        <source>Kanji</source>
         <translation>Kanji</translation>
+    </message>
+    <message>
+        <source>Kanjis</source>
+        <translation type="obsolete">Kanji</translation>
     </message>
     <message>
         <location filename="../src/gui/SearchBar.h" line="207"/>
@@ -235,7 +239,7 @@
 <context>
     <name>FindHomonymsJob</name>
     <message>
-        <location filename="../src/gui/jmdict/JMdictEntryFormatter.cc" line="625"/>
+        <location filename="../src/gui/jmdict/JMdictEntryFormatter.cc" line="630"/>
         <source>Homophones:</source>
         <translation>Homofonen:</translation>
     </message>
@@ -243,17 +247,17 @@
 <context>
     <name>FindVerbBuddyJob</name>
     <message>
-        <location filename="../src/gui/jmdict/JMdictEntryFormatter.cc" line="599"/>
+        <location filename="../src/gui/jmdict/JMdictEntryFormatter.cc" line="604"/>
         <source>Transitive buddy:</source>
         <translation>Overgankelijk maatje:</translation>
     </message>
     <message>
-        <location filename="../src/gui/jmdict/JMdictEntryFormatter.cc" line="600"/>
+        <location filename="../src/gui/jmdict/JMdictEntryFormatter.cc" line="605"/>
         <source>Intransitive buddy:</source>
         <translation>Onovergankelijk maatje:</translation>
     </message>
     <message>
-        <location filename="../src/gui/jmdict/JMdictEntryFormatter.cc" line="601"/>
+        <location filename="../src/gui/jmdict/JMdictEntryFormatter.cc" line="606"/>
         <source>Buddy:</source>
         <translation>Maatje:</translation>
     </message>
@@ -397,24 +401,33 @@
 <context>
     <name>JMdictEntryFormatter</name>
     <message>
-        <location filename="../src/gui/jmdict/JMdictEntryFormatter.cc" line="199"/>
+        <location filename="../src/gui/jmdict/JMdictEntryFormatter.cc" line="200"/>
         <source>Alternate readings: </source>
         <translation>Alternatieve lezingen: </translation>
     </message>
     <message>
-        <location filename="../src/gui/jmdict/JMdictEntryFormatter.cc" line="215"/>
+        <location filename="../src/gui/jmdict/JMdictEntryFormatter.cc" line="216"/>
         <source>Variants:</source>
         <translation>Varianten:</translation>
     </message>
     <message>
-        <location filename="../src/gui/jmdict/JMdictEntryFormatter.cc" line="325"/>
+        <location filename="../src/gui/jmdict/JMdictEntryFormatter.cc" line="326"/>
         <source>JLPT level:</source>
         <translation>JLPT-niveau:</translation>
     </message>
     <message>
-        <location filename="../src/gui/jmdict/JMdictEntryFormatter.cc" line="337"/>
-        <source>Kanjis:</source>
+        <location filename="../src/gui/jmdict/JMdictEntryFormatter.cc" line="338"/>
+        <source>Kanji:</source>
         <translation>Kanji:</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/jmdict/JMdictEntryFormatter.cc" line="358"/>
+        <source> (JLPT %1)</source>
+        <translation> (JLPT %1)</translation>
+    </message>
+    <message>
+        <source>Kanjis:</source>
+        <translation type="obsolete">Kanji:</translation>
     </message>
 </context>
 <context>
@@ -460,13 +473,21 @@
 <context>
     <name>JMdictOptionsWidget</name>
     <message>
-        <location filename="../src/gui/jmdict/JMdictGUIPlugin.cc" line="251"/>
         <source>Using studied kanjis only</source>
+        <translation type="obsolete">Alleen reeds bestudeerde kanji</translation>
+    </message>
+    <message>
+        <source>With kanjis:</source>
+        <translation type="obsolete">Bevat deze kanji:</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/jmdict/JMdictGUIPlugin.cc" line="251"/>
+        <source>Using studied kanji only</source>
         <translation>Alleen reeds bestudeerde kanji</translation>
     </message>
     <message>
         <location filename="../src/gui/jmdict/JMdictGUIPlugin.cc" line="252"/>
-        <source>With kanjis:</source>
+        <source>With kanji:</source>
         <translation>Bevat deze kanji:</translation>
     </message>
     <message>
@@ -505,13 +526,21 @@
     </message>
     <message>
         <location filename="../src/gui/jmdict/JMdictGUIPlugin.cc" line="347"/>
-        <source>, studied kanjis only</source>
+        <source>, studied kanji only</source>
         <translation>, enkel bestudeerde kanji</translation>
     </message>
     <message>
         <location filename="../src/gui/jmdict/JMdictGUIPlugin.cc" line="348"/>
-        <source> with studied kanjis</source>
+        <source> with studied kanji</source>
         <translation> met bestudeerde kanji</translation>
+    </message>
+    <message>
+        <source>, studied kanjis only</source>
+        <translation type="obsolete">, enkel bestudeerde kanji</translation>
+    </message>
+    <message>
+        <source> with studied kanjis</source>
+        <translation type="obsolete"> met bestudeerde kanji</translation>
     </message>
     <message>
         <location filename="../src/gui/jmdict/JMdictGUIPlugin.cc" line="353"/>
@@ -573,119 +602,140 @@
         <translation>JLPT-niveau</translation>
     </message>
     <message>
-        <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="43"/>
         <source>Kanjis used in main reading</source>
         <translatorcomment>&quot;Lezing&quot; might not be the best translation of &quot;reading&quot; (kanji)</translatorcomment>
-        <translation>Kanji die voorkomen in de hoofd-lezing</translation>
+        <translation type="obsolete">Kanji die voorkomen in de hoofd-lezing</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="43"/>
+        <source>Kanji used in main reading</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="53"/>
+        <source>JLPT level of kanji</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="63"/>
         <source>Additional information</source>
         <translation>Aanvullende informatie</translation>
     </message>
     <message>
-        <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="59"/>
+        <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="69"/>
         <source>For transitive verbs, look for the equivalent intransitive entry and vice-versa.</source>
         <translation>Zoek bij overgankelijke werkwoorden ook het onovergankelijke equivalent op (en vice versa).</translation>
     </message>
     <message>
-        <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="62"/>
+        <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="72"/>
         <source>Search for transitive/intransitive verb buddy</source>
         <translation>Zoek naar het overgankelijke/onovergankelijke „werkwoordsmaatje”</translation>
     </message>
     <message>
-        <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="74"/>
+        <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="84"/>
         <source>Display words that have the same pronunciation.</source>
         <translation>Toon woorden met dezelfde uitspraak.</translation>
     </message>
     <message>
-        <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="77"/>
+        <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="87"/>
         <source>Homophones</source>
         <translation>Homofonen</translation>
     </message>
     <message>
-        <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="84"/>
+        <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="94"/>
         <source>Studied only</source>
         <translation>Alleen bestudeerde woorden</translation>
     </message>
     <message>
-        <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="110"/>
+        <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="120"/>
         <source>Printing</source>
         <translation>Printen</translation>
     </message>
     <message>
-        <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="116"/>
+        <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="126"/>
         <source>General</source>
         <translation>Algemeen</translation>
     </message>
     <message>
-        <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="122"/>
+        <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="139"/>
         <source>Header font size:</source>
         <translation>Kop-lettertype grootte:</translation>
     </message>
     <message>
-        <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="136"/>
+        <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="146"/>
         <source>Maximum number of definitions:</source>
         <translation>Maximaal aantal definities:</translation>
     </message>
     <message>
-        <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="143"/>
+        <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="153"/>
         <source>All</source>
         <translation>Alles</translation>
     </message>
     <message>
-        <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="158"/>
-        <source>Kanjis</source>
-        <translation>Kanji</translation>
+        <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="163"/>
+        <source>Kanji</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="164"/>
-        <source>Kanjis used in word</source>
-        <translation>Kanji gebruikt in de woorden</translation>
+        <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="169"/>
+        <source>Kanji used in word</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="171"/>
-        <source>Only studied kanjis</source>
+        <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="176"/>
+        <source>Only studied kanji</source>
         <translation>Alleen de bestudeerde kanji</translation>
     </message>
     <message>
-        <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="181"/>
+        <source>Kanjis</source>
+        <translation type="obsolete">Kanji</translation>
+    </message>
+    <message>
+        <source>Kanjis used in word</source>
+        <translation type="obsolete">Kanji gebruikt in de woorden</translation>
+    </message>
+    <message>
+        <source>Only studied kanjis</source>
+        <translation type="obsolete">Alleen de bestudeerde kanji</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="186"/>
         <source>Preview</source>
         <translation>Voorproefje</translation>
     </message>
     <message>
-        <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="269"/>
+        <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="274"/>
         <source>Definitions filtering</source>
         <translation>Definitiefilters</translation>
     </message>
     <message>
-        <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="275"/>
+        <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="280"/>
         <source>Filtered definitions</source>
         <translation>Gefilterde definities</translation>
     </message>
     <message>
-        <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="283"/>
+        <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="288"/>
         <source>Displayed:</source>
         <translation>Weergegeven:</translation>
     </message>
     <message>
-        <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="290"/>
+        <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="295"/>
         <source>Definitions types in this list will be searched for and displayed.</source>
         <translation>Definitietypen in deze lijst worden gebruikt in de zoekopdracht, en weergegeven.</translation>
     </message>
     <message>
-        <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="317"/>
-        <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="341"/>
+        <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="322"/>
+        <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="346"/>
         <source>...</source>
         <translation>...</translation>
     </message>
     <message>
-        <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="369"/>
+        <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="374"/>
         <source>Filtered:</source>
         <translation>Gefilterd:</translation>
     </message>
     <message>
-        <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="376"/>
+        <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="381"/>
         <source>Definitions types in this list will be ignored when searching and displaying entries.</source>
         <translation>Definitietypen in deze lijst worden genegeerd bij het zoeken en weergeven van ingangen.</translation>
     </message>
@@ -984,13 +1034,21 @@
     </message>
     <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="508"/>
-        <source>All &amp;Kyouiku kanjis</source>
+        <source>All &amp;Kyouiku kanji</source>
         <translation>Alle &amp;Kyōiku-kanji</translation>
     </message>
     <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="511"/>
-        <source>All &amp;Jouyou kanjis</source>
+        <source>All &amp;Jouyou kanji</source>
         <translation>Alle &amp;Jōyō-kanji</translation>
+    </message>
+    <message>
+        <source>All &amp;Kyouiku kanjis</source>
+        <translation type="obsolete">Alle &amp;Kyōiku-kanji</translation>
+    </message>
+    <message>
+        <source>All &amp;Jouyou kanjis</source>
+        <translation type="obsolete">Alle &amp;Jōyō-kanji</translation>
     </message>
     <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="602"/>
@@ -1019,13 +1077,13 @@
     </message>
     <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="608"/>
+        <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="609"/>
         <source>Kanji</source>
         <translation>Kanji</translation>
     </message>
     <message>
-        <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="609"/>
         <source>Kanjis</source>
-        <translation>Kanji</translation>
+        <translation type="obsolete">Kanji</translation>
     </message>
     <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="622"/>
@@ -1629,8 +1687,8 @@
 <context>
     <name>ReadingTrainer</name>
     <message>
-        <location filename="../src/gui/ReadingTrainer.cc" line="38"/>
         <location filename="../src/gui/ReadingTrainer.ui" line="14"/>
+        <location filename="../src/gui/ReadingTrainer.cc" line="38"/>
         <source>Reading practice</source>
         <translation>Leesoefeningen</translation>
     </message>
@@ -1655,8 +1713,12 @@
         <translation>Geen overeenkomende ingangen gevonden</translation>
     </message>
     <message>
-        <location filename="../src/gui/ReadingTrainer.cc" line="116"/>
         <source>Unable to find any entry eligible for reading practice. Entries eligible for this training mode are studied vocabulary entries for which all kanjis are also studied, and match the train settings. Please add entries or modify the train settings accordingly if you want to practice this mode.</source>
+        <translation type="obsolete">Geen geldige ingangen gevonden for leesoefeningen. Geldige ingangen voor deze oefenwijze zijn reeds bestudeerde woordenschatingangen waarvan tevens alle kanji bestudeerd zijn, en overeenkomen met de oefeneningsinstellingen. Voeg ingangen toe, of pas de oefeneningsinstellingen aan als je deze oefenwijze wil gebruiken.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/ReadingTrainer.cc" line="116"/>
+        <source>Unable to find any entry eligible for reading practice. Entries eligible for this training mode are studied vocabulary entries for which all kanji are also studied, and match the train settings. Please add entries or modify the train settings accordingly if you want to practice this mode.</source>
         <translation>Geen geldige ingangen gevonden for leesoefeningen. Geldige ingangen voor deze oefenwijze zijn reeds bestudeerde woordenschatingangen waarvan tevens alle kanji bestudeerd zijn, en overeenkomen met de oefeneningsinstellingen. Voeg ingangen toe, of pas de oefeneningsinstellingen aan als je deze oefenwijze wil gebruiken.</translation>
     </message>
     <message>

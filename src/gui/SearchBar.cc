@@ -94,7 +94,7 @@ EntryTypeSelectionWidget::EntryTypeSelectionWidget(SearchBar *parent) : SearchBa
 	_comboBox = new QComboBox(this);
 	_comboBox->addItem(tr("All"), 0);
 	_comboBox->addItem(tr("Vocabulary"), 1);
-	_comboBox->addItem(tr("Kanjis"), 2);
+	_comboBox->addItem(tr("Kanji"), 2);
 	connect(_comboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(onComboBoxChanged(int)));
 
 	QHBoxLayout *hLayout = new QHBoxLayout(this);

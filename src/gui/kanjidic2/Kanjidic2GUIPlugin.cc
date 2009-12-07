@@ -505,10 +505,10 @@ Kanjidic2OptionsWidget::Kanjidic2OptionsWidget(QWidget *parent) : SearchBarExten
 		connect(actionGroup, SIGNAL(triggered(QAction *)), this, SLOT(onGradeTriggered(QAction *)));
 		menu->addActions(actionGroup->actions());
 		menu->addSeparator();
-		allKyouku = menu->addAction(tr("All &Kyouiku kanjis"));
+		allKyouku = menu->addAction(tr("All &Kyouiku kanji"));
 		allKyouku->setCheckable(true);
 		connect(allKyouku, SIGNAL(toggled(bool)), this, SLOT(allKyoukuKanjis(bool)));
-		allJouyou = menu->addAction(tr("All &Jouyou kanjis"));
+		allJouyou = menu->addAction(tr("All &Jouyou kanji"));
 		allJouyou->setCheckable(true);
 		connect(allJouyou, SIGNAL(toggled(bool)), this, SLOT(allJouyouKanjis(bool)));
 
@@ -606,7 +606,7 @@ QString Kanjidic2OptionsWidget::currentTitle() const
 	if (_skip1->value() || _skip2->value() || _skip3->value()) ret += tr(", skip: ") + skip();
 	if (!_gradesList.isEmpty()) ret += tr(", grade:") + _gradesList.join(",");
 	if (!ret.isEmpty()) ret = tr("Kanji") + ret;
-	else ret = tr("Kanjis");
+	else ret = tr("Kanji");
 	return ret;
 }
 

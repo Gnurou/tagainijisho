@@ -248,8 +248,8 @@ JMdictOptionsWidget::JMdictOptionsWidget(QWidget *parent) : SearchBarExtender(pa
 		_containedComponents = new QLineEdit(this);
 		_containedComponents->setValidator(kanjiValidator);
 
-		_studiedKanjisCheckBox = new QCheckBox(tr("Using studied kanjis only"));
-		hLayout->addWidget(new QLabel(tr("With kanjis:"), this));
+		_studiedKanjisCheckBox = new QCheckBox(tr("Using studied kanji only"));
+		hLayout->addWidget(new QLabel(tr("With kanji:"), this));
 		hLayout->addWidget(_containedKanjis);
 		hLayout->addWidget(_studiedKanjisCheckBox);
 		mainLayout->addLayout(hLayout);
@@ -344,8 +344,8 @@ QString JMdictOptionsWidget::currentTitle() const
 		}
 	}
 	if (_studiedKanjisCheckBox->isChecked()) {
-		if (!kanjis.isEmpty()) contains += tr(", studied kanjis only");
-		else contains += tr(" with studied kanjis");
+		if (!kanjis.isEmpty()) contains += tr(", studied kanji only");
+		else contains += tr(" with studied kanji");
 	}
 	kanjis = _containedComponents->text();
 	if (!kanjis.isEmpty()) {
