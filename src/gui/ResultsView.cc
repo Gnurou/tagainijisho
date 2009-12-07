@@ -51,8 +51,6 @@ void ResultsViewEntryMenu::connectToResultsView(const ResultsView *const view)
 	        view, SLOT(markAsKnown()));
 	connect(&resetTrainingAction, SIGNAL(triggered()),
 	        view, SLOT(resetTraining()));
-	connect(&markAsMistakenAction, SIGNAL(triggered()),
-			view, SLOT(markAsMistaken()));
 	connect(&setTagsAction, SIGNAL(triggered()),
 	        view, SLOT(setTags()));
 	connect(&addTagsAction, SIGNAL(triggered()),
@@ -293,25 +291,6 @@ void ResultsView::resetTraining()
 		progressDialog.setValue(i++);
 		Entry *entry = qVariantValue<Entry *>(index.data(ResultsList::EntryRole));
 		entry->resetScore();
-		update(index);
-	}
-}
-
-void ResultsView::markAsMistaken()
-{
-	QModelIndexList selection = selectionModel()->selectedIndexes();
-	// Progress bar
-	QProgressDialog progressDialog(tr("Marking entries..."), tr("Abort"), 0, selection.size(), this);
-	progressDialog.setMinimumDuration(1000);
-	progressDialog.setWindowTitle(tr("Operation in progress..."));
-	progressDialog.setWindowModality(Qt::WindowModal);
-
-	int i = 0;
-	foreach (const QModelIndex &index, selection) {
-		if (progressDialog.wasCanceled()) break;
-		progressDialog.setValue(i++);
-		Entry *entry = qVariantValue<Entry *>(index.data(ResultsList::EntryRole));
-		entry->train(false);
 		update(index);
 	}
 }

@@ -25,7 +25,6 @@ SingleEntryView::SingleEntryView(QObject *parent) : EntryMenu(parent), _entry(0)
 	connect(&removeFromStudyAction, SIGNAL(triggered()), this, SLOT(removeFromStudy()));
 	connect(&alreadyKnownAction, SIGNAL(triggered()), this, SLOT(alreadyKnown()));
 	connect(&resetTrainingAction, SIGNAL(triggered()), this, SLOT(resetTraining()));
-	connect(&markAsMistakenAction, SIGNAL(triggered()), this, SLOT(markAsMistaken()));
 	connect(&setTagsAction, SIGNAL(triggered()), this, SLOT(setTags()));
 	connect(&addTagsAction, SIGNAL(triggered()), this, SLOT(addTags()));
 	connect(&setNotesAction, SIGNAL(triggered()), this, SLOT(setNotes()));
@@ -59,11 +58,6 @@ void SingleEntryView::alreadyKnown()
 void SingleEntryView::resetTraining()
 {
 	entry()->resetScore();
-}
-
-void SingleEntryView::markAsMistaken()
-{
-	entry()->train(false);
 }
 
 void SingleEntryView::setTags()

@@ -25,7 +25,7 @@
 #include <QModelIndexList>
 #include <QMenu>
 
-EntryMenu::EntryMenu(QObject *parent) : QObject(parent), addToStudyAction(QIcon(":/images/icons/flag-blue.png"), tr("Add to &study list"), 0), removeFromStudyAction(QIcon(":/images/icons/flag-black.png"), tr("Remove from &study list"), 0), alreadyKnownAction(QIcon(":/images/icons/flag-green.png"), tr("Already &known"), 0), resetTrainingAction(QIcon(":/images/icons/flag-red.png"), tr("&Reset score"), 0), markAsMistakenAction(QIcon(":/images/icons/wrong.png"), tr("Mark as &mistaken"), 0), setTagsAction(QIcon(":/images/icons/tags.png"), tr("Set &tags..."), 0), addTagsAction(QIcon(":/images/icons/tags-add.png"), tr("&Add tags..."), 0), setNotesAction(QIcon(":/images/icons/notes.png"), tr("Edit &notes..."), 0), lastTagsMenu(tr("Recently added tags..."), 0)
+EntryMenu::EntryMenu(QObject *parent) : QObject(parent), addToStudyAction(QIcon(":/images/icons/flag-blue.png"), tr("Add to &study list"), 0), removeFromStudyAction(QIcon(":/images/icons/flag-black.png"), tr("Remove from &study list"), 0), alreadyKnownAction(QIcon(":/images/icons/flag-green.png"), tr("Already &known"), 0), resetTrainingAction(QIcon(":/images/icons/flag-red.png"), tr("&Reset score"), 0), setTagsAction(QIcon(":/images/icons/tags.png"), tr("Set &tags..."), 0), addTagsAction(QIcon(":/images/icons/tags-add.png"), tr("&Add tags..."), 0), setNotesAction(QIcon(":/images/icons/notes.png"), tr("Edit &notes..."), 0), lastTagsMenu(tr("Recently added tags..."), 0)
 {
 	lastTagsMenu.setIcon(QIcon(":/images/icons/tags-add.png"));
 	setEnabledAll(false);
@@ -38,7 +38,6 @@ void EntryMenu::populateMenu(QMenu *menu)
 	menu->addAction(&removeFromStudyAction);
 	menu->addAction(&alreadyKnownAction);
 	menu->addAction(&resetTrainingAction);
-	menu->addAction(&markAsMistakenAction);
 	menu->addAction(&setTagsAction);
 	menu->addAction(&addTagsAction);
 	menu->addMenu(&lastTagsMenu);
@@ -51,7 +50,6 @@ void EntryMenu::populateToolBar(QToolBar *bar)
 	bar->addAction(&removeFromStudyAction);
 	bar->addAction(&alreadyKnownAction);
 	bar->addAction(&resetTrainingAction);
-	bar->addAction(&markAsMistakenAction);
 	bar->addSeparator();
 	bar->addAction(&setTagsAction);
 	bar->addAction(&addTagsAction);
@@ -65,7 +63,6 @@ void EntryMenu::setEnabledAll(bool enabled)
 	removeFromStudyAction.setEnabled(enabled);
 	alreadyKnownAction.setEnabled(enabled);
 	resetTrainingAction.setEnabled(enabled);
-	markAsMistakenAction.setEnabled(enabled);
 	setTagsAction.setEnabled(enabled);
 	addTagsAction.setEnabled(enabled);
 	setNotesAction.setEnabled(enabled);
@@ -88,7 +85,6 @@ void EntryMenu::updateStatus(const QList<const Entry *> &entries)
 	// Decide which of add to or remove from study action is visible
 	addToStudyAction.setVisible(!allMarked | !hasSelection);
 	removeFromStudyAction.setVisible(!allUnmarked);
-	markAsMistakenAction.setEnabled(allMarked && hasSelection);
 
 	addToStudyAction.setEnabled(hasSelection);
 	// Always enabled if visible

@@ -41,7 +41,6 @@ protected:
 	QAction removeFromStudyAction;
 	QAction alreadyKnownAction;
 	QAction resetTrainingAction;
-	QAction markAsMistakenAction;
 	QAction setTagsAction;
 	QAction addTagsAction;
 	QAction setNotesAction;

@@ -39,7 +39,6 @@ protected slots:
 	virtual void removeFromStudy();
 	virtual void alreadyKnown();
 	virtual void resetTraining();
-	virtual void markAsMistaken();
 	virtual void setTags();
 	virtual void addTags();
 	virtual void setNotes();

@@ -112,7 +112,6 @@ protected slots:
 	 * Reset the training scores on the selected items.
 	 */
 	void resetTraining();
-	void markAsMistaken();
 	void setTags();
 	void addTags();
 	void addTags(const QStringList &tags);
