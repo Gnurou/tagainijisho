@@ -22,7 +22,7 @@
 
 #include <QVBoxLayout>
 #include <QMouseEvent>
-#include <QPushButton>
+#include <QToolButton>
 
 #define TIMER_INTERVAL 20
 
@@ -57,20 +57,20 @@ KanjiPlayer::KanjiPlayer(QWidget *parent) : QWidget(parent), _timer(), _kanji(0)
 	QHBoxLayout *controlLayout = new QHBoxLayout();
 	controlLayout->setContentsMargins(0, 0, 0, 0);
 	controlLayout->setSpacing(0);
-	playButton = new QPushButton(this);
+	playButton = new QToolButton(this);
 	playButton->setMaximumSize(20, 20);
 	playButton->setIcon(QIcon(QPixmap(":/images/icons/control-play.png").scaledToHeight(CONTROL_ICON_SIZE, Qt::SmoothTransformation)));
 	controlLayout->addWidget(playButton);
-	resetButton = new QPushButton(this);
+	resetButton = new QToolButton(this);
 	resetButton->setMaximumSize(20, 20);
 	resetButton->setIcon(QIcon(QPixmap(":/images/icons/control-stop.png").scaledToHeight(CONTROL_ICON_SIZE, Qt::SmoothTransformation)));
 	controlLayout->addWidget(resetButton);
 	controlLayout->addWidget(strokeCountLabel);
-	prevButton = new QPushButton(this);
+	prevButton = new QToolButton(this);
 	prevButton->setMaximumSize(20, 20);
 	prevButton->setIcon(QIcon(QPixmap(":/images/icons/control-fr.png").scaledToHeight(CONTROL_ICON_SIZE, Qt::SmoothTransformation)));
 	controlLayout->addWidget(prevButton);
-	nextButton = new QPushButton(this);
+	nextButton = new QToolButton(this);
 	nextButton->setMaximumSize(20, 20);
 	nextButton->setIcon(QIcon(QPixmap(":/images/icons/control-ff.png").scaledToHeight(CONTROL_ICON_SIZE, Qt::SmoothTransformation)));
 	controlLayout->addWidget(nextButton);

@@ -52,10 +52,10 @@ private:
 	int _state;
 	qreal _lengthCpt;
 	const KanjiComponent *_highlightedComponent;
-	QPushButton *playButton;
-	QPushButton *resetButton;
-	QPushButton *nextButton;
-	QPushButton *prevButton;
+	QAbstractButton *playButton;
+	QAbstractButton *resetButton;
+	QAbstractButton *nextButton;
+	QAbstractButton *prevButton;
 
 protected:
 	/**
