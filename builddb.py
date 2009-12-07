@@ -65,18 +65,13 @@ def getPySQLite():
 		initFile.close()
 		# Remove the setup.cfg file
 		os.remove(os.path.join(pysqlitedest, "setup.cfg"))
-		if sys.platform == "darwin":
-			fin, fout = os.popen4('sed "s/\\(extra_objects=extra_objects,\\)$/\\1 extra_link_args=[ \\"-framework\\", \\"QtCore\\" ],/g" %s' % (os.path.join(pysqlitedest, "setup.py")))
-			newContents = fout.read()
-			setupFile = open(os.path.join(pysqlitedest, "setup.py"), "w")
-			setupFile.write(newContents)
-			setupFile.close()
+		# Add check for OSX fucking stupid link process
 		# Normally we should be able to use the -O option during build to specify additional object files, 
 		# but this won't work here - so we have to patch the build.py file
-		setupFile = open(os.path.join(pysqlitedest, "setup.py"), "r")
+		newContents = open(os.path.join(pysqlitedest, "setup.py"), "r").read()
 		linkList = [ "../../src/sqlite/libsqlite3.a" ]
-		#if sys.platform == "darwin": linkList.append("-framework QtCore")
-		newContents = re.sub("extra_objects = .*", 'extra_objects = [ "%s" ]' % ('", "'.join(linkList)), setupFile.read())
+		newContents = re.sub("extra_objects = .*", 'extra_objects = [ "%s" ]\nif sys.platform == "darwin": extra_link_args = [ "-framework", "QtCore" ]\nelse: extra_link_args = []' % ('", "'.join(linkList),), newContents)
+		newContents = re.sub("(extra_objects=extra_objects,)", "\\1 extra_link_args=extra_link_args,", newContents)
 		setupFile = open(os.path.join(pysqlitedest, "setup.py"), "w")
 		setupFile.write(newContents)
 		setupFile.close()
