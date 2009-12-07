@@ -65,12 +65,21 @@ def getPySQLite():
 		initFile.close()
 		# Remove the setup.cfg file
 		os.remove(os.path.join(pysqlitedest, "setup.cfg"))
+		if sys.platform == "darwin":
+			fin, fout = os.popen4('sed "s/\\(extra_objects=extra_objects,\\)$/\\1 extra_link_args=[ \\"-framework\\", \\"QtCore\\" ],/g" %s' % (os.path.join(pysqlitedest, "setup.py")))
+			newContents = fout.read()
+			setupFile = open(os.path.join(pysqlitedest, "setup.py"), "w")
+			setupFile.write(newContents)
+			setupFile.close()
 		# Normally we should be able to use the -O option during build to specify additional object files, 
 		# but this won't work here - so we have to patch the build.py file
 		setupFile = open(os.path.join(pysqlitedest, "setup.py"), "r")
-		newContents = re.sub("extra_objects = .*", 'extra_objects = [ "../../src/sqlite/libsqlite3.a" ]', setupFile.read())
+		linkList = [ "../../src/sqlite/libsqlite3.a" ]
+		#if sys.platform == "darwin": linkList.append("-framework QtCore")
+		newContents = re.sub("extra_objects = .*", 'extra_objects = [ "%s" ]' % ('", "'.join(linkList)), setupFile.read())
 		setupFile = open(os.path.join(pysqlitedest, "setup.py"), "w")
 		setupFile.write(newContents)
+		setupFile.close()
 
 def getJMdict():
 	if not os.path.exists(jmdictdata):
@@ -110,8 +119,10 @@ def getKanjiVG():
 def buildPySQLite():
 	wd = os.getcwd()
 	os.chdir(pysqlitedest)
-	buildString = "python setup.py -q build_ext -I../sqlite -lQtCore"
-	if os.environ.has_key("QT4DIR"): buildString += " -L" + os.path.join(os.environ["QT4DIR"], "lib")
+	buildString = "python setup.py -q build_ext -I../sqlite"
+	if sys.platform != "darwin":
+		buildString += " -lQtCore"
+		if os.environ.has_key("QT4DIR"): buildString += " -L" + os.path.join(os.environ["QT4DIR"], "lib")
 	os.system(buildString)
 	os.system("python setup.py -q install --prefix=install --install-purelib=install --install-platlib=install")
 	os.chdir(wd)
