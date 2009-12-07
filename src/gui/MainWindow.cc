@@ -463,7 +463,7 @@ void MainWindow::updateAvailable(const QString &version)
 	QPushButton laterButton(tr("Maybe later"));
 	messageBox.addButton(&laterButton, QMessageBox::RejectRole);
 	if (messageBox.exec() == QMessageBox::AcceptRole) {
-		QDesktopServices::openUrl(tr("http://www.tagaini.net"));
+		QDesktopServices::openUrl(QUrl("http://www.tagaini.net"));
 	}
 	else _updateTimer.stop();
 }
