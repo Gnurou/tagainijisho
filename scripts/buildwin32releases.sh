@@ -19,6 +19,7 @@ lrelease $QTPATH/translations/qt_fr.ts -qm win32-translations/qt_fr.qm
 lrelease $QTPATH/translations/qt_de.ts -qm win32-translations/qt_de.qm
 lrelease $QTPATH/translations/qt_es.ts -qm win32-translations/qt_es.qm
 lrelease $QTPATH/translations/qt_ru.ts -qm win32-translations/qt_ru.qm
+lrelease $QTPATH/translations/qt_ru.ts -qm win32-translations/qt_nl.qm
 
 rm -f jmdict.db kanjidic2.db
 ./builddb.py -len
