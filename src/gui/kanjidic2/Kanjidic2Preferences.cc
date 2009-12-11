@@ -50,11 +50,10 @@ Kanjidic2Preferences::Kanjidic2Preferences(QWidget *parent) : PreferencesWindowC
 	_player->setKanji(previewEntry);
 	connect(animSpeedSlider, SIGNAL(valueChanged(int)), _player, SLOT(setAnimationSpeed(int)));
 	connect(animDelaySlider, SIGNAL(valueChanged(int)), _player, SLOT(setDelayBetweenStrokes(int)));
+	connect(animationLoopDelay, SIGNAL(valueChanged(int)), _player, SLOT(setAnimationLoopDelay(int)));
 	animationLayout->addWidget(_player, 0, Qt::AlignVCenter);
 	_player->installEventFilter(this);
 
-	_endOfPlayTimer.setSingleShot(true);
-	connect(&_endOfPlayTimer, SIGNAL(timeout()), this, SLOT(onStartAnimation()));
 	connect(animSize, SIGNAL(valueChanged(int)), this, SLOT(onSizeChanged(int)));
 }
 
@@ -103,6 +102,7 @@ void Kanjidic2Preferences::refresh()
 	animDelaySlider->setValue(KanjiPlayer::delayBetweenStrokes.value());
 	animDelayDefault->setChecked(KanjiPlayer::delayBetweenStrokes.isDefault());
 	autoStartAnim->setChecked(KanjiPopup::autoStartAnim.value());
+	animationLoopDelay->setValue(KanjiPlayer::animationLoopDelay.value());
 
 	updatePrintPreview();
 }
@@ -151,6 +151,7 @@ void Kanjidic2Preferences::applySettings()
 	if (animDelayDefault->isChecked()) KanjiPlayer::delayBetweenStrokes.reset();
 	else KanjiPlayer::delayBetweenStrokes.set(animDelaySlider->value());
 	KanjiPopup::autoStartAnim.set(autoStartAnim->isChecked());
+	KanjiPlayer::animationLoopDelay.set(animationLoopDelay->value());
 }
 
 bool Kanjidic2Preferences::eventFilter(QObject *obj, QEvent *event)
@@ -169,12 +170,9 @@ bool Kanjidic2Preferences::eventFilter(QObject *obj, QEvent *event)
 	else if (obj == _player) {
 		switch (event->type()) {
 		case QEvent::Show:
-			connect(_player, SIGNAL(animationStopped()), this, SLOT(onAnimationCompleted()));
 			_player->play();
 			return false;
 		case QEvent::Hide:
-			disconnect(_player, SIGNAL(animationStopped()), this, SLOT(onAnimationCompleted()));
-			_endOfPlayTimer.stop();
 			_player->stop();
 			_player->reset();
 			return false;
@@ -196,17 +194,6 @@ void Kanjidic2Preferences::updatePrintPreview()
 	previewPic.setBoundingRect(usedSpace.toRect());
 	previewLabel->clear();
 	previewLabel->setPicture(previewPic);
-}
-
-void Kanjidic2Preferences::onAnimationCompleted()
-{
-	_endOfPlayTimer.start(1000);
-}
-
-void Kanjidic2Preferences::onStartAnimation()
-{
-	_player->reset();
-	_player->play();
 }
 
 void Kanjidic2Preferences::onAnimSpeedDefaultChecked(bool checked)

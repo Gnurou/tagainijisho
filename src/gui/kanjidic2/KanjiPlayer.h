@@ -48,6 +48,7 @@ private:
 	int _pictureSize;
 	qreal _animationSpeed;
 	int _delayBetweenStrokes;
+	int _animationLoopDelay;
 	int _strokesCpt;
 	int _state;
 	qreal _lengthCpt;
@@ -69,8 +70,7 @@ protected:
 
 protected slots:
 	virtual void updateAnimationState();
-	void playButtonClicked();
-	void resetButtonClicked();
+	void onPlayButtonPushed();
 
 public:
 	KanjiPlayer(QWidget *parent = 0);
@@ -79,21 +79,24 @@ public:
 	int pictureSize() const { return _pictureSize; }
 	void setPictureSize(int newSize);
 
-	static PreferenceItem<int> animationSpeed;
-	static PreferenceItem<int> delayBetweenStrokes;
-
-public slots:
 	void setKanji(const Kanjidic2Entry *entry);
 	void setPosition(int strokeNbr);
 
+	static PreferenceItem<int> animationSpeed;
+	static PreferenceItem<int> delayBetweenStrokes;
+	static PreferenceItem<int> animationLoopDelay;
+
+public slots:
 	void setAnimationSpeed(int speed) { _animationSpeed = speed / 10.0; }
 	void setDelayBetweenStrokes(int delay) { _delayBetweenStrokes = delay; }
+	void setAnimationLoopDelay(int delay) { _animationLoopDelay = delay; }
 
 	void highlightComponent(const KanjiComponent *component);
 	void unHighlightComponent();
 
 	void play();
 	void stop();
+	void gotoEnd();
 	void reset();
 	void nextStroke();
 	void prevStroke();

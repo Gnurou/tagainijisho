@@ -33,11 +33,13 @@
 
 PreferenceItem<int> KanjiPlayer::animationSpeed("kanjidic", "animationSpeed", 30);
 PreferenceItem<int> KanjiPlayer::delayBetweenStrokes("kanjidic", "delayBetweenStrokes", 10);
+PreferenceItem<int> KanjiPlayer::animationLoopDelay("kanjidic", "animationLoopDelay", -1);
 
 KanjiPlayer::KanjiPlayer(QWidget *parent) : QWidget(parent), _timer(), _kanji(0), renderer(), _picture(), _state(STATE_STROKE), _highlightedComponent(0)
 {
 	setAnimationSpeed(animationSpeed.value());
 	setDelayBetweenStrokes(delayBetweenStrokes.value());
+	setAnimationLoopDelay(animationLoopDelay.value());
 
 	kanjiView = new QLabel(this);
 	kanjiView->setFrameStyle(QFrame::StyledPanel | QFrame::Sunken);
@@ -76,8 +78,8 @@ KanjiPlayer::KanjiPlayer(QWidget *parent) : QWidget(parent), _timer(), _kanji(0)
 	controlLayout->addWidget(nextButton);
 	mainLayout->addLayout(controlLayout);
 
-	connect(playButton, SIGNAL(clicked()), this, SLOT(playButtonClicked()));
-	connect(resetButton, SIGNAL(clicked()), this, SLOT(resetButtonClicked()));
+	connect(playButton, SIGNAL(clicked()), this, SLOT(onPlayButtonPushed()));
+	connect(resetButton, SIGNAL(clicked()), this, SLOT(gotoEnd()));
 	connect(prevButton, SIGNAL(clicked()), this, SLOT(prevStroke()));
 	connect(nextButton, SIGNAL(clicked()), this, SLOT(nextStroke()));
 	playButton->setEnabled(false);
@@ -141,8 +143,13 @@ void KanjiPlayer::updateAnimationState()
 		}
 	}
 	else {
+		// End of animation
 		if (_strokesCpt >= renderer.strokes().size()) {
 			stop();
+			// Trigger a loop if needed
+			if (_animationLoopDelay != -1) {
+				QTimer::singleShot(_animationLoopDelay * 1000, this, SLOT(play()));
+			}
 			return;
 		}
 		const KanjiRenderer::Stroke &currentStroke(renderer.strokes()[_strokesCpt]);
@@ -295,6 +302,7 @@ void KanjiPlayer::setPosition(int strokeNbr)
 void KanjiPlayer::play()
 {
 	if (_timer.isActive()) return;
+	if (_strokesCpt >= renderer.strokes().size()) reset();
 	_timer.start();
 	updateButtonsState();
 	emit animationStarted();
@@ -331,16 +339,13 @@ void KanjiPlayer::prevStroke()
 	setPosition(_strokesCpt - 1);
 }
 
-void KanjiPlayer::playButtonClicked()
+void KanjiPlayer::onPlayButtonPushed()
 {
 	if (_timer.isActive()) stop();
-	else {
-		if (_strokesCpt >= renderer.strokes().size()) reset();
-		play();
-	}
+	else play();
 }
 
-void KanjiPlayer::resetButtonClicked()
+void KanjiPlayer::gotoEnd()
 {
 	stop();
 	setPosition(renderer.strokes().size());

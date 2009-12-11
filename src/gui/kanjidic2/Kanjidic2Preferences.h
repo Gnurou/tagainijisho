@@ -31,7 +31,6 @@ class Kanjidic2Preferences : public PreferencesWindowCategory, private Ui::Kanji
 	Q_OBJECT
 private:
 	KanjiPlayer *_player;
-	QTimer _endOfPlayTimer;
 	QPicture previewPic;
 	EntryPointer<const Entry> _previewEntry;
 	const Kanjidic2Entry *previewEntry;
@@ -43,8 +42,6 @@ protected slots:
 	void updatePrintPreview();
 	void onAnimSpeedDefaultChecked(bool checked);
 	void onAnimDelayDefaultChecked(bool checked);
-	void onAnimationCompleted();
-	void onStartAnimation();
 	void onSizeChanged(int newSize);
 
 public slots:
