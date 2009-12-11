@@ -490,14 +490,11 @@ void Kanjidic2EntryFormatter::detailedVersionPart2(const Entry *entry, QTextCurs
 
 void Kanjidic2EntryFormatter::showToolTip(const Kanjidic2Entry *entry, const QPoint &pos) const
 {
-	QString writing, alt;
-	if (!entry->writings().isEmpty()) {
-		writing = entry->writings()[0];
-		if (!entry->readings().isEmpty()) {
-			alt = "(" + entry->readings()[0] + ")";
-		}
+	QString writing(entry->kanji()), alt;
+	if (!entry->readings().isEmpty()) {
+		alt = "(" + entry->readings().join(", ") + ")";
 	}
-	else if (!entry->readings().isEmpty()) writing = entry->readings()[0];
+
 	QString s;
 	if (tooltipShowScore.value() && entry->trained()) {
 		QColor scoreColor(this->scoreColor(entry));
