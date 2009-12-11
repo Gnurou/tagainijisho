@@ -90,7 +90,7 @@ KanjiPlayer::KanjiPlayer(QWidget *parent) : QWidget(parent), _timer(), _kanji(0)
 	// Determine the largest size that our label can take.
 	int maxWidth(0);
 	for (char c = '0'; c <= '9';c++) maxWidth = qMax(metrics.width(c), maxWidth);
-	strokeCountLabel->setMinimumWidth(metrics.width("/") + maxWidth * 4);
+	strokeCountLabel->setMinimumWidth(metrics.width("/") + maxWidth * 4 + 2);
 
 	setPictureSize(100);
 	setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);

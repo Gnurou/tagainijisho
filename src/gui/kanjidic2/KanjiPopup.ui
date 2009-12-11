@@ -19,7 +19,7 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout">
+  <layout class="QVBoxLayout" name="verticalLayout_2">
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
@@ -154,27 +154,11 @@
     </widget>
    </item>
    <item>
-    <widget class="QLabel" name="readingsLabel">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignCenter</set>
-     </property>
-    </widget>
-   </item>
-   <item>
     <layout class="QHBoxLayout" name="horizontalLayout_2">
      <item>
       <widget class="KanjiPlayer" name="stroke" native="true">
        <property name="sizePolicy">
-        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
@@ -182,20 +166,43 @@
       </widget>
      </item>
      <item>
-      <widget class="QLabel" name="propsLabel">
-       <property name="text">
-        <string/>
-       </property>
-      </widget>
+      <layout class="QVBoxLayout" name="verticalLayout">
+       <item>
+        <widget class="QLabel" name="readingsLabel">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="propsLabel">
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="componentsLabel">
+         <property name="text">
+          <string/>
+         </property>
+         <property name="wordWrap">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+      </layout>
      </item>
     </layout>
    </item>
    <item>
-    <widget class="QLabel" name="componentsLabel">
-     <property name="text">
-      <string/>
-     </property>
-    </widget>
+    <widget class="KanjiComponentWidget" name="componentWidget" native="true"/>
    </item>
   </layout>
  </widget>
@@ -204,6 +211,12 @@
    <class>KanjiPlayer</class>
    <extends>QWidget</extends>
    <header>gui/kanjidic2/KanjiPlayer.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>KanjiComponentWidget</class>
+   <extends>QWidget</extends>
+   <header location="global">gui/kanjidic2/KanjiPopup.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
