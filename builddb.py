@@ -9,7 +9,7 @@ from StringIO import StringIO
 import tarfile
 import shutil
 
-sqliteversion = "3.6.19"
+sqliteversion = "3.6.21"
 sqlitedest = os.path.join("3rdparty", "sqlite")
 sqlitefiles = ["sqlite3.c", "sqlite3.h"]
 sqlitesource = "http://www.sqlite.org/sqlite-amalgamation-%s.tar.gz" % (sqliteversion,)

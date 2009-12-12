@@ -1,16 +1,16 @@
-*** sqlite3.c.orig	2009-10-17 19:40:02.858069101 +0900
---- sqlite3.c	2009-10-17 19:40:02.934737021 +0900
+*** sqlite3.c.orig	2009-12-12 16:34:19.478646386 +0900
+--- sqlite3.c	2009-12-12 16:34:19.578645479 +0900
 ***************
-*** 104400,104403 ****
---- 104400,104404 ----
+*** 100593,100596 ****
+--- 100593,100597 ----
   SQLITE_PRIVATE void sqlite3Fts3PorterTokenizerModule(sqlite3_tokenizer_module const**ppModule);
   SQLITE_PRIVATE void sqlite3Fts3IcuTokenizerModule(sqlite3_tokenizer_module const**ppModule);
 + SQLITE_PRIVATE void sqlite3Fts3KatakanaTokenizerModule(sqlite3_tokenizer_module const**ppModule);
   
-  SQLITE_PRIVATE int sqlite3Fts3InitHashTable(sqlite3 *, fts3Hash *, const char *);
+  /*
 ***************
-*** 104415,104421 ****
---- 104416,104424 ----
+*** 100606,100612 ****
+--- 100607,100615 ----
     const sqlite3_tokenizer_module *pPorter = 0;
     const sqlite3_tokenizer_module *pIcu = 0;
 +   const sqlite3_tokenizer_module *pKatakana = 0;
@@ -21,8 +21,8 @@
   #ifdef SQLITE_ENABLE_ICU
     sqlite3Fts3IcuTokenizerModule(&pIcu);
 ***************
-*** 104434,104437 ****
---- 104437,104441 ----
+*** 100625,100628 ****
+--- 100628,100632 ----
       if( sqlite3Fts3HashInsert(pHash, "simple", 7, (void *)pSimple)
        || sqlite3Fts3HashInsert(pHash, "porter", 7, (void *)pPorter) 
 +      || sqlite3Fts3HashInsert(pHash, "katakana", 9, (void *)pKatakana) 
