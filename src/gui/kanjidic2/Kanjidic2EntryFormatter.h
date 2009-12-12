@@ -29,6 +29,7 @@ protected:
 
 public:
 	Kanjidic2EntryFormatter();
+	virtual ~Kanjidic2EntryFormatter() {}
 
 	void writeJapanese(const Kanjidic2Entry *entry, QTextCursor &cursor, DetailedView *view) const;
 	void writeTranslation(const Kanjidic2Entry *entry, QTextCursor &cursor, DetailedView *view) const;

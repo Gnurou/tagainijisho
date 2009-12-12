@@ -11,5 +11,6 @@ macx: {
 	LIBS += -bind_at_load
 }
 DEFINES += VERSION=0.2.4
+QMAKE_CXXFLAGS += -Wnon-virtual-dtor
 unix::DEFINES += DATAPREFIX=$$SHARE_DIR
 QMAKE_CXXFLAGS_WARN_ON += -Wno-unused-parameter

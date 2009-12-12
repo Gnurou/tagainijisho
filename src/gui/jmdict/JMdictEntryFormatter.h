@@ -30,6 +30,7 @@ protected:
 
 public:
 	JMdictEntryFormatter();
+	virtual ~JMdictEntryFormatter() {}
 
 	/**
 	 * Writes the part of speech using the given cursor.

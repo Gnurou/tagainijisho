@@ -44,6 +44,7 @@ protected:
 	void drawInfo(const Entry *entry, QPainter &painter, QRectF &rectangle, const QFont &textFont = QFont()) const;
 
 	EntryFormatter();
+	virtual ~EntryFormatter() {}
 
 public:
 
