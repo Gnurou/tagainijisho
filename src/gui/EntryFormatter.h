@@ -18,6 +18,7 @@
 #define __GUI_ENTRYFORMATTER_H
 
 #include "core/Entry.h"
+#include "core/Preferences.h"
 
 #include <QColor>
 #include <QPainter>
@@ -96,6 +97,11 @@ public:
 	virtual void writeShortDesc(const Entry *entry, QTextCursor &cursor) const = 0;
 
 	/**
+	 * Write a as-short as possible title to identify this entry.
+	 */
+	virtual void writeEntryTitle(const Entry *entry, QTextCursor &cursor) const;
+
+	/**
 	 * Writes the meta data of this entry (tags, training data, notes)
 	 */
 	void writeUserData(const Entry *entry, QTextCursor &cursor, DetailedView *view) const;
@@ -108,6 +114,8 @@ public:
 	 * The default version just paints the short version.
 	 */
 	virtual void draw(const Entry *entry, QPainter &painter, const QRectF &rectangle, QRectF &usedSpace, const QFont &textFont = QFont()) const;
+
+	static PreferenceItem<bool> shortDescShowJLPT;
 };
 
 #endif

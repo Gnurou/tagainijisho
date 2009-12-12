@@ -44,16 +44,6 @@
             </property>
            </widget>
           </item>
-          <item row="1" column="1">
-           <widget class="QCheckBox" name="showKanjisJLPT">
-            <property name="enabled">
-             <bool>false</bool>
-            </property>
-            <property name="text">
-             <string>JLPT level of kanji</string>
-            </property>
-           </widget>
-          </item>
          </layout>
         </widget>
        </item>
@@ -202,8 +192,8 @@
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>432</width>
-               <height>136</height>
+               <width>77</width>
+               <height>24</height>
               </rect>
              </property>
              <layout class="QVBoxLayout" name="verticalLayout_10">
@@ -416,22 +406,5 @@
  <resources>
   <include location="../../../tagainijisho.qrc"/>
  </resources>
- <connections>
-  <connection>
-   <sender>showKanjis</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>showKanjisJLPT</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>191</x>
-     <y>104</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>272</x>
-     <y>103</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
 </ui>

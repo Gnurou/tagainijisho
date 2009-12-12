@@ -21,6 +21,8 @@
 
 #include <QToolTip>
 
+PreferenceItem<bool> EntryFormatter::shortDescShowJLPT("mainWindow/detailedView", "shortEntryShowJLPT", false);
+
 QMap<int, EntryFormatter *> EntryFormatter::_formatters;
 
 static const int entryTextProperties = Qt::AlignJustify | Qt::TextWordWrap;
@@ -200,4 +202,16 @@ void EntryFormatter::draw(const Entry *entry, QPainter &painter, const QRectF &r
 	painter.drawText(rectangle, entryTextProperties, text);
 
 	painter.restore();
+}
+
+void EntryFormatter::writeEntryTitle(const Entry *entry, QTextCursor &cursor) const
+{
+	QTextCharFormat scoreFormat;
+	if (entry->trained()) {
+		scoreFormat.setBackground(scoreColor(entry));
+	}
+	QString title;
+	if (!entry->writings().isEmpty()) title = entry->writings()[0];
+	else if (!entry->readings().isEmpty()) title = entry->readings()[0];
+	autoFormat(entry, title, cursor, scoreFormat);
 }

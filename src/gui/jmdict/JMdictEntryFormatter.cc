@@ -30,7 +30,6 @@
 
 PreferenceItem<bool> JMdictEntryFormatter::showJLPT("jmdict", "showJLPT", true);
 PreferenceItem<bool> JMdictEntryFormatter::showKanjis("jmdict", "showKanjis", true);
-PreferenceItem<bool> JMdictEntryFormatter::showKanjisJLPT("jmdict", "showKanjisJLPT", false);
 PreferenceItem<bool> JMdictEntryFormatter::searchVerbBuddy("jmdict", "searchVerbBuddy", true);
 PreferenceItem<int> JMdictEntryFormatter::maxHomophonesToDisplay("jmdict", "maxHomophonesToDisplay", 5);
 PreferenceItem<bool> JMdictEntryFormatter::displayStudiedHomophonesOnly("jmdict", "displayStudiedHomophonesOnly", false);
@@ -298,13 +297,8 @@ void JMdictEntryFormatter::writeTranslation(const JMdictEntry *entry, QTextCurso
 			const KanaReading &kReading = kanas[idx];
 			senseHeaders << kReading.getReading();
 		}
-//		if (!senseHeaders.isEmpty() && oldWritingString != senseHeaders) {
 		if (!senseHeaders.isEmpty()) {
-//			QTextBlockFormat blockFormat;
-//			blockFormat.setLeftMargin(21.0);
-//			cursor.insertBlock(blockFormat);
 			QTextCharFormat bold;
-//			bold.setFontWeight(QFont::Bold);
 			bold.setForeground(QColor(60, 60, 60));
 			autoFormat(entry, " [ " + senseHeaders.join(", ") + " ]", cursor, bold);
 
@@ -344,24 +338,9 @@ void JMdictEntryFormatter::writeEntryInfo(const JMdictEntry *entry, QTextCursor 
 				cursor.insertText("\n");
 				EntryPointer<Entry> _entry = EntriesCache::get(KANJIDIC2ENTRY_GLOBALID, TextTools::singleCharToUnicode(k));
 				view->addWatchEntry(_entry);
-				Kanjidic2Entry *kEntry = qobject_cast<Kanjidic2Entry *>(_entry.data());
-				QTextCharFormat charFormat;
-				if (kEntry->trained()) {
-					const EntryFormatter *formatter(EntryFormatter::getFormatter(kEntry));
-					if (formatter) charFormat.setBackground(formatter->scoreColor(kEntry));
-				}
-				QString str(kEntry->kanji());
-				if (!kEntry->meanings().isEmpty()) str += ": " + kEntry->meaningsString();
-				autoFormat(kEntry, str, cursor, charFormat);
-				if (showKanjisJLPT.value() && kEntry->jlpt() != -1) {
-					charFormat.setFontWeight(QFont::Bold);
-					autoFormat(kEntry, tr(" (JLPT %1)").arg(kEntry->jlpt()), cursor, charFormat);
-				}
-				QTextImageFormat imgFormat;
-				imgFormat.setAnchor(true);
-				imgFormat.setAnchorHref(QString("entry://?type=%1&id=%2").arg(kEntry->type()).arg(kEntry->id()));
-				imgFormat.setName("moreicon");
-				cursor.insertImage(imgFormat);
+
+				const EntryFormatter *formatter(EntryFormatter::getFormatter(_entry.data()));
+				formatter->writeShortDesc(_entry.data(), cursor);
 			}
 		}
 	}
@@ -394,6 +373,11 @@ void JMdictEntryFormatter::writeShortDesc(const Entry *entry, QTextCursor &curso
 		scoreFormat.setBackground(scoreColor(entry));
 	}
 	autoFormat(entry, entry->shortVersion(Entry::TinyVersion), cursor, scoreFormat);
+	const JMdictEntry *jEntry(static_cast<const JMdictEntry *>(entry));
+	if (shortDescShowJLPT.value() && jEntry->jlpt() != -1) {
+		scoreFormat.setFontWeight(QFont::Bold);
+		autoFormat(jEntry, tr(" (JLPT %1)").arg(jEntry->jlpt()), cursor, scoreFormat);
+	}
 	QTextImageFormat imgFormat;
 	imgFormat.setAnchor(true);
 	imgFormat.setAnchorHref(QString("entry://?type=%1&id=%2").arg(entry->type()).arg(entry->id()));

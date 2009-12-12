@@ -27,6 +27,13 @@
         </property>
        </widget>
       </item>
+      <item row="1" column="0">
+       <widget class="QCheckBox" name="shortDescShowJLPT">
+        <property name="text">
+         <string>Show JLPT level in short descriptions</string>
+        </property>
+       </widget>
+      </item>
      </layout>
     </widget>
    </item>

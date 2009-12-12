@@ -53,7 +53,6 @@ public:
 
 	static PreferenceItem<bool> showJLPT;
 	static PreferenceItem<bool> showKanjis;
-	static PreferenceItem<bool> showKanjisJLPT;
 	static PreferenceItem<bool> searchVerbBuddy;
 	static PreferenceItem<int> maxHomophonesToDisplay;
 	static PreferenceItem<bool> displayStudiedHomophonesOnly;

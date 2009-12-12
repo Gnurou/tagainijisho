@@ -22,6 +22,7 @@
 #include "gui/ResultsView.h"
 #include "gui/DetailedView.h"
 #include "gui/PreferencesWindow.h"
+#include "gui/EntryFormatter.h"
 #include "gui/MainWindow.h"
 
 #include <QVBoxLayout>
@@ -325,6 +326,7 @@ DetailedViewPreferences::DetailedViewPreferences(QWidget *parent) : PreferencesW
 void DetailedViewPreferences::refresh()
 {
 	smoothScrolling->setChecked(DetailedView::smoothScrolling.value());
+	shortDescShowJLPT->setChecked(EntryFormatter::shortDescShowJLPT.value());
 	romajifontChooser->setDefault(DetailedViewFonts::textFont.isDefault());
 	romajifontChooser->setFont(DetailedViewFonts::font(DetailedViewFonts::DefaultText));
 	kanaHeaderfontChooser->setDefault(DetailedViewFonts::kanaHeaderFont.isDefault());
@@ -349,6 +351,7 @@ void DetailedViewPreferences::applyFontSetting(PreferencesFontChooser *fontChoos
 void DetailedViewPreferences::applySettings()
 {
 	DetailedView::smoothScrolling.set(smoothScrolling->isChecked());
+	EntryFormatter::shortDescShowJLPT.set(shortDescShowJLPT->isChecked());
 	// Detailed view fonts
 	applyFontSetting(romajifontChooser, &DetailedViewFonts::textFont, DetailedViewFonts::DefaultText);
 	applyFontSetting(kanaHeaderfontChooser, &DetailedViewFonts::kanaHeaderFont, DetailedViewFonts::KanaHeader);

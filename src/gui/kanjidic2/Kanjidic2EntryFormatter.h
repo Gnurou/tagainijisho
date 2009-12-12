@@ -73,7 +73,6 @@ public:
 	static PreferenceItem<bool> tooltipShowStrokesNumber;
 	static PreferenceItem<bool> tooltipShowFrequency;
 
-
 	static PreferenceItem<int> printSize;
 	static PreferenceItem<bool> printWithFont;
 	static PreferenceItem<bool> printMeanings;
