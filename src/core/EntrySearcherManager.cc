@@ -87,6 +87,8 @@ Entry *EntrySearcherManager::loadEntry(int type, int id)
 
 bool EntrySearcherManager::buildQuery(const QString &search, QueryBuilder &query)
 {
+	// Clear previous static regexps - this is bad, but no better solution for now
+	Database::staticRegExps.clear();
 	QString searchString(search);
 	replaceJapaneseWildCards(searchString);
 
@@ -133,8 +135,6 @@ bool EntrySearcherManager::buildQuery(const QString &search, QueryBuilder &query
 	for (int i = 0; i < orders.size(); i++)
 		query.addOrder(QueryBuilder::Order(QString("%1").arg(orderColStart + i), QueryBuilder::Order::orderingWay[orders[i]]));
 
-	// Reset the regexps used during search
-	Database::staticRegExps.clear();
 	return true;
 }
 

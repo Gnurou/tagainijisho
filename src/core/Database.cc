@@ -153,39 +153,11 @@ QVector<QRegExp> Database::staticRegExps;
 
 static void regexpFunc(sqlite3_context *context, int argc, sqlite3_value **argv)
 {
-	QString text(QString::fromUtf8((const char *)sqlite3_value_text(argv[1])));
+	QString text(TextTools::hiragana2Katakana(QString::fromUtf8((const char *)sqlite3_value_text(argv[1]))));
 	// Get the regexp referenced by the request
 	QRegExp &regexp = Database::staticRegExps[sqlite3_value_int(argv[0])];
-/*
-	const char * text = (const char *)sqlite3_value_text(argv[1]);
-	const char * text2 = "test";
 
-	int textLength = qstrlen(text);
-	int text2Length = qstrlen(text2);
-	int text2Pos = 0;
-	bool res = false;
-	for (int i = 0; i < textLength; i++) {
-		if (text[i] == text2[text2Pos]) {
-				// Matched first character, must check whether
-				// we are at the boundary of a word
-				if (text2Pos == 0) {
-					// Not the beginning of a word!
-					if (i != 0 && QChar(text[i - 1]).isLetterOrNumber()) continue;
-				}
-				if (++text2Pos == text2Length) {
-					// Not the end of a word!
-					if (i != textLength - 1 && QChar(text[i + 1]).isLetterOrNumber()) continue;
-					res = true;
-					break;
-				}
-		} else {
-				// Did not match - reset text2Pos
-				text2Pos = 0;
-		}
-
-	}
-*/
-	bool res = regexp.exactMatch(text);
+	bool res = text.contains(regexp);
 	sqlite3_result_int(context, res);
 }
 

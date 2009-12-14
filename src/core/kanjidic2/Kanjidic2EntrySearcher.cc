@@ -16,6 +16,7 @@
  */
 
 #include "core/TextTools.h"
+#include "core/Database.h"
 #include "core/kanjidic2/Kanjidic2EntrySearcher.h"
 
 #include <QtDebug>
@@ -51,6 +52,47 @@ SearchCommand Kanjidic2EntrySearcher::commandFromWord(const QString &word) const
 	return SearchCommand::invalid();
 }
 
+/**
+ * Turns the string given as parameter into the equivalent regexp string.
+ */
+static QString escapeForRegexp(const QString &string)
+{
+	QString ret = string;
+
+	ret.replace('?', "[\\w]");
+	ret.replace('*', "[\\w]*");
+	return "\\b" + ret + "\\b";
+}
+
+static QString buildTextSearchCondition(const QStringList &words, const QString &table)
+{
+	static QRegExp regExpChars = QRegExp("[\\?\\*]");
+	static QString ftsMatch("%2Text.reading match '%1'");
+	static QString regexpMatch("%2Text.reading regexp %1");
+	static QString globalMatch("%2.docid in (select docid from %2Text where %1)");
+
+	QStringList fts;
+	QStringList conds;
+	foreach (const QString &w, words) {
+		if (w.contains(regExpChars)) {
+			// First check if we can optimize by using the FTS index (i.e. the first character is not a wildcard)
+			int wildcardIdx = 0;
+			while (!regExpChars.exactMatch(w[wildcardIdx])) wildcardIdx++;
+			if (wildcardIdx != 0) fts << "\"" + w.mid(0, wildcardIdx) + "*\"";
+			// If the wildcard we found is the last character and a star, there is no need for a regexp search
+			if (wildcardIdx == w.size() - 1 && w[wildcardIdx] == '*') continue;
+			// Otherwise insert the regular expression search
+			int idx = Database::staticRegExps.size();
+			QRegExp regExp(escapeForRegexp(TextTools::hiragana2Katakana(w)));
+			regExp.setCaseSensitivity(Qt::CaseInsensitive);
+			Database::staticRegExps.append(regExp);
+			conds << regexpMatch.arg(idx);
+		} else fts << "\"" + w + "\"";
+	}
+	if (!fts.isEmpty()) conds.insert(0, ftsMatch.arg(fts.join(" ")));
+	return globalMatch.arg(conds.join(" AND ")).arg(table);
+}
+
 void Kanjidic2EntrySearcher::buildStatement(QList<SearchCommand> &commands, QueryBuilder::Statement &statement)
 {
 	// Delegate to the parent first
@@ -71,11 +113,11 @@ void Kanjidic2EntrySearcher::buildStatement(QList<SearchCommand> &commands, Quer
 		}
 		else if (command.command() == "kana") {
 			statement.addJoin(QueryBuilder::Column("kanjidic2.reading", "entry"));
-			foreach(const QString &arg, command.args()) kanaSearch << "\"" + arg + "\"";
+			foreach(const QString &arg, command.args()) kanaSearch << arg;
 		}
 		else if (command.command() == "mean") {
  			statement.addJoin(QueryBuilder::Column("kanjidic2.meaning", "entry"));
-			foreach(const QString &arg, command.args()) transSearch << "\"" + arg + "\"";
+			foreach(const QString &arg, command.args()) transSearch << arg;
 		}
 		else if (command.command() == "jlpt") {
 			if (command.args().isEmpty()) statement.addWhere(QString("kanjidic2.entries.jlpt not null"));
@@ -154,10 +196,9 @@ void Kanjidic2EntrySearcher::buildStatement(QList<SearchCommand> &commands, Quer
 			statement.addJoin(QueryBuilder::Column("kanjidic2.entries", "id"));
 		}
 	}
-	if (!kanaSearch.isEmpty())
-		statement.addWhere(QString("kanjidic2.reading.docid in (select docid from kanjidic2.readingText where reading match '%1')").arg(kanaSearch.join(" ")));
-	if (!transSearch.isEmpty())
-		statement.addWhere(QString("kanjidic2.meaning.docid in (select docid from kanjidic2.meaningText where meaning match '%1')").arg(transSearch.join(" ")));
+	if (!kanaSearch.isEmpty()) statement.addWhere(buildTextSearchCondition(kanaSearch, "kanjidic2.reading"));
+	if (!transSearch.isEmpty()) statement.addWhere(buildTextSearchCondition(transSearch, "kanjidic2.meaning"));
+
 	if (!componentSearch.isEmpty()) {
 		QString onlyDirectComponentsString("join kanjidic2.strokeGroups as ks2 on ks1.parentGroup = ks2.rowid and ks2.parentGroup is null ");
 		QString qString;
@@ -190,7 +231,7 @@ QList<Kanjidic2Entry::KanjiMeaning> Kanjidic2EntrySearcher::getMeanings(int id)
 {
 	QList<Kanjidic2Entry::KanjiMeaning> ret;
 	QSqlQuery query;
-	query.prepare("select lang, meaning from kanjidic2.meaning join kanjidic2.meaningText on kanjidic2.meaning.docid = kanjidic2.meaningText.docid where entry = ?");
+	query.prepare("select lang, reading from kanjidic2.meaning join kanjidic2.meaningText on kanjidic2.meaning.docid = kanjidic2.meaningText.docid where entry = ?");
 	query.addBindValue(id);
 	query.exec();
 	while(query.next()) {

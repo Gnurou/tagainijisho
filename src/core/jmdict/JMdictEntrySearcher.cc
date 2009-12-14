@@ -97,13 +97,42 @@ SearchCommand JMdictEntrySearcher::commandFromWord(const QString &word) const
 /**
  * Turns the string given as parameter into the equivalent regexp string.
  */
-QString escapeForRegexp(const QString &string)
+static QString escapeForRegexp(const QString &string)
 {
 	QString ret = string;
 
-	ret.replace('?', '.');
-	ret.replace('*', ".*");
-	return ret;
+	ret.replace('?', "[\\w]");
+	ret.replace('*', "[\\w]*");
+	return "\\b" + ret + "\\b";
+}
+
+static QString buildTextSearchCondition(const QStringList &words, const QString &table)
+{
+	static QRegExp regExpChars = QRegExp("[\\?\\*]");
+	static QString ftsMatch("%2Text.reading match '%1'");
+	static QString regexpMatch("%2Text.reading regexp %1");
+	static QString globalMatch("%2.docid in (select docid from %2Text where %1)");
+
+	QStringList fts;
+	QStringList conds;
+	foreach (const QString &w, words) {
+		if (w.contains(regExpChars)) {
+			// First check if we can optimize by using the FTS index (i.e. the first character is not a wildcard)
+			int wildcardIdx = 0;
+			while (!regExpChars.exactMatch(w[wildcardIdx])) wildcardIdx++;
+			if (wildcardIdx != 0) fts << "\"" + w.mid(0, wildcardIdx) + "*\"";
+			// If the wildcard we found is the last character and a star, there is no need for a regexp search
+			if (wildcardIdx == w.size() - 1 && w[wildcardIdx] == '*') continue;
+			// Otherwise insert the regular expression search
+			int idx = Database::staticRegExps.size();
+			QRegExp regExp(escapeForRegexp(TextTools::hiragana2Katakana(w)));
+			regExp.setCaseSensitivity(Qt::CaseInsensitive);
+			Database::staticRegExps.append(regExp);
+			conds << regexpMatch.arg(idx);
+		} else fts << "\"" + w + "\"";
+	}
+	if (!fts.isEmpty()) conds.insert(0, ftsMatch.arg(fts.join(" ")));
+	return globalMatch.arg(conds.join(" AND ")).arg(table);
 }
 
 void JMdictEntrySearcher::buildStatement(QList<SearchCommand> &commands, QueryBuilder::Statement &statement)
@@ -114,7 +143,6 @@ void JMdictEntrySearcher::buildStatement(QList<SearchCommand> &commands, QueryBu
 	QueryBuilder::Column frequencyColumn("jmdict.entries", "frequency");
 
 	// Then process remaining commands
-	static QRegExp regExpChars = QRegExp("[\\?\\*]");
 	// Default frequency table is the global entry one
 	QString table, freqTable = "jmdict.entries";
 	QStringList kanjiReadingsMatch;
@@ -140,24 +168,12 @@ void JMdictEntrySearcher::buildStatement(QList<SearchCommand> &commands, QueryBu
 				if (command.command() == "mean" ||command.command() == "kanji" || command.command() == "kana") {
 					// Protect multi-words arguments within quotes
 					if (command.command() == "mean")
-						transReadingsMatch << "\"" + arg + "\"";
+						transReadingsMatch << arg;
 					if (command.command() == "kanji")
-						kanjiReadingsMatch << "\"" + arg + "\"";
+						kanjiReadingsMatch << arg;
 					if (command.command() == "kana")
-						kanaReadingsMatch << "\"" + arg + "\"";
-				} /* else {
-					// For non-japanese words we want to match entries that contain the expression
-					if (arg.contains(regExpChars)) {
-						QString s;
-						s = escapeForRegexp(arg);
-						int idx = Database::staticRegExps.size();
-						QRegExp regExp = QRegExp(s);
-						regExp.setCaseSensitivity(Qt::CaseInsensitive);
-						Database::staticRegExps.append(regExp);
-						query.addWhere(Query::Where(table + ".reading regexp " + QString::number(idx)));
-					}
-					else query.addWhere(Query::Where(table + ".reading like \"" + arg + "\""));
-				}*/
+						kanaReadingsMatch << arg;
+				}
 			}
 			commands.removeOne(command);
 		}
@@ -261,10 +277,9 @@ void JMdictEntrySearcher::buildStatement(QList<SearchCommand> &commands, QueryBu
 	}
 
 	// Add where statements for text search
-	static QString ftsString = "%1.docid in (select docid from %1Text where %1Text.reading match '%2')";
-	if (!kanjiReadingsMatch.isEmpty()) statement.addWhere(ftsString.arg("jmdict.kanji").arg(kanjiReadingsMatch.join(" ")));
-	if (!kanaReadingsMatch.isEmpty()) statement.addWhere(ftsString.arg("jmdict.kana").arg(kanaReadingsMatch.join(" ")));
-	if (!transReadingsMatch.isEmpty()) statement.addWhere(ftsString.arg("jmdict.gloss").arg(transReadingsMatch.join(" ")));
+	if (!kanjiReadingsMatch.isEmpty()) statement.addWhere(buildTextSearchCondition(kanjiReadingsMatch, "jmdict.kanji"));
+	if (!kanaReadingsMatch.isEmpty()) statement.addWhere(buildTextSearchCondition(kanaReadingsMatch, "jmdict.kana"));
+	if (!transReadingsMatch.isEmpty()) statement.addWhere(buildTextSearchCondition(transReadingsMatch, "jmdict.gloss"));
 
 	// Add where statements for sense filters
 	// Cancel misc filters that have explicitly been required

@@ -3,6 +3,7 @@
 * Huge reorganization of the source code, separation of the functional
   aspects from the GUI
 * Now directly using KanjiVG data
+* Full wildcard support in search
 * Fixed a bug which caused Mac OS users who upgraded to OSX 10.6 to be
   unable to run the application
 * Possibility to filter vocabulary entries according to their properties

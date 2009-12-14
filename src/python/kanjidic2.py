@@ -239,7 +239,7 @@ def createDB(dbFile, kanjidic2File, kanjivgdata, jlptFiles = None):
 	query.execute("create table reading(docid INTEGER PRIMARY KEY, entry INTEGER SECONDARY KEY REFERENCES entries, type TEXT)")
 	query.execute("create virtual table readingText using fts3(reading, TOKENIZE katakana)")
 	query.execute("create table meaning(docid INTEGER PRIMARY KEY, entry INTEGER SECONDARY KEY REFERENCES entries, lang TEXT)")
-	query.execute("create virtual table meaningText using fts3(meaning)")
+	query.execute("create virtual table meaningText using fts3(reading)")
 	query.execute("create table nanori(docid INTEGER PRIMARY KEY, entry INTEGER SECONDARY KEY REFERENCES entries)")
 	query.execute("create virtual table nanoriText using fts3(reading, TOKENIZE katakana)")
 
