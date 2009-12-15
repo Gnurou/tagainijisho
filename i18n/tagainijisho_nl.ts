@@ -46,42 +46,47 @@
         <translation>Soepel schuiven</translation>
     </message>
     <message>
-        <location filename="../src/gui/DetailedViewPreferences.ui" line="36"/>
+        <location filename="../src/gui/DetailedViewPreferences.ui" line="33"/>
+        <source>Show JLPT level in short descriptions</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/DetailedViewPreferences.ui" line="43"/>
         <source>Fonts</source>
         <translation>Lettertypen</translation>
     </message>
     <message>
-        <location filename="../src/gui/DetailedViewPreferences.ui" line="43"/>
+        <location filename="../src/gui/DetailedViewPreferences.ui" line="50"/>
         <source>Preview</source>
         <translation>Voorproefje</translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="278"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="279"/>
         <source>Detailed View</source>
         <translation>Gedetaileerde weergave</translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="293"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="294"/>
         <source>Default text</source>
         <translation>Standaard tekst</translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="299"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="300"/>
         <source>Kana header</source>
         <translation>Kana koppen</translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="305"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="306"/>
         <source>Kanji header</source>
         <translation>Kanji koppen</translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="311"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="312"/>
         <source>Kanji</source>
         <translation>Kanji</translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="318"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="319"/>
         <source>Kana</source>
         <translation>Kana</translation>
     </message>
@@ -112,32 +117,32 @@
 <context>
     <name>EntryFormatter</name>
     <message>
-        <location filename="../src/gui/EntryFormatter.cc" line="91"/>
+        <location filename="../src/gui/EntryFormatter.cc" line="93"/>
         <source>Notes:</source>
         <translation>Aantekeningen:</translation>
     </message>
     <message>
-        <location filename="../src/gui/EntryFormatter.cc" line="116"/>
+        <location filename="../src/gui/EntryFormatter.cc" line="118"/>
         <source>Studied since %1.</source>
         <translation>Bestudeerd sinds %1.</translation>
     </message>
     <message>
-        <location filename="../src/gui/EntryFormatter.cc" line="117"/>
+        <location filename="../src/gui/EntryFormatter.cc" line="119"/>
         <source> Score: %1.</source>
         <translation>Score: %1.</translation>
     </message>
     <message>
-        <location filename="../src/gui/EntryFormatter.cc" line="119"/>
+        <location filename="../src/gui/EntryFormatter.cc" line="121"/>
         <source> Last trained on %1.</source>
         <translation>Voor het laatst geoefend op %1.</translation>
     </message>
     <message>
-        <location filename="../src/gui/EntryFormatter.cc" line="121"/>
+        <location filename="../src/gui/EntryFormatter.cc" line="123"/>
         <source> Last mistaken on %1.</source>
         <translation>Voor het laatst fout op %1.</translation>
     </message>
     <message>
-        <location filename="../src/gui/EntryFormatter.cc" line="124"/>
+        <location filename="../src/gui/EntryFormatter.cc" line="126"/>
         <source> Never trained.</source>
         <translation>Nooit geoefend.</translation>
     </message>
@@ -165,9 +170,8 @@
         <translation>Score &amp;terugzetten</translation>
     </message>
     <message>
-        <location filename="../src/gui/EntryMenu.cc" line="28"/>
         <source>Mark as &amp;mistaken</source>
-        <translation>Markeren als &amp;onjuist</translation>
+        <translation type="obsolete">Markeren als &amp;onjuist</translation>
     </message>
     <message>
         <location filename="../src/gui/EntryMenu.cc" line="28"/>
@@ -190,7 +194,7 @@
         <translation>Onlangs toegevoegde labels...</translation>
     </message>
     <message>
-        <location filename="../src/gui/EntryMenu.cc" line="115"/>
+        <location filename="../src/gui/EntryMenu.cc" line="111"/>
         <source>Add %1.</source>
         <translation>Voeg %1 toe.</translation>
     </message>
@@ -239,7 +243,7 @@
 <context>
     <name>FindHomonymsJob</name>
     <message>
-        <location filename="../src/gui/jmdict/JMdictEntryFormatter.cc" line="630"/>
+        <location filename="../src/gui/jmdict/JMdictEntryFormatter.cc" line="614"/>
         <source>Homophones:</source>
         <translation>Homofonen:</translation>
     </message>
@@ -247,17 +251,17 @@
 <context>
     <name>FindVerbBuddyJob</name>
     <message>
-        <location filename="../src/gui/jmdict/JMdictEntryFormatter.cc" line="604"/>
+        <location filename="../src/gui/jmdict/JMdictEntryFormatter.cc" line="588"/>
         <source>Transitive buddy:</source>
         <translation>Overgankelijk maatje:</translation>
     </message>
     <message>
-        <location filename="../src/gui/jmdict/JMdictEntryFormatter.cc" line="605"/>
+        <location filename="../src/gui/jmdict/JMdictEntryFormatter.cc" line="589"/>
         <source>Intransitive buddy:</source>
         <translation>Onovergankelijk maatje:</translation>
     </message>
     <message>
-        <location filename="../src/gui/jmdict/JMdictEntryFormatter.cc" line="606"/>
+        <location filename="../src/gui/jmdict/JMdictEntryFormatter.cc" line="590"/>
         <source>Buddy:</source>
         <translation>Maatje:</translation>
     </message>
@@ -335,27 +339,27 @@
         <translation>Hoeveel onlangs ingevoerde ingangen in het geheugen bewaard worden. Hogere waarden kunnen de prestatie ten goede komen als zeer veel ingangen bewerkt worden.</translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="85"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="86"/>
         <source>General</source>
         <translation>Algemeen</translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="89"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="90"/>
         <source>Application-wide default font</source>
         <translation>Applicatiebreed standaard lettertype</translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="92"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="93"/>
         <source>Monday</source>
         <translation>Maandag</translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="93"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="94"/>
         <source>Sunday</source>
         <translation>Zondag</translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="132"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="133"/>
         <source>Next check: %1</source>
         <translation>Volgende controle: %1</translation>
     </message>
@@ -401,27 +405,27 @@
 <context>
     <name>JMdictEntryFormatter</name>
     <message>
-        <location filename="../src/gui/jmdict/JMdictEntryFormatter.cc" line="200"/>
+        <location filename="../src/gui/jmdict/JMdictEntryFormatter.cc" line="199"/>
         <source>Alternate readings: </source>
         <translation>Alternatieve lezingen: </translation>
     </message>
     <message>
-        <location filename="../src/gui/jmdict/JMdictEntryFormatter.cc" line="216"/>
+        <location filename="../src/gui/jmdict/JMdictEntryFormatter.cc" line="215"/>
         <source>Variants:</source>
         <translation>Varianten:</translation>
     </message>
     <message>
-        <location filename="../src/gui/jmdict/JMdictEntryFormatter.cc" line="326"/>
+        <location filename="../src/gui/jmdict/JMdictEntryFormatter.cc" line="320"/>
         <source>JLPT level:</source>
         <translation>JLPT-niveau:</translation>
     </message>
     <message>
-        <location filename="../src/gui/jmdict/JMdictEntryFormatter.cc" line="338"/>
+        <location filename="../src/gui/jmdict/JMdictEntryFormatter.cc" line="332"/>
         <source>Kanji:</source>
         <translation>Kanji:</translation>
     </message>
     <message>
-        <location filename="../src/gui/jmdict/JMdictEntryFormatter.cc" line="358"/>
+        <location filename="../src/gui/jmdict/JMdictEntryFormatter.cc" line="379"/>
         <source> (JLPT %1)</source>
         <translation> (JLPT %1)</translation>
     </message>
@@ -613,76 +617,71 @@
     </message>
     <message>
         <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="53"/>
-        <source>JLPT level of kanji</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="63"/>
         <source>Additional information</source>
         <translation>Aanvullende informatie</translation>
     </message>
     <message>
-        <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="69"/>
+        <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="59"/>
         <source>For transitive verbs, look for the equivalent intransitive entry and vice-versa.</source>
         <translation>Zoek bij overgankelijke werkwoorden ook het onovergankelijke equivalent op (en vice versa).</translation>
     </message>
     <message>
-        <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="72"/>
+        <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="62"/>
         <source>Search for transitive/intransitive verb buddy</source>
         <translation>Zoek naar het overgankelijke/onovergankelijke „werkwoordsmaatje”</translation>
     </message>
     <message>
-        <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="84"/>
+        <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="74"/>
         <source>Display words that have the same pronunciation.</source>
         <translation>Toon woorden met dezelfde uitspraak.</translation>
     </message>
     <message>
-        <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="87"/>
+        <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="77"/>
         <source>Homophones</source>
         <translation>Homofonen</translation>
     </message>
     <message>
-        <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="94"/>
+        <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="84"/>
         <source>Studied only</source>
         <translation>Alleen bestudeerde woorden</translation>
     </message>
     <message>
-        <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="120"/>
+        <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="110"/>
         <source>Printing</source>
         <translation>Printen</translation>
     </message>
     <message>
-        <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="126"/>
+        <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="116"/>
         <source>General</source>
         <translation>Algemeen</translation>
     </message>
     <message>
-        <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="139"/>
+        <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="129"/>
         <source>Header font size:</source>
         <translation>Kop-lettertype grootte:</translation>
     </message>
     <message>
-        <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="146"/>
+        <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="136"/>
         <source>Maximum number of definitions:</source>
         <translation>Maximaal aantal definities:</translation>
     </message>
     <message>
-        <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="153"/>
+        <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="143"/>
         <source>All</source>
         <translation>Alles</translation>
     </message>
     <message>
-        <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="163"/>
+        <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="153"/>
         <source>Kanji</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kanji</translation>
     </message>
     <message>
-        <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="169"/>
+        <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="159"/>
         <source>Kanji used in word</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="176"/>
+        <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="166"/>
         <source>Only studied kanji</source>
         <translation>Alleen de bestudeerde kanji</translation>
     </message>
@@ -699,43 +698,43 @@
         <translation type="obsolete">Alleen de bestudeerde kanji</translation>
     </message>
     <message>
-        <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="186"/>
+        <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="176"/>
         <source>Preview</source>
         <translation>Voorproefje</translation>
     </message>
     <message>
-        <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="274"/>
+        <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="264"/>
         <source>Definitions filtering</source>
         <translation>Definitiefilters</translation>
     </message>
     <message>
-        <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="280"/>
+        <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="270"/>
         <source>Filtered definitions</source>
         <translation>Gefilterde definities</translation>
     </message>
     <message>
-        <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="288"/>
+        <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="278"/>
         <source>Displayed:</source>
         <translation>Weergegeven:</translation>
     </message>
     <message>
-        <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="295"/>
+        <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="285"/>
         <source>Definitions types in this list will be searched for and displayed.</source>
         <translation>Definitietypen in deze lijst worden gebruikt in de zoekopdracht, en weergegeven.</translation>
     </message>
     <message>
-        <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="322"/>
-        <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="346"/>
+        <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="312"/>
+        <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="336"/>
         <source>...</source>
         <translation>...</translation>
     </message>
     <message>
-        <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="374"/>
+        <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="364"/>
         <source>Filtered:</source>
         <translation>Gefilterd:</translation>
     </message>
     <message>
-        <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="381"/>
+        <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="371"/>
         <source>Definitions types in this list will be ignored when searching and displaying entries.</source>
         <translation>Definitietypen in deze lijst worden genegeerd bij het zoeken en weergeven van ingangen.</translation>
     </message>
@@ -760,34 +759,48 @@
 <context>
     <name>KanjiPopup</name>
     <message>
-        <location filename="../src/gui/kanjidic2/KanjiPopup.cc" line="142"/>
+        <location filename="../src/gui/kanjidic2/KanjiPopup.cc" line="143"/>
         <source>No information about this kanji!</source>
         <translation>Geen informatie beschikbaar over deze kanji!</translation>
     </message>
     <message>
-        <location filename="../src/gui/kanjidic2/KanjiPopup.cc" line="168"/>
+        <location filename="../src/gui/kanjidic2/KanjiPopup.cc" line="154"/>
+        <source>&lt;b&gt;On:&lt;/b&gt; %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/kanjidic2/KanjiPopup.cc" line="155"/>
+        <source>&lt;b&gt;Kun:&lt;/b&gt; %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/kanjidic2/KanjiPopup.cc" line="173"/>
         <source>&lt;b&gt;Freq:&lt;/b&gt; %1&lt;br/&gt;</source>
         <translation>&lt;b&gt;Freq:&lt;/b&gt; %1&lt;br/&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/kanjidic2/KanjiPopup.cc" line="170"/>
+        <location filename="../src/gui/kanjidic2/KanjiPopup.cc" line="175"/>
         <source>&lt;b&gt;Grade:&lt;/b&gt; %1&lt;br/&gt;</source>
         <translation>&lt;b&gt;Schooljaar:&lt;/b&gt; %1&lt;br/&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/kanjidic2/KanjiPopup.cc" line="172"/>
+        <location filename="../src/gui/kanjidic2/KanjiPopup.cc" line="177"/>
         <source>&lt;b&gt;JLPT:&lt;/b&gt; %1&lt;br/&gt;</source>
         <translation>&lt;b&gt;JLPT:&lt;/b&gt; %1&lt;br/&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/kanjidic2/KanjiPopup.cc" line="174"/>
+        <location filename="../src/gui/kanjidic2/KanjiPopup.cc" line="179"/>
         <source>&lt;b&gt;Score:&lt;/b&gt; %1&lt;br/&gt;</source>
         <translation>&lt;b&gt;Score:&lt;/b&gt; %1&lt;br/&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/kanjidic2/KanjiPopup.cc" line="193"/>
+        <location filename="../src/gui/kanjidic2/KanjiPopup.cc" line="198"/>
+        <source>&lt;b&gt;Components:&lt;/b&gt;%2 %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Components: %1</source>
-        <translation>Componenten: %1</translation>
+        <translation type="obsolete">Componenten: %1</translation>
     </message>
     <message>
         <location filename="../src/gui/kanjidic2/KanjiPopup.ui" line="20"/>
@@ -848,25 +861,25 @@
     </message>
     <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="187"/>
-        <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="515"/>
+        <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="499"/>
         <source>&lt;b&gt;Strokes:&lt;/b&gt; %1</source>
         <translation>&lt;b&gt;Streken:&lt;/b&gt; %1</translation>
     </message>
     <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="192"/>
-        <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="521"/>
+        <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="505"/>
         <source>&lt;b&gt;Frequency:&lt;/b&gt; %1</source>
         <translation>&lt;b&gt;Frequentie:&lt;/b&gt; %1</translation>
     </message>
     <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="197"/>
-        <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="527"/>
+        <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="511"/>
         <source>&lt;b&gt;Grade:&lt;/b&gt; %1</source>
         <translation>&lt;b&gt;Schooljaar:&lt;/b&gt; %1</translation>
     </message>
     <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="203"/>
-        <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="533"/>
+        <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="517"/>
         <source>&lt;b&gt;JLPT:&lt;/b&gt; %1</source>
         <translation>&lt;b&gt;JLPT:&lt;/b&gt; %1</translation>
     </message>
@@ -876,26 +889,31 @@
         <translation>Varianten:</translation>
     </message>
     <message>
-        <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="239"/>
+        <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="232"/>
         <source>Variation of:</source>
         <translation>Variant van:</translation>
     </message>
     <message>
-        <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="259"/>
-        <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="539"/>
+        <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="245"/>
+        <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="523"/>
         <source>&lt;b&gt;Unicode:&lt;/b&gt; 0x%1</source>
         <translation>&lt;b&gt;Unicode:&lt;/b&gt; 0x%1</translation>
     </message>
     <message>
-        <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="264"/>
-        <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="545"/>
+        <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="250"/>
+        <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="529"/>
         <source>&lt;b&gt;SKIP:&lt;/b&gt; %1</source>
         <translation>&lt;b&gt;SKIP:&lt;/b&gt; %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="278"/>
+        <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="264"/>
         <source>Components:</source>
         <translation>Componenten:</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="292"/>
+        <source> (JLPT %1)</source>
+        <translation type="unfinished"> (JLPT %1)</translation>
     </message>
 </context>
 <context>
@@ -1304,8 +1322,28 @@
     </message>
     <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2Preferences.ui" line="600"/>
+        <source>Animation playback</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/kanjidic2/Kanjidic2Preferences.ui" line="606"/>
         <source>Play animation when the kanji popup appears</source>
         <translation>Animatie afspelen zodra de kanji-pop-up verschijnt</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/kanjidic2/Kanjidic2Preferences.ui" line="621"/>
+        <source>Loop animation after:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/kanjidic2/Kanjidic2Preferences.ui" line="628"/>
+        <source>Do not loop</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/kanjidic2/Kanjidic2Preferences.ui" line="631"/>
+        <source> seconds</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1563,9 +1601,8 @@
         <translation>Misschien later</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="466"/>
         <source>http://www.tagaini.net</source>
-        <translation>http://www.tagaini.net</translation>
+        <translation type="obsolete">http://www.tagaini.net</translation>
     </message>
     <message>
         <location filename="../src/gui/MainWindow.cc" line="513"/>
@@ -1661,17 +1698,17 @@
 <context>
     <name>PreferencesFontChooser</name>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="369"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="372"/>
         <source>%1:</source>
         <translation>%1:</translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="371"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="374"/>
         <source>Default</source>
         <translation>Standaard</translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="374"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="377"/>
         <source>Change...</source>
         <translation>Wijzigen...</translation>
     </message>
@@ -1687,8 +1724,8 @@
 <context>
     <name>ReadingTrainer</name>
     <message>
-        <location filename="../src/gui/ReadingTrainer.ui" line="14"/>
         <location filename="../src/gui/ReadingTrainer.cc" line="38"/>
+        <location filename="../src/gui/ReadingTrainer.ui" line="14"/>
         <source>Reading practice</source>
         <translation>Leesoefeningen</translation>
     </message>
@@ -1816,45 +1853,42 @@
 <context>
     <name>ResultsView</name>
     <message>
-        <location filename="../src/gui/ResultsView.cc" line="187"/>
+        <location filename="../src/gui/ResultsView.cc" line="185"/>
         <source>Select All</source>
         <translation>Alles selecteren</translation>
     </message>
     <message>
-        <location filename="../src/gui/ResultsView.cc" line="228"/>
-        <location filename="../src/gui/ResultsView.cc" line="247"/>
-        <location filename="../src/gui/ResultsView.cc" line="266"/>
-        <location filename="../src/gui/ResultsView.cc" line="304"/>
+        <location filename="../src/gui/ResultsView.cc" line="226"/>
+        <location filename="../src/gui/ResultsView.cc" line="245"/>
+        <location filename="../src/gui/ResultsView.cc" line="264"/>
         <source>Marking entries...</source>
         <translation>Ingangen markeren...</translation>
     </message>
     <message>
-        <location filename="../src/gui/ResultsView.cc" line="228"/>
-        <location filename="../src/gui/ResultsView.cc" line="247"/>
-        <location filename="../src/gui/ResultsView.cc" line="266"/>
-        <location filename="../src/gui/ResultsView.cc" line="285"/>
-        <location filename="../src/gui/ResultsView.cc" line="304"/>
-        <location filename="../src/gui/ResultsView.cc" line="347"/>
+        <location filename="../src/gui/ResultsView.cc" line="226"/>
+        <location filename="../src/gui/ResultsView.cc" line="245"/>
+        <location filename="../src/gui/ResultsView.cc" line="264"/>
+        <location filename="../src/gui/ResultsView.cc" line="283"/>
+        <location filename="../src/gui/ResultsView.cc" line="326"/>
         <source>Abort</source>
         <translation>Annuleren</translation>
     </message>
     <message>
-        <location filename="../src/gui/ResultsView.cc" line="230"/>
-        <location filename="../src/gui/ResultsView.cc" line="249"/>
-        <location filename="../src/gui/ResultsView.cc" line="268"/>
-        <location filename="../src/gui/ResultsView.cc" line="287"/>
-        <location filename="../src/gui/ResultsView.cc" line="306"/>
-        <location filename="../src/gui/ResultsView.cc" line="349"/>
+        <location filename="../src/gui/ResultsView.cc" line="228"/>
+        <location filename="../src/gui/ResultsView.cc" line="247"/>
+        <location filename="../src/gui/ResultsView.cc" line="266"/>
+        <location filename="../src/gui/ResultsView.cc" line="285"/>
+        <location filename="../src/gui/ResultsView.cc" line="328"/>
         <source>Operation in progress...</source>
         <translation>Bewerking wordt uitgevoerd...</translation>
     </message>
     <message>
-        <location filename="../src/gui/ResultsView.cc" line="285"/>
+        <location filename="../src/gui/ResultsView.cc" line="283"/>
         <source>Resetting entries...</source>
         <translation>Ingangen terugzetten...</translation>
     </message>
     <message>
-        <location filename="../src/gui/ResultsView.cc" line="347"/>
+        <location filename="../src/gui/ResultsView.cc" line="326"/>
         <source>Adding tags...</source>
         <translation>Labels toevoegen...</translation>
     </message>
@@ -1862,22 +1896,22 @@
 <context>
     <name>ResultsViewPreferences</name>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="190"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="191"/>
         <source>Results View</source>
         <translation>Resultaatweergave</translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="207"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="208"/>
         <source>Main writing</source>
         <translation>Voornaamste schrijfwijze</translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="213"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="214"/>
         <source>Readings and alternate writings</source>
         <translation>Lezingen en alternatieve schrijfwijzes</translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="219"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="220"/>
         <source>Definitions</source>
         <translation>Definities</translation>
     </message>
@@ -1945,7 +1979,7 @@
 <context>
     <name>ResultsViewPrefsDummyEntry</name>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="186"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="187"/>
         <source>Romaji text</source>
         <translation>Rōmaji tekst</translation>
     </message>
@@ -2052,12 +2086,12 @@
 <context>
     <name>ShowUsedInKanjiJob</name>
     <message>
-        <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="569"/>
+        <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="553"/>
         <source>Direct compounds:</source>
         <translation>Directe samenstellingen:</translation>
     </message>
     <message>
-        <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="597"/>
+        <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="581"/>
         <source>(All compounds)</source>
         <translation>(Alle samenstellingen)</translation>
     </message>
@@ -2065,12 +2099,12 @@
 <context>
     <name>ShowUsedInWordsJob</name>
     <message>
-        <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="615"/>
+        <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="599"/>
         <source>Seen in:</source>
         <translation>Gezien in:</translation>
     </message>
     <message>
-        <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="650"/>
+        <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="634"/>
         <source>Find all words using this kanji</source>
         <translation>Vind alle woorden met deze kanji</translation>
     </message>
