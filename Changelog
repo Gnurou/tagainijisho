@@ -1,5 +1,5 @@
 0.2.4 released on
-* Updated to SQLite 3.6.19
+* Updated to SQLite 3.6.21
 * Huge reorganization of the source code, separation of the functional
   aspects from the GUI
 * Now directly using KanjiVG data
