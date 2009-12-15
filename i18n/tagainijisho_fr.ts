@@ -436,32 +436,32 @@
 <context>
     <name>DetailedViewPreferences</name>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="279"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="277"/>
         <source>Detailed View</source>
         <translation>Vue détaillée</translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="294"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="292"/>
         <source>Default text</source>
         <translation>Texte par défaut</translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="300"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="298"/>
         <source>Kana header</source>
         <translation>Entête Kana</translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="306"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="304"/>
         <source>Kanji header</source>
         <translation>Entête Kanji</translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="312"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="310"/>
         <source>Kanji</source>
         <translation>Kanji</translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="319"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="317"/>
         <source>Kana</source>
         <translation>Kana</translation>
     </message>
@@ -766,27 +766,27 @@
 <context>
     <name>GeneralPreferences</name>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="86"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="82"/>
         <source>General</source>
         <translation>Général</translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="90"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="86"/>
         <source>Application-wide default font</source>
         <translation>Police par défaut de l&apos;application</translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="93"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="89"/>
         <source>Monday</source>
         <translation>Lundi</translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="94"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="90"/>
         <source>Sunday</source>
         <translation>Dimanche</translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="133"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="130"/>
         <source>Next check: %1</source>
         <translation>Prochaine vérification: %1</translation>
     </message>
@@ -842,21 +842,26 @@
     </message>
     <message>
         <location filename="../src/gui/GeneralPreferences.ui" line="94"/>
+        <source>Also check for development versions</source>
+        <translation>Vérifier également la disponibilité de versions de développement</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/GeneralPreferences.ui" line="101"/>
         <source>Next check:</source>
         <translation>Prochaine vérification: </translation>
     </message>
     <message>
-        <location filename="../src/gui/GeneralPreferences.ui" line="104"/>
+        <location filename="../src/gui/GeneralPreferences.ui" line="111"/>
         <source>Entries cache (advanced)</source>
         <translation>Cache d&apos;entrées (avancé)</translation>
     </message>
     <message>
-        <location filename="../src/gui/GeneralPreferences.ui" line="112"/>
+        <location filename="../src/gui/GeneralPreferences.ui" line="119"/>
         <source>Default</source>
         <translation>Défaut</translation>
     </message>
     <message>
-        <location filename="../src/gui/GeneralPreferences.ui" line="128"/>
+        <location filename="../src/gui/GeneralPreferences.ui" line="135"/>
         <source>Defines how many recent entries are kept in memory. High values may improve performance when manipulating a large number of entries.</source>
         <translation>Définit le nombre d&apos;entrées gardées en mémoire. Une valeur élevée peut améliorer les performances en cas de manipulation de nombreuses entrées.</translation>
     </message>
@@ -2825,17 +2830,17 @@
         <translation type="obsolete">Imprimer les entrées affichées dans la liste de résultats en booklet</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="121"/>
+        <location filename="../src/gui/MainWindow.cc" line="131"/>
         <source>&amp;Quit</source>
         <translation>&amp;Quitter</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="114"/>
+        <location filename="../src/gui/MainWindow.cc" line="124"/>
         <source>&amp;Program</source>
         <translation>&amp;Programme</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="123"/>
+        <location filename="../src/gui/MainWindow.cc" line="133"/>
         <source>&amp;Search</source>
         <translation>&amp;Recherche</translation>
     </message>
@@ -2916,12 +2921,12 @@
         <translation type="obsolete">&amp;Entraînement</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="158"/>
+        <location filename="../src/gui/MainWindow.cc" line="168"/>
         <source>&amp;Help</source>
         <translation>&amp;Aide</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="165"/>
+        <location filename="../src/gui/MainWindow.cc" line="175"/>
         <source>&amp;About...</source>
         <translation>&amp;À propos...</translation>
     </message>
@@ -2966,7 +2971,7 @@
         <translation type="obsolete">Fichier séparé par des tabulations...</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="118"/>
+        <location filename="../src/gui/MainWindow.cc" line="128"/>
         <source>Preferences...</source>
         <translation>Préférences...</translation>
     </message>
@@ -2979,67 +2984,67 @@
         <translation type="obsolete">Taggé (entrée manuelle)...</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="159"/>
+        <location filename="../src/gui/MainWindow.cc" line="169"/>
         <source>&amp;Manual...</source>
         <translation>&amp;Manuel...</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="161"/>
+        <location filename="../src/gui/MainWindow.cc" line="171"/>
         <source>&amp;Report a bug...</source>
         <translation>&amp;Rapporter un bug...</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="162"/>
+        <location filename="../src/gui/MainWindow.cc" line="172"/>
         <source>&amp;Suggest a feature...</source>
         <translation>&amp;Suggérer une fonctionnalité...</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="163"/>
+        <location filename="../src/gui/MainWindow.cc" line="173"/>
         <source>Ask a &amp;question...</source>
         <translation>Poser une &amp;question...</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="164"/>
+        <location filename="../src/gui/MainWindow.cc" line="174"/>
         <source>Support Tagaini Jisho - Make a &amp;donation!</source>
         <translation>Soutenez Tagaini Jisho - Faites un &amp;don!</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="338"/>
+        <location filename="../src/gui/MainWindow.cc" line="348"/>
         <source>Print preview</source>
         <translation>Aperçu d&apos;impression</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="346"/>
+        <location filename="../src/gui/MainWindow.cc" line="356"/>
         <source>Booklet print</source>
         <translation>Impression de livret</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="354"/>
+        <location filename="../src/gui/MainWindow.cc" line="364"/>
         <source>Booklet print preview</source>
         <translation>Aperçu d&apos;impression de livret</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="361"/>
+        <location filename="../src/gui/MainWindow.cc" line="371"/>
         <source>Export to tab-separated file...</source>
         <translation>Exporter vers un fichier séparé par des tabulations...</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="365"/>
+        <location filename="../src/gui/MainWindow.cc" line="375"/>
         <source>Cannot write file</source>
         <translation>Impossible d&apos;écrire le fichier</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="365"/>
+        <location filename="../src/gui/MainWindow.cc" line="375"/>
         <source>Unable to write file %1.</source>
         <translation>Impossible d&apos;écrire le fichier %1.</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="389"/>
+        <location filename="../src/gui/MainWindow.cc" line="399"/>
         <source>Error writing file</source>
         <translation>Erreur lors de l&apos;écriture du fichier</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="389"/>
+        <location filename="../src/gui/MainWindow.cc" line="399"/>
         <source>Error while writing file %1.</source>
         <translation>Erreur lors de l&apos;écriture du fichier %1.</translation>
     </message>
@@ -3048,7 +3053,7 @@
         <translation type="obsolete">Im&amp;primer les entrées affichées...</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="130"/>
+        <location filename="../src/gui/MainWindow.cc" line="140"/>
         <source>Print entries displayed in result view</source>
         <translation>Imprimer les entrées affichées dans la liste des résultats</translation>
     </message>
@@ -3057,14 +3062,14 @@
         <translation type="obsolete">Ajoutées depuis la semaine &amp;dernière</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="116"/>
-        <location filename="../src/gui/MainWindow.cc" line="171"/>
+        <location filename="../src/gui/MainWindow.cc" line="126"/>
+        <location filename="../src/gui/MainWindow.cc" line="181"/>
         <source>Export user data...</source>
         <translation>Exporter les données utilisateur...</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="117"/>
-        <location filename="../src/gui/MainWindow.cc" line="180"/>
+        <location filename="../src/gui/MainWindow.cc" line="127"/>
+        <location filename="../src/gui/MainWindow.cc" line="190"/>
         <source>Import user data...</source>
         <translation>Importer les données utilisateur...</translation>
     </message>
@@ -3081,87 +3086,87 @@
         <translation type="obsolete">Niveau &amp;1</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="127"/>
+        <location filename="../src/gui/MainWindow.cc" line="137"/>
         <source>&amp;Results</source>
         <translation>&amp;Résultats</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="128"/>
+        <location filename="../src/gui/MainWindow.cc" line="138"/>
         <source>&amp;Print...</source>
         <translation>&amp;Imprimer...</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="132"/>
+        <location filename="../src/gui/MainWindow.cc" line="142"/>
         <source>Print &amp;preview...</source>
         <translation>&amp;Aperçu d&apos;impression...</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="133"/>
+        <location filename="../src/gui/MainWindow.cc" line="143"/>
         <source>Print preview of entries in result view</source>
         <translation>Aperçu d&apos;impression des entrées dans la liste de résultats</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="135"/>
+        <location filename="../src/gui/MainWindow.cc" line="145"/>
         <source>Print &amp;booklet(s)...</source>
         <translation>Impression de &amp;livret(s)...</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="136"/>
+        <location filename="../src/gui/MainWindow.cc" line="146"/>
         <source>Ctrl+B</source>
         <translation>Ctrl+B</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="137"/>
+        <location filename="../src/gui/MainWindow.cc" line="147"/>
         <source>Print entries displayed in result view as booklets</source>
         <translation>Impression des entrées dans la liste des résultats sur des livrets</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="139"/>
+        <location filename="../src/gui/MainWindow.cc" line="149"/>
         <source>Booklet(s) &amp;preview...</source>
         <translation>Aperçu d&apos;impression de livret...</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="140"/>
+        <location filename="../src/gui/MainWindow.cc" line="150"/>
         <source>Booklets print preview of entries in results list</source>
         <translation>Aperçu d&apos;impression des entrées dans la liste des résultats sur des livrets</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="142"/>
+        <location filename="../src/gui/MainWindow.cc" line="152"/>
         <source>Export displayed entries...</source>
         <translation>Exporter les entrées affichées...</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="143"/>
+        <location filename="../src/gui/MainWindow.cc" line="153"/>
         <source>As a tab-separated file...</source>
         <translation>Fichier séparé par des tabulations...</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="145"/>
+        <location filename="../src/gui/MainWindow.cc" line="155"/>
         <source>&amp;Sets</source>
         <translation>&amp;Ensembles</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="146"/>
+        <location filename="../src/gui/MainWindow.cc" line="156"/>
         <source>&amp;New set from current search...</source>
         <translation>&amp;Nouvel ensemble à partir de la recherche courante...</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="148"/>
+        <location filename="../src/gui/MainWindow.cc" line="158"/>
         <source>&amp;New sets folder...</source>
         <translation>&amp;Nouveau dossier d&apos;ensembles...</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="150"/>
+        <location filename="../src/gui/MainWindow.cc" line="160"/>
         <source>&amp;Organize sets...</source>
         <translation>&amp;Organiser les ensembles...</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="154"/>
+        <location filename="../src/gui/MainWindow.cc" line="164"/>
         <source>&amp;Practice</source>
         <translation>&amp;Entraînement</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="155"/>
+        <location filename="../src/gui/MainWindow.cc" line="165"/>
         <source>Whole study list train &amp;settings...</source>
         <translation>&amp;Paramètres de la pratique sur la liste d&apos;étude...</translation>
     </message>
@@ -3170,62 +3175,72 @@
         <translation type="obsolete">&amp;Paramètres d&apos;entraînement...</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="183"/>
+        <location filename="../src/gui/MainWindow.cc" line="193"/>
         <source>About to replace user data!</source>
         <translation>Sur le point de remplacer les données utilisateur!</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="183"/>
+        <location filename="../src/gui/MainWindow.cc" line="193"/>
         <source>&lt;b&gt;WARNING:&lt;/b&gt; All the user data (study list, tags, notes, training, ...) is going to be replaced by the selected user data file. Are you &lt;b&gt;sure&lt;/b&gt; you want to do this?</source>
         <translation>&lt;b&gt;ATTENTION:&lt;/b&gt; Toutes les données utilisateur (liste d&apos;étude, tags, notes, entraînement, ...) vont être remplacées par le fichier sélectionné. Êtes-vous &lt;b&gt;sûr&lt;/b&gt; de vouloir faire cela?</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="190"/>
+        <location filename="../src/gui/MainWindow.cc" line="200"/>
         <source>Please restart Tagaini Jisho</source>
         <translation>Veuillez redémarrer Tagaini Jisho</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="190"/>
+        <location filename="../src/gui/MainWindow.cc" line="200"/>
         <source>The imported data will be available the next time you start Tagaini Jisho. All changes performed from now will be lost. Do you want to exit Tagaini Jisho now?</source>
         <translation>Les données importées seront actives après le redémarrage de Tagaini Jisho. Tous les changements effectués à partir de maintenant seront perdus. Voulez-vous quitter Tagaini Jisho maintenant?</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="513"/>
+        <location filename="../src/gui/MainWindow.cc" line="483"/>
+        <source>A development update is available!</source>
+        <translation>Une nouvelle version de développement est disponible!</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/MainWindow.cc" line="484"/>
+        <source>Development version %1 of Tagaini Jisho is available. Do you want to download it now?</source>
+        <translation>La version de développement %1 de Tagaini Jisho est disponible. Voulez-vous la télécharger maintenant?</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/MainWindow.cc" line="538"/>
         <source>Create new set here...</source>
         <translation>Créer un nouvel ensemble ici...</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="515"/>
+        <location filename="../src/gui/MainWindow.cc" line="540"/>
         <source>Create new folder here...</source>
         <translation>Créer un nouveau dossier ici...</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="527"/>
+        <location filename="../src/gui/MainWindow.cc" line="552"/>
         <source>New set</source>
         <translation>Nouvel ensemble</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="527"/>
+        <location filename="../src/gui/MainWindow.cc" line="552"/>
         <source>Please enter a name for this set:</source>
         <translation>Veuillez entrer un nom pour cet ensemble:</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="527"/>
+        <location filename="../src/gui/MainWindow.cc" line="552"/>
         <source>Unnamed set</source>
         <translation>Ensemble sans nom</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="549"/>
+        <location filename="../src/gui/MainWindow.cc" line="574"/>
         <source>New sets folder</source>
         <translation>Nouveau dossier d&apos;ensembles</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="549"/>
+        <location filename="../src/gui/MainWindow.cc" line="574"/>
         <source>Please enter a name for this folder</source>
         <translation>Veuillez entrer un nom pour ce dossier</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="549"/>
+        <location filename="../src/gui/MainWindow.cc" line="574"/>
         <source>Unnamed folder</source>
         <translation>Dossier sans nom</translation>
     </message>
@@ -3235,17 +3250,17 @@
         <translation>Imprimer</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="272"/>
+        <location filename="../src/gui/MainWindow.cc" line="282"/>
         <source>Preparing print job...</source>
         <translation>Préparation du travail d&apos;impression...</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="272"/>
+        <location filename="../src/gui/MainWindow.cc" line="282"/>
         <source>Abort</source>
         <translation>Annuler</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="274"/>
+        <location filename="../src/gui/MainWindow.cc" line="284"/>
         <source>Printing...</source>
         <translation>Impression en cours...</translation>
     </message>
@@ -3254,22 +3269,24 @@
         <translation type="obsolete">Entrez l&apos;intervalle de score désiré:</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="458"/>
+        <location filename="../src/gui/MainWindow.cc" line="468"/>
         <source>An update is available!</source>
         <translation>Une mise à jour est disponible!</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="459"/>
+        <location filename="../src/gui/MainWindow.cc" line="469"/>
         <source>Version %1 of Tagaini Jisho is available. Do you want to download it now?</source>
         <translation>La version %1 de Tagaini Jisho est disponible. Voulez-vous la télécharger maintenant?</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="461"/>
+        <location filename="../src/gui/MainWindow.cc" line="471"/>
+        <location filename="../src/gui/MainWindow.cc" line="486"/>
         <source>Let&apos;s go!</source>
         <translation>C&apos;est parti!</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="463"/>
+        <location filename="../src/gui/MainWindow.cc" line="473"/>
+        <location filename="../src/gui/MainWindow.cc" line="488"/>
         <source>Maybe later</source>
         <translation>Peut-être plus tard</translation>
     </message>
@@ -3334,17 +3351,17 @@
 <context>
     <name>PreferencesFontChooser</name>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="377"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="375"/>
         <source>Change...</source>
         <translation>Changer...</translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="372"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="370"/>
         <source>%1:</source>
         <translation>%1:</translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="374"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="372"/>
         <source>Default</source>
         <translation>Défaut</translation>
     </message>
@@ -3914,22 +3931,22 @@
 <context>
     <name>ResultsViewPreferences</name>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="191"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="189"/>
         <source>Results View</source>
         <translation>Liste des résultats</translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="208"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="206"/>
         <source>Main writing</source>
         <translation>Écriture principale</translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="214"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="212"/>
         <source>Readings and alternate writings</source>
         <translation>Lectures et écritures alternatives</translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="220"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="218"/>
         <source>Definitions</source>
         <translation>Définitions</translation>
     </message>
@@ -4056,7 +4073,7 @@
 <context>
     <name>ResultsViewPrefsDummyEntry</name>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="187"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="185"/>
         <source>Romaji text</source>
         <translation>Texte en romaji</translation>
     </message>

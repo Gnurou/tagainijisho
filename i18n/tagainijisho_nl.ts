@@ -61,32 +61,32 @@
         <translation>Voorproefje</translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="279"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="277"/>
         <source>Detailed View</source>
         <translation>Gedetaileerde weergave</translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="294"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="292"/>
         <source>Default text</source>
         <translation>Standaard tekst</translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="300"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="298"/>
         <source>Kana header</source>
         <translation>Kana koppen</translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="306"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="304"/>
         <source>Kanji header</source>
         <translation>Kanji koppen</translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="312"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="310"/>
         <source>Kanji</source>
         <translation>Kanji</translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="319"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="317"/>
         <source>Kana</source>
         <translation>Kana</translation>
     </message>
@@ -320,46 +320,51 @@
     </message>
     <message>
         <location filename="../src/gui/GeneralPreferences.ui" line="94"/>
+        <source>Also check for development versions</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/GeneralPreferences.ui" line="101"/>
         <source>Next check:</source>
         <translation>Volgende controle:</translation>
     </message>
     <message>
-        <location filename="../src/gui/GeneralPreferences.ui" line="104"/>
+        <location filename="../src/gui/GeneralPreferences.ui" line="111"/>
         <source>Entries cache (advanced)</source>
         <translation>Ingangen cache (geavanceerd)</translation>
     </message>
     <message>
-        <location filename="../src/gui/GeneralPreferences.ui" line="112"/>
+        <location filename="../src/gui/GeneralPreferences.ui" line="119"/>
         <source>Default</source>
         <translation>Standaard</translation>
     </message>
     <message>
-        <location filename="../src/gui/GeneralPreferences.ui" line="128"/>
+        <location filename="../src/gui/GeneralPreferences.ui" line="135"/>
         <source>Defines how many recent entries are kept in memory. High values may improve performance when manipulating a large number of entries.</source>
         <translation>Hoeveel onlangs ingevoerde ingangen in het geheugen bewaard worden. Hogere waarden kunnen de prestatie ten goede komen als zeer veel ingangen bewerkt worden.</translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="86"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="82"/>
         <source>General</source>
         <translation>Algemeen</translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="90"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="86"/>
         <source>Application-wide default font</source>
         <translation>Applicatiebreed standaard lettertype</translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="93"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="89"/>
         <source>Monday</source>
         <translation>Maandag</translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="94"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="90"/>
         <source>Sunday</source>
         <translation>Zondag</translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="133"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="130"/>
         <source>Next check: %1</source>
         <translation>Volgende controle: %1</translation>
     </message>
@@ -1349,298 +1354,310 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="114"/>
+        <location filename="../src/gui/MainWindow.cc" line="124"/>
         <source>&amp;Program</source>
         <translation>&amp;Programma</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="116"/>
-        <location filename="../src/gui/MainWindow.cc" line="171"/>
+        <location filename="../src/gui/MainWindow.cc" line="126"/>
+        <location filename="../src/gui/MainWindow.cc" line="181"/>
         <source>Export user data...</source>
         <translation>Gebruiksgegevens exporteren...</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="117"/>
-        <location filename="../src/gui/MainWindow.cc" line="180"/>
+        <location filename="../src/gui/MainWindow.cc" line="127"/>
+        <location filename="../src/gui/MainWindow.cc" line="190"/>
         <source>Import user data...</source>
         <translation>Gebruiksgegevens importeren...</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="118"/>
+        <location filename="../src/gui/MainWindow.cc" line="128"/>
         <source>Preferences...</source>
         <translation>Voorkeuren...</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="121"/>
+        <location filename="../src/gui/MainWindow.cc" line="131"/>
         <source>&amp;Quit</source>
         <translation>A&amp;fsluiten</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="123"/>
+        <location filename="../src/gui/MainWindow.cc" line="133"/>
         <source>&amp;Search</source>
         <translation>&amp;Zoeken</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="127"/>
+        <location filename="../src/gui/MainWindow.cc" line="137"/>
         <source>&amp;Results</source>
         <translation>&amp;Resultaten</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="128"/>
+        <location filename="../src/gui/MainWindow.cc" line="138"/>
         <source>&amp;Print...</source>
         <translation>&amp;Printen...</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="130"/>
+        <location filename="../src/gui/MainWindow.cc" line="140"/>
         <source>Print entries displayed in result view</source>
         <translation>Print ingangen getoond in resultaatweergave</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="132"/>
+        <location filename="../src/gui/MainWindow.cc" line="142"/>
         <source>Print &amp;preview...</source>
         <translation>Print &amp;voorproefje...</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="133"/>
+        <location filename="../src/gui/MainWindow.cc" line="143"/>
         <source>Print preview of entries in result view</source>
         <translation>Print voorproefje van ingangen in resultaatweergave</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="135"/>
+        <location filename="../src/gui/MainWindow.cc" line="145"/>
         <source>Print &amp;booklet(s)...</source>
         <translation>Print &amp;boekje(s)...</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="136"/>
+        <location filename="../src/gui/MainWindow.cc" line="146"/>
         <source>Ctrl+B</source>
         <translation>Ctrl+B</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="137"/>
+        <location filename="../src/gui/MainWindow.cc" line="147"/>
         <source>Print entries displayed in result view as booklets</source>
         <translation>Print ingangen getoond in resultaatweergave als boekjes</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="139"/>
+        <location filename="../src/gui/MainWindow.cc" line="149"/>
         <source>Booklet(s) &amp;preview...</source>
         <translation>&amp;Voorproefje van boekje(s)...</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="140"/>
+        <location filename="../src/gui/MainWindow.cc" line="150"/>
         <source>Booklets print preview of entries in results list</source>
         <translation>Boekjes print voorproefje van ingangen in de resultatenlijst</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="142"/>
+        <location filename="../src/gui/MainWindow.cc" line="152"/>
         <source>Export displayed entries...</source>
         <translation>Exporteer weergegeven ingangen...</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="143"/>
+        <location filename="../src/gui/MainWindow.cc" line="153"/>
         <source>As a tab-separated file...</source>
         <translation>Als tab-gescheiden bestand...</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="145"/>
+        <location filename="../src/gui/MainWindow.cc" line="155"/>
         <source>&amp;Sets</source>
         <translation>&amp;Reeksen</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="146"/>
+        <location filename="../src/gui/MainWindow.cc" line="156"/>
         <source>&amp;New set from current search...</source>
         <translation>&amp;Nieuwe reeks uit huidige zoekopdracht...</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="148"/>
+        <location filename="../src/gui/MainWindow.cc" line="158"/>
         <source>&amp;New sets folder...</source>
         <translation>&amp;Nieuwe reeksenmap...</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="150"/>
+        <location filename="../src/gui/MainWindow.cc" line="160"/>
         <source>&amp;Organize sets...</source>
         <translation>Reeksen &amp;organiseren...</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="154"/>
+        <location filename="../src/gui/MainWindow.cc" line="164"/>
         <source>&amp;Practice</source>
         <translation>Oe&amp;fenen</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="155"/>
+        <location filename="../src/gui/MainWindow.cc" line="165"/>
         <source>Whole study list train &amp;settings...</source>
         <translation>Oefeninstellingen voor de hele &amp;studielijst...</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="158"/>
+        <location filename="../src/gui/MainWindow.cc" line="168"/>
         <source>&amp;Help</source>
         <translation>&amp;Help</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="159"/>
+        <location filename="../src/gui/MainWindow.cc" line="169"/>
         <source>&amp;Manual...</source>
         <translation>H&amp;andleiding...</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="161"/>
+        <location filename="../src/gui/MainWindow.cc" line="171"/>
         <source>&amp;Report a bug...</source>
         <translation>&amp;Rapporteer een bug...</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="162"/>
+        <location filename="../src/gui/MainWindow.cc" line="172"/>
         <source>&amp;Suggest a feature...</source>
         <translation>&amp;Suggesteer een feature...</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="163"/>
+        <location filename="../src/gui/MainWindow.cc" line="173"/>
         <source>Ask a &amp;question...</source>
         <translation>Stel een &amp;vraag...</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="164"/>
+        <location filename="../src/gui/MainWindow.cc" line="174"/>
         <source>Support Tagaini Jisho - Make a &amp;donation!</source>
         <translation>Steun Tagaini Jisho - &amp;Doneer!</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="165"/>
+        <location filename="../src/gui/MainWindow.cc" line="175"/>
         <source>&amp;About...</source>
         <translation>&amp;Over...</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="183"/>
+        <location filename="../src/gui/MainWindow.cc" line="193"/>
         <source>About to replace user data!</source>
         <translation>Gebruikersgegevens zullen worden vervangen!</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="183"/>
+        <location filename="../src/gui/MainWindow.cc" line="193"/>
         <source>&lt;b&gt;WARNING:&lt;/b&gt; All the user data (study list, tags, notes, training, ...) is going to be replaced by the selected user data file. Are you &lt;b&gt;sure&lt;/b&gt; you want to do this?</source>
         <translation>&lt;b&gt;LET OP:&lt;/b&gt; Alle gebruikersgegevens (studielijst, labels, aantekeningen, oefeningen, etc.) zullen worden vervangen door het geselecteerde gebruikersgegevensbestand. Weet je &lt;b&gt;zeker&lt;/b&gt; dat je dit wil doen?</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="190"/>
+        <location filename="../src/gui/MainWindow.cc" line="200"/>
         <source>Please restart Tagaini Jisho</source>
         <translation>Gelieve Tagaini Jisho opnieuw op te starten</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="190"/>
+        <location filename="../src/gui/MainWindow.cc" line="200"/>
         <source>The imported data will be available the next time you start Tagaini Jisho. All changes performed from now will be lost. Do you want to exit Tagaini Jisho now?</source>
         <translation>De geïmporteerde gegevens zullen de volgende keer dat Tagaini Jisho gestart wordt beschikbaar zijn. Alle wijzigingen die nu nog uitgevoerd worden zullen verloren gaan. Wil je Tagaini Jisho nu sluiten?</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="272"/>
+        <location filename="../src/gui/MainWindow.cc" line="282"/>
         <source>Preparing print job...</source>
         <translation>Printopdracht wordt voorbereid...</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="272"/>
+        <location filename="../src/gui/MainWindow.cc" line="282"/>
         <source>Abort</source>
         <translation>Annuleren</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="274"/>
+        <location filename="../src/gui/MainWindow.cc" line="284"/>
         <source>Printing...</source>
         <translation>Aan het printen...</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="338"/>
+        <location filename="../src/gui/MainWindow.cc" line="348"/>
         <source>Print preview</source>
         <translation>Print-voorproefje</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="346"/>
+        <location filename="../src/gui/MainWindow.cc" line="356"/>
         <source>Booklet print</source>
         <translation>Boekje printen</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="354"/>
+        <location filename="../src/gui/MainWindow.cc" line="364"/>
         <source>Booklet print preview</source>
         <translation>Boekje print-voorproefje</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="361"/>
+        <location filename="../src/gui/MainWindow.cc" line="371"/>
         <source>Export to tab-separated file...</source>
         <translation>Exporteer als tab-gescheiden bestand...</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="365"/>
+        <location filename="../src/gui/MainWindow.cc" line="375"/>
         <source>Cannot write file</source>
         <translation>Kan bestand niet wegschrijven</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="365"/>
+        <location filename="../src/gui/MainWindow.cc" line="375"/>
         <source>Unable to write file %1.</source>
         <translation>Kan bestand %1 niet wegschrijven.</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="389"/>
+        <location filename="../src/gui/MainWindow.cc" line="399"/>
         <source>Error writing file</source>
         <translation>Fout opgetreden bij wegschrijven bestand</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="389"/>
+        <location filename="../src/gui/MainWindow.cc" line="399"/>
         <source>Error while writing file %1.</source>
         <translation>Er is een fout opgetreden bij het wegschrijven van bestand %1.</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="458"/>
+        <location filename="../src/gui/MainWindow.cc" line="468"/>
         <source>An update is available!</source>
         <translation>Een update is beschikbaar!</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="459"/>
+        <location filename="../src/gui/MainWindow.cc" line="469"/>
         <source>Version %1 of Tagaini Jisho is available. Do you want to download it now?</source>
         <translation>Versie %1 van Tagaini Jisho is beschikbaar. Wil je deze nu downloaden?</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="461"/>
+        <location filename="../src/gui/MainWindow.cc" line="471"/>
+        <location filename="../src/gui/MainWindow.cc" line="486"/>
         <source>Let&apos;s go!</source>
         <translation>Kom maar op!</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="463"/>
+        <location filename="../src/gui/MainWindow.cc" line="473"/>
+        <location filename="../src/gui/MainWindow.cc" line="488"/>
         <source>Maybe later</source>
         <translation>Misschien later</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/MainWindow.cc" line="483"/>
+        <source>A development update is available!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/MainWindow.cc" line="484"/>
+        <source>Development version %1 of Tagaini Jisho is available. Do you want to download it now?</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>http://www.tagaini.net</source>
         <translation type="obsolete">http://www.tagaini.net</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="513"/>
+        <location filename="../src/gui/MainWindow.cc" line="538"/>
         <source>Create new set here...</source>
         <translation>Maak hier een nieuwe reeks aan...</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="515"/>
+        <location filename="../src/gui/MainWindow.cc" line="540"/>
         <source>Create new folder here...</source>
         <translation>Maak hier een nieuwe map aan...</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="527"/>
+        <location filename="../src/gui/MainWindow.cc" line="552"/>
         <source>New set</source>
         <translation>Nieuwe reeks</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="527"/>
+        <location filename="../src/gui/MainWindow.cc" line="552"/>
         <source>Please enter a name for this set:</source>
         <translation>Geef een naam op voor deze reeks:</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="527"/>
+        <location filename="../src/gui/MainWindow.cc" line="552"/>
         <source>Unnamed set</source>
         <translation>Naamloze reeks</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="549"/>
+        <location filename="../src/gui/MainWindow.cc" line="574"/>
         <source>New sets folder</source>
         <translation>Nieuwe reeksenmap</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="549"/>
+        <location filename="../src/gui/MainWindow.cc" line="574"/>
         <source>Please enter a name for this folder</source>
         <translation>Geef een naam op voor deze map</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="549"/>
+        <location filename="../src/gui/MainWindow.cc" line="574"/>
         <source>Unnamed folder</source>
         <translation>Naamloze map</translation>
     </message>
@@ -1698,17 +1715,17 @@
 <context>
     <name>PreferencesFontChooser</name>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="372"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="370"/>
         <source>%1:</source>
         <translation>%1:</translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="374"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="372"/>
         <source>Default</source>
         <translation>Standaard</translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="377"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="375"/>
         <source>Change...</source>
         <translation>Wijzigen...</translation>
     </message>
@@ -1896,22 +1913,22 @@
 <context>
     <name>ResultsViewPreferences</name>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="191"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="189"/>
         <source>Results View</source>
         <translation>Resultaatweergave</translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="208"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="206"/>
         <source>Main writing</source>
         <translation>Voornaamste schrijfwijze</translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="214"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="212"/>
         <source>Readings and alternate writings</source>
         <translation>Lezingen en alternatieve schrijfwijzes</translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="220"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="218"/>
         <source>Definitions</source>
         <translation>Definities</translation>
     </message>
@@ -1979,7 +1996,7 @@
 <context>
     <name>ResultsViewPrefsDummyEntry</name>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="187"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="185"/>
         <source>Romaji text</source>
         <translation>Rōmaji tekst</translation>
     </message>
