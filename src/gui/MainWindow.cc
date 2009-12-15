@@ -55,7 +55,14 @@
 
 MainWindow *MainWindow::_instance = 0;
 UpdateChecker *_updateChecker = 0;
+UpdateChecker *_betaUpdateChecker = 0;
 PreferenceItem<QByteArray> MainWindow::windowGeometry("mainWindow", "geometry", "");
+
+PreferenceItem<QString> MainWindow::applicationFont("", "defaultFont", "");
+PreferenceItem<bool> MainWindow::autoCheckUpdates("", "autoCheckUpdates", true);
+PreferenceItem<bool> MainWindow::autoCheckBetaUpdates("", "autoCheckBetaUpdates", false);
+PreferenceItem<int> MainWindow::updateCheckInterval("", "updateCheckInterval", 3);
+
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), _tagsListMenuActionGroup(0)
 {
@@ -71,13 +78,16 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), _tagsListMenuActi
 
 	restoreGeometry(windowGeometry.value());
 
-	_updateChecker = new UpdateChecker(this);
+	_updateChecker = new UpdateChecker("/updates/latestversion.php", this);
+	_betaUpdateChecker = new UpdateChecker("/updates/latestbetaversion.php", this);
 	// Message has to be queued here because of a bug in Qt 4.4 that will
 	// make the QHttp::requestFinished signal being emitted twice if the
 	// slot does not return after a couple of seconds. This problem should be
 	// fixed in Qt 4.5.
 	connect(_updateChecker, SIGNAL(updateAvailable(const QString &)),
 			this, SLOT(updateAvailable(const QString &)), Qt::QueuedConnection);
+	connect(_betaUpdateChecker, SIGNAL(updateAvailable(const QString &)),
+			this, SLOT(betaUpdateAvailable(const QString &)), Qt::QueuedConnection);
 	connect(&_updateTimer, SIGNAL(timeout()), this, SLOT(updateCheck()));
 	// Check every 10 minutes if the update check delay expired
 	_updateTimer.setInterval(600000);
@@ -95,11 +105,11 @@ MainWindow::~MainWindow()
 PreferenceItem<QDateTime> MainWindow::lastUpdateCheck("", "lastUpdateCheck", QDateTime(QDate(2000, 1, 1)));
 void MainWindow::updateCheck()
 {
-	if (GeneralPreferences::autoCheckUpdates.value()) {
+	if (autoCheckUpdates.value()) {
 		QDateTime dt(lastUpdateCheck.value());
-		int updateCheckInterval = GeneralPreferences::updateCheckInterval.value();
-		if (!dt.isValid() || dt.addDays(updateCheckInterval) <= QDateTime::currentDateTime()) {
+		if (!dt.isValid() || dt.addDays(updateCheckInterval.value()) <= QDateTime::currentDateTime()) {
 			_updateChecker->checkForUpdates();
+			if (autoCheckBetaUpdates.value()) _betaUpdateChecker->checkForUpdates();
 			lastUpdateCheck.set(QDateTime::currentDateTime());
 		}
 	}
@@ -457,6 +467,21 @@ void MainWindow::updateAvailable(const QString &version)
 {
 	QMessageBox messageBox(QMessageBox::Information, tr("An update is available!"),
 			tr("Version %1 of Tagaini Jisho is available. Do you want to download it now?").arg(version),
+			QMessageBox::NoButton, this);
+	QPushButton downloadButton(tr("Let's go!"));
+	messageBox.addButton(&downloadButton, QMessageBox::AcceptRole);
+	QPushButton laterButton(tr("Maybe later"));
+	messageBox.addButton(&laterButton, QMessageBox::RejectRole);
+	if (messageBox.exec() == QMessageBox::AcceptRole) {
+		QDesktopServices::openUrl(QUrl("http://www.tagaini.net"));
+	}
+	else _updateTimer.stop();
+}
+
+void MainWindow::betaUpdateAvailable(const QString &version)
+{
+	QMessageBox messageBox(QMessageBox::Information, tr("A development update is available!"),
+			tr("Development version %1 of Tagaini Jisho is available. Do you want to download it now?").arg(version),
 			QMessageBox::NoButton, this);
 	QPushButton downloadButton(tr("Let's go!"));
 	messageBox.addButton(&downloadButton, QMessageBox::AcceptRole);

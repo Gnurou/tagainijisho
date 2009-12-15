@@ -96,6 +96,7 @@ protected slots:
 	void featureRequest();
 	void askQuestion();
 	void updateAvailable(const QString &version);
+	void betaUpdateAvailable(const QString &version);
 	void updateCheck();
 
 	void populateSetsMenu();
@@ -120,6 +121,10 @@ public:
 
 	SearchWidget *searchWidget() { return _searchWidget; }
 
+	static PreferenceItem<QString> applicationFont;
+	static PreferenceItem<bool> autoCheckUpdates;
+	static PreferenceItem<bool> autoCheckBetaUpdates;
+	static PreferenceItem<int> updateCheckInterval;
 	static PreferenceItem<QDateTime> lastUpdateCheck;
 };
 

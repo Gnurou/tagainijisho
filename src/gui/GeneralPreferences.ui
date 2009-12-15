@@ -89,6 +89,13 @@
        </layout>
       </item>
       <item>
+       <widget class="QCheckBox" name="checkForBetaUpdates">
+        <property name="text">
+         <string>Also check for development versions</string>
+        </property>
+       </widget>
+      </item>
+      <item>
        <widget class="QLabel" name="nextCheck">
         <property name="text">
          <string>Next check:</string>
@@ -141,9 +148,27 @@
   <tabstop>firstDayOfWeek</tabstop>
   <tabstop>checkForUpdates</tabstop>
   <tabstop>checkInterval</tabstop>
+  <tabstop>checkForBetaUpdates</tabstop>
   <tabstop>cacheSizeDefault</tabstop>
   <tabstop>cacheSize</tabstop>
  </tabstops>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>checkForUpdates</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>checkForBetaUpdates</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>68</x>
+     <y>197</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>68</x>
+     <y>223</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

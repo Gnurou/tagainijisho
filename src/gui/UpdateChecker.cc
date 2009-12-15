@@ -32,10 +32,9 @@
 #define PLATFORM "Unix/Embedded"
 #endif
 
-UpdateChecker::UpdateChecker(QObject *parent) : QObject(parent)
+UpdateChecker::UpdateChecker(const QString &versionURL, QObject *parent) : QObject(parent), _buffer(0), _versionURL(versionURL)
 {
 	_http = new QHttp("www.tagaini.net", 80, this);
-	_buffer = new QBuffer(this);
 
 	connect(_http, SIGNAL(requestFinished(int, bool)),
 			this, SLOT(requestFinished(int, bool)));
@@ -45,11 +44,13 @@ UpdateChecker::~UpdateChecker()
 {
 }
 
-void UpdateChecker::checkForUpdates()
+void UpdateChecker::checkForUpdates(bool beta)
 {
-	QHttpRequestHeader request("GET", "/updates/latestversion.php");
+	QHttpRequestHeader request("GET", _versionURL);
 	request.setValue("Host", "www.tagaini.net");
 	request.setValue("User-Agent", QString("Tagaini Jisho %1 (%2)").arg(QUOTEMACRO(VERSION)).arg(PLATFORM));
+	if (_buffer) delete _buffer;
+	_buffer = new QBuffer(this);
 	_http->request(request, 0, _buffer);
 }
 

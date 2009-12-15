@@ -92,10 +92,6 @@ public slots:
 
 public:
 	GeneralPreferences(QWidget *parent = 0);
-
-	static PreferenceItem<QString> applicationFont;
-	static PreferenceItem<bool> autoCheckUpdates;
-	static PreferenceItem<int> updateCheckInterval;
 };
 
 class ResultsViewPrefsDummyEntry : public Entry

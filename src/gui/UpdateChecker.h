@@ -26,12 +26,13 @@ class UpdateChecker : public QObject
 {
 	Q_OBJECT
 private:
-	QHttp *_http;
 	QBuffer *_buffer;
+	QString _versionURL;
+	QHttp *_http;
 
 public:
-	UpdateChecker(QObject *parent = 0);
-	void checkForUpdates();
+	UpdateChecker(const QString &versionURL, QObject *parent = 0);
+	void checkForUpdates(bool beta = false);
 	virtual ~UpdateChecker();
 
 private slots:

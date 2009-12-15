@@ -79,10 +79,6 @@ void PreferencesWindow::applySettings() {
 	foreach (PreferencesWindowCategory *category, cats) category->updateUI();
 }
 
-PreferenceItem<QString> GeneralPreferences::applicationFont("", "defaultFont", "");
-PreferenceItem<bool> GeneralPreferences::autoCheckUpdates("", "autoCheckUpdates", true);
-PreferenceItem<int> GeneralPreferences::updateCheckInterval("", "updateCheckInterval", 3);
-
 GeneralPreferences::GeneralPreferences(QWidget *parent) : PreferencesWindowCategory(tr("General"), parent)
 {
 	setupUi(this);
@@ -101,13 +97,14 @@ GeneralPreferences::GeneralPreferences(QWidget *parent) : PreferencesWindowCateg
 
 void GeneralPreferences::refresh()
 {
-	fontChooser->setDefault(applicationFont.isDefault());
+	fontChooser->setDefault(MainWindow::applicationFont.isDefault());
 	fontChooser->setFont(QFont());
 
 	firstDayOfWeek->setCurrentIndex(firstDayOfWeek->findData(RelativeDate::firstDayOfWeek.value()));
 
-	checkForUpdates->setChecked(autoCheckUpdates.value());
-	checkInterval->setValue(updateCheckInterval.value());
+	checkForUpdates->setChecked(MainWindow::autoCheckUpdates.value());
+	checkForBetaUpdates->setChecked(MainWindow::autoCheckBetaUpdates.value());
+	checkInterval->setValue(MainWindow::updateCheckInterval.value());
 
 	cacheSize->setValue(EntriesCache::cacheSize.value());
 	cacheSizeDefault->setChecked(EntriesCache::cacheSize.isDefault());
@@ -151,15 +148,16 @@ void GeneralPreferences::applySettings()
 {
 	// Default font
 	const QFont &font = fontChooser->font();
-	if (fontChooser->isDefault()) applicationFont.reset();
-	else applicationFont.set(font.toString());
+	if (fontChooser->isDefault()) MainWindow::applicationFont.reset();
+	else MainWindow::applicationFont.set(font.toString());
 
 	// First day of week
 	RelativeDate::firstDayOfWeek.set(static_cast<Qt::DayOfWeek>(firstDayOfWeek->itemData(firstDayOfWeek->currentIndex()).toInt()));
 
 	// Updates check
-	autoCheckUpdates.set(checkForUpdates->isChecked());
-	updateCheckInterval.set(checkInterval->value());
+	MainWindow::autoCheckUpdates.set(checkForUpdates->isChecked());
+	MainWindow::autoCheckBetaUpdates.set(checkForBetaUpdates->isChecked());
+	MainWindow::updateCheckInterval.set(checkInterval->value());
 
 	// Cache size
 	if (cacheSizeDefault->isChecked()) EntriesCache::cacheSize.reset();

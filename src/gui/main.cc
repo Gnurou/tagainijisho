@@ -165,9 +165,9 @@ int main(int argc, char *argv[])
 	checkConfigurationVersion();
 
 	// Get the default font from the settings, if set
-	if (!GeneralPreferences::applicationFont.value().isEmpty()) {
+	if (!MainWindow::applicationFont.value().isEmpty()) {
 		QFont font;
-		font.fromString(GeneralPreferences::applicationFont.value());
+		font.fromString(MainWindow::applicationFont.value());
 		app.setFont(font);
 	}
 

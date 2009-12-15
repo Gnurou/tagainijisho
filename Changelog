@@ -30,6 +30,7 @@
 * Information displayed in the kanji tooltip is now configurable
 * Better score calculation system
 * Dutch translation by Jeroen Hoek
+* Option to check for beta updates
 
 0.2.3 released on 2009/07/27
 * Fixed display bug when selecting multiple entries in the results view
