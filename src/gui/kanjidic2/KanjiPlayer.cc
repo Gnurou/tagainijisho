@@ -200,8 +200,7 @@ void KanjiPlayer::renderCurrentState()
 	painter.setPen(pen);
 	renderer.renderStrokes(&painter);
 	if (highlightedComponent()) {
-		pen.setWidth(HIGHLIGHT_PEN_WIDTH);
-		pen.setColor(palette().color(QPalette::Shadow));
+		pen.setWidth(HIGHLIGHT_PEN_WIDTH + 3);
 		painter.setPen(pen);
 		renderer.renderComponentStrokes(*highlightedComponent(), &painter);
 	}
