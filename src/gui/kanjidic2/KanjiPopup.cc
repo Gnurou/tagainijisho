@@ -195,7 +195,7 @@ void KanjiPopup::setComponentsLabelText(int highlightPos)
 	const QPalette &palette(componentsLabel->palette());
 
 	if (componentsStrings.isEmpty()) componentsLabel->clear();
-	else componentsLabel->setText(QString("<style>a.highlighted { background-color: %1; color: %2; }</style>").arg(palette.color(QPalette::Highlight).name()).arg(palette.color(QPalette::HighlightedText).name()) + tr("<b>Components:</b> %1").arg(componentsStrings.join(" ")));
+	else componentsLabel->setText(QString("<style>a.highlighted { background-color: %1; color: %2; }</style>").arg(palette.color(QPalette::Highlight).name()).arg(palette.color(QPalette::HighlightedText).name()) + tr("<b>Components:</b>%2 %1").arg(componentsStrings.join(" ")).arg(componentsStrings.size() > 3 ? "<br/>" : ""));
 }
 
 void KanjiPopup::display(Kanjidic2Entry *entry)

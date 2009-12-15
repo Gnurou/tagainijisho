@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>194</width>
-    <height>192</height>
+    <width>150</width>
+    <height>152</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -157,6 +157,9 @@
     <layout class="QHBoxLayout" name="horizontalLayout_2">
      <item>
       <widget class="KanjiPlayer" name="stroke" native="true">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
        <property name="sizePolicy">
         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
          <horstretch>0</horstretch>
@@ -191,9 +194,6 @@
         <widget class="QLabel" name="componentsLabel">
          <property name="text">
           <string/>
-         </property>
-         <property name="wordWrap">
-          <bool>true</bool>
          </property>
         </widget>
        </item>

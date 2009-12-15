@@ -64,8 +64,6 @@ private:
 	QList<Stroke> _strokes;
 	// Associates the kanji strokes with their path
 	QMap<const KanjiStroke *, Stroke *> _strokesMap;
-	// Used to keep the outline at hand
-	QPainterPath _outlinePath;
 
 public:
 	KanjiRenderer();
@@ -73,11 +71,6 @@ public:
 	void setKanji(const Kanjidic2Entry *kanji);
 
 	const Kanjidic2Entry *kanji() { return static_cast<const Kanjidic2Entry *>(_kanji.constData()); }
-
-	/**
-	 * Render the outline of the kanji.
-	 */
-	void renderOutline(QPainter *painter);
 
 	/**
 	 * Render all the strokes of the kanji.

@@ -154,26 +154,6 @@ void KanjiRenderer::setKanji(const Kanjidic2Entry *kanji)
 		_strokes << Stroke(&stroke);
 		_strokesMap.insert(&stroke, &_strokes.last());
 	}
-
-	// TODO Move out of this? That should be possible...
-	// Build the whole kanji path
-//	QPainterPath kanjiPath;
-	_outlinePath = QPainterPath();
-	foreach(const Stroke &stroke, _strokes) {
-		_outlinePath.addPath(stroke.painterPath());
-//		kanjiPath.addPath(stroke.painterPath());
-	}
-
-	// Build the outline
-//	QPainterPathStroker stroker;
-//	stroker.setWidth(6);
-//	_outlinePath = QPainterPath(stroker.createStroke(kanjiPath).simplified());
-
-}
-
-void KanjiRenderer::renderOutline(QPainter *painter)
-{
-	painter->drawPath(_outlinePath);
 }
 
 void KanjiRenderer::renderStrokes(QPainter *painter)
