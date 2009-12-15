@@ -3,421 +3,18 @@
 <TS version="2.0" language="fr_FR">
 <defaultcodec>UTF-8</defaultcodec>
 <context>
-    <name></name>
-    <message>
-        <source>martial arts term</source>
-        <translation type="obsolete">terme  d&apos;arts martiaux</translation>
-    </message>
-    <message>
-        <source>military</source>
-        <translation type="obsolete">militaire</translation>
-    </message>
-    <message>
-        <source>food term</source>
-        <translation type="obsolete">nourriture</translation>
-    </message>
-    <message>
-        <source>computer terminology</source>
-        <translation type="obsolete">terminologie informatique</translation>
-    </message>
-    <message>
-        <source>Buddhist term</source>
-        <translation type="obsolete">terme Bouddhiste</translation>
-    </message>
-    <message>
-        <source>linguistics terminology</source>
-        <translation type="obsolete">terminologie linguistique</translation>
-    </message>
-    <message>
-        <source>geometry term</source>
-        <translation type="obsolete">terme de géométrie</translation>
-    </message>
-    <message>
-        <source>chemistry term</source>
-        <translation type="obsolete">terme de chimie</translation>
-    </message>
-    <message>
-        <source>physics terminology</source>
-        <translation type="obsolete">terme de physique</translation>
-    </message>
-    <message>
-        <source>mathematics</source>
-        <translation type="obsolete">mathématiques</translation>
-    </message>
-    <message>
-        <source>Kyoto-ben</source>
-        <translation type="obsolete">Kyoto-ben</translation>
-    </message>
-    <message>
-        <source>Tsugaru-ben</source>
-        <translation type="obsolete">Tsugaru-ben</translation>
-    </message>
-    <message>
-        <source>Tosa-ben</source>
-        <translation type="obsolete">Tosa-ben</translation>
-    </message>
-    <message>
-        <source>Kyuushuu-ben</source>
-        <translation type="obsolete">Kyuushuu-ben</translation>
-    </message>
-    <message>
-        <source>Ryuukyuu-ben</source>
-        <translation type="obsolete">Ryuukyuu-ben</translation>
-    </message>
-    <message>
-        <source>Kansai-ben</source>
-        <translation type="obsolete">Kansai-ben</translation>
-    </message>
-    <message>
-        <source>Osaka-ben</source>
-        <translation type="obsolete">Osaka-ben</translation>
-    </message>
-    <message>
-        <source>Touhoku-ben</source>
-        <translation type="obsolete">Touhoku-ben</translation>
-    </message>
-    <message>
-        <source>Kantou-ben</source>
-        <translation type="obsolete">Kantou-ben</translation>
-    </message>
-    <message>
-        <source>manga slang</source>
-        <translation type="obsolete">argot de manga</translation>
-    </message>
-    <message>
-        <source>polite (teineigo) language</source>
-        <translation type="obsolete">langage poli (teineigo)</translation>
-    </message>
-    <message>
-        <source>vulgar expression or word</source>
-        <translation type="obsolete">mot ou expression vulgaire</translation>
-    </message>
-    <message>
-        <source>idiomatic expression</source>
-        <translation type="obsolete">expression idiomatique</translation>
-    </message>
-    <message>
-        <source>honorific or respectful (sonkeigo) language</source>
-        <translation type="obsolete">langage honorifique ou respecteux (sonkeigo)</translation>
-    </message>
-    <message>
-        <source>female term or language</source>
-        <translation type="obsolete">langage ou terme féminin</translation>
-    </message>
-    <message>
-        <source>children&apos;s language</source>
-        <translation type="obsolete">langage enfantin</translation>
-    </message>
-    <message>
-        <source>obscure term</source>
-        <translation type="obsolete">terme obscure</translation>
-    </message>
-    <message>
-        <source>onomatopoeic or mimetic word</source>
-        <translation type="obsolete">onomatopée ou mimétisme</translation>
-    </message>
-    <message>
-        <source>poetical term</source>
-        <translation type="obsolete">terme poétique</translation>
-    </message>
-    <message>
-        <source>sensitive</source>
-        <translation type="obsolete">sensitif</translation>
-    </message>
-    <message>
-        <source>humble (kenjougo) language</source>
-        <translation type="obsolete">langage humble (kenjougo)</translation>
-    </message>
-    <message>
-        <source>abbreviation</source>
-        <translation type="obsolete">abbréviation</translation>
-    </message>
-    <message>
-        <source>familiar language</source>
-        <translation type="obsolete">langage familier</translation>
-    </message>
-    <message>
-        <source>rude or X-rated term (not displayed in educational software)</source>
-        <translation type="obsolete">terme brutal ou classé X (non-utilisé dans les logiciels éducatifs)</translation>
-    </message>
-    <message>
-        <source>archaism</source>
-        <translation type="obsolete">archaisme</translation>
-    </message>
-    <message>
-        <source>derogatory</source>
-        <translation type="obsolete">dérogatoire</translation>
-    </message>
-    <message>
-        <source>rare</source>
-        <translation type="obsolete">rare</translation>
-    </message>
-    <message>
-        <source>colloquialism</source>
-        <translation type="obsolete">colloquialisme</translation>
-    </message>
-    <message>
-        <source>word usually written using kana alone</source>
-        <translation type="obsolete">mot généralement écrit en kanas uniquement</translation>
-    </message>
-    <message>
-        <source>slang</source>
-        <translation type="obsolete">argot</translation>
-    </message>
-    <message>
-        <source>male term or language</source>
-        <translation type="obsolete">langage ou terme masculin</translation>
-    </message>
-    <message>
-        <source>obsolete term</source>
-        <translation type="obsolete">terme obsolete</translation>
-    </message>
-    <message>
-        <source>adverb taking the `to&apos; particle</source>
-        <translation type="obsolete">adverbe prenant la particule `to&apos;</translation>
-    </message>
-    <message>
-        <source>noun (temporal) (jisoumeishi)</source>
-        <translation type="obsolete">nom (temporel) (jisoumeishi)</translation>
-    </message>
-    <message>
-        <source>prefix</source>
-        <translation type="obsolete">préfixe</translation>
-    </message>
-    <message>
-        <source>`taru&apos; adjective</source>
-        <translation type="obsolete">adjectif `taru&apos;</translation>
-    </message>
-    <message>
-        <source>interjection (kandoushi)</source>
-        <translation type="obsolete">interjection (kandoushi)</translation>
-    </message>
-    <message>
-        <source>intransitive verb</source>
-        <translation type="obsolete">verbe intransitif</translation>
-    </message>
-</context>
-<context>
-    <name>@default</name>
-    <message>
-        <source>martial arts term</source>
-        <translation type="obsolete">terme  d&apos;arts martiaux</translation>
-    </message>
-    <message>
-        <source>military</source>
-        <translation type="obsolete">militaire</translation>
-    </message>
-    <message>
-        <source>food term</source>
-        <translation type="obsolete">nourriture</translation>
-    </message>
-    <message>
-        <source>computer terminology</source>
-        <translation type="obsolete">terminologie informatique</translation>
-    </message>
-    <message>
-        <source>Buddhist term</source>
-        <translation type="obsolete">terme Bouddhiste</translation>
-    </message>
-    <message>
-        <source>linguistics terminology</source>
-        <translation type="obsolete">terminologie linguistique</translation>
-    </message>
-    <message>
-        <source>geometry term</source>
-        <translation type="obsolete">terme de géométrie</translation>
-    </message>
-    <message>
-        <source>chemistry term</source>
-        <translation type="obsolete">terme de chimie</translation>
-    </message>
-    <message>
-        <source>physics terminology</source>
-        <translation type="obsolete">terme de physique</translation>
-    </message>
-    <message>
-        <source>mathematics</source>
-        <translation type="obsolete">mathématiques</translation>
-    </message>
-    <message>
-        <source>Kyoto-ben</source>
-        <translation type="obsolete">Kyoto-ben</translation>
-    </message>
-    <message>
-        <source>Tsugaru-ben</source>
-        <translation type="obsolete">Tsugaru-ben</translation>
-    </message>
-    <message>
-        <source>Tosa-ben</source>
-        <translation type="obsolete">Tosa-ben</translation>
-    </message>
-    <message>
-        <source>Kyuushuu-ben</source>
-        <translation type="obsolete">Kyuushuu-ben</translation>
-    </message>
-    <message>
-        <source>Ryuukyuu-ben</source>
-        <translation type="obsolete">Ryuukyuu-ben</translation>
-    </message>
-    <message>
-        <source>Kansai-ben</source>
-        <translation type="obsolete">Kansai-ben</translation>
-    </message>
-    <message>
-        <source>Osaka-ben</source>
-        <translation type="obsolete">Osaka-ben</translation>
-    </message>
-    <message>
-        <source>Touhoku-ben</source>
-        <translation type="obsolete">Touhoku-ben</translation>
-    </message>
-    <message>
-        <source>Kantou-ben</source>
-        <translation type="obsolete">Kantou-ben</translation>
-    </message>
-    <message>
-        <source>manga slang</source>
-        <translation type="obsolete">argot de manga</translation>
-    </message>
-    <message>
-        <source>polite (teineigo) language</source>
-        <translation type="obsolete">langage poli (teineigo)</translation>
-    </message>
-    <message>
-        <source>vulgar expression or word</source>
-        <translation type="obsolete">mot ou expression vulgaire</translation>
-    </message>
-    <message>
-        <source>idiomatic expression</source>
-        <translation type="obsolete">expression idiomatique</translation>
-    </message>
-    <message>
-        <source>honorific or respectful (sonkeigo) language</source>
-        <translation type="obsolete">langage honorifique ou respecteux (sonkeigo)</translation>
-    </message>
-    <message>
-        <source>female term or language</source>
-        <translation type="obsolete">langage ou terme féminin</translation>
-    </message>
-    <message>
-        <source>children&apos;s language</source>
-        <translation type="obsolete">langage enfantin</translation>
-    </message>
-    <message>
-        <source>obscure term</source>
-        <translation type="obsolete">terme obscure</translation>
-    </message>
-    <message>
-        <source>onomatopoeic or mimetic word</source>
-        <translation type="obsolete">onomatopée ou mimétisme</translation>
-    </message>
-    <message>
-        <source>poetical term</source>
-        <translation type="obsolete">terme poétique</translation>
-    </message>
-    <message>
-        <source>sensitive</source>
-        <translation type="obsolete">sensitif</translation>
-    </message>
-    <message>
-        <source>humble (kenjougo) language</source>
-        <translation type="obsolete">langage humble (kenjougo)</translation>
-    </message>
-    <message>
-        <source>abbreviation</source>
-        <translation type="obsolete">abbréviation</translation>
-    </message>
-    <message>
-        <source>familiar language</source>
-        <translation type="obsolete">langage familier</translation>
-    </message>
-    <message>
-        <source>rude or X-rated term (not displayed in educational software)</source>
-        <translation type="obsolete">terme brutal ou classé X (non-utilisé dans les logiciels éducatifs)</translation>
-    </message>
-    <message>
-        <source>archaism</source>
-        <translation type="obsolete">archaisme</translation>
-    </message>
-    <message>
-        <source>derogatory</source>
-        <translation type="obsolete">dérogatoire</translation>
-    </message>
-    <message>
-        <source>rare</source>
-        <translation type="obsolete">rare</translation>
-    </message>
-    <message>
-        <source>colloquialism</source>
-        <translation type="obsolete">colloquialisme</translation>
-    </message>
-    <message>
-        <source>word usually written using kana alone</source>
-        <translation type="obsolete">mot généralement écrit en kanas uniquement</translation>
-    </message>
-    <message>
-        <source>slang</source>
-        <translation type="obsolete">argot</translation>
-    </message>
-    <message>
-        <source>male term or language</source>
-        <translation type="obsolete">langage ou terme masculin</translation>
-    </message>
-    <message>
-        <source>obsolete term</source>
-        <translation type="obsolete">terme obsolete</translation>
-    </message>
-    <message>
-        <source>adverb taking the `to&apos; particle</source>
-        <translation type="obsolete">adverbe prenant la particule `to&apos;</translation>
-    </message>
-    <message>
-        <source>noun (temporal) (jisoumeishi)</source>
-        <translation type="obsolete">nom (temporel) (jisoumeishi)</translation>
-    </message>
-    <message>
-        <source>prefix</source>
-        <translation type="obsolete">préfixe</translation>
-    </message>
-    <message>
-        <source>`taru&apos; adjective</source>
-        <translation type="obsolete">adjectif `taru&apos;</translation>
-    </message>
-    <message>
-        <source>interjection (kandoushi)</source>
-        <translation type="obsolete">interjection (kandoushi)</translation>
-    </message>
-    <message>
-        <source>intransitive verb</source>
-        <translation type="obsolete">verbe intransitif</translation>
-    </message>
-</context>
-<context>
     <name>AboutDialog</name>
     <message>
         <location filename="../src/gui/AboutDialog.ui" line="14"/>
+        <location filename="../src/gui/ui_AboutDialog.h" line="94"/>
         <source>About Tagaini Jisho</source>
         <translation>À propos de Tagaini Jisho</translation>
     </message>
     <message>
         <location filename="../src/gui/AboutDialog.ui" line="27"/>
+        <location filename="../src/gui/ui_AboutDialog.h" line="95"/>
         <source>Tagaini Jisho</source>
         <translation>Tagaini Jisho</translation>
-    </message>
-</context>
-<context>
-    <name>DBWorker</name>
-    <message>
-        <source>Cannot open database: </source>
-        <translation type="obsolete">Impossible d&apos;ouvrir la base de données:</translation>
-    </message>
-    <message>
-        <source>Tagaini Jisho database error</source>
-        <translation type="obsolete">Tagaini Jisho: erreur de base de données</translation>
-    </message>
-    <message>
-        <source>Fatal error opening user database file: </source>
-        <translation type="obsolete">Erreur fatale lors de l&apos;ouvertude du fichier de base de données:</translation>
     </message>
 </context>
 <context>
@@ -467,76 +64,43 @@
     </message>
     <message>
         <location filename="../src/gui/DetailedViewPreferences.ui" line="14"/>
+        <location filename="../src/gui/ui_DetailedViewPreferences.h" line="79"/>
         <source>Form</source>
         <translation>Formulaire</translation>
     </message>
     <message>
         <location filename="../src/gui/DetailedViewPreferences.ui" line="20"/>
+        <location filename="../src/gui/ui_DetailedViewPreferences.h" line="80"/>
         <source>General</source>
         <translation>Général</translation>
     </message>
     <message>
         <location filename="../src/gui/DetailedViewPreferences.ui" line="26"/>
+        <location filename="../src/gui/ui_DetailedViewPreferences.h" line="81"/>
         <source>Smooth scrolling</source>
         <translation>Défilement fluide</translation>
     </message>
     <message>
         <location filename="../src/gui/DetailedViewPreferences.ui" line="33"/>
+        <location filename="../src/gui/ui_DetailedViewPreferences.h" line="82"/>
         <source>Show JLPT level in short descriptions</source>
         <translation>Montrer le niveau JLPT dans les descriptions courtes</translation>
     </message>
     <message>
         <location filename="../src/gui/DetailedViewPreferences.ui" line="43"/>
+        <location filename="../src/gui/ui_DetailedViewPreferences.h" line="83"/>
         <source>Fonts</source>
         <translation>Polices</translation>
     </message>
     <message>
         <location filename="../src/gui/DetailedViewPreferences.ui" line="50"/>
+        <location filename="../src/gui/ui_DetailedViewPreferences.h" line="84"/>
         <source>Preview</source>
         <translation>Prévisualisation</translation>
     </message>
 </context>
 <context>
-    <name>DetailedViewPrefs</name>
-    <message>
-        <source>Detailed View</source>
-        <translation type="obsolete">Vue détaillée</translation>
-    </message>
-    <message>
-        <source>Preview</source>
-        <translation type="obsolete">Prévisualisation</translation>
-    </message>
-    <message>
-        <source>Fonts</source>
-        <translation type="obsolete">Polices</translation>
-    </message>
-    <message>
-        <source>Default text</source>
-        <translation type="obsolete">Texte par défaut</translation>
-    </message>
-    <message>
-        <source>Kana header</source>
-        <translation type="obsolete">Entête Kana</translation>
-    </message>
-    <message>
-        <source>Kanji header</source>
-        <translation type="obsolete">Entête Kanji</translation>
-    </message>
-    <message>
-        <source>Kanji</source>
-        <translation type="obsolete">Kanji</translation>
-    </message>
-    <message>
-        <source>Kana</source>
-        <translation type="obsolete">Kana</translation>
-    </message>
-</context>
-<context>
     <name>EditEntryNotesDialog</name>
-    <message>
-        <source>Edit notes</source>
-        <translation type="obsolete">Éditer les notes</translation>
-    </message>
     <message>
         <location filename="../src/gui/EditEntryNotesDialog.cc" line="86"/>
         <source>Notes for %1</source>
@@ -556,41 +120,6 @@
         <location filename="../src/gui/EditEntryNotesDialog.cc" line="108"/>
         <source>&amp;Delete note</source>
         <translation>&amp;Effacer note</translation>
-    </message>
-</context>
-<context>
-    <name>Entry</name>
-    <message>
-        <source>Notes:</source>
-        <translation type="obsolete">Notes: </translation>
-    </message>
-    <message>
-        <source>Studied since %1.</source>
-        <translation type="obsolete">Étudié depuis le %1.</translation>
-    </message>
-    <message>
-        <source> Score: %1.</source>
-        <translation type="obsolete">Score: %1.</translation>
-    </message>
-    <message>
-        <source> Last trained on %1.</source>
-        <translation type="obsolete">Dernier entraînement le %1.</translation>
-    </message>
-    <message>
-        <source> Last mistaken on %1.</source>
-        <translation type="obsolete">Dernière erreur le %1.</translation>
-    </message>
-    <message>
-        <source> Never trained.</source>
-        <translation type="obsolete">Jamais entraîné.</translation>
-    </message>
-    <message>
-        <source>Studied since </source>
-        <translation type="obsolete">Étudié depuis le </translation>
-    </message>
-    <message>
-        <source>. Score: </source>
-        <translation type="obsolete">. Score: </translation>
     </message>
 </context>
 <context>
@@ -675,13 +204,6 @@
     </message>
 </context>
 <context>
-    <name>EntryMenuHandler</name>
-    <message>
-        <source>&amp;Open in detailed view...</source>
-        <translation type="obsolete">&amp;Ouvrir dans la vue détaillée...</translation>
-    </message>
-</context>
-<context>
     <name>EntryNotesModel</name>
     <message>
         <location filename="../src/gui/EditEntryNotesDialog.cc" line="43"/>
@@ -712,10 +234,6 @@
         <translation>Kanji</translation>
     </message>
     <message>
-        <source>Kanjis</source>
-        <translation type="obsolete">Kanjis</translation>
-    </message>
-    <message>
         <location filename="../src/gui/SearchBar.h" line="207"/>
         <source>Entry type filter</source>
         <translation>Filtre de type des entrées</translation>
@@ -724,10 +242,6 @@
 <context>
     <name>FindHomonymsJob</name>
     <message>
-        <source>&lt;b&gt;Homonyms:&lt;/b&gt;</source>
-        <translation type="obsolete">&lt;b&gt;Homonymes:&lt;/b&gt;</translation>
-    </message>
-    <message>
         <location filename="../src/gui/jmdict/JMdictEntryFormatter.cc" line="614"/>
         <source>Homophones:</source>
         <translation>Homophones:</translation>
@@ -735,18 +249,6 @@
 </context>
 <context>
     <name>FindVerbBuddyJob</name>
-    <message>
-        <source>&lt;b&gt;Transitive buddy:&lt;/b&gt; </source>
-        <translation type="obsolete">&lt;b&gt;Équivalent transitif:&lt;/b&gt; </translation>
-    </message>
-    <message>
-        <source>&lt;b&gt;Intransitive buddy:&lt;/b&gt; </source>
-        <translation type="obsolete">&lt;b&gt;Équivalent intransitif:&lt;/b&gt; </translation>
-    </message>
-    <message>
-        <source>&lt;b&gt;Buddy:&lt;/b&gt; </source>
-        <translation type="obsolete">&lt;b&gt;Compagnon:&lt;/b&gt; </translation>
-    </message>
     <message>
         <location filename="../src/gui/jmdict/JMdictEntryFormatter.cc" line="588"/>
         <source>Transitive buddy:</source>
@@ -792,164 +294,93 @@
     </message>
     <message>
         <location filename="../src/gui/GeneralPreferences.ui" line="14"/>
+        <location filename="../src/gui/ui_GeneralPreferences.h" line="168"/>
         <source>Form</source>
         <translation>Formulaire</translation>
     </message>
     <message>
         <location filename="../src/gui/GeneralPreferences.ui" line="20"/>
+        <location filename="../src/gui/ui_GeneralPreferences.h" line="169"/>
         <source>Application default font</source>
         <translation>Police par défaut de l&apos;application</translation>
     </message>
     <message>
         <location filename="../src/gui/GeneralPreferences.ui" line="26"/>
+        <location filename="../src/gui/ui_GeneralPreferences.h" line="170"/>
         <source>You need to restart Tagaini Jisho for this change to take effect.</source>
         <translation>Vous devez redémarrer Tagaini Jisho pour que ce changement prenne effet.</translation>
     </message>
     <message>
         <location filename="../src/gui/GeneralPreferences.ui" line="39"/>
+        <location filename="../src/gui/ui_GeneralPreferences.h" line="171"/>
         <source>Dates</source>
         <translation>Dates</translation>
     </message>
     <message>
         <location filename="../src/gui/GeneralPreferences.ui" line="45"/>
+        <location filename="../src/gui/ui_GeneralPreferences.h" line="172"/>
         <source>Weeks start on</source>
         <translation>Les semaines commencent le</translation>
     </message>
     <message>
         <location filename="../src/gui/GeneralPreferences.ui" line="58"/>
+        <location filename="../src/gui/ui_GeneralPreferences.h" line="173"/>
         <source>Updates</source>
         <translation>Mises à jour</translation>
     </message>
     <message>
         <location filename="../src/gui/GeneralPreferences.ui" line="66"/>
+        <location filename="../src/gui/ui_GeneralPreferences.h" line="174"/>
         <source>Check for updates</source>
         <translation>Vérifier les mises à jour</translation>
     </message>
     <message>
         <location filename="../src/gui/GeneralPreferences.ui" line="73"/>
+        <location filename="../src/gui/ui_GeneralPreferences.h" line="175"/>
         <source>every day</source>
         <translation>chaque jour</translation>
     </message>
     <message>
         <location filename="../src/gui/GeneralPreferences.ui" line="76"/>
+        <location filename="../src/gui/ui_GeneralPreferences.h" line="176"/>
         <source> days</source>
         <translation> jours</translation>
     </message>
     <message>
         <location filename="../src/gui/GeneralPreferences.ui" line="79"/>
+        <location filename="../src/gui/ui_GeneralPreferences.h" line="177"/>
         <source>every </source>
         <translation>tous les </translation>
     </message>
     <message>
         <location filename="../src/gui/GeneralPreferences.ui" line="94"/>
+        <location filename="../src/gui/ui_GeneralPreferences.h" line="178"/>
         <source>Also check for development versions</source>
         <translation>Vérifier également la disponibilité de versions de développement</translation>
     </message>
     <message>
         <location filename="../src/gui/GeneralPreferences.ui" line="101"/>
+        <location filename="../src/gui/ui_GeneralPreferences.h" line="179"/>
         <source>Next check:</source>
         <translation>Prochaine vérification: </translation>
     </message>
     <message>
         <location filename="../src/gui/GeneralPreferences.ui" line="111"/>
+        <location filename="../src/gui/ui_GeneralPreferences.h" line="180"/>
         <source>Entries cache (advanced)</source>
         <translation>Cache d&apos;entrées (avancé)</translation>
     </message>
     <message>
         <location filename="../src/gui/GeneralPreferences.ui" line="119"/>
+        <location filename="../src/gui/ui_GeneralPreferences.h" line="181"/>
         <source>Default</source>
         <translation>Défaut</translation>
     </message>
     <message>
         <location filename="../src/gui/GeneralPreferences.ui" line="135"/>
+        <location filename="../src/gui/ui_GeneralPreferences.h" line="182"/>
         <source>Defines how many recent entries are kept in memory. High values may improve performance when manipulating a large number of entries.</source>
         <translation>Définit le nombre d&apos;entrées gardées en mémoire. Une valeur élevée peut améliorer les performances en cas de manipulation de nombreuses entrées.</translation>
-    </message>
-</context>
-<context>
-    <name>GeneralPrefs</name>
-    <message>
-        <source>General</source>
-        <translation type="obsolete">Général</translation>
-    </message>
-    <message>
-        <source>Application default font</source>
-        <translation type="obsolete">Police par défaut de l&apos;application</translation>
-    </message>
-    <message>
-        <source>Application-wide default font</source>
-        <translation type="obsolete">Police par défaut de l&apos;application</translation>
-    </message>
-    <message>
-        <source>You need to restart Tagaini Jisho for this change to take effect.</source>
-        <translation type="obsolete">Vous devez redémarrer Tagaini Jisho pour que ce changement prenne effet.</translation>
-    </message>
-    <message>
-        <source>Dates</source>
-        <translation type="obsolete">Dates</translation>
-    </message>
-    <message>
-        <source>Monday</source>
-        <translation type="obsolete">Lundi</translation>
-    </message>
-    <message>
-        <source>Sunday</source>
-        <translation type="obsolete">Dimanche</translation>
-    </message>
-    <message>
-        <source>Weeks start on</source>
-        <translation type="obsolete">Les semaines commencent le</translation>
-    </message>
-    <message>
-        <source>Updates</source>
-        <translation type="obsolete">Mises à jour</translation>
-    </message>
-    <message>
-        <source>Check for updates</source>
-        <translation type="obsolete">Vérifier les mises à jour</translation>
-    </message>
-    <message>
-        <source>every</source>
-        <translation type="obsolete">tous les</translation>
-    </message>
-    <message>
-        <source>days</source>
-        <translation type="obsolete">jours</translation>
-    </message>
-    <message>
-        <source>Entries cache (advanced)</source>
-        <translation type="obsolete">Cache d&apos;entrées (avancé)</translation>
-    </message>
-    <message>
-        <source>Default</source>
-        <translation type="obsolete">Défaut</translation>
-    </message>
-    <message>
-        <source>Defines how many recent entries are kept in memory. High values may improve performance when manipulating a large number of entries.</source>
-        <translation type="obsolete">Définit le nombre d&apos;entrées gardées en mémoire. Une valeur élevée peut améliorer les performances en cas de manipulation de nombreuses entrées.</translation>
-    </message>
-    <message>
-        <source>Next check: %1</source>
-        <translation type="obsolete">Prochaine vérification: %1</translation>
-    </message>
-</context>
-<context>
-    <name>GetScoreRangeDialog</name>
-    <message>
-        <source>Enter the desired score range:</source>
-        <translation type="obsolete">Entrez l&apos;intervale de score désiré:</translation>
-    </message>
-    <message>
-        <source>From:</source>
-        <translation type="obsolete">De:</translation>
-    </message>
-    <message>
-        <source>To:</source>
-        <translation type="obsolete">À:</translation>
-    </message>
-    <message>
-        <source>Score range</source>
-        <translation type="obsolete">Intervalle de score</translation>
     </message>
 </context>
 <context>
@@ -988,37 +419,6 @@
         <location filename="../src/gui/SearchBar.cc" line="228"/>
         <source>JLPT</source>
         <translation>JLPT</translation>
-    </message>
-</context>
-<context>
-    <name>JMdictEntry</name>
-    <message>
-        <source>Alternate readings: </source>
-        <translation type="obsolete">Autres lectures:</translation>
-    </message>
-    <message>
-        <source>&lt;b&gt;Other readings:&lt;/b&gt; </source>
-        <translation type="obsolete">&lt;b&gt;Autres lectures:&lt;/b&gt; </translation>
-    </message>
-    <message>
-        <source>&lt;b&gt;Homophones:&lt;/b&gt;</source>
-        <translation type="obsolete">&lt;b&gt;Homophones:&lt;/b&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;b&gt;JLPT level:&lt;/b&gt; </source>
-        <translation type="obsolete">&lt;b&gt;Niveau JLPT:&lt;/b&gt; </translation>
-    </message>
-    <message>
-        <source>Other readings: </source>
-        <translation type="obsolete">Autres lectures: </translation>
-    </message>
-    <message>
-        <source>Variants:</source>
-        <translation type="obsolete">Variantes:</translation>
-    </message>
-    <message>
-        <source>JLPT level:</source>
-        <translation type="obsolete">Niveau JLPT:</translation>
     </message>
 </context>
 <context>
@@ -1092,388 +492,469 @@
 <context>
     <name>JMdictLongDescs</name>
     <message>
+        <location filename="../src/core/jmdict/JMdictDefs.cc" line="30"/>
         <source>martial arts term</source>
-        <translation type="obsolete">terme d&apos;arts martiaux</translation>
+        <translation>terme d&apos;arts martiaux</translation>
     </message>
     <message>
+        <location filename="../src/core/jmdict/JMdictDefs.cc" line="31"/>
         <source>military</source>
-        <translation type="obsolete">militaire</translation>
+        <translation>militaire</translation>
     </message>
     <message>
+        <location filename="../src/core/jmdict/JMdictDefs.cc" line="32"/>
         <source>food term</source>
-        <translation type="obsolete">nourriture</translation>
+        <translation>nourriture</translation>
     </message>
     <message>
+        <location filename="../src/core/jmdict/JMdictDefs.cc" line="33"/>
         <source>computer terminology</source>
-        <translation type="obsolete">terminologie informatique</translation>
+        <translation>terminologie informatique</translation>
     </message>
     <message>
+        <location filename="../src/core/jmdict/JMdictDefs.cc" line="34"/>
         <source>Buddhist term</source>
-        <translation type="obsolete">terme Bouddhiste</translation>
+        <translation>terme Bouddhiste</translation>
     </message>
     <message>
+        <location filename="../src/core/jmdict/JMdictDefs.cc" line="35"/>
         <source>linguistics terminology</source>
-        <translation type="obsolete">terminologie linguistique</translation>
+        <translation>terminologie linguistique</translation>
     </message>
     <message>
+        <location filename="../src/core/jmdict/JMdictDefs.cc" line="36"/>
         <source>geometry term</source>
-        <translation type="obsolete">terme de géométrie</translation>
+        <translation>terme de géométrie</translation>
     </message>
     <message>
+        <location filename="../src/core/jmdict/JMdictDefs.cc" line="37"/>
         <source>chemistry term</source>
-        <translation type="obsolete">terme de chimie</translation>
+        <translation>terme de chimie</translation>
     </message>
     <message>
+        <location filename="../src/core/jmdict/JMdictDefs.cc" line="38"/>
         <source>physics terminology</source>
-        <translation type="obsolete">terme de physique</translation>
+        <translation>terme de physique</translation>
     </message>
     <message>
+        <location filename="../src/core/jmdict/JMdictDefs.cc" line="39"/>
         <source>mathematics</source>
-        <translation type="obsolete">mathématiques</translation>
+        <translation>mathématiques</translation>
     </message>
     <message>
+        <location filename="../src/core/jmdict/JMdictDefs.cc" line="72"/>
         <source>Nagano-ben</source>
-        <translation type="obsolete">Nagano-ben</translation>
+        <translation>Nagano-ben</translation>
     </message>
     <message>
+        <location filename="../src/core/jmdict/JMdictDefs.cc" line="73"/>
         <source>Kyoto-ben</source>
-        <translation type="obsolete">Kyoto-ben</translation>
+        <translation>Kyoto-ben</translation>
     </message>
     <message>
+        <location filename="../src/core/jmdict/JMdictDefs.cc" line="74"/>
         <source>Tsugaru-ben</source>
-        <translation type="obsolete">Tsugaru-ben</translation>
+        <translation>Tsugaru-ben</translation>
     </message>
     <message>
+        <location filename="../src/core/jmdict/JMdictDefs.cc" line="75"/>
         <source>Tosa-ben</source>
-        <translation type="obsolete">Tosa-ben</translation>
+        <translation>Tosa-ben</translation>
     </message>
     <message>
+        <location filename="../src/core/jmdict/JMdictDefs.cc" line="76"/>
         <source>Kyuushuu-ben</source>
-        <translation type="obsolete">Kyuushuu-ben</translation>
+        <translation>Kyuushuu-ben</translation>
     </message>
     <message>
+        <location filename="../src/core/jmdict/JMdictDefs.cc" line="77"/>
         <source>Ryuukyuu-ben</source>
-        <translation type="obsolete">Ryuukyuu-ben</translation>
+        <translation>Ryuukyuu-ben</translation>
     </message>
     <message>
+        <location filename="../src/core/jmdict/JMdictDefs.cc" line="78"/>
         <source>Kansai-ben</source>
-        <translation type="obsolete">Kansai-ben</translation>
+        <translation>Kansai-ben</translation>
     </message>
     <message>
+        <location filename="../src/core/jmdict/JMdictDefs.cc" line="79"/>
         <source>Osaka-ben</source>
-        <translation type="obsolete">Osaka-ben</translation>
+        <translation>Osaka-ben</translation>
     </message>
     <message>
+        <location filename="../src/core/jmdict/JMdictDefs.cc" line="80"/>
         <source>Touhoku-ben</source>
-        <translation type="obsolete">Touhoku-ben</translation>
+        <translation>Touhoku-ben</translation>
     </message>
     <message>
+        <location filename="../src/core/jmdict/JMdictDefs.cc" line="81"/>
         <source>Kantou-ben</source>
-        <translation type="obsolete">Kantou-ben</translation>
+        <translation>Kantou-ben</translation>
     </message>
     <message>
+        <location filename="../src/core/jmdict/JMdictDefs.cc" line="126"/>
         <source>manga slang</source>
-        <translation type="obsolete">argot de manga</translation>
+        <translation>argot de manga</translation>
     </message>
     <message>
+        <location filename="../src/core/jmdict/JMdictDefs.cc" line="127"/>
         <source>polite (teineigo) language</source>
-        <translation type="obsolete">langage poli (teineigo)</translation>
+        <translation>langage poli (teineigo)</translation>
     </message>
     <message>
+        <location filename="../src/core/jmdict/JMdictDefs.cc" line="128"/>
         <source>vulgar expression or word</source>
-        <translation type="obsolete">mot ou expression vulgaire</translation>
+        <translation>mot ou expression vulgaire</translation>
     </message>
     <message>
+        <location filename="../src/core/jmdict/JMdictDefs.cc" line="129"/>
         <source>idiomatic expression</source>
-        <translation type="obsolete">expression idiomatique</translation>
+        <translation>expression idiomatique</translation>
     </message>
     <message>
+        <location filename="../src/core/jmdict/JMdictDefs.cc" line="130"/>
         <source>honorific or respectful (sonkeigo) language</source>
-        <translation type="obsolete">langage honorifique ou respecteux (sonkeigo)</translation>
+        <translation>langage honorifique ou respecteux (sonkeigo)</translation>
     </message>
     <message>
+        <location filename="../src/core/jmdict/JMdictDefs.cc" line="131"/>
         <source>female term or language</source>
-        <translation type="obsolete">langage ou terme féminin</translation>
+        <translation>langage ou terme féminin</translation>
     </message>
     <message>
+        <location filename="../src/core/jmdict/JMdictDefs.cc" line="132"/>
         <source>children&apos;s language</source>
-        <translation type="obsolete">langage enfantin</translation>
+        <translation>langage enfantin</translation>
     </message>
     <message>
+        <location filename="../src/core/jmdict/JMdictDefs.cc" line="133"/>
         <source>obscure term</source>
-        <translation type="obsolete">terme obscure</translation>
+        <translation>terme obscure</translation>
     </message>
     <message>
+        <location filename="../src/core/jmdict/JMdictDefs.cc" line="134"/>
         <source>onomatopoeic or mimetic word</source>
-        <translation type="obsolete">onomatopée ou mimétisme</translation>
+        <translation>onomatopée ou mimétisme</translation>
     </message>
     <message>
+        <location filename="../src/core/jmdict/JMdictDefs.cc" line="135"/>
         <source>poetical term</source>
-        <translation type="obsolete">terme poétique</translation>
+        <translation>terme poétique</translation>
     </message>
     <message>
+        <location filename="../src/core/jmdict/JMdictDefs.cc" line="136"/>
         <source>sensitive</source>
-        <translation type="obsolete">sensitif</translation>
+        <translation>sensitif</translation>
     </message>
     <message>
+        <location filename="../src/core/jmdict/JMdictDefs.cc" line="137"/>
         <source>humble (kenjougo) language</source>
-        <translation type="obsolete">langage humble (kenjougo)</translation>
+        <translation>langage humble (kenjougo)</translation>
     </message>
     <message>
+        <location filename="../src/core/jmdict/JMdictDefs.cc" line="138"/>
         <source>abbreviation</source>
-        <translation type="obsolete">abbréviation</translation>
+        <translation>abbréviation</translation>
     </message>
     <message>
+        <location filename="../src/core/jmdict/JMdictDefs.cc" line="139"/>
         <source>familiar language</source>
-        <translation type="obsolete">langage familier</translation>
+        <translation>langage familier</translation>
     </message>
     <message>
+        <location filename="../src/core/jmdict/JMdictDefs.cc" line="140"/>
         <source>rude or X-rated term (not displayed in educational software)</source>
-        <translation type="obsolete">terme brutal ou classé X (non-utilisé dans les logiciels éducatifs)</translation>
+        <translation>terme brutal ou classé X (non-utilisé dans les logiciels éducatifs)</translation>
     </message>
     <message>
+        <location filename="../src/core/jmdict/JMdictDefs.cc" line="141"/>
         <source>archaism</source>
-        <translation type="obsolete">archaisme</translation>
+        <translation>archaisme</translation>
     </message>
     <message>
+        <location filename="../src/core/jmdict/JMdictDefs.cc" line="142"/>
         <source>derogatory</source>
-        <translation type="obsolete">dérogatoire</translation>
+        <translation>dérogatoire</translation>
     </message>
     <message>
-        <source>rare</source>
-        <translation type="obsolete">rare</translation>
-    </message>
-    <message>
+        <location filename="../src/core/jmdict/JMdictDefs.cc" line="143"/>
         <source>colloquialism</source>
-        <translation type="obsolete">colloquialisme</translation>
+        <translation>colloquialisme</translation>
     </message>
     <message>
+        <location filename="../src/core/jmdict/JMdictDefs.cc" line="144"/>
         <source>word usually written using kana alone</source>
-        <translation type="obsolete">mot généralement écrit en kanas uniquement</translation>
+        <translation>mot généralement écrit en kanas uniquement</translation>
     </message>
     <message>
+        <location filename="../src/core/jmdict/JMdictDefs.cc" line="145"/>
         <source>slang</source>
-        <translation type="obsolete">argot</translation>
+        <translation>argot</translation>
     </message>
     <message>
+        <location filename="../src/core/jmdict/JMdictDefs.cc" line="146"/>
         <source>male term or language</source>
-        <translation type="obsolete">langage ou terme masculin</translation>
+        <translation>langage ou terme masculin</translation>
     </message>
     <message>
+        <location filename="../src/core/jmdict/JMdictDefs.cc" line="147"/>
         <source>obsolete term</source>
-        <translation type="obsolete">terme obsolete</translation>
+        <translation>terme obsolete</translation>
     </message>
     <message>
+        <location filename="../src/core/jmdict/JMdictDefs.cc" line="233"/>
         <source>adverb taking the `to&apos; particle</source>
-        <translation type="obsolete">adverbe prenant la particule `to&apos;</translation>
+        <translation>adverbe prenant la particule `to&apos;</translation>
     </message>
     <message>
+        <location filename="../src/core/jmdict/JMdictDefs.cc" line="234"/>
         <source>noun (temporal) (jisoumeishi)</source>
-        <translation type="obsolete">nom (temporel) (jisoumeishi)</translation>
+        <translation>nom (temporel) (jisoumeishi)</translation>
     </message>
     <message>
+        <location filename="../src/core/jmdict/JMdictDefs.cc" line="235"/>
         <source>prefix</source>
-        <translation type="obsolete">préfixe</translation>
+        <translation>préfixe</translation>
     </message>
     <message>
+        <location filename="../src/core/jmdict/JMdictDefs.cc" line="236"/>
         <source>`taru&apos; adjective</source>
-        <translation type="obsolete">adjectif `taru&apos;</translation>
+        <translation>adjectif `taru&apos;</translation>
     </message>
     <message>
+        <location filename="../src/core/jmdict/JMdictDefs.cc" line="237"/>
         <source>interjection (kandoushi)</source>
-        <translation type="obsolete">interjection (kandoushi)</translation>
+        <translation>interjection (kandoushi)</translation>
     </message>
     <message>
+        <location filename="../src/core/jmdict/JMdictDefs.cc" line="238"/>
         <source>intransitive verb</source>
-        <translation type="obsolete">verbe intransitif</translation>
+        <translation>verbe intransitif</translation>
     </message>
     <message>
+        <location filename="../src/core/jmdict/JMdictDefs.cc" line="239"/>
         <source>Kuru verb - special class</source>
-        <translation type="obsolete">verbe kuru - classe spéciale</translation>
+        <translation>verbe kuru - classe spéciale</translation>
     </message>
     <message>
+        <location filename="../src/core/jmdict/JMdictDefs.cc" line="240"/>
         <source>irregular nu verb</source>
-        <translation type="obsolete">verbe nu irrégulier</translation>
+        <translation>verbe nu irrégulier</translation>
     </message>
     <message>
+        <location filename="../src/core/jmdict/JMdictDefs.cc" line="241"/>
         <source>particle</source>
-        <translation type="obsolete">particule</translation>
+        <translation>particule</translation>
     </message>
     <message>
+        <location filename="../src/core/jmdict/JMdictDefs.cc" line="242"/>
         <source>irregular ru verb, plain form ends with -ri</source>
-        <translation type="obsolete">verbe ru irrégulier, forme normale finissant en -ri</translation>
+        <translation>verbe ru irrégulier, forme normale finissant en -ri</translation>
     </message>
     <message>
+        <location filename="../src/core/jmdict/JMdictDefs.cc" line="243"/>
         <source>noun or verb acting prenominally</source>
-        <translation type="obsolete">nom ou verbe prénomial</translation>
+        <translation>nom ou verbe prénomial</translation>
     </message>
     <message>
+        <location filename="../src/core/jmdict/JMdictDefs.cc" line="244"/>
         <source>transitive verb</source>
-        <translation type="obsolete">verbe transitif</translation>
+        <translation>verbe transitif</translation>
     </message>
     <message>
+        <location filename="../src/core/jmdict/JMdictDefs.cc" line="245"/>
         <source>noun, used as a suffix</source>
-        <translation type="obsolete">nom, utilisé comme suffixe</translation>
+        <translation>nom, utilisé comme suffixe</translation>
     </message>
     <message>
+        <location filename="../src/core/jmdict/JMdictDefs.cc" line="246"/>
         <source>conjunction</source>
-        <translation type="obsolete">conjonction</translation>
+        <translation>conjonction</translation>
     </message>
     <message>
+        <location filename="../src/core/jmdict/JMdictDefs.cc" line="247"/>
         <source>adjective (keiyoushi)</source>
-        <translation type="obsolete">adjectif (keiyoushi)</translation>
+        <translation>adjectif (keiyoushi)</translation>
     </message>
     <message>
+        <location filename="../src/core/jmdict/JMdictDefs.cc" line="248"/>
         <source>Ichidan verb - zuru verb (alternative form of -jiru verbs)</source>
-        <translation type="obsolete">verbe Ichidan - verbe zuru (forme alternative des verbes -jiru)</translation>
+        <translation>verbe Ichidan - verbe zuru (forme alternative des verbes -jiru)</translation>
     </message>
     <message>
+        <location filename="../src/core/jmdict/JMdictDefs.cc" line="249"/>
         <source>adverb (fukushi)</source>
-        <translation type="obsolete">adverbe (fukushi)</translation>
+        <translation>adverbe (fukushi)</translation>
     </message>
     <message>
+        <location filename="../src/core/jmdict/JMdictDefs.cc" line="250"/>
         <source>suffix</source>
-        <translation type="obsolete">suffixe</translation>
+        <translation>suffixe</translation>
     </message>
     <message>
+        <location filename="../src/core/jmdict/JMdictDefs.cc" line="251"/>
         <source>Godan verb with `bu&apos; ending</source>
-        <translation type="obsolete">verbe Godan avec terminaison en `bu&apos;</translation>
+        <translation>verbe Godan avec terminaison en `bu&apos;</translation>
     </message>
     <message>
+        <location filename="../src/core/jmdict/JMdictDefs.cc" line="252"/>
         <source>Godan verb with `nu&apos; ending</source>
-        <translation type="obsolete">verbe Godan avec terminaison en `nu&apos;</translation>
+        <translation>verbe Godan avec terminaison en `nu&apos;</translation>
     </message>
     <message>
+        <location filename="../src/core/jmdict/JMdictDefs.cc" line="253"/>
         <source>Godan verb - -aru special class</source>
-        <translation type="obsolete">verbe Godan - classe spéciale -aru</translation>
+        <translation>verbe Godan - classe spéciale -aru</translation>
     </message>
     <message>
+        <location filename="../src/core/jmdict/JMdictDefs.cc" line="254"/>
         <source>Godan verb with `mu&apos; ending</source>
-        <translation type="obsolete">verbe Godan avec terminaison en `mu&apos;</translation>
+        <translation>verbe Godan avec terminaison en `mu&apos;</translation>
     </message>
     <message>
+        <location filename="../src/core/jmdict/JMdictDefs.cc" line="255"/>
         <source>Godan verb with `ku&apos; ending</source>
-        <translation type="obsolete">verbe Godan avec terminaison en `ku&apos;</translation>
+        <translation>verbe Godan avec terminaison en `ku&apos;</translation>
     </message>
     <message>
+        <location filename="../src/core/jmdict/JMdictDefs.cc" line="257"/>
         <source>Godan verb with `tsu&apos; ending</source>
-        <translation type="obsolete">verbe Godan avec terminaison en `tsu&apos;</translation>
+        <translation>verbe Godan avec terminaison en `tsu&apos;</translation>
     </message>
     <message>
+        <location filename="../src/core/jmdict/JMdictDefs.cc" line="275"/>
         <source>Godan verb with `u&apos; ending</source>
-        <translation type="obsolete">verbe Godan avec terminaison en `u&apos;</translation>
+        <translation>verbe Godan avec terminaison en `u&apos;</translation>
     </message>
     <message>
+        <location filename="../src/core/jmdict/JMdictDefs.cc" line="259"/>
         <source>Godan verb with `ru&apos; ending</source>
-        <translation type="obsolete">verbe Godan avec terminaison en `ru&apos;</translation>
+        <translation>verbe Godan avec terminaison en `ru&apos;</translation>
     </message>
     <message>
+        <location filename="../src/core/jmdict/JMdictDefs.cc" line="260"/>
         <source>Godan verb with `su&apos; ending</source>
-        <translation type="obsolete">verbe Godan avec terminaison en `su&apos;</translation>
+        <translation>verbe Godan avec terminaison en `su&apos;</translation>
     </message>
     <message>
+        <location filename="../src/core/jmdict/JMdictDefs.cc" line="261"/>
         <source>auxiliary</source>
-        <translation type="obsolete">auxiliaire</translation>
+        <translation>auxiliaire</translation>
     </message>
     <message>
+        <location filename="../src/core/jmdict/JMdictDefs.cc" line="262"/>
         <source>auxiliary verb</source>
-        <translation type="obsolete">verbe auxiliaire</translation>
+        <translation>verbe auxiliaire</translation>
     </message>
     <message>
+        <location filename="../src/core/jmdict/JMdictDefs.cc" line="264"/>
         <source>adjectival nouns or quasi-adjectives (keiyodoshi)</source>
-        <translation type="obsolete">noms adjectivaux ou quasi-adjectifs (keiyodoshi)</translation>
+        <translation>noms adjectivaux ou quasi-adjectifs (keiyodoshi)</translation>
     </message>
     <message>
+        <location filename="../src/core/jmdict/JMdictDefs.cc" line="265"/>
         <source>Godan verb - Iku/Yuku special class</source>
-        <translation type="obsolete">verbe Godan - classe spéciale Iku/Yuku</translation>
+        <translation>verbe Godan - classe spéciale Iku/Yuku</translation>
     </message>
     <message>
+        <location filename="../src/core/jmdict/JMdictDefs.cc" line="266"/>
         <source>Godan verb with `u&apos; ending (special class)</source>
-        <translation type="obsolete">verbe Godan avec terminaison en `u&apos; (classe spéciale)</translation>
+        <translation>verbe Godan avec terminaison en `u&apos; (classe spéciale)</translation>
     </message>
     <message>
+        <location filename="../src/core/jmdict/JMdictDefs.cc" line="267"/>
         <source>Godan verb with `gu&apos; ending</source>
-        <translation type="obsolete">verbe Godan avec terminaison en `gu&apos;</translation>
+        <translation>verbe Godan avec terminaison en `gu&apos;</translation>
     </message>
     <message>
+        <location filename="../src/core/jmdict/JMdictDefs.cc" line="258"/>
         <source>nouns which may take the genitive case particle `no&apos;</source>
-        <translation type="obsolete">noms pouvant prendre la particule génitive `no&apos;</translation>
+        <translation>noms pouvant prendre la particule génitive `no&apos;</translation>
     </message>
     <message>
+        <location filename="../src/core/jmdict/JMdictDefs.cc" line="268"/>
         <source>Ichidan verb</source>
-        <translation type="obsolete">verbe Ichidan</translation>
+        <translation>verbe Ichidan</translation>
     </message>
     <message>
+        <location filename="../src/core/jmdict/JMdictDefs.cc" line="269"/>
         <source>noun, used as a prefix</source>
-        <translation type="obsolete">nom, utilisé comme préfixe</translation>
+        <translation>nom, utilisé comme préfixe</translation>
     </message>
     <message>
+        <location filename="../src/core/jmdict/JMdictDefs.cc" line="270"/>
         <source>auxiliary adjective</source>
-        <translation type="obsolete">adjectif auxiliaire</translation>
+        <translation>adjectif auxiliaire</translation>
     </message>
     <message>
+        <location filename="../src/core/jmdict/JMdictDefs.cc" line="271"/>
         <source>Yondan verb with `ru&apos; ending (archaic)</source>
-        <translation type="obsolete">verbe Yondan avec terminaison en `ru&apos; (archaique)</translation>
+        <translation>verbe Yondan avec terminaison en `ru&apos; (archaique)</translation>
     </message>
     <message>
+        <location filename="../src/core/jmdict/JMdictDefs.cc" line="272"/>
         <source>numeric</source>
-        <translation type="obsolete">numérique</translation>
+        <translation>numérique</translation>
     </message>
     <message>
+        <location filename="../src/core/jmdict/JMdictDefs.cc" line="273"/>
         <source>counter</source>
-        <translation type="obsolete">compteur</translation>
+        <translation>compteur</translation>
     </message>
     <message>
+        <location filename="../src/core/jmdict/JMdictDefs.cc" line="274"/>
         <source>pre-noun adjectival (rentaishi)</source>
-        <translation type="obsolete">adjectif pré-nominal (rentaishi)</translation>
+        <translation>adjectif pré-nominal (rentaishi)</translation>
     </message>
     <message>
+        <location filename="../src/core/jmdict/JMdictDefs.cc" line="256"/>
         <source>Yondan verb with `hu/fu&apos; ending (archaic)</source>
-        <translation type="obsolete">verbe Yondan avec terminaison en `hu/fu&apos; (archaique)</translation>
+        <translation>verbe Yondan avec terminaison en `hu/fu&apos; (archaique)</translation>
     </message>
     <message>
+        <location filename="../src/core/jmdict/JMdictDefs.cc" line="276"/>
         <source>Nidan verb with &apos;u&apos; ending (archaic)</source>
-        <translation type="obsolete">verbe Nidan avec terminaison en `u&apos; (archaique)</translation>
+        <translation>verbe Nidan avec terminaison en `u&apos; (archaique)</translation>
     </message>
     <message>
+        <location filename="../src/core/jmdict/JMdictDefs.cc" line="277"/>
         <source>suru verb - special class</source>
-        <translation type="obsolete">verbe suru - classe spéciale</translation>
+        <translation>verbe suru - classe spéciale</translation>
     </message>
     <message>
+        <location filename="../src/core/jmdict/JMdictDefs.cc" line="278"/>
         <source>noun (common) (futsuumeishi)</source>
-        <translation type="obsolete">nom (commun) (futsuumeishi)</translation>
+        <translation>nom (commun) (futsuumeishi)</translation>
     </message>
     <message>
+        <location filename="../src/core/jmdict/JMdictDefs.cc" line="279"/>
         <source>noun or participle which takes the aux. verb suru</source>
-        <translation type="obsolete">nom ou participe prenant le verbe auxilaire suru</translation>
+        <translation>nom ou participe prenant le verbe auxilaire suru</translation>
     </message>
     <message>
+        <location filename="../src/core/jmdict/JMdictDefs.cc" line="280"/>
         <source>Expressions (phrases, clauses, etc.)</source>
-        <translation type="obsolete">Expressions (phrases, clauses, etc.)</translation>
+        <translation>Expressions (phrases, clauses, etc.)</translation>
     </message>
     <message>
+        <location filename="../src/core/jmdict/JMdictDefs.cc" line="281"/>
         <source>suru verb - irregular</source>
-        <translation type="obsolete">verbe suru - irrégulier</translation>
+        <translation>verbe suru - irrégulier</translation>
     </message>
     <message>
+        <location filename="../src/core/jmdict/JMdictDefs.cc" line="282"/>
         <source>adverbial noun (fukushitekimeishi)</source>
-        <translation type="obsolete">nom adverbial (fukushitekimeishi)</translation>
+        <translation>nom adverbial (fukushitekimeishi)</translation>
     </message>
     <message>
+        <location filename="../src/core/jmdict/JMdictDefs.cc" line="283"/>
         <source>Godan verb with `ru&apos; ending (irregular verb)</source>
-        <translation type="obsolete">verbe Godan avec terminaison en `ru&apos; (verbe irrégulier)</translation>
+        <translation>verbe Godan avec terminaison en `ru&apos; (verbe irrégulier)</translation>
     </message>
     <message>
-        <source>exclusively kanji</source>
-        <translation type="obsolete">exclusivement en kanji</translation>
-    </message>
-    <message>
-        <source>Godan verb - Uru old class verb (old form of Eru)</source>
-        <translation type="obsolete">verbe Godan - verbe de l&apos;ancienne classe Uru (ancienne forme de Eru)</translation>
-    </message>
-    <message>
+        <location filename="../src/core/jmdict/JMdictDefs.cc" line="263"/>
         <source>pronoun</source>
-        <translation type="obsolete">pronom</translation>
+        <translation>pronom</translation>
     </message>
 </context>
 <context>
@@ -1483,14 +964,6 @@
         <location filename="../src/gui/jmdict/JMdictGUIPlugin.cc" line="367"/>
         <source>Vocabulary</source>
         <translation>Vocabulaire</translation>
-    </message>
-    <message>
-        <source>With kanjis:</source>
-        <translation type="obsolete">Avec les kanjis:</translation>
-    </message>
-    <message>
-        <source>Using studied kanjis only</source>
-        <translation type="obsolete">Avec seulement des kanjis étudiés</translation>
     </message>
     <message>
         <location filename="../src/gui/jmdict/JMdictGUIPlugin.cc" line="251"/>
@@ -1547,25 +1020,9 @@
         <translation> avec kanji étudiés</translation>
     </message>
     <message>
-        <source>, studied kanjis only</source>
-        <translation type="obsolete">, kanjis étudiés seulement</translation>
-    </message>
-    <message>
-        <source> with studied kanjis</source>
-        <translation type="obsolete"> avec kanjis étudiés</translation>
-    </message>
-    <message>
         <location filename="../src/gui/jmdict/JMdictGUIPlugin.cc" line="353"/>
         <source> with component </source>
         <translation> avec les composants </translation>
-    </message>
-    <message>
-        <source> containing </source>
-        <translation type="obsolete"> contenant </translation>
-    </message>
-    <message>
-        <source> using studied kanjis</source>
-        <translation type="obsolete"> avec des kanjis étudiés</translation>
     </message>
     <message>
         <location filename="../src/gui/jmdict/JMdictGUIPlugin.cc" line="381"/>
@@ -1589,90 +1046,6 @@
     </message>
 </context>
 <context>
-    <name>JMdictPlugin</name>
-    <message>
-        <source>All studied entries (&amp;japanese)</source>
-        <translation type="obsolete">Toutes les entrées étudiées (&amp;japonais)</translation>
-    </message>
-    <message>
-        <source>All studied entries (&amp;translation)</source>
-        <translation type="obsolete">Toutes les entrées étudiées (&amp;traductions)</translation>
-    </message>
-    <message>
-        <source>Vocabulary containing a given &amp;kanji...</source>
-        <translation type="obsolete">Vocabulaire contenant un &amp;kanji donné...</translation>
-    </message>
-    <message>
-        <source>Kanji search</source>
-        <translation type="obsolete">Recherche par kanji</translation>
-    </message>
-    <message>
-        <source>Enter the kanji to look for:</source>
-        <translation type="obsolete">Entrez le kanji à rechercher:</translation>
-    </message>
-    <message>
-        <source>Please input exactly one kanji character.
-</source>
-        <translation type="obsolete">Veuillez entrer exactement un kanji.</translation>
-    </message>
-    <message>
-        <source>Vocabulary flashcards (from &amp;japanese)</source>
-        <translation type="obsolete">Flashcards vocabulaire (à partir du &amp;japonais)</translation>
-    </message>
-    <message>
-        <source>Vocabulary flashcards (from &amp;translation)</source>
-        <translation type="obsolete">Flashcards vocabulaire (à partir de la &amp;traduction)</translation>
-    </message>
-    <message>
-        <source>Vocabulary &amp;properties</source>
-        <translation type="obsolete">&amp;Propriétés de vocabulaire</translation>
-    </message>
-    <message>
-        <source>Part of speech</source>
-        <translation type="obsolete">Fonction</translation>
-    </message>
-    <message>
-        <source>Dialect</source>
-        <translation type="obsolete">Dialecte</translation>
-    </message>
-    <message>
-        <source>Field</source>
-        <translation type="obsolete">Champ</translation>
-    </message>
-    <message>
-        <source>Misc</source>
-        <translation type="obsolete">Autres</translation>
-    </message>
-    <message>
-        <source>Enter the score range for the studied kanjis:</source>
-        <translation type="obsolete">Entrez l&apos;intervalle de score pour les kanjis étudiés:</translation>
-    </message>
-    <message>
-        <source>All studied vocabulary (&amp;japanese)</source>
-        <translation type="obsolete">Tout le vocabulaire étudié (en &amp;Japonais)</translation>
-    </message>
-    <message>
-        <source>All studied vocabulary (&amp;translation)</source>
-        <translation type="obsolete">Tout le vocabulaire étudié (par &amp;traduction)</translation>
-    </message>
-    <message>
-        <source>Vocabulary containing given &amp;kanjis...</source>
-        <translation type="obsolete">Vocabulaire contenant certains &amp;kanjis...</translation>
-    </message>
-    <message>
-        <source>Vocabulary using only &amp;studied kanjis...</source>
-        <translation type="obsolete">Vocabulaire n&apos;utilisant que des kanjis &amp;étudiés...</translation>
-    </message>
-    <message>
-        <source>Enter the kanjis to look for:</source>
-        <translation type="obsolete">Entrez les kanjis à rechercher:</translation>
-    </message>
-    <message>
-        <source>&lt;p&gt;&lt;b&gt;Please input only kanji characters.&lt;/b&gt;&lt;/p&gt;</source>
-        <translation type="obsolete">&lt;p&gt;&lt;b&gt;Veuillez n&apos;entrer que des kanjis.&lt;/b&gt;&lt;/p&gt;</translation>
-    </message>
-</context>
-<context>
     <name>JMdictPreferences</name>
     <message>
         <location filename="../src/gui/jmdict/JMdictPreferences.cc" line="24"/>
@@ -1681,174 +1054,167 @@
     </message>
     <message>
         <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="14"/>
+        <location filename="../src/gui/ui_JMdictPreferences.h" line="346"/>
         <source>Form</source>
         <translation>Form</translation>
     </message>
     <message>
         <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="24"/>
+        <location filename="../src/gui/ui_JMdictPreferences.h" line="360"/>
         <source>Display</source>
         <translation>Affichage</translation>
     </message>
     <message>
         <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="30"/>
+        <location filename="../src/gui/ui_JMdictPreferences.h" line="347"/>
         <source>Basic information</source>
         <translation>Informations basiques</translation>
     </message>
     <message>
         <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="36"/>
+        <location filename="../src/gui/ui_JMdictPreferences.h" line="348"/>
         <source>JLPT level</source>
         <translation>Niveau JLPT</translation>
     </message>
     <message>
         <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="43"/>
+        <location filename="../src/gui/ui_JMdictPreferences.h" line="349"/>
         <source>Kanji used in main reading</source>
         <translation>Kanji utilisés dans la lecture principale</translation>
     </message>
     <message>
         <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="53"/>
+        <location filename="../src/gui/ui_JMdictPreferences.h" line="350"/>
         <source>Additional information</source>
         <translation>Informations additionnelles</translation>
     </message>
     <message>
         <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="59"/>
+        <location filename="../src/gui/ui_JMdictPreferences.h" line="352"/>
         <source>For transitive verbs, look for the equivalent intransitive entry and vice-versa.</source>
         <translation>Rechercher l&apos;équivalent transitif d&apos;un verbe transitif et vice-versa.</translation>
     </message>
     <message>
         <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="62"/>
+        <location filename="../src/gui/ui_JMdictPreferences.h" line="354"/>
         <source>Search for transitive/intransitive verb buddy</source>
         <translation>Rechercher les équivalents transitifs/intransitifs</translation>
     </message>
     <message>
         <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="74"/>
+        <location filename="../src/gui/ui_JMdictPreferences.h" line="356"/>
         <source>Display words that have the same pronunciation.</source>
         <translation>Afficher les mots ayant la même prononciation.</translation>
     </message>
     <message>
         <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="77"/>
+        <location filename="../src/gui/ui_JMdictPreferences.h" line="358"/>
         <source>Homophones</source>
         <translation>Homophones</translation>
     </message>
     <message>
         <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="84"/>
+        <location filename="../src/gui/ui_JMdictPreferences.h" line="359"/>
         <source>Studied only</source>
         <translation>Étudiés seulement</translation>
     </message>
     <message>
         <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="110"/>
+        <location filename="../src/gui/ui_JMdictPreferences.h" line="370"/>
         <source>Printing</source>
         <translation>Impression</translation>
     </message>
     <message>
         <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="116"/>
+        <location filename="../src/gui/ui_JMdictPreferences.h" line="361"/>
         <source>General</source>
         <translation>Général</translation>
     </message>
     <message>
         <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="129"/>
+        <location filename="../src/gui/ui_JMdictPreferences.h" line="362"/>
         <source>Header font size:</source>
         <translation>Taille de police de l&apos;en-tête:</translation>
     </message>
     <message>
         <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="136"/>
+        <location filename="../src/gui/ui_JMdictPreferences.h" line="363"/>
         <source>Maximum number of definitions:</source>
         <translation>Nombre maximum de définitions:</translation>
     </message>
     <message>
         <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="143"/>
+        <location filename="../src/gui/ui_JMdictPreferences.h" line="364"/>
         <source>All</source>
         <translation>Toutes</translation>
     </message>
     <message>
         <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="153"/>
+        <location filename="../src/gui/ui_JMdictPreferences.h" line="365"/>
         <source>Kanji</source>
         <translation>Kanji</translation>
     </message>
     <message>
         <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="159"/>
+        <location filename="../src/gui/ui_JMdictPreferences.h" line="366"/>
         <source>Kanji used in word</source>
         <translation>Kanji utilisé dans un mot</translation>
     </message>
     <message>
         <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="166"/>
+        <location filename="../src/gui/ui_JMdictPreferences.h" line="367"/>
         <source>Only studied kanji</source>
         <translation>Kanji étudiés seulement</translation>
     </message>
     <message>
-        <source>Kanjis</source>
-        <translation type="obsolete">Kanjis</translation>
-    </message>
-    <message>
         <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="176"/>
+        <location filename="../src/gui/ui_JMdictPreferences.h" line="368"/>
         <source>Preview</source>
         <translation>Prévisualisation</translation>
     </message>
     <message>
         <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="264"/>
+        <location filename="../src/gui/ui_JMdictPreferences.h" line="382"/>
         <source>Definitions filtering</source>
         <translation>Filtrage des définitions</translation>
     </message>
     <message>
         <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="270"/>
+        <location filename="../src/gui/ui_JMdictPreferences.h" line="371"/>
         <source>Filtered definitions</source>
         <translation>Définitions filtrées</translation>
     </message>
     <message>
         <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="278"/>
+        <location filename="../src/gui/ui_JMdictPreferences.h" line="372"/>
         <source>Displayed:</source>
         <translation>Affichées:</translation>
     </message>
     <message>
         <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="285"/>
+        <location filename="../src/gui/ui_JMdictPreferences.h" line="374"/>
         <source>Definitions types in this list will be searched for and displayed.</source>
         <translation>Les types de définitions apparaîssant dans cette liste seront recherchées et affichées.</translation>
     </message>
     <message>
         <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="312"/>
         <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="336"/>
+        <location filename="../src/gui/ui_JMdictPreferences.h" line="376"/>
+        <location filename="../src/gui/ui_JMdictPreferences.h" line="377"/>
         <source>...</source>
         <translation>...</translation>
     </message>
     <message>
         <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="364"/>
+        <location filename="../src/gui/ui_JMdictPreferences.h" line="378"/>
         <source>Filtered:</source>
         <translation>Filtrées:</translation>
     </message>
     <message>
         <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="371"/>
+        <location filename="../src/gui/ui_JMdictPreferences.h" line="380"/>
         <source>Definitions types in this list will be ignored when searching and displaying entries.</source>
         <translation>Les types de définitions dans cette liste seront ignorées lors des recherches et ne seront pas affichées.</translation>
-    </message>
-</context>
-<context>
-    <name>JMdictPrefs</name>
-    <message>
-        <source>Vocabulary entries</source>
-        <translation type="obsolete">Entrées de vocabulaire</translation>
-    </message>
-    <message>
-        <source>Display</source>
-        <translation type="obsolete">Affichage</translation>
-    </message>
-    <message>
-        <source>Try and find verb buddy</source>
-        <translation type="obsolete">Recherche du partenaire d&apos;un verbe</translation>
-    </message>
-    <message>
-        <source>Homophones</source>
-        <translation type="obsolete">Homophones</translation>
-    </message>
-    <message>
-        <source>Printing</source>
-        <translation type="obsolete">Impression</translation>
-    </message>
-    <message>
-        <source>Training</source>
-        <translation type="obsolete">Entraînement</translation>
-    </message>
-    <message>
-        <source>Display Furiganas in Japanese vocabulary flashcards</source>
-        <translation type="obsolete">Afficher les furiganas dans les flashcards japonaises</translation>
     </message>
 </context>
 <context>
@@ -1870,25 +1236,10 @@
 <context>
     <name>KanjiPopup</name>
     <message>
-        <source>&amp;Study</source>
-        <translation type="obsolete">&amp;Étudier</translation>
-    </message>
-    <message>
-        <source>&amp;Close</source>
-        <translation type="obsolete">&amp;Fermer</translation>
-    </message>
-    <message>
         <location filename="../src/gui/kanjidic2/KanjiPopup.ui" line="81"/>
+        <location filename="../src/gui/ui_KanjiPopup.h" line="189"/>
         <source>See in detailed view</source>
         <translation>Voir dans la vue détaillée</translation>
-    </message>
-    <message>
-        <source>&lt;b&gt;Strokes:&lt;/b&gt; %1&lt;br/&gt;</source>
-        <translation type="obsolete">&lt;b&gt;Traits:&lt;/b&gt; %1&lt;br/&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;b&gt;Frequency:&lt;/b&gt; %1&lt;br/&gt;</source>
-        <translation type="obsolete">&lt;b&gt;Fréquence:&lt;/b&gt; %1&lt;br/&gt;</translation>
     </message>
     <message>
         <location filename="../src/gui/kanjidic2/KanjiPopup.cc" line="154"/>
@@ -1921,33 +1272,19 @@
         <translation>&lt;b&gt;Composants:&lt;/b&gt;%2 %1</translation>
     </message>
     <message>
-        <source>&lt;b&gt;JLPT level:&lt;/b&gt; %1&lt;br/&gt;</source>
-        <translation type="obsolete">&lt;b&gt;Niveau JLPT:&lt;/b&gt; %1&lt;br/&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;b&gt;Unicode:&lt;/b&gt; 0x%1&lt;br/&gt;</source>
-        <translation type="obsolete">&lt;b&gt;Unicode:&lt;/b&gt; 0x%1&lt;br/&gt;</translation>
-    </message>
-    <message>
         <location filename="../src/gui/kanjidic2/KanjiPopup.cc" line="179"/>
         <source>&lt;b&gt;Score:&lt;/b&gt; %1&lt;br/&gt;</source>
         <translation>&lt;b&gt;Score:&lt;/b&gt; %1&lt;br/&gt;</translation>
     </message>
     <message>
-        <source>&lt;b&gt;Readings:&lt;/b&gt; %1&lt;br/&gt;</source>
-        <translation type="obsolete">&lt;b&gt;Lectures:&lt;/b&gt; %1&lt;br/&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;b&gt;Radicals:&lt;/b&gt; %1&lt;br/&gt;</source>
-        <translation type="obsolete">&lt;b&gt;Radicaux:&lt;/b&gt; %1&lt;br/&gt;</translation>
-    </message>
-    <message>
         <location filename="../src/gui/kanjidic2/KanjiPopup.ui" line="20"/>
+        <location filename="../src/gui/ui_KanjiPopup.h" line="179"/>
         <source>Form</source>
         <translation>Form</translation>
     </message>
     <message>
         <location filename="../src/gui/kanjidic2/KanjiPopup.ui" line="31"/>
+        <location filename="../src/gui/ui_KanjiPopup.h" line="181"/>
         <source>Previous entry</source>
         <translation>Entrée précedente</translation>
     </message>
@@ -1957,130 +1294,44 @@
         <location filename="../src/gui/kanjidic2/KanjiPopup.ui" line="84"/>
         <location filename="../src/gui/kanjidic2/KanjiPopup.ui" line="104"/>
         <location filename="../src/gui/kanjidic2/KanjiPopup.ui" line="127"/>
+        <location filename="../src/gui/ui_KanjiPopup.h" line="183"/>
+        <location filename="../src/gui/ui_KanjiPopup.h" line="187"/>
+        <location filename="../src/gui/ui_KanjiPopup.h" line="191"/>
+        <location filename="../src/gui/ui_KanjiPopup.h" line="195"/>
+        <location filename="../src/gui/ui_KanjiPopup.h" line="199"/>
         <source>...</source>
         <translation>...</translation>
     </message>
     <message>
         <location filename="../src/gui/kanjidic2/KanjiPopup.ui" line="51"/>
+        <location filename="../src/gui/ui_KanjiPopup.h" line="185"/>
         <source>Next entry</source>
         <translation>Entrée suivante</translation>
     </message>
     <message>
-        <source>Open in detailed view</source>
-        <translation type="obsolete">Ouvrir dans la vue détaillée</translation>
-    </message>
-    <message>
         <location filename="../src/gui/kanjidic2/KanjiPopup.ui" line="101"/>
+        <location filename="../src/gui/ui_KanjiPopup.h" line="193"/>
         <source>Entry options menu</source>
         <translation>Menu d&apos;options de l&apos;entrée</translation>
     </message>
     <message>
         <location filename="../src/gui/kanjidic2/KanjiPopup.ui" line="124"/>
+        <location filename="../src/gui/ui_KanjiPopup.h" line="197"/>
         <source>Close this popup</source>
         <translation>Fermer cette popup</translation>
-    </message>
-    <message>
-        <source>Readings:</source>
-        <translation type="obsolete">Lectures:</translation>
-    </message>
-    <message>
-        <source>&lt;b&gt;%1&lt;/b&gt;%2&lt;br/&gt;</source>
-        <translation type="obsolete">&lt;b&gt;%1&lt;/b&gt;%2&lt;br/&gt;</translation>
-    </message>
-    <message>
-        <source>Radicals:</source>
-        <translation type="obsolete">Radicaux :</translation>
     </message>
     <message>
         <location filename="../src/gui/kanjidic2/KanjiPopup.cc" line="143"/>
         <source>No information about this kanji!</source>
         <translation>Aucune information sur ce kanji!</translation>
     </message>
-    <message>
-        <source>Components:</source>
-        <translation type="obsolete">Composants:</translation>
-    </message>
-</context>
-<context>
-    <name>KanjiStrokePlayer</name>
-    <message>
-        <source>stroke %1/%2</source>
-        <translation type="obsolete">trait %1/%2</translation>
-    </message>
 </context>
 <context>
     <name>Kanjidic2Entry</name>
     <message>
-        <source>&lt;b&gt;On:&lt;/b&gt; </source>
-        <translation type="obsolete">&lt;b&gt;On:&lt;/b&gt; </translation>
-    </message>
-    <message>
-        <source>&lt;b&gt;Kun:&lt;/b&gt; </source>
-        <translation type="obsolete">&lt;b&gt;Kun:&lt;/b&gt; </translation>
-    </message>
-    <message>
-        <source>&lt;b&gt;Nanori:&lt;/b&gt; </source>
-        <translation type="obsolete">&lt;b&gt;Nanori:&lt;/b&gt; </translation>
-    </message>
-    <message>
-        <source>&lt;b&gt;Strokes:&lt;/b&gt; </source>
-        <translation type="obsolete">&lt;b&gt;Traits:&lt;/b&gt; </translation>
-    </message>
-    <message>
-        <source>&lt;b&gt;Frequency:&lt;/b&gt; </source>
-        <translation type="obsolete">&lt;b&gt;Fréquence:&lt;/b&gt; </translation>
-    </message>
-    <message>
-        <source>&lt;b&gt;Grade:&lt;/b&gt; </source>
-        <translation type="obsolete">&lt;b&gt;Niveau scolaire:&lt;/b&gt; </translation>
-    </message>
-    <message>
-        <source>&lt;b&gt;JLPT level:&lt;/b&gt; </source>
-        <translation type="obsolete">&lt;b&gt;Niveau JLPT:&lt;/b&gt; </translation>
-    </message>
-    <message>
-        <source>&lt;b&gt;Unicode:&lt;/b&gt; 0x</source>
-        <translation type="obsolete">&lt;b&gt;Unicode:&lt;/b&gt; 0x</translation>
-    </message>
-    <message>
-        <source>&lt;b&gt;Components:&lt;/b&gt;</source>
-        <translation type="obsolete">&lt;b&gt;Composants:&lt;/b&gt;</translation>
-    </message>
-    <message>
-        <source>On:</source>
-        <translation type="obsolete">On:</translation>
-    </message>
-    <message>
-        <source>Kun:</source>
-        <translation type="obsolete">Kun:</translation>
-    </message>
-    <message>
-        <source>Nanori:</source>
-        <translation type="obsolete">Nanori:</translation>
-    </message>
-    <message>
-        <source>Strokes:</source>
-        <translation type="obsolete">Traits:</translation>
-    </message>
-    <message>
-        <source>Frequency:</source>
-        <translation type="obsolete">Fréquence:</translation>
-    </message>
-    <message>
-        <source>Grade:</source>
-        <translation type="obsolete">Niveau:</translation>
-    </message>
-    <message>
-        <source>JLPT level:</source>
-        <translation type="obsolete">Niveau JLPT:</translation>
-    </message>
-    <message>
-        <source>Unicode:</source>
-        <translation type="obsolete">Unicode:</translation>
-    </message>
-    <message>
-        <source>Components:</source>
-        <translation type="obsolete">Composants:</translation>
+        <location filename="../src/core/kanjidic2/Kanjidic2Entry.cc" line="97"/>
+        <source>(var) </source>
+        <translation>(var) </translation>
     </message>
 </context>
 <context>
@@ -2287,86 +1538,6 @@
         <translation>Niveau</translation>
     </message>
     <message>
-        <source>Elementary school &amp;1</source>
-        <translation type="obsolete">École élémentaire &amp;1</translation>
-    </message>
-    <message>
-        <source>Elementary school &amp;2</source>
-        <translation type="obsolete">École élémentaire &amp;2</translation>
-    </message>
-    <message>
-        <source>Elementary school &amp;3</source>
-        <translation type="obsolete">École élémentaire &amp;3</translation>
-    </message>
-    <message>
-        <source>Elementary school &amp;4</source>
-        <translation type="obsolete">École élémentaire &amp;4</translation>
-    </message>
-    <message>
-        <source>Elementary school &amp;5</source>
-        <translation type="obsolete">École élémentaire &amp;5</translation>
-    </message>
-    <message>
-        <source>Elementary school &amp;6</source>
-        <translation type="obsolete">École élémentaire &amp;6</translation>
-    </message>
-    <message>
-        <source>Junior &amp;high school</source>
-        <translation type="obsolete">&amp;Collège</translation>
-    </message>
-    <message>
-        <source>Elementary &amp;1st grade</source>
-        <translation type="obsolete">Élémentaire &amp;1ère année</translation>
-    </message>
-    <message>
-        <source>Elementary &amp;2nd grade</source>
-        <translation type="obsolete">Élémentaire &amp;2ème année</translation>
-    </message>
-    <message>
-        <source>Elementary &amp;3rd grade</source>
-        <translation type="obsolete">Élémentaire &amp;3ème année</translation>
-    </message>
-    <message>
-        <source>Elementary &amp;4th grade</source>
-        <translation type="obsolete">Élémentaire &amp;4ème année</translation>
-    </message>
-    <message>
-        <source>Elementary &amp;5th grade</source>
-        <translation type="obsolete">Élémentaire &amp;5ème année</translation>
-    </message>
-    <message>
-        <source>Elementary &amp;6th grade</source>
-        <translation type="obsolete">Élémentaire &amp;6ème année</translation>
-    </message>
-    <message>
-        <source>&amp;Secondary school</source>
-        <translation type="obsolete">&amp;Secondaire</translation>
-    </message>
-    <message>
-        <source>Used for names (1)</source>
-        <translation type="obsolete">Utilisés pour les noms (1)</translation>
-    </message>
-    <message>
-        <source>Used for names (2)</source>
-        <translation type="obsolete">Utilisés pour les noms (2)</translation>
-    </message>
-    <message>
-        <source>All &amp;Kyouiku kanjis</source>
-        <translation type="obsolete">Tous les kanjis &amp;Kyouku</translation>
-    </message>
-    <message>
-        <source>All &amp;Jouyou kanjis</source>
-        <translation type="obsolete">Tous les kanjis &amp;Jouyou</translation>
-    </message>
-    <message>
-        <source>&amp;All Kyouiku kanjis</source>
-        <translation type="obsolete">Tous les kanjis &amp;Kyouiku</translation>
-    </message>
-    <message>
-        <source>&amp;All Jouyou kanjis</source>
-        <translation type="obsolete">Tous les kanjis &amp;Jouyou</translation>
-    </message>
-    <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="472"/>
         <source>SKIP code</source>
         <translation>Code SKIP</translation>
@@ -2394,7 +1565,7 @@
     <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="605"/>
         <source>, unicode: </source>
-        <translation>, unicode:</translation>
+        <translation>, unicode: </translation>
     </message>
     <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="606"/>
@@ -2413,122 +1584,9 @@
         <translation>Kanji</translation>
     </message>
     <message>
-        <source>Kanjis</source>
-        <translation type="obsolete">Kanjis</translation>
-    </message>
-    <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="622"/>
         <source>Grade:</source>
         <translation>Niveau:</translation>
-    </message>
-</context>
-<context>
-    <name>Kanjidic2Plugin</name>
-    <message>
-        <source>Reading practice</source>
-        <translation type="obsolete">Entraînement à la lecture</translation>
-    </message>
-    <message>
-        <source>All studied kanjis (by &amp;kanji)</source>
-        <translation type="obsolete">Tous les kanjis étudiés (par &amp;kanji)</translation>
-    </message>
-    <message>
-        <source>All studied kanjis (by &amp;meaning)</source>
-        <translation type="obsolete">Tous les kanjis étudiés (par &amp;signification)</translation>
-    </message>
-    <message>
-        <source>Kanji flashcards (from &amp;kanji)</source>
-        <translation type="obsolete">Flashcards kanjis (à partir du &amp;kanji)</translation>
-    </message>
-    <message>
-        <source>Kanji flashcards (from &amp;meaning)</source>
-        <translation type="obsolete">Flashcards kanjis (à partir du &amp;sens)</translation>
-    </message>
-    <message>
-        <source>Kanjis grade</source>
-        <translation type="obsolete">Niveaux des kanjis</translation>
-    </message>
-    <message>
-        <source>Elementary school &amp;1</source>
-        <translation type="obsolete">École élémentaire &amp;1</translation>
-    </message>
-    <message>
-        <source>Elementary school &amp;2</source>
-        <translation type="obsolete">École élémentaire &amp;2</translation>
-    </message>
-    <message>
-        <source>Elementary school &amp;3</source>
-        <translation type="obsolete">École élémentaire &amp;3</translation>
-    </message>
-    <message>
-        <source>Elementary school &amp;4</source>
-        <translation type="obsolete">École élémentaire &amp;4</translation>
-    </message>
-    <message>
-        <source>Elementary school &amp;5</source>
-        <translation type="obsolete">École élémentaire &amp;5</translation>
-    </message>
-    <message>
-        <source>Elementary school &amp;6</source>
-        <translation type="obsolete">École élémentaire &amp;6</translation>
-    </message>
-    <message>
-        <source>Junior &amp;high school</source>
-        <translation type="obsolete">&amp;Collège</translation>
-    </message>
-    <message>
-        <source>Used for names (1)</source>
-        <translation type="obsolete">Utilisé pour les noms (1)</translation>
-    </message>
-    <message>
-        <source>Used for names (2)</source>
-        <translation type="obsolete">Utilisé pour les noms (2)</translation>
-    </message>
-    <message>
-        <source>&amp;Strokes count...</source>
-        <translation type="obsolete">Nombre de &amp;traits...</translation>
-    </message>
-    <message>
-        <source>&amp;Radical...</source>
-        <translation type="obsolete">&amp;Radical...</translation>
-    </message>
-    <message>
-        <source>Strokes count search</source>
-        <translation type="obsolete">Recherche par nombre de traits</translation>
-    </message>
-    <message>
-        <source>Enter the number of strokes to look for:</source>
-        <translation type="obsolete">Entrez le nombre de traits à rechercher:</translation>
-    </message>
-    <message>
-        <source>Radical search</source>
-        <translation type="obsolete">Recherche par radical</translation>
-    </message>
-    <message>
-        <source>Enter the radical to look for:</source>
-        <translation type="obsolete">Entrez le radical à rechercher:</translation>
-    </message>
-    <message>
-        <source>Please input exactly one kanji character.
-</source>
-        <translation type="obsolete">Veuillez entrer exactement un kanji.</translation>
-    </message>
-    <message>
-        <source>&amp;Component...</source>
-        <translation type="obsolete">&amp;Composants...</translation>
-    </message>
-    <message>
-        <source>Components search</source>
-        <translation type="obsolete">Recherche par composants</translation>
-    </message>
-    <message>
-        <source>Enter a list of kanji components to look for:</source>
-        <translation type="obsolete">Entrez une liste de composants à rechercher:</translation>
-    </message>
-    <message>
-        <source>&lt;b&gt;Please input only kanji characters.&lt;/b&gt;&lt;p&gt;
-</source>
-        <translation type="obsolete">&lt;b&gt;Veuillez n&apos;entrer que des kanjis.&lt;/b&gt;&lt;p&gt;￼</translation>
     </message>
 </context>
 <context>
@@ -2540,295 +1598,289 @@
     </message>
     <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2Preferences.ui" line="14"/>
+        <location filename="../src/gui/ui_Kanjidic2Preferences.h" line="619"/>
         <source>Form</source>
         <translation>Form</translation>
     </message>
     <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2Preferences.ui" line="24"/>
+        <location filename="../src/gui/ui_Kanjidic2Preferences.h" line="637"/>
         <source>Display</source>
         <translation>Affichage</translation>
     </message>
     <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2Preferences.ui" line="30"/>
+        <location filename="../src/gui/ui_Kanjidic2Preferences.h" line="620"/>
         <source>Basic information</source>
         <translation>Informations basiques</translation>
     </message>
     <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2Preferences.ui" line="36"/>
+        <location filename="../src/gui/ui_Kanjidic2Preferences.h" line="621"/>
         <source>Readings</source>
         <translation>Lectures</translation>
     </message>
     <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2Preferences.ui" line="43"/>
         <location filename="../src/gui/kanjidic2/Kanjidic2Preferences.ui" line="435"/>
+        <location filename="../src/gui/ui_Kanjidic2Preferences.h" line="622"/>
+        <location filename="../src/gui/ui_Kanjidic2Preferences.h" line="657"/>
         <source>Unicode</source>
         <translation>Unicode</translation>
     </message>
     <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2Preferences.ui" line="50"/>
+        <location filename="../src/gui/ui_Kanjidic2Preferences.h" line="623"/>
         <source>Variations</source>
         <translation>Variations</translation>
     </message>
     <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2Preferences.ui" line="57"/>
+        <location filename="../src/gui/ui_Kanjidic2Preferences.h" line="624"/>
         <source>Original</source>
         <translation>Original</translation>
     </message>
     <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2Preferences.ui" line="64"/>
         <location filename="../src/gui/kanjidic2/Kanjidic2Preferences.ui" line="414"/>
+        <location filename="../src/gui/ui_Kanjidic2Preferences.h" line="625"/>
+        <location filename="../src/gui/ui_Kanjidic2Preferences.h" line="654"/>
         <source>SKIP code</source>
         <translation>Code SKIP</translation>
     </message>
     <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2Preferences.ui" line="71"/>
         <location filename="../src/gui/kanjidic2/Kanjidic2Preferences.ui" line="442"/>
+        <location filename="../src/gui/ui_Kanjidic2Preferences.h" line="626"/>
+        <location filename="../src/gui/ui_Kanjidic2Preferences.h" line="658"/>
         <source>Frequency</source>
         <translation>Fréquence</translation>
     </message>
     <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2Preferences.ui" line="78"/>
         <location filename="../src/gui/kanjidic2/Kanjidic2Preferences.ui" line="449"/>
+        <location filename="../src/gui/ui_Kanjidic2Preferences.h" line="627"/>
+        <location filename="../src/gui/ui_Kanjidic2Preferences.h" line="659"/>
         <source>School grade</source>
         <translation>Niveau scolaire</translation>
     </message>
     <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2Preferences.ui" line="85"/>
         <location filename="../src/gui/kanjidic2/Kanjidic2Preferences.ui" line="456"/>
+        <location filename="../src/gui/ui_Kanjidic2Preferences.h" line="628"/>
+        <location filename="../src/gui/ui_Kanjidic2Preferences.h" line="660"/>
         <source>JLPT level</source>
         <translation>Niveau JLPT</translation>
     </message>
     <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2Preferences.ui" line="92"/>
         <location filename="../src/gui/kanjidic2/Kanjidic2Preferences.ui" line="222"/>
+        <location filename="../src/gui/ui_Kanjidic2Preferences.h" line="629"/>
+        <location filename="../src/gui/ui_Kanjidic2Preferences.h" line="642"/>
         <source>Components</source>
         <translation>Composants</translation>
     </message>
     <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2Preferences.ui" line="99"/>
         <location filename="../src/gui/kanjidic2/Kanjidic2Preferences.ui" line="428"/>
+        <location filename="../src/gui/ui_Kanjidic2Preferences.h" line="630"/>
+        <location filename="../src/gui/ui_Kanjidic2Preferences.h" line="656"/>
         <source># of strokes</source>
         <translation># de traits</translation>
     </message>
     <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2Preferences.ui" line="106"/>
+        <location filename="../src/gui/ui_Kanjidic2Preferences.h" line="631"/>
         <source>Nanori</source>
         <translation>Nanori</translation>
     </message>
     <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2Preferences.ui" line="116"/>
+        <location filename="../src/gui/ui_Kanjidic2Preferences.h" line="632"/>
         <source>Additional information</source>
         <translation>Informations additionnelles</translation>
     </message>
     <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2Preferences.ui" line="124"/>
+        <location filename="../src/gui/ui_Kanjidic2Preferences.h" line="633"/>
         <source>Compounds:</source>
         <translation>Composants:</translation>
     </message>
     <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2Preferences.ui" line="138"/>
         <location filename="../src/gui/kanjidic2/Kanjidic2Preferences.ui" line="163"/>
+        <location filename="../src/gui/ui_Kanjidic2Preferences.h" line="634"/>
+        <location filename="../src/gui/ui_Kanjidic2Preferences.h" line="636"/>
         <source>Studied only</source>
         <translation>Étudiés seulement</translation>
     </message>
     <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2Preferences.ui" line="149"/>
+        <location filename="../src/gui/ui_Kanjidic2Preferences.h" line="635"/>
         <source>Words using the kanji:</source>
         <translation>Mots utilisant ce kanji:</translation>
     </message>
     <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2Preferences.ui" line="189"/>
+        <location filename="../src/gui/ui_Kanjidic2Preferences.h" line="652"/>
         <source>Printing</source>
         <translation>Impression</translation>
     </message>
     <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2Preferences.ui" line="195"/>
+        <location filename="../src/gui/ui_Kanjidic2Preferences.h" line="638"/>
         <source>Kanji information</source>
         <translation>Informations sur le kanji</translation>
     </message>
     <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2Preferences.ui" line="201"/>
+        <location filename="../src/gui/ui_Kanjidic2Preferences.h" line="639"/>
         <source>Meaning</source>
         <translation>Signification</translation>
     </message>
     <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2Preferences.ui" line="208"/>
+        <location filename="../src/gui/ui_Kanjidic2Preferences.h" line="640"/>
         <source>Onyomi</source>
         <translation>Lecture on</translation>
     </message>
     <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2Preferences.ui" line="215"/>
+        <location filename="../src/gui/ui_Kanjidic2Preferences.h" line="641"/>
         <source>Kunyomi</source>
         <translation>Lecture kun</translation>
     </message>
     <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2Preferences.ui" line="232"/>
+        <location filename="../src/gui/ui_Kanjidic2Preferences.h" line="643"/>
         <source>Only studied components</source>
         <translation>Seulement des composants étudiés</translation>
     </message>
     <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2Preferences.ui" line="244"/>
+        <location filename="../src/gui/ui_Kanjidic2Preferences.h" line="644"/>
         <source>words</source>
         <translation>mots</translation>
     </message>
     <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2Preferences.ui" line="253"/>
+        <location filename="../src/gui/ui_Kanjidic2Preferences.h" line="645"/>
         <source>Only studied words</source>
         <translation>Seulement des mots étudiés</translation>
     </message>
     <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2Preferences.ui" line="263"/>
+        <location filename="../src/gui/ui_Kanjidic2Preferences.h" line="646"/>
         <source>Kanji drawing style</source>
         <translation>Style de dessin du kanji</translation>
     </message>
     <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2Preferences.ui" line="271"/>
+        <location filename="../src/gui/ui_Kanjidic2Preferences.h" line="647"/>
         <source>Handwriting</source>
         <translation>Écriture manuelle</translation>
     </message>
     <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2Preferences.ui" line="278"/>
+        <location filename="../src/gui/ui_Kanjidic2Preferences.h" line="648"/>
         <source>Default font</source>
         <translation>Police par défaut</translation>
     </message>
     <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2Preferences.ui" line="289"/>
+        <location filename="../src/gui/ui_Kanjidic2Preferences.h" line="649"/>
         <source>Kanji header size:</source>
         <translation>Taille de l&apos;en-tête du kanji:</translation>
     </message>
     <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2Preferences.ui" line="311"/>
+        <location filename="../src/gui/ui_Kanjidic2Preferences.h" line="650"/>
         <source>Preview</source>
         <translation>Prévisualisation</translation>
     </message>
     <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2Preferences.ui" line="399"/>
+        <location filename="../src/gui/ui_Kanjidic2Preferences.h" line="661"/>
         <source>Tooltip</source>
         <translation>Info-bulle</translation>
     </message>
     <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2Preferences.ui" line="405"/>
+        <location filename="../src/gui/ui_Kanjidic2Preferences.h" line="653"/>
         <source>Kanji tooltip enabled</source>
         <translation>Info-bulle kanji activée</translation>
     </message>
     <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2Preferences.ui" line="421"/>
+        <location filename="../src/gui/ui_Kanjidic2Preferences.h" line="655"/>
         <source>Score</source>
         <translation>Score</translation>
     </message>
     <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2Preferences.ui" line="480"/>
+        <location filename="../src/gui/ui_Kanjidic2Preferences.h" line="672"/>
         <source>Stroke animation</source>
         <translation>Animation de tracé</translation>
     </message>
     <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2Preferences.ui" line="492"/>
+        <location filename="../src/gui/ui_Kanjidic2Preferences.h" line="662"/>
         <source>Size:</source>
         <translation>Taille:</translation>
     </message>
     <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2Preferences.ui" line="509"/>
+        <location filename="../src/gui/ui_Kanjidic2Preferences.h" line="663"/>
         <source>Drawing speed:</source>
         <translation>Vitesse de dessin:</translation>
     </message>
     <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2Preferences.ui" line="518"/>
         <location filename="../src/gui/kanjidic2/Kanjidic2Preferences.ui" line="549"/>
+        <location filename="../src/gui/ui_Kanjidic2Preferences.h" line="664"/>
+        <location filename="../src/gui/ui_Kanjidic2Preferences.h" line="666"/>
         <source>Default</source>
         <translation>Défaut</translation>
     </message>
     <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2Preferences.ui" line="540"/>
+        <location filename="../src/gui/ui_Kanjidic2Preferences.h" line="665"/>
         <source>Pause between strokes:</source>
         <translation>Pause entre les traits:</translation>
     </message>
     <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2Preferences.ui" line="600"/>
+        <location filename="../src/gui/ui_Kanjidic2Preferences.h" line="667"/>
         <source>Animation playback</source>
         <translation>Lecture de l&apos;animation</translation>
     </message>
     <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2Preferences.ui" line="606"/>
+        <location filename="../src/gui/ui_Kanjidic2Preferences.h" line="668"/>
         <source>Play animation when the kanji popup appears</source>
         <translation>Commencer l&apos;animation quand la popup apparaît</translation>
     </message>
     <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2Preferences.ui" line="621"/>
+        <location filename="../src/gui/ui_Kanjidic2Preferences.h" line="669"/>
         <source>Loop animation after:</source>
         <translation>Rejouer l&apos;animation après:</translation>
     </message>
     <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2Preferences.ui" line="628"/>
+        <location filename="../src/gui/ui_Kanjidic2Preferences.h" line="670"/>
         <source>Do not loop</source>
         <translation>Ne pas rejouer</translation>
     </message>
     <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2Preferences.ui" line="631"/>
+        <location filename="../src/gui/ui_Kanjidic2Preferences.h" line="671"/>
         <source> seconds</source>
         <translation> secondes</translation>
     </message>
 </context>
 <context>
-    <name>Kanjidic2Prefs</name>
-    <message>
-        <source>Kanji entries</source>
-        <translation type="obsolete">Entrées kanji</translation>
-    </message>
-    <message>
-        <source>Display</source>
-        <translation type="obsolete">Affichage</translation>
-    </message>
-    <message>
-        <source>Kanjis this kanji is a component of</source>
-        <translation type="obsolete">Kanjis dont ce kanji est un composant</translation>
-    </message>
-    <message>
-        <source>Words using this kanji</source>
-        <translation type="obsolete">Mots utilisant ce kanji</translation>
-    </message>
-    <message>
-        <source>Printing</source>
-        <translation type="obsolete">Impression</translation>
-    </message>
-    <message>
-        <source>Animation</source>
-        <translation type="obsolete">Animation</translation>
-    </message>
-    <message>
-        <source>Drawing speed:</source>
-        <translation type="obsolete">Vitesse de dessin:</translation>
-    </message>
-    <message>
-        <source>Default</source>
-        <translation type="obsolete">Défaut</translation>
-    </message>
-    <message>
-        <source>Pause between strokes:</source>
-        <translation type="obsolete">Pause entre les traits:</translation>
-    </message>
-</context>
-<context>
     <name>MainWindow</name>
-    <message>
-        <source>Ctrl+L</source>
-        <translation type="obsolete">Ctrl+L</translation>
-    </message>
-    <message>
-        <source>&amp;File</source>
-        <translation type="obsolete">&amp;Fichier</translation>
-    </message>
-    <message>
-        <source>&amp;Print booklet with displayed entries...</source>
-        <translation type="obsolete">Im&amp;primer un booklet avec les entrées affichées...</translation>
-    </message>
-    <message>
-        <source>Ctrl+P</source>
-        <translation type="obsolete">Ctrl+P</translation>
-    </message>
-    <message>
-        <source>Print entries displayed in result view as a booklet</source>
-        <translation type="obsolete">Imprimer les entrées affichées dans la liste de résultats en booklet</translation>
-    </message>
     <message>
         <location filename="../src/gui/MainWindow.cc" line="131"/>
         <source>&amp;Quit</source>
@@ -2845,82 +1897,6 @@
         <translation>&amp;Recherche</translation>
     </message>
     <message>
-        <source>&amp;All</source>
-        <translation type="obsolete">&amp;Toutes</translation>
-    </message>
-    <message>
-        <source>Added &amp;today</source>
-        <translation type="obsolete">Ajoutées &amp;aujourd&apos;hui</translation>
-    </message>
-    <message>
-        <source>Added &amp;yesterday</source>
-        <translation type="obsolete">Ajoutées &amp;hier</translation>
-    </message>
-    <message>
-        <source>Added this &amp;week</source>
-        <translation type="obsolete">Ajoutées cette &amp;semaine</translation>
-    </message>
-    <message>
-        <source>Added &amp;last week</source>
-        <translation type="obsolete">Ajoutées la semaine &amp;dernière</translation>
-    </message>
-    <message>
-        <source>&amp;Non-studied entries</source>
-        <translation type="obsolete">Entrées &amp;non étudiées</translation>
-    </message>
-    <message>
-        <source>&amp;Mistaken</source>
-        <translation type="obsolete">Entrées &amp;mal répondues</translation>
-    </message>
-    <message>
-        <source>&amp;Today</source>
-        <translation type="obsolete">&amp;Aujourd&apos;hui</translation>
-    </message>
-    <message>
-        <source>&amp;Yesterday</source>
-        <translation type="obsolete">&amp;Hier</translation>
-    </message>
-    <message>
-        <source>This &amp;week</source>
-        <translation type="obsolete">Cette &amp;semaine</translation>
-    </message>
-    <message>
-        <source>&amp;Last week</source>
-        <translation type="obsolete">La semaine &amp;dernière</translation>
-    </message>
-    <message>
-        <source>&amp;Note contains...</source>
-        <translation type="obsolete">&amp;Note contenant...</translation>
-    </message>
-    <message>
-        <source>&amp;Tagged...</source>
-        <translation type="obsolete">&amp;Taggé...</translation>
-    </message>
-    <message>
-        <source>JLPT</source>
-        <translation type="obsolete">JLPT</translation>
-    </message>
-    <message>
-        <source>Level &amp;4</source>
-        <translation type="obsolete">Niveau &amp;4</translation>
-    </message>
-    <message>
-        <source>Level &amp;3</source>
-        <translation type="obsolete">Niveau &amp;3</translation>
-    </message>
-    <message>
-        <source>Level &amp;2</source>
-        <translation type="obsolete">Niveau &amp;2</translation>
-    </message>
-    <message>
-        <source>Level &amp;1 (kanjis only)</source>
-        <translation type="obsolete">Niveau &amp;1 (kanjis seulement)</translation>
-    </message>
-    <message>
-        <source>&amp;Train</source>
-        <translation type="obsolete">&amp;Entraînement</translation>
-    </message>
-    <message>
         <location filename="../src/gui/MainWindow.cc" line="168"/>
         <source>&amp;Help</source>
         <translation>&amp;Aide</translation>
@@ -2931,57 +1907,9 @@
         <translation>&amp;À propos...</translation>
     </message>
     <message>
-        <source>&amp;About Qt...</source>
-        <translation type="obsolete">A propos de &amp;Qt...</translation>
-    </message>
-    <message>
-        <source>Note search</source>
-        <translation type="obsolete">Rechercher dans les notes</translation>
-    </message>
-    <message>
-        <source>Enter a space-separated list of words to be searched in notes:
-(leave empty to display all entries with notes)</source>
-        <translation type="obsolete">Entrez une liste de mots à rechercher, séparés par des espaces:
-(laissez vide pour afficher toutes les entrées possédant des notes)</translation>
-    </message>
-    <message>
-        <source>Tag search</source>
-        <translation type="obsolete">Recherche par tag</translation>
-    </message>
-    <message>
-        <source>Enter a space-separated list of tags:
-(leave empty to display all tagged entries)</source>
-        <translation type="obsolete">Entrez une liste de tags séparés par des espaces:
-(laissez vide pour afficher toutes les entrées taggées)</translation>
-    </message>
-    <message>
-        <source>About Tagaini Jisho</source>
-        <translation type="obsolete">À propos de Tagaini Jisho</translation>
-    </message>
-    <message>
-        <source>Studied entries</source>
-        <translation type="obsolete">Entrées étudiées</translation>
-    </message>
-    <message>
-        <source>Export</source>
-        <translation type="obsolete">Exporter</translation>
-    </message>
-    <message>
-        <source>Tab-separated file...</source>
-        <translation type="obsolete">Fichier séparé par des tabulations...</translation>
-    </message>
-    <message>
         <location filename="../src/gui/MainWindow.cc" line="128"/>
         <source>Preferences...</source>
         <translation>Préférences...</translation>
-    </message>
-    <message>
-        <source>&amp;Tagged</source>
-        <translation type="obsolete">&amp;Taggé</translation>
-    </message>
-    <message>
-        <source>Tagged (manual entry)...</source>
-        <translation type="obsolete">Taggé (entrée manuelle)...</translation>
     </message>
     <message>
         <location filename="../src/gui/MainWindow.cc" line="169"/>
@@ -3049,17 +1977,9 @@
         <translation>Erreur lors de l&apos;écriture du fichier %1.</translation>
     </message>
     <message>
-        <source>&amp;Print displayed entries...</source>
-        <translation type="obsolete">Im&amp;primer les entrées affichées...</translation>
-    </message>
-    <message>
         <location filename="../src/gui/MainWindow.cc" line="140"/>
         <source>Print entries displayed in result view</source>
         <translation>Imprimer les entrées affichées dans la liste des résultats</translation>
-    </message>
-    <message>
-        <source>Added since &amp;last week</source>
-        <translation type="obsolete">Ajoutées depuis la semaine &amp;dernière</translation>
     </message>
     <message>
         <location filename="../src/gui/MainWindow.cc" line="126"/>
@@ -3072,18 +1992,6 @@
         <location filename="../src/gui/MainWindow.cc" line="190"/>
         <source>Import user data...</source>
         <translation>Importer les données utilisateur...</translation>
-    </message>
-    <message>
-        <source>&amp;Since last week</source>
-        <translation type="obsolete">Depuis la semaine &amp;dernière</translation>
-    </message>
-    <message>
-        <source>JLPT level</source>
-        <translation type="obsolete">Niveau JLPT</translation>
-    </message>
-    <message>
-        <source>Level &amp;1</source>
-        <translation type="obsolete">Niveau &amp;1</translation>
     </message>
     <message>
         <location filename="../src/gui/MainWindow.cc" line="137"/>
@@ -3123,7 +2031,7 @@
     <message>
         <location filename="../src/gui/MainWindow.cc" line="149"/>
         <source>Booklet(s) &amp;preview...</source>
-        <translation>Aperçu d&apos;impression de livret...</translation>
+        <translation>&amp;Aperçu d&apos;impression de livret...</translation>
     </message>
     <message>
         <location filename="../src/gui/MainWindow.cc" line="150"/>
@@ -3169,10 +2077,6 @@
         <location filename="../src/gui/MainWindow.cc" line="165"/>
         <source>Whole study list train &amp;settings...</source>
         <translation>&amp;Paramètres de la pratique sur la liste d&apos;étude...</translation>
-    </message>
-    <message>
-        <source>Train &amp;settings...</source>
-        <translation type="obsolete">&amp;Paramètres d&apos;entraînement...</translation>
     </message>
     <message>
         <location filename="../src/gui/MainWindow.cc" line="193"/>
@@ -3265,10 +2169,6 @@
         <translation>Impression en cours...</translation>
     </message>
     <message>
-        <source>Enter the desired score range:</source>
-        <translation type="obsolete">Entrez l&apos;intervalle de score désiré:</translation>
-    </message>
-    <message>
         <location filename="../src/gui/MainWindow.cc" line="468"/>
         <source>An update is available!</source>
         <translation>Une mise à jour est disponible!</translation>
@@ -3289,18 +2189,6 @@
         <location filename="../src/gui/MainWindow.cc" line="488"/>
         <source>Maybe later</source>
         <translation>Peut-être plus tard</translation>
-    </message>
-    <message>
-        <source>http://www.tagaini.net</source>
-        <translation type="obsolete">http://www.tagaini.net</translation>
-    </message>
-    <message>
-        <source>&amp;Studied entries</source>
-        <translation type="obsolete">Entrées &amp;étudiées</translation>
-    </message>
-    <message>
-        <source>By &amp;score...</source>
-        <translation type="obsolete">Par &amp;score...</translation>
     </message>
 </context>
 <context>
@@ -3365,273 +2253,77 @@
         <source>Default</source>
         <translation>Défaut</translation>
     </message>
-    <message>
-        <source>Font</source>
-        <translation type="obsolete">Police</translation>
-    </message>
-    <message>
-        <source>Color</source>
-        <translation type="obsolete">Couleur</translation>
-    </message>
-</context>
-<context>
-    <name>PreferencesResultsJobWidget</name>
-    <message>
-        <source>Disabled</source>
-        <translation type="obsolete">Désactivé</translation>
-    </message>
-    <message>
-        <source> results</source>
-        <translation type="obsolete"> résultats</translation>
-    </message>
-    <message>
-        <source>Only from my study list</source>
-        <translation type="obsolete">De ma liste d&apos;études uniquement</translation>
-    </message>
 </context>
 <context>
     <name>PreferencesWindow</name>
     <message>
-        <source>Font size:</source>
-        <translation type="obsolete">Taille de la police:</translation>
-    </message>
-    <message>
         <location filename="../src/gui/PreferencesWindow.ui" line="14"/>
+        <location filename="../src/gui/ui_PreferencesWindow.h" line="79"/>
         <source>Preferences</source>
         <translation>Préférences</translation>
-    </message>
-    <message>
-        <source>Application font size</source>
-        <translation type="obsolete">Taille de la police de l&apos;application</translation>
-    </message>
-    <message>
-        <source>You need to restart Tagaini Jisho for this change to take effect.</source>
-        <translation type="obsolete">Vous devez redémarrer Tagaini Jisho pour que le changement prenne effet.</translation>
-    </message>
-    <message>
-        <source>Use system default</source>
-        <translation type="obsolete">Utiliser la valeur par défaut du système</translation>
-    </message>
-</context>
-<context>
-    <name>QObject</name>
-    <message>
-        <source>Tags: </source>
-        <translation type="obsolete">Tags: </translation>
-    </message>
-    <message>
-        <source>Notes:</source>
-        <translation type="obsolete">Notes: </translation>
-    </message>
-    <message>
-        <source>Studied since </source>
-        <translation type="obsolete">Étudié depuis le </translation>
-    </message>
-    <message>
-        <source>. Score: </source>
-        <translation type="obsolete">. Score: </translation>
-    </message>
-    <message>
-        <source>Set tags</source>
-        <translation type="obsolete">Assigner des tags</translation>
-    </message>
-    <message>
-        <source>Enter a comma-separated list of tags for </source>
-        <translation type="obsolete">Entrez une liste de tags séparés par une virgule pour </translation>
-    </message>
-    <message>
-        <source>these entries:</source>
-        <translation type="obsolete">ces entrées:</translation>
-    </message>
-    <message>
-        <source>this entry:</source>
-        <translation type="obsolete">cette entrée:</translation>
-    </message>
-    <message>
-        <source>Invalid tags</source>
-        <translation type="obsolete">Tags invalides</translation>
-    </message>
-    <message>
-        <source>&lt;p&gt;These tags have invalid characters: </source>
-        <translation type="obsolete">&lt;p&gt;Ces tags comprennent des caractères invalides: </translation>
-    </message>
-    <message>
-        <source>&lt;/p&gt;&lt;p&gt;Accepted characters are letters and digits.&lt;/p&gt;</source>
-        <translation type="obsolete">&lt;/p&gt;&lt;p&gt;Les caractères acceptés sont les lettres et les chiffres.&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>Other readings: </source>
-        <translation type="obsolete">Autres lectures: </translation>
-    </message>
-    <message>
-        <source>Also written:</source>
-        <translation type="obsolete">Également écrit: </translation>
-    </message>
-    <message>
-        <source>JLPT level: </source>
-        <translation type="obsolete">Niveau JLPT: </translation>
-    </message>
-    <message>
-        <source>Tracing for %1</source>
-        <translation type="obsolete">Tracé pour %1</translation>
-    </message>
-    <message>
-        <source>Readings: </source>
-        <translation type="obsolete">Lectures: </translation>
-    </message>
-    <message>
-        <source>Readings for names: </source>
-        <translation type="obsolete">Lectures pour les noms: </translation>
-    </message>
-    <message>
-        <source>Number of strokes: </source>
-        <translation type="obsolete">Nombres de traits: </translation>
-    </message>
-    <message>
-        <source>Frequency: </source>
-        <translation type="obsolete">Fréquence: </translation>
-    </message>
-    <message>
-        <source>Grade: </source>
-        <translation type="obsolete">Niveau: </translation>
-    </message>
-    <message>
-        <source>Unicode: 0x</source>
-        <translation type="obsolete">Unicode: 0x</translation>
-    </message>
-    <message>
-        <source>Radicals: </source>
-        <translation type="obsolete">Radicaux: </translation>
-    </message>
-    <message>
-        <source>Used in: </source>
-        <translation type="obsolete">Utilisé dans: </translation>
-    </message>
-    <message>
-        <source>All the words using this kanji</source>
-        <translation type="obsolete">Tous les mots utilisant ce kanji</translation>
-    </message>
-    <message>
-        <source>Enter a space-separated list of tags for </source>
-        <translation type="obsolete">Entrez une liste de tags séparés par des espaces pour </translation>
-    </message>
-    <message>
-        <source>Also written: </source>
-        <translation type="obsolete">Également écrit: </translation>
-    </message>
-    <message>
-        <source>Add tags</source>
-        <translation type="obsolete">Ajouter des tags</translation>
-    </message>
-    <message>
-        <source>Enter a space-separated list of tags to add to </source>
-        <translation type="obsolete">Entrez une liste de tags séparés par des espaces à ajouter à </translation>
-    </message>
-    <message>
-        <source>All words using this kanji</source>
-        <translation type="obsolete">Tous les mots utilisant ce kanji</translation>
-    </message>
-    <message>
-        <source>&lt;b&gt;Other readings:&lt;/b&gt; </source>
-        <translation type="obsolete">&lt;b&gt;Autres lectures:&lt;/b&gt; </translation>
-    </message>
-    <message>
-        <source>&lt;b&gt;Homophones:&lt;/b&gt;</source>
-        <translation type="obsolete">&lt;b&gt;Homophones:&lt;/b&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;b&gt;JLPT level:&lt;/b&gt; </source>
-        <translation type="obsolete">&lt;b&gt;Niveau JLPT:&lt;/b&gt; </translation>
-    </message>
-    <message>
-        <source>&lt;b&gt;Readings:&lt;/b&gt; </source>
-        <translation type="obsolete">&lt;b&gt;Lectures :&lt;/b&gt; </translation>
-    </message>
-    <message>
-        <source>&lt;b&gt;Readings for names:&lt;/b&gt; </source>
-        <translation type="obsolete">&lt;b&gt;Lectures pour les noms :&lt;/b&gt; </translation>
-    </message>
-    <message>
-        <source>&lt;b&gt;Strokes:&lt;/b&gt; </source>
-        <translation type="obsolete">&lt;b&gt;Traits:&lt;/b&gt; </translation>
-    </message>
-    <message>
-        <source>&lt;b&gt;Frequency:&lt;/b&gt; </source>
-        <translation type="obsolete">&lt;b&gt;Fréquence:&lt;/b&gt; </translation>
-    </message>
-    <message>
-        <source>&lt;b&gt;Grade:&lt;/b&gt; </source>
-        <translation type="obsolete">&lt;b&gt;Niveau scolaire:&lt;/b&gt; </translation>
-    </message>
-    <message>
-        <source>&lt;b&gt;Unicode:&lt;/b&gt; 0x</source>
-        <translation type="obsolete">&lt;b&gt;Unicode:&lt;/b&gt; 0x</translation>
-    </message>
-    <message>
-        <source>&lt;b&gt;Components:&lt;/b&gt; </source>
-        <translation type="obsolete">&lt;b&gt;Composants :&lt;/b&gt; </translation>
-    </message>
-    <message>
-        <source>&lt;b&gt;Used in:&lt;/b&gt; </source>
-        <translation type="obsolete">&lt;b&gt;Utilisé dans :&lt;/b&gt; </translation>
-    </message>
-    <message>
-        <source>&lt;b&gt;Nanori:&lt;/b&gt; </source>
-        <translation type="obsolete">&lt;b&gt;Nanori:&lt;/b&gt; </translation>
-    </message>
-    <message>
-        <source>&lt;b&gt;Components:&lt;/b&gt;</source>
-        <translation type="obsolete">&lt;b&gt;Composants:&lt;/b&gt;</translation>
     </message>
 </context>
 <context>
     <name>QSQLiteDriver</name>
     <message>
+        <location filename="../src/sqlite/qsql_sqlite.cc" line="507"/>
         <source>Error opening database</source>
-        <translation type="obsolete">Erreur lors de l&apos;ouverture de la base de données</translation>
+        <translation>Erreur lors de l&apos;ouverture de la base de données</translation>
     </message>
     <message>
+        <location filename="../src/sqlite/qsql_sqlite.cc" line="518"/>
         <source>Error closing database</source>
-        <translation type="obsolete">Erreur lors de la fermeture de la base de données</translation>
+        <translation>Erreur lors de la fermeture de la base de données</translation>
     </message>
     <message>
+        <location filename="../src/sqlite/qsql_sqlite.cc" line="538"/>
         <source>Unable to begin transaction</source>
-        <translation type="obsolete">Impossible de commencer la transaction</translation>
+        <translation>Impossible de commencer la transaction</translation>
     </message>
     <message>
+        <location filename="../src/sqlite/qsql_sqlite.cc" line="553"/>
         <source>Unable to commit transaction</source>
-        <translation type="obsolete">Impossible de valider la transaction</translation>
+        <translation>Impossible de valider la transaction</translation>
     </message>
     <message>
+        <location filename="../src/sqlite/qsql_sqlite.cc" line="568"/>
         <source>Unable to rollback transaction</source>
-        <translation type="obsolete">Impossible de replier la transaction</translation>
+        <translation>Impossible de replier la transaction</translation>
     </message>
 </context>
 <context>
     <name>QSQLiteResult</name>
     <message>
+        <location filename="../src/sqlite/qsql_sqlite.cc" line="190"/>
+        <location filename="../src/sqlite/qsql_sqlite.cc" line="240"/>
+        <location filename="../src/sqlite/qsql_sqlite.cc" line="248"/>
         <source>Unable to fetch row</source>
-        <translation type="obsolete">Impossible d&apos;atteindre la ligne</translation>
+        <translation>Impossible d&apos;atteindre la ligne</translation>
     </message>
     <message>
+        <location filename="../src/sqlite/qsql_sqlite.cc" line="191"/>
         <source>No query</source>
-        <translation type="obsolete">Aucune requête</translation>
+        <translation>Aucune requête</translation>
     </message>
     <message>
+        <location filename="../src/sqlite/qsql_sqlite.cc" line="305"/>
         <source>Unable to execute statement</source>
-        <translation type="obsolete">Impossible d&apos;exécuter la commande</translation>
+        <translation>Impossible d&apos;exécuter la commande</translation>
     </message>
     <message>
+        <location filename="../src/sqlite/qsql_sqlite.cc" line="325"/>
         <source>Unable to reset statement</source>
-        <translation type="obsolete">Impossible de réinitialiser la commande</translation>
+        <translation>Impossible de réinitialiser la commande</translation>
     </message>
     <message>
+        <location filename="../src/sqlite/qsql_sqlite.cc" line="370"/>
         <source>Unable to bind parameters</source>
-        <translation type="obsolete">Impossible de lier les paramètres</translation>
+        <translation>Impossible de lier les paramètres</translation>
     </message>
     <message>
+        <location filename="../src/sqlite/qsql_sqlite.cc" line="377"/>
         <source>Parameter count mismatch</source>
-        <translation type="obsolete">Nombre de paramètres incorrect</translation>
+        <translation>Nombre de paramètres incorrect</translation>
     </message>
 </context>
 <context>
@@ -3639,6 +2331,7 @@
     <message>
         <location filename="../src/gui/ReadingTrainer.cc" line="38"/>
         <location filename="../src/gui/ReadingTrainer.ui" line="14"/>
+        <location filename="../src/gui/ui_ReadingTrainer.h" line="111"/>
         <source>Reading practice</source>
         <translation>Entraînement à la lecture</translation>
     </message>
@@ -3673,21 +2366,9 @@
         <translation>Il n&apos;y a plus d&apos;entrées correspondant aux paramètres d&apos;entraînement actuels.</translation>
     </message>
     <message>
-        <source>Unable to find any entry eligible for reading practice. Entries eligible for this training mode are studied vocabulary entries for which all kanjis are also studied, and which have not yet been trained today. Please add entries accordingly if you want to practice this mode.</source>
-        <translation type="obsolete">Impossible de trouver des entrées utilisables pour la pratique de la lecture. Les entrées utilisables avec ce mode sont les entrées de vocabulaire étudiées dont tous les kanjis sont aussi étudiés.</translation>
-    </message>
-    <message>
-        <source>Unable to find any entry eligible for reading practice. Entries eligible for this training mode are studied vocabulary entries for which all kanjis are also studied, and match the train settings. Please add entries or modify the train settings accordingly if you want to practice this mode.</source>
-        <translation type="obsolete">Impossible de trouver des entrées utilisables pour la pratique de la lecture. Les entrées utilisables avec ce mode sont les entrées de vocabulaire étudiées dont tous les kanjis sont aussi étudiés. Veuillez ajouter des entrées à votre liste d&apos;étude ou modifier les paramètres d&apos;entraînement de telle sorte que des entrées puisse être sélectionnées.</translation>
-    </message>
-    <message>
         <location filename="../src/gui/ReadingTrainer.cc" line="117"/>
         <source>No more entries to train</source>
         <translation>Plus d&apos;entrées à pratiquer</translation>
-    </message>
-    <message>
-        <source>There are no more entries to train today.</source>
-        <translation type="obsolete">Il n&apos;y a plus d&apos;entrées à pratiquer pour aujourd&apos;hui.</translation>
     </message>
     <message>
         <location filename="../src/gui/ReadingTrainer.cc" line="134"/>
@@ -3706,97 +2387,88 @@
     </message>
     <message>
         <location filename="../src/gui/ReadingTrainer.ui" line="23"/>
+        <location filename="../src/gui/ui_ReadingTrainer.h" line="112"/>
         <source>Type the correct reading for this word:</source>
         <translation>Entrez la lecture correcte pour ce mot:</translation>
     </message>
     <message>
         <location filename="../src/gui/ReadingTrainer.ui" line="53"/>
+        <location filename="../src/gui/ui_ReadingTrainer.h" line="114"/>
         <source>&amp;Next</source>
         <translation>&amp;Suivant</translation>
     </message>
     <message>
         <location filename="../src/gui/ReadingTrainer.ui" line="63"/>
+        <location filename="../src/gui/ui_ReadingTrainer.h" line="115"/>
         <source>&amp;Ok!</source>
         <translation>&amp;Ok!</translation>
-    </message>
-    <message>
-        <source>Ok!</source>
-        <translation type="obsolete">Ok!</translation>
     </message>
 </context>
 <context>
     <name>RelativeDate</name>
     <message>
+        <location filename="../src/core/RelativeDate.cc" line="99"/>
         <source>today</source>
-        <translation type="obsolete">aujourd&apos;hui</translation>
+        <translation>aujourd&apos;hui</translation>
     </message>
     <message>
+        <location filename="../src/core/RelativeDate.cc" line="100"/>
         <source>yesterday</source>
-        <translation type="obsolete">hier</translation>
+        <translation>hier</translation>
     </message>
     <message>
+        <location filename="../src/core/RelativeDate.cc" line="101"/>
         <source>%1 days ago</source>
-        <translation type="obsolete">il y a %1 jours</translation>
+        <translation>il y a %1 jours</translation>
     </message>
     <message>
+        <location filename="../src/core/RelativeDate.cc" line="103"/>
         <source>this week</source>
-        <translation type="obsolete">cette semaine</translation>
+        <translation>cette semaine</translation>
     </message>
     <message>
+        <location filename="../src/core/RelativeDate.cc" line="104"/>
         <source>last week</source>
-        <translation type="obsolete">la semaine dernière</translation>
+        <translation>la semaine dernière</translation>
     </message>
     <message>
+        <location filename="../src/core/RelativeDate.cc" line="105"/>
         <source>%1 weeks ago</source>
-        <translation type="obsolete">il y a %1 semaines</translation>
+        <translation>il y a %1 semaines</translation>
     </message>
     <message>
+        <location filename="../src/core/RelativeDate.cc" line="107"/>
         <source>this month</source>
-        <translation type="obsolete">ce mois</translation>
+        <translation>ce mois</translation>
     </message>
     <message>
+        <location filename="../src/core/RelativeDate.cc" line="108"/>
         <source>last month</source>
-        <translation type="obsolete">le mois dernier</translation>
+        <translation>le mois dernier</translation>
     </message>
     <message>
+        <location filename="../src/core/RelativeDate.cc" line="109"/>
         <source>%1 months ago</source>
-        <translation type="obsolete">il y a %1 mois</translation>
+        <translation>il y a %1 mois</translation>
     </message>
     <message>
+        <location filename="../src/core/RelativeDate.cc" line="111"/>
         <source>this year</source>
-        <translation type="obsolete">cette année</translation>
+        <translation>cette année</translation>
     </message>
     <message>
+        <location filename="../src/core/RelativeDate.cc" line="112"/>
         <source>last year</source>
-        <translation type="obsolete">l&apos;année dernière</translation>
+        <translation>l&apos;année dernière</translation>
     </message>
     <message>
+        <location filename="../src/core/RelativeDate.cc" line="113"/>
         <source>%1 years ago</source>
-        <translation type="obsolete">il y a %1 ans</translation>
+        <translation>il y a %1 ans</translation>
     </message>
 </context>
 <context>
     <name>RelativeDateEdit</name>
-    <message>
-        <source>&amp;Today</source>
-        <translation type="obsolete">&amp;Aujourd&apos;hui</translation>
-    </message>
-    <message>
-        <source>&amp;Yesterday</source>
-        <translation type="obsolete">&amp;Hier</translation>
-    </message>
-    <message>
-        <source>This &amp;week</source>
-        <translation type="obsolete">Cette &amp;semaine</translation>
-    </message>
-    <message>
-        <source>&amp;Last week</source>
-        <translation type="obsolete">La semaine &amp;dernière</translation>
-    </message>
-    <message>
-        <source>&amp;Not set</source>
-        <translation type="obsolete">&amp;Non défini</translation>
-    </message>
     <message>
         <location filename="../src/gui/RelativeDateEdit.cc" line="164"/>
         <source>Not set</source>
@@ -3847,46 +2519,7 @@
     </message>
 </context>
 <context>
-    <name>ResultsList</name>
-    <message>
-        <source>Front</source>
-        <translation type="obsolete">Avant</translation>
-    </message>
-    <message>
-        <source>Back</source>
-        <translation type="obsolete">Arrière</translation>
-    </message>
-</context>
-<context>
     <name>ResultsView</name>
-    <message>
-        <source>Mark/unmark for &amp;study</source>
-        <translation type="obsolete">Marquer/démarquer pour l&apos;&amp;étude</translation>
-    </message>
-    <message>
-        <source>Already &amp;known</source>
-        <translation type="obsolete">Déjà &amp;connu</translation>
-    </message>
-    <message>
-        <source>&amp;Reset score</source>
-        <translation type="obsolete">&amp;Remise à zéro du score</translation>
-    </message>
-    <message>
-        <source>Edit &amp;tags...</source>
-        <translation type="obsolete">Éditer les &amp;tags...</translation>
-    </message>
-    <message>
-        <source>Edit &amp;notes...</source>
-        <translation type="obsolete">Éditer les &amp;notes...</translation>
-    </message>
-    <message>
-        <source>Remove from &amp;study list</source>
-        <translation type="obsolete">Enlever de la liste d&apos;&amp;étude</translation>
-    </message>
-    <message>
-        <source>Add to &amp;study list</source>
-        <translation type="obsolete">Ajouter à la liste d&apos;&amp;étude</translation>
-    </message>
     <message>
         <location filename="../src/gui/ResultsView.cc" line="185"/>
         <source>Select All</source>
@@ -3952,122 +2585,75 @@
     </message>
     <message>
         <location filename="../src/gui/ResultsViewPreferences.ui" line="14"/>
+        <location filename="../src/gui/ui_ResultsViewPreferences.h" line="165"/>
         <source>Form</source>
         <translation>Form</translation>
     </message>
     <message>
         <location filename="../src/gui/ResultsViewPreferences.ui" line="20"/>
+        <location filename="../src/gui/ui_ResultsViewPreferences.h" line="166"/>
         <source>Results display</source>
         <translation>Affichage des résultats</translation>
     </message>
     <message>
         <location filename="../src/gui/ResultsViewPreferences.ui" line="28"/>
+        <location filename="../src/gui/ui_ResultsViewPreferences.h" line="167"/>
         <source>Style:</source>
         <translation>Style:</translation>
     </message>
     <message>
         <location filename="../src/gui/ResultsViewPreferences.ui" line="35"/>
+        <location filename="../src/gui/ui_ResultsViewPreferences.h" line="168"/>
         <source>One line</source>
         <translation>Une ligne</translation>
     </message>
     <message>
         <location filename="../src/gui/ResultsViewPreferences.ui" line="42"/>
+        <location filename="../src/gui/ui_ResultsViewPreferences.h" line="169"/>
         <source>Two lines</source>
         <translation>Deux lignes</translation>
     </message>
     <message>
         <location filename="../src/gui/ResultsViewPreferences.ui" line="56"/>
+        <location filename="../src/gui/ui_ResultsViewPreferences.h" line="170"/>
         <source>Smooth scrolling</source>
         <translation>Défilement fluide</translation>
     </message>
     <message>
         <location filename="../src/gui/ResultsViewPreferences.ui" line="67"/>
+        <location filename="../src/gui/ui_ResultsViewPreferences.h" line="171"/>
         <source>Number of results per page:</source>
         <translation>Nombre d&apos;entrées par page:</translation>
     </message>
     <message>
         <location filename="../src/gui/ResultsViewPreferences.ui" line="105"/>
+        <location filename="../src/gui/ui_ResultsViewPreferences.h" line="172"/>
         <source>Results sorting:</source>
         <translation>Classement des résultats:</translation>
     </message>
     <message>
         <location filename="../src/gui/ResultsViewPreferences.ui" line="126"/>
+        <location filename="../src/gui/ui_ResultsViewPreferences.h" line="175"/>
         <source>By relevance</source>
         <translation>Par pertinence</translation>
     </message>
     <message>
         <location filename="../src/gui/ResultsViewPreferences.ui" line="131"/>
+        <location filename="../src/gui/ui_ResultsViewPreferences.h" line="176"/>
         <source>By score, then relevance</source>
         <translation>Par score, puis pertinence</translation>
     </message>
     <message>
         <location filename="../src/gui/ResultsViewPreferences.ui" line="144"/>
+        <location filename="../src/gui/ui_ResultsViewPreferences.h" line="178"/>
         <source>Fonts</source>
         <translation>Polices</translation>
     </message>
     <message>
         <location filename="../src/gui/ResultsViewPreferences.ui" line="151"/>
+        <location filename="../src/gui/ui_ResultsViewPreferences.h" line="179"/>
         <source>Preview</source>
         <translation>Prévisualisation</translation>
-    </message>
-</context>
-<context>
-    <name>ResultsViewPrefs</name>
-    <message>
-        <source>Preview</source>
-        <translation type="obsolete">Prévisualisation</translation>
-    </message>
-    <message>
-        <source>Results View</source>
-        <translation type="obsolete">Liste des résultats</translation>
-    </message>
-    <message>
-        <source>Results display</source>
-        <translation type="obsolete">Affichage des résultats</translation>
-    </message>
-    <message>
-        <source>Default</source>
-        <translation type="obsolete">Défaut</translation>
-    </message>
-    <message>
-        <source>Number of results per page:</source>
-        <translation type="obsolete">Nombre d&apos;entrées par page:</translation>
-    </message>
-    <message>
-        <source>Show studied entries first, ordered by score</source>
-        <translation type="obsolete">Montrer les entrées étudiées en premier, classées par score</translation>
-    </message>
-    <message>
-        <source>Style</source>
-        <translation type="obsolete">Style</translation>
-    </message>
-    <message>
-        <source>One line</source>
-        <translation type="obsolete">Une ligne</translation>
-    </message>
-    <message>
-        <source>Two lines</source>
-        <translation type="obsolete">Deux lignes</translation>
-    </message>
-    <message>
-        <source>Fonts</source>
-        <translation type="obsolete">Polices</translation>
-    </message>
-    <message>
-        <source>Main writing</source>
-        <translation type="obsolete">Écriture principale</translation>
-    </message>
-    <message>
-        <source>Readings and alternate writings</source>
-        <translation type="obsolete">Lectures et écritures alternatives</translation>
-    </message>
-    <message>
-        <source>Definitions</source>
-        <translation type="obsolete">Définitions</translation>
-    </message>
-    <message>
-        <source>Preview:</source>
-        <translation type="obsolete">Prévisualisation:</translation>
     </message>
 </context>
 <context>
@@ -4076,10 +2662,6 @@
         <location filename="../src/gui/PreferencesWindow.cc" line="185"/>
         <source>Romaji text</source>
         <translation>Texte en romaji</translation>
-    </message>
-    <message>
-        <source>Romanji text</source>
-        <translation type="obsolete">Texte en romanji</translation>
     </message>
 </context>
 <context>
@@ -4094,10 +2676,6 @@
         <source>Ctrl+L</source>
         <extracomment>Used to focus on the search bar</extracomment>
         <translation>Ctrl+L</translation>
-    </message>
-    <message>
-        <source>New search</source>
-        <translation type="obsolete">Nouvelle recherche</translation>
     </message>
     <message>
         <location filename="../src/gui/SearchBar.cc" line="710"/>
@@ -4134,14 +2712,6 @@
         <translation>Page suivante</translation>
     </message>
     <message>
-        <source>Show all</source>
-        <translation type="obsolete">Tout montrer</translation>
-    </message>
-    <message>
-        <source>Print</source>
-        <translation type="obsolete">Imprimer</translation>
-    </message>
-    <message>
         <location filename="../src/gui/SearchWidget.cc" line="274"/>
         <source>Results %1 - %2 of %3</source>
         <translation>Résultats %1 - %2 sur %3</translation>
@@ -4166,11 +2736,13 @@
     <name>SetsOrganizer</name>
     <message>
         <location filename="../src/gui/SetsOrganizer.ui" line="14"/>
+        <location filename="../src/gui/ui_SetsOrganizer.h" line="75"/>
         <source>Organize sets</source>
         <translation>Organiser les ensembles</translation>
     </message>
     <message>
         <location filename="../src/gui/SetsOrganizer.ui" line="20"/>
+        <location filename="../src/gui/ui_SetsOrganizer.h" line="76"/>
         <source>You can organize your sets here. Double-click to change the set&apos;s label, drag and drop to move them or right-click for other options, including deletion.</source>
         <translation>Vous pouvez organiser vos ensembles ici. Double-cliquez afin de changer le nom d&apos;un ensemble, glissez-déplacez-le ou cliquez doit pour d&apos;autres options.</translation>
     </message>
@@ -4194,21 +2766,6 @@
     </message>
 </context>
 <context>
-    <name>ShowUsedInJob</name>
-    <message>
-        <source>&lt;b&gt;Component of:&lt;/b&gt;</source>
-        <translation type="obsolete">&lt;b&gt;Composant de:&lt;/b&gt;</translation>
-    </message>
-    <message>
-        <source>Component of:</source>
-        <translation type="obsolete">Composant de:</translation>
-    </message>
-    <message>
-        <source>(Find all)</source>
-        <translation type="obsolete">(Tous)</translation>
-    </message>
-</context>
-<context>
     <name>ShowUsedInKanjiJob</name>
     <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="553"/>
@@ -4227,10 +2784,6 @@
         <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="599"/>
         <source>Seen in:</source>
         <translation>Vu dans:</translation>
-    </message>
-    <message>
-        <source>&lt;b&gt;Seen in:&lt;/b&gt;</source>
-        <translation type="obsolete">&lt;b&gt;Vu dans:&lt;/b&gt;</translation>
     </message>
     <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="634"/>
@@ -4266,14 +2819,6 @@
         <location filename="../src/gui/SearchBar.cc" line="385"/>
         <source>since</source>
         <translation>depuis</translation>
-    </message>
-    <message>
-        <source>Mistaken</source>
-        <translation type="obsolete">Erreur</translation>
-    </message>
-    <message>
-        <source>Study filter</source>
-        <translation type="obsolete">Filtre d&apos;étude</translation>
     </message>
     <message>
         <location filename="../src/gui/SearchBar.cc" line="394"/>
@@ -4355,69 +2900,6 @@
         <location filename="../src/gui/SearchBar.cc" line="510"/>
         <source>, mistaken until %1</source>
         <translation>, erreur jusque %1</translation>
-    </message>
-</context>
-<context>
-    <name>Tag</name>
-    <message>
-        <source>Set tags for %1</source>
-        <translation type="obsolete">Assigner des tags pour %1</translation>
-    </message>
-    <message>
-        <source>Set tags</source>
-        <translation type="obsolete">Assigner des tags</translation>
-    </message>
-    <message>
-        <source>Enter a space-separated list of tags for </source>
-        <translation type="obsolete">Entrez une liste de tags séparés par des espaces pour </translation>
-    </message>
-    <message>
-        <source>these entries:</source>
-        <translation type="obsolete">ces entrées:</translation>
-    </message>
-    <message>
-        <source>this entry:</source>
-        <translation type="obsolete">cette entrée:</translation>
-    </message>
-    <message>
-        <source>Invalid tags</source>
-        <translation type="obsolete">Tags invalides</translation>
-    </message>
-    <message>
-        <source>&lt;p&gt;These tags have invalid characters: </source>
-        <translation type="obsolete">&lt;p&gt;Ces tags comprennent des caractères invalides: </translation>
-    </message>
-    <message>
-        <source>&lt;/p&gt;&lt;p&gt;Accepted characters are letters and digits.&lt;/p&gt;</source>
-        <translation type="obsolete">&lt;/p&gt;&lt;p&gt;Les caractères acceptés sont les lettres et les chiffres.&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>Setting tags...</source>
-        <translation type="obsolete">Définir les tags...</translation>
-    </message>
-    <message>
-        <source>Abort</source>
-        <translation type="obsolete">Annuler</translation>
-    </message>
-    <message>
-        <source>Operation in progress...</source>
-        <translation type="obsolete">Opération en cours...</translation>
-    </message>
-    <message>
-        <source>Add tags to %1</source>
-        <translation type="obsolete">Ajouter des tags à %1</translation>
-    </message>
-    <message>
-        <source>Add tags</source>
-        <translation type="obsolete">Ajouter des tags</translation>
-    </message>
-    <message>
-        <source>Enter a space-separated list of tags to add to </source>
-        <translation type="obsolete">Entrez une liste de tags séparés par des espaces à ajouter à </translation>
-    </message>
-    <message>
-        <source>Adding tags...</source>
-        <translation type="obsolete">Ajout de tags...</translation>
     </message>
 </context>
 <context>
@@ -4542,62 +3024,75 @@
     </message>
     <message>
         <location filename="../src/gui/TrainSettings.ui" line="14"/>
+        <location filename="../src/gui/ui_TrainSettings.h" line="167"/>
         <source>Train settings</source>
         <translation>Paramètres d&apos;entraînement</translation>
     </message>
     <message>
         <location filename="../src/gui/TrainSettings.ui" line="20"/>
+        <location filename="../src/gui/ui_TrainSettings.h" line="168"/>
         <source>Date of last training</source>
         <translation>Date de la dernière pratique</translation>
     </message>
     <message>
         <location filename="../src/gui/TrainSettings.ui" line="26"/>
+        <location filename="../src/gui/ui_TrainSettings.h" line="169"/>
         <source>Before</source>
         <translation>Avant</translation>
     </message>
     <message>
         <location filename="../src/gui/TrainSettings.ui" line="36"/>
+        <location filename="../src/gui/ui_TrainSettings.h" line="170"/>
         <source>After</source>
         <translation>Après</translation>
     </message>
     <message>
         <location filename="../src/gui/TrainSettings.ui" line="46"/>
         <location filename="../src/gui/TrainSettings.ui" line="53"/>
+        <location filename="../src/gui/ui_TrainSettings.h" line="171"/>
+        <location filename="../src/gui/ui_TrainSettings.h" line="172"/>
         <source>PushButton</source>
         <translation>PushButton</translation>
     </message>
     <message>
         <location filename="../src/gui/TrainSettings.ui" line="63"/>
+        <location filename="../src/gui/ui_TrainSettings.h" line="173"/>
         <source>Score</source>
         <translation>Score</translation>
     </message>
     <message>
         <location filename="../src/gui/TrainSettings.ui" line="69"/>
+        <location filename="../src/gui/ui_TrainSettings.h" line="174"/>
         <source>between</source>
         <translation>entre</translation>
     </message>
     <message>
         <location filename="../src/gui/TrainSettings.ui" line="86"/>
+        <location filename="../src/gui/ui_TrainSettings.h" line="175"/>
         <source>and</source>
         <translation>et</translation>
     </message>
     <message>
         <location filename="../src/gui/TrainSettings.ui" line="106"/>
+        <location filename="../src/gui/ui_TrainSettings.h" line="176"/>
         <source>Sort biais</source>
         <translation>Biais de tri</translation>
     </message>
     <message>
         <location filename="../src/gui/TrainSettings.ui" line="114"/>
+        <location filename="../src/gui/ui_TrainSettings.h" line="177"/>
         <source>Bias:</source>
         <translation>Biais:</translation>
     </message>
     <message>
         <location filename="../src/gui/TrainSettings.ui" line="122"/>
+        <location filename="../src/gui/ui_TrainSettings.h" line="180"/>
         <source>No bias</source>
         <translation>Pas de biais</translation>
     </message>
     <message>
         <location filename="../src/gui/TrainSettings.ui" line="127"/>
+        <location filename="../src/gui/ui_TrainSettings.h" line="181"/>
         <source>By score</source>
         <translation>Par score</translation>
     </message>
@@ -4640,53 +3135,9 @@
         <translation>Toutes les entrées demandées ont été pratiquées.</translation>
     </message>
     <message>
-        <source>No matching entries found</source>
-        <translation type="obsolete">Aucune entrée correspondante trouvée</translation>
-    </message>
-    <message>
-        <source>Cannot find any entry to train - please add vocabulary or kanji entries to your study list. Please also make sure you train settings allow studied entries to be selected.</source>
-        <translation type="obsolete">Impossible de trouver une entrée correspondante - veuillez ajouter des entrées de vocabulaire ou de kanjis à votre liste d&apos;étude. Veuillez également vous assurer que les paramètres d&apos;entraînement permettent à des entrées d&apos;être sélectionnées.</translation>
-    </message>
-    <message>
-        <source>All the entries matching the train settings have already been trained.</source>
-        <translation type="obsolete">Toutes les entrées correspondantes aux paramètres d&apos;entraînement actuels ont déjà été entraînées.</translation>
-    </message>
-    <message>
-        <source>Edit &amp;tags...</source>
-        <translation type="obsolete">Éditer les &amp;tags...</translation>
-    </message>
-    <message>
-        <source>Edit &amp;notes...</source>
-        <translation type="obsolete">Éditer les &amp;notes...</translation>
-    </message>
-    <message>
-        <source>&amp;More...</source>
-        <translation type="obsolete">&amp;Plus...</translation>
-    </message>
-    <message>
-        <source>Already &amp;known</source>
-        <translation type="obsolete">Déjà &amp;connu</translation>
-    </message>
-    <message>
-        <source>&amp;Reset score</source>
-        <translation type="obsolete">&amp;Remettre le score à zéro</translation>
-    </message>
-    <message>
-        <source>Remove from &amp;study list</source>
-        <translation type="obsolete">Enlever de la liste d&apos;&amp;étude</translation>
-    </message>
-    <message>
         <location filename="../src/gui/YesNoTrainer.cc" line="159"/>
         <source>No more entries to train</source>
         <translation>Plus d&apos;entrées à pratiquer</translation>
-    </message>
-    <message>
-        <source>All the entries in this list have already been trained today.</source>
-        <translation type="obsolete">Toutes les entrées de cette liste ont déjà été pratiquées aujourd&apos;hui.</translation>
-    </message>
-    <message>
-        <source>Good: %1, Wrong: %2, Total: %3</source>
-        <translation type="obsolete">Réponses bonnes : %1, mauvaises : %2, total : %3</translation>
     </message>
     <message>
         <location filename="../src/gui/YesNoTrainer.cc" line="118"/>

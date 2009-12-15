@@ -25,6 +25,7 @@
 
 class JMdictEntryFormatter : public EntryFormatter
 {
+Q_DECLARE_TR_FUNCTIONS(JMdictEntryFormatter)
 protected:
 	virtual void _detailedVersion(const Entry *entry, QTextCursor &cursor, DetailedView *view) const;
 

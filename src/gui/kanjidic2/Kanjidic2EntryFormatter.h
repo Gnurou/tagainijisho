@@ -24,6 +24,7 @@
 
 class Kanjidic2EntryFormatter : public EntryFormatter
 {
+Q_DECLARE_TR_FUNCTIONS(EntryFormatter)
 protected:
 	virtual void _detailedVersion(const Entry *entry, QTextCursor &cursor, DetailedView *view) const;
 
