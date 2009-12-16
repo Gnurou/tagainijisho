@@ -21,8 +21,6 @@
 * A new, more robust preferences system
 * Smooth scrolling for the results and detailed view
 * Furiganas display setting now available directly from training window
-* A new entry menu action to mark an entry as mistaken and downgrade
-  its score accordingly
 * Meaning now displayed in reading trainer
 * Flashcard training possible on whole study list or currently displayed set
 * Anki export fixed
