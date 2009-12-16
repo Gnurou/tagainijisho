@@ -1,14 +1,16 @@
 # -*- coding: utf-8 -*-
 import sys, os, launchpadlib, subprocess, codecs
-from launchpadlib.launchpad import Launchpad, STAGING_SERVICE_ROOT, EDGE_SERVICE_ROOT
+from launchpadlib.launchpad import Launchpad, STAGING_SERVICE_ROOT, EDGE_SERVICE_ROOT, LPNET_SERVICE_ROOT
 from launchpadlib.credentials import Credentials
+import lazr.restfulclient.errors
 
 #serviceRoot = STAGING_SERVICE_ROOT
-serviceRoot = EDGE_SERVICE_ROOT
+#serviceRoot = EDGE_SERVICE_ROOT
+serviceRoot = LPNET_SERVICE_ROOT
 projectName = 'tagaini-jisho'
 cachedir = "/tmp/tagainiuploader/cache/"
 credentialsfile = "credentials.txt"
-releaseVersion = "0.2.397"
+releaseVersion = "0.2.4"
 launchpad = None
 
 FILE_TYPES = dict(source='Code Release Tarball',
@@ -27,7 +29,7 @@ FILE_CONTENTTYPES = dict(source='application/x-tar',
 			win32='application/exe',
 			mac='application/x-apple-diskimage')
 
-LANGUAGES= ('English', 'French', 'German', 'Spanish', 'Russian')
+LANGUAGES= ('Russian', 'Spanish', 'German', 'French', 'English')
 LANGUAGES_SUFFIXES = dict(English='en', French='fr', German='de', Spanish='es', Russian='ru')
 
 def manualAuthentication():
@@ -47,8 +49,11 @@ def uploadFile(f, fType, lang, gpgPass):
 	print "Uploading", f
 	finalDesc = FILE_DESCRIPTIONS[fType]
 	if lang: finalDesc = finalDesc % (lang)
-	releaseFile = release.add_file(filename = f, description = finalDesc, file_content = open(f, 'r').read(), content_type = FILE_CONTENTTYPES[fType], file_type = FILE_TYPES[fType], signature_filename = fSign, signature_content = open(fSign, 'r').read())
-	release.lp_save()
+	try:
+		releaseFile = release.add_file(filename = f, description = finalDesc, file_content = open(f, 'r').read(), content_type = FILE_CONTENTTYPES[fType], file_type = FILE_TYPES[fType], signature_filename = fSign, signature_content = open(fSign, 'r').read())
+	# Don't know why, but an exception will always be thrown even though the file is uploaded
+	except lazr.restfulclient.errors.HTTPError:
+		pass
 
 for arg in sys.argv:
 	if arg == "--auth":
@@ -69,12 +74,13 @@ for release in project.releases:
 		gpgPass = sys.stdin.readline()
 		# Upload the source tarball
 		uploadFile('tagainijisho-' + releaseVersion + '.tar.gz', 'source', '', gpgPass)
-		# Upload the win32 binaries
-		for lang in LANGUAGES:
-			uploadFile('tagainijisho-' + releaseVersion + '-' + LANGUAGES_SUFFIXES[lang] + '.exe', 'win32', lang, gpgPass)
 		# Upload the mac binaries
 		for lang in LANGUAGES:
 			uploadFile('Tagaini Jisho-' + releaseVersion + '-' + LANGUAGES_SUFFIXES[lang] + '.dmg', 'mac', lang, gpgPass)
+		# Upload the win32 binaries
+		for lang in LANGUAGES:
+			uploadFile('tagainijisho-' + releaseVersion + '-' + LANGUAGES_SUFFIXES[lang] + '.exe', 'win32', lang, gpgPass)
+		release.lp_save()
 		sys.exit(0)
 print "Release not found - please create it on Launchpad first."
 
