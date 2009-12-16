@@ -33,4 +33,5 @@ src/core/jmdict/JMdictDefs.cc
 src/core/jmdict/JMdictDefs.h
 src/sqlite/libsqlite3.a
 *.pyc
+credentials.txt
 
