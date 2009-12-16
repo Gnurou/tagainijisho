@@ -5,7 +5,7 @@ MINGWDLLPATH=.
 VERSION=`grep "VERSION" buildconfig.pri |sed -n 's/.*=\(.*\)/\1/p'`
 NSIFILE=tagainijisho.nsi
 
-qmake -spec win32-cross-g++ -config release
+qmake -spec win32-cross-g++
 make
 i486-mingw32-ranlib src/core/libtagaini-core.a
 make
