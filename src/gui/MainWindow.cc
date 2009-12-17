@@ -413,7 +413,7 @@ void MainWindow::preferences()
 
 void MainWindow::donate()
 {
-	QDesktopServices::openUrl(QUrl("https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=2871686"));
+	QDesktopServices::openUrl(QUrl("http://www.tagaini.net/donate"));
 }
 
 void MainWindow::about()
