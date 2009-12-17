@@ -43,6 +43,7 @@ HEADERS = ElidedPushButton.h \
     jmdict/JMdictEntryFormatter.h \
     jmdict/JMdictPreferences.h \
     jmdict/JMdictGUIPlugin.h \
+    kanjidic2/ComponentSearchWidget.h \
     kanjidic2/KanjiRenderer.h \
     kanjidic2/KanjiPopup.h \
     kanjidic2/KanjiPlayer.h \
@@ -79,6 +80,7 @@ SOURCES = EntryFormatter.cc \
     ReadingTrainer.cc \
     PreferencesWindow.cc \
     MainWindow.cc \
+    kanjidic2/ComponentSearchWidget.cc \
     jmdict/JMdictEntryFormatter.cc \
     jmdict/JMdictPreferences.cc \
     jmdict/JMdictGUIPlugin.cc \

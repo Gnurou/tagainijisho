@@ -25,6 +25,7 @@
 #include "gui/SearchWidget.h"
 #include "gui/kanjidic2/Kanjidic2Preferences.h"
 #include "gui/kanjidic2/Kanjidic2GUIPlugin.h"
+#include "gui/kanjidic2/ComponentSearchWidget.h"
 // TODO BAD - dependency against JMdict!
 #include "gui/jmdict/JMdictGUIPlugin.h"
 
@@ -515,12 +516,15 @@ Kanjidic2OptionsWidget::Kanjidic2OptionsWidget(QWidget *parent) : SearchBarExten
 		_gradeButton->setMenu(menu);
 		hLayout->addWidget(_gradeButton);
 	}
+	ComponentSearchWidget *cW = new ComponentSearchWidget(this);
+	
 	QHBoxLayout *mainLayout = new QHBoxLayout(this);
 	mainLayout->addWidget(_strokeCountGroupBox);
 	mainLayout->addWidget(componentsGroupBox);
 	mainLayout->addWidget(unicodeGroupBox);
 	mainLayout->addWidget(skipGroupBox);
 	mainLayout->addWidget(gradeGroupBox);
+	mainLayout->addWidget(cW);
 	mainLayout->setContentsMargins(0, 0, 0, 0);
 }
 

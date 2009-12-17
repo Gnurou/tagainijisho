@@ -53,9 +53,10 @@ void ComponentSearchWidget::onSelectionChanged()
 	}
 	QSqlQuery query;
 	QString queryString;
-	if (!selection.isEmpty()) queryString = QString("select distinct c2.component, strokeCount from kanjidic2.components c1 join kanjidic2.components c2 on c1.kanji = c2.kanji left join kanjidic2.entries on entries.id = c2.component where c1.component in (%1) and c1.kanji in (select kanji from kanjidic2.components where component in (%1) group by kanji having count(component) >= %2) and c2.component not in (select component from components where kanji in (%1)) order by entries.frequency is null ASC, entries.frequency ASC").arg(l.join(",")).arg(selection.size());
-	else queryString = "select distinct component, strokeCount from kanjidic2.components left join kanjidic2.entries on entries.id = components.component where component not in (select distinct(kanji) from kanjidic2.components) order by entries.strokeCount, entries.frequency is null ASC, entries.frequency ASC";
-//	if (!query.exec(QString("select distinct component from kanjidic2.components join kanjidic2.entries on kanjidic2.components.component = kanjidic2.entries.id where kanjidic2.components.kanji in (select kanji from kanjidic2.components where component in (%1) group by kanji having count(component) >= %2)").arg(l.join(",")).arg(l.size()))) qDebug() << query.lastError();
+	if (!selection.isEmpty()) queryString = QString("select distinct element, strokeCount, parentGroup is null from kanjidic2.strokeGroups left join kanjidic2.entries on entries.id = strokeGroups.element where kanjidic2.strokeGroups.kanji in (select kanji from kanjidic2.strokeGroups where element in (%1) group by kanji having count(distinct element) >= %2) order by entries.strokeCount, entries.frequency is null ASC, entries.frequency ASC").arg(l.join(",")).arg(selection.size());
+	//if (!selection.isEmpty()) queryString = QString("select distinct c2.element, strokeCount from kanjidic2.strokeGroups c1 join kanjidic2.strokeGroups c2 on c1.kanji = c2.kanji left join kanjidic2.entries on entries.id = c2.element where c1.element in (%1) and c1.kanji in (select kanji from kanjidic2.strokeGroups where element in (%1) group by kanji having count(distinct element) >= %2) and c2.element not in (select element from strokeGroups where kanji in (%1)) order by entries.frequency is null ASC, entries.frequency ASC").arg(l.join(",")).arg(selection.size());
+	// If there is no selection, select all elements that have no components
+	else queryString = "select distinct element, strokeCount from kanjidic2.strokeGroups left join kanjidic2.entries on entries.id = strokeGroups.element where kanjidic2.strokeGroups.rowid not in (select distinct(parentGroup) from kanjidic2.strokeGroups where parentGroup is not null) order by entries.strokeCount, entries.frequency is null ASC, entries.frequency ASC";
 	if (!query.exec(queryString)) qDebug() << query.lastError();
 	populateList(query);
 	if (!res.isEmpty()) emit componentsSelected(res);
@@ -90,6 +91,11 @@ void ComponentSearchWidget::populateList(QSqlQuery &query)
 		} else {
 			val += QChar(QChar::highSurrogate(code));
 			val += QChar(QChar::lowSurrogate(code));
+		}
+		bool isRoot(query.value(2).toBool());
+		if (isRoot) {
+			qDebug() << val;
+			continue;
 		}
 		if (selectionText.contains(val)) continue;
 
