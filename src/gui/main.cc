@@ -172,8 +172,16 @@ int main(int argc, char *argv[])
 	}
 
 	// Load translations, if available
-	QSettings settings;
-	QString locale = settings.value("locale", QLocale::system().name().left(2)).toString();
+	QString locale;
+	// First check if the language is user-set
+	if (!MainWindow::guiLanguage.isDefault()) {
+		locale = MainWindow::guiLanguage.value();
+	}
+	// Otherwise try the system default
+	else {
+		QSettings settings;
+		locale = settings.value("locale", QLocale::system().name().left(2)).toString();
+	}
 	QLocale::setDefault(QLocale(locale));
 	QTranslator appTranslator;
 	QTranslator qtTranslator;
@@ -181,6 +189,7 @@ int main(int argc, char *argv[])
 	if (qtTranslator.load(QDir(QLibraryInfo::location(QLibraryInfo::TranslationsPath)).absoluteFilePath(QString("qt_%1").arg(locale)))) {
 		app.installTranslator(&qtTranslator);
 	}
+
 	checkUserProfileDirectory();
 
 	// Register meta-types

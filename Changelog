@@ -1,3 +1,6 @@
+0.2.5 released on
+* Added option to choose GUI language
+
 0.2.4 released on 2009-12-16
 * Updated to SQLite 3.6.21
 * Huge reorganization of the source code, separation of the functional

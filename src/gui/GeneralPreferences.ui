@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>500</width>
-    <height>387</height>
+    <width>506</width>
+    <height>428</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -15,15 +15,35 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <widget class="QGroupBox" name="fontGroupBox">
+    <widget class="QGroupBox" name="generalGroupBox">
      <property name="title">
-      <string>Application default font</string>
+      <string>General settings</string>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_3">
       <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_3">
+        <item>
+         <widget class="QLabel" name="label_2">
+          <property name="text">
+           <string>GUI language</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QComboBox" name="guiLanguage">
+          <item>
+           <property name="text">
+            <string>System default</string>
+           </property>
+          </item>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
        <widget class="QLabel" name="label_3">
         <property name="text">
-         <string>You need to restart Tagaini Jisho for this change to take effect.</string>
+         <string>You need to restart Tagaini Jisho for these changes to take effect.</string>
         </property>
         <property name="wordWrap">
          <bool>true</bool>
