@@ -16,50 +16,51 @@
  */
 
 #include <QtDebug>
+
+#include "core/TextTools.h"
+#include "gui/kanjidic2/ComponentSearchWidget.h"
+#include "core/EntriesCache.h"
+#include "core/kanjidic2/Kanjidic2Entry.h"
+#include "gui/kanjidic2/Kanjidic2EntryFormatter.h"
+
 #include <QSqlError>
 
 #include <QVBoxLayout>
 #include <QSplitter>
 #include <QSqlQuery>
-
-#include "ComponentSearchWidget.h"
+#include <QCursor>
 
 ComponentSearchWidget::ComponentSearchWidget(QWidget *parent) : QWidget(parent)
 {
-	QVBoxLayout *layout = new QVBoxLayout(this);
-	_componentsList = new QListWidget(this);
-	_componentsList->setViewMode(QListView::IconMode);
-	_componentsList->setSelectionMode(QAbstractItemView::MultiSelection);
-	_componentsList->setMovement(QListView::Static);
-	_componentsList->setResizeMode(QListView::Adjust);
-	_componentsList->setSelectionRectVisible(false);
-	connect(_componentsList, SIGNAL(itemSelectionChanged()), this, SLOT(onSelectionChanged()));
+	setupUi(this);
+	connect(complementsList, SIGNAL(itemSelectionChanged()), this, SLOT(onSelectionChanged()));
+	connect(currentSelection, SIGNAL(textChanged(QString)), this, SLOT(onSelectedComponentsChanged(QString)));
+//	connect(candidatesList, SIGNAL(itemEntered(QListWidgetItem*)), this, SLOT(onItemEntered(QListWidgetItem*)));
+//	connect(complementsList, SIGNAL(itemEntered(QListWidgetItem*)), this, SLOT(onItemEntered(QListWidgetItem*)));
 
-	layout->addWidget(_componentsList);
-
-	onSelectionChanged();
+	onSelectedComponentsChanged("");
 }
 
 void ComponentSearchWidget::onSelectionChanged()
 {	
-	QList<QListWidgetItem *>selection = _componentsList->selectedItems();
-	//if (selection == _prevSelection) return;
-	_prevSelection = selection;
-	QList<QChar> res;
-	QStringList l;
-	foreach (const QListWidgetItem *item, selection) {
-		res << item->text()[0];
-		l << QString::number(item->text()[0].unicode());
+	foreach (const QListWidgetItem *selected, complementsList->selectedItems()) {
+		currentSelection->setText(currentSelection->text() + selected->text());
 	}
+}
+
+void ComponentSearchWidget::onSelectedComponentsChanged(const QString &components)
+{
+	QStringList selection(components.split("", QString::SkipEmptyParts));
+	for (int i = 0; i < selection.size(); ++i) selection[i] = QString("%1").arg(TextTools::singleCharToUnicode(selection[i]));
+
 	QSqlQuery query;
 	QString queryString;
-	if (!selection.isEmpty()) queryString = QString("select distinct element, strokeCount, parentGroup is null from kanjidic2.strokeGroups left join kanjidic2.entries on entries.id = strokeGroups.element where kanjidic2.strokeGroups.kanji in (select kanji from kanjidic2.strokeGroups where element in (%1) group by kanji having count(distinct element) >= %2) order by entries.strokeCount, entries.frequency is null ASC, entries.frequency ASC").arg(l.join(",")).arg(selection.size());
+	if (!selection.isEmpty()) queryString = QString("select distinct element, strokeCount, parentGroup is null from kanjidic2.strokeGroups left join kanjidic2.entries on entries.id = strokeGroups.element where kanjidic2.strokeGroups.element not in (%1) and kanjidic2.strokeGroups.kanji in (SELECT DISTINCT ks1.kanji FROM kanjidic2.strokeGroups AS ks1 WHERE (ks1.element IN (%1) OR ks1.original IN (%1)) AND ks1.parentGroup NOT NULL GROUP BY ks1.kanji HAVING UNIQUECOUNT(CASE WHEN ks1.element IN (%1) THEN ks1.element ELSE NULL END, CASE WHEN ks1.original IN (%1) THEN ks1.original ELSE NULL END) >= %2) order by entries.strokeCount, entries.frequency is null ASC, entries.frequency ASC").arg(selection.join(",")).arg(selection.size());
 	//if (!selection.isEmpty()) queryString = QString("select distinct c2.element, strokeCount from kanjidic2.strokeGroups c1 join kanjidic2.strokeGroups c2 on c1.kanji = c2.kanji left join kanjidic2.entries on entries.id = c2.element where c1.element in (%1) and c1.kanji in (select kanji from kanjidic2.strokeGroups where element in (%1) group by kanji having count(distinct element) >= %2) and c2.element not in (select element from strokeGroups where kanji in (%1)) order by entries.frequency is null ASC, entries.frequency ASC").arg(l.join(",")).arg(selection.size());
 	// If there is no selection, select all elements that have no components
 	else queryString = "select distinct element, strokeCount from kanjidic2.strokeGroups left join kanjidic2.entries on entries.id = strokeGroups.element where kanjidic2.strokeGroups.rowid not in (select distinct(parentGroup) from kanjidic2.strokeGroups where parentGroup is not null) order by entries.strokeCount, entries.frequency is null ASC, entries.frequency ASC";
 	if (!query.exec(queryString)) qDebug() << query.lastError();
 	populateList(query);
-	if (!res.isEmpty()) emit componentsSelected(res);
 }
 
 void ComponentSearchWidget::populateList(QSqlQuery &query)
@@ -72,16 +73,8 @@ void ComponentSearchWidget::populateList(QSqlQuery &query)
 	QColor nbrBg(Qt::yellow);
 	nbrBg = nbrBg.lighter();
 
-	QList<QListWidgetItem *> selection = _componentsList->selectedItems();
-	foreach (QListWidgetItem *item, _items) {
-		if (!selection.contains(item)) {
-			_items.removeOne(item);
-			delete item;
-		}
-	}
-
-	QList<QString> selectionText;
-	foreach (QListWidgetItem *item, selection) selectionText << item->text();
+	candidatesList->clear();
+	complementsList->clear();
 
 	while (query.next()) {
 		uint code = query.value(0).toInt();
@@ -94,22 +87,29 @@ void ComponentSearchWidget::populateList(QSqlQuery &query)
 		}
 		bool isRoot(query.value(2).toBool());
 		if (isRoot) {
-			qDebug() << val;
+			QListWidgetItem *item = new QListWidgetItem(val, candidatesList);
+			item->setFlags(item->flags() & ~Qt::ItemIsSelectable);
 			continue;
 		}
-		if (selectionText.contains(val)) continue;
 
 		int strokeCount = query.value(1).toInt();
 		if (strokeCount > currentStrokeCount) {
 			currentStrokeCount = strokeCount;
-			QListWidgetItem *item = new QListWidgetItem(QString::number(strokeCount), _componentsList);
+			QListWidgetItem *item = new QListWidgetItem(QString::number(strokeCount), complementsList);
 			item->setFlags(item->flags() & ~Qt::ItemIsSelectable);
 			item->setBackground(nbrBg);
 			item->setFont(nbrFont);
-			_items << item;
 		}
-		QListWidgetItem *item = new QListWidgetItem(val, _componentsList);
+		QListWidgetItem *item = new QListWidgetItem(val, complementsList);
 		item->setFont(font);
-		_items << item;
 	}
+}
+
+void ComponentSearchWidget::onItemEntered(QListWidgetItem *item)
+{
+	EntryPointer<Entry> entry(EntriesCache::get(KANJIDIC2ENTRY_GLOBALID, TextTools::singleCharToUnicode(item->text())).data());
+	const Kanjidic2Entry *kanji(static_cast<const Kanjidic2Entry *>(entry.data()));
+	if (!kanji) return;
+	const Kanjidic2EntryFormatter *formatter(static_cast<const Kanjidic2EntryFormatter *>(EntryFormatter::getFormatter(kanji)));
+	formatter->showToolTip(kanji, QCursor::pos());
 }

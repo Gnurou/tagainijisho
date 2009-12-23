@@ -15,6 +15,8 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "gui/ui_ComponentSearchWidget.h"
+
 #include <QWidget>
 #include <QListWidget>
 #include <QList>
@@ -24,18 +26,16 @@
 
 class QSqlQuery;
 
-class ComponentSearchWidget : public QWidget
+class ComponentSearchWidget : public QWidget, public Ui::ComponentSearchWidget
 {
 	Q_OBJECT
 protected:
-	QListWidget *_componentsList;
-	QList<QListWidgetItem *> _items;
-	QList<QListWidgetItem *> _prevSelection;
-
 	void populateList(QSqlQuery &query);
 
 protected slots:
 	void onSelectionChanged();
+	void onSelectedComponentsChanged(const QString &components);
+	void onItemEntered(QListWidgetItem *item);
 
 public:
 	ComponentSearchWidget(QWidget *parent = 0);

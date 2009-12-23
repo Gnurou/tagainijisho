@@ -98,7 +98,7 @@ SOURCES = EntryFormatter.cc \
 LIBS += ../core/libtagaini-core.a \
     ../sqlite/libsqlite3.a
 POST_TARGETDEPS = ../core/libtagaini-core.a \
-	../sqlite/libsqlite3.a
+    ../sqlite/libsqlite3.a
 FORMS += SetsOrganizer.ui \
     TrainSettings.ui \
     ReadingTrainer.ui \
@@ -109,16 +109,17 @@ FORMS += SetsOrganizer.ui \
     DetailedViewPreferences.ui \
     jmdict/JMdictPreferences.ui \
     kanjidic2/Kanjidic2Preferences.ui \
-    kanjidic2/KanjiPopup.ui
+    kanjidic2/KanjiPopup.ui \
+	kanjidic2/ComponentSearchWidget.ui
 RESOURCES += ../../tagainijisho.qrc
 RC_FILE = ../../tagainijisho.rc
 mac:ICON = ../../images/appicon.icns
 mac:QMAKE_INFO_PLIST = ../../Info.plist
 CODECFORTR = UTF-8
 TRANSLATIONS = ../../i18n/tagainijisho_fr.ts \
-	../../i18n/tagainijisho_de.ts \
-	../../i18n/tagainijisho_es.ts \
-	../../i18n/tagainijisho_ru.ts \
-	../../i18n/tagainijisho_nl.ts
+    ../../i18n/tagainijisho_de.ts \
+    ../../i18n/tagainijisho_es.ts \
+    ../../i18n/tagainijisho_ru.ts \
+    ../../i18n/tagainijisho_nl.ts
 unix::target.path = $$BIN_DIR
 INSTALLS = target
