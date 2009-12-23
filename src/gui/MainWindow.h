@@ -122,6 +122,7 @@ public:
 	SearchWidget *searchWidget() { return _searchWidget; }
 
 	static PreferenceItem<QString> applicationFont;
+	static PreferenceItem<QString> guiLanguage;
 	static PreferenceItem<bool> autoCheckUpdates;
 	static PreferenceItem<bool> autoCheckBetaUpdates;
 	static PreferenceItem<int> updateCheckInterval;

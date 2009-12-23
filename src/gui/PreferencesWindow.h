@@ -81,6 +81,8 @@ class GeneralPreferences : public PreferencesWindowCategory, private Ui::General
 private:
 	// Default font
 	PreferencesFontChooser *fontChooser;
+	static const QStringList langCodes;
+	static const QStringList langNames;
 
 public slots:
 	void applySettings();

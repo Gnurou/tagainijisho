@@ -79,12 +79,27 @@ void PreferencesWindow::applySettings() {
 	foreach (PreferencesWindowCategory *category, cats) category->updateUI();
 }
 
+const QStringList GeneralPreferences::langCodes = (QStringList() <<
+	"en" <<
+	"fr" <<
+	"nl");
+
+const QStringList GeneralPreferences::langNames = (QStringList() <<
+	QT_TR_NOOP("English") <<
+	QT_TR_NOOP("French") <<
+	QT_TR_NOOP("Dutch"));
+
 GeneralPreferences::GeneralPreferences(QWidget *parent) : PreferencesWindowCategory(tr("General"), parent)
 {
 	setupUi(this);
 
 	fontChooser = new PreferencesFontChooser(tr("Application-wide default font"), QFont(), this);
-	fontGroupBox->layout()->addWidget(fontChooser);
+	static_cast<QBoxLayout*>(generalGroupBox->layout())->insertWidget(0, fontChooser);
+
+	for (int i = 0; i < langNames.size(); i++) {
+		guiLanguage->addItem(langNames[i]);
+		guiLanguage->setItemData(guiLanguage->count() - 1, langCodes[i]);
+	}
 
 	firstDayOfWeek->addItem(tr("Monday"), Qt::Monday);
 	firstDayOfWeek->addItem(tr("Sunday"), Qt::Sunday);
@@ -99,6 +114,12 @@ void GeneralPreferences::refresh()
 {
 	fontChooser->setDefault(MainWindow::applicationFont.isDefault());
 	fontChooser->setFont(QFont());
+
+	if (MainWindow::guiLanguage.value() == "") guiLanguage->setCurrentIndex(0);
+	else {
+		int idx(langCodes.indexOf(MainWindow::guiLanguage.value()));
+		guiLanguage->setCurrentIndex(idx + 1);
+	}
 
 	firstDayOfWeek->setCurrentIndex(firstDayOfWeek->findData(RelativeDate::firstDayOfWeek.value()));
 
@@ -150,6 +171,10 @@ void GeneralPreferences::applySettings()
 	const QFont &font = fontChooser->font();
 	if (fontChooser->isDefault()) MainWindow::applicationFont.reset();
 	else MainWindow::applicationFont.set(font.toString());
+
+	// Application language
+	if (guiLanguage->currentIndex() == 0) MainWindow::guiLanguage.reset();
+	else MainWindow::guiLanguage.set(guiLanguage->itemData(guiLanguage->currentIndex()).toString());
 
 	// First day of week
 	RelativeDate::firstDayOfWeek.set(static_cast<Qt::DayOfWeek>(firstDayOfWeek->itemData(firstDayOfWeek->currentIndex()).toInt()));

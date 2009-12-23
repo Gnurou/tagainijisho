@@ -59,6 +59,7 @@ UpdateChecker *_betaUpdateChecker = 0;
 PreferenceItem<QByteArray> MainWindow::windowGeometry("mainWindow", "geometry", "");
 
 PreferenceItem<QString> MainWindow::applicationFont("", "defaultFont", "");
+PreferenceItem<QString> MainWindow::guiLanguage("", "guiLanguage", "");
 PreferenceItem<bool> MainWindow::autoCheckUpdates("", "autoCheckUpdates", true);
 PreferenceItem<bool> MainWindow::autoCheckBetaUpdates("", "autoCheckBetaUpdates", false);
 PreferenceItem<int> MainWindow::updateCheckInterval("", "updateCheckInterval", 3);
