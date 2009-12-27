@@ -18,31 +18,7 @@
     <widget class="QLineEdit" name="currentSelection"/>
    </item>
    <item>
-    <widget class="QListWidget" name="candidatesList">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Expanding" vsizetype="Maximum">
-       <horstretch>0</horstretch>
-       <verstretch>1</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="font">
-      <font>
-       <pointsize>40</pointsize>
-      </font>
-     </property>
-     <property name="mouseTracking">
-      <bool>true</bool>
-     </property>
-     <property name="isWrapping" stdset="0">
-      <bool>false</bool>
-     </property>
-     <property name="resizeMode">
-      <enum>QListView::Adjust</enum>
-     </property>
-     <property name="viewMode">
-      <enum>QListView::IconMode</enum>
-     </property>
-    </widget>
+    <widget class="CandidatesKanjiList" name="candidatesList" native="true"/>
    </item>
    <item>
     <widget class="QListWidget" name="complementsList">
@@ -68,6 +44,14 @@
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>CandidatesKanjiList</class>
+   <extends>QWidget</extends>
+   <header>gui/kanjidic2/ComponentSearchWidget.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

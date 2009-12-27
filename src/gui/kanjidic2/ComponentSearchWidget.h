@@ -15,14 +15,42 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "gui/ui_ComponentSearchWidget.h"
+#ifndef __COMPONENT_SEARCH_WIDGET_H
+#define __COMPONENT_SEARCH_WIDGET_H
+
+#include "core/EntriesCache.h"
+#include "core/kanjidic2/Kanjidic2Entry.h"
 
 #include <QWidget>
 #include <QListWidget>
 #include <QList>
 
-#ifndef __COMPONENT_SEARCH_WIDGET_H
-#define __COMPONENT_SEARCH_WIDGET_H
+#include <QGraphicsScene>
+#include <QGraphicsView>
+#include <QGraphicsTextItem>
+
+class CandidatesKanjiList : public QGraphicsView
+{
+	Q_OBJECT
+private:
+	QGraphicsScene scene;
+	int pos;
+	QList<QGraphicsTextItem *> items;
+
+protected:
+	void wheelEvent(QWheelEvent *event);
+//	void paintEvent(QPaintEvent *event);
+
+public:
+	CandidatesKanjiList(QWidget *parent = 0);
+	virtual QSize sizeHint() const;
+	void clear();
+
+public slots:
+	void addItem(const QString &kanji);
+};
+
+#include "gui/ui_ComponentSearchWidget.h"
 
 class QSqlQuery;
 

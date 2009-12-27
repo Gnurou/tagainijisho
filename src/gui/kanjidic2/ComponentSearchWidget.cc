@@ -19,8 +19,6 @@
 
 #include "core/TextTools.h"
 #include "gui/kanjidic2/ComponentSearchWidget.h"
-#include "core/EntriesCache.h"
-#include "core/kanjidic2/Kanjidic2Entry.h"
 #include "gui/kanjidic2/Kanjidic2EntryFormatter.h"
 
 #include <QSqlError>
@@ -29,6 +27,58 @@
 #include <QSplitter>
 #include <QSqlQuery>
 #include <QCursor>
+
+#define KANJI_SIZE 50
+#define PADDING 5
+
+CandidatesKanjiList::CandidatesKanjiList(QWidget *parent) : QGraphicsView(parent), scene(), pos(0)
+{
+	setScene(&scene);
+	setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Minimum);
+	setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+	setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+}
+
+QSize CandidatesKanjiList::sizeHint() const
+{
+	return QSize(QWidget::sizeHint().width(), KANJI_SIZE);
+}
+
+void CandidatesKanjiList::addItem(const QString &kanji)
+{
+	QFont font;
+	font.setPixelSize(KANJI_SIZE);
+	QGraphicsTextItem *item = scene.addText(kanji, font);
+	item->setPos(PADDING + items.size() * (KANJI_SIZE + PADDING), 0);
+	setSceneRect(0, 0, PADDING + items.size() * (KANJI_SIZE + PADDING), KANJI_SIZE);
+	items << item;
+	setSceneRect(-0xfffff, -0xfffff, 2 * 0xfffff, 2 * 0xfffff);
+	centerOn(items[pos]);
+}
+
+void CandidatesKanjiList::clear()
+{
+	scene.clear();
+	items.clear();
+	pos = 0;
+//	translate(0, 0);
+}
+
+void CandidatesKanjiList::wheelEvent(QWheelEvent *event)
+{
+	event->accept();
+	if (items.isEmpty()) return;
+	if (event->delta() < 0 && pos < items.size() - 1) ++pos;
+	else if (event->delta() > 0 && pos > 0) --pos;
+	centerOn(items[pos]);
+}
+
+/*void CandidatesKanjiList::paintEvent(QPaintEvent *event)
+{
+	QPainter painter(this);
+
+	scene.render(&painter);
+}*/
 
 ComponentSearchWidget::ComponentSearchWidget(QWidget *parent) : QWidget(parent)
 {
@@ -87,8 +137,9 @@ void ComponentSearchWidget::populateList(QSqlQuery &query)
 		}
 		bool isRoot(query.value(2).toBool());
 		if (isRoot) {
-			QListWidgetItem *item = new QListWidgetItem(val, candidatesList);
-			item->setFlags(item->flags() & ~Qt::ItemIsSelectable);
+			candidatesList->addItem(val);
+//			QListWidgetItem *item = new QListWidgetItem(val, candidatesList);
+//			item->setFlags(item->flags() & ~Qt::ItemIsSelectable);
 			continue;
 		}
 
