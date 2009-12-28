@@ -31,12 +31,19 @@
 #define KANJI_SIZE 50
 #define PADDING 5
 
-CandidatesKanjiList::CandidatesKanjiList(QWidget *parent) : QGraphicsView(parent), scene(), pos(0)
+CandidatesKanjiList::CandidatesKanjiList(QWidget *parent) : QGraphicsView(parent), scene(), curItem(0), pos(0), wheelDelta(0)
 {
 	setScene(&scene);
 	setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Minimum);
 	setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 	setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+
+	setSceneRect(-0xfffff, -0xfffff, 2 * 0xfffff, 2 * 0xfffff);
+	setResizeAnchor(QGraphicsView::AnchorViewCenter);
+
+	timer.setInterval(20);
+	timer.setSingleShot(false);
+	connect(&timer, SIGNAL(timeout()), this, SLOT(updateAnimationState()));
 }
 
 QSize CandidatesKanjiList::sizeHint() const
@@ -44,41 +51,56 @@ QSize CandidatesKanjiList::sizeHint() const
 	return QSize(QWidget::sizeHint().width(), KANJI_SIZE);
 }
 
+#define ITEM_POSITION(x) (PADDING + (x) * (KANJI_SIZE + PADDING))
+#define ITEM_X(x) (ITEM_POSITION(x) + KANJI_SIZE / 2)
+#define ITEM_Y (KANJI_SIZE / 2)
+
+void CandidatesKanjiList::updateAnimationState()
+{
+	int dest = ITEM_X(curItem);
+	if (dest == pos) {
+		timer.stop();
+		return;
+	}
+	pos += (dest - pos) / 2;
+	centerOn(pos, ITEM_Y);
+}
+
 void CandidatesKanjiList::addItem(const QString &kanji)
 {
 	QFont font;
 	font.setPixelSize(KANJI_SIZE);
 	QGraphicsTextItem *item = scene.addText(kanji, font);
-	item->setPos(PADDING + items.size() * (KANJI_SIZE + PADDING), 0);
-	setSceneRect(0, 0, PADDING + items.size() * (KANJI_SIZE + PADDING), KANJI_SIZE);
+	item->setPos(ITEM_POSITION(items.size()), 0);
 	items << item;
-	setSceneRect(-0xfffff, -0xfffff, 2 * 0xfffff, 2 * 0xfffff);
-	centerOn(items[pos]);
+	if (items.size() == 1) {
+		curItem = 0;
+		timer.start();
+	}
 }
 
 void CandidatesKanjiList::clear()
 {
 	scene.clear();
 	items.clear();
-	pos = 0;
-//	translate(0, 0);
+	curItem = pos = 0;
 }
 
+#define MOUSE_STEP 120
 void CandidatesKanjiList::wheelEvent(QWheelEvent *event)
 {
 	event->accept();
 	if (items.isEmpty()) return;
-	if (event->delta() < 0 && pos < items.size() - 1) ++pos;
-	else if (event->delta() > 0 && pos > 0) --pos;
-	centerOn(items[pos]);
+	wheelDelta += event->delta();
+	int steps = wheelDelta / MOUSE_STEP;
+	if (steps != 0) {
+		wheelDelta -= steps * MOUSE_STEP;
+		curItem -= steps;
+		if (curItem >= items.size()) curItem = items.size() - 1;
+		else if (curItem < 0) curItem = 0;
+		timer.start();
+	}
 }
-
-/*void CandidatesKanjiList::paintEvent(QPaintEvent *event)
-{
-	QPainter painter(this);
-
-	scene.render(&painter);
-}*/
 
 ComponentSearchWidget::ComponentSearchWidget(QWidget *parent) : QWidget(parent)
 {

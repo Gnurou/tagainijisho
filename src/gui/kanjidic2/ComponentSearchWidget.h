@@ -28,18 +28,23 @@
 #include <QGraphicsScene>
 #include <QGraphicsView>
 #include <QGraphicsTextItem>
+#include <QTimer>
 
 class CandidatesKanjiList : public QGraphicsView
 {
 	Q_OBJECT
 private:
 	QGraphicsScene scene;
-	int pos;
+	int curItem, pos;
+	int wheelDelta;
 	QList<QGraphicsTextItem *> items;
+	QTimer timer;
 
 protected:
 	void wheelEvent(QWheelEvent *event);
-//	void paintEvent(QPaintEvent *event);
+
+protected slots:
+	void updateAnimationState();
 
 public:
 	CandidatesKanjiList(QWidget *parent = 0);
