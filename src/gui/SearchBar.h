@@ -369,6 +369,7 @@ class SearchBar : public QWidget
 {
 	Q_OBJECT
 private:
+	QHBoxLayout *_searchBarLayout;
 	QComboBox *_searchField;
 	QToolButton *resetText;
 	EntryTypeSelectionWidget *_entryTypeSelector;
@@ -396,6 +397,8 @@ public:
 	SearchBarExtender *getExtender(const QString &name) { return _extendersList.value(name); }
 	void removeExtender(SearchBarExtender *extender);
 	bool isFeatureEnabled(const QString &feature);
+	QBoxLayout *layout() { return _searchBarLayout; }
+	QComboBox *searchField() { return _searchField; }
 
 	QMap<QString, QVariant> getState() const;
 	void restoreState(const QMap<QString, QVariant> &state);
