@@ -30,7 +30,6 @@
 
 RelativeDatePopup::RelativeDatePopup(RelativeDate &date, QWidget *parent) : QFrame(parent), _date(date)
 {
-	installEventFilter(parent);
 	_notSetButton = new QRadioButton(tr("Not set"), this);
 
 	_counterBox = new QSpinBox(this);
@@ -118,36 +117,36 @@ void RelativeDatePopup::sync()
 	_calendar->setSelectedDate(_date.absoluteDate());
 }
 
-RelativeDateEdit::RelativeDateEdit(QWidget *parent) : ElidedPushButton<QPushButton>(parent), _date()
+RelativeDateEdit::RelativeDateEdit(QWidget *parent) : ElidedPushButton<QPushButton>(parent), _date(), _popup(_date)
 {
-	_popup = new RelativeDatePopup(_date, this);
-	_popup->hide();
-	_popup->setFrameStyle(QFrame::StyledPanel | QFrame::Raised);
-	_popup->setWindowModality(Qt::ApplicationModal);
-	_popup->setWindowFlags(Qt::Popup);
+	_popup.hide();
+	_popup.setFrameStyle(QFrame::StyledPanel | QFrame::Raised);
+	_popup.setWindowModality(Qt::ApplicationModal);
+	_popup.setWindowFlags(Qt::Popup);
+	_popup.installEventFilter(this);
 	setCheckable(true);
 	setMaxTextWidth(100);
 	connect(this, SIGNAL(toggled(bool)), this, SLOT(togglePopup(bool)));
-	connect(_popup, SIGNAL(dateSelected()), this, SLOT(onDateSelected()));
+	connect(&_popup, SIGNAL(dateSelected()), this, SLOT(onDateSelected()));
 	updateButtonTitle();
 }
 
 void RelativeDateEdit::togglePopup(bool status)
 {
 	if (status) {
-		_popup->move(mapToGlobal(rect().bottomLeft()));
-		_popup->show();
+		_popup.move(mapToGlobal(rect().bottomLeft()));
+		_popup.show();
 		QDesktopWidget *desktopWidget = QApplication::desktop();
-		QRect popupRect = _popup->geometry();
+		QRect popupRect = _popup.geometry();
 		QRect screenRect(desktopWidget->screenGeometry(this));
-		if (!screenRect.contains(_popup->geometry())) {
+		if (!screenRect.contains(_popup.geometry())) {
 			if (screenRect.right() < popupRect.right()) popupRect.moveRight(screenRect.right());
 			if (screenRect.bottom() < popupRect.bottom()) popupRect.moveBottom(screenRect.bottom());
-			_popup->setGeometry(popupRect);
+			_popup.setGeometry(popupRect);
 		}
 	}
 	else {
-		_popup->hide();
+		_popup.hide();
 	}
 }
 
@@ -180,7 +179,7 @@ void RelativeDateEdit::wheelEvent(QWheelEvent *event)
 	wheelDelta += event->delta();
 	int steps = wheelDelta / 120;
 	if (_date.dateType() == RelativeDate::NotSet && steps > 0) {
-		_date.setDateType(_popup->_whatBox->itemData(_popup->_whatBox->currentIndex()).toInt());
+		_date.setDateType(_popup._whatBox->itemData(_popup._whatBox->currentIndex()).toInt());
 		_date.setAgo(-1);
 	}
 	if (steps) {
@@ -198,7 +197,7 @@ void RelativeDateEdit::wheelEvent(QWheelEvent *event)
 				updateButtonTitle();
 			}
 		}
-		_popup->sync();
+		_popup.sync();
 		emit dateChanged(_date);
 	}
 	event->accept();

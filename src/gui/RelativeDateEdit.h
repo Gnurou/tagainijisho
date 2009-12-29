@@ -64,13 +64,13 @@ class RelativeDateEdit : public ElidedPushButton<QPushButton>
 	Q_OBJECT
 private:
 	RelativeDate _date;
-	RelativeDatePopup *_popup;
+	RelativeDatePopup _popup;
 
 public:
 	RelativeDateEdit(QWidget *parent = 0);
 
 	QString dateString() const { return _date.dateString(); }
-	void setDateString(const QString &string) { _date.setDateString(string); updateButtonTitle(); _popup->sync(); emit dateChanged(_date); }
+	void setDateString(const QString &string) { _date.setDateString(string); updateButtonTitle(); _popup.sync(); emit dateChanged(_date); }
 	QString translatedDateString() const { return _date.translatedDateString(); }
 
 	const RelativeDate &date() const { return _date; }
