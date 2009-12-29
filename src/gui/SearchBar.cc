@@ -18,6 +18,9 @@
 #include "gui/SearchBar.h"
 #include "gui/MainWindow.h"
 
+// TODO remove dependency on kanjidic plugin
+#include "gui/kanjidic2/ComponentSearchWidget.h"
+
 #include <QtDebug>
 
 #include <QApplication>
@@ -734,6 +737,9 @@ SearchBar::SearchBar(QWidget *parent) : QWidget(parent)
 	_searchField->setSizePolicy(QSizePolicy::Expanding, _searchField->sizePolicy().verticalPolicy());
 	_searchField->setInsertPolicy(QComboBox::NoInsert);
 
+	ComponentSearchButton *_cButton = new ComponentSearchButton(this);
+	connect(_cButton->componentSearchWidget(), SIGNAL(kanjiSelected(QString)), this, SLOT(onComponentSearchKanjiSelected(QString)));
+
 	_entryTypeSelector = new EntryTypeSelectionWidget(this);
 	connect(_entryTypeSelector, SIGNAL(enableFeature(const QString &)), this, SLOT(enableFeature(const QString &)));
 	connect(_entryTypeSelector, SIGNAL(disableFeature(const QString &)), this, SLOT(disableFeature(const QString &)));
@@ -767,6 +773,7 @@ SearchBar::SearchBar(QWidget *parent) : QWidget(parent)
 	hLayout->setSpacing(5);
 	hLayout->addWidget(resetText);
 	hLayout->addWidget(_searchField);
+	hLayout->addWidget(_cButton);
 	hLayout->addWidget(_entryTypeSelector);
 	hLayout->addWidget(searchButton);
 	hLayout->addWidget(searchStatus);
@@ -786,6 +793,11 @@ SearchBar::SearchBar(QWidget *parent) : QWidget(parent)
 	registerExtender(new TagsSearchWidget(this));
 	registerExtender(new NotesSearchWidget(this));
 	registerExtender(new JLPTOptionsWidget(this));
+}
+
+void SearchBar::onComponentSearchKanjiSelected(const QString &text)
+{
+	_searchField->lineEdit()->insert(text);
 }
 
 void SearchBar::onSearchTextChanged(const QString &text)

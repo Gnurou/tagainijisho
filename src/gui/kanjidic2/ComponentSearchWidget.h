@@ -30,11 +30,13 @@
 #include <QGraphicsTextItem>
 #include <QTimer>
 
+#include <QPushButton>
+
 class CandidatesKanjiList : public QGraphicsView
 {
 	Q_OBJECT
 private:
-	QGraphicsScene scene;
+	QGraphicsScene _scene;
 	int curItem, pos;
 	int wheelDelta;
 	QList<QGraphicsTextItem *> items;
@@ -45,21 +47,26 @@ protected:
 
 protected slots:
 	void updateAnimationState();
+	void onSelectionChanged();
 
 public:
 	CandidatesKanjiList(QWidget *parent = 0);
 	virtual QSize sizeHint() const;
 	void clear();
+	QGraphicsScene *scene() { return &_scene; }
 
 public slots:
 	void addItem(const QString &kanji);
+
+signals:
+	void kanjiSelected(const QString &kanji);
 };
 
 #include "gui/ui_ComponentSearchWidget.h"
 
 class QSqlQuery;
 
-class ComponentSearchWidget : public QWidget, public Ui::ComponentSearchWidget
+class ComponentSearchWidget : public QFrame, public Ui::ComponentSearchWidget
 {
 	Q_OBJECT
 protected:
@@ -68,13 +75,30 @@ protected:
 protected slots:
 	void onSelectionChanged();
 	void onSelectedComponentsChanged(const QString &components);
-	void onItemEntered(QListWidgetItem *item);
 
 public:
 	ComponentSearchWidget(QWidget *parent = 0);
 
 signals:
-	void componentsSelected(const QList<QChar> &selection);
+	void kanjiSelected(const QString &kanji);
+};
+
+class ComponentSearchButton : public QPushButton
+{
+	Q_OBJECT
+private:
+	ComponentSearchWidget _popup;
+
+protected:
+	virtual bool eventFilter(QObject *obj, QEvent *event);
+
+protected slots:
+	void togglePopup(bool status);
+
+public:
+	ComponentSearchButton(QWidget *parent);
+	virtual ~ComponentSearchButton();
+	const ComponentSearchWidget *componentSearchWidget() const { return &_popup; }
 };
 
 #endif

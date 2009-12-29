@@ -386,6 +386,7 @@ private slots:
 	void disableFeature(const QString &feature);
 	void resetSearchText();
 	void onSearchTextChanged(const QString &text);
+	void onComponentSearchKanjiSelected(const QString &text);
 
 public:
 	SearchBar(QWidget *parent = 0);

@@ -28,12 +28,23 @@
 #include <QSqlQuery>
 #include <QCursor>
 
+#include <QDesktopWidget>
+
 #define KANJI_SIZE 50
 #define PADDING 5
 
-CandidatesKanjiList::CandidatesKanjiList(QWidget *parent) : QGraphicsView(parent), scene(), curItem(0), pos(0), wheelDelta(0)
+/*void ComponentSearchWidget::onItemEntered(QListWidgetItem *item)
 {
-	setScene(&scene);
+	EntryPointer<Entry> entry(EntriesCache::get(KANJIDIC2ENTRY_GLOBALID, TextTools::singleCharToUnicode(item->text())).data());
+	const Kanjidic2Entry *kanji(static_cast<const Kanjidic2Entry *>(entry.data()));
+	if (!kanji) return;
+	const Kanjidic2EntryFormatter *formatter(static_cast<const Kanjidic2EntryFormatter *>(EntryFormatter::getFormatter(kanji)));
+	formatter->showToolTip(kanji, QCursor::pos());
+}*/
+
+CandidatesKanjiList::CandidatesKanjiList(QWidget *parent) : QGraphicsView(parent), _scene(), curItem(0), pos(0), wheelDelta(0)
+{
+	setScene(&_scene);
 	setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Minimum);
 	setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 	setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -44,16 +55,19 @@ CandidatesKanjiList::CandidatesKanjiList(QWidget *parent) : QGraphicsView(parent
 	timer.setInterval(20);
 	timer.setSingleShot(false);
 	connect(&timer, SIGNAL(timeout()), this, SLOT(updateAnimationState()));
+	connect(&_scene, SIGNAL(selectionChanged()), this, SLOT(onSelectionChanged()));
 }
 
 QSize CandidatesKanjiList::sizeHint() const
 {
-	return QSize(QWidget::sizeHint().width(), KANJI_SIZE);
+	QFont font;
+	font.setPixelSize(KANJI_SIZE);
+	return QSize(QWidget::sizeHint().width(), QFontMetrics(font).height());
 }
 
-#define ITEM_POSITION(x) (PADDING + (x) * (KANJI_SIZE + PADDING))
+#define ITEM_POSITION(x) (4 * PADDING + (x) * (KANJI_SIZE + PADDING))
 #define ITEM_X(x) (ITEM_POSITION(x) + KANJI_SIZE / 2)
-#define ITEM_Y (KANJI_SIZE / 2)
+#define ITEM_Y (10 + KANJI_SIZE / 2)
 
 void CandidatesKanjiList::updateAnimationState()
 {
@@ -66,12 +80,20 @@ void CandidatesKanjiList::updateAnimationState()
 	centerOn(pos, ITEM_Y);
 }
 
+void CandidatesKanjiList::onSelectionChanged()
+{
+	QList<QGraphicsItem *> selection(_scene.selectedItems());
+	if (selection.isEmpty()) return;
+	emit kanjiSelected(static_cast<QGraphicsTextItem *>(selection[selection.size() - 1])->toPlainText());
+}
+
 void CandidatesKanjiList::addItem(const QString &kanji)
 {
 	QFont font;
 	font.setPixelSize(KANJI_SIZE);
-	QGraphicsTextItem *item = scene.addText(kanji, font);
+	QGraphicsTextItem *item = _scene.addText(kanji, font);
 	item->setPos(ITEM_POSITION(items.size()), 0);
+	item->setFlags(QGraphicsItem::ItemIsSelectable);
 	items << item;
 	if (items.size() == 1) {
 		curItem = 0;
@@ -81,7 +103,7 @@ void CandidatesKanjiList::addItem(const QString &kanji)
 
 void CandidatesKanjiList::clear()
 {
-	scene.clear();
+	_scene.clear();
 	items.clear();
 	curItem = pos = 0;
 }
@@ -102,13 +124,12 @@ void CandidatesKanjiList::wheelEvent(QWheelEvent *event)
 	}
 }
 
-ComponentSearchWidget::ComponentSearchWidget(QWidget *parent) : QWidget(parent)
+ComponentSearchWidget::ComponentSearchWidget(QWidget *parent) : QFrame(parent)
 {
 	setupUi(this);
 	connect(complementsList, SIGNAL(itemSelectionChanged()), this, SLOT(onSelectionChanged()));
 	connect(currentSelection, SIGNAL(textChanged(QString)), this, SLOT(onSelectedComponentsChanged(QString)));
-//	connect(candidatesList, SIGNAL(itemEntered(QListWidgetItem*)), this, SLOT(onItemEntered(QListWidgetItem*)));
-//	connect(complementsList, SIGNAL(itemEntered(QListWidgetItem*)), this, SLOT(onItemEntered(QListWidgetItem*)));
+	connect(candidatesList, SIGNAL(kanjiSelected(QString)), this, SIGNAL(kanjiSelected(QString)));
 
 	onSelectedComponentsChanged("");
 }
@@ -130,7 +151,7 @@ void ComponentSearchWidget::onSelectedComponentsChanged(const QString &component
 	if (!selection.isEmpty()) queryString = QString("select distinct element, strokeCount, parentGroup is null from kanjidic2.strokeGroups left join kanjidic2.entries on entries.id = strokeGroups.element where kanjidic2.strokeGroups.element not in (%1) and kanjidic2.strokeGroups.kanji in (SELECT DISTINCT ks1.kanji FROM kanjidic2.strokeGroups AS ks1 WHERE (ks1.element IN (%1) OR ks1.original IN (%1)) AND ks1.parentGroup NOT NULL GROUP BY ks1.kanji HAVING UNIQUECOUNT(CASE WHEN ks1.element IN (%1) THEN ks1.element ELSE NULL END, CASE WHEN ks1.original IN (%1) THEN ks1.original ELSE NULL END) >= %2) order by entries.strokeCount, entries.frequency is null ASC, entries.frequency ASC").arg(selection.join(",")).arg(selection.size());
 	//if (!selection.isEmpty()) queryString = QString("select distinct c2.element, strokeCount from kanjidic2.strokeGroups c1 join kanjidic2.strokeGroups c2 on c1.kanji = c2.kanji left join kanjidic2.entries on entries.id = c2.element where c1.element in (%1) and c1.kanji in (select kanji from kanjidic2.strokeGroups where element in (%1) group by kanji having count(distinct element) >= %2) and c2.element not in (select element from strokeGroups where kanji in (%1)) order by entries.frequency is null ASC, entries.frequency ASC").arg(l.join(",")).arg(selection.size());
 	// If there is no selection, select all elements that have no components
-	else queryString = "select distinct element, strokeCount from kanjidic2.strokeGroups left join kanjidic2.entries on entries.id = strokeGroups.element where kanjidic2.strokeGroups.rowid not in (select distinct(parentGroup) from kanjidic2.strokeGroups where parentGroup is not null) order by entries.strokeCount, entries.frequency is null ASC, entries.frequency ASC";
+	else queryString = "select distinct element, strokeCount from kanjidic2.strokeGroups left join kanjidic2.entries on entries.id = strokeGroups.element where kanjidic2.strokeGroups.rowid not in (select distinct(parentGroup) from kanjidic2.strokeGroups where parentGroup is not null) and strokeCount > 0 order by entries.strokeCount, entries.frequency is null ASC, entries.frequency ASC";
 	if (!query.exec(queryString)) qDebug() << query.lastError();
 	populateList(query);
 }
@@ -160,8 +181,6 @@ void ComponentSearchWidget::populateList(QSqlQuery &query)
 		bool isRoot(query.value(2).toBool());
 		if (isRoot) {
 			candidatesList->addItem(val);
-//			QListWidgetItem *item = new QListWidgetItem(val, candidatesList);
-//			item->setFlags(item->flags() & ~Qt::ItemIsSelectable);
 			continue;
 		}
 
@@ -178,11 +197,44 @@ void ComponentSearchWidget::populateList(QSqlQuery &query)
 	}
 }
 
-void ComponentSearchWidget::onItemEntered(QListWidgetItem *item)
+ComponentSearchButton::ComponentSearchButton(QWidget *parent) : QPushButton(parent)
 {
-	EntryPointer<Entry> entry(EntriesCache::get(KANJIDIC2ENTRY_GLOBALID, TextTools::singleCharToUnicode(item->text())).data());
-	const Kanjidic2Entry *kanji(static_cast<const Kanjidic2Entry *>(entry.data()));
-	if (!kanji) return;
-	const Kanjidic2EntryFormatter *formatter(static_cast<const Kanjidic2EntryFormatter *>(EntryFormatter::getFormatter(kanji)));
-	formatter->showToolTip(kanji, QCursor::pos());
+	setCheckable(true);
+	connect(this, SIGNAL(toggled(bool)), this, SLOT(togglePopup(bool)));
+	_popup.hide();
+	_popup.installEventFilter(this);
+	_popup.setFrameStyle(QFrame::StyledPanel | QFrame::Raised);
+	_popup.setWindowModality(Qt::ApplicationModal);
+	_popup.setWindowFlags(Qt::Popup);
+}
+
+ComponentSearchButton::~ComponentSearchButton()
+{
+}
+
+void ComponentSearchButton::togglePopup(bool status)
+{
+	if (status) {
+		_popup.move(mapToGlobal(QPoint(rect().bottomRight().x() - _popup.width(), rect().bottomRight().y())));
+		_popup.show();
+		QDesktopWidget *desktopWidget = QApplication::desktop();
+		QRect popupRect = _popup.geometry();
+		QRect screenRect(desktopWidget->screenGeometry(this));
+		if (!screenRect.contains(_popup.geometry())) {
+			if (screenRect.right() < popupRect.right()) popupRect.moveRight(screenRect.right());
+			if (screenRect.bottom() < popupRect.bottom()) popupRect.moveBottom(screenRect.bottom());
+			_popup.setGeometry(popupRect);
+		}
+	}
+	else {
+		_popup.hide();
+	}
+}
+
+bool ComponentSearchButton::eventFilter(QObject *obj, QEvent *event)
+{
+	if (event->type() == QEvent::Hide) {
+		setChecked(false);
+	}
+	return false;
 }
