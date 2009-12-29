@@ -30,7 +30,7 @@
 #include <QGraphicsTextItem>
 #include <QTimer>
 
-#include <QPushButton>
+#include <QToolButton>
 
 class CandidatesKanjiList : public QGraphicsView
 {
@@ -83,7 +83,7 @@ signals:
 	void kanjiSelected(const QString &kanji);
 };
 
-class ComponentSearchButton : public QPushButton
+class ComponentSearchButton : public QToolButton
 {
 	Q_OBJECT
 private:

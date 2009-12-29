@@ -197,8 +197,9 @@ void ComponentSearchWidget::populateList(QSqlQuery &query)
 	}
 }
 
-ComponentSearchButton::ComponentSearchButton(QWidget *parent) : QPushButton(parent)
+ComponentSearchButton::ComponentSearchButton(QWidget *parent) : QToolButton(parent)
 {
+	setIcon(QIcon(":/images/icons/component-selector.png"));
 	setCheckable(true);
 	connect(this, SIGNAL(toggled(bool)), this, SLOT(togglePopup(bool)));
 	_popup.hide();
