@@ -20,6 +20,7 @@
 #include "core/TextTools.h"
 #include "gui/kanjidic2/ComponentSearchWidget.h"
 #include "gui/kanjidic2/Kanjidic2EntryFormatter.h"
+#include "gui/KanjiValidator.h"
 
 #include <QSqlError>
 
@@ -127,6 +128,8 @@ void CandidatesKanjiList::wheelEvent(QWheelEvent *event)
 ComponentSearchWidget::ComponentSearchWidget(QWidget *parent) : QFrame(parent)
 {
 	setupUi(this);
+	KanjiValidator *validator = new KanjiValidator(currentSelection);
+	currentSelection->setValidator(validator);
 	// The queued connection allows the click signal to be entirely processed and prevents the next complement to appear
 	// under the mouse to be selected.
 	connect(complementsList, SIGNAL(itemSelectionChanged()), this, SLOT(onSelectionChanged()), Qt::QueuedConnection);
