@@ -127,7 +127,9 @@ void CandidatesKanjiList::wheelEvent(QWheelEvent *event)
 ComponentSearchWidget::ComponentSearchWidget(QWidget *parent) : QFrame(parent)
 {
 	setupUi(this);
-	connect(complementsList, SIGNAL(itemSelectionChanged()), this, SLOT(onSelectionChanged()));
+	// The queued connection allows the click signal to be entirely processed and prevents the next complement to appear
+	// under the mouse to be selected.
+	connect(complementsList, SIGNAL(itemSelectionChanged()), this, SLOT(onSelectionChanged()), Qt::QueuedConnection);
 	connect(currentSelection, SIGNAL(textChanged(QString)), this, SLOT(onSelectedComponentsChanged(QString)));
 	connect(candidatesList, SIGNAL(kanjiSelected(QString)), this, SIGNAL(kanjiSelected(QString)));
 
