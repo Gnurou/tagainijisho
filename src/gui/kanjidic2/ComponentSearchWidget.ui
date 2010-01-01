@@ -39,12 +39,19 @@
     </layout>
    </item>
    <item>
-    <widget class="CandidatesKanjiList" name="candidatesList" native="true"/>
+    <widget class="CandidatesKanjiList" name="candidatesList" native="true">
+     <property name="focusPolicy">
+      <enum>Qt::NoFocus</enum>
+     </property>
+    </widget>
    </item>
    <item>
     <widget class="QListWidget" name="complementsList">
      <property name="mouseTracking">
       <bool>true</bool>
+     </property>
+     <property name="focusPolicy">
+      <enum>Qt::NoFocus</enum>
      </property>
      <property name="selectionMode">
       <enum>QAbstractItemView::SingleSelection</enum>
@@ -73,6 +80,10 @@
    <container>1</container>
   </customwidget>
  </customwidgets>
+ <tabstops>
+  <tabstop>currentSelection</tabstop>
+  <tabstop>resetButton</tabstop>
+ </tabstops>
  <resources>
   <include location="../../../tagainijisho.qrc"/>
  </resources>

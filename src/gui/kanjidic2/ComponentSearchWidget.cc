@@ -225,6 +225,7 @@ void ComponentSearchButton::togglePopup(bool status)
 	if (status) {
 		_popup.move(mapToGlobal(QPoint(rect().bottomRight().x() - _popup.width(), rect().bottomRight().y())));
 		_popup.show();
+		_popup.currentSelection->setFocus();
 		QDesktopWidget *desktopWidget = QApplication::desktop();
 		QRect popupRect = _popup.geometry();
 		QRect screenRect(desktopWidget->screenGeometry(this));
