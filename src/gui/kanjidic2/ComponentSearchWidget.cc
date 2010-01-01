@@ -28,6 +28,7 @@
 #include <QSplitter>
 #include <QSqlQuery>
 #include <QCursor>
+#include <QScrollBar>
 
 #include <QDesktopWidget>
 
@@ -48,9 +49,9 @@ CandidatesKanjiList::CandidatesKanjiList(QWidget *parent) : QGraphicsView(parent
 	setScene(&_scene);
 	setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Minimum);
 	setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-	setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+	setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
 
-	setSceneRect(-0xfffff, -0xfffff, 2 * 0xfffff, 2 * 0xfffff);
+//	setSceneRect(-0xfffff, -0xfffff, 2 * 0xfffff, 2 * 0xfffff);
 	setResizeAnchor(QGraphicsView::AnchorViewCenter);
 
 	timer.setInterval(20);
@@ -63,22 +64,24 @@ QSize CandidatesKanjiList::sizeHint() const
 {
 	QFont font;
 	font.setPixelSize(KANJI_SIZE);
-	return QSize(QWidget::sizeHint().width(), QFontMetrics(font).height());
+	return QSize(QWidget::sizeHint().width(), QFontMetrics(font).height() + horizontalScrollBar()->height());
 }
 
+#define ITEM_CENTER(item) (item->pos() + item->boundingRect().center())
 #define ITEM_POSITION(x) (4 * PADDING + (x) * (KANJI_SIZE + PADDING))
-#define ITEM_X(x) (ITEM_POSITION(x) + KANJI_SIZE / 2)
-#define ITEM_Y (10 + KANJI_SIZE / 2)
 
 void CandidatesKanjiList::updateAnimationState()
 {
-	int dest = ITEM_X(curItem);
+	if (items.isEmpty()) return;
+
+	int dest = ITEM_CENTER(items[curItem]).x();
 	if (dest == pos) {
 		timer.stop();
 		return;
 	}
 	pos += (dest - pos) / 2;
-	centerOn(pos, ITEM_Y);
+	if (qAbs(dest - pos) == 1) pos = dest;
+	centerOn(pos, ITEM_CENTER(items[curItem]).y());
 }
 
 void CandidatesKanjiList::onSelectionChanged()
@@ -100,6 +103,7 @@ void CandidatesKanjiList::addItem(const QString &kanji)
 		curItem = 0;
 		timer.start();
 	}
+	setSceneRect(_scene.itemsBoundingRect());
 }
 
 void CandidatesKanjiList::clear()
@@ -107,6 +111,8 @@ void CandidatesKanjiList::clear()
 	_scene.clear();
 	items.clear();
 	curItem = pos = 0;
+	// Used to reset the scrollbar
+	setSceneRect(0, 0, 1, 1);
 }
 
 #define MOUSE_STEP 120
