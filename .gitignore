@@ -34,4 +34,9 @@ src/core/jmdict/JMdictDefs.h
 src/sqlite/libsqlite3.a
 *.pyc
 credentials.txt
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+src/CMakeFiles/
+src/cmake_install.cmake
 
