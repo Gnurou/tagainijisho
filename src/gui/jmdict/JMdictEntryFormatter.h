@@ -20,8 +20,8 @@
 
 #include "core/jmdict/JMdictEntry.h"
 #include "core/EntriesCache.h"
-#include "EntryFormatter.h"
-#include "DetailedView.h"
+#include "gui/EntryFormatter.h"
+#include "gui/DetailedView.h"
 
 class JMdictEntryFormatter : public EntryFormatter
 {

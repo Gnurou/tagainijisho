@@ -22,8 +22,8 @@
 #include "gui/HexSpinBox.h"
 #include "gui/ReadingTrainer.h"
 
-#include "YesNoTrainer.h"
-#include "SearchBar.h"
+#include "gui/YesNoTrainer.h"
+#include "gui/SearchBar.h"
 #include <QSpinBox>
 
 class Kanjidic2EntryFormatter;
