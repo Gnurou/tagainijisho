@@ -4,7 +4,14 @@ include(${QT_USE_FILE})
 add_subdirectory(jmdict)
 add_subdirectory(kanjidic2)
 
+if(COMMAND cmake_policy)
+	cmake_policy(SET CMP0003 NEW)
+endif(COMMAND cmake_policy)    
+
+qt4_add_resources(tagainijisho_gui_QRC ${CMAKE_SOURCE_DIR}/tagainijisho.qrc)
+
 set(tagainijisho_gui_SRCS
+${tagainijisho_gui_QRC}
 EntryFormatter.cc
 BetterSpinBox.cc
 HexSpinBox.cc
@@ -82,9 +89,5 @@ kanjidic2/KanjiPopup.h
 )
 
 include_directories(${QT_INCLUDE_DIR})
-include_directories(${CMAKE_SOURCE_DIR}/src)
-include_directories(${QT_INCLUDE_DIR})
-add_definitions(-DVERSION=${VERSION})
-add_library(tagaini_gui STATIC ${tagainijisho_gui_SRCS} ${tagainijisho_gui_MOC_SRCS})
-#add_executable(tagainijisho ${tagainijisho_SRCS} ${tagainijisho_MOC_SRCS})
-#target_link_libraries(tagainijisho ${QT_LIBRARIES} ${QT_QTNETWORK_LIBRARIES})
+add_executable(tagainijisho ${tagainijisho_gui_SRCS} ${tagainijisho_gui_MOC_SRCS})
+target_link_libraries(tagainijisho tagaini_core tagaini_sqlite ${QT_LIBRARIES})

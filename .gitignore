@@ -39,4 +39,8 @@ CMakeFiles/
 cmake_install.cmake
 src/CMakeFiles/
 src/cmake_install.cmake
+src/config.h
+src/core/libtagaini_core.a
+src/gui/libtagaini_gui.a
+src/sqlite/libtagaini_sqlite.a
 

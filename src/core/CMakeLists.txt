@@ -4,6 +4,7 @@ add_subdirectory(jmdict)
 add_subdirectory(kanjidic2)
 
 set(tagainijisho_core_SRCS
+TextTools.cc
 Database.cc
 QueryBuilder.cc
 Query.cc
@@ -44,7 +45,5 @@ kanjidic2/Kanjidic2Entry.h
 kanjidic2/Kanjidic2EntrySearcher.h
 )
 
-include_directories(${CMAKE_SOURCE_DIR}/src)
 include_directories(${QT_INCLUDE_DIR})
 add_library(tagaini_core STATIC ${tagainijisho_core_SRCS} ${tagainijisho_core_MOC_SRCS})
-#target_link_libraries(tagaini_core ${QT_LIBRARIES})

@@ -15,6 +15,8 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "config.h"
+
 #include "core/Paths.h"
 #include "core/Database.h"
 #include "core/EntrySearcherManager.h"
@@ -68,7 +70,7 @@ QString JMdictPlugin::getDBFile() const
 {
 	// Look in the current directory
 	QFile dbFile("jmdict.db");
-#ifdef DATAPREFIX
+#ifdef DATA_DIR
 	// Otherwise, check for the default installation prefix, if set	
 	if (!dbFile.exists()) dbFile.setFileName(QDir(QUOTEMACRO(DATAPREFIX)).filePath("jmdict.db"));
 #endif
