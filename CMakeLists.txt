@@ -16,7 +16,7 @@ endif()
 # Add the default database lookup data path for Linux if not defined
 if(CMAKE_SYSTEM_NAME MATCHES "Linux")
 	if(NOT DATA_DIR)
-		set(DATA_DIR "/usr/local/share/tagainijisho")
+		set(DATA_DIR "${CMAKE_INSTALL_PREFIX}/share/tagainijisho")
 	endif(NOT DATA_DIR)
 endif()
 
