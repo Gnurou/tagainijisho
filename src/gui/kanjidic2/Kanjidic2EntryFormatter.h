@@ -19,8 +19,8 @@
 
 #include "core/kanjidic2/Kanjidic2Entry.h"
 #include "core/EntriesCache.h"
-#include "EntryFormatter.h"
-#include "DetailedView.h"
+#include "gui/EntryFormatter.h"
+#include "gui/DetailedView.h"
 
 class Kanjidic2EntryFormatter : public EntryFormatter
 {
