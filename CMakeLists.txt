@@ -1,5 +1,5 @@
 project(tagainijisho)
+set(VERSION 0.2.5)
 cmake_minimum_required(VERSION 2.4.0)
 find_package(Qt4 REQUIRED)
 add_subdirectory(src)
-
