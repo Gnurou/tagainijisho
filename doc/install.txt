@@ -56,7 +56,7 @@ Dependency|&emsp;|Windows|&emsp;|Mac OS|&emsp;|Linux Binary|&emsp;|Source|
 ------------------------------------------------------------------------------
  Japanese Fonts     || yes          ||  yes     || yes              || yes   |
  An IM              || yes          || yes      || yes              || yes   |
- Qt                 || no           || dunno    || yes              || yes   |
+ Qt                 || no           || no       || yes              || yes   |
  Python             || no           || no       || no               || yes   |
 [Platform Dependencies]
 
