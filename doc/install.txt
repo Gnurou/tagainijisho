@@ -1,0 +1,298 @@
+Title:      Tagaini Jisho - Installation Guide
+Subtitle:   Install Guide
+Web:        tagaini.net
+Author:	    Neil Caldwell
+	    Alexandre Courbot
+Date:       Thu 17 Dec 2009
+Email:      ncaldwell@alumnaie.net
+Copyright:  Creative Commons Attribution-Share Alike 3.0.
+	    http://creativecommons.org/licenses/by-sa/3.0/
+CSS:        
+Format:     complete
+Language:   english
+
+Tagaini Jisho Install Guide
+===========================
+
+1. Installation
+===============
+Tagaini Jisho is available on several different platforms, including Windows
+and Mac OS, as well as being available for several Linux distributions.
+The correct binaries[^bin] can be downloaded from the
+[downloads page](http://tagaini.net/download "Download Tagaini Jisho") at
+[tagaini.net](http://tagaini.net/ "The Tagaini Jisho Homepage").
+
+Tagaini Jisho has several dependencies, other applications and
+libraries that it depends on. Depending on your system, this may or may not be
+relevant. On Windows, for instance, you need to have Japanese fonts and IME
+software in order to use Tagaini, whilst the other dependencies are provided in with the windows binaries.
+
+These dependencies are:
+
+* Fonts  
+    &emsp;&emsp;&emsp; Fonts to display Japanese characters.  
+    &emsp;&emsp;&emsp; これを読んだら日本語のフォントはもうインストールしています。  
+    &emsp;&emsp;&emsp; If you can not read the above then you need to install fonts.
+* An [IM][WIM]  
+    &emsp;&emsp;&emsp; An *Input Method*. It is an application that allows the  
+    &emsp;&emsp;&emsp; user to type characters that do not appear on the  
+    &emsp;&emsp;&emsp; keyboard. You will likely need one to input Japanese  
+    &emsp;&emsp;&emsp; characters.
+* [Qt][WQt]  
+    &emsp;&emsp;&emsp; Qt is an application toolkit that was used to write
+    Tagaini.
+* [Python][WPy]  
+    &emsp;&emsp;&emsp; Python is a programing language that was used to  
+    &emsp;&emsp;&emsp; write part of the setup process when compiling from  
+    &emsp;&emsp;&emsp; source.
+
+
+[WIM]: http://en.wikipedia.org/wiki/Input_method "Wikipedia: IM"
+[WQt]: http://en.wikipedia.org/wiki/Qt_%28toolkit%29 "Wikipedia: Qt"
+[WPy]: http://en.wikipedia.org/wiki/Python_%28programming_language%29 "Wikipedia: Python"
+
+|                   ||                  Platform                        |||||||
+Dependency|&emsp;|Windows|&emsp;|Mac OS|&emsp;|Linux Binary|&emsp;|Source|
+------------------------------------------------------------------------------
+ Japanese Fonts     || yes          ||  yes     || yes              || yes   |
+ An IM              || yes          || yes      || yes              || yes   |
+ Qt                 || no           || dunno    || yes              || yes   |
+ Python             || no           || no       || no               || yes   |
+[Platform Dependencies]
+
+
+[^bin]: A binary file is an executable file that contains information that the
+        machine uses to run the file. tagainijisho.exe is a binary.
+
+
+Windows
+-------
+
+Once you have downloaded the Windows Installer, all you have to do is run it.
+A dialogue box will come up and ask you to accept the [licence][GPL]
+and where you would like it installed, by default `C:\Program Files\Tagaini
+Jisho`. It will place a shortcut in a folder in the applications menu, which
+you can run to launch Tagaini.
+
+**Fonts:** If you are running Vista it is recommended that you install the
+[Meiryo][meriyofoot] font for best visibility.
+
+[meriyofoot]: http://www.microsoft.com/Downloads/details.aspx?familyid=F7D758D2-46FF-4C55-92F2-69AE834AC928&displaylang=en
+
+**IME:** To be able to input Japanese characters under Windows XP,
+You have to install the IME. To do so, Insert your Windows disk into your 
+DVD-Rom drive. Go to the control panel and find `regional and language options`.
+In the language tab, under `text services and input languages` there is a button
+labelled `details`. Clicking it brings up another dialogue which allows you to
+add different input languages. Add Japanese. The keyboard should say Microsoft 
+IME.
+
+If the above instructions didn't work for you, or if you would like to read a
+how to on the Windows IME, one can be found
+[here](http://newton.uor.edu/Departments&Programs/AsianStudiesDept/Language/japanese_write.htm "Writing Japanese on the Windows Platform") or [here](http://www.declan-software.com/japanese_ime/ "Declan Software; Installing the Japanese IME").
+
+
+[GPL]: http://en.wikipedia.org/wiki/Gpl "General Public Licence"
+
+
+### Linux Japanese Support
+
+There are several different IM's to chose from, and each distribution of Linux
+will have its own documentation on getting Japanese Language support to work.
+
+In a nutshell, the steps will read something like:
+
+* Get UTF-8 support / Set the locale.
+* Install Japanese fonts.
+* Install IM X with support for Y and Z.
+
+There are multiple ways, varying by distribution and applications, to do these
+things. We have provided some simple and general advice, as well as links to
+some distribution specific how-tos.
+
+
+#### Locale
+
+The locale is the first thing you will have to look at. You will have to
+change the locale to a [UTF-8][UTF8] locale (ie en_GB.UTF-*.) Some
+distributions provide packages with locales in them, possibly called language
+packs, whilst others expect you to use
+[localegen](http://man.he.net/man8/locale-gen "man locale-gen") or to set them up yourself.
+
+If the information is not one of our [how to links](#howto), then you will have
+to search through your distributions documentation.
+
+[UTF8]: http://en.wikipedia.org/wiki/UTF-8
+
+
+#### Fonts
+
+Depending on your distribution you may find Japanese fonts in different
+packages in your package manager. Here we have a few different Japanese fonts
+listed, they may not be available in your package manager under these names,
+though they may be available under slightly different names.
+
+* ttf-kochi-gothic
+* ttf-kochi-mincho
+* [aquafont][aquafont]
+* [aquapfont][aquapfont]
+* jisx0213-fonts
+* [kochi-substitute][kochi]
+* [mikachan-font][mikachan]
+* monafont
+* [mplus][mplus]
+* [sazanami][sazanami]
+* [shinonome][shinonome]
+* [vlgothic][vlgothic]
+* [font-sony-misc][xorg]
+* [mplus][mplus]
+* [ipafonts][ipafonts]
+* [umeplus][umeplus]
+* [togoshi][togoshi]
+
+
+[xorg]: http://xorg.freedesktop.org/
+[umeplus]: http://www.geocities.jp/ep3797/modified_fonts_01.html
+[ipafonts]: http://ossipedia.ipa.go.jp/ipafont/
+[mplus]: http://mplus-fonts.sourceforge.jp/
+[vlgothic]: http://dicey.org/vlgothic
+[shinonome]: http://openlab.jp/efont/shinonome/
+[sazanami]: http://efont.sourceforge.jp/
+[mplus]: http://mplus-fonts.sourceforge.jp/
+[kochi]: http://efont.sourceforge.jp/
+[aquapfont]: http://aquablue.milkcafe.to/
+[aquafont]: http://www.geocities.jp/teardrops_in_aquablue/
+[mikachan]: http://mikachan-font.com/
+[togoshi]:  http://sourceforge.jp/projects/togoshi-font/
+
+There are several IM's for Linux. Two you are likely to hear of are
+[`uim`][uim], the universal input method, and [`scim`][scim], the simple common
+input method. Uim supports `xim`, the X input method, which is an older IM that 
+makes uim good for backwards compatibility, as well as terminal input with 
+`uim-fep`, whilst scim interfaces with GTK. Scim has a bridging module that 
+allows compatibility with Qt, which you will need for Tagaini. Scim will 
+interface with `mlTerm`, a multi lingual terminal emulator, and a few other 
+terms, but not with `xterm` or other non GTK/qt terms.
+
+[uim]: http://en.wikipedia.org/wiki/Uim "Wikipedia: UIM"
+[scim]: http://en.wikipedia.org/wiki/Smart_Common_Input_Method "Wikipedia: SCIM"
+
+<a name="howto" />
+
+
+#### How tos and other links:
+
+* [http://www.jw-stumpel.nl/input.html](http://www.jw-stumpel.nl/input.html)
+* [http://en.wikipedia.org/wiki/List_of_input_methods_for_UNIX_platforms](http://en.wikipedia.org/wiki/List_of_input_methods_for_UNIX_platforms)
+
+##### ubuntu
+
+* [https://wiki.ubuntu.com/InputMethods/SCIM/Setup](https://wiki.ubuntu.com/InputMethods/SCIM/Setup)
+* [https://help.ubuntu.com/community/SCIM](https://help.ubuntu.com/community/SCIM)
+
+##### Debian
+
+* [http://dspnet.fr.eu.org/~lonewolf/LinuxJapan/Howto_English_Japanese.html](http://dspnet.fr.eu.org/~lonewolf/LinuxJapan/Howto_English_Japanese.html)
+
+##### Mandriva
+
+* [http://symbolik.wordpress.com/2007/05/21/japanese-input-support-on-mandriva-2007-linux/](http://symbolik.wordpress.com/2007/05/21/japanese-input-support-on-mandriva-2007-linux/)
+
+##### archLinux
+
+* [http://wiki.archlinux.org/index.php/Input_Japanese_using_UIM_%28English%29](http://wiki.archlinux.org/index.php/Input_Japanese_using_UIM_%28English%29)
+* [http://wiki.archlinux.org/index.php/Scim](http://wiki.archlinux.org/index.php/Scim)
+
+##### Gentoo
+
+* [http://forums.gentoo.org/viewtopic-p-1852138.html](http://forums.gentoo.org/viewtopic-p-1852138.html)
+* [http://zibundemo.blogspot.com/2008/10/japanese-ims-support-in-gentoo.html](http://zibundemo.blogspot.com/2008/10/japanese-ims-support-in-gentoo.html)
+
+
+Compiling from Source
+---------------------
+
+As this is an Open Source project, the source code is freely available. It can
+be found at the bottom of the [download page](http://tagaini.net/download#Source_code__Any_other_Qt4-supported_platform "Source code download") in a tarball[^tarball]. You can also clone the git repository at [gitorius](http://gitorious.org/tagaini-jisho "gitorius").
+
+[^tarball]: A tar ball is a container file, or archive file, which
+            contains multiple files. They are usually compressed with Gzip or
+            Bzip2.
+
+
+Tagaini Jisho only has two dependencies, [`Qt`][^qtdepfoot] and `python`. It
+uses several other third party libraries, but provides custom versions of them
+in the source tarball. If you clone the git repository then you have to download
+them, which can be done with the `builddb.py` script. The `-d` switch downloads
+the dependencies without doing anything else. If you have downloaded a
+tarball, then these following steps are unnessasary.
+
+[^qtdepfoot]: The gentoo Qt maintainers split Qt into 14 seperate pacakges. This
+is done so that one does not have to compile the entire monolithic library. 
+Tagaini only requires `x11-libs/qt-core`, `x11-libs/qt-gui` and `x11-libs/qt-sql`.
+
+    tagaini-jisho $ ./builddb.py -d
+
+The `builddb.py` script is provided to build the dictionary databases, which
+you have to do after compiling tagaini.
+
+Tagaini Jisho is available in several languages, as such, the translations for
+the interface have to be built if you are working with a git repo.
+
+    tagaini-jisho $ lrelease src/gui/gui.pro
+
+Once you have the extra files, you first have to run `qmake` to generate the
+`Makefiles`.
+
+    tagaini-jisho $ qmake
+
+From here, you may compile the release version of Tagaini:
+
+    tagaini-jisho $ make
+
+The debug version can be compiled by:
+
+    tagaini-jisho $ make debug
+
+To install the program, you can run:
+
+
+    tagaini-jisho $ make install
+
+Now that you have installed the program, you can compile the dictionary
+databases;
+
+    tagaini-jisho $ ./builddb.py
+
+By default `builddb.py` generates the databases in English. Passing the `-h`
+to `builddb.py` will list its usage and options. If you would like to build
+the database in another language then the you can use the `--lang LA` switch,
+where `LA` is a language.
+
+The valid values are:
+
+* en - English (default)
+* de - German, Deutch
+* fr - French
+* es - Spansish, Español
+* ru - Russian
+
+
+
+Upgrading
+---------
+
+Tagaini Jisho is a work in progress and is constantly updated. To upgrade 
+Tagaini, there is no special upgrade procedure. Simpily installing the new 
+version over the top of the old one should work.
+
+User data is kept separately in your home or user directory, so it will not
+be overwritten. When you run it for the first time after upgrading, it may
+convert your old data into a new format, display a message to this effect, and
+ask to be restarted.
+
+**Note:** This information may be subject to change due to differences between
+releases.
+
+**0.2.3 - 0.2.4, source:** Make sure to rebuild and replace your databases. Due to a field change Tagaini 0.2.4 wont read 0.2.3 kanji databased properly.
+
