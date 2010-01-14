@@ -1,0 +1,10 @@
+set(QT_USE_QTSQL TRUE)
+set(QT_DONT_USE_QTGUI TRUE)
+
+set(build_kanji_db_SRCS
+	BuildKanjiDB.cc
+)
+
+include(${QT_USE_FILE})
+add_executable(build_kanji_db ${build_kanji_db_SRCS})
+target_link_libraries(build_kanji_db tagaini_core ${QT_LIBRARIES})

@@ -1,11 +1,11 @@
 project(tagainijisho)
 set(VERSION 0.2.5)
-cmake_minimum_required(VERSION 2.4.0)
+cmake_minimum_required(VERSION 2.8.0)
 find_package(Qt4 REQUIRED)
 
 # Global GCC options
 if(CMAKE_COMPILER_IS_GNUCC)
-	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wnon-virtual-dtor -Wno-unused-parameter")
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wnon-virtual-dtor -Wno-unused-parameter -fno-exceptions -fno-rtti")
 endif(CMAKE_COMPILER_IS_GNUCC)
 
 # Universal binaries for OSX
@@ -26,5 +26,11 @@ include_directories(${CMAKE_BINARY_DIR}/src)
 
 # For our own headers
 include_directories(${CMAKE_SOURCE_DIR}/src)
+
+# Build database
+add_custom_command(OUTPUT kanjidic2.db
+	COMMAND ${CMAKE_SOURCE_DIR}/builddb.py
+	DEPENDS build_kanji_db)
+add_custom_target(databases DEPENDS jmdict.db kanjidic2.db)
 
 add_subdirectory(src)
