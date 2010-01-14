@@ -27,6 +27,10 @@ include_directories(${CMAKE_BINARY_DIR}/src)
 # For our own headers
 include_directories(${CMAKE_SOURCE_DIR}/src)
 
+#MESSAGE(STATUS "Downloading JMdict...")
+#FILE(DOWNLOAD ftp://ftp.monash.edu.au/pub/nihongo/JMdict.gz ./boo.gz)
+#add_custom_command(TARGET boo PRE_BUILD COMMAND gunzip ./boo.gz DEPENDS ./boo.gz)
+
 # Build database
 add_custom_command(OUTPUT kanjidic2.db
 	COMMAND ${CMAKE_SOURCE_DIR}/builddb.py

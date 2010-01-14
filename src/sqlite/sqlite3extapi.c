@@ -15,6 +15,9 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+// This file is compiled while being included from sqlite3all.c because
+// it needs to access structures defined in sqlite3.c
+
 // C exported functions defined in sqlite3ext.cc
 int isToIgnore(const char *token);
 const char *hiraganasToKatakanas(const char *src);
@@ -25,6 +28,24 @@ SQLITE_API void tagaini_sqlite3_fix_activevdbecnt(sqlite3 *db)
     db->activeVdbeCnt = 0;
 }
 
+// Function to register a tokenizer
+int register_tokenizer(sqlite3 *db, char *zName, const sqlite3_tokenizer_module *p)
+{
+	int rc;
+	sqlite3_stmt *pStmt;
+	const char *zSql = "SELECT fts3_tokenizer(?, ?)";
+
+	rc = sqlite3_prepare_v2(db, zSql, -1, &pStmt, 0);
+	if( rc!=SQLITE_OK ){
+		return rc;
+	}
+
+	sqlite3_bind_text(pStmt, 1, zName, -1, SQLITE_STATIC);
+	sqlite3_bind_blob(pStmt, 2, &p, sizeof(p), SQLITE_STATIC);
+	sqlite3_step(pStmt);
+
+	return sqlite3_finalize(pStmt);
+}
 
 //
 // Words ignore tokenizer.
@@ -420,4 +441,9 @@ void sqlite3Fts3KatakanaTokenizerModule(
   sqlite3_tokenizer_module const**ppModule
 ){
   *ppModule = &katakanaTokenizerModule;
+}
+
+void register_all_tokenizers(sqlite3 *handler)
+{
+	register_tokenizer(handler, "katakana", &katakanaTokenizerModule);
 }
