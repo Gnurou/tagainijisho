@@ -7,4 +7,4 @@ set(build_kanji_db_SRCS
 
 include(${QT_USE_FILE})
 add_executable(build_kanji_db ${build_kanji_db_SRCS})
-target_link_libraries(build_kanji_db tagaini_core ${QT_LIBRARIES})
+target_link_libraries(build_kanji_db tagaini_sqlite tagaini_core ${QT_LIBRARIES})

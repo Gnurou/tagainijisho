@@ -16,6 +16,8 @@
  */
 #include "core/Database.h"
 #include "core/TextTools.h"
+#include "sqlite/qsql_sqlite.h"
+#include "core/kanjidic2/Kanjidic2Entry.h"
 
 #include <QXmlStreamReader>
 #include <QLocale>
@@ -36,15 +38,19 @@ typedef struct {
 
 #define __IGNORE if (ttype == QXmlStreamReader::Comment || ttype == QXmlStreamReader::DTD) continue;
 
-#define PROCESS_BEGIN(tag, reader) \
+#define __PROCESS_BEGIN(tag) \
 	while (!reader.atEnd()) {     \
 		QXmlStreamReader::TokenType ttype = reader.readNext(); \
 		__IGNORE \
 		if (ttype == QXmlStreamReader::EndElement && reader.name() == #tag) return false;
 
+#define PROCESS_BEGIN(tag, ...) \
+	static bool process##_##tag(QXmlStreamReader &reader, ## __VA_ARGS__) { \
+	__PROCESS_BEGIN(tag)
+	
 #define PROCESS_END return true; \
 	} \
-	return true;
+	}
 
 #define DOCUMENT_BEGIN(reader) \
 	if (reader.readNext() != QXmlStreamReader::StartDocument) return true; \
@@ -71,56 +77,44 @@ typedef struct {
 
 #define PROCESS(part, ...) { if (process##_##part(__VA_ARGS__)) return true; }
 
-static bool process_literal(QXmlStreamReader &reader, Kanji &kanji)
-{
-	PROCESS_BEGIN(literal, reader)
-		CHARACTERS
-			int kanjiCode = TextTools::singleCharToUnicode(TEXT.toString());
-			kanji.id = kanjiCode;
-		DONE
-	PROCESS_END
-}
+PROCESS_BEGIN(literal, Kanji &kanji)
+	CHARACTERS
+		int kanjiCode = TextTools::singleCharToUnicode(TEXT.toString());
+		kanji.id = kanjiCode;
+	DONE
+PROCESS_END
 
-static bool process_character(QXmlStreamReader &reader, Kanji &kanji)
-{
-	PROCESS_BEGIN(character, reader)
-		TAG(literal)
-			PROCESS(literal, reader, kanji)
-		DONE
-		IGNORE_OTHER_TAGS
-		IGNORE_CHARACTERS
-	PROCESS_END
-}
+PROCESS_BEGIN(character, Kanji &kanji)
+	TAG(literal)
+		PROCESS(literal, reader, kanji)
+	DONE
+	IGNORE_OTHER_TAGS
+	IGNORE_CHARACTERS
+PROCESS_END
 
-static bool process_header(QXmlStreamReader &reader)
-{
-	PROCESS_BEGIN(header, reader)
-		TAG(file_version)
-			PASS(file_version)
-		DONE
-		TAG(database_version)
-			PASS(database_version)
-		DONE
-		TAG(date_of_creation)
-			PASS(date_of_creation)
-		DONE
-		IGNORE_CHARACTERS
-	PROCESS_END
-}
+PROCESS_BEGIN(header)
+	TAG(file_version)
+		PASS(file_version)
+	DONE
+	TAG(database_version)
+		PASS(database_version)
+	DONE
+	TAG(date_of_creation)
+		PASS(date_of_creation)
+	DONE
+	IGNORE_CHARACTERS
+PROCESS_END
 
-static bool process_kanjidic2(QXmlStreamReader &reader)
-{
-	PROCESS_BEGIN(kanjidic2, reader)
-		TAG(character)
-			Kanji kanji;
-			PROCESS(character, reader, kanji)
-		DONE
-		TAG(header)
-			PROCESS(header, reader);
-		DONE
-		IGNORE_CHARACTERS
-	PROCESS_END
-}
+PROCESS_BEGIN(kanjidic2)
+	TAG(character)
+		Kanji kanji;
+		PROCESS(character, reader, kanji)
+	DONE
+	TAG(header)
+		PROCESS(header, reader);
+	DONE
+	IGNORE_CHARACTERS
+PROCESS_END
 
 static bool process_main(QXmlStreamReader &reader)
 {
@@ -132,9 +126,39 @@ static bool process_main(QXmlStreamReader &reader)
 	DOCUMENT_END
 }
 
+void create_tables()
+{
+	QSqlQuery query;
+	query.exec("create table info(version INT)");
+	query.prepare("insert into info values(?)");
+	query.addBindValue(KANJIDIC2DB_REVISION);
+	query.exec();
+}
+
 int main(int argc, char *argv[])
 {
 	QCoreApplication app(argc, argv);
+	
+	QSQLiteDriver *driver = new QSQLiteDriver();
+
+	QSqlDatabase database(QSqlDatabase::addDatabase(driver));
+	database.setDatabaseName("kanjidic2test.db");
+	if (!database.open()) {
+		qFatal("Cannot open database: %s", database.lastError().text().toLatin1().data());
+		return 1;
+	}
+	create_tables();
+
+	// Attach custom functions
+	QVariant handler = database.driver()->handle();
+	if (handler.isValid() && !qstrcmp(handler.typeName(), "sqlite3*")) {
+		sqlite3 *sqliteHandler = *static_cast<sqlite3 **>(handler.data());
+		// TODO Move into dedicated open function? Since it cannot be used
+		// the sqlite3_auto_extension
+		register_all_tokenizers(sqliteHandler);
+	}
+	
+	
 	QFile file("3rdparty/kanjidic2.xml");
 	QXmlStreamReader reader(&file);
 	file.open(QFile::ReadOnly | QFile::Text);

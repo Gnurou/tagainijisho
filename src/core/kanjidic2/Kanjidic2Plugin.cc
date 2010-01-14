@@ -27,8 +27,6 @@
 #include <QFile>
 #include <QDir>
 
-#define KANJIDIC2DB_REVISION 4
-
 #define dictFileConfigString "kanjidic/database"
 #define dictFileConfigDefault "kanjidic2.db"
 
