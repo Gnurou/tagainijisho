@@ -24,7 +24,7 @@
 
 #include <QtDebug>
 
-typedef struct {
+class Kanji {
 private:
 	static QSqlQuery insertEntryQuery;
 	static QSqlQuery insertReadingQuery;
@@ -32,7 +32,7 @@ private:
 public:
 	int id;
 	int grade;
-	int strCount;
+	int stroke_count;
 	int freq;
 	int jlpt;
 	QList<QString> skip;
@@ -41,9 +41,10 @@ public:
 	QList<QString> nanori;
 	
 	static void initializeQueries(QSqlDatabase &database);
-	
+
+	Kanji() : id(0), grade(0), stroke_count(0), freq(0), jlpt(0) {}
 	bool insertIntoDatabase();
-} Kanji;
+};
 QSqlQuery Kanji::insertEntryQuery;
 QSqlQuery Kanji::insertReadingQuery;
 
@@ -55,16 +56,19 @@ void Kanji::initializeQueries(QSqlDatabase& database)
 	insertReadingQuery.prepare("insert into reading values(?, ?, ?)");
 }
 
+#define AUTO_BIND(query, nval, val) if (val == nval) insertEntryQuery.addBindValue(QVariant::Int); \
+	else insertEntryQuery.addBindValue(val)
+
 /**
  * Returns true if the entry has successfully been inserted, false otherwise.
  */
 bool Kanji::insertIntoDatabase()
 {
 	insertEntryQuery.addBindValue(id);
-	insertEntryQuery.addBindValue(grade);
-	insertEntryQuery.addBindValue(strCount);
-	insertEntryQuery.addBindValue(freq);
-	insertEntryQuery.addBindValue(jlpt);
+	AUTO_BIND(insertEntryQuery, grade, 0);
+	AUTO_BIND(insertEntryQuery, stroke_count, 0);
+	AUTO_BIND(insertEntryQuery, freq, 0);
+	AUTO_BIND(insertEntryQuery, jlpt, 0);
 	bool res = insertEntryQuery.exec();
 	if (!res) qDebug() << insertEntryQuery.lastError();
 	return res;
@@ -124,18 +128,40 @@ static bool process_main(QXmlStreamReader &reader)
 {
 	DOCUMENT_BEGIN(reader)
 		TAG(kanjidic2)
-			TAG(character)
-				TAG_PRE(literal)
-				Kanji kanji;
-				TAG_BEGIN(literal)
-					CHARACTERS
-						int kanjiCode = TextTools::singleCharToUnicode(TEXT.toString());
-						kanji.id = kanjiCode;
-					DONE
-				TAG_POST
-				kanji.insertIntoDatabase();
+			TAG_PRE(character)
+			Kanji kanji;
+			TAG_BEGIN(character)
+				TAG(literal)
+				CHARACTERS
+					int kanjiCode = TextTools::singleCharToUnicode(TEXT.toString());
+					kanji.id = kanjiCode;
 				DONE
-			ENDTAG
+				ENDTAG
+				TAG(misc)
+					TAG(grade)
+					CHARACTERS
+						kanji.grade = TEXT.toString().toInt();
+					DONE
+					ENDTAG
+					TAG(stroke_count)
+					CHARACTERS
+						kanji.stroke_count = TEXT.toString().toInt();
+					DONE
+					ENDTAG
+					TAG(freq)
+					CHARACTERS
+						kanji.freq = TEXT.toString().toInt();
+					DONE
+					ENDTAG
+					TAG(jlpt)
+					CHARACTERS
+						kanji.jlpt = TEXT.toString().toInt();
+					DONE
+					ENDTAG
+				ENDTAG
+			TAG_POST
+			kanji.insertIntoDatabase();
+			DONE
 			TAG(header)
 			ENDTAG
 		ENDTAG
