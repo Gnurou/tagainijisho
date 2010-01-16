@@ -70,95 +70,75 @@ bool Kanji::insertIntoDatabase()
 	return res;
 }
 
-#define __IGNORE if (ttype == QXmlStreamReader::Comment || ttype == QXmlStreamReader::DTD) continue;
+bool skipTag(QXmlStreamReader& reader, const QStringRef &tag);
 
-#define __PROCESS_BEGIN(tag) \
+// Open the parsing loop, and check whether we reached the end of the tag already
+#define __TAG_BEGIN(tag) \
 	while (!reader.atEnd()) {     \
-		QXmlStreamReader::TokenType ttype = reader.readNext(); \
-		__IGNORE \
-		if (ttype == QXmlStreamReader::EndElement && reader.name() == #tag) return false;
+		reader.readNext(); \
+		if (reader.tokenType() == QXmlStreamReader::EndElement && reader.name() == tag) break;
 
-#define PROCESS_BEGIN(tag, ...) \
-	static bool process##_##tag(QXmlStreamReader &reader, ## __VA_ARGS__) { \
-	__PROCESS_BEGIN(tag)
-	
-#define PROCESS_END return true; \
-	} \
+#define TAG_BEGIN(tag) __TAG_BEGIN(#tag)
+
+// Skip all tags and characters that we did not treat, return an error if an unexpected token type is met
+#define TAG_POST if (reader.tokenType() == QXmlStreamReader::Comment || reader.tokenType() == QXmlStreamReader::DTD) continue; \
+	if (reader.tokenType() == QXmlStreamReader::StartElement) { skipTag(reader, reader.name()); continue; } \
+	if (reader.tokenType() == QXmlStreamReader::Characters) continue; \
+	return true; \
 	}
+
+bool skipTag(QXmlStreamReader& reader, const QStringRef &tag)
+{
+	__TAG_BEGIN(tag)
+	if (reader.tokenType() == QXmlStreamReader::StartElement) {
+		if (skipTag(reader, reader.name())) return true;
+		continue;
+	}
+	TAG_POST
+	return false;
+}
 
 #define DOCUMENT_BEGIN(reader) \
 	if (reader.readNext() != QXmlStreamReader::StartDocument) return true; \
 	while (!reader.atEnd()) {     \
-		QXmlStreamReader::TokenType ttype = reader.readNext(); \
-		__IGNORE
+		reader.readNext();
 		
-#define DOCUMENT_END \
-		} \
+#define DOCUMENT_END } \
 		return reader.tokenType() != QXmlStreamReader::EndDocument;
 
-#define CHARACTERS if (ttype == QXmlStreamReader::Characters) {
+#define CHARACTERS if (reader.tokenType() == QXmlStreamReader::Characters) {
 #define TEXT reader.text()
-#define IGNORE_CHARACTERS CHARACTERS DONE
-
-#define TAG(n) if (ttype == QXmlStreamReader::StartElement && reader.name() == #n) {
 #define DONE continue; }
-#define PASS(n) do reader.readNext(); while (!reader.atEnd() && !(reader.tokenType() == QXmlStreamReader::EndElement && reader.name() == #n));
-#define IGNORE_OTHER_TAGS if (ttype == QXmlStreamReader::StartElement) { \
-	QStringRef tName(reader.name()); \
-	do reader.readNext(); while (!reader.atEnd() && !(reader.tokenType() == QXmlStreamReader::EndElement && reader.name() == tName)); \
-	continue; \
-	}
+
+#define TAG_PRE(n) if (reader.tokenType() == QXmlStreamReader::StartElement && reader.name() == #n) {
+
+#define TAG(n) TAG_PRE(n) \
+	TAG_BEGIN(n)
+	
+#define ENDTAG TAG_POST \
+	DONE
 
 #define PROCESS(part, ...) { if (process##_##part(__VA_ARGS__)) return true; }
-
-PROCESS_BEGIN(literal, Kanji &kanji)
-	CHARACTERS
-		int kanjiCode = TextTools::singleCharToUnicode(TEXT.toString());
-		kanji.id = kanjiCode;
-	DONE
-PROCESS_END
-
-PROCESS_BEGIN(character, Kanji &kanji)
-	TAG(literal)
-	// TODO Allow to embed CHARACTERS in order to avoid defining a new function - use cases instead of new functions
-		PROCESS(literal, reader, kanji)
-	DONE
-	IGNORE_OTHER_TAGS
-	IGNORE_CHARACTERS
-PROCESS_END
-
-PROCESS_BEGIN(header)
-	TAG(file_version)
-		PASS(file_version)
-	DONE
-	TAG(database_version)
-		PASS(database_version)
-	DONE
-	TAG(date_of_creation)
-		PASS(date_of_creation)
-	DONE
-	IGNORE_CHARACTERS
-PROCESS_END
-
-PROCESS_BEGIN(kanjidic2)
-	TAG(character)
-		Kanji kanji;
-		PROCESS(character, reader, kanji)
-		if (!kanji.insertIntoDatabase()) return true;
-	DONE
-	TAG(header)
-		PROCESS(header, reader);
-	DONE
-	IGNORE_CHARACTERS
-PROCESS_END
 
 static bool process_main(QXmlStreamReader &reader)
 {
 	DOCUMENT_BEGIN(reader)
 		TAG(kanjidic2)
-			PROCESS(kanjidic2, reader)
-		DONE
-		IGNORE_CHARACTERS
+			TAG(character)
+				TAG_PRE(literal)
+				Kanji kanji;
+				TAG_BEGIN(literal)
+					CHARACTERS
+						int kanjiCode = TextTools::singleCharToUnicode(TEXT.toString());
+						kanji.id = kanjiCode;
+					DONE
+				TAG_POST
+				kanji.insertIntoDatabase();
+				DONE
+			ENDTAG
+			TAG(header)
+			ENDTAG
+		ENDTAG
 	DOCUMENT_END
 }
 
