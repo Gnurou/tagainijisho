@@ -1,4 +1,5 @@
 set(QT_USE_QTSQL TRUE)
+set(QT_USE_QTXML TRUE)
 set(QT_DONT_USE_QTGUI TRUE)
 
 set(build_kanji_db_SRCS
