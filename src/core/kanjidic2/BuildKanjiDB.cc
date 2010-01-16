@@ -16,10 +16,10 @@
  */
 #include "core/Database.h"
 #include "core/TextTools.h"
+#include "core/XmlParserHelper.h"
 #include "sqlite/qsql_sqlite.h"
 #include "core/kanjidic2/Kanjidic2Entry.h"
 
-#include <QXmlStreamReader>
 #include <QLocale>
 
 #include <QtDebug>
@@ -28,6 +28,11 @@ class Kanji {
 private:
 	static QSqlQuery insertEntryQuery;
 	static QSqlQuery insertReadingQuery;
+	static QSqlQuery insertReadingTextQuery;
+	static QSqlQuery insertMeaningQuery;
+	static QSqlQuery insertMeaningTextQuery;
+	static QSqlQuery insertNanoriQuery;
+	static QSqlQuery insertNanoriTextQuery;
 	
 public:
 	int id;
@@ -47,13 +52,23 @@ public:
 };
 QSqlQuery Kanji::insertEntryQuery;
 QSqlQuery Kanji::insertReadingQuery;
+QSqlQuery Kanji::insertReadingTextQuery;
+QSqlQuery Kanji::insertMeaningQuery;
+QSqlQuery Kanji::insertMeaningTextQuery;
+QSqlQuery Kanji::insertNanoriQuery;
+QSqlQuery Kanji::insertNanoriTextQuery;
 
 void Kanji::initializeQueries(QSqlDatabase& database)
 {
-	insertEntryQuery = QSqlQuery(database);
-	insertEntryQuery.prepare("insert into entries values(?, ?, ?, ?, ?)");
-	insertReadingQuery = QSqlQuery(database);
-	insertReadingQuery.prepare("insert into reading values(?, ?, ?)");
+#define PREPQUERY(query, text) query = QSqlQuery(database); query.prepare(text)
+	PREPQUERY(insertEntryQuery, "insert into entries values(?, ?, ?, ?, ?)");
+	PREPQUERY(insertReadingQuery, "insert into reading values(?, ?, ?)");
+	PREPQUERY(insertReadingTextQuery, "insert into readingText values(?)");
+	PREPQUERY(insertMeaningQuery, "insert into meaning values(?, ?, ?)");
+	PREPQUERY(insertMeaningTextQuery, "insert into meaningText values(?)");
+	PREPQUERY(insertNanoriQuery, "insert into nanori values(?, ?)");
+	PREPQUERY(insertNanoriTextQuery, "insert into nanoriText values(?)");
+#undef PREPQUERY
 }
 
 #define AUTO_BIND(query, nval, val) if (val == nval) insertEntryQuery.addBindValue(QVariant::Int); \
@@ -73,56 +88,6 @@ bool Kanji::insertIntoDatabase()
 	if (!res) qDebug() << insertEntryQuery.lastError();
 	return res;
 }
-
-bool skipTag(QXmlStreamReader& reader, const QStringRef &tag);
-
-// Open the parsing loop, and check whether we reached the end of the tag already
-#define __TAG_BEGIN(tag) \
-	while (!reader.atEnd()) {     \
-		reader.readNext(); \
-		if (reader.tokenType() == QXmlStreamReader::EndElement && reader.name() == tag) break;
-
-#define TAG_BEGIN(tag) __TAG_BEGIN(#tag)
-
-// Skip all tags and characters that we did not treat, return an error if an unexpected token type is met
-#define TAG_POST if (reader.tokenType() == QXmlStreamReader::Comment || reader.tokenType() == QXmlStreamReader::DTD) continue; \
-	if (reader.tokenType() == QXmlStreamReader::StartElement) { skipTag(reader, reader.name()); continue; } \
-	if (reader.tokenType() == QXmlStreamReader::Characters) continue; \
-	return true; \
-	}
-
-bool skipTag(QXmlStreamReader& reader, const QStringRef &tag)
-{
-	__TAG_BEGIN(tag)
-	if (reader.tokenType() == QXmlStreamReader::StartElement) {
-		if (skipTag(reader, reader.name())) return true;
-		continue;
-	}
-	TAG_POST
-	return false;
-}
-
-#define DOCUMENT_BEGIN(reader) \
-	if (reader.readNext() != QXmlStreamReader::StartDocument) return true; \
-	while (!reader.atEnd()) {     \
-		reader.readNext();
-		
-#define DOCUMENT_END } \
-		return reader.tokenType() != QXmlStreamReader::EndDocument;
-
-#define CHARACTERS if (reader.tokenType() == QXmlStreamReader::Characters) {
-#define TEXT reader.text()
-#define DONE continue; }
-
-#define TAG_PRE(n) if (reader.tokenType() == QXmlStreamReader::StartElement && reader.name() == #n) {
-
-#define TAG(n) TAG_PRE(n) \
-	TAG_BEGIN(n)
-	
-#define ENDTAG TAG_POST \
-	DONE
-
-#define PROCESS(part, ...) { if (process##_##part(__VA_ARGS__)) return true; }
 
 static bool process_main(QXmlStreamReader &reader)
 {
