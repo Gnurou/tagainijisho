@@ -22,6 +22,9 @@
 
 bool skipTag(QXmlStreamReader& reader, const QStringRef &tag);
 
+#define HAS_ATTR(x) reader.attributes().hasAttribute(x)
+#define ATTR(x) reader.attributes().value(x).toString()
+
 // Open the parsing loop, and check whether we reached the end of the tag already
 #define __TAG_BEGIN(tag) \
 	while (!reader.atEnd()) {     \
@@ -57,7 +60,7 @@ bool skipTag(QXmlStreamReader& reader, const QStringRef &tag)
 		return reader.tokenType() != QXmlStreamReader::EndDocument;
 
 #define CHARACTERS if (reader.tokenType() == QXmlStreamReader::Characters) {
-#define TEXT reader.text()
+#define TEXT reader.text().toString()
 #define DONE continue; }
 
 #define TAG_PRE(n) if (reader.tokenType() == QXmlStreamReader::StartElement && reader.name() == #n) {

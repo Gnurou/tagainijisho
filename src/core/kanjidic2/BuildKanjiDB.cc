@@ -21,11 +21,14 @@
 #include "core/kanjidic2/Kanjidic2Entry.h"
 
 #include <QLocale>
+#include <QStringList>
+#include <QMap>
 
 #include <QtDebug>
 
 class Kanji {
 private:
+	static const QStringList validReadings;
 	static QSqlQuery insertEntryQuery;
 	static QSqlQuery insertReadingQuery;
 	static QSqlQuery insertReadingTextQuery;
@@ -35,21 +38,27 @@ private:
 	static QSqlQuery insertNanoriTextQuery;
 	
 public:
+	static QStringList languages;
 	int id;
 	int grade;
 	int stroke_count;
 	int freq;
 	int jlpt;
-	QList<QString> skip;
-	QList<QString> readings;
-	QList<QString> meanings;
-	QList<QString> nanori;
+	QStringList skip;
+	// TODO Add a rmgroup parameter to allow grouping of readings and meanings
+	// Associate the reading types to the readings
+	QMap<QString, QStringList> readings;
+	// Associate the language to the meaning
+	QMap<QString, QStringList> meanings;
+	QStringList nanori;
 	
 	static void initializeQueries(QSqlDatabase &database);
 
 	Kanji() : id(0), grade(0), stroke_count(0), freq(0), jlpt(0) {}
 	bool insertIntoDatabase();
 };
+const QStringList Kanji::validReadings(QString("ja_on,ja_kun").split(','));
+QStringList Kanji::languages(QString("en").split(','));
 QSqlQuery Kanji::insertEntryQuery;
 QSqlQuery Kanji::insertReadingQuery;
 QSqlQuery Kanji::insertReadingTextQuery;
@@ -71,22 +80,60 @@ void Kanji::initializeQueries(QSqlDatabase& database)
 #undef PREPQUERY
 }
 
-#define AUTO_BIND(query, nval, val) if (val == nval) insertEntryQuery.addBindValue(QVariant::Int); \
-	else insertEntryQuery.addBindValue(val)
+#define BIND(query, val) query.addBindValue(val)
+#define AUTO_BIND(query, val, nval) if (val == nval) BIND(query, QVariant::Int); else BIND(query, val)
+#define EXEC(query) if (!query.exec()) { qDebug() << query.lastError().text(); return false; }
 
 /**
  * Returns true if the entry has successfully been inserted, false otherwise.
  */
 bool Kanji::insertIntoDatabase()
 {
-	insertEntryQuery.addBindValue(id);
+	AUTO_BIND(insertEntryQuery, id, 0);
 	AUTO_BIND(insertEntryQuery, grade, 0);
 	AUTO_BIND(insertEntryQuery, stroke_count, 0);
 	AUTO_BIND(insertEntryQuery, freq, 0);
 	AUTO_BIND(insertEntryQuery, jlpt, 0);
-	bool res = insertEntryQuery.exec();
-	if (!res) qDebug() << insertEntryQuery.lastError();
-	return res;
+	EXEC(insertEntryQuery);
+
+	foreach (const QString &readingType, validReadings) {
+		if (readings.contains(readingType)) {
+			foreach (const QString &reading, readings[readingType]) {
+				// TODO factorize identical readings! Record the row id into a hash table
+				BIND(insertReadingTextQuery, reading);
+				EXEC(insertReadingTextQuery);
+				BIND(insertReadingQuery, insertReadingTextQuery.lastInsertId());
+				BIND(insertReadingQuery, id);
+				// TODO reading type should be a tinyInt, not a string!
+				BIND(insertReadingQuery, readingType);
+				EXEC(insertReadingQuery);
+			}
+		}
+	}
+	
+	foreach (const QString &lang, languages) {
+		if (meanings.contains(lang)) {
+			foreach (const QString &meaning, meanings[lang]) {
+				// TODO factorize identical meanings! Record the row id into a hash table
+				BIND(insertMeaningTextQuery, meaning);
+				EXEC(insertMeaningTextQuery);
+				BIND(insertMeaningQuery, insertMeaningTextQuery.lastInsertId());
+				BIND(insertMeaningQuery, id);
+				BIND(insertMeaningQuery, lang);
+				EXEC(insertMeaningQuery);
+			}
+		}
+	}
+	
+	foreach (const QString &n, nanori) {
+		// TODO factorize identical nanoris! Record the row id into a hash table
+		BIND(insertNanoriTextQuery, n);
+		EXEC(insertNanoriTextQuery);
+		BIND(insertNanoriQuery, insertNanoriTextQuery.lastInsertId());
+		BIND(insertNanoriQuery, id);
+		EXEC(insertNanoriQuery);
+	}
+	return true;
 }
 
 static bool process_main(QXmlStreamReader &reader)
@@ -98,34 +145,59 @@ static bool process_main(QXmlStreamReader &reader)
 			TAG_BEGIN(character)
 				TAG(literal)
 				CHARACTERS
-					int kanjiCode = TextTools::singleCharToUnicode(TEXT.toString());
+					int kanjiCode = TextTools::singleCharToUnicode(TEXT);
 					kanji.id = kanjiCode;
 				DONE
 				ENDTAG
 				TAG(misc)
 					TAG(grade)
 					CHARACTERS
-						kanji.grade = TEXT.toString().toInt();
+						kanji.grade = TEXT.toInt();
 					DONE
 					ENDTAG
 					TAG(stroke_count)
 					CHARACTERS
-						kanji.stroke_count = TEXT.toString().toInt();
+						kanji.stroke_count = TEXT.toInt();
 					DONE
 					ENDTAG
 					TAG(freq)
 					CHARACTERS
-						kanji.freq = TEXT.toString().toInt();
+						kanji.freq = TEXT.toInt();
 					DONE
 					ENDTAG
 					TAG(jlpt)
 					CHARACTERS
-						kanji.jlpt = TEXT.toString().toInt();
+						kanji.jlpt = TEXT.toInt();
+					DONE
+					ENDTAG
+				ENDTAG
+				TAG(reading_meaning)
+					TAG(rmgroup)
+						TAG_PRE(reading)
+							QString r_type(ATTR("r_type"));
+						TAG_BEGIN(reading)
+						CHARACTERS
+							kanji.readings[r_type] << TEXT;
+						DONE
+						ENDTAG
+						TAG_PRE(meaning)
+							QString lang;
+							if (HAS_ATTR("m_lang")) lang = ATTR("m_lang");
+							else lang = "en";
+						TAG_BEGIN(meaning)
+							kanji.meanings[lang] << TEXT;
+						CHARACTERS
+						DONE
+						ENDTAG
+					ENDTAG
+					TAG(nanori)
+					CHARACTERS
+						kanji.nanori << TEXT;
 					DONE
 					ENDTAG
 				ENDTAG
 			TAG_POST
-			kanji.insertIntoDatabase();
+			if (!kanji.insertIntoDatabase()) return true;
 			DONE
 			TAG(header)
 			ENDTAG
