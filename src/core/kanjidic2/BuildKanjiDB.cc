@@ -38,7 +38,10 @@ private:
 	static QSqlQuery _insertNanoriQuery;
 	static QSqlQuery _insertNanoriTextQuery;
 	static QSqlQuery _insertSkipCode;
+	static QSqlQuery _insertStrokeGroup;
+	static QSqlQuery _insertStroke;
 	static QSqlQuery _updateJLPTLevels;
+	static QSqlQuery _updateStrokeCount;
 	
 public:
 	static QStringList languages;
@@ -59,6 +62,9 @@ public:
 
 	Kanji() : id(0), grade(0), stroke_count(0), freq(0), jlpt(0) {}
 	bool insertIntoDatabase(bool orIgnore = false);
+	int insertStrokeGroup(int parentGroup, u_int8_t number, int element, int original);
+	bool insertStroke(int parentGroup, int strokeType, const QString &path);
+	
 	static bool updateJLPTLevels(const QString &fName, int level);
 };
 
@@ -73,7 +79,10 @@ QSqlQuery Kanji::_insertMeaningTextQuery;
 QSqlQuery Kanji::_insertNanoriQuery;
 QSqlQuery Kanji::_insertNanoriTextQuery;
 QSqlQuery Kanji::_insertSkipCode;
+QSqlQuery Kanji::_insertStrokeGroup;
+QSqlQuery Kanji::_insertStroke;
 QSqlQuery Kanji::_updateJLPTLevels;
+QSqlQuery Kanji::_updateStrokeCount;
 
 void Kanji::initializeQueries(QSqlDatabase& database)
 {
@@ -87,7 +96,10 @@ void Kanji::initializeQueries(QSqlDatabase& database)
 	PREPQUERY(_insertNanoriQuery, "insert into nanori values(?, ?)");
 	PREPQUERY(_insertNanoriTextQuery, "insert into nanoriText values(?)");
 	PREPQUERY(_insertSkipCode, "insert into skip values(?, ?, ?, ?)");
+	PREPQUERY(_insertStrokeGroup, "insert into strokeGroups values(?, ?, ?, ?, ?)");
+	PREPQUERY(_insertStroke, "insert into strokes values(?, ?, ?)");
 	PREPQUERY(_updateJLPTLevels, "update entries set jlpt = ? where id = ?");
+	PREPQUERY(_updateStrokeCount, "update entries set strokeCount = ? where id = ?");
 #undef PREPQUERY
 }
 
@@ -179,6 +191,26 @@ bool Kanji::updateJLPTLevels(const QString &fName, int level)
 	}
 }
 
+int Kanji::insertStrokeGroup(int parentGroup, u_int8_t number, int element, int original)
+{
+	BIND(_insertStrokeGroup, id);
+	AUTO_BIND(_insertStrokeGroup, parentGroup, 0);
+	BIND(_insertStrokeGroup, number);
+	AUTO_BIND(_insertStrokeGroup, element, 0);
+	AUTO_BIND(_insertStrokeGroup, original, 0);
+	if (!_insertStrokeGroup.exec()) return -1;
+	else return _insertStrokeGroup.lastInsertId().toInt();
+}
+
+bool Kanji::insertStroke(int parentGroup, int strokeType, const QString &path)
+{
+	BIND(_insertStroke, parentGroup);
+	AUTO_BIND(_insertStroke, strokeType, 0);
+	AUTO_BIND(_insertStroke, path, "");
+	EXEC(_insertStroke);
+	return true;
+}
+
 static bool process_kanjidic2(QXmlStreamReader &reader)
 {
 	DOCUMENT_BEGIN(reader)
@@ -250,7 +282,7 @@ static bool process_kanjidic2(QXmlStreamReader &reader)
 					ENDTAG
 				ENDTAG
 			TAG_POST
-			if (!kanji.insertIntoDatabase()) return true;
+			if (!kanji.insertIntoDatabase()) return false;
 			DONE
 			TAG(header)
 			ENDTAG
@@ -258,16 +290,19 @@ static bool process_kanjidic2(QXmlStreamReader &reader)
 	DOCUMENT_END
 }
 
-static bool process_kanjivg_strokegr(QXmlStreamReader &reader)
+static bool process_kanjivg_strokegr(QXmlStreamReader &reader, Kanji &kanji, int parentGroup)
 {
 	TAG_BEGIN(strokegr)
 		TAG_PRE(strokegr)
-			process_kanjivg_strokegr(reader);
+			if (!process_kanjivg_strokegr(reader, kanji, parentGroup)) return false;
 		DONE
-		TAG(stroke)
+		TAG_PRE(stroke)
+			QString path(ATTR("path"));
+			if (!kanji.insertStroke(parentGroup, 0, path)) return false;
+		TAG_BEGIN(stroke)
 		ENDTAG
 	TAG_POST
-	return false;
+	return true;
 }
 
 static bool process_kanjivg(QXmlStreamReader &reader)
@@ -275,17 +310,24 @@ static bool process_kanjivg(QXmlStreamReader &reader)
 	DOCUMENT_BEGIN(reader)
 		TAG(kanjis)
 			TAG_PRE(kanji)
-				QString midashi(ATTR("midashi"));
-				QString id(ATTR("id"));
-			TAG_BEGIN(kanji)
-				TAG_PRE(strokegr)
-					process_kanjivg_strokegr(reader);
-				DONE
-			TAG_POST
-				// Insert dummy entry for kanji that are not defined by kanjidic2
+				int midashi(TextTools::singleCharToUnicode(ATTR("midashi")));
+				bool shallInsert(TextTools::isJapaneseChar(TextTools::unicodeToSingleChar(midashi)));
 				Kanji kanji;
-				kanji.id = id.toInt(0, 16);
-				kanji.insertIntoDatabase(true);
+				kanji.id = midashi;
+				if (shallInsert) {
+					// Insert dummy entry for kanji that are not defined by kanjidic2
+					kanji.insertIntoDatabase(true);
+				}
+			TAG_BEGIN(kanji)
+				if (shallInsert) {
+					TAG_PRE(strokegr)
+						// Add dummy group
+						int groupId = kanji.insertStrokeGroup(0, 0, 0, 0);
+						if (groupId == -1) return false;
+						process_kanjivg_strokegr(reader, kanji, groupId);
+					DONE
+				}
+			TAG_POST
 			DONE
 		ENDTAG
 	DOCUMENT_END
@@ -360,7 +402,8 @@ int main(int argc, char *argv[])
 	QFile file("3rdparty/kanjidic2.xml");
 	if (!file.open(QFile::ReadOnly | QFile::Text)) return 1;
 	QXmlStreamReader reader(&file);
-	if (process_kanjidic2(reader)) {
+	if (!process_kanjidic2(reader)) {
+		qDebug() << database.lastError().text();
 		return 1;
 	}
 	file.close();
@@ -370,7 +413,8 @@ int main(int argc, char *argv[])
 	file.setFileName("3rdparty/kanjivg.xml");
 	if (!file.open(QFile::ReadOnly | QFile::Text)) return 1;
 	reader.setDevice(&file);
-	if (process_kanjivg(reader)) {
+	if (!process_kanjivg(reader)) {
+		qDebug() << database.lastError().text();
 		return 1;
 	}
 	file.close();

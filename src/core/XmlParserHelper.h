@@ -35,29 +35,29 @@ bool skipTag(QXmlStreamReader& reader, const QStringRef &tag);
 
 // Skip all tags and characters that we did not treat, return an error if an unexpected token type is met
 #define TAG_POST if (reader.tokenType() == QXmlStreamReader::Comment || reader.tokenType() == QXmlStreamReader::DTD) continue; \
-	if (reader.tokenType() == QXmlStreamReader::StartElement) { skipTag(reader, reader.name()); continue; } \
+	if (reader.tokenType() == QXmlStreamReader::StartElement) { if (!skipTag(reader, reader.name())) return false; continue; } \
 	if (reader.tokenType() == QXmlStreamReader::Characters) continue; \
-	return true; \
+	return false; \
 	}
 
 bool skipTag(QXmlStreamReader& reader, const QStringRef &tag)
 {
 	__TAG_BEGIN(tag)
 	if (reader.tokenType() == QXmlStreamReader::StartElement) {
-		if (skipTag(reader, reader.name())) return true;
+		if (!skipTag(reader, reader.name())) return false;
 		continue;
 	}
 	TAG_POST
-	return false;
+	return true;
 }
 
 #define DOCUMENT_BEGIN(reader) \
-	if (reader.readNext() != QXmlStreamReader::StartDocument) return true; \
+	if (reader.readNext() != QXmlStreamReader::StartDocument) return false; \
 	while (!reader.atEnd()) {     \
 		reader.readNext();
 		
 #define DOCUMENT_END } \
-		return reader.tokenType() != QXmlStreamReader::EndDocument;
+		return reader.tokenType() == QXmlStreamReader::EndDocument;
 
 #define CHARACTERS if (reader.tokenType() == QXmlStreamReader::Characters) {
 #define TEXT reader.text().toString()
@@ -71,6 +71,6 @@ bool skipTag(QXmlStreamReader& reader, const QStringRef &tag)
 #define ENDTAG TAG_POST \
 	DONE
 
-#define PROCESS(part, ...) { if (process##_##part(__VA_ARGS__)) return true; }
+#define PROCESS(part, ...) { if (process##_##part(__VA_ARGS__)) return false; }
 
 #endif
