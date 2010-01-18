@@ -28,14 +28,15 @@
 
 class Kanji {
 private:
-	static const QStringList validReadings;
-	static QSqlQuery insertEntryQuery;
-	static QSqlQuery insertReadingQuery;
-	static QSqlQuery insertReadingTextQuery;
-	static QSqlQuery insertMeaningQuery;
-	static QSqlQuery insertMeaningTextQuery;
-	static QSqlQuery insertNanoriQuery;
-	static QSqlQuery insertNanoriTextQuery;
+	static const QStringList _validReadings;
+	static QSqlQuery _insertEntryQuery;
+	static QSqlQuery _insertReadingQuery;
+	static QSqlQuery _insertReadingTextQuery;
+	static QSqlQuery _insertMeaningQuery;
+	static QSqlQuery _insertMeaningTextQuery;
+	static QSqlQuery _insertNanoriQuery;
+	static QSqlQuery _insertNanoriTextQuery;
+	static QSqlQuery _updateJLPTLevels;
 	
 public:
 	static QStringList languages;
@@ -56,27 +57,31 @@ public:
 
 	Kanji() : id(0), grade(0), stroke_count(0), freq(0), jlpt(0) {}
 	bool insertIntoDatabase();
+	static bool updateJLPTLevels(const QString &fName, int level);
 };
-const QStringList Kanji::validReadings(QString("ja_on,ja_kun").split(','));
+
+const QStringList Kanji::_validReadings(QString("ja_on,ja_kun").split(','));
 QStringList Kanji::languages(QString("en").split(','));
-QSqlQuery Kanji::insertEntryQuery;
-QSqlQuery Kanji::insertReadingQuery;
-QSqlQuery Kanji::insertReadingTextQuery;
-QSqlQuery Kanji::insertMeaningQuery;
-QSqlQuery Kanji::insertMeaningTextQuery;
-QSqlQuery Kanji::insertNanoriQuery;
-QSqlQuery Kanji::insertNanoriTextQuery;
+QSqlQuery Kanji::_insertEntryQuery;
+QSqlQuery Kanji::_insertReadingQuery;
+QSqlQuery Kanji::_insertReadingTextQuery;
+QSqlQuery Kanji::_insertMeaningQuery;
+QSqlQuery Kanji::_insertMeaningTextQuery;
+QSqlQuery Kanji::_insertNanoriQuery;
+QSqlQuery Kanji::_insertNanoriTextQuery;
+QSqlQuery Kanji::_updateJLPTLevels;
 
 void Kanji::initializeQueries(QSqlDatabase& database)
 {
 #define PREPQUERY(query, text) query = QSqlQuery(database); query.prepare(text)
-	PREPQUERY(insertEntryQuery, "insert into entries values(?, ?, ?, ?, ?)");
-	PREPQUERY(insertReadingQuery, "insert into reading values(?, ?, ?)");
-	PREPQUERY(insertReadingTextQuery, "insert into readingText values(?)");
-	PREPQUERY(insertMeaningQuery, "insert into meaning values(?, ?, ?)");
-	PREPQUERY(insertMeaningTextQuery, "insert into meaningText values(?)");
-	PREPQUERY(insertNanoriQuery, "insert into nanori values(?, ?)");
-	PREPQUERY(insertNanoriTextQuery, "insert into nanoriText values(?)");
+	PREPQUERY(_insertEntryQuery, "insert into entries values(?, ?, ?, ?, ?)");
+	PREPQUERY(_insertReadingQuery, "insert into reading values(?, ?, ?)");
+	PREPQUERY(_insertReadingTextQuery, "insert into readingText values(?)");
+	PREPQUERY(_insertMeaningQuery, "insert into meaning values(?, ?, ?)");
+	PREPQUERY(_insertMeaningTextQuery, "insert into meaningText values(?)");
+	PREPQUERY(_insertNanoriQuery, "insert into nanori values(?, ?)");
+	PREPQUERY(_insertNanoriTextQuery, "insert into nanoriText values(?)");
+	PREPQUERY(_updateJLPTLevels, "update entries set jlpt = ? where id = ?");
 #undef PREPQUERY
 }
 
@@ -89,24 +94,24 @@ void Kanji::initializeQueries(QSqlDatabase& database)
  */
 bool Kanji::insertIntoDatabase()
 {
-	AUTO_BIND(insertEntryQuery, id, 0);
-	AUTO_BIND(insertEntryQuery, grade, 0);
-	AUTO_BIND(insertEntryQuery, stroke_count, 0);
-	AUTO_BIND(insertEntryQuery, freq, 0);
-	AUTO_BIND(insertEntryQuery, jlpt, 0);
-	EXEC(insertEntryQuery);
+	AUTO_BIND(_insertEntryQuery, id, 0);
+	AUTO_BIND(_insertEntryQuery, grade, 0);
+	AUTO_BIND(_insertEntryQuery, stroke_count, 0);
+	AUTO_BIND(_insertEntryQuery, freq, 0);
+	AUTO_BIND(_insertEntryQuery, jlpt, 0);
+	EXEC(_insertEntryQuery);
 
-	foreach (const QString &readingType, validReadings) {
+	foreach (const QString &readingType, _validReadings) {
 		if (readings.contains(readingType)) {
 			foreach (const QString &reading, readings[readingType]) {
 				// TODO factorize identical readings! Record the row id into a hash table
-				BIND(insertReadingTextQuery, reading);
-				EXEC(insertReadingTextQuery);
-				BIND(insertReadingQuery, insertReadingTextQuery.lastInsertId());
-				BIND(insertReadingQuery, id);
+				BIND(_insertReadingTextQuery, reading);
+				EXEC(_insertReadingTextQuery);
+				BIND(_insertReadingQuery, _insertReadingTextQuery.lastInsertId());
+				BIND(_insertReadingQuery, id);
 				// TODO reading type should be a tinyInt, not a string!
-				BIND(insertReadingQuery, readingType);
-				EXEC(insertReadingQuery);
+				BIND(_insertReadingQuery, readingType);
+				EXEC(_insertReadingQuery);
 			}
 		}
 	}
@@ -115,28 +120,43 @@ bool Kanji::insertIntoDatabase()
 		if (meanings.contains(lang)) {
 			foreach (const QString &meaning, meanings[lang]) {
 				// TODO factorize identical meanings! Record the row id into a hash table
-				BIND(insertMeaningTextQuery, meaning);
-				EXEC(insertMeaningTextQuery);
-				BIND(insertMeaningQuery, insertMeaningTextQuery.lastInsertId());
-				BIND(insertMeaningQuery, id);
-				BIND(insertMeaningQuery, lang);
-				EXEC(insertMeaningQuery);
+				BIND(_insertMeaningTextQuery, meaning);
+				EXEC(_insertMeaningTextQuery);
+				BIND(_insertMeaningQuery, _insertMeaningTextQuery.lastInsertId());
+				BIND(_insertMeaningQuery, id);
+				BIND(_insertMeaningQuery, lang);
+				EXEC(_insertMeaningQuery);
 			}
 		}
 	}
 	
 	foreach (const QString &n, nanori) {
 		// TODO factorize identical nanoris! Record the row id into a hash table
-		BIND(insertNanoriTextQuery, n);
-		EXEC(insertNanoriTextQuery);
-		BIND(insertNanoriQuery, insertNanoriTextQuery.lastInsertId());
-		BIND(insertNanoriQuery, id);
-		EXEC(insertNanoriQuery);
+		BIND(_insertNanoriTextQuery, n);
+		EXEC(_insertNanoriTextQuery);
+		BIND(_insertNanoriQuery, _insertNanoriTextQuery.lastInsertId());
+		BIND(_insertNanoriQuery, id);
+		EXEC(_insertNanoriQuery);
 	}
 	return true;
 }
 
-static bool process_main(QXmlStreamReader &reader)
+bool Kanji::updateJLPTLevels(const QString &fName, int level)
+{
+	QFile file(fName);
+	if (!file.open(QFile::ReadOnly | QFile::Text)) return false;
+	char line[50];
+	int lineSize;
+	while ((lineSize = file.readLine(line, 50)) != -1) {
+		if (lineSize == 0) continue;
+		if (line[lineSize - 1] == '\n') line[lineSize - 1] = 0;
+		BIND(_updateJLPTLevels, level);
+		BIND(_updateJLPTLevels, TextTools::singleCharToUnicode(QString::fromUtf8(line)));
+		EXEC(_updateJLPTLevels);
+	}
+}
+
+static bool process_kanjidic2(QXmlStreamReader &reader)
 {
 	DOCUMENT_BEGIN(reader)
 		TAG(kanjidic2)
@@ -205,6 +225,34 @@ static bool process_main(QXmlStreamReader &reader)
 	DOCUMENT_END
 }
 
+static bool process_kanjivg_strokegr(QXmlStreamReader &reader)
+{
+	TAG_BEGIN(strokegr)
+		TAG_PRE(strokegr)
+			process_kanjivg_strokegr(reader);
+		DONE
+		TAG(stroke)
+		ENDTAG
+	TAG_POST
+	return false;
+}
+
+static bool process_kanjivg(QXmlStreamReader &reader)
+{
+	DOCUMENT_BEGIN(reader)
+		TAG(kanjis)
+			TAG_PRE(kanji)
+				QString midashi(ATTR("midashi"));
+			TAG_BEGIN(kanji)
+				TAG_PRE(strokegr)
+					process_kanjivg_strokegr(reader);
+				DONE
+			TAG_POST
+			DONE
+		ENDTAG
+	DOCUMENT_END
+}
+
 void create_tables()
 {
 	QSqlQuery query;
@@ -247,8 +295,8 @@ int main(int argc, char *argv[])
 {
 	QCoreApplication app(argc, argv);
 	
+	// Open the database to write to
 	QSQLiteDriver *driver = new QSQLiteDriver();
-
 	QSqlDatabase database(QSqlDatabase::addDatabase(driver));
 	database.setDatabaseName("kanjidic2test.db");
 	if (!database.open()) {
@@ -263,22 +311,39 @@ int main(int argc, char *argv[])
 		// the sqlite3_auto_extension
 		register_all_tokenizers(sqliteHandler);
 	}
-	
-	// Now open the file to parse
-	QFile file("3rdparty/kanjidic2.xml");
-	QXmlStreamReader reader(&file);
-	file.open(QFile::ReadOnly | QFile::Text);
-	
-	// Let's go
+
 	database.transaction();
 	create_tables();
 
 	// Prepare the queries
 	Kanji::initializeQueries(database);
-	if (process_main(reader)) {
+
+	// Parse kanjidic2
+	QFile file("3rdparty/kanjidic2.xml");
+	if (!file.open(QFile::ReadOnly | QFile::Text)) return 1;
+	QXmlStreamReader reader(&file);
+	if (process_kanjidic2(reader)) {
 		return 1;
 	}
+	file.close();
 	
+	// Parse and insert KanjiVG data
+	// TODO do not forget to add kanjis not referenced in kanjidic2!
+	file.setFileName("3rdparty/kanjivg.xml");
+	if (!file.open(QFile::ReadOnly | QFile::Text)) return 1;
+	reader.setDevice(&file);
+	if (process_kanjivg(reader)) {
+		return 1;
+	}
+	file.close();
+
+	// Insert JLPT levels
+	Kanji::updateJLPTLevels("src/core/kanjidic2/jlpt-level1.txt", 1);
+	Kanji::updateJLPTLevels("src/core/kanjidic2/jlpt-level2.txt", 2);
+	Kanji::updateJLPTLevels("src/core/kanjidic2/jlpt-level3.txt", 3);
+	Kanji::updateJLPTLevels("src/core/kanjidic2/jlpt-level4.txt", 4);
+		
+	// Create indexes
 	create_indexes();
 	
 	// Commit everything
