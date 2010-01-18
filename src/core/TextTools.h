@@ -25,6 +25,7 @@ namespace TextTools {
 	bool isHiraganaChar(const QChar c);
 	bool isKatakanaChar(const QChar c);
 	bool isKanaChar(const QChar c);
+	bool isPunctuationChar(const QChar c);
 	/**
 	 * Returns true if c is a kanji. c2 should be given when
 	 * c is the high part of a surrogate character.
