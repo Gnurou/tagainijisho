@@ -30,12 +30,14 @@ class Kanji {
 private:
 	static const QStringList _validReadings;
 	static QSqlQuery _insertEntryQuery;
+	static QSqlQuery _insertOrIgnoreEntryQuery;
 	static QSqlQuery _insertReadingQuery;
 	static QSqlQuery _insertReadingTextQuery;
 	static QSqlQuery _insertMeaningQuery;
 	static QSqlQuery _insertMeaningTextQuery;
 	static QSqlQuery _insertNanoriQuery;
 	static QSqlQuery _insertNanoriTextQuery;
+	static QSqlQuery _insertSkipCode;
 	static QSqlQuery _updateJLPTLevels;
 	
 public:
@@ -45,7 +47,7 @@ public:
 	int stroke_count;
 	int freq;
 	int jlpt;
-	QStringList skip;
+	QString skip;
 	// TODO Add a rmgroup parameter to allow grouping of readings and meanings
 	// Associate the reading types to the readings
 	QMap<QString, QStringList> readings;
@@ -56,31 +58,35 @@ public:
 	static void initializeQueries(QSqlDatabase &database);
 
 	Kanji() : id(0), grade(0), stroke_count(0), freq(0), jlpt(0) {}
-	bool insertIntoDatabase();
+	bool insertIntoDatabase(bool orIgnore = false);
 	static bool updateJLPTLevels(const QString &fName, int level);
 };
 
 const QStringList Kanji::_validReadings(QString("ja_on,ja_kun").split(','));
 QStringList Kanji::languages(QString("en").split(','));
 QSqlQuery Kanji::_insertEntryQuery;
+QSqlQuery Kanji::_insertOrIgnoreEntryQuery;
 QSqlQuery Kanji::_insertReadingQuery;
 QSqlQuery Kanji::_insertReadingTextQuery;
 QSqlQuery Kanji::_insertMeaningQuery;
 QSqlQuery Kanji::_insertMeaningTextQuery;
 QSqlQuery Kanji::_insertNanoriQuery;
 QSqlQuery Kanji::_insertNanoriTextQuery;
+QSqlQuery Kanji::_insertSkipCode;
 QSqlQuery Kanji::_updateJLPTLevels;
 
 void Kanji::initializeQueries(QSqlDatabase& database)
 {
 #define PREPQUERY(query, text) query = QSqlQuery(database); query.prepare(text)
 	PREPQUERY(_insertEntryQuery, "insert into entries values(?, ?, ?, ?, ?)");
+	PREPQUERY(_insertOrIgnoreEntryQuery, "insert or ignore into entries values(?, ?, ?, ?, ?)");
 	PREPQUERY(_insertReadingQuery, "insert into reading values(?, ?, ?)");
 	PREPQUERY(_insertReadingTextQuery, "insert into readingText values(?)");
 	PREPQUERY(_insertMeaningQuery, "insert into meaning values(?, ?, ?)");
 	PREPQUERY(_insertMeaningTextQuery, "insert into meaningText values(?)");
 	PREPQUERY(_insertNanoriQuery, "insert into nanori values(?, ?)");
 	PREPQUERY(_insertNanoriTextQuery, "insert into nanoriText values(?)");
+	PREPQUERY(_insertSkipCode, "insert into skip values(?, ?, ?, ?)");
 	PREPQUERY(_updateJLPTLevels, "update entries set jlpt = ? where id = ?");
 #undef PREPQUERY
 }
@@ -92,15 +98,18 @@ void Kanji::initializeQueries(QSqlDatabase& database)
 /**
  * Returns true if the entry has successfully been inserted, false otherwise.
  */
-bool Kanji::insertIntoDatabase()
+bool Kanji::insertIntoDatabase(bool orIgnore)
 {
-	AUTO_BIND(_insertEntryQuery, id, 0);
-	AUTO_BIND(_insertEntryQuery, grade, 0);
-	AUTO_BIND(_insertEntryQuery, stroke_count, 0);
-	AUTO_BIND(_insertEntryQuery, freq, 0);
-	AUTO_BIND(_insertEntryQuery, jlpt, 0);
-	EXEC(_insertEntryQuery);
+	// Entries table
+	QSqlQuery &insertQuery = orIgnore ? _insertOrIgnoreEntryQuery : _insertEntryQuery;
+	AUTO_BIND(insertQuery, id, 0);
+	AUTO_BIND(insertQuery, grade, 0);
+	AUTO_BIND(insertQuery, stroke_count, 0);
+	AUTO_BIND(insertQuery, freq, 0);
+	AUTO_BIND(insertQuery, jlpt, 0);
+	EXEC(insertQuery);
 
+	// Readings
 	foreach (const QString &readingType, _validReadings) {
 		if (readings.contains(readingType)) {
 			foreach (const QString &reading, readings[readingType]) {
@@ -116,6 +125,7 @@ bool Kanji::insertIntoDatabase()
 		}
 	}
 	
+	// Meanings
 	foreach (const QString &lang, languages) {
 		if (meanings.contains(lang)) {
 			foreach (const QString &meaning, meanings[lang]) {
@@ -130,6 +140,7 @@ bool Kanji::insertIntoDatabase()
 		}
 	}
 	
+	// Nanori
 	foreach (const QString &n, nanori) {
 		// TODO factorize identical nanoris! Record the row id into a hash table
 		BIND(_insertNanoriTextQuery, n);
@@ -137,6 +148,18 @@ bool Kanji::insertIntoDatabase()
 		BIND(_insertNanoriQuery, _insertNanoriTextQuery.lastInsertId());
 		BIND(_insertNanoriQuery, id);
 		EXEC(_insertNanoriQuery);
+	}
+	
+	// Skip code
+	if (!skip.isEmpty()) {
+		QStringList code(skip.split('-'));
+		if (code.size() == 3) {
+			BIND(_insertSkipCode, id);
+			BIND(_insertSkipCode, code[0].toInt());
+			BIND(_insertSkipCode, code[1].toInt());
+			BIND(_insertSkipCode, code[2].toInt());
+			EXEC(_insertSkipCode);
+		}
 	}
 	return true;
 }
@@ -216,6 +239,16 @@ static bool process_kanjidic2(QXmlStreamReader &reader)
 					DONE
 					ENDTAG
 				ENDTAG
+				TAG(query_code)
+					TAG_PRE(q_code)
+						QString qc_type(ATTR("qc_type"));
+						QString skip_misclass(ATTR("skip_misclass"));
+					TAG_BEGIN(q_code)
+					CHARACTERS
+						if (qc_type == "skip" && skip_misclass.isEmpty()) kanji.skip = TEXT;
+					DONE
+					ENDTAG
+				ENDTAG
 			TAG_POST
 			if (!kanji.insertIntoDatabase()) return true;
 			DONE
@@ -243,11 +276,16 @@ static bool process_kanjivg(QXmlStreamReader &reader)
 		TAG(kanjis)
 			TAG_PRE(kanji)
 				QString midashi(ATTR("midashi"));
+				QString id(ATTR("id"));
 			TAG_BEGIN(kanji)
 				TAG_PRE(strokegr)
 					process_kanjivg_strokegr(reader);
 				DONE
 			TAG_POST
+				// Insert dummy entry for kanji that are not defined by kanjidic2
+				Kanji kanji;
+				kanji.id = id.toInt(0, 16);
+				kanji.insertIntoDatabase(true);
 			DONE
 		ENDTAG
 	DOCUMENT_END
