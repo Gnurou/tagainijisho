@@ -30,21 +30,15 @@ class KanjiStroke;
 class KanjiComponent
 {
 private:
-	const KanjiComponent *_parent;
-	QList<const KanjiComponent *> _childs;
 	QList<const KanjiStroke *> _strokes;
 	QString _element;
 	QString _original;
-	unsigned int _number;
 
 public:
-	KanjiComponent(const KanjiComponent *parent = 0, const QString &element = "", const QString &original = "", unsigned int number = 0);
+	KanjiComponent(const QString& element = "", const QString& original = "");
 	virtual ~KanjiComponent();
 	
-	const KanjiComponent *parent() const { return _parent; }
-	const QList<const KanjiComponent *> &components() const { return _childs; }
 	const QList<const KanjiStroke *> &strokes() const { return _strokes; }
-	void addChild(KanjiComponent *child) { _childs << child; }
 	void addStroke(KanjiStroke *stroke) { _strokes << stroke; }
 	const QString &element() const { return _element; }
 	const QString &original() const { return _original; }
@@ -59,21 +53,18 @@ public:
 	 * its simplified representation or not.
 	 */
 	unsigned int unicode(bool simplified = false) const;
-	unsigned int number() const { return _number; }
 };
 
 class KanjiStroke
 {
 private:
-	const KanjiComponent *_parent;
 	QChar _type;
 	QString _path;
 
 public:
-	KanjiStroke(const KanjiComponent *parent, const QChar &type, const QString &path);
+	KanjiStroke(const QChar &type, const QString &path);
 	virtual ~KanjiStroke();
 
-	const KanjiComponent *parent() const { return _parent; }
 	const QChar &type() const { return _type; }
 	const QString &path() const { return _path; }
 };
@@ -111,7 +102,7 @@ private:
 	QList<KanjiReading> _readings;
 	QList<KanjiMeaning> _meanings;
 	QStringList _nanoris;
-        QList<quint32> _variationOf;
+	QList<quint32> _variationOf;
 
 	int _grade;
 	int _strokeCount;
@@ -124,6 +115,7 @@ private:
 	 * A kanji always contains at least one component, which is its root.
 	 */
 	QList<KanjiComponent> _components;
+	QList<const KanjiComponent *> _rootComponents;
 
 	/**
 	 * Contains the strokes of the kanji, in their order of appearance.
@@ -131,8 +123,8 @@ private:
 	QList<KanjiStroke> _strokes;
 
 protected:
-	KanjiComponent *addComponent(const KanjiComponent *parent, const QString &element, const QString &original, unsigned int number);
-	KanjiStroke *addStroke(const KanjiComponent *parent, const QChar &type, const QString &path);
+	KanjiComponent *addComponent(const QString &element, const QString &original, bool isRoot = false);
+	KanjiStroke *addStroke(const QChar &type, const QString &path);
 
 public:
 	// Needed to register type
@@ -154,8 +146,11 @@ public:
 
 	const QList<KanjiComponent> &components() const { return _components; }
 	const QList<KanjiStroke> &strokes() const { return _strokes; }
-	const KanjiComponent *root() const { if (_components.isEmpty()) return 0; else return &_components[0]; }
-	const QList<const KanjiComponent *> &rootComponents() const { return root()->components(); }
+	/**
+	 * Returns the root components, i.e. the minimum set of components that are sufficient
+	 * to cover as many strokes of this kanji as possible.
+	 */
+	const QList<const KanjiComponent *> &rootComponents() const;
 
 	/**
 	 * Returns the grade of thi kanji. -1 means it does not have any.

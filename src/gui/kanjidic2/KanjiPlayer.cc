@@ -220,8 +220,8 @@ void KanjiPlayer::renderCurrentState()
 
 	// Render full strokes
 	for (int i = 0; i < _strokesCpt; i++) {
-		const KanjiComponent *parent(kStrokes[i].parent());
-		while (parent && !kComponents.contains(parent)) parent = parent->parent();
+		const KanjiComponent *parent(0);
+		foreach (const KanjiComponent *comp, kComponents) if (comp->strokes().contains(&kStrokes[i])) { parent = comp; break; }
 		if (!parent) pen2.setColor(colList[0]);
 		else pen2.setColor(colList[kComponents.indexOf(parent) + 1]);
 		if (highlightedComponent() && parent == highlightedComponent()) pen2.setColor(pen2.color().lighter(200));
@@ -231,8 +231,8 @@ void KanjiPlayer::renderCurrentState()
 	// Render partial stroke
 	if (_state == STATE_STROKE && _strokesCpt < renderer.strokes().size()) {
 		const KanjiRenderer::Stroke &currentStroke(renderer.strokes()[_strokesCpt]);
-		const KanjiComponent *parent(currentStroke.stroke()->parent());
-		while (parent && !kComponents.contains(parent)) parent = parent->parent();
+		const KanjiComponent *parent(0);
+		foreach (const KanjiComponent *comp, kComponents) if (comp->strokes().contains(currentStroke.stroke())) { parent = comp; break; }
 		if (!parent) pen2.setColor(colList[0]);
 		else pen2.setColor(colList[kComponents.indexOf(parent) + 1]);
 		if (highlightedComponent() && parent == highlightedComponent()) pen2.setColor(pen2.color().lighter(200));
@@ -260,16 +260,14 @@ bool KanjiPlayer::eventFilter(QObject *obj, QEvent *event)
 		const QList<KanjiRenderer::Stroke> &strokes(renderer.strokes());
 		QPainterPathStroker stroker;
 		stroker.setWidth(20);
+		
 		const KanjiComponent *comp(0);
+		const QList<const KanjiComponent *> &kComponents(_kanji->rootComponents());
 		foreach (const KanjiRenderer::Stroke &stroke, strokes) {
 			QPainterPath nPath(stroker.createStroke(stroke.painterPath()));
 			if (nPath.contains(fPos)) {
-				const KanjiComponent *parent(stroke.stroke()->parent());
-				// Do not consider the root component
-				if (!parent->parent()) continue;
-				while (parent->parent() != _kanji->root()) parent = parent->parent();
-				comp = parent;
-				break;
+				foreach (const KanjiComponent *component, kComponents) if (component->strokes().contains(stroke.stroke())) { comp = component; break; }
+				if (comp) break;
 			}
 		}
 		if (highlightedComponent() != comp) {

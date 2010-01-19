@@ -19,6 +19,7 @@ EntrySearcher.cc
 EntrySearcherManager.cc
 EntriesCache.cc
 Plugin.cc
+XmlParserHelper.cc
 jmdict/JMdictDefs.cc
 jmdict/JMdictEntry.cc
 jmdict/JMdictEntrySearcher.cc

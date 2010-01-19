@@ -23,6 +23,7 @@
 
 #include <QSqlQuery>
 #include <QSqlRecord>
+#include <QByteArray>
 
 Kanjidic2EntrySearcher::Kanjidic2EntrySearcher(QObject *parent) : EntrySearcher(parent)
 {
@@ -200,11 +201,11 @@ void Kanjidic2EntrySearcher::buildStatement(QList<SearchCommand> &commands, Quer
 	if (!transSearch.isEmpty()) statement.addWhere(buildTextSearchCondition(transSearch, "kanjidic2.meaning"));
 
 	if (!componentSearch.isEmpty()) {
-		QString onlyDirectComponentsString("join kanjidic2.strokeGroups as ks2 on ks1.parentGroup = ks2.rowid and ks2.parentGroup is null ");
+		QString onlyDirectComponentsString("and ks1.isRoot = \"true\"");
 		QString qString;
 		// TODO We should be able to control this - probably when we have a more powerful command system based on subclasses
 		if (0) qString = onlyDirectComponentsString;
-		statement.addWhere(QString("kanjidic2.entries.id IN (SELECT DISTINCT ks1.kanji FROM kanjidic2.strokeGroups AS ks1 %3WHERE (ks1.element IN (%1) OR ks1.original IN (%1)) AND ks1.parentGroup NOT NULL GROUP BY ks1.kanji HAVING UNIQUECOUNT(CASE WHEN ks1.element IN (%1) THEN ks1.element ELSE NULL END, CASE WHEN ks1.original IN (%1) THEN ks1.original ELSE NULL END) >= %2)").arg(componentSearch.join(", ")).arg(componentSearch.size()).arg(qString));
+		statement.addWhere(QString("kanjidic2.entries.id IN (SELECT DISTINCT ks1.kanji FROM kanjidic2.strokeGroups AS ks1 WHERE (ks1.element IN (%1) OR ks1.original IN (%1)) %3 GROUP BY ks1.kanji HAVING UNIQUECOUNT(CASE WHEN ks1.element IN (%1) THEN ks1.element ELSE NULL END, CASE WHEN ks1.original IN (%1) THEN ks1.original ELSE NULL END) >= %2)").arg(componentSearch.join(", ")).arg(componentSearch.size()).arg(qString));
 	}
 }
 
@@ -252,7 +253,7 @@ Entry *Kanjidic2EntrySearcher::loadEntry(int id)
 	QString character = TextTools::unicodeToSingleChar(id);
 
 	QSqlQuery query;
-	query.prepare("select grade, strokeCount, frequency, jlpt from kanjidic2.entries where id = ?");
+	query.prepare("select grade, strokeCount, frequency, jlpt, paths from kanjidic2.entries where id = ?");
 	query.addBindValue(id);
 	query.exec();
 	Kanjidic2Entry *entry;
@@ -268,9 +269,11 @@ Entry *Kanjidic2EntrySearcher::loadEntry(int id)
 
 		entry = new Kanjidic2Entry(character, true, grade, strokeCount, frequency, jlpt);
 	}
-
+	// Get the strokes paths for later processing
+	QStringList paths(query.value(4).toString().split('|'));
+	
 	loadMiscData(entry);
-
+	
 	// Find the kanjis this one is a variation of
 	query.prepare("select distinct original from strokeGroups where element = ? and original not null");
 	query.addBindValue(id);
@@ -309,51 +312,26 @@ Entry *Kanjidic2EntrySearcher::loadEntry(int id)
 		entry->_nanoris << query.value(0).toString();
 	}
 
+	// Insert the strokes
+	foreach (const QString &path, paths) entry->addStroke(0, path);
+
 	// Load components
-	query.prepare("select rowid, parentGroup, number, element, original from strokeGroups where kanji = ? order by rowid");
+	query.prepare("select element, original, isRoot, pathsRefs from strokeGroups where kanji = ? order by rowid");
 	query.addBindValue(id);
 	query.exec();
-	QMap<int, KanjiComponent *> componentsMap;
 	while(query.next()) {
-		int componentId(query.value(1).toInt());
-		KanjiComponent *parentGroup(0);
-		// Should never happen
-		if (componentId && !componentsMap.contains(componentId)) {
-			qWarning() << "While loading kanjidic2 entry: unable to find parent group!";
-		}
-		else if (componentId) parentGroup = componentsMap[componentId];
-		QString element(TextTools::unicodeToSingleChar(query.value(3).toUInt()));
-		QString original(TextTools::unicodeToSingleChar(query.value(4).toUInt()));;
-		KanjiComponent *newComp(entry->addComponent(parentGroup, element, original, query.value(2).toInt()));
-		if (parentGroup) parentGroup->addChild(newComp);
-		componentsMap[query.value(0).toInt()] = newComp;
-	}
-
-	// Load strokes
-	QStringList keys;
-	foreach (int id, componentsMap.keys()) keys << QString::number(id);
-	query.prepare("select parentGroup, strokeType, path from strokes where parentGroup in (" + keys.join(",") + ") order by rowid");
-	query.exec();
-	while(query.next()) {
-		int componentId(query.value(0).toInt());
-		KanjiComponent *parentGroup(0);
-		// Should never happen
-		if (!componentsMap.contains(componentId)) {
-			qWarning() << "While loading kanjidic2 entry: unable to find parent group!";
-		}
-		else parentGroup = componentsMap[componentId];
-		KanjiStroke *newStroke(entry->addStroke(parentGroup, QChar(query.value(1).toInt()), query.value(2).toString()));
-		KanjiComponent *it(parentGroup);
-		while (it) {
-			it->addStroke(newStroke);
-			// const_casting is bad - but as we are building the kanji structure,
-			// let's forgive it.
-			it = const_cast<KanjiComponent *>(it->parent());
+		QString element(TextTools::unicodeToSingleChar(query.value(0).toUInt()));
+		QString original(TextTools::unicodeToSingleChar(query.value(1).toUInt()));;
+		
+		KanjiComponent *comp(entry->addComponent(element, original, query.value(2).toBool()));
+		// Add references to the strokes belonging to this component
+		QByteArray pathsRefs(query.value(3).toByteArray());
+		for (int i = 0; i < pathsRefs.size(); i++) {
+			quint8 idx(static_cast<quint8>(pathsRefs[i]));
+			comp->addStroke(&entry->_strokes[idx]);
 		}
 	}
-	// For kanjis that have no component at all, add a dummy root component.
-	if (entry->components().isEmpty()) entry->addComponent(0, TextTools::unicodeToSingleChar(id), 0, 0);
-
+	
 	// Load skip code
 	query.prepare("select type, c1, c2 from skip where entry = ? limit 1");
 	query.addBindValue(id);

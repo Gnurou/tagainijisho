@@ -77,7 +77,7 @@ QString Kanjidic2EntryFormatter::getQueryUsedInWordsSql(int kanji, int limit, bo
 
 QString Kanjidic2EntryFormatter::getQueryUsedInKanjiSql(int kanji, int limit, bool onlyStudied)
 {
-	const QString queryUsedInKanjiSql("select distinct " QUOTEMACRO(KANJIDIC2ENTRY_GLOBALID) ", ks1.kanji from kanjidic2.strokeGroups as ks1 join kanjidic2.strokeGroups as ks2 on ks1.parentGroup = ks2.rowid and ks2.parentGroup is null join kanjidic2.entries on ks1.kanji = entries.id %3join training on training.type = " QUOTEMACRO(KANJIDIC2ENTRY_GLOBALID) " and training.id = entries.id where (ks1.element = %1 or ks1.original = %1) and ks1.kanji != %1 order by training.dateAdded is null ASC, training.score ASC, entries.strokeCount limit %2");
+	const QString queryUsedInKanjiSql("select distinct " QUOTEMACRO(KANJIDIC2ENTRY_GLOBALID) ", ks1.kanji from kanjidic2.strokeGroups as ks1 join kanjidic2.entries on ks1.isRoot == \"true\" and ks1.kanji = entries.id %3join training on training.type = " QUOTEMACRO(KANJIDIC2ENTRY_GLOBALID) " and training.id = entries.id where (ks1.element = %1 or ks1.original = %1) and ks1.kanji != %1 order by training.dateAdded is null ASC, training.score ASC, entries.strokeCount limit %2");
 
 	return queryUsedInKanjiSql.arg(kanji).arg(limit).arg(onlyStudied ? "" : "left ");
 }
@@ -343,10 +343,7 @@ void Kanjidic2EntryFormatter::drawCustom(const Entry *_entry, QPainter &painter,
 		painter.setRenderHint(QPainter::Antialiasing);
 
 		const QList<const KanjiComponent *> &kComponents(entry->rootComponents());
-		const QList<KanjiStroke> &kStrokes(entry->strokes());
-		foreach (const KanjiStroke &stroke, kStrokes) {
-			const KanjiComponent *parent(stroke.parent());
-			while (parent && !kComponents.contains(parent)) parent = parent->parent();
+		foreach (const KanjiStroke &stroke, entry->strokes()) {
 			painter.setPen(pen);
 			renderer.strokeFor(stroke)->render(&painter);
 		}
