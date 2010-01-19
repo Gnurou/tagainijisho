@@ -281,6 +281,9 @@ int main(int argc, char *argv[])
 	// Create indexes
 	create_indexes();
 	
+	// Analyze for hopefully better performance
+	database.exec("analyze");
+	
 	// Commit everything
 	database.commit();
 	qDebug() << "Commited\n";
