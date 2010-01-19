@@ -27,16 +27,47 @@ bool KanjiVGParser::parse_strokegr(QXmlStreamReader &reader, KanjiVGItem &kanji,
 		TAG_PRE(strokegr)
 			// For now we do not consider groups without any element
 			bool hasElement(HAS_ATTR("element"));
+			bool alreadyInStack(false);
 			if (hasElement) {
-				kanji.groups << KanjiVGGroupItem();
-				KanjiVGGroupItem &group = kanji.groups.last();
-				if (HAS_ATTR("element")) group.element = TextTools::singleCharToUnicode(ATTR("element"));
-				if (HAS_ATTR("original")) group.original = TextTools::singleCharToUnicode(ATTR("original"));
-				if (gStack.isEmpty()) group.isRoot = true;
-				gStack << &group;
+				int element(TextTools::singleCharToUnicode(ATTR("element")));
+				int original(TextTools::singleCharToUnicode(ATTR("original")));
+				int part(ATTR("part").toInt());
+				int number(ATTR("number").toInt());
+				KanjiVGGroupItem *group = 0;
+				// Part > 1, we must find a
+				// group for which element and number match
+				// (in the case there is no number, both numbers
+				// will be zero anyway)
+				if (part > 1) {
+					foreach (const KanjiVGGroupItem &tGroup, kanji.groups) {
+						if (tGroup.element == element and tGroup.number == number) {
+							// Foreach won't let us loop on a non-const reference
+							group = const_cast<KanjiVGGroupItem *>(&tGroup);
+							break;
+						}
+					}
+				} else {
+					// Otherwise the group is allocated
+					kanji.groups << KanjiVGGroupItem();
+					group = &kanji.groups.last();
+				}
+				if (!group) {
+					qDebug("Warning - orphan group found for kanji %x", kanji.id);
+					// To prevent the group to be popped from the stack, since we
+					// won't push it
+					hasElement = false;
+				} else {
+					group->element = element;
+					group->original = original;
+					group->number = number;
+					if (gStack.isEmpty()) group->isRoot = true;
+					// Do not push the group if it is already in the stack
+					alreadyInStack = gStack.contains(group);
+					if (!alreadyInStack) gStack << group;
+				}
 			}
 			if (!parse_strokegr(reader, kanji, gStack, strokeCounter)) return false;
-			if (hasElement) gStack.pop();
+			if (hasElement && !alreadyInStack) gStack.pop();
 		DONE
 		TAG_PRE(stroke)
 			QString path(ATTR("path"));

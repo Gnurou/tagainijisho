@@ -221,7 +221,8 @@ void KanjiPlayer::renderCurrentState()
 	// Render full strokes
 	for (int i = 0; i < _strokesCpt; i++) {
 		const KanjiComponent *parent(0);
-		foreach (const KanjiComponent *comp, kComponents) if (comp->strokes().contains(&kStrokes[i])) { parent = comp; break; }
+		if (highlightedComponent() && highlightedComponent()->strokes().contains(&kStrokes[i])) { parent = highlightedComponent(); }
+		else foreach (const KanjiComponent *comp, kComponents) if (comp->strokes().contains(&kStrokes[i])) { parent = comp; break; }
 		if (!parent) pen2.setColor(colList[0]);
 		else pen2.setColor(colList[kComponents.indexOf(parent) + 1]);
 		if (highlightedComponent() && parent == highlightedComponent()) pen2.setColor(pen2.color().lighter(200));
@@ -232,7 +233,8 @@ void KanjiPlayer::renderCurrentState()
 	if (_state == STATE_STROKE && _strokesCpt < renderer.strokes().size()) {
 		const KanjiRenderer::Stroke &currentStroke(renderer.strokes()[_strokesCpt]);
 		const KanjiComponent *parent(0);
-		foreach (const KanjiComponent *comp, kComponents) if (comp->strokes().contains(currentStroke.stroke())) { parent = comp; break; }
+		if (highlightedComponent() && highlightedComponent()->strokes().contains(currentStroke.stroke())) { parent = highlightedComponent(); }
+		else foreach (const KanjiComponent *comp, kComponents) if (comp->strokes().contains(currentStroke.stroke())) { parent = comp; break; }
 		if (!parent) pen2.setColor(colList[0]);
 		else pen2.setColor(colList[kComponents.indexOf(parent) + 1]);
 		if (highlightedComponent() && parent == highlightedComponent()) pen2.setColor(pen2.color().lighter(200));
