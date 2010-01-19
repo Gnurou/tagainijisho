@@ -209,10 +209,23 @@ int main(int argc, char *argv[])
 {
 	QCoreApplication app(argc, argv);
 	
+	if (argc != 3) {
+		qCritical("Usage: %s source_dir dest_file");
+		return 1;
+	}
+	QString srcDir(argv[1]);
+	QString dstFile(argv[2]);
+	
+	QFile dst(dstFile);
+	if (dst.exists() && !dst.remove()) {
+		qCritical("Error - cannot remove existing destination file!");
+		return 1;
+	}
+	
 	// Open the database to write to
 	QSQLiteDriver *driver = new QSQLiteDriver();
 	QSqlDatabase database(QSqlDatabase::addDatabase(driver));
-	database.setDatabaseName("kanjidic2test.db");
+	database.setDatabaseName(dstFile);
 	if (!database.open()) {
 		qFatal("Cannot open database: %s", database.lastError().text().toLatin1().data());
 		return 1;
@@ -251,7 +264,7 @@ int main(int argc, char *argv[])
 	#undef PREPQUERY
 
 	// Parse and insert kanjidic2
-	QFile file("3rdparty/kanjidic2.xml");
+	QFile file(QDir(srcDir).absoluteFilePath("3rdparty/kanjidic2.xml"));
 	if (!file.open(QFile::ReadOnly | QFile::Text)) return 1;
 	QXmlStreamReader reader(&file);
 	Kanjidic2DBParser kdicParser;
@@ -262,7 +275,7 @@ int main(int argc, char *argv[])
 	file.close();
 	
 	// Parse and insert KanjiVG data
-	file.setFileName("3rdparty/kanjivg.xml");
+	file.setFileName(QDir(srcDir).absoluteFilePath("3rdparty/kanjivg.xml"));
 	if (!file.open(QFile::ReadOnly | QFile::Text)) return 1;
 	reader.setDevice(&file);
 	KanjiVGDBParser kvgParser;
@@ -286,6 +299,5 @@ int main(int argc, char *argv[])
 	
 	// Commit everything
 	database.commit();
-	qDebug() << "Commited\n";
 	return 0;
 }

@@ -31,9 +31,9 @@ include_directories(${CMAKE_SOURCE_DIR}/src)
 #FILE(DOWNLOAD ftp://ftp.monash.edu.au/pub/nihongo/JMdict.gz ./boo.gz)
 #add_custom_command(TARGET boo PRE_BUILD COMMAND gunzip ./boo.gz DEPENDS ./boo.gz)
 
-# Build database
+# TODO add dependencies for kanjidic2 and kanjivg files
 add_custom_command(OUTPUT kanjidic2.db
-	COMMAND ${CMAKE_SOURCE_DIR}/builddb.py
+	COMMAND build_kanji_db ${CMAKE_SOURCE_DIR} kanjidic2.db
 	DEPENDS build_kanji_db)
 add_custom_target(databases DEPENDS jmdict.db kanjidic2.db)
 
