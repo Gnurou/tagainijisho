@@ -201,7 +201,7 @@ void Kanjidic2EntrySearcher::buildStatement(QList<SearchCommand> &commands, Quer
 	if (!transSearch.isEmpty()) statement.addWhere(buildTextSearchCondition(transSearch, "kanjidic2.meaning"));
 
 	if (!componentSearch.isEmpty()) {
-		QString onlyDirectComponentsString("and ks1.isRoot = \"true\"");
+		QString onlyDirectComponentsString("and ks1.isRoot = 1");
 		QString qString;
 		// TODO We should be able to control this - probably when we have a more powerful command system based on subclasses
 		if (0) qString = onlyDirectComponentsString;

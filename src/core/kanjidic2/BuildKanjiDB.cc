@@ -136,7 +136,7 @@ bool KanjiVGDBParser::onItemParsed(KanjiVGItem &kanji)
 		BIND(insertStrokeGroupQuery, kanji.id);
 		AUTO_BIND(insertStrokeGroupQuery, group.element, 0);
 		AUTO_BIND(insertStrokeGroupQuery, group.original, 0);
-		BIND(insertStrokeGroupQuery, group.isRoot);
+		BIND(insertStrokeGroupQuery, (quint8)group.isRoot);
 		QByteArray pathsIndexes;
 		foreach (quint8 index, group.pathsIndexes) pathsIndexes.append(index);
 		BIND(insertStrokeGroupQuery, pathsIndexes);
