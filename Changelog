@@ -3,6 +3,7 @@
 * Now uses CMake as build system
 * Database building Python scripts replaced with Python programs
 * Strokes belonging to several components now correctly handled
+* Optimized kanjis database - from 24 Mbytes to 11 Mbytes
 
 0.2.4 released on 2009-12-16
 * Updated to SQLite 3.6.21

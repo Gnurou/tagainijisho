@@ -270,7 +270,9 @@ Entry *Kanjidic2EntrySearcher::loadEntry(int id)
 		entry = new Kanjidic2Entry(character, true, grade, strokeCount, frequency, jlpt);
 	}
 	// Get the strokes paths for later processing
-	QStringList paths(query.value(4).toString().split('|'));
+	QByteArray pathsBA(query.value(4).toByteArray());
+	QStringList paths;
+	if (!pathsBA.isEmpty()) paths = QString(qUncompress(pathsBA)).split('|');
 	
 	loadMiscData(entry);
 	

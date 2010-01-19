@@ -130,8 +130,8 @@ bool KanjiVGDBParser::onItemParsed(KanjiVGItem &kanji)
 	BIND(insertOrIgnoreEntryQuery, 0);
 	BIND(insertOrIgnoreEntryQuery, 0);
 	EXEC(insertOrIgnoreEntryQuery);
-	
-	int rowId = 0;
+
+	// Insert groups
 	foreach (const KanjiVGGroupItem &group, kanji.groups) {
 		BIND(insertStrokeGroupQuery, kanji.id);
 		AUTO_BIND(insertStrokeGroupQuery, group.element, 0);
@@ -141,14 +141,16 @@ bool KanjiVGDBParser::onItemParsed(KanjiVGItem &kanji)
 		foreach (quint8 index, group.pathsIndexes) pathsIndexes.append(index);
 		BIND(insertStrokeGroupQuery, pathsIndexes);
 		EXEC(insertStrokeGroupQuery);
-		rowId = insertStrokeGroupQuery.lastInsertId().toInt();
 	}
+	
+	// Insert strokes
 	QStringList paths;
 	foreach (const KanjiVGStrokeItem &stroke, kanji.strokes) {
 		paths << stroke.path;
 	}
+	QByteArray compressedPaths(paths.join("|").toAscii());
 	if (!paths.isEmpty()) {
-		BIND(updatePathsString, paths.join("|"));
+		BIND(updatePathsString, qCompress(compressedPaths, 9));
 		BIND(updatePathsString, kanji.id);
 		EXEC(updatePathsString);
 	}
@@ -177,7 +179,7 @@ void create_tables()
 	query.prepare("insert into info values(?)");
 	query.addBindValue(KANJIDIC2DB_REVISION);
 	query.exec();
-	query.exec("create table entries(id INTEGER PRIMARY KEY, grade TINYINT, strokeCount TINYINT, frequency SMALLINT, jlpt TINYINT, paths TEXT)");
+	query.exec("create table entries(id INTEGER PRIMARY KEY, grade TINYINT, strokeCount TINYINT, frequency SMALLINT, jlpt TINYINT, paths BLOB)");
 	query.exec("create table reading(docid INTEGER PRIMARY KEY, entry INTEGER SECONDARY KEY REFERENCES entries, type TEXT)");
 	query.exec("create virtual table readingText using fts3(reading, TOKENIZE katakana)");
 	query.exec("create table meaning(docid INTEGER PRIMARY KEY, entry INTEGER SECONDARY KEY REFERENCES entries, lang TEXT)");
