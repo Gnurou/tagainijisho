@@ -225,7 +225,11 @@ int main(int argc, char *argv[])
 		// the sqlite3_auto_extension
 		register_all_tokenizers(sqliteHandler);
 	}
-
+	database.exec("pragma encoding = \"UTF-16le\"");
+	if (database.lastError().isValid()) {
+		qDebug() << database.lastError().text();
+		return 1;
+	}
 	database.transaction();
 	create_tables();
 
