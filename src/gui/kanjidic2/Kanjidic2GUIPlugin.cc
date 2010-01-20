@@ -437,6 +437,21 @@ void KanjiAllComponentsOfHandler::handleUrl(const QUrl &url, DetailedView *view)
 	searchBar->search();
 }
 
+static void prepareFourCornerComboBox(QComboBox *box)
+{
+	box->addItem("");
+	box->addItem(QString::fromUtf8("亠"));
+	box->addItem(QString::fromUtf8("一"));
+	box->addItem(QString::fromUtf8("｜"));
+	box->addItem(QString::fromUtf8("丶"));
+	box->addItem(QString::fromUtf8("十"));
+	box->addItem(QString::fromUtf8("キ"));
+	box->addItem(QString::fromUtf8("口"));
+	box->addItem(QString::fromUtf8("厂"));
+	box->addItem(QString::fromUtf8("八"));
+	box->addItem(QString::fromUtf8("小"));
+}
+
 Kanjidic2OptionsWidget::Kanjidic2OptionsWidget(QWidget *parent) : SearchBarExtender(parent, "kanjidic")
 {
 	_propsToSave << "strokeCount" << "components" << "unicode" << "skip" << "fourCorner" << "grades";
@@ -493,35 +508,25 @@ Kanjidic2OptionsWidget::Kanjidic2OptionsWidget(QWidget *parent) : SearchBarExten
 		QHBoxLayout *hLayout = new QHBoxLayout(fourCornerGroupBox);
 		QGridLayout *gLayout = new QGridLayout();
 		hLayout->addLayout(gLayout);
-		_fcTopLeft = new QSpinBox(fourCornerGroupBox);
-		_fcTopLeft->setRange(-1, 9);
-		_fcTopLeft->setSpecialValueText(" ");
-		_fcTopLeft->setValue(-1);
-		connect(_fcTopLeft, SIGNAL(valueChanged(int)), this, SLOT(delayedCommandUpdate()));
+		_fcTopLeft = new QComboBox(fourCornerGroupBox);
+		prepareFourCornerComboBox(_fcTopLeft);
+		connect(_fcTopLeft, SIGNAL(currentIndexChanged(int)), this, SLOT(delayedCommandUpdate()));
 		gLayout->addWidget(_fcTopLeft, 0, 0);
-		_fcTopRight = new QSpinBox(fourCornerGroupBox);
-		_fcTopRight->setRange(-1, 9);
-		_fcTopRight->setSpecialValueText(" ");
-		_fcTopRight->setValue(-1);
-		connect(_fcTopRight, SIGNAL(valueChanged(int)), this, SLOT(delayedCommandUpdate()));
+		_fcTopRight = new QComboBox(fourCornerGroupBox);
+		prepareFourCornerComboBox(_fcTopRight);
+		connect(_fcTopRight, SIGNAL(currentIndexChanged(int)), this, SLOT(delayedCommandUpdate()));
 		gLayout->addWidget(_fcTopRight, 0, 1);
-		_fcBotLeft = new QSpinBox(fourCornerGroupBox);
-		_fcBotLeft->setRange(-1, 9);
-		_fcBotLeft->setSpecialValueText(" ");
-		_fcBotLeft->setValue(-1);
-		connect(_fcBotLeft, SIGNAL(valueChanged(int)), this, SLOT(delayedCommandUpdate()));
+		_fcBotLeft = new QComboBox(fourCornerGroupBox);
+		prepareFourCornerComboBox(_fcBotLeft);
+		connect(_fcBotLeft, SIGNAL(currentIndexChanged(int)), this, SLOT(delayedCommandUpdate()));
 		gLayout->addWidget(_fcBotLeft, 1, 0);
-		_fcBotRight = new QSpinBox(fourCornerGroupBox);
-		_fcBotRight->setRange(-1, 9);
-		_fcBotRight->setSpecialValueText(" ");
-		_fcBotRight->setValue(-1);
-		connect(_fcBotRight, SIGNAL(valueChanged(int)), this, SLOT(delayedCommandUpdate()));
+		_fcBotRight = new QComboBox(fourCornerGroupBox);
+		prepareFourCornerComboBox(_fcBotRight);
+		connect(_fcBotRight, SIGNAL(currentIndexChanged(int)), this, SLOT(delayedCommandUpdate()));
 		gLayout->addWidget(_fcBotRight, 1, 1);
-		_fcExtra = new QSpinBox(fourCornerGroupBox);
-		_fcExtra->setRange(-1, 9);
-		_fcExtra->setSpecialValueText(" ");
-		_fcExtra->setValue(-1);
-		connect(_fcExtra, SIGNAL(valueChanged(int)), this, SLOT(delayedCommandUpdate()));
+		_fcExtra = new QComboBox(fourCornerGroupBox);
+		prepareFourCornerComboBox(_fcExtra);
+		connect(_fcExtra, SIGNAL(currentIndexChanged(int)), this, SLOT(delayedCommandUpdate()));
 		hLayout->addWidget(_fcExtra);
 	}
 	QGroupBox *gradeGroupBox = new QGroupBox(tr("School grade"), this);
@@ -616,7 +621,7 @@ QString Kanjidic2OptionsWidget::currentCommand() const
 	}
 	if (_unicode->value()) ret += QString(" :unicode=%1").arg(_unicode->text());
 	if (_skip1->value() || _skip2->value() || _skip3->value()) ret += QString(" :skip=%1").arg(skip());
-	if (_fcTopLeft->value() != -1 || _fcTopRight->value() != -1 || _fcBotLeft->value() != -1 || _fcBotRight->value() != -1 || _fcExtra->value() != -1) ret += QString(" :fourcorner=%1").arg(fourCorner());
+	if (_fcTopLeft->currentIndex() > 0 || _fcTopRight->currentIndex() > 0 || _fcBotLeft->currentIndex() > 0 || _fcBotRight->currentIndex() > 0 || _fcExtra->currentIndex() > 0) ret += QString(" :fourcorner=%1").arg(fourCorner());
 	if (!_gradesList.isEmpty()) ret += " :grade=" + _gradesList.join(",");
 	return ret;
 }
@@ -642,7 +647,7 @@ QString Kanjidic2OptionsWidget::currentTitle() const
 	}
 	if (_unicode->value()) ret += tr(", unicode: %1").arg(_unicode->text());
 	if (_skip1->value() || _skip2->value() || _skip3->value()) ret += tr(", skip: %1").arg(skip());
-	if (_fcTopLeft->value() != -1 || _fcTopRight->value() != -1 || _fcBotLeft->value() != -1 || _fcBotRight->value() != -1 || _fcExtra->value() != -1) ret += tr(", 4c: %1").arg(fourCorner());
+	if (_fcTopLeft->currentIndex() > 0 || _fcTopRight->currentIndex() > 0 || _fcBotLeft->currentIndex() > 0 || _fcBotRight->currentIndex() > 0 || _fcExtra->currentIndex() > 0) ret += tr(", 4c: %1").arg(fourCorner());
 	if (!_gradesList.isEmpty()) ret += tr(", grade: %1").arg(_gradesList.join(","));
 	if (!ret.isEmpty()) ret = tr("Kanji") + ret;
 	else ret = tr("Kanji");
@@ -676,11 +681,11 @@ void Kanjidic2OptionsWidget::_reset()
 	_skip1->setValue(0);
 	_skip2->setValue(0);
 	_skip3->setValue(0);
-	_fcTopLeft->setValue(-1);
-	_fcTopRight->setValue(-1);
-	_fcBotLeft->setValue(-1);
-	_fcBotRight->setValue(-1);
-	_fcExtra->setValue(-1);
+	_fcTopLeft->setCurrentIndex(0);
+	_fcTopRight->setCurrentIndex(0);
+	_fcBotLeft->setCurrentIndex(0);
+	_fcBotRight->setCurrentIndex(0);
+	_fcExtra->setCurrentIndex(0);
 	_gradesList.clear();
 	foreach (QAction *action, _gradeButton->menu()->actions()) if (action->isChecked()) action->trigger();
 	_components->clear();
@@ -716,11 +721,11 @@ void Kanjidic2OptionsWidget::setSkip(const QString &value)
 
 QString Kanjidic2OptionsWidget::fourCorner() const
 {
-	return QString("%1%2%3%4.%5").arg(_fcTopLeft->value() != -1 ? QString::number(_fcTopLeft->value()) : "?")
-		.arg(_fcTopRight->value() != -1 ? QString::number(_fcTopRight->value()) : "?")
-		.arg(_fcBotLeft->value() != -1 ? QString::number(_fcBotLeft->value()) : "?")
-		.arg(_fcBotRight->value() != -1 ? QString::number(_fcBotRight->value()) : "?")
-		.arg(_fcExtra->value() != -1 ? QString::number(_fcExtra->value()) : "?");
+	return QString("%1%2%3%4.%5").arg(_fcTopLeft->currentIndex() > 0 ? QString::number(_fcTopLeft->currentIndex() - 1) : "?")
+		.arg(_fcTopRight->currentIndex() > 0 ? QString::number(_fcTopRight->currentIndex() - 1) : "?")
+		.arg(_fcBotLeft->currentIndex() > 0 ? QString::number(_fcBotLeft->currentIndex() - 1) : "?")
+		.arg(_fcBotRight->currentIndex() > 0 ? QString::number(_fcBotRight->currentIndex() - 1) : "?")
+		.arg(_fcExtra->currentIndex() > 0 ? QString::number(_fcExtra->currentIndex() - 1) : "?");
 }
 
 void Kanjidic2OptionsWidget::setFourCorner(const QString &value)
@@ -734,9 +739,9 @@ void Kanjidic2OptionsWidget::setFourCorner(const QString &value)
 	botLeft = value[2].isDigit() ? value[2].toAscii() - '0' : -1;
 	botRight = value[3].isDigit() ? value[3].toAscii() - '0' : -1;
 	extra = value[5].isDigit() ? value[5].toAscii() - '0' : -1;
-	_fcTopLeft->setValue(topLeft);
-	_fcTopRight->setValue(topRight);
-	_fcBotLeft->setValue(botLeft);
-	_fcBotRight->setValue(botRight);
-	_fcExtra->setValue(extra);
+	_fcTopLeft->setCurrentIndex(topLeft + 1);
+	_fcTopRight->setCurrentIndex(topRight + 1);
+	_fcBotLeft->setCurrentIndex(botLeft + 1);
+	_fcBotRight->setCurrentIndex(botRight + 1);
+	_fcExtra->setCurrentIndex(extra + 1);
 }
