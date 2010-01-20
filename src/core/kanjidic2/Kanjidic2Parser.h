@@ -31,6 +31,7 @@ public:
 	int freq;
 	int jlpt;
 	QString skip;
+	QString fourCorner;
 	// TODO Add a rmgroup parameter to allow grouping of readings and meanings
 	// Associate the reading types to the readings
 	QMap<QString, QStringList> readings;

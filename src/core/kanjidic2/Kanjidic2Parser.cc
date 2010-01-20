@@ -88,6 +88,7 @@ bool Kanjidic2Parser::parse(QXmlStreamReader &reader)
 					TAG_BEGIN(q_code)
 					CHARACTERS
 						if (qc_type == "skip" && skip_misclass.isEmpty()) kanji.skip = TEXT;
+						else if (qc_type == "four_corner") kanji.fourCorner = TEXT;
 					DONE
 					ENDTAG
 				ENDTAG

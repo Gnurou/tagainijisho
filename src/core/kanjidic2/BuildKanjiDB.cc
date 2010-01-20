@@ -38,6 +38,7 @@ static QSqlQuery insertMeaningTextQuery;
 static QSqlQuery insertNanoriQuery;
 static QSqlQuery insertNanoriTextQuery;
 static QSqlQuery insertSkipCodeQuery;
+static QSqlQuery insertFourCornerQuery;
 static QSqlQuery insertStrokeGroupQuery;
 static QSqlQuery updateJLPTLevelsQuery;
 static QSqlQuery updateStrokeCountQuery;
@@ -117,6 +118,23 @@ bool Kanjidic2DBParser::onItemParsed(Kanjidic2Item &kanji)
 			EXEC(insertSkipCodeQuery);
 		}
 	}
+	
+	// Four corner
+	if (!kanji.fourCorner.isEmpty()) {
+		quint8 topLeft(kanji.fourCorner[0].toAscii() - '0');
+		quint8 topRight(kanji.fourCorner[1].toAscii() - '0');
+		quint8 botLeft(kanji.fourCorner[2].toAscii() - '0');
+		quint8 botRight(kanji.fourCorner[3].toAscii() - '0');
+		quint8 extra(kanji.fourCorner[5].toAscii() - '0');
+		
+		BIND(insertFourCornerQuery, kanji.id);
+		BIND(insertFourCornerQuery, topLeft);
+		BIND(insertFourCornerQuery, topRight);
+		BIND(insertFourCornerQuery, botLeft);
+		BIND(insertFourCornerQuery, botRight);
+		BIND(insertFourCornerQuery, extra);
+		EXEC(insertFourCornerQuery);
+	}
 	return true;
 }
 
@@ -188,6 +206,7 @@ void create_tables()
 	query.exec("create virtual table nanoriText using fts3(reading, TOKENIZE katakana)");
 	query.exec("create table strokeGroups(kanji INTEGER, element INTEGER, original INTEGER, isRoot BOOLEAN, pathsRefs BLOB)");
 	query.exec("create table skip(entry INTEGER, type TINYINT, c1 TINYINT, c2 TINYINT)");
+	query.exec("create table fourCorner(entry INTEGER, topLeft TINYINT, topRight TINYINT, botLeft TINYINT, botRight TINYINT, extra TINYINT)");
 }
 
 void create_indexes()
@@ -203,6 +222,7 @@ void create_indexes()
 	query.exec("create index idx_strokeGroups_original on strokeGroups(original)");
 	query.exec("create index idx_skip on skip(entry)");
 	query.exec("create index idx_skip_type on skip(type, c1, c2)");
+	query.exec("create index idx_fourCorner on fourCorner(entry)");
 }
 
 int main(int argc, char *argv[])
@@ -257,6 +277,7 @@ int main(int argc, char *argv[])
 	PREPQUERY(insertNanoriQuery, "insert into nanori values(?, ?)");
 	PREPQUERY(insertNanoriTextQuery, "insert into nanoriText values(?)");
 	PREPQUERY(insertSkipCodeQuery, "insert into skip values(?, ?, ?, ?)");
+	PREPQUERY(insertFourCornerQuery, "insert into fourCorner values(?, ?, ?, ?, ?, ?)");
 	PREPQUERY(insertStrokeGroupQuery, "insert into strokeGroups values(?, ?, ?, ?, ?)");
 	PREPQUERY(updateJLPTLevelsQuery, "update entries set jlpt = ? where id = ?");
 	PREPQUERY(updateStrokeCountQuery, "update entries set strokeCount = ? where id = ?");

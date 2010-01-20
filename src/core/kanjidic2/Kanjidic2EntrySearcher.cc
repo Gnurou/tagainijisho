@@ -33,7 +33,7 @@ Kanjidic2EntrySearcher::Kanjidic2EntrySearcher(QObject *parent) : EntrySearcher(
 
 	QueryBuilder::Order::orderingWay["freq"] = QueryBuilder::Order::DESC;
 
-	validCommands << "kanji" << "kana" << "mean" << "jlpt" << "grade" << "stroke" << "component" << "unicode" << "skip" << "kanjidic";
+	validCommands << "kanji" << "kana" << "mean" << "jlpt" << "grade" << "stroke" << "component" << "unicode" << "skip" << "fourcorner" << "kanjidic";
 }
 
 SearchCommand Kanjidic2EntrySearcher::commandFromWord(const QString &word) const
@@ -180,14 +180,36 @@ void Kanjidic2EntrySearcher::buildStatement(QList<SearchCommand> &commands, Quer
 			QStringList codeParts = command.args()[0].split('-');
 			if (codeParts.size() != 3) continue;
 			bool ok;
-			int t = codeParts[0].toInt(&ok); if (!ok) continue;
-			int c1 = codeParts[1].toInt(&ok); if (!ok) continue;
-			int c2 = codeParts[2].toInt(&ok); if (!ok) continue;
-			if (!t && !c1 && !c2) continue;
-			statement.addJoin(QueryBuilder::Join(QueryBuilder::Column("kanjidic2.skip", "entry")));
-			if (t) statement.addWhere(QString("kanjidic2.skip.type = %1").arg(t));
-			if (c1) statement.addWhere(QString("kanjidic2.skip.c1 = %1").arg(c1));
-			if (c2) statement.addWhere(QString("kanjidic2.skip.c2 = %1").arg(c2));
+			int t = codeParts[0].toInt(&ok); if (!ok && codeParts[0] != "?") continue;
+			int c1 = codeParts[1].toInt(&ok); if (!ok && codeParts[1] != "?") continue;
+			int c2 = codeParts[2].toInt(&ok); if (!ok && codeParts[2] != "?") continue;
+			if (t || c1 || c2) {
+				statement.addJoin(QueryBuilder::Join(QueryBuilder::Column("kanjidic2.skip", "entry")));
+				if (t) statement.addWhere(QString("kanjidic2.skip.type = %1").arg(t));
+				if (c1) statement.addWhere(QString("kanjidic2.skip.c1 = %1").arg(c1));
+				if (c2) statement.addWhere(QString("kanjidic2.skip.c2 = %1").arg(c2));
+			}
+		}
+		else if (command.command() == "fourcorner") {
+			if (command.args().size() != 1) continue;
+			const QString &value = command.args()[0];
+			// Sanity check
+			if (value.size() != 6 || value[4] != '.') continue;
+			
+			int topLeft, topRight, botLeft, botRight, extra;
+			topLeft = value[0].isDigit() ? value[0].toAscii() - '0' : -1;
+			topRight = value[1].isDigit() ? value[1].toAscii() - '0' : -1;
+			botLeft = value[2].isDigit() ? value[2].toAscii() - '0' : -1;
+			botRight = value[3].isDigit() ? value[3].toAscii() - '0' : -1;
+			extra = value[5].isDigit() ? value[5].toAscii() - '0' : -1;
+			if (topLeft != -1 || topRight != -1 || botLeft != -1 || botRight != -1 || extra != -1) {
+				statement.addJoin(QueryBuilder::Join(QueryBuilder::Column("kanjidic2.fourCorner", "entry")));
+				if (topLeft != -1) statement.addWhere(QString("kanjidic2.fourCorner.topLeft = %1").arg(topLeft));
+				if (topRight != -1) statement.addWhere(QString("kanjidic2.fourCorner.topRight = %1").arg(topRight));
+				if (botLeft != -1) statement.addWhere(QString("kanjidic2.fourCorner.botLeft = %1").arg(botLeft));
+				if (botRight != -1) statement.addWhere(QString("kanjidic2.fourCorner.botRight = %1").arg(botRight));
+				if (extra != -1) statement.addWhere(QString("kanjidic2.fourCorner.extra = %1").arg(extra));
+			}	
 		}
 		// Filter command
 		else if (command.command() == "kanjidic") ;
@@ -342,6 +364,14 @@ Entry *Kanjidic2EntrySearcher::loadEntry(int id)
 		entry->_skip = QString("%1-%2-%3").arg(query.value(0).toInt()).arg(query.value(1).toInt()).arg(query.value(2).toInt());
 	}
 
+	// Load four corner code
+	query.prepare("select topLeft, topRight, botLeft, botRight, extra from fourCorner where entry = ? limit 1");
+	query.addBindValue(id);
+	query.exec();
+	if (query.next()) {
+		entry->_fourCorner = QString("%1%2%3%4.%5").arg(query.value(0).toInt()).arg(query.value(1).toInt()).arg(query.value(2).toInt()).arg(query.value(3).toInt()).arg(query.value(4).toInt());
+	}
+	
 	// Try to add a description for characters that have nothing
 	if (entry->meanings().size() == 0) {
 		if (TextTools::isKatakana(character)) entry->_meanings << Kanjidic2Entry::KanjiMeaning("en", QString("Katakana %1").arg(character));

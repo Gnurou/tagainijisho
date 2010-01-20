@@ -68,6 +68,7 @@ void Kanjidic2Preferences::refresh()
 	showStrokesNumber->setChecked(Kanjidic2EntryFormatter::showStrokesNumber.value());
 	showUnicode->setChecked(Kanjidic2EntryFormatter::showUnicode.value());
 	showSKIP->setChecked(Kanjidic2EntryFormatter::showSKIP.value());
+	showFourCorner->setChecked(Kanjidic2EntryFormatter::showFourCorner.value());
 	showVariations->setChecked(Kanjidic2EntryFormatter::showVariations.value());
 	showVariationOf->setChecked(Kanjidic2EntryFormatter::showVariationOf.value());
 
@@ -84,6 +85,7 @@ void Kanjidic2Preferences::refresh()
 	tooltipShowStrokesNumber->setChecked(Kanjidic2EntryFormatter::tooltipShowStrokesNumber.value());
 	tooltipShowUnicode->setChecked(Kanjidic2EntryFormatter::tooltipShowUnicode.value());
 	tooltipShowSKIP->setChecked(Kanjidic2EntryFormatter::tooltipShowSKIP.value());
+	tooltipShowFourCorner->setChecked(Kanjidic2EntryFormatter::tooltipShowFourCorner.value());
 
 	kanjiPrintSize->setValue(Kanjidic2EntryFormatter::printSize.value());
 	printMeanings->setChecked(Kanjidic2EntryFormatter::printMeanings.value());
@@ -118,6 +120,7 @@ void Kanjidic2Preferences::applySettings()
 	Kanjidic2EntryFormatter::showStrokesNumber.set(showStrokesNumber->isChecked());
 	Kanjidic2EntryFormatter::showUnicode.set(showUnicode->isChecked());
 	Kanjidic2EntryFormatter::showSKIP.set(showSKIP->isChecked());
+	Kanjidic2EntryFormatter::showFourCorner.set(showFourCorner->isChecked());
 	Kanjidic2EntryFormatter::showVariations.set(showVariations->isChecked());
 	Kanjidic2EntryFormatter::showVariationOf.set(showVariationOf->isChecked());
 
@@ -134,6 +137,7 @@ void Kanjidic2Preferences::applySettings()
 	Kanjidic2EntryFormatter::tooltipShowStrokesNumber.set(tooltipShowStrokesNumber->isChecked());
 	Kanjidic2EntryFormatter::tooltipShowUnicode.set(tooltipShowUnicode->isChecked());
 	Kanjidic2EntryFormatter::tooltipShowSKIP.set(tooltipShowSKIP->isChecked());
+	Kanjidic2EntryFormatter::tooltipShowFourCorner.set(tooltipShowFourCorner->isChecked());
 
 	Kanjidic2EntryFormatter::printSize.set(kanjiPrintSize->value());
 	Kanjidic2EntryFormatter::printMeanings.set(printMeanings->isChecked());
