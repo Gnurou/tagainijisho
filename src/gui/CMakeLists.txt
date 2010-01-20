@@ -84,6 +84,20 @@ kanjidic2/KanjiPlayer.h
 kanjidic2/KanjiPopup.h
 )
 
+qt4_wrap_ui(tagainijisho_gui_UI_SRCS
+ReadingTrainer.ui
+SetsOrganizer.ui
+PreferencesWindow.ui
+TrainSettings.ui
+AboutDialog.ui
+DetailedViewPreferences.ui
+ResultsViewPreferences.ui
+GeneralPreferences.ui
+jmdict/JMdictPreferences.ui
+kanjidic2/KanjiPopup.ui
+kanjidic2/Kanjidic2Preferences.ui
+)
+
 include_directories(${QT_INCLUDE_DIR})
-add_executable(tagainijisho ${tagainijisho_gui_SRCS} ${tagainijisho_gui_MOC_SRCS})
+add_executable(tagainijisho ${tagainijisho_gui_SRCS} ${tagainijisho_gui_MOC_SRCS} ${tagainijisho_gui_UI_SRCS})
 target_link_libraries(tagainijisho tagaini_core tagaini_sqlite ${QT_LIBRARIES})
