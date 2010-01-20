@@ -27,8 +27,6 @@
 #include <QFile>
 #include <QDir>
 
-#define JMDICTDB_REVISION 4
-
 #define dictFileConfigString "jmdict/database"
 #define dictFileConfigDefault "jmdict.db"
 

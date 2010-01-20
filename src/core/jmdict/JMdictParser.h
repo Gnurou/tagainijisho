@@ -15,48 +15,32 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef __CORE_KANJIDIC2PARSER_H
-#define __CORE_KANJIDIC2PARSER_H
+#ifndef __CORE_JMDICT_PARSER
+#define __CORE_JMDICT_PARSER
 
 #include "core/XmlParserHelper.h"
 
 #include <QStringList>
 #include <QMap>
 
-class Kanjidic2Item {
-public:
-	int id;
-	int grade;
-	int stroke_count;
-	int freq;
-	int jlpt;
-	QString skip;
-	QString fourCorner;
-	// TODO Add a rmgroup parameter to allow grouping of readings and meanings
-	// Associate the reading types to the readings
-	QMap<QString, QStringList> readings;
-	// Associate the language to the meaning
-	QMap<QString, QStringList> meanings;
-	QStringList nanori;
-	
-	Kanjidic2Item() : id(0), grade(0), stroke_count(0), freq(0), jlpt(0) {}
+class JMdictItem {
 };
 
-class Kanjidic2Parser {
+class JMdictParser {
 private:
 	static const QStringList _validReadings;
 	
 public:
 	static QStringList languages;
 	
-	Kanjidic2Parser() {}
-	virtual ~Kanjidic2Parser() {}
+	JMdictParser() {}
+	virtual ~JMdictParser() {}
 	bool parse(QXmlStreamReader &reader);
 	
 	// This method can be overloaded by subclasses in order to implement
 	// a behavior when an item is finished being parsed.
 	// Returns true if the processing completed successfully, false otherwise
-	virtual bool onItemParsed(Kanjidic2Item &entry) { return true; }
+	virtual bool onItemParsed(JMdictItem &kanji) { return true; }
 };
 
 #endif

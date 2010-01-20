@@ -190,7 +190,7 @@ bool updateJLPTLevels(const QString &fName, int level)
 	}
 }
 
-void create_tables()
+static void create_tables()
 {
 	QSqlQuery query;
 	query.exec("create table info(version INT)");
@@ -209,7 +209,7 @@ void create_tables()
 	query.exec("create table fourCorner(entry INTEGER, topLeft TINYINT, topRight TINYINT, botLeft TINYINT, botRight TINYINT, extra TINYINT)");
 }
 
-void create_indexes()
+static void create_indexes()
 {
 	QSqlQuery query;
 	query.exec("create index idx_entries_frequency on entries(frequency)");
@@ -230,7 +230,7 @@ int main(int argc, char *argv[])
 	QCoreApplication app(argc, argv);
 	
 	if (argc != 3) {
-		qCritical("Usage: %s source_dir dest_file");
+		qCritical("Usage: %s source_dir dest_file", argv[0]);
 		return 1;
 	}
 	QString srcDir(argv[1]);

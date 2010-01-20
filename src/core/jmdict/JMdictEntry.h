@@ -26,6 +26,7 @@
 #include "core/jmdict/JMdictDefs.h"
 
 #define JMDICTENTRY_GLOBALID 1
+#define JMDICTDB_REVISION 4
 
 class QFont;
 class KanaReading;
