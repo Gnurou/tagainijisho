@@ -43,5 +43,6 @@ src/config.h
 src/core/libtagaini_core.a
 src/gui/libtagaini_gui.a
 src/sqlite/libtagaini_sqlite.a
+src/core/jmdict/build_jmdict_db
 src/core/kanjidic2/build_kanji_db
 

@@ -21,10 +21,45 @@ bool JMdictParser::parse(QXmlStreamReader &reader)
 {
 	DOCUMENT_BEGIN(reader)
 		TAG(JMdict)
-			TAG(entry)
+			TAG_PRE(entry)
+			JMdictItem entry;
+			TAG_BEGIN(entry)
 				TAG(ent_seq)
+					CHARACTERS
+						entry.id = TEXT.toInt();
+					DONE
 				ENDTAG
-			ENDTAG
+				TAG_PRE(r_ele)
+				JMdictKanaReadingItem kReading;
+				TAG_BEGIN(r_ele)
+					TAG(reb)
+					ENDTAG
+				ENDTAG
+				TAG_PRE(k_ele)
+				JMdictKanjiReadingItem kReading;
+				TAG_BEGIN(k_ele)
+					TAG(keb)
+					ENDTAG
+				ENDTAG
+				TAG_PRE(sense)
+				JMdictSenseItem sense;
+				TAG_BEGIN(sense)
+					TAG(gloss)
+					ENDTAG
+					TAG(pos)
+					ENDTAG
+					TAG(field)
+					ENDTAG
+					TAG(misc)
+					ENDTAG
+					TAG(dial)
+					ENDTAG
+					TAG(lsource)
+					ENDTAG
+				ENDTAG
+			TAG_POST
+			onItemParsed(entry);
+			DONE
 		ENDTAG
 	DOCUMENT_END
 }

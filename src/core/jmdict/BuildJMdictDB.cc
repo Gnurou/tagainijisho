@@ -42,6 +42,10 @@ static QSqlQuery insertGlossTextQuery;
 static QSqlQuery insertGlossQuery;
 static QSqlQuery insertJLPTQuery;
 
+#define BIND(query, val) query.addBindValue(val)
+#define AUTO_BIND(query, val, nval) if (val == nval) BIND(query, QVariant::Int); else BIND(query, val)
+#define EXEC(query) if (!query.exec()) { qDebug() << query.lastError().text(); return false; }
+
 class JMdictDBParser : public JMdictParser
 {
 public:
@@ -50,6 +54,12 @@ public:
 
 bool JMdictDBParser::onItemParsed(JMdictItem &entry)
 {
+	// Insert entry
+	BIND(insertEntryQuery, entry.id);
+	BIND(insertEntryQuery, entry.frequency);
+	// TODO fix
+	BIND(insertEntryQuery, 0);
+	EXEC(insertEntryQuery);
 }
 
 static void create_tables()

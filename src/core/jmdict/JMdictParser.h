@@ -23,7 +23,24 @@
 #include <QStringList>
 #include <QMap>
 
+class JMdictKanjiReadingItem {
+};
+
+class JMdictKanaReadingItem {
+};
+
+class JMdictSenseItem {
+};
+
 class JMdictItem {
+public:
+	int id;
+	QList<JMdictKanjiReadingItem> kanji;
+	QList<JMdictKanaReadingItem> kana;
+	QList<JMdictSenseItem> senses;
+	int frequency;
+	
+	JMdictItem() : id(0), kanji(), kana(), frequency(0) { }
 };
 
 class JMdictParser {
@@ -40,7 +57,7 @@ public:
 	// This method can be overloaded by subclasses in order to implement
 	// a behavior when an item is finished being parsed.
 	// Returns true if the processing completed successfully, false otherwise
-	virtual bool onItemParsed(JMdictItem &kanji) { return true; }
+	virtual bool onItemParsed(JMdictItem &entry) { return true; }
 };
 
 #endif
