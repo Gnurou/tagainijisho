@@ -279,6 +279,7 @@ Entry *Kanjidic2EntrySearcher::loadEntry(int id)
 	query.addBindValue(id);
 	query.exec();
 	Kanjidic2Entry *entry;
+	QStringList paths;
 	// We have no information about this kanji! This is probably an unknown radical
 	if (!query.next())
 		entry = new Kanjidic2Entry(character, false, -1, -1, -1, -1);
@@ -288,13 +289,12 @@ Entry *Kanjidic2EntrySearcher::loadEntry(int id)
 		int strokeCount = query.value(1).isNull() ? -1 : query.value(1).toInt();
 		int frequency = query.value(2).isNull() ? -1 : query.value(2).toInt();
 		int jlpt = query.value(3).isNull() ? -1 : query.value(3).toInt();
+		// Get the strokes paths for later processing
+		QByteArray pathsBA(query.value(4).toByteArray());
+		if (!pathsBA.isEmpty()) paths = QString(qUncompress(pathsBA)).split('|');
 
 		entry = new Kanjidic2Entry(character, true, grade, strokeCount, frequency, jlpt);
 	}
-	// Get the strokes paths for later processing
-	QByteArray pathsBA(query.value(4).toByteArray());
-	QStringList paths;
-	if (!pathsBA.isEmpty()) paths = QString(qUncompress(pathsBA)).split('|');
 	
 	loadMiscData(entry);
 	
