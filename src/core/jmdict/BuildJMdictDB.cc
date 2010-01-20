@@ -60,6 +60,35 @@ bool JMdictDBParser::onItemParsed(JMdictItem &entry)
 	// TODO fix
 	BIND(insertEntryQuery, 0);
 	EXEC(insertEntryQuery);
+	
+	// Insert writings
+	int idx = 0;
+	foreach (const JMdictKanjiReadingItem &kReading, entry.kanji) {
+		BIND(insertKanjiTextQuery, kReading.reading);
+		EXEC(insertKanjiTextQuery);
+		int rowId = insertKanjiTextQuery.lastInsertId().toInt();
+		BIND(insertKanjiQuery, entry.id);
+		BIND(insertKanjiQuery, idx++);
+		BIND(insertKanjiQuery, rowId);
+		BIND(insertKanjiQuery, kReading.frequency);
+		EXEC(insertKanjiQuery);
+	}
+	
+	// Insert readings
+	idx = 0;
+	foreach (const JMdictKanaReadingItem &kReading, entry.kana) {
+		BIND(insertKanaTextQuery, kReading.reading);
+		EXEC(insertKanaTextQuery);
+		int rowId = insertKanaTextQuery.lastInsertId().toInt();
+		BIND(insertKanaQuery, entry.id);
+		BIND(insertKanaQuery, idx++);
+		BIND(insertKanaQuery, rowId);
+		BIND(insertKanaQuery, (quint8) kReading.noKanji);
+		BIND(insertKanaQuery, kReading.frequency);
+		// TODO
+		BIND(insertKanaQuery, "");
+		EXEC(insertKanaQuery);
+	}
 }
 
 static void create_tables()

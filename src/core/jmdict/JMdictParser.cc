@@ -30,19 +30,28 @@ bool JMdictParser::parse(QXmlStreamReader &reader)
 					DONE
 				ENDTAG
 				TAG_PRE(r_ele)
-				JMdictKanaReadingItem kReading;
+				entry.kana << JMdictKanaReadingItem();
+				JMdictKanaReadingItem &kReading = entry.kana.last();
 				TAG_BEGIN(r_ele)
 					TAG(reb)
+						CHARACTERS
+							kReading.reading = TEXT;
+						DONE
 					ENDTAG
 				ENDTAG
 				TAG_PRE(k_ele)
-				JMdictKanjiReadingItem kReading;
+				entry.kanji << JMdictKanjiReadingItem();
+				JMdictKanjiReadingItem &kReading = entry.kanji.last();
 				TAG_BEGIN(k_ele)
 					TAG(keb)
+						CHARACTERS
+							kReading.reading = TEXT;
+						DONE
 					ENDTAG
 				ENDTAG
 				TAG_PRE(sense)
-				JMdictSenseItem sense;
+				entry.senses << JMdictSenseItem();
+				JMdictSenseItem &sense = entry.senses.last();
 				TAG_BEGIN(sense)
 					TAG(gloss)
 					ENDTAG

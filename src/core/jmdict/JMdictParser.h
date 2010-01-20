@@ -24,9 +24,23 @@
 #include <QMap>
 
 class JMdictKanjiReadingItem {
+public:
+	QString reading;
+	// TODO Frequency not yet calculated
+	int frequency;
+	
+	JMdictKanjiReadingItem() : reading(), frequency(0) {}
 };
 
 class JMdictKanaReadingItem {
+public:
+	QString reading;
+	// TODO noKanji not yet parsed
+	bool noKanji;
+	// TODO Frequency not yet calculated
+	int frequency;
+	
+	JMdictKanaReadingItem() : reading(), noKanji(false), frequency(0) {}
 };
 
 class JMdictSenseItem {
