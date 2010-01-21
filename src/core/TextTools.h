@@ -63,7 +63,7 @@ namespace TextTools {
 	QString hiragana2Katakana(const QString &hira);
 
 	QString unicodeToSingleChar(unsigned int unicode);
-	unsigned int singleCharToUnicode(const QString &chr);
+	unsigned int singleCharToUnicode(const QString &chr, int pos = 0);
 }
 
 #endif

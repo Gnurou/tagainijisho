@@ -23,48 +23,60 @@
 #include <QStringList>
 #include <QMap>
 
-class JMdictKanjiReadingItem {
+class JMdictKanjiWritingItem {
 public:
-	QString reading;
+	QString writing;
 	// TODO Frequency not yet calculated
 	int frequency;
 	
-	JMdictKanjiReadingItem() : reading(), frequency(0) {}
+	JMdictKanjiWritingItem() : writing(), frequency(0) {}
 };
 
 class JMdictKanaReadingItem {
 public:
 	QString reading;
-	// TODO noKanji not yet parsed
 	bool noKanji;
 	// TODO Frequency not yet calculated
 	int frequency;
+	QList<quint8> restrictedTo;
 	
 	JMdictKanaReadingItem() : reading(), noKanji(false), frequency(0) {}
 };
 
 class JMdictSenseItem {
+public:
+	// TODO sizes should be adapted
+	quint64 pos;
+	quint64 field;
+	quint64 misc;
+	quint64 dialect;
+	QList<quint8> restrictedToKanji;
+	QList<quint8> restrictedToKana;
+	/// Maps a language to its glosses
+	QMap<QString, QStringList> gloss;
+	
+	JMdictSenseItem() : pos(0), field(0), misc(0), dialect(0) {}
 };
 
 class JMdictItem {
 public:
 	int id;
-	QList<JMdictKanjiReadingItem> kanji;
+	int frequency;
+	QList<JMdictKanjiWritingItem> kanji;
 	QList<JMdictKanaReadingItem> kana;
 	QList<JMdictSenseItem> senses;
-	int frequency;
 	
-	JMdictItem() : id(0), kanji(), kana(), frequency(0) { }
+	JMdictItem() : id(0), frequency(0) {}
 };
 
 class JMdictParser {
 private:
-	static const QStringList _validReadings;
+	//static const QStringList _validReadings;
 	
 public:
-	static QStringList languages;
+	QStringList languages;
 	
-	JMdictParser() {}
+	JMdictParser();
 	virtual ~JMdictParser() {}
 	bool parse(QXmlStreamReader &reader);
 	

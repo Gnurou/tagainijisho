@@ -209,11 +209,11 @@ QString unicodeToSingleChar(unsigned int unicode)
 	return ret;
 }
 
-unsigned int singleCharToUnicode(const QString &chr)
+unsigned int singleCharToUnicode(const QString &chr, int pos)
 {
-	if (chr.isEmpty()) return 0;
-	if (chr.size() == 1) return chr[0].unicode();
-	else if (chr.size() == 2 && chr[0].isHighSurrogate() && chr[1].isLowSurrogate()) return QChar::surrogateToUcs4(chr[0], chr[1]);
+	if (chr.size() <= pos) return 0;
+	if (!chr[pos].isHighSurrogate()) return chr[pos].unicode();
+	else if (chr.size() >= pos + 2 && chr[pos + 1].isLowSurrogate()) return QChar::surrogateToUcs4(chr[pos], chr[pos + 1]);
 	else return 0;
 }
 

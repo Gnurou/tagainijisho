@@ -62,16 +62,31 @@ bool JMdictDBParser::onItemParsed(JMdictItem &entry)
 	EXEC(insertEntryQuery);
 	
 	// Insert writings
-	int idx = 0;
-	foreach (const JMdictKanjiReadingItem &kReading, entry.kanji) {
-		BIND(insertKanjiTextQuery, kReading.reading);
+	quint8 idx = 0;
+	foreach (const JMdictKanjiWritingItem &kWriting, entry.kanji) {
+		BIND(insertKanjiTextQuery, kWriting.writing);
 		EXEC(insertKanjiTextQuery);
 		int rowId = insertKanjiTextQuery.lastInsertId().toInt();
 		BIND(insertKanjiQuery, entry.id);
-		BIND(insertKanjiQuery, idx++);
+		BIND(insertKanjiQuery, idx);
 		BIND(insertKanjiQuery, rowId);
-		BIND(insertKanjiQuery, kReading.frequency);
+		BIND(insertKanjiQuery, kWriting.frequency);
 		EXEC(insertKanjiQuery);
+		
+		// Insert kanji mappings
+		for (int i = 0; i < kWriting.writing.size(); ) {
+			int code = TextTools::singleCharToUnicode(kWriting.writing, i);
+			if (code == 0) { ++i; continue; }
+			QString codeS(TextTools::unicodeToSingleChar(code));
+			if (TextTools::isKanjiChar(codeS)) {
+				BIND(insertKanjiCharQuery, code);
+				BIND(insertKanjiCharQuery, entry.id);
+				BIND(insertKanjiCharQuery, idx);
+				EXEC(insertKanjiCharQuery);
+			}
+			i += codeS.size();
+		}
+		++idx;
 	}
 	
 	// Insert readings
@@ -81,13 +96,43 @@ bool JMdictDBParser::onItemParsed(JMdictItem &entry)
 		EXEC(insertKanaTextQuery);
 		int rowId = insertKanaTextQuery.lastInsertId().toInt();
 		BIND(insertKanaQuery, entry.id);
-		BIND(insertKanaQuery, idx++);
+		BIND(insertKanaQuery, idx);
 		BIND(insertKanaQuery, rowId);
 		BIND(insertKanaQuery, (quint8) kReading.noKanji);
 		BIND(insertKanaQuery, kReading.frequency);
-		// TODO
-		BIND(insertKanaQuery, "");
+		QStringList restrictedToList;
+		foreach (quint8 res, kReading.restrictedTo) restrictedToList << QString::number(res);
+		BIND(insertKanaQuery, restrictedToList.join(","));
 		EXEC(insertKanaQuery);
+		++idx;
+	}
+	
+	// Insert senses
+	// TODO reorder senses so that those with english meanings only are last? Is that wise with
+	// respect to senses priority?
+	// TODO remove English glosses from senses for which another language is available
+	idx = 0;
+	foreach (const JMdictSenseItem &sense, entry.senses) {
+		BIND(insertSenseQuery, entry.id);
+		BIND(insertSenseQuery, idx);
+		BIND(insertSenseQuery, sense.pos);
+		BIND(insertSenseQuery, sense.misc);
+		BIND(insertSenseQuery, sense.dialect);
+		BIND(insertSenseQuery, sense.field);
+		EXEC(insertSenseQuery);
+		// TODO handle stagk and stagr the wise way - i.e. as in kana readings restricted to
+		
+		foreach (const QString &lang, sense.gloss.keys()) {
+			BIND(insertGlossTextQuery, sense.gloss[lang].join(", "));
+			EXEC(insertGlossTextQuery);
+			int rowId = insertGlossTextQuery.lastInsertId().toInt();
+			BIND(insertGlossQuery, entry.id);
+			BIND(insertGlossQuery, idx);
+			BIND(insertGlossQuery, lang);
+			BIND(insertGlossQuery, rowId);
+			EXEC(insertGlossQuery);
+		}
+		++idx;
 	}
 }
 
