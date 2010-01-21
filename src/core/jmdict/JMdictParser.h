@@ -22,6 +22,8 @@
 
 #include <QStringList>
 #include <QMap>
+#include <QSet>
+#include <QHash>
 
 class JMdictKanjiWritingItem {
 public:
@@ -43,19 +45,23 @@ public:
 	JMdictKanaReadingItem() : reading(), noKanji(false), frequency(0) {}
 };
 
+class JMdictParser;
 class JMdictSenseItem {
 public:
-	// TODO sizes should be adapted
-	quint64 pos;
-	quint64 field;
-	quint64 misc;
-	quint64 dialect;
+	QSet<QString> pos;
+	QSet<QString> field;
+	QSet<QString> misc;
+	QSet<QString> dialect;
 	QList<quint8> restrictedToKanji;
 	QList<quint8> restrictedToKana;
 	/// Maps a language to its glosses
 	QMap<QString, QStringList> gloss;
 	
-	JMdictSenseItem() : pos(0), field(0), misc(0), dialect(0) {}
+	JMdictSenseItem() {}
+	quint64 posBitField(const JMdictParser &parser) const;
+	quint64 fieldBitField(const JMdictParser &parser) const;
+	quint64 miscBitField(const JMdictParser &parser) const;
+	quint64 dialectBitField(const JMdictParser &parser) const;
 };
 
 class JMdictItem {
@@ -70,11 +76,19 @@ public:
 };
 
 class JMdictParser {
-private:
-	//static const QStringList _validReadings;
-	
 public:
+	QHash<QString, quint8> posBitFields;
+	int posBitFieldsCount;
+	QHash<QString, quint8> fieldBitFields;
+	int fieldBitFieldsCount;
+	QHash<QString, quint8> miscBitFields;
+	int miscBitFieldsCount;
+	QHash<QString, quint8> dialectBitFields;
+	int dialectBitFieldsCount;
+	
 	QStringList languages;
+	QHash<QString, QString> entities;
+	QHash<QString, QString> reversedEntities;
 	
 	JMdictParser();
 	virtual ~JMdictParser() {}

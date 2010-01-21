@@ -19,7 +19,35 @@
 
 #include "core/jmdict/JMdictParser.h"
 
-JMdictParser::JMdictParser()
+quint64 JMdictSenseItem::posBitField(const JMdictParser &parser) const {
+	quint64 ret(0);
+	foreach (const QString &str, pos)
+		ret |= ((quint64)1) << parser.posBitFields[str];
+	return ret;
+}
+
+quint64 JMdictSenseItem::fieldBitField(const JMdictParser &parser) const {
+	quint64 ret(0);
+	foreach (const QString &str, field)
+		ret |= ((quint64)1) << parser.fieldBitFields[str];
+	return ret;
+}
+
+quint64 JMdictSenseItem::miscBitField(const JMdictParser &parser) const {
+	quint64 ret(0);
+	foreach (const QString &str, misc)
+		ret |= ((quint64)1) << parser.miscBitFields[str];
+	return ret;
+}
+
+quint64 JMdictSenseItem::dialectBitField(const JMdictParser &parser) const {
+	quint64 ret(0);
+	foreach (const QString &str, dialect)
+		ret |= ((quint64)1) << parser.dialectBitFields[str];
+	return ret;
+}
+
+JMdictParser::JMdictParser() : posBitFieldsCount(0), fieldBitFieldsCount(0), miscBitFieldsCount(0), dialectBitFieldsCount(0) 
 {
 	languages << "en";
 }
@@ -27,6 +55,12 @@ JMdictParser::JMdictParser()
 bool JMdictParser::parse(QXmlStreamReader &reader)
 {
 	DOCUMENT_BEGIN(reader)
+		if (reader.tokenType() == QXmlStreamReader::DTD) {
+			foreach(const QXmlStreamEntityDeclaration &decl, reader.entityDeclarations()) {
+				entities[decl.name().toString()] = decl.value().toString();
+				reversedEntities[decl.value().toString()] = decl.name().toString();
+			}
+		}
 		TAG(JMdict)
 			TAG_PRE(entry)
 			JMdictItem entry;
@@ -95,14 +129,33 @@ bool JMdictParser::parse(QXmlStreamReader &reader)
 						if (shallInsert) sense.gloss[lang] << TEXT;
 						DONE
 					ENDTAG
-					// TODO
 					TAG(pos)
+						QString key(reversedEntities[TEXT]);
+						sense.pos << key;
+						// If not met yet, calculate the bit field for this entity
+						if (!posBitFields.contains(key))
+							posBitFields[key] = posBitFieldsCount++;
 					ENDTAG
 					TAG(field)
+						QString key(reversedEntities[TEXT]);
+						sense.field << key;
+						// If not met yet, calculate the bit field for this entity
+						if (!fieldBitFields.contains(key))
+							fieldBitFields[key] = fieldBitFieldsCount++;
 					ENDTAG
 					TAG(misc)
+						QString key(reversedEntities[TEXT]);
+						sense.misc << key;
+						// If not met yet, calculate the bit field for this entity
+						if (!miscBitFields.contains(key))
+							miscBitFields[key] = miscBitFieldsCount++;
 					ENDTAG
 					TAG(dial)
+						QString key(reversedEntities[TEXT]);
+						sense.dialect << key;
+						// If not met yet, calculate the bit field for this entity
+						if (!dialectBitFields.contains(key))
+							dialectBitFields[key] = dialectBitFieldsCount++;
 					ENDTAG
 					TAG(stagk)
 						CHARACTERS

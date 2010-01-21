@@ -33,7 +33,7 @@ private:
 	static JMdictMiscTagType _explicitlyRequestedMiscs;
 
 protected:
-	QSqlQuery kanjiQuery, kanaQuery, sensesQuery, glossQuery, jlptQuery, stagKQuery, stagRQuery;
+	QSqlQuery kanjiQuery, kanaQuery, sensesQuery, glossQuery, jlptQuery;
 
 	// Used to refer to sense properties arguments.
 	static QVector<QMap<QString, quint64> > JMdictReversedSenseTags;

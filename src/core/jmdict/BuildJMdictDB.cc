@@ -36,8 +36,6 @@ static QSqlQuery insertKanjiCharQuery;
 static QSqlQuery insertKanaTextQuery;
 static QSqlQuery insertKanaQuery;
 static QSqlQuery insertSenseQuery;
-static QSqlQuery insertStagkQuery;
-static QSqlQuery insertStagrQuery;
 static QSqlQuery insertGlossTextQuery;
 static QSqlQuery insertGlossQuery;
 static QSqlQuery insertJLPTQuery;
@@ -102,7 +100,7 @@ bool JMdictDBParser::onItemParsed(JMdictItem &entry)
 		BIND(insertKanaQuery, kReading.frequency);
 		QStringList restrictedToList;
 		foreach (quint8 res, kReading.restrictedTo) restrictedToList << QString::number(res);
-		BIND(insertKanaQuery, restrictedToList.join(","));
+		AUTO_BIND(insertKanaQuery, restrictedToList.join(","), "");
 		EXEC(insertKanaQuery);
 		++idx;
 	}
@@ -115,12 +113,16 @@ bool JMdictDBParser::onItemParsed(JMdictItem &entry)
 	foreach (const JMdictSenseItem &sense, entry.senses) {
 		BIND(insertSenseQuery, entry.id);
 		BIND(insertSenseQuery, idx);
-		BIND(insertSenseQuery, sense.pos);
-		BIND(insertSenseQuery, sense.misc);
-		BIND(insertSenseQuery, sense.dialect);
-		BIND(insertSenseQuery, sense.field);
+		BIND(insertSenseQuery, sense.posBitField(*this));
+		BIND(insertSenseQuery, sense.miscBitField(*this));
+		BIND(insertSenseQuery, sense.dialectBitField(*this));
+		BIND(insertSenseQuery, sense.fieldBitField(*this));
+		QStringList restrictedToList;
+		foreach (quint8 res, sense.restrictedToKanji) restrictedToList << QString::number(res);
+		AUTO_BIND(insertSenseQuery, restrictedToList.join(","), "");
+		foreach (quint8 res, sense.restrictedToKana) restrictedToList << QString::number(res);
+		AUTO_BIND(insertSenseQuery, restrictedToList.join(","), "");
 		EXEC(insertSenseQuery);
-		// TODO handle stagk and stagr the wise way - i.e. as in kana readings restricted to
 		
 		foreach (const QString &lang, sense.gloss.keys()) {
 			BIND(insertGlossTextQuery, sense.gloss[lang].join(", "));
@@ -140,18 +142,19 @@ static void create_tables()
 {
 	QSqlQuery query;
 	query.exec("create table info(version INT)");
+	query.exec("create table posEntities(bitShift INTEGER PRIMARY KEY, name TEXT, description TEXT)");
+	query.exec("create table miscEntities(bitShift INTEGER PRIMARY KEY, name TEXT, description TEXT)");
+	query.exec("create table fieldEntities(bitShift INTEGER PRIMARY KEY, name TEXT, description TEXT)");
+	query.exec("create table dialectEntities(bitShift INTEGER PRIMARY KEY, name TEXT, description TEXT)");
 	query.prepare("insert into info values(?)");
 	query.addBindValue(JMDICTDB_REVISION);
 	query.exec();
 	query.exec("create table entries(id INTEGER PRIMARY KEY, frequency TINYINT, kanjiCount TINYINT)");
-	query.exec("create table kanji(id INTEGER SECONDARY KEY REFERENCES entries, priority INT, docid INT, frequency TINYINT)");
+	query.exec("create table kanji(id INTEGER SECONDARY KEY REFERENCES entries, priority TINYINT, docid INT, frequency TINYINT)");
 	query.exec("create virtual table kanjiText using fts3(reading)");
-	query.exec("create table kana(id INTEGER SECONDARY KEY REFERENCES entries, priority INT, docid INT, nokanji BOOLEAN, frequency TINYINT, restrictedTo TEXT)");
+	query.exec("create table kana(id INTEGER SECONDARY KEY REFERENCES entries, priority TINYINT, docid INT, nokanji BOOLEAN, frequency TINYINT, restrictedTo TEXT)");
 	query.exec("create virtual table kanaText using fts3(reading, TOKENIZE katakana)");
-	// TODO optimize the sizes of fields
-	query.exec("create table senses(id INTEGER SECONDARY KEY REFERENCES entries, priority INT, pos INT, misc INT, dial INT, field INT)");
-	query.exec("create table stagk(id INTEGER SECONDARY KEY REFERENCES entries, sensePriority INT, kanjiPriority INT)");
-	query.exec("create table stagr(id INTEGER SECONDARY KEY REFERENCES entries, sensePriority INT, kanaPriority INT)");
+	query.exec("create table senses(id INTEGER SECONDARY KEY REFERENCES entries, priority TINYINT, pos INT, misc INT, dial INT, field INT, restrictedToKanji TEXT, restrictedToKana TEXT)");
 	query.exec("create table gloss(id INTEGER SECONDARY KEY REFERENCES entries, sensePriority INT, lang CHAR(3), docid INTEGER SECONDARY KEY NOT NULL)");
 	query.exec("create virtual table glossText using fts3(reading)");
 	query.exec("create table kanjiChar(kanji INTEGER, id INTEGER SECONDARY KEY REFERENCES entries, priority INT)");
@@ -224,9 +227,7 @@ int main(int argc, char *argv[])
 	PREPQUERY(insertKanjiCharQuery, "insert into kanjiChar values(?, ?, ?)");
 	PREPQUERY(insertKanaTextQuery, "insert into kanaText values(?)");
 	PREPQUERY(insertKanaQuery, "insert into kana values(?, ?, ?, ?, ?, ?)");
-	PREPQUERY(insertSenseQuery, "insert into senses values(?, ?, ?, ?, ?, ?)");
-	PREPQUERY(insertStagkQuery, "insert into stagk values(?, ?, ?)");
-	PREPQUERY(insertStagrQuery, "insert into stagr values(?, ?, ?)");
+	PREPQUERY(insertSenseQuery, "insert into senses values(?, ?, ?, ?, ?, ?, ?, ?)");
 	PREPQUERY(insertGlossTextQuery, "insert into glossText values(?)");
 	PREPQUERY(insertGlossQuery, "insert into gloss values(?, ?, ?, ?)");
 	PREPQUERY(insertJLPTQuery, "insert or ignore into jlpt values(?, ?)");
@@ -245,6 +246,39 @@ int main(int argc, char *argv[])
 
 	// Create indexes
 	create_indexes();
+	
+	// Update JLPT levels
+	
+	// Populate the entities tables
+	QSqlQuery entitiesQuery(database);
+	entitiesQuery.prepare("insert into posEntities values(?, ?, ?)");
+	foreach (const QString &name, JMParser.posBitFields.keys()) {
+		entitiesQuery.addBindValue(JMParser.posBitFields[name]);
+		entitiesQuery.addBindValue(name);
+		entitiesQuery.addBindValue(JMParser.entities[name]);
+		if (!entitiesQuery.exec()) return 2;
+	}
+	entitiesQuery.prepare("insert into miscEntities values(?, ?, ?)");
+	foreach (const QString &name, JMParser.miscBitFields.keys()) {
+		entitiesQuery.addBindValue(JMParser.miscBitFields[name]);
+		entitiesQuery.addBindValue(name);
+		entitiesQuery.addBindValue(JMParser.entities[name]);
+		if (!entitiesQuery.exec()) return 2;
+	}
+	entitiesQuery.prepare("insert into fieldEntities values(?, ?, ?)");
+	foreach (const QString &name, JMParser.fieldBitFields.keys()) {
+		entitiesQuery.addBindValue(JMParser.fieldBitFields[name]);
+		entitiesQuery.addBindValue(name);
+		entitiesQuery.addBindValue(JMParser.entities[name]);
+		if (!entitiesQuery.exec()) return 2;
+	}
+	entitiesQuery.prepare("insert into dialectEntities values(?, ?, ?)");
+	foreach (const QString &name, JMParser.dialectBitFields.keys()) {
+		entitiesQuery.addBindValue(JMParser.dialectBitFields[name]);
+		entitiesQuery.addBindValue(name);
+		entitiesQuery.addBindValue(JMParser.entities[name]);
+		if (!entitiesQuery.exec()) return 2;
+	}
 	
 	// Analyze for hopefully better performance
 	database.exec("analyze");

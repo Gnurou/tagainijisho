@@ -66,9 +66,7 @@ JMdictEntrySearcher::JMdictEntrySearcher(QObject *parent) : EntrySearcher(parent
 	// Prepare queries so that we just have to bind and execute them
 	kanjiQuery.prepare("select reading, frequency from jmdict.kanji join jmdict.kanjiText on kanji.docid == kanjiText.docid where id=? order by priority");
 	kanaQuery.prepare("select reading, nokanji, frequency, restrictedTo from jmdict.kana join jmdict.kanaText on kana.docid == kanaText.docid where id=? order by priority");
-	sensesQuery.prepare("select priority, pos, misc, dial, field from jmdict.senses where id=? order by priority asc");
-	stagKQuery.prepare("select kanjiPriority from stagk where id=? and sensePriority=?");
-	stagRQuery.prepare("select kanaPriority from stagr where id=? and sensePriority=?");
+	sensesQuery.prepare("select priority, pos, misc, dial, field, restrictedToKanji, restrictedToKana from jmdict.senses where id=? order by priority asc");
 	glossQuery.prepare("select gloss.lang, glossText.reading from jmdict.gloss join jmdict.glossText on gloss.docid == glossText.docid where gloss.id=? and gloss.sensePriority=?");
 	jlptQuery.prepare("select jlpt.level from jmdict.jlpt where jlpt.id=?");
 }
@@ -360,7 +358,7 @@ Entry *JMdictEntrySearcher::loadEntry(int id)
 		KanaReading kana(kanaQuery.value(0).toString(), 0, kanaQuery.value(2).toUInt());
 		// Get kana readings
 		if (kanaQuery.value(1).toBool() == false) {
-			QStringList restrictedTo = kanaQuery.value(3).toString().split(',', QString::SkipEmptyParts);
+			QStringList restrictedTo(kanaQuery.value(3).toString().split(',', QString::SkipEmptyParts));
 			if (restrictedTo.isEmpty()) for (int i = 0; i < entry->getKanjiReadings().size(); i++) {
 				kana.addKanjiReading(i);
 			}
@@ -378,14 +376,10 @@ Entry *JMdictEntrySearcher::loadEntry(int id)
 	while(sensesQuery.next()) {
 		Sense sense(sensesQuery.value(1).toULongLong(), sensesQuery.value(2).toULongLong(), sensesQuery.value(3).toULongLong(), sensesQuery.value(4).toULongLong());
 		// Get restricted readings/writing
-		stagKQuery.addBindValue(entry->id());
-		stagKQuery.addBindValue(sensesQuery.value(0).toInt());
-		stagKQuery.exec();
-		while(stagKQuery.next()) sense.addStagK(stagKQuery.value(0).toInt());
-		stagRQuery.addBindValue(entry->id());
-		stagRQuery.addBindValue(sensesQuery.value(0).toInt());
-		stagRQuery.exec();
-		while(stagRQuery.next()) sense.addStagR(stagRQuery.value(0).toInt());
+		QStringList restrictedTo(sensesQuery.value(5).toString().split(','));
+		foreach (const QString &idx, restrictedTo) sense.addStagK(idx.toInt());
+		restrictedTo = sensesQuery.value(6).toString().split(',');
+		foreach (const QString &idx, restrictedTo) sense.addStagR(idx.toInt());
 
 		glossQuery.addBindValue(entry->id());
 		glossQuery.addBindValue(sensesQuery.value(0).toInt());
