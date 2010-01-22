@@ -30,6 +30,55 @@
 #define dictFileConfigString "jmdict/database"
 #define dictFileConfigDefault "jmdict.db"
 
+QVector<QPair<QString, QString> > JMdictPlugin::_posEntities;
+QVector<QPair<QString, QString> > JMdictPlugin::_miscEntities;
+QVector<QPair<QString, QString> > JMdictPlugin::_dialectEntities;
+QVector<QPair<QString, QString> > JMdictPlugin::_fieldEntities;
+
+QList<const QPair<QString, QString> *> JMdictPlugin::posEntities(quint64 mask)
+{
+	QList<const QPair<QString, QString> *> res;
+	int cpt;
+	while (mask != 0 && cpt < _posEntities.size()) {
+		if (mask & 1) res << &_posEntities[cpt];
+		++cpt; mask >>= 1;
+	}
+	return res;
+}
+
+QList<const QPair<QString, QString> *> JMdictPlugin::miscEntities(quint64 mask)
+{
+	QList<const QPair<QString, QString> *> res;
+	int cpt;
+	while (mask != 0 && cpt < _miscEntities.size()) {
+		if (mask & 1) res << &_miscEntities[cpt];
+		++cpt; mask >>= 1;
+	}
+	return res;
+}
+
+QList<const QPair<QString, QString> *> JMdictPlugin::dialectEntities(quint64 mask)
+{
+	QList<const QPair<QString, QString> *> res;
+	int cpt;
+	while (mask != 0 && cpt < _dialectEntities.size()) {
+		if (mask & 1) res << &_dialectEntities[cpt];
+		++cpt; mask >>= 1;
+	}
+	return res;
+}
+
+QList<const QPair<QString, QString> *> JMdictPlugin::fieldEntities(quint64 mask)
+{
+	QList<const QPair<QString, QString> *> res;
+	int cpt;
+	while (mask != 0 && cpt < _fieldEntities.size()) {
+		if (mask & 1) res << &_fieldEntities[cpt];
+		++cpt; mask >>= 1;
+	}
+	return res;
+}
+
 JMdictPlugin::JMdictPlugin() : Plugin("JMdict")
 {
 }
@@ -46,6 +95,18 @@ bool JMdictPlugin::onRegister()
 		qFatal("JMdict plugin fatal error: failed to attach JMdict database!");
 		return false;
 	}
+	
+	// Populate the entities tables
+	QSqlQuery query;
+	query.exec("select name, description from jmdict.posEntities order by bitShift");
+	while (query.next()) _posEntities << QPair<QString, QString>(query.value(0).toString(), query.value(1).toString());
+	query.exec("select name, description from jmdict.miscEntities order by bitShift");
+	while (query.next()) _miscEntities << QPair<QString, QString>(query.value(0).toString(), query.value(1).toString());
+	query.exec("select name, description from jmdict.dialectEntities order by bitShift");
+	while (query.next()) _dialectEntities << QPair<QString, QString>(query.value(0).toString(), query.value(1).toString());
+	query.exec("select name, description from jmdict.fieldEntities order by bitShift");
+	while (query.next()) _fieldEntities << QPair<QString, QString>(query.value(0).toString(), query.value(1).toString());
+	
 	// Register our entry searcher
 	searcher = new JMdictEntrySearcher();
 	EntrySearcherManager::instance().addInstance(searcher);
@@ -58,6 +119,12 @@ bool JMdictPlugin::onUnregister()
 	EntrySearcherManager::instance().removeInstance(searcher);
 	delete searcher;
 
+	// Clear all entities tables
+	_posEntities.clear();
+	_miscEntities.clear();
+	_dialectEntities.clear();
+	_fieldEntities.clear();
+	
 	// Detach our database
 	if (!Database::detachDictionaryDB("jmdict")) return false;
 

@@ -20,6 +20,9 @@
 
 #include "core/Plugin.h"
 
+#include <QVector>
+#include <QPair>
+
 class JMdictEntrySearcher;
 
 class JMdictPlugin : public Plugin
@@ -27,12 +30,22 @@ class JMdictPlugin : public Plugin
 private:
 	QString getDBFile() const;
 	JMdictEntrySearcher *searcher;
+	// Associates entities shift with their short and long descriptions
+	static QVector<QPair<QString, QString> > _posEntities;
+	static QVector<QPair<QString, QString> > _miscEntities;
+	static QVector<QPair<QString, QString> > _dialectEntities;
+	static QVector<QPair<QString, QString> > _fieldEntities;
 
 public:
 	JMdictPlugin();
 	virtual ~JMdictPlugin();
 	virtual bool onRegister();
 	virtual bool onUnregister();
+	
+	static QList<const QPair<QString, QString> *> posEntities(quint64 mask);
+	static QList<const QPair<QString, QString> *> miscEntities(quint64 mask);
+	static QList<const QPair<QString, QString> *> dialectEntities(quint64 mask);
+	static QList<const QPair<QString, QString> *> fieldEntities(quint64 mask);
 };
 
 #endif
