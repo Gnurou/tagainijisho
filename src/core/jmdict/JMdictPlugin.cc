@@ -38,7 +38,7 @@ QVector<QPair<QString, QString> > JMdictPlugin::_fieldEntities;
 QList<const QPair<QString, QString> *> JMdictPlugin::posEntities(quint64 mask)
 {
 	QList<const QPair<QString, QString> *> res;
-	int cpt;
+	int cpt(0);
 	while (mask != 0 && cpt < _posEntities.size()) {
 		if (mask & 1) res << &_posEntities[cpt];
 		++cpt; mask >>= 1;
@@ -49,7 +49,7 @@ QList<const QPair<QString, QString> *> JMdictPlugin::posEntities(quint64 mask)
 QList<const QPair<QString, QString> *> JMdictPlugin::miscEntities(quint64 mask)
 {
 	QList<const QPair<QString, QString> *> res;
-	int cpt;
+	int cpt(0);
 	while (mask != 0 && cpt < _miscEntities.size()) {
 		if (mask & 1) res << &_miscEntities[cpt];
 		++cpt; mask >>= 1;
@@ -60,7 +60,7 @@ QList<const QPair<QString, QString> *> JMdictPlugin::miscEntities(quint64 mask)
 QList<const QPair<QString, QString> *> JMdictPlugin::dialectEntities(quint64 mask)
 {
 	QList<const QPair<QString, QString> *> res;
-	int cpt;
+	int cpt(0);
 	while (mask != 0 && cpt < _dialectEntities.size()) {
 		if (mask & 1) res << &_dialectEntities[cpt];
 		++cpt; mask >>= 1;
@@ -71,7 +71,7 @@ QList<const QPair<QString, QString> *> JMdictPlugin::dialectEntities(quint64 mas
 QList<const QPair<QString, QString> *> JMdictPlugin::fieldEntities(quint64 mask)
 {
 	QList<const QPair<QString, QString> *> res;
-	int cpt;
+	int cpt(0);
 	while (mask != 0 && cpt < _fieldEntities.size()) {
 		if (mask & 1) res << &_fieldEntities[cpt];
 		++cpt; mask >>= 1;

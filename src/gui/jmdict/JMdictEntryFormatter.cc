@@ -17,6 +17,7 @@
 
 #include "core/Paths.h"
 #include "core/TextTools.h"
+#include "core/jmdict/JMdictPlugin.h"
 #include "core/jmdict/JMdictEntrySearcher.h"
 #include "gui/jmdict/JMdictEntryFormatter.h"
 #include "gui/jmdict/JMdictGUIPlugin.h"
@@ -27,6 +28,7 @@
 #include <QPainter>
 #include <QTextBlock>
 #include <QTextList>
+#include <QPair>
 
 PreferenceItem<bool> JMdictEntryFormatter::showJLPT("jmdict", "showJLPT", true);
 PreferenceItem<bool> JMdictEntryFormatter::showKanjis("jmdict", "showKanjis", true);
@@ -60,12 +62,13 @@ JMdictEntryFormatter::JMdictEntryFormatter() : EntryFormatter()
 
 void JMdictEntryFormatter::writeSensePos(const Sense &sense, QTextCursor &cursor) const
 {
-	QList<int> pos = sense.partsOfSpeech();
-	QList<int> misc = sense.miscs();
-	QList<int> dialect = sense.dialects();
-	QList<int> field = sense.fields();
-	if (pos.isEmpty() && misc.isEmpty() && dialect.isEmpty() &&
-		field.isEmpty()) return;
+	QList<const QPair<QString, QString> *> posEntities(JMdictPlugin::posEntities(sense.partOfSpeech()));
+	QList<const QPair<QString, QString> *> miscEntities(JMdictPlugin::miscEntities(sense.misc()));
+	QList<const QPair<QString, QString> *> dialectEntities(JMdictPlugin::dialectEntities(sense.dialect()));
+	QList<const QPair<QString, QString> *> fieldEntities(JMdictPlugin::fieldEntities(sense.field()));
+	
+	if (posEntities.isEmpty() && miscEntities.isEmpty() && dialectEntities.isEmpty() &&
+		fieldEntities.isEmpty()) return;
 
 	QTextCharFormat posFormat(DetailedViewFonts::charFormat(DetailedViewFonts::DefaultText));
 	QTextCharFormat saveFormat(cursor.charFormat());
@@ -74,63 +77,67 @@ void JMdictEntryFormatter::writeSensePos(const Sense &sense, QTextCursor &cursor
 	cursor.setBlockCharFormat(posFormat);
 
 	bool hasWritten = false;
-	if (!pos.isEmpty()) for (int i = 0; i < pos.size(); i++) {
-		if (i != 0) cursor.insertText(", ");
+	for (int i = 0; i < posEntities.size(); i++) {
+		if (i != 0 || hasWritten) cursor.insertText(", ");
 		posFormat.setAnchor(true);
-		posFormat.setAnchorHref(QString("longdesc://pos#%1").arg(pos[i]));
-		QString translated = QCoreApplication::translate("JMdictLongDescs", JMdictPosEntitiesLongDesc[pos[i]].toLatin1());
+		//posFormat.setAnchorHref(QString("longdesc://pos#%1").arg(pos[i]));
+		// TODO Fix translation
+		QString translated = QCoreApplication::translate("JMdictLongDescs", posEntities[i]->second.toLatin1());
 		translated.replace(0, 1, translated[0].toUpper());
 		posFormat.setToolTip(translated);
 		cursor.setCharFormat(posFormat);
-		cursor.insertText(JMdictPosEntitiesShortDesc[pos[i]]);
+		cursor.insertText(posEntities[i]->first);
 		hasWritten = true;
 		posFormat.setAnchor(false);
 		posFormat.setAnchorHref("");
 		posFormat.setToolTip("");
 		cursor.setCharFormat(posFormat);
 	}
-
-	if (!misc.isEmpty()) for (int i = 0; i < misc.size(); i++) {
+	
+	for (int i = 0; i < miscEntities.size(); i++) {
 		if (i != 0 || hasWritten) cursor.insertText(", ");
 		posFormat.setAnchor(true);
-		posFormat.setAnchorHref(QString("longdesc://misc#%1").arg(misc[i]));
-		QString translated = QCoreApplication::translate("JMdictLongDescs", JMdictMiscEntitiesLongDesc[misc[i]].toLatin1());
+		//posFormat.setAnchorHref(QString("longdesc://pos#%1").arg(pos[i]));
+		// TODO Fix translation
+		QString translated = QCoreApplication::translate("JMdictLongDescs", miscEntities[i]->second.toLatin1());
 		translated.replace(0, 1, translated[0].toUpper());
 		posFormat.setToolTip(translated);
 		cursor.setCharFormat(posFormat);
-		cursor.insertText(JMdictMiscEntitiesShortDesc[misc[i]]);
+		cursor.insertText(miscEntities[i]->first);
 		hasWritten = true;
 		posFormat.setAnchor(false);
 		posFormat.setAnchorHref("");
 		posFormat.setToolTip("");
 		cursor.setCharFormat(posFormat);
 	}
-
-	if (!field.isEmpty()) for (int i = 0; i < field.size(); i++) {
+	
+	for (int i = 0; i < fieldEntities.size(); i++) {
 		if (i != 0 || hasWritten) cursor.insertText(", ");
 		posFormat.setAnchor(true);
-		posFormat.setAnchorHref(QString("longdesc://field#%1").arg(field[i]));
-		QString translated = QCoreApplication::translate("JMdictLongDescs", JMdictFieldEntitiesLongDesc[field[i]].toLatin1());
+		//posFormat.setAnchorHref(QString("longdesc://pos#%1").arg(pos[i]));
+		// TODO Fix translation
+		QString translated = QCoreApplication::translate("JMdictLongDescs", fieldEntities[i]->second.toLatin1());
 		translated.replace(0, 1, translated[0].toUpper());
 		posFormat.setToolTip(translated);
 		cursor.setCharFormat(posFormat);
-		cursor.insertText(JMdictFieldEntitiesShortDesc[field[i]]);
+		cursor.insertText(fieldEntities[i]->first);
 		hasWritten = true;
 		posFormat.setAnchor(false);
 		posFormat.setAnchorHref("");
 		posFormat.setToolTip("");
 		cursor.setCharFormat(posFormat);
 	}
-
-	if (!dialect.isEmpty()) for (int i = 0; i < dialect.size(); i++) {
+	
+	for (int i = 0; i < dialectEntities.size(); i++) {
 		if (i != 0 || hasWritten) cursor.insertText(", ");
 		posFormat.setAnchor(true);
-		posFormat.setAnchorHref(QString("longdesc://dialect#%1").arg(dialect[i]));
-		QString translated = QCoreApplication::translate("JMdictLongDescs", JMdictDialEntitiesLongDesc[dialect[i]].toLatin1());
+		//posFormat.setAnchorHref(QString("longdesc://pos#%1").arg(pos[i]));
+		// TODO Fix translation
+		QString translated = QCoreApplication::translate("JMdictLongDescs", dialectEntities[i]->second.toLatin1());
 		translated.replace(0, 1, translated[0].toUpper());
 		posFormat.setToolTip(translated);
 		cursor.setCharFormat(posFormat);
-		cursor.insertText(JMdictDialEntitiesShortDesc[dialect[i]]);
+		cursor.insertText(dialectEntities[i]->first);
 		hasWritten = true;
 		posFormat.setAnchor(false);
 		posFormat.setAnchorHref("");
