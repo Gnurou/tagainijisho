@@ -52,14 +52,8 @@ public:
 
 bool JMdictDBParser::onItemParsed(JMdictItem &entry)
 {
-	// Insert entry
-	BIND(insertEntryQuery, entry.id);
-	BIND(insertEntryQuery, entry.frequency);
-	// TODO fix
-	BIND(insertEntryQuery, 0);
-	EXEC(insertEntryQuery);
-	
 	// Insert writings
+	int kanjiCount = 0;
 	quint8 idx = 0;
 	foreach (const JMdictKanjiWritingItem &kWriting, entry.kanji) {
 		BIND(insertKanjiTextQuery, kWriting.writing);
@@ -81,6 +75,8 @@ bool JMdictDBParser::onItemParsed(JMdictItem &entry)
 				BIND(insertKanjiCharQuery, entry.id);
 				BIND(insertKanjiCharQuery, idx);
 				EXEC(insertKanjiCharQuery);
+				// Calculate the kanji count for the first reading
+				if (idx == 0) ++kanjiCount;
 			}
 			i += codeS.size();
 		}
@@ -136,6 +132,12 @@ bool JMdictDBParser::onItemParsed(JMdictItem &entry)
 		}
 		++idx;
 	}
+	
+	// Insert entry
+	BIND(insertEntryQuery, entry.id);
+	BIND(insertEntryQuery, entry.frequency);
+	BIND(insertEntryQuery, kanjiCount);
+	EXEC(insertEntryQuery);
 }
 
 bool insertJLPTLevels(const QString &fName, int level)
@@ -187,8 +189,6 @@ static void create_indexes()
 	query.exec("create index idx_kana on kana(id)");
 	query.exec("create index idx_kana_docid on kana(docid)");
 	query.exec("create index idx_senses on senses(id)");
-	query.exec("create index idx_stagk on stagk(id, sensePriority)");
-	query.exec("create index idx_stagr on stagr(id, sensePriority)");
 	query.exec("create index idx_gloss on gloss(id)");
 	query.exec("create index idx_gloss_docid on gloss(docid)");
 	query.exec("create index idx_kanjichar on kanjiChar(kanji)");
@@ -265,7 +265,11 @@ int main(int argc, char *argv[])
 	// Create indexes
 	create_indexes();
 	
-	// Update JLPT levels
+	// Insert JLPT levels
+	insertJLPTLevels(QDir(srcDir).absoluteFilePath("src/core/jmdict/jlpt-level4.txt"), 4);
+	insertJLPTLevels(QDir(srcDir).absoluteFilePath("src/core/jmdict/jlpt-level3.txt"), 3);
+	insertJLPTLevels(QDir(srcDir).absoluteFilePath("src/core/jmdict/jlpt-level2.txt"), 2);
+	insertJLPTLevels(QDir(srcDir).absoluteFilePath("src/core/jmdict/jlpt-level1.txt"), 1);
 	
 	// Populate the entities tables
 	QSqlQuery entitiesQuery(database);
@@ -298,16 +302,15 @@ int main(int argc, char *argv[])
 		if (!entitiesQuery.exec()) return 2;
 	}
 	
-	// Insert JLPT levels
-	insertJLPTLevels(QDir(srcDir).absoluteFilePath("src/core/jmdict/jlpt-level4.txt"), 4);
-	insertJLPTLevels(QDir(srcDir).absoluteFilePath("src/core/jmdict/jlpt-level3.txt"), 3);
-	insertJLPTLevels(QDir(srcDir).absoluteFilePath("src/core/jmdict/jlpt-level2.txt"), 2);
-	insertJLPTLevels(QDir(srcDir).absoluteFilePath("src/core/jmdict/jlpt-level1.txt"), 1);
-	
 	// Analyze for hopefully better performance
 	database.exec("analyze");
 	
 	// Commit everything
 	database.commit();
+	
+	// Close the database and set the file to read-only
+	database = QSqlDatabase();
+	QFile(dstFile).setPermissions(QFile::ReadOwner | QFile::ReadUser | QFile::ReadGroup | QFile::ReadOther);
+	
 	return 0;
 }

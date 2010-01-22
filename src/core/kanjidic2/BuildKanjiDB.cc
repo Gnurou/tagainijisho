@@ -320,5 +320,10 @@ int main(int argc, char *argv[])
 	
 	// Commit everything
 	database.commit();
+	
+	// Close the database and set the file to read-only
+	database = QSqlDatabase();
+	QFile(dstFile).setPermissions(QFile::ReadOwner | QFile::ReadUser | QFile::ReadGroup | QFile::ReadOther);
+	
 	return 0;
 }
