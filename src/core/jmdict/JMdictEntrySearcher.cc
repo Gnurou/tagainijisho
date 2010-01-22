@@ -376,9 +376,9 @@ Entry *JMdictEntrySearcher::loadEntry(int id)
 	while(sensesQuery.next()) {
 		Sense sense(sensesQuery.value(1).toULongLong(), sensesQuery.value(2).toULongLong(), sensesQuery.value(3).toULongLong(), sensesQuery.value(4).toULongLong());
 		// Get restricted readings/writing
-		QStringList restrictedTo(sensesQuery.value(5).toString().split(','));
+		QStringList restrictedTo(sensesQuery.value(5).toString().split(',', QString::SkipEmptyParts));
 		foreach (const QString &idx, restrictedTo) sense.addStagK(idx.toInt());
-		restrictedTo = sensesQuery.value(6).toString().split(',');
+		restrictedTo = sensesQuery.value(6).toString().split(',', QString::SkipEmptyParts);
 		foreach (const QString &idx, restrictedTo) sense.addStagR(idx.toInt());
 
 		glossQuery.addBindValue(entry->id());
