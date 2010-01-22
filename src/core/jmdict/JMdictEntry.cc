@@ -44,7 +44,7 @@ Gloss::Gloss(const QString &lang, const QString &gloss) : _lang(lang), _gloss(gl
 {
 }
 
-Sense::Sense(JMdictPosTagType partOfSpeech, JMdictMiscTagType misc, JMdictDialTagType dialect, JMdictFieldTagType field) : _partOfSpeech(partOfSpeech), _misc(misc), _dialect(dialect), _field(field)
+Sense::Sense(quint64 partOfSpeech, quint64 misc, quint64 dialect, quint64 field) : _partOfSpeech(partOfSpeech), _misc(misc), _dialect(dialect), _field(field)
 {
 }
 
@@ -56,35 +56,6 @@ void Sense::addGloss(const Gloss &gloss)
 const Gloss Sense::gloss(const QString &lang) const
 {
 	return glosses[lang];
-}
-
-QList<int> Sense::listOfSetBits(quint64 value) {
-	QList<int> ret;
-
-	for (int i = 0; value != 0; i++, value >>= 1)
-		if (value & 0x1) ret << i;
-
-	return ret;
-}
-
-QList<int> Sense::partsOfSpeech() const
-{
-	return listOfSetBits(partOfSpeech());
-}
-
-QList<int> Sense::miscs() const
-{
-	return listOfSetBits(misc());
-}
-
-QList<int> Sense::fields() const
-{
-	return listOfSetBits(field());
-}
-
-QList<int> Sense::dialects() const
-{
-	return listOfSetBits(dialect());
 }
 
 QString Sense::senseText() const
@@ -142,7 +113,7 @@ QStringList JMdictEntry::meanings() const
 QList<const Sense *> JMdictEntry::getSenses() const
 {
 	QList<const Sense *> res;
-	JMdictMiscTagType filter(JMdictEntrySearcher::miscFilterMask() & ~JMdictEntrySearcher::explicitlyRequestedMiscs());
+	quint64 filter(JMdictEntrySearcher::miscFilterMask() & ~JMdictEntrySearcher::explicitlyRequestedMiscs());
 	foreach (const Sense &sense, getAllSenses()) {
 		if (!(sense.misc() & filter)) res << &sense;
 	}

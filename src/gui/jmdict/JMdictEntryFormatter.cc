@@ -42,7 +42,7 @@ PreferenceItem<bool> JMdictEntryFormatter::printOnlyStudiedKanjis("jmdict", "pri
 PreferenceItem<int> JMdictEntryFormatter::maxDefinitionsToPrint("jmdict", "maxDefinitionsToPrint", 0);
 
 
-QString JMdictEntryFormatter::getVerbBuddySql(const QString &matchPattern, JMdictPosTagType pos, int id)
+QString JMdictEntryFormatter::getVerbBuddySql(const QString &matchPattern, quint64 pos, int id)
 {
 	const QString queryFindVerbBuddySql("select distinct " QUOTEMACRO(JMDICTENTRY_GLOBALID) ", jmdict.entries.id from jmdict.entries join jmdict.kanji on jmdict.kanji.id = jmdict.entries.id join jmdict.senses on jmdict.senses.id = jmdict.entries.id where jmdict.kanji.docid in (select docid from jmdict.kanjiText where jmdict.kanjiText.reading match '\"%1*\"') and jmdict.kanji.priority = 0 and jmdict.senses.pos & %2 == %2 and jmdict.senses.misc & %4 == 0 and jmdict.entries.id != %3");
 
@@ -62,10 +62,10 @@ JMdictEntryFormatter::JMdictEntryFormatter() : EntryFormatter()
 
 void JMdictEntryFormatter::writeSensePos(const Sense &sense, QTextCursor &cursor) const
 {
-	QList<const QPair<QString, QString> *> posEntities(JMdictPlugin::posEntities(sense.partOfSpeech()));
-	QList<const QPair<QString, QString> *> miscEntities(JMdictPlugin::miscEntities(sense.misc()));
-	QList<const QPair<QString, QString> *> dialectEntities(JMdictPlugin::dialectEntities(sense.dialect()));
-	QList<const QPair<QString, QString> *> fieldEntities(JMdictPlugin::fieldEntities(sense.field()));
+	QList<const QPair<QString, QString> *> posEntities(JMdictPlugin::posEntitiesList(sense.partOfSpeech()));
+	QList<const QPair<QString, QString> *> miscEntities(JMdictPlugin::miscEntitiesList(sense.misc()));
+	QList<const QPair<QString, QString> *> dialectEntities(JMdictPlugin::dialectEntitiesList(sense.dialect()));
+	QList<const QPair<QString, QString> *> fieldEntities(JMdictPlugin::fieldEntitiesList(sense.field()));
 	
 	if (posEntities.isEmpty() && miscEntities.isEmpty() && dialectEntities.isEmpty() &&
 		fieldEntities.isEmpty()) return;
@@ -80,8 +80,7 @@ void JMdictEntryFormatter::writeSensePos(const Sense &sense, QTextCursor &cursor
 	for (int i = 0; i < posEntities.size(); i++) {
 		if (i != 0 || hasWritten) cursor.insertText(", ");
 		posFormat.setAnchor(true);
-		//posFormat.setAnchorHref(QString("longdesc://pos#%1").arg(pos[i]));
-		// TODO Fix translation
+		posFormat.setAnchorHref(QString("longdesc://pos#%1").arg(JMdictPlugin::posBitShifts()[posEntities[i]->first]));
 		QString translated = QCoreApplication::translate("JMdictLongDescs", posEntities[i]->second.toLatin1());
 		translated.replace(0, 1, translated[0].toUpper());
 		posFormat.setToolTip(translated);
@@ -97,8 +96,7 @@ void JMdictEntryFormatter::writeSensePos(const Sense &sense, QTextCursor &cursor
 	for (int i = 0; i < miscEntities.size(); i++) {
 		if (i != 0 || hasWritten) cursor.insertText(", ");
 		posFormat.setAnchor(true);
-		//posFormat.setAnchorHref(QString("longdesc://pos#%1").arg(pos[i]));
-		// TODO Fix translation
+		posFormat.setAnchorHref(QString("longdesc://misc#%1").arg(JMdictPlugin::miscBitShifts()[miscEntities[i]->first]));
 		QString translated = QCoreApplication::translate("JMdictLongDescs", miscEntities[i]->second.toLatin1());
 		translated.replace(0, 1, translated[0].toUpper());
 		posFormat.setToolTip(translated);
@@ -114,8 +112,7 @@ void JMdictEntryFormatter::writeSensePos(const Sense &sense, QTextCursor &cursor
 	for (int i = 0; i < fieldEntities.size(); i++) {
 		if (i != 0 || hasWritten) cursor.insertText(", ");
 		posFormat.setAnchor(true);
-		//posFormat.setAnchorHref(QString("longdesc://pos#%1").arg(pos[i]));
-		// TODO Fix translation
+		posFormat.setAnchorHref(QString("longdesc://field#%1").arg(JMdictPlugin::fieldBitShifts()[fieldEntities[i]->first]));
 		QString translated = QCoreApplication::translate("JMdictLongDescs", fieldEntities[i]->second.toLatin1());
 		translated.replace(0, 1, translated[0].toUpper());
 		posFormat.setToolTip(translated);
@@ -131,8 +128,7 @@ void JMdictEntryFormatter::writeSensePos(const Sense &sense, QTextCursor &cursor
 	for (int i = 0; i < dialectEntities.size(); i++) {
 		if (i != 0 || hasWritten) cursor.insertText(", ");
 		posFormat.setAnchor(true);
-		//posFormat.setAnchorHref(QString("longdesc://pos#%1").arg(pos[i]));
-		// TODO Fix translation
+		posFormat.setAnchorHref(QString("longdesc://dialect#%1").arg(JMdictPlugin::dialectBitShifts()[dialectEntities[i]->first]));
 		QString translated = QCoreApplication::translate("JMdictLongDescs", dialectEntities[i]->second.toLatin1());
 		translated.replace(0, 1, translated[0].toUpper());
 		posFormat.setToolTip(translated);
@@ -360,14 +356,18 @@ void JMdictEntryFormatter::writeEntryInfo(const JMdictEntry *entry, QTextCursor 
 	if (hasVi && !hasVt) view->addBackgroundJob(new FindVerbBuddyJob(this, JMdict_POS_vt, cursor));
 	if (hasVt && !hasVi) view->addBackgroundJob(new FindVerbBuddyJob(this, JMdict_POS_vi, cursor));*/
 
-	foreach (const Sense *sense, senses) {
-		if (sense->partOfSpeech() & JMdict_POS_vi && searchVt) {
-			view->addBackgroundJob(new FindVerbBuddyJob(entry, JMdict_POS_vt, cursor));
-			searchVt = false;
-		}
-		if (sense->partOfSpeech() & JMdict_POS_vt && searchVi) {
-			view->addBackgroundJob(new FindVerbBuddyJob(entry, JMdict_POS_vi, cursor));
-			searchVi = false;
+	if (JMdictPlugin::posBitShifts().contains("vi") && JMdictPlugin::posBitShifts().contains("vt")) {
+		quint64 posVi(1 << JMdictPlugin::posBitShifts()["vi"]);
+		quint64 posVt(1 << JMdictPlugin::posBitShifts()["vt"]);
+		foreach (const Sense *sense, senses) {
+			if (sense->partOfSpeech() & posVi && searchVt) {
+				view->addBackgroundJob(new FindVerbBuddyJob(entry, "vt", cursor));
+				searchVt = false;
+			}
+			if (sense->partOfSpeech() & posVt && searchVi) {
+				view->addBackgroundJob(new FindVerbBuddyJob(entry, "vi", cursor));
+				searchVi = false;
+			}
 		}
 	}
 	if (maxHomophonesToDisplay.value()) view->addBackgroundJob(new FindHomonymsJob(entry, maxHomophonesToDisplay.value(), displayStudiedHomophonesOnly.value(), cursor));
@@ -454,16 +454,16 @@ void JMdictEntryFormatter::draw(const Entry *_entry, QPainter &painter, const QR
 	}
 	// Now print definitions.
 	foreach (const Sense *sense, entry->getSenses()) {
-		QList<int> pos = sense->partsOfSpeech();
-		QList<int> misc = sense->miscs();
-		QList<int> dialect = sense->dialects();
-		QList<int> field = sense->fields();
+		QList<const QPair<QString, QString> *> posEntities(JMdictPlugin::posEntitiesList(sense->partOfSpeech()));
+		QList<const QPair<QString, QString> *> miscEntities(JMdictPlugin::miscEntitiesList(sense->misc()));
+		QList<const QPair<QString, QString> *> dialectEntities(JMdictPlugin::dialectEntitiesList(sense->dialect()));
+		QList<const QPair<QString, QString> *> fieldEntities(JMdictPlugin::fieldEntitiesList(sense->field()));
 
 		QStringList posList;
-		foreach (int i, pos) { posList << JMdictPosEntitiesShortDesc[i]; }
-		foreach (int i, misc) { posList << JMdictMiscEntitiesShortDesc[i]; }
-		foreach (int i, dialect) { posList << JMdictDialEntitiesShortDesc[i]; }
-		foreach (int i, field) { posList << JMdictFieldEntitiesShortDesc[i]; }
+		for (int i = 0; i < posEntities.size(); i++) posList << posEntities[i]->first;
+		for (int i = 0; i < miscEntities.size(); i++) posList << miscEntities[i]->first;
+		for (int i = 0; i < dialectEntities.size(); i++) posList << dialectEntities[i]->first;
+		for (int i = 0; i < fieldEntities.size(); i++) posList << fieldEntities[i]->first;
 
 		QString posText;
 		if (!posList.isEmpty()) posText = QString(" (") + posList.join(",") + ") ";
@@ -501,9 +501,13 @@ void JMdictEntryFormatter::detailedVersionPart2(const Entry *_entry, QTextCursor
 }
 
 
-FindVerbBuddyJob::FindVerbBuddyJob(const JMdictEntry *verb, JMdictPosTagType pos, const QTextCursor &cursor) :
+FindVerbBuddyJob::FindVerbBuddyJob(const JMdictEntry* verb, const QString& pos, const QTextCursor& cursor) :
 	DetailedViewJob(cursor), lastKanjiPos(0), searchedPos(pos)
 {
+	// Check that the pos we are looking for actually exists
+	if (!JMdictPlugin::posBitShifts().contains(pos)) return;
+	quint64 posMask(1 << JMdictPlugin::posBitShifts()[pos]);
+		
 	// No writing or no reading, no way to compare
 	if (verb->writings().isEmpty() || verb->readings().isEmpty()) return;
 	matchPattern = verb->writings()[0];
@@ -519,7 +523,8 @@ FindVerbBuddyJob::FindVerbBuddyJob(const JMdictEntry *verb, JMdictPosTagType pos
 	// Only continue if the matchpattern is not empty...
 	if (!matchPattern.size() || !kanaPattern.size()) return;
 
-	_sql = JMdictEntryFormatter::getVerbBuddySql(matchPattern, pos, verb->id());
+		
+	_sql = JMdictEntryFormatter::getVerbBuddySql(matchPattern, posMask, verb->id());
 	lastKanjiPos = matchPattern.size();
 }
 
@@ -592,8 +597,8 @@ void FindVerbBuddyJob::completed()
 
 	cursor().insertBlock();
 	cursor().setCharFormat(bold);
-	cursor().insertText(QString(searchedPos == JMdict_POS_vt ? tr("Transitive buddy:") :
-						searchedPos == JMdict_POS_vi ? tr("Intransitive buddy:") :
+	cursor().insertText(QString(searchedPos == "vt" ? tr("Transitive buddy:") :
+						searchedPos == "vi" ? tr("Intransitive buddy:") :
 						tr("Buddy:")) + " ");
 	cursor().setCharFormat(normal);
 	const EntryFormatter *formatter = EntryFormatter::getFormatter(bestMatch.data());

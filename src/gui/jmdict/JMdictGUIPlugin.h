@@ -90,7 +90,7 @@ private:
 
 protected:
 	virtual void _reset();
-	static QActionGroup *addCheckableProperties(const QString defs[], QMenu *menu);
+	static QActionGroup *addCheckableProperties(const QVector< QPair< QString, QString > >& defs, QMenu* menu);
 
 protected slots:
 	void updateMiscFilteredProperties();

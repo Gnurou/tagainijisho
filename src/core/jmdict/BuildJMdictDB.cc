@@ -141,13 +141,15 @@ bool JMdictDBParser::onItemParsed(JMdictItem &entry)
 static void create_tables()
 {
 	QSqlQuery query;
-	query.exec("create table info(version INT)");
+	query.exec("create table info(version INT, dictVersion TEXT)");
 	query.exec("create table posEntities(bitShift INTEGER PRIMARY KEY, name TEXT, description TEXT)");
 	query.exec("create table miscEntities(bitShift INTEGER PRIMARY KEY, name TEXT, description TEXT)");
 	query.exec("create table fieldEntities(bitShift INTEGER PRIMARY KEY, name TEXT, description TEXT)");
 	query.exec("create table dialectEntities(bitShift INTEGER PRIMARY KEY, name TEXT, description TEXT)");
-	query.prepare("insert into info values(?)");
+	query.prepare("insert into info values(?, ?)");
 	query.addBindValue(JMDICTDB_REVISION);
+	// TODO
+	query.addBindValue("");
 	query.exec();
 	query.exec("create table entries(id INTEGER PRIMARY KEY, frequency TINYINT, kanjiCount TINYINT)");
 	query.exec("create table kanji(id INTEGER SECONDARY KEY REFERENCES entries, priority TINYINT, docid INT, frequency TINYINT)");

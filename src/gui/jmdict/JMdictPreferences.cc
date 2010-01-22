@@ -15,8 +15,8 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "core/jmdict/JMdictDefs.h"
 #include "core/jmdict/JMdictEntrySearcher.h"
+#include "core/jmdict/JMdictPlugin.h"
 #include "gui/jmdict/JMdictEntryFormatter.h"
 #include "gui/jmdict/JMdictPreferences.h"
 #include "gui/jmdict/JMdictGUIPlugin.h"
@@ -91,10 +91,11 @@ void JMdictPreferences::refresh()
 	filteredDefs->clear();
 	displayedDefs->clear();
 	const QStringList &filtered(JMdictEntrySearcher::miscPropertiesFilter.value().split(','));
-	for (int i = 0; !JMdictMiscEntitiesLongDesc[i].isEmpty(); i++) {
-		QString s(JMdictMiscEntitiesLongDesc[i]);
+	for (int i = 0; i < JMdictPlugin::miscEntities().size(); i++) {
+		QPair<QString, QString> entity(JMdictPlugin::miscEntities()[i]);
+		QString s(entity.second);
 		s[0] = s[0].toUpper();
-		if (filtered.contains(JMdictMiscEntitiesShortDesc[i])) filteredDefs->addItem(s);
+		if (filtered.contains(entity.first)) filteredDefs->addItem(s);
 		else displayedDefs->addItem(s);
 	}
 }
@@ -114,10 +115,11 @@ void JMdictPreferences::applySettings()
 
 	QStringList filtered, res;
 	for (int i = 0; i < filteredDefs->model()->rowCount(); i++) filtered << filteredDefs->item(i)->text();
-	for (int i = 0; JMdictMiscEntitiesLongDesc[i] != ""; i++) {
-		QString s(JMdictMiscEntitiesLongDesc[i]);
+	for (int i = 0; i < JMdictPlugin::miscEntities().size(); i++) {
+		QPair<QString, QString> entity(JMdictPlugin::miscEntities()[i]);
+		QString s(entity.second);
 		s[0] = s[0].toUpper();
-		if (filtered.contains(s)) res << JMdictMiscEntitiesShortDesc[i];
+		if (filtered.contains(s)) res << entity.first;
 	}
 	JMdictEntrySearcher::miscPropertiesFilter.set(res.join(","));
 }

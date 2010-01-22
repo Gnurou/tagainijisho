@@ -23,7 +23,6 @@
 #include <QMap>
 
 #include "core/Entry.h"
-#include "core/jmdict/JMdictDefs.h"
 
 #define JMDICTENTRY_GLOBALID 1
 #define JMDICTDB_REVISION 4
@@ -88,27 +87,21 @@ private:
 	QStringList infos;
 	QList<qint32> _stagK;
 	QList<qint32> _stagR;
-	JMdictPosTagType _partOfSpeech;
-	JMdictMiscTagType _misc;
-	JMdictDialTagType _dialect;
-	JMdictFieldTagType _field;
-
-	static QList<int> listOfSetBits(quint64 value);
+	quint64 _partOfSpeech;
+	quint64 _misc;
+	quint64 _dialect;
+	quint64 _field;
 
 public:
-	Sense(JMdictPosTagType partOfSpeech, JMdictMiscTagType misc, JMdictDialTagType dialect, JMdictFieldTagType field);
+	Sense(quint64 partOfSpeech, quint64 misc, quint64 dialect, quint64 field);
 	const QMap<QString, Gloss> &getGlosses() const { return glosses; }
 	const Gloss gloss(const QString &lang) const;
 	const QStringList &getInfos() const { return infos; }
 
-	JMdictPosTagType partOfSpeech() const { return _partOfSpeech; }
-	QList<int> partsOfSpeech() const;
-	JMdictMiscTagType misc() const { return _misc; }
-	QList<int> miscs() const;
-	JMdictDialTagType dialect() const { return _dialect; }
-	QList<int> dialects() const;
-	JMdictFieldTagType field() const { return _field; }
-	QList<int> fields() const;
+	quint64 partOfSpeech() const { return _partOfSpeech; }
+	quint64 misc() const { return _misc; }
+	quint64 dialect() const { return _dialect; }
+	quint64 field() const { return _field; }
 	const QList<qint32> &stagK() const { return _stagK; }
 	void addStagK(qint32 index) { _stagK << index; }
 	const QList<qint32> &stagR() const { return _stagR; }
@@ -116,7 +109,7 @@ public:
 
 	void addGloss(const Gloss &gloss);
 
-	QString senseText() const;
+	QString senseText() const;	
 };
 
 class JMdictEntry : public Entry

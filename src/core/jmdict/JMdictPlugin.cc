@@ -35,7 +35,12 @@ QVector<QPair<QString, QString> > JMdictPlugin::_miscEntities;
 QVector<QPair<QString, QString> > JMdictPlugin::_dialectEntities;
 QVector<QPair<QString, QString> > JMdictPlugin::_fieldEntities;
 
-QList<const QPair<QString, QString> *> JMdictPlugin::posEntities(quint64 mask)
+QMap<QString, quint8> JMdictPlugin::_posBitShift;
+QMap<QString, quint8> JMdictPlugin::_miscBitShift;
+QMap<QString, quint8> JMdictPlugin::_dialectBitShift;
+QMap<QString, quint8> JMdictPlugin::_fieldBitShift;
+
+QList<const QPair<QString, QString> *> JMdictPlugin::posEntitiesList(quint64 mask)
 {
 	QList<const QPair<QString, QString> *> res;
 	int cpt(0);
@@ -46,7 +51,7 @@ QList<const QPair<QString, QString> *> JMdictPlugin::posEntities(quint64 mask)
 	return res;
 }
 
-QList<const QPair<QString, QString> *> JMdictPlugin::miscEntities(quint64 mask)
+QList<const QPair<QString, QString> *> JMdictPlugin::miscEntitiesList(quint64 mask)
 {
 	QList<const QPair<QString, QString> *> res;
 	int cpt(0);
@@ -57,7 +62,7 @@ QList<const QPair<QString, QString> *> JMdictPlugin::miscEntities(quint64 mask)
 	return res;
 }
 
-QList<const QPair<QString, QString> *> JMdictPlugin::dialectEntities(quint64 mask)
+QList<const QPair<QString, QString> *> JMdictPlugin::dialectEntitiesList(quint64 mask)
 {
 	QList<const QPair<QString, QString> *> res;
 	int cpt(0);
@@ -68,7 +73,7 @@ QList<const QPair<QString, QString> *> JMdictPlugin::dialectEntities(quint64 mas
 	return res;
 }
 
-QList<const QPair<QString, QString> *> JMdictPlugin::fieldEntities(quint64 mask)
+QList<const QPair<QString, QString> *> JMdictPlugin::fieldEntitiesList(quint64 mask)
 {
 	QList<const QPair<QString, QString> *> res;
 	int cpt(0);
@@ -98,14 +103,30 @@ bool JMdictPlugin::onRegister()
 	
 	// Populate the entities tables
 	QSqlQuery query;
-	query.exec("select name, description from jmdict.posEntities order by bitShift");
-	while (query.next()) _posEntities << QPair<QString, QString>(query.value(0).toString(), query.value(1).toString());
-	query.exec("select name, description from jmdict.miscEntities order by bitShift");
-	while (query.next()) _miscEntities << QPair<QString, QString>(query.value(0).toString(), query.value(1).toString());
-	query.exec("select name, description from jmdict.dialectEntities order by bitShift");
-	while (query.next()) _dialectEntities << QPair<QString, QString>(query.value(0).toString(), query.value(1).toString());
-	query.exec("select name, description from jmdict.fieldEntities order by bitShift");
-	while (query.next()) _fieldEntities << QPair<QString, QString>(query.value(0).toString(), query.value(1).toString());
+	query.exec("select bitShift, name, description from jmdict.posEntities order by bitShift");
+	while (query.next()) {
+		QString name(query.value(1).toString());
+		_posEntities << QPair<QString, QString>(name, query.value(2).toString());
+		_posBitShift[name] = query.value(0).toInt();
+	}
+	query.exec("select bitShift, name, description from jmdict.miscEntities order by bitShift");
+	while (query.next()) {
+		QString name(query.value(1).toString());
+		_miscEntities << QPair<QString, QString>(name, query.value(2).toString());
+		_miscBitShift[name] = query.value(0).toInt();
+	}
+	query.exec("select bitShift, name, description from jmdict.dialectEntities order by bitShift");
+	while (query.next()) {
+		QString name(query.value(1).toString());
+		_dialectEntities << QPair<QString, QString>(name, query.value(2).toString());
+		_dialectBitShift[name] = query.value(0).toInt();
+	}
+	query.exec("select bitShift, name, description from jmdict.fieldEntities order by bitShift");
+	while (query.next()) {
+		QString name(query.value(1).toString());
+		_fieldEntities << QPair<QString, QString>(name, query.value(2).toString());
+		_fieldBitShift[name] = query.value(0).toInt();
+	}
 	
 	// Register our entry searcher
 	searcher = new JMdictEntrySearcher();
