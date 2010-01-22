@@ -29,9 +29,18 @@ src/core/libtagaini-core.so.1
 src/core/libtagaini-core.so.1.0
 src/core/libtagaini-core.so.1.0.0
 *.pro.user
-src/core/jmdict/JMdictDefs.cc
-src/core/jmdict/JMdictDefs.h
 src/sqlite/libsqlite3.a
 *.pyc
 credentials.txt
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+src/CMakeFiles/
+src/cmake_install.cmake
+src/config.h
+src/core/libtagaini_core.a
+src/gui/libtagaini_gui.a
+src/sqlite/libtagaini_sqlite.a
+src/core/jmdict/build_jmdict_db
+src/core/kanjidic2/build_kanji_db
 

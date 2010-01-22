@@ -38,6 +38,7 @@ PreferenceItem<bool> Kanjidic2EntryFormatter::showReadings("kanjidic", "showRead
 PreferenceItem<bool> Kanjidic2EntryFormatter::showNanori("kanjidic", "showNanori", true);
 PreferenceItem<bool> Kanjidic2EntryFormatter::showUnicode("kanjidic", "showUnicode", true);
 PreferenceItem<bool> Kanjidic2EntryFormatter::showSKIP("kanjidic", "showSKIP", true);
+PreferenceItem<bool> Kanjidic2EntryFormatter::showFourCorner("kanjidic", "showFourCorner", true);
 PreferenceItem<bool> Kanjidic2EntryFormatter::showJLPT("kanjidic", "showJLPT", true);
 PreferenceItem<bool> Kanjidic2EntryFormatter::showGrade("kanjidic", "showGrade", true);
 PreferenceItem<bool> Kanjidic2EntryFormatter::showComponents("kanjidic", "showComponents", true);
@@ -53,6 +54,7 @@ PreferenceItem<bool> Kanjidic2EntryFormatter::showOnlyStudiedCompounds("kanjidic
 PreferenceItem<bool> Kanjidic2EntryFormatter::tooltipShowScore("kanjidic", "tooltipShowScore", false);
 PreferenceItem<bool> Kanjidic2EntryFormatter::tooltipShowUnicode("kanjidic", "tooltipShowUnicode", false);
 PreferenceItem<bool> Kanjidic2EntryFormatter::tooltipShowSKIP("kanjidic", "tooltipShowSKIP", false);
+PreferenceItem<bool> Kanjidic2EntryFormatter::tooltipShowFourCorner("kanjidic", "tooltipShowFourCorner", false);
 PreferenceItem<bool> Kanjidic2EntryFormatter::tooltipShowJLPT("kanjidic", "tooltipShowJLPT", false);
 PreferenceItem<bool> Kanjidic2EntryFormatter::tooltipShowGrade("kanjidic", "tooltipShowGrade", false);
 PreferenceItem<bool> Kanjidic2EntryFormatter::tooltipShowStrokesNumber("kanjidic", "tooltipShowStrokesNumber", false);
@@ -77,7 +79,7 @@ QString Kanjidic2EntryFormatter::getQueryUsedInWordsSql(int kanji, int limit, bo
 
 QString Kanjidic2EntryFormatter::getQueryUsedInKanjiSql(int kanji, int limit, bool onlyStudied)
 {
-	const QString queryUsedInKanjiSql("select distinct " QUOTEMACRO(KANJIDIC2ENTRY_GLOBALID) ", ks1.kanji from kanjidic2.strokeGroups as ks1 join kanjidic2.strokeGroups as ks2 on ks1.parentGroup = ks2.rowid and ks2.parentGroup is null join kanjidic2.entries on ks1.kanji = entries.id %3join training on training.type = " QUOTEMACRO(KANJIDIC2ENTRY_GLOBALID) " and training.id = entries.id where (ks1.element = %1 or ks1.original = %1) and ks1.kanji != %1 order by training.dateAdded is null ASC, training.score ASC, entries.strokeCount limit %2");
+	const QString queryUsedInKanjiSql("select distinct " QUOTEMACRO(KANJIDIC2ENTRY_GLOBALID) ", ks1.kanji from kanjidic2.strokeGroups as ks1 join kanjidic2.entries on ks1.isRoot == 1 and ks1.kanji = entries.id %3join training on training.type = " QUOTEMACRO(KANJIDIC2ENTRY_GLOBALID) " and training.id = entries.id where (ks1.element = %1 or ks1.original = %1) and ks1.kanji != %1 order by training.dateAdded is null ASC, training.score ASC, entries.strokeCount limit %2");
 
 	return queryUsedInKanjiSql.arg(kanji).arg(limit).arg(onlyStudied ? "" : "left ");
 }
@@ -251,6 +253,11 @@ void Kanjidic2EntryFormatter::writeKanjiInfo(const Kanjidic2Entry *entry, QTextC
 		if (++cellCpt % 2 == 0) { table->insertRows(table->rows(), 1); cursor.movePosition(QTextCursor::PreviousBlock); }
 		else cursor.movePosition(QTextCursor::NextBlock);
 	}
+	if (showFourCorner.value() && !entry->fourCorner().isEmpty()) {
+		cursor.insertHtml(tr("<b>4 corner:</b> %1").arg(entry->fourCorner()));
+		if (++cellCpt % 2 == 0) { table->insertRows(table->rows(), 1); cursor.movePosition(QTextCursor::PreviousBlock); }
+		else cursor.movePosition(QTextCursor::NextBlock);
+	}
 
 	// End of text in table
 	if (cellCpt % 2 == 0) table->removeRows(table->rows() - 1, 1);
@@ -343,10 +350,7 @@ void Kanjidic2EntryFormatter::drawCustom(const Entry *_entry, QPainter &painter,
 		painter.setRenderHint(QPainter::Antialiasing);
 
 		const QList<const KanjiComponent *> &kComponents(entry->rootComponents());
-		const QList<KanjiStroke> &kStrokes(entry->strokes());
-		foreach (const KanjiStroke &stroke, kStrokes) {
-			const KanjiComponent *parent(stroke.parent());
-			while (parent && !kComponents.contains(parent)) parent = parent->parent();
+		foreach (const KanjiStroke &stroke, entry->strokes()) {
 			painter.setPen(pen);
 			renderer.strokeFor(stroke)->render(&painter);
 		}
@@ -495,11 +499,14 @@ void Kanjidic2EntryFormatter::showToolTip(const Kanjidic2Entry *entry, const QPo
 	}
 	s += "<table border=\"0\" width=\"100%\">";
 	int tCpt = 0;
+	#define BODY(text) { \
+		QString body(tr("<b>Strokes:</b> %1").arg(entry->strokeCount())); \
+		if (tCpt % 2) s += "<td>" + body + "</td></tr>"; \
+		else s += "<tr><td>" + body + "</td>"; \
+		++tCpt; }
+
 	if (entry->strokeCount() != -1 && tooltipShowStrokesNumber.value()) {
-		QString body(tr("<b>Strokes:</b> %1").arg(entry->strokeCount()));
-		if (tCpt % 2) s += "<td>" + body + "</td></tr>";
-		else s += "<tr><td>" + body + "</td>";
-		++tCpt;
+		BODY(tr("<b>Strokes:</b> %1").arg(entry->strokeCount()));
 	}
 	if (entry->kanjiFrequency() != -1 && tooltipShowFrequency.value()) {
 		QString body(tr("<b>Frequency:</b> %1").arg(entry->kanjiFrequency()));
@@ -525,8 +532,14 @@ void Kanjidic2EntryFormatter::showToolTip(const Kanjidic2Entry *entry, const QPo
 		else s += "<tr><td>" + body + "</td>";
 		++tCpt;
 	}
-	if (!entry->skipCode().isEmpty() && tooltipShowSKIP.value()) {
+	if (tooltipShowSKIP.value() && !entry->skipCode().isEmpty()) {
 		QString body(tr("<b>SKIP:</b> %1").arg(entry->skipCode()));
+		if (tCpt % 2) s += "<td>" + body + "</td></tr>";
+		else s += "<tr><td>" + body + "</td>";
+		++tCpt;
+	}
+	if (tooltipShowFourCorner.value() && !entry->fourCorner().isEmpty()) {
+		QString body(tr("<b>4 corner:</b> %1").arg(entry->fourCorner()));
 		if (tCpt % 2) s += "<td>" + body + "</td></tr>";
 		else s += "<tr><td>" + body + "</td>";
 		++tCpt;

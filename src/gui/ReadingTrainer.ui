@@ -92,9 +92,15 @@
   <customwidget>
    <class>ToolBarDetailedView</class>
    <extends>QTextBrowser</extends>
-   <header>ToolBarDetailedView.h</header>
+   <header>gui/ToolBarDetailedView.h</header>
   </customwidget>
  </customwidgets>
+ <tabstops>
+  <tabstop>userInput</tabstop>
+  <tabstop>nextButton</tabstop>
+  <tabstop>okButton</tabstop>
+  <tabstop>detailedView</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>

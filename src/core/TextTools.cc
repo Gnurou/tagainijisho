@@ -39,6 +39,9 @@
 #define UNICODE_CJK_RADICALS_BEGIN 0x2E80
 #define UNICODE_CJK_RADICALS_END 0x2EFF
 
+#define UNICODE_PUNCTUATION_BEGIN 0x3000
+#define UNICODE_PUNCTUATION_END 0x303f
+
 namespace TextTools {
 
 bool isHiraganaChar(const QChar c) {
@@ -48,6 +51,10 @@ bool isHiraganaChar(const QChar c) {
 bool isKatakanaChar(const QChar c) {
 	return ( (c >= UNICODE_KATAKANA_BEGIN && c <= UNICODE_KATAKANA_END) ||
 			 (c >= UNICODE_KATAKANA_EXT_BEGIN && c <= UNICODE_KATAKANA_EXT_END));
+}
+
+bool isPunctuationChar(const QChar c) {
+	return c >= UNICODE_PUNCTUATION_BEGIN && c <= UNICODE_PUNCTUATION_END;
 }
 
 bool isKanaChar(const QChar c) {
@@ -78,11 +85,11 @@ bool isKanjiChar(const QString &s, int pos)
 }
 
 bool isJapaneseChar(const QChar c, const QChar c2) {
-	return isKanaChar(c) || isKanjiChar(c, c2);
+	return isKanaChar(c) || isKanjiChar(c, c2) || isPunctuationChar(c);
 }
 
 bool isJapaneseChar(const QString &s, int pos) {
-	return isKanaChar(s[pos]) || isKanjiChar(s, pos);
+	return isKanaChar(s[pos]) || isKanjiChar(s, pos) || isPunctuationChar(s[pos]);
 }
 
 bool isRomajiChar(const QChar c) {
@@ -202,11 +209,11 @@ QString unicodeToSingleChar(unsigned int unicode)
 	return ret;
 }
 
-unsigned int singleCharToUnicode(const QString &chr)
+unsigned int singleCharToUnicode(const QString &chr, int pos)
 {
-	if (chr.isEmpty()) return 0;
-	if (chr.size() == 1) return chr[0].unicode();
-	else if (chr.size() == 2 && chr[0].isHighSurrogate() && chr[1].isLowSurrogate()) return QChar::surrogateToUcs4(chr[0], chr[1]);
+	if (chr.size() <= pos) return 0;
+	if (!chr[pos].isHighSurrogate()) return chr[pos].unicode();
+	else if (chr.size() >= pos + 2 && chr[pos + 1].isLowSurrogate()) return QChar::surrogateToUcs4(chr[pos], chr[pos + 1]);
 	else return 0;
 }
 

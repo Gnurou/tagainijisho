@@ -25,6 +25,7 @@
 #include "gui/YesNoTrainer.h"
 #include "gui/SearchBar.h"
 #include <QSpinBox>
+#include <QComboBox>
 
 class Kanjidic2EntryFormatter;
 class KanjiLinkHandler;
@@ -108,6 +109,7 @@ private:
 	QLineEdit *_components;
 	HexSpinBox *_unicode;
 	QSpinBox *_skip1, *_skip2, *_skip3;
+	QComboBox *_fcTopLeft, *_fcTopRight, *_fcBotLeft, *_fcBotRight, *_fcExtra;
 	/// Actiongroup used to store the kanjis grades options
 	QActionGroup *actionGroup;
 	QAction *allKyouku, *allJouyou;
@@ -139,6 +141,10 @@ public:
 	void setSkip(const QString &value);
 	Q_PROPERTY(QString skip READ skip WRITE setSkip)
 
+	QString fourCorner() const;
+	void setFourCorner(const QString &value);
+	Q_PROPERTY(QString fourCorner READ fourCorner WRITE setFourCorner)
+	
 	QStringList grades() const { return _gradesList; }
 	void setGrades(const QStringList &list);
 	Q_PROPERTY(QStringList grades READ grades WRITE setGrades)

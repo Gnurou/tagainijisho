@@ -15,6 +15,8 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "config.h"
+
 #include "core/Paths.h"
 #include "core/Database.h"
 #include "core/EntrySearcherManager.h"
@@ -24,8 +26,6 @@
 #include <QtDebug>
 #include <QFile>
 #include <QDir>
-
-#define KANJIDIC2DB_REVISION 4
 
 #define dictFileConfigString "kanjidic/database"
 #define dictFileConfigDefault "kanjidic2.db"
@@ -69,7 +69,7 @@ QString Kanjidic2Plugin::getDBFile() const
 {
 	// Look in the current directory
 	QFile dbFile("kanjidic2.db");
-#ifdef DATAPREFIX
+#ifdef DATA_DIR
 	// Otherwise, check for the default installation prefix, if set
 	if (!dbFile.exists()) dbFile.setFileName(QDir(QUOTEMACRO(DATAPREFIX)).filePath("kanjidic2.db"));
 #endif

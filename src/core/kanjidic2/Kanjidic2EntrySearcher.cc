@@ -1,5 +1,5 @@
 /*
- *  Copyright (C) 2008  Alexandre Courbot
+ *  Copyright (C) 2008, 2009, 2010  Alexandre Courbot
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -23,6 +23,7 @@
 
 #include <QSqlQuery>
 #include <QSqlRecord>
+#include <QByteArray>
 
 Kanjidic2EntrySearcher::Kanjidic2EntrySearcher(QObject *parent) : EntrySearcher(parent)
 {
@@ -32,7 +33,7 @@ Kanjidic2EntrySearcher::Kanjidic2EntrySearcher(QObject *parent) : EntrySearcher(
 
 	QueryBuilder::Order::orderingWay["freq"] = QueryBuilder::Order::DESC;
 
-	validCommands << "kanji" << "kana" << "mean" << "jlpt" << "grade" << "stroke" << "component" << "unicode" << "skip" << "kanjidic";
+	validCommands << "kanji" << "kana" << "mean" << "jlpt" << "grade" << "stroke" << "component" << "unicode" << "skip" << "fourcorner" << "kanjidic";
 }
 
 SearchCommand Kanjidic2EntrySearcher::commandFromWord(const QString &word) const
@@ -179,14 +180,36 @@ void Kanjidic2EntrySearcher::buildStatement(QList<SearchCommand> &commands, Quer
 			QStringList codeParts = command.args()[0].split('-');
 			if (codeParts.size() != 3) continue;
 			bool ok;
-			int t = codeParts[0].toInt(&ok); if (!ok) continue;
-			int c1 = codeParts[1].toInt(&ok); if (!ok) continue;
-			int c2 = codeParts[2].toInt(&ok); if (!ok) continue;
-			if (!t && !c1 && !c2) continue;
-			statement.addJoin(QueryBuilder::Join(QueryBuilder::Column("kanjidic2.skip", "entry")));
-			if (t) statement.addWhere(QString("kanjidic2.skip.type = %1").arg(t));
-			if (c1) statement.addWhere(QString("kanjidic2.skip.c1 = %1").arg(c1));
-			if (c2) statement.addWhere(QString("kanjidic2.skip.c2 = %1").arg(c2));
+			int t = codeParts[0].toInt(&ok); if (!ok && codeParts[0] != "?") continue;
+			int c1 = codeParts[1].toInt(&ok); if (!ok && codeParts[1] != "?") continue;
+			int c2 = codeParts[2].toInt(&ok); if (!ok && codeParts[2] != "?") continue;
+			if (t || c1 || c2) {
+				statement.addJoin(QueryBuilder::Join(QueryBuilder::Column("kanjidic2.skip", "entry")));
+				if (t) statement.addWhere(QString("kanjidic2.skip.type = %1").arg(t));
+				if (c1) statement.addWhere(QString("kanjidic2.skip.c1 = %1").arg(c1));
+				if (c2) statement.addWhere(QString("kanjidic2.skip.c2 = %1").arg(c2));
+			}
+		}
+		else if (command.command() == "fourcorner") {
+			if (command.args().size() != 1) continue;
+			const QString &value = command.args()[0];
+			// Sanity check
+			if (value.size() != 6 || value[4] != '.') continue;
+			
+			int topLeft, topRight, botLeft, botRight, extra;
+			topLeft = value[0].isDigit() ? value[0].toAscii() - '0' : -1;
+			topRight = value[1].isDigit() ? value[1].toAscii() - '0' : -1;
+			botLeft = value[2].isDigit() ? value[2].toAscii() - '0' : -1;
+			botRight = value[3].isDigit() ? value[3].toAscii() - '0' : -1;
+			extra = value[5].isDigit() ? value[5].toAscii() - '0' : -1;
+			if (topLeft != -1 || topRight != -1 || botLeft != -1 || botRight != -1 || extra != -1) {
+				statement.addJoin(QueryBuilder::Join(QueryBuilder::Column("kanjidic2.fourCorner", "entry")));
+				if (topLeft != -1) statement.addWhere(QString("kanjidic2.fourCorner.topLeft = %1").arg(topLeft));
+				if (topRight != -1) statement.addWhere(QString("kanjidic2.fourCorner.topRight = %1").arg(topRight));
+				if (botLeft != -1) statement.addWhere(QString("kanjidic2.fourCorner.botLeft = %1").arg(botLeft));
+				if (botRight != -1) statement.addWhere(QString("kanjidic2.fourCorner.botRight = %1").arg(botRight));
+				if (extra != -1) statement.addWhere(QString("kanjidic2.fourCorner.extra = %1").arg(extra));
+			}	
 		}
 		// Filter command
 		else if (command.command() == "kanjidic") ;
@@ -200,11 +223,11 @@ void Kanjidic2EntrySearcher::buildStatement(QList<SearchCommand> &commands, Quer
 	if (!transSearch.isEmpty()) statement.addWhere(buildTextSearchCondition(transSearch, "kanjidic2.meaning"));
 
 	if (!componentSearch.isEmpty()) {
-		QString onlyDirectComponentsString("join kanjidic2.strokeGroups as ks2 on ks1.parentGroup = ks2.rowid and ks2.parentGroup is null ");
+		QString onlyDirectComponentsString("and ks1.isRoot = 1");
 		QString qString;
 		// TODO We should be able to control this - probably when we have a more powerful command system based on subclasses
 		if (0) qString = onlyDirectComponentsString;
-		statement.addWhere(QString("kanjidic2.entries.id IN (SELECT DISTINCT ks1.kanji FROM kanjidic2.strokeGroups AS ks1 %3WHERE (ks1.element IN (%1) OR ks1.original IN (%1)) AND ks1.parentGroup NOT NULL GROUP BY ks1.kanji HAVING UNIQUECOUNT(CASE WHEN ks1.element IN (%1) THEN ks1.element ELSE NULL END, CASE WHEN ks1.original IN (%1) THEN ks1.original ELSE NULL END) >= %2)").arg(componentSearch.join(", ")).arg(componentSearch.size()).arg(qString));
+		statement.addWhere(QString("kanjidic2.entries.id IN (SELECT DISTINCT ks1.kanji FROM kanjidic2.strokeGroups AS ks1 WHERE (ks1.element IN (%1) OR ks1.original IN (%1)) %3 GROUP BY ks1.kanji HAVING UNIQUECOUNT(CASE WHEN ks1.element IN (%1) THEN ks1.element ELSE NULL END, CASE WHEN ks1.original IN (%1) THEN ks1.original ELSE NULL END) >= %2)").arg(componentSearch.join(", ")).arg(componentSearch.size()).arg(qString));
 	}
 }
 
@@ -252,10 +275,11 @@ Entry *Kanjidic2EntrySearcher::loadEntry(int id)
 	QString character = TextTools::unicodeToSingleChar(id);
 
 	QSqlQuery query;
-	query.prepare("select grade, strokeCount, frequency, jlpt from kanjidic2.entries where id = ?");
+	query.prepare("select grade, strokeCount, frequency, jlpt, paths from kanjidic2.entries where id = ?");
 	query.addBindValue(id);
 	query.exec();
 	Kanjidic2Entry *entry;
+	QStringList paths;
 	// We have no information about this kanji! This is probably an unknown radical
 	if (!query.next())
 		entry = new Kanjidic2Entry(character, false, -1, -1, -1, -1);
@@ -265,12 +289,15 @@ Entry *Kanjidic2EntrySearcher::loadEntry(int id)
 		int strokeCount = query.value(1).isNull() ? -1 : query.value(1).toInt();
 		int frequency = query.value(2).isNull() ? -1 : query.value(2).toInt();
 		int jlpt = query.value(3).isNull() ? -1 : query.value(3).toInt();
+		// Get the strokes paths for later processing
+		QByteArray pathsBA(query.value(4).toByteArray());
+		if (!pathsBA.isEmpty()) paths = QString(qUncompress(pathsBA)).split('|');
 
 		entry = new Kanjidic2Entry(character, true, grade, strokeCount, frequency, jlpt);
 	}
-
+	
 	loadMiscData(entry);
-
+	
 	// Find the kanjis this one is a variation of
 	query.prepare("select distinct original from strokeGroups where element = ? and original not null");
 	query.addBindValue(id);
@@ -309,51 +336,26 @@ Entry *Kanjidic2EntrySearcher::loadEntry(int id)
 		entry->_nanoris << query.value(0).toString();
 	}
 
+	// Insert the strokes
+	foreach (const QString &path, paths) entry->addStroke(0, path);
+
 	// Load components
-	query.prepare("select rowid, parentGroup, number, element, original from strokeGroups where kanji = ? order by rowid");
+	query.prepare("select element, original, isRoot, pathsRefs from strokeGroups where kanji = ? order by rowid");
 	query.addBindValue(id);
 	query.exec();
-	QMap<int, KanjiComponent *> componentsMap;
 	while(query.next()) {
-		int componentId(query.value(1).toInt());
-		KanjiComponent *parentGroup(0);
-		// Should never happen
-		if (componentId && !componentsMap.contains(componentId)) {
-			qWarning() << "While loading kanjidic2 entry: unable to find parent group!";
-		}
-		else if (componentId) parentGroup = componentsMap[componentId];
-		QString element(TextTools::unicodeToSingleChar(query.value(3).toUInt()));
-		QString original(TextTools::unicodeToSingleChar(query.value(4).toUInt()));;
-		KanjiComponent *newComp(entry->addComponent(parentGroup, element, original, query.value(2).toInt()));
-		if (parentGroup) parentGroup->addChild(newComp);
-		componentsMap[query.value(0).toInt()] = newComp;
-	}
-
-	// Load strokes
-	QStringList keys;
-	foreach (int id, componentsMap.keys()) keys << QString::number(id);
-	query.prepare("select parentGroup, strokeType, path from strokes where parentGroup in (" + keys.join(",") + ") order by rowid");
-	query.exec();
-	while(query.next()) {
-		int componentId(query.value(0).toInt());
-		KanjiComponent *parentGroup(0);
-		// Should never happen
-		if (!componentsMap.contains(componentId)) {
-			qWarning() << "While loading kanjidic2 entry: unable to find parent group!";
-		}
-		else parentGroup = componentsMap[componentId];
-		KanjiStroke *newStroke(entry->addStroke(parentGroup, QChar(query.value(1).toInt()), query.value(2).toString()));
-		KanjiComponent *it(parentGroup);
-		while (it) {
-			it->addStroke(newStroke);
-			// const_casting is bad - but as we are building the kanji structure,
-			// let's forgive it.
-			it = const_cast<KanjiComponent *>(it->parent());
+		QString element(TextTools::unicodeToSingleChar(query.value(0).toUInt()));
+		QString original(TextTools::unicodeToSingleChar(query.value(1).toUInt()));;
+		
+		KanjiComponent *comp(entry->addComponent(element, original, query.value(2).toBool()));
+		// Add references to the strokes belonging to this component
+		QByteArray pathsRefs(query.value(3).toByteArray());
+		for (int i = 0; i < pathsRefs.size(); i++) {
+			quint8 idx(static_cast<quint8>(pathsRefs[i]));
+			comp->addStroke(&entry->_strokes[idx]);
 		}
 	}
-	// For kanjis that have no component at all, add a dummy root component.
-	if (entry->components().isEmpty()) entry->addComponent(0, TextTools::unicodeToSingleChar(id), 0, 0);
-
+	
 	// Load skip code
 	query.prepare("select type, c1, c2 from skip where entry = ? limit 1");
 	query.addBindValue(id);
@@ -362,6 +364,14 @@ Entry *Kanjidic2EntrySearcher::loadEntry(int id)
 		entry->_skip = QString("%1-%2-%3").arg(query.value(0).toInt()).arg(query.value(1).toInt()).arg(query.value(2).toInt());
 	}
 
+	// Load four corner code
+	query.prepare("select topLeft, topRight, botLeft, botRight, extra from fourCorner where entry = ? limit 1");
+	query.addBindValue(id);
+	query.exec();
+	if (query.next()) {
+		entry->_fourCorner = QString("%1%2%3%4.%5").arg(query.value(0).toInt()).arg(query.value(1).toInt()).arg(query.value(2).toInt()).arg(query.value(3).toInt()).arg(query.value(4).toInt());
+	}
+	
 	// Try to add a description for characters that have nothing
 	if (entry->meanings().size() == 0) {
 		if (TextTools::isKatakana(character)) entry->_meanings << Kanjidic2Entry::KanjiMeaning("en", QString("Katakana %1").arg(character));

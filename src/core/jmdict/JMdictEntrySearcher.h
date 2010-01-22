@@ -29,22 +29,18 @@ class JMdictEntrySearcher : public EntrySearcher
 {
 	Q_OBJECT
 private:
-	static JMdictMiscTagType _miscFilterMask;
-	static JMdictMiscTagType _explicitlyRequestedMiscs;
+	static quint64 _miscFilterMask;
+	static quint64 _explicitlyRequestedMiscs;
 
 protected:
-	QSqlQuery kanjiQuery, kanaQuery, sensesQuery, glossQuery, jlptQuery, stagKQuery, stagRQuery;
-
-	// Used to refer to sense properties arguments.
-	static QVector<QMap<QString, quint64> > JMdictReversedSenseTags;
-	static void buildJMdictReversedSenseTags();
+	QSqlQuery kanjiQuery, kanaQuery, sensesQuery, glossQuery, jlptQuery;
 
 protected slots:
 	void updateMiscFilterMask();
 
 public:
-	static JMdictMiscTagType miscFilterMask() { return _miscFilterMask; }
-	static JMdictMiscTagType explicitlyRequestedMiscs() { return _explicitlyRequestedMiscs; }
+	static quint64 miscFilterMask() { return _miscFilterMask; }
+	static quint64 explicitlyRequestedMiscs() { return _explicitlyRequestedMiscs; }
 
 	JMdictEntrySearcher(QObject *parent = 0);
 	virtual ~JMdictEntrySearcher() {}

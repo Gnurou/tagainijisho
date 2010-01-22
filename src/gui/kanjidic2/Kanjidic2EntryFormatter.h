@@ -54,6 +54,7 @@ public:
 	static PreferenceItem<bool> showNanori;
 	static PreferenceItem<bool> showUnicode;
 	static PreferenceItem<bool> showSKIP;
+	static PreferenceItem<bool> showFourCorner;
 	static PreferenceItem<bool> showJLPT;
 	static PreferenceItem<bool> showGrade;
 	static PreferenceItem<bool> showComponents;
@@ -69,6 +70,7 @@ public:
 	static PreferenceItem<bool> tooltipShowScore;
 	static PreferenceItem<bool> tooltipShowUnicode;
 	static PreferenceItem<bool> tooltipShowSKIP;
+	static PreferenceItem<bool> tooltipShowFourCorner;
 	static PreferenceItem<bool> tooltipShowJLPT;
 	static PreferenceItem<bool> tooltipShowGrade;
 	static PreferenceItem<bool> tooltipShowStrokesNumber;

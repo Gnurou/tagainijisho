@@ -16,34 +16,17 @@
  */
 
 #include "core/TextTools.h"
-#include "core/jmdict/JMdictDefs.h"
 #include "core/jmdict/JMdictEntry.h"
 #include "core/jmdict/JMdictEntrySearcher.h"
-
-QVector<QMap<QString, quint64> > JMdictEntrySearcher::JMdictReversedSenseTags;
+#include "core/jmdict/JMdictPlugin.h"
 
 PreferenceItem<QString> JMdictEntrySearcher::miscPropertiesFilter("jmdict", "miscPropertiesFilter", "arch,obs");
-JMdictMiscTagType JMdictEntrySearcher::_miscFilterMask = 0;
-JMdictMiscTagType JMdictEntrySearcher::_explicitlyRequestedMiscs = 0;
-
-void JMdictEntrySearcher::buildJMdictReversedSenseTags()
-{
-	JMdictReversedSenseTags.resize(JMdictNbSenseTags);
-	for (int i = 0; i < JMdictReversedSenseTags.size(); i++) {
-		for (int j = 0; JMdictSenseTags[i][j] != ""; j++) {
-			JMdictReversedSenseTags[i][JMdictSenseTags[i][j]] = JMdictSenseTagsValues[i][j];
-		}
-	}
-}
+quint64 JMdictEntrySearcher::_miscFilterMask = 0;
+quint64 JMdictEntrySearcher::_explicitlyRequestedMiscs = 0;
 
 JMdictEntrySearcher::JMdictEntrySearcher(QObject *parent) : EntrySearcher(parent)
 {
-	// First check if the entities lookup table should be built
-	if (JMdictReversedSenseTags.isEmpty()) {
-		buildJMdictReversedSenseTags();
-		updateMiscFilterMask();
-		connect(&JMdictEntrySearcher::miscPropertiesFilter, SIGNAL(valueChanged(QVariant)), this, SLOT(updateMiscFilterMask()));
-	}
+	connect(&JMdictEntrySearcher::miscPropertiesFilter, SIGNAL(valueChanged(QVariant)), this, SLOT(updateMiscFilterMask()));
 
 	QueryBuilder::Join::addTablePriority("jmdict.entries", 50);
 	QueryBuilder::Join::addTablePriority("jmdict.kanjiChar", 45);
@@ -61,14 +44,12 @@ JMdictEntrySearcher::JMdictEntrySearcher(QObject *parent) : EntrySearcher(parent
 	// Register text search commands
 	validCommands << "mean" << "kana" << "kanji" << "jmdict" << "haskanji" << "jlpt" << "withstudiedkanjis" << "hascomponent";
 	// Also register commands that are sense properties
-	for (int i = 0; i < JMdictNbSenseTags; i++) validCommands << JMdictSenseTagsList[i];
+	validCommands << "pos" << "misc" << "dialect" << "field";
 
 	// Prepare queries so that we just have to bind and execute them
 	kanjiQuery.prepare("select reading, frequency from jmdict.kanji join jmdict.kanjiText on kanji.docid == kanjiText.docid where id=? order by priority");
 	kanaQuery.prepare("select reading, nokanji, frequency, restrictedTo from jmdict.kana join jmdict.kanaText on kana.docid == kanaText.docid where id=? order by priority");
-	sensesQuery.prepare("select priority, pos, misc, dial, field from jmdict.senses where id=? order by priority asc");
-	stagKQuery.prepare("select kanjiPriority from stagk where id=? and sensePriority=?");
-	stagRQuery.prepare("select kanaPriority from stagr where id=? and sensePriority=?");
+	sensesQuery.prepare("select priority, pos, misc, dial, field, restrictedToKanji, restrictedToKana from jmdict.senses where id=? order by priority asc");
 	glossQuery.prepare("select gloss.lang, glossText.reading from jmdict.gloss join jmdict.glossText on gloss.docid == glossText.docid where gloss.id=? and gloss.sensePriority=?");
 	jlptQuery.prepare("select jlpt.level from jmdict.jlpt where jlpt.id=?");
 }
@@ -150,7 +131,7 @@ void JMdictEntrySearcher::buildStatement(QList<SearchCommand> &commands, QueryBu
 	QStringList transReadingsMatch;
 	QStringList hasKanjiSearch;
 	QStringList hasComponentSearch;
-	QVector<quint64> senseFilters(JMdictNbSenseTags);
+	quint64 posFilter(0), miscFilter(0), dialectFilter(0), fieldFilter(0);
 	foreach(const SearchCommand &command, commands) {
 		const QString &commandLabel = command.command();
 
@@ -259,20 +240,53 @@ void JMdictEntrySearcher::buildStatement(QList<SearchCommand> &commands, QueryBu
 			commands.removeOne(command);
 		}
 		// Check for sense property commands
-		else for (int i = 0; i < JMdictNbSenseTags; i++) {
-			if (commandLabel == JMdictSenseTagsList[i]) {
-				bool allArgsProcessed = true;
-				foreach(const QString &arg, command.args()) {
-					// Check if the argument is defined
-					if (JMdictReversedSenseTags[i].contains(arg)) {
-						senseFilters[i] |= JMdictReversedSenseTags[i][arg];
-					} else allArgsProcessed = false;
-				}
-				// The command is considered as recognized only if all its arguments
-				// were successfully recognized.
-				if (allArgsProcessed && !command.args().isEmpty()) commands.removeOne(command);
-				break;
+		else if (commandLabel == "pos") {
+			bool allArgsProcessed = true;
+			foreach (const QString &arg, command.args()) {
+				// Check if the argument is defined
+				if (JMdictPlugin::posBitShifts().contains(arg)) {
+					int bitShift(JMdictPlugin::posBitShifts()[arg]);
+					if (bitShift != 0) posFilter |= 1 << bitShift;
+				} else allArgsProcessed = false;
 			}
+			if (!allArgsProcessed) continue;
+			commands.removeOne(command);
+		}
+		else if (commandLabel == "misc") {
+			bool allArgsProcessed = true;
+			foreach (const QString &arg, command.args()) {
+				// Check if the argument is defined
+				if (JMdictPlugin::miscBitShifts().contains(arg)) {
+					int bitShift(JMdictPlugin::miscBitShifts()[arg]);
+					if (bitShift != 0) miscFilter |= 1 << bitShift;
+				} else allArgsProcessed = false;
+			}
+			if (!allArgsProcessed) continue;
+			commands.removeOne(command);
+		}
+		else if (commandLabel == "dialect") {
+			bool allArgsProcessed = true;
+			foreach (const QString &arg, command.args()) {
+				// Check if the argument is defined
+				if (JMdictPlugin::dialectBitShifts().contains(arg)) {
+					int bitShift(JMdictPlugin::dialectBitShifts()[arg]);
+					if (bitShift != 0) dialectFilter |= 1 << bitShift;
+				} else allArgsProcessed = false;
+			}
+			if (!allArgsProcessed) continue;
+			commands.removeOne(command);
+		}
+		else if (commandLabel == "field") {
+			bool allArgsProcessed = true;
+			foreach (const QString &arg, command.args()) {
+				// Check if the argument is defined
+				if (JMdictPlugin::fieldBitShifts().contains(arg)) {
+					int bitShift(JMdictPlugin::posBitShifts()[arg]);
+					if (bitShift != 0) fieldFilter |= 1 << bitShift;
+				} else allArgsProcessed = false;
+			}
+			if (!allArgsProcessed) continue;
+			commands.removeOne(command);
 		}
 	}
 
@@ -283,20 +297,16 @@ void JMdictEntrySearcher::buildStatement(QList<SearchCommand> &commands, QueryBu
 
 	// Add where statements for sense filters
 	// Cancel misc filters that have explicitly been required
-	_explicitlyRequestedMiscs = senseFilters[JMdictMiscIndex];
-	JMdictMiscTagType _miscFilterMask = miscFilterMask();
-	_miscFilterMask &= ~_explicitlyRequestedMiscs;
+	_explicitlyRequestedMiscs = miscFilter;
+	quint64 _miscFilterMask = miscFilterMask() & ~_explicitlyRequestedMiscs;
 
-	bool mustJoinSenses = false;
-	if (_miscFilterMask != 0) mustJoinSenses = true;
-	else for (int i = 0; i < JMdictNbSenseTags; i++) if (senseFilters[i] != 0) mustJoinSenses = true;
+	bool mustJoinSenses = _miscFilterMask | posFilter | miscFilter | dialectFilter | fieldFilter;
 	if (mustJoinSenses) {
 		statement.addJoin(QueryBuilder::Join(QueryBuilder::Column("jmdict.senses", "id")));
-		for (int i = 0; i < JMdictNbSenseTags; i++) if (senseFilters[i] != 0) {
-			// If we remove the right part of the == in that condition, it becomes an "OR"
-			// instead of an "AND"
-			statement.addWhere(QString("jmdict.senses.%1 & %2 == %2").arg(JMdictSenseTagsList[i]).arg(senseFilters[i]));
-		}
+		if (posFilter) statement.addWhere(QString("jmdict.senses.pos & %2 == %2").arg(posFilter));
+		if (miscFilter) statement.addWhere(QString("jmdict.senses.misc & %2 == %2").arg(miscFilter));
+		if (dialectFilter) statement.addWhere(QString("jmdict.senses.dialect & %2 == %2").arg(dialectFilter));
+		if (fieldFilter) statement.addWhere(QString("jmdict.senses.field & %2 == %2").arg(fieldFilter));
 		// Implicitely masked misc properties
 		if (_miscFilterMask) statement.addWhere(QString("jmdict.senses.misc & %1 == 0").arg(_miscFilterMask));
 	}
@@ -316,7 +326,7 @@ void JMdictEntrySearcher::buildStatement(QList<SearchCommand> &commands, QueryBu
 void JMdictEntrySearcher::updateMiscFilterMask()
 {
 	_miscFilterMask = 0;
-	foreach (const QString &str, miscPropertiesFilter.value().split(',')) _miscFilterMask |= JMdictReversedSenseTags[JMdictMiscIndex][str];
+	foreach (const QString &str, miscPropertiesFilter.value().split(',')) if (JMdictPlugin::miscBitShifts().contains(str)) _miscFilterMask |= 1 << JMdictPlugin::miscBitShifts()[str];
 }
 
 QueryBuilder::Column JMdictEntrySearcher::canSort(const QString &sort, const QueryBuilder::Statement &statement)
@@ -360,7 +370,7 @@ Entry *JMdictEntrySearcher::loadEntry(int id)
 		KanaReading kana(kanaQuery.value(0).toString(), 0, kanaQuery.value(2).toUInt());
 		// Get kana readings
 		if (kanaQuery.value(1).toBool() == false) {
-			QStringList restrictedTo = kanaQuery.value(3).toString().split(',', QString::SkipEmptyParts);
+			QStringList restrictedTo(kanaQuery.value(3).toString().split(',', QString::SkipEmptyParts));
 			if (restrictedTo.isEmpty()) for (int i = 0; i < entry->getKanjiReadings().size(); i++) {
 				kana.addKanjiReading(i);
 			}
@@ -378,14 +388,10 @@ Entry *JMdictEntrySearcher::loadEntry(int id)
 	while(sensesQuery.next()) {
 		Sense sense(sensesQuery.value(1).toULongLong(), sensesQuery.value(2).toULongLong(), sensesQuery.value(3).toULongLong(), sensesQuery.value(4).toULongLong());
 		// Get restricted readings/writing
-		stagKQuery.addBindValue(entry->id());
-		stagKQuery.addBindValue(sensesQuery.value(0).toInt());
-		stagKQuery.exec();
-		while(stagKQuery.next()) sense.addStagK(stagKQuery.value(0).toInt());
-		stagRQuery.addBindValue(entry->id());
-		stagRQuery.addBindValue(sensesQuery.value(0).toInt());
-		stagRQuery.exec();
-		while(stagRQuery.next()) sense.addStagR(stagRQuery.value(0).toInt());
+		QStringList restrictedTo(sensesQuery.value(5).toString().split(',', QString::SkipEmptyParts));
+		foreach (const QString &idx, restrictedTo) sense.addStagK(idx.toInt());
+		restrictedTo = sensesQuery.value(6).toString().split(',', QString::SkipEmptyParts);
+		foreach (const QString &idx, restrictedTo) sense.addStagR(idx.toInt());
 
 		glossQuery.addBindValue(entry->id());
 		glossQuery.addBindValue(sensesQuery.value(0).toInt());

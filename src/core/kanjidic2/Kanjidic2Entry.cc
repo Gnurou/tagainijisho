@@ -24,8 +24,9 @@
 
 #include <QSqlQuery>
 #include <QSqlError>
+#include <QMap>
 
-KanjiComponent::KanjiComponent(const KanjiComponent *parent, const QString &element, const QString &original, unsigned int number) : _parent(parent), _element(element), _original(original), _number(number)
+KanjiComponent::KanjiComponent(const QString &element, const QString &original) : _element(element), _original(original)
 {
 }
 
@@ -42,7 +43,7 @@ unsigned int KanjiComponent::unicode(bool simplified) const {
 	return TextTools::singleCharToUnicode(repr(simplified));
 }
 
-KanjiStroke::KanjiStroke(const KanjiComponent *parent, const QChar &type, const QString &path) : _parent(parent), _type(type), _path(path)
+KanjiStroke::KanjiStroke(const QChar& type, const QString& path) : _type(type), _path(path)
 {
 }
 
@@ -54,16 +55,47 @@ Kanjidic2Entry::Kanjidic2Entry(const QString &kanji, bool inDB, int grade, int s
 {
 }
 
-KanjiComponent *Kanjidic2Entry::addComponent(const KanjiComponent *parent, const QString &element, const QString &original, unsigned int number)
+KanjiComponent *Kanjidic2Entry::addComponent(const QString& element, const QString& original, bool isRoot)
 {
-	_components << KanjiComponent(parent, element, original, number);
+	_components << KanjiComponent(element, original);
+	if (isRoot) _rootComponents << &_components.last();
 	return &_components.last();
 }
 
-KanjiStroke *Kanjidic2Entry::addStroke(const KanjiComponent *parent, const QChar &type, const QString &path)
+KanjiStroke *Kanjidic2Entry::addStroke(const QChar &type, const QString &path)
 {
-	_strokes << KanjiStroke(parent, type, path);
+	_strokes << KanjiStroke(type, path);
 	return &_strokes.last();
+}
+
+/**
+ * Returns the root components, i.e. the minimum set of components that covers as many
+ * strokes as possible in this kanji.
+ */
+const QList<const KanjiComponent *> &Kanjidic2Entry::rootComponents() const
+{
+	return _rootComponents;
+	/*
+	// Build a strokes coverage map associating each stroke to a "root" component
+	QMap<const KanjiStroke *, const KanjiComponent *> strokesCoverage;
+	foreach (const KanjiStroke &stroke, strokes()) strokesCoverage[&stroke] = 0;
+	
+	// Now set each stroke coverage to point to the component that contains it and features the most strokes
+	const QList<KanjiComponent> &comps(components());
+	foreach (const KanjiComponent &component, comps) {
+		foreach (const KanjiStroke *stroke, component.strokes()) {
+			if (strokesCoverage[stroke] == 0) strokesCoverage[stroke] = &component;
+			else if (strokesCoverage[stroke]->strokes().size() < component.strokes().size()) strokesCoverage[stroke] = &component;
+		}
+	}
+	
+	// Finally return all the components in our coverage map
+	QList<const KanjiComponent *> ret;
+	foreach (const KanjiStroke &stroke, strokes()) {
+		const KanjiComponent *comp(strokesCoverage[&stroke]);
+		if (comp != 0 && !ret.contains(comp)) ret << comp;
+	}
+	return ret;*/
 }
 
 QStringList Kanjidic2Entry::writings() const

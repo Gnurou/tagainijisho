@@ -30,6 +30,10 @@
 
 struct sqlite3;
 
+extern "C" {
+	void register_all_tokenizers(sqlite3 *handler);
+}
+
 class Database : public QThread
 {
 	Q_OBJECT

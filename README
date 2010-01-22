@@ -1,4 +1,4 @@
-Tagaini Jisho, version 0.2.4
+Tagaini Jisho, version 0.2.5
 ============================
 
 This is Tagaini Jisho, a free software Japanese dictionary and learning 
@@ -48,47 +48,34 @@ Features
 Compiling
 ---------
 The only runtime dependency to run Tagaini Jisho is Qt 4.5 or higher. In order
-to compile it, you will also need Python 2.5 or higher.
+to compile it, you will also need CMake 2.8 or higher.
 
 Compilation requires two steps: first, the program is compiled, and second,
 the dictionaries it uses are created.
 
-To compile the program, you first need to invoke qmake in order to generate
+To compile the program, you first need to invoke cmake in order to generate
 Makefiles for your platform:
 
-$ qmake
+$ cmake .
 
 Unix users: by default, the program will be installed into /usr/local. You can
 change this by setting the INSTALL_PREFIX variable when invoking qmake:
 
-$ qmake INSTALL_PREFIX=/path/to/install/dir
+$ cmake INSTALL_PREFIX=/path/to/install/dir .
 
 Compilation may be performed. On Unix systems, invoking make will be
 enough:
 
 $ make
 
-This will build the release version by default, the debug version can be
-obtained by running:
-
-$ make debug
-
 Finally, you can install the program to its destination:
 
 # make install
 
-Replace 'install' with 'release_install' if you built the release version.
+Generating the databases is just a matter of invoking make again with a different
+target:
 
-Generating the databases is just a matter of invoking the builddb.py script:
-
-$ python builddb.py
-
-This script can take several options, which you can list using the -h
-parameter. This is especially useful if you want to generate databases for
-languages other than english.
-
-Once the databases are built, you can invoke the tagainijisho program. It
-look for the database files in the current directory.
+$ make databases
 
 
 Usage

@@ -169,6 +169,7 @@ bool ThreadedDatabaseConnection::connect(const QString &dbFile)
 	QVariant handler = _driver->handle();
 	if (handler.isValid() && !qstrcmp(handler.typeName(), "sqlite3*")) {
 		_handler = *static_cast<sqlite3 **>(handler.data());
+		register_all_tokenizers(_handler);
 	}
 	else {
 		qWarning("Cannot fetch sqlite3 handler - will most probably crash when a query is interrupted...");
