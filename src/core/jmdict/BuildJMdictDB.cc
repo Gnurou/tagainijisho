@@ -158,7 +158,7 @@ bool insertJLPTLevels(const QString &fName, int level)
 static void create_tables()
 {
 	QSqlQuery query;
-	query.exec("create table info(version INT, dictVersion TEXT)");
+	query.exec("create table info(version INT, JMdictVersion TEXT)");
 	query.exec("create table posEntities(bitShift INTEGER PRIMARY KEY, name TEXT, description TEXT)");
 	query.exec("create table miscEntities(bitShift INTEGER PRIMARY KEY, name TEXT, description TEXT)");
 	query.exec("create table fieldEntities(bitShift INTEGER PRIMARY KEY, name TEXT, description TEXT)");

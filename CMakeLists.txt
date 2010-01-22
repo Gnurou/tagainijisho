@@ -1,3 +1,5 @@
+# TODO Download & extract SQLite, JMdict, kanjidic2 and kanjivg
+
 project(tagainijisho)
 set(VERSION 0.2.5)
 cmake_minimum_required(VERSION 2.8.0)
@@ -31,7 +33,6 @@ include_directories(${CMAKE_SOURCE_DIR}/src)
 #FILE(DOWNLOAD ftp://ftp.monash.edu.au/pub/nihongo/JMdict.gz ./boo.gz)
 #add_custom_command(TARGET boo PRE_BUILD COMMAND gunzip ./boo.gz DEPENDS ./boo.gz)
 
-# TODO add dependencies for kanjidic2 and kanjivg files
 add_custom_command(OUTPUT kanjidic2.db
 	COMMAND build_kanji_db ${CMAKE_SOURCE_DIR} kanjidic2.db
 	DEPENDS build_kanji_db ${CMAKE_SOURCE_DIR}/3rdparty/kanjidic2.xml ${CMAKE_SOURCE_DIR}/3rdparty/kanjivg.xml)

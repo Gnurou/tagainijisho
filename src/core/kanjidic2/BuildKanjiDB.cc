@@ -193,9 +193,12 @@ bool updateJLPTLevels(const QString &fName, int level)
 static void create_tables()
 {
 	QSqlQuery query;
-	query.exec("create table info(version INT)");
-	query.prepare("insert into info values(?)");
+	query.exec("create table info(version INT, kanjidic2Version TEXT, kanjiVGVersion TEXT)");
+	query.prepare("insert into info values(?, ?, ?)");
 	query.addBindValue(KANJIDIC2DB_REVISION);
+	// TODO
+	query.addBindValue("");
+	query.addBindValue("");
 	query.exec();
 	query.exec("create table entries(id INTEGER PRIMARY KEY, grade TINYINT, strokeCount TINYINT, frequency SMALLINT, jlpt TINYINT, paths BLOB)");
 	query.exec("create table reading(docid INTEGER PRIMARY KEY, entry INTEGER SECONDARY KEY REFERENCES entries, type TEXT)");
