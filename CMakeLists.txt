@@ -34,7 +34,12 @@ include_directories(${CMAKE_SOURCE_DIR}/src)
 # TODO add dependencies for kanjidic2 and kanjivg files
 add_custom_command(OUTPUT kanjidic2.db
 	COMMAND build_kanji_db ${CMAKE_SOURCE_DIR} kanjidic2.db
-	DEPENDS build_kanji_db)
+	DEPENDS build_kanji_db ${CMAKE_SOURCE_DIR}/3rdparty/kanjidic2.xml ${CMAKE_SOURCE_DIR}/3rdparty/kanjivg.xml)
+
+add_custom_command(OUTPUT jmdict.db
+	COMMAND build_jmdict_db ${CMAKE_SOURCE_DIR} jmdict.db
+	DEPENDS build_jmdict_db ${CMAKE_SOURCE_DIR}/3rdparty/JMdict)
+
 add_custom_target(databases DEPENDS jmdict.db kanjidic2.db)
 
 add_subdirectory(src)

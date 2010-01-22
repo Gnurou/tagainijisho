@@ -138,6 +138,21 @@ bool JMdictDBParser::onItemParsed(JMdictItem &entry)
 	}
 }
 
+bool insertJLPTLevels(const QString &fName, int level)
+{
+	QFile file(fName);
+	if (!file.open(QFile::ReadOnly | QFile::Text)) return false;
+	char line[50];
+	int lineSize;
+	while ((lineSize = file.readLine(line, 50)) != -1) {
+		if (lineSize == 0) continue;
+		if (line[lineSize - 1] == '\n') line[lineSize - 1] = 0;
+		BIND(insertJLPTQuery, QString(line).toInt());
+		BIND(insertJLPTQuery, level);
+		EXEC(insertJLPTQuery);
+	}
+}
+
 static void create_tables()
 {
 	QSqlQuery query;
@@ -160,6 +175,7 @@ static void create_tables()
 	query.exec("create table gloss(id INTEGER SECONDARY KEY REFERENCES entries, sensePriority INT, lang CHAR(3), docid INTEGER SECONDARY KEY NOT NULL)");
 	query.exec("create virtual table glossText using fts3(reading)");
 	query.exec("create table kanjiChar(kanji INTEGER, id INTEGER SECONDARY KEY REFERENCES entries, priority INT)");
+	query.exec("create table jlpt(id INTEGER PRIMARY KEY, level TINYINT)");
 }
 
 static void create_indexes()
@@ -281,6 +297,12 @@ int main(int argc, char *argv[])
 		entitiesQuery.addBindValue(JMParser.entities[name]);
 		if (!entitiesQuery.exec()) return 2;
 	}
+	
+	// Insert JLPT levels
+	insertJLPTLevels(QDir(srcDir).absoluteFilePath("src/core/jmdict/jlpt-level4.txt"), 4);
+	insertJLPTLevels(QDir(srcDir).absoluteFilePath("src/core/jmdict/jlpt-level3.txt"), 3);
+	insertJLPTLevels(QDir(srcDir).absoluteFilePath("src/core/jmdict/jlpt-level2.txt"), 2);
+	insertJLPTLevels(QDir(srcDir).absoluteFilePath("src/core/jmdict/jlpt-level1.txt"), 1);
 	
 	// Analyze for hopefully better performance
 	database.exec("analyze");
