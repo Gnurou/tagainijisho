@@ -446,9 +446,24 @@ void KanjiAllComponentsOfHandler::handleUrl(const QUrl &url, DetailedView *view)
 	searchBar->search();
 }
 
+static void prepareFourCornerComboBox(QComboBox *box)
+{
+	box->addItem("");
+	box->addItem(QString::fromUtf8("亠"));
+	box->addItem(QString::fromUtf8("一"));
+	box->addItem(QString::fromUtf8("｜"));
+	box->addItem(QString::fromUtf8("丶"));
+	box->addItem(QString::fromUtf8("十"));
+	box->addItem(QString::fromUtf8("キ"));
+	box->addItem(QString::fromUtf8("口"));
+	box->addItem(QString::fromUtf8("厂"));
+	box->addItem(QString::fromUtf8("八"));
+	box->addItem(QString::fromUtf8("小"));
+}
+
 Kanjidic2OptionsWidget::Kanjidic2OptionsWidget(QWidget *parent) : SearchBarExtender(parent, "kanjidic")
 {
-	_propsToSave << "strokeCount" << "components" << "unicode" << "skip" << "grades";
+	_propsToSave << "strokeCount" << "components" << "unicode" << "skip" << "fourCorner" << "grades";
 
 	QGroupBox *_strokeCountGroupBox = new QGroupBox(tr("Stroke count"), this);
 	connect(_strokeCountGroupBox, SIGNAL(toggled(bool)), this, SLOT(commandUpdate()));
@@ -497,6 +512,32 @@ Kanjidic2OptionsWidget::Kanjidic2OptionsWidget(QWidget *parent) : SearchBarExten
 		hLayout->addWidget(_skip3);
 		connect(_skip3, SIGNAL(valueChanged(int)), this, SLOT(delayedCommandUpdate()));
 	}
+	QGroupBox *fourCornerGroupBox = new QGroupBox(tr("Four corner"), this);
+	{
+		QHBoxLayout *hLayout = new QHBoxLayout(fourCornerGroupBox);
+		QGridLayout *gLayout = new QGridLayout();
+		hLayout->addLayout(gLayout);
+		_fcTopLeft = new QComboBox(fourCornerGroupBox);
+		prepareFourCornerComboBox(_fcTopLeft);
+		connect(_fcTopLeft, SIGNAL(currentIndexChanged(int)), this, SLOT(delayedCommandUpdate()));
+		gLayout->addWidget(_fcTopLeft, 0, 0);
+		_fcTopRight = new QComboBox(fourCornerGroupBox);
+		prepareFourCornerComboBox(_fcTopRight);
+		connect(_fcTopRight, SIGNAL(currentIndexChanged(int)), this, SLOT(delayedCommandUpdate()));
+		gLayout->addWidget(_fcTopRight, 0, 1);
+		_fcBotLeft = new QComboBox(fourCornerGroupBox);
+		prepareFourCornerComboBox(_fcBotLeft);
+		connect(_fcBotLeft, SIGNAL(currentIndexChanged(int)), this, SLOT(delayedCommandUpdate()));
+		gLayout->addWidget(_fcBotLeft, 1, 0);
+		_fcBotRight = new QComboBox(fourCornerGroupBox);
+		prepareFourCornerComboBox(_fcBotRight);
+		connect(_fcBotRight, SIGNAL(currentIndexChanged(int)), this, SLOT(delayedCommandUpdate()));
+		gLayout->addWidget(_fcBotRight, 1, 1);
+		_fcExtra = new QComboBox(fourCornerGroupBox);
+		prepareFourCornerComboBox(_fcExtra);
+		connect(_fcExtra, SIGNAL(currentIndexChanged(int)), this, SLOT(delayedCommandUpdate()));
+		hLayout->addWidget(_fcExtra);
+	}
 	QGroupBox *gradeGroupBox = new QGroupBox(tr("School grade"), this);
 	{
 		QHBoxLayout *hLayout = new QHBoxLayout(gradeGroupBox);
@@ -530,6 +571,7 @@ Kanjidic2OptionsWidget::Kanjidic2OptionsWidget(QWidget *parent) : SearchBarExten
 	mainLayout->addWidget(componentsGroupBox);
 	mainLayout->addWidget(unicodeGroupBox);
 	mainLayout->addWidget(skipGroupBox);
+	mainLayout->addWidget(fourCornerGroupBox);
 	mainLayout->addWidget(gradeGroupBox);
 	mainLayout->setContentsMargins(0, 0, 0, 0);
 }
@@ -588,7 +630,8 @@ QString Kanjidic2OptionsWidget::currentCommand() const
 		}
 	}
 	if (_unicode->value()) ret += QString(" :unicode=%1").arg(_unicode->text());
-	if (_skip1->value() || _skip2->value() || _skip3->value()) ret += QString(" :skip=%1-%2-%3").arg(_skip1->value()).arg(_skip2->value()).arg(_skip3->value());
+	if (_skip1->value() || _skip2->value() || _skip3->value()) ret += QString(" :skip=%1").arg(skip());
+	if (_fcTopLeft->currentIndex() > 0 || _fcTopRight->currentIndex() > 0 || _fcBotLeft->currentIndex() > 0 || _fcBotRight->currentIndex() > 0 || _fcExtra->currentIndex() > 0) ret += QString(" :fourcorner=%1").arg(fourCorner());
 	if (!_gradesList.isEmpty()) ret += " :grade=" + _gradesList.join(",");
 	return ret;
 }
@@ -612,9 +655,10 @@ QString Kanjidic2OptionsWidget::currentTitle() const
 		if (_strokeCountSpinBox->value() == 1) ret += tr(", 1 stroke");
 		else ret += tr(", %1 strokes").arg(_strokeCountSpinBox->value());
 	}
-	if (_unicode->value()) ret += tr(", unicode: ") + _unicode->text();
-	if (_skip1->value() || _skip2->value() || _skip3->value()) ret += tr(", skip: ") + skip();
-	if (!_gradesList.isEmpty()) ret += tr(", grade:") + _gradesList.join(",");
+	if (_unicode->value()) ret += tr(", unicode: %1").arg(_unicode->text());
+	if (_skip1->value() || _skip2->value() || _skip3->value()) ret += tr(", skip: %1").arg(skip());
+	if (_fcTopLeft->currentIndex() > 0 || _fcTopRight->currentIndex() > 0 || _fcBotLeft->currentIndex() > 0 || _fcBotRight->currentIndex() > 0 || _fcExtra->currentIndex() > 0) ret += tr(", 4c: %1").arg(fourCorner());
+	if (!_gradesList.isEmpty()) ret += tr(", grade: %1").arg(_gradesList.join(","));
 	if (!ret.isEmpty()) ret = tr("Kanji") + ret;
 	else ret = tr("Kanji");
 	return ret;
@@ -647,6 +691,11 @@ void Kanjidic2OptionsWidget::_reset()
 	_skip1->setValue(0);
 	_skip2->setValue(0);
 	_skip3->setValue(0);
+	_fcTopLeft->setCurrentIndex(0);
+	_fcTopRight->setCurrentIndex(0);
+	_fcBotLeft->setCurrentIndex(0);
+	_fcBotRight->setCurrentIndex(0);
+	_fcExtra->setCurrentIndex(0);
 	_gradesList.clear();
 	foreach (QAction *action, _gradeButton->menu()->actions()) if (action->isChecked()) action->trigger();
 	_components->clear();
@@ -678,4 +727,31 @@ void Kanjidic2OptionsWidget::setSkip(const QString &value)
 	_skip1->setValue(t);
 	_skip2->setValue(c1);
 	_skip3->setValue(c2);
+}
+
+QString Kanjidic2OptionsWidget::fourCorner() const
+{
+	return QString("%1%2%3%4.%5").arg(_fcTopLeft->currentIndex() > 0 ? QString::number(_fcTopLeft->currentIndex() - 1) : "?")
+		.arg(_fcTopRight->currentIndex() > 0 ? QString::number(_fcTopRight->currentIndex() - 1) : "?")
+		.arg(_fcBotLeft->currentIndex() > 0 ? QString::number(_fcBotLeft->currentIndex() - 1) : "?")
+		.arg(_fcBotRight->currentIndex() > 0 ? QString::number(_fcBotRight->currentIndex() - 1) : "?")
+		.arg(_fcExtra->currentIndex() > 0 ? QString::number(_fcExtra->currentIndex() - 1) : "?");
+}
+
+void Kanjidic2OptionsWidget::setFourCorner(const QString &value)
+{
+	// Sanity check
+	if (value.size() != 6 || value[4] != '.') return;
+	
+	int topLeft, topRight, botLeft, botRight, extra;
+	topLeft = value[0].isDigit() ? value[0].toAscii() - '0' : -1;
+	topRight = value[1].isDigit() ? value[1].toAscii() - '0' : -1;
+	botLeft = value[2].isDigit() ? value[2].toAscii() - '0' : -1;
+	botRight = value[3].isDigit() ? value[3].toAscii() - '0' : -1;
+	extra = value[5].isDigit() ? value[5].toAscii() - '0' : -1;
+	_fcTopLeft->setCurrentIndex(topLeft + 1);
+	_fcTopRight->setCurrentIndex(topRight + 1);
+	_fcBotLeft->setCurrentIndex(botLeft + 1);
+	_fcBotRight->setCurrentIndex(botRight + 1);
+	_fcExtra->setCurrentIndex(extra + 1);
 }

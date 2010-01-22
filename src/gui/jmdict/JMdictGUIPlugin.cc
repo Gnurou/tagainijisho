@@ -18,7 +18,6 @@
 #include "core/TextTools.h"
 #include "core/ASyncQuery.h"
 #include "core/QueryBuilder.h"
-#include "core/jmdict/JMdictDefs.h"
 #include "core/jmdict/JMdictEntrySearcher.h"
 #include "core/jmdict/JMdictPlugin.h"
 #include "gui/EntryFormatter.h"
@@ -116,16 +115,16 @@ void JMdictLinkHandler::handleUrl(const QUrl &url, DetailedView *view)
 {
 	QString translated;
 	if (url.authority() == "pos") {
-		translated = QCoreApplication::translate("JMdictLongDescs", JMdictPosEntitiesLongDesc[QString(url.fragment()).toInt()].toLatin1());
+		translated = QCoreApplication::translate("JMdictLongDescs", JMdictPlugin::posEntities()[url.fragment().toInt()].second.toLatin1());
 	}
 	else if (url.authority() == "misc") {
-		translated = QCoreApplication::translate("JMdictLongDescs", JMdictMiscEntitiesLongDesc[QString(url.fragment()).toInt()].toLatin1());
+		translated = QCoreApplication::translate("JMdictLongDescs", JMdictPlugin::miscEntities()[url.fragment().toInt()].second.toLatin1());
 	}
 	else if (url.authority() == "dialect") {
-		translated = QCoreApplication::translate("JMdictLongDescs", JMdictDialEntitiesLongDesc[QString(url.fragment()).toInt()].toLatin1());
+		translated = QCoreApplication::translate("JMdictLongDescs", JMdictPlugin::dialectEntities()[url.fragment().toInt()].second.toLatin1());
 	}
 	else if (url.authority() == "field") {
-		translated = QCoreApplication::translate("JMdictLongDescs", JMdictFieldEntitiesLongDesc[QString(url.fragment()).toInt()].toLatin1());
+		translated = QCoreApplication::translate("JMdictLongDescs", JMdictPlugin::fieldEntities()[url.fragment().toInt()].second.toLatin1());
 	}
 	else return;
 	QToolTip::showText(QCursor::pos(), translated.replace(0, 1, translated[0].toUpper()), 0, QRect());
@@ -138,17 +137,17 @@ void JMdictOptionsWidget::updateMiscFilteredProperties()
 	QFont italicFont;
 	italicFont.setItalic(true);
 	foreach (QAction *action, _miscButton->menu()->actions()) {
-		if (filtered.contains(JMdictMiscEntitiesShortDesc[action->property("TJpropertyIndex").toInt()]))
+		if (filtered.contains(JMdictPlugin::miscEntities()[action->property("TJpropertyIndex").toInt()].first))
 			action->setFont(italicFont);
 		else action->setFont(normalFont);
 	}
 }
 
-QActionGroup *JMdictOptionsWidget::addCheckableProperties(const QString defs[], QMenu *menu)
+QActionGroup *JMdictOptionsWidget::addCheckableProperties(const QVector<QPair<QString, QString> >&defs, QMenu *menu)
 {
 	QList<QString> strList;
-	for (int i = 0; defs[i] != ""; i++) {
-		QString translated = QCoreApplication::translate("JMdictLongDescs", defs[i].toLatin1());
+	for (int i = 0; i < defs.size(); i++) {
+		QString translated = QCoreApplication::translate("JMdictLongDescs", defs[i].second.toLatin1());
 		strList << QString(translated.replace(0, 1, translated[0].toUpper()));
 	}
 	QStringList sortedList(strList);
@@ -269,25 +268,25 @@ JMdictOptionsWidget::JMdictOptionsWidget(QWidget *parent) : SearchBarExtender(pa
 
 		_posButton = new QPushButton(tr("Part of speech"), this);
 		QMenu *menu = new QMenu(this);
-		QActionGroup *actionGroup = addCheckableProperties(JMdictPosEntitiesLongDesc, menu);
+		QActionGroup *actionGroup = addCheckableProperties(JMdictPlugin::posEntities(), menu);
 		_posButton->setMenu(menu);
 		hLayout->addWidget(_posButton);
 		connect(actionGroup, SIGNAL(triggered(QAction *)), this, SLOT(onPosTriggered(QAction *)));
 		_dialButton = new QPushButton(tr("Dialect"), this);
 		menu = new QMenu(this);
-		actionGroup = addCheckableProperties(JMdictDialEntitiesLongDesc, menu);
+		actionGroup = addCheckableProperties(JMdictPlugin::dialectEntities(), menu);
 		_dialButton->setMenu(menu);
 		hLayout->addWidget(_dialButton);
 		connect(actionGroup, SIGNAL(triggered(QAction *)), this, SLOT(onDialTriggered(QAction *)));
 		_fieldButton = new QPushButton(tr("Field"), this);
 		menu = new QMenu(this);
-		actionGroup = addCheckableProperties(JMdictFieldEntitiesLongDesc, menu);
+		actionGroup = addCheckableProperties(JMdictPlugin::fieldEntities(), menu);
 		_fieldButton->setMenu(menu);
 		hLayout->addWidget(_fieldButton);
 		connect(actionGroup, SIGNAL(triggered(QAction *)), this, SLOT(onFieldTriggered(QAction *)));
 		_miscButton = new QPushButton(tr("Misc"), this);
 		menu = new QMenu(this);
-		actionGroup = addCheckableProperties(JMdictMiscEntitiesLongDesc, menu);
+		actionGroup = addCheckableProperties(JMdictPlugin::miscEntities(), menu);
 		_miscButton->setMenu(menu);
 		hLayout->addWidget(_miscButton);
 		connect(actionGroup, SIGNAL(triggered(QAction *)), this, SLOT(onMiscTriggered(QAction *)));
@@ -372,11 +371,11 @@ void JMdictOptionsWidget::onPosTriggered(QAction *action)
 {
 	if (action->isChecked()) {
 		int propertyIndex = action->property("TJpropertyIndex").toInt();
-		_posList << JMdictPosEntitiesShortDesc[propertyIndex];
+		_posList << JMdictPlugin::posEntities()[propertyIndex].first;
 	}
 	else {
 		int propertyIndex = action->property("TJpropertyIndex").toInt();
-		_posList.removeOne(JMdictPosEntitiesShortDesc[propertyIndex]);
+		_posList.removeOne(JMdictPlugin::posEntities()[propertyIndex].first);
 	}
 	if (!_posList.isEmpty()) _posButton->setText(tr("Pos:") + _posList.join(","));
 	else _posButton->setText(tr("Part of speech"));
@@ -387,11 +386,11 @@ void JMdictOptionsWidget::onDialTriggered(QAction *action)
 {
 	if (action->isChecked()) {
 		int propertyIndex = action->property("TJpropertyIndex").toInt();
-		_dialList << JMdictDialEntitiesShortDesc[propertyIndex];
+		_dialList << JMdictPlugin::dialectEntities()[propertyIndex].first;
 	}
 	else {
 		int propertyIndex = action->property("TJpropertyIndex").toInt();
-		_dialList.removeOne(JMdictDialEntitiesShortDesc[propertyIndex]);
+		_dialList.removeOne(JMdictPlugin::dialectEntities()[propertyIndex].first);
 	}
 	if (!_dialList.isEmpty()) _dialButton->setText(tr("Dial:") + _dialList.join(","));
 	else _dialButton->setText(tr("Dialect"));
@@ -402,11 +401,11 @@ void JMdictOptionsWidget::onFieldTriggered(QAction *action)
 {
 	if (action->isChecked()) {
 		int propertyIndex = action->property("TJpropertyIndex").toInt();
-		_fieldList << JMdictFieldEntitiesShortDesc[propertyIndex];
+		_fieldList << JMdictPlugin::fieldEntities()[propertyIndex].first;
 	}
 	else {
 		int propertyIndex = action->property("TJpropertyIndex").toInt();
-		_fieldList.removeOne(JMdictFieldEntitiesShortDesc[propertyIndex]);
+		_fieldList.removeOne(JMdictPlugin::fieldEntities()[propertyIndex].first);
 	}
 	if (!_fieldList.isEmpty()) _fieldButton->setText(tr("Field:") + _fieldList.join(","));
 	else _fieldButton->setText(tr("Field"));
@@ -417,11 +416,11 @@ void JMdictOptionsWidget::onMiscTriggered(QAction *action)
 {
 	if (action->isChecked()) {
 		int propertyIndex = action->property("TJpropertyIndex").toInt();
-		_miscList << JMdictMiscEntitiesShortDesc[propertyIndex];
+		_miscList << JMdictPlugin::miscEntities()[propertyIndex].first;
 	}
 	else {
 		int propertyIndex = action->property("TJpropertyIndex").toInt();
-		_miscList.removeOne(JMdictMiscEntitiesShortDesc[propertyIndex]);
+		_miscList.removeOne(JMdictPlugin::miscEntities()[propertyIndex].first);
 	}
 	if (!_miscList.isEmpty()) _miscButton->setText(tr("Misc:") + _miscList.join(","));
 	else _miscButton->setText(tr("Misc"));
@@ -454,7 +453,7 @@ void JMdictOptionsWidget::setPos(const QStringList &list)
 	_posList.clear();
 	foreach(QAction *action, _posButton->menu()->actions()) {
 		if (action->isChecked()) action->trigger();
-		if (list.contains(JMdictPosEntitiesShortDesc[action->property("TJpropertyIndex").toInt()]))
+		if (list.contains(JMdictPlugin::posEntities()[action->property("TJpropertyIndex").toInt()].first))
 			action->trigger();
 	}
 }
@@ -464,7 +463,7 @@ void JMdictOptionsWidget::setDial(const QStringList &list)
 	_dialList.clear();
 	foreach(QAction *action, _dialButton->menu()->actions()) {
 		if (action->isChecked()) action->trigger();
-		if (list.contains(JMdictDialEntitiesShortDesc[action->property("TJpropertyIndex").toInt()]))
+		if (list.contains(JMdictPlugin::dialectEntities()[action->property("TJpropertyIndex").toInt()].first))
 			action->trigger();
 	}
 }
@@ -474,7 +473,7 @@ void JMdictOptionsWidget::setField(const QStringList &list)
 	_fieldList.clear();
 	foreach(QAction *action, _fieldButton->menu()->actions()) {
 		if (action->isChecked()) action->trigger();
-		if (list.contains(JMdictFieldEntitiesShortDesc[action->property("TJpropertyIndex").toInt()]))
+		if (list.contains(JMdictPlugin::fieldEntities()[action->property("TJpropertyIndex").toInt()].first))
 			action->trigger();
 	}
 }
@@ -484,7 +483,7 @@ void JMdictOptionsWidget::setMisc(const QStringList &list)
 	_miscList.clear();
 	foreach(QAction *action, _miscButton->menu()->actions()) {
 		if (action->isChecked()) action->trigger();
-		if (list.contains(JMdictMiscEntitiesShortDesc[action->property("TJpropertyIndex").toInt()]))
+		if (list.contains(JMdictPlugin::miscEntities()[action->property("TJpropertyIndex").toInt()].first))
 			action->trigger();
 	}
 }

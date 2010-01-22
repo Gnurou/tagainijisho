@@ -24,6 +24,7 @@
 
 #include <QSqlError>
 
+#include <QSet>
 #include <QVBoxLayout>
 #include <QSplitter>
 #include <QSqlQuery>
@@ -161,10 +162,13 @@ void ComponentSearchWidget::onSelectedComponentsChanged(const QString &component
 	QString queryString;
 	// TODO Merge original and element when displaying candidates
 	// TODO Add the stroke count of every group into the DB and use that value to sort them
-	if (!selection.isEmpty()) queryString = QString("select distinct c2.element, strokeCount, c2.parentGroup is null from (SELECT DISTINCT ks1.kanji FROM kanjidic2.strokeGroups AS ks1 WHERE (ks1.element IN (%1) OR ks1.original IN (%1)) GROUP BY ks1.kanji HAVING UNIQUECOUNT(CASE WHEN ks1.element IN (%1) THEN ks1.element ELSE NULL END, CASE WHEN ks1.original IN (%1) THEN ks1.original ELSE NULL END) >= %2) as c join kanjidic2.strokeGroups c2 on c.kanji = c2.kanji left join kanjidic2.entries on entries.id = c2.element where (c2.element not in (%1) or c2.kanji in (%1)) order by entries.strokeCount, entries.frequency is null ASC, entries.frequency ASC").arg(selection.join(",")).arg(selection.size());
+	if (!selection.isEmpty()) queryString = QString("select distinct c.kanji, c2.element, strokeCount from "
+		// All kanji for which all requested components are either present as their element or original field
+		"(SELECT DISTINCT ks1.kanji FROM kanjidic2.strokeGroups AS ks1 WHERE (ks1.element IN (%1) OR ks1.original IN (%1)) GROUP BY ks1.kanji HAVING UNIQUECOUNT(CASE WHEN ks1.element IN (%1) THEN ks1.element ELSE NULL END, CASE WHEN ks1.original IN (%1) THEN ks1.original ELSE NULL END) >= %2) as c "
+		"join kanjidic2.strokeGroups c2 on c.kanji = c2.kanji left join kanjidic2.entries on entries.id = c2.element where (c2.element not in (%1) or c2.kanji in (%1)) order by entries.strokeCount, entries.frequency is null ASC, entries.frequency ASC").arg(selection.join(",")).arg(selection.size());
 	//if (!selection.isEmpty()) queryString = QString("select distinct c2.element, strokeCount from kanjidic2.strokeGroups c1 join kanjidic2.strokeGroups c2 on c1.kanji = c2.kanji left join kanjidic2.entries on entries.id = c2.element where c1.element in (%1) and c1.kanji in (select kanji from kanjidic2.strokeGroups where element in (%1) group by kanji having count(distinct element) >= %2) and c2.element not in (select element from strokeGroups where kanji in (%1)) order by entries.frequency is null ASC, entries.frequency ASC").arg(l.join(",")).arg(selection.size());
-	// If there is no selection, select all elements that have no components and are used as a component
-	else queryString = "select distinct ks.element, strokeCount from kanjidic2.strokeGroups as ks left join kanjidic2.entries on entries.id = ks.element join kanjidic2.strokeGroups as ks1 on ks.element = ks1.kanji and ks.parentGroup is not null where ks.rowid not in (select distinct(parentGroup) from kanjidic2.strokeGroups where parentGroup is not null) order by entries.strokeCount, entries.frequency is null ASC, entries.frequency ASC";
+	// If there is no selection, select all elements that are root and employed as a part of another kanji
+	else queryString = "select distinct 0, ks.element, strokeCount from kanjidic2.strokeGroups as ks left join kanjidic2.entries on entries.id = ks.element where ks.element not in (select distinct kanji from strokeGroups) order by entries.strokeCount, entries.frequency is null ASC, entries.frequency ASC";
 	if (!query.exec(queryString)) qDebug() << query.lastError();
 	populateList(query);
 }
@@ -182,31 +186,31 @@ void ComponentSearchWidget::populateList(QSqlQuery &query)
 	candidatesList->clear();
 	complementsList->clear();
 
+	QSet<QString> candidates;
+	QSet<QString> complements;
 	while (query.next()) {
-		uint code = query.value(0).toInt();
-		QString val;
-		if (code < 0x10000) {
-			val += QChar(code);
-		} else {
-			val += QChar(QChar::highSurrogate(code));
-			val += QChar(QChar::lowSurrogate(code));
-		}
-		bool isRoot(query.value(2).toBool());
-		if (isRoot) {
+		// Do we have a new candidate?
+		QString val(TextTools::unicodeToSingleChar(query.value(0).toInt()));
+		if (!val.isEmpty() && !candidates.contains(val)) {
+			candidates << val;
 			candidatesList->addItem(val);
-			continue;
 		}
 
-		int strokeCount = query.value(1).toInt();
-		if (strokeCount > currentStrokeCount) {
-			currentStrokeCount = strokeCount;
-			QListWidgetItem *item = new QListWidgetItem(QString::number(strokeCount), complementsList);
-			item->setFlags(item->flags() & ~Qt::ItemIsSelectable);
-			item->setBackground(nbrBg);
-			item->setFont(nbrFont);
+		// Do we have a new complement?
+		val = TextTools::unicodeToSingleChar(query.value(1).toInt());
+		if (!val.isEmpty() && !complements.contains(val)) {
+			complements << val;
+			int strokeCount = query.value(2).toInt();
+			if (strokeCount > currentStrokeCount) {
+				currentStrokeCount = strokeCount;
+				QListWidgetItem *item = new QListWidgetItem(QString::number(strokeCount), complementsList);
+				item->setFlags(item->flags() & ~Qt::ItemIsSelectable);
+				item->setBackground(nbrBg);
+				item->setFont(nbrFont);
+			}
+			QListWidgetItem *item = new QListWidgetItem(val, complementsList);
+			item->setFont(font);
 		}
-		QListWidgetItem *item = new QListWidgetItem(val, complementsList);
-		item->setFont(font);
 	}
 }
 

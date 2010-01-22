@@ -20,8 +20,8 @@
 
 #include "core/jmdict/JMdictEntry.h"
 #include "core/EntriesCache.h"
-#include "EntryFormatter.h"
-#include "DetailedView.h"
+#include "gui/EntryFormatter.h"
+#include "gui/DetailedView.h"
 
 class JMdictEntryFormatter : public EntryFormatter
 {
@@ -63,7 +63,7 @@ public:
 	static PreferenceItem<bool> printOnlyStudiedKanjis;
 	static PreferenceItem<int> maxDefinitionsToPrint;
 
-	static QString getVerbBuddySql(const QString &matchPattern, JMdictPosTagType pos, int id);
+	static QString getVerbBuddySql(const QString &matchPattern, quint64 pos, int id);
 	static QString getHomophonesSql(const QString &reading, int id, int maxToDisplay = maxHomophonesToDisplay.value(), bool studiedOnly = displayStudiedHomophonesOnly.value());
 };
 
@@ -73,13 +73,13 @@ private:
 	EntryPointer<Entry> bestMatch;
 	int lastKanjiPos;
 	int initialLength;
-	JMdictPosTagType searchedPos;
+	QString searchedPos;
 	QString matchPattern;
 	QString kanaPattern;
 	QString firstReading;
 
 public:
-	FindVerbBuddyJob(const JMdictEntry *verb, JMdictPosTagType pos, const QTextCursor &cursor);
+	FindVerbBuddyJob(const JMdictEntry *verb, const QString &pos, const QTextCursor &cursor);
 	virtual void result(EntryPointer<Entry> entry);
 	virtual void completed();
 };

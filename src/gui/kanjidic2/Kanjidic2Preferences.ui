@@ -44,31 +44,10 @@
             </property>
            </widget>
           </item>
-          <item row="3" column="0">
-           <widget class="QCheckBox" name="showVariations">
-            <property name="text">
-             <string>Variations</string>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="1">
-           <widget class="QCheckBox" name="showVariationOf">
-            <property name="text">
-             <string>Original</string>
-            </property>
-           </widget>
-          </item>
           <item row="2" column="1">
            <widget class="QCheckBox" name="showSKIP">
             <property name="text">
              <string>SKIP code</string>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="2">
-           <widget class="QCheckBox" name="showFrequency">
-            <property name="text">
-             <string>Frequency</string>
             </property>
            </widget>
           </item>
@@ -104,6 +83,34 @@
            <widget class="QCheckBox" name="showNanori">
             <property name="text">
              <string>Nanori</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="2">
+           <widget class="QCheckBox" name="showVariationOf">
+            <property name="text">
+             <string>Original</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="1">
+           <widget class="QCheckBox" name="showVariations">
+            <property name="text">
+             <string>Variations</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="0">
+           <widget class="QCheckBox" name="showFrequency">
+            <property name="text">
+             <string>Frequency</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="2">
+           <widget class="QCheckBox" name="showFourCorner">
+            <property name="text">
+             <string>Four corner code</string>
             </property>
            </widget>
           </item>
@@ -327,7 +334,7 @@
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>495</width>
+               <width>496</width>
                <height>136</height>
               </rect>
              </property>
@@ -454,6 +461,13 @@
            <widget class="QCheckBox" name="tooltipShowJLPT">
             <property name="text">
              <string>JLPT level</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="2">
+           <widget class="QCheckBox" name="tooltipShowFourCorner">
+            <property name="text">
+             <string>Four corner code</string>
             </property>
            </widget>
           </item>
@@ -672,6 +686,7 @@
   <tabstop>showGrade</tabstop>
   <tabstop>showUnicode</tabstop>
   <tabstop>showSKIP</tabstop>
+  <tabstop>showFourCorner</tabstop>
   <tabstop>showFrequency</tabstop>
   <tabstop>showVariations</tabstop>
   <tabstop>showVariationOf</tabstop>
@@ -698,11 +713,14 @@
   <tabstop>tooltipShowFrequency</tabstop>
   <tabstop>tooltipShowUnicode</tabstop>
   <tabstop>tooltipShowSKIP</tabstop>
+  <tabstop>tooltipShowFourCorner</tabstop>
   <tabstop>animSize</tabstop>
   <tabstop>animSpeedDefault</tabstop>
   <tabstop>animSpeedSlider</tabstop>
   <tabstop>animDelayDefault</tabstop>
   <tabstop>animDelaySlider</tabstop>
+  <tabstop>autoStartAnim</tabstop>
+  <tabstop>animationLoopDelay</tabstop>
  </tabstops>
  <resources>
   <include location="../../../tagainijisho.qrc"/>

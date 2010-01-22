@@ -143,14 +143,6 @@ void Database::stop()
 	delete instance;
 }
 
-Database::Database(QObject *parent) : QThread(parent), sqliteHandler(0)
-{
-	connectUserDB();
-}
-
-QVector<QRegExp> Database::staticRegExps;
-
-
 static void regexpFunc(sqlite3_context *context, int argc, sqlite3_value **argv)
 {
 	QString text(TextTools::hiragana2Katakana(QString::fromUtf8((const char *)sqlite3_value_text(argv[1]))));
@@ -200,6 +192,23 @@ void uniquecount_aggr_finalize(sqlite3_context *context)
 	sqlite3_result_int(context, res);
 }
 
+static void load_extensions(sqlite3 *handler)
+{
+	// Attach custom functions
+	sqlite3_create_function(handler, "regexp", 2, SQLITE_UTF8, 0, regexpFunc, 0, 0);
+	sqlite3_create_function(handler, "biaised_random", 1, SQLITE_UTF8, 0, biaised_random, 0, 0);
+	sqlite3_create_function(handler, "uniquecount", -1, SQLITE_UTF8, 0, 0, uniquecount_aggr_step, uniquecount_aggr_finalize);
+	// Must be done later
+	//register_all_tokenizers(handler);
+}
+
+Database::Database(QObject *parent) : QThread(parent), sqliteHandler(0)
+{
+	sqlite3_auto_extension((void (*)())load_extensions);
+	connectUserDB();
+}
+
+QVector<QRegExp> Database::staticRegExps;
 
 void Database::connectUserDB()
 {
@@ -220,9 +229,9 @@ void Database::connectUserDB()
 	QVariant handler = database.driver()->handle();
 	if (handler.isValid() && !qstrcmp(handler.typeName(), "sqlite3*")) {
 		sqliteHandler = *static_cast<sqlite3 **>(handler.data());
-		sqlite3_create_function(sqliteHandler, "regexp", 2, SQLITE_UTF8, 0, regexpFunc, 0, 0);
-		sqlite3_create_function(sqliteHandler, "biaised_random", 1, SQLITE_UTF8, 0, biaised_random, 0, 0);
-		sqlite3_create_function(sqliteHandler, "uniquecount", -1, SQLITE_UTF8, 0, 0, uniquecount_aggr_step, uniquecount_aggr_finalize);
+		// TODO Move into dedicated open function? Since it cannot be used
+		// the sqlite3_auto_extension
+		register_all_tokenizers(sqliteHandler);
 	}
 
 	checkUserDB();

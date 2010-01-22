@@ -25,6 +25,7 @@ namespace TextTools {
 	bool isHiraganaChar(const QChar c);
 	bool isKatakanaChar(const QChar c);
 	bool isKanaChar(const QChar c);
+	bool isPunctuationChar(const QChar c);
 	/**
 	 * Returns true if c is a kanji. c2 should be given when
 	 * c is the high part of a surrogate character.
@@ -62,7 +63,7 @@ namespace TextTools {
 	QString hiragana2Katakana(const QString &hira);
 
 	QString unicodeToSingleChar(unsigned int unicode);
-	unsigned int singleCharToUnicode(const QString &chr);
+	unsigned int singleCharToUnicode(const QString &chr, int pos = 0);
 }
 
 #endif

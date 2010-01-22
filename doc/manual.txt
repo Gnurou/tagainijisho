@@ -1,0 +1,1161 @@
+Title:	    Tagaini Jisho - User Manual
+Subtitle:   Usage Manual
+Web:	    tagaini.net
+Author:	    Neil Caldwell
+	    Alexandre Courbot
+Date:	    Thu 17 Dec 2009 
+Email:	    ncaldwell@alumnaie.net
+Copyright:  Creative Commons Attribution-Share Alike 3.0.
+            http://creativecommons.org/licenses/by-sa/3.0/
+CSS:	    
+Format:	    complete
+Language:   english
+
+
+Tagaini Jisho Manual 
+====================
+
+Table of Contents
+=================
+
+1. [What is Tagaini-Jisho?]  
+2. [Getting Started]  
+    2.1. [The GUI]   
+    2.2. [The Search Bar]   
+    2.3. [Dictionary Entries]  
+ &emsp;&emsp;   2.3.1. [Vocabulary]  
+ &emsp;&emsp;   2.3.2 [Kanji]   
+    2.4. [Search Extenders]  
+ &emsp;&emsp;       2.4.1. [Study Extender]  
+ &emsp;&emsp;       2.4.2. [Tags and Notes Extender]  
+ &emsp;&emsp;	    2.4.3. [JLPT Extender]  
+ &emsp;&emsp;       2.4.4. [Vocabulary Extender]  
+ &emsp;&emsp;       2.4.5. [Kanji Extender]  
+3. [Preferences]  
+    3.1. [General]  
+    3.2. [Results View]  
+    3.3. [Detailed View]  
+    3.4. [Vocabulary Entries]  
+    3.5. [Kanji Entries]  
+4. [Advanced Features]  
+    4.1. [Sets]  
+    4.2. [Results]  
+    4.3. [Study List]   
+    4.4. [Practise]  
+ &emsp;&emsp;       4.4.1. [Vocabulary Flashcards]  
+ &emsp;&emsp;       4.4.2. [Kanji Flashcards]  
+ &emsp;&emsp;       4.4.3. [Reading Practise]  
+    4.5. [Importing and Exporting Data]
+5. [Troubleshooting]
+6. [Contact]
+
+[Footnotes]
+
+
+<a name="top" />
+
+******
+[Table of Contents] - [Top](#top "Top")
+******
+
+1. What is Tagaini-Jisho?
+=========================
+
+Tagaini Jisho is an open source[^OSS] Japanese dictionary application. It is
+designed to help students of the Japanese language in their studies by 
+providing:
+    
+* Complete Japanese vocabulary and Kanji Dictionaries, with more than
+      130,000 entries and stroke order animation for more than 6,000 kanji;
+* Powerful search mechanisms, including kanji radical search and other
+      filters;
+* Transparent connection of related entries, including transitive / 
+      intransitive verb references and Homophones. Tagaini maximises the 
+      logical connections between elements of the Japanese language in order
+      to facilitate their memorisation;
+* A study list which allows Tagaini to keep track of entries as you learn 
+      them. It tracks your ability to remember each entry with flash cards.
+* Notes and tags can be applied to entries, allowing you to group entries
+      in a way that makes sense to you;
+* Production of printed material, including a handy fold-able booklet to
+      study anywhere. 
+
+[^OSS]: Open Source Software: Software that has been released for free by its 
+	author, along with its source code. 
+
+******
+[Table of Contents] - [Top](#top "Top")
+******
+
+2. Getting Started
+==================
+
+Tagaini Jisho is a dictionary program. It allows you to search a dictionary for
+terms and easily find related entries. This chapter covers the basic usage of
+the application. 
+
+******
+[Table of Contents] - [Top](#top "Top")
+******
+
+2.1. The GUI
+------------
+
+![The GUI](images/tagaini_gui.png)
+
+Tagaini Jisho's GUI consists of two main windows and a toolbar. The toolbar
+contains `the search bar` and it's extenders, which contain advanced options
+to filter searches.
+
+Above the search bar is the menu bar, which contains several menus for
+Tagaini's features. 
+
+Below the search bar is `the results view`, which lists any results of the
+search. The information is a short description to allow you to chose the
+result you were after.
+
+Tagaini will remember your searches, and you can go back and forward through
+them with the left and right arrow at the top left of the results view, next
+to where it displays the number of results. By default, the results view will
+only list up to 50 entries. Beyond that, it will put them on a new page. Which
+page you are viewing is controlled with the buttons to the top right of the
+list. 
+
+Below that is `the detailed view`, which displays any and all information on
+a selected entry. The buttons above the view allow you to go back and forward
+through selected entries. Next to them are the study flags, tag and
+note buttons.
+
+When you right click on an entry in the results window, it will open a context
+menu. In the context menu are the same options that are along the top of the
+detailed view, as well as a `Select All` option. Right clicking on a kanji in
+the detailed view has the same effect, except that instead of `Select All` it
+has `Open in detailed view...`, which opens an entry for the kanji in the
+detailed view. Most kanji in the detailed view are references to an entry
+about that kanji, so right clicking on them will act accordingly. You may also
+right click on the magnifing icon, which is a reference to the stated chapter.
+
+Tagaini's views can also be sized, to make the results or detailed view
+larger, whilst making the other smaller. To do this, there is a small dotted
+line above the detailed view's toolbar, directly below the results view
+window. Clicking and dragging this up and down changes the size. If you move
+it close enough to the top or bottom of the window, then it will snap up to
+the edge, effectivly removing the results or detailed view from the window.
+This can be handy when practicing sets, which will be covered latter. 
+
+******
+[Table of Contents] - [Top](#top "Top")
+******
+
+2.2. The Search Bar
+-------------------
+
+The search bar consists of a text field, a drop down list, a button and the
+Tagaini logo. You can enter words, or terms, to search for into the search and then, when you either press the enter key or the search button, it
+will search for the terms in the search bar. 
+
+For instance, if you enter "`しけん`" into the search bar it will result in 試験
+(test,) 私見 (personal opinion) and 私権 (private right.) If, however, you
+enter "`しけん test`", it will search both terms and only result in 試験 (test)
+as Tagaini will only display entries with all the search terms.
+
+Every search term is separated by spaces, or `" "`. To search for a sentence,
+which includes spaces, you can enclose the sentence in quotation marks, or
+`""`. For instance, if you search for `to run`, then Tagaini will find and list
+every entry with both the word to and run in it. If instead you search `"to
+run"`, then Tagaini will only find entries with the words "to run" in them in
+that order.
+
+As Tagaini matches terms to entries exactly, there is currently no romaji
+search. So, searching for "`watashi`" will not result in 私：わたし. To find
+an entry you must search either its kanji or hiragana reading.
+
+Between the search bar and the search button, there is a drop down list which,
+by default, says `All`. It is the dictionary selector. It has two other
+options, `Vocabulary` and `Kanji`. Choosing one will tell Tagaini to only
+search for vocabulary or kanji. Selecting all will tell Tagaini to search
+through both the kanji and vocabulary dictionaries.
+
+When searching through both dictionaries, it's quite common to come across two
+similar-looking entries, such as two entries for 私 or 駅. These entries will
+usually come up for single kanji words. This happens because it is displaying
+an entry for the word, and an entry for the kanji. The two different entries
+will have information about different things. This is discussed further in the 
+next section.
+
+Another thing that can be put into the search field is a dictionary field
+value. Doing this allows you to filter through your search results. This can
+be done by adding `:field=value` as a search term, so `:grade=1` results in
+every elementary grade 1 kanji being listed in the results view. The extenders
+provide the same functionality for most of the fields, for instance kanji
+grade can be found under the kanji extender. 
+
+Tagaini also has support for wild cards[^wildcards]. The `*` character
+represents an unknown string. Placing it at the end of a term searches for
+everything beginning with that term, placing it at the beginning of a term
+searches for everything ending with that term and placing it in the middle of
+the a term searches for everything that starts and ends with that part of the
+term. The `?` character represents a single unknown character but otherwise works
+the same way. So `大*` represents everything that
+starts with 大 and `*す` represents everything that ends with す. If the `?`
+character was used instead then then `大?` would be any two character entry where
+the first was 大 and `?す` would be any two character entry that ends with す.
+Note that the asterik and question marked gotten from IM's, `＊` and `？`, are
+different from the ascii characters, `*` and `?`, which work as wildecards. 
+
+The button to the left of the search bar, which looks like a black box with a
+white x in it, clears the search bar, resetting it to default, ready to use
+again. 
+
+[^wildcards]: Wild cards are characters used to represent unknown characters in search terms. 
+
+******
+[Table of Contents] - [Top](#top "Top")
+******
+
+2.3. Dictionary Entries
+-----------------------
+
+Entries are displayed in two different places. The results view and the
+Detailed view.
+
+The result view, by default, displays two lines for each entry in a list. The
+first line contains the kanji and readings, the second line the definitions
+and meaning of the entry.
+
+In the detailed view each selected entry is displayed with all the information
+in the entry. [Vocabulary][] entries are different to [Kanji][] entries.
+
+******
+[Table of Contents] - [Top](#top "Top")
+******
+
+### 2.3.1 Vocabulary 
+
+![The GUI - 取る](images/tagaini_entries.png)
+
+Vocabulary entries contain information about different vocabulary, whether it
+is a word or a phrase. There are several common sections.
+
+* **Main Reading** - Centred at the top of the view will be the wait the word
+    or phrase is written, with furigana written in red above it. 
+* **Variants** - Any variants are listed here, with their reading in brackets.
+* **The definition block** - Here, different definitions are listed. First, it
+    displays the definitions part of speech[^pos] in grey, and then lists
+    different definitions, next to a flag representing the language of the
+    definition.
+* **JLPT level** - The entries JLPT level.
+* **Kanji** - The kanji used in the main reading, and its meanings. This is 
+    off by default. The kanji's JLPT level can also be appended to each
+    reference.
+* **Transitive／Intransitive buddy** - The entry corresponding with the current
+    entries opposite transitive state.
+* **Homophones** - Entries that are homophones of the current entry. A
+    homophone is a word with the same or similar pronunciation. 
+
+Any entry referenced in the detailed view will have a little magnifying glass
+next to it, which is a link to the referenced entry. For instance, in the
+entry 取る it references its intransitive buddy;
+
+    Intransitive buddy: 取れる（とれる）: to come off, to be removed.
+
+Clicking on the magnifying glass at the end of this line would display the
+entry for 取れる in the detailed view. This does not affect your current set.
+
+[^pos]: See http://www.csse.monash.edu.au/~jwb/edict_doc.html for a list of
+parts of speach markers.
+
+
+
+******
+[Table of Contents] - [Top](#top "Top")
+******
+
+### 2.3.2 Kanji
+
+Kanji entries contain information about a single kanji, what it means and how
+it is used. By default, the kanji is centred in the detail view window and its meanings
+are listed underneath it, also centred. From there there are several common
+sections.
+
+* **On**	    - The on reading, or 音読み（おんよみ）is the Chinese 
+			reading of the kanji. It is written in katakana.
+* **Kun**	    - The kun reading, or 訓読み（くんよみ）is the Japanese 
+			reading of the character. It is written in hiragana.
+* **Nanori**	    - The name readings of the kanji, or 名乗り（なのり）are
+			readings that are only used in names.
+* **Strokes**	    - The number of strokes it takes to write the kanji. 
+* **Grade**	    - The grade it is taught to in Japanese schools.
+* **Unicode**	    - The Unicode number, in hexadecimal.
+* **Frequency**	    - How frequently the kanji appears in newspapers.
+* **JLPT**	    - The kanji's JLPT level.  
+* **SKIP**	    - The kanji's SKIP code.
+* **Components**    - The radicals that make up the kanji.
+* **Compounds**	    - Kanji that are made up with this kanji. 
+* **Seen in**	    - A list of vocabulary that contains the kanji. Following 6 
+			words have been displayed is a link to find all words
+			using that the kanji.
+Although kun readings for some entries, such as verbs and adjectives, can
+include any extra kana needed to use the kanji, such as 取る's る (written
+と.る,) searching the full reading, including extra kana past the full stop,
+will not find the kanji entry, only the vocabulary entry. To find the kanji
+entry you must search for just the kanji's reading, と in 取る's case, to find
+it. 
+
+In the detail view, you can click on any kanji, whilst looking at any entry,
+and a pop up window will be displayed showing a short listing of the kanji, and
+a stroke order animation. This works in both a kanji entry and a vocabulary
+entry. 
+
+![Kanji Tool tip](images/tagaini_kanji_popup02.png)
+
+The small window will pop up under your mouse. It shows the kanji's meaning,
+some of its readings, Frequency, Grade and JLPT, and components. Most notable,
+however, is the animation of the kanji being written. It starts as an outline
+which gets filled in, stroke by stroke. Each radical is written in a different
+colour. 
+
+Moving your mouse over a radical highlights that radical, so the colour
+becomes lighter. Clicking on a radical, either on the animation or in the
+components list, will open that radical by itself in the window. Underneath
+the stroke order animation are animation control buttons, allowing you to
+stop; pause; play, which it does by default; skip strokes and go back. 
+
+Up the top are three buttons. The first, the magnifying glass, opens the
+kanji's entry in the detailed view. The second provides an options menu, just
+as when right clicking on an entry in the results view, and the last closes
+the window. 
+
+
+******
+[Table of Contents] - [Top](#top "Top")
+******
+
+2.4. Search Extenders
+---------------------
+
+There are five search extenders, tabs located directly beneath the search bar.
+They are marked [Study][studyex]; [Tags][TagsnNotes]; [Notes][TagsnNotes]; 
+[JLPT][jlptex]; [Vocabulary][vocabex]; [Kanji][kanjiex]. Clicking on each of
+these extends the search bar, bringing up an area underneath it, above the
+results view, that extends the search functionality to filter your results
+according to set criteria.
+
+If an extender is set then its tab will include its search criteria and a reset
+button, identical to the one to the left of the search bar.
+
+[studyex]: #studyex
+[TagsnNotes]: #tagsnNotesex
+[jlptex]: #jlptex
+[vocabex]: #vocabex
+[kanjiex]: #kanjiex
+
+<a name="studyex" />
+
+******
+[Table of Contents] - [Top](#top "Top")
+******
+
+### 2.4.1. Study Extender
+	
+![The Study Extender](images/tagaini_ex_studied.png)
+
+The study extender, the first extender tab, filters through searches according
+to whether or not the entry is on the study list. The study status defaults to
+`None`, so it does not filter results. Changing this to `Studied` will cause
+only entries in the study list to be listed in the results view. `Not studied`
+causes only results not in the study list to be shown[^studynum].
+
+To add entries to the study list, either right click on them in the results
+view, or use the detailed view toolbar and click the blue flag, `Add to study
+list`, which adds the entry to the list with a score of 0. The green flag,
+`Already known`, will add the entry with a score of 100. 
+
+Each entry is given a colour between red and green according to their score, and
+it is displayed as the entries background in the results view. As you 
+practice[^practicefoot] the score on each entry in your study list will
+change. You will then be able to filter entries that you know you know from
+your searches. When the study status is set to `studied` Tagaini will only
+search through entries that have a score within the range of `Min` and `Max`,
+the values from the score section.
+
+The study date section filters entries according to the date the entry was
+added to the study list. Clicking any of the not set buttons, in this section
+or the others, brings up a calendar to select a date or allows you to set a 
+number of days／weeks／months／years prior to today's date. If an entry has
+been added after the `since` date and before the `until` date then it will be
+listed in the results view in any searches.
+
+The last trained section allows you to set a time range for finding entries
+according to when you last practiced it, and the last mistaken section allows 
+you to set a time range for when you last marked an entry as incorrect.
+
+[^practicefoot]: See Chapter 5 Section 2; [Study List][] for more information on
+practicing with your study list, as well as manipulating it. 
+
+[^studynum]: Just setting the status to `not studied` without any other search 
+criteria will cause every entry not in the study list to be listed. This is
+likely to be a large number of entries.
+
+
+
+<a name="tagsnNotesex" />
+
+******
+[Table of Contents] - [Top](#top "Top")
+******
+
+### 2.4.2. Tags and Notes Extender
+
+Tags and Notes are similar in that they both label entries. They can be added
+to entries with either the right click menu in the results view or the
+detailed views toolbar.
+
+
+![The Tags Extender](images/tagaini_ex_tags.png)
+
+Tags are short strings used to identify an entry. Each tag is a single
+word given to an entry that can be used as a filter. For instance, if you are
+studying from a text book, you could add the text books name to each vocab
+entry you need to learn, along with its chapter number as another entry. You
+can then type tags into the filter and search through just those
+entries, or view all of them. There is also a drop down list to the right
+of the text field which contains a complete list of tags, so you can just select
+the ones you want. 
+
+If an entry has a tag, a small tag icon will be displayed on the right side of
+the entry in the results view, next to the scroll bar and at the bottom of
+the entry in the detailed view.
+
+To add a tag, you can use the `Add tags...` button, which looks like a tag
+with a green bit at the top. White space, or spaces, separates each tag, so
+writing "genki ch04" adds two tags; "genki" and "ch04".
+
+Any tags you add with the `Add tags...` in the current
+session[^tagainisession] can be found again in the `Recently added tags...`
+sub menu of the context menu[^contextmenu], which makes adding tags to a set
+of entries easier. The `Set tags...` button brings up a list of all the
+current tags attached to an entry so that they can be edited. Additional tags
+can be entered here. Despite the `Add tags...` button not bringing up tags
+that have already been set on an entry, adding new ones does not overwrite the
+existing ones, it just appends them to the list.
+
+[^tagainisession]: Each session is each time you run the program. If you run
+Tagaini, use it for five minutes and close it, then that is one session.
+If you run it again five minutes later then you are running a different
+session.
+
+[^contextmenu]: Right click menu.
+
+
+![The Notes Extender](images/tagaini_ex_notes.png)
+
+Notes are different to tags in that a note can be a sentence or two. You could
+use notes to describe the relationship between a word or another or any other
+noteworthy information about the entry. For instance, if a word, such as
+降る、appears in a textbook you are studying in a phrase, such as
+雨が降る/雨が降ります、in a chapter before the entry itself, you may wish note
+that in the entry. In the example one may write "Appears in chapter 4 of
+textbook_name as 雨が降る".
+
+When you search with the `notes` filter, the search will match any entries with
+whatever text you write in the text field, exactly. If, using the above
+example, you have two different entries on verbs that have been used in
+phrases and have noted this, if you search for "Appears in" it will find both
+of these entries, however if they are in separate chapters and you extend that
+string to "Appears in chapter 5", then it will only find the one that has that
+exactly. 
+
+To add a note, use the `Edit notes...` button, which looks like a yellow
+sickit note pad and a pen. It will bring up a window with
+any existing notes. You can edit existing notes by selecting them and editing
+them, add new notes with the `New note` button, and delete notes. 
+
+
+<a name="jlptex" />
+
+******
+[Table of Contents] - [Top](#top "Top")
+******
+
+### 2.4.3. JLPT Extender
+
+JLPT stands for the Japanese Language Proficiency Test. It is a test
+administered by the `Japan Foundation` and `Japan Educational Exchanges and
+Services` for the purposes of evaluating and certifying the Japanese language
+proficiency of non-native speakers.[^jlptfoot]
+
+Up until 2010 there have been four levels, with level 4 being the lowest and 1
+being the highest. Currently JMDict and kanjidict, the Japanese Vocabulary and
+Kanji dictionaries used by Tagaini Jisho, have vocabulary and kanji likely to
+be included in the tests marked as such. This gives us the ability to filter
+our searches for entries known to be used in the tests. The JLPT extender
+provides that functionality.
+
+[^jlptfoot]: http://en.wikipedia.org/wiki/Japanese_Language_Proficiency_Test  
+http://www.jlpt.jp/e/
+
+![The JLPT Extender](images/tagaini_ex_jlpt.png)
+
+There are four check boxes, each one matching a level. With level 4 selected,
+every level 4 entry will be listed and any searches will only find level 4
+entries. Selecting multiple levels will include multiple levels. 
+
+
+<a name="vocabex" />
+
+******
+[Table of Contents] - [Top](#top "Top")
+******
+
+### 2.4.4. Vocabulary Extender
+
+![Vocabulary Extender - Dialect: Osaka-ben](images/tagaini_ex_vocab_osb.png)
+
+`The vocabulary extender` has vocabulary specific filter options. It can not be
+used in conjunction with the kanji extender.
+
+The first two text fields relate to the kanji found in vocab entries. The `With
+kanji` field will find any vocab entry that contains a kanji. If you enter two
+kanji then the entry must contain both kanji. Next to it is a checkbox labeled
+`Using studied kanji only`. It forces the search to use only kanji from the
+study list. 
+
+Kanji are made up of different kanji, or radicals, so the `With components`
+field searches for kanji that include a component. For instance, 私 is made up
+of 禾 (which is composed of 丿 and 木) and 厶, so searching for 丿, 木 and 厶
+in the `With components` field will find any entry with kanji with those
+radicals, including any entry that contains the kanji 私.
+
+Below that are four sub menus, labeled `Part of speech`, `Dialect`,
+`Field` and `Misc`. Each of these finds entries that belong to any of the
+groups you select in the menus. The `Part of speech` menu allows you to search
+for different parts of speech, such as nouns or verbs; `Dialect` finds words
+that belong to different places in Japan; `Field` finds terms and jargon from
+different fields and schools of knowledge, such as computer or religious terms
+and `Misc` contains anything that doesn't belong in the other categories, such
+as children's language, obsolete terms and slang. 
+
+<a name="kanjiex" />
+
+******
+[Table of Contents] - [Top](#top "Top")
+******
+
+### 2.4.5. Kanji Extender
+
+![Kanji Extender - Component: 又](images/tagaini_ex_kanji.png)
+
+The kanji extender contains filtration options specific to kanji entries and
+as such cannot be used in conjunction with the vocabulary extender.
+
+The first section on the extender, `Stroke count`, finds every kanji that has 
+`n` strokes in it, `n` being a number between 1 and 34.
+
+The next section, `Components`, acts in the same way as its counterpart in
+the vocabulary extender. It searches for a kanji based on the radicals that
+create it. The difference is in the entries being searched, instead of
+searching vocabulary entries, which could have multiple kanji, The kanji
+extender affects searches through the kanji dictionary. As such, only one
+instance of a kanji will be returned.
+
+The `Unicode` section, in the middle of the extender, finds the character with
+the Unicode value `0xH` where `H` is a hexadecimal[^hex] value represnting the 
+number. No two characters have the same value. For instance, the character 取
+has a Unicode value of 0x53d6. Putting that in the Unicode field will result
+in the entry for 取 being listed.
+
+The next section is for finding kanji by `SKIP code`. A skip code is a way of
+categorising kanji according to its type. SKIP codes are comprised of three
+numbers and are annotated X-Y-Z. Each slider in the `SKIP code` section relates
+to one of these numbers.[^SKIPfoot]
+
+The last section, `School grade`, represents which school level the kanji is
+taught in. 
+
+[^SKIPfoot]: http://www.basic-japanese.com/Hilfsdateien/skipCode.html
+
+[^hex]: Hexadecimal, or hex, is a counting system like decimal. Instead of
+having 10 values (0-9), such as decimal or base ten, it has 16 values and can be
+called base 16. As there are no more single numeric characters after 9, hex
+continues on from the beginning of the alphabet, so A is equivalent to decimal
+10. This means hex has a range of 0 - F.
+
+******
+[Table of Contents] - [Top](#top "Top")
+******
+
+3. Preferences
+==============
+
+The preferences window provides the ability to edit Tagaini's look, feel and
+how it handles several things. It can be opened via `Program -> Preferences`.
+
+It is a window with a menu down the left, containing the different pages.
+Options for each page are located on the right of the menu.
+
+******
+[Table of Contents] - [Top](#top "Top")
+******
+
+3.1. General
+------------
+
+![General Preferences](images/tagaini_pref_gen.png)
+
+The general preferences page, the one that the preferences window opens on,
+contains general settings that affect the entire program.
+
+The `application default font` is the font that the application uses to display
+any information in the interface itself, such as the text "`Application default
+font`" and "`You need to restart Tagaini Jisho for this change to take effect.`"
+It is the font that all the menus are in.
+
+The `dates` section specifies which day of the week the week starts on.
+
+The `updates` section specifies how often Tagaini checks for updates, if at
+all.
+
+The `entries cache` section specifies how many entries Tagaini keeps in memory.
+The default is equivalent to 1000. 
+
+******
+[Table of Contents] - [Top](#top "Top")
+******
+
+3.2. Results View
+-----------------
+
+![Results View Preferences](images/tagaini_pref_results.png)
+
+The results view page specifies how entries are displayed in the results view.
+
+The results display section specifies the format of each entry. Entries can
+be displayed on one line, or over two with the definition underneath the
+reading. The number of entries per page can be changed, as well as how results
+are sorted; By score, then relevance or just by relevance. `Smooth scrolling`
+changes whether or not there is a scrolling animation played, or if it just
+snaps down to the next entry.
+
+The fonts section allows different fonts to be selected for the different parts
+of the display. The `Main writing` section is the first kanji or kana which
+shows how it is usually written. `Readings and alternative writings` specifies
+how readings are displayed and `definitions` refers to the Romaji text that
+the meaning of the entry is displayed in. The default font is a Qt system
+default. 
+
+The `preview` section contains some dummy entries and is displayed according
+to the results view page and is updated in real time, so changes can be seen as
+they are made. 
+
+
+******
+[Table of Contents] - [Top](#top "Top")
+******
+
+3.3. Detailed View
+------------------
+
+![Detailed View Preferences](images/tagaini_pref_detail.png)
+
+The detailed view preferences page describes how the detailed view should be
+displayed. 
+
+The `fonts` section specifies each font used in the detailed view. There are
+five in all.
+
+* `Default text` -  The font to use with any non-Japanese characters. 
+* `Kana header` -   The red furigana reading, centred above the large kanji 
+		    text.
+* `Kanji header` -  The large centred kanji text, signifing the main reading.
+* `Kanji` -	    Any kanji in the display, for alternative writings and 
+		    referenced entries.
+* `Kana` -	    Any kana in the display, for alternative readings and 
+		    referenced entries.
+
+The `preview` view has a dummy detailed view that updates in real time. `Smooth
+scrolling` can be turned on and off in the `general` section.
+
+
+******
+[Table of Contents] - [Top](#top "Top")
+******
+
+3.4. Vocabulary Entries
+-----------------------
+
+![Vocabulary Display](images/tagaini_pref_vocab_dis.png)
+
+The `vocabulary entries` page has three tabs. The first, `display`, has two
+sections. `Basic information` and `additional information.`
+
+The `basic information` section specifies whether or not the entries `JLPT
+level` is displayed. The `kanji used in main reading` section check box toggles
+on the kanji section and the `JLPT level of kanji` section toggles displaying
+the JLPT level next to referenced kanji.
+
+The `additional information` contains extra information about
+related entries. `Search for transitive／intransitive verb buddy` controls
+whether or a references is included to an entry with an opposite transitive
+state. The number before `Homophones` is the maximum number of homophones to
+reference. `Studied only` causes only homophones in the study list to be
+displayed.
+
+![Vocabulary Printing](images/tagaini_pref_vocab_printing.png)
+
+The `printing` tab defines how entries look when printed[^printfoot]. The
+`general` section has the header's (The main reading) `font size` and the
+`maximum number of definitions`.
+
+The `kanji` section specifies whether or not to show each kanji's meaning
+separately underneath the header, and if only to show studied kanji.
+
+The `preview` shows a single entry, specifically 大変. It updates as changes
+are made.
+
+[^printfoot]: See Chapter 5 section 3; [Results][].
+
+![Vocabulary Definition Filtering](images/tagaini_pref_vocab_filter.png)
+
+The `definition filtering` allows the filtration of Terms. By default,
+obsolete terms and archaisms are filtered out. This stops entries marked as
+such from being found by searches. To filter out additional categories,
+select them in the `displayed` section and press the arrow button that points
+to the `filtered` section. 
+
+******
+[Table of Contents] - [Top](#top "Top")
+******
+
+3.5. Kanji Entries
+------------------
+
+![Kanji Display](images/tagaini_pref_kanji_disp.png)
+
+The `display` tab, the first of four tabs on the kanji entries page, describes
+which information should be displayed in the detailed view.
+
+In `basic information`, there are a series of checkboxes relating to
+different pieces of information in the entry. Each one toggles display of that
+element on and off.
+
+* **Readings**	    - On and Kun readings.
+* **Nanori**	    - Nanori reading.
+* **# of strokes**  - Number of strokes in the kanji.
+* **Components**    - The kanji radicals used in the kanji.
+* **JLPT level**    - The JLPT level of the kanji.
+* **School grade**  - The grade the kanji is taught at school.
+* **Unicode**	    - The kanji's Unicode value.
+* **SKIP code**	    - The kanji's SKIP code.
+* **Frequency**	    - The frequency rating of the kanji.
+* **Variations**    - Any variations in the strokes of the kanji.
+* **Original**	    - The way the kanji was originally written.
+
+The `additional information` section controls how many `compounds`, words made
+of two or more kanji,  are shown, as well as how many `words using the kanji`.
+
+![Kanji Printing](images/tagaini_pref_kanji_print.png)
+
+The `printing` tab controls how kanji entries look when printed.
+
+The `kanji information` section controls what is displayed, whilst `Kanji
+drawing style` controls the font of the kanji. `Preview` is an updating
+preview, using the entry for 間.
+
+The values in `kanji information` are:
+
+* **Meaning**			- The kanji's meaning
+* **Onyomi**			- The `on` reading, or 音読み。
+* **Kunyomi**			- The `kun` reading, or 訓読み
+* **Components**		- The kanji's radicals.
+* **Only studied components**	- Only show kanji in the study list.
+* **`n` words**			- Shows `n` words using the kanji.
+* **Only studied words**	- Filter out words not in the study list.
+
+In the `kanji drawing style` section the kanji's size is set, along with if it
+is written in a handwritten font, or in the default font.
+
+![Kanji ToolTips](images/tagaini_pref_kanji_tooltip.png)
+
+The kanji tooltip, which is the tooltip that shows up when the mouse is
+hovering over a kanji in the detailed view, is a yellow box which displays
+the kanji; its first reading and its meanings. The options on this page toggle
+on／off additional information. 
+
+* **Kanji tool tip enabled** - Enables the tool tip.
+* **Score**		    - Shows the score colour for entries in the study
+			      list as the tool tips background colour.
+* **# of strokes**	    - Show the number of strokes.
+* **JLPT level**	    - Show the kanji's JLPT level.
+* **School grade**	    - Show the kanji's school grade.
+* **Frequency**		    - Show the kanji's frequency.
+* **Unicode**		    - Show the kanji's Unicode value.
+* **SKIP code**		    - Show the kanji's SKIP code.
+
+![Kanji Stroke Order](images/tagaini_pref_kanji_stroke.png)
+
+The `stroke animation` tab controls the stroke order animation, on the kanji
+popup. It has four options and an preview, using 間. The options are:
+
+* **Size**			- The size of the kanji.
+* **Drawing speed**		- The speed at which it is drawn.
+* **Pause between strokes**	- The length of the pause between each stroke.
+* **Play animation when the kanji pop up appears**
+				- If this is on, then the animation starts as 
+				    soon as the pop up window appears.
+* **Loop animation after:** `time`  - Loops the animation after an amount of time. Defaults to `Do not loop`
+
+
+******
+[Table of Contents] - [Top](#top "Top")
+******
+
+4. Advanced Features
+====================
+
+Tagaini Jisho is more than just a dictionary. It provides facilities for
+training and memorisation of vocabulary and kanji. It will remember sets of
+kanji, has flash card facilities and will print sets for latter viewing. 
+
+******
+[Table of Contents] - [Top](#top "Top")
+******
+
+4.1. Sets
+---------
+
+A `set` is the list created by a search and displayed in the results view.
+Tagaini can remember specific sets. If you have made a search that you think
+you will want to make again, such as all transitive verbs used in computer
+terminology at the JLPT 2 level, you can create a new set, to make it easier
+to find again.
+
+![Sets Menu](images/tagaini_sets_menu.png)
+
+The `sets` menu contains functions for creating and organising sets. Two
+options allow the creation and placement of sets directly from the menu, `New
+set from current search...` and `New sets folder...`, and the last, `organise
+sets...` Brings up another window for organising sets. 
+
+As you create new sets with the menu option, it displays them at the bottom
+of the menu. Clicking on them there will open that set in the results
+window.
+
+When you create a new menu, it too will appear in the sets menu, as a sub
+menu. It will then have two options, `Create new set here...` and `Create new
+folder here...`. They will act as the two options in the main sets menu,
+except they will place created sets and folders as sub items of that folder.
+These two options always appear at the bottom of the menu.
+
+![Organise Sets](images/tagaini_sets_organise.png)
+
+To organise or reorganise sets, The `organise sets` window, found in the sets
+menu, allows you to drag and drop sets into different folders, as well as
+delete them. Double clicking on a set or folder will allow you to rename it.
+Right clicking on the set will allow you to delete it and dragging them around
+will move them to the new position. This allows you to sort them amongst
+themselves as well as into new folders. 
+
+******
+[Table of Contents] - [Top](#top "Top")
+******
+
+4.2. Results
+------------
+
+Tagaini is a computer application, and some of the best times to study are
+those long hours spent commuting on trains, in waiting rooms or, for students,
+between classes. Unless you are drag a laptop around with you everywhere, You
+wont have access to Tagaini or its study features, so instead you can print
+out sets.
+
+![Results Menu](images/tagaini_results.png)
+
+Tagaini can print two different types of paper media. Lists of vocabulary or
+kanji, and Pocketmod books, vocabulary and kanji lists formated in such a way
+that the paper can be folded into a small, pocket sized, book. The `print`
+option prints normally formatted lists, whilst the `print booklet(s)` option
+prints out booklets. Each option also has a preview option. 
+
+What is printed is limited by what is in the results window. If a search has
+turned up 60 entries, and Tagaini is set to only show 50 of those entries on a
+page, then Tagaini will only print those 50 entries. 
+
+In the `Export displayed entries...` menu is an option labeled `as a tab
+separated file...`. This option exports the first page in the results view as
+a plain text file, with entries formatted:
+
+    漢字	    かな	    Romaji
+
+or
+
+    Expression	    Reading	    Meaning
+
+This was originally written for exporting to anki[^ankifoot], a flash card
+program, but will work with any other application that can import entries in
+this format. 
+
+[^ankifoot]: http://www.ichi2.net/anki/
+
+******
+[Table of Contents] - [Top](#top "Top")
+******
+
+4.3. Study List
+---------------
+
+The study list is an invisible list of vocabulary and kanji, used to mark
+entries for study. Each entry has a score, based on how well you know the
+entry. This score is represented by a background colour for the entry when
+listed in the results view. Red represents not knowing it, or having a 0
+score, and green represents knowing it, or having a score of 100. The colour
+gradiates from red to yellow to green as the score gets higher. Entries with
+low scores are shown first.
+
+The study list is manipulated with the flag buttons in the detailed view tool
+bar and the context menu given when right clicking on entry references, either
+in the results view or the display view. 
+
+When adding entries to the study list, there are two relevant flags. The blue
+flag, `Add to study list` and the green flag, `already known`. The blue flag
+adds the entry with a score of 0, whilst the green flag adds the entry with a
+score of 100.
+
+After an entry has been added, the blue flag changes colour and becomes a
+black flag, which removes the entry from the study list. Another flag, which
+was previously greyed out, also becomes available. It is a red flag and marked
+`Reset score`. It sets the entries score to 0.
+
+An entries score goes up and down as you practice it.
+
+******
+[Table of Contents] - [Top](#top "Top")
+******
+
+4.4. Practise
+-------------
+
+The practice menu has four different options. Settings; vocab flash cards;
+kanji flash cards and reading practice. The flash card options are sub menus,
+each with `by set` and `entire study list` options for reading to translation 
+and translation to reading.
+
+![Trainer Settings](images/tagaini_train_settings.png)
+
+The settings window, brought up by clicking the `Whole study list train
+settings...` buttons, Which allows you to set what to include and exclude in
+study exercises. The `date of last training` section specifies what to include
+based on the last time it was studied. It defaults to before yesterday, so it
+wont include anything that you have already studied in the last twenty four
+hours. The score section specifies what to include based on score. If you only
+want to study things you are less familiar with you can change it to `between
+0 and 50` and it would only show you red to yellow entries. The `sort bias`
+specifies if entries with a low score should be more likely to appear before
+entries with higher scores.
+
+******
+[Table of Contents] - [Top](#top "Top")
+******
+
+###4.4.1. Vocabulary Flashcards
+
+There are four options in total in the vocabulary flashcards submenu: `From
+Japanese, whole study set`; `From Japanese, current set`; `From translation,
+whole study set` and `from translation, current set`. Each option will display
+different contents in the same window. It will either show the translation or
+reading first, from an entry that has been pulled either from the study list
+or the current set.
+
+![Vocab Training](images/tagaini_train_vocab.png)
+
+The `training` window has four buttons up the top; `Answer` and `skip`, as
+well as two initially greyed out options, `correct` and `wrong`. Underneath
+this is a detailed display window. It will only display part
+of an entry initially. Either the Japanese if you have selected `from
+Japanese`, or the definition. 
+
+If you have selected a `from Japanese` option, then there is an extra option
+along the detailed view toolbar, `Show furigana`, a checkbox which toggles
+whether or not the furigana for the entry is displayed.
+
+When you have decided whether or not you know the answer, pressing the answer
+button will display the rest of the entry, just as it would in the detailed
+display. You can then tell Tagaini if you got it correct or incorrect, which
+modifies the entries score, or skip the entry, which doesn't change it at all.
+
+Whilst the whole entry is displayed, you can use the detailed view as normal,
+however the toolbar is greyed out before hitting the answer button. When you
+tell Tagaini how well you remembered the entry, it goes to a new entry at
+random, and you can repeat the process until you have run out of entries in
+the set. Down the bottom of the view some statistics are displayed. 
+
+    Correct: 5, Wrong: 1, Total: 6
+
+The numbers correspond to how well you are doing in that particular set. Every
+time you a new training system, even with the same set, the numbers are all set
+back to 0. 
+
+******
+[Table of Contents] - [Top](#top "Top")
+******
+
+### 4.4.2. Kanji Flashcards
+
+The kanji flashcards menu, like the vocabulary flash cards menu, has four
+options: `From kanji, whole study list`; `From kanji, current set`; `From
+meaning, whole study list` and `from meaning, current set. Choosing a from
+kanji option displays the kanji by itself, allowing you to guess its meaning
+and reading. Choosing a "by meaning" option, displays the kanji's meaning and
+allows you to guess the kanji. 
+
+![Kanji Training](images/tagaini_train_kanji.png)
+
+Studying kanji is similar to studying vocabulary. The window is the same, the
+buttons are the same. After you have asked for the answer you can use the
+display view, now showing the whole entry, as normal. You can mark an entry as
+correct or incorrect. You can chose to just skip it. The totals are down the
+bottom of the view. You cannot, however, ask for furigana as that would
+defeat the point of trying to memorise the kanji. 
+
+******
+[Table of Contents] - [Top](#top "Top")
+******
+
+### 4.4.3. Reading Practise
+
+The last option in the practice menu is `reading practice, whole study set`.
+It brings up the `reading practice` window, which is a bit different to the
+flash card window. 
+
+![Reading Practise](images/tagaini_train_reading.png)
+
+The window shows you a vocab entries written form, and asks you to type the
+correct reading for the entry. Underneath the text field, it has a detailed
+display which shows only the entries definitions. You must type the entry in
+kana (かな) to get entries correct, it will not accept romaji answers, though
+it does not mind if the answer is in hiragana ひらがな or katakana かたがな. 
+
+![Reading Practise Error](images/tagaini_train_reading_batsu.png)
+
+When you get the answer correct it displays the word `correct` in green writing
+between the detailed display and the text field and moves immediately on to the
+next entry. When you get the entry incorrect, however, it displays `Error!` in
+read writing between the text field and the detailed view and changes the text
+field into a long next button. The detailed view shows the entire entry so you
+can see where you went wrong. When you press the next button it will show the
+next entry.
+
+
+******
+[Table of Contents] - [Top](#top "Top")
+******
+
+4.5. Importing and exporting data 
+---------------------------------
+
+User settings can be exported and imported from Tagaini. This allows you to
+move study lists, tags, notes and other things Tagaini remembers between
+versions. The `export user data` item in the `program` menu saves out a small
+data base with these settings, so that another instance of Tagaini may load
+it, whether it is another user on the same computer or on a different computer
+altogether.
+
+******
+[Table of Contents] - [Top](#top "Top")
+******
+
+5. Troubleshooting
+==================
+
+Unable to read Japanese
+-----------------------
+
+If you are unable to read Japanese text, you probably don't have any Japanese
+font's installed. You will likely have to install the Japanese langauge pack
+in windows and Mac OS X. To get Japanese support in linux please see your
+disributions documentation, if the information and links provided in Tagaini's
+Install Guide were insufficiant. 
+
+Unable to type Japanese text
+----------------------------
+
+Inputing Japanese text is not handled by Tagaini, instead by what is called an
+Input Manager. You will need to install and use one of these to input Japanese
+text. For instructions on installing an IM, please see Tagaini's install
+guide.
+
+Tagaini won't compile from GIT
+------------------------------
+
+Tagaini depends sqlite, but will not link with your systems sqlite libaries
+because Tagaini requires slightly customised versions of sqlite and pysqlite
+that are not kept in Tagaini's git repo. Instead, you first have to get them,
+as well as build the ui's language packs. These are the first two instructions
+in the install guides compiling from source section. 
+
+     tagaini-jisho $ ./builddb.py -d
+     tagaini-jisho $ lrelease src/gui/gui.pro
+
+continuing from the qmake section after running these two commands should
+help.
+
+Database Issues when Compiling from Source
+------------------------------------------
+
+Currently, when compiling from source Tagaini does not install the databases
+anywhere. This means that Tagaini can only be run from the folder that
+contains the databases. To be able to run Tagaini from wherever, the databases
+have to be copied into the tagaini database path manually. 
+
+If updating an existing version of Tagaini by compiling the source code, 
+installing it may cause the existing databases to fail. For example, a table
+in the kanji database changed between 0.2.397 and 0.2.4 which causes kanji
+entries not to have meanings if run without updating the databases. To fix
+this, rebuild the databases and copy it to the path.
+
+The databases can be copied into the following places:
+
+    /usr/local/share/tagainijisho
+    /usr/share/tagainijisho
+    %wintagainipath%
+    %mactagainipath%
+
+Other Bugs
+----------
+
+If you have an issue that is not listed above, you may wish to check Tagaini's
+bug tracker on [launchpad][btfoot], or the [mailing lists][mailfoot]. Chances are that someone else
+has already reported the problem and an work around has been posted. If no one
+else has reported the bug, then please feel free to do so. 
+
+
+******
+[Table of Contents] - [Top](#top "Top")
+******
+
+6. Contact
+==========
+
+For  development-related contact and user questions we ask that you use
+[Launchpad's][lpfoot] [bug tracker][btfoot] or [answers][answersfoot]
+interface.
+
+For informal discussion about Tagaini's development, you can join the
+dedicated [Google group][mailfoot].
+
+This manual was written by Neil Caldwell, and Tagaini Jisho is copyright
+Alexandre Courbot.
+
+[lpfoot]: https://launchpad.net/tagaini-jisho
+[mailfoot]: http://groups.google.com/group/tagaini-jisho
+[btfoot]: https://bugs.launchpad.net/tagaini-jisho
+[answersfoot]: https://answers.launchpad.net/tagaini-jisho
+
+<a name="A"/>
+
+******
+[Table of Contents] - [Top](#top "Top")
+******
+
+Footnotes
+=========

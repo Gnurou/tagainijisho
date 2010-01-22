@@ -15,6 +15,8 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "config.h"
+
 #include "core/Paths.h"
 #include "core/Database.h"
 #include "core/EntrySearcherManager.h"
@@ -25,10 +27,62 @@
 #include <QFile>
 #include <QDir>
 
-#define JMDICTDB_REVISION 4
-
 #define dictFileConfigString "jmdict/database"
 #define dictFileConfigDefault "jmdict.db"
+
+QVector<QPair<QString, QString> > JMdictPlugin::_posEntities;
+QVector<QPair<QString, QString> > JMdictPlugin::_miscEntities;
+QVector<QPair<QString, QString> > JMdictPlugin::_dialectEntities;
+QVector<QPair<QString, QString> > JMdictPlugin::_fieldEntities;
+
+QMap<QString, quint8> JMdictPlugin::_posBitShift;
+QMap<QString, quint8> JMdictPlugin::_miscBitShift;
+QMap<QString, quint8> JMdictPlugin::_dialectBitShift;
+QMap<QString, quint8> JMdictPlugin::_fieldBitShift;
+
+QList<const QPair<QString, QString> *> JMdictPlugin::posEntitiesList(quint64 mask)
+{
+	QList<const QPair<QString, QString> *> res;
+	int cpt(0);
+	while (mask != 0 && cpt < _posEntities.size()) {
+		if (mask & 1) res << &_posEntities[cpt];
+		++cpt; mask >>= 1;
+	}
+	return res;
+}
+
+QList<const QPair<QString, QString> *> JMdictPlugin::miscEntitiesList(quint64 mask)
+{
+	QList<const QPair<QString, QString> *> res;
+	int cpt(0);
+	while (mask != 0 && cpt < _miscEntities.size()) {
+		if (mask & 1) res << &_miscEntities[cpt];
+		++cpt; mask >>= 1;
+	}
+	return res;
+}
+
+QList<const QPair<QString, QString> *> JMdictPlugin::dialectEntitiesList(quint64 mask)
+{
+	QList<const QPair<QString, QString> *> res;
+	int cpt(0);
+	while (mask != 0 && cpt < _dialectEntities.size()) {
+		if (mask & 1) res << &_dialectEntities[cpt];
+		++cpt; mask >>= 1;
+	}
+	return res;
+}
+
+QList<const QPair<QString, QString> *> JMdictPlugin::fieldEntitiesList(quint64 mask)
+{
+	QList<const QPair<QString, QString> *> res;
+	int cpt(0);
+	while (mask != 0 && cpt < _fieldEntities.size()) {
+		if (mask & 1) res << &_fieldEntities[cpt];
+		++cpt; mask >>= 1;
+	}
+	return res;
+}
 
 JMdictPlugin::JMdictPlugin() : Plugin("JMdict")
 {
@@ -46,6 +100,34 @@ bool JMdictPlugin::onRegister()
 		qFatal("JMdict plugin fatal error: failed to attach JMdict database!");
 		return false;
 	}
+	
+	// Populate the entities tables
+	QSqlQuery query;
+	query.exec("select bitShift, name, description from jmdict.posEntities order by bitShift");
+	while (query.next()) {
+		QString name(query.value(1).toString());
+		_posEntities << QPair<QString, QString>(name, query.value(2).toString());
+		_posBitShift[name] = query.value(0).toInt();
+	}
+	query.exec("select bitShift, name, description from jmdict.miscEntities order by bitShift");
+	while (query.next()) {
+		QString name(query.value(1).toString());
+		_miscEntities << QPair<QString, QString>(name, query.value(2).toString());
+		_miscBitShift[name] = query.value(0).toInt();
+	}
+	query.exec("select bitShift, name, description from jmdict.dialectEntities order by bitShift");
+	while (query.next()) {
+		QString name(query.value(1).toString());
+		_dialectEntities << QPair<QString, QString>(name, query.value(2).toString());
+		_dialectBitShift[name] = query.value(0).toInt();
+	}
+	query.exec("select bitShift, name, description from jmdict.fieldEntities order by bitShift");
+	while (query.next()) {
+		QString name(query.value(1).toString());
+		_fieldEntities << QPair<QString, QString>(name, query.value(2).toString());
+		_fieldBitShift[name] = query.value(0).toInt();
+	}
+	
 	// Register our entry searcher
 	searcher = new JMdictEntrySearcher();
 	EntrySearcherManager::instance().addInstance(searcher);
@@ -58,6 +140,12 @@ bool JMdictPlugin::onUnregister()
 	EntrySearcherManager::instance().removeInstance(searcher);
 	delete searcher;
 
+	// Clear all entities tables
+	_posEntities.clear();
+	_miscEntities.clear();
+	_dialectEntities.clear();
+	_fieldEntities.clear();
+	
 	// Detach our database
 	if (!Database::detachDictionaryDB("jmdict")) return false;
 
@@ -68,7 +156,7 @@ QString JMdictPlugin::getDBFile() const
 {
 	// Look in the current directory
 	QFile dbFile("jmdict.db");
-#ifdef DATAPREFIX
+#ifdef DATA_DIR
 	// Otherwise, check for the default installation prefix, if set	
 	if (!dbFile.exists()) dbFile.setFileName(QDir(QUOTEMACRO(DATAPREFIX)).filePath("jmdict.db"));
 #endif
