@@ -76,7 +76,7 @@ public slots:
 	void populateRoot();
 };
 
-#include "ui_SetsOrganizer.h"
+#include "gui/ui_SetsOrganizer.h"
 
 class SetsOrganizer : public QDialog, private Ui::SetsOrganizer
 {

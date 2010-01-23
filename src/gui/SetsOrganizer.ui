@@ -58,7 +58,7 @@
   <customwidget>
    <class>SetsTreeWidget</class>
    <extends>QTreeWidget</extends>
-   <header>SetsOrganizer.h</header>
+   <header>gui/SetsOrganizer.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

@@ -160,9 +160,17 @@
   <customwidget>
    <class>RelativeDateEdit</class>
    <extends>QPushButton</extends>
-   <header>RelativeDateEdit.h</header>
+   <header>gui/RelativeDateEdit.h</header>
   </customwidget>
  </customwidgets>
+ <tabstops>
+  <tabstop>buttonBox</tabstop>
+  <tabstop>minDate</tabstop>
+  <tabstop>maxDate</tabstop>
+  <tabstop>minScore</tabstop>
+  <tabstop>maxScore</tabstop>
+  <tabstop>bias</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>

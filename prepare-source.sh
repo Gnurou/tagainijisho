@@ -27,3 +27,8 @@ if [ ! -f 3rdparty/kanjivg.xml ]; then
 	wget $KANJIVG_SOURCE -O - |gunzip >3rdparty/kanjivg.xml
 fi
 
+TS_FILES=`ls i18n/*.ts`
+for f in $TS_FILES; do
+	lrelease $f -qm i18n/`basename $f .ts`.qm
+done
+
