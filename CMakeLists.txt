@@ -2,7 +2,7 @@
 
 project(tagainijisho)
 set(VERSION 0.2.5)
-cmake_minimum_required(VERSION 2.8.0)
+cmake_minimum_required(VERSION 2.6.0)
 find_package(Qt4 REQUIRED)
 
 # Global GCC options
