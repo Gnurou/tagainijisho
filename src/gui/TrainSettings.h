@@ -18,7 +18,7 @@
 #ifndef TRAINSETTINGS_H
 #define TRAINSETTINGS_H
 
-#include "ui_TrainSettings.h"
+#include "gui/ui_TrainSettings.h"
 
 class TrainSettings : public QDialog, private Ui::TrainSettings
 {
