@@ -42,5 +42,7 @@ add_custom_command(OUTPUT jmdict.db
 	DEPENDS build_jmdict_db ${CMAKE_SOURCE_DIR}/3rdparty/JMdict)
 
 add_custom_target(databases DEPENDS jmdict.db kanjidic2.db)
+# TODO does not triggers building of db files if they do not exist
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/jmdict.db ${CMAKE_CURRENT_BINARY_DIR}/kanjidic2.db DESTINATION share/tagainijisho PERMISSIONS OWNER_READ GROUP_READ WORLD_READ)
 
 add_subdirectory(src)

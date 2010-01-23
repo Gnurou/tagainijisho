@@ -158,7 +158,7 @@ QString JMdictPlugin::getDBFile() const
 	QFile dbFile("jmdict.db");
 #ifdef DATA_DIR
 	// Otherwise, check for the default installation prefix, if set	
-	if (!dbFile.exists()) dbFile.setFileName(QDir(QUOTEMACRO(DATAPREFIX)).filePath("jmdict.db"));
+	if (!dbFile.exists()) dbFile.setFileName(QDir(QUOTEMACRO(DATA_DIR)).filePath("jmdict.db"));
 #endif
 	// Still no clue, then look in the binary directory
 	if (!dbFile.exists()) dbFile.setFileName(QDir(QCoreApplication::applicationDirPath()).filePath("jmdict.db"));
