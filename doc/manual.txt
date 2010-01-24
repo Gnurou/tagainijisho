@@ -1088,15 +1088,14 @@ Tagaini won't compile from GIT
 ------------------------------
 
 Tagaini depends sqlite, but will not link with your systems sqlite libaries
-because Tagaini requires slightly customised versions of sqlite and pysqlite
-that are not kept in Tagaini's git repo. Instead, you first have to get them,
-as well as build the ui's language packs. These are the first two instructions
-in the install guides compiling from source section. 
+because Tagaini requires a slightly customised version of sqlite. This is not
+kept in Tagaini's git repo. Instead, you first have to get it and the
+dictionaries. This is the first command you need to run, from the install
+guides compiling from git section.
 
-     tagaini-jisho $ ./builddb.py -d
-     tagaini-jisho $ lrelease src/gui/gui.pro
+     tagaini-jisho $ ./prepare-source.sh
 
-continuing from the qmake section after running these two commands should
+continuing from the `cmake .` command after running this command should
 help.
 
 Database Issues when Compiling from Source
