@@ -1113,12 +1113,10 @@ in the kanji database changed between 0.2.397 and 0.2.4 which causes kanji
 entries not to have meanings if run without updating the databases. To fix
 this, rebuild the databases and copy it to the path.
 
-The databases can be copied into the following places:
+The databases can be copied into the following places on a linux system:
 
     /usr/local/share/tagainijisho
     /usr/share/tagainijisho
-    %wintagainipath%
-    %mactagainipath%
 
 Other Bugs
 ----------
