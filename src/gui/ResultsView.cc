@@ -173,7 +173,7 @@ void EntryDelegate::updateFonts()
 	_notesIcon = _notesIcon.scaledToHeight(15);
 }
 
-ResultsView::ResultsView(bool viewOnly, QWidget *parent) : QListView(parent), entryMenu(), contextMenu()
+ResultsView::ResultsView(QWidget *parent, bool viewOnly) : QListView(parent), entryMenu(), contextMenu()
 {
 	// Is the fonts manager instance already running?
 	if (!ResultsViewFonts::_instance) ResultsViewFonts::_instance = new ResultsViewFonts();

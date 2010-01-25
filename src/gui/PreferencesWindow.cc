@@ -18,7 +18,6 @@
 #include "core/Preferences.h"
 #include "core/EntrySearcherManager.h"
 #include "gui/UpdateChecker.h"
-#include "gui/SearchWidget.h"
 #include "gui/ResultsView.h"
 #include "gui/DetailedView.h"
 #include "gui/PreferencesWindow.h"
@@ -216,7 +215,7 @@ ResultsViewPreferences::ResultsViewPreferences(QWidget *parent) : PreferencesWin
 	setupUi(this);
 
 	_list = new ResultsList(this);
-	_view = new ResultsView(true, this);
+	_view = new ResultsView(this, true);
 	_view->setModel(_list);
 	PreferencesEntryDelegate *delegate = new PreferencesEntryDelegate(_view);
 
@@ -252,7 +251,7 @@ ResultsViewPreferences::ResultsViewPreferences(QWidget *parent) : PreferencesWin
 
 void ResultsViewPreferences::refresh()
 {
-	nbResults->setValue(SearchWidget::resultsPerPagePref.value());
+	nbResults->setValue(MainWindow::resultsPerPagePref.value());
 
 	resultsOrder->setCurrentIndex(EntrySearcherManager::studiedEntriesFirst.value());
 	if (ResultsView::displayMode.value() == ResultsViewFonts::OneLine) oneLine->click();
@@ -270,8 +269,8 @@ void ResultsViewPreferences::refresh()
 
 void ResultsViewPreferences::applySettings()
 {
-	SearchWidget::resultsPerPagePref.set(nbResults->value());
-	MainWindow::instance()->searchWidget()->setResultsPerPage(SearchWidget::resultsPerPagePref.value());
+	MainWindow::resultsPerPagePref.set(nbResults->value());
+	MainWindow::instance()->setResultsPerPage(MainWindow::resultsPerPagePref.value());
 
 	ResultsView::smoothScrolling.set(smoothScrolling->isChecked());
 	EntrySearcherManager::studiedEntriesFirst.set(resultsOrder->currentIndex());
@@ -282,7 +281,7 @@ void ResultsViewPreferences::applySettings()
 
 void ResultsViewPreferences::updateUI()
 {
-	MainWindow::instance()->searchWidget()->resultsView()->setSmoothScrolling(smoothScrolling->isChecked());
+	MainWindow::instance()->resultsView()->setSmoothScrolling(smoothScrolling->isChecked());
 	// Results view fonts
 	applyFontSetting(romajifontChooser, &ResultsViewFonts::textFont, ResultsViewFonts::DefaultText);
 	applyFontSetting(kanafontChooser, &ResultsViewFonts::kanaFont, ResultsViewFonts::Kana);

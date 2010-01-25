@@ -22,7 +22,6 @@
 #include "gui/kanjidic2/Kanjidic2EntryFormatter.h"
 #include "gui/kanjidic2/KanjiPopup.h"
 #include "gui/MainWindow.h"
-#include "gui/SearchWidget.h"
 #include "gui/kanjidic2/Kanjidic2Preferences.h"
 #include "gui/kanjidic2/Kanjidic2GUIPlugin.h"
 // TODO BAD - dependency against JMdict!
@@ -99,7 +98,7 @@ bool Kanjidic2GUIPlugin::onRegister()
 
 	// Register the searchbar extender
 	_extender = new Kanjidic2OptionsWidget(0);
-	mainWindow->searchWidget()->searchBar()->registerExtender(_extender);
+	mainWindow->searchBar()->registerExtender(_extender);
 
 	// Register the detailed view event filter
 	DetailedView::registerEventFilter(this);
@@ -120,7 +119,7 @@ bool Kanjidic2GUIPlugin::onUnregister()
 
 	MainWindow *mainWindow = MainWindow::instance();
 	// Remove the search extender
-	mainWindow->searchWidget()->searchBar()->removeExtender(_extender);
+	mainWindow->searchBar()->removeExtender(_extender);
 	delete _extender; _extender = 0;
 	// Remove the main window entries
 	delete _flashKL; _flashKL = 0;
@@ -176,7 +175,7 @@ void Kanjidic2GUIPlugin::trainingKanjiList()
 
 void Kanjidic2GUIPlugin::trainingKanjiSet()
 {
-	QueryBuilder qBuilder(MainWindow::instance()->searchWidget()->queryBuilder());
+	QueryBuilder qBuilder(MainWindow::instance()->queryBuilder());
 	const QueryBuilder::Statement *stat(qBuilder.getStatementForEntryType(KANJIDIC2ENTRY_GLOBALID));
 	if (!stat) {
 		QMessageBox::information(MainWindow::instance(), tr("Nothing to train"), tr("There are no kanji entries in this set to train on."));
@@ -194,7 +193,7 @@ void Kanjidic2GUIPlugin::trainingMeaningList()
 
 void Kanjidic2GUIPlugin::trainingMeaningSet()
 {
-	QueryBuilder qBuilder(MainWindow::instance()->searchWidget()->queryBuilder());
+	QueryBuilder qBuilder(MainWindow::instance()->queryBuilder());
 	const QueryBuilder::Statement *stat(qBuilder.getStatementForEntryType(KANJIDIC2ENTRY_GLOBALID));
 	if (!stat) {
 		QMessageBox::information(MainWindow::instance(), tr("Nothing to train"), tr("There are no kanji entries in this set to train on."));
@@ -337,7 +336,7 @@ bool Kanjidic2GUIPlugin::eventFilter(QObject *obj, QEvent *_event)
 			else return false;
 
 			QAction *selected = menu->exec(event->globalPos());
-			if (selected && selected == openAction) MainWindow::instance()->searchWidget()->detailedView()->display(tview.entry());
+			if (selected && selected == openAction) MainWindow::instance()->detailedView()->display(tview.entry());
 			delete menu;
 			return true;
 		}
@@ -368,7 +367,7 @@ void KanjiLinkHandler::handleUrl(const QUrl &url, DetailedView *view)
 	if (!entry) return;
 
 	KanjiPopup *popup = new KanjiPopup();
-	QObject::connect(popup, SIGNAL(requestDisplay(Entry*)), MainWindow::instance()->searchWidget()->detailedView(), SLOT(display(Entry*)));
+	QObject::connect(popup, SIGNAL(requestDisplay(Entry*)), MainWindow::instance()->detailedView(), SLOT(display(Entry*)));
 
 	popup->setFrameStyle(QFrame::StyledPanel | QFrame::Raised);
 	popup->setWindowModality(Qt::ApplicationModal);
@@ -401,7 +400,7 @@ KanjiAllWordsHandler::KanjiAllWordsHandler() : DetailedViewLinkHandler("allwords
 
 void KanjiAllWordsHandler::handleUrl(const QUrl &url, DetailedView *view)
 {
-	SearchBar *searchBar = MainWindow::instance()->searchWidget()->searchBar();
+	SearchBar *searchBar = MainWindow::instance()->searchBar();
 	EntryTypeSelectionWidget *entryType = qobject_cast<EntryTypeSelectionWidget *>(searchBar->getExtender("entrytypeselector"));
 	JMdictOptionsWidget *extender = qobject_cast<JMdictOptionsWidget *>(searchBar->getExtender("jmdictoptions"));
 	if (!entryType || !extender) return;
@@ -422,7 +421,7 @@ KanjiAllComponentsOfHandler::KanjiAllComponentsOfHandler() : DetailedViewLinkHan
 
 void KanjiAllComponentsOfHandler::handleUrl(const QUrl &url, DetailedView *view)
 {
-	SearchBar *searchBar = MainWindow::instance()->searchWidget()->searchBar();
+	SearchBar *searchBar = MainWindow::instance()->searchBar();
 	EntryTypeSelectionWidget *entryType = qobject_cast<EntryTypeSelectionWidget *>(searchBar->getExtender("entrytypeselector"));
 	Kanjidic2OptionsWidget *extender = qobject_cast<Kanjidic2OptionsWidget *>(searchBar->getExtender("kanjidicoptions"));
 	if (!entryType || !extender) return;

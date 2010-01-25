@@ -26,7 +26,6 @@ UpdateChecker.cc
 ClickableLabel.cc
 SingleEntryView.cc
 SearchBar.cc
-SearchWidget.cc
 ResultsList.cc
 SmoothScroller.cc
 ResultsView.cc
@@ -66,7 +65,6 @@ RelativeDateEdit.h
 ResultsList.h
 ResultsView.h
 SearchBar.h
-SearchWidget.h
 SetsOrganizer.h
 SingleEntryView.h
 SmoothScroller.h
@@ -93,6 +91,7 @@ AboutDialog.ui
 DetailedViewPreferences.ui
 ResultsViewPreferences.ui
 GeneralPreferences.ui
+MainWindow.ui
 jmdict/JMdictPreferences.ui
 kanjidic2/KanjiPopup.ui
 kanjidic2/Kanjidic2Preferences.ui
