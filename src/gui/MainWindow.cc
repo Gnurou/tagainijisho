@@ -75,12 +75,12 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), _history(historyS
 	_instance = this;
 	
 	setupUi(this);
-	// Strangely this is not done properly by Qt designer...
-	connect(_setsMenu, SIGNAL(aboutToShow()), this, SLOT(populateSetsMenu()));
-
 	_results = new ResultsList(this);
 	_resultsView->setModel(_results);
 	
+	// Strangely this is not done properly by Qt designer...
+	connect(_setsMenu, SIGNAL(aboutToShow()), this, SLOT(populateSetsMenu()));
+
 	setResultsPerPage(resultsPerPagePref.value());
 	
 	// Now on to the query/result logic

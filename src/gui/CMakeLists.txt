@@ -30,6 +30,7 @@ ResultsList.cc
 SmoothScroller.cc
 ResultsView.cc
 DetailedView.cc
+ListsView.cc
 ToolBarDetailedView.cc
 TrainSettings.cc
 YesNoTrainer.cc
@@ -64,6 +65,7 @@ ReadingTrainer.h
 RelativeDateEdit.h
 ResultsList.h
 ResultsView.h
+ListsView.h
 SearchBar.h
 SetsOrganizer.h
 SingleEntryView.h

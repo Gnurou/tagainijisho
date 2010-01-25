@@ -179,7 +179,6 @@ ResultsView::ResultsView(QWidget *parent, bool viewOnly) : QListView(parent), en
 	if (!ResultsViewFonts::_instance) ResultsViewFonts::_instance = new ResultsViewFonts();
 	connect(ResultsViewFonts::_instance, SIGNAL(fontsHaveChanged()), this, SLOT(updateFonts()));
 
-	setSelectionMode(QAbstractItemView::ExtendedSelection);
 	setUniformItemSizes(true);
 	setAlternatingRowColors(true);
 	selectAllAction = contextMenu.addAction(tr("Select All"));

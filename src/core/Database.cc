@@ -26,7 +26,7 @@
 #include <QtDebug>
 #include <QSemaphore>
 
-#define USERDB_REVISION 4
+#define USERDB_REVISION 5
 
 #define QUERY(Q) if (!query.exec(Q)) return false
 
@@ -40,8 +40,8 @@ bool Database::createUserDB()
 	QUERY("CREATE TABLE info(version INT)");
 	QUERY(QString("INSERT INTO info VALUES(") + QString::number(USERDB_REVISION) + ")");
 
-	// Training table
-	QUERY("CREATE TABLE training(type INT NOT NULL, id INTEGER SECONDARY_KEY NOT NULL, score INT NOT NULL, dateAdded UNSIGNED INT NOT NULL, dateLastTrain UNSIGNED INT, nbTrained UNSIGNED INT NOT NULL, nbSuccess UNSIGNED INT NOT NULL, dateLastMistake UNSIGNED INT, CONSTRAINT training_unique_ids UNIQUE(type, id))");
+	// Study table
+	QUERY("CREATE TABLE training(type INT NOT NULL, id INTEGER SECONDARY KEY NOT NULL, score INT NOT NULL, dateAdded UNSIGNED INT NOT NULL, dateLastTrain UNSIGNED INT, nbTrained UNSIGNED INT NOT NULL, nbSuccess UNSIGNED INT NOT NULL, dateLastMistake UNSIGNED INT, CONSTRAINT training_unique_ids UNIQUE(type, id))");
 	QUERY("CREATE INDEX idx_training_type_id ON training(type, id)");
 	QUERY("CREATE INDEX idx_training_score ON training(score)");
 
@@ -56,6 +56,11 @@ bool Database::createUserDB()
 	// Sets table
 	QUERY("CREATE TABLE sets(parent INT, position INT NOT NULL, label TEXT, state BLOB)");
 	QUERY("CREATE INDEX idx_sets_id ON sets(parent, position)");
+	
+	// Lists tables
+	QUERY("CREATE TABLE lists(parent INTEGER REFERENCES lists, position INTEGER NOT NULL, type INTEGER, id INTEGER, PRIMARY KEY(parent, position))");
+	QUERY("CREATE VIRTUAL TABLE listsLabels using fts3(label)");
+	QUERY("CREATE INDEX idx_lists_entry ON lists(type, id)");
 	if (!database.commit()) return false;
 	return true;
 }
@@ -104,12 +109,21 @@ bool update3to4(QSqlQuery &query) {
 	return true;
 }
 
+/// Add the lists tables
+bool update4to5(QSqlQuery &query) {
+	QUERY("CREATE TABLE lists(parent INTEGER REFERENCES lists, position INTEGER NOT NULL, type INTEGER, id INTEGER, PRIMARY KEY(parent, position))");
+	QUERY("CREATE VIRTUAL TABLE listsLabels using fts3(label)");
+	QUERY("CREATE INDEX idx_lists_entry ON lists(type, id)");
+	return true;
+}
+
 #undef QUERY
 
 bool (*dbUpdateFuncs[USERDB_REVISION - 1])(QSqlQuery &) = {
 	&update1to2,
 	&update2to3,
-	&update3to4
+	&update3to4,
+	&update4to5
 };
 
 static Qt::ConnectionType alwaysSync = Qt::BlockingQueuedConnection;

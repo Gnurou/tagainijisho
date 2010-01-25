@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>645</width>
+    <width>805</width>
     <height>671</height>
    </rect>
   </property>
@@ -153,7 +153,23 @@
       <property name="orientation">
        <enum>Qt::Vertical</enum>
       </property>
-      <widget class="ResultsView" name="_resultsView"/>
+      <widget class="ResultsView" name="_resultsView">
+       <property name="acceptDrops">
+        <bool>false</bool>
+       </property>
+       <property name="showDropIndicator" stdset="0">
+        <bool>true</bool>
+       </property>
+       <property name="dragEnabled">
+        <bool>true</bool>
+       </property>
+       <property name="dragDropMode">
+        <enum>QAbstractItemView::DragOnly</enum>
+       </property>
+       <property name="selectionMode">
+        <enum>QAbstractItemView::ExtendedSelection</enum>
+       </property>
+      </widget>
       <widget class="ToolBarDetailedView" name="_detailedView"/>
      </widget>
     </item>
@@ -164,7 +180,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>645</width>
+     <width>805</width>
      <height>21</height>
     </rect>
    </property>
@@ -230,7 +246,48 @@
    <addaction name="_trainMenu"/>
    <addaction name="_helpMenu"/>
   </widget>
-  <widget class="QStatusBar" name="statusbar"/>
+  <widget class="QDockWidget" name="dockWidget">
+   <property name="windowTitle">
+    <string>Lists</string>
+   </property>
+   <attribute name="dockWidgetArea">
+    <number>1</number>
+   </attribute>
+   <widget class="QWidget" name="dockWidgetContents">
+    <layout class="QVBoxLayout" name="verticalLayout_2">
+     <item>
+      <widget class="QLineEdit" name="listFilter"/>
+     </item>
+     <item>
+      <widget class="ListsView" name="lists">
+       <property name="acceptDrops">
+        <bool>true</bool>
+       </property>
+       <property name="dragEnabled">
+        <bool>true</bool>
+       </property>
+       <property name="dragDropMode">
+        <enum>QAbstractItemView::DragDrop</enum>
+       </property>
+       <property name="indentation">
+        <number>10</number>
+       </property>
+       <attribute name="headerVisible">
+        <bool>false</bool>
+       </attribute>
+       <attribute name="headerVisible">
+        <bool>false</bool>
+       </attribute>
+       <column>
+        <property name="text">
+         <string/>
+        </property>
+       </column>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+  </widget>
   <action name="actionExport_user_data">
    <property name="icon">
     <iconset resource="../../tagainijisho.qrc">
@@ -438,9 +495,13 @@
     <slot>reset()</slot>
    </slots>
   </customwidget>
+  <customwidget>
+   <class>ListsView</class>
+   <extends>QTreeWidget</extends>
+   <header>gui/ListsView.h</header>
+  </customwidget>
  </customwidgets>
  <tabstops>
-  <tabstop>_searchBar</tabstop>
   <tabstop>prevButton</tabstop>
   <tabstop>nextButton</tabstop>
   <tabstop>previousPageButton</tabstop>

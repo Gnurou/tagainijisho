@@ -98,11 +98,41 @@ void ResultsList::clear()
 	if (entries.isEmpty()) return;
 
 	beginRemoveRows(QModelIndex(), 0, entries.size() - 1);
-	//for (int i = 0; i < entries.size(); i++)
-		//disconnect(entries[i].data(), SIGNAL(entryChanged(Entry *)), this, SLOT(onEntryChanged(Entry *)));
 	entries.clear();
 	endRemoveRows();
 	displayedUntil = 0;
 	timer.stop();
 }
 
+Qt::ItemFlags ResultsList::flags(const QModelIndex &index) const
+{
+	Qt::ItemFlags defaultFlags = QAbstractListModel::flags(index);
+
+	if (index.isValid()) return Qt::ItemIsDragEnabled | defaultFlags;
+	else return defaultFlags;
+}
+
+QStringList ResultsList::mimeTypes() const
+{
+	QStringList types;
+	types << "tagainijisho/entry";
+	return types;
+}
+ 
+QMimeData *ResultsList::mimeData(const QModelIndexList &indexes) const
+{  
+	QMimeData *mimeData = new QMimeData();
+	QByteArray encodedData;
+
+	QDataStream stream(&encodedData, QIODevice::WriteOnly);
+
+	foreach (QModelIndex index, indexes) {
+		if (index.isValid()) {
+			Entry *entry = data(index, EntryRole).value<Entry *>();
+			stream << entry->type() << entry->id();
+		}
+	}
+
+	mimeData->setData("tagainijisho/entry", encodedData);
+	return mimeData;
+}
