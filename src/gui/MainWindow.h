@@ -18,8 +18,8 @@
 #ifndef __GUI_MAIN_WINDOW_H_
 #define __GUI_MAIN_WINDOW_H_
 
-#include "core/Preferences.h"
 #include "gui/ui_MainWindow.h"
+#include "core/Preferences.h"
 #include "core/QueryBuilder.h"
 #include "core/Query.h"
 #include "gui/SearchBar.h"
@@ -28,9 +28,7 @@
 #include "gui/AbstractHistory.h"
 #include "gui/ToolBarDetailedView.h"
 
-#include <QLabel>
 #include <QSplitter>
-#include <QPushButton>
 #include <QList>
 #include <QMainWindow>
 #include <QMenu>
@@ -42,51 +40,25 @@
 
 class SearchWidget;
 
-class MainWindow : public QMainWindow
+class MainWindow : public QMainWindow, private Ui::MainWindow
 {
 	Q_OBJECT
 private:
 	static PreferenceItem<QByteArray> windowGeometry;
 	static MainWindow *_instance;
 
-	SearchWidget *_searchWidget;
-	QMenu *_fileMenu;
-	QMenu *_searchMenu;
-	QMenu *_resultsMenu;
-	QMenu *_setsMenu;
+	// Used by sets
 	QList<QAction *> _rootActions;
 	QList<QMenu *> _rootMenus;
-	QMenu *_trainMenu;
-	QMenu *_helpMenu;
-
-	QMenu *_tagsListMenu;
-	QActionGroup _tagsListMenuActionGroup;
-	QMap<QAction *, QString> _tagsListAction;
-
+	
 	QTimer _updateTimer;
-
-	void createMenus();
 
 	// SearchWidget stuff
 	static PreferenceItem<QByteArray> splitterState;
-
 	AbstractHistory<QMap<QString, QVariant>, QList<QMap<QString, QVariant> > > _history;
 
-	SearchBar *_searchBar;
 	ResultsList *_results;
-	ResultsView *_resultsView;
-	ToolBarDetailedView *_detailedView;
-
-	QSplitter *splitter;
 	EntryDelegate *delegate;
-	QLabel *nbResultsLabel;
-
-	QPushButton *nextPageButton;
-	QPushButton *previousPageButton;
-	QPushButton *showAllResultsButton;
-
-	QPushButton *prevButton;
-	QPushButton *nextButton;
 
 	// Set to true if a query has been started and we haven't handled any
 	// signal relative to its termination.
@@ -212,8 +184,6 @@ public:
 	QMenu *searchMenu() { return _searchMenu; }
 	QMenu *trainMenu() { return _trainMenu; }
 	QMenu *helpMenu() { return _helpMenu; }
-
-	SearchWidget *searchWidget() { return _searchWidget; }
 
 	static PreferenceItem<QString> applicationFont;
 	static PreferenceItem<QString> guiLanguage;

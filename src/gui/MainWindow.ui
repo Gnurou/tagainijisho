@@ -1,0 +1,933 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>645</width>
+    <height>671</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Tagaini Jisho</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="../../tagainijisho.qrc">
+    <normaloff>:/images/tagainijisho.png</normaloff>:/images/tagainijisho.png</iconset>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <widget class="SearchBar" name="_searchBar"/>
+    </item>
+    <item>
+     <layout class="QHBoxLayout" name="navigationButtonsLayout">
+      <item>
+       <widget class="QPushButton" name="prevButton">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="toolTip">
+         <string>Previous search</string>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="icon">
+         <iconset resource="../../tagainijisho.qrc">
+          <normaloff>:/images/icons/go-previous.png</normaloff>:/images/icons/go-previous.png</iconset>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="nextButton">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="toolTip">
+         <string>Next search</string>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="icon">
+         <iconset resource="../../tagainijisho.qrc">
+          <normaloff>:/images/icons/go-next.png</normaloff>:/images/icons/go-next.png</iconset>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="nbResultsLabel">
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="previousPageButton">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="toolTip">
+         <string>Previous page</string>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="icon">
+         <iconset resource="../../tagainijisho.qrc">
+          <normaloff>:/images/icons/arrow-left.png</normaloff>:/images/icons/arrow-left.png</iconset>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="nextPageButton">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="toolTip">
+         <string>Next page</string>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="icon">
+         <iconset resource="../../tagainijisho.qrc">
+          <normaloff>:/images/icons/arrow-right.png</normaloff>:/images/icons/arrow-right.png</iconset>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="showAllResultsButton">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="toolTip">
+         <string>Show all results</string>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="icon">
+         <iconset resource="../../tagainijisho.qrc">
+          <normaloff>:/images/icons/arrow-down-double.png</normaloff>:/images/icons/arrow-down-double.png</iconset>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <widget class="QSplitter" name="splitter">
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+      <widget class="ResultsView" name="_resultsView"/>
+      <widget class="ToolBarDetailedView" name="_detailedView"/>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>645</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="_fileMenu">
+    <property name="title">
+     <string>&amp;Program</string>
+    </property>
+    <addaction name="actionExport_user_data"/>
+    <addaction name="actionImport_user_data"/>
+    <addaction name="actionPreferences"/>
+    <addaction name="separator"/>
+    <addaction name="action_Quit"/>
+   </widget>
+   <widget class="QMenu" name="_searchMenu">
+    <property name="title">
+     <string>&amp;Search</string>
+    </property>
+    <addaction name="actionFocusSearchBar"/>
+    <addaction name="actionResetSearch"/>
+   </widget>
+   <widget class="QMenu" name="_resultsMenu">
+    <property name="title">
+     <string>&amp;Results</string>
+    </property>
+    <addaction name="action_Print"/>
+    <addaction name="actionPrint_preview"/>
+    <addaction name="actionPrint_booklet_s"/>
+    <addaction name="actionBooklet_s_preview"/>
+    <addaction name="separator"/>
+    <addaction name="action_Export_displayed_entries"/>
+   </widget>
+   <widget class="QMenu" name="_trainMenu">
+    <property name="title">
+     <string>&amp;Practice</string>
+    </property>
+    <addaction name="actionWhole_study_list_train_settings"/>
+    <addaction name="separator"/>
+   </widget>
+   <widget class="QMenu" name="_helpMenu">
+    <property name="title">
+     <string>&amp;Help</string>
+    </property>
+    <addaction name="action_Manual"/>
+    <addaction name="action_Report_a_bug"/>
+    <addaction name="action_Suggest_a_feature"/>
+    <addaction name="actionAsk_a_question"/>
+    <addaction name="actionSupport_Tagaini_Jisho_Make_a_donation"/>
+    <addaction name="action_About"/>
+   </widget>
+   <widget class="QMenu" name="_setsMenu">
+    <property name="title">
+     <string>&amp;Sets</string>
+    </property>
+    <addaction name="action_New_set_from_current_search"/>
+    <addaction name="action_New_sets_folder"/>
+    <addaction name="action_Organize_sets"/>
+    <addaction name="separator"/>
+   </widget>
+   <addaction name="_fileMenu"/>
+   <addaction name="_searchMenu"/>
+   <addaction name="_resultsMenu"/>
+   <addaction name="_setsMenu"/>
+   <addaction name="_trainMenu"/>
+   <addaction name="_helpMenu"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <action name="actionExport_user_data">
+   <property name="icon">
+    <iconset resource="../../tagainijisho.qrc">
+     <normaloff>:/images/icons/document-export.png</normaloff>:/images/icons/document-export.png</iconset>
+   </property>
+   <property name="text">
+    <string>Export user data...</string>
+   </property>
+  </action>
+  <action name="actionImport_user_data">
+   <property name="icon">
+    <iconset resource="../../tagainijisho.qrc">
+     <normaloff>:/images/icons/document-import.png</normaloff>:/images/icons/document-import.png</iconset>
+   </property>
+   <property name="text">
+    <string>Import user data...</string>
+   </property>
+  </action>
+  <action name="actionPreferences">
+   <property name="icon">
+    <iconset resource="../../tagainijisho.qrc">
+     <normaloff>:/images/icons/preferences-other.png</normaloff>:/images/icons/preferences-other.png</iconset>
+   </property>
+   <property name="text">
+    <string>Preferences...</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::PreferencesRole</enum>
+   </property>
+  </action>
+  <action name="action_Quit">
+   <property name="icon">
+    <iconset resource="../../tagainijisho.qrc">
+     <normaloff>:/images/icons/application-exit.png</normaloff>:/images/icons/application-exit.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Quit</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::QuitRole</enum>
+   </property>
+  </action>
+  <action name="actionFocusSearchBar">
+   <property name="text">
+    <string>Focus search bar,,,</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+L</string>
+   </property>
+  </action>
+  <action name="actionResetSearch">
+   <property name="icon">
+    <iconset resource="../../tagainijisho.qrc">
+     <normaloff>:/images/icons/reset-search.png</normaloff>:/images/icons/reset-search.png</iconset>
+   </property>
+   <property name="text">
+    <string>Reset search</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+R</string>
+   </property>
+  </action>
+  <action name="action_Print">
+   <property name="icon">
+    <iconset resource="../../tagainijisho.qrc">
+     <normaloff>:/images/icons/print.png</normaloff>:/images/icons/print.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Print...</string>
+   </property>
+  </action>
+  <action name="actionPrint_preview">
+   <property name="icon">
+    <iconset resource="../../tagainijisho.qrc">
+     <normaloff>:/images/icons/print.png</normaloff>:/images/icons/print.png</iconset>
+   </property>
+   <property name="text">
+    <string>Print &amp;preview...</string>
+   </property>
+  </action>
+  <action name="actionPrint_booklet_s">
+   <property name="icon">
+    <iconset resource="../../tagainijisho.qrc">
+     <normaloff>:/images/icons/print.png</normaloff>:/images/icons/print.png</iconset>
+   </property>
+   <property name="text">
+    <string>Print &amp;booklet(s)</string>
+   </property>
+  </action>
+  <action name="actionBooklet_s_preview">
+   <property name="icon">
+    <iconset resource="../../tagainijisho.qrc">
+     <normaloff>:/images/icons/print.png</normaloff>:/images/icons/print.png</iconset>
+   </property>
+   <property name="text">
+    <string>Booklet(s) &amp;preview...</string>
+   </property>
+  </action>
+  <action name="action_Export_displayed_entries">
+   <property name="icon">
+    <iconset resource="../../tagainijisho.qrc">
+     <normaloff>:/images/icons/document-export.png</normaloff>:/images/icons/document-export.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Export displayed entries...</string>
+   </property>
+  </action>
+  <action name="action_New_set_from_current_search">
+   <property name="text">
+    <string>&amp;New set from current search,,,</string>
+   </property>
+  </action>
+  <action name="action_New_sets_folder">
+   <property name="text">
+    <string>&amp;New sets folder...</string>
+   </property>
+  </action>
+  <action name="action_Organize_sets">
+   <property name="text">
+    <string>&amp;Organize sets...</string>
+   </property>
+  </action>
+  <action name="actionWhole_study_list_train_settings">
+   <property name="text">
+    <string>Whole study list train &amp;settings...</string>
+   </property>
+  </action>
+  <action name="action_Manual">
+   <property name="icon">
+    <iconset resource="../../tagainijisho.qrc">
+     <normaloff>:/images/icons/help-contents.png</normaloff>:/images/icons/help-contents.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Manual</string>
+   </property>
+  </action>
+  <action name="action_Report_a_bug">
+   <property name="icon">
+    <iconset resource="../../tagainijisho.qrc">
+     <normaloff>:/images/icons/tools-report-bug.png</normaloff>:/images/icons/tools-report-bug.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Report a bug...</string>
+   </property>
+  </action>
+  <action name="action_Suggest_a_feature">
+   <property name="icon">
+    <iconset resource="../../tagainijisho.qrc">
+     <normaloff>:/images/icons/help-hint.png</normaloff>:/images/icons/help-hint.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Suggest a feature...</string>
+   </property>
+  </action>
+  <action name="actionAsk_a_question">
+   <property name="icon">
+    <iconset resource="../../tagainijisho.qrc">
+     <normaloff>:/images/icons/system-help.png</normaloff>:/images/icons/system-help.png</iconset>
+   </property>
+   <property name="text">
+    <string>Ask a &amp;question...</string>
+   </property>
+  </action>
+  <action name="actionSupport_Tagaini_Jisho_Make_a_donation">
+   <property name="icon">
+    <iconset resource="../../tagainijisho.qrc">
+     <normaloff>:/images/icons/donate.png</normaloff>:/images/icons/donate.png</iconset>
+   </property>
+   <property name="text">
+    <string>Support Tagaini Jisho - Make a &amp;donation!</string>
+   </property>
+  </action>
+  <action name="action_About">
+   <property name="icon">
+    <iconset resource="../../tagainijisho.qrc">
+     <normaloff>:/images/icons/help-about.png</normaloff>:/images/icons/help-about.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;About...</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::AboutRole</enum>
+   </property>
+  </action>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>ResultsView</class>
+   <extends>QListView</extends>
+   <header>gui/ResultsView.h</header>
+  </customwidget>
+  <customwidget>
+   <class>ToolBarDetailedView</class>
+   <extends>QTextBrowser</extends>
+   <header>gui/ToolBarDetailedView.h</header>
+  </customwidget>
+  <customwidget>
+   <class>SearchBar</class>
+   <extends>QLineEdit</extends>
+   <header>gui/SearchBar.h</header>
+   <slots>
+    <signal>stopSearch()</signal>
+    <signal>startSearch(QString)</signal>
+    <slot>stealFocus()</slot>
+    <slot>reset()</slot>
+   </slots>
+  </customwidget>
+ </customwidgets>
+ <tabstops>
+  <tabstop>_searchBar</tabstop>
+  <tabstop>prevButton</tabstop>
+  <tabstop>nextButton</tabstop>
+  <tabstop>previousPageButton</tabstop>
+  <tabstop>nextPageButton</tabstop>
+  <tabstop>showAllResultsButton</tabstop>
+  <tabstop>_resultsView</tabstop>
+  <tabstop>_detailedView</tabstop>
+ </tabstops>
+ <resources>
+  <include location="../../tagainijisho.qrc"/>
+ </resources>
+ <connections>
+  <connection>
+   <sender>prevButton</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>goPrev()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>19</x>
+     <y>72</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>54</x>
+     <y>183</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>nextButton</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>goNext()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>83</x>
+     <y>69</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>50</x>
+     <y>150</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>_searchBar</sender>
+   <signal>stopSearch()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>stopSearch()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>209</x>
+     <y>37</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>643</x>
+     <y>52</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>previousPageButton</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>previousPage()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>501</x>
+     <y>66</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>423</x>
+     <y>81</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>nextPageButton</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>nextPage()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>560</x>
+     <y>63</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>587</x>
+     <y>83</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>showAllResultsButton</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>scheduleShowAllResults()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>614</x>
+     <y>67</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>644</x>
+     <y>118</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>_searchBar</sender>
+   <signal>startSearch(QString)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>search(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>177</x>
+     <y>38</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>182</x>
+     <y>84</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionExport_user_data</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>exportUserData()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>322</x>
+     <y>335</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionImport_user_data</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>importUserData()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>322</x>
+     <y>335</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionPreferences</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>preferences()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>322</x>
+     <y>335</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>action_Quit</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>close()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>322</x>
+     <y>335</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>action_Print</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>print()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>322</x>
+     <y>335</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionPrint_preview</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>printPreview()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>322</x>
+     <y>335</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionPrint_booklet_s</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>printBooklet()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>322</x>
+     <y>335</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionBooklet_s_preview</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>printBookletPreview()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>322</x>
+     <y>335</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>action_Export_displayed_entries</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>tabExport()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>322</x>
+     <y>335</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>action_New_set_from_current_search</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>newSet()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>322</x>
+     <y>335</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>action_New_sets_folder</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>newSetsFolder()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>322</x>
+     <y>335</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>action_Organize_sets</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>organizeSets()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>322</x>
+     <y>335</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionWhole_study_list_train_settings</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>trainSettings()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>322</x>
+     <y>335</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>action_Manual</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>manual()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>322</x>
+     <y>335</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>action_Report_a_bug</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>bugReport()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>322</x>
+     <y>335</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>action_Suggest_a_feature</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>featureRequest()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>322</x>
+     <y>335</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionAsk_a_question</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>askQuestion()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>322</x>
+     <y>335</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionSupport_Tagaini_Jisho_Make_a_donation</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>donate()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>322</x>
+     <y>335</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>action_About</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>about()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>322</x>
+     <y>335</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionFocusSearchBar</sender>
+   <signal>triggered()</signal>
+   <receiver>_searchBar</receiver>
+   <slot>stealFocus()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>322</x>
+     <y>37</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionResetSearch</sender>
+   <signal>triggered()</signal>
+   <receiver>_searchBar</receiver>
+   <slot>reset()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>322</x>
+     <y>37</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>goPrev()</slot>
+  <slot>goNext()</slot>
+  <slot>stopSearch()</slot>
+  <slot>previousPage()</slot>
+  <slot>nextPage()</slot>
+  <slot>scheduleShowAllResults()</slot>
+  <slot>search(QString)</slot>
+  <slot>exportUserData()</slot>
+  <slot>importUserData()</slot>
+  <slot>preferences()</slot>
+  <slot>print()</slot>
+  <slot>printPreview()</slot>
+  <slot>printBooklet()</slot>
+  <slot>printBookletPreview()</slot>
+  <slot>tabExport()</slot>
+  <slot>newSet()</slot>
+  <slot>newSetsFolder()</slot>
+  <slot>organizeSets()</slot>
+  <slot>populateSetsMenu()</slot>
+  <slot>trainSettings()</slot>
+  <slot>manual()</slot>
+  <slot>bugReport()</slot>
+  <slot>featureRequest()</slot>
+  <slot>askQuestion()</slot>
+  <slot>donate()</slot>
+  <slot>about()</slot>
+ </slots>
+</ui>

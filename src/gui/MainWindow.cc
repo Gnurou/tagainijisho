@@ -58,7 +58,6 @@
 MainWindow *MainWindow::_instance = 0;
 UpdateChecker *_updateChecker = 0;
 UpdateChecker *_betaUpdateChecker = 0;
-PreferenceItem<QByteArray> MainWindow::windowGeometry("mainWindow", "geometry", "");
 
 PreferenceItem<QString> MainWindow::applicationFont("", "defaultFont", "");
 PreferenceItem<QString> MainWindow::guiLanguage("", "guiLanguage", "");
@@ -66,86 +65,24 @@ PreferenceItem<bool> MainWindow::autoCheckUpdates("", "autoCheckUpdates", true);
 PreferenceItem<bool> MainWindow::autoCheckBetaUpdates("", "autoCheckBetaUpdates", false);
 PreferenceItem<int> MainWindow::updateCheckInterval("", "updateCheckInterval", 3);
 
+PreferenceItem<QByteArray> MainWindow::windowGeometry("mainWindow", "geometry", "");
 PreferenceItem<int> MainWindow::resultsPerPagePref("mainWindow/resultsView", "resultsPerPage", 50);
 PreferenceItem<int> MainWindow::historySize("mainWindow/resultsView", "historySize", 100);
 PreferenceItem<QByteArray> MainWindow::splitterState("mainWindow", "splitterGeometry", "");
 
-MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), _tagsListMenuActionGroup(0), _history(historySize.value()), queryInProgress(false), query(), queryPending(false), pageNbr(0), totalResults(-1), showAllResultsRequested(false)
+MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), _history(historySize.value()), queryInProgress(false), query(), queryPending(false), pageNbr(0), totalResults(-1), showAllResultsRequested(false)
 {
 	_instance = this;
-
-	setWindowIcon(QIcon(":/images/tagainijisho.png"));
-	setWindowTitle("Tagaini Jisho");
-
-	createMenus();
-
-	// SearchWidget stuff
-	_searchBar = new SearchBar(this);
-
-	setResultsPerPage(resultsPerPagePref.value());
-
-	nbResultsLabel = new QLabel(this);
+	
+	setupUi(this);
+	// Strangely this is not done properly by Qt designer...
+	connect(_setsMenu, SIGNAL(aboutToShow()), this, SLOT(populateSetsMenu()));
 
 	_results = new ResultsList(this);
-
-	_resultsView = new ResultsView(false, this);
 	_resultsView->setModel(_results);
-	_detailedView = new ToolBarDetailedView(this);
-	splitter = new QSplitter(Qt::Vertical, this);
-	splitter->addWidget(_resultsView);
-	splitter->addWidget(_detailedView);
-
-	prevButton = new QPushButton(QIcon(":/images/icons/go-previous.png"), 0, this);
-	prevButton->setToolTip(tr("Previous search"));
-	prevButton->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
-	prevButton->setEnabled(false);
-	connect(prevButton, SIGNAL(clicked()), this, SLOT(goPrev()));
-	nextButton = new QPushButton(QIcon(":/images/icons/go-next.png"), 0, this);
-	nextButton->setToolTip(tr("Next search"));
-	nextButton->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
-	nextButton->setEnabled(false);
-	connect(nextButton, SIGNAL(clicked()), this, SLOT(goNext()));
-
-	previousPageButton = new QPushButton(QIcon(":/images/icons/arrow-left.png"), "", this);
-	previousPageButton->setToolTip(tr("Previous page"));
-	previousPageButton->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
-	previousPageButton->setEnabled(false);
-	nextPageButton = new QPushButton(QIcon(":/images/icons/arrow-right.png"), "", this);
-	nextPageButton->setToolTip(tr("Next page"));
-	nextPageButton->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
-	nextPageButton->setEnabled(false);
-	showAllResultsButton = new QPushButton(QIcon(":/images/icons/arrow-down-double.png"), "", this);
-	showAllResultsButton->setToolTip(tr("Show all results"));
-	showAllResultsButton->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
-	showAllResultsButton->setEnabled(false);
-
-	QHBoxLayout *hLayout = new QHBoxLayout();
-	hLayout->setContentsMargins(0, 0, 0, 0);
-	hLayout->addWidget(prevButton);
-	hLayout->addWidget(nextButton);
-	hLayout->addWidget(nbResultsLabel);
-	hLayout->addWidget(previousPageButton);
-	hLayout->addWidget(nextPageButton);
-	hLayout->addWidget(showAllResultsButton);
-
-	QWidget *centralWidget = new QWidget(this);
-	QVBoxLayout *vLayout = new QVBoxLayout(centralWidget);
-	vLayout->addWidget(_searchBar);
-	vLayout->addLayout(hLayout);
-	vLayout->addWidget(splitter);
-	setCentralWidget(centralWidget);
-
-	// Stop current search
-	connect(_searchBar, SIGNAL(stopSearch()), this, SLOT(stopSearch()));
-
-	// Pages navigation
-	connect(nextPageButton, SIGNAL(clicked()), this, SLOT(nextPage()));
-	connect(previousPageButton, SIGNAL(clicked()), this, SLOT(previousPage()));
-	connect(showAllResultsButton, SIGNAL(clicked()), this, SLOT(scheduleShowAllResults()));
-
-	// Start of search
-	connect(_searchBar, SIGNAL(startSearch(const QString &)), this, SLOT(search(const QString &)));
-
+	
+	setResultsPerPage(resultsPerPagePref.value());
+	
 	// Now on to the query/result logic
 	// Results emitted by a query are sent to the results list
 	connect(&query, SIGNAL(foundEntry(EntryPointer<Entry>)), _results, SLOT(addResult(EntryPointer<Entry>)));
@@ -171,6 +108,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), _tagsListMenuActi
 	else splitter->restoreState(splitterState.value());
 	// End of SearchWidget stuff
 	
+	// Geometry stuff
 	restoreGeometry(windowGeometry.value());
 
 	_updateChecker = new UpdateChecker("/updates/latestversion.php", this);
@@ -210,67 +148,6 @@ void MainWindow::updateCheck()
 			lastUpdateCheck.set(QDateTime::currentDateTime());
 		}
 	}
-}
-
-void MainWindow::createMenus()
-{
-	QAction *action;
-	QMenu *subMenu;
-	QMenuBar *mBar = menuBar();
-
-	_fileMenu = mBar->addMenu(tr("&Program"));
-
-	action = _fileMenu->addAction(QIcon(":/images/icons/document-export.png"), tr("Export user data..."), this, SLOT(exportUserData()));
-	action = _fileMenu->addAction(QIcon(":/images/icons/document-import.png"), tr("Import user data..."), this, SLOT(importUserData()));
-	action = _fileMenu->addAction(QIcon(":/images/icons/preferences-other.png"), tr("Preferences..."), this, SLOT(preferences()));
-	action->setMenuRole(QAction::PreferencesRole);
-	_fileMenu->addSeparator();
-	action = _fileMenu->addAction(QIcon(":/images/icons/application-exit.png"), tr("&Quit"), this, SLOT(close()));
-
-	_searchMenu = mBar->addMenu(tr("&Search"));
-//	_searchMenu->addAction(searchWidget()->searchBar()->focusBarAction());
-//	_searchMenu->addAction(searchWidget()->searchBar()->newSearchAction());
-
-	_resultsMenu = mBar->addMenu(tr("&Results"));
-	action = _resultsMenu->addAction(QIcon(":/images/icons/print.png"), tr("&Print..."), this, SLOT(print()));
-	action->setShortcuts(QKeySequence::Print);
-	action->setToolTip(tr("Print entries displayed in result view"));
-
-	action = _resultsMenu->addAction(QIcon(":/images/icons/print.png"), tr("Print &preview..."), this, SLOT(printPreview()));
-	action->setToolTip(tr("Print preview of entries in result view"));
-
-	action = _resultsMenu->addAction(QIcon(":/images/icons/print.png"), tr("Print &booklet(s)..."), this, SLOT(printBooklet()));
-	action->setShortcut(tr("Ctrl+B"));
-	action->setToolTip(tr("Print entries displayed in result view as booklets"));
-
-	action = _resultsMenu->addAction(QIcon(":/images/icons/print.png"), tr("Booklet(s) &preview..."), this, SLOT(printBookletPreview()));
-	action->setToolTip(tr("Booklets print preview of entries in results list"));
-
-	subMenu = _resultsMenu->addMenu(QIcon(":/images/icons/document-export.png"), tr("Export displayed entries..."));
-	action = subMenu->addAction(tr("As a tab-separated file..."), this, SLOT(tabExport()));
-
-	_setsMenu = mBar->addMenu(tr("&Sets"));
-	action = _setsMenu->addAction(tr("&New set from current search..."), this, SLOT(newSet()));
-	action->setProperty("T_rowid", 0);
-	action = _setsMenu->addAction(tr("&New sets folder..."), this, SLOT(newSetsFolder()));
-	action->setProperty("T_rowid", 0);
-	action = _setsMenu->addAction(tr("&Organize sets..."), this, SLOT(organizeSets()));
-	_setsMenu->addSeparator();
-	connect(_setsMenu, SIGNAL(aboutToShow()), this, SLOT(populateSetsMenu()));
-
-	_trainMenu = mBar->addMenu(tr("&Practice"));
-	_trainMenu->addAction(tr("Whole study list train &settings..."), this, SLOT(trainSettings()));
-	_trainMenu->addSeparator();
-
-	_helpMenu = mBar->addMenu(tr("&Help"));
-	action = _helpMenu->addAction(QIcon(":/images/icons/help-contents.png"), tr("&Manual..."), this, SLOT(manual()));
-	action->setShortcuts(QKeySequence::HelpContents);
-	action = _helpMenu->addAction(QIcon(":/images/icons/tools-report-bug.png"), tr("&Report a bug..."), this, SLOT(bugReport()));
-	action = _helpMenu->addAction(QIcon(":/images/icons/help-hint.png"), tr("&Suggest a feature..."), this, SLOT(featureRequest()));
-	action = _helpMenu->addAction(QIcon(":/images/icons/system-help.png"), tr("Ask a &question..."), this, SLOT(askQuestion()));
-	action = _helpMenu->addAction(QIcon(":/images/icons/donate.png"), tr("Support Tagaini Jisho - Make a &donation!"), this, SLOT(donate()));
-	action = _helpMenu->addAction(QIcon(":/images/icons/help-about.png"), tr("&About..."), this, SLOT(about()));
-	action->setMenuRole(QAction::AboutRole);
 }
 
 void MainWindow::exportUserData()

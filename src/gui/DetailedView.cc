@@ -19,7 +19,7 @@
 #include "core/Database.h"
 #include "gui/EntryFormatter.h"
 #include "gui/DetailedView.h"
-// TODO Would be nice to get rid of these two ones...
+// TODO Would be nice to get rid of this one...
 #include "gui/MainWindow.h"
 
 #include <QtDebug>
