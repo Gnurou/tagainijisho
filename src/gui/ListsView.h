@@ -23,18 +23,14 @@
 class ListTreeItem : public QTreeWidgetItem
 {
 private:
-	int _rowId, _type, _id;
+	int _rowId;
 	
 public:
-	enum { ListType = (QTreeWidgetItem::UserType), EntryType = (QTreeWidgetItem::UserType + 1) };
+	typedef enum { ListType = (QTreeWidgetItem::UserType), EntryType = (QTreeWidgetItem::UserType + 1) } Type;
 	/// Creates an entry of list type
-	ListTreeItem(int rowId);
-	/// Creates an entry of entry type
-	ListTreeItem(int rowId, int type, int id);
-	int rowId() const { return _rowId; }
-	int type() const { return _type; }
-	int id() const { return _id; }
+	ListTreeItem(int rowId, Type type);
 	void populate();
+	int rowId() const { return _rowId; }
 };
 
 class ListsView : public QTreeWidget

@@ -21,18 +21,14 @@
 
 #include <QSqlQuery>
 
-ListTreeItem::ListTreeItem(int rowId) : QTreeWidgetItem(ListType), _rowId(rowId), _type(-1), _id(-1)
-{
-}
-
-ListTreeItem::ListTreeItem(int rowId, int type, int id) : QTreeWidgetItem(EntryType), _rowId(rowId), _type(type), _id(id)
+ListTreeItem::ListTreeItem(int rowId, Type type) : QTreeWidgetItem(type)
 {
 }
 
 void ListTreeItem::populate() {
 	if (type() == ListType) {
 		QSqlQuery query;
-		query.prepare("select rowid, position, type, id from lists where parent = ? order by position");
+		query.prepare("select rowid, position, type from lists where parent = ? order by position");
 		query.addBindValue(rowId());
 		query.exec();
 		int cpt = 0;
@@ -40,12 +36,10 @@ void ListTreeItem::populate() {
 			if (cpt != query.value(1).toInt()) {
 				qDebug() << "List index inconsistency";
 			}
-			if (query.value(2).isNull()) {
-				insertChild(cpt, new ListTreeItem(query.value(0).toInt()));
-			}
-			else {
-				insertChild(cpt, new ListTreeItem(query.value(0).toInt(), query.value(2).toInt(), query.value(3).toInt()));
-			}
+			if (query.value(2).isNull())
+				insertChild(cpt, new ListTreeItem(query.value(0).toInt(), ListType));
+			else
+				insertChild(cpt, new ListTreeItem(query.value(0).toInt(), EntryType));
 			++cpt;
 		}
 	}
