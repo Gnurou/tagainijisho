@@ -18,19 +18,24 @@
 #ifndef __GUI_LISTSVIEW_H
 #define __GUI_LISTSVIEW_H
 
+#include "core/EntriesCache.h"
 #include <QTreeWidget>
+#include <QMimeData>
 
 class ListTreeItem : public QTreeWidgetItem
 {
 private:
-	int _rowId;
+	int _rowId, _type, _id;
 	
 public:
 	typedef enum { ListType = (QTreeWidgetItem::UserType), EntryType = (QTreeWidgetItem::UserType + 1) } Type;
 	/// Creates an entry of list type
-	ListTreeItem(int rowId, Type type);
+	ListTreeItem(int rowId, const QString &label);
+	ListTreeItem(int rowId, const Entry *entry);
 	void populate();
 	int rowId() const { return _rowId; }
+	int entryType() const { return _type; }
+	int entryId() const { return _id; }
 };
 
 class ListsView : public QTreeWidget
@@ -40,6 +45,24 @@ private:
 	
 public:
 	ListsView(QWidget *parent = 0);
+	bool populateRoot();
+	
+protected:
+	virtual Qt::DropActions supportedDropActions() const;
+	virtual QStringList mimeTypes () const;
+	virtual QMimeData *mimeData(const QList<QTreeWidgetItem *> items) const;
+	virtual bool dropMimeData(QTreeWidgetItem *parent, int index, const QMimeData *data, Qt::DropAction action);
+	
+public slots:
+	void newList();
+	void deleteCurrentItem();
+
+protected slots:
+	void onItemSelectionChanged();
+
+signals:
+	void listSelected(int rowId);
+	void entrySelected(EntryPointer<Entry> entry);
 };
 
 #endif

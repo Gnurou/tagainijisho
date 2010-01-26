@@ -112,13 +112,6 @@ Qt::ItemFlags ResultsList::flags(const QModelIndex &index) const
 	else return defaultFlags;
 }
 
-QStringList ResultsList::mimeTypes() const
-{
-	QStringList types;
-	types << "tagainijisho/entry";
-	return types;
-}
- 
 QMimeData *ResultsList::mimeData(const QModelIndexList &indexes) const
 {  
 	QMimeData *mimeData = new QMimeData();

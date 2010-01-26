@@ -142,6 +142,11 @@ void DetailedView::display(Entry *entry)
 	_display(entry);
 }
 
+void DetailedView::display(EntryPointer<Entry> entry)
+{
+	display(entry.data());
+}
+
 void DetailedView::redisplay()
 {
 	if (entryView.entry()) {

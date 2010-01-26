@@ -22,6 +22,7 @@
 
 #include "gui/DetailedView.h"
 
+/// TODO remove and layout things manually?
 class ToolBarDetailedView : public QWidget
 {
 	Q_OBJECT

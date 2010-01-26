@@ -58,9 +58,10 @@ bool Database::createUserDB()
 	QUERY("CREATE INDEX idx_sets_id ON sets(parent, position)");
 	
 	// Lists tables
-	QUERY("CREATE TABLE lists(parent INTEGER REFERENCES lists, position INTEGER NOT NULL, type INTEGER, id INTEGER, PRIMARY KEY(parent, position))");
-	QUERY("CREATE VIRTUAL TABLE listsLabels using fts3(label)");
+	QUERY("CREATE TABLE lists(parent INTEGER REFERENCES lists, position INTEGER NOT NULL, type INTEGER, id INTEGER)");
+	QUERY("CREATE INDEX idx_lists_ref ON lists(parent, position)");
 	QUERY("CREATE INDEX idx_lists_entry ON lists(type, id)");
+	QUERY("CREATE VIRTUAL TABLE listsLabels using fts3(label)");
 	if (!database.commit()) return false;
 	return true;
 }
@@ -111,9 +112,10 @@ bool update3to4(QSqlQuery &query) {
 
 /// Add the lists tables
 bool update4to5(QSqlQuery &query) {
-	QUERY("CREATE TABLE lists(parent INTEGER REFERENCES lists, position INTEGER NOT NULL, type INTEGER, id INTEGER, PRIMARY KEY(parent, position))");
-	QUERY("CREATE VIRTUAL TABLE listsLabels using fts3(label)");
+	QUERY("CREATE TABLE lists(parent INTEGER REFERENCES lists, position INTEGER NOT NULL, type INTEGER, id INTEGER)");
+	QUERY("CREATE INDEX idx_lists_ref ON lists(parent, position)");
 	QUERY("CREATE INDEX idx_lists_entry ON lists(type, id)");
+	QUERY("CREATE VIRTUAL TABLE listsLabels using fts3(label)");
 	return true;
 }
 

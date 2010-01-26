@@ -246,7 +246,7 @@ public:
 	static PreferenceItem<bool> smoothScrolling;
 
 	void populateToolBar(QToolBar *toolbar);
-
+	
 protected slots:
 	/// Display previous item in history, if any.
 	void previous();
@@ -261,6 +261,10 @@ protected slots:
 
 public slots:
 	/// Display an entry, updating the history.
+	void display(EntryPointer<Entry> entry);
+	/// This version is more dangerous to use - only use if you are sure to
+	/// keep a reference to the entry!
+	/// TODO remove at all!
 	void display(Entry *entry);
 	/// Redraw the current entry, if any.
 	void redisplay();
