@@ -181,7 +181,7 @@
      <x>0</x>
      <y>0</y>
      <width>805</width>
-     <height>21</height>
+     <height>23</height>
     </rect>
    </property>
    <widget class="QMenu" name="_fileMenu">
@@ -256,6 +256,9 @@
    <widget class="QWidget" name="dockWidgetContents">
     <layout class="QVBoxLayout" name="verticalLayout_2">
      <item>
+      <widget class="QLineEdit" name="listFilter"/>
+     </item>
+     <item>
       <layout class="QHBoxLayout" name="horizontalLayout">
        <item>
         <widget class="QToolButton" name="newListButton">
@@ -307,34 +310,7 @@
       </layout>
      </item>
      <item>
-      <widget class="QLineEdit" name="listFilter"/>
-     </item>
-     <item>
-      <widget class="ListsView" name="lists">
-       <property name="acceptDrops">
-        <bool>true</bool>
-       </property>
-       <property name="dragEnabled">
-        <bool>true</bool>
-       </property>
-       <property name="dragDropMode">
-        <enum>QAbstractItemView::DragDrop</enum>
-       </property>
-       <property name="indentation">
-        <number>10</number>
-       </property>
-       <attribute name="headerVisible">
-        <bool>false</bool>
-       </attribute>
-       <attribute name="headerVisible">
-        <bool>false</bool>
-       </attribute>
-       <column>
-        <property name="text">
-         <string/>
-        </property>
-       </column>
-      </widget>
+      <widget class="QListView" name="lists"/>
      </item>
     </layout>
    </widget>
@@ -544,15 +520,6 @@
     <signal>startSearch(QString)</signal>
     <slot>stealFocus()</slot>
     <slot>reset()</slot>
-   </slots>
-  </customwidget>
-  <customwidget>
-   <class>ListsView</class>
-   <extends>QTreeWidget</extends>
-   <header>gui/ListsView.h</header>
-   <slots>
-    <signal>listSelected(int)</signal>
-    <slot>newList()</slot>
    </slots>
   </customwidget>
  </customwidgets>
@@ -1014,22 +981,6 @@
     <hint type="destinationlabel">
      <x>322</x>
      <y>37</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>newListButton</sender>
-   <signal>clicked()</signal>
-   <receiver>lists</receiver>
-   <slot>newList()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>21</x>
-     <y>57</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>30</x>
-     <y>129</y>
     </hint>
    </hints>
   </connection>

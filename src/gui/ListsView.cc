@@ -80,24 +80,20 @@ bool ListsView::populateRoot()
 	}
 }
 
-Qt::DropActions ListsView::supportedDropActions() const
-{
-	return Qt::CopyAction;
-}
-
 QStringList ListsView::mimeTypes () const
 {
 	QStringList types;
 	types << "tagainijisho/entry";
+	types << "tagainijisho/listviewitems";
 	return types;
 }
 
 QMimeData *ListsView::mimeData(const QList<QTreeWidgetItem *> items) const
 {
-	QMimeData *mimeData = new QMimeData();
-	QByteArray encodedData;
+	QByteArray entryEncodedData, listItemEncodedData;
 
-	QDataStream stream(&encodedData, QIODevice::WriteOnly);
+	QDataStream entryStream(&entryEncodedData, QIODevice::WriteOnly);
+	QDataStream listItemStream(&listItemEncodedData, QIODevice::WriteOnly);
 
 	foreach (const QTreeWidgetItem * it, items) {
 		const ListTreeItem *item = static_cast<const ListTreeItem *>(it);
@@ -105,13 +101,17 @@ QMimeData *ListsView::mimeData(const QList<QTreeWidgetItem *> items) const
 		if (item->type() == ListTreeItem::EntryType) {
 			EntryPointer<Entry> entry(EntriesCache::get(item->entryType(), item->entryId()));
 			if (!entry.data()) continue;
-			stream << entry->type() << entry->id();
+			entryStream << entry->type() << entry->id();
+			
+			listItemStream << (quint64)item;
 		} else {
 			// TODO encode data for lists items
 		}
 	}
 
-	mimeData->setData("tagainijisho/entry", encodedData);
+	QMimeData *mimeData = new QMimeData();
+	mimeData->setData("tagainijisho/entry", entryEncodedData);
+	mimeData->setData("tagainijisho/listviewitems", listItemEncodedData);
 	return mimeData;
 }
 
@@ -121,43 +121,84 @@ bool ListsView::dropMimeData(QTreeWidgetItem *_parent, int index, const QMimeDat
 
 	// Data dropped from the list entry can only be handled if we have a parent
 	if (parent) {
-		QByteArray ba = data->data("tagainijisho/entry");
-		QDataStream ds(&ba, QIODevice::ReadOnly);
-		while (!ds.atEnd()) {
-			int _t, _id;
-			ds >> _t;
-			ds >> _id;
+		// First check if we have been sent list view items - in this case this
+		// means we have to move then
+		if (data->hasFormat("tagainijisho/listviewitems")) {
+			QByteArray ba = data->data("tagainijisho/listviewitems");
+			QDataStream ds(&ba, QIODevice::ReadOnly);
+			while (!ds.atEnd()) {
+				// Ouch! This is so bad...
+				quint64 _ptr;
+				ListTreeItem *item;
+				ds >> _ptr;
+				item = (ListTreeItem *)_ptr;
+				
+				if (!item) continue;
+				int parentRow = parent ? parent->rowId() : -1;
+				int prevPos = parent ? indexOfTopLevelItem(item) : parent->indexOfChild(item);
+				// Update the positions of the items that are after our previous position
+				// one we are moving
+				// TODO Embed that into a transaction!
+#define EXEC(q) { if (!q.exec()) qDebug() << "Query failed" << q.lastError(); }
+				QSqlQuery query;
+				query.prepare(QString("update lists set position = position - 1 where parent %1 and position > ?").arg(parentRow == -1 ? "is null" : "= ?"));
+				if (parentRow != -1) query.addBindValue(parentRow);
+				query.addBindValue(prevPos);
+				EXEC(query);
+				// Update the positions of the items that are after our new position
+				query.prepare(QString("update lists set position = position + 1 where parent %1 and position >= ?").arg(parentRow == -1 ? "is null" : "= ?"));
+				if (parentRow != -1) query.addBindValue(parentRow);
+				query.addBindValue(index);
+				EXEC(query);
+				// Finally update our position
+				query.prepare("update lists set position = ? where rowid = ?");
+				query.addBindValue(index);
+				query.addBindValue(item->rowId());
+				EXEC(query);
+				// And update our model
+				//if (!parent) move
+			}
+		}
+		// Just regular entry items - we can add them directly
+		else if (data->hasFormat("tagainijisho/entry")) {
+			QByteArray ba = data->data("tagainijisho/entry");
+			QDataStream ds(&ba, QIODevice::ReadOnly);
+			while (!ds.atEnd()) {
+				int _t, _id;
+				ds >> _t;
+				ds >> _id;
 
-			EntryPointer<Entry> entry(EntriesCache::get(_t, _id));
-			if (entry.data() == 0) continue;
-			
-			QSqlQuery query;
-			// TODO use a transaction here!
-			// TODO Update the positions of elements that are below us
-			
-			// Update the positions of elements that have been moved by our drop
-			query.prepare("update lists set position = position + 1 where parent = ? and position >= ?");
-			query.addBindValue(parent->rowId());
-			query.addBindValue(index);
-			if (!query.exec()) {
-				qDebug() << "Cannot insert entry into list:" << query.lastError().text();
-				continue;
+				EntryPointer<Entry> entry(EntriesCache::get(_t, _id));
+				if (entry.data() == 0) continue;
+				
+				QSqlQuery query;
+				// TODO use a transaction here!
+				// TODO Update the positions of elements that are below us
+				
+				// Update the positions of elements that have been moved by our drop
+				query.prepare("update lists set position = position + 1 where parent = ? and position >= ?");
+				query.addBindValue(parent->rowId());
+				query.addBindValue(index);
+				if (!query.exec()) {
+					qDebug() << "Cannot insert entry into list:" << query.lastError().text();
+					continue;
+				}
+				// Insert our element
+				query.prepare("insert into lists values(?, ?, ?, ?)");
+				query.addBindValue(parent->rowId());
+				query.addBindValue(index);
+				query.addBindValue(_t);
+				query.addBindValue(_id);
+				if (!query.exec()) {
+					qDebug() << "Cannot insert entry into list:" << query.lastError().text();
+					continue;
+				}
+				int rowId = query.lastInsertId().toInt();
+				
+				// Finally add the entry to our model
+				parent->insertChild(index, new ListTreeItem(rowId, entry.data()));
+				parent->setExpanded(true);
 			}
-			// Insert our element
-			query.prepare("insert into lists values(?, ?, ?, ?)");
-			query.addBindValue(parent->rowId());
-			query.addBindValue(index);
-			query.addBindValue(_t);
-			query.addBindValue(_id);
-			if (!query.exec()) {
-				qDebug() << "Cannot insert entry into list:" << query.lastError().text();
-				continue;
-			}
-			int rowId = query.lastInsertId().toInt();
-			
-			// Finally add the entry to our model
-			parent->insertChild(index, new ListTreeItem(rowId, entry.data()));
-			parent->setExpanded(true);
 		}
 	}
 	

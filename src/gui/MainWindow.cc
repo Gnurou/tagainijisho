@@ -80,7 +80,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), _history(historyS
 	
 	// Strangely this is not done properly by Qt designer...
 	connect(_setsMenu, SIGNAL(aboutToShow()), this, SLOT(populateSetsMenu()));
-	connect(lists, SIGNAL(entrySelected(EntryPointer<Entry>)), detailedView(), SLOT(display(EntryPointer<Entry>)));
+	//connect(lists, SIGNAL(entrySelected(EntryPointer<Entry>)), detailedView(), //SLOT(display(EntryPointer<Entry>)));
 
 	setResultsPerPage(resultsPerPagePref.value());
 	

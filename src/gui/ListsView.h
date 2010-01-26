@@ -22,6 +22,14 @@
 #include <QTreeWidget>
 #include <QMimeData>
 
+#include <QAbstractItemModel>
+
+class EntryListModel : public QAbstractItemModel
+{
+	Q_OBJECT
+public:
+};
+
 class ListTreeItem : public QTreeWidgetItem
 {
 private:
@@ -48,7 +56,6 @@ public:
 	bool populateRoot();
 	
 protected:
-	virtual Qt::DropActions supportedDropActions() const;
 	virtual QStringList mimeTypes () const;
 	virtual QMimeData *mimeData(const QList<QTreeWidgetItem *> items) const;
 	virtual bool dropMimeData(QTreeWidgetItem *parent, int index, const QMimeData *data, Qt::DropAction action);
