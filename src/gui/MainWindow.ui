@@ -181,7 +181,7 @@
      <x>0</x>
      <y>0</y>
      <width>805</width>
-     <height>23</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="_fileMenu">
@@ -310,7 +310,23 @@
       </layout>
      </item>
      <item>
-      <widget class="QListView" name="lists"/>
+      <widget class="EntryListView" name="lists">
+       <property name="acceptDrops">
+        <bool>true</bool>
+       </property>
+       <property name="dragEnabled">
+        <bool>true</bool>
+       </property>
+       <property name="dragDropMode">
+        <enum>QAbstractItemView::InternalMove</enum>
+       </property>
+       <attribute name="headerVisible">
+        <bool>false</bool>
+       </attribute>
+       <attribute name="headerVisible">
+        <bool>false</bool>
+       </attribute>
+      </widget>
      </item>
     </layout>
    </widget>
@@ -521,6 +537,11 @@
     <slot>stealFocus()</slot>
     <slot>reset()</slot>
    </slots>
+  </customwidget>
+  <customwidget>
+   <class>EntryListView</class>
+   <extends>QTreeView</extends>
+   <header>gui/ListsView.h</header>
   </customwidget>
  </customwidgets>
  <tabstops>

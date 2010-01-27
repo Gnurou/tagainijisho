@@ -20,6 +20,7 @@
 
 #include "core/EntriesCache.h"
 #include <QTreeWidget>
+#include <QTreeView>
 #include <QMimeData>
 
 #include <QAbstractItemModel>
@@ -28,6 +29,34 @@ class EntryListModel : public QAbstractItemModel
 {
 	Q_OBJECT
 public:
+	virtual QModelIndex index(int row, int column, const QModelIndex &parent = QModelIndex()) const;
+	virtual QModelIndex parent(const QModelIndex &index) const;
+	virtual int rowCount(const QModelIndex &parent = QModelIndex()) const;
+	virtual int columnCount(const QModelIndex &parent = QModelIndex()) const { return 1; }
+	virtual QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;
+	
+	virtual Qt::ItemFlags flags(const QModelIndex &index) const;
+	
+	//virtual bool insertRows(int row, int count, const QModelIndex & parent = QModelIndex());
+	virtual bool removeRows(int row, int count, const QModelIndex & parent = QModelIndex());
+	virtual QStringList mimeTypes() const;
+	virtual QMimeData *mimeData(const QModelIndexList &indexes) const;
+	virtual Qt::DropActions supportedDropActions() const { return Qt::CopyAction | Qt::MoveAction; }
+	virtual bool dropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &parent);
+};
+
+class EntryListView : public QTreeView
+{
+	Q_OBJECT
+public:
+	EntryListView(QWidget *parent = 0);
+
+protected slots:
+	virtual void selectionChanged(const QItemSelection &selected, const QItemSelection &deselected);
+
+signals:
+	void listSelected(int rowIndex);
+	void entrySelected(EntryPointer<Entry> entry);
 };
 
 class ListTreeItem : public QTreeWidgetItem

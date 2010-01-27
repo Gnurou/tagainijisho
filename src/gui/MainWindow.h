@@ -22,6 +22,7 @@
 #include "core/Preferences.h"
 #include "core/QueryBuilder.h"
 #include "core/Query.h"
+#include "gui/ListsView.h"
 #include "gui/SearchBar.h"
 #include "gui/ResultsList.h"
 #include "ResultsView.h"
@@ -60,6 +61,8 @@ private:
 	ResultsList *_results;
 	EntryDelegate *delegate;
 
+	EntryListModel _listModel;
+	
 	// Set to true if a query has been started and we haven't handled any
 	// signal relative to its termination.
 	bool queryInProgress;
