@@ -116,6 +116,7 @@ bool JMdictDBParser::onItemParsed(JMdictItem &entry)
 		QStringList restrictedToList;
 		foreach (quint8 res, sense.restrictedToKanji) restrictedToList << QString::number(res);
 		AUTO_BIND(insertSenseQuery, restrictedToList.join(","), "");
+		restrictedToList.clear();
 		foreach (quint8 res, sense.restrictedToKana) restrictedToList << QString::number(res);
 		AUTO_BIND(insertSenseQuery, restrictedToList.join(","), "");
 		EXEC(insertSenseQuery);
