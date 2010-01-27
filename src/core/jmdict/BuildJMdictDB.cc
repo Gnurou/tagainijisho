@@ -139,6 +139,7 @@ bool JMdictDBParser::onItemParsed(JMdictItem &entry)
 	BIND(insertEntryQuery, entry.frequency);
 	BIND(insertEntryQuery, kanjiCount);
 	EXEC(insertEntryQuery);
+	return true;
 }
 
 bool insertJLPTLevels(const QString &fName, int level)
@@ -154,6 +155,7 @@ bool insertJLPTLevels(const QString &fName, int level)
 		BIND(insertJLPTQuery, level);
 		EXEC(insertJLPTQuery);
 	}
+	return true;
 }
 
 static void create_tables()
