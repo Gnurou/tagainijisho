@@ -14,7 +14,7 @@ Language:   english
 Tagaini Jisho Install Guide
 ===========================
 
-1. Installation
+Installation
 ===============
 Tagaini Jisho is available on several different platforms, including Windows
 and Mac OS, as well as being available for several Linux distributions.
@@ -213,36 +213,30 @@ Compiling from Source
 ---------------------
 
 As this is an Open Source project, the source code is freely available. It can
-be found at the bottom of the [download page](http://tagaini.net/download#Source_code__Any_other_Qt4-supported_platform "Source code download") in a tarball[^tarball]. You can also clone the git repository at [gitorius](http://gitorious.org/tagaini-jisho "gitorius").
+be found at the bottom of the [download page][sourcedlpage] in a
+tarball[^tarball]. You can also clone the git repository at
+[gitorius](http://gitorious.org/tagaini-jisho "gitorius").
+
 
 [^tarball]: A tar ball is a container file, or archive file, which
             contains multiple files. They are usually compressed with Gzip or
             Bzip2.
 
+[sourcedlpage]: http://tagaini.net/download#Source_code__Any_other_Qt4-supported_platform "Source code download"
 
-Tagaini Jisho only has two dependencies, [`Qt`][^qtdepfoot] and `python`. It
-uses several other third party libraries, but provides custom versions of them
-in the source tarball. If you clone the git repository then you have to download
-them, which can be done with the `builddb.py` script. The `-d` switch downloads
-the dependencies without doing anything else. If you have downloaded a
-tarball, then these following steps are unnessasary.
+Tagaini Jisho 0.2.4 only has two dependencies, `Qt`[^qtdepfoot] and
+`python`. It uses several other third party libraries, but provides custom
+versions of them in the source tarball.
 
 [^qtdepfoot]: The gentoo Qt maintainers split Qt into 14 seperate pacakges. This
 is done so that one does not have to compile the entire monolithic library. 
 Tagaini only requires `x11-libs/qt-core`, `x11-libs/qt-gui` and `x11-libs/qt-sql`.
 
-    tagaini-jisho $ ./builddb.py -d
 
-The `builddb.py` script is provided to build the dictionary databases, which
-you have to do after compiling tagaini.
+### From the source tarball, version 0.2.4
 
-Tagaini Jisho is available in several languages, as such, the translations for
-the interface have to be built if you are working with a git repo.
-
-    tagaini-jisho $ lrelease src/gui/gui.pro
-
-Once you have the extra files, you first have to run `qmake` to generate the
-`Makefiles`.
+The tarball comes with extra dependencies, so all you should not have to get
+them. First, the makefiles must be generated:
 
     tagaini-jisho $ qmake
 
@@ -277,7 +271,39 @@ The valid values are:
 * es - Spansish, Español
 * ru - Russian
 
+### Compiling from GIT sources. 
 
+If you have cloned the git repository then you are going to compile the
+latest, not nessasarly stable, build. As it is moving towards 0.2.5 it may
+have features that are yet undocumented. First of all the build system has
+also moved from python to cmake.
+
+The git repository does not hold any of the custom 3rd party libraries or the
+dictionaries, so they must fisrt be downloaded. 
+
+    tagaini-jisho $ ./prepare-source.sh
+
+This script is provided to make sure all the 3rd party libraries are there,
+and fetch those that are not. It does not handle Qt. When it has finnished,
+the makefiles need to be generated.
+    
+    tagaini-jisho $ cmake .
+
+Once that has finnished, Tagaini is ready to be built. 
+
+    tagaini-jisho $ make
+
+From here, the databases need to be built.
+
+    tagaini-jisho $ make databases
+
+From here, it can either be run with:
+
+    tagaini-jisho $ ./src/gui/tagainijisho
+
+or installed with:
+
+    tagaini-jisho $ make install
 
 Upgrading
 ---------
