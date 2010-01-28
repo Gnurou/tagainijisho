@@ -76,10 +76,11 @@ QSize EntryDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIn
 
 void EntryDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
+	Entry *entry = index.data(ResultsList::EntryRole).value<Entry *>();
+	if (!entry) { QStyledItemDelegate::paint(painter, option, index); return; }
+
 	QRect rect = option.rect.adjusted(2, 0, -2, 0);
 	painter->save();
-
-	Entry *entry = index.data(ResultsList::EntryRole).value<Entry *>();
 
 	QColor textColor;
 	if (option.state & QStyle::State_Selected) {
