@@ -24,7 +24,6 @@
 #include "gui/jmdict/JMdictEntryFormatter.h"
 #include "gui/jmdict/JMdictPreferences.h"
 #include "gui/jmdict/JMdictGUIPlugin.h"
-#include "gui/SearchWidget.h"
 #include "gui/KanjiValidator.h"
 #include "gui/TrainSettings.h"
 #include "gui/MainWindow.h"
@@ -76,7 +75,7 @@ bool JMdictGUIPlugin::onRegister()
 
 	// Add the search extender
 	_extender = new JMdictOptionsWidget(0);
-	mainWindow->searchWidget()->searchBar()->registerExtender(_extender);
+	mainWindow->searchBar()->registerExtender(_extender);
 
 	// Add the preference panel
 	PreferencesWindow::addPanel(&JMdictPreferences::staticMetaObject);
@@ -91,7 +90,7 @@ bool JMdictGUIPlugin::onUnregister()
 	PreferencesWindow::removePanel(&JMdictPreferences::staticMetaObject);
 
 	// Remove the search extender
-	mainWindow->searchWidget()->searchBar()->removeExtender(_extender);
+	mainWindow->searchBar()->removeExtender(_extender);
 	delete _extender; _extender = 0;
 	// Remove the main window entries
 	delete _flashJS; _flashJS = 0;
@@ -193,7 +192,7 @@ void JMdictGUIPlugin::trainingJapaneseList()
 
 void JMdictGUIPlugin::trainingJapaneseSet()
 {
-	QueryBuilder qBuilder(MainWindow::instance()->searchWidget()->queryBuilder());
+	QueryBuilder qBuilder(MainWindow::instance()->queryBuilder());
 	const QueryBuilder::Statement *stat(qBuilder.getStatementForEntryType(JMDICTENTRY_GLOBALID));
 	if (!stat) {
 		QMessageBox::information(MainWindow::instance(), tr("Nothing to train"), tr("There are no vocabulary entries in this set to train on."));
@@ -213,7 +212,7 @@ void JMdictGUIPlugin::trainingTranslationList()
 
 void JMdictGUIPlugin::trainingTranslationSet()
 {
-	QueryBuilder qBuilder(MainWindow::instance()->searchWidget()->queryBuilder());
+	QueryBuilder qBuilder(MainWindow::instance()->queryBuilder());
 	const QueryBuilder::Statement *stat(qBuilder.getStatementForEntryType(JMDICTENTRY_GLOBALID));
 	if (!stat) {
 		QMessageBox::information(MainWindow::instance(), tr("Nothing to train"), tr("There are no vocabulary entries in this set to train on."));

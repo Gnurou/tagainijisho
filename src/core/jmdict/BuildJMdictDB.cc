@@ -116,6 +116,7 @@ bool JMdictDBParser::onItemParsed(JMdictItem &entry)
 		QStringList restrictedToList;
 		foreach (quint8 res, sense.restrictedToKanji) restrictedToList << QString::number(res);
 		AUTO_BIND(insertSenseQuery, restrictedToList.join(","), "");
+		restrictedToList.clear();
 		foreach (quint8 res, sense.restrictedToKana) restrictedToList << QString::number(res);
 		AUTO_BIND(insertSenseQuery, restrictedToList.join(","), "");
 		EXEC(insertSenseQuery);
@@ -138,6 +139,7 @@ bool JMdictDBParser::onItemParsed(JMdictItem &entry)
 	BIND(insertEntryQuery, entry.frequency);
 	BIND(insertEntryQuery, kanjiCount);
 	EXEC(insertEntryQuery);
+	return true;
 }
 
 bool insertJLPTLevels(const QString &fName, int level)
@@ -153,6 +155,7 @@ bool insertJLPTLevels(const QString &fName, int level)
 		BIND(insertJLPTQuery, level);
 		EXEC(insertJLPTQuery);
 	}
+	return true;
 }
 
 static void create_tables()

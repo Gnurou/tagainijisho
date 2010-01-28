@@ -188,6 +188,7 @@ bool updateJLPTLevels(const QString &fName, int level)
 		BIND(updateJLPTLevelsQuery, TextTools::singleCharToUnicode(QString::fromUtf8(line)));
 		EXEC(updateJLPTLevelsQuery);
 	}
+	return true;
 }
 
 static void create_tables()

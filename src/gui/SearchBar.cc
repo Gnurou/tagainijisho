@@ -16,7 +16,6 @@
  */
 
 #include "gui/SearchBar.h"
-#include "gui/MainWindow.h"
 
 #include <QtDebug>
 
@@ -700,33 +699,6 @@ PreferenceItem<int> SearchBar::searchBarHistorySize("mainWindow", "searchBarHist
 
 SearchBar::SearchBar(QWidget *parent) : QWidget(parent)
 {
-	QAction *_focusBarAction = new QAction(QIcon(""), tr("Focus search bar"), this);
-	//: Used to focus on the search bar
-	_focusBarAction->setShortcut(QKeySequence(tr("Ctrl+L")));
-	addAction(_focusBarAction);
-	connect(_focusBarAction, SIGNAL(triggered()), this, SLOT(stealFocus()));
-	QAction *_newSearchAction = new QAction(QIcon(":/images/icons/reset-search.png"), tr("Reset search"), this);
-	//: Used to start a new search
-	_newSearchAction->setShortcut(QKeySequence(tr("Ctrl+R")));
-	connect(_newSearchAction, SIGNAL(triggered()), this, SLOT(reset()));
-/*	QAction *searchVocabularyAction = new QAction(tr("Search vocabulary"), this);
-	searchVocabularyAction->setShortcut(QKeySequence(tr("Ctrl+T")));
-	connect(searchVocabularyAction, SIGNAL(triggered()), this, SLOT(searchVocabulary()));
-	addAction(searchVocabularyAction);
-	QAction *searchKanjisAction = new QAction(tr("Search kanjis"), this);
-	searchKanjisAction->setShortcut(QKeySequence(tr("Alt+T")));
-	connect(searchKanjisAction, SIGNAL(triggered()), this, SLOT(searchKanjis()));
-	addAction(searchKanjisAction);
-	QAction *searchAllAction = new QAction(tr("Search all entries"), this);
-	searchAllAction->setShortcut(QKeySequence(tr("Ctrl+Alt+T")));
-	connect(searchAllAction, SIGNAL(triggered()), this, SLOT(searchAll()));
-	addAction(searchAllAction);*/
-	MainWindow::instance()->searchMenu()->addAction(_focusBarAction);
-	MainWindow::instance()->searchMenu()->addAction(_newSearchAction);
-//	MainWindow::instance()->searchMenu()->addAction(searchVocabularyAction);
-//	MainWindow::instance()->searchMenu()->addAction(searchKanjisAction);
-//	MainWindow::instance()->searchMenu()->addAction(searchAllAction);
-
 	_searchField = new QComboBox(this);
 	_searchField->setMinimumWidth(150);
 	_searchField->setEditable(true);

@@ -118,7 +118,7 @@ protected slots:
 	void addNote();
 
 public:
-	ResultsView(bool viewOnly = false, QWidget *parent = 0);
+	ResultsView(QWidget *parent = 0, bool viewOnly = false);
 	void contextMenuEvent(QContextMenuEvent *event);
 	virtual void setModel(QAbstractItemModel *model);
 

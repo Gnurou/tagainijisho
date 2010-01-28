@@ -26,7 +26,6 @@ UpdateChecker.cc
 ClickableLabel.cc
 SingleEntryView.cc
 SearchBar.cc
-SearchWidget.cc
 ResultsList.cc
 SmoothScroller.cc
 ResultsView.cc
@@ -67,7 +66,6 @@ RelativeDateEdit.h
 ResultsList.h
 ResultsView.h
 SearchBar.h
-SearchWidget.h
 SetsOrganizer.h
 SingleEntryView.h
 SmoothScroller.h
@@ -95,6 +93,7 @@ AboutDialog.ui
 DetailedViewPreferences.ui
 ResultsViewPreferences.ui
 GeneralPreferences.ui
+MainWindow.ui
 jmdict/JMdictPreferences.ui
 kanjidic2/KanjiPopup.ui
 kanjidic2/ComponentSearchWidget.ui
@@ -104,3 +103,5 @@ kanjidic2/Kanjidic2Preferences.ui
 include_directories(${QT_INCLUDE_DIR})
 add_executable(tagainijisho ${tagainijisho_gui_SRCS} ${tagainijisho_gui_MOC_SRCS} ${tagainijisho_gui_UI_SRCS})
 target_link_libraries(tagainijisho tagaini_core tagaini_sqlite ${QT_LIBRARIES})
+install(TARGETS tagainijisho RUNTIME DESTINATION bin)
+

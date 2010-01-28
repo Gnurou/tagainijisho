@@ -71,7 +71,7 @@ QString Kanjidic2Plugin::getDBFile() const
 	QFile dbFile("kanjidic2.db");
 #ifdef DATA_DIR
 	// Otherwise, check for the default installation prefix, if set
-	if (!dbFile.exists()) dbFile.setFileName(QDir(QUOTEMACRO(DATAPREFIX)).filePath("kanjidic2.db"));
+	if (!dbFile.exists()) dbFile.setFileName(QDir(QUOTEMACRO(DATA_DIR)).filePath("kanjidic2.db"));
 #endif
 	// Still no clue, then look in the binary directory
 	if (!dbFile.exists()) dbFile.setFileName(QDir(QCoreApplication::applicationDirPath()).filePath("kanjidic2.db"));

@@ -19,8 +19,7 @@
 #include "core/Database.h"
 #include "gui/EntryFormatter.h"
 #include "gui/DetailedView.h"
-// TODO Would be nice to get rid of these two ones...
-#include "gui/SearchWidget.h"
+// TODO Would be nice to get rid of this one...
 #include "gui/MainWindow.h"
 
 #include <QtDebug>
@@ -451,7 +450,7 @@ EntryMenuHandler::~EntryMenuHandler()
 void EntryMenuHandler::handleUrl(const QUrl &url, DetailedView *view)
 {
 	EntryPointer<Entry> entry(EntriesCache::get(url.queryItemValue("type").toInt(), url.queryItemValue("id").toInt()));
-	if (entry.data()) MainWindow::instance()->searchWidget()->detailedView()->display(entry.data());
+	if (entry.data()) MainWindow::instance()->detailedView()->display(entry.data());
 }
 
 TagsLinkHandler::TagsLinkHandler() : DetailedViewLinkHandler("tag")
@@ -464,7 +463,7 @@ TagsLinkHandler::~TagsLinkHandler()
 
 void TagsLinkHandler::handleUrl(const QUrl &url, DetailedView *view)
 {
-	SearchBar *searchBar = MainWindow::instance()->searchWidget()->searchBar();
+	SearchBar *searchBar = MainWindow::instance()->searchBar();
 	TagsSearchWidget *extender = qobject_cast<TagsSearchWidget *>(searchBar->getExtender("tagssearch"));
 	if (!extender) return;
 

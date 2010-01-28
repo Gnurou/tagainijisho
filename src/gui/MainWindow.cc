@@ -21,6 +21,7 @@
 #include "core/Database.h"
 #include "core/Query.h"
 #include "core/Plugin.h"
+#include "core/EntrySearcherManager.h"
 #include "gui/EntryFormatter.h"
 #include "gui/BookletPrinter.h"
 #include "gui/UpdateChecker.h"
@@ -28,7 +29,6 @@
 #include "gui/TrainSettings.h"
 #include "gui/PreferencesWindow.h"
 #include "gui/YesNoTrainer.h"
-#include "gui/SearchWidget.h"
 #include "gui/MainWindow.h"
 #include "gui/ui_AboutDialog.h"
 
@@ -58,7 +58,6 @@
 MainWindow *MainWindow::_instance = 0;
 UpdateChecker *_updateChecker = 0;
 UpdateChecker *_betaUpdateChecker = 0;
-PreferenceItem<QByteArray> MainWindow::windowGeometry("mainWindow", "geometry", "");
 
 PreferenceItem<QString> MainWindow::applicationFont("", "defaultFont", "");
 PreferenceItem<QString> MainWindow::guiLanguage("", "guiLanguage", "");
@@ -66,19 +65,50 @@ PreferenceItem<bool> MainWindow::autoCheckUpdates("", "autoCheckUpdates", true);
 PreferenceItem<bool> MainWindow::autoCheckBetaUpdates("", "autoCheckBetaUpdates", false);
 PreferenceItem<int> MainWindow::updateCheckInterval("", "updateCheckInterval", 3);
 
+PreferenceItem<QByteArray> MainWindow::windowGeometry("mainWindow", "geometry", "");
+PreferenceItem<int> MainWindow::resultsPerPagePref("mainWindow/resultsView", "resultsPerPage", 50);
+PreferenceItem<int> MainWindow::historySize("mainWindow/resultsView", "historySize", 100);
+PreferenceItem<QByteArray> MainWindow::splitterState("mainWindow", "splitterGeometry", "");
 
-MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), _tagsListMenuActionGroup(0)
+MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), _history(historySize.value()), queryInProgress(false), query(), queryPending(false), pageNbr(0), totalResults(-1), showAllResultsRequested(false)
 {
 	_instance = this;
+	
+	setupUi(this);
+	// Strangely this is not done properly by Qt designer...
+	connect(_setsMenu, SIGNAL(aboutToShow()), this, SLOT(populateSetsMenu()));
 
-	setWindowIcon(QIcon(":/images/tagainijisho.png"));
-	setWindowTitle("Tagaini Jisho");
+	_results = new ResultsList(this);
+	_resultsView->setModel(_results);
+	
+	setResultsPerPage(resultsPerPagePref.value());
+	
+	// Now on to the query/result logic
+	// Results emitted by a query are sent to the results list
+	connect(&query, SIGNAL(foundEntry(EntryPointer<Entry>)), _results, SLOT(addResult(EntryPointer<Entry>)));
+	// When results are added in the results list, update the view
+	connect(_results, SIGNAL(rowsInserted(const QModelIndex &, int, int)), this, SLOT(updateNbResultsDisplay()));
+	// React when we know how many results there are in the query
+	connect(&query, SIGNAL(nbResults(unsigned int)), this, SLOT(showNbResults(unsigned int)));
+	// When the search is over, inform the search bar
+	connect(&query, SIGNAL(lastResult()), this, SLOT(currentPageReceived()));
 
-	createMenus();
+	connect(&query, SIGNAL(firstResult()), _results, SLOT(startReceive()));
+	connect(&query, SIGNAL(lastResult()), _results, SLOT(endReceive()));
+	connect(&query, SIGNAL(aborted()), _results, SLOT(endReceive()));
+	connect(&query, SIGNAL(error()), _results, SLOT(endReceive()));
 
-	_searchWidget = new SearchWidget(this);
-	setCentralWidget(_searchWidget);
+	// Display selected items in the results view
+	connect(_resultsView, SIGNAL(listSelectionChanged(QItemSelection,QItemSelection)), this, SLOT(display(QItemSelection,QItemSelection)));
 
+	connect(&query, SIGNAL(aborted()), this, SLOT(queryError()));
+	connect(&query, SIGNAL(error()), this, SLOT(queryError()));
+
+	if (splitterState.isDefault()) splitter->setStretchFactor(1, 2);
+	else splitter->restoreState(splitterState.value());
+	// End of SearchWidget stuff
+	
+	// Geometry stuff
 	restoreGeometry(windowGeometry.value());
 
 	_updateChecker = new UpdateChecker("/updates/latestversion.php", this);
@@ -102,6 +132,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), _tagsListMenuActi
 
 MainWindow::~MainWindow()
 {
+	stopSearch();
+	splitterState.set(splitter->saveState());
 	windowGeometry.set(saveGeometry());
 }
 
@@ -116,67 +148,6 @@ void MainWindow::updateCheck()
 			lastUpdateCheck.set(QDateTime::currentDateTime());
 		}
 	}
-}
-
-void MainWindow::createMenus()
-{
-	QAction *action;
-	QMenu *subMenu;
-	QMenuBar *mBar = menuBar();
-
-	_fileMenu = mBar->addMenu(tr("&Program"));
-
-	action = _fileMenu->addAction(QIcon(":/images/icons/document-export.png"), tr("Export user data..."), this, SLOT(exportUserData()));
-	action = _fileMenu->addAction(QIcon(":/images/icons/document-import.png"), tr("Import user data..."), this, SLOT(importUserData()));
-	action = _fileMenu->addAction(QIcon(":/images/icons/preferences-other.png"), tr("Preferences..."), this, SLOT(preferences()));
-	action->setMenuRole(QAction::PreferencesRole);
-	_fileMenu->addSeparator();
-	action = _fileMenu->addAction(QIcon(":/images/icons/application-exit.png"), tr("&Quit"), this, SLOT(close()));
-
-	_searchMenu = mBar->addMenu(tr("&Search"));
-//	_searchMenu->addAction(searchWidget()->searchBar()->focusBarAction());
-//	_searchMenu->addAction(searchWidget()->searchBar()->newSearchAction());
-
-	_resultsMenu = mBar->addMenu(tr("&Results"));
-	action = _resultsMenu->addAction(QIcon(":/images/icons/print.png"), tr("&Print..."), this, SLOT(print()));
-	action->setShortcuts(QKeySequence::Print);
-	action->setToolTip(tr("Print entries displayed in result view"));
-
-	action = _resultsMenu->addAction(QIcon(":/images/icons/print.png"), tr("Print &preview..."), this, SLOT(printPreview()));
-	action->setToolTip(tr("Print preview of entries in result view"));
-
-	action = _resultsMenu->addAction(QIcon(":/images/icons/print.png"), tr("Print &booklet(s)..."), this, SLOT(printBooklet()));
-	action->setShortcut(tr("Ctrl+B"));
-	action->setToolTip(tr("Print entries displayed in result view as booklets"));
-
-	action = _resultsMenu->addAction(QIcon(":/images/icons/print.png"), tr("Booklet(s) &preview..."), this, SLOT(printBookletPreview()));
-	action->setToolTip(tr("Booklets print preview of entries in results list"));
-
-	subMenu = _resultsMenu->addMenu(QIcon(":/images/icons/document-export.png"), tr("Export displayed entries..."));
-	action = subMenu->addAction(tr("As a tab-separated file..."), this, SLOT(tabExport()));
-
-	_setsMenu = mBar->addMenu(tr("&Sets"));
-	action = _setsMenu->addAction(tr("&New set from current search..."), this, SLOT(newSet()));
-	action->setProperty("T_rowid", 0);
-	action = _setsMenu->addAction(tr("&New sets folder..."), this, SLOT(newSetsFolder()));
-	action->setProperty("T_rowid", 0);
-	action = _setsMenu->addAction(tr("&Organize sets..."), this, SLOT(organizeSets()));
-	_setsMenu->addSeparator();
-	connect(_setsMenu, SIGNAL(aboutToShow()), this, SLOT(populateSetsMenu()));
-
-	_trainMenu = mBar->addMenu(tr("&Practice"));
-	_trainMenu->addAction(tr("Whole study list train &settings..."), this, SLOT(trainSettings()));
-	_trainMenu->addSeparator();
-
-	_helpMenu = mBar->addMenu(tr("&Help"));
-	action = _helpMenu->addAction(QIcon(":/images/icons/help-contents.png"), tr("&Manual..."), this, SLOT(manual()));
-	action->setShortcuts(QKeySequence::HelpContents);
-	action = _helpMenu->addAction(QIcon(":/images/icons/tools-report-bug.png"), tr("&Report a bug..."), this, SLOT(bugReport()));
-	action = _helpMenu->addAction(QIcon(":/images/icons/help-hint.png"), tr("&Suggest a feature..."), this, SLOT(featureRequest()));
-	action = _helpMenu->addAction(QIcon(":/images/icons/system-help.png"), tr("Ask a &question..."), this, SLOT(askQuestion()));
-	action = _helpMenu->addAction(QIcon(":/images/icons/donate.png"), tr("Support Tagaini Jisho - Make a &donation!"), this, SLOT(donate()));
-	action = _helpMenu->addAction(QIcon(":/images/icons/help-about.png"), tr("&About..."), this, SLOT(about()));
-	action->setMenuRole(QAction::AboutRole);
 }
 
 void MainWindow::exportUserData()
@@ -272,11 +243,11 @@ void MainWindow::prepareAndPrintJob(QPrinter *printer, const QFont *font)
 	// Build the list of entries to print
 	QList<const Entry *> entries;
 	if (!selectionOnly) {
-		const ResultsList *results = searchWidget()->resultsList();
+		const ResultsList *results = resultsList();
 		for (int i = 0; i < results->nbResults(); i++)
 			entries << results->getEntry(i).data();
 	} else {
-		QModelIndexList selection = searchWidget()->resultsView()->selectionModel()->selection().indexes();
+		QModelIndexList selection = resultsView()->selectionModel()->selection().indexes();
 		for (int i = 0; i < selection.size(); i++)
 			entries << qVariantValue<Entry *>(selection[i].data(ResultsList::EntryRole));
 	}
@@ -379,7 +350,7 @@ void MainWindow::tabExport()
 		return;
 	}
 
-	const ResultsList *results = searchWidget()->resultsList();
+	const ResultsList *results = resultsList();
 	// Dummy entry to notify Anki that tab is our delimiter
 	//outFile.write("\t\t\n");
 	for (int i = 0; i < results->nbResults(); i++) {
@@ -557,7 +528,7 @@ void MainWindow::newSet()
 
 	QByteArray curState;
 	QDataStream ds(&curState, QIODevice::WriteOnly);
-	ds << QVariant(_searchWidget->_searchBar->getState());
+	ds << QVariant(searchBar()->getState());
 	QSqlQuery query;
 	query.prepare(QString("INSERT INTO sets VALUES(%2, ifnull((SELECT max(position) + 1 FROM sets WHERE parent %1), 0), ?, ?)").arg(!parentId ? "is null" : QString("= %1").arg(parentId)).arg(!parentId ? "null" : QString::number(parentId)));
 	query.addBindValue(setName);
@@ -592,8 +563,8 @@ void MainWindow::onSetSelected()
 	QByteArray bState(action->property("T_state").toByteArray());
 	QDataStream ds(&bState, QIODevice::ReadOnly);
 	QMap<QString, QVariant> state(QVariant(ds).toMap());
-	_searchWidget->_searchBar->restoreState(state);
-	_searchWidget->_searchBar->search();
+	searchBar()->restoreState(state);
+	searchBar()->search();
 }
 
 void MainWindow::organizeSets()
@@ -608,4 +579,230 @@ void MainWindow::trainSettings()
 	if (settings.exec() == QDialog::Accepted) {
 		settings.applySettings();
 	}
+}
+
+// SearchWidget stuff
+void MainWindow::display(const QItemSelection &selected, const QItemSelection &deselected)
+{
+	if (selected.isEmpty()) return;
+	Entry *entry = qVariantValue<Entry *>(selected.indexes()[0].data(ResultsList::EntryRole));
+	_detailedView->detailedView()->display(entry);
+}
+
+void MainWindow::search(const QString &commands)
+{
+	if (!(commands.isEmpty() || commands == ":jmdict" || commands == ":kanjidic")) _history.add(_searchBar->getState());
+	_search(commands);
+}
+
+void MainWindow::_search(const QString &commands)
+{
+	_results->clear();
+
+	if (commands.isEmpty() || commands == ":jmdict" || commands == ":kanjidic") {
+		_queryBuilder.clear();
+		_searchBar->searchCompleted();
+		totalResults = -1;
+		pageNbr = 0;
+		updateNbResultsDisplay();
+		updateNavigationButtons();
+		return;
+	}
+
+	showAllResultsRequested = false;
+	// If the query is already running, interrupt it
+	if (queryInProgress) query.abort();
+	_queryBuilder.clear();
+	query.clear();
+
+	prevButton->setEnabled(_history.hasPrevious());
+	nextButton->setEnabled(_history.hasNext());
+
+	// If we cannot build a valid query, no need to continue
+	if (!EntrySearcherManager::instance().buildQuery(commands, _queryBuilder)) {
+		_searchBar->searchCompleted();
+		return;
+	}
+
+	// Otherwise, the query is ready to be run - but we may have to delay
+	// it if we haven't received all the signals from the previous query
+	// yet. This is to avoid problems such as result from the previous
+	// query appearing in this query's results.
+	if (queryInProgress) {
+		// Setting queryPending to true will make the query be launched
+		// once all the pending signals from the previous one are
+		// received.
+		queryPending = true;
+	}
+	// Clear to go? Just run the query then!
+	else {
+		startPreparedQuery();
+	}
+}
+
+void MainWindow::startPreparedQuery()
+{
+	// Clear all the current data
+	_results->clear();
+	totalResults = -1;
+	pageNbr = 0;
+	updateNbResultsDisplay();
+	previousPageButton->setEnabled(false);
+	nextPageButton->setEnabled(false);
+	showAllResultsButton->setEnabled(true);
+
+	// And run!
+	queryInProgress = true;
+	_searchBar->searchStarted();
+	query.prepare(_queryBuilder);
+	query.fetch(0, _resultsPerPage);
+}
+
+void MainWindow::showNbResults(unsigned int nbResults)
+{
+	totalResults = nbResults;
+	updateNbResultsDisplay();
+	updateNavigationButtons();
+}
+
+void MainWindow::updateNavigationButtons()
+{
+	nextPageButton->setEnabled((totalResults > (pageNbr * _resultsPerPage) + _results->nbResults()));
+	previousPageButton->setEnabled(pageNbr > 0);
+	showAllResultsButton->setEnabled(totalResults > _results->nbResults());
+}
+
+void MainWindow::nextPage()
+{
+	_results->clear();
+	updateNbResultsDisplay();
+	_searchBar->searchStarted();
+	previousPageButton->setEnabled(false);
+	nextPageButton->setEnabled(false);
+	showAllResultsButton->setEnabled(true);
+	queryInProgress = true;
+	if (totalResults < ++pageNbr * _resultsPerPage) pageNbr = 0;
+	query.fetch(pageNbr * _resultsPerPage, _resultsPerPage);
+}
+
+void MainWindow::previousPage()
+{
+	_results->clear();
+	updateNbResultsDisplay();
+	_searchBar->searchStarted();
+	previousPageButton->setEnabled(false);
+	nextPageButton->setEnabled(false);
+	showAllResultsButton->setEnabled(true);
+	queryInProgress = true;
+	if (totalResults < --pageNbr * _resultsPerPage) pageNbr = 0;
+	query.fetch(pageNbr * _resultsPerPage, _resultsPerPage);
+}
+
+void MainWindow::scheduleShowAllResults()
+{
+	if (!queryInProgress) showAllResults();
+	else {
+		// Schedule all the results to be shown once the current
+		// request is finnished
+		showAllResultsRequested = true;
+		showAllResultsButton->setEnabled(false);
+		// In addition, if the page being displayed is not the first
+		// one, the request can be stopped at once.
+		if (pageNbr !=0) stopSearch();
+	}
+}
+
+void MainWindow::showAllResults()
+{
+	_searchBar->searchStarted();
+	previousPageButton->setEnabled(false);
+	nextPageButton->setEnabled(false);
+	showAllResultsButton->setEnabled(false);
+	queryInProgress = true;
+	// If we are on the first page, we can just
+	// continue fetching all results
+	if (pageNbr == 0)
+		query.fetch(_resultsPerPage);
+	// Otherwise we have to fetch from the beginning
+	else {
+		pageNbr = 0;
+		_results->clear();
+		query.fetch();
+	}
+}
+
+
+void MainWindow::updateNbResultsDisplay()
+{
+	if (_results->nbResults() == 0) nbResultsLabel->clear();
+	else nbResultsLabel->setText(QString(tr("Results %1 - %2 of %3")).arg(_results->nbResults() > 0 || pageNbr > 0 ? QString::number(pageNbr * _resultsPerPage + 1) : "0").arg(QString::number(pageNbr * _resultsPerPage + _results->nbResults())).arg(totalResults > -1 ? QString::number(totalResults) : QString("??")));
+}
+
+void MainWindow::goPrev()
+{
+	QMap<QString, QVariant> q;
+	bool ok = _history.previous(q);
+	if (ok) {
+		_searchBar->restoreState(q);
+		_search(_searchBar->text());
+	}
+}
+
+void MainWindow::goNext()
+{
+	QMap<QString, QVariant> q;
+	bool ok = _history.next(q);
+	if (ok) {
+		_searchBar->restoreState(q);
+		_search(_searchBar->text());
+	}
+}
+
+void MainWindow::currentPageReceived()
+{
+	queryEnded();
+}
+
+void MainWindow::queryError()
+{
+	_searchBar->searchCompleted();
+	queryInProgress = false;
+	if (queryPending) {
+		queryPending = false;
+		startPreparedQuery();
+	}
+}
+
+void MainWindow::queryEnded()
+{
+	// Did the user press the show all results button while the
+	// query was ongoing?
+	if (showAllResultsRequested) {
+		showAllResultsRequested = false;
+		showAllResults();
+	}
+	else {
+		_searchBar->searchCompleted();
+		// Fix a bug that seems to occur sometimes with counting...
+		if (!showAllResultsButton->isEnabled()) {
+			if (totalResults != _results->nbResults())
+				showNbResults(_results->nbResults());
+		}
+		updateNavigationButtons();
+		queryInProgress = false;
+		if (queryPending) {
+			queryPending = false;
+			startPreparedQuery();
+		}
+	}
+}
+
+void MainWindow::stopSearch()
+{
+	query.abort();
+	// Flush all the entries the results list may be receiving
+	QCoreApplication::processEvents(QEventLoop::ExcludeUserInputEvents | QEventLoop::ExcludeSocketNotifiers);
+	previousPageButton->setEnabled(false);
+	nextPageButton->setEnabled(false);
+	showAllResultsButton->setEnabled(false);
 }
