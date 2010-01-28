@@ -100,6 +100,7 @@ QVariant EntryListModel::data(const QModelIndex &index, int role) const
 	return QVariant();
 }
 
+// TODO use this in order to create a new list - add a row with a default title and automatically edit it
 /*
 bool EntryListModel::insertRows(int row, int count, const QModelIndex & parent = QModelIndex())
 {
@@ -149,18 +150,20 @@ Qt::ItemFlags EntryListModel::flags(const QModelIndex &index) const
 {
 	Qt::ItemFlags ret(Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsDragEnabled);
 	
-	QSqlQuery query;
-	query.prepare("select type from lists where rowid = ?");
-	query.addBindValue(index.internalId());
-	query.exec();
-	if (query.next() && query.value(0).isNull()) ret |= Qt::ItemIsEditable | Qt::ItemIsDropEnabled;
-	
+	if (index.isValid()) {
+		QSqlQuery query;
+		query.prepare("select type from lists where rowid = ?");
+		query.addBindValue(index.internalId());
+		query.exec();
+		if (query.next() && query.value(0).isNull()) ret |= Qt::ItemIsEditable | Qt::ItemIsDropEnabled;
+	}
 	return ret;
 }
 
 bool EntryListModel::dropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &parent)
 {
 	if (action == Qt::IgnoreAction) return true;
+	if (column == -1) column = 0;
 	if (column > 0) return false;
 	
 	if (data->hasFormat("tagainijisho/entry")) {
@@ -180,6 +183,8 @@ bool EntryListModel::dropMimeData(const QMimeData *data, Qt::DropAction action, 
 			ds >> type >> id;
 			entries << QPair<int, int>(type, id);
 		}
+		// If dropped on a list, append the entries
+		if (row == -1) row = parent.model()->rowCount(parent);
 		beginInsertRows(parent, row, row + entries.size() - 1);
 		// TODO use a transaction!
 		QSqlQuery query;

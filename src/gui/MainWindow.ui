@@ -181,7 +181,7 @@
      <x>0</x>
      <y>0</y>
      <width>805</width>
-     <height>21</height>
+     <height>23</height>
     </rect>
    </property>
    <widget class="QMenu" name="_fileMenu">
@@ -318,7 +318,7 @@
         <bool>true</bool>
        </property>
        <property name="dragDropMode">
-        <enum>QAbstractItemView::InternalMove</enum>
+        <enum>QAbstractItemView::DragDrop</enum>
        </property>
        <attribute name="headerVisible">
         <bool>false</bool>
