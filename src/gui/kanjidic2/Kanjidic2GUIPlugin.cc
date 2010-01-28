@@ -96,7 +96,7 @@ bool Kanjidic2GUIPlugin::onRegister()
 	_readingPractice = menu->addAction(tr("&Reading practice, whole study list"));
 	connect(_readingPractice, SIGNAL(triggered()), this, SLOT(readingPractice()));
 
-	SearchBar *searchBar = mainWindow->searchWidget()->searchBar();
+	SearchBar *searchBar = mainWindow->searchBar();
 
 	// Add the components searcher to the search bar
 	_cButton = new ComponentSearchButton(searchBar);
