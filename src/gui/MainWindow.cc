@@ -82,6 +82,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), _history(historyS
 	connect(_setsMenu, SIGNAL(aboutToShow()), this, SLOT(populateSetsMenu()));
 	lists->setModel(&_listModel);
 	connect(lists, SIGNAL(entrySelected(EntryPointer<Entry>)), detailedView(), SLOT(display(EntryPointer<Entry>)));
+	connect(newListButton, SIGNAL(clicked()), lists, SLOT(newList()));
+	connect(deleteListButton, SIGNAL(clicked()), lists, SLOT(deleteSelectedItems()));
 
 	setResultsPerPage(resultsPerPagePref.value());
 	

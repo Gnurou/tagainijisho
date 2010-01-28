@@ -24,20 +24,30 @@
 #include <QMimeData>
 
 #include <QAbstractItemModel>
+#include <QSqlQuery>
+#include <QDragEnterEvent>
+#include <QDragMoveEvent>
 
 class EntryListModel : public QAbstractItemModel
 {
 	Q_OBJECT
+private:
+	/**
+	 * Move all rows in parent with a position >= row by adding delta to their position.
+	 * Returns true upon success.
+	 */
+	bool moveRows(int row, int delta, const QModelIndex &parent, QSqlQuery &query);
 public:
 	virtual QModelIndex index(int row, int column, const QModelIndex &parent = QModelIndex()) const;
+	virtual QModelIndex index(int rowId) const;
 	virtual QModelIndex parent(const QModelIndex &index) const;
 	virtual int rowCount(const QModelIndex &parent = QModelIndex()) const;
 	virtual int columnCount(const QModelIndex &parent = QModelIndex()) const { return 1; }
-	virtual QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;
-	
 	virtual Qt::ItemFlags flags(const QModelIndex &index) const;
+	virtual QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;
+	bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole);
 	
-	//virtual bool insertRows(int row, int count, const QModelIndex & parent = QModelIndex());
+	virtual bool insertRows(int row, int count, const QModelIndex & parent = QModelIndex());
 	virtual bool removeRows(int row, int count, const QModelIndex & parent = QModelIndex());
 	virtual QStringList mimeTypes() const;
 	virtual QMimeData *mimeData(const QModelIndexList &indexes) const;
@@ -51,53 +61,19 @@ class EntryListView : public QTreeView
 public:
 	EntryListView(QWidget *parent = 0);
 
+protected:
+	virtual void dragEnterEvent(QDragEnterEvent *event);
+	virtual void dragMoveEvent(QDragMoveEvent *event);
+	
 protected slots:
 	virtual void selectionChanged(const QItemSelection &selected, const QItemSelection &deselected);
 
-signals:
-	void listSelected(int rowIndex);
-	void entrySelected(EntryPointer<Entry> entry);
-};
-
-class ListTreeItem : public QTreeWidgetItem
-{
-private:
-	int _rowId, _type, _id;
-	
-public:
-	typedef enum { ListType = (QTreeWidgetItem::UserType), EntryType = (QTreeWidgetItem::UserType + 1) } Type;
-	/// Creates an entry of list type
-	ListTreeItem(int rowId, const QString &label);
-	ListTreeItem(int rowId, const Entry *entry);
-	void populate();
-	int rowId() const { return _rowId; }
-	int entryType() const { return _type; }
-	int entryId() const { return _id; }
-};
-
-class ListsView : public QTreeWidget
-{
-	Q_OBJECT
-private:
-	
-public:
-	ListsView(QWidget *parent = 0);
-	bool populateRoot();
-	
-protected:
-	virtual QStringList mimeTypes () const;
-	virtual QMimeData *mimeData(const QList<QTreeWidgetItem *> items) const;
-	virtual bool dropMimeData(QTreeWidgetItem *parent, int index, const QMimeData *data, Qt::DropAction action);
-	
 public slots:
 	void newList();
-	void deleteCurrentItem();
-
-protected slots:
-	void onItemSelectionChanged();
-
+	void deleteSelectedItems();
+	
 signals:
-	void listSelected(int rowId);
+	void listSelected(int rowIndex);
 	void entrySelected(EntryPointer<Entry> entry);
 };
 

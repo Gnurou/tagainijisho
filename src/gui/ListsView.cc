@@ -21,16 +21,12 @@
 #include "gui/ListsView.h"
 
 #include <QInputDialog>
-#include <QSqlQuery>
 #include <QSqlError>
+#include <QMessageBox>
 
 #define EXEC(q) if (!q.exec()) { qDebug() << __FILE__ << __LINE__ << "Cannot execute query:" << q.lastError().text(); return false; }
 
-// TODO Drag'n drop within the list - by implementing new MIME type and/or using move actions
-// TODO Allow edition of lists names
-// TODO Allow creation of new lists
-// TODO Deletion of lists and items
-
+// TODO Use transactions for atomic operations, use special error-handling code
 // TODO the model should cache rowid, type, id and label into the indexes using a dedicated structure
 
 QModelIndex EntryListModel::index(int row, int column, const QModelIndex &parent) const
@@ -54,6 +50,16 @@ QModelIndex EntryListModel::index(int row, int column, const QModelIndex &parent
 	
 }
 	
+QModelIndex EntryListModel::index(int rowId) const
+{
+	QSqlQuery query;
+	query.prepare("select position from lists where rowid = ?");
+	query.addBindValue(rowId);
+	query.exec();
+	if (query.next()) return createIndex(query.value(0).toInt(), 0, rowId);
+	else return QModelIndex();
+}
+
 QModelIndex EntryListModel::parent(const QModelIndex &index) const
 {
 	if (!index.isValid()) return QModelIndex();
@@ -100,32 +106,65 @@ QVariant EntryListModel::data(const QModelIndex &index, int role) const
 	return QVariant();
 }
 
-// TODO use this in order to create a new list - add a row with a default title and automatically edit it
-/*
-bool EntryListModel::insertRows(int row, int count, const QModelIndex & parent = QModelIndex())
+bool EntryListModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
+	if (role == Qt::EditRole && index.isValid()) {
+		QSqlQuery query;
+		query.prepare("select type from lists where rowid = ?");
+		query.addBindValue(index.internalId());
+		query.exec();
+		if (query.next() && query.value(0).isNull()) {
+			query.prepare("update listsLabels set label = ? where rowid = ?");
+			query.addBindValue(value.toString());
+			query.addBindValue(index.internalId());
+			return query.exec();
+		}
+	}
+	return false;
+}
+	
+bool EntryListModel::moveRows(int row, int delta, const QModelIndex &parent, QSqlQuery &query)
+{
+	QString queryText("update lists set position = position + ? where parent %1 and position >= ?");
+	if (!parent.isValid()) query.prepare(queryText.arg("is null"));
+	else query.prepare(queryText.arg("= ?"));
+	query.addBindValue(delta);
+	if (parent.isValid()) query.addBindValue(parent.internalId());
+	query.addBindValue(row);
+	EXEC(query);
+	return true;
+}
+
+bool EntryListModel::insertRows(int row, int count, const QModelIndex & parent)
+{
+	// TODO use transaction!
 	beginInsertRows(parent, row, row + count -1);
 	QSqlQuery query;
-	QString queryText("update lists set position = position + co!!!!unt where parent %1 and position >= ?");
-	if (!parent.isValid()) {
-		query.prepare(queryText.arg("is null"));
-	} else {
-		query.prepare(queryText.arg("= ?"));
-		query.addBindValue(parent.internalId());
+	// First update the positions of items located after the new lists
+	if (!moveRows(row, count, parent, query)) return false;
+	// Then insert the lists themselves with a default name
+	for (int i = 0; i < count; i++) {
+		query.prepare("insert into lists values(?, ?, NULL, NULL)");
+		query.addBindValue(parent.isValid() ? parent.internalId() : QVariant(QVariant::Int));
+		query.addBindValue(row + i);
+		EXEC(query);
+		int rowId = query.lastInsertId().toInt();
+		query.prepare("insert into listsLabels(docid, label) values(?, ?)");
+		query.addBindValue(rowId);
+		query.addBindValue(tr("New list"));
+		EXEC(query);
 	}
-	query.addBindValue(row);
-	EXEC(q);
 	endInsertRows();
 	return true;
-}*/
+}
 
 bool EntryListModel::removeRows(int row, int count, const QModelIndex &parent)
 {
-	// TODO use a transaction!
+	// TODO use a transaction - but how to handle the recursivity?
 	beginRemoveRows(parent, row, row + count - 1);
 	QSqlQuery query;
-	// Remove requested rows from the database
-	QString queryString("delete from lists where parent %1 and position between ? and ?");
+	// Get the list of items to remove
+	QString queryString("select rowid from lists where parent %1 and position between ? and ?");
 	if (!parent.isValid()) query.prepare(queryString.arg("is null"));
 	else {
 		query.prepare(queryString.arg("= ?"));
@@ -134,20 +173,32 @@ bool EntryListModel::removeRows(int row, int count, const QModelIndex &parent)
 	query.addBindValue(row);
 	query.addBindValue(row + count - 1);
 	EXEC(query);
-	// Update the positions of items that were after the ones we removed
-	queryString = "update lists set position = position - ? where parent %1 and position >= ?";
-	if (!parent.isValid()) query.prepare(queryString.arg("is null"));
-	else query.prepare(queryString.arg("= ?"));
-	query.addBindValue(count);
-	if (!parent.isValid()) query.addBindValue(parent.internalId());
-	query.addBindValue(row + count);
+	QList<int> ids;
+	while (query.next()) ids << query.value(0).toInt();
+	// Recursively remove any child the items may have
+	foreach (int id, ids) {
+		QModelIndex idx(index(id));
+		if (!idx.isValid()) continue;
+		int childsNbr(rowCount(idx));
+		if (childsNbr > 0 && !removeRows(0, childsNbr, idx)) return false;
+	}
+	// Remove the listsLabels entries
+	QStringList strIds;
+	foreach (int id, ids) strIds << QString::number(id);
+	query.prepare(QString("delete from listsLabels where rowid in (%1)").arg(strIds.join(", ")));
 	EXEC(query);
+	// Remove the lists entries
+	query.prepare(QString("delete from lists where rowid in (%1)").arg(strIds.join(", ")));
+	EXEC(query);
+	// Update the positions of items that were after the ones we removed
+	if (!moveRows(row + count, -count, parent, query)) return false;
 	endRemoveRows();
 	return true;
 }
-	
+
 Qt::ItemFlags EntryListModel::flags(const QModelIndex &index) const
 {
+	// TODO useful values should be cached...
 	Qt::ItemFlags ret(Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsDragEnabled);
 	
 	if (index.isValid()) {
@@ -157,16 +208,100 @@ Qt::ItemFlags EntryListModel::flags(const QModelIndex &index) const
 		query.exec();
 		if (query.next() && query.value(0).isNull()) ret |= Qt::ItemIsEditable | Qt::ItemIsDropEnabled;
 	}
+	else ret |= Qt::ItemIsDropEnabled;
 	return ret;
 }
 
+QStringList EntryListModel::mimeTypes() const
+{
+	QStringList ret;
+	ret << "tagainijisho/entry";
+	ret << "tagainijisho/listitem";
+	return ret;
+}
+
+QMimeData *EntryListModel::mimeData(const QModelIndexList &indexes) const
+{
+	QMimeData *mimeData = new QMimeData();
+	QByteArray entriesEncodedData;
+	QDataStream entriesStream(&entriesEncodedData, QIODevice::WriteOnly);
+	QByteArray itemsEncodedData;
+	QDataStream itemsStream(&itemsEncodedData, QIODevice::WriteOnly);
+	
+	foreach (const QModelIndex &index, indexes) {
+		if (index.isValid()) {
+			// Add the item
+			itemsStream << (int)index.internalId();
+			
+			// If the item is an entry, add it
+			QSqlQuery query;
+			query.prepare("select type, id from lists where rowid = ?");
+			query.addBindValue(index.internalId());
+			query.exec();
+			if (query.next() && !query.value(0).isNull())
+				entriesStream << query.value(0).toInt() << query.value(0).toInt();
+		}
+	}
+	if (!entriesEncodedData.isEmpty()) mimeData->setData("tagainijisho/entry", entriesEncodedData);
+	if (!itemsEncodedData.isEmpty()) mimeData->setData("tagainijisho/listitem", itemsEncodedData);
+	return mimeData;
+}
+
+// TODO Handle the case when a list is dropped into one of its children!
 bool EntryListModel::dropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &parent)
 {
 	if (action == Qt::IgnoreAction) return true;
 	if (column == -1) column = 0;
 	if (column > 0) return false;
 	
-	if (data->hasFormat("tagainijisho/entry")) {
+	// If we have list items, we must move the items instead of inserting them
+	if (data->hasFormat("tagainijisho/listitem")) {
+		QByteArray ba = data->data("tagainijisho/listitem");
+		QDataStream ds(&ba, QIODevice::ReadOnly);
+		QSqlQuery query;
+		int i = 0;
+		// If dropped on a list, append the entries
+		if (row == -1) row = rowCount(parent);
+		int realRow(row);
+		while (!ds.atEnd()) {
+			// TODO use a transaction
+			int rowid;
+			ds >> rowid;
+			// First get the model index
+			QModelIndex idx(index(rowid));
+			// and its parent
+			QModelIndex idxParent(idx.parent());
+			// If the destination parent is the same as the source and the destination row superior, we must decrement
+			// the latter because the source has not been moved yet.
+			if (idxParent == parent && row > idx.row() && realRow > 0) --realRow;
+			// Do not bother if the position did not change
+			if (idxParent == parent && realRow == idx.row()) continue;
+			
+			emit layoutAboutToBeChanged();
+			if (!QSqlDatabase::database().transaction()) return false;
+			qDebug() << "got transaction";
+			// Update rows position after the one we move
+			if (!moveRows(idx.row() + 1, -1, idxParent, query)) return false;
+			// Update rows position after the one we insert
+			if (!moveRows(realRow + i, 1, parent, query)) return false;
+			// And do the move
+			query.prepare("update lists set parent = ?, position = ? where rowid = ?");
+			query.addBindValue(parent.isValid() ? parent.internalId() : QVariant(QVariant::Int));
+			query.addBindValue(realRow + i);
+			query.addBindValue(rowid);
+			EXEC(query);
+			if (!QSqlDatabase::database().commit()) return false;
+			qDebug() << "transaction commited";
+			// Don't forget to change any persistent index - views use them at least to keep track
+			// of the current selection
+			changePersistentIndex(idx, index(rowid));
+			emit layoutChanged();
+			++i;
+		}
+	}
+	// No list data, we probably dropped from the results view or something -
+	// add the entries to the list
+	else if (data->hasFormat("tagainijisho/entry")) {
 		if (!parent.isValid()) return false;
 		{
 			QSqlQuery query;
@@ -184,54 +319,25 @@ bool EntryListModel::dropMimeData(const QMimeData *data, Qt::DropAction action, 
 			entries << QPair<int, int>(type, id);
 		}
 		// If dropped on a list, append the entries
-		if (row == -1) row = parent.model()->rowCount(parent);
+		if (row == -1) row = rowCount(parent);
 		beginInsertRows(parent, row, row + entries.size() - 1);
 		// TODO use a transaction!
 		QSqlQuery query;
-		query.prepare("update lists set position = position + ? where parent = ? and position >= ?");
-		query.addBindValue(entries.size());
-		query.addBindValue(parent.internalId());
-		query.addBindValue(row);
-		EXEC(query);
-		QStringList vals;
-		for (int i = 0; i < entries.size(); ++i) vals << QString("%1, %2, %3, %4").arg(parent.internalId()).arg(row + i).arg(entries[i].first).arg(entries[i].second);
-		query.prepare(QString("insert into lists values(%1)").arg(vals.join(", ")));
-		EXEC(query);
+		// Start by moving the rows after the destination
+		if (!moveRows(row, entries.size(), parent, query)) return false;
+		// And insert the new rows at the right position
+		query.prepare("insert into lists values(?, ?, ?, ?)");
+		for (int i = 0; i < entries.size(); ++i) {
+			query.addBindValue(parent.internalId());
+			query.addBindValue(row + i);
+			query.addBindValue(entries[i].first);
+			query.addBindValue(entries[i].second);
+			EXEC(query);
+		}
 		endInsertRows();
 	}
-	
-	return false;
+	return true;
 }
-
-QStringList EntryListModel::mimeTypes() const
-{
-	QStringList ret;
-	ret << "tagainijisho/entry";
-	return ret;
-}
-
-QMimeData *EntryListModel::mimeData(const QModelIndexList &indexes) const
-{
-	QMimeData *mimeData = new QMimeData();
-	QByteArray encodedData;
-	QDataStream stream(&encodedData, QIODevice::WriteOnly);
-	
-	foreach (const QModelIndex &index, indexes) {
-		if (index.isValid()) {
-			QSqlQuery query;
-			query.prepare("select type, id from lists where rowid = ?");
-			query.addBindValue(index.internalId());
-			query.exec();
-			if (!query.next() || query.value(0).isNull()) continue;
-			int type(query.value(0).toInt());
-			int id(query.value(1).toInt());
-			stream << type << id;
-		}
-	}
-	mimeData->setData("tagainijisho/entry", encodedData);
-	return mimeData;
-}
-
 
 EntryListView::EntryListView(QWidget *parent) : QTreeView(parent)
 {
@@ -254,251 +360,45 @@ void EntryListView::selectionChanged(const QItemSelection &selected, const QItem
 	}
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-ListTreeItem::ListTreeItem(int rowId, const QString &label) : QTreeWidgetItem(ListType), _rowId(rowId), _type(-1), _id(-1)
+/*
+ * This part is tricky - we want the drag and drop of list items to appear as move events instead of copy, because
+ * this is what actually happens when a list item is drag'n dropped. On the other hand, the action received by
+ * the drop handler must be a copy, otherwise the list will try to remove the row itself (the row within the
+ * database is updated, not inserted/deleted). By forcing the type of the QDragEnterEvent and QDragMoveEvent
+ * (but not of the QDropEvent), we obtain the desired effect.
+ */
+void EntryListView::dragEnterEvent(QDragEnterEvent *event)
 {
-	Qt::ItemFlags flags = Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsDragEnabled | Qt::ItemIsEditable | Qt::ItemIsDropEnabled;
-	setFlags(flags);
-	setText(0, label);
-	
-	// TODO should rather be done incrementally, when the expand button is clicked
-	populate();
-}
-
-ListTreeItem::ListTreeItem(int rowId, const Entry *entry) : QTreeWidgetItem(EntryType), _rowId(rowId), _type(entry->type()), _id(entry->id())
-{
-	Qt::ItemFlags flags = Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsDragEnabled;
-	setFlags(flags);
-	setText(0, entry->shortVersion());
-}
-
-void ListTreeItem::populate() {
-	if (type() == ListType) {
-		QSqlQuery query;
-		query.prepare("select lists.rowid, type, id, label from lists left join listsLabels on lists.rowid = listsLabels.rowid where parent = ? order by position");
-		query.addBindValue(rowId());
-		query.exec();
-		while (query.next()) {
-			if (query.value(1).isNull()) insertChild(childCount(), new ListTreeItem(query.value(0).toInt(), query.value(3).toString()));
-			else {
-				EntryPointer<Entry> entry(EntriesCache::get(query.value(1).toInt(), query.value(2).toInt()));
-				if (entry.data() == 0) continue;
-				insertChild(childCount(), new ListTreeItem(query.value(0).toInt(), entry.data()));
-			}
-		}
+	const QMimeData *mimeData = event->mimeData();
+	if (mimeData->hasFormat("tagainijisho/listitem")) {
+		if (event->proposedAction() == Qt::MoveAction) event->acceptProposedAction();
+		else { event->setDropAction(Qt::MoveAction); event->accept(); }
 	}
+	QTreeView::dragEnterEvent(event);
 }
 
-// TODO: handle double-click to change the list name
-ListsView::ListsView(QWidget *parent) : QTreeWidget(parent)
-{
-	connect(this, SIGNAL(itemSelectionChanged()), this, SLOT(onItemSelectionChanged()));
-	populateRoot();
-}
-
-bool ListsView::populateRoot()
-{
-	QSqlQuery query;
-	query.exec("select lists.rowid, type, id, label from lists left join listsLabels on lists.rowid = listsLabels.rowid where parent is null order by position");
-	while (query.next()) {
-		ListTreeItem *item;
-		if (query.value(1).isNull()) item = new ListTreeItem(query.value(0).toInt(), query.value(3).toString());
-		else {
-			EntryPointer<Entry> entry(EntriesCache::get(query.value(1).toInt(), query.value(2).toInt()));
-			if (entry.data() == 0) continue;
-			item = new ListTreeItem(query.value(0).toInt(), entry.data());
-		}
-		addTopLevelItem(item);
+void EntryListView::dragMoveEvent(QDragMoveEvent *event)
+{  
+	const QMimeData *mimeData = event->mimeData();
+	if (mimeData->hasFormat("tagainijisho/listitem")) {
+		if (event->proposedAction() == Qt::MoveAction) event->acceptProposedAction();
+		else { event->setDropAction(Qt::MoveAction); event->accept(); }
 	}
-	return true;
+	QTreeView::dragMoveEvent(event);
 }
 
-QStringList ListsView::mimeTypes () const
+// TODO Allow to create lists elsewhere than on the root
+void EntryListView::newList()
 {
-	QStringList types;
-	types << "tagainijisho/entry";
-	types << "tagainijisho/listviewitems";
-	return types;
+	int idx = model()->rowCount(QModelIndex());
+	model()->insertRows(idx, 1, QModelIndex());
 }
 
-QMimeData *ListsView::mimeData(const QList<QTreeWidgetItem *> items) const
+void EntryListView::deleteSelectedItems()
 {
-	QByteArray entryEncodedData, listItemEncodedData;
-
-	QDataStream entryStream(&entryEncodedData, QIODevice::WriteOnly);
-	QDataStream listItemStream(&listItemEncodedData, QIODevice::WriteOnly);
-
-	foreach (const QTreeWidgetItem * it, items) {
-		const ListTreeItem *item = static_cast<const ListTreeItem *>(it);
-		if (!item) continue;
-		if (item->type() == ListTreeItem::EntryType) {
-			EntryPointer<Entry> entry(EntriesCache::get(item->entryType(), item->entryId()));
-			if (!entry.data()) continue;
-			entryStream << entry->type() << entry->id();
-			
-			listItemStream << (quint64)item;
-		} else {
-			// TODO encode data for lists items
-		}
-	}
-
-	QMimeData *mimeData = new QMimeData();
-	mimeData->setData("tagainijisho/entry", entryEncodedData);
-	mimeData->setData("tagainijisho/listviewitems", listItemEncodedData);
-	return mimeData;
-}
-
-bool ListsView::dropMimeData(QTreeWidgetItem *_parent, int index, const QMimeData *data, Qt::DropAction action)
-{
-	ListTreeItem *parent = static_cast<ListTreeItem *>(_parent);
-
-	// Data dropped from the list entry can only be handled if we have a parent
-	if (parent) {
-		// First check if we have been sent list view items - in this case this
-		// means we have to move then
-		if (data->hasFormat("tagainijisho/listviewitems")) {
-			QByteArray ba = data->data("tagainijisho/listviewitems");
-			QDataStream ds(&ba, QIODevice::ReadOnly);
-			while (!ds.atEnd()) {
-				// Ouch! This is so bad...
-				quint64 _ptr;
-				ListTreeItem *item;
-				ds >> _ptr;
-				item = (ListTreeItem *)_ptr;
-				
-				if (!item) continue;
-				int parentRow = parent ? parent->rowId() : -1;
-				int prevPos = parent ? indexOfTopLevelItem(item) : parent->indexOfChild(item);
-				// Update the positions of the items that are after our previous position
-				// one we are moving
-				// TODO Embed that into a transaction!
-				QSqlQuery query;
-				query.prepare(QString("update lists set position = position - 1 where parent %1 and position > ?").arg(parentRow == -1 ? "is null" : "= ?"));
-				if (parentRow != -1) query.addBindValue(parentRow);
-				query.addBindValue(prevPos);
-				EXEC(query);
-				// Update the positions of the items that are after our new position
-				query.prepare(QString("update lists set position = position + 1 where parent %1 and position >= ?").arg(parentRow == -1 ? "is null" : "= ?"));
-				if (parentRow != -1) query.addBindValue(parentRow);
-				query.addBindValue(index);
-				EXEC(query);
-				// Finally update our position
-				query.prepare("update lists set position = ? where rowid = ?");
-				query.addBindValue(index);
-				query.addBindValue(item->rowId());
-				EXEC(query);
-				// And update our model
-				//if (!parent) move
-			}
-		}
-		// Just regular entry items - we can add them directly
-		else if (data->hasFormat("tagainijisho/entry")) {
-			QByteArray ba = data->data("tagainijisho/entry");
-			QDataStream ds(&ba, QIODevice::ReadOnly);
-			while (!ds.atEnd()) {
-				int _t, _id;
-				ds >> _t;
-				ds >> _id;
-
-				EntryPointer<Entry> entry(EntriesCache::get(_t, _id));
-				if (entry.data() == 0) continue;
-				
-				QSqlQuery query;
-				// TODO use a transaction here!
-				// TODO Update the positions of elements that are below us
-				
-				// Update the positions of elements that have been moved by our drop
-				query.prepare("update lists set position = position + 1 where parent = ? and position >= ?");
-				query.addBindValue(parent->rowId());
-				query.addBindValue(index);
-				if (!query.exec()) {
-					qDebug() << "Cannot insert entry into list:" << query.lastError().text();
-					continue;
-				}
-				// Insert our element
-				query.prepare("insert into lists values(?, ?, ?, ?)");
-				query.addBindValue(parent->rowId());
-				query.addBindValue(index);
-				query.addBindValue(_t);
-				query.addBindValue(_id);
-				if (!query.exec()) {
-					qDebug() << "Cannot insert entry into list:" << query.lastError().text();
-					continue;
-				}
-				int rowId = query.lastInsertId().toInt();
-				
-				// Finally add the entry to our model
-				parent->insertChild(index, new ListTreeItem(rowId, entry.data()));
-				parent->setExpanded(true);
-			}
-		}
-	}
-	
-	// TODO handle the case where we move lists and entries
-	return true;
-}
-
-void ListsView::newList()
-{
-	QString label(QInputDialog::getText(this, tr("New list..."), tr("Please enter the name of the new list:")));
-	if (label.isEmpty()) return;
-	QSqlQuery query;
-	ListTreeItem *parent = 0;
-	QList<QTreeWidgetItem *> selection(selectedItems());
-	if (!selection.isEmpty()) {
-		parent = static_cast<ListTreeItem *>(selection[0]);
-		if (parent->type() != ListTreeItem::ListType) parent = 0;
-	}
-	query.prepare("insert into lists values(?, ?, NULL, NULL)");
-	// Add the parent and position arguments
-	query.addBindValue(!parent ? QVariant() : parent->rowId());
-	query.addBindValue(!parent ? topLevelItemCount() : parent->childCount());
-	// TODO do that with a transaction
-	if (!query.exec()) {
-		qDebug() << "Cannot create list:" << query.lastError().text();
-		return;
-	}
-	int rowId(query.lastInsertId().toInt());
-	query.prepare("insert into listsLabels(docid, label) values(?, ?)");
-	query.addBindValue(rowId);
-	query.addBindValue(label);
-	if (!query.exec()) {
-		qDebug() << "Cannot create list:" << query.lastError().text();
-		return;
-	}
-	// Now insert the item into the view
-	ListTreeItem *item = new ListTreeItem(rowId, label);
-	if (!parent) addTopLevelItem(item);
-	else {
-		parent->addChild(item);
-		parent->setExpanded(true);
-	}
-}
-
-void ListsView::deleteCurrentItem()
-{
-}
-
-void ListsView::onItemSelectionChanged()
-{
-	QList<QTreeWidgetItem *> selection(selectedItems());
-	if (selection.isEmpty()) return;
-	ListTreeItem *item = static_cast<ListTreeItem *>(selection[0]);
-	if (item->type() == ListTreeItem::ListType) emit listSelected(item->rowId());
-	else {
-		EntryPointer<Entry> entry(EntriesCache::get(item->entryType(), item->entryId()));
-		if (entry.data()) emit entrySelected(entry);
+	if (QMessageBox::question(this, tr("Confirm deletion"), tr("This will delete the selected lists items and lists, including all their children. Continue?"), QMessageBox::Yes | QMessageBox::No, QMessageBox::No) != QMessageBox::Yes) return;
+	QModelIndexList selection(selectionModel()->selectedIndexes());
+	foreach (const QModelIndex &index, selection) {
+		model()->removeRow(index.row(), index.parent());
 	}
 }
