@@ -21,6 +21,7 @@
 #include "core/Plugin.h"
 #include "gui/HexSpinBox.h"
 #include "gui/ReadingTrainer.h"
+#include "gui/kanjidic2/ComponentSearchWidget.h"
 
 #include "gui/YesNoTrainer.h"
 #include "gui/SearchBar.h"
@@ -45,6 +46,7 @@ private:
 	Kanjidic2OptionsWidget *_extender;
 	YesNoTrainer *_trainer;
 	ReadingTrainer *_readingTrainer;
+	ComponentSearchButton * _cButton;
 
 	void training(YesNoTrainer::TrainingMode mode, const QString &queryString);
 

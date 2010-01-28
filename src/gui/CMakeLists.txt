@@ -45,6 +45,7 @@ kanjidic2/Kanjidic2EntryFormatter.cc
 kanjidic2/KanjiRenderer.cc
 kanjidic2/KanjiPopup.cc
 kanjidic2/KanjiPlayer.cc
+kanjidic2/ComponentSearchWidget.cc
 kanjidic2/Kanjidic2Preferences.cc
 kanjidic2/Kanjidic2GUIPlugin.cc
 main.cc
@@ -81,6 +82,7 @@ jmdict/JMdictYesNoTrainer.h
 kanjidic2/Kanjidic2GUIPlugin.h
 kanjidic2/Kanjidic2Preferences.h
 kanjidic2/KanjiPlayer.h
+kanjidic2/ComponentSearchWidget.h
 kanjidic2/KanjiPopup.h
 )
 
@@ -96,6 +98,7 @@ GeneralPreferences.ui
 MainWindow.ui
 jmdict/JMdictPreferences.ui
 kanjidic2/KanjiPopup.ui
+kanjidic2/ComponentSearchWidget.ui
 kanjidic2/Kanjidic2Preferences.ui
 )
 

@@ -734,15 +734,15 @@ SearchBar::SearchBar(QWidget *parent) : QWidget(parent)
 	QVBoxLayout *vLayout = new QVBoxLayout(this);
 	vLayout->setSpacing(0);
 	vLayout->setContentsMargins(0, 0, 0, 0);
-	QHBoxLayout *hLayout = new QHBoxLayout();
-	hLayout->setContentsMargins(0, 0, 0, 0);
-	hLayout->setSpacing(5);
-	hLayout->addWidget(resetText);
-	hLayout->addWidget(_searchField);
-	hLayout->addWidget(_entryTypeSelector);
-	hLayout->addWidget(searchButton);
-	hLayout->addWidget(searchStatus);
-	vLayout->addLayout(hLayout);
+	_searchBarLayout = new QHBoxLayout();
+	_searchBarLayout->setContentsMargins(0, 0, 0, 0);
+	_searchBarLayout->setSpacing(5);
+	_searchBarLayout->addWidget(resetText);
+	_searchBarLayout->addWidget(_searchField);
+	_searchBarLayout->addWidget(_entryTypeSelector);
+	_searchBarLayout->addWidget(searchButton);
+	_searchBarLayout->addWidget(searchStatus);
+	vLayout->addLayout(_searchBarLayout);
 
 	_extenders = new MultiStackedWidget(this);
 	vLayout->addWidget(_extenders);
@@ -758,6 +758,11 @@ SearchBar::SearchBar(QWidget *parent) : QWidget(parent)
 	registerExtender(new TagsSearchWidget(this));
 	registerExtender(new NotesSearchWidget(this));
 	registerExtender(new JLPTOptionsWidget(this));
+}
+
+void SearchBar::onComponentSearchKanjiSelected(const QString &text)
+{
+	_searchField->lineEdit()->insert(text);
 }
 
 void SearchBar::onSearchTextChanged(const QString &text)

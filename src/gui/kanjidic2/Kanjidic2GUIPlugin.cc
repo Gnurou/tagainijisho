@@ -57,7 +57,7 @@ const QString Kanjidic2GUIPlugin::kanjiGrades[] = {
 
 PreferenceItem<bool> Kanjidic2GUIPlugin::kanjiTooltipEnabled("kanjidic", "kanjiTooltipEnabled", true);
 
-Kanjidic2GUIPlugin::Kanjidic2GUIPlugin() : Plugin("kanjidic2GUI"), _formatter(0), _flashKL(0), _flashKS(0), _flashML(0), _flashMS(0), _readingPractice(0), _linkHandler(0), _wordsLinkHandler(0), _componentsLinkHandler(0), _extender(0), _trainer(0), _readingTrainer(0)
+Kanjidic2GUIPlugin::Kanjidic2GUIPlugin() : Plugin("kanjidic2GUI"), _formatter(0), _flashKL(0), _flashKS(0), _flashML(0), _flashMS(0), _readingPractice(0), _linkHandler(0), _wordsLinkHandler(0), _componentsLinkHandler(0), _extender(0), _trainer(0), _readingTrainer(0), _cButton(0)
 {
 }
 
@@ -96,6 +96,13 @@ bool Kanjidic2GUIPlugin::onRegister()
 	_readingPractice = menu->addAction(tr("&Reading practice, whole study list"));
 	connect(_readingPractice, SIGNAL(triggered()), this, SLOT(readingPractice()));
 
+	SearchBar *searchBar = mainWindow->searchWidget()->searchBar();
+
+	// Add the components searcher to the search bar
+	_cButton = new ComponentSearchButton(searchBar);
+	connect(_cButton->componentSearchWidget(), SIGNAL(kanjiSelected(QString)), searchBar, SLOT(onComponentSearchKanjiSelected(QString)));
+	searchBar->layout()->insertWidget(searchBar->layout()->indexOf(searchBar->searchField()) + 1, _cButton);
+
 	// Register the searchbar extender
 	_extender = new Kanjidic2OptionsWidget(0);
 	mainWindow->searchBar()->registerExtender(_extender);
@@ -121,6 +128,8 @@ bool Kanjidic2GUIPlugin::onUnregister()
 	// Remove the search extender
 	mainWindow->searchBar()->removeExtender(_extender);
 	delete _extender; _extender = 0;
+	// Remove the components searcher
+	delete _cButton; _cButton = 0;
 	// Remove the main window entries
 	delete _flashKL; _flashKL = 0;
 	delete _flashKS; _flashKS = 0;
@@ -555,6 +564,7 @@ Kanjidic2OptionsWidget::Kanjidic2OptionsWidget(QWidget *parent) : SearchBarExten
 		_gradeButton->setMenu(menu);
 		hLayout->addWidget(_gradeButton);
 	}
+	
 	QHBoxLayout *mainLayout = new QHBoxLayout(this);
 	mainLayout->addWidget(_strokeCountGroupBox);
 	mainLayout->addWidget(componentsGroupBox);
