@@ -33,12 +33,17 @@ include_directories(${CMAKE_SOURCE_DIR}/src)
 #FILE(DOWNLOAD ftp://ftp.monash.edu.au/pub/nihongo/JMdict.gz ./boo.gz)
 #add_custom_command(TARGET boo PRE_BUILD COMMAND gunzip ./boo.gz DEPENDS ./boo.gz)
 
+# Which languages are enabled?
+if(NOT DICT_LANG)
+	set(DICT_LANG "en")
+endif()
+
 add_custom_command(OUTPUT kanjidic2.db
-	COMMAND build_kanji_db ${CMAKE_SOURCE_DIR} kanjidic2.db
+	COMMAND build_kanji_db -l${DICT_LANG} ${CMAKE_SOURCE_DIR} kanjidic2.db
 	DEPENDS build_kanji_db ${CMAKE_SOURCE_DIR}/3rdparty/kanjidic2.xml ${CMAKE_SOURCE_DIR}/3rdparty/kanjivg.xml)
 
 add_custom_command(OUTPUT jmdict.db
-	COMMAND build_jmdict_db ${CMAKE_SOURCE_DIR} jmdict.db
+	COMMAND build_jmdict_db -l${DICT_LANG} ${CMAKE_SOURCE_DIR} jmdict.db
 	DEPENDS build_jmdict_db ${CMAKE_SOURCE_DIR}/3rdparty/JMdict)
 
 add_custom_target(databases DEPENDS jmdict.db kanjidic2.db)
