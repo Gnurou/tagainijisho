@@ -22,9 +22,15 @@
 
 #include <QInputDialog>
 #include <QSqlError>
+#include <QSqlDatabase>
 #include <QMessageBox>
 
+#define TRANSACTION QSqlDatabase::database().transaction()
+#define ROLLBACK QSqlDatabase::database().rollback()
+#define COMMIT QSqlDatabase::database().commit()
+
 #define EXEC(q) if (!q.exec()) { qDebug() << __FILE__ << __LINE__ << "Cannot execute query:" << q.lastError().text(); return false; }
+#define EXEC_T(q) if (!q.exec()) { qDebug() << __FILE__ << __LINE__ << "Cannot execute query:" << q.lastError().text(); goto transactionFailed; }
 
 // TODO Use transactions for atomic operations, use special error-handling code
 // TODO the model should cache rowid, type, id and label into the indexes using a dedicated structure
@@ -135,33 +141,38 @@ bool EntryListModel::moveRows(int row, int delta, const QModelIndex &parent, QSq
 	return true;
 }
 
+// TODO How to handle the beginInsertRows if the transaction failed and endInsertRows is not called?
 bool EntryListModel::insertRows(int row, int count, const QModelIndex & parent)
 {
-	// TODO use transaction!
 	beginInsertRows(parent, row, row + count -1);
-	QSqlQuery query;
-	// First update the positions of items located after the new lists
-	if (!moveRows(row, count, parent, query)) return false;
-	// Then insert the lists themselves with a default name
-	for (int i = 0; i < count; i++) {
-		query.prepare("insert into lists values(?, ?, NULL, NULL)");
-		query.addBindValue(parent.isValid() ? parent.internalId() : QVariant(QVariant::Int));
-		query.addBindValue(row + i);
-		EXEC(query);
-		int rowId = query.lastInsertId().toInt();
-		query.prepare("insert into listsLabels(docid, label) values(?, ?)");
-		query.addBindValue(rowId);
-		query.addBindValue(tr("New list"));
-		EXEC(query);
+	if (!TRANSACTION) return false;
+	{
+		QSqlQuery query;
+		// First update the positions of items located after the new lists
+		if (!moveRows(row, count, parent, query)) goto transactionFailed;
+		// Then insert the lists themselves with a default name
+		for (int i = 0; i < count; i++) {
+			query.prepare("insert into lists values(?, ?, NULL, NULL)");
+			query.addBindValue(parent.isValid() ? parent.internalId() : QVariant(QVariant::Int));
+			query.addBindValue(row + i);
+			EXEC_T(query);
+			int rowId = query.lastInsertId().toInt();
+			query.prepare("insert into listsLabels(docid, label) values(?, ?)");
+			query.addBindValue(rowId);
+			query.addBindValue(tr("New list"));
+			EXEC_T(query);
+		}
 	}
 	endInsertRows();
+	if (!COMMIT) goto transactionFailed;
 	return true;
+transactionFailed:
+	ROLLBACK;
+	return false;
 }
 
-bool EntryListModel::removeRows(int row, int count, const QModelIndex &parent)
+bool EntryListModel::_removeRows(int row, int count, const QModelIndex &parent)
 {
-	// TODO use a transaction - but how to handle the recursivity?
-	beginRemoveRows(parent, row, row + count - 1);
 	QSqlQuery query;
 	// Get the list of items to remove
 	QString queryString("select rowid from lists where parent %1 and position between ? and ?");
@@ -180,11 +191,13 @@ bool EntryListModel::removeRows(int row, int count, const QModelIndex &parent)
 		QModelIndex idx(index(id));
 		if (!idx.isValid()) continue;
 		int childsNbr(rowCount(idx));
-		if (childsNbr > 0 && !removeRows(0, childsNbr, idx)) return false;
+		if (childsNbr > 0 && !_removeRows(0, childsNbr, idx)) return false;
 	}
 	// Remove the listsLabels entries
 	QStringList strIds;
 	foreach (int id, ids) strIds << QString::number(id);
+	
+	beginRemoveRows(parent, row, row + count - 1);
 	query.prepare(QString("delete from listsLabels where rowid in (%1)").arg(strIds.join(", ")));
 	EXEC(query);
 	// Remove the lists entries
@@ -194,6 +207,18 @@ bool EntryListModel::removeRows(int row, int count, const QModelIndex &parent)
 	if (!moveRows(row + count, -count, parent, query)) return false;
 	endRemoveRows();
 	return true;
+}
+
+bool EntryListModel::removeRows(int row, int count, const QModelIndex &parent)
+{
+	// TODO use a transaction - but how to handle the recursivity?
+	if (!TRANSACTION) return false;
+	if (!_removeRows(row, count, parent)) return true;
+	if (!COMMIT) goto transactionFailed;
+	return true;
+transactionFailed:
+	ROLLBACK;
+	return false;
 }
 
 Qt::ItemFlags EntryListModel::flags(const QModelIndex &index) const

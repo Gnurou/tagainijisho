@@ -37,6 +37,9 @@ private:
 	 * Returns true upon success.
 	 */
 	bool moveRows(int row, int delta, const QModelIndex &parent, QSqlQuery &query);
+	/// Private version of removeRows that do not start a transaction
+	bool _removeRows(int row, int count, const QModelIndex &parent);
+
 public:
 	virtual QModelIndex index(int row, int column, const QModelIndex &parent = QModelIndex()) const;
 	virtual QModelIndex index(int rowId) const;
