@@ -45,11 +45,13 @@ public:
 class Kanjidic2Parser {
 private:
 	static const QStringList _validReadings;
+
+protected:
+	QStringList languages;
 	
 public:
-	static QStringList languages;
 	
-	Kanjidic2Parser() {}
+	Kanjidic2Parser(const QStringList &langs) : languages(langs) {}
 	virtual ~Kanjidic2Parser() {}
 	bool parse(QXmlStreamReader &reader);
 	

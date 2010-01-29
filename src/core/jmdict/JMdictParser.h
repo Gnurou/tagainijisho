@@ -76,6 +76,9 @@ public:
 };
 
 class JMdictParser {
+protected:
+	QStringList languages;
+
 public:
 	QHash<QString, quint8> posBitFields;
 	int posBitFieldsCount;
@@ -86,11 +89,10 @@ public:
 	QHash<QString, quint8> dialectBitFields;
 	int dialectBitFieldsCount;
 	
-	QStringList languages;
 	QHash<QString, QString> entities;
 	QHash<QString, QString> reversedEntities;
 	
-	JMdictParser();
+	JMdictParser(const QStringList &langs);
 	virtual ~JMdictParser() {}
 	bool parse(QXmlStreamReader &reader);
 	

@@ -59,24 +59,29 @@ Makefiles for your platform:
 $ cmake .
 
 Unix users: by default, the program will be installed into /usr/local. You can
-change this by setting the INSTALL_PREFIX variable when invoking qmake:
+change this by setting the INSTALL_PREFIX variable when invoking CMake:
 
 $ cmake INSTALL_PREFIX=/path/to/install/dir .
 
-Compilation may be performed. On Unix systems, invoking make will be
-enough:
+You can also specify which language should be preferred for the dictionaries
+by passing the -DDICT_LANG=<lang> option to CMake. If you want to build your
+dictionaries in French, you can invoke CMake this way:
+
+$ cmake -DDICT_LANG=fr .
+
+After CMake is run, compilation may be performed. On Unix systems, invoking 
+make will be enough:
 
 $ make
-
-Finally, you can install the program to its destination:
-
-# make install
 
 Generating the databases is just a matter of invoking make again with a different
 target:
 
 $ make databases
 
+Finally, you can install the program to its destination:
+
+# make install
 
 Usage
 -----

@@ -47,6 +47,7 @@ static QSqlQuery insertJLPTQuery;
 class JMdictDBParser : public JMdictParser
 {
 public:
+	JMdictDBParser(const QStringList &languages) : JMdictParser(languages) {}
 	virtual bool onItemParsed(JMdictItem &entry);
 };
 
@@ -102,27 +103,35 @@ bool JMdictDBParser::onItemParsed(JMdictItem &entry)
 	}
 	
 	// Insert senses
-	// TODO reorder senses so that those with english meanings only are last? Is that wise with
-	// respect to senses priority?
-	// TODO remove English glosses from senses for which another language is available
-	idx = 0;
+	// Holds the senses mapped to the language in which they will be displayed
+	QMap<QString, QList<const JMdictSenseItem *> > senseByLang;
 	foreach (const JMdictSenseItem &sense, entry.senses) {
-		BIND(insertSenseQuery, entry.id);
-		BIND(insertSenseQuery, idx);
-		BIND(insertSenseQuery, sense.posBitField(*this));
-		BIND(insertSenseQuery, sense.miscBitField(*this));
-		BIND(insertSenseQuery, sense.dialectBitField(*this));
-		BIND(insertSenseQuery, sense.fieldBitField(*this));
-		QStringList restrictedToList;
-		foreach (quint8 res, sense.restrictedToKanji) restrictedToList << QString::number(res);
-		AUTO_BIND(insertSenseQuery, restrictedToList.join(","), "");
-		restrictedToList.clear();
-		foreach (quint8 res, sense.restrictedToKana) restrictedToList << QString::number(res);
-		AUTO_BIND(insertSenseQuery, restrictedToList.join(","), "");
-		EXEC(insertSenseQuery);
-		
-		foreach (const QString &lang, sense.gloss.keys()) {
-			BIND(insertGlossTextQuery, sense.gloss[lang].join(", "));
+		foreach (const QString &lang, languages) if (sense.gloss.contains(lang)) {
+			senseByLang[lang] << &sense;
+			break;
+		}
+	}
+	// Now map all the senses ordered by language
+	idx = 0;
+	foreach (const QString &lang, languages) if (senseByLang.contains(lang)) {
+		const QList<const JMdictSenseItem *> senses(senseByLang[lang]);
+		foreach (const JMdictSenseItem *sense, senses) {
+			BIND(insertSenseQuery, entry.id);
+			BIND(insertSenseQuery, idx);
+			BIND(insertSenseQuery, sense->posBitField(*this));
+			BIND(insertSenseQuery, sense->miscBitField(*this));
+			BIND(insertSenseQuery, sense->dialectBitField(*this));
+			BIND(insertSenseQuery, sense->fieldBitField(*this));
+			QStringList restrictedToList;
+			foreach (quint8 res, sense->restrictedToKanji) restrictedToList << QString::number(res);
+			AUTO_BIND(insertSenseQuery, restrictedToList.join(","), "");
+			restrictedToList.clear();
+			foreach (quint8 res, sense->restrictedToKana) restrictedToList << QString::number(res);
+			AUTO_BIND(insertSenseQuery, restrictedToList.join(","), "");
+			EXEC(insertSenseQuery);
+			
+			// Insert the gloss of the selected language
+			BIND(insertGlossTextQuery, sense->gloss[lang].join(", "));
 			EXEC(insertGlossTextQuery);
 			int rowId = insertGlossTextQuery.lastInsertId().toInt();
 			BIND(insertGlossQuery, entry.id);
@@ -130,8 +139,8 @@ bool JMdictDBParser::onItemParsed(JMdictItem &entry)
 			BIND(insertGlossQuery, lang);
 			BIND(insertGlossQuery, rowId);
 			EXEC(insertGlossQuery);
+			++idx;
 		}
-		++idx;
 	}
 	
 	// Insert entry
@@ -199,16 +208,30 @@ static void create_indexes()
 	query.exec("create index idx_jlpt on jlpt(level)");
 }
 
+void printUsage(char *argv[])
+{
+	qCritical("Usage: %s [-l<lang>] source_dir dest_file\nWhere <lang> is a two-letters language code (en, fr, de, es or ru)", argv[0]);
+}
+
 int main(int argc, char *argv[])
 {
-		QCoreApplication app(argc, argv);
+	QCoreApplication app(argc, argv);
 	
-	if (argc != 3) {
-		qCritical("Usage: %s source_dir dest_file", argv[0]);
-		return 1;
+	if (argc < 3) { printUsage(argv); return 1; }
+
+	int argCpt = 1;
+	QStringList languages;
+	while (argCpt < argc && argv[argCpt][0] == '-') {
+		QString param(argv[argCpt]);
+		if (!param.startsWith("-l")) { printUsage(argv); return 1; }
+		QStringList langs(param.mid(2).split(',', QString::SkipEmptyParts));
+		foreach (const QString &lang, langs) if (!languages.contains(lang)) languages << lang;
+		++argCpt;
 	}
-	QString srcDir(argv[1]);
-	QString dstFile(argv[2]);
+	if (argCpt > argc - 2) { printUsage(argv); return -1; }
+
+	QString srcDir(argv[argCpt]);
+	QString dstFile(argv[argCpt + 1]);
 	
 	QFile dst(dstFile);
 	if (dst.exists() && !dst.remove()) {
@@ -258,7 +281,9 @@ int main(int argc, char *argv[])
 	QFile file(QDir(srcDir).absoluteFilePath("3rdparty/JMdict"));
 	if (!file.open(QFile::ReadOnly | QFile::Text)) return 1;
 	QXmlStreamReader reader(&file);
-	JMdictDBParser JMParser;
+	// English is used as a backup if nothing else is available
+	if (!languages.contains("en")) languages << "en";
+	JMdictDBParser JMParser(languages);
 	if (!JMParser.parse(reader)) {
 		qDebug() << database.lastError().text();
 		return 1;
