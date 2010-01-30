@@ -20,15 +20,35 @@
 
 #include <QtDebug>
 
-ResultsList::ResultsList(QObject *parent) : QAbstractListModel(parent), entries(), displayedUntil(0)
+PreferenceItem<int> ResultsList::resultsPerPagePref("mainWindow/resultsView", "resultsPerPage", 50);
+
+ResultsList::ResultsList(QObject *parent) : QAbstractListModel(parent), entries(), displayedUntil(0), query(), _pageNbr(0), totalResults(-1), showAllResultsRequested(false)
 {
 	connect(&timer, SIGNAL(timeout()),
 		this, SLOT(updateViews()));
 	timer.setInterval(100);
+	
+	setResultsPerPage(resultsPerPagePref.value());
+	
+	// Results emitted by a query are added to us
+	connect(&query, SIGNAL(foundEntry(EntryPointer<Entry>)), this, SLOT(addResult(EntryPointer<Entry>)));
+	connect(&query, SIGNAL(firstResult()), this, SLOT(startReceive()));
+	connect(&query, SIGNAL(lastResult()), this, SLOT(endReceive()));
+	connect(&query, SIGNAL(aborted()), this, SLOT(endReceive()));
+	connect(&query, SIGNAL(error()), this, SLOT(endReceive()));
+	
+	connect(&query, SIGNAL(nbResults(unsigned int)), this, SLOT(setNbResults(unsigned int)));
+
+	connect(&query, SIGNAL(aborted()), this, SLOT(queryError()));
+	connect(&query, SIGNAL(error()), this, SLOT(queryError()));
+	
+	// Update the number of items per page when the setting is changed
+	connect(&resultsPerPagePref, SIGNAL(valueChanged(QVariant)), this, SLOT(onPrefValueChanged(QVariant)));
 }
 
 ResultsList::~ResultsList()
 {
+	abortSearch();
 	clear();
 }
 
@@ -91,17 +111,25 @@ void ResultsList::endReceive()
 {
 	timer.stop();
 	updateViews();
+	emit queryEnded();
+	
+	// If we were ordered to show all results while the query was not over,
+	// let's do it now.
+	if (showAllResultsRequested) {
+		showAllResultsRequested = false;
+		scheduleShowAllResults();
+	}
 }
 
 void ResultsList::clear()
 {
 	if (entries.isEmpty()) return;
 
+	timer.stop();
 	beginRemoveRows(QModelIndex(), 0, entries.size() - 1);
 	entries.clear();
 	endRemoveRows();
 	displayedUntil = 0;
-	timer.stop();
 }
 
 Qt::ItemFlags ResultsList::flags(const QModelIndex &index) const
@@ -128,4 +156,82 @@ QMimeData *ResultsList::mimeData(const QModelIndexList &indexes) const
 
 	mimeData->setData("tagainijisho/entry", encodedData);
 	return mimeData;
+}
+
+void ResultsList::queryError()
+{
+	emit queryEnded();
+}
+
+void ResultsList::nextPage()
+{
+	if (totalResults == -1) return;
+	if (totalResults < (pageNbr() + 1) * resultsPerPage()) return;
+	clear();
+	query.fetch(++_pageNbr * resultsPerPage(), resultsPerPage());
+	emit queryStarted();
+}
+
+void ResultsList::previousPage()
+{
+	if (pageNbr() == 0) return;
+	clear();
+	query.fetch(--_pageNbr * resultsPerPage(), resultsPerPage());
+	emit queryStarted();
+}
+
+void ResultsList::scheduleShowAllResults()
+{
+	// If the current query completed, no problem!
+	if (!query.isRunning()) {
+		// If we are on the first page, we can just continue the query this way
+		if (pageNbr() == 0) {
+			query.fetch(nbResults(), -1);
+			emit queryStarted();
+		}
+		else {
+			// Otherwise do the search from start again
+			clear();
+			_pageNbr = 0;
+			totalResults = -1;
+			query.fetch(0, -1);
+			emit queryStarted();
+		}
+	}
+	// Otherwise let's call ourselves again once it is done...
+	else showAllResultsRequested = true;
+}
+
+void ResultsList::search(const QueryBuilder &qBuilder)
+{
+	// Stop the running query, if any
+	abortSearch();
+	
+	_pageNbr = 0;
+	totalResults = -1;
+	
+	// And start the query!
+	query.prepare(qBuilder);
+	query.fetch(0, resultsPerPage());
+	emit queryStarted();
+}
+
+void ResultsList::abortSearch()
+{
+	query.abort();
+	query.clear();
+	// Flush all the entries the results list may be receiving
+	QCoreApplication::processEvents(QEventLoop::ExcludeUserInputEvents | QEventLoop::ExcludeSocketNotifiers);
+	emit queryEnded();
+}
+
+void ResultsList::onPrefValueChanged(QVariant newValue)
+{
+	setResultsPerPage(newValue.toInt());
+}
+
+void ResultsList::setNbResults(unsigned int nbRes)
+{
+	totalResults = nbRes;
+	emit nbResults(totalResults);
 }

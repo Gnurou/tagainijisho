@@ -18,8 +18,11 @@
 #ifndef __GUI_RESULTS_LIST_H__
 #define __GUI_RESULTS_LIST_H__
 
+#include "core/Preferences.h"
 #include "core/Entry.h"
 #include "core/EntriesCache.h"
+#include "core/QueryBuilder.h"
+#include "core/Query.h"
 
 #include <QAbstractListModel>
 #include <QList>
@@ -33,7 +36,15 @@ private:
 	QList<EntryPointer<Entry> > entries;
 	QTimer timer;
 	int displayedUntil;
+	
+	int _resultsPerPage;
+	Query query;
+	int _pageNbr;
+	int totalResults;
+	bool showAllResultsRequested;
 
+	void startPreparedQuery();
+	
 protected slots:
 	void updateViews();
 	void onEntryChanged(Entry *entry);
@@ -52,11 +63,36 @@ public:
 	Qt::ItemFlags flags(const QModelIndex &index) const;
 	virtual QMimeData *mimeData(const QModelIndexList & indexes) const;
 
+	int pageNbr() const { return _pageNbr; }
+	int resultsPerPage() const { return _resultsPerPage; }
+	void setResultsPerPage(int nbr) { _resultsPerPage = nbr; }
+
+	static PreferenceItem<int> resultsPerPagePref;
+	
+private slots:
+	void onPrefValueChanged(QVariant newValue);
+	void setNbResults(unsigned int nbRes);
+	void queryError();
+
 public slots:
+	void search(const QueryBuilder &qBuilder);
+	void abortSearch();
+
 	void startReceive();
 	void endReceive();
 	void addResult(EntryPointer<Entry> entry);
 	void clear();
+	
+	/// Display the next results page
+	void nextPage();
+	/// Display the previous results page
+	void previousPage();
+	void scheduleShowAllResults();
+
+signals:
+	void queryStarted();
+	void nbResults(unsigned int);
+	void queryEnded();
 };
 
 #endif

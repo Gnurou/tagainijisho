@@ -39,8 +39,6 @@
 #include <QSpinBox>
 #include <QTimer>
 
-class SearchWidget;
-
 class MainWindow : public QMainWindow, private Ui::MainWindow
 {
 	Q_OBJECT
@@ -59,24 +57,14 @@ private:
 	AbstractHistory<QMap<QString, QVariant>, QList<QMap<QString, QVariant> > > _history;
 
 	ResultsList *_results;
+	QueryBuilder _queryBuilder;
+	int totalResults;
+	
 	EntryDelegate *delegate;
 
 	EntryListModel _listModel;
 	
-	// Set to true if a query has been started and we haven't handled any
-	// signal relative to its termination.
-	bool queryInProgress;
-	QueryBuilder _queryBuilder;
-	Query query;
-	// Set to true if the query should be automatically executed
-	// when we receive an end-of-query event (abort, lastEntry, error)
-	bool queryPending;
 
-	int pageNbr;
-	int totalResults;
-	int _resultsPerPage;
-
-	bool showAllResultsRequested;
 
 	/**
 	 * Actually run the query that has been prepared before. Do not call
@@ -130,10 +118,6 @@ protected slots:
 	/// Display the latest selected result in the detailed view
 	void display(const QItemSelection &selected, const QItemSelection &deselected);
 
-	/// Show all the query results as soon as possible
-	void scheduleShowAllResults();
-
-
 	/// Replay the previous search in the history
 	void goPrev();
 	/// Replay the next search in the history
@@ -177,6 +161,11 @@ protected slots:
 	void trainSettings();
 
 	void openUrl(const QUrl &url);
+	
+public slots:
+	void nextPage();
+	void previousPage();
+	void scheduleShowAllResults();
 
 public:
 	MainWindow(QWidget *parent = 0);
@@ -194,33 +183,15 @@ public:
 	static PreferenceItem<bool> autoCheckBetaUpdates;
 	static PreferenceItem<int> updateCheckInterval;
 	static PreferenceItem<QDateTime> lastUpdateCheck;
+	static PreferenceItem<int> historySize;
 	
 	// SearchWidget stuff
 	SearchBar *searchBar() { return _searchBar; }
 	ResultsList *resultsList() { return _results; }
 	ResultsView *resultsView() { return _resultsView; }
 	DetailedView *detailedView() { return _detailedView->detailedView(); }
-	int resultsPerPage() const { return _resultsPerPage; }
-	void setResultsPerPage(int nbr) { _resultsPerPage = nbr; }
+
 	const QueryBuilder &queryBuilder() const { return _queryBuilder; }
-
-	static PreferenceItem<int> resultsPerPagePref;
-	static PreferenceItem<int> historySize;
-	// End of SearchWidget stuff
-
-public slots:
-	// SearchWidget stuff
-	/// Jump to next results page
-	void nextPage();
-	/// Jump to previous results page
-	void previousPage();
-	/// Display all the results in a single page
-	void showAllResults();
-
-	/// Stop the current search - immediatly
-	void stopSearch();
-	/// What to do when the query encountered an error?
-	void queryError();
 };
 
 #endif

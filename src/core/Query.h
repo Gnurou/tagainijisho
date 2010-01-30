@@ -50,7 +50,7 @@ private:
 
 	/// Current status of this query
 	enum { Idle, Running, Emitting, Interrupted } _status;
-	QMutex _statusMutex;
+	mutable QMutex _statusMutex;
 	QWaitCondition _dbTaskInterrupted;
 
 protected:
@@ -70,6 +70,7 @@ public:
 	Query(QObject *parent = 0);
 
 	int currentPos() const { return _currentPos; }
+	bool isRunning() const;
 
 public slots:
 	/**

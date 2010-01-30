@@ -19,7 +19,6 @@
 
 #include "core/Paths.h"
 #include "core/Database.h"
-#include "core/Query.h"
 #include "core/Plugin.h"
 #include "core/EntrySearcherManager.h"
 #include "gui/EntryFormatter.h"
@@ -66,15 +65,15 @@ PreferenceItem<bool> MainWindow::autoCheckBetaUpdates("", "autoCheckBetaUpdates"
 PreferenceItem<int> MainWindow::updateCheckInterval("", "updateCheckInterval", 3);
 
 PreferenceItem<QByteArray> MainWindow::windowGeometry("mainWindow", "geometry", "");
-PreferenceItem<int> MainWindow::resultsPerPagePref("mainWindow/resultsView", "resultsPerPage", 50);
 PreferenceItem<int> MainWindow::historySize("mainWindow/resultsView", "historySize", 100);
 PreferenceItem<QByteArray> MainWindow::splitterState("mainWindow", "splitterGeometry", "");
 
-MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), _history(historySize.value()), queryInProgress(false), query(), queryPending(false), pageNbr(0), totalResults(-1), showAllResultsRequested(false)
+MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), _history(historySize.value()), totalResults(-1)
 {
 	_instance = this;
 	
 	setupUi(this);
+	// Setup the results view
 	_results = new ResultsList(this);
 	_resultsView->setModel(_results);
 	
@@ -85,36 +84,29 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), _history(historyS
 	connect(newListButton, SIGNAL(clicked()), lists, SLOT(newList()));
 	connect(deleteListButton, SIGNAL(clicked()), lists, SLOT(deleteSelectedItems()));
 
-	setResultsPerPage(resultsPerPagePref.value());
 	
 	// Now on to the query/result logic
-	// Results emitted by a query are sent to the results list
-	connect(&query, SIGNAL(foundEntry(EntryPointer<Entry>)), _results, SLOT(addResult(EntryPointer<Entry>)));
 	// When results are added in the results list, update the view
 	connect(_results, SIGNAL(rowsInserted(const QModelIndex &, int, int)), this, SLOT(updateNbResultsDisplay()));
 	// React when we know how many results there are in the query
-	connect(&query, SIGNAL(nbResults(unsigned int)), this, SLOT(showNbResults(unsigned int)));
-	// When the search is over, inform the search bar
-	connect(&query, SIGNAL(lastResult()), this, SLOT(currentPageReceived()));
-
-	connect(&query, SIGNAL(firstResult()), _results, SLOT(startReceive()));
-	connect(&query, SIGNAL(lastResult()), _results, SLOT(endReceive()));
-	connect(&query, SIGNAL(aborted()), _results, SLOT(endReceive()));
-	connect(&query, SIGNAL(error()), _results, SLOT(endReceive()));
+	connect(_results, SIGNAL(nbResults(unsigned int)), this, SLOT(showNbResults(unsigned int)));
+	// When the search starts or end, inform the search bar
+	connect(_results, SIGNAL(queryStarted()), _searchBar, SLOT(searchStarted()));
+	connect(_results, SIGNAL(queryEnded()), _searchBar, SLOT(searchCompleted()));
+	connect(_results, SIGNAL(queryEnded()), this, SLOT(currentPageReceived()));
+	connect(_searchBar, SIGNAL(stopSearch()), _results, SLOT(abortSearch()));
 
 	// Display selected items in the results view
 	connect(_resultsView, SIGNAL(listSelectionChanged(QItemSelection,QItemSelection)), this, SLOT(display(QItemSelection,QItemSelection)));
 
-	connect(&query, SIGNAL(aborted()), this, SLOT(queryError()));
-	connect(&query, SIGNAL(error()), this, SLOT(queryError()));
-
+	// Splitter layout
 	if (splitterState.isDefault()) splitter->setStretchFactor(1, 2);
 	else splitter->restoreState(splitterState.value());
 	// End of SearchWidget stuff
 	
-	// Geometry stuff
 	restoreGeometry(windowGeometry.value());
 
+	// Updates checker
 	_updateChecker = new UpdateChecker("/updates/latestversion.php", this);
 	_betaUpdateChecker = new UpdateChecker("/updates/latestbetaversion.php", this);
 	// Message has to be queued here because of a bug in Qt 4.4 that will
@@ -136,7 +128,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), _history(historyS
 
 MainWindow::~MainWindow()
 {
-	stopSearch();
 	splitterState.set(splitter->saveState());
 	windowGeometry.set(saveGeometry());
 }
@@ -601,23 +592,19 @@ void MainWindow::search(const QString &commands)
 
 void MainWindow::_search(const QString &commands)
 {
+	totalResults = -1;
 	_results->clear();
 
-	if (commands.isEmpty() || commands == ":jmdict" || commands == ":kanjidic") {
+	// Special case for when just a clear should be performed
+	/*if (commands.isEmpty() || commands == ":jmdict" || commands == ":kanjidic") {
 		_queryBuilder.clear();
 		_searchBar->searchCompleted();
-		totalResults = -1;
-		pageNbr = 0;
 		updateNbResultsDisplay();
 		updateNavigationButtons();
 		return;
-	}
+	}*/
 
-	showAllResultsRequested = false;
-	// If the query is already running, interrupt it
-	if (queryInProgress) query.abort();
 	_queryBuilder.clear();
-	query.clear();
 
 	prevButton->setEnabled(_history.hasPrevious());
 	nextButton->setEnabled(_history.hasNext());
@@ -628,38 +615,7 @@ void MainWindow::_search(const QString &commands)
 		return;
 	}
 
-	// Otherwise, the query is ready to be run - but we may have to delay
-	// it if we haven't received all the signals from the previous query
-	// yet. This is to avoid problems such as result from the previous
-	// query appearing in this query's results.
-	if (queryInProgress) {
-		// Setting queryPending to true will make the query be launched
-		// once all the pending signals from the previous one are
-		// received.
-		queryPending = true;
-	}
-	// Clear to go? Just run the query then!
-	else {
-		startPreparedQuery();
-	}
-}
-
-void MainWindow::startPreparedQuery()
-{
-	// Clear all the current data
-	_results->clear();
-	totalResults = -1;
-	pageNbr = 0;
-	updateNbResultsDisplay();
-	previousPageButton->setEnabled(false);
-	nextPageButton->setEnabled(false);
-	showAllResultsButton->setEnabled(true);
-
-	// And run!
-	queryInProgress = true;
-	_searchBar->searchStarted();
-	query.prepare(_queryBuilder);
-	query.fetch(0, _resultsPerPage);
+	_results->search(_queryBuilder);
 }
 
 void MainWindow::showNbResults(unsigned int nbResults)
@@ -671,75 +627,16 @@ void MainWindow::showNbResults(unsigned int nbResults)
 
 void MainWindow::updateNavigationButtons()
 {
-	nextPageButton->setEnabled((totalResults > (pageNbr * _resultsPerPage) + _results->nbResults()));
-	previousPageButton->setEnabled(pageNbr > 0);
+	nextPageButton->setEnabled((totalResults > (_results->pageNbr() * _results->resultsPerPage()) + _results->nbResults()));
+	previousPageButton->setEnabled(_results->pageNbr() > 0);
 	showAllResultsButton->setEnabled(totalResults > _results->nbResults());
-}
-
-void MainWindow::nextPage()
-{
-	_results->clear();
-	updateNbResultsDisplay();
-	_searchBar->searchStarted();
-	previousPageButton->setEnabled(false);
-	nextPageButton->setEnabled(false);
-	showAllResultsButton->setEnabled(true);
-	queryInProgress = true;
-	if (totalResults < ++pageNbr * _resultsPerPage) pageNbr = 0;
-	query.fetch(pageNbr * _resultsPerPage, _resultsPerPage);
-}
-
-void MainWindow::previousPage()
-{
-	_results->clear();
-	updateNbResultsDisplay();
-	_searchBar->searchStarted();
-	previousPageButton->setEnabled(false);
-	nextPageButton->setEnabled(false);
-	showAllResultsButton->setEnabled(true);
-	queryInProgress = true;
-	if (totalResults < --pageNbr * _resultsPerPage) pageNbr = 0;
-	query.fetch(pageNbr * _resultsPerPage, _resultsPerPage);
-}
-
-void MainWindow::scheduleShowAllResults()
-{
-	if (!queryInProgress) showAllResults();
-	else {
-		// Schedule all the results to be shown once the current
-		// request is finnished
-		showAllResultsRequested = true;
-		showAllResultsButton->setEnabled(false);
-		// In addition, if the page being displayed is not the first
-		// one, the request can be stopped at once.
-		if (pageNbr !=0) stopSearch();
-	}
-}
-
-void MainWindow::showAllResults()
-{
-	_searchBar->searchStarted();
-	previousPageButton->setEnabled(false);
-	nextPageButton->setEnabled(false);
-	showAllResultsButton->setEnabled(false);
-	queryInProgress = true;
-	// If we are on the first page, we can just
-	// continue fetching all results
-	if (pageNbr == 0)
-		query.fetch(_resultsPerPage);
-	// Otherwise we have to fetch from the beginning
-	else {
-		pageNbr = 0;
-		_results->clear();
-		query.fetch();
-	}
 }
 
 
 void MainWindow::updateNbResultsDisplay()
 {
 	if (_results->nbResults() == 0) nbResultsLabel->clear();
-	else nbResultsLabel->setText(QString(tr("Results %1 - %2 of %3")).arg(_results->nbResults() > 0 || pageNbr > 0 ? QString::number(pageNbr * _resultsPerPage + 1) : "0").arg(QString::number(pageNbr * _resultsPerPage + _results->nbResults())).arg(totalResults > -1 ? QString::number(totalResults) : QString("??")));
+	else nbResultsLabel->setText(QString(tr("Results %1 - %2 of %3")).arg(_results->nbResults() > 0 || _results->pageNbr() > 0 ? QString::number(_results->pageNbr() * _results->resultsPerPage() + 1) : "0").arg(QString::number(_results->pageNbr() * _results->resultsPerPage() + _results->nbResults())).arg(totalResults > -1 ? QString::number(totalResults) : QString("??")));
 }
 
 void MainWindow::goPrev()
@@ -764,49 +661,35 @@ void MainWindow::goNext()
 
 void MainWindow::currentPageReceived()
 {
-	queryEnded();
-}
-
-void MainWindow::queryError()
-{
-	_searchBar->searchCompleted();
-	queryInProgress = false;
-	if (queryPending) {
-		queryPending = false;
-		startPreparedQuery();
-	}
+	updateNavigationButtons();
 }
 
 void MainWindow::queryEnded()
 {
-	// Did the user press the show all results button while the
-	// query was ongoing?
-	if (showAllResultsRequested) {
-		showAllResultsRequested = false;
-		showAllResults();
-	}
-	else {
-		_searchBar->searchCompleted();
-		// Fix a bug that seems to occur sometimes with counting...
-		if (!showAllResultsButton->isEnabled()) {
-			if (totalResults != _results->nbResults())
-				showNbResults(_results->nbResults());
-		}
-		updateNavigationButtons();
-		queryInProgress = false;
-		if (queryPending) {
-			queryPending = false;
-			startPreparedQuery();
-		}
-	}
+	// Fix a bug that seems to occur sometimes with counting...
+	/*if (!showAllResultsButton->isEnabled()) {
+		if (totalResults != _results->nbResults())
+			showNbResults(_results->nbResults());
+	}*/
+	/*queryInProgress = false;
+	if (queryPending) {
+		queryPending = false;
+		startPreparedQuery();
+	}*/
 }
 
-void MainWindow::stopSearch()
+void MainWindow::nextPage()
 {
-	query.abort();
-	// Flush all the entries the results list may be receiving
-	QCoreApplication::processEvents(QEventLoop::ExcludeUserInputEvents | QEventLoop::ExcludeSocketNotifiers);
-	previousPageButton->setEnabled(false);
-	nextPageButton->setEnabled(false);
+	_results->nextPage();
+}
+
+void MainWindow::previousPage()
+{
+	_results->previousPage();
+}
+
+void MainWindow::scheduleShowAllResults()
+{
 	showAllResultsButton->setEnabled(false);
+	_results->scheduleShowAllResults();
 }
