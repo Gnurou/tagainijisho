@@ -37,7 +37,7 @@
 #include <QSet>
 #include <QMap>
 
-class SearchBarExtender : public QWidget {
+class SearchFilterWidget : public QWidget {
 	Q_OBJECT
 private:
 	QTimer _timer;
@@ -73,7 +73,7 @@ protected:
 	virtual void _reset() = 0;
 
 public:
-	SearchBarExtender(QWidget *parent = 0, const QString &feature = "");
+	SearchFilterWidget(QWidget *parent = 0, const QString &feature = "");
 
 	/**
 	 * Returns the particular exclusive feature implemented by
@@ -188,7 +188,7 @@ class SearchBar;
 /**
  * Let the user select the entry type (vocabulary of kanji) to filter.
  */
-class EntryTypeSelectionWidget : public SearchBarExtender
+class EntryTypeSelectionWidget : public SearchFilterWidget
 {
 	Q_OBJECT
 public:
@@ -215,7 +215,7 @@ private slots:
 	void onComboBoxChanged(int index);
 };
 
-class JLPTOptionsWidget : public SearchBarExtender {
+class JLPTOptionsWidget : public SearchFilterWidget {
 	Q_OBJECT
 private:
 	QCheckBox *JLPT4CheckBox, *JLPT3CheckBox, *JLPT2CheckBox, *JLPT1CheckBox;
@@ -242,7 +242,7 @@ public:
 	Q_PROPERTY(QList<QVariant> levels READ levels WRITE setLevels)
 };
 
-class StudyOptionsWidget : public SearchBarExtender {
+class StudyOptionsWidget : public SearchFilterWidget {
 	Q_OBJECT
 public:
 	typedef enum { All = 0, Studied = 1, NonStudied = 2 } StudyFilter;
@@ -315,7 +315,7 @@ protected slots:
 	void checkMaxSpinBoxValue(int newMinValue);
 };
 
-class TagsSearchWidget : public SearchBarExtender {
+class TagsSearchWidget : public SearchFilterWidget {
 	Q_OBJECT
 private:
 	TagsLineInput *lineInput;
@@ -342,7 +342,7 @@ public slots:
 	void tagMenuClicked(QAction *action);
 };
 
-class NotesSearchWidget : public SearchBarExtender {
+class NotesSearchWidget : public SearchFilterWidget {
 	Q_OBJECT
 private:
 	QLineEdit *words;
@@ -375,10 +375,10 @@ private:
 	QPushButton *searchButton;
 	QMovie *searchAnim;
 	ClickableLabel *searchStatus;
-	QMap<QString, QSet<SearchBarExtender *> > _disabledFeatures;
+	QMap<QString, QSet<SearchFilterWidget *> > _disabledFeatures;
 
 	MultiStackedWidget *_extenders;
-	QMap<QString, SearchBarExtender *> _extendersList;
+	QMap<QString, SearchFilterWidget *> _extendersList;
 
 private slots:
 	void searchButtonClicked();
@@ -391,9 +391,9 @@ public:
 	SearchBar(QWidget *parent = 0);
 	QString text() const;
 
-	void registerExtender(SearchBarExtender *extender);
-	SearchBarExtender *getExtender(const QString &name) { return _extendersList.value(name); }
-	void removeExtender(SearchBarExtender *extender);
+	void registerExtender(SearchFilterWidget *extender);
+	SearchFilterWidget *getExtender(const QString &name) { return _extendersList.value(name); }
+	void removeExtender(SearchFilterWidget *extender);
 	bool isFeatureEnabled(const QString &feature);
 
 	QMap<QString, QVariant> getState() const;

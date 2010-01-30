@@ -451,7 +451,7 @@ static void prepareFourCornerComboBox(QComboBox *box)
 	box->addItem(QString::fromUtf8("小"));
 }
 
-Kanjidic2OptionsWidget::Kanjidic2OptionsWidget(QWidget *parent) : SearchBarExtender(parent, "kanjidic")
+Kanjidic2OptionsWidget::Kanjidic2OptionsWidget(QWidget *parent) : SearchFilterWidget(parent, "kanjidic")
 {
 	_propsToSave << "strokeCount" << "components" << "unicode" << "skip" << "fourCorner" << "grades";
 

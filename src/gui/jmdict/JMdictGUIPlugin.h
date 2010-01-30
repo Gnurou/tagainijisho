@@ -71,7 +71,7 @@ public:
 	void handleUrl(const QUrl &url, DetailedView *view);
 };
 
-class JMdictOptionsWidget : public SearchBarExtender
+class JMdictOptionsWidget : public SearchFilterWidget
 {
 	Q_OBJECT
 private:

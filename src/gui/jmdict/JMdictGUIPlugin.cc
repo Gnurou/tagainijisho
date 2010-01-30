@@ -234,7 +234,7 @@ QString JMdictGUIPlugin::pluginInfo() const
 	return "<p>The <a href=\"http://www.csse.monash.edu.au/~jwb/jmdict.html\">JMDict</a> is distributed under the <a href=\"http://creativecommons.org/licenses/by-sa/3.0/\">Creative Common Attribution Share Alike Licence, version 3.0</a>.</p>";
 }
 
-JMdictOptionsWidget::JMdictOptionsWidget(QWidget *parent) : SearchBarExtender(parent, "wordsdic")
+JMdictOptionsWidget::JMdictOptionsWidget(QWidget *parent) : SearchFilterWidget(parent, "wordsdic")
 {
 	_propsToSave << "containedKanjis" << "containedComponents" << "studiedKanjisOnly" << "pos" << "dial" << "field" << "misc";
 	QVBoxLayout *mainLayout = new QVBoxLayout(this);

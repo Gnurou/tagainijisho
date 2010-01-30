@@ -27,14 +27,14 @@
 #include <QCalendarWidget>
 #include <QSqlQuery>
 
-SearchBarExtender::SearchBarExtender(QWidget *parent, const QString &feature) : QWidget(parent), _feature(feature), _autoUpdateQuery(true), _propsToSave()
+SearchFilterWidget::SearchFilterWidget(QWidget *parent, const QString &feature) : QWidget(parent), _feature(feature), _autoUpdateQuery(true), _propsToSave()
 {
 	_timer.setSingleShot(true);
 	_timer.setInterval(500);
 	connect(&_timer, SIGNAL(timeout()), this, SIGNAL(commandUpdated()));
 }
 
-void SearchBarExtender::updateVisualState()
+void SearchFilterWidget::updateVisualState()
 {
 	// Update the title
 	emit updateTitle(currentTitle());
@@ -42,19 +42,19 @@ void SearchBarExtender::updateVisualState()
 	updateFeatures();
 }
 
-void SearchBarExtender::commandUpdate()
+void SearchFilterWidget::commandUpdate()
 {
 	updateVisualState();
 	if (autoUpdateQuery()) emit commandUpdated();
 }
 
-void SearchBarExtender::delayedCommandUpdate()
+void SearchFilterWidget::delayedCommandUpdate()
 {
 	updateVisualState();
 	if (autoUpdateQuery()) _timer.start();
 }
 
-void SearchBarExtender::reset()
+void SearchFilterWidget::reset()
 {
 	bool autoUpdateStatus = autoUpdateQuery();
 	setAutoUpdateQuery(false);
@@ -63,7 +63,7 @@ void SearchBarExtender::reset()
 	commandUpdate();
 }
 
-QMap<QString, QVariant> SearchBarExtender::getState() const
+QMap<QString, QVariant> SearchFilterWidget::getState() const
 {
 	QStringList toSave = propertiesToSave();
 	QMap<QString, QVariant> ret;
@@ -73,7 +73,7 @@ QMap<QString, QVariant> SearchBarExtender::getState() const
 	return ret;
 }
 
-void SearchBarExtender::restoreState(const QMap<QString, QVariant> &state)
+void SearchFilterWidget::restoreState(const QMap<QString, QVariant> &state)
 {
 	setAutoUpdateQuery(false);
 	foreach(const QString &prop, state.keys()) {
@@ -82,11 +82,11 @@ void SearchBarExtender::restoreState(const QMap<QString, QVariant> &state)
 	setAutoUpdateQuery(true);
 }
 
-void SearchBarExtender::updateFeatures()
+void SearchFilterWidget::updateFeatures()
 {
 }
 
-EntryTypeSelectionWidget::EntryTypeSelectionWidget(SearchBar *parent) : SearchBarExtender(parent), _bar(parent)
+EntryTypeSelectionWidget::EntryTypeSelectionWidget(SearchBar *parent) : SearchFilterWidget(parent), _bar(parent)
 {
 	_propsToSave << "type";
 
@@ -141,7 +141,7 @@ void EntryTypeSelectionWidget::_reset()
 	_comboBox->setCurrentIndex(0);
 }
 
-JLPTOptionsWidget::JLPTOptionsWidget(QWidget *parent) : SearchBarExtender(parent)
+JLPTOptionsWidget::JLPTOptionsWidget(QWidget *parent) : SearchFilterWidget(parent)
 {
 	_propsToSave << "levels";
 
@@ -254,7 +254,7 @@ void JLPTOptionsWidget::_reset()
 	JLPT1CheckBox->setChecked(false);
 }
 
-StudyOptionsWidget::StudyOptionsWidget(QWidget *parent) : SearchBarExtender(parent)
+StudyOptionsWidget::StudyOptionsWidget(QWidget *parent) : SearchFilterWidget(parent)
 {
 	_propsToSave << "studyState" << "studyMinScore" << "studyMaxScore" << "studyMinDate" << "studyMaxDate" << "trainMinDate" << "trainMaxDate" <<"mistakenMinDate" << "mistakenMaxDate";
 
@@ -551,7 +551,7 @@ void StudyOptionsWidget::_reset()
 	_mistakenMaxDate->setDateString("");
 }
 
-TagsSearchWidget::TagsSearchWidget(QWidget *parent) : SearchBarExtender(parent)
+TagsSearchWidget::TagsSearchWidget(QWidget *parent) : SearchFilterWidget(parent)
 {
 	_propsToSave << "tags";
 
@@ -639,7 +639,7 @@ void TagsSearchWidget::_reset()
 	lineInput->clear();
 }
 
-NotesSearchWidget::NotesSearchWidget(QWidget *parent) : SearchBarExtender(parent)
+NotesSearchWidget::NotesSearchWidget(QWidget *parent) : SearchFilterWidget(parent)
 {
 	_propsToSave << "notes";
 
@@ -776,16 +776,16 @@ void SearchBar::enableFeature(const QString &feature)
 {
 	if (!_disabledFeatures.contains(feature)) return;
 
-	SearchBarExtender *source = qobject_cast<SearchBarExtender *>(sender());
-	QSet<SearchBarExtender *> &set = _disabledFeatures[feature];
+	SearchFilterWidget *source = qobject_cast<SearchFilterWidget *>(sender());
+	QSet<SearchFilterWidget *> &set = _disabledFeatures[feature];
 	set.remove(source);
 	bool shallEnable = true;
 	// Check if any of the feature disablers is active - if not we can enable
 	// the feature
-	foreach (SearchBarExtender *extender, set) if (extender->isEnabled()) { shallEnable = false; break; }
+	foreach (SearchFilterWidget *extender, set) if (extender->isEnabled()) { shallEnable = false; break; }
 	if (shallEnable) {
 		_disabledFeatures.remove(feature);
-		foreach (SearchBarExtender *extender, _extendersList.values()) {
+		foreach (SearchFilterWidget *extender, _extendersList.values()) {
 			if (extender->feature() == feature) {
 					_extenders->setWidgetEnabled(extender, true);
 					extender->updateFeatures();
@@ -796,11 +796,11 @@ void SearchBar::enableFeature(const QString &feature)
 
 void SearchBar::disableFeature(const QString &feature)
 {
-	if (_disabledFeatures.contains(feature)) _disabledFeatures[feature] = QSet<SearchBarExtender *>();
-	QSet<SearchBarExtender *> &set = _disabledFeatures[feature];
-	SearchBarExtender *source = qobject_cast<SearchBarExtender *>(sender());
+	if (_disabledFeatures.contains(feature)) _disabledFeatures[feature] = QSet<SearchFilterWidget *>();
+	QSet<SearchFilterWidget *> &set = _disabledFeatures[feature];
+	SearchFilterWidget *source = qobject_cast<SearchFilterWidget *>(sender());
 	if (set.isEmpty()) {
-			foreach (SearchBarExtender *extender, _extendersList.values()) {
+			foreach (SearchFilterWidget *extender, _extendersList.values()) {
 				if (extender->feature() == feature) _extenders->setWidgetEnabled(extender, false);
 		}
 	}
@@ -810,7 +810,7 @@ void SearchBar::disableFeature(const QString &feature)
 QString SearchBar::text() const
 {
 	QString ret;
-	foreach(SearchBarExtender *extender, _extendersList.values()) {
+	foreach(SearchFilterWidget *extender, _extendersList.values()) {
 		if (extender->isEnabled()) ret += extender->currentCommand();
 	}
 	QString sLineText(_searchField->lineEdit()->text());
@@ -831,7 +831,7 @@ void SearchBar::searchButtonClicked()
 void SearchBar::reset()
 {
 	emit stopSearch();
-	foreach (SearchBarExtender *extender, _extendersList.values()) {
+	foreach (SearchFilterWidget *extender, _extendersList.values()) {
 		extender->setAutoUpdateQuery(false);
 		extender->reset();
 		extender->setAutoUpdateQuery(true);
@@ -880,7 +880,7 @@ void SearchBar::searchAll()
 	_entryTypeSelector->setType(EntryTypeSelectionWidget::All);
 }
 
-void SearchBar::registerExtender(SearchBarExtender *extender)
+void SearchBar::registerExtender(SearchFilterWidget *extender)
 {
 	_extendersList[extender->name()] = extender;
 	_extenders->addWidget(extender->currentTitle(), extender);
@@ -891,7 +891,7 @@ void SearchBar::registerExtender(SearchBarExtender *extender)
 	connect(extender, SIGNAL(disableFeature(const QString &)), this, SLOT(disableFeature(const QString &)));
 }
 
-void SearchBar::removeExtender(SearchBarExtender *extender)
+void SearchBar::removeExtender(SearchFilterWidget *extender)
 {
 	disconnect(extender, SIGNAL(commandUpdated()), searchButton, SLOT(click()));
 	_extenders->removeWidget(extender);
@@ -902,7 +902,7 @@ QMap<QString, QVariant> SearchBar::getState() const
 {
 	QMap<QString, QVariant> ret;
 	ret["searchtext"] = _searchField->lineEdit()->text();
-	foreach (SearchBarExtender *extender, _extendersList.values()) {
+	foreach (SearchFilterWidget *extender, _extendersList.values()) {
 		QMap<QString, QVariant> state = extender->getState();
 		ret[extender->name()] = state;
 	}
@@ -915,7 +915,7 @@ void SearchBar::restoreState(const QMap<QString, QVariant> &state)
 	QString searchText(state.value("searchtext").toString());
 	if (!searchText.isEmpty()) _searchField->lineEdit()->setText(searchText);
 	else _searchField->clearEditText();
-	foreach (SearchBarExtender *extender, _extendersList.values()) {
+	foreach (SearchFilterWidget *extender, _extendersList.values()) {
 		extender->setAutoUpdateQuery(false);
 		extender->reset();
 		if (state.contains(extender->name())) {

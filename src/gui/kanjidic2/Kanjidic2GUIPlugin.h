@@ -99,7 +99,7 @@ public:
 	void handleUrl(const QUrl &url, DetailedView *view);
 };
 
-class Kanjidic2OptionsWidget : public SearchBarExtender
+class Kanjidic2OptionsWidget : public SearchFilterWidget
 {
 	Q_OBJECT
 private:
