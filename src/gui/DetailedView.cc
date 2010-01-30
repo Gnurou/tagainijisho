@@ -21,6 +21,8 @@
 #include "gui/DetailedView.h"
 // TODO Would be nice to get rid of this one...
 #include "gui/MainWindow.h"
+// TODO and this one too
+#include "gui/TagsFilterWidget.h"
 
 #include <QtDebug>
 
@@ -469,7 +471,7 @@ TagsLinkHandler::~TagsLinkHandler()
 void TagsLinkHandler::handleUrl(const QUrl &url, DetailedView *view)
 {
 	SearchBar *searchBar = MainWindow::instance()->searchBar();
-	TagsSearchWidget *extender = qobject_cast<TagsSearchWidget *>(searchBar->getExtender("tagssearch"));
+	TagsFilterWidget *extender = qobject_cast<TagsFilterWidget *>(searchBar->getExtender("tagssearch"));
 	if (!extender) return;
 
 //	searchBar->reset();

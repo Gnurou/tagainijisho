@@ -1,0 +1,79 @@
+/*
+ *  Copyright (C) 2009/2010  Alexandre Courbot
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+#include "gui/NotesFilterWidget.h"
+
+#include <QGroupBox>
+#include <QHBoxLayout>
+#include <QFocusEvent>
+
+NotesFilterWidget::NotesFilterWidget(QWidget *parent) : SearchFilterWidget(parent)
+{
+	_propsToSave << "notes";
+
+	QGroupBox *groupBox = new QGroupBox(tr("Notes filter"), this);
+	{
+		QHBoxLayout *hLayout = new QHBoxLayout(groupBox);
+		words = new QLineEdit(groupBox);
+		connect(words, SIGNAL(textChanged(QString)), this, SLOT(onTextChanged(QString)));
+		connect(words, SIGNAL(returnPressed()), this, SLOT(commandUpdate()));
+		hLayout->addWidget(words);
+
+	}
+	QVBoxLayout *vLayout = new QVBoxLayout(this);
+	vLayout->addWidget(groupBox);
+	vLayout->setContentsMargins(0, 0, 0, 0);
+}
+
+void NotesFilterWidget::focusInEvent(QFocusEvent *event)
+{
+	words->setFocus(event->reason());
+}
+
+void NotesFilterWidget::setNotes(const QString &notes)
+{
+	QString rNotes(notes);
+	if (notes.size() && notes[notes.size() - 1] != ' ') rNotes += " ";
+	words->setText(rNotes);
+}
+
+QString NotesFilterWidget::currentTitle() const
+{
+	if (words->text().isEmpty()) return tr("Notes");
+	QStringList args(words->text().split(QRegExp("[ ,\\.]"), QString::SkipEmptyParts));
+	if (args.size() == 1 && args[0] == "*") return tr("Has note");
+	return tr("Note contains %1").arg(words->text());
+}
+
+QString NotesFilterWidget::currentCommand() const
+{
+	if (words->text().isEmpty()) return "";
+	QStringList args(words->text().split(QRegExp("[ ,\\.]"), QString::SkipEmptyParts));
+	if (args.size() == 1 && args[0] == "*") return ":note";
+	return QString(":note=%1").arg(args.join(","));
+}
+
+void NotesFilterWidget::onTextChanged(const QString &newText)
+{
+	if (newText.isEmpty() || QRegExp("^.*[ ,\\.\\*]$").exactMatch(newText)) commandUpdate();
+}
+
+void NotesFilterWidget::_reset()
+{
+	words->clear();
+}
+

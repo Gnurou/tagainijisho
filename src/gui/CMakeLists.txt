@@ -26,6 +26,11 @@ UpdateChecker.cc
 ClickableLabel.cc
 SingleEntryView.cc
 SearchBar.cc
+SearchFilterWidget.cc
+StudyFilterWidget.cc
+JLPTFilterWidget.cc
+TagsFilterWidget.cc
+NotesFilterWidget.cc
 ResultsList.cc
 SmoothScroller.cc
 ResultsView.cc
@@ -67,6 +72,11 @@ ResultsList.h
 ResultsView.h
 ListsView.h
 SearchBar.h
+SearchFilterWidget.h
+StudyFilterWidget.h
+JLPTFilterWidget.h
+TagsFilterWidget.h
+NotesFilterWidget.h
 SetsOrganizer.h
 SingleEntryView.h
 SmoothScroller.h
