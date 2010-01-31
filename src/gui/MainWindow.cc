@@ -120,10 +120,10 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), _history(historyS
 	
 
 	// Docks
+	setTabPosition(Qt::TopDockWidgetArea, QTabWidget::North);
 	_searchMenu->addSeparator();
 	connect(&_searchBuilder, SIGNAL(queryRequested(QString)), this, SLOT(search(QString)));
 	QDockWidget *textWidget = addSearchFilter(new TextFilterWidget(this), Qt::TopDockWidgetArea);
-	QDockWidget *dWidget;
 	addSearchFilter(new StudyFilterWidget(this), textWidget);
 	addSearchFilter(new JLPTFilterWidget(this), textWidget);
 	addSearchFilter(new TagsFilterWidget(this), textWidget);
@@ -629,7 +629,7 @@ void MainWindow::_search(const QString &commands)
 	showAllResultsTriggered = false;
 
 	// Special case for when just a clear should be performed
-	if (commands.isEmpty() || commands == ":jmdict" || commands == ":kanjidic") {
+	if (commands.trimmed().isEmpty() || commands == ":jmdict" || commands == ":kanjidic") {
 		_queryBuilder.clear();
 		_results->clear();
 		//_searchBar->searchCompleted();
