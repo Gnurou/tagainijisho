@@ -21,9 +21,9 @@
 #include "core/Plugin.h"
 #include "gui/HexSpinBox.h"
 #include "gui/ReadingTrainer.h"
+#include "gui/SearchFilterWidget.h"
 
 #include "gui/YesNoTrainer.h"
-#include "gui/SearchBar.h"
 #include <QSpinBox>
 #include <QComboBox>
 

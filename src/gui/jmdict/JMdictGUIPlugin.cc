@@ -75,7 +75,7 @@ bool JMdictGUIPlugin::onRegister()
 
 	// Add the search extender
 	_extender = new JMdictOptionsWidget(0);
-	mainWindow->searchBar()->registerExtender(_extender);
+	//mainWindow->searchBar()->registerExtender(_extender);
 
 	// Add the preference panel
 	PreferencesWindow::addPanel(&JMdictPreferences::staticMetaObject);
@@ -90,7 +90,7 @@ bool JMdictGUIPlugin::onUnregister()
 	PreferencesWindow::removePanel(&JMdictPreferences::staticMetaObject);
 
 	// Remove the search extender
-	mainWindow->searchBar()->removeExtender(_extender);
+	//mainWindow->searchBar()->removeExtender(_extender);
 	delete _extender; _extender = 0;
 	// Remove the main window entries
 	delete _flashJS; _flashJS = 0;

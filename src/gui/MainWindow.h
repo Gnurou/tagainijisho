@@ -23,11 +23,12 @@
 #include "core/QueryBuilder.h"
 #include "core/Query.h"
 #include "gui/ListsView.h"
-#include "gui/SearchBar.h"
 #include "gui/ResultsList.h"
-#include "ResultsView.h"
+#include "gui/ResultsView.h"
 #include "gui/AbstractHistory.h"
 #include "gui/ToolBarDetailedView.h"
+#include "gui/SearchFilterWidget.h"
+#include "gui/SearchBuilder.h"
 
 #include <QSplitter>
 #include <QList>
@@ -38,12 +39,25 @@
 #include <QDialog>
 #include <QSpinBox>
 #include <QTimer>
+#include <QDockWidget>
+
+class SearchFilterDock : public QDockWidget
+{
+	Q_OBJECT
+protected:
+	/// Resets the state of the search widget when the dock is closed
+	virtual void closeEvent(QCloseEvent *event);
+
+public:
+	SearchFilterDock(QWidget *parent = 0) : QDockWidget(parent) {}
+};
 
 class MainWindow : public QMainWindow, private Ui::MainWindow
 {
 	Q_OBJECT
 private:
 	static PreferenceItem<QByteArray> windowGeometry;
+	static PreferenceItem<QByteArray> windowState;
 	static MainWindow *_instance;
 
 	// Used by sets
@@ -56,6 +70,8 @@ private:
 	static PreferenceItem<QByteArray> splitterState;
 	AbstractHistory<QMap<QString, QVariant>, QList<QMap<QString, QVariant> > > _history;
 
+	QMap<QString, SearchFilterDock *> _searchFiltersDocks;
+	SearchBuilder _searchBuilder;
 	ResultsList *_results;
 	QueryBuilder _queryBuilder;
 	int totalResults;
@@ -187,12 +203,14 @@ public:
 	static PreferenceItem<int> historySize;
 	
 	// SearchWidget stuff
-	SearchBar *searchBar() { return _searchBar; }
 	ResultsList *resultsList() { return _results; }
 	ResultsView *resultsView() { return _resultsView; }
 	DetailedView *detailedView() { return _detailedView->detailedView(); }
 
 	const QueryBuilder &queryBuilder() const { return _queryBuilder; }
+	
+	QDockWidget *addSearchFilter(SearchFilterWidget *widget);
+	void removeSearchFilterWidget(const QString &name);
 };
 
 #endif

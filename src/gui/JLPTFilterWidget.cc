@@ -16,6 +16,7 @@
  */
 
 #include "gui/JLPTFilterWidget.h"
+#include "gui/FlowLayout.h"
 
 #include <QGroupBox>
 #include <QHBoxLayout>
@@ -24,26 +25,20 @@ JLPTFilterWidget::JLPTFilterWidget(QWidget *parent) : SearchFilterWidget(parent)
 {
 	_propsToSave << "levels";
 
-	QGroupBox *jlptBox = new QGroupBox(tr("JLPT filter"), this);
-	{
-		JLPT4CheckBox = new QCheckBox(tr("Level 4"), jlptBox);
-		connect(JLPT4CheckBox, SIGNAL(toggled(bool)), this, SLOT(commandUpdate()));
-		JLPT3CheckBox = new QCheckBox(tr("Level 3"), jlptBox);
-		connect(JLPT3CheckBox, SIGNAL(toggled(bool)), this, SLOT(commandUpdate()));
-		JLPT2CheckBox = new QCheckBox(tr("Level 2"), jlptBox);
-		connect(JLPT2CheckBox, SIGNAL(toggled(bool)), this, SLOT(commandUpdate()));
-		JLPT1CheckBox = new QCheckBox(tr("Level 1"), jlptBox);
-		connect(JLPT1CheckBox, SIGNAL(toggled(bool)), this, SLOT(commandUpdate()));
+	JLPT4CheckBox = new QCheckBox(tr("Level 4"), this);
+	connect(JLPT4CheckBox, SIGNAL(toggled(bool)), this, SLOT(commandUpdate()));
+	JLPT3CheckBox = new QCheckBox(tr("Level 3"), this);
+	connect(JLPT3CheckBox, SIGNAL(toggled(bool)), this, SLOT(commandUpdate()));
+	JLPT2CheckBox = new QCheckBox(tr("Level 2"), this);
+	connect(JLPT2CheckBox, SIGNAL(toggled(bool)), this, SLOT(commandUpdate()));
+	JLPT1CheckBox = new QCheckBox(tr("Level 1"), this);
+	connect(JLPT1CheckBox, SIGNAL(toggled(bool)), this, SLOT(commandUpdate()));
 
-		QHBoxLayout *hLayout = new QHBoxLayout(jlptBox);
-		hLayout->addWidget(JLPT4CheckBox);
-		hLayout->addWidget(JLPT3CheckBox);
-		hLayout->addWidget(JLPT2CheckBox);
-		hLayout->addWidget(JLPT1CheckBox);
-	}
-	QVBoxLayout *vLayout = new QVBoxLayout(this);
-	vLayout->addWidget(jlptBox);
-	vLayout->setContentsMargins(0, 0, 0, 0);
+	QHBoxLayout *hLayout = new QHBoxLayout(this);
+	hLayout->addWidget(JLPT4CheckBox);
+	hLayout->addWidget(JLPT3CheckBox);
+	hLayout->addWidget(JLPT2CheckBox);
+	hLayout->addWidget(JLPT1CheckBox);
 }
 
 QString JLPTFilterWidget::currentCommand() const
@@ -72,7 +67,7 @@ QString JLPTFilterWidget::currentCommand() const
 			else ret += ",";
 			ret += "1";
 		}
-		ret = " :jlpt=" + ret;
+		ret = ":jlpt=" + ret;
 	}
 	return ret;
 }
@@ -126,7 +121,6 @@ void JLPTFilterWidget::setLevels(const QList<QVariant> &filter)
 
 void JLPTFilterWidget::_reset()
 {
-
 	JLPT4CheckBox->setChecked(false);
 	JLPT3CheckBox->setChecked(false);
 	JLPT2CheckBox->setChecked(false);

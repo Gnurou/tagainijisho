@@ -19,8 +19,8 @@
 #define __GUI_JMDICTGUIPLUGIN_H
 
 #include "core/Plugin.h"
-#include "gui/SearchBar.h"
 #include "gui/jmdict/JMdictYesNoTrainer.h"
+#include "gui/SearchFilterWidget.h"
 
 #include <QLineEdit>
 #include <QCheckBox>

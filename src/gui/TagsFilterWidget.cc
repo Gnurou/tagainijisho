@@ -26,23 +26,17 @@ TagsFilterWidget::TagsFilterWidget(QWidget *parent) : SearchFilterWidget(parent)
 {
 	_propsToSave << "tags";
 
-	QGroupBox *groupBox = new QGroupBox(tr("Tags filter"), this);
-	{
-		QHBoxLayout *hLayout = new QHBoxLayout(groupBox);
-		lineInput = new TagsLineInput(groupBox);
-		hLayout->addWidget(lineInput);
-		connect(lineInput, SIGNAL(allValidTags()), this, SLOT(commandUpdate()));
+	QHBoxLayout *hLayout = new QHBoxLayout(this);
+	lineInput = new TagsLineInput(this);
+	hLayout->addWidget(lineInput);
+	connect(lineInput, SIGNAL(allValidTags()), this, SLOT(commandUpdate()));
 
-		tagsButton = new QPushButton(tr("..."), groupBox);
-		QMenu *menu = new QMenu(tagsButton);
-		connect(menu, SIGNAL(aboutToShow()), this, SLOT(populateTagsMenu()));
-		tagsButton->setMenu(menu);
-		hLayout->addWidget(tagsButton);
-		connect(menu, SIGNAL(triggered(QAction*)), this, SLOT(tagMenuClicked(QAction*)));
-	}
-	QVBoxLayout *vLayout = new QVBoxLayout(this);
-	vLayout->addWidget(groupBox);
-	vLayout->setContentsMargins(0, 0, 0, 0);
+	tagsButton = new QPushButton(tr("..."), this);
+	QMenu *menu = new QMenu(tagsButton);
+	connect(menu, SIGNAL(aboutToShow()), this, SLOT(populateTagsMenu()));
+	tagsButton->setMenu(menu);
+	hLayout->addWidget(tagsButton);
+	connect(menu, SIGNAL(triggered(QAction*)), this, SLOT(tagMenuClicked(QAction*)));
 }
 
 void TagsFilterWidget::populateTagsMenu()

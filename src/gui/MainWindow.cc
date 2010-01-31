@@ -30,6 +30,11 @@
 #include "gui/YesNoTrainer.h"
 #include "gui/MainWindow.h"
 #include "gui/ui_AboutDialog.h"
+#include "gui/TextFilterWidget.h"
+#include "gui/TagsFilterWidget.h"
+#include "gui/NotesFilterWidget.h"
+#include "gui/StudyFilterWidget.h"
+#include "gui/JLPTFilterWidget.h"
 
 #include <QtDebug>
 
@@ -53,6 +58,10 @@
 #include <QDialogButtonBox>
 #include <QPrintPreviewDialog>
 #include <QDataStream>
+#include <QDockWidget>
+
+/// State version of the main window - should be increated every time the docks or statusbars change
+#define MAINWINDOW_STATE_VERSION 0
 
 MainWindow *MainWindow::_instance = 0;
 UpdateChecker *_updateChecker = 0;
@@ -65,8 +74,17 @@ PreferenceItem<bool> MainWindow::autoCheckBetaUpdates("", "autoCheckBetaUpdates"
 PreferenceItem<int> MainWindow::updateCheckInterval("", "updateCheckInterval", 3);
 
 PreferenceItem<QByteArray> MainWindow::windowGeometry("mainWindow", "geometry", "");
+PreferenceItem<QByteArray> MainWindow::windowState("mainWindow", "state", "");
 PreferenceItem<int> MainWindow::historySize("mainWindow/resultsView", "historySize", 100);
 PreferenceItem<QByteArray> MainWindow::splitterState("mainWindow", "splitterGeometry", "");
+
+void SearchFilterDock::closeEvent(QCloseEvent *event)
+{
+	SearchFilterWidget *sfw = qobject_cast<SearchFilterWidget *>(widget());
+	if (sfw) sfw->reset();
+	qDebug() << objectName() << "closed";
+	QDockWidget::closeEvent(event);
+}
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), _history(historySize.value()), totalResults(-1), showAllResultsTriggered(false)
 {
@@ -79,10 +97,10 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), _history(historyS
 	
 	// Strangely this is not done properly by Qt designer...
 	connect(_setsMenu, SIGNAL(aboutToShow()), this, SLOT(populateSetsMenu()));
-	lists->setModel(&_listModel);
-	connect(lists, SIGNAL(entrySelected(EntryPointer<Entry>)), detailedView(), SLOT(display(EntryPointer<Entry>)));
-	connect(newListButton, SIGNAL(clicked()), lists, SLOT(newList()));
-	connect(deleteListButton, SIGNAL(clicked()), lists, SLOT(deleteSelectedItems()));
+	//lists->setModel(&_listModel);
+	//connect(lists, SIGNAL(entrySelected(EntryPointer<Entry>)), detailedView(), SLOT(display(EntryPointer<Entry>)));
+	//connect(newListButton, SIGNAL(clicked()), lists, SLOT(newList()));
+	//connect(deleteListButton, SIGNAL(clicked()), lists, SLOT(deleteSelectedItems()));
 
 	
 	// Now on to the query/result logic
@@ -91,11 +109,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), _history(historyS
 	// React when we know how many results there are in the query
 	connect(_results, SIGNAL(nbResults(unsigned int)), this, SLOT(showNbResults(unsigned int)));
 	// When the search starts or end, inform the search bar
-	connect(_results, SIGNAL(queryStarted()), _searchBar, SLOT(searchStarted()));
-	connect(_results, SIGNAL(queryEnded()), _searchBar, SLOT(searchCompleted()));
 	connect(_results, SIGNAL(queryEnded()), this, SLOT(currentPageReceived()));
-	connect(_searchBar, SIGNAL(stopSearch()), _results, SLOT(abortSearch()));
-
 	// Display selected items in the results view
 	connect(_resultsView, SIGNAL(listSelectionChanged(QItemSelection,QItemSelection)), this, SLOT(display(QItemSelection,QItemSelection)));
 
@@ -105,7 +119,31 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), _history(historyS
 	// End of SearchWidget stuff
 	
 	restoreGeometry(windowGeometry.value());
+	restoreState(windowState.value(), MAINWINDOW_STATE_VERSION);
+	
+	
+	
 
+	// Docks
+	_searchMenu->addSeparator();
+	connect(&_searchBuilder, SIGNAL(queryRequested(QString)), this, SLOT(search(QString)));
+	QDockWidget *textWidget = addSearchFilter(new TextFilterWidget(this));
+	if (!restoreDockWidget(textWidget)) addDockWidget(Qt::TopDockWidgetArea, textWidget);
+	QDockWidget *dWidget;
+	dWidget = addSearchFilter(new StudyFilterWidget(this));
+	if (!restoreDockWidget(dWidget)) tabifyDockWidget(textWidget, dWidget);
+	dWidget = addSearchFilter(new JLPTFilterWidget(this));
+	if (!restoreDockWidget(dWidget)) tabifyDockWidget(textWidget, dWidget);
+	dWidget = addSearchFilter(new TagsFilterWidget(this));
+	if (!restoreDockWidget(dWidget)) tabifyDockWidget(textWidget, dWidget);
+	dWidget = addSearchFilter(new NotesFilterWidget(this));
+	if (!restoreDockWidget(dWidget)) tabifyDockWidget(textWidget, dWidget);
+	textWidget->raise();
+	
+	
+	
+	
+	
 	// Updates checker
 	_updateChecker = new UpdateChecker("/updates/latestversion.php", this);
 	_betaUpdateChecker = new UpdateChecker("/updates/latestbetaversion.php", this);
@@ -129,6 +167,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), _history(historyS
 MainWindow::~MainWindow()
 {
 	splitterState.set(splitter->saveState());
+	windowState.set(saveState(MAINWINDOW_STATE_VERSION));
 	windowGeometry.set(saveGeometry());
 }
 
@@ -523,7 +562,7 @@ void MainWindow::newSet()
 
 	QByteArray curState;
 	QDataStream ds(&curState, QIODevice::WriteOnly);
-	ds << QVariant(searchBar()->getState());
+	ds << QVariant(_searchBuilder.getState());
 	QSqlQuery query;
 	query.prepare(QString("INSERT INTO sets VALUES(%2, ifnull((SELECT max(position) + 1 FROM sets WHERE parent %1), 0), ?, ?)").arg(!parentId ? "is null" : QString("= %1").arg(parentId)).arg(!parentId ? "null" : QString::number(parentId)));
 	query.addBindValue(setName);
@@ -558,8 +597,8 @@ void MainWindow::onSetSelected()
 	QByteArray bState(action->property("T_state").toByteArray());
 	QDataStream ds(&bState, QIODevice::ReadOnly);
 	QMap<QString, QVariant> state(QVariant(ds).toMap());
-	searchBar()->restoreState(state);
-	searchBar()->search();
+	_searchBuilder.restoreState(state);
+	_searchBuilder.runSearch();
 }
 
 void MainWindow::organizeSets()
@@ -586,7 +625,7 @@ void MainWindow::display(const QItemSelection &selected, const QItemSelection &d
 
 void MainWindow::search(const QString &commands)
 {
-	if (!(commands.isEmpty() || commands == ":jmdict" || commands == ":kanjidic")) _history.add(_searchBar->getState());
+	if (!(commands.isEmpty() || commands == ":jmdict" || commands == ":kanjidic")) _history.add(_searchBuilder.getState());
 	_search(commands);
 }
 
@@ -596,13 +635,14 @@ void MainWindow::_search(const QString &commands)
 	showAllResultsTriggered = false;
 
 	// Special case for when just a clear should be performed
-	/*if (commands.isEmpty() || commands == ":jmdict" || commands == ":kanjidic") {
+	if (commands.isEmpty() || commands == ":jmdict" || commands == ":kanjidic") {
 		_queryBuilder.clear();
-		_searchBar->searchCompleted();
+		_results->clear();
+		//_searchBar->searchCompleted();
 		updateNbResultsDisplay();
 		updateNavigationButtons();
 		return;
-	}*/
+	}
 
 	_queryBuilder.clear();
 
@@ -611,7 +651,7 @@ void MainWindow::_search(const QString &commands)
 
 	// If we cannot build a valid query, no need to continue
 	if (!EntrySearcherManager::instance().buildQuery(commands, _queryBuilder)) {
-		_searchBar->searchCompleted();
+		//_searchBar->searchCompleted();
 		return;
 	}
 
@@ -646,8 +686,8 @@ void MainWindow::goPrev()
 	QMap<QString, QVariant> q;
 	bool ok = _history.previous(q);
 	if (ok) {
-		_searchBar->restoreState(q);
-		_search(_searchBar->text());
+		_searchBuilder.restoreState(q);
+		_search(_searchBuilder.commands());
 	}
 }
 
@@ -656,8 +696,8 @@ void MainWindow::goNext()
 	QMap<QString, QVariant> q;
 	bool ok = _history.next(q);
 	if (ok) {
-		_searchBar->restoreState(q);
-		_search(_searchBar->text());
+		_searchBuilder.restoreState(q);
+		_search(_searchBuilder.commands());
 	}
 }
 
@@ -697,4 +737,31 @@ void MainWindow::scheduleShowAllResults()
 	nextPageButton->setEnabled(false);
 	previousPageButton->setEnabled(false);
 	_results->scheduleShowAllResults();
+}
+
+QDockWidget *MainWindow::addSearchFilter(SearchFilterWidget *widget)
+{
+	if (_searchBuilder.contains(widget->name())) return 0;
+	
+	SearchFilterDock *dWidget = new SearchFilterDock(this);
+	dWidget->setWindowTitle(widget->currentTitle());
+	dWidget->setObjectName(widget->name() + "Dock");
+	dWidget->setWidget(widget);
+	widget->setParent(dWidget);
+	widget->show();
+	_searchFiltersDocks[widget->name()] = dWidget;
+	_searchBuilder.addSearchFilter(widget->name(), widget);
+	_searchMenu->addAction(dWidget->toggleViewAction());
+	return dWidget;
+}
+
+void MainWindow::removeSearchFilterWidget(const QString &name)
+{
+	if (!_searchFiltersDocks.contains(name)) return;
+	
+	SearchFilterDock *dWidget = _searchFiltersDocks[name];
+	_searchFiltersDocks.remove(name);
+	_searchMenu->removeAction(dWidget->toggleViewAction());
+	_searchBuilder.removeSearchFilter(name);
+	delete dWidget;
 }

@@ -17,6 +17,7 @@
 
 #include "core/Preferences.h"
 #include "core/EntrySearcherManager.h"
+#include "core/RelativeDate.h"
 #include "gui/UpdateChecker.h"
 #include "gui/ResultsView.h"
 #include "gui/DetailedView.h"

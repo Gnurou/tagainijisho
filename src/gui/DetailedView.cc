@@ -470,7 +470,7 @@ TagsLinkHandler::~TagsLinkHandler()
 
 void TagsLinkHandler::handleUrl(const QUrl &url, DetailedView *view)
 {
-	SearchBar *searchBar = MainWindow::instance()->searchBar();
+	/*SearchBar *searchBar = MainWindow::instance()->searchBar();
 	TagsFilterWidget *extender = qobject_cast<TagsFilterWidget *>(searchBar->getExtender("tagssearch"));
 	if (!extender) return;
 
@@ -478,7 +478,7 @@ void TagsLinkHandler::handleUrl(const QUrl &url, DetailedView *view)
 	extender->setAutoUpdateQuery(false);
 	extender->setTags(url.authority() + " ");
 	extender->setAutoUpdateQuery(true);
-	searchBar->search();
+	searchBar->search();*/
 }
 
 QMap<QString, DetailedViewLinkHandler *> DetailedViewLinkManager::_handlers;

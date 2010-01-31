@@ -107,7 +107,6 @@ public:
 	QMap<QString, QVariant> getState() const;
 	void restoreState(const QMap<QString, QVariant> &state);
 
-	static PreferenceItem<int> searchBarHistorySize;
 
 public slots:
 	void search();

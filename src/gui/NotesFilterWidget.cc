@@ -25,18 +25,11 @@ NotesFilterWidget::NotesFilterWidget(QWidget *parent) : SearchFilterWidget(paren
 {
 	_propsToSave << "notes";
 
-	QGroupBox *groupBox = new QGroupBox(tr("Notes filter"), this);
-	{
-		QHBoxLayout *hLayout = new QHBoxLayout(groupBox);
-		words = new QLineEdit(groupBox);
-		connect(words, SIGNAL(textChanged(QString)), this, SLOT(onTextChanged(QString)));
-		connect(words, SIGNAL(returnPressed()), this, SLOT(commandUpdate()));
-		hLayout->addWidget(words);
-
-	}
-	QVBoxLayout *vLayout = new QVBoxLayout(this);
-	vLayout->addWidget(groupBox);
-	vLayout->setContentsMargins(0, 0, 0, 0);
+	QHBoxLayout *hLayout = new QHBoxLayout(this);
+	words = new QLineEdit(this);
+	connect(words, SIGNAL(textChanged(QString)), this, SLOT(onTextChanged(QString)));
+	connect(words, SIGNAL(returnPressed()), this, SLOT(commandUpdate()));
+	hLayout->addWidget(words);
 }
 
 void NotesFilterWidget::focusInEvent(QFocusEvent *event)

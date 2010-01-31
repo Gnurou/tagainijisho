@@ -146,10 +146,10 @@ SearchBar::SearchBar(QWidget *parent) : QWidget(parent)
 //	connect(_searchField, SIGNAL(currentIndexChanged(int)), searchButton, SLOT(click()));
 
 	_extendersList[_entryTypeSelector->name()] = _entryTypeSelector;
-	registerExtender(new StudyFilterWidget(this));
-	registerExtender(new TagsFilterWidget(this));
-	registerExtender(new NotesFilterWidget(this));
-	registerExtender(new JLPTFilterWidget(this));
+	//registerExtender(new StudyFilterWidget(this));
+	//registerExtender(new TagsFilterWidget(this));
+	//registerExtender(new NotesFilterWidget(this));
+	//registerExtender(new JLPTFilterWidget(this));
 }
 
 void SearchBar::onSearchTextChanged(const QString &text)
