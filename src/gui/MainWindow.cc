@@ -35,6 +35,7 @@
 #include "gui/NotesFilterWidget.h"
 #include "gui/StudyFilterWidget.h"
 #include "gui/JLPTFilterWidget.h"
+#include "gui/EntryListWidget.h"
 
 #include <QtDebug>
 
@@ -82,7 +83,6 @@ void SearchFilterDock::closeEvent(QCloseEvent *event)
 {
 	SearchFilterWidget *sfw = qobject_cast<SearchFilterWidget *>(widget());
 	if (sfw) sfw->reset();
-	qDebug() << objectName() << "closed";
 	QDockWidget::closeEvent(event);
 }
 
@@ -97,11 +97,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), _history(historyS
 	
 	// Strangely this is not done properly by Qt designer...
 	connect(_setsMenu, SIGNAL(aboutToShow()), this, SLOT(populateSetsMenu()));
-	//lists->setModel(&_listModel);
-	//connect(lists, SIGNAL(entrySelected(EntryPointer<Entry>)), detailedView(), SLOT(display(EntryPointer<Entry>)));
-	//connect(newListButton, SIGNAL(clicked()), lists, SLOT(newList()));
-	//connect(deleteListButton, SIGNAL(clicked()), lists, SLOT(deleteSelectedItems()));
-
 	
 	// Now on to the query/result logic
 	// When results are added in the results list, update the view
@@ -138,6 +133,11 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), _history(historyS
 	if (!restoreDockWidget(dWidget)) tabifyDockWidget(textWidget, dWidget);
 	dWidget = addSearchFilter(new NotesFilterWidget(this));
 	if (!restoreDockWidget(dWidget)) tabifyDockWidget(textWidget, dWidget);
+	EntryListWidget *elWidget = new EntryListWidget(this);
+	elWidget->entryListView()->setModel(&_listModel);
+	connect(elWidget->entryListView(), SIGNAL(entrySelected(EntryPointer<Entry>)), detailedView(), SLOT(display(EntryPointer<Entry>)));
+	dWidget = addSearchFilter(elWidget);
+	if (!restoreDockWidget(dWidget)) addDockWidget(Qt::LeftDockWidgetArea, dWidget);
 	textWidget->raise();
 	
 	

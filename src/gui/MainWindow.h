@@ -22,7 +22,7 @@
 #include "core/Preferences.h"
 #include "core/QueryBuilder.h"
 #include "core/Query.h"
-#include "gui/ListsView.h"
+#include "gui/EntryListModel.h"
 #include "gui/ResultsList.h"
 #include "gui/ResultsView.h"
 #include "gui/AbstractHistory.h"
