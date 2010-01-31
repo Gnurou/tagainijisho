@@ -68,7 +68,7 @@ PreferenceItem<QByteArray> MainWindow::windowGeometry("mainWindow", "geometry", 
 PreferenceItem<int> MainWindow::historySize("mainWindow/resultsView", "historySize", 100);
 PreferenceItem<QByteArray> MainWindow::splitterState("mainWindow", "splitterGeometry", "");
 
-MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), _history(historySize.value()), totalResults(-1)
+MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), _history(historySize.value()), totalResults(-1), showAllResultsTriggered(false)
 {
 	_instance = this;
 	
@@ -593,7 +593,7 @@ void MainWindow::search(const QString &commands)
 void MainWindow::_search(const QString &commands)
 {
 	totalResults = -1;
-	_results->clear();
+	showAllResultsTriggered = false;
 
 	// Special case for when just a clear should be performed
 	/*if (commands.isEmpty() || commands == ":jmdict" || commands == ":kanjidic") {
@@ -616,6 +616,8 @@ void MainWindow::_search(const QString &commands)
 	}
 
 	_results->search(_queryBuilder);
+	updateNbResultsDisplay();
+	updateNavigationButtons();
 }
 
 void MainWindow::showNbResults(unsigned int nbResults)
@@ -627,9 +629,9 @@ void MainWindow::showNbResults(unsigned int nbResults)
 
 void MainWindow::updateNavigationButtons()
 {
-	nextPageButton->setEnabled((totalResults > (_results->pageNbr() * _results->resultsPerPage()) + _results->nbResults()));
-	previousPageButton->setEnabled(_results->pageNbr() > 0);
-	showAllResultsButton->setEnabled(totalResults > _results->nbResults());
+	nextPageButton->setEnabled(!showAllResultsTriggered && (totalResults > (_results->pageNbr() * _results->resultsPerPage()) + _results->nbResults()));
+	previousPageButton->setEnabled(!showAllResultsTriggered && _results->pageNbr() > 0);
+	showAllResultsButton->setEnabled(!showAllResultsTriggered && (totalResults == -1 || totalResults > _results->nbResults()));
 }
 
 
@@ -690,6 +692,9 @@ void MainWindow::previousPage()
 
 void MainWindow::scheduleShowAllResults()
 {
+	showAllResultsTriggered = true;
 	showAllResultsButton->setEnabled(false);
+	nextPageButton->setEnabled(false);
+	previousPageButton->setEnabled(false);
 	_results->scheduleShowAllResults();
 }

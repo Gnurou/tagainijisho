@@ -59,6 +59,7 @@ private:
 	ResultsList *_results;
 	QueryBuilder _queryBuilder;
 	int totalResults;
+	bool showAllResultsTriggered;
 	
 	EntryDelegate *delegate;
 

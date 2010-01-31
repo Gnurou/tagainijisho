@@ -167,6 +167,8 @@ void ResultsList::nextPage()
 {
 	if (totalResults == -1) return;
 	if (totalResults < (pageNbr() + 1) * resultsPerPage()) return;
+	query.abort();
+	QCoreApplication::processEvents(QEventLoop::ExcludeUserInputEvents | QEventLoop::ExcludeSocketNotifiers);
 	clear();
 	query.fetch(++_pageNbr * resultsPerPage(), resultsPerPage());
 	emit queryStarted();
@@ -175,6 +177,8 @@ void ResultsList::nextPage()
 void ResultsList::previousPage()
 {
 	if (pageNbr() == 0) return;
+	query.abort();
+	QCoreApplication::processEvents(QEventLoop::ExcludeUserInputEvents | QEventLoop::ExcludeSocketNotifiers);
 	clear();
 	query.fetch(--_pageNbr * resultsPerPage(), resultsPerPage());
 	emit queryStarted();
@@ -184,6 +188,9 @@ void ResultsList::scheduleShowAllResults()
 {
 	// If the current query completed, no problem!
 	if (!query.isRunning()) {
+		// First check if all the results are not already displayed
+		if (pageNbr() == 0 && totalResults <= nbResults()) return;
+		
 		// If we are on the first page, we can just continue the query this way
 		if (pageNbr() == 0) {
 			query.fetch(nbResults(), -1);
@@ -207,13 +214,15 @@ void ResultsList::search(const QueryBuilder &qBuilder)
 	// Stop the running query, if any
 	abortSearch();
 	
+	// Clear the current set of results
+	clear();
 	_pageNbr = 0;
 	totalResults = -1;
 	
 	// And start the query!
 	query.prepare(qBuilder);
-	query.fetch(0, resultsPerPage());
 	emit queryStarted();
+	query.fetch(0, resultsPerPage());
 }
 
 void ResultsList::abortSearch()
