@@ -101,6 +101,8 @@ private:
 	void _search(const QString &commands);
 	// End of SearchWidget stuff
 	
+	SearchFilterDock *_prepareSearchFilterDock(SearchFilterWidget *widget);
+	
 protected:
 	/**
 	 * Present the user with a config dialog to setup printing. Returns true
@@ -209,7 +211,9 @@ public:
 
 	const QueryBuilder &queryBuilder() const { return _queryBuilder; }
 	
-	QDockWidget *addSearchFilter(SearchFilterWidget *widget);
+	SearchFilterDock *addSearchFilter(SearchFilterWidget *widget, Qt::DockWidgetArea defaultPosition);
+	SearchFilterDock *addSearchFilter(SearchFilterWidget *widget, QDockWidget *defaultWith);
+	SearchFilterDock *getSearchFilter(const QString &name);
 	void removeSearchFilterWidget(const QString &name);
 };
 

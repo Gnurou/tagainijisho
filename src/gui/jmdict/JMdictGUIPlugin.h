@@ -40,7 +40,7 @@ private:
 	JMdictEntryFormatter *_formatter;
 	QAction *_flashJL, *_flashJS, *_flashTL, *_flashTS;
 	JMdictLinkHandler *_linkhandler;
-	JMdictOptionsWidget *_extender;
+	JMdictOptionsWidget *_filter;
 	JMdictYesNoTrainer *_trainer;
 
 	void training(YesNoTrainer::TrainingMode mode, const QString &queryString);

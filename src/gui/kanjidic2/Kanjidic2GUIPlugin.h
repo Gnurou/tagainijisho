@@ -42,7 +42,7 @@ private:
 	KanjiLinkHandler *_linkHandler;
 	KanjiAllWordsHandler *_wordsLinkHandler;
 	KanjiAllComponentsOfHandler *_componentsLinkHandler;
-	Kanjidic2OptionsWidget *_extender;
+	Kanjidic2OptionsWidget *_filter;
 	YesNoTrainer *_trainer;
 	ReadingTrainer *_readingTrainer;
 
