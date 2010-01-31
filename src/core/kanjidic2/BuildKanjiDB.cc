@@ -51,6 +51,7 @@ static QSqlQuery updatePathsString;
 class Kanjidic2DBParser : public Kanjidic2Parser
 {
 public:
+	Kanjidic2DBParser(const QStringList &languages) : Kanjidic2Parser(languages) {}
 	virtual bool onItemParsed(Kanjidic2Item &kanji);
 };
 
@@ -84,8 +85,8 @@ bool Kanjidic2DBParser::onItemParsed(Kanjidic2Item &kanji)
 		}
 	}
 	
-	// Meanings
-	foreach (const QString &lang, kanji.meanings.keys()) {
+	// Meanings - output the first language that we can satisfy
+	foreach (const QString &lang, languages) if (kanji.meanings.contains(lang)) {
 		foreach (const QString &meaning, kanji.meanings[lang]) {
 			// TODO factorize identical meanings! Record the row id into a hash table
 			BIND(insertMeaningTextQuery, meaning);
@@ -95,6 +96,7 @@ bool Kanjidic2DBParser::onItemParsed(Kanjidic2Item &kanji)
 			BIND(insertMeaningQuery, lang);
 			EXEC(insertMeaningQuery);
 		}
+		break;
 	}
 	
 	// Nanori
@@ -229,16 +231,30 @@ static void create_indexes()
 	query.exec("create index idx_fourCorner on fourCorner(entry)");
 }
 
+void printUsage(char *argv[])
+{
+	qCritical("Usage: %s [-l<lang>] source_dir dest_file\nWhere <lang> is a two-letters language code (en, fr, de, es or ru)", argv[0]);
+}
+
 int main(int argc, char *argv[])
 {
 	QCoreApplication app(argc, argv);
 	
-	if (argc != 3) {
-		qCritical("Usage: %s source_dir dest_file", argv[0]);
-		return 1;
+	if (argc < 3) { printUsage(argv); return 1; }
+
+	int argCpt = 1;
+	QStringList languages;
+	while (argCpt < argc && argv[argCpt][0] == '-') {
+		QString param(argv[argCpt]);
+		if (!param.startsWith("-l")) { printUsage(argv); return 1; }
+		QStringList langs(param.mid(2).split(',', QString::SkipEmptyParts));
+		foreach (const QString &lang, langs) if (!languages.contains(lang)) languages << lang;
+		++argCpt;
 	}
-	QString srcDir(argv[1]);
-	QString dstFile(argv[2]);
+	if (argCpt > argc - 2) { printUsage(argv); return -1; }
+
+	QString srcDir(argv[argCpt]);
+	QString dstFile(argv[argCpt + 1]);
 	
 	QFile dst(dstFile);
 	if (dst.exists() && !dst.remove()) {
@@ -292,7 +308,9 @@ int main(int argc, char *argv[])
 	QFile file(QDir(srcDir).absoluteFilePath("3rdparty/kanjidic2.xml"));
 	if (!file.open(QFile::ReadOnly | QFile::Text)) return 1;
 	QXmlStreamReader reader(&file);
-	Kanjidic2DBParser kdicParser;
+	// English is always used as a backup
+	if (!languages.contains("en")) languages << "en";
+	Kanjidic2DBParser kdicParser(languages);
 	if (!kdicParser.parse(reader)) {
 		qDebug() << database.lastError().text();
 		return 1;

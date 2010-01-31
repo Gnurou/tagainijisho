@@ -19,7 +19,6 @@
 #include "core/kanjidic2/Kanjidic2Parser.h"
 
 const QStringList Kanjidic2Parser::_validReadings(QString("ja_on,ja_kun").split(','));
-QStringList Kanjidic2Parser::languages(QString("en").split(','));
 
 bool Kanjidic2Parser::parse(QXmlStreamReader &reader)
 {
