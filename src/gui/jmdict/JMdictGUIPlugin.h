@@ -19,8 +19,8 @@
 #define __GUI_JMDICTGUIPLUGIN_H
 
 #include "core/Plugin.h"
-#include "gui/SearchBar.h"
 #include "gui/jmdict/JMdictYesNoTrainer.h"
+#include "gui/SearchFilterWidget.h"
 
 #include <QLineEdit>
 #include <QCheckBox>
@@ -40,7 +40,7 @@ private:
 	JMdictEntryFormatter *_formatter;
 	QAction *_flashJL, *_flashJS, *_flashTL, *_flashTS;
 	JMdictLinkHandler *_linkhandler;
-	JMdictOptionsWidget *_extender;
+	JMdictOptionsWidget *_filter;
 	JMdictYesNoTrainer *_trainer;
 
 	void training(YesNoTrainer::TrainingMode mode, const QString &queryString);
@@ -71,7 +71,7 @@ public:
 	void handleUrl(const QUrl &url, DetailedView *view);
 };
 
-class JMdictOptionsWidget : public SearchBarExtender
+class JMdictOptionsWidget : public SearchFilterWidget
 {
 	Q_OBJECT
 private:

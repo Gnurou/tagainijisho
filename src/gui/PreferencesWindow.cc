@@ -17,6 +17,7 @@
 
 #include "core/Preferences.h"
 #include "core/EntrySearcherManager.h"
+#include "core/RelativeDate.h"
 #include "gui/UpdateChecker.h"
 #include "gui/ResultsView.h"
 #include "gui/DetailedView.h"
@@ -251,7 +252,7 @@ ResultsViewPreferences::ResultsViewPreferences(QWidget *parent) : PreferencesWin
 
 void ResultsViewPreferences::refresh()
 {
-	nbResults->setValue(MainWindow::resultsPerPagePref.value());
+	nbResults->setValue(ResultsList::resultsPerPagePref.value());
 
 	resultsOrder->setCurrentIndex(EntrySearcherManager::studiedEntriesFirst.value());
 	if (ResultsView::displayMode.value() == ResultsViewFonts::OneLine) oneLine->click();
@@ -269,8 +270,7 @@ void ResultsViewPreferences::refresh()
 
 void ResultsViewPreferences::applySettings()
 {
-	MainWindow::resultsPerPagePref.set(nbResults->value());
-	MainWindow::instance()->setResultsPerPage(MainWindow::resultsPerPagePref.value());
+	ResultsList::resultsPerPagePref.set(nbResults->value());
 
 	ResultsView::smoothScrolling.set(smoothScrolling->isChecked());
 	EntrySearcherManager::studiedEntriesFirst.set(resultsOrder->currentIndex());

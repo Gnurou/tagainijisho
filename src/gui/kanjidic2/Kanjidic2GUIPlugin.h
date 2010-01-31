@@ -22,9 +22,9 @@
 #include "gui/HexSpinBox.h"
 #include "gui/ReadingTrainer.h"
 #include "gui/kanjidic2/ComponentSearchWidget.h"
+#include "gui/SearchFilterWidget.h"
 
 #include "gui/YesNoTrainer.h"
-#include "gui/SearchBar.h"
 #include <QSpinBox>
 #include <QComboBox>
 
@@ -43,7 +43,7 @@ private:
 	KanjiLinkHandler *_linkHandler;
 	KanjiAllWordsHandler *_wordsLinkHandler;
 	KanjiAllComponentsOfHandler *_componentsLinkHandler;
-	Kanjidic2OptionsWidget *_extender;
+	Kanjidic2OptionsWidget *_filter;
 	YesNoTrainer *_trainer;
 	ReadingTrainer *_readingTrainer;
 	ComponentSearchButton * _cButton;
@@ -101,7 +101,7 @@ public:
 	void handleUrl(const QUrl &url, DetailedView *view);
 };
 
-class Kanjidic2OptionsWidget : public SearchBarExtender
+class Kanjidic2OptionsWidget : public SearchFilterWidget
 {
 	Q_OBJECT
 private:

@@ -25,7 +25,6 @@
 
 #include "NavigationManager.h"
 #include "MainWindow.h"
-#include "SearchBar.h"
 
 class ThreadedDatabaseConnection;
 

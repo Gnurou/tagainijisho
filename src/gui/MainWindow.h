@@ -22,12 +22,13 @@
 #include "core/Preferences.h"
 #include "core/QueryBuilder.h"
 #include "core/Query.h"
-#include "gui/ListsView.h"
-#include "gui/SearchBar.h"
+#include "gui/EntryListModel.h"
 #include "gui/ResultsList.h"
-#include "ResultsView.h"
+#include "gui/ResultsView.h"
 #include "gui/AbstractHistory.h"
 #include "gui/ToolBarDetailedView.h"
+#include "gui/SearchFilterWidget.h"
+#include "gui/SearchBuilder.h"
 
 #include <QSplitter>
 #include <QList>
@@ -38,14 +39,25 @@
 #include <QDialog>
 #include <QSpinBox>
 #include <QTimer>
+#include <QDockWidget>
 
-class SearchWidget;
+class SearchFilterDock : public QDockWidget
+{
+	Q_OBJECT
+protected:
+	/// Resets the state of the search widget when the dock is closed
+	virtual void closeEvent(QCloseEvent *event);
+
+public:
+	SearchFilterDock(QWidget *parent = 0) : QDockWidget(parent) {}
+};
 
 class MainWindow : public QMainWindow, private Ui::MainWindow
 {
 	Q_OBJECT
 private:
 	static PreferenceItem<QByteArray> windowGeometry;
+	static PreferenceItem<QByteArray> windowState;
 	static MainWindow *_instance;
 
 	// Used by sets
@@ -58,25 +70,18 @@ private:
 	static PreferenceItem<QByteArray> splitterState;
 	AbstractHistory<QMap<QString, QVariant>, QList<QMap<QString, QVariant> > > _history;
 
+	QMap<QString, SearchFilterDock *> _searchFiltersDocks;
+	SearchBuilder _searchBuilder;
 	ResultsList *_results;
+	QueryBuilder _queryBuilder;
+	int totalResults;
+	bool showAllResultsTriggered;
+	
 	EntryDelegate *delegate;
 
 	EntryListModel _listModel;
 	
-	// Set to true if a query has been started and we haven't handled any
-	// signal relative to its termination.
-	bool queryInProgress;
-	QueryBuilder _queryBuilder;
-	Query query;
-	// Set to true if the query should be automatically executed
-	// when we receive an end-of-query event (abort, lastEntry, error)
-	bool queryPending;
 
-	int pageNbr;
-	int totalResults;
-	int _resultsPerPage;
-
-	bool showAllResultsRequested;
 
 	/**
 	 * Actually run the query that has been prepared before. Do not call
@@ -95,6 +100,8 @@ private:
 	 */
 	void _search(const QString &commands);
 	// End of SearchWidget stuff
+	
+	SearchFilterDock *_prepareSearchFilterDock(SearchFilterWidget *widget);
 	
 protected:
 	/**
@@ -129,10 +136,6 @@ protected slots:
 	void search(const QString &commands);
 	/// Display the latest selected result in the detailed view
 	void display(const QItemSelection &selected, const QItemSelection &deselected);
-
-	/// Show all the query results as soon as possible
-	void scheduleShowAllResults();
-
 
 	/// Replay the previous search in the history
 	void goPrev();
@@ -177,11 +180,18 @@ protected slots:
 	void trainSettings();
 
 	void openUrl(const QUrl &url);
+	
+public slots:
+	void nextPage();
+	void previousPage();
+	void scheduleShowAllResults();
 
 public:
 	MainWindow(QWidget *parent = 0);
 	~MainWindow();
 	static MainWindow *instance() { return _instance; }
+	
+	QToolBar *toolBar() { return _toolBar; }
 
 	QMenu *fileMenu() { return _fileMenu; }
 	QMenu *searchMenu() { return _searchMenu; }
@@ -194,33 +204,19 @@ public:
 	static PreferenceItem<bool> autoCheckBetaUpdates;
 	static PreferenceItem<int> updateCheckInterval;
 	static PreferenceItem<QDateTime> lastUpdateCheck;
+	static PreferenceItem<int> historySize;
 	
 	// SearchWidget stuff
-	SearchBar *searchBar() { return _searchBar; }
 	ResultsList *resultsList() { return _results; }
 	ResultsView *resultsView() { return _resultsView; }
 	DetailedView *detailedView() { return _detailedView->detailedView(); }
-	int resultsPerPage() const { return _resultsPerPage; }
-	void setResultsPerPage(int nbr) { _resultsPerPage = nbr; }
+
 	const QueryBuilder &queryBuilder() const { return _queryBuilder; }
-
-	static PreferenceItem<int> resultsPerPagePref;
-	static PreferenceItem<int> historySize;
-	// End of SearchWidget stuff
-
-public slots:
-	// SearchWidget stuff
-	/// Jump to next results page
-	void nextPage();
-	/// Jump to previous results page
-	void previousPage();
-	/// Display all the results in a single page
-	void showAllResults();
-
-	/// Stop the current search - immediatly
-	void stopSearch();
-	/// What to do when the query encountered an error?
-	void queryError();
+	
+	SearchFilterDock *addSearchFilter(SearchFilterWidget *widget, Qt::DockWidgetArea defaultPosition);
+	SearchFilterDock *addSearchFilter(SearchFilterWidget *widget, QDockWidget *defaultWith);
+	SearchFilterDock *getSearchFilter(const QString &name);
+	void removeSearchFilterWidget(const QString &name);
 };
 
 #endif

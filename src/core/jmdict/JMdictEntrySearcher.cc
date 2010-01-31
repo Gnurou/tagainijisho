@@ -44,7 +44,7 @@ JMdictEntrySearcher::JMdictEntrySearcher(QObject *parent) : EntrySearcher(parent
 	// Register text search commands
 	validCommands << "mean" << "kana" << "kanji" << "jmdict" << "haskanji" << "jlpt" << "withstudiedkanjis" << "hascomponent";
 	// Also register commands that are sense properties
-	validCommands << "pos" << "misc" << "dialect" << "field";
+	validCommands << "pos" << "misc" << "dial" << "field";
 
 	// Prepare queries so that we just have to bind and execute them
 	kanjiQuery.prepare("select reading, frequency from jmdict.kanji join jmdict.kanjiText on kanji.docid == kanjiText.docid where id=? order by priority");
@@ -246,7 +246,7 @@ void JMdictEntrySearcher::buildStatement(QList<SearchCommand> &commands, QueryBu
 				// Check if the argument is defined
 				if (JMdictPlugin::posBitShifts().contains(arg)) {
 					int bitShift(JMdictPlugin::posBitShifts()[arg]);
-					if (bitShift != 0) posFilter |= 1 << bitShift;
+					posFilter |= 1 << bitShift;
 				} else allArgsProcessed = false;
 			}
 			if (!allArgsProcessed) continue;
@@ -258,19 +258,19 @@ void JMdictEntrySearcher::buildStatement(QList<SearchCommand> &commands, QueryBu
 				// Check if the argument is defined
 				if (JMdictPlugin::miscBitShifts().contains(arg)) {
 					int bitShift(JMdictPlugin::miscBitShifts()[arg]);
-					if (bitShift != 0) miscFilter |= 1 << bitShift;
+					miscFilter |= 1 << bitShift;
 				} else allArgsProcessed = false;
 			}
 			if (!allArgsProcessed) continue;
 			commands.removeOne(command);
 		}
-		else if (commandLabel == "dialect") {
+		else if (commandLabel == "dial") {
 			bool allArgsProcessed = true;
 			foreach (const QString &arg, command.args()) {
 				// Check if the argument is defined
 				if (JMdictPlugin::dialectBitShifts().contains(arg)) {
 					int bitShift(JMdictPlugin::dialectBitShifts()[arg]);
-					if (bitShift != 0) dialectFilter |= 1 << bitShift;
+					dialectFilter |= 1 << bitShift;
 				} else allArgsProcessed = false;
 			}
 			if (!allArgsProcessed) continue;
@@ -281,8 +281,8 @@ void JMdictEntrySearcher::buildStatement(QList<SearchCommand> &commands, QueryBu
 			foreach (const QString &arg, command.args()) {
 				// Check if the argument is defined
 				if (JMdictPlugin::fieldBitShifts().contains(arg)) {
-					int bitShift(JMdictPlugin::posBitShifts()[arg]);
-					if (bitShift != 0) fieldFilter |= 1 << bitShift;
+					int bitShift(JMdictPlugin::fieldBitShifts()[arg]);
+					fieldFilter |= 1 << bitShift;
 				} else allArgsProcessed = false;
 			}
 			if (!allArgsProcessed) continue;
@@ -305,7 +305,7 @@ void JMdictEntrySearcher::buildStatement(QList<SearchCommand> &commands, QueryBu
 		statement.addJoin(QueryBuilder::Join(QueryBuilder::Column("jmdict.senses", "id")));
 		if (posFilter) statement.addWhere(QString("jmdict.senses.pos & %2 == %2").arg(posFilter));
 		if (miscFilter) statement.addWhere(QString("jmdict.senses.misc & %2 == %2").arg(miscFilter));
-		if (dialectFilter) statement.addWhere(QString("jmdict.senses.dialect & %2 == %2").arg(dialectFilter));
+		if (dialectFilter) statement.addWhere(QString("jmdict.senses.dial & %2 == %2").arg(dialectFilter));
 		if (fieldFilter) statement.addWhere(QString("jmdict.senses.field & %2 == %2").arg(fieldFilter));
 		// Implicitely masked misc properties
 		if (_miscFilterMask) statement.addWhere(QString("jmdict.senses.misc & %1 == 0").arg(_miscFilterMask));

@@ -40,7 +40,7 @@
 
 PreferenceItem<bool> JMdictGUIPlugin::furiganasForTraining("jmdict", "furiganasForTraining", true);
 
-JMdictGUIPlugin::JMdictGUIPlugin() : Plugin("JMdictGUI"), _formatter(0), _flashJL(0), _flashJS(0), _flashTL(0), _flashTS(0), _linkhandler(0), _trainer(0)
+JMdictGUIPlugin::JMdictGUIPlugin() : Plugin("JMdictGUI"), _formatter(0), _flashJL(0), _flashJS(0), _flashTL(0), _flashTS(0), _linkhandler(0), _filter(0), _trainer(0)
 {
 }
 
@@ -74,8 +74,8 @@ bool JMdictGUIPlugin::onRegister()
 	connect(_flashTS, SIGNAL(triggered()), this, SLOT(trainingTranslationSet()));
 
 	// Add the search extender
-	_extender = new JMdictOptionsWidget(0);
-	mainWindow->searchBar()->registerExtender(_extender);
+	_filter = new JMdictOptionsWidget(0);
+	mainWindow->addSearchFilter(_filter, mainWindow->getSearchFilter("searchtext"));
 
 	// Add the preference panel
 	PreferencesWindow::addPanel(&JMdictPreferences::staticMetaObject);
@@ -90,8 +90,9 @@ bool JMdictGUIPlugin::onUnregister()
 	PreferencesWindow::removePanel(&JMdictPreferences::staticMetaObject);
 
 	// Remove the search extender
-	mainWindow->searchBar()->removeExtender(_extender);
-	delete _extender; _extender = 0;
+	mainWindow->removeSearchFilterWidget(_filter->name());
+	// TODO does the owner of the filter change??
+	//delete _extender; _extender = 0;
 	// Remove the main window entries
 	delete _flashJS; _flashJS = 0;
 	delete _flashJL; _flashJL = 0;
@@ -234,7 +235,7 @@ QString JMdictGUIPlugin::pluginInfo() const
 	return "<p>The <a href=\"http://www.csse.monash.edu.au/~jwb/jmdict.html\">JMDict</a> is distributed under the <a href=\"http://creativecommons.org/licenses/by-sa/3.0/\">Creative Common Attribution Share Alike Licence, version 3.0</a>.</p>";
 }
 
-JMdictOptionsWidget::JMdictOptionsWidget(QWidget *parent) : SearchBarExtender(parent, "wordsdic")
+JMdictOptionsWidget::JMdictOptionsWidget(QWidget *parent) : SearchFilterWidget(parent, "wordsdic")
 {
 	_propsToSave << "containedKanjis" << "containedComponents" << "studiedKanjisOnly" << "pos" << "dial" << "field" << "misc";
 	QVBoxLayout *mainLayout = new QVBoxLayout(this);

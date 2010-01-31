@@ -88,12 +88,14 @@ class ComponentSearchButton : public QToolButton
 	Q_OBJECT
 private:
 	ComponentSearchWidget _popup;
+	QWidget *focusWidget;
 
 protected:
 	virtual bool eventFilter(QObject *obj, QEvent *event);
 
 protected slots:
 	void togglePopup(bool status);
+	void onComponentSearchKanjiSelected(const QString &kanji);
 
 public:
 	ComponentSearchButton(QWidget *parent);

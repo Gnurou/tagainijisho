@@ -40,6 +40,13 @@ Query::Query(QObject *parent) : QObject(parent), _status(Idle), _statusMutex()
 		this, SLOT(__fetch(int, int)));
 }
 
+bool Query::isRunning() const
+{
+	_statusMutex.lock();
+	bool res = _status != Idle;
+	_statusMutex.unlock();
+	return res;
+}
 
 void Query::fetch(int min, int nb)
 {

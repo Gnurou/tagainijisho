@@ -15,18 +15,13 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef __GUI_LISTSVIEW_H
-#define __GUI_LISTSVIEW_H
+#ifndef __GUI_ENTRYLISTMODEL_H
+#define __GUI_ENTRYLISTMODEL_H
 
 #include "core/EntriesCache.h"
-#include <QTreeWidget>
-#include <QTreeView>
-#include <QMimeData>
-
 #include <QAbstractItemModel>
 #include <QSqlQuery>
-#include <QDragEnterEvent>
-#include <QDragMoveEvent>
+#include <QMimeData>
 
 class EntryListModel : public QAbstractItemModel
 {
@@ -56,28 +51,6 @@ public:
 	virtual QMimeData *mimeData(const QModelIndexList &indexes) const;
 	virtual Qt::DropActions supportedDropActions() const { return Qt::CopyAction | Qt::MoveAction; }
 	virtual bool dropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &parent);
-};
-
-class EntryListView : public QTreeView
-{
-	Q_OBJECT
-public:
-	EntryListView(QWidget *parent = 0);
-
-protected:
-	virtual void dragEnterEvent(QDragEnterEvent *event);
-	virtual void dragMoveEvent(QDragMoveEvent *event);
-	
-protected slots:
-	virtual void selectionChanged(const QItemSelection &selected, const QItemSelection &deselected);
-
-public slots:
-	void newList();
-	void deleteSelectedItems();
-	
-signals:
-	void listSelected(int rowIndex);
-	void entrySelected(EntryPointer<Entry> entry);
 };
 
 #endif
