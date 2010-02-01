@@ -122,6 +122,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), _history(historyS
 	connect(&_searchBuilder, SIGNAL(queryRequested(QString)), this, SLOT(search(QString)));
 	SearchFilterWidget *textFilter = new TextFilterWidget(this);
 	addSearchFilter(textFilter);
+	addSearchFilter(new StudyFilterWidget(this));
 	addSearchFilter(new JLPTFilterWidget(this));
 	addSearchFilter(new TagsFilterWidget(this));
 	addSearchFilter(new NotesFilterWidget(this));
