@@ -76,14 +76,17 @@ void EntryListView::dragMoveEvent(QDragMoveEvent *event)
 void EntryListView::newList()
 {
 	int idx = model()->rowCount(QModelIndex());
-	model()->insertRows(idx, 1, QModelIndex());
+	if (!model()->insertRows(idx, 1, QModelIndex()))
+		QMessageBox::information(this, tr("Unable to create list"), tr("A database error occured while trying to add the list."));
 }
 
 void EntryListView::deleteSelectedItems()
 {
 	if (QMessageBox::question(this, tr("Confirm deletion"), tr("This will delete the selected lists items and lists, including all their children. Continue?"), QMessageBox::Yes | QMessageBox::No, QMessageBox::No) != QMessageBox::Yes) return;
 	QModelIndexList selection(selectionModel()->selectedIndexes());
+	bool success = true;
 	foreach (const QModelIndex &index, selection) {
-		model()->removeRow(index.row(), index.parent());
+		if (!model()->removeRow(index.row(), index.parent())) success = false;
 	}
+	if (!success) QMessageBox::information(this, tr("Removal failed"), tr("A database error occured while trying to remove the selected items. Some of them may be remaining."));
 }
