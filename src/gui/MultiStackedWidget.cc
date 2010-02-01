@@ -149,7 +149,7 @@ void MultiStackedWidget::showWidget(QWidget *widget)
 	if (!_buttonMap.contains(widget)) return;
 	if (!widget->isVisible()) {
 		foreach (QWidget *otherWidget, _buttonMap.keys()) if (otherWidget->isVisible()) _buttonMap[otherWidget].button->click();
-//		_buttonMap[widget].button->setChecked(true);
+		_buttonMap[widget].button->setChecked(true);
 		widget->setVisible(true);
 		widget->setFocus();
 	}
@@ -160,7 +160,7 @@ void MultiStackedWidget::hideWidget(QWidget *widget)
 	if (!_buttonMap.contains(widget)) return;
 	if (widget->isVisible()) {
 		widget->setVisible(false);
-//		_buttonMap[widget].button->setChecked(false);
+		_buttonMap[widget].button->setChecked(false);
 	}
 }
 

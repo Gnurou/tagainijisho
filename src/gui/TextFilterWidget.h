@@ -45,7 +45,7 @@ protected:
 public:
 	TextFilterWidget(QWidget *parent = 0);
 	virtual QString name() const { return "searchtext"; }
-	virtual QString currentTitle() const { return tr("Text search"); }
+	virtual QString currentTitle() const;
 	virtual QString currentCommand() const { return text(); }
 	
 	QString text() const { return _searchField->lineEdit()->text(); }

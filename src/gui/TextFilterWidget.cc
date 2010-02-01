@@ -54,6 +54,12 @@ TextFilterWidget::TextFilterWidget(QWidget *parent) : SearchFilterWidget(parent)
 	hLayout->addWidget(searchButton);
 }
 
+QString TextFilterWidget::currentTitle() const
+{
+	if (!_searchField->lineEdit()->text().isEmpty()) return _searchField->lineEdit()->text();
+	return tr("Text search");
+}
+
 void TextFilterWidget::searchButtonClicked()
 {
 	if (!_searchField->lineEdit()->text().isEmpty() && _searchField->itemText(0) != _searchField->lineEdit()->text()) {

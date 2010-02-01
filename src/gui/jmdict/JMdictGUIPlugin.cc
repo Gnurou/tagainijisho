@@ -75,7 +75,7 @@ bool JMdictGUIPlugin::onRegister()
 
 	// Add the search extender
 	_filter = new JMdictOptionsWidget(0);
-	mainWindow->addSearchFilter(_filter, mainWindow->getSearchFilter("searchtext"));
+	mainWindow->addSearchFilter(_filter);
 
 	// Add the preference panel
 	PreferencesWindow::addPanel(&JMdictPreferences::staticMetaObject);
@@ -91,8 +91,7 @@ bool JMdictGUIPlugin::onUnregister()
 
 	// Remove the search extender
 	mainWindow->removeSearchFilterWidget(_filter->name());
-	// TODO does the owner of the filter change??
-	//delete _extender; _extender = 0;
+	delete _filter; _filter = 0;
 	// Remove the main window entries
 	delete _flashJS; _flashJS = 0;
 	delete _flashJL; _flashJL = 0;

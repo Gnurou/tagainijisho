@@ -103,7 +103,7 @@ bool Kanjidic2GUIPlugin::onRegister()
 
 	// Register the searchbar extender
 	_filter = new Kanjidic2OptionsWidget(0);
-	mainWindow->addSearchFilter(_filter, mainWindow->getSearchFilter("searchtext"));
+	mainWindow->addSearchFilter(_filter);
 
 	// Register the detailed view event filter
 	DetailedView::registerEventFilter(this);
@@ -125,8 +125,7 @@ bool Kanjidic2GUIPlugin::onUnregister()
 	MainWindow *mainWindow = MainWindow::instance();
 	// Remove the search extender
 	mainWindow->removeSearchFilterWidget(_filter->name());
-	// TODO does the ownership of the filter change??
-	//delete _extender; _extender = 0;
+	delete _filter; _filter = 0;
 	// Remove the components searcher
 	delete _cButton; _cButton = 0;
 	// Remove the main window entries

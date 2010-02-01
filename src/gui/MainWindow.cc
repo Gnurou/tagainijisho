@@ -79,12 +79,12 @@ PreferenceItem<QByteArray> MainWindow::windowState("mainWindow", "state", "");
 PreferenceItem<int> MainWindow::historySize("mainWindow/resultsView", "historySize", 100);
 PreferenceItem<QByteArray> MainWindow::splitterState("mainWindow", "splitterGeometry", "");
 
-void SearchFilterDock::closeEvent(QCloseEvent *event)
+/*void SearchFilterDock::closeEvent(QCloseEvent *event)
 {
 	SearchFilterWidget *sfw = qobject_cast<SearchFilterWidget *>(widget());
 	if (sfw) sfw->reset();
 	QDockWidget::closeEvent(event);
-}
+}*/
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), _history(historySize.value()), totalResults(-1), showAllResultsTriggered(false)
 {
@@ -116,13 +116,32 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), _history(historyS
 	restoreGeometry(windowGeometry.value());
 	restoreState(windowState.value(), MAINWINDOW_STATE_VERSION);
 	
+	_searchFilters = new MultiStackedWidget(this);
+	verticalLayout->insertWidget(0, _searchFilters);
 	
+	connect(&_searchBuilder, SIGNAL(queryRequested(QString)), this, SLOT(search(QString)));
+	SearchFilterWidget *textFilter = new TextFilterWidget(this);
+	addSearchFilter(textFilter);
+	addSearchFilter(new JLPTFilterWidget(this));
+	addSearchFilter(new TagsFilterWidget(this));
+	addSearchFilter(new NotesFilterWidget(this));
+	_searchFilters->showWidget(textFilter);
+
+	EntryListWidget *elWidget = new EntryListWidget(this);
+	elWidget->entryListView()->setModel(&_listModel);
+	connect(elWidget->entryListView(), SIGNAL(entrySelected(EntryPointer<Entry>)), detailedView(), SLOT(display(EntryPointer<Entry>)));
+	QDockWidget *dWidget = new QDockWidget(elWidget->currentTitle(), this);
+	dWidget->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
+	dWidget->setWidget(elWidget);
+	addDockWidget(Qt::LeftDockWidgetArea, dWidget);
+	dWidget->setObjectName(elWidget->currentTitle() + "Dock");
+	_searchMenu->addSeparator();
+	_searchMenu->addAction(dWidget->toggleViewAction());
 	
 
 	// Docks
+	/*
 	setTabPosition(Qt::TopDockWidgetArea, QTabWidget::North);
-	_searchMenu->addSeparator();
-	connect(&_searchBuilder, SIGNAL(queryRequested(QString)), this, SLOT(search(QString)));
 	QDockWidget *textWidget = addSearchFilter(new TextFilterWidget(this), Qt::TopDockWidgetArea);
 	addSearchFilter(new StudyFilterWidget(this), textWidget);
 	addSearchFilter(new JLPTFilterWidget(this), textWidget);
@@ -133,9 +152,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), _history(historyS
 	connect(elWidget->entryListView(), SIGNAL(entrySelected(EntryPointer<Entry>)), detailedView(), SLOT(display(EntryPointer<Entry>)));
 	addSearchFilter(elWidget, Qt::LeftDockWidgetArea);
 	textWidget->raise();
+	*/
 	// TODO dirty fix!
 	restoreState(windowState.value(), MAINWINDOW_STATE_VERSION);
-	
 	
 	
 	
@@ -734,54 +753,25 @@ void MainWindow::scheduleShowAllResults()
 	_results->scheduleShowAllResults();
 }
 
-SearchFilterDock *MainWindow::_prepareSearchFilterDock(SearchFilterWidget *widget)
+void MainWindow::addSearchFilter(SearchFilterWidget *sWidget)
 {
-	if (_searchBuilder.contains(widget->name())) return 0;
-	
-	SearchFilterDock *dWidget = new SearchFilterDock(this);
-	dWidget->setWindowTitle(widget->currentTitle());
-	dWidget->setObjectName(widget->name() + "Dock");
-	dWidget->setWidget(widget);
-	widget->show();
-	_searchFiltersDocks[widget->name()] = dWidget;
-	_searchBuilder.addSearchFilter(widget->name(), widget);
-	_searchMenu->addAction(dWidget->toggleViewAction());
-	return dWidget;
+	if (_searchBuilder.contains(sWidget->name())) return;
+	_searchFilterWidgets[sWidget->name()] = sWidget;
+	_searchFilters->addWidget(sWidget->currentTitle(), sWidget);
+	connect(sWidget, SIGNAL(updateTitle(const QString &)), _searchFilters, SLOT(onTitleChanged(const QString &)));
+	_searchBuilder.addSearchFilter(sWidget->name(), sWidget);
 }
 
-SearchFilterDock *MainWindow::addSearchFilter(SearchFilterWidget *widget, Qt::DockWidgetArea defaultPosition)
+SearchFilterWidget *MainWindow::getSearchFilter(const QString &name)
 {
-	SearchFilterDock *dWidget = _prepareSearchFilterDock(widget);
-	if (!dWidget) return 0;
-	if (!restoreDockWidget(dWidget)) {
-		addDockWidget(defaultPosition, dWidget);
-	}
-	return dWidget;
-}
-
-SearchFilterDock *MainWindow::addSearchFilter(SearchFilterWidget* widget, QDockWidget* defaultWith)
-{
-	SearchFilterDock *dWidget = _prepareSearchFilterDock(widget);
-	if (!dWidget) return 0;
-	if (!restoreDockWidget(dWidget)) {
-		tabifyDockWidget(defaultWith, dWidget);
-	}
-	return dWidget;
-}
-
-SearchFilterDock *MainWindow::getSearchFilter(const QString &name)
-{
-	if (!_searchFiltersDocks.contains(name)) return 0;
-	return _searchFiltersDocks[name];
+	if (!_searchFilterWidgets.contains(name)) return 0;
+	return _searchFilterWidgets[name];
 }
 
 void MainWindow::removeSearchFilterWidget(const QString &name)
 {
-	if (!_searchFiltersDocks.contains(name)) return;
+	if (!_searchFilterWidgets.contains(name)) return;
 	
-	SearchFilterDock *dWidget = _searchFiltersDocks[name];
-	_searchFiltersDocks.remove(name);
-	_searchMenu->removeAction(dWidget->toggleViewAction());
+	_searchFilterWidgets.remove(name);
 	_searchBuilder.removeSearchFilter(name);
-	delete dWidget;
 }

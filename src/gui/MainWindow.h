@@ -29,6 +29,7 @@
 #include "gui/ToolBarDetailedView.h"
 #include "gui/SearchFilterWidget.h"
 #include "gui/SearchBuilder.h"
+#include "gui/MultiStackedWidget.h"
 
 #include <QSplitter>
 #include <QList>
@@ -39,9 +40,8 @@
 #include <QDialog>
 #include <QSpinBox>
 #include <QTimer>
-#include <QDockWidget>
 
-class SearchFilterDock : public QDockWidget
+/*class SearchFilterDock : public QDockWidget
 {
 	Q_OBJECT
 protected:
@@ -50,7 +50,7 @@ protected:
 
 public:
 	SearchFilterDock(QWidget *parent = 0) : QDockWidget(parent) {}
-};
+};*/
 
 class MainWindow : public QMainWindow, private Ui::MainWindow
 {
@@ -70,7 +70,8 @@ private:
 	static PreferenceItem<QByteArray> splitterState;
 	AbstractHistory<QMap<QString, QVariant>, QList<QMap<QString, QVariant> > > _history;
 
-	QMap<QString, SearchFilterDock *> _searchFiltersDocks;
+	MultiStackedWidget *_searchFilters;
+	QMap<QString, SearchFilterWidget *> _searchFilterWidgets;
 	SearchBuilder _searchBuilder;
 	ResultsList *_results;
 	QueryBuilder _queryBuilder;
@@ -100,8 +101,6 @@ private:
 	 */
 	void _search(const QString &commands);
 	// End of SearchWidget stuff
-	
-	SearchFilterDock *_prepareSearchFilterDock(SearchFilterWidget *widget);
 	
 protected:
 	/**
@@ -213,9 +212,8 @@ public:
 
 	const QueryBuilder &queryBuilder() const { return _queryBuilder; }
 	
-	SearchFilterDock *addSearchFilter(SearchFilterWidget *widget, Qt::DockWidgetArea defaultPosition);
-	SearchFilterDock *addSearchFilter(SearchFilterWidget *widget, QDockWidget *defaultWith);
-	SearchFilterDock *getSearchFilter(const QString &name);
+	void addSearchFilter(SearchFilterWidget *widget);
+	SearchFilterWidget *getSearchFilter(const QString &name);
 	void removeSearchFilterWidget(const QString &name);
 };
 
