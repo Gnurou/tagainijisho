@@ -36,6 +36,7 @@
 #include "gui/StudyFilterWidget.h"
 #include "gui/JLPTFilterWidget.h"
 #include "gui/EntryListWidget.h"
+#include "gui/ClickableLabel.h"
 
 #include <QtDebug>
 
@@ -91,34 +92,34 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), _history(historyS
 	_instance = this;
 	
 	setupUi(this);
-	// Setup the results view
-	_results = new ResultsList(this);
-	_resultsView->setModel(_results);
-	
 	// Strangely this is not done properly by Qt designer...
 	connect(_setsMenu, SIGNAL(aboutToShow()), this, SLOT(populateSetsMenu()));
 	
-	// Now on to the query/result logic
-	// When results are added in the results list, update the view
-	connect(_results, SIGNAL(rowsInserted(const QModelIndex &, int, int)), this, SLOT(updateNbResultsDisplay()));
-	// React when we know how many results there are in the query
-	connect(_results, SIGNAL(nbResults(unsigned int)), this, SLOT(showNbResults(unsigned int)));
-	// When the search starts or end, inform the search bar
-	connect(_results, SIGNAL(queryEnded()), this, SLOT(currentPageReceived()));
-	// Display selected items in the results view
-	connect(_resultsView, SIGNAL(listSelectionChanged(QItemSelection,QItemSelection)), this, SLOT(display(QItemSelection,QItemSelection)));
-
+	// Search animation
+	int searchAnimSize = toolBar()->height();
+	searchAnim = new QMovie(":/images/search.gif", "gif", this);
+	if (searchAnimSize < 35) searchAnim->setScaledSize(QSize(searchAnimSize, searchAnimSize));
+	searchAnim->jumpToFrame(0);
+	ClickableLabel *searchActiveAnimation = new ClickableLabel(this);
+	searchActiveAnimation->setMovie(searchAnim);
+	searchActiveAnimation->setAlignment(Qt::AlignRight);
+	QWidget *spacer = new QWidget(this);
+	spacer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+	_toolBarSeparator = _toolBar->addWidget(spacer);
+	_toolBar->addWidget(searchActiveAnimation);
+	
+	// Setup the results model and view
+	_results = new ResultsList(this);
+	_resultsView->setModel(_results);
+	
+	// Geometry & state
+	restoreGeometry(windowGeometry.value());
+	restoreState(windowState.value(), MAINWINDOW_STATE_VERSION);
 	// Splitter layout
 	if (splitterState.isDefault()) splitter->setStretchFactor(1, 2);
 	else splitter->restoreState(splitterState.value());
-	// End of SearchWidget stuff
 	
-	restoreGeometry(windowGeometry.value());
-	restoreState(windowState.value(), MAINWINDOW_STATE_VERSION);
-	
-	_searchFilters = new MultiStackedWidget(this);
-	verticalLayout->insertWidget(0, _searchFilters);
-	
+	// Search filters
 	connect(&_searchBuilder, SIGNAL(queryRequested(QString)), this, SLOT(search(QString)));
 	SearchFilterWidget *textFilter = new TextFilterWidget(this);
 	addSearchFilter(textFilter);
@@ -128,6 +129,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), _history(historyS
 	addSearchFilter(new NotesFilterWidget(this));
 	_searchFilters->showWidget(textFilter);
 
+	// List widget
 	EntryListWidget *elWidget = new EntryListWidget(this);
 	elWidget->entryListView()->setModel(&_listModel);
 	connect(elWidget->entryListView(), SIGNAL(entrySelected(EntryPointer<Entry>)), detailedView(), SLOT(display(EntryPointer<Entry>)));
@@ -157,7 +159,17 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), _history(historyS
 	// TODO dirty fix!
 	restoreState(windowState.value(), MAINWINDOW_STATE_VERSION);
 	
-	
+	// Now on to the query/result logic
+	// When results are added in the results list, update the view
+	connect(_results, SIGNAL(rowsInserted(const QModelIndex &, int, int)), this, SLOT(updateNbResultsDisplay()));
+	// React when we know how many results there are in the query
+	connect(_results, SIGNAL(nbResults(unsigned int)), this, SLOT(showNbResults(unsigned int)));
+	connect(_results, SIGNAL(queryStarted()), searchAnim, SLOT(start()));
+	connect(_results, SIGNAL(queryEnded()), this, SLOT(currentPageReceived()));
+	// When the search starts or end, inform the search bar
+	connect(_results, SIGNAL(queryEnded()), this, SLOT(stopAndResetSearchAnim()));
+	// Display selected items in the results view
+	connect(_resultsView, SIGNAL(listSelectionChanged(QItemSelection,QItemSelection)), this, SLOT(display(QItemSelection,QItemSelection)));
 	
 	// Updates checker
 	_updateChecker = new UpdateChecker("/updates/latestversion.php", this);
@@ -184,6 +196,12 @@ MainWindow::~MainWindow()
 	splitterState.set(splitter->saveState());
 	windowState.set(saveState(MAINWINDOW_STATE_VERSION));
 	windowGeometry.set(saveGeometry());
+}
+
+void MainWindow::stopAndResetSearchAnim()
+{
+	searchAnim->stop();
+	searchAnim->jumpToFrame(0);
 }
 
 PreferenceItem<QDateTime> MainWindow::lastUpdateCheck("", "lastUpdateCheck", QDateTime(QDate(2000, 1, 1)));

@@ -29,7 +29,6 @@
 #include "gui/ToolBarDetailedView.h"
 #include "gui/SearchFilterWidget.h"
 #include "gui/SearchBuilder.h"
-#include "gui/MultiStackedWidget.h"
 
 #include <QSplitter>
 #include <QList>
@@ -40,6 +39,7 @@
 #include <QDialog>
 #include <QSpinBox>
 #include <QTimer>
+#include <QMovie>
 
 /*class SearchFilterDock : public QDockWidget
 {
@@ -64,13 +64,15 @@ private:
 	QList<QAction *> _rootActions;
 	QList<QMenu *> _rootMenus;
 	
+	QAction *_toolBarSeparator;
+	QMovie *searchAnim;
+	
 	QTimer _updateTimer;
 
 	// SearchWidget stuff
 	static PreferenceItem<QByteArray> splitterState;
 	AbstractHistory<QMap<QString, QVariant>, QList<QMap<QString, QVariant> > > _history;
 
-	MultiStackedWidget *_searchFilters;
 	QMap<QString, SearchFilterWidget *> _searchFilterWidgets;
 	SearchBuilder _searchBuilder;
 	ResultsList *_results;
@@ -117,6 +119,7 @@ protected:
 
 private slots:
 	void populateMenu(QMenu *menu, int parentId);
+	void stopAndResetSearchAnim();
 
 protected slots:
 	// SearchWidget stuff
@@ -191,6 +194,7 @@ public:
 	static MainWindow *instance() { return _instance; }
 	
 	QToolBar *toolBar() { return _toolBar; }
+	QAction *toolBarSeparator() { return _toolBarSeparator; }
 
 	QMenu *fileMenu() { return _fileMenu; }
 	QMenu *searchMenu() { return _searchMenu; }
