@@ -100,11 +100,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), _history(historyS
 	searchAnim = new QMovie(":/images/search.gif", "gif", this);
 	if (searchAnimSize < 35) searchAnim->setScaledSize(QSize(searchAnimSize, searchAnimSize));
 	searchAnim->jumpToFrame(0);
-	ClickableLabel *searchActiveAnimation = new ClickableLabel(this);
 	searchActiveAnimation->setMovie(searchAnim);
-	searchActiveAnimation->setAlignment(Qt::AlignRight);
-	searchActiveAnimation->setToolTip(tr("Click when a search is active to abort it"));
-	_statusToolBar->addWidget(searchActiveAnimation);
 	
 	// Setup the results model and view
 	_results = new ResultsList(this);

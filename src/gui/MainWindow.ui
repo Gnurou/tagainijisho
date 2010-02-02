@@ -149,6 +149,22 @@
         </property>
        </widget>
       </item>
+      <item>
+       <widget class="ClickableLabel" name="searchActiveAnimation">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="toolTip">
+         <string>Click when a search is active to abort it</string>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
      </layout>
     </item>
     <item>
@@ -269,17 +285,6 @@
   <widget class="QToolBar" name="_filtersToolBar">
    <property name="windowTitle">
     <string>Search filters</string>
-   </property>
-   <attribute name="toolBarArea">
-    <enum>TopToolBarArea</enum>
-   </attribute>
-   <attribute name="toolBarBreak">
-    <bool>false</bool>
-   </attribute>
-  </widget>
-  <widget class="QToolBar" name="_statusToolBar">
-   <property name="windowTitle">
-    <string>Search status</string>
    </property>
    <attribute name="toolBarArea">
     <enum>TopToolBarArea</enum>
@@ -489,6 +494,11 @@
    <extends>QWidget</extends>
    <header>gui/MultiStackedWidget.h</header>
    <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>ClickableLabel</class>
+   <extends>QLabel</extends>
+   <header>gui/ClickableLabel.h</header>
   </customwidget>
  </customwidgets>
  <tabstops>
