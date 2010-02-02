@@ -46,4 +46,6 @@ kanjidic2/Kanjidic2EntrySearcher.h
 )
 
 include_directories(${QT_INCLUDE_DIR})
+# TODO remove once the SQLite stuff is entirely moved into the sqlite module
+include_directories(${CMAKE_SOURCE_DIR}/3rdparty/sqlite)
 add_library(tagaini_core STATIC ${tagainijisho_core_SRCS} ${tagainijisho_core_MOC_SRCS})
