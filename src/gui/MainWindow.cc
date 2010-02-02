@@ -87,20 +87,13 @@ PreferenceItem<QByteArray> MainWindow::splitterState("mainWindow", "splitterGeom
 	QDockWidget::closeEvent(event);
 }*/
 
-MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), _history(historySize.value()), totalResults(-1), showAllResultsTriggered(false)
+MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), _history(historySize.value())
 {
 	_instance = this;
 	
 	setupUi(this);
 	// Strangely this is not done properly by Qt designer...
 	connect(_setsMenu, SIGNAL(aboutToShow()), this, SLOT(populateSetsMenu()));
-	
-	// Search animation
-	int searchAnimSize = toolBar()->height();
-	searchAnim = new QMovie(":/images/search.gif", "gif", this);
-	if (searchAnimSize < 35) searchAnim->setScaledSize(QSize(searchAnimSize, searchAnimSize));
-	searchAnim->jumpToFrame(0);
-	searchActiveAnimation->setMovie(searchAnim);
 	
 	// Setup the results model and view
 	_results = new ResultsList(this);
@@ -153,18 +146,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), _history(historyS
 	// TODO dirty fix!
 	restoreState(windowState.value(), MAINWINDOW_STATE_VERSION);
 	
-	// Now on to the query/result logic
-	// When results are added in the results list, update the view
-	connect(_results, SIGNAL(rowsInserted(const QModelIndex &, int, int)), this, SLOT(updateNbResultsDisplay()));
-	// React when we know how many results there are in the query
-	connect(_results, SIGNAL(nbResults(unsigned int)), this, SLOT(showNbResults(unsigned int)));
-	connect(_results, SIGNAL(queryStarted()), searchAnim, SLOT(start()));
-	connect(_results, SIGNAL(queryEnded()), this, SLOT(currentPageReceived()));
-	// When the search starts or end, inform the search bar
-	connect(_results, SIGNAL(queryEnded()), this, SLOT(stopAndResetSearchAnim()));
-	connect(searchActiveAnimation, SIGNAL(clicked()), _results, SLOT(abortSearch()));
 	// Display selected items in the results view
-	connect(_resultsView, SIGNAL(listSelectionChanged(QItemSelection,QItemSelection)), this, SLOT(display(QItemSelection,QItemSelection)));
+	connect(_resultsView->resultsView(), SIGNAL(listSelectionChanged(QItemSelection,QItemSelection)), this, SLOT(display(QItemSelection,QItemSelection)));
 	
 	// Updates checker
 	_updateChecker = new UpdateChecker("/updates/latestversion.php", this);
@@ -191,12 +174,6 @@ MainWindow::~MainWindow()
 	splitterState.set(splitter->saveState());
 	windowState.set(saveState(MAINWINDOW_STATE_VERSION));
 	windowGeometry.set(saveGeometry());
-}
-
-void MainWindow::stopAndResetSearchAnim()
-{
-	searchAnim->stop();
-	searchAnim->jumpToFrame(0);
 }
 
 PreferenceItem<QDateTime> MainWindow::lastUpdateCheck("", "lastUpdateCheck", QDateTime(QDate(2000, 1, 1)));
@@ -659,26 +636,17 @@ void MainWindow::search(const QString &commands)
 
 void MainWindow::_search(const QString &commands)
 {
-	totalResults = -1;
-	showAllResultsTriggered = false;
-
+	_queryBuilder.clear();
+	
 	// Special case for when just a clear should be performed
-	if (commands.trimmed().isEmpty() || commands == ":jmdict" || commands == ":kanjidic") {
-		_queryBuilder.clear();
-		_results->abortSearch();
+	if (commands.trimmed().isEmpty() || commands.trimmed() == ":jmdict" || commands.trimmed() == ":kanjidic") {
 		_results->clear();
-		//_searchBar->searchCompleted();
-		updateNbResultsDisplay();
-		updateNavigationButtons();
-		// This is needed here
-		showAllResultsButton->setEnabled(false);
+		_results->abortSearch();
 		return;
 	}
 
-	_queryBuilder.clear();
-
-	prevButton->setEnabled(_history.hasPrevious());
-	nextButton->setEnabled(_history.hasNext());
+	actionPreviousSearch->setEnabled(_history.hasPrevious());
+	actionNextSearch->setEnabled(_history.hasNext());
 
 	// If we cannot build a valid query, no need to continue
 	if (!EntrySearcherManager::instance().buildQuery(commands, _queryBuilder)) {
@@ -687,29 +655,6 @@ void MainWindow::_search(const QString &commands)
 	}
 
 	_results->search(_queryBuilder);
-	updateNbResultsDisplay();
-	updateNavigationButtons();
-}
-
-void MainWindow::showNbResults(unsigned int nbResults)
-{
-	totalResults = nbResults;
-	updateNbResultsDisplay();
-	updateNavigationButtons();
-}
-
-void MainWindow::updateNavigationButtons()
-{
-	nextPageButton->setEnabled(!showAllResultsTriggered && (totalResults > (_results->pageNbr() * _results->resultsPerPage()) + _results->nbResults()));
-	previousPageButton->setEnabled(!showAllResultsTriggered && _results->pageNbr() > 0);
-	showAllResultsButton->setEnabled(!showAllResultsTriggered && (totalResults == -1 || totalResults > _results->nbResults()));
-}
-
-
-void MainWindow::updateNbResultsDisplay()
-{
-	if (_results->nbResults() == 0) nbResultsLabel->clear();
-	else nbResultsLabel->setText(QString(tr("Results %1 - %2 of %3")).arg(_results->nbResults() > 0 || _results->pageNbr() > 0 ? QString::number(_results->pageNbr() * _results->resultsPerPage() + 1) : "0").arg(QString::number(_results->pageNbr() * _results->resultsPerPage() + _results->nbResults())).arg(totalResults > -1 ? QString::number(totalResults) : QString("??")));
 }
 
 void MainWindow::goPrev()
@@ -730,44 +675,6 @@ void MainWindow::goNext()
 		_searchBuilder.restoreState(q);
 		_search(_searchBuilder.commands());
 	}
-}
-
-void MainWindow::currentPageReceived()
-{
-	updateNavigationButtons();
-}
-
-void MainWindow::queryEnded()
-{
-	// Fix a bug that seems to occur sometimes with counting...
-	/*if (!showAllResultsButton->isEnabled()) {
-		if (totalResults != _results->nbResults())
-			showNbResults(_results->nbResults());
-	}*/
-	/*queryInProgress = false;
-	if (queryPending) {
-		queryPending = false;
-		startPreparedQuery();
-	}*/
-}
-
-void MainWindow::nextPage()
-{
-	_results->nextPage();
-}
-
-void MainWindow::previousPage()
-{
-	_results->previousPage();
-}
-
-void MainWindow::scheduleShowAllResults()
-{
-	showAllResultsTriggered = true;
-	showAllResultsButton->setEnabled(false);
-	nextPageButton->setEnabled(false);
-	previousPageButton->setEnabled(false);
-	_results->scheduleShowAllResults();
 }
 
 void MainWindow::addSearchFilter(SearchFilterWidget *sWidget)

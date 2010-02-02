@@ -35,6 +35,7 @@ SearchBuilder.cc
 ResultsList.cc
 SmoothScroller.cc
 ResultsView.cc
+ResultsViewWidget.cc
 DetailedView.cc
 EntryListModel.cc
 EntryListView.cc
@@ -74,6 +75,7 @@ ReadingTrainer.h
 RelativeDateEdit.h
 ResultsList.h
 ResultsView.h
+ResultsViewWidget.h
 EntryListModel.h
 EntryListView.h
 EntryListWidget.h
@@ -108,6 +110,7 @@ SetsOrganizer.ui
 PreferencesWindow.ui
 TrainSettings.ui
 AboutDialog.ui
+ResultsViewWidget.ui
 EntryListWidget.ui
 DetailedViewPreferences.ui
 ResultsViewPreferences.ui

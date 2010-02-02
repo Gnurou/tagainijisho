@@ -90,6 +90,7 @@ public slots:
 	void scheduleShowAllResults();
 
 signals:
+	void newSearch();
 	void queryStarted();
 	void nbResults(unsigned int);
 	void queryEnded();

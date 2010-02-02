@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>685</width>
-    <height>671</height>
+    <width>499</width>
+    <height>561</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -26,169 +26,13 @@
      <widget class="MultiStackedWidget" name="_searchFilters" native="true"/>
     </item>
     <item>
-     <layout class="QHBoxLayout" name="navigationButtonsLayout">
-      <item>
-       <widget class="QPushButton" name="prevButton">
-        <property name="enabled">
-         <bool>false</bool>
-        </property>
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="toolTip">
-         <string>Previous search</string>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-        <property name="icon">
-         <iconset resource="../../tagainijisho.qrc">
-          <normaloff>:/images/icons/go-previous.png</normaloff>:/images/icons/go-previous.png</iconset>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="nextButton">
-        <property name="enabled">
-         <bool>false</bool>
-        </property>
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="toolTip">
-         <string>Next search</string>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-        <property name="icon">
-         <iconset resource="../../tagainijisho.qrc">
-          <normaloff>:/images/icons/go-next.png</normaloff>:/images/icons/go-next.png</iconset>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLabel" name="nbResultsLabel">
-        <property name="text">
-         <string/>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="previousPageButton">
-        <property name="enabled">
-         <bool>false</bool>
-        </property>
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="toolTip">
-         <string>Previous page</string>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-        <property name="icon">
-         <iconset resource="../../tagainijisho.qrc">
-          <normaloff>:/images/icons/arrow-left.png</normaloff>:/images/icons/arrow-left.png</iconset>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="nextPageButton">
-        <property name="enabled">
-         <bool>false</bool>
-        </property>
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="toolTip">
-         <string>Next page</string>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-        <property name="icon">
-         <iconset resource="../../tagainijisho.qrc">
-          <normaloff>:/images/icons/arrow-right.png</normaloff>:/images/icons/arrow-right.png</iconset>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="showAllResultsButton">
-        <property name="enabled">
-         <bool>false</bool>
-        </property>
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="toolTip">
-         <string>Show all results</string>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-        <property name="icon">
-         <iconset resource="../../tagainijisho.qrc">
-          <normaloff>:/images/icons/arrow-down-double.png</normaloff>:/images/icons/arrow-down-double.png</iconset>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="ClickableLabel" name="searchActiveAnimation">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="toolTip">
-         <string>Click when a search is active to abort it</string>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-       </widget>
-      </item>
-     </layout>
+     <widget class="ResultsViewWidget" name="_resultsView" native="true"/>
     </item>
     <item>
      <widget class="QSplitter" name="splitter">
       <property name="orientation">
        <enum>Qt::Vertical</enum>
       </property>
-      <widget class="ResultsView" name="_resultsView">
-       <property name="acceptDrops">
-        <bool>false</bool>
-       </property>
-       <property name="showDropIndicator" stdset="0">
-        <bool>true</bool>
-       </property>
-       <property name="dragEnabled">
-        <bool>true</bool>
-       </property>
-       <property name="dragDropMode">
-        <enum>QAbstractItemView::DragOnly</enum>
-       </property>
-       <property name="selectionMode">
-        <enum>QAbstractItemView::ExtendedSelection</enum>
-       </property>
-      </widget>
       <widget class="ToolBarDetailedView" name="_detailedView"/>
      </widget>
     </item>
@@ -199,8 +43,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>685</width>
-     <height>21</height>
+     <width>499</width>
+     <height>23</height>
     </rect>
    </property>
    <widget class="QMenu" name="_fileMenu">
@@ -266,6 +110,9 @@
    <addaction name="_helpMenu"/>
   </widget>
   <widget class="QToolBar" name="_toolsToolBar">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
    <property name="windowTitle">
     <string>Tools</string>
    </property>
@@ -281,6 +128,8 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
+   <addaction name="actionPreviousSearch"/>
+   <addaction name="actionNextSearch"/>
   </widget>
   <widget class="QToolBar" name="_filtersToolBar">
    <property name="windowTitle">
@@ -477,13 +326,32 @@
     <enum>QAction::AboutRole</enum>
    </property>
   </action>
+  <action name="actionPreviousSearch">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../../tagainijisho.qrc">
+     <normaloff>:/images/icons/go-previous.png</normaloff>:/images/icons/go-previous.png</iconset>
+   </property>
+   <property name="text">
+    <string>Previous search</string>
+   </property>
+  </action>
+  <action name="actionNextSearch">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../../tagainijisho.qrc">
+     <normaloff>:/images/icons/go-next.png</normaloff>:/images/icons/go-next.png</iconset>
+   </property>
+   <property name="text">
+    <string>Next search</string>
+   </property>
+  </action>
  </widget>
  <customwidgets>
-  <customwidget>
-   <class>ResultsView</class>
-   <extends>QListView</extends>
-   <header>gui/ResultsView.h</header>
-  </customwidget>
   <customwidget>
    <class>ToolBarDetailedView</class>
    <extends>QTextBrowser</extends>
@@ -496,104 +364,19 @@
    <container>1</container>
   </customwidget>
   <customwidget>
-   <class>ClickableLabel</class>
-   <extends>QLabel</extends>
-   <header>gui/ClickableLabel.h</header>
+   <class>ResultsViewWidget</class>
+   <extends>QWidget</extends>
+   <header>gui/ResultsViewWidget.h</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <tabstops>
-  <tabstop>prevButton</tabstop>
-  <tabstop>nextButton</tabstop>
-  <tabstop>previousPageButton</tabstop>
-  <tabstop>nextPageButton</tabstop>
-  <tabstop>showAllResultsButton</tabstop>
-  <tabstop>_resultsView</tabstop>
   <tabstop>_detailedView</tabstop>
  </tabstops>
  <resources>
   <include location="../../tagainijisho.qrc"/>
  </resources>
  <connections>
-  <connection>
-   <sender>prevButton</sender>
-   <signal>clicked()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>goPrev()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>297</x>
-     <y>79</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>54</x>
-     <y>183</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>nextButton</sender>
-   <signal>clicked()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>goNext()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>385</x>
-     <y>79</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>50</x>
-     <y>150</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>previousPageButton</sender>
-   <signal>clicked()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>previousPage()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>687</x>
-     <y>79</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>423</x>
-     <y>81</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>nextPageButton</sender>
-   <signal>clicked()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>nextPage()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>743</x>
-     <y>79</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>587</x>
-     <y>83</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>showAllResultsButton</sender>
-   <signal>clicked()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>scheduleShowAllResults()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>799</x>
-     <y>79</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>644</x>
-     <y>118</y>
-    </hint>
-   </hints>
-  </connection>
   <connection>
    <sender>actionExport_user_data</sender>
    <signal>triggered()</signal>
@@ -895,6 +678,38 @@
     <hint type="destinationlabel">
      <x>322</x>
      <y>335</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionPreviousSearch</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>goPrev()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>249</x>
+     <y>280</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionNextSearch</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>goNext()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>249</x>
+     <y>280</y>
     </hint>
    </hints>
   </connection>

@@ -221,6 +221,7 @@ void ResultsList::search(const QueryBuilder &qBuilder)
 	
 	// And start the query!
 	query.prepare(qBuilder);
+	emit newSearch();
 	emit queryStarted();
 	query.fetch(0, resultsPerPage());
 }

@@ -39,7 +39,6 @@
 #include <QDialog>
 #include <QSpinBox>
 #include <QTimer>
-#include <QMovie>
 
 /*class SearchFilterDock : public QDockWidget
 {
@@ -64,8 +63,6 @@ private:
 	QList<QAction *> _rootActions;
 	QList<QMenu *> _rootMenus;
 	
-	QMovie *searchAnim;
-	
 	QTimer _updateTimer;
 
 	// SearchWidget stuff
@@ -76,27 +73,9 @@ private:
 	SearchBuilder _searchBuilder;
 	ResultsList *_results;
 	QueryBuilder _queryBuilder;
-	int totalResults;
-	bool showAllResultsTriggered;
 	
-	EntryDelegate *delegate;
-
 	EntryListModel _listModel;
 	
-
-
-	/**
-	 * Actually run the query that has been prepared before. Do not call
-	 * if queryInProgress is true!
-	 */
-	void startPreparedQuery();
-
-	/**
-	 * Called whenever we have received all the signals from a given
-	 * query.
-	 */
-	void queryEnded();
-
 	/**
 	 * Run the search without touching the history.
 	 */
@@ -118,27 +97,13 @@ protected:
 
 private slots:
 	void populateMenu(QMenu *menu, int parentId);
-	void stopAndResetSearchAnim();
 
 protected slots:
-	// SearchWidget stuff
-	/// Set the total number of results of a search.
-	void showNbResults(unsigned int nbResults);
-	/// Activate/deactivate the navigation buttons according
-	/// to the current position and total number of results
-	/// in the search
-	void updateNavigationButtons();
-	/// Indicates all the results in the current page have been received
-	void currentPageReceived();
-	/// Update the label displaying results range and
-	/// total number of results
-	void updateNbResultsDisplay();
 	/// Start a search with the content of the search field
 	void search(const QString &commands);
 	/// Display the latest selected result in the detailed view
 	void display(const QItemSelection &selected, const QItemSelection &deselected);
 
-	/// Replay the previous search in the history
 	void goPrev();
 	/// Replay the next search in the history
 	void goNext();
@@ -181,11 +146,6 @@ protected slots:
 	void trainSettings();
 
 	void openUrl(const QUrl &url);
-	
-public slots:
-	void nextPage();
-	void previousPage();
-	void scheduleShowAllResults();
 
 public:
 	MainWindow(QWidget *parent = 0);
@@ -207,9 +167,8 @@ public:
 	static PreferenceItem<QDateTime> lastUpdateCheck;
 	static PreferenceItem<int> historySize;
 	
-	// SearchWidget stuff
 	ResultsList *resultsList() { return _results; }
-	ResultsView *resultsView() { return _resultsView; }
+	ResultsView *resultsView() { return _resultsView->resultsView(); }
 	DetailedView *detailedView() { return _detailedView->detailedView(); }
 
 	const QueryBuilder &queryBuilder() const { return _queryBuilder; }
