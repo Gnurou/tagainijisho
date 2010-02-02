@@ -21,7 +21,7 @@
 #include <QWidget>
 #include <QMap>
 #include <QToolButton>
-#include <QLayout>
+#include <QVBoxLayout>
 
 #include "gui/ElidedPushButton.h"
 
@@ -54,7 +54,7 @@ class MultiStackedWidget : public QWidget {
 	Q_OBJECT
 private:
 	QVBoxLayout *_layout;
-	QLayout *_buttonsLayout;
+	QList<MultiStackedWidgetButton *> _toolButtons;
 	QMap<QWidget *, StackedWidgetEntryInfo> _buttonMap;
 
 protected:
@@ -63,7 +63,7 @@ protected:
 public:
 	MultiStackedWidget(QWidget *parent = 0);
 
-	void addWidget(const QString &label, QWidget *widget);
+	MultiStackedWidgetButton* addWidget(const QString &label, QWidget *widget);
 	void removeWidget(QWidget *widget);
 
 	void setWidgetEnabled(QWidget *widget, bool enabled);

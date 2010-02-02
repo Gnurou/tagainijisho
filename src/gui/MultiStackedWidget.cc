@@ -89,11 +89,6 @@ MultiStackedWidget::MultiStackedWidget(QWidget *parent) : QWidget(parent)
 	_layout = new QVBoxLayout();
 	_layout->setContentsMargins(0, 0, 0, 0);
 	_layout->setSpacing(0);
-	_buttonsLayout = new FlowLayout();
-	_buttonsLayout->setContentsMargins(0, 0, 0, 0);
-	_buttonsLayout->setSpacing(-1);
-	_buttonsLayout->setAlignment(Qt::AlignLeft);
-	mainLayout->addLayout(_buttonsLayout);
 	mainLayout->addLayout(_layout);
 
 	QAction *popupShortcut = new QAction(this);
@@ -115,7 +110,7 @@ MultiStackedWidget::MultiStackedWidget(QWidget *parent) : QWidget(parent)
 	addAction(popupShortcut);
 }
 
-void MultiStackedWidget::addWidget(const QString &label, QWidget *widget)
+MultiStackedWidgetButton *MultiStackedWidget::addWidget(const QString &label, QWidget *widget)
 {
 	MultiStackedWidgetButton *button = new MultiStackedWidgetButton(this);
 	QFont font = button->font();
@@ -124,7 +119,6 @@ void MultiStackedWidget::addWidget(const QString &label, QWidget *widget)
 	button->setText(label);
 	button->setAutoRaise(true);
 	button->setCheckable(true);
-	_buttonsLayout->addWidget(button);
 	connect(button->altWidget(), SIGNAL(clicked()), widget, SLOT(reset()));
 	widget->setVisible(false);
 	StackedWidgetEntryInfo info;
@@ -133,6 +127,8 @@ void MultiStackedWidget::addWidget(const QString &label, QWidget *widget)
 	_buttonMap[widget] = info;
 	_layout->addWidget(widget);
 	connect(button, SIGNAL(toggled(bool)), this, SLOT(onButtonToggled()));
+	_toolButtons << button;
+	return button;
 }
 
 void MultiStackedWidget::removeWidget(QWidget *widget)
@@ -140,7 +136,7 @@ void MultiStackedWidget::removeWidget(QWidget *widget)
 	if (!_buttonMap.contains(widget)) return;
 	_layout->removeWidget(widget);
 	//hideWidget(widget);
-	_buttonsLayout->removeWidget(_buttonMap[widget].button);
+	_toolButtons.removeOne(_buttonMap[widget].button);
 	_buttonMap.remove(widget);
 }
 
@@ -226,8 +222,8 @@ void MultiStackedWidget::onShortcutTriggered()
 {
 	QAction *action = qobject_cast<QAction *>(sender());
 	int nbr = action->property("buttonNbr").toInt();
-	if (nbr >= _buttonsLayout->count()) return;
-	qobject_cast<QToolButton *>(_buttonsLayout->itemAt(nbr)->widget())->click();
+	if (nbr >= _toolButtons.size()) return;
+	_toolButtons[nbr]->click();
 }
 
 void MultiStackedWidget::hideAllExtenders()

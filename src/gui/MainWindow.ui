@@ -249,15 +249,37 @@
    <addaction name="_trainMenu"/>
    <addaction name="_helpMenu"/>
   </widget>
-  <widget class="QToolBar" name="_toolBar">
+  <widget class="QToolBar" name="_toolsToolBar">
    <property name="windowTitle">
-    <string>toolBar</string>
+    <string>Tools</string>
    </property>
    <property name="movable">
     <bool>true</bool>
    </property>
    <property name="floatable">
     <bool>false</bool>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+  </widget>
+  <widget class="QToolBar" name="_filtersToolBar">
+   <property name="windowTitle">
+    <string>Search filters</string>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+  </widget>
+  <widget class="QToolBar" name="_statusToolBar">
+   <property name="windowTitle">
+    <string>Search status</string>
    </property>
    <attribute name="toolBarArea">
     <enum>TopToolBarArea</enum>

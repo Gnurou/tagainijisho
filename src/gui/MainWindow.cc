@@ -103,10 +103,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), _history(historyS
 	ClickableLabel *searchActiveAnimation = new ClickableLabel(this);
 	searchActiveAnimation->setMovie(searchAnim);
 	searchActiveAnimation->setAlignment(Qt::AlignRight);
-	QWidget *spacer = new QWidget(this);
-	spacer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-	_toolBarSeparator = _toolBar->addWidget(spacer);
-	_toolBar->addWidget(searchActiveAnimation);
+	searchActiveAnimation->setToolTip(tr("Click when a search is active to abort it"));
+	_statusToolBar->addWidget(searchActiveAnimation);
 	
 	// Setup the results model and view
 	_results = new ResultsList(this);
@@ -168,6 +166,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), _history(historyS
 	connect(_results, SIGNAL(queryEnded()), this, SLOT(currentPageReceived()));
 	// When the search starts or end, inform the search bar
 	connect(_results, SIGNAL(queryEnded()), this, SLOT(stopAndResetSearchAnim()));
+	connect(searchActiveAnimation, SIGNAL(clicked()), _results, SLOT(abortSearch()));
 	// Display selected items in the results view
 	connect(_resultsView, SIGNAL(listSelectionChanged(QItemSelection,QItemSelection)), this, SLOT(display(QItemSelection,QItemSelection)));
 	
@@ -776,7 +775,7 @@ void MainWindow::addSearchFilter(SearchFilterWidget *sWidget)
 {
 	if (_searchBuilder.contains(sWidget->name())) return;
 	_searchFilterWidgets[sWidget->name()] = sWidget;
-	_searchFilters->addWidget(sWidget->currentTitle(), sWidget);
+	_filtersToolBar->addWidget(_searchFilters->addWidget(sWidget->currentTitle(), sWidget));
 	connect(sWidget, SIGNAL(updateTitle(const QString &)), _searchFilters, SLOT(onTitleChanged(const QString &)));
 	_searchBuilder.addSearchFilter(sWidget->name(), sWidget);
 }

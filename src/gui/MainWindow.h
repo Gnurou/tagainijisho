@@ -64,7 +64,6 @@ private:
 	QList<QAction *> _rootActions;
 	QList<QMenu *> _rootMenus;
 	
-	QAction *_toolBarSeparator;
 	QMovie *searchAnim;
 	
 	QTimer _updateTimer;
@@ -193,8 +192,7 @@ public:
 	~MainWindow();
 	static MainWindow *instance() { return _instance; }
 	
-	QToolBar *toolBar() { return _toolBar; }
-	QAction *toolBarSeparator() { return _toolBarSeparator; }
+	QToolBar *toolBar() { return _toolsToolBar; }
 
 	QMenu *fileMenu() { return _fileMenu; }
 	QMenu *searchMenu() { return _searchMenu; }
