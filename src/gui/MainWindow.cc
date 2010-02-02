@@ -665,10 +665,13 @@ void MainWindow::_search(const QString &commands)
 	// Special case for when just a clear should be performed
 	if (commands.trimmed().isEmpty() || commands == ":jmdict" || commands == ":kanjidic") {
 		_queryBuilder.clear();
+		_results->abortSearch();
 		_results->clear();
 		//_searchBar->searchCompleted();
 		updateNbResultsDisplay();
 		updateNavigationButtons();
+		// This is needed here
+		showAllResultsButton->setEnabled(false);
 		return;
 	}
 
