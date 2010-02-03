@@ -36,6 +36,7 @@ private:
 	
 private slots:
 	void searchButtonClicked();
+	void onItemSelected(int item);
 	void resetSearchText();
 	void onSearchTextChanged(const QString &text);
 

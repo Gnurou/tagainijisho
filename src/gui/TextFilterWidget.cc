@@ -38,7 +38,7 @@ TextFilterWidget::TextFilterWidget(QWidget *parent) : SearchFilterWidget(parent)
 	_searchField->setInsertPolicy(QComboBox::NoInsert);
 	connect(_searchField->lineEdit(), SIGNAL(returnPressed()), searchButton, SLOT(click()));
 	connect(_searchField->lineEdit(), SIGNAL(textChanged(QString)), this, SLOT(onSearchTextChanged(QString)));
-	connect(_searchField, SIGNAL(currentIndexChanged(int)), this, SLOT(commandUpdate()));
+	connect(_searchField, SIGNAL(activated(int)), this, SLOT(onItemSelected(int)));
 
 	resetText = new QToolButton(this);
 	resetText->setIcon(QIcon(":/images/icons/reset-search.png"));
@@ -60,13 +60,24 @@ QString TextFilterWidget::currentTitle() const
 	return tr("Text search");
 }
 
+void TextFilterWidget::onItemSelected(int item)
+{
+	if (item != 0) {
+		QString itemString(_searchField->itemText(item));
+		_searchField->removeItem(item);
+		setText(itemString);
+		searchButtonClicked();
+	}
+}
+
 void TextFilterWidget::searchButtonClicked()
 {
-	if (!_searchField->lineEdit()->text().isEmpty() && _searchField->itemText(0) != _searchField->lineEdit()->text()) {
-		_searchField->insertItem(0, _searchField->lineEdit()->text());
+	QString input(_searchField->lineEdit()->text().trimmed());
+	if (!input.isEmpty() && _searchField->itemText(0) != input) {
+		_searchField->insertItem(0, input);
 		_searchField->setCurrentIndex(0);
+		commandUpdate();
 	}
-	commandUpdate();
 }
 
 void TextFilterWidget::onSearchTextChanged(const QString &text)
@@ -78,7 +89,7 @@ void TextFilterWidget::resetSearchText()
 {
 	if (text().isEmpty()) return;
 	_searchField->clearEditText();
-	searchButtonClicked();
+	commandUpdate();
 }
 
 void TextFilterWidget::_reset()

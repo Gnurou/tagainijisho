@@ -15,6 +15,8 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <QtDebug>
+
 #include <gui/SearchFilterWidget.h>
 
 SearchFilterWidget::SearchFilterWidget(QWidget *parent, const QString &feature) : QWidget(parent), _feature(feature), _autoUpdateQuery(true), _propsToSave()
@@ -35,7 +37,9 @@ void SearchFilterWidget::updateVisualState()
 void SearchFilterWidget::commandUpdate()
 {
 	updateVisualState();
-	if (autoUpdateQuery()) emit commandUpdated();
+	if (autoUpdateQuery()) {
+		emit commandUpdated();
+	}
 }
 
 void SearchFilterWidget::delayedCommandUpdate()
