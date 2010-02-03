@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>499</width>
-    <height>561</height>
+    <height>583</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -26,13 +26,18 @@
      <widget class="MultiStackedWidget" name="_searchFilters" native="true"/>
     </item>
     <item>
-     <widget class="ResultsViewWidget" name="_resultsView" native="true"/>
-    </item>
-    <item>
      <widget class="QSplitter" name="splitter">
       <property name="orientation">
        <enum>Qt::Vertical</enum>
       </property>
+      <widget class="ResultsViewWidget" name="_resultsView" native="true">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="MinimumExpanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+      </widget>
       <widget class="ToolBarDetailedView" name="_detailedView"/>
      </widget>
     </item>
@@ -44,7 +49,7 @@
      <x>0</x>
      <y>0</y>
      <width>499</width>
-     <height>23</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="_fileMenu">
