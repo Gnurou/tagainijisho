@@ -106,8 +106,10 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), _history(historyS
 	if (splitterState.isDefault()) splitter->setStretchFactor(1, 2);
 	else splitter->restoreState(splitterState.value());
 	
-	// Search filters
+	// Search builder
 	connect(&_searchBuilder, SIGNAL(queryRequested(QString)), this, SLOT(search(QString)));
+	
+	// Search filters
 	SearchFilterWidget *textFilter = new TextFilterWidget(this);
 	addSearchFilter(textFilter);
 	addSearchFilter(new StudyFilterWidget(this));

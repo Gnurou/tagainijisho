@@ -25,11 +25,14 @@ SearchBuilder::SearchBuilder(QObject *parent) : QObject(parent)
 
 QString SearchBuilder::commands() const
 {
-	QString ret;
+	QStringList cmds;
 	foreach (const SearchFilterWidget *filter, _filters.values()) {
-		if (filter->isEnabled()) ret += filter->currentCommand() + " ";
+		if (filter->isEnabled()) {
+			QString command(filter->currentCommand().trimmed());
+			if (!command.isEmpty()) cmds << command;
+		}
 	}
-	return ret;
+	return cmds.join(" ");
 }
 
 void SearchBuilder::runSearch()
