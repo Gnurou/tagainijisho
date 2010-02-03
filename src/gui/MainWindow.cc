@@ -630,29 +630,26 @@ void MainWindow::display(const QItemSelection &selected, const QItemSelection &d
 
 void MainWindow::search(const QString &commands)
 {
-	if (!(commands.isEmpty() || commands == ":jmdict" || commands == ":kanjidic")) _history.add(_searchBuilder.getState());
-	_search(commands);
+	QString localCommands(commands.trimmed());
+	if (!(localCommands.isEmpty() || localCommands == ":jmdict" || localCommands == ":kanjidic")) {
+		_history.add(_searchBuilder.getState());
+		_search(localCommands);
+	}
+	else {
+		_results->clear();
+		_results->abortSearch();
+	}
 }
 
 void MainWindow::_search(const QString &commands)
 {
 	_queryBuilder.clear();
 	
-	// Special case for when just a clear should be performed
-	if (commands.trimmed().isEmpty() || commands.trimmed() == ":jmdict" || commands.trimmed() == ":kanjidic") {
-		_results->clear();
-		_results->abortSearch();
-		return;
-	}
-
 	actionPreviousSearch->setEnabled(_history.hasPrevious());
 	actionNextSearch->setEnabled(_history.hasNext());
 
 	// If we cannot build a valid query, no need to continue
-	if (!EntrySearcherManager::instance().buildQuery(commands, _queryBuilder)) {
-		//_searchBar->searchCompleted();
-		return;
-	}
+	if (!EntrySearcherManager::instance().buildQuery(commands, _queryBuilder)) return;
 
 	_results->search(_queryBuilder);
 }
