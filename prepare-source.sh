@@ -3,7 +3,7 @@ SQLITE_VERSION=3.6.22
 SQLITE_SOURCE=http://www.sqlite.org/sqlite-amalgamation-${SQLITE_VERSION}.tar.gz
 JMDICT_SOURCE=ftp://ftp.monash.edu.au/pub/nihongo/JMdict.gz
 KANJIDIC2_SOURCE=http://www.csse.monash.edu.au/~jwb/kanjidic2/kanjidic2.xml.gz
-KANJIVG_SOURCE=http://kanjivg.tagaini.net/upload/Main/kanjivg-latest-beta.xml.gz
+KANJIVG_SOURCE=http://kanjivg.tagaini.net/upload/Main/kanjivg-latest.xml.gz
 
 [ -d 3rdparty ] || mkdir 3rdparty
 

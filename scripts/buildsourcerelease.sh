@@ -1,9 +1,9 @@
 #!/bin/sh
-VERSION=`grep "VERSION" buildconfig.pri |sed -n 's/.*=\(.*\)/\1/p'`
+VERSION=`grep "set(VERSION " CMakeLists.txt |sed -n 's/set(VERSION \(.*\))$/\1/p'`
 git archive --format=tar --prefix=tagainijisho-$VERSION/ HEAD |tar xv
 cd tagainijisho-${VERSION}
-lrelease src/gui/gui.pro
-./builddb.py -d
+sh prepare-source.sh
+rm prepare-source.sh
 cd ..
 tar cvzf tagainijisho-${VERSION}.tar.gz tagainijisho-${VERSION}
 rm -Rf tagainijisho-${VERSION}
