@@ -16,6 +16,8 @@
  */
 
 #include "gui/EntryListModel.h"
+// TODO for EntryRole - get rid of it
+#include "gui/ResultsList.h"
 
 #include <QSqlError>
 
@@ -148,10 +150,12 @@ QVariant EntryListModel::data(const QModelIndex &index, int role) const
 		const EntryListModelCache &cEntry = getFromCache(index.internalId());
 		if (cEntry.rowId == -1) return QVariant();
 		if (cEntry.type == -1) return cEntry.label;
+		EntryPointer<Entry> entry(EntriesCache::get(cEntry.type, cEntry.id));
+		if (!entry.data()) return QVariant();
 		else {
-			EntryPointer<Entry> entry(EntriesCache::get(cEntry.type, cEntry.id));
-			if (!entry.data()) return QVariant();
-			else return entry->shortVersion(Entry::TinyVersion);
+			// BUG dangerous - the entry may be freed!
+			//if (role == ResultsList::EntryRole) return QVariant::fromValue(entry.data());
+			return entry->shortVersion(Entry::TinyVersion);
 		}
 	}
 	return QVariant();

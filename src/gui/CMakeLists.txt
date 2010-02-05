@@ -34,6 +34,7 @@ NotesFilterWidget.cc
 SearchBuilder.cc
 ResultsList.cc
 SmoothScroller.cc
+EntryDelegate.cc
 ResultsView.cc
 ResultsViewWidget.cc
 DetailedView.cc
@@ -74,6 +75,7 @@ PreferencesWindow.h
 ReadingTrainer.h
 RelativeDateEdit.h
 ResultsList.h
+EntryDelegate.h
 ResultsView.h
 ResultsViewWidget.h
 EntryListModel.h

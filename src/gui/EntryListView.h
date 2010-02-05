@@ -20,6 +20,7 @@
 
 #include "core/EntriesCache.h"
 #include "gui/SmoothScroller.h"
+#include "gui/EntryDelegate.h"
 
 #include <QTreeWidget>
 #include <QTreeView>
@@ -32,6 +33,7 @@ class EntryListView : public QTreeView
 	Q_OBJECT
 private:
 	SmoothScroller scroller;
+	EntryDelegate *delegate;
 
 protected:
 	virtual void dragEnterEvent(QDragEnterEvent *event);

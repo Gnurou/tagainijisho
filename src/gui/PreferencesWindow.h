@@ -20,6 +20,7 @@
 
 #include "core/Preferences.h"
 #include "gui/DetailedView.h"
+#include "gui/EntryDelegate.h"
 #include "gui/ResultsList.h"
 #include "gui/ResultsView.h"
 #include "gui/ui_PreferencesWindow.h"

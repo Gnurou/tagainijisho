@@ -73,22 +73,6 @@ public:
 	void connectToResultsView(const ResultsView *const view);
 };
 
-class EntryDelegate : public QStyledItemDelegate
-{
-	Q_OBJECT
-protected:
-	QFont textFont, kanaFont, kanjiFont;
-	ResultsViewFonts::DisplayMode displayMode;
-	QPixmap _tagsIcon;
-	QPixmap _notesIcon;
-
-public:
-	EntryDelegate(QObject *parent = 0);
-	QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index ) const;
-	virtual void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
-	virtual void updateFonts();
-};
-
 class ResultsView : public QListView
 {
 	Q_OBJECT
