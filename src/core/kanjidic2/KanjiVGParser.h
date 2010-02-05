@@ -23,6 +23,7 @@
 #include <QStringList>
 #include <QMap>
 #include <QStack>
+#include <QRegExp>
 
 class KanjiVGGroupItem {
 public:
@@ -53,12 +54,17 @@ public:
 
 class KanjiVGParser {
 private:
+	static QRegExp versionRegExp;
+	
+	QString _version;
+	bool gotVersion;
 	bool parse_strokegr(QXmlStreamReader& reader, KanjiVGItem& kanji, QStack< KanjiVGGroupItem* > gStack, quint8& strokeCounter);
 	
 public:
-	KanjiVGParser() {}
+	KanjiVGParser() : gotVersion(false) {}
 	virtual ~KanjiVGParser() {}
 	bool parse(QXmlStreamReader &reader);
+	const QString &version() const { return _version; }
 	
 	// This method can be overloaded by subclasses in order to implement
 	// a behavior when an item is finished being parsed.

@@ -38,6 +38,11 @@ Kanjidic2Plugin::~Kanjidic2Plugin()
 {
 }
 
+QString Kanjidic2Plugin::pluginInfo() const
+{
+	return QString::fromUtf8("<p><a href=\"http://www.csse.monash.edu.au/~jwb/kanjidic.html\">Kanjidic</a> version %1, distributed under the <a href=\"http://creativecommons.org/licenses/by-sa/3.0/\">Creative Common Attribution Share Alike Licence, version 3.0</a>.</p><p><a href=\"http://kanjivg.tagaini.net/\">KanjiVG</a> version %2, distributed under the <a href=\"http://creativecommons.org/licenses/by-sa/3.0/\">Creative Commons Attribution-Share Alike 3.0 licence</a>.</p><p>JLPT levels courtesy to the <a href=\"http://www.jlptstudy.com/\">JLPT Study Page</a> and lists provided by <a href=\"http://www.thbz.org/kanjimots/jlpt.php3\">Thierry Bézecourt</a> and <a href=\"http://jetsdencredujapon.blogspot.com\">Alain Côté</a>, used with kind permission.").arg(kanjidic2Version()).arg(kanjiVGVersion());
+}
+
 bool Kanjidic2Plugin::onRegister()
 {
 	// First connect our table to the database
@@ -45,6 +50,14 @@ bool Kanjidic2Plugin::onRegister()
 	if (!Database::attachDictionaryDB(dbFile, "kanjidic2", KANJIDIC2DB_REVISION)) {
 		qFatal("kanjidic2 plugin fatal error: failed to attach Kanjidic2 database!");
 		return false;
+	}
+
+	// Get the versions used
+	QSqlQuery query;
+	query.exec("select kanjidic2Version, kanjiVGVersion from kanjidic2.info");
+	if (query.next()) {
+		_kanjidic2Version = query.value(0).toString();
+		_kanjiVGVersion = query.value(1).toString();
 	}
 
 	// Register our entry searcher

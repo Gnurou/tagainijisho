@@ -59,7 +59,6 @@ public:
 
 	JMdictGUIPlugin();
 	virtual ~JMdictGUIPlugin();
-	virtual QString pluginInfo() const;
 	bool onRegister();
 	bool onUnregister();
 };

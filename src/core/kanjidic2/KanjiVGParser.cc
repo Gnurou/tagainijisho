@@ -20,6 +20,8 @@
 #include "core/TextTools.h"
 #include "core/kanjidic2/KanjiVGParser.h"
 
+QRegExp KanjiVGParser::versionRegExp("This file has been generated on (\\d\\d\\d\\d\\-\\d\\d\\-\\d\\d)");
+
 // Used to support the recursivity of the strokegr tag
 bool KanjiVGParser::parse_strokegr(QXmlStreamReader &reader, KanjiVGItem &kanji, QStack<KanjiVGGroupItem *> gStack, quint8 &strokeCounter)
 {
@@ -111,5 +113,11 @@ bool KanjiVGParser::parse(QXmlStreamReader &reader)
 				onItemParsed(kanji);
 			DONE
 		ENDTAG
+		COMMENT
+			if (!gotVersion && versionRegExp.indexIn(TEXT) != -1) {
+				_version = versionRegExp.capturedTexts()[1];
+				gotVersion = true;
+			}
+		DONE
 	DOCUMENT_END
 }

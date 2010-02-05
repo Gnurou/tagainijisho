@@ -147,11 +147,6 @@ bool Kanjidic2GUIPlugin::onUnregister()
 	return true;
 }
 
-QString Kanjidic2GUIPlugin::pluginInfo() const
-{
-	return QString::fromUtf8("<p>The <a href=\"http://www.csse.monash.edu.au/~jwb/kanjidic.html\">Kanjidic</a> is distributed under the <a href=\"http://creativecommons.org/licenses/by-sa/3.0/\">Creative Common Attribution Share Alike Licence, version 3.0</a>.</p><p>Kanji stroke animations are from the <a href=\"http://kanjivg.tagaini.net/\">KanjiVG</a> project and are distributed under the <a href=\"http://creativecommons.org/licenses/by-sa/3.0/\">Creative Commons Attribution-Share Alike 3.0 licence</a>.</p><p>JLPT levels are taken from the <a href=\"http://www.jlptstudy.com/\">JLPT Study Page</a> and lists provided by <a href=\"http://www.thbz.org/kanjimots/jlpt.php3\">Thierry Bézecourt</a> and <a href=\"http://jetsdencredujapon.blogspot.com\">Alain Côté</a>, with kind permission.");
-}
-
 // TODO duplicate code from JMdictGUIPlugin
 void Kanjidic2GUIPlugin::training(YesNoTrainer::TrainingMode mode, const QString &queryString)
 {

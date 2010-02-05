@@ -45,15 +45,16 @@ public:
 class Kanjidic2Parser {
 private:
 	static const QStringList _validReadings;
+	QString _dateOfCreation;
 
 protected:
 	QStringList languages;
 	
 public:
-	
 	Kanjidic2Parser(const QStringList &langs) : languages(langs) {}
 	virtual ~Kanjidic2Parser() {}
 	bool parse(QXmlStreamReader &reader);
+	const QString &dateOfCreation() const { return _dateOfCreation; }
 	
 	// This method can be overloaded by subclasses in order to implement
 	// a behavior when an item is finished being parsed.

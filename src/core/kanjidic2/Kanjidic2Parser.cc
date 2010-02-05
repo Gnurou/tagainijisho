@@ -95,6 +95,9 @@ bool Kanjidic2Parser::parse(QXmlStreamReader &reader)
 			if (!onItemParsed(kanji)) return false;
 			DONE
 			TAG(header)
+				TAG(date_of_creation)
+					_dateOfCreation = TEXT;
+				ENDTAG
 			ENDTAG
 		ENDTAG
 	DOCUMENT_END

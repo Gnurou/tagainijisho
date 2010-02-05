@@ -51,6 +51,7 @@ bool skipTag(QXmlStreamReader& reader, const QStringRef &tag);
 		return reader.tokenType() == QXmlStreamReader::EndDocument;
 
 #define CHARACTERS if (reader.tokenType() == QXmlStreamReader::Characters) {
+#define COMMENT if (reader.tokenType() == QXmlStreamReader::Comment) {
 #define TEXT reader.text().toString()
 #define DONE continue; }
 

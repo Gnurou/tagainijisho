@@ -24,6 +24,7 @@
 #include <QMap>
 #include <QSet>
 #include <QHash>
+#include <QRegExp>
 
 class JMdictKanjiWritingItem {
 public:
@@ -77,7 +78,11 @@ public:
 
 class JMdictParser {
 protected:
+	static QRegExp versionRegExp;
+	
 	QStringList languages;
+	bool gotVersion;
+	QString _dictVersion;
 
 public:
 	QHash<QString, quint8> posBitFields;
@@ -95,6 +100,7 @@ public:
 	JMdictParser(const QStringList &langs);
 	virtual ~JMdictParser() {}
 	bool parse(QXmlStreamReader &reader);
+	const QString &dictVersion() const { return _dictVersion; }
 	
 	// This method can be overloaded by subclasses in order to implement
 	// a behavior when an item is finished being parsed.

@@ -92,6 +92,11 @@ JMdictPlugin::~JMdictPlugin()
 {
 }
 
+QString JMdictPlugin::pluginInfo() const
+{
+	return QString("<p><a href=\"http://www.csse.monash.edu.au/~jwb/jmdict.html\">JMDict</a> version %1, distributed under the <a href=\"http://creativecommons.org/licenses/by-sa/3.0/\">Creative Common Attribution Share Alike Licence, version 3.0</a>.</p>").arg(dictVersion());
+}
+
 bool JMdictPlugin::onRegister()
 {
 	// First attach our database
@@ -101,8 +106,11 @@ bool JMdictPlugin::onRegister()
 		return false;
 	}
 	
-	// Populate the entities tables
 	QSqlQuery query;
+	// Get the dictionary version
+	query.exec("select JMdictVersion from jmdict.info");
+	if (query.next()) _dictVersion = query.value(0).toString();
+	// Populate the entities tables
 	query.exec("select bitShift, name, description from jmdict.posEntities order by bitShift");
 	while (query.next()) {
 		QString name(query.value(1).toString());

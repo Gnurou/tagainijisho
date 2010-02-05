@@ -64,7 +64,6 @@ protected slots:
 public:
 	Kanjidic2GUIPlugin();
 	virtual ~Kanjidic2GUIPlugin();
-	virtual QString pluginInfo() const;
 	virtual bool onRegister();
 	virtual bool onUnregister();
 

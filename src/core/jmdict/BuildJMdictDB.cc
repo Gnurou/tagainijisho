@@ -175,11 +175,6 @@ static void create_tables()
 	query.exec("create table miscEntities(bitShift INTEGER PRIMARY KEY, name TEXT, description TEXT)");
 	query.exec("create table fieldEntities(bitShift INTEGER PRIMARY KEY, name TEXT, description TEXT)");
 	query.exec("create table dialectEntities(bitShift INTEGER PRIMARY KEY, name TEXT, description TEXT)");
-	query.prepare("insert into info values(?, ?)");
-	query.addBindValue(JMDICTDB_REVISION);
-	// TODO
-	query.addBindValue("");
-	query.exec();
 	query.exec("create table entries(id INTEGER PRIMARY KEY, frequency TINYINT, kanjiCount TINYINT)");
 	query.exec("create table kanji(id INTEGER SECONDARY KEY REFERENCES entries, priority TINYINT, docid INT, frequency TINYINT)");
 	query.exec("create virtual table kanjiText using fts3(reading)");
@@ -290,6 +285,15 @@ int main(int argc, char *argv[])
 	}
 	file.close();
 
+	// Fill in the info table
+	{
+		QSqlQuery query;
+		query.prepare("insert into info values(?, ?)");
+		query.addBindValue(JMDICTDB_REVISION);
+		query.addBindValue(JMParser.dictVersion());
+		if (!query.exec()) return 2;
+	}
+	
 	// Create indexes
 	create_indexes();
 	
@@ -300,34 +304,36 @@ int main(int argc, char *argv[])
 	insertJLPTLevels(QDir(srcDir).absoluteFilePath("src/core/jmdict/jlpt-level1.txt"), 1);
 	
 	// Populate the entities tables
-	QSqlQuery entitiesQuery(database);
-	entitiesQuery.prepare("insert into posEntities values(?, ?, ?)");
-	foreach (const QString &name, JMParser.posBitFields.keys()) {
-		entitiesQuery.addBindValue(JMParser.posBitFields[name]);
-		entitiesQuery.addBindValue(name);
-		entitiesQuery.addBindValue(JMParser.entities[name]);
-		if (!entitiesQuery.exec()) return 2;
-	}
-	entitiesQuery.prepare("insert into miscEntities values(?, ?, ?)");
-	foreach (const QString &name, JMParser.miscBitFields.keys()) {
-		entitiesQuery.addBindValue(JMParser.miscBitFields[name]);
-		entitiesQuery.addBindValue(name);
-		entitiesQuery.addBindValue(JMParser.entities[name]);
-		if (!entitiesQuery.exec()) return 2;
-	}
-	entitiesQuery.prepare("insert into fieldEntities values(?, ?, ?)");
-	foreach (const QString &name, JMParser.fieldBitFields.keys()) {
-		entitiesQuery.addBindValue(JMParser.fieldBitFields[name]);
-		entitiesQuery.addBindValue(name);
-		entitiesQuery.addBindValue(JMParser.entities[name]);
-		if (!entitiesQuery.exec()) return 2;
-	}
-	entitiesQuery.prepare("insert into dialectEntities values(?, ?, ?)");
-	foreach (const QString &name, JMParser.dialectBitFields.keys()) {
-		entitiesQuery.addBindValue(JMParser.dialectBitFields[name]);
-		entitiesQuery.addBindValue(name);
-		entitiesQuery.addBindValue(JMParser.entities[name]);
-		if (!entitiesQuery.exec()) return 2;
+	{
+		QSqlQuery entitiesQuery(database);
+		entitiesQuery.prepare("insert into posEntities values(?, ?, ?)");
+		foreach (const QString &name, JMParser.posBitFields.keys()) {
+			entitiesQuery.addBindValue(JMParser.posBitFields[name]);
+			entitiesQuery.addBindValue(name);
+			entitiesQuery.addBindValue(JMParser.entities[name]);
+			if (!entitiesQuery.exec()) return 2;
+		}
+		entitiesQuery.prepare("insert into miscEntities values(?, ?, ?)");
+		foreach (const QString &name, JMParser.miscBitFields.keys()) {
+			entitiesQuery.addBindValue(JMParser.miscBitFields[name]);
+			entitiesQuery.addBindValue(name);
+			entitiesQuery.addBindValue(JMParser.entities[name]);
+			if (!entitiesQuery.exec()) return 2;
+		}
+		entitiesQuery.prepare("insert into fieldEntities values(?, ?, ?)");
+		foreach (const QString &name, JMParser.fieldBitFields.keys()) {
+			entitiesQuery.addBindValue(JMParser.fieldBitFields[name]);
+			entitiesQuery.addBindValue(name);
+			entitiesQuery.addBindValue(JMParser.entities[name]);
+			if (!entitiesQuery.exec()) return 2;
+		}
+		entitiesQuery.prepare("insert into dialectEntities values(?, ?, ?)");
+		foreach (const QString &name, JMParser.dialectBitFields.keys()) {
+			entitiesQuery.addBindValue(JMParser.dialectBitFields[name]);
+			entitiesQuery.addBindValue(name);
+			entitiesQuery.addBindValue(JMParser.entities[name]);
+			if (!entitiesQuery.exec()) return 2;
+		}
 	}
 	
 	// Analyze for hopefully better performance

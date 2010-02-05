@@ -197,12 +197,6 @@ static void create_tables()
 {
 	QSqlQuery query;
 	query.exec("create table info(version INT, kanjidic2Version TEXT, kanjiVGVersion TEXT)");
-	query.prepare("insert into info values(?, ?, ?)");
-	query.addBindValue(KANJIDIC2DB_REVISION);
-	// TODO
-	query.addBindValue("");
-	query.addBindValue("");
-	query.exec();
 	query.exec("create table entries(id INTEGER PRIMARY KEY, grade TINYINT, strokeCount TINYINT, frequency SMALLINT, jlpt TINYINT, paths BLOB)");
 	query.exec("create table reading(docid INTEGER PRIMARY KEY, entry INTEGER SECONDARY KEY REFERENCES entries, type TEXT)");
 	query.exec("create virtual table readingText using fts3(reading, TOKENIZE katakana)");
@@ -328,6 +322,16 @@ int main(int argc, char *argv[])
 	}
 	file.close();
 
+	// Fill in the info table
+	{
+		QSqlQuery query;
+		query.prepare("insert into info values(?, ?, ?)");
+		query.addBindValue(KANJIDIC2DB_REVISION);
+		query.addBindValue(kdicParser.dateOfCreation());
+		query.addBindValue(kvgParser.version());
+		query.exec();
+	}
+	
 	// Insert JLPT levels
 	updateJLPTLevels("src/core/kanjidic2/jlpt-level1.txt", 1);
 	updateJLPTLevels("src/core/kanjidic2/jlpt-level2.txt", 2);

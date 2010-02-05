@@ -18,6 +18,7 @@
 #ifndef __CORE_KANJIDIC2_PLUGIN_H
 #define __CORE_KANJIDIC2_PLUGIN_H
 
+#include "core/kanjidic2/Kanjidic2EntrySearcher.h"
 #include "core/Plugin.h"
 
 class Kanjidic2EntrySearcher;
@@ -25,12 +26,18 @@ class Kanjidic2EntrySearcher;
 class Kanjidic2Plugin : public Plugin
 {
 private:
+	QString _kanjidic2Version;
+	QString _kanjiVGVersion;
 	Kanjidic2EntrySearcher *searcher;
 	QString getDBFile() const;
 
 public:
 	Kanjidic2Plugin();
 	virtual ~Kanjidic2Plugin();
+	virtual QString pluginInfo() const;
+	const QString &kanjidic2Version() const { return _kanjidic2Version; }
+	const QString &kanjiVGVersion() const { return _kanjiVGVersion; }
+	
 	virtual bool onRegister();
 	virtual bool onUnregister();
 };

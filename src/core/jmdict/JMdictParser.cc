@@ -19,6 +19,8 @@
 
 #include "core/jmdict/JMdictParser.h"
 
+QRegExp JMdictParser::versionRegExp(" JMdict created: (\\d\\d\\d\\d\\-\\d\\d\\-\\d\\d) ");
+
 quint64 JMdictSenseItem::posBitField(const JMdictParser &parser) const {
 	quint64 ret(0);
 	foreach (const QString &str, pos)
@@ -47,7 +49,7 @@ quint64 JMdictSenseItem::dialectBitField(const JMdictParser &parser) const {
 	return ret;
 }
 
-JMdictParser::JMdictParser(const QStringList &langs) : languages(langs), posBitFieldsCount(0), fieldBitFieldsCount(0), miscBitFieldsCount(0), dialectBitFieldsCount(0) 
+JMdictParser::JMdictParser(const QStringList &langs) : languages(langs), gotVersion(false), posBitFieldsCount(0), fieldBitFieldsCount(0), miscBitFieldsCount(0), dialectBitFieldsCount(0) 
 {
 }
 
@@ -195,6 +197,15 @@ bool JMdictParser::parse(QXmlStreamReader &reader)
 			TAG_POST
 			onItemParsed(entry);
 			DONE
+			COMMENT
+				// TODO check for deleted entries and have a table of them to update the user entries!
+			DONE
 		ENDTAG
+		COMMENT
+			if (!gotVersion && versionRegExp.exactMatch(TEXT)) {
+				_dictVersion = versionRegExp.capturedTexts()[1];
+				gotVersion = true;
+			}
+		DONE
 	DOCUMENT_END
 }
