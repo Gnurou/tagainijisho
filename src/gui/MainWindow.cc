@@ -103,7 +103,10 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), _history(historyS
 	restoreGeometry(windowGeometry.value());
 	restoreState(windowState.value(), MAINWINDOW_STATE_VERSION);
 	// Splitter layout
-	if (splitterState.isDefault()) splitter->setStretchFactor(1, 2);
+	if (splitterState.isDefault()) {
+		splitter->setStretchFactor(0, 1);
+		splitter->setStretchFactor(1, 3);
+	}
 	else splitter->restoreState(splitterState.value());
 	
 	// Search builder

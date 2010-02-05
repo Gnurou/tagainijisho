@@ -116,6 +116,7 @@ bool update4to5(QSqlQuery &query) {
 	QUERY("CREATE INDEX idx_lists_ref ON lists(parent, position)");
 	QUERY("CREATE INDEX idx_lists_entry ON lists(type, id)");
 	QUERY("CREATE VIRTUAL TABLE listsLabels using fts3(label)");
+
 	return true;
 }
 
