@@ -447,11 +447,13 @@ void MainWindow::about()
 	}
 	Ui::AboutDialog aboutDialogUI;
 	QDialog aboutDialog;
+	SmoothScroller scroller;
 	aboutDialogUI.setupUi(&aboutDialog);
 	aboutDialogUI.title->setText(aboutDialogUI.title->text() + " " + QUOTEMACRO(VERSION));
 	aboutDialogUI.logo->setPixmap(aboutDialogUI.logo->pixmap()->scaledToWidth(75, Qt::SmoothTransformation));
 	aboutDialogUI.credits->setHtml(message + credits);
 	aboutDialogUI.credits->viewport()->setAutoFillBackground(false);
+	scroller.activateOn(aboutDialogUI.credits);
 	connect(aboutDialogUI.credits, SIGNAL(anchorClicked(QUrl)), this, SLOT(openUrl(QUrl)));
 	aboutDialog.exec();
 }
