@@ -439,7 +439,7 @@ void MainWindow::about()
 #ifndef VERSION
 #error No version defined - the -DVERSION=<version> flag must be set!
 #endif
-	QString message = QString("<p>Copyright (C) 2008, 2009 Alexandre Courbot.</p><p align=\"center\"><a href=\"http://www.tagaini.net\">http://www.tagaini.net</a></p><p>This program comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to redistribute it under the conditions of the <a href=\"http://www.gnu.org/licenses/gpl-3.0.html\">GNU General Public Licence, version 3.0</a>.</p><hr/>");
+	QString message = QString("<p>Copyright (C) 2008, 2009, 2010 Alexandre Courbot.</p><p align=\"center\"><a href=\"http://www.tagaini.net\">http://www.tagaini.net</a></p><p>This program comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to redistribute it under the conditions of the <a href=\"http://www.gnu.org/licenses/gpl-3.0.html\">GNU General Public Licence, version 3.0</a>.</p><hr/>");
 	QString credits = "<p>Tagaini Jisho uses data from various sources:</p>";
 
 	foreach (const Plugin *plugin, Plugin::plugins()) {
