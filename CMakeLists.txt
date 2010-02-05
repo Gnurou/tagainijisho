@@ -1,7 +1,7 @@
 # TODO Download & extract SQLite, JMdict, kanjidic2 and kanjivg
 
 project(tagainijisho)
-set(VERSION 0.2.5)
+set(VERSION 0.2.5beta1)
 cmake_minimum_required(VERSION 2.6.0)
 find_package(Qt4 REQUIRED)
 
