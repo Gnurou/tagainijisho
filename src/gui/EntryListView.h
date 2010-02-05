@@ -19,6 +19,7 @@
 #define __GUI_ENTRYLISTVIEW_H
 
 #include "core/EntriesCache.h"
+#include "gui/SmoothScroller.h"
 
 #include <QTreeWidget>
 #include <QTreeView>
@@ -29,8 +30,8 @@
 class EntryListView : public QTreeView
 {
 	Q_OBJECT
-public:
-	EntryListView(QWidget *parent = 0);
+private:
+	SmoothScroller scroller;
 
 protected:
 	virtual void dragEnterEvent(QDragEnterEvent *event);
@@ -38,6 +39,9 @@ protected:
 	
 protected slots:
 	virtual void selectionChanged(const QItemSelection &selected, const QItemSelection &deselected);
+
+public:
+	EntryListView(QWidget *parent = 0);
 
 public slots:
 	void newList();

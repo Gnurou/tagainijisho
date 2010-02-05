@@ -26,6 +26,7 @@
 
 EntryListView::EntryListView(QWidget *parent) : QTreeView(parent)
 {
+	scroller.activateOn(this);
 }
 
 void EntryListView::selectionChanged(const QItemSelection &selected, const QItemSelection &deselected)
