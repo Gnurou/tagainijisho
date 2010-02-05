@@ -96,6 +96,7 @@ protected:
 protected slots:
 	void togglePopup(bool status);
 	void onComponentSearchKanjiSelected(const QString &kanji);
+	void onFocusChanged(QWidget *old, QWidget *now);
 
 public:
 	ComponentSearchButton(QWidget *parent);

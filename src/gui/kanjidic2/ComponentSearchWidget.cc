@@ -224,8 +224,10 @@ void ComponentSearchWidget::populateList(QSqlQuery &query)
 ComponentSearchButton::ComponentSearchButton(QWidget *parent) : QToolButton(parent), focusWidget(0)
 {
 	setIcon(QIcon(":/images/icons/component-selector.png"));
+	setToolTip(tr("Triggers the kanji input panel"));
 	setCheckable(true);
 	connect(this, SIGNAL(toggled(bool)), this, SLOT(togglePopup(bool)));
+	connect(QApplication::instance(), SIGNAL(focusChanged(QWidget *, QWidget *)), this, SLOT(onFocusChanged(QWidget *, QWidget *)));
 	_popup.hide();
 	_popup.installEventFilter(this);
 	_popup.setFrameStyle(QFrame::StyledPanel | QFrame::Raised);
@@ -285,4 +287,11 @@ bool ComponentSearchButton::eventFilter(QObject *obj, QEvent *event)
 		setChecked(false);
 	}
 	return false;
+}
+
+void ComponentSearchButton::onFocusChanged(QWidget *old, QWidget *now)
+{
+	QLineEdit *lEdit = qobject_cast<QLineEdit *>(now);
+	QComboBox *cBox = qobject_cast<QComboBox *>(now);
+	setEnabled(lEdit || cBox);
 }
