@@ -349,7 +349,6 @@ void Kanjidic2EntryFormatter::drawCustom(const Entry *_entry, QPainter &painter,
 		painter.scale(printSize / 109.0, printSize / 109.0);
 		painter.setRenderHint(QPainter::Antialiasing);
 
-		const QList<const KanjiComponent *> &kComponents(entry->rootComponents());
 		foreach (const KanjiStroke &stroke, entry->strokes()) {
 			painter.setPen(pen);
 			renderer.strokeFor(stroke)->render(&painter);
