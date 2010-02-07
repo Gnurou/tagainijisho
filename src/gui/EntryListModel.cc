@@ -145,7 +145,7 @@ int EntryListModel::rowCount(const QModelIndex &parent) const
 QVariant EntryListModel::data(const QModelIndex &index, int role) const
 {
 	if (!index.isValid()) return QVariant();
-	if (role == Qt::DisplayRole) {
+	if (role == Qt::DisplayRole || role == Qt::EditRole) {
 		if (index.column() != 0) return QVariant();
 		const EntryListModelCache &cEntry = getFromCache(index.internalId());
 		if (cEntry.rowId == -1) return QVariant();
