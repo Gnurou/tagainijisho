@@ -89,6 +89,7 @@ void TextFilterWidget::resetSearchText()
 {
 	if (text().isEmpty()) return;
 	_searchField->clearEditText();
+	_searchField->setFocus();
 	commandUpdate();
 }
 
