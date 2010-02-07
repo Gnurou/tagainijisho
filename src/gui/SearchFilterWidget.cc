@@ -73,6 +73,7 @@ void SearchFilterWidget::restoreState(const QMap<QString, QVariant> &state)
 	foreach(const QString &prop, state.keys()) {
 		setProperty(prop.toLatin1().data(), state.value(prop));
 	}
+	updateTitle(currentTitle());
 	setAutoUpdateQuery(true);
 }
 
