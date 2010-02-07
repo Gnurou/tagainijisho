@@ -30,6 +30,7 @@
 #include "gui/YesNoTrainer.h"
 #include "gui/MainWindow.h"
 #include "gui/ui_AboutDialog.h"
+#include "gui/EntryTypeFilterWidget.h"
 #include "gui/TextFilterWidget.h"
 #include "gui/TagsFilterWidget.h"
 #include "gui/NotesFilterWidget.h"
@@ -99,20 +100,15 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), _history(historyS
 	_results = new ResultsList(this);
 	_resultsView->setModel(_results);
 	
-	// Geometry & state
-	restoreGeometry(windowGeometry.value());
-	restoreState(windowState.value(), MAINWINDOW_STATE_VERSION);
-	// Splitter layout
-	if (splitterState.isDefault()) {
-		splitter->setStretchFactor(0, 1);
-		splitter->setStretchFactor(1, 3);
-	}
-	else splitter->restoreState(splitterState.value());
-	
 	// Search builder
 	connect(&_searchBuilder, SIGNAL(queryRequested(QString)), this, SLOT(search(QString)));
 	
 	// Search filters
+	EntryTypeFilterWidget *typeFilter = new EntryTypeFilterWidget(this);
+	_searchFilterWidgets[typeFilter->name()] = typeFilter;
+	_filtersToolBar->addWidget(typeFilter);
+	connect(typeFilter, SIGNAL(updateTitle(const QString &)), _searchFilters, SLOT(onTitleChanged(const QString &)));
+	_searchBuilder.addSearchFilter(typeFilter);
 	SearchFilterWidget *textFilter = new TextFilterWidget(this);
 	addSearchFilter(textFilter);
 	addSearchFilter(new StudyFilterWidget(this));
@@ -133,6 +129,16 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), _history(historyS
 	_searchMenu->addSeparator();
 	_searchMenu->addAction(dWidget->toggleViewAction());
 	
+	// Geometry & state
+	restoreGeometry(windowGeometry.value());
+	restoreState(windowState.value(), MAINWINDOW_STATE_VERSION);
+	// Splitter layout
+	if (splitterState.isDefault()) {
+		splitter->setStretchFactor(0, 1);
+		splitter->setStretchFactor(1, 3);
+	}
+	else splitter->restoreState(splitterState.value());
+	
 
 	// Docks
 	/*
@@ -149,7 +155,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), _history(historyS
 	textWidget->raise();
 	*/
 	// TODO dirty fix!
-	restoreState(windowState.value(), MAINWINDOW_STATE_VERSION);
+	//restoreState(windowState.value(), MAINWINDOW_STATE_VERSION);
 	
 	// Display selected items in the results view
 	connect(_resultsView->resultsView(), SIGNAL(listSelectionChanged(QItemSelection,QItemSelection)), this, SLOT(display(QItemSelection,QItemSelection)));
@@ -687,7 +693,7 @@ void MainWindow::addSearchFilter(SearchFilterWidget *sWidget)
 	_searchFilterWidgets[sWidget->name()] = sWidget;
 	_filtersToolBar->addWidget(_searchFilters->addWidget(sWidget->currentTitle(), sWidget));
 	connect(sWidget, SIGNAL(updateTitle(const QString &)), _searchFilters, SLOT(onTitleChanged(const QString &)));
-	_searchBuilder.addSearchFilter(sWidget->name(), sWidget);
+	_searchBuilder.addSearchFilter(sWidget);
 }
 
 SearchFilterWidget *MainWindow::getSearchFilter(const QString &name)

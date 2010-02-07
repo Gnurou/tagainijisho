@@ -44,7 +44,7 @@ public:
 	 * it just receives its signals and reacts to them
 	 * accordingly.
 	 */
-	bool addSearchFilter(const QString& name, SearchFilterWidget* filter);
+	bool addSearchFilter(SearchFilterWidget* filter);
 	void removeSearchFilter(const QString& name);
 	bool contains(const QString& name) { return _filters.contains(name); }
 	SearchFilterWidget *get(const QString &name) { return contains(name) ? _filters[name] : 0; }

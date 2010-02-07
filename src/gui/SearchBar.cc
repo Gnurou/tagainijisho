@@ -32,61 +32,6 @@
 #include <QSqlQuery>
 
 
-EntryTypeSelectionWidget::EntryTypeSelectionWidget(SearchBar *parent) : SearchFilterWidget(parent), _bar(parent)
-{
-	_propsToSave << "type";
-
-	_comboBox = new QComboBox(this);
-	_comboBox->addItem(tr("All"), 0);
-	_comboBox->addItem(tr("Vocabulary"), 1);
-	_comboBox->addItem(tr("Kanji"), 2);
-	connect(_comboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(onComboBoxChanged(int)));
-
-	QHBoxLayout *hLayout = new QHBoxLayout(this);
-	hLayout->addWidget(_comboBox);
-}
-
-QString EntryTypeSelectionWidget::currentCommand() const
-{
-	switch (_comboBox->itemData(_comboBox->currentIndex()).toInt())
-	{
-		case 1:
-			return ":jmdict";
-		case 2:
-			return ":kanjidic";
-		default:
-			return "";
-	}
-}
-
-void EntryTypeSelectionWidget::onComboBoxChanged(int index)
-{
-	switch (_comboBox->itemData(_comboBox->currentIndex()).toInt())
-	{
-		case 1:
-			emit disableFeature("kanjidic");
-			emit enableFeature("wordsdic");
-			break;
-		case 2:
-			emit disableFeature("wordsdic");
-			emit enableFeature("kanjidic");
-			break;
-		default:
-			// TODO
-			// We cannot emit the feature that way - we must first check whether other widgets
-			// allow us to do so.
-			emit enableFeature("wordsdic");
-			emit enableFeature("kanjidic");
-			break;
-	}
-	commandUpdate();
-}
-
-void EntryTypeSelectionWidget::_reset()
-{
-	_comboBox->setCurrentIndex(0);
-}
-
 PreferenceItem<int> SearchBar::searchBarHistorySize("mainWindow", "searchBarHistorySize", 100);
 
 SearchBar::SearchBar(QWidget *parent) : QWidget(parent)

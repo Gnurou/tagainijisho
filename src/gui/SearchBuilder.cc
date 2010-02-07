@@ -40,11 +40,11 @@ void SearchBuilder::runSearch()
 	emit queryRequested(commands());
 }
 
-bool SearchBuilder::addSearchFilter(const QString &name, SearchFilterWidget *filter)
+bool SearchBuilder::addSearchFilter(SearchFilterWidget *filter)
 {
-	if (_filters.contains(name)) return false;
+	if (_filters.contains(filter->name())) return false;
 	connect(filter, SIGNAL(commandUpdated()), this, SLOT(runSearch()));
-	_filters[name] = filter;
+	_filters[filter->name()] = filter;
 	return true;
 }
 

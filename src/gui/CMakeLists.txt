@@ -26,6 +26,7 @@ UpdateChecker.cc
 ClickableLabel.cc
 SingleEntryView.cc
 SearchFilterWidget.cc
+EntryTypeFilterWidget.cc
 TextFilterWidget.cc
 StudyFilterWidget.cc
 JLPTFilterWidget.cc
@@ -82,6 +83,7 @@ EntryListModel.h
 EntryListView.h
 EntryListWidget.h
 SearchFilterWidget.h
+EntryTypeFilterWidget.h
 TextFilterWidget.h
 StudyFilterWidget.h
 JLPTFilterWidget.h

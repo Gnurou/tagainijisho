@@ -41,36 +41,6 @@
 
 class SearchBar;
 
-/**
- * Let the user select the entry type (vocabulary of kanji) to filter.
- */
-class EntryTypeSelectionWidget : public SearchFilterWidget
-{
-	Q_OBJECT
-public:
-	typedef enum { All = 0, Vocabulary = 1, Kanjis = 2 } Type;
-
-private:
-	QComboBox *_comboBox;
-	SearchBar *_bar;
-
-protected:
-	virtual void _reset();
-
-public:
-	EntryTypeSelectionWidget(SearchBar *parent = 0);
-	virtual QString name() const { return "entrytypeselector"; }
-	virtual QString currentTitle() const { return tr("Entry type filter"); }
-	virtual QString currentCommand() const;
-
-	int type() const { return _comboBox->currentIndex(); }
-	void setType(int newType) { _comboBox->setCurrentIndex(newType); }
-	Q_PROPERTY(int type READ type WRITE setType)
-
-private slots:
-	void onComboBoxChanged(int index);
-};
-
 
 
 class SearchBar : public QWidget
