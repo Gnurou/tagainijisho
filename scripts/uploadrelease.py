@@ -10,7 +10,8 @@ serviceRoot = LPNET_SERVICE_ROOT
 projectName = 'tagaini-jisho'
 cachedir = "/tmp/tagainiuploader/cache/"
 credentialsfile = "credentials.txt"
-releaseVersion = "0.2.4"
+releaseVersion = "0.2.4.80"
+lpRelease = "0.2.5b1"
 launchpad = None
 
 FILE_TYPES = dict(source='Code Release Tarball',
@@ -69,7 +70,7 @@ if not launchpad:
 
 project = launchpad.projects[projectName]
 for release in project.releases:
-	if release.version == releaseVersion:
+	if release.version == lpRelease:
 		sys.stdout.write("Found the release. I will now create signature files - please enter your GPG private key passphrase: ")
 		gpgPass = sys.stdin.readline()
 		# Upload the source tarball
