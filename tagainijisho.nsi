@@ -19,10 +19,10 @@ RMDir "$LOCALAPPDATA\VirtualStore\Program Files\Tagaini Jisho"
 VSTOREKANJIDICEND:
 
 SetOutPath "$INSTDIR"
-File "tagainijisho.exe"
-File "jmdict.db"
+File "${BUILDDIR}/src/gui/tagainijisho.exe"
+File "${BUILDDIR}/jmdict.db"
 SetFileAttributes "jmdict.db" READONLY
-File "kanjidic2.db"
+File "${BUILDDIR}/kanjidic2.db"
 SetFileAttributes "kanjidic2.db" READONLY
 File "${QTPATH}/bin/QtCore4.dll"
 File "${QTPATH}/bin/QtGui4.dll"
