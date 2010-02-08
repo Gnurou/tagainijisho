@@ -20,16 +20,16 @@ VSTOREKANJIDICEND:
 
 SetOutPath "$INSTDIR"
 File "${BUILDDIR}/src/gui/tagainijisho.exe"
-File "${BUILDDIR}/jmdict.db"
+File /oname=jmdict.db "${DBDIR}/jmdict-${LANG}.db"
 SetFileAttributes "jmdict.db" READONLY
-File "${BUILDDIR}/kanjidic2.db"
+File /oname=kanjidic2.db "${DBDIR}/kanjidic2-${LANG}.db"
 SetFileAttributes "kanjidic2.db" READONLY
 File "${QTPATH}/bin/QtCore4.dll"
 File "${QTPATH}/bin/QtGui4.dll"
 File "${QTPATH}/bin/QtSql4.dll"
 File "${QTPATH}/bin/QtNetWork4.dll"
 File "${MINGWDLLPATH}/mingwm10.dll"
-File "${MINGWDLLPATH}/libgcc_s_dw2-1.dll"
+File "libgcc_s_dw2-1.dll"
 File /oname=qt.conf "qt.conf.windows"
 SetOutPath "$INSTDIR\translations"
 File "win32-translations/qt_fr.qm"
