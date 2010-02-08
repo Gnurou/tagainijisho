@@ -22,7 +22,7 @@
 
 PreferenceItem<int> ResultsList::resultsPerPagePref("mainWindow/resultsView", "resultsPerPage", 50);
 
-ResultsList::ResultsList(QObject *parent) : QAbstractListModel(parent), entries(), displayedUntil(0), query(), _pageNbr(0), totalResults(-1), showAllResultsRequested(false)
+ResultsList::ResultsList(QObject *parent) : QAbstractListModel(parent), entries(), displayedUntil(0), query(), _pageNbr(0), totalResults(-1), showAllResultsRequested(false), _active(false)
 {
 	connect(&timer, SIGNAL(timeout()),
 		this, SLOT(updateViews()));
@@ -160,16 +160,17 @@ QMimeData *ResultsList::mimeData(const QModelIndexList &indexes) const
 
 void ResultsList::queryError()
 {
+	_active = false;
 	emit queryEnded();
 }
 
 void ResultsList::nextPage()
 {
-	if (totalResults == -1) return;
 	if (totalResults < (pageNbr() + 1) * resultsPerPage()) return;
 	query.abort();
 	QCoreApplication::processEvents(QEventLoop::ExcludeUserInputEvents | QEventLoop::ExcludeSocketNotifiers);
 	clear();
+	_active = true;
 	query.fetch(++_pageNbr * resultsPerPage(), resultsPerPage());
 	emit queryStarted();
 }
@@ -180,6 +181,7 @@ void ResultsList::previousPage()
 	query.abort();
 	QCoreApplication::processEvents(QEventLoop::ExcludeUserInputEvents | QEventLoop::ExcludeSocketNotifiers);
 	clear();
+	_active = true;
 	query.fetch(--_pageNbr * resultsPerPage(), resultsPerPage());
 	emit queryStarted();
 }
@@ -191,6 +193,7 @@ void ResultsList::scheduleShowAllResults()
 		// First check if all the results are not already displayed
 		if (pageNbr() == 0 && totalResults <= nbResults()) return;
 		
+		_active = true;
 		// If we are on the first page, we can just continue the query this way
 		if (pageNbr() == 0) {
 			query.fetch(nbResults(), -1);
@@ -221,6 +224,7 @@ void ResultsList::search(const QueryBuilder &qBuilder)
 	
 	// And start the query!
 	query.prepare(qBuilder);
+	_active = true;
 	emit newSearch();
 	emit queryStarted();
 	query.fetch(0, resultsPerPage());
@@ -228,10 +232,12 @@ void ResultsList::search(const QueryBuilder &qBuilder)
 
 void ResultsList::abortSearch()
 {
+	_active = false;
 	query.abort();
-	query.clear();
 	// Flush all the entries the results list may be receiving
 	QCoreApplication::processEvents(QEventLoop::ExcludeUserInputEvents | QEventLoop::ExcludeSocketNotifiers);
+	// Clear the list of all received entries
+	query.clear();
 	emit queryEnded();
 }
 

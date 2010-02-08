@@ -649,8 +649,9 @@ void MainWindow::search(const QString &commands)
 		_search(localCommands);
 	}
 	else {
-		_results->clear();
 		_results->abortSearch();
+		_results->clear();
+		_resultsView->showNbResults(0);
 	}
 }
 

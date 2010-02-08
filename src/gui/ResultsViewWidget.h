@@ -36,14 +36,11 @@ private:
 	
 private slots:
 	void stopAndResetSearchAnim();
-	void onRowsRemoved(const QModelIndex &parent, int start, int end);
 	void onNewSearch();
 	void onSearchStarted();
 	void onSearchEnded();
 		
 protected slots:
-	/// Set the total number of results of a search.
-	void showNbResults(unsigned int nbResults);
 	/// Activate/deactivate the navigation buttons according
 	/// to the current position and total number of results
 	/// in the search
@@ -59,6 +56,9 @@ public:
 	ResultsView *resultsView() { return _resultsView; }
 	
 public slots:
+	/// Set the total number of results of a search.
+	void showNbResults(unsigned int nbResults);
+	
 	void nextPage();
 	void previousPage();
 	void scheduleShowAllResults();

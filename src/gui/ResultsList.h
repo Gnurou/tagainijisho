@@ -42,6 +42,7 @@ private:
 	int _pageNbr;
 	int totalResults;
 	bool showAllResultsRequested;
+	bool _active;
 
 	void startPreparedQuery();
 	
@@ -66,6 +67,7 @@ public:
 	int pageNbr() const { return _pageNbr; }
 	int resultsPerPage() const { return _resultsPerPage; }
 	void setResultsPerPage(int nbr) { _resultsPerPage = nbr; }
+	bool queryActive() const { return _active; }
 
 	static PreferenceItem<int> resultsPerPagePref;
 	

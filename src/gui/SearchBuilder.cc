@@ -30,6 +30,7 @@ void SearchBuilder::reset()
 		filter->reset();
 		filter->setAutoUpdateQuery(true);
 	}
+	runSearch();
 }
 
 QString SearchBuilder::commands() const

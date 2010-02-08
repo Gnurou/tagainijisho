@@ -37,7 +37,6 @@ void ResultsViewWidget::setModel(ResultsList *rList)
 {
 	if (_results) {
 		disconnect(searchActiveAnimation, SIGNAL(clicked()), _results, SLOT(abortSearch()));
-		disconnect(_results, SIGNAL(rowsRemoved(QModelIndex, int, int)), this, SLOT(onRowsRemoved(QModelIndex, int, int)));
 		disconnect(_results, SIGNAL(nbResults(unsigned int)), this, SLOT(showNbResults(unsigned int)));
 		disconnect(_results, SIGNAL(queryEnded()), this, SLOT(stopAndResetSearchAnim()));
 		disconnect(_results, SIGNAL(queryEnded()), this, SLOT(onSearchEnded()));
@@ -55,7 +54,6 @@ void ResultsViewWidget::setModel(ResultsList *rList)
 		connect(_results, SIGNAL(queryEnded()), this, SLOT(onSearchEnded()));
 		connect(_results, SIGNAL(queryEnded()), this, SLOT(stopAndResetSearchAnim()));
 		connect(_results, SIGNAL(nbResults(unsigned int)), this, SLOT(showNbResults(unsigned int)));
-		connect(_results, SIGNAL(rowsRemoved(QModelIndex, int, int)), this, SLOT(onRowsRemoved(QModelIndex, int, int)));
 		connect(searchActiveAnimation, SIGNAL(clicked()), _results, SLOT(abortSearch()));
 	}
 	_resultsView->setModel(rList);
@@ -65,17 +63,6 @@ void ResultsViewWidget::stopAndResetSearchAnim()
 {
 	searchAnim->stop();
 	searchAnim->jumpToFrame(0);
-}
-
-void ResultsViewWidget::onRowsRemoved(const QModelIndex &parent, int start, int end)
-{
-	if (_results->rowCount() == 0) {
-		showAllResultsButton->setEnabled(false);
-		nextPageButton->setEnabled(false);
-		previousPageButton->setEnabled(false);
-		totalResults = 0;
-		updateNbResultsDisplay();
-	}
 }
 
 void ResultsViewWidget::onNewSearch()
@@ -123,9 +110,9 @@ void ResultsViewWidget::showNbResults(unsigned int nbResults)
 
 void ResultsViewWidget::updateNavigationButtons()
 {
-	nextPageButton->setEnabled(!showAllResultsTriggered && (totalResults > (_results->pageNbr() * _results->resultsPerPage()) + _results->nbResults()));
-	previousPageButton->setEnabled(!showAllResultsTriggered && _results->pageNbr() > 0);
-	showAllResultsButton->setEnabled(!showAllResultsTriggered && (totalResults == -1 || totalResults > _results->nbResults()));
+	nextPageButton->setEnabled(_results->queryActive() && !showAllResultsTriggered && (totalResults > (_results->pageNbr() * _results->resultsPerPage()) + _results->nbResults()));
+	previousPageButton->setEnabled(_results->queryActive() && !showAllResultsTriggered && _results->pageNbr() > 0);
+	showAllResultsButton->setEnabled(_results->queryActive() && !showAllResultsTriggered && (totalResults == -1 || totalResults > _results->nbResults()));
 }
 
 
