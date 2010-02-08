@@ -23,6 +23,15 @@ SearchBuilder::SearchBuilder(QObject *parent) : QObject(parent)
 {
 }
 
+void SearchBuilder::reset()
+{
+	foreach (SearchFilterWidget *filter, _filters.values()) {
+		filter->setAutoUpdateQuery(false);
+		filter->reset();
+		filter->setAutoUpdateQuery(true);
+	}
+}
+
 QString SearchBuilder::commands() const
 {
 	QStringList cmds;

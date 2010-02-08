@@ -105,10 +105,8 @@ protected slots:
 	void display(const QItemSelection &selected, const QItemSelection &deselected);
 
 	void goPrev();
-	/// Replay the next search in the history
 	void goNext();
-	// End of SearchWidget stuff
-	
+	void resetSearch();
 	
 	void exportUserData();
 	void importUserData();

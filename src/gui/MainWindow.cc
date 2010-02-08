@@ -709,3 +709,8 @@ void MainWindow::removeSearchFilterWidget(const QString &name)
 	_searchFilterWidgets.remove(name);
 	_searchBuilder.removeSearchFilter(name);
 }
+
+void MainWindow::resetSearch()
+{
+	_searchBuilder.reset();
+}

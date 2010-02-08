@@ -54,6 +54,9 @@ public:
 	Q_PROPERTY(QString text READ text WRITE setText)
 	
 	static PreferenceItem<int> textSearchHistorySize;
+	
+public slots:
+	void focusOnText() { _searchField->setFocus(); }
 };
 
 #endif

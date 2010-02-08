@@ -59,6 +59,7 @@ public slots:
 	 * the registered filters.
 	 */
 	void runSearch();
+	void reset();
 
 signals:
 	void queryRequested(const QString &query);

@@ -42,7 +42,7 @@
      <x>0</x>
      <y>0</y>
      <width>900</width>
-     <height>21</height>
+     <height>23</height>
     </rect>
    </property>
    <widget class="QMenu" name="_fileMenu">
@@ -54,13 +54,6 @@
     <addaction name="actionPreferences"/>
     <addaction name="separator"/>
     <addaction name="action_Quit"/>
-   </widget>
-   <widget class="QMenu" name="_searchMenu">
-    <property name="title">
-     <string>&amp;Search</string>
-    </property>
-    <addaction name="actionFocusSearchBar"/>
-    <addaction name="actionResetSearch"/>
    </widget>
    <widget class="QMenu" name="_resultsMenu">
     <property name="title">
@@ -99,6 +92,12 @@
     <addaction name="action_New_sets_folder"/>
     <addaction name="action_Organize_sets"/>
     <addaction name="separator"/>
+   </widget>
+   <widget class="QMenu" name="_searchMenu">
+    <property name="title">
+     <string>&amp;Search</string>
+    </property>
+    <addaction name="actionResetSearch"/>
    </widget>
    <addaction name="_fileMenu"/>
    <addaction name="_searchMenu"/>
@@ -180,14 +179,6 @@
    </property>
    <property name="menuRole">
     <enum>QAction::QuitRole</enum>
-   </property>
-  </action>
-  <action name="actionFocusSearchBar">
-   <property name="text">
-    <string>Focus search bar,,,</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+L</string>
    </property>
   </action>
   <action name="actionResetSearch">
@@ -711,6 +702,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionResetSearch</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>resetSearch()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>449</x>
+     <y>324</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>goPrev()</slot>
@@ -739,5 +746,7 @@
   <slot>askQuestion()</slot>
   <slot>donate()</slot>
   <slot>about()</slot>
+  <slot>resetSearch()</slot>
+  <slot>focusTextSearch()</slot>
  </slots>
 </ui>
