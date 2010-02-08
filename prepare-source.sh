@@ -7,11 +7,12 @@ KANJIVG_SOURCE=http://kanjivg.tagaini.net/upload/Main/kanjivg-latest.xml.gz
 
 [ -d 3rdparty ] || mkdir 3rdparty
 
-if [ ! -d 3rdparty/sqlite-${SQLITE_VERSION} ]; then
+if [ ! -d 3rdparty/sqlite ]; then
 	pushd 3rdparty
 	wget $SQLITE_SOURCE
 	tar -x sqlite-$SQLITE_VERSION/sqlite3.c sqlite-$SQLITE_VERSION/sqlite3.h -f sqlite-amalgamation-$SQLITE_VERSION.tar.gz
-	ln -sf sqlite-$SQLITE_VERSION sqlite
+	mv sqlite-$SQLITE_VERSION sqlite
+	rm sqlite-amalgamation-$SQLITE_VERSION.tar.gz
 	popd
 fi
 
