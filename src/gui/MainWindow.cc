@@ -109,13 +109,14 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), _history(historyS
 	_filtersToolBar->addWidget(typeFilter);
 	connect(typeFilter, SIGNAL(updateTitle(const QString &)), _searchFilters, SLOT(onTitleChanged(const QString &)));
 	_searchBuilder.addSearchFilter(typeFilter);
-	SearchFilterWidget *textFilter = new TextFilterWidget(this);
+	TextFilterWidget *textFilter = new TextFilterWidget(this);
 	addSearchFilter(textFilter);
 	addSearchFilter(new StudyFilterWidget(this));
 	addSearchFilter(new JLPTFilterWidget(this));
 	addSearchFilter(new TagsFilterWidget(this));
 	addSearchFilter(new NotesFilterWidget(this));
 	_searchFilters->showWidget(textFilter);
+	_searchMenu->addAction(textFilter->enableClipboardInputAction());
 
 	// List widget
 	EntryListWidget *elWidget = new EntryListWidget(this);

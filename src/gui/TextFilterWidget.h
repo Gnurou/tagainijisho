@@ -25,6 +25,7 @@
 #include <QLineEdit>
 #include <QToolButton>
 #include <QPushButton>
+#include <QAction>
 
 class TextFilterWidget : public SearchFilterWidget
 {
@@ -33,12 +34,17 @@ private:
 	QComboBox *_searchField;
 	QToolButton *resetText;
 	QPushButton *searchButton;	
+	bool clipboardEnabled;
+	QAction *_enableClipboardInputAction;
 	
 private slots:
 	void searchButtonClicked();
 	void onItemSelected(int item);
 	void resetSearchText();
 	void onSearchTextChanged(const QString &text);
+	void onClipboardChanged();
+	void onClipboardSelectionChanged();
+	void enableClipboardInput(bool enable);
 
 protected:
 	virtual void _reset();
@@ -57,6 +63,7 @@ public:
 	
 public slots:
 	void focusOnText() { _searchField->setFocus(); }
+	QAction *enableClipboardInputAction() { return _enableClipboardInputAction; }
 };
 
 #endif

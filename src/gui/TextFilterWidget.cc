@@ -18,10 +18,12 @@
 #include "gui/TextFilterWidget.h"
 
 #include <QHBoxLayout>
+#include <QClipboard>
+#include <QApplication>
 
 PreferenceItem<int> TextFilterWidget::textSearchHistorySize("mainWindow", "searchBarHistorySize", 100);
 
-TextFilterWidget::TextFilterWidget(QWidget *parent) : SearchFilterWidget(parent)
+TextFilterWidget::TextFilterWidget(QWidget *parent) : SearchFilterWidget(parent), clipboardEnabled(false)
 {
 	_propsToSave << "text";
 
@@ -52,6 +54,10 @@ TextFilterWidget::TextFilterWidget(QWidget *parent) : SearchFilterWidget(parent)
 	hLayout->addWidget(resetText);
 	hLayout->addWidget(_searchField);
 	hLayout->addWidget(searchButton);
+	
+	_enableClipboardInputAction = new QAction(tr("Auto-search on clipboard content"), this);
+	_enableClipboardInputAction->setCheckable(true);
+	connect(_enableClipboardInputAction, SIGNAL(toggled(bool)), this, SLOT(enableClipboardInput(bool)));
 }
 
 QString TextFilterWidget::currentTitle() const
@@ -96,4 +102,37 @@ void TextFilterWidget::resetSearchText()
 void TextFilterWidget::_reset()
 {
 	resetSearchText();
+}
+
+void TextFilterWidget::enableClipboardInput(bool enable)
+{
+	QClipboard *clipboard = QApplication::clipboard();
+	if (enable && !clipboardEnabled) {
+		connect(clipboard, SIGNAL(dataChanged()), this, SLOT(onClipboardChanged()));
+		connect(clipboard, SIGNAL(selectionChanged()), this, SLOT(onClipboardSelectionChanged()));
+		clipboardEnabled = true;
+	}
+	else if (!enable && clipboardEnabled ) {
+		disconnect(clipboard, SIGNAL(dataChanged()), this, SLOT(onClipboardChanged()));
+		disconnect(clipboard, SIGNAL(selectionChanged()), this, SLOT(onClipboardSelectionChanged()));
+		clipboardEnabled = false;
+	}
+}
+
+void TextFilterWidget::onClipboardChanged()
+{
+	QClipboard *clipboard = QApplication::clipboard();
+	QString text(clipboard->text(QClipboard::Clipboard));
+	if (text.isEmpty()) return;
+	setText(text);
+	commandUpdate();
+}
+
+void TextFilterWidget::onClipboardSelectionChanged()
+{
+	QClipboard *clipboard = QApplication::clipboard();
+	QString text(clipboard->text(QClipboard::Selection));
+	if (text.isEmpty()) return;
+	setText(text);
+	commandUpdate();
 }
