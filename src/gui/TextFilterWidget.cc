@@ -122,17 +122,17 @@ void TextFilterWidget::enableClipboardInput(bool enable)
 void TextFilterWidget::onClipboardChanged()
 {
 	QClipboard *clipboard = QApplication::clipboard();
-	QString text(clipboard->text(QClipboard::Clipboard));
-	if (text.isEmpty()) return;
-	setText(text);
+	QString cText(clipboard->text(QClipboard::Clipboard));
+	if (cText.isEmpty() || cText == text()) return;
+	setText(cText);
 	commandUpdate();
 }
 
 void TextFilterWidget::onClipboardSelectionChanged()
 {
 	QClipboard *clipboard = QApplication::clipboard();
-	QString text(clipboard->text(QClipboard::Selection));
-	if (text.isEmpty()) return;
-	setText(text);
+	QString cText(clipboard->text(QClipboard::Selection));
+	if (cText.isEmpty() || cText == text()) return;
+	setText(cText);
 	commandUpdate();
 }
