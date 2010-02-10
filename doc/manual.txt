@@ -38,13 +38,14 @@ Table of Contents
     3.4. [Vocabulary Entries]  
     3.5. [Kanji Entries]  
 4. [Advanced Features]  
-    4.1. [Sets]  
-    4.2. [Results]  
-    4.3. [Study List]   
-    4.4. [Practise]  
- &emsp;&emsp;       4.4.1. [Vocabulary Flashcards]  
- &emsp;&emsp;       4.4.2. [Kanji Flashcards]  
- &emsp;&emsp;       4.4.3. [Reading Practise]  
+    4.1. [Lists]  
+    4.2. [Sets]  
+    4.3. [Results]  
+    4.4. [Study List]   
+    4.5. [Practice]  
+ &emsp;&emsp;       4.5.1. [Vocabulary Flashcards]  
+ &emsp;&emsp;       4.5.2. [Kanji Flashcards]  
+ &emsp;&emsp;       4.5.3. [Reading Practise]  
     4.5. [Importing and Exporting Data]
 5. [Troubleshooting]
 6. [Contact]
@@ -845,7 +846,48 @@ kanji, has flash card facilities and will print sets for latter viewing.
 [Table of Contents] - [Top](#top "Top")
 ******
 
-4.1. Sets
+4.1. Lists
+---------
+
+A new feature in Tagaini Jisho 0.2.5, `Lists` should be visable as soon as you
+start the Tagaini. A panel, by default, down the left of the window that is
+marked `Lists`. This panel can be removed, by clicking the small `X` button
+at the top right of the panel. It can also be detached from the main window,
+or moved to the right of the results view. If the Lists panel is not visible
+in 0.2.5 then it can be turned back on via the checkbox in the `Search` menu.
+
+![Tagaini Jisho 0.2.5 - Lists](images/tagaini_lists.png)
+
+The lists panel has two buttons. The first, `Create a new list`, creates a
+new list. The second, `Delete currently selected list`, recursively deletes all
+this list and its contents. 
+
+Each list is a tree branch in the list view panel. When a new list is
+created, it does not have a parent and is named `New list`. Double clicking on
+the branch will allow renaming. As every list is a branch, clicking and
+dragging them onto another list will set it to be a child of that list,
+allowing this lists to be embedded.
+
+When a list has children, a little `+` or `-` symbol will show up to its left.
+When the symbol is a `+`, the children are hidden and clicking on the symbol
+will expand the tree, so that all the children are visible. When the symbol
+is a `-` the contents of the list are visible. They can be hidden by clicking
+on the `-` symbol. 
+
+Lists are useful for sorting and organising entries that may be frequently
+viewed. To add an entry to a list, Drag and drop it onto one of the lists from
+the results view. doing this creates a child entry that links to that entry.
+Clicking on it in the lists view then opens the entry in the detailed view. 
+
+To delete a list and its contents, select it and click the button that looks
+like a red `x`. This will display a warning that points out that the operation
+will delete the list and all of its children. 
+
+******
+[Table of Contents] - [Top](#top "Top")
+******
+
+4.2. Sets
 ---------
 
 A `set` is the list created by a search and displayed in the results view.
@@ -884,7 +926,7 @@ themselves as well as into new folders.
 [Table of Contents] - [Top](#top "Top")
 ******
 
-4.2. Results
+4.3. Results
 ------------
 
 Tagaini is a computer application, and some of the best times to study are
@@ -925,7 +967,7 @@ this format.
 [Table of Contents] - [Top](#top "Top")
 ******
 
-4.3. Study List
+4.4. Study List
 ---------------
 
 The study list is an invisible list of vocabulary and kanji, used to mark
@@ -956,7 +998,7 @@ An entries score goes up and down as you practise it.
 [Table of Contents] - [Top](#top "Top")
 ******
 
-4.4. Practice
+4.5. Practice
 -------------
 
 The practice menu has four different options. Settings; vocab flash cards;
@@ -981,7 +1023,7 @@ entries with higher scores.
 [Table of Contents] - [Top](#top "Top")
 ******
 
-###4.4.1. Vocabulary Flashcards
+###4.5.1. Vocabulary Flashcards
 
 There are four options in total in the vocabulary flashcards submenu: `From
 Japanese, whole study set`; `From Japanese, current set`; `From translation,
@@ -1023,7 +1065,7 @@ back to 0.
 [Table of Contents] - [Top](#top "Top")
 ******
 
-### 4.4.2. Kanji Flashcards
+### 4.5.2. Kanji Flashcards
 
 The kanji flashcards menu, like the vocabulary flash cards menu, has four
 options: `From kanji, whole study list`; `From kanji, current set`; `From
@@ -1045,7 +1087,7 @@ defeat the point of trying to memorise the kanji.
 [Table of Contents] - [Top](#top "Top")
 ******
 
-### 4.4.3. Reading Practice
+### 4.5.3. Reading Practice
 
 The last option in the practice menu is `reading practice, whole study set`.
 It brings up the `reading practice` window, which is a bit different to the
@@ -1096,7 +1138,7 @@ Unable to read Japanese
 
 If you are unable to read Japanese text, you probably don't have any Japanese
 font's installed. You will likely have to install the Japanese language pack
-in windows and Mac OS X. To get Japanese support in linux please see your
+in windows and Mac OS X. To get Japanese support in Linux please see your
 distributions documentation, if the information and links provided in Tagaini's
 Install Guide were insufficient. 
 
