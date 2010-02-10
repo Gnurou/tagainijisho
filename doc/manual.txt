@@ -80,6 +80,13 @@ providing:
 * Production of printed material, including a handy fold-able booklet to
       study anywhere. 
 
+This version of the Tagaini Jisho documentation has been written using Tagaini
+Jisho 0.2.4 as a base, and changes have been itterated into it for subsequent
+versions. It is possible that some aspects of the program have been left out
+or are ambigious. If so, please feel free to contact the author or the Tagaini
+mailing list. Contact details can be found in the contact section on either
+the website or this document.
+
 [^OSS]: Open Source Software: Software that has been released for free by its 
 	author, along with its source code. 
 
