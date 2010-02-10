@@ -44,26 +44,51 @@ These dependencies are:
 * [Python][WPy]  
     &emsp;&emsp;&emsp; Python is a programing language that was used to  
     &emsp;&emsp;&emsp; write part of the setup process when compiling from  
-    &emsp;&emsp;&emsp; source.
+    &emsp;&emsp;&emsp; source. Python is only required for version 0.2.4 and  
+    &emsp;&emsp;&emsp; anything versions prior to it.   
+* [CMake][Wcmake]   
+    &emsp;&emsp;&emsp; Cmake is a cross platform build system, which allows   
+    &emsp;&emsp;&emsp; an alternative to automake's configure scripts. It   
+    &emsp;&emsp;&emsp; sets up the source code to be built according to the   
+    &emsp;&emsp;&emsp; system it is run on. CMake is required for versions  
+    &emsp;&emsp;&emsp; after 0.2.4.  
 
 
 [WIM]: http://en.wikipedia.org/wiki/Input_method "Wikipedia: IM"
 [WQt]: http://en.wikipedia.org/wiki/Qt_%28toolkit%29 "Wikipedia: Qt"
 [WPy]: http://en.wikipedia.org/wiki/Python_%28programming_language%29 "Wikipedia: Python"
+[Wcmake]: http://en.wikipedia.org/wiki/Cmake "Wikipedia: CMake"  
 
-|                   ||                  Platform                        |||||||
+<br>
+
+|   ||                                    Platform    |||||||
 Dependency|&emsp;|Windows|&emsp;|Mac OS|&emsp;|Linux Binary|&emsp;|Source|
 ------------------------------------------------------------------------------
  Japanese Fonts     || yes          ||  yes     || yes              || yes   |
  An IM              || yes          || yes      || yes              || yes   |
  Qt                 || no           || no       || yes              || yes   |
  Python             || no           || no       || no               || yes   |
-[Platform Dependencies]
+[Platform Dependencies - version 0.2.4 and older]
+
+<br><br>
+
+|   ||                                    Platform    |||||||
+Dependency|&emsp;|Windows|&emsp;|Mac OS|&emsp;|Linux Binary|&emsp;|Source|
+------------------------------------------------------------------------------
+ Japanese Fonts     || yes          ||  yes     || yes              || yes   |
+ An IM              || yes          || yes      || yes              || yes   |
+ Qt                 || no           || no       || yes              || yes   |
+ CMake              || no           || no       || no               || yes   |
+[Platform Dependencies - newer than version 0.2.4]
 
 
 [^bin]: A binary file is an executable file that contains information that the
         machine uses to run the file. tagainijisho.exe is a binary.
 
+In the tables above, dependencies marked as `yes` are required to be installed
+separately on the system to run Tagaini. If the dependency is marked as `no`
+then it is either included in the installer for that platform, or not
+necessary. 
 
 Windows
 -------
