@@ -81,9 +81,9 @@ providing:
       study anywhere. 
 
 This version of the Tagaini Jisho documentation has been written using Tagaini
-Jisho 0.2.4 as a base, and changes have been itterated into it for subsequent
+Jisho 0.2.4 as a base, and changes have been iterated into it for subsequent
 versions. It is possible that some aspects of the program have been left out
-or are ambigious. If so, please feel free to contact the author or the Tagaini
+or are ambiguous. If so, please feel free to contact the author or the Tagaini
 mailing list. Contact details can be found in the contact section on either
 the website or this document.
 
@@ -140,15 +140,27 @@ the detailed view has the same effect, except that instead of `Select All` it
 has `Open in detailed view...`, which opens an entry for the kanji in the
 detailed view. Most kanji in the detailed view are references to an entry
 about that kanji, so right clicking on them will act accordingly. You may also
-right click on the magnifing icon, which is a reference to the stated chapter.
+right click on the magnifying icon, which is a reference to the stated chapter.
 
 Tagaini's views can also be sized, to make the results or detailed view
 larger, whilst making the other smaller. To do this, there is a small dotted
 line above the detailed view's toolbar, directly below the results view
 window. Clicking and dragging this up and down changes the size. If you move
 it close enough to the top or bottom of the window, then it will snap up to
-the edge, effectivly removing the results or detailed view from the window.
-This can be handy when practicing sets, which will be covered latter. 
+the edge, effectively removing the results or detailed view from the window.
+This can be handy when practising sets, which will be covered latter. 
+
+In 0.2.5, the lists view is added and will be on the left of the results view
+the first time Tagaini 0.2.5 is opened. The Lists view can be detached from
+the main window, used as a floating window or be reattached to the other side
+of the Window, to appear on the right of the results view. In 0.2.5, the lists
+view is added and will be on the left of the results view the first time
+Tagaini 0.2.5 is opened. The Lists view can be detached from the main window,
+used as a floating window or be reattached to the other side of the Window, to
+appear on the right of the results view. There are also two toolbars, one made
+up of the search extenders and the other miscellaneous tools. They can also be
+detached and moved around separate to the main window, or repositioned,
+either around the edges of the window. 
 
 ******
 [Table of Contents] - [Top](#top "Top")
@@ -207,7 +219,7 @@ the same way. So `大*` represents everything that
 starts with 大 and `*す` represents everything that ends with す. If the `?`
 character was used instead then then `大?` would be any two character entry where
 the first was 大 and `?す` would be any two character entry that ends with す.
-Note that the asterik and question marked gotten from IM's, `＊` and `？`, are
+Note that the asterisk and question marked gotten from IM's, `＊` and `？`, are
 different from the ascii characters, `*` and `?`, which work as wildecards. 
 
 The button to the left of the search bar, which looks like a black box with a
