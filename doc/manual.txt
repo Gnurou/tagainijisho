@@ -220,11 +220,16 @@ starts with 大 and `*す` represents everything that ends with す. If the `?`
 character was used instead then then `大?` would be any two character entry where
 the first was 大 and `?す` would be any two character entry that ends with す.
 Note that the asterisk and question marked gotten from IM's, `＊` and `？`, are
-different from the ascii characters, `*` and `?`, which work as wildecards. 
+different from the ascii characters, `*` and `?`, which work as wild cards. 
 
 The button to the left of the search bar, which looks like a black box with a
 white x in it, clears the search bar, resetting it to default, ready to use
-again. 
+again.
+
+From version 0.2.5 the search bar is located in an extender labelled `Text
+search`. The label changes to any search terms that are entered into the
+search bar. When changing between search extenders they will take up the
+section of the window that the search bar was in. 
 
 [^wildcards]: Wild cards are characters used to represent unknown characters in search terms. 
 
@@ -282,7 +287,7 @@ Clicking on the magnifying glass at the end of this line would display the
 entry for 取れる in the detailed view. This does not affect your current set.
 
 [^pos]: See http://www.csse.monash.edu.au/~jwb/edict_doc.html for a list of
-parts of speach markers.
+parts of speech markers.
 
 
 
@@ -392,7 +397,7 @@ list`, which adds the entry to the list with a score of 0. The green flag,
 
 Each entry is given a colour between red and green according to their score, and
 it is displayed as the entries background in the results view. As you 
-practice[^practicefoot] the score on each entry in your study list will
+practise[^practicefoot], the score on each entry in your study list will
 change. You will then be able to filter entries that you know you know from
 your searches. When the study status is set to `studied` Tagaini will only
 search through entries that have a score within the range of `Min` and `Max`,
@@ -406,11 +411,11 @@ been added after the `since` date and before the `until` date then it will be
 listed in the results view in any searches.
 
 The last trained section allows you to set a time range for finding entries
-according to when you last practiced it, and the last mistaken section allows 
+according to when you last practised it, and the last mistaken section allows 
 you to set a time range for when you last marked an entry as incorrect.
 
 [^practicefoot]: See Chapter 5 Section 2; [Study List][] for more information on
-practicing with your study list, as well as manipulating it. 
+practising with your study list, as well as manipulating it. 
 
 [^studynum]: Just setting the status to `not studied` without any other search 
 criteria will cause every entry not in the study list to be listed. This is
@@ -486,7 +491,7 @@ string to "Appears in chapter 5", then it will only find the one that has that
 exactly. 
 
 To add a note, use the `Edit notes...` button, which looks like a yellow
-sickit note pad and a pen. It will bring up a window with
+stick-it note pad and a pen. It will bring up a window with
 any existing notes. You can edit existing notes by selecting them and editing
 them, add new notes with the `New note` button, and delete notes. 
 
@@ -536,7 +541,7 @@ used in conjunction with the kanji extender.
 
 The first two text fields relate to the kanji found in vocab entries. The `With
 kanji` field will find any vocab entry that contains a kanji. If you enter two
-kanji then the entry must contain both kanji. Next to it is a checkbox labeled
+kanji then the entry must contain both kanji. Next to it is a checkbox labelled
 `Using studied kanji only`. It forces the search to use only kanji from the
 study list. 
 
@@ -546,7 +551,7 @@ of 禾 (which is composed of 丿 and 木) and 厶, so searching for 丿, 木 and
 in the `With components` field will find any entry with kanji with those
 radicals, including any entry that contains the kanji 私.
 
-Below that are four sub menus, labeled `Part of speech`, `Dialect`,
+Below that are four sub menus, labelled `Part of speech`, `Dialect`,
 `Field` and `Misc`. Each of these finds entries that belong to any of the
 groups you select in the menus. The `Part of speech` menu allows you to search
 for different parts of speech, such as nouns or verbs; `Dialect` finds words
@@ -686,7 +691,7 @@ five in all.
 * `Default text` -  The font to use with any non-Japanese characters. 
 * `Kana header` -   The red furigana reading, centred above the large kanji 
 		    text.
-* `Kanji header` -  The large centred kanji text, signifing the main reading.
+* `Kanji header` -  The large centred kanji text, signifying the main reading.
 * `Kanji` -	    Any kanji in the display, for alternative writings and 
 		    referenced entries.
 * `Kana` -	    Any kana in the display, for alternative readings and 
@@ -796,7 +801,7 @@ is written in a handwritten font, or in the default font.
 
 ![Kanji ToolTips](images/tagaini_pref_kanji_tooltip.png)
 
-The kanji tooltip, which is the tooltip that shows up when the mouse is
+The kanji tool tip, which is the tooltip that shows up when the mouse is
 hovering over a kanji in the detailed view, is a yellow box which displays
 the kanji; its first reading and its meanings. The options on this page toggle
 on／off additional information. 
@@ -891,7 +896,7 @@ out sets.
 ![Results Menu](images/tagaini_results.png)
 
 Tagaini can print two different types of paper media. Lists of vocabulary or
-kanji, and Pocketmod books, vocabulary and kanji lists formated in such a way
+kanji, and Pocketmod books, vocabulary and kanji lists formatted in such a way
 that the paper can be folded into a small, pocket sized, book. The `print`
 option prints normally formatted lists, whilst the `print booklet(s)` option
 prints out booklets. Each option also has a preview option. 
@@ -900,7 +905,7 @@ What is printed is limited by what is in the results window. If a search has
 turned up 60 entries, and Tagaini is set to only show 50 of those entries on a
 page, then Tagaini will only print those 50 entries. 
 
-In the `Export displayed entries...` menu is an option labeled `as a tab
+In the `Export displayed entries...` menu is an option labelled `as a tab
 separated file...`. This option exports the first page in the results view as
 a plain text file, with entries formatted:
 
@@ -945,13 +950,13 @@ black flag, which removes the entry from the study list. Another flag, which
 was previously greyed out, also becomes available. It is a red flag and marked
 `Reset score`. It sets the entries score to 0.
 
-An entries score goes up and down as you practice it.
+An entries score goes up and down as you practise it.
 
 ******
 [Table of Contents] - [Top](#top "Top")
 ******
 
-4.4. Practise
+4.4. Practice
 -------------
 
 The practice menu has four different options. Settings; vocab flash cards;
@@ -1040,7 +1045,7 @@ defeat the point of trying to memorise the kanji.
 [Table of Contents] - [Top](#top "Top")
 ******
 
-### 4.4.3. Reading Practise
+### 4.4.3. Reading Practice
 
 The last option in the practice menu is `reading practice, whole study set`.
 It brings up the `reading practice` window, which is a bit different to the
@@ -1090,15 +1095,15 @@ Unable to read Japanese
 -----------------------
 
 If you are unable to read Japanese text, you probably don't have any Japanese
-font's installed. You will likely have to install the Japanese langauge pack
+font's installed. You will likely have to install the Japanese language pack
 in windows and Mac OS X. To get Japanese support in linux please see your
-disributions documentation, if the information and links provided in Tagaini's
-Install Guide were insufficiant. 
+distributions documentation, if the information and links provided in Tagaini's
+Install Guide were insufficient. 
 
 Unable to type Japanese text
 ----------------------------
 
-Inputing Japanese text is not handled by Tagaini, instead by what is called an
+Inputting Japanese text is not handled by Tagaini, instead by what is called an
 Input Manager. You will need to install and use one of these to input Japanese
 text. For instructions on installing an IM, please see Tagaini's install
 guide.
@@ -1106,7 +1111,7 @@ guide.
 Tagaini won't compile from GIT
 ------------------------------
 
-Tagaini depends sqlite, but will not link with your systems sqlite libaries
+Tagaini depends sqlite, but will not link with your systems sqlite libraries
 because Tagaini requires a slightly customised version of sqlite. This is not
 kept in Tagaini's git repo. Instead, you first have to get it and the
 dictionaries. This is the first command you need to run, from the install
@@ -1131,7 +1136,7 @@ in the kanji database changed between 0.2.397 and 0.2.4 which causes kanji
 entries not to have meanings if run without updating the databases. To fix
 this, rebuild the databases and copy it to the path.
 
-The databases can be copied into the following places on a linux system:
+The databases can be copied into the following places on a Linux system:
 
     /usr/local/share/tagainijisho
     /usr/share/tagainijisho
