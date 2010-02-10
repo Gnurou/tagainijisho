@@ -131,7 +131,7 @@ void JMdictPreferences::updatePrintPreview()
 	const JMdictEntryFormatter *formatter = static_cast<const JMdictEntryFormatter*>(EntryFormatter::getFormatter(previewEntry));
 	QPainter painter(&previewPic);
 	QRectF usedSpace;
-	formatter->draw(previewEntry, painter, QRectF(0, 0, printPreviewScrollArea->viewport()->contentsRect().width() - 20, 300), usedSpace, QFont(), headerPrintSize->value(), printKanjis->isChecked(), printOnlyStudiedKanjis->isChecked(), maxDefinitionsToPrint->value());
+	formatter->drawCustom(previewEntry, painter, QRectF(0, 0, printPreviewScrollArea->viewport()->contentsRect().width() - 20, 300), usedSpace, QFont(), headerPrintSize->value(), printKanjis->isChecked(), printOnlyStudiedKanjis->isChecked(), maxDefinitionsToPrint->value());
 	previewPic.setBoundingRect(usedSpace.toRect());
 	previewLabel->clear();
 	previewLabel->setPicture(previewPic);

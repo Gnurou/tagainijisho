@@ -402,7 +402,7 @@ void JMdictEntryFormatter::_detailedVersion(const Entry *entry, QTextCursor &cur
 	writeEntryInfo(jEntry, cursor, view);
 }
 
-void JMdictEntryFormatter::draw(const Entry *_entry, QPainter &painter, const QRectF &rectangle, QRectF &usedSpace, const QFont &textFont, int headerPrintSize, bool printKanjis, bool printOnlyStudiedKanjis, int maxDefinitionsToPrint) const
+void JMdictEntryFormatter::drawCustom(const Entry *_entry, QPainter &painter, const QRectF &rectangle, QRectF &usedSpace, const QFont &textFont, int headerPrintSize, bool printKanjis, bool printOnlyStudiedKanjis, int maxDefinitionsToPrint) const
 {
 	const JMdictEntry *entry(static_cast<const JMdictEntry *>(_entry));
 	QFont kanjiFont;

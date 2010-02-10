@@ -47,7 +47,8 @@ public:
 	virtual void writeShortDesc(const Entry *entry, QTextCursor &cursor) const;
 	virtual void detailedVersionPart1(const Entry *entry, QTextCursor &cursor, DetailedView *view) const;
 	virtual void detailedVersionPart2(const Entry *entry, QTextCursor &cursor, DetailedView *view) const;
-	virtual void draw(const Entry *entry, QPainter &painter, const QRectF &rectangle, QRectF &usedSpace, const QFont &textFont = QFont(), int headerPrintSize = JMdictEntryFormatter::headerPrintSize.defaultValue(), bool printKanjis = JMdictEntryFormatter::printKanjis.defaultValue(), bool printOnlyStudiedKanjis = JMdictEntryFormatter::printOnlyStudiedKanjis.defaultValue(), int maxDefinitionsToPrint = JMdictEntryFormatter::maxDefinitionsToPrint.defaultValue()) const;
+	virtual void draw(const Entry *entry, QPainter &painter, const QRectF &rectangle, QRectF &usedSpace, const QFont &textFont = QFont()) const { drawCustom(entry, painter, rectangle, usedSpace, textFont); }
+	void drawCustom(const Entry *entry, QPainter &painter, const QRectF &rectangle, QRectF &usedSpace, const QFont &textFont = QFont(), int headerPrintSize = JMdictEntryFormatter::headerPrintSize.defaultValue(), bool printKanjis = JMdictEntryFormatter::printKanjis.defaultValue(), bool printOnlyStudiedKanjis = JMdictEntryFormatter::printOnlyStudiedKanjis.defaultValue(), int maxDefinitionsToPrint = JMdictEntryFormatter::maxDefinitionsToPrint.defaultValue()) const;
 
 	static const QString queryFindVerbBuddySql;
 	static const QString queryFindHomonymsSql;
