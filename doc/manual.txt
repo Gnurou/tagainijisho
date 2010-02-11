@@ -171,30 +171,39 @@ either around the edges of the window.
 2.2. Searching Entries
 ----------------------
 
-The search bar consists of a text field, a drop down list, a button and the
-Tagaini logo. You can enter words, or terms, to search for into the search and then, when you either press the enter key or the search button, it
-will search for the terms in the search bar. 
+Along the top of the Tagaini window there is, by defeault, two toolbars. The
+second of these toolbars is the search toolbar and it contains six tabs which
+control which search options are currently visible. By default, the `Text
+search` tab is selected, displaying the `Search Bar`, which is the simpilist
+way to search for entries. 
+
+The search bar consists of a text field which doubles as a drop down list, and
+a button. You can enter words, or terms, to search for
+into the text field and then, when you either press the enter key or the search
+button, it will search for the terms in the search bar. Whilst Tagaini is
+searching for entries, the Tagaini Jisho logo, located above the results view
+and below the search button, will spin. 
 
 For instance, if you enter "`しけん`" into the search bar it will result in 試験
 (test,) 私見 (personal opinion) and 私権 (private right.) If, however, you
 enter "`しけん test`", it will search both terms and only result in 試験 (test)
 as Tagaini will only display entries with all the search terms.
 
-Every search term is separated by spaces, or `" "`. To search for a sentence,
-which includes spaces, you can enclose the sentence in quotation marks, or
-`""`. For instance, if you search for `to run`, then Tagaini will find and list
-every entry with both the word to and run in it. If instead you search `"to
-run"`, then Tagaini will only find entries with the words "to run" in them in
-that order.
+Every search term is separated by spaces, or double quotes; or `""`. To search
+for a sentence, which includes spaces, you can enclose the sentence in
+quotation marks, or `""`. For instance, if you search for `to run`, then
+Tagaini will find and list every entry with both the word to and run in it. If
+instead you search `"to run"`, then Tagaini will only find entries with the
+words "to run" in them in that order.
 
 As Tagaini matches terms to entries exactly, there is currently no romaji
 search. So, searching for "`watashi`" will not result in 私：わたし. To find
 an entry you must search either its kanji or hiragana reading.
 
-Between the search bar and the search button, there is a drop down list which,
-by default, says `All`. It is the dictionary selector. It has two other
-options, `Vocabulary` and `Kanji`. Choosing one will tell Tagaini to only
-search for vocabulary or kanji. Selecting all will tell Tagaini to search
+On the search toolbar, to the right of the search tabs, there is a drop down
+list  which, by default, says `All`. It is the dictionary selector. It has two
+other options, `Vocabulary` and `Kanji`. Choosing one will tell Tagaini to
+only search for vocabulary or kanji. Selecting all will tell Tagaini to search
 through both the kanji and vocabulary dictionaries.
 
 When searching through both dictionaries, it's quite common to come across two
@@ -203,37 +212,6 @@ usually come up for single kanji words. This happens because it is displaying
 an entry for the word, and an entry for the kanji. The two different entries
 will have information about different things. This is discussed further in the 
 next section.
-
-Another thing that can be put into the search field is a dictionary field
-value. Doing this allows you to filter through your search results. This can
-be done by adding `:field=value` as a search term, so `:grade=1` results in
-every elementary grade 1 kanji being listed in the results view. The extenders
-provide the same functionality for most of the fields, for instance kanji
-grade can be found under the kanji extender. 
-
-Tagaini also has support for wild cards[^wildcards]. The `*` character
-represents an unknown string. Placing it at the end of a term searches for
-everything beginning with that term, placing it at the beginning of a term
-searches for everything ending with that term and placing it in the middle of
-the a term searches for everything that starts and ends with that part of the
-term. The `?` character represents a single unknown character but otherwise works
-the same way. So `大*` represents everything that
-starts with 大 and `*す` represents everything that ends with す. If the `?`
-character was used instead then then `大?` would be any two character entry where
-the first was 大 and `?す` would be any two character entry that ends with す.
-Note that the asterisk and question marked gotten from IM's, `＊` and `？`, are
-different from the ascii characters, `*` and `?`, which work as wild cards. 
-
-The button to the left of the search bar, which looks like a black box with a
-white x in it, clears the search bar, resetting it to default, ready to use
-again.
-
-From version 0.2.5 the search bar is located in an extender labelled `Text
-search`. The label changes to any search terms that are entered into the
-search bar. When changing between search extenders they will take up the
-section of the window that the search bar was in. 
-
-[^wildcards]: Wild cards are characters used to represent unknown characters in search terms. 
 
 ******
 [Table of Contents] - [Top](#top "Top")
@@ -388,7 +366,36 @@ search bar.
 ******
 
 ### 2.4.1. Text Search
-	
+
+The text serach tab, as discribed above in section [2.2. Searching Entries]
+is used for entering search terms. The text field also acts as a drop down
+box, allowing previously searched terms to be found and reused easily. 
+
+Another thing that can be put into the search field is a dictionary field
+value. Doing this allows you to filter through your search results. This can
+be done by adding `:field=value` as a search term, so `:grade=1` results in
+every elementary grade 1 kanji being listed in the results view. The extenders
+provide the same functionality for most of the fields, for instance kanji
+grade can be found under the kanji extender. 
+
+Tagaini also has support for wild cards[^wildcards]. The `*` character
+represents an unknown string. Placing it at the end of a term searches for
+everything beginning with that term, placing it at the beginning of a term
+searches for everything ending with that term and placing it in the middle of
+the a term searches for everything that starts and ends with that part of the
+term. The `?` character represents a single unknown character but otherwise
+works the same way. So `大*` represents everything that starts with 大 and
+`*す` represents everything that ends with す. If the `?` character was used
+instead then then `大?` would be any two character entry where the first was
+大 and `?す` would be any two character entry that ends with す. Note that the
+asterisk and question marked gotten from IM's, `＊` and `？`, are different
+from the ascii characters, `*` and `?`, which work as wild cards. 
+
+The button to the left of the search bar, which looks like a black box with a
+white x in it, clears the search bar, resetting it to default, ready to use
+again.
+
+[^wildcards]: Wild cards are characters used to represent unknown characters in search terms. 
 
 <a name="studyex" />
 
