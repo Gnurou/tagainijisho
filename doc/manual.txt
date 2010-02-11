@@ -616,16 +616,22 @@ categorising kanji according to its type. SKIP codes are comprised of three
 numbers and are annotated X-Y-Z. Each slider in the `SKIP code` section relates
 to one of these numbers.[^SKIPfoot]
 
+The fifth section, or second from the right, is labeled `Four corner`. It
+provides four drop down boxes corisponding to each corner of a chinese
+character and a fifth box for miscilanious strokes. Four corner method is a
+chinese input method to used to find kanji.[^FCfoot] 
+
 The last section, `School grade`, represents which school level the kanji is
 taught in. 
 
 [^SKIPfoot]: http://www.basic-japanese.com/Hilfsdateien/skipCode.html
+[^FCfoot]: http://en.wikipedia.org/wiki/Four_Corner_Method
 
 [^hex]: Hexadecimal, or hex, is a counting system like decimal. Instead of
 having 10 values (0-9), such as decimal or base ten, it has 16 values and can be
 called base 16. As there are no more single numeric characters after 9, hex
 continues on from the beginning of the alphabet, so A is equivalent to decimal
-10. This means hex has a range of 0 - F.
+10. This means hex has a range of 0-F.
 
 ******
 [Table of Contents] - [Top](#top "Top")
