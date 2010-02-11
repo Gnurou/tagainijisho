@@ -21,16 +21,17 @@ Table of Contents
 1. [What is Tagaini-Jisho?]  
 2. [Getting Started]  
     2.1. [The GUI]   
-    2.2. [The Search Bar]   
+    2.2. [Searching Entries]   
     2.3. [Dictionary Entries]  
  &emsp;&emsp;   2.3.1. [Vocabulary]  
- &emsp;&emsp;   2.3.2 [Kanji]   
-    2.4. [Search Extenders]  
- &emsp;&emsp;       2.4.1. [Study Extender]  
- &emsp;&emsp;       2.4.2. [Tags and Notes Extender]  
- &emsp;&emsp;	    2.4.3. [JLPT Extender]  
- &emsp;&emsp;       2.4.4. [Vocabulary Extender]  
- &emsp;&emsp;       2.4.5. [Kanji Extender]  
+ &emsp;&emsp;   2.3.2. [Kanji]   
+    2.4. [Search Tabs]  
+ &emsp;&emsp;	    2.4.1. [Text Search]  
+ &emsp;&emsp;       2.4.2. [The Study Tab]  
+ &emsp;&emsp;       2.4.3. [The Tags and Notes Tab]  
+ &emsp;&emsp;	    2.4.4. [The JLPT Tab]  
+ &emsp;&emsp;       2.4.5. [The Vocabulary Tab]  
+ &emsp;&emsp;       2.4.6. [The Kanji Tab]  
 3. [Preferences]  
     3.1. [General]  
     3.2. [Results View]  
@@ -167,8 +168,8 @@ either around the edges of the window.
 [Table of Contents] - [Top](#top "Top")
 ******
 
-2.2. The Search Bar
--------------------
+2.2. Searching Entries
+----------------------
 
 The search bar consists of a text field, a drop down list, a button and the
 Tagaini logo. You can enter words, or terms, to search for into the search and then, when you either press the enter key or the search button, it
@@ -356,24 +357,38 @@ the window.
 [Table of Contents] - [Top](#top "Top")
 ******
 
-2.4. Search Extenders
----------------------
+2.4. Search Tabs
+----------------
 
-There are five search extenders, tabs located directly beneath the search bar.
-They are marked [Study][studyex]; [Tags][TagsnNotes]; [Notes][TagsnNotes]; 
-[JLPT][jlptex]; [Vocabulary][vocabex]; [Kanji][kanjiex]. Clicking on each of
-these extends the search bar, bringing up an area underneath it, above the
-results view, that extends the search functionality to filter your results
-according to set criteria.
+There are six search tabs located in the study toolbar, next to the dictionary
+drop down list.
+By default [Text Search][textex] is selected, and
+the search bar is displayed. The other search tabs are labeled:
+[Study][studyex]; [Tags][TagsnNotes]; [Notes][TagsnNotes]; 
+[JLPT][jlptex]; [Vocabulary][vocabex]; [Kanji][kanjiex].
+Changing the tab replaces the search bar with a set of different options
+above the results view, that extends the search functionality to filter your
+results according to set criteria.
 
-If an extender is set then its tab will include its search criteria and a reset
-button, identical to the one to the left of the search bar.
+If an an option in a tab is set then its the option will be included in the
+tabs title along with a reset button, identical to the one to the left of the
+search bar.
 
+[textex]: #textex
 [studyex]: #studyex
 [TagsnNotes]: #tagsnNotesex
 [jlptex]: #jlptex
 [vocabex]: #vocabex
 [kanjiex]: #kanjiex
+
+<a name="textex" />
+
+******
+[Table of Contents] - [Top](#top "Top")
+******
+
+### 2.4.1. Text Search
+	
 
 <a name="studyex" />
 
@@ -381,7 +396,7 @@ button, identical to the one to the left of the search bar.
 [Table of Contents] - [Top](#top "Top")
 ******
 
-### 2.4.1. Study Extender
+### 2.4.2. The Study Tab
 	
 ![The Study Extender](images/tagaini_ex_studied.png)
 
@@ -430,7 +445,7 @@ likely to be a large number of entries.
 [Table of Contents] - [Top](#top "Top")
 ******
 
-### 2.4.2. Tags and Notes Extender
+### 2.4.3. The Tags and Notes Tab
 
 Tags and Notes are similar in that they both label entries. They can be added
 to entries with either the right click menu in the results view or the
@@ -503,7 +518,7 @@ them, add new notes with the `New note` button, and delete notes.
 [Table of Contents] - [Top](#top "Top")
 ******
 
-### 2.4.3. JLPT Extender
+### 2.4.4. The JLPT Tab
 
 JLPT stands for the Japanese Language Proficiency Test. It is a test
 administered by the `Japan Foundation` and `Japan Educational Exchanges and
@@ -533,7 +548,7 @@ entries. Selecting multiple levels will include multiple levels.
 [Table of Contents] - [Top](#top "Top")
 ******
 
-### 2.4.4. Vocabulary Extender
+### 2.4.5. The Vocabulary Tab
 
 ![Vocabulary Extender - Dialect: Osaka-ben](images/tagaini_ex_vocab_osb.png)
 
@@ -567,7 +582,7 @@ as children's language, obsolete terms and slang.
 [Table of Contents] - [Top](#top "Top")
 ******
 
-### 2.4.5. Kanji Extender
+### 2.4.6. The Kanji Tab
 
 ![Kanji Extender - Component: 又](images/tagaini_ex_kanji.png)
 
