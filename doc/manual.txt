@@ -624,7 +624,8 @@ chinese input method to used to find kanji.[^FCfoot]
 The last section, `School grade`, represents which school level the kanji is
 taught in. 
 
-[^SKIPfoot]: http://www.basic-japanese.com/Hilfsdateien/skipCode.html
+[^SKIPfoot]: http://www.basic-japanese.com/Hilfsdateien/skipCode.html  
+
 [^FCfoot]: http://en.wikipedia.org/wiki/Four_Corner_Method
 
 [^hex]: Hexadecimal, or hex, is a counting system like decimal. Instead of
