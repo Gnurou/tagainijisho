@@ -112,14 +112,13 @@ the application.
 
 ![The GUI](images/tagaini_gui.png)
 
-Tagaini Jisho's GUI consists of two main windows and a toolbar. The toolbar
-contains `the search bar` and it's extenders, which contain advanced options
-to filter searches.
+Tagaini Jisho's GUI, when opened for the first time, four main sections and
+two toolbars. The first toolbar is holds miscilanious functions, the second,
+reasonably larger than the first, is the search toolbar. It controls which
+search controls are displayed in the `search pannel`, Directly beneigth the
+Toolbar. 
 
-Above the search bar is the menu bar, which contains several menus for
-Tagaini's features. 
-
-Below the search bar is `the results view`, which lists any results of the
+Below the search pannel is `the results view`, which lists any results of the
 search. The information is a short description to allow you to chose the
 result you were after.
 
