@@ -556,7 +556,7 @@ entries. Selecting multiple levels will include multiple levels.
 
 ### 2.4.5. The Vocabulary Tab
 
-![Vocabulary Extender - Dialect: Osaka-ben](images/tagaini_ex_vocab_ksb.png)
+![Vocabulary Extender - Dialect: Kansai-ben](images/tagaini_ex_vocab_ksb.png)
 
 `The vocabulary tab` has vocabulary specific filter options. It can not be
 used in conjunction with the kanji tab.
@@ -727,7 +727,10 @@ five in all.
 		    referenced entries.
 
 The `preview` view has a dummy detailed view that updates in real time. `Smooth
-scrolling` can be turned on and off in the `general` section.
+scrolling` can be turned on and off in the `general` section. `Show JLPT level
+in short descriptions` toggles the JLPT display on and off in short
+descriptions, used for links to other entries, such as the oposite transtive
+state of a verb. 
 
 
 ******
