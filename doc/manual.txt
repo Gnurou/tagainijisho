@@ -48,6 +48,7 @@ Table of Contents
  &emsp;&emsp;       4.5.2. [Kanji Flashcards]  
  &emsp;&emsp;       4.5.3. [Reading Practise]  
     4.5. [Importing and Exporting Data]
+    4.6. [Kanji Input Panel]
 5. [Troubleshooting]
 6. [Contact]
 
@@ -1159,6 +1160,40 @@ versions. The `export user data` item in the `program` menu saves out a small
 data base with these settings, so that another instance of Tagaini may load
 it, whether it is another user on the same computer or on a different computer
 altogether.
+
+******
+[Table of Contents] - [Top](#top "Top")
+******
+
+4.6. Kanji Input Panel
+----------------------
+
+![Kanji IM](images/tagaini_kanji_im.png)
+
+The kanji input panel, located in the miscilanious toolbar with the prev/next
+search results buttons, can be used to find kanji by radical. It can only be
+opened when part of the UI that can take keyboard input, such as the search
+bar, has the focus. 
+
+It has three sections, the first of which is a text field that will only take
+Japanese characters, from an IM. It will then use the characters in this
+field to search for kanji by radical. Instead of memorising the readings of
+radicals and entering them manually, the third view on the panel contains a
+list of radicals, ordered by number of strokes. Clicking on one of these
+radicals will send it to the search field, starting the search. 
+
+The middle field will then show every kanji with the radicals in the search
+field. 
+
+![Kanji IM - 地](images/tagaini_kanji_im02.png)
+
+So to find 地 one could start by entering "`土`" into the text field, or by
+finding it listed under 3 strokes. The field beniegth would then start to list
+kanji with that radical. With this example, the desired character, 地, can be
+seen emediantly. Clicking on the kanji will place it in the search field, or
+which ever text field had the focus when the kanji input panel was brought up.
+To close the panel, just clicking outside it will close it and return Tagaini
+to its normal functions.
 
 ******
 [Table of Contents] - [Top](#top "Top")
