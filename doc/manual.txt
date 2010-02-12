@@ -556,7 +556,7 @@ entries. Selecting multiple levels will include multiple levels.
 
 ### 2.4.5. The Vocabulary Tab
 
-![Vocabulary Extender - Dialect: Osaka-ben](images/tagaini_ex_vocab_osb.png)
+![Vocabulary Extender - Dialect: Osaka-ben](images/tagaini_ex_vocab_ksb.png)
 
 `The vocabulary tab` has vocabulary specific filter options. It can not be
 used in conjunction with the kanji tab.
