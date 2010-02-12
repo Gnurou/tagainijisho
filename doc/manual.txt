@@ -803,6 +803,8 @@ element on and off.
 * **School grade**  - The grade the kanji is taught at school.
 * **Unicode**	    - The kanji's Unicode value.
 * **SKIP code**	    - The kanji's SKIP code.
+* **Four corner code**  
+		    - The kanji's four corner code.
 * **Frequency**	    - The frequency rating of the kanji.
 * **Variations**    - Any variations in the strokes of the kanji.
 * **Original**	    - The way the kanji was originally written.
@@ -847,6 +849,7 @@ on／off additional information.
 * **Frequency**		    - Show the kanji's frequency.
 * **Unicode**		    - Show the kanji's Unicode value.
 * **SKIP code**		    - Show the kanji's SKIP code.
+* **Four corner code**	    - Show the kanji's four corner code.
 
 ![Kanji Stroke Order](images/tagaini_pref_kanji_stroke.png)
 
