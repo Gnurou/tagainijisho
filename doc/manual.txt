@@ -114,12 +114,12 @@ the application.
 ![The GUI](images/tagaini_gui.png)
 
 Tagaini Jisho's GUI, when opened for the first time, four main sections and
-two toolbars. The first toolbar is holds miscilanious functions, the second,
+two toolbars. The first toolbar is holds miscellaneous functions, the second,
 reasonably larger than the first, is the search toolbar. It controls which
-search controls are displayed in the `search pannel`, Directly beneigth the
+search controls are displayed in the `search panel`, Directly beneath the
 Toolbar. 
 
-Below the search pannel is `the results view`, which lists any results of the
+Below the search panel is `the results view`, which lists any results of the
 search. The information is a short description to allow you to chose the
 result you were after.
 
@@ -171,10 +171,10 @@ either around the edges of the window.
 2.2. Searching Entries
 ----------------------
 
-Along the top of the Tagaini window there is, by defeault, two toolbars. The
+Along the top of the Tagaini window there is, by default, two toolbars. The
 second of these toolbars is the search toolbar and it contains six tabs which
 control which search options are currently visible. By default, the `Text
-search` tab is selected, displaying the `Search Bar`, which is the simpilist
+search` tab is selected, displaying the `Search Bar`, which is the simplest
 way to search for entries. 
 
 The search bar consists of a text field which doubles as a drop down list, and
@@ -341,7 +341,7 @@ the window.
 There are six search tabs located in the study toolbar, next to the dictionary
 drop down list.
 By default [Text Search][textex] is selected, and
-the search bar is displayed. The other search tabs are labeled:
+the search bar is displayed. The other search tabs are labelled:
 [Study][studyex]; [Tags][TagsnNotes]; [Notes][TagsnNotes]; 
 [JLPT][jlptex]; [Vocabulary][vocabex]; [Kanji][kanjiex].
 Changing the tab replaces the search bar with a set of different options
@@ -367,7 +367,7 @@ search bar.
 
 ### 2.4.1. Text Search
 
-The text serach tab, as discribed above in section [2.2. Searching Entries]
+The text search tab, as described above in section [2.2. Searching Entries]
 is used for entering search terms. The text field also acts as a drop down
 box, allowing previously searched terms to be found and reused easily. 
 
@@ -389,7 +389,7 @@ works the same way. So `大*` represents everything that starts with 大 and
 instead then then `大?` would be any two character entry where the first was
 大 and `?す` would be any two character entry that ends with す. Note that the
 asterisk and question marked gotten from IM's, `＊` and `？`, are different
-from the ascii characters, `*` and `?`, which work as wild cards. 
+from the ASCII characters, `*` and `?`, which work as wild cards. 
 
 The button to the left of the search bar, which looks like a black box with a
 white x in it, clears the search bar, resetting it to default, ready to use
@@ -607,7 +607,7 @@ tab affects searches through the kanji dictionary. As such, only one
 instance of a kanji will be returned.
 
 The `Unicode` section, in the middle of the tab, finds the character with
-the Unicode value `0xH` where `H` is a hexadecimal[^hex] value represnting the 
+the Unicode value `0xH` where `H` is a hexadecimal[^hex] value representing the 
 number. No two characters have the same value. For instance, the character 取
 has a Unicode value of 0x53d6. Putting that in the Unicode field will result
 in the entry for 取 being listed.
@@ -617,10 +617,10 @@ categorising kanji according to its type. SKIP codes are comprised of three
 numbers and are annotated X-Y-Z. Each slider in the `SKIP code` section relates
 to one of these numbers.[^SKIPfoot]
 
-The fifth section, or second from the right, is labeled `Four corner`. It
-provides four drop down boxes corisponding to each corner of a chinese
-character and a fifth box for miscilanious strokes. Four corner method is a
-chinese input method to used to find kanji.[^FCfoot] 
+The fifth section, or second from the right, is labelled `Four corner`. It
+provides four drop down boxes corresponding to each corner of a Chinese
+character and a fifth box for miscellaneous strokes. Four corner method is a
+Chinese input method to used to find kanji.[^FCfoot] 
 
 The last section, `School grade`, represents which school level the kanji is
 taught in. 
@@ -730,7 +730,7 @@ five in all.
 The `preview` view has a dummy detailed view that updates in real time. `Smooth
 scrolling` can be turned on and off in the `general` section. `Show JLPT level
 in short descriptions` toggles the JLPT display on and off in short
-descriptions, used for links to other entries, such as the oposite transtive
+descriptions, used for links to other entries, such as the opposite transitive
 state of a verb. 
 
 
@@ -1170,7 +1170,7 @@ altogether.
 
 ![Kanji IM](images/tagaini_kanji_im.png)
 
-The kanji input panel, located in the miscilanious toolbar with the prev/next
+The kanji input panel, located in the miscellaneous toolbar with the prev/next
 search results buttons, can be used to find kanji by radical. It can only be
 opened when part of the UI that can take keyboard input, such as the search
 bar, has the focus. 
@@ -1188,9 +1188,9 @@ field.
 ![Kanji IM - 地](images/tagaini_kanji_im02.png)
 
 So to find 地 one could start by entering "`土`" into the text field, or by
-finding it listed under 3 strokes. The field beniegth would then start to list
+finding it listed under 3 strokes. The field beneath would then start to list
 kanji with that radical. With this example, the desired character, 地, can be
-seen emediantly. Clicking on the kanji will place it in the search field, or
+seen immediately. Clicking on the kanji will place it in the search field, or
 which ever text field had the focus when the kanji input panel was brought up.
 To close the panel, just clicking outside it will close it and return Tagaini
 to its normal functions.
