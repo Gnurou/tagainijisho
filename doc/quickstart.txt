@@ -25,6 +25,12 @@ here will be incorrect for your version. Though you may find it similar in
 many ways to older versions, we still recomend getting the latest version from
 the [Download][dlpage] page.
 
+Whilst it was last written for version 0.2.4, it has been updated in places to
+refelect changes made for 0.2.5. It is possible that some information may
+conflict or confuse. If you find any descrpencies then please feel free to
+contact the docuemnts author via the mailing list, found in the contact
+section.
+
 Tagaini does several things:
 
 * Primarily, it is a dictionary Japanese-Language
