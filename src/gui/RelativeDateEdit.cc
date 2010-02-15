@@ -178,25 +178,22 @@ void RelativeDateEdit::wheelEvent(QWheelEvent *event)
 	static int wheelDelta = 0;
 	wheelDelta += event->delta();
 	int steps = wheelDelta / 120;
-	if (_date.dateType() == RelativeDate::NotSet && steps > 0) {
-		_date.setDateType(_popup._whatBox->itemData(_popup._whatBox->currentIndex()).toInt());
-		_date.setAgo(-1);
-	}
 	if (steps) {
 		wheelDelta -= steps * 120;
-		if (_date.dateType() == RelativeDate::AbsoluteDate) {
+		if (_date.dateType() == RelativeDate::NotSet && steps > 0) {
+			_date.setDateType(_popup._whatBox->itemData(_popup._whatBox->currentIndex()).toInt());
+			_date.setAgo(steps - 1);
+		} else if (_date.dateType() == RelativeDate::AbsoluteDate) {
 			_date.setAbsoluteDate(_date.absoluteDate().addDays(steps));
-			updateButtonTitle();
 		} else {
 			int ago = _date.ago() + steps;
 			if (ago >= 0) {
 				_date.setAgo(ago);
-				updateButtonTitle();
 			} else {
 				_date.setDateType(RelativeDate::NotSet);
-				updateButtonTitle();
 			}
 		}
+		updateButtonTitle();
 		_popup.sync();
 		emit dateChanged(_date);
 	}
