@@ -246,7 +246,7 @@ void ComponentSearchButton::togglePopup(bool status)
 		QWidget *fWidget = QApplication::focusWidget();
 		QLineEdit *lEdit = qobject_cast<QLineEdit *>(fWidget);
 		QComboBox *cBox = qobject_cast<QComboBox *>(fWidget);
-		if (lEdit || cBox) {
+		if (lEdit || (cBox && cBox->isEditable())) {
 			focusWidget = fWidget;
 			_popup.move(focusWidget->mapToGlobal(QPoint(focusWidget->rect().left() + (focusWidget->rect().width() - _popup.rect().width()) / 2, focusWidget->rect().bottom())));
 			_popup.show();
@@ -276,7 +276,7 @@ void ComponentSearchButton::onComponentSearchKanjiSelected(const QString &kanji)
 		QLineEdit *lEdit = qobject_cast<QLineEdit *>(focusWidget);
 		QComboBox *cBox = qobject_cast<QComboBox *>(focusWidget);
 		if (lEdit) target = lEdit;
-		else if (cBox) target = cBox->lineEdit();
+		else if (cBox && cBox->isEditable()) target = cBox->lineEdit();
 		if (target) target->insert(kanji);
 	}
 }
@@ -293,5 +293,5 @@ void ComponentSearchButton::onFocusChanged(QWidget *old, QWidget *now)
 {
 	QLineEdit *lEdit = qobject_cast<QLineEdit *>(now);
 	QComboBox *cBox = qobject_cast<QComboBox *>(now);
-	setEnabled(lEdit || cBox);
+	setEnabled(lEdit || (cBox && cBox->isEditable()));
 }
