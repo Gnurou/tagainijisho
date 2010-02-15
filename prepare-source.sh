@@ -7,6 +7,7 @@ KANJIVG_SOURCE=http://kanjivg.tagaini.net/upload/Main/kanjivg-latest.xml.gz
 
 [ -d 3rdparty ] || mkdir 3rdparty
 
+# Get SQLite
 if [ ! -d 3rdparty/sqlite ]; then
 	pushd 3rdparty
 	wget $SQLITE_SOURCE
@@ -16,20 +17,29 @@ if [ ! -d 3rdparty/sqlite ]; then
 	popd
 fi
 
+# Get JMdict
 if [ ! -f 3rdparty/JMdict ]; then
 	wget $JMDICT_SOURCE -O - |gunzip >3rdparty/JMdict
 fi
 
+# Get Kanjidic2
 if [ ! -f 3rdparty/kanjidic2.xml ]; then
 	wget $KANJIDIC2_SOURCE -O - |gunzip >3rdparty/kanjidic2.xml
 fi
 
+# Get KanjiVG
 if [ ! -f 3rdparty/kanjivg.xml ]; then
 	wget $KANJIVG_SOURCE -O - |gunzip >3rdparty/kanjivg.xml
 fi
 
+# Generate translations
 TS_FILES=`ls i18n/*.ts`
 for f in $TS_FILES; do
 	lrelease $f -qm i18n/`basename $f .ts`.qm
+done
+
+# Generate documentation
+for f in `ls doc/*.txt`; do
+	mmd2XHTML.pl $f
 done
 
