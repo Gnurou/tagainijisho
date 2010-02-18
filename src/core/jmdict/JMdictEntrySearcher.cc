@@ -103,7 +103,7 @@ static QString buildTextSearchCondition(const QStringList &words, const QString 
 			while (!regExpChars.exactMatch(w[wildcardIdx])) wildcardIdx++;
 			if (wildcardIdx != 0) fts << "\"" + w.mid(0, wildcardIdx) + "*\"";
 			// If the wildcard we found is the last character and a star, there is no need for a regexp search
-			if (wildcardIdx == w.size() - 1 && w[wildcardIdx] == '*') continue;
+			if (wildcardIdx == w.size() - 1 && w.size() > 1 && w[wildcardIdx] == '*') continue;
 			// Otherwise insert the regular expression search
 			int idx = Database::staticRegExps.size();
 			QRegExp regExp(escapeForRegexp(TextTools::hiragana2Katakana(w)));
