@@ -34,7 +34,8 @@ private:
 	QComboBox *_searchField;
 	QToolButton *resetText;
 	QPushButton *searchButton;	
-	bool clipboardEnabled;
+	bool _clipboardEnabled;
+	bool _reseted;
 	QAction *_enableClipboardInputAction;
 	
 private slots:

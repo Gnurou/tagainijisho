@@ -23,7 +23,7 @@
 
 PreferenceItem<int> TextFilterWidget::textSearchHistorySize("mainWindow", "searchBarHistorySize", 100);
 
-TextFilterWidget::TextFilterWidget(QWidget *parent) : SearchFilterWidget(parent), clipboardEnabled(false)
+TextFilterWidget::TextFilterWidget(QWidget *parent) : SearchFilterWidget(parent), _clipboardEnabled(false), _reseted(true)
 {
 	_propsToSave << "text";
 
@@ -79,9 +79,10 @@ void TextFilterWidget::onItemSelected(int item)
 void TextFilterWidget::searchButtonClicked()
 {
 	QString input(_searchField->lineEdit()->text().trimmed());
-	if (!input.isEmpty() && _searchField->itemText(0) != input) {
+	if (!input.isEmpty() && (_reseted || _searchField->itemText(0) != input)) {
 		_searchField->insertItem(0, input);
 		_searchField->setCurrentIndex(0);
+		_reseted = false;
 		commandUpdate();
 	}
 }
@@ -94,6 +95,7 @@ void TextFilterWidget::onSearchTextChanged(const QString &text)
 void TextFilterWidget::resetSearchText()
 {
 	if (text().isEmpty()) return;
+	_reseted = true;
 	_searchField->clearEditText();
 	_searchField->setFocus();
 	commandUpdate();
@@ -107,15 +109,15 @@ void TextFilterWidget::_reset()
 void TextFilterWidget::enableClipboardInput(bool enable)
 {
 	QClipboard *clipboard = QApplication::clipboard();
-	if (enable && !clipboardEnabled) {
+	if (enable && !_clipboardEnabled) {
 		connect(clipboard, SIGNAL(dataChanged()), this, SLOT(onClipboardChanged()));
 		connect(clipboard, SIGNAL(selectionChanged()), this, SLOT(onClipboardSelectionChanged()));
-		clipboardEnabled = true;
+		_clipboardEnabled = true;
 	}
-	else if (!enable && clipboardEnabled ) {
+	else if (!enable && _clipboardEnabled ) {
 		disconnect(clipboard, SIGNAL(dataChanged()), this, SLOT(onClipboardChanged()));
 		disconnect(clipboard, SIGNAL(selectionChanged()), this, SLOT(onClipboardSelectionChanged()));
-		clipboardEnabled = false;
+		_clipboardEnabled = false;
 	}
 }
 
