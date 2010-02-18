@@ -132,26 +132,3 @@ void EntryDelegate::updateFonts()
 	_notesIcon.load(":/images/icons/notes.png");
 	_notesIcon = _notesIcon.scaledToHeight(15);
 }
-
-ResultsView::ResultsView(QWidget *parent, bool viewOnly) : QListView(parent), entryMenu(), contextMenu()
-{
-	// Is the fonts manager instance already running?
-	if (!ResultsViewFonts::_instance) ResultsViewFonts::_instance = new ResultsViewFonts();
-	connect(ResultsViewFonts::_instance, SIGNAL(fontsHaveChanged()), this, SLOT(updateFonts()));
-
-	setUniformItemSizes(true);
-	setAlternatingRowColors(true);
-	selectAllAction = contextMenu.addAction(tr("Select All"));
-	selectAllAction->setShortcuts(QKeySequence::SelectAll);
-	connect(selectAllAction, SIGNAL(triggered()),
-			this, SLOT(selectAll()));
-	if (!viewOnly) {
-		contextMenu.addSeparator();
-		entryMenu.connectToResultsView(this);
-		entryMenu.populateMenu(&contextMenu);
-	}
-	setItemDelegate(new EntryDelegate(this));
-	updateFonts();
-	setSmoothScrolling(smoothScrolling.value());
-}
-
