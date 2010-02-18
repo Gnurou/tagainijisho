@@ -19,7 +19,6 @@
 #include "gui/ResultsList.h"
 #include "gui/ResultsView.h"
 #include "gui/EditEntryNotesDialog.h"
-#include "gui/EntryDelegate.h"
 
 #include <QtDebug>
 
@@ -34,8 +33,11 @@
 #include <QPixmap>
 #include <QScrollBar>
 
-PreferenceItem<int> ResultsView::displayMode("mainWindow/resultsView", "displayMode", EntryDelegateLayout::TwoLines);
 PreferenceItem<bool> ResultsView::smoothScrolling("mainWindow/resultsView", "smoothScrolling", true);
+PreferenceItem<QString> ResultsView::textFont("mainWindow/resultsView", "textFont", "");
+PreferenceItem<QString> ResultsView::kanaFont("mainWindow/resultsView", "kanaFont", "");
+PreferenceItem<QString> ResultsView::kanjiFont("mainWindow/resultsView", "kanjiFont", QFont("Helvetica", 15).toString());
+PreferenceItem<int> ResultsView::displayMode("mainWindow/resultsView", "displayMode", EntryDelegateLayout::TwoLines);
 
 void ResultsViewEntryMenu::connectToResultsView(const ResultsView *const view)
 {
@@ -57,11 +59,12 @@ void ResultsViewEntryMenu::connectToResultsView(const ResultsView *const view)
 			view, SLOT(addTags(const QStringList &)));
 }
 
-ResultsView::ResultsView(QWidget *parent, bool viewOnly) : QListView(parent), entryMenu(), contextMenu()
+ResultsView::ResultsView(QWidget *parent, EntryDelegateLayout *delegateLayout, bool viewOnly) : QListView(parent), entryMenu(), contextMenu()
 {
-	// Is the fonts manager instance already running?
-	if (!EntryDelegateLayout::_instance) EntryDelegateLayout::_instance = new EntryDelegateLayout();
-	connect(EntryDelegateLayout::_instance, SIGNAL(fontsHaveChanged()), this, SLOT(updateLayout()));
+	// If no delegate layout has been specified, let's use our private one...
+	if (!delegateLayout) delegateLayout = new EntryDelegateLayout(static_cast<EntryDelegateLayout::DisplayMode>(displayMode.value()), textFont.value(), kanjiFont.value(), kanaFont.value(), this);
+	connect(delegateLayout, SIGNAL(layoutHasChanged()), this, SLOT(updateLayout()));
+	_delegateLayout = delegateLayout;
 
 	setUniformItemSizes(true);
 	setAlternatingRowColors(true);
@@ -74,7 +77,7 @@ ResultsView::ResultsView(QWidget *parent, bool viewOnly) : QListView(parent), en
 		entryMenu.connectToResultsView(this);
 		entryMenu.populateMenu(&contextMenu);
 	}
-	setItemDelegate(new EntryDelegate(this));
+	setItemDelegate(new EntryDelegate(delegateLayout, this));
 	updateLayout();
 	setSmoothScrolling(smoothScrolling.value());
 }
@@ -229,8 +232,6 @@ void ResultsView::addNote()
 
 void ResultsView::updateLayout()
 {
-	EntryDelegate *delegate = qobject_cast<EntryDelegate *>(itemDelegate());
-	delegate->updateLayout();
 	// This is needed to force a redraw - but we loose the selection.
 	QAbstractItemModel *m = model();
 	setModel(0);

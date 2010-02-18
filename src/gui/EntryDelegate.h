@@ -20,57 +20,49 @@
 
 #include "core/Entry.h"
 #include "gui/ResultsList.h"
-// TODO Not good!
-#include "gui/ResultsView.h"
-
 #include <QStyledItemDelegate>
 
 class EntryDelegateLayout : public QObject
 {
 	Q_OBJECT
 public:
-	typedef enum { DefaultText, Kana, Kanji, MAX_FONTS } FontRole;
+	typedef enum { DefaultText = 0, Kana, Kanji, MAX_FONTS } FontRole;
 	typedef enum { OneLine = 0, TwoLines, MAX_MODES } DisplayMode;
+	
 private:
-	static EntryDelegateLayout *_instance;
-
 	QFont _font[MAX_FONTS];
+	DisplayMode _displayMode;
 
-	void _setFont(FontRole role, const QFont &font);
 	void _fontsChanged();
 	QFont _defaultFont(FontRole role) const;
 
 public:
-	EntryDelegateLayout(QWidget *parent = 0);
+	EntryDelegateLayout(EntryDelegateLayout::DisplayMode displayMode = OneLine, const QString& textFont = "", const QString& kanjiFont = "", const QString& kanaFont = "", QObject* parent = 0);
+	const QFont &font(FontRole role) const { return _font[role]; }
+	const QFont &textFont() const { return _font[DefaultText]; }
+	const QFont &kanaFont() const { return _font[Kana]; }
+	const QFont &kanjiFont() const { return _font[Kanji]; }
+	DisplayMode displayMode() const { return _displayMode; }
 
-	static void setFont(FontRole role, const QFont &font) { _instance->_setFont(role, font); }
-	static void fontsChanged() { _instance->_fontsChanged(); }
-	static const QFont &font(FontRole role) { return _instance->_font[role]; }
-
-	static PreferenceItem<QString> kanjiFont;
-	static PreferenceItem<QString> kanaFont;
-	static PreferenceItem<QString> textFont;
+	void setFont(FontRole role, const QFont &font);
+	void setDisplayMode(DisplayMode mode);
 
 signals:
-	void fontsHaveChanged();
-
-friend class ResultsView;
+	void layoutHasChanged();
 };
 
 class EntryDelegate : public QStyledItemDelegate
 {
 	Q_OBJECT
 protected:
-	QFont textFont, kanaFont, kanjiFont;
-	EntryDelegateLayout::DisplayMode displayMode;
+	EntryDelegateLayout *layout;
 	QPixmap _tagsIcon;
 	QPixmap _notesIcon;
 
 public:
-	EntryDelegate(QObject *parent = 0);
+	EntryDelegate(EntryDelegateLayout *dLayout, QObject *parent = 0);
 	QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index ) const;
 	virtual void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
-	virtual void updateLayout();
 };
 
 #endif

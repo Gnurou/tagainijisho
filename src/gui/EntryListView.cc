@@ -26,7 +26,8 @@
 
 EntryListView::EntryListView(QWidget *parent) : QTreeView(parent)
 {
-	delegate = new EntryDelegate(this);
+	EntryDelegateLayout *delegateLayout = new EntryDelegateLayout(EntryDelegateLayout::OneLine, "", "", "", this);
+	delegate = new EntryDelegate(delegateLayout, this);
 	setItemDelegate(delegate);
 	setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
 	scroller.activateOn(this);

@@ -201,6 +201,20 @@ signals:
 	void fontChanged(const QFont &font);
 };
 
+class PreferencesEntryDelegateLayout : public EntryDelegateLayout
+{
+	Q_OBJECT
+public:
+	PreferencesEntryDelegateLayout(EntryDelegateLayout::DisplayMode displayMode = OneLine, const QString& textFont = "", const QString& kanjiFont = "", const QString& kanaFont = "", QObject* parent = 0);
+
+public slots:
+	void setKanjiFont(const QFont &font);
+	void setKanaFont(const QFont &font);
+	void setTextFont(const QFont &font);
+	void setOneLineDisplay();
+	void setTwoLinesDisplay();
+};
+/*
 class PreferencesEntryDelegate : public EntryDelegate
 {
 	Q_OBJECT
@@ -218,5 +232,5 @@ public slots:
 	void setOneLineDisplay();
 	void setTwoLinesDisplay();
 };
-
+*/
 #endif

@@ -21,6 +21,7 @@
 #include "core/Preferences.h"
 #include "gui/EntryMenu.h"
 #include "gui/SmoothScroller.h"
+#include "gui/EntryDelegate.h"
 
 #include <QDialog>
 #include <QDialogButtonBox>
@@ -45,6 +46,7 @@ class ResultsView : public QListView
 {
 	Q_OBJECT
 protected:
+	EntryDelegateLayout *_delegateLayout;
 	ResultsViewEntryMenu entryMenu;
 	QMenu contextMenu;
 	QAction *selectAllAction;
@@ -70,14 +72,18 @@ protected slots:
 	void addNote();
 
 public:
-	ResultsView(QWidget *parent = 0, bool viewOnly = false);
+	ResultsView(QWidget* parent = 0, EntryDelegateLayout* delegateLayout = 0, bool viewOnly = false);
 	void contextMenuEvent(QContextMenuEvent *event);
 	virtual void setModel(QAbstractItemModel *model);
 
 	void setSmoothScrolling(bool value);
+	EntryDelegateLayout *delegateLayout() { return _delegateLayout; }
 
-	static PreferenceItem<int> displayMode;
 	static PreferenceItem<bool> smoothScrolling;
+	static PreferenceItem<QString> kanjiFont;
+	static PreferenceItem<QString> kanaFont;
+	static PreferenceItem<QString> textFont;
+	static PreferenceItem<int> displayMode;
 
 public slots:
 	void updateLayout();

@@ -216,32 +216,33 @@ ResultsViewPreferences::ResultsViewPreferences(QWidget *parent) : PreferencesWin
 	setupUi(this);
 
 	_list = new ResultsList(this);
-	_view = new ResultsView(this, true);
+	PreferencesEntryDelegateLayout *delegateLayout = new PreferencesEntryDelegateLayout(EntryDelegateLayout::OneLine, "", "", "", this);
+	_view = new ResultsView(this, delegateLayout, true);
 	_view->setModel(_list);
-	PreferencesEntryDelegate *delegate = new PreferencesEntryDelegate(_view);
+	
 
-	connect(oneLine, SIGNAL(clicked()), delegate, SLOT(setOneLineDisplay()));
-	connect(twoLines, SIGNAL(clicked()), delegate, SLOT(setTwoLinesDisplay()));
+	connect(oneLine, SIGNAL(clicked()), delegateLayout, SLOT(setOneLineDisplay()));
+	connect(twoLines, SIGNAL(clicked()), delegateLayout, SLOT(setTwoLinesDisplay()));
 
 	connect(smoothScrolling, SIGNAL(toggled(bool)), this, SLOT(onSmoothScrollingToggled(bool)));
 
 	QVBoxLayout *vLayout = new QVBoxLayout(fontsBox);
 	QFont kFont;
-	kFont.fromString(EntryDelegateLayout::kanjiFont.defaultValue());
+	kFont.fromString(ResultsView::kanjiFont.defaultValue());
 	kanjifontChooser = new PreferencesFontChooser(tr("Main writing"), kFont, fontsBox);
-	connect(kanjifontChooser, SIGNAL(fontChanged(const QFont &)), delegate, SLOT(setKanjiFont(const QFont &)));
+	connect(kanjifontChooser, SIGNAL(fontChanged(const QFont &)), delegateLayout, SLOT(setKanjiFont(const QFont &)));
 	vLayout->addWidget(kanjifontChooser);
 
 	kFont = QFont();
-	kFont.fromString(EntryDelegateLayout::kanaFont.defaultValue());
+	kFont.fromString(ResultsView::kanaFont.defaultValue());
 	kanafontChooser = new PreferencesFontChooser(tr("Readings and alternate writings"), kFont, fontsBox);
-	connect(kanafontChooser, SIGNAL(fontChanged(const QFont &)), delegate, SLOT(setKanaFont(const QFont &)));
+	connect(kanafontChooser, SIGNAL(fontChanged(const QFont &)), delegateLayout, SLOT(setKanaFont(const QFont &)));
 	vLayout->addWidget(kanafontChooser);
 
 	kFont = QFont();
-	kFont.fromString(EntryDelegateLayout::textFont.defaultValue());
+	kFont.fromString(ResultsView::textFont.defaultValue());
 	romajifontChooser = new PreferencesFontChooser(tr("Definitions"), kFont, fontsBox);
-	connect(romajifontChooser, SIGNAL(fontChanged(const QFont &)), delegate, SLOT(setTextFont(const QFont &)));
+	connect(romajifontChooser, SIGNAL(fontChanged(const QFont &)), delegateLayout, SLOT(setTextFont(const QFont &)));
 	vLayout->addWidget(romajifontChooser);
 
 	EntryPointer<Entry> ePtr(new ResultsViewPrefsDummyEntry());
@@ -260,12 +261,20 @@ void ResultsViewPreferences::refresh()
 
 	smoothScrolling->setChecked(ResultsView::smoothScrolling.value());
 
-	kanjifontChooser->setDefault(EntryDelegateLayout::kanjiFont.isDefault());
-	kanjifontChooser->setFont(EntryDelegateLayout::font(EntryDelegateLayout::Kanji));
-	kanafontChooser->setDefault(EntryDelegateLayout::kanaFont.isDefault());
-	kanafontChooser->setFont(EntryDelegateLayout::font(EntryDelegateLayout::Kana));
-	romajifontChooser->setDefault(EntryDelegateLayout::textFont.isDefault());
-	romajifontChooser->setFont(EntryDelegateLayout::font(EntryDelegateLayout::DefaultText));
+	QFont font;
+	kanjifontChooser->setDefault(ResultsView::kanjiFont.isDefault());
+	font.fromString(ResultsView::kanjiFont.value());
+	kanjifontChooser->setFont(font);
+	
+	font = QFont();
+	kanafontChooser->setDefault(ResultsView::kanaFont.isDefault());
+	font.fromString(ResultsView::kanaFont.value());
+	kanafontChooser->setFont(font);
+	
+	font = QFont();
+	romajifontChooser->setDefault(ResultsView::textFont.isDefault());
+	font.fromString(ResultsView::textFont.value());
+	romajifontChooser->setFont(font);	
 }
 
 void ResultsViewPreferences::applySettings()
@@ -277,17 +286,9 @@ void ResultsViewPreferences::applySettings()
 
 	if (oneLine->isChecked()) ResultsView::displayMode.set(EntryDelegateLayout::OneLine);
 	else ResultsView::displayMode.set(EntryDelegateLayout::TwoLines);
-}
-
-void ResultsViewPreferences::updateUI()
-{
-	MainWindow::instance()->resultsView()->setSmoothScrolling(smoothScrolling->isChecked());
-	// Results view fonts
-	applyFontSetting(romajifontChooser, &EntryDelegateLayout::textFont, EntryDelegateLayout::DefaultText);
-	applyFontSetting(kanafontChooser, &EntryDelegateLayout::kanaFont, EntryDelegateLayout::Kana);
-	applyFontSetting(kanjifontChooser, &EntryDelegateLayout::kanjiFont, EntryDelegateLayout::Kanji);
-
-	EntryDelegateLayout::fontsChanged();
+	applyFontSetting(romajifontChooser, &ResultsView::textFont, EntryDelegateLayout::DefaultText);
+	applyFontSetting(kanafontChooser, &ResultsView::kanaFont, EntryDelegateLayout::Kana);
+	applyFontSetting(kanjifontChooser, &ResultsView::kanjiFont, EntryDelegateLayout::Kanji);
 }
 
 void ResultsViewPreferences::applyFontSetting(PreferencesFontChooser *fontChooser, PreferenceItem<QString> *prefItem, const EntryDelegateLayout::FontRole fontRole)
@@ -295,7 +296,26 @@ void ResultsViewPreferences::applyFontSetting(PreferencesFontChooser *fontChoose
 	const QFont &font = fontChooser->font();
 	if (fontChooser->isDefault()) prefItem->reset();
 	else prefItem->set(font.toString());
-	EntryDelegateLayout::setFont(fontRole, font);
+}
+
+void ResultsViewPreferences::updateUI()
+{
+	MainWindow::instance()->resultsView()->setSmoothScrolling(smoothScrolling->isChecked());
+	// Results view fonts
+
+	EntryDelegateLayout *mwDelegateLayout = MainWindow::instance()->resultsView()->delegateLayout();
+	mwDelegateLayout->setDisplayMode(static_cast<EntryDelegateLayout::DisplayMode>(ResultsView::displayMode.value()));
+	QFont font;
+	font.fromString(ResultsView::textFont.value());
+	mwDelegateLayout->setFont(EntryDelegateLayout::DefaultText, font);
+	
+	font = QFont();
+	font.fromString(ResultsView::kanjiFont.value());
+	mwDelegateLayout->setFont(EntryDelegateLayout::Kanji, font);
+	
+	font = QFont();
+	font.fromString(ResultsView::kanaFont.value());
+	mwDelegateLayout->setFont(EntryDelegateLayout::Kana, font);
 }
 
 DetailedViewPreferences::DetailedViewPreferences(QWidget *parent) : PreferencesWindowCategory(tr("Detailed View"), parent)
@@ -437,6 +457,36 @@ void PreferencesFontChooser::checkDefaultState(const QFont &f)
 	}
 }
 
+PreferencesEntryDelegateLayout::PreferencesEntryDelegateLayout(DisplayMode displayMode, const QString &textFont, const QString &kanjiFont, const QString &kanaFont, QObject *parent) : EntryDelegateLayout(displayMode, textFont, kanjiFont, kanaFont, parent)
+{
+}
+
+void PreferencesEntryDelegateLayout::setKanjiFont(const QFont &font)
+{
+	setFont(Kanji, font);
+}
+
+void PreferencesEntryDelegateLayout::setKanaFont(const QFont &font)
+{
+	setFont(Kana, font);
+}
+
+void PreferencesEntryDelegateLayout::setTextFont(const QFont &font)
+{
+	setFont(DefaultText, font);
+}
+
+void PreferencesEntryDelegateLayout::setOneLineDisplay()
+{
+	setDisplayMode(OneLine);
+}
+
+void PreferencesEntryDelegateLayout::setTwoLinesDisplay()
+{
+	setDisplayMode(TwoLines);
+}
+
+/*
 PreferencesEntryDelegate::PreferencesEntryDelegate(ResultsView *watchedView) : EntryDelegate(watchedView), _watchedView(watchedView)
 {
 	watchedView->setItemDelegate(this);
@@ -476,7 +526,7 @@ void PreferencesEntryDelegate::setTwoLinesDisplay()
 	displayMode = EntryDelegateLayout::TwoLines;
 	_watchedView->updateLayout();
 }
-
+*/
 PreferencesDetailedViewExample::PreferencesDetailedViewExample(QWidget *parent) : DetailedView(parent)
 {
 	setKanjisClickable(false);
