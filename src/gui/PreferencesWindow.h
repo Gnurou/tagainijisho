@@ -122,7 +122,7 @@ private:
 	PreferencesFontChooser *kanafontChooser;
 	PreferencesFontChooser *kanjifontChooser;
 
-	void applyFontSetting(PreferencesFontChooser *fontChooser, PreferenceItem<QString> *prefItem, const ResultsViewFonts::FontRole fontRole);
+	void applyFontSetting(PreferencesFontChooser *fontChooser, PreferenceItem<QString> *prefItem, const EntryDelegateLayout::FontRole fontRole);
 
 protected slots:
 	void onSmoothScrollingToggled(bool value) { _view->setSmoothScrolling(value); }
@@ -209,7 +209,7 @@ protected:
 
 public:
 	PreferencesEntryDelegate(ResultsView *watchedView);
-	void updateFonts();
+	void updateLayout();
 
 public slots:
 	void setKanjiFont(const QFont &font);

@@ -46,13 +46,6 @@ bool EntryFormatter::removeFormatter(const int entryType)
 	return true;
 }
 
-QColor EntryFormatter::scoreColor(const Entry *entry) const
-{
-	int sc = entry->score() * 5;
-	return QColor(sc > 0xff ? sc < 0x1ff ? 0xff - (sc - 0x100) : 0x00 : 0xff,
-					  sc < 0xff ? sc : 0xff, 0x00).lighter(165);
-}
-
 void EntryFormatter::writeUserData(const Entry *entry, QTextCursor &cursor, DetailedView *view) const
 {
 	QTextCharFormat normal(DetailedViewFonts::charFormat(DetailedViewFonts::DefaultText));
@@ -208,7 +201,7 @@ void EntryFormatter::writeEntryTitle(const Entry *entry, QTextCursor &cursor) co
 {
 	QTextCharFormat scoreFormat;
 	if (entry->trained()) {
-		scoreFormat.setBackground(scoreColor(entry));
+		scoreFormat.setBackground(entry->scoreColor());
 	}
 	QString title;
 	if (!entry->writings().isEmpty()) title = entry->writings()[0];

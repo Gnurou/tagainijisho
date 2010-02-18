@@ -20,6 +20,7 @@
 
 #include "core/Tag.h"
 
+#include <QColor>
 #include <QMetaType>
 #include <QDate>
 #include <QSet>
@@ -117,6 +118,9 @@ public:
 	 */
 	bool trained() const { return dateAdded().isValid(); }
 	int score() const { return _score; }
+	/// Returns the color associated to the score of this entry
+	QColor scoreColor() const;
+
 	/**
 	 * An entry is considered as assimilated if its score is at least 95.
 	 */

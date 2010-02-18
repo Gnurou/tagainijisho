@@ -20,6 +20,10 @@
 #include "gui/ResultsList.h"
 
 #include <QSqlError>
+#include <QFont>
+#include <QFontMetrics>
+#include <QSize>
+#include <QPalette>
 
 #define TRANSACTION QSqlDatabase::database().transaction()
 #define ROLLBACK QSqlDatabase::database().rollback()
@@ -141,24 +145,62 @@ int EntryListModel::rowCount(const QModelIndex &parent) const
 	if (query.next()) return query.value(0).toInt();
 	return -1;
 }
-	
+
+static QList<EntryPointer<Entry> > keeper;
 QVariant EntryListModel::data(const QModelIndex &index, int role) const
 {
-	if (!index.isValid()) return QVariant();
-	if (role == Qt::DisplayRole || role == Qt::EditRole) {
-		if (index.column() != 0) return QVariant();
-		const EntryListModelCache &cEntry = getFromCache(index.internalId());
-		if (cEntry.rowId == -1) return QVariant();
-		if (cEntry.type == -1) return cEntry.label;
-		EntryPointer<Entry> entry(EntriesCache::get(cEntry.type, cEntry.id));
-		if (!entry.data()) return QVariant();
-		else {
-			// BUG dangerous - the entry may be freed!
-			//if (role == ResultsList::EntryRole) return QVariant::fromValue(entry.data());
-			return entry->shortVersion(Entry::TinyVersion);
+	if (!index.isValid() || index.column() != 0) return QVariant();
+	const EntryListModelCache &cEntry = getFromCache(index.internalId());
+	if (cEntry.rowId == -1) return QVariant();
+	switch (role) {
+		case Qt::DisplayRole:
+		case Qt::EditRole:
+		{
+			if (cEntry.type == -1) return cEntry.label;
+			EntryPointer<Entry> entry(EntriesCache::get(cEntry.type, cEntry.id));
+			if (!entry.data()) return QVariant();
+			else return entry->shortVersion(Entry::TinyVersion);
 		}
+		case Qt::BackgroundRole:
+		{
+			if (cEntry.type == -1) return QPalette().button();
+			EntryPointer<Entry> entry(EntriesCache::get(cEntry.type, cEntry.id));
+			if (!entry->trained()) return QVariant();
+			else return entry->scoreColor();
+		}
+		case Qt::FontRole:
+		{
+			if (cEntry.type == -1) {
+				QFont font;
+				font.setPointSize(font.pointSize() + 1);
+				font.setItalic(true);
+				return font;
+			}
+			else return QVariant();
+		}
+		case Qt::SizeHintRole:
+			if (cEntry.type == -1) {
+				QFont font;
+				font.setPointSize(font.pointSize() + 1);
+				font.setItalic(true);
+				return QSize(300, QFontMetrics(font).height());
+			}
+			else return QVariant();
+		case ResultsList::EntryRole:
+		{
+			if (cEntry.type == -1) return QVariant();
+			EntryPointer<Entry> entry(EntriesCache::get(cEntry.type, cEntry.id));
+			keeper << entry;
+			if (!entry.data()) return QVariant();
+			else {
+				// BUG dangerous - the entry may be freed!
+				return QVariant::fromValue(entry.data());
+				//return entry->shortVersion(Entry::TinyVersion);
+			}
+		}
+		default:
+			return QVariant();
 	}
-	return QVariant();
 }
 
 bool EntryListModel::setData(const QModelIndex &index, const QVariant &value, int role)

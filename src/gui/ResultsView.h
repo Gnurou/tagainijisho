@@ -34,38 +34,6 @@
 
 class ResultsView;
 
-class ResultsViewFonts : public QObject
-{
-	Q_OBJECT
-public:
-	typedef enum { DefaultText, Kana, Kanji, MAX_FONTS } FontRole;
-	typedef enum { OneLine = 0, TwoLines, MAX_MODES } DisplayMode;
-private:
-	static ResultsViewFonts *_instance;
-
-	QFont _font[MAX_FONTS];
-
-	void _setFont(FontRole role, const QFont &font);
-	void _fontsChanged();
-	QFont _defaultFont(FontRole role) const;
-
-public:
-	ResultsViewFonts(QWidget *parent = 0);
-
-	static void setFont(FontRole role, const QFont &font) { _instance->_setFont(role, font); }
-	static void fontsChanged() { _instance->_fontsChanged(); }
-	static const QFont &font(FontRole role) { return _instance->_font[role]; }
-
-	static PreferenceItem<QString> kanjiFont;
-	static PreferenceItem<QString> kanaFont;
-	static PreferenceItem<QString> textFont;
-
-signals:
-	void fontsHaveChanged();
-
-friend class ResultsView;
-};
-
 class ResultsViewEntryMenu : public EntryMenu
 {
 	Q_OBJECT
@@ -112,7 +80,7 @@ public:
 	static PreferenceItem<bool> smoothScrolling;
 
 public slots:
-	void updateFonts();
+	void updateLayout();
 
 signals:
 	// Used to abstract the selection model which may not be consistent

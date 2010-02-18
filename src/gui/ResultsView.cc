@@ -34,13 +34,8 @@
 #include <QPixmap>
 #include <QScrollBar>
 
-ResultsViewFonts *ResultsViewFonts::_instance = 0;
-PreferenceItem<int> ResultsView::displayMode("mainWindow/resultsView", "displayMode", ResultsViewFonts::TwoLines);
+PreferenceItem<int> ResultsView::displayMode("mainWindow/resultsView", "displayMode", EntryDelegateLayout::TwoLines);
 PreferenceItem<bool> ResultsView::smoothScrolling("mainWindow/resultsView", "smoothScrolling", true);
-
-PreferenceItem<QString> ResultsViewFonts::textFont("mainWindow/resultsView", "textFont", "");
-PreferenceItem<QString> ResultsViewFonts::kanaFont("mainWindow/resultsView", "kanaFont", "");
-PreferenceItem<QString> ResultsViewFonts::kanjiFont("mainWindow/resultsView", "kanjiFont", QFont("Helvetica", 15).toString());
 
 void ResultsViewEntryMenu::connectToResultsView(const ResultsView *const view)
 {
@@ -65,8 +60,8 @@ void ResultsViewEntryMenu::connectToResultsView(const ResultsView *const view)
 ResultsView::ResultsView(QWidget *parent, bool viewOnly) : QListView(parent), entryMenu(), contextMenu()
 {
 	// Is the fonts manager instance already running?
-	if (!ResultsViewFonts::_instance) ResultsViewFonts::_instance = new ResultsViewFonts();
-	connect(ResultsViewFonts::_instance, SIGNAL(fontsHaveChanged()), this, SLOT(updateFonts()));
+	if (!EntryDelegateLayout::_instance) EntryDelegateLayout::_instance = new EntryDelegateLayout();
+	connect(EntryDelegateLayout::_instance, SIGNAL(fontsHaveChanged()), this, SLOT(updateLayout()));
 
 	setUniformItemSizes(true);
 	setAlternatingRowColors(true);
@@ -80,7 +75,7 @@ ResultsView::ResultsView(QWidget *parent, bool viewOnly) : QListView(parent), en
 		entryMenu.populateMenu(&contextMenu);
 	}
 	setItemDelegate(new EntryDelegate(this));
-	updateFonts();
+	updateLayout();
 	setSmoothScrolling(smoothScrolling.value());
 }
 
@@ -232,10 +227,10 @@ void ResultsView::addNote()
 	dialog.exec();
 }
 
-void ResultsView::updateFonts()
+void ResultsView::updateLayout()
 {
 	EntryDelegate *delegate = qobject_cast<EntryDelegate *>(itemDelegate());
-	delegate->updateFonts();
+	delegate->updateLayout();
 	// This is needed to force a redraw - but we loose the selection.
 	QAbstractItemModel *m = model();
 	setModel(0);
@@ -251,22 +246,4 @@ void ResultsView::setModel(QAbstractItemModel *model)
 	// TODO use selectionChanged instead!
 	connect(selectionModel(), SIGNAL(selectionChanged(QItemSelection,QItemSelection)),
 			this, SIGNAL(listSelectionChanged(QItemSelection,QItemSelection)));
-}
-
-ResultsViewFonts::ResultsViewFonts(QWidget *parent) : QObject(parent)
-{
-	// Init fonts and colors with the default values
-	_font[DefaultText].fromString(textFont.value());
-	_font[Kanji].fromString(kanjiFont.value());
-	_font[Kana].fromString(kanaFont.value());
-}
-
-void ResultsViewFonts::_setFont(FontRole role, const QFont &font)
-{
-	_font[role] = font;
-}
-
-void ResultsViewFonts::_fontsChanged()
-{
-	emit fontsHaveChanged();
 }

@@ -377,7 +377,7 @@ void JMdictEntryFormatter::writeShortDesc(const Entry *entry, QTextCursor &curso
 {
 	QTextCharFormat scoreFormat;
 	if (entry->trained()) {
-		scoreFormat.setBackground(scoreColor(entry));
+		scoreFormat.setBackground(entry->scoreColor());
 	}
 	autoFormat(entry, entry->shortVersion(Entry::TinyVersion), cursor, scoreFormat);
 	const JMdictEntry *jEntry(static_cast<const JMdictEntry *>(entry));

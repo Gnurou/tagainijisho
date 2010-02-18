@@ -20,16 +20,49 @@
 #include <QPainter>
 #include <QApplication>
 
+EntryDelegateLayout *EntryDelegateLayout::_instance = 0;
+PreferenceItem<QString> EntryDelegateLayout::textFont("mainWindow/resultsView", "textFont", "");
+PreferenceItem<QString> EntryDelegateLayout::kanaFont("mainWindow/resultsView", "kanaFont", "");
+PreferenceItem<QString> EntryDelegateLayout::kanjiFont("mainWindow/resultsView", "kanjiFont", QFont("Helvetica", 15).toString());
+
+EntryDelegateLayout::EntryDelegateLayout(QWidget *parent) : QObject(parent)
+{
+	// Init fonts and colors with the default values
+	_font[DefaultText].fromString(textFont.value());
+	_font[Kanji].fromString(kanjiFont.value());
+	_font[Kana].fromString(kanaFont.value());
+}
+
+void EntryDelegateLayout::_setFont(FontRole role, const QFont &font)
+{
+	_font[role] = font;
+}
+
+void EntryDelegateLayout::_fontsChanged()
+{
+	emit fontsHaveChanged();
+}
+
 EntryDelegate::EntryDelegate(QObject *parent) : QStyledItemDelegate(parent)
 {
-	updateFonts();
+	updateLayout();
 }
+
+
 
 QSize EntryDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
-	int maxHeight;
-	if (displayMode == ResultsViewFonts::OneLine) maxHeight = qMax(QFontMetrics(kanjiFont).height(), qMax(QFontMetrics(kanaFont).height(), QFontMetrics(textFont).height()));
-	else maxHeight = qMax(QFontMetrics(kanjiFont).height(), QFontMetrics(kanaFont).height()) + QFontMetrics(textFont).height();
+	int maxHeight = -1;
+	if (index.isValid()) {
+		QVariant sizeHint(index.model()->data(index, Qt::SizeHintRole));
+		if (!sizeHint.isNull() && sizeHint.type() == QVariant::Size) maxHeight = sizeHint.toSize().height();
+	}
+	if (maxHeight < 0) {
+		if (displayMode == EntryDelegateLayout::OneLine) maxHeight = qMax(QFontMetrics(kanjiFont).height(), qMax(QFontMetrics(kanaFont).height(), QFontMetrics(textFont).height()));
+		else maxHeight = qMax(QFontMetrics(kanjiFont).height(), QFontMetrics(kanaFont).height()) + QFontMetrics(textFont).height();
+	}
+	// This margin is added by the paint method
+	maxHeight += 4;
 	return QSize(300, maxHeight);
 }
 
@@ -38,7 +71,8 @@ void EntryDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
 	Entry *entry = index.data(ResultsList::EntryRole).value<Entry *>();
 	if (!entry) { QStyledItemDelegate::paint(painter, option, index); return; }
 
-	QRect rect = option.rect.adjusted(2, 0, -2, 0);
+	QRect rect = option.rect.adjusted(2, 2, -2, 2);
+	//QRect rect = option.rect.adjusted(2, 0, -2, 0);
 	painter->save();
 
 	QColor textColor;
@@ -60,7 +94,7 @@ void EntryDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
 	style->drawPrimitive(QStyle::PE_PanelItemViewItem, &opt, painter);
 
 	int topLineAscent;
-	if (displayMode == ResultsViewFonts::OneLine) {
+	if (displayMode == EntryDelegateLayout::OneLine) {
 		topLineAscent = qMax(qMax(QFontMetrics(kanjiFont).ascent(), QFontMetrics(kanaFont).ascent()), QFontMetrics(textFont).ascent());
 	} else {
 		topLineAscent = qMax(QFontMetrics(kanjiFont).ascent(), QFontMetrics(kanaFont).ascent());
@@ -80,7 +114,7 @@ void EntryDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
 		if (entry->writings().size() > 1) s += " ";
 		s += "(" + entry->readings().join(", ") + ")";
 	}
-	if (displayMode == ResultsViewFonts::OneLine)
+	if (displayMode == EntryDelegateLayout::OneLine)
 		s += ": ";
 	painter->setFont(kanaFont);
 	s = QFontMetrics(kanaFont).elidedText(s, Qt::ElideRight, rect.width() - bbox.width());
@@ -98,7 +132,7 @@ void EntryDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
 		s += QString("(%1) %2 ").arg(i + 1).arg(entry->meanings()[i]);
 	}
 	painter->setFont(textFont);
-	if (displayMode == ResultsViewFonts::OneLine) {
+	if (displayMode == EntryDelegateLayout::OneLine) {
 		s = QFontMetrics(textFont).elidedText(s, Qt::ElideRight, rect.width() - (bbox.width() + bbox2.width()));
 		painter->drawText(QPoint(bbox2.right(), rect.top() + topLineAscent), s);
 	} else {
@@ -120,12 +154,12 @@ void EntryDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
 	painter->restore();
 }
 
-void EntryDelegate::updateFonts()
+void EntryDelegate::updateLayout()
 {
-	kanjiFont = ResultsViewFonts::font(ResultsViewFonts::Kanji);
-	kanaFont = ResultsViewFonts::font(ResultsViewFonts::Kana);
-	textFont = ResultsViewFonts::font(ResultsViewFonts::DefaultText);
-	displayMode = (ResultsViewFonts::DisplayMode) ResultsView::displayMode.value();
+	kanjiFont = EntryDelegateLayout::font(EntryDelegateLayout::Kanji);
+	kanaFont = EntryDelegateLayout::font(EntryDelegateLayout::Kana);
+	textFont = EntryDelegateLayout::font(EntryDelegateLayout::DefaultText);
+	displayMode = (EntryDelegateLayout::DisplayMode) ResultsView::displayMode.value();
 
 	_tagsIcon.load(":/images/icons/tags.png");
 	_tagsIcon = _tagsIcon.scaledToHeight(15);

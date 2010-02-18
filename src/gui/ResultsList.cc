@@ -15,7 +15,6 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "gui/EntryFormatter.h"
 #include "gui/ResultsList.h"
 
 #include <QtDebug>
@@ -61,9 +60,7 @@ QVariant ResultsList::data(const QModelIndex &index, int role) const
 	if (role == Qt::BackgroundRole) {
 		Entry *entry = entries.at(index.row()).data();
 		if (!entry->trained()) return QVariant();
-		const EntryFormatter *formatter(EntryFormatter::getFormatter(entry));
-		if (formatter) return formatter->scoreColor(entry);
-		return QVariant();
+		else return entry->scoreColor();
 	}
 
 	if (role == EntryRole) return QVariant::fromValue(entries[index.row()].data());

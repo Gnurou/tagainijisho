@@ -20,7 +20,6 @@
 #include "core/Entry.h"
 #include "core/Preferences.h"
 
-#include <QColor>
 #include <QPainter>
 #include <QTextCursor>
 #include <QMap>
@@ -65,9 +64,6 @@ public:
 	static bool removeFormatter(const int entryType);
 	static const EntryFormatter *getFormatter(const int entryType) { return _formatters[entryType]; }
 	static const EntryFormatter *getFormatter(const Entry *entry) { return _formatters[entry->type()]; }
-
-	/// Returns the color associated to the score of this entry
-	QColor scoreColor(const Entry *entry) const;
 
 	/**
 	 * Writes the entry with as many details as possible using the given cursor. When the

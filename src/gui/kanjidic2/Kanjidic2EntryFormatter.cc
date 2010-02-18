@@ -287,10 +287,7 @@ void Kanjidic2EntryFormatter::writeShortDesc(const Entry *entry, QTextCursor &cu
 {
 	const Kanjidic2Entry *kEntry = qobject_cast<const Kanjidic2Entry *>(entry);
 	QTextCharFormat charFormat;
-	if (kEntry->trained()) {
-		const EntryFormatter *formatter(EntryFormatter::getFormatter(kEntry));
-		if (formatter) charFormat.setBackground(formatter->scoreColor(kEntry));
-	}
+	if (kEntry->trained()) charFormat.setBackground(kEntry->scoreColor());
 	QString str(kEntry->kanji());
 	if (!kEntry->meanings().isEmpty()) str += ": " + kEntry->meaningsString();
 	autoFormat(kEntry, str, cursor, charFormat);
@@ -487,7 +484,7 @@ void Kanjidic2EntryFormatter::showToolTip(const Kanjidic2Entry *entry, const QPo
 
 	QString s;
 	if (tooltipShowScore.value() && entry->trained()) {
-		QColor scoreColor(this->scoreColor(entry));
+		QColor scoreColor(entry->scoreColor());
 		s += QString("<div style=\"font-size: xx-large; background-color: #%1%2%3;\">%4</div> ").arg(QString::number(scoreColor.red(), 16)).arg(QString::number(scoreColor.green(), 16)).arg(QString::number(scoreColor.blue(), 16)).arg(writing);
 	} else s += QString("<div style=\"font-size: xx-large;\">%1</div> ").arg(writing);
 	s += alt;

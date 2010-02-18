@@ -33,6 +33,13 @@ Entry::~Entry()
 {
 }
 
+QColor Entry::scoreColor() const
+{
+	int sc = score() * 5;
+	return QColor(sc > 0xff ? sc < 0x1ff ? 0xff - (sc - 0x100) : 0x00 : 0xff,
+	              sc < 0xff ? sc : 0xff, 0x00).lighter(165);
+}
+
 static QString dateToString(const QDateTime &date)
 {
 	if (!date.isValid()) return "null";
