@@ -33,7 +33,7 @@ class ResultsList : public QAbstractListModel
 {
 	Q_OBJECT
 private:
-	QList<EntryPointer<Entry> > entries;
+	QList<EntryPointer> entries;
 	QTimer timer;
 	int displayedUntil;
 	
@@ -57,7 +57,7 @@ public:
 
 	int rowCount(const QModelIndex &parent = QModelIndex()) const { return nbResults(); }
 	int nbResults() const { return entries.size(); }
-	const EntryPointer<Entry> getEntry(int pos) const { return entries[pos]; }
+	const EntryPointer getEntry(int pos) const { return entries[pos]; }
 	QVariant data(const QModelIndex &index, int role) const;
 	QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
 
@@ -82,7 +82,7 @@ public slots:
 
 	void startReceive();
 	void endReceive();
-	void addResult(EntryPointer<Entry> entry);
+	void addResult(EntryPointer entry);
 	void clear();
 	
 	/// Display the next results page

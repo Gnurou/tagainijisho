@@ -146,7 +146,7 @@ int EntryListModel::rowCount(const QModelIndex &parent) const
 	return -1;
 }
 
-static QList<EntryPointer<Entry> > keeper;
+static QList<EntryPointer> keeper;
 QVariant EntryListModel::data(const QModelIndex &index, int role) const
 {
 	if (!index.isValid() || index.column() != 0) return QVariant();
@@ -157,14 +157,14 @@ QVariant EntryListModel::data(const QModelIndex &index, int role) const
 		case Qt::EditRole:
 		{
 			if (cEntry.type == -1) return cEntry.label;
-			EntryPointer<Entry> entry(EntriesCache::get(cEntry.type, cEntry.id));
+			EntryPointer entry(EntriesCache::get(cEntry.type, cEntry.id));
 			if (!entry.data()) return QVariant();
 			else return entry->shortVersion(Entry::TinyVersion);
 		}
 		case Qt::BackgroundRole:
 		{
 			if (cEntry.type == -1) return QPalette().button();
-			EntryPointer<Entry> entry(EntriesCache::get(cEntry.type, cEntry.id));
+			EntryPointer entry(EntriesCache::get(cEntry.type, cEntry.id));
 			if (!entry->trained()) return QVariant();
 			else return entry->scoreColor();
 		}
@@ -189,7 +189,7 @@ QVariant EntryListModel::data(const QModelIndex &index, int role) const
 		case ResultsList::EntryRole:
 		{
 			if (cEntry.type == -1) return QVariant();
-			EntryPointer<Entry> entry(EntriesCache::get(cEntry.type, cEntry.id));
+			EntryPointer entry(EntriesCache::get(cEntry.type, cEntry.id));
 			keeper << entry;
 			if (!entry.data()) return QVariant();
 			else {

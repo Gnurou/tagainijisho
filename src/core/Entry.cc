@@ -25,7 +25,7 @@ Entry::Entry() : QObject(0), _type(0), _id(0), _frequency(0), _dateAdded(), _dat
 {
 }
 
-Entry::Entry(int type, int id) : QObject(0), _type(type), _id(id), _frequency(0), _dateAdded(), _dateLastTrain(), _dateLastMistake(), _nbTrained(0), _nbSuccess(0), _score(0)
+Entry::Entry(quint8 type, quint32 id) : QObject(0), _type(type), _id(id), _frequency(0), _dateAdded(), _dateLastTrain(), _dateLastMistake(), _nbTrained(0), _nbSuccess(0), _score(0)
 {
 }
 

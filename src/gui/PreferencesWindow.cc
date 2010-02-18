@@ -244,7 +244,7 @@ ResultsViewPreferences::ResultsViewPreferences(QWidget *parent) : PreferencesWin
 	connect(romajifontChooser, SIGNAL(fontChanged(const QFont &)), this, SLOT(setTextFont(const QFont &)));
 	vLayout->addWidget(romajifontChooser);
 
-	EntryPointer<Entry> ePtr(new ResultsViewPrefsDummyEntry());
+	EntryPointer ePtr(new ResultsViewPrefsDummyEntry());
 	for (int i = 0; i < 20; i++) _list->addResult(ePtr);
 	vLayout = new QVBoxLayout(previewBox);
 	vLayout->addWidget(_view);

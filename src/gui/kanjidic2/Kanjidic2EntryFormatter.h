@@ -95,7 +95,7 @@ private:
 public:
 	ShowUsedInKanjiJob(const QString &kanji, const QTextCursor &cursor);
 	virtual void firstResult();
-	virtual void result(EntryPointer<Entry> entry);
+	virtual void result(EntryPointer entry);
 	virtual void completed();
 };
 
@@ -107,7 +107,7 @@ private:
 public:
 	ShowUsedInWordsJob(const QString &kanji, const QTextCursor &cursor);
 	virtual void firstResult();
-	virtual void result(EntryPointer<Entry> entry);
+	virtual void result(EntryPointer entry);
 	virtual void completed();
 };
 

@@ -215,7 +215,7 @@ void KanjiPopup::onPreviousClick()
 	QString kanji;
 	bool ok = _history.previous(kanji);
 	if (ok) {
-		EntryPointer<Entry> entry = EntriesCache::get(KANJIDIC2ENTRY_GLOBALID, TextTools::singleCharToUnicode(kanji));
+		EntryPointer entry = EntriesCache::get(KANJIDIC2ENTRY_GLOBALID, TextTools::singleCharToUnicode(kanji));
 		showKanji(static_cast<Kanjidic2Entry *>(entry.data()));
 	}
 }
@@ -225,7 +225,7 @@ void KanjiPopup::onNextClick()
 	QString kanji;
 	bool ok = _history.next(kanji);
 	if (ok) {
-		EntryPointer<Entry> entry = EntriesCache::get(KANJIDIC2ENTRY_GLOBALID, TextTools::singleCharToUnicode(kanji));
+		EntryPointer entry = EntriesCache::get(KANJIDIC2ENTRY_GLOBALID, TextTools::singleCharToUnicode(kanji));
 		showKanji(static_cast<Kanjidic2Entry *>(entry.data()));
 	}
 }
@@ -251,7 +251,7 @@ void KanjiPopup::onComponentUnHighlighted()
 
 void KanjiPopup::onComponentClicked(const KanjiComponent *component)
 {
-	EntryPointer<Entry> element = EntriesCache::get(KANJIDIC2ENTRY_GLOBALID, TextTools::singleCharToUnicode(component->element()));
+	EntryPointer element = EntriesCache::get(KANJIDIC2ENTRY_GLOBALID, TextTools::singleCharToUnicode(component->element()));
 	Kanjidic2Entry *kElement = static_cast<const Kanjidic2Entry *>(element.data());
 	if (!kElement) return;
 	_history.add(kElement->kanji());

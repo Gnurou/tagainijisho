@@ -71,7 +71,7 @@ public:
 class FindVerbBuddyJob : public DetailedViewJob {
 	Q_DECLARE_TR_FUNCTIONS(FindVerbBuddyJob)
 private:
-	EntryPointer<Entry> bestMatch;
+	EntryPointer bestMatch;
 	int lastKanjiPos;
 	int initialLength;
 	QString searchedPos;
@@ -81,7 +81,7 @@ private:
 
 public:
 	FindVerbBuddyJob(const JMdictEntry *verb, const QString &pos, const QTextCursor &cursor);
-	virtual void result(EntryPointer<Entry> entry);
+	virtual void result(EntryPointer entry);
 	virtual void completed();
 };
 
@@ -90,7 +90,7 @@ class FindHomonymsJob : public DetailedViewJob {
 public:
 	FindHomonymsJob(const JMdictEntry *entry, int maxToDisplay, bool studiedOnly, const QTextCursor &cursor);
 	virtual void firstResult();
-	virtual void result(EntryPointer<Entry> entry);
+	virtual void result(EntryPointer entry);
 	virtual void completed();
 };
 

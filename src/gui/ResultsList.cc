@@ -30,7 +30,7 @@ ResultsList::ResultsList(QObject *parent) : QAbstractListModel(parent), entries(
 	setResultsPerPage(resultsPerPagePref.value());
 	
 	// Results emitted by a query are added to us
-	connect(&query, SIGNAL(foundEntry(EntryPointer<Entry>)), this, SLOT(addResult(EntryPointer<Entry>)));
+	connect(&query, SIGNAL(foundEntry(EntryPointer)), this, SLOT(addResult(EntryPointer)));
 	connect(&query, SIGNAL(firstResult()), this, SLOT(startReceive()));
 	connect(&query, SIGNAL(lastResult()), this, SLOT(endReceive()));
 	connect(&query, SIGNAL(aborted()), this, SLOT(endReceive()));
@@ -76,14 +76,14 @@ QVariant ResultsList::headerData(int section, Qt::Orientation orientation, int r
 	return QString("%1").arg(section);
 }
 
-void ResultsList::addResult(EntryPointer<Entry> entry)
+void ResultsList::addResult(EntryPointer entry)
 {
 	entries << entry;
 }
 
 void ResultsList::onEntryChanged(Entry *entry)
 {
-	int idx = entries.indexOf(EntryPointer<Entry>(entry));
+	int idx = entries.indexOf(EntryPointer(entry));
 	QModelIndex itemIndex = createIndex(idx, 0);
 	emit dataChanged(itemIndex, itemIndex);
 }

@@ -41,7 +41,7 @@ private:
 	void _train();
 
 protected:
-	EntryPointer<Entry> currentEntry;
+	EntryPointer currentEntry;
 	QSqlQuery _query;
 	ToolBarDetailedView *_detailedView;
 

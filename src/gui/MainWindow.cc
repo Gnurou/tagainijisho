@@ -121,7 +121,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), _history(historyS
 	// List widget
 	EntryListWidget *elWidget = new EntryListWidget(this);
 	elWidget->entryListView()->setModel(&_listModel);
-	connect(elWidget->entryListView(), SIGNAL(entrySelected(EntryPointer<Entry>)), detailedView(), SLOT(display(EntryPointer<Entry>)));
+	connect(elWidget->entryListView(), SIGNAL(entrySelected(EntryPointer)), detailedView(), SLOT(display(EntryPointer)));
 	QDockWidget *dWidget = new QDockWidget(elWidget->currentTitle(), this);
 	dWidget->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
 	dWidget->setWidget(elWidget);
@@ -405,7 +405,7 @@ void MainWindow::tabExport()
 	// Dummy entry to notify Anki that tab is our delimiter
 	//outFile.write("\t\t\n");
 	for (int i = 0; i < results->nbResults(); i++) {
-		EntryPointer<Entry> entry = results->getEntry(i);
+		EntryPointer entry = results->getEntry(i);
 		QStringList writings = entry->writings();
 		QStringList readings = entry->readings();
 		QStringList meanings = entry->meanings();

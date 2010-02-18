@@ -65,8 +65,8 @@ public:
 	};
 
 private:
-	int _type;
-	int _id;
+	quint8 _type;
+	quint32 _id;
 	unsigned int _frequency;
 	QDateTime _dateAdded;
 	QDateTime _dateLastTrain;
@@ -96,11 +96,11 @@ public:
 	 * for some media.
 	 */
 	Entry();
-	Entry(int type, int id);
+	Entry(quint8 type, quint32 id);
 	virtual ~Entry();
 
-	int type() const { return _type; }
-	int id() const { return _id; }
+	quint8 type() const { return _type; }
+	quint32 id() const { return _id; }
 	QDateTime dateAdded() const { return _dateAdded; }
 	QDateTime dateLastTrain() const { return _dateLastTrain; }
 	QDateTime dateLastMistake() const { return _dateLastMistake; }
@@ -167,7 +167,21 @@ signals:
 friend class EntrySearcher;
 };
 
+/**
+ * Used to reference an entry without having to load it entirely. A shared pointer to
+ * the actual entry can be obtained using the get() method.
+ */
+class EntryRef : protected QPair<quint8, quint32>
+{
+public:
+	EntryRef() : QPair<quint8, quint32>() {}
+	EntryRef(quint8 type, quint32 id) : QPair<quint8, quint32>(type, id) {}
+	quint8 type() const { return first; }
+	quint32 id() const { return second; }
+};
+
 Q_DECLARE_METATYPE(Entry::Note *)
 Q_DECLARE_METATYPE(Entry *)
+Q_DECLARE_METATYPE(EntryRef)
 
 #endif

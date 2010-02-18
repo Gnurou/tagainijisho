@@ -37,7 +37,7 @@ class KanjiComponentWidget : public QWidget
 	Q_OBJECT
 private:
 	const KanjiComponent *_component;
-	EntryPointer<Entry> _kanji;
+	EntryPointer _kanji;
 
 protected:
 	virtual void paintEvent(QPaintEvent *event);

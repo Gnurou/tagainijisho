@@ -59,7 +59,7 @@ public:
 	const QString &sql() const { return _sql; }
 
 	virtual void firstResult() { }
-	virtual void result(EntryPointer<Entry> entry) { }
+	virtual void result(EntryPointer entry) { }
 	virtual void completed() { }
 };
 
@@ -77,7 +77,7 @@ protected:
 
 protected slots:
 	void onFirstResult();
-	void onResult(EntryPointer<Entry> entry);
+	void onResult(EntryPointer entry);
 	void onCompleted();
 	void onAborted();
 	void onError(const QString &error);
@@ -213,7 +213,7 @@ protected:
 	AbstractHistory<QPair<int, int>, QList<QPair<int, int> > > _history;
 	SingleEntryView entryView;
 	DetailedViewJobRunner _jobsRunner;
-	QList<EntryPointer<Entry> > _watchedEntries;
+	QList<EntryPointer> _watchedEntries;
 	QAction *_historyPrevAction;
 	QAction *_historyNextAction;
 
@@ -240,7 +240,7 @@ public:
 	 * Add an entry to watch, i.e. the view will be
 	 * redrawn if this entry changes.
 	 */
-	void addWatchEntry(const EntryPointer<Entry> &entry);
+	void addWatchEntry(const EntryPointer &entry);
 
 	static PreferenceItem<int> historySize;
 	static PreferenceItem<bool> smoothScrolling;
@@ -261,7 +261,7 @@ protected slots:
 
 public slots:
 	/// Display an entry, updating the history.
-	void display(EntryPointer<Entry> entry);
+	void display(EntryPointer entry);
 	/// This version is more dangerous to use - only use if you are sure to
 	/// keep a reference to the entry!
 	/// TODO remove at all!

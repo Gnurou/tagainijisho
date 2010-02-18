@@ -48,7 +48,7 @@ public:
 	virtual ~ASyncEntryLoader();
 
 signals:
-	void result(EntryPointer<Entry> result);
+	void result(EntryPointer result);
 };
 
 #endif /* ASYNCENTRYLOADER_H_ */

@@ -35,7 +35,7 @@ class KanjiPlayer : public QWidget {
 private:
 	QTimer _timer;
 	// To keep the kanji we display in memory...
-	EntryPointer<const Entry> _entry;
+	ConstEntryPointer _entry;
 	// ... and avoid casting it all the time.
 	const Kanjidic2Entry *_kanji;
 

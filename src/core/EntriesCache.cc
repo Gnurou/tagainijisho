@@ -45,7 +45,7 @@ void EntriesCache::cleanup()
 	delete _instance;
 }
 
-EntryPointer<Entry> EntriesCache::_get(int type, int id)
+EntryPointer EntriesCache::_get(int type, int id)
 {
 	QPair<int, int> key(type, id);
 	// First look if the entry is already loaded
@@ -54,14 +54,14 @@ EntryPointer<Entry> EntriesCache::_get(int type, int id)
 	// TODO Make the entry searchers thread-safe!
 	QMutexLocker loadedLocker(&_loadedEntriesMutex);
 	if (_loadedEntries.contains(key)) {
-		return EntryPointer<Entry>(_loadedEntries[key]);
+		return EntryPointer(_loadedEntries[key]);
 	}
 
 	// Nope, we must load it from the database
 	Entry *entry = EntrySearcherManager::instance().loadEntry(type, id);
 	// If the entry is not found, do not add anything to the cache and return
 	// immediatly
-	if (!entry) return EntryPointer<Entry>(entry);
+	if (!entry) return EntryPointer(entry);
 	// All the signal processing of the entry must take place in the main thread
 	entry->moveToThread(QCoreApplication::instance()->thread());
 	// Used to remove entries from the list of loaded entries
@@ -70,7 +70,7 @@ EntryPointer<Entry> EntriesCache::_get(int type, int id)
 	_loadedEntries[key] = entry;
 	// Keep a reference to the entry now - this is needed
 	// for the case the cache size is zero
-	EntryPointer<Entry> ret(entry);
+	EntryPointer ret(entry);
 	_cacheMutex.lock();
 	_cache << ret;
 	while (_cache.size() > cacheSize.value()) _cache.removeFirst();

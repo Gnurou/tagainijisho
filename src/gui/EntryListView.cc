@@ -44,7 +44,7 @@ void EntryListView::selectionChanged(const QItemSelection &selected, const QItem
 	if (query.next()) {
 		if (query.value(0).isNull()) emit listSelected(index.internalId());
 		else {
-			EntryPointer<Entry> entry(EntriesCache::get(query.value(0).toInt(), query.value(1).toInt()));
+			EntryPointer entry(EntriesCache::get(query.value(0).toInt(), query.value(1).toInt()));
 			if (entry.data()) emit entrySelected(entry);
 		}
 	}

@@ -32,7 +32,7 @@ class SingleEntryView : public EntryMenu
 {
 	Q_OBJECT
 private:
-	EntryPointer<Entry> _entry;
+	EntryPointer _entry;
 
 protected slots:
 	virtual void addToStudy();

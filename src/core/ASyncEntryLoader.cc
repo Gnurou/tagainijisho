@@ -27,7 +27,7 @@ ASyncEntryLoader::ASyncEntryLoader(DatabaseThread *dbConn) : ASyncQuery(dbConn)
 
 void ASyncEntryLoader::_loadEntry(const QSqlRecord &record)
 {
-	EntryPointer<Entry> entry = EntriesCache::get(record.value(0).toInt(), record.value(1).toInt());
+	EntryPointer entry = EntriesCache::get(record.value(0).toInt(), record.value(1).toInt());
 	emit result(entry);
 }
 

@@ -339,7 +339,7 @@ void JMdictEntryFormatter::writeEntryInfo(const JMdictEntry *entry, QTextCursor 
 				QString k(reading[i]);
 				if (reading[i].isHighSurrogate()) k += reading[++i];
 				cursor.insertText("\n");
-				EntryPointer<Entry> _entry = EntriesCache::get(KANJIDIC2ENTRY_GLOBALID, TextTools::singleCharToUnicode(k));
+				EntryPointer _entry = EntriesCache::get(KANJIDIC2ENTRY_GLOBALID, TextTools::singleCharToUnicode(k));
 				view->addWatchEntry(_entry);
 
 				const EntryFormatter *formatter(EntryFormatter::getFormatter(_entry.data()));
@@ -438,7 +438,7 @@ void JMdictEntryFormatter::drawCustom(const Entry *_entry, QPainter &painter, co
 		foreach (const QChar &c, writing) {
 			if (TextTools::isKanjiChar(c) && !usedKanjis.contains(c)) {
 				usedKanjis << c;
-				EntryPointer<Entry> _entry = EntriesCache::get(KANJIDIC2ENTRY_GLOBALID, c.unicode());
+				EntryPointer _entry = EntriesCache::get(KANJIDIC2ENTRY_GLOBALID, c.unicode());
 				if (!_entry.data()) continue;
 				Kanjidic2Entry *kanji = qobject_cast<Kanjidic2Entry *>(_entry.data());
 				if (printOnlyStudiedKanjis && !kanji->trained()) continue;
@@ -528,7 +528,7 @@ FindVerbBuddyJob::FindVerbBuddyJob(const JMdictEntry* verb, const QString& pos, 
 	lastKanjiPos = matchPattern.size();
 }
 
-void FindVerbBuddyJob::result(EntryPointer<Entry> entry)
+void FindVerbBuddyJob::result(EntryPointer entry)
 {
 	JMdictEntry *jEntry = qobject_cast<JMdictEntry *>(entry.data());
 	if (!jEntry) return;
@@ -627,7 +627,7 @@ void FindHomonymsJob::firstResult()
 	cursor().setCharFormat(normal);
 }
 
-void FindHomonymsJob::result(EntryPointer<Entry> entry)
+void FindHomonymsJob::result(EntryPointer entry)
 {
 	QTextList *currentList = cursor().currentList();
 	cursor().insertBlock(QTextBlockFormat());

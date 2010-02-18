@@ -59,7 +59,7 @@ public:
 	};
 
 private:
-	EntryPointer<const Entry> _kanji;
+	ConstEntryPointer _kanji;
 	// Keep all the strokes in order
 	QList<Stroke> _strokes;
 	// Associates the kanji strokes with their path

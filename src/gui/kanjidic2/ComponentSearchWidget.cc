@@ -198,7 +198,7 @@ void ComponentSearchWidget::populateList(QSqlQuery &query)
 
 		// Do we have a new complement?
 		if (query.value(1) == 0) continue;
-		EntryPointer<Entry> entry = EntriesCache::get(2, query.value(1).toInt());
+		EntryPointer entry = EntriesCache::get(2, query.value(1).toInt());
 		Kanjidic2Entry *kEntry(static_cast<Kanjidic2Entry *>(entry.data()));
 		if (!kEntry) continue;
 		val = kEntry->kanji();

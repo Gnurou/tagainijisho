@@ -144,7 +144,7 @@ void DetailedView::display(Entry *entry)
 	_display(entry);
 }
 
-void DetailedView::display(EntryPointer<Entry> entry)
+void DetailedView::display(EntryPointer entry)
 {
 	display(entry.data());
 }
@@ -156,14 +156,14 @@ void DetailedView::redisplay()
 		// the entryView - which means the current entry reference
 		// counter could potentially reach zero and the entry be
 		// deleted.
-		EntryPointer<Entry> tentry(entryView.entry());
+		EntryPointer tentry(entryView.entry());
 		_display(tentry.data(), true);
 	}
 }
 
 void DetailedView::clear()
 {
-	foreach (const EntryPointer<Entry> &entry, _watchedEntries) {
+	foreach (const EntryPointer &entry, _watchedEntries) {
 		disconnect(entry.data(), SIGNAL(entryChanged(Entry *)), this, SLOT(redisplay()));
 	}
 	_watchedEntries.clear();
@@ -207,7 +207,7 @@ void DetailedView::previous()
 	QPair<int, int> prev;
 	bool ok = _history.previous(prev);
 	if (!ok) return;
-	EntryPointer<Entry> entry(EntriesCache::get(prev.first, prev.second));
+	EntryPointer entry(EntriesCache::get(prev.first, prev.second));
 	_display(&*entry);
 }
 
@@ -216,7 +216,7 @@ void DetailedView::next()
 	QPair<int, int> next;
 	bool ok = _history.next(next);
 	if (!ok) return;
-	EntryPointer<Entry> entry(EntriesCache::get(next.first, next.second));
+	EntryPointer entry(EntriesCache::get(next.first, next.second));
 	_display(&*entry);
 }
 
@@ -225,7 +225,7 @@ void DetailedView::addBackgroundJob(DetailedViewJob *job)
 	_jobsRunner.addJob(job);
 }
 
-void DetailedView::addWatchEntry(const EntryPointer<Entry> &entry)
+void DetailedView::addWatchEntry(const EntryPointer &entry)
 {
 	_watchedEntries << entry;
 	connect(entry.data(), SIGNAL(entryChanged(Entry *)), this, SLOT(redisplay()));
@@ -246,8 +246,8 @@ DetailedViewJobRunner::DetailedViewJobRunner(DetailedView * view, QObject *paren
 	_aQuery = new ASyncEntryLoader(_dbThread);
 
 	connect(_aQuery, SIGNAL(firstResult()), this, SLOT(onFirstResult()));
-	connect(_aQuery, SIGNAL(result(EntryPointer<Entry>)),
-	        this, SLOT(onResult(EntryPointer<Entry>)));
+	connect(_aQuery, SIGNAL(result(EntryPointer)),
+	        this, SLOT(onResult(EntryPointer)));
 	connect(_aQuery, SIGNAL(completed()), this, SLOT(onCompleted()));
 	connect(_aQuery, SIGNAL(aborted()), this, SLOT(onAborted()));
 	connect(_aQuery, SIGNAL(error(const QString &)),
@@ -339,7 +339,7 @@ void DetailedViewJobRunner::onFirstResult()
 	tCursor.movePosition(QTextCursor::Left);
 }
 
-void DetailedViewJobRunner::onResult(EntryPointer<Entry> entry)
+void DetailedViewJobRunner::onResult(EntryPointer entry)
 {
 	// If we are just flushing the job results queue, don't lose time here
 	if (_ignoreJobs) return;
@@ -456,7 +456,7 @@ EntryMenuHandler::~EntryMenuHandler()
 
 void EntryMenuHandler::handleUrl(const QUrl &url, DetailedView *view)
 {
-	EntryPointer<Entry> entry(EntriesCache::get(url.queryItemValue("type").toInt(), url.queryItemValue("id").toInt()));
+	EntryPointer entry(EntriesCache::get(url.queryItemValue("type").toInt(), url.queryItemValue("id").toInt()));
 	if (entry.data()) MainWindow::instance()->detailedView()->display(entry.data());
 }
 

@@ -51,7 +51,7 @@ public slots:
 	
 signals:
 	void listSelected(int rowIndex);
-	void entrySelected(EntryPointer<Entry> entry);
+	void entrySelected(EntryPointer entry);
 };
 
 #endif

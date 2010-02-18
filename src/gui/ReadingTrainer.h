@@ -32,7 +32,7 @@ private:
 
 	Ui::ReadingTrainer ui;
 	QSqlQuery query;
-	EntryPointer<Entry> entry;
+	EntryPointer entry;
 	unsigned int _goodCount, _wrongCount, _totalCount;
 	QCheckBox *_showMeaning;
 	QAction *_showMeaningAction;

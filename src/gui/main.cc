@@ -195,7 +195,7 @@ int main(int argc, char *argv[])
 	checkUserProfileDirectory();
 
 	// Register meta-types
-	qRegisterMetaType<EntryPointer<Entry> >("EntryPointer<Entry>");
+	qRegisterMetaType<EntryPointer>("EntryPointer");
 	qRegisterMetaType<QSqlRecord>("QSqlRecord");
 	qRegisterMetaType<QSqlRecord>("QSqlError");
 	qRegisterMetaType<QVariant>("QVariant");

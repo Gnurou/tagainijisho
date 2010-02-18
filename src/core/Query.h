@@ -113,7 +113,7 @@ private slots:
 
 signals:
 	/// Emitted when a result is found
-	void foundEntry(EntryPointer<Entry> entry);
+	void foundEntry(EntryPointer entry);
 	/// Automatically emitted when we are able to figure out the number of results
 	void nbResults(unsigned int nbResults);
 	/// Emitted before the first result is sent
