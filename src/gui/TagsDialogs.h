@@ -19,6 +19,7 @@
 #define __GUI_TAGSDIALOGS_H
 
 #include "core/Tag.h"
+#include "core/EntriesCache.h"
 
 #include <QLineEdit>
 #include <QDialog>
@@ -74,9 +75,9 @@ public:
 	 * Invokes the dialog to set tags for the list of entries given as parameter.
 	 * Returns true if the tags have changed, false otherwise.
 	 */
-	static bool setTagsDialog(const QList<Entry *> entries, QWidget *parent = 0);
+	static bool setTagsDialog(const QList<EntryPointer> &entries, QWidget *parent = 0);
 
-	static bool addTagsDialog(const QList<Entry *> entries, QWidget *parent = 0);
+	static bool addTagsDialog(const QList<EntryPointer> &entries, QWidget *parent = 0);
 };
 
 #endif

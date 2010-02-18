@@ -18,6 +18,8 @@
 #ifndef __GUI_ENTRY_MENU_H
 #define __GUI_ENTRY_MENU_H
 
+#include "core/EntriesCache.h"
+
 #include <QCoreApplication>
 #include <QAction>
 #include <QObject>
@@ -68,12 +70,12 @@ public:
 	 * Enable/disable items according to the properties of the
 	 * entries list given as argument.
 	 */
-	void updateStatus(const QList<const Entry *> &entries);
+	void updateStatus(const QList<ConstEntryPointer> &entries);
 
 	/**
 	 * Shortcut method.
 	 */
-	void updateStatus(const Entry *const entry);
+	void updateStatus(const ConstEntryPointer &entry);
 
 signals:
 	/**

@@ -69,13 +69,13 @@ void EntryMenu::setEnabledAll(bool enabled)
 	lastTagsMenu.setEnabled(enabled);
 }
 
-void EntryMenu::updateStatus(const QList<const Entry *> &entries)
+void EntryMenu::updateStatus(const QList<ConstEntryPointer> &entries)
 {
 	// Change the mark to study label according to the selection properties:
 	bool allMarked = true;
 	bool allUnmarked = true;
 	bool allAlreadyKnown = true;
-	foreach(const Entry *entry, entries) {
+	foreach(ConstEntryPointer entry, entries) {
 		if (!entry->trained()) allMarked = false;
 		else allUnmarked = false;
 		if (!entry->alreadyKnown()) allAlreadyKnown = false;
@@ -97,9 +97,9 @@ void EntryMenu::updateStatus(const QList<const Entry *> &entries)
 	lastTagsMenu.setEnabled(!TagsDialogs::lastAddedTags.isEmpty());
 }
 
-void EntryMenu::updateStatus(const Entry * entry)
+void EntryMenu::updateStatus(const ConstEntryPointer &entry)
 {
-	QList<const Entry *> entries;
+	QList<ConstEntryPointer> entries;
 	if (entry) entries << entry;
 	updateStatus(entries);
 }

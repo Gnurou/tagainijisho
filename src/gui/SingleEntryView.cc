@@ -37,7 +37,7 @@ void SingleEntryView::setEntry(Entry *entry)
 	if (_entry) disconnect(_entry.data(), SIGNAL(entryChanged(Entry *)), this, SIGNAL(entryChanged(Entry *)));
 	if (entry) connect(entry, SIGNAL(entryChanged(Entry *)), this, SIGNAL(entryChanged(Entry *)));
 	_entry = entry;
-	updateStatus(_entry.data());
+	updateStatus(_entry);
 }
 
 void SingleEntryView::addToStudy()
@@ -62,14 +62,14 @@ void SingleEntryView::resetTraining()
 
 void SingleEntryView::setTags()
 {
-	QList<Entry *> list;
+	QList<EntryPointer> list;
 	list << entry();
 	TagsDialogs::setTagsDialog(list);
 }
 
 void SingleEntryView::addTags()
 {
-	QList<Entry *> list;
+	QList<EntryPointer> list;
 	list << entry();
 	TagsDialogs::addTagsDialog(list);
 }

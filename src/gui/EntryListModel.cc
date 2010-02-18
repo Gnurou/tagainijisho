@@ -146,7 +146,6 @@ int EntryListModel::rowCount(const QModelIndex &parent) const
 	return -1;
 }
 
-static QList<EntryPointer> keeper;
 QVariant EntryListModel::data(const QModelIndex &index, int role) const
 {
 	if (!index.isValid() || index.column() != 0) return QVariant();
@@ -190,13 +189,8 @@ QVariant EntryListModel::data(const QModelIndex &index, int role) const
 		{
 			if (cEntry.type == -1) return QVariant();
 			EntryPointer entry(EntriesCache::get(cEntry.type, cEntry.id));
-			keeper << entry;
-			if (!entry.data()) return QVariant();
-			else {
-				// BUG dangerous - the entry may be freed!
-				return QVariant::fromValue(entry.data());
-				//return entry->shortVersion(Entry::TinyVersion);
-			}
+			if (!entry) return QVariant();
+			else return QVariant::fromValue(entry);
 		}
 		default:
 			return QVariant();

@@ -63,7 +63,7 @@ QVariant ResultsList::data(const QModelIndex &index, int role) const
 		else return entry->scoreColor();
 	}
 
-	if (role == EntryRole) return QVariant::fromValue(entries[index.row()].data());
+	if (role == EntryRole) return QVariant::fromValue(entries[index.row()]);
 	else if (role == Qt::DisplayRole) return entries[index.row()]->shortVersion();
 
 	return QVariant();
@@ -146,7 +146,7 @@ QMimeData *ResultsList::mimeData(const QModelIndexList &indexes) const
 
 	foreach (QModelIndex index, indexes) {
 		if (index.isValid()) {
-			Entry *entry = data(index, EntryRole).value<Entry *>();
+			EntryPointer entry = data(index, EntryRole).value<EntryPointer>();
 			stream << entry->type() << entry->id();
 		}
 	}

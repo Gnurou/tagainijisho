@@ -167,7 +167,7 @@ void KanjiPopup::showKanji(Kanjidic2Entry *entry)
 
 void KanjiPopup::updateInfo()
 {
-	const Kanjidic2Entry *entry(static_cast<const Kanjidic2Entry *>(entryView.entry()));
+	const Kanjidic2Entry *entry(static_cast<const Kanjidic2Entry *>(entryView.entry().data()));
 	QString str;
 	if (entry->kanjiFrequency() != -1)
 		str += tr("<b>Freq:</b> %1<br/>").arg(entry->kanjiFrequency());
@@ -184,7 +184,7 @@ void KanjiPopup::updateInfo()
 
 void KanjiPopup::setComponentsLabelText(int highlightPos)
 {
-	const Kanjidic2Entry *entry(static_cast<const Kanjidic2Entry *>(entryView.entry()));
+	const Kanjidic2Entry *entry(static_cast<const Kanjidic2Entry *>(entryView.entry().data()));
 	QStringList componentsStrings;
 	int i = 0;
 	foreach (const KanjiComponent *component, entry->rootComponents()) {
@@ -232,7 +232,7 @@ void KanjiPopup::onNextClick()
 
 void KanjiPopup::onComponentHighlighted(const KanjiComponent *component)
 {
-	const Kanjidic2Entry *entry(static_cast<const Kanjidic2Entry *>(entryView.entry()));
+	const Kanjidic2Entry *entry(static_cast<const Kanjidic2Entry *>(entryView.entry().data()));
 	stroke->highlightComponent(component);
 	int pos = -1;
 	for (int i = 0; i < entry->rootComponents().size(); ++i) if (component == entry->rootComponents()[i]) { pos = i; break; }
@@ -261,7 +261,7 @@ void KanjiPopup::onComponentClicked(const KanjiComponent *component)
 void KanjiPopup::onComponentLinkHovered(const QString &link)
 {
 	int idx(link.toInt());
-	const Kanjidic2Entry *entry(static_cast<const Kanjidic2Entry *>(entryView.entry()));
+	const Kanjidic2Entry *entry(static_cast<const Kanjidic2Entry *>(entryView.entry().data()));
 	const KanjiComponent *component(entry->rootComponents()[idx]);
 
 	stroke->highlightComponent(component);
@@ -272,7 +272,7 @@ void KanjiPopup::onComponentLinkHovered(const QString &link)
 void KanjiPopup::onComponentLinkActivated(const QString &link)
 {
 	int idx(link.toInt());
-	const Kanjidic2Entry *entry(static_cast<const Kanjidic2Entry *>(entryView.entry()));
+	const Kanjidic2Entry *entry(static_cast<const Kanjidic2Entry *>(entryView.entry().data()));
 	const KanjiComponent *component(entry->rootComponents()[idx]);
 	onComponentClicked(component);
 }

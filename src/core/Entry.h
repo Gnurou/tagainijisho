@@ -167,21 +167,6 @@ signals:
 friend class EntrySearcher;
 };
 
-/**
- * Used to reference an entry without having to load it entirely. A shared pointer to
- * the actual entry can be obtained using the get() method.
- */
-class EntryRef : protected QPair<quint8, quint32>
-{
-public:
-	EntryRef() : QPair<quint8, quint32>() {}
-	EntryRef(quint8 type, quint32 id) : QPair<quint8, quint32>(type, id) {}
-	quint8 type() const { return first; }
-	quint32 id() const { return second; }
-};
-
 Q_DECLARE_METATYPE(Entry::Note *)
-Q_DECLARE_METATYPE(Entry *)
-Q_DECLARE_METATYPE(EntryRef)
 
 #endif

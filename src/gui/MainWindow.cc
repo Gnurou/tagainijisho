@@ -292,15 +292,15 @@ void MainWindow::prepareAndPrintJob(QPrinter *printer, const QFont *font)
 	}
 
 	// Build the list of entries to print
-	QList<const Entry *> entries;
+	QList<ConstEntryPointer> entries;
 	if (!selectionOnly) {
 		const ResultsList *results = resultsList();
 		for (int i = 0; i < results->nbResults(); i++)
-			entries << results->getEntry(i).data();
+			entries << results->getEntry(i);
 	} else {
 		QModelIndexList selection = resultsView()->selectionModel()->selection().indexes();
 		for (int i = 0; i < selection.size(); i++)
-			entries << qVariantValue<Entry *>(selection[i].data(ResultsList::EntryRole));
+			entries << qVariantValue<EntryPointer>(selection[i].data(ResultsList::EntryRole));
 	}
 
 	// Setup progress bar
@@ -318,13 +318,13 @@ void MainWindow::prepareAndPrintJob(QPrinter *printer, const QFont *font)
 	QRectF remainingSpace = pageRect;
 	for (int i = 0; i < entries.size(); i++) {
 		if (progressDialog.wasCanceled()) return;
-		const Entry *const entry = entries[i];
+		ConstEntryPointer entry = entries[i];
 		QRectF usedSpace;
 		QPicture tPicture;
 		QPainter picPainter(&tPicture);
 		const EntryFormatter *formatter(EntryFormatter::getFormatter(entry));
 		if (!formatter) continue;
-		formatter->draw(entry, picPainter, pageRect, usedSpace, *font);
+		formatter->draw(entry.data(), picPainter, pageRect, usedSpace, *font);
 		if (!pageRect.contains(usedSpace)) {
 			qDebug() << "Warning: entry does not fit on whole page, giving up this one...";
 			continue;
@@ -405,7 +405,7 @@ void MainWindow::tabExport()
 	// Dummy entry to notify Anki that tab is our delimiter
 	//outFile.write("\t\t\n");
 	for (int i = 0; i < results->nbResults(); i++) {
-		EntryPointer entry = results->getEntry(i);
+		ConstEntryPointer entry = results->getEntry(i);
 		QStringList writings = entry->writings();
 		QStringList readings = entry->readings();
 		QStringList meanings = entry->meanings();
@@ -643,7 +643,7 @@ void MainWindow::trainSettings()
 void MainWindow::display(const QItemSelection &selected, const QItemSelection &deselected)
 {
 	if (selected.isEmpty()) return;
-	Entry *entry = qVariantValue<Entry *>(selected.indexes()[0].data(ResultsList::EntryRole));
+	EntryPointer entry = qVariantValue<EntryPointer>(selected.indexes()[0].data(ResultsList::EntryRole));
 	_detailedView->detailedView()->display(entry);
 }
 

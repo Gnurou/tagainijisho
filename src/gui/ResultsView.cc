@@ -98,9 +98,9 @@ void ResultsView::contextMenuEvent(QContextMenuEvent *event)
 {
 	QModelIndexList selection = selectionModel()->selectedIndexes();
 	selectAllAction->setEnabled(model()->rowCount() > 0);
-	QList<const Entry *> selectedEntries;
+	QList<ConstEntryPointer> selectedEntries;
 	foreach(const QModelIndex &index, selection)
-		selectedEntries << qVariantValue<Entry *>(index.data(ResultsList::EntryRole));
+		selectedEntries << qVariantValue<EntryPointer>(index.data(ResultsList::EntryRole));
 	entryMenu.updateStatus(selectedEntries);
 	contextMenu.exec(mapToGlobal(event->pos()));
 }
@@ -118,7 +118,7 @@ void ResultsView::studySelected()
 	foreach (const QModelIndex &index, selection) {
 		if (progressDialog.wasCanceled()) break;
 		progressDialog.setValue(i++);
-		Entry *entry = qVariantValue<Entry *>(index.data(ResultsList::EntryRole));
+		EntryPointer entry = qVariantValue<EntryPointer>(index.data(ResultsList::EntryRole));
 		entry->addToTraining();
 		update(index);
 	}
@@ -137,7 +137,7 @@ void ResultsView::unstudySelected()
 	foreach (const QModelIndex &index, selection) {
 		if (progressDialog.wasCanceled()) break;
 		progressDialog.setValue(i++);
-		Entry *entry = qVariantValue<Entry *>(index.data(ResultsList::EntryRole));
+		EntryPointer entry = qVariantValue<EntryPointer>(index.data(ResultsList::EntryRole));
 		entry->removeFromTraining();
 		update(index);
 	}
@@ -156,7 +156,7 @@ void ResultsView::markAsKnown()
 	foreach (const QModelIndex &index, selection) {
 		if (progressDialog.wasCanceled()) break;
 		progressDialog.setValue(i++);
-		Entry *entry = qVariantValue<Entry *>(index.data(ResultsList::EntryRole));
+		EntryPointer entry = qVariantValue<EntryPointer>(index.data(ResultsList::EntryRole));
 		if (!entry->alreadyKnown()) entry->setAlreadyKnown();
 		update(index);
 	}
@@ -175,7 +175,7 @@ void ResultsView::resetTraining()
 	foreach (const QModelIndex &index, selection) {
 		if (progressDialog.wasCanceled()) break;
 		progressDialog.setValue(i++);
-		Entry *entry = qVariantValue<Entry *>(index.data(ResultsList::EntryRole));
+		EntryPointer entry = qVariantValue<EntryPointer>(index.data(ResultsList::EntryRole));
 		entry->resetScore();
 		update(index);
 	}
@@ -184,9 +184,9 @@ void ResultsView::resetTraining()
 void ResultsView::setTags()
 {
 	QModelIndexList selection = selectionModel()->selectedIndexes();
-	QList<Entry *> entries;
+	QList<EntryPointer> entries;
 	for (int i = 0; i < selection.size(); i++)
-		entries << qVariantValue<Entry *>(selection[i].data(ResultsList::EntryRole));
+		entries << qVariantValue<EntryPointer>(selection[i].data(ResultsList::EntryRole));
 
 	TagsDialogs::setTagsDialog(entries, this);
 }
@@ -194,9 +194,9 @@ void ResultsView::setTags()
 void ResultsView::addTags()
 {
 	QModelIndexList selection = selectionModel()->selectedIndexes();
-	QList<Entry *> entries;
+	QList<EntryPointer> entries;
 	for (int i = 0; i < selection.size(); i++)
-		entries << qVariantValue<Entry *>(selection[i].data(ResultsList::EntryRole));
+		entries << qVariantValue<EntryPointer>(selection[i].data(ResultsList::EntryRole));
 
 	TagsDialogs::addTagsDialog(entries, this);
 }
@@ -204,9 +204,9 @@ void ResultsView::addTags()
 void ResultsView::addTags(const QStringList &tags)
 {
 	QModelIndexList selection = selectionModel()->selectedIndexes();
-	QList<Entry *> entries;
+	QList<EntryPointer> entries;
 	for (int i = 0; i < selection.size(); i++)
-		entries << qVariantValue<Entry *>(selection[i].data(ResultsList::EntryRole));
+		entries << qVariantValue<EntryPointer>(selection[i].data(ResultsList::EntryRole));
 
 	// Progress bar
 	QProgressDialog progressDialog(tr("Adding tags..."), tr("Abort"), 0, selection.size(), this);
@@ -214,7 +214,7 @@ void ResultsView::addTags(const QStringList &tags)
 	progressDialog.setWindowTitle(tr("Operation in progress..."));
 	progressDialog.setWindowModality(Qt::WindowModal);
 	int i = 0;
-	foreach (Entry *entry, entries) {
+	foreach (const EntryPointer &entry, entries) {
 		if (progressDialog.wasCanceled()) break;
 		progressDialog.setValue(i++);
 		entry->addTags(tags);
@@ -225,7 +225,7 @@ void ResultsView::addNote()
 {
 	QModelIndexList selection = selectionModel()->selectedIndexes();
 	if (selection.size() != 1) return;
-	Entry *entry = qVariantValue<Entry *>(selection[0].data(ResultsList::EntryRole));
+	EntryPointer entry = qVariantValue<EntryPointer >(selection[0].data(ResultsList::EntryRole));
 	EditEntryNotesDialog dialog(*entry, this);
 	dialog.exec();
 }

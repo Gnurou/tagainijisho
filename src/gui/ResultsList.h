@@ -57,7 +57,7 @@ public:
 
 	int rowCount(const QModelIndex &parent = QModelIndex()) const { return nbResults(); }
 	int nbResults() const { return entries.size(); }
-	const EntryPointer getEntry(int pos) const { return entries[pos]; }
+	ConstEntryPointer getEntry(int pos) const { return entries[pos]; }
 	QVariant data(const QModelIndex &index, int role) const;
 	QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
 

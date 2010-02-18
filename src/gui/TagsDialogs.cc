@@ -132,7 +132,7 @@ bool TagsDialogs::splitTagsString(const QString &string, QStringList &tagsList, 
 	return (invalidTags.isEmpty());
 }
 
-bool TagsDialogs::setTagsDialog(const QList<Entry *> entries, QWidget *parent)
+bool TagsDialogs::setTagsDialog(const QList<EntryPointer> &entries, QWidget *parent)
 {
 	QStringList split;
 	if (entries.isEmpty()) return false;
@@ -140,7 +140,7 @@ bool TagsDialogs::setTagsDialog(const QList<Entry *> entries, QWidget *parent)
 	foreach(const Tag &tag, entries[0]->tags()) split << tag.name();
 	bool identical = true;
 	for (int i = 1; i < entries.size(); i++) {
-		Entry *entry = entries[i];
+		EntryPointer entry = entries[i];
 		if (!identical) break;
 		const QSet<Tag> &tags = entry->tags();
 		if (tags.size() != split.size()) {
@@ -176,7 +176,7 @@ bool TagsDialogs::setTagsDialog(const QList<Entry *> entries, QWidget *parent)
 	progressDialog.setWindowTitle(tr("Operation in progress..."));
 	progressDialog.setWindowModality(Qt::WindowModal);
 	int i = 0;
-	foreach(Entry *entry, entries) {
+	foreach(const EntryPointer &entry, entries) {
 		if (progressDialog.wasCanceled()) break;
 		progressDialog.setValue(i++);
 		entry->setTags(split);
@@ -185,7 +185,7 @@ bool TagsDialogs::setTagsDialog(const QList<Entry *> entries, QWidget *parent)
 	return true;
 }
 
-bool TagsDialogs::addTagsDialog(const QList<Entry *> entries, QWidget *parent)
+bool TagsDialogs::addTagsDialog(const QList<EntryPointer> &entries, QWidget *parent)
 {
 	QStringList invalidTags;
 	QStringList split;
@@ -210,7 +210,7 @@ bool TagsDialogs::addTagsDialog(const QList<Entry *> entries, QWidget *parent)
 	progressDialog.setWindowTitle(tr("Operation in progress..."));
 	progressDialog.setWindowModality(Qt::WindowModal);
 	int i = 0;
-	foreach(Entry *entry, entries) {
+	foreach(const EntryPointer &entry, entries) {
 		if (progressDialog.wasCanceled()) break;
 		progressDialog.setValue(i++);
 		entry->addTags(split);
