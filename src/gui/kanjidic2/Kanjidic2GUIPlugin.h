@@ -32,7 +32,7 @@ class Kanjidic2EntryFormatter;
 class KanjiLinkHandler;
 class KanjiAllWordsHandler;
 class KanjiAllComponentsOfHandler;
-class Kanjidic2OptionsWidget;
+class Kanjidic2FilterWidget;
 
 class Kanjidic2GUIPlugin : public QObject, public Plugin
 {
@@ -43,7 +43,7 @@ private:
 	KanjiLinkHandler *_linkHandler;
 	KanjiAllWordsHandler *_wordsLinkHandler;
 	KanjiAllComponentsOfHandler *_componentsLinkHandler;
-	Kanjidic2OptionsWidget *_filter;
+	Kanjidic2FilterWidget *_filter;
 	YesNoTrainer *_trainer;
 	ReadingTrainer *_readingTrainer;
 	ComponentSearchButton * _cButton;
@@ -100,7 +100,7 @@ public:
 	void handleUrl(const QUrl &url, DetailedView *view);
 };
 
-class Kanjidic2OptionsWidget : public SearchFilterWidget
+class Kanjidic2FilterWidget : public SearchFilterWidget
 {
 	Q_OBJECT
 private:
@@ -119,7 +119,7 @@ protected:
 	virtual void _reset();
 
 public:
-	Kanjidic2OptionsWidget(QWidget *parent = 0);
+	Kanjidic2FilterWidget(QWidget *parent = 0);
 	virtual QString name() const { return "kanjidicoptions"; }
 	virtual QString currentTitle() const;
 	virtual QString currentCommand() const;

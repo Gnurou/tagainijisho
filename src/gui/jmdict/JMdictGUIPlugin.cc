@@ -74,7 +74,7 @@ bool JMdictGUIPlugin::onRegister()
 	connect(_flashTS, SIGNAL(triggered()), this, SLOT(trainingTranslationSet()));
 
 	// Add the search extender
-	_filter = new JMdictOptionsWidget(0);
+	_filter = new JMdictFilterWidget(0);
 	mainWindow->addSearchFilter(_filter);
 
 	// Add the preference panel
@@ -129,7 +129,7 @@ void JMdictLinkHandler::handleUrl(const QUrl &url, DetailedView *view)
 	QToolTip::showText(QCursor::pos(), translated.replace(0, 1, translated[0].toUpper()), 0, QRect());
 }
 
-void JMdictOptionsWidget::updateMiscFilteredProperties()
+void JMdictFilterWidget::updateMiscFilteredProperties()
 {
 	const QStringList &filtered(JMdictEntrySearcher::miscPropertiesFilter.value().split(','));
 	QFont normalFont;
@@ -142,7 +142,7 @@ void JMdictOptionsWidget::updateMiscFilteredProperties()
 	}
 }
 
-QActionGroup *JMdictOptionsWidget::addCheckableProperties(const QVector<QPair<QString, QString> >&defs, QMenu *menu)
+QActionGroup *JMdictFilterWidget::addCheckableProperties(const QVector<QPair<QString, QString> >&defs, QMenu *menu)
 {
 	QList<QString> strList;
 	for (int i = 0; i < defs.size(); i++) {
@@ -229,7 +229,7 @@ void JMdictGUIPlugin::trainerDeleted()
 	_trainer = 0;
 }
 
-JMdictOptionsWidget::JMdictOptionsWidget(QWidget *parent) : SearchFilterWidget(parent, "wordsdic")
+JMdictFilterWidget::JMdictFilterWidget(QWidget *parent) : SearchFilterWidget(parent, "wordsdic")
 {
 	_propsToSave << "containedKanjis" << "containedComponents" << "studiedKanjisOnly" << "pos" << "dial" << "field" << "misc";
 	QVBoxLayout *mainLayout = new QVBoxLayout(this);
@@ -292,7 +292,7 @@ JMdictOptionsWidget::JMdictOptionsWidget(QWidget *parent) : SearchFilterWidget(p
 	mainLayout->setContentsMargins(0, 0, 0, 0);
 }
 
-QString JMdictOptionsWidget::currentCommand() const
+QString JMdictFilterWidget::currentCommand() const
 {
 	QString ret;
 	QString kanjis = _containedKanjis->text();
@@ -323,7 +323,7 @@ QString JMdictOptionsWidget::currentCommand() const
 	return ret;
 }
 
-QString JMdictOptionsWidget::currentTitle() const
+QString JMdictFilterWidget::currentTitle() const
 {
 	QString contains;
 	QString kanjis = _containedKanjis->text();
@@ -361,7 +361,7 @@ QString JMdictOptionsWidget::currentTitle() const
 	return ret;
 }
 
-void JMdictOptionsWidget::onPosTriggered(QAction *action)
+void JMdictFilterWidget::onPosTriggered(QAction *action)
 {
 	if (action->isChecked()) {
 		int propertyIndex = action->property("TJpropertyIndex").toInt();
@@ -376,7 +376,7 @@ void JMdictOptionsWidget::onPosTriggered(QAction *action)
 	commandUpdate();
 }
 
-void JMdictOptionsWidget::onDialTriggered(QAction *action)
+void JMdictFilterWidget::onDialTriggered(QAction *action)
 {
 	if (action->isChecked()) {
 		int propertyIndex = action->property("TJpropertyIndex").toInt();
@@ -391,7 +391,7 @@ void JMdictOptionsWidget::onDialTriggered(QAction *action)
 	commandUpdate();
 }
 
-void JMdictOptionsWidget::onFieldTriggered(QAction *action)
+void JMdictFilterWidget::onFieldTriggered(QAction *action)
 {
 	if (action->isChecked()) {
 		int propertyIndex = action->property("TJpropertyIndex").toInt();
@@ -406,7 +406,7 @@ void JMdictOptionsWidget::onFieldTriggered(QAction *action)
 	emit commandUpdate();
 }
 
-void JMdictOptionsWidget::onMiscTriggered(QAction *action)
+void JMdictFilterWidget::onMiscTriggered(QAction *action)
 {
 	if (action->isChecked()) {
 		int propertyIndex = action->property("TJpropertyIndex").toInt();
@@ -421,7 +421,7 @@ void JMdictOptionsWidget::onMiscTriggered(QAction *action)
 	emit commandUpdate();
 }
 
-void JMdictOptionsWidget::_reset()
+void JMdictFilterWidget::_reset()
 {
 	_containedKanjis->clear();
 	_containedComponents->clear();
@@ -436,13 +436,13 @@ void JMdictOptionsWidget::_reset()
 	_miscList.clear();
 }
 
-void JMdictOptionsWidget::updateFeatures()
+void JMdictFilterWidget::updateFeatures()
 {
 	if (!_containedKanjis->text().isEmpty() || !_containedComponents->text().isEmpty() || _studiedKanjisCheckBox->isChecked() || !_posList.isEmpty() || !_dialList.isEmpty() || !_fieldList.isEmpty() || !_miscList.isEmpty()) emit disableFeature("kanjidic");
 	else emit enableFeature("kanjidic");
 }
 
-void JMdictOptionsWidget::setPos(const QStringList &list)
+void JMdictFilterWidget::setPos(const QStringList &list)
 {
 	_posList.clear();
 	foreach(QAction *action, _posButton->menu()->actions()) {
@@ -452,7 +452,7 @@ void JMdictOptionsWidget::setPos(const QStringList &list)
 	}
 }
 
-void JMdictOptionsWidget::setDial(const QStringList &list)
+void JMdictFilterWidget::setDial(const QStringList &list)
 {
 	_dialList.clear();
 	foreach(QAction *action, _dialButton->menu()->actions()) {
@@ -462,7 +462,7 @@ void JMdictOptionsWidget::setDial(const QStringList &list)
 	}
 }
 
-void JMdictOptionsWidget::setField(const QStringList &list)
+void JMdictFilterWidget::setField(const QStringList &list)
 {
 	_fieldList.clear();
 	foreach(QAction *action, _fieldButton->menu()->actions()) {
@@ -472,7 +472,7 @@ void JMdictOptionsWidget::setField(const QStringList &list)
 	}
 }
 
-void JMdictOptionsWidget::setMisc(const QStringList &list)
+void JMdictFilterWidget::setMisc(const QStringList &list)
 {
 	_miscList.clear();
 	foreach(QAction *action, _miscButton->menu()->actions()) {

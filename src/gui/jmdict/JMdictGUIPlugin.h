@@ -31,7 +31,7 @@
 
 class JMdictEntryFormatter;
 class JMdictLinkHandler;
-class JMdictOptionsWidget;
+class JMdictFilterWidget;
 
 class JMdictGUIPlugin : public QObject, public Plugin
 {
@@ -40,7 +40,7 @@ private:
 	JMdictEntryFormatter *_formatter;
 	QAction *_flashJL, *_flashJS, *_flashTL, *_flashTS;
 	JMdictLinkHandler *_linkhandler;
-	JMdictOptionsWidget *_filter;
+	JMdictFilterWidget *_filter;
 	JMdictYesNoTrainer *_trainer;
 
 	void training(YesNoTrainer::TrainingMode mode, const QString &queryString);
@@ -70,7 +70,7 @@ public:
 	void handleUrl(const QUrl &url, DetailedView *view);
 };
 
-class JMdictOptionsWidget : public SearchFilterWidget
+class JMdictFilterWidget : public SearchFilterWidget
 {
 	Q_OBJECT
 private:
@@ -95,7 +95,7 @@ protected slots:
 	void updateMiscFilteredProperties();
 
 public:
-	JMdictOptionsWidget(QWidget *parent = 0);
+	JMdictFilterWidget(QWidget *parent = 0);
 	virtual QString name() const { return "jmdictoptions"; }
 	virtual QString currentTitle() const;
 	virtual QString currentCommand() const;

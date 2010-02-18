@@ -103,7 +103,7 @@ bool Kanjidic2GUIPlugin::onRegister()
 	toolBar->addWidget(_cButton);
 
 	// Register the searchbar extender
-	_filter = new Kanjidic2OptionsWidget(0);
+	_filter = new Kanjidic2FilterWidget(0);
 	mainWindow->addSearchFilter(_filter);
 
 	// Register the detailed view event filter
@@ -405,7 +405,7 @@ void KanjiAllWordsHandler::handleUrl(const QUrl &url, DetailedView *view)
 {
 	MainWindow *mainWindow = MainWindow::instance();
 	EntryTypeFilterWidget *entryType = qobject_cast<EntryTypeFilterWidget *>(mainWindow->getSearchFilter("entrytypeselector"));
-	JMdictOptionsWidget *extender = qobject_cast<JMdictOptionsWidget *>(mainWindow->getSearchFilter("jmdictoptions"));
+	JMdictFilterWidget *extender = qobject_cast<JMdictFilterWidget *>(mainWindow->getSearchFilter("jmdictoptions"));
 	if (!entryType || !extender) return;
 
 	if (url.hasQueryItem("reset")) mainWindow->searchBuilder()->reset();
@@ -426,7 +426,7 @@ void KanjiAllComponentsOfHandler::handleUrl(const QUrl &url, DetailedView *view)
 {
 	MainWindow *mainWindow = MainWindow::instance();
 	EntryTypeFilterWidget *entryType = qobject_cast<EntryTypeFilterWidget *>(mainWindow->getSearchFilter("entrytypeselector"));
-	Kanjidic2OptionsWidget *extender = qobject_cast<Kanjidic2OptionsWidget *>(mainWindow->getSearchFilter("kanjidicoptions"));
+	Kanjidic2FilterWidget *extender = qobject_cast<Kanjidic2FilterWidget *>(mainWindow->getSearchFilter("kanjidicoptions"));
 	if (!entryType || !extender) return;
 
 	if (url.hasQueryItem("reset")) mainWindow->searchBuilder()->reset();
@@ -454,7 +454,7 @@ static void prepareFourCornerComboBox(QComboBox *box)
 	box->addItem(QString::fromUtf8("小"));
 }
 
-Kanjidic2OptionsWidget::Kanjidic2OptionsWidget(QWidget *parent) : SearchFilterWidget(parent, "kanjidic")
+Kanjidic2FilterWidget::Kanjidic2FilterWidget(QWidget *parent) : SearchFilterWidget(parent, "kanjidic")
 {
 	_propsToSave << "strokeCount" << "components" << "unicode" << "skip" << "fourCorner" << "grades";
 
@@ -569,7 +569,7 @@ Kanjidic2OptionsWidget::Kanjidic2OptionsWidget(QWidget *parent) : SearchFilterWi
 	mainLayout->setContentsMargins(0, 0, 0, 0);
 }
 
-void Kanjidic2OptionsWidget::allKyoukuKanjis(bool checked)
+void Kanjidic2FilterWidget::allKyoukuKanjis(bool checked)
 {
 	bool prevStatus = allJouyou->blockSignals(true);
 	allJouyou->setChecked(false);
@@ -587,7 +587,7 @@ void Kanjidic2OptionsWidget::allKyoukuKanjis(bool checked)
 	commandUpdate();
 }
 
-void Kanjidic2OptionsWidget::allJouyouKanjis(bool checked)
+void Kanjidic2FilterWidget::allJouyouKanjis(bool checked)
 {
 	bool prevStatus = allKyouku->blockSignals(true);
 	allKyouku->setChecked(false);
@@ -605,7 +605,7 @@ void Kanjidic2OptionsWidget::allJouyouKanjis(bool checked)
 	commandUpdate();
 }
 
-QString Kanjidic2OptionsWidget::currentCommand() const
+QString Kanjidic2FilterWidget::currentCommand() const
 {
 	QString ret;
 
@@ -629,7 +629,7 @@ QString Kanjidic2OptionsWidget::currentCommand() const
 	return ret;
 }
 
-QString Kanjidic2OptionsWidget::currentTitle() const
+QString Kanjidic2FilterWidget::currentTitle() const
 {
 	QString ret;
 
@@ -657,7 +657,7 @@ QString Kanjidic2OptionsWidget::currentTitle() const
 	return ret;
 }
 
-void Kanjidic2OptionsWidget::onGradeTriggered(QAction *action)
+void Kanjidic2FilterWidget::onGradeTriggered(QAction *action)
 {
 	if (action->isChecked()) {
 		int grade = action->property("Agrade").toInt();
@@ -671,13 +671,13 @@ void Kanjidic2OptionsWidget::onGradeTriggered(QAction *action)
 	commandUpdate();
 }
 
-void Kanjidic2OptionsWidget::updateFeatures()
+void Kanjidic2FilterWidget::updateFeatures()
 {
 	if (_strokeCountSpinBox->value() || !_components->text().isEmpty() || !_gradesList.isEmpty() || _unicode->value() ||_skip1->value() || _skip2->value() || _skip3->value()) emit disableFeature("wordsdic");
 	else emit enableFeature("wordsdic");
 }
 
-void Kanjidic2OptionsWidget::_reset()
+void Kanjidic2FilterWidget::_reset()
 {
 	_strokeCountSpinBox->setValue(0);
 	_unicode->setValue(0);
@@ -694,7 +694,7 @@ void Kanjidic2OptionsWidget::_reset()
 	_components->clear();
 }
 
-void Kanjidic2OptionsWidget::setGrades(const QStringList &list)
+void Kanjidic2FilterWidget::setGrades(const QStringList &list)
 {
 	_gradesList.clear();
 	foreach(QAction *action, _gradeButton->menu()->actions()) {
@@ -703,12 +703,12 @@ void Kanjidic2OptionsWidget::setGrades(const QStringList &list)
 	}
 }
 
-QString Kanjidic2OptionsWidget::skip() const
+QString Kanjidic2FilterWidget::skip() const
 {
 	return QString("%1-%2-%3").arg(_skip1->value() ? QString::number(_skip1->value()) : "?").arg(_skip2->value() ? QString::number(_skip2->value()) : "?").arg(_skip3->value() ? QString::number(_skip3->value()) : "?");
 }
 
-void Kanjidic2OptionsWidget::setSkip(const QString &value)
+void Kanjidic2FilterWidget::setSkip(const QString &value)
 {
 	QStringList skipList(value.split('-'));
 	if (skipList.size() != 3) return;
@@ -722,7 +722,7 @@ void Kanjidic2OptionsWidget::setSkip(const QString &value)
 	_skip3->setValue(c2);
 }
 
-QString Kanjidic2OptionsWidget::fourCorner() const
+QString Kanjidic2FilterWidget::fourCorner() const
 {
 	return QString("%1%2%3%4.%5").arg(_fcTopLeft->currentIndex() > 0 ? QString::number(_fcTopLeft->currentIndex() - 1) : "?")
 		.arg(_fcTopRight->currentIndex() > 0 ? QString::number(_fcTopRight->currentIndex() - 1) : "?")
@@ -731,7 +731,7 @@ QString Kanjidic2OptionsWidget::fourCorner() const
 		.arg(_fcExtra->currentIndex() > 0 ? QString::number(_fcExtra->currentIndex() - 1) : "?");
 }
 
-void Kanjidic2OptionsWidget::setFourCorner(const QString &value)
+void Kanjidic2FilterWidget::setFourCorner(const QString &value)
 {
 	// Sanity check
 	if (value.size() != 6 || value[4] != '.') return;
