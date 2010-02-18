@@ -165,6 +165,7 @@ public:
 	static PreferenceItem<QDateTime> lastUpdateCheck;
 	static PreferenceItem<int> historySize;
 	
+	SearchBuilder *searchBuilder() { return &_searchBuilder; }
 	ResultsList *resultsList() { return _results; }
 	ResultsView *resultsView() { return _resultsView->resultsView(); }
 	DetailedView *detailedView() { return _detailedView->detailedView(); }

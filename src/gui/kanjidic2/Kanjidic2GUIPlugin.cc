@@ -22,6 +22,7 @@
 #include "gui/kanjidic2/Kanjidic2EntryFormatter.h"
 #include "gui/kanjidic2/KanjiPopup.h"
 #include "gui/MainWindow.h"
+#include "gui/EntryTypeFilterWidget.h"
 #include "gui/kanjidic2/Kanjidic2Preferences.h"
 #include "gui/kanjidic2/Kanjidic2GUIPlugin.h"
 // TODO BAD - dependency against JMdict!
@@ -402,19 +403,19 @@ KanjiAllWordsHandler::KanjiAllWordsHandler() : DetailedViewLinkHandler("allwords
 
 void KanjiAllWordsHandler::handleUrl(const QUrl &url, DetailedView *view)
 {
-	/*SearchBar *searchBar = MainWindow::instance()->searchBar();
-	EntryTypeSelectionWidget *entryType = qobject_cast<EntryTypeSelectionWidget *>(searchBar->getExtender("entrytypeselector"));
-	JMdictOptionsWidget *extender = qobject_cast<JMdictOptionsWidget *>(searchBar->getExtender("jmdictoptions"));
+	MainWindow *mainWindow = MainWindow::instance();
+	EntryTypeFilterWidget *entryType = qobject_cast<EntryTypeFilterWidget *>(mainWindow->getSearchFilter("entrytypeselector"));
+	JMdictOptionsWidget *extender = qobject_cast<JMdictOptionsWidget *>(mainWindow->getSearchFilter("jmdictoptions"));
 	if (!entryType || !extender) return;
 
-//	searchBar->reset();
+	if (url.hasQueryItem("reset")) mainWindow->searchBuilder()->reset();
 	entryType->setAutoUpdateQuery(false);
-	entryType->setType(EntryTypeSelectionWidget::Vocabulary);
+	entryType->setType(EntryTypeFilterWidget::Vocabulary);
 	entryType->setAutoUpdateQuery(true);
 	extender->setAutoUpdateQuery(false);
 	extender->setContainedKanjis(url.queryItemValue("kanji"));
 	extender->setAutoUpdateQuery(true);
-	searchBar->search();*/
+	mainWindow->searchBuilder()->runSearch();
 }
 
 KanjiAllComponentsOfHandler::KanjiAllComponentsOfHandler() : DetailedViewLinkHandler("component")
@@ -423,19 +424,19 @@ KanjiAllComponentsOfHandler::KanjiAllComponentsOfHandler() : DetailedViewLinkHan
 
 void KanjiAllComponentsOfHandler::handleUrl(const QUrl &url, DetailedView *view)
 {
-	/*SearchBar *searchBar = MainWindow::instance()->searchBar();
-	EntryTypeSelectionWidget *entryType = qobject_cast<EntryTypeSelectionWidget *>(searchBar->getExtender("entrytypeselector"));
-	Kanjidic2OptionsWidget *extender = qobject_cast<Kanjidic2OptionsWidget *>(searchBar->getExtender("kanjidicoptions"));
+	MainWindow *mainWindow = MainWindow::instance();
+	EntryTypeFilterWidget *entryType = qobject_cast<EntryTypeFilterWidget *>(mainWindow->getSearchFilter("entrytypeselector"));
+	Kanjidic2OptionsWidget *extender = qobject_cast<Kanjidic2OptionsWidget *>(mainWindow->getSearchFilter("kanjidicoptions"));
 	if (!entryType || !extender) return;
 
-//	searchBar->reset();
+	if (url.hasQueryItem("reset")) mainWindow->searchBuilder()->reset();
 	entryType->setAutoUpdateQuery(false);
-	entryType->setType(EntryTypeSelectionWidget::Kanjis);
+	entryType->setType(EntryTypeFilterWidget::Kanjis);
 	entryType->setAutoUpdateQuery(true);
 	extender->setAutoUpdateQuery(false);
 	extender->setComponents(url.queryItemValue("kanji"));
 	extender->setAutoUpdateQuery(true);
-	searchBar->search();*/
+	mainWindow->searchBuilder()->runSearch();
 }
 
 static void prepareFourCornerComboBox(QComboBox *box)

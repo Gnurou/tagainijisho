@@ -588,10 +588,17 @@ void ShowUsedInKanjiJob::completed()
 	linkFormat.setFontUnderline(true);
 	linkFormat.setForeground(Qt::blue);
 	linkFormat.setAnchor(true);
+	linkFormat.setAnchorHref(QString("component:?reset=true&kanji=%1").arg(_kanji));
+	linkFormat.setToolTip(tr("Make a new search using only this filter"));
+	_cursor.setCharFormat(linkFormat);
+	_cursor.insertText(tr("All compounds"));
+	_cursor.setCharFormat(normal);
+	_cursor.insertText(" ");
 	linkFormat.setAnchorHref(QString("component:?kanji=%1").arg(_kanji));
-	cursor.setCharFormat(linkFormat);
-	cursor.insertText(tr("(All compounds)"));
-	cursor.setCharFormat(normal);
+	linkFormat.setToolTip(tr("Add this filter to the current search"));
+	_cursor.setCharFormat(linkFormat);
+	_cursor.insertText(tr("(+)"));
+	_cursor.setCharFormat(normal);
 }
 
 ShowUsedInWordsJob::ShowUsedInWordsJob(const QString &kanji, const QTextCursor &cursor) :
@@ -641,8 +648,15 @@ void ShowUsedInWordsJob::completed()
 	linkFormat.setFontUnderline(true);
 	linkFormat.setForeground(Qt::blue);
 	linkFormat.setAnchor(true);
-	linkFormat.setAnchorHref(QString("allwords:?kanji=%1").arg(_kanji));
+	linkFormat.setAnchorHref(QString("allwords:?reset=true&kanji=%1").arg(_kanji));
+	linkFormat.setToolTip(tr("Make a new search using only this filter"));
 	_cursor.setCharFormat(linkFormat);
-	_cursor.insertText(tr("Find all words using this kanji"));
+	_cursor.insertText(tr("All words using this kanji"));
+	_cursor.setCharFormat(normal);
+	_cursor.insertText(" ");
+	linkFormat.setAnchorHref(QString("allwords:?kanji=%1").arg(_kanji));
+	linkFormat.setToolTip(tr("Add this filter to the current search"));
+	_cursor.setCharFormat(linkFormat);
+	_cursor.insertText(tr("(+)"));
 	_cursor.setCharFormat(normal);
 }
