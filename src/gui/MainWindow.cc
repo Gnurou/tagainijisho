@@ -324,7 +324,7 @@ void MainWindow::prepareAndPrintJob(QPrinter *printer, const QFont *font)
 		QPainter picPainter(&tPicture);
 		const EntryFormatter *formatter(EntryFormatter::getFormatter(entry));
 		if (!formatter) continue;
-		formatter->draw(entry.data(), picPainter, pageRect, usedSpace, *font);
+		formatter->draw(entry, picPainter, pageRect, usedSpace, *font);
 		if (!pageRect.contains(usedSpace)) {
 			qDebug() << "Warning: entry does not fit on whole page, giving up this one...";
 			continue;

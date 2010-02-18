@@ -18,7 +18,7 @@
 #ifndef __CORE_KANJIDIC2_ENTRY
 #define __CORE_KANJIDIC2_ENTRY
 
-#include "core/Entry.h"
+#include "core/EntriesCache.h"
 
 #include <QStack>
 
@@ -185,5 +185,10 @@ public:
 
 	friend class Kanjidic2EntrySearcher;
 };
+
+typedef QSharedPointer<Kanjidic2Entry> Kanjidic2EntryPointer;
+Q_DECLARE_METATYPE(Kanjidic2EntryPointer)
+typedef QSharedPointer<const Kanjidic2Entry> ConstKanjidic2EntryPointer;
+Q_DECLARE_METATYPE(ConstKanjidic2EntryPointer)
 
 #endif

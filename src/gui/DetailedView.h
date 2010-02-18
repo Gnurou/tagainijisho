@@ -257,15 +257,11 @@ protected slots:
 	 * If update is true, then the entry is redisplayed
 	 * regardless of whether it is the same as before.
 	 */
-	virtual void _display(Entry *entry, bool update = false);
+	virtual void _display(const EntryPointer &entry, bool update = false);
 
 public slots:
 	/// Display an entry, updating the history.
-	void display(EntryPointer entry);
-	/// This version is more dangerous to use - only use if you are sure to
-	/// keep a reference to the entry!
-	/// TODO remove at all!
-	void display(Entry *entry);
+	void display(const EntryPointer& entry);
 	/// Redraw the current entry, if any.
 	void redisplay();
 	/// Clear the display (keep history)
@@ -280,7 +276,7 @@ public slots:
 	 *
 	 * Note that the history is not updated by this function.
 	 */
-	void setEntry(Entry *entry) { entryView.setEntry(entry); }
+	void setEntry(const EntryPointer &entry) { entryView.setEntry(entry); }
 };
 
 #endif

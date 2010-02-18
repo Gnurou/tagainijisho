@@ -89,7 +89,7 @@ void YesNoTrainer::setQuery(QString queryString)
 
 void YesNoTrainer::clear()
 {
-	currentEntry = 0;
+	currentEntry = EntryPointer();
 	_detailedView->detailedView()->clear();
 	showAnswerButton->setEnabled(false);
 	goodAnswerButton->setEnabled(false);
@@ -102,7 +102,7 @@ void YesNoTrainer::_train()
 	if (!_query.next()) hasResults(0);
 	else {
 		EntryPointer entry = EntriesCache::get(_query.value(0).toInt(), (_query.value(1).toInt()));
-		train(entry.data());
+		train(entry);
 	}
 }
 
@@ -112,7 +112,7 @@ void YesNoTrainer::train()
 	_train();
 }
 
-void YesNoTrainer::train(Entry *entry)
+void YesNoTrainer::train(const EntryPointer &entry)
 {
 	clear();
 	_counterLabel->setText(tr("Correct: %1, Wrong: %2, Total: %3").arg(_goodCount).arg(_wrongCount).arg(_totalCount));
@@ -149,7 +149,7 @@ void YesNoTrainer::showAnswer()
 	showAnswerButton->setEnabled(false);
 	goodAnswerButton->setEnabled(true);
 	wrongAnswerButton->setEnabled(true);
-	_detailedView->detailedView()->display(currentEntry.data());
+	_detailedView->detailedView()->display(currentEntry);
 }
 
 void YesNoTrainer::hasResults(unsigned int nbResults)
@@ -175,7 +175,7 @@ void YesNoTrainer::goodAnswer()
 void YesNoTrainer::wrongAnswer()
 {
 	// Needed to avoid redrawing everything before clearing because of the updated() signal of the entry
-	_detailedView->detailedView()->setEntry(0);
+	_detailedView->detailedView()->setEntry(EntryPointer());
 	currentEntry->train(false);
 	_wrongCount++; _totalCount++;
 	getNextEntry();

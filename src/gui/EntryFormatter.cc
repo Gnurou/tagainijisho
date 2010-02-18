@@ -46,7 +46,7 @@ bool EntryFormatter::removeFormatter(const int entryType)
 	return true;
 }
 
-void EntryFormatter::writeUserData(const Entry *entry, QTextCursor &cursor, DetailedView *view) const
+void EntryFormatter::writeUserData(const ConstEntryPointer& entry, QTextCursor& cursor, DetailedView* view) const
 {
 	QTextCharFormat normal(DetailedViewFonts::charFormat(DetailedViewFonts::DefaultText));
 	QTextCharFormat bold(normal);
@@ -121,7 +121,7 @@ void EntryFormatter::writeUserData(const Entry *entry, QTextCursor &cursor, Deta
 	}
 }
 
-void EntryFormatter::detailedVersion(const Entry *entry, QTextCursor &cursor, DetailedView *view) const
+void EntryFormatter::detailedVersion(const ConstEntryPointer &entry, QTextCursor &cursor, DetailedView *view) const
 {
 	_detailedVersion(entry, cursor, view);
 
@@ -132,7 +132,7 @@ void EntryFormatter::detailedVersion(const Entry *entry, QTextCursor &cursor, De
 	cursor.insertBlock(QTextBlockFormat());
 }
 
-void EntryFormatter::autoFormat(const Entry *entry, const QString &str, QTextCursor &cursor, const QTextCharFormat &mergeWith) const
+void EntryFormatter::autoFormat(const ConstEntryPointer& entry, const QString& str, QTextCursor& cursor, const QTextCharFormat& mergeWith) const
 {
 	if (str.isEmpty()) return;
 
@@ -169,7 +169,7 @@ void EntryFormatter::autoFormat(const Entry *entry, const QString &str, QTextCur
 	cursor.setCharFormat(saveFormat);
 }
 
-void EntryFormatter::drawInfo(const Entry *entry, QPainter &painter, QRectF &rectangle, const QFont &textFont) const
+void EntryFormatter::drawInfo(const ConstEntryPointer &entry, QPainter &painter, QRectF &rectangle, const QFont &textFont) const
 {
 	// Draw notes
 	if (!entry->notes().isEmpty()) {
@@ -185,7 +185,7 @@ void EntryFormatter::drawInfo(const Entry *entry, QPainter &painter, QRectF &rec
 	}
 }
 
-void EntryFormatter::draw(const Entry *entry, QPainter &painter, const QRectF &rectangle, QRectF &usedSpace, const QFont &textFont) const
+void EntryFormatter::draw(const ConstEntryPointer& entry, QPainter& painter, const QRectF& rectangle, QRectF& usedSpace, const QFont& textFont) const
 {
 	painter.save();
 
@@ -197,7 +197,7 @@ void EntryFormatter::draw(const Entry *entry, QPainter &painter, const QRectF &r
 	painter.restore();
 }
 
-void EntryFormatter::writeEntryTitle(const Entry *entry, QTextCursor &cursor) const
+void EntryFormatter::writeEntryTitle(const ConstEntryPointer& entry, QTextCursor& cursor) const
 {
 	QTextCharFormat scoreFormat;
 	if (entry->trained()) {

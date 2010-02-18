@@ -45,8 +45,7 @@ Kanjidic2Preferences::Kanjidic2Preferences(QWidget *parent) : PreferencesWindowC
 
 	_player = new KanjiPlayer(animationTab);
 	_player->setPictureSize(KanjiPopup::animationSize.value());
-	_previewEntry = EntriesCache::get(KANJIDIC2ENTRY_GLOBALID, 0x9593);
-	previewEntry = static_cast<const Kanjidic2Entry *>(_previewEntry.data());
+	previewEntry = EntriesCache::get(KANJIDIC2ENTRY_GLOBALID, 0x9593).objectCast<const Kanjidic2Entry>();
 	_player->setKanji(previewEntry);
 	connect(animSpeedSlider, SIGNAL(valueChanged(int)), _player, SLOT(setAnimationSpeed(int)));
 	connect(animDelaySlider, SIGNAL(valueChanged(int)), _player, SLOT(setDelayBetweenStrokes(int)));

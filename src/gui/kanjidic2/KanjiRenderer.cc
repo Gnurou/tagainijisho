@@ -140,12 +140,12 @@ KanjiRenderer::KanjiRenderer() : _kanji(0)
 {
 }
 
-KanjiRenderer::KanjiRenderer(const Kanjidic2Entry *kanji)
+KanjiRenderer::KanjiRenderer(ConstKanjidic2EntryPointer kanji)
 {
 	setKanji(kanji);
 }
 
-void KanjiRenderer::setKanji(const Kanjidic2Entry *kanji)
+void KanjiRenderer::setKanji(ConstKanjidic2EntryPointer kanji)
 {
 	_kanji = kanji;
 	_strokes.clear();

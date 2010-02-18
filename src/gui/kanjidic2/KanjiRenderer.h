@@ -59,7 +59,7 @@ public:
 	};
 
 private:
-	ConstEntryPointer _kanji;
+	ConstKanjidic2EntryPointer _kanji;
 	// Keep all the strokes in order
 	QList<Stroke> _strokes;
 	// Associates the kanji strokes with their path
@@ -67,10 +67,10 @@ private:
 
 public:
 	KanjiRenderer();
-	KanjiRenderer(const Kanjidic2Entry *kanji);
-	void setKanji(const Kanjidic2Entry *kanji);
+	KanjiRenderer(ConstKanjidic2EntryPointer kanji);
+	void setKanji(ConstKanjidic2EntryPointer kanji);
 
-	const Kanjidic2Entry *kanji() { return static_cast<const Kanjidic2Entry *>(_kanji.constData()); }
+	const ConstKanjidic2EntryPointer &kanji() { return _kanji; }
 
 	/**
 	 * Render all the strokes of the kanji.

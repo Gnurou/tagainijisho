@@ -27,7 +27,7 @@ class JMdictEntryFormatter : public EntryFormatter
 {
 Q_DECLARE_TR_FUNCTIONS(JMdictEntryFormatter)
 protected:
-	virtual void _detailedVersion(const Entry *entry, QTextCursor &cursor, DetailedView *view) const;
+	virtual void _detailedVersion(const ConstEntryPointer &entry, QTextCursor &cursor, DetailedView *view) const;
 
 public:
 	JMdictEntryFormatter();
@@ -38,17 +38,17 @@ public:
 	 */
 	void writeSensePos(const Sense &sense, QTextCursor &cursor) const;
 
-	void writeKanaHeader(const JMdictEntry *entry, QTextCursor &cursor, DetailedView *view) const;
-	void writeKanjiHeader(const JMdictEntry *entry, QTextCursor &cursor, DetailedView *view) const;
-	void writeJapanese(const JMdictEntry *entry, QTextCursor &cursor, DetailedView *view) const;
-	void writeTranslation(const JMdictEntry *entry, QTextCursor &cursor, DetailedView *view) const;
-	void writeEntryInfo(const JMdictEntry *entry, QTextCursor &cursor, DetailedView *view) const;
+	void writeKanaHeader(const ConstJMdictEntryPointer &entry, QTextCursor &cursor, DetailedView *view) const;
+	void writeKanjiHeader(const ConstJMdictEntryPointer &entry, QTextCursor &cursor, DetailedView *view) const;
+	void writeJapanese(const ConstJMdictEntryPointer &entry, QTextCursor& cursor, DetailedView* view) const;
+	void writeTranslation(const ConstJMdictEntryPointer &entry, QTextCursor &cursor, DetailedView *view) const;
+	void writeEntryInfo(const ConstJMdictEntryPointer &entry, QTextCursor &cursor, DetailedView *view) const;
 
-	virtual void writeShortDesc(const Entry *entry, QTextCursor &cursor) const;
-	virtual void detailedVersionPart1(const Entry *entry, QTextCursor &cursor, DetailedView *view) const;
-	virtual void detailedVersionPart2(const Entry *entry, QTextCursor &cursor, DetailedView *view) const;
-	virtual void draw(const Entry *entry, QPainter &painter, const QRectF &rectangle, QRectF &usedSpace, const QFont &textFont = QFont()) const { drawCustom(entry, painter, rectangle, usedSpace, textFont); }
-	void drawCustom(const Entry *entry, QPainter &painter, const QRectF &rectangle, QRectF &usedSpace, const QFont &textFont = QFont(), int headerPrintSize = JMdictEntryFormatter::headerPrintSize.defaultValue(), bool printKanjis = JMdictEntryFormatter::printKanjis.defaultValue(), bool printOnlyStudiedKanjis = JMdictEntryFormatter::printOnlyStudiedKanjis.defaultValue(), int maxDefinitionsToPrint = JMdictEntryFormatter::maxDefinitionsToPrint.defaultValue()) const;
+	virtual void writeShortDesc(const ConstEntryPointer &entry, QTextCursor &cursor) const;
+	virtual void detailedVersionPart1(const ConstEntryPointer &entry, QTextCursor &cursor, DetailedView *view) const;
+	virtual void detailedVersionPart2(const ConstEntryPointer &entry, QTextCursor &cursor, DetailedView *view) const;
+	virtual void draw(const ConstEntryPointer &entry, QPainter &painter, const QRectF &rectangle, QRectF &usedSpace, const QFont &textFont = QFont()) const { drawCustom(entry, painter, rectangle, usedSpace, textFont); }
+	void drawCustom(const ConstEntryPointer &entry, QPainter &painter, const QRectF &rectangle, QRectF &usedSpace, const QFont &textFont = QFont(), int headerPrintSize = JMdictEntryFormatter::headerPrintSize.defaultValue(), bool printKanjis = JMdictEntryFormatter::printKanjis.defaultValue(), bool printOnlyStudiedKanjis = JMdictEntryFormatter::printOnlyStudiedKanjis.defaultValue(), int maxDefinitionsToPrint = JMdictEntryFormatter::maxDefinitionsToPrint.defaultValue()) const;
 
 	static const QString queryFindVerbBuddySql;
 	static const QString queryFindHomonymsSql;
@@ -71,7 +71,7 @@ public:
 class FindVerbBuddyJob : public DetailedViewJob {
 	Q_DECLARE_TR_FUNCTIONS(FindVerbBuddyJob)
 private:
-	EntryPointer bestMatch;
+	ConstEntryPointer bestMatch;
 	int lastKanjiPos;
 	int initialLength;
 	QString searchedPos;
@@ -80,17 +80,17 @@ private:
 	QString firstReading;
 
 public:
-	FindVerbBuddyJob(const JMdictEntry *verb, const QString &pos, const QTextCursor &cursor);
-	virtual void result(EntryPointer entry);
+	FindVerbBuddyJob(const ConstJMdictEntryPointer &verb, const QString &pos, const QTextCursor &cursor);
+	virtual void result(ConstEntryPointer entry);
 	virtual void completed();
 };
 
 class FindHomonymsJob : public DetailedViewJob {
 	Q_DECLARE_TR_FUNCTIONS(FindHomonymsJob)
 public:
-	FindHomonymsJob(const JMdictEntry *entry, int maxToDisplay, bool studiedOnly, const QTextCursor &cursor);
+	FindHomonymsJob(const ConstJMdictEntryPointer &entry, int maxToDisplay, bool studiedOnly, const QTextCursor &cursor);
 	virtual void firstResult();
-	virtual void result(EntryPointer entry);
+	virtual void result(ConstEntryPointer entry);
 	virtual void completed();
 };
 

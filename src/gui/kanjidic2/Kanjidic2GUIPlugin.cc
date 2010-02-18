@@ -259,12 +259,12 @@ bool Kanjidic2GUIPlugin::eventFilter(QObject *obj, QEvent *_event)
 							c += cursor.selectedText()[1];
 						}
 						if (TextTools::isKanjiChar(c)) {
-							EntryPointer entry(EntriesCache::get(KANJIDIC2ENTRY_GLOBALID, TextTools::singleCharToUnicode(c)));
+							ConstKanjidic2EntryPointer entry(EntriesCache::get(KANJIDIC2ENTRY_GLOBALID, TextTools::singleCharToUnicode(c)).objectCast<const Kanjidic2Entry>());
 							view->viewport()->setCursor(QCursor(Qt::PointingHandCursor));
 							// Only show the tooltip if the entry exists in the database!
 							if (kanjiTooltipEnabled.value() && entry.data()) {
 								const Kanjidic2EntryFormatter *formatter(static_cast<const Kanjidic2EntryFormatter *>(EntryFormatter::getFormatter(KANJIDIC2ENTRY_GLOBALID)));
-								formatter->showToolTip(static_cast<const Kanjidic2Entry *>(entry.data()), QCursor::pos());
+								formatter->showToolTip(entry, QCursor::pos());
 							}
 							return false;
 						}
@@ -317,14 +317,14 @@ bool Kanjidic2GUIPlugin::eventFilter(QObject *obj, QEvent *_event)
 					QUrl url(cursor.charFormat().anchorHref());
 					if (url.scheme() == "entry") {
 						EntryPointer entry(EntriesCache::get(url.queryItemValue("type").toInt(), url.queryItemValue("id").toInt()));
-						if (entry.data()) tview.setEntry(entry.data());
+						if (entry.data()) tview.setEntry(entry);
 					}
 				}
 				else {
 					QChar c(cursor.selectedText()[0]);
 					if (TextTools::isKanjiChar(c)) {
 						EntryPointer entry(EntriesCache::get(KANJIDIC2ENTRY_GLOBALID, c.unicode()));
-						if (entry.data()) tview.setEntry(entry.data());
+						if (entry.data()) tview.setEntry(entry);
 					}
 				}
 			}
@@ -365,8 +365,7 @@ void KanjiLinkHandler::handleUrl(const QUrl &url, DetailedView *view)
 //	QRect windowRect = QApplication::activeWindow()->frameGeometry();
 	QRect windowRect = QApplication::desktop()->availableGeometry(view);
 
-	EntryPointer entryPtr = EntriesCache::get(KANJIDIC2ENTRY_GLOBALID, TextTools::singleCharToUnicode(kanji));
-	Kanjidic2Entry *entry = static_cast<Kanjidic2Entry *>(entryPtr.data());
+	Kanjidic2EntryPointer entry(EntriesCache::get(KANJIDIC2ENTRY_GLOBALID, TextTools::singleCharToUnicode(kanji)).objectCast<Kanjidic2Entry>());
 	if (!entry) return;
 
 	KanjiPopup *popup = new KanjiPopup();

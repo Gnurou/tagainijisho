@@ -34,10 +34,7 @@ class KanjiPlayer : public QWidget {
 	Q_OBJECT
 private:
 	QTimer _timer;
-	// To keep the kanji we display in memory...
-	ConstEntryPointer _entry;
-	// ... and avoid casting it all the time.
-	const Kanjidic2Entry *_kanji;
+	ConstKanjidic2EntryPointer _kanji;
 
 	QLabel *strokeCountLabel;
 	KanjiRenderer renderer;
@@ -79,7 +76,7 @@ public:
 	int pictureSize() const { return _pictureSize; }
 	void setPictureSize(int newSize);
 
-	void setKanji(const Kanjidic2Entry *entry);
+	void setKanji(const ConstKanjidic2EntryPointer &entry);
 	void setPosition(int strokeNbr);
 
 	static PreferenceItem<int> animationSpeed;

@@ -22,7 +22,7 @@
 #include <QStringList>
 #include <QMap>
 
-#include "core/Entry.h"
+#include "core/EntriesCache.h"
 
 #define JMDICTENTRY_GLOBALID 1
 #define JMDICTDB_REVISION 4
@@ -152,5 +152,10 @@ public:
 
 	friend class JMdictEntrySearcher;
 };
+
+typedef QSharedPointer<JMdictEntry> JMdictEntryPointer;
+Q_DECLARE_METATYPE(JMdictEntryPointer)
+typedef QSharedPointer<const JMdictEntry> ConstJMdictEntryPointer;
+Q_DECLARE_METATYPE(ConstJMdictEntryPointer)
 
 #endif

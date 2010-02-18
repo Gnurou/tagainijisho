@@ -32,10 +32,10 @@ SingleEntryView::SingleEntryView(QObject *parent) : EntryMenu(parent), _entry(0)
 	        this, SLOT(setTagsFromHistory(const QStringList &)));
 }
 
-void SingleEntryView::setEntry(Entry *entry)
+void SingleEntryView::setEntry(const EntryPointer &entry)
 {
 	if (_entry) disconnect(_entry.data(), SIGNAL(entryChanged(Entry *)), this, SIGNAL(entryChanged(Entry *)));
-	if (entry) connect(entry, SIGNAL(entryChanged(Entry *)), this, SIGNAL(entryChanged(Entry *)));
+	if (entry) connect(entry.data(), SIGNAL(entryChanged(Entry *)), this, SIGNAL(entryChanged(Entry *)));
 	_entry = entry;
 	updateStatus(_entry);
 }

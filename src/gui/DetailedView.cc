@@ -110,7 +110,7 @@ DetailedView::~DetailedView()
 	_instances.remove(this);
 }
 
-void DetailedView::_display(Entry *entry, bool update)
+void DetailedView::_display(const EntryPointer &entry, bool update)
 {
 //	if (!update && entry == entryView.entry()) return;
 	clear();
@@ -136,17 +136,12 @@ void DetailedView::setSmoothScrolling(bool value)
 	}
 }
 
-void DetailedView::display(Entry *entry)
+void DetailedView::display(const EntryPointer &entry)
 {
 	if (_historyEnabled) {
 		_history.add(QPair<int, int>(entry->type(), entry->id()));
 	}
 	_display(entry);
-}
-
-void DetailedView::display(EntryPointer entry)
-{
-	display(entry.data());
 }
 
 void DetailedView::redisplay()
@@ -157,7 +152,7 @@ void DetailedView::redisplay()
 		// counter could potentially reach zero and the entry be
 		// deleted.
 		EntryPointer tentry(entryView.entry());
-		_display(tentry.data(), true);
+		_display(tentry, true);
 	}
 }
 
@@ -171,7 +166,7 @@ void DetailedView::clear()
 	_jobsRunner.abortAllJobs();
 
 	QTextBrowser::clear();
-	entryView.setEntry(0);
+	entryView.setEntry(EntryPointer());
 
 	QDir dir(":/images/flags");
 	QStringList fileNames = dir.entryList(QStringList("*.png"), QDir::Files, QDir::Name);
@@ -208,7 +203,7 @@ void DetailedView::previous()
 	bool ok = _history.previous(prev);
 	if (!ok) return;
 	EntryPointer entry(EntriesCache::get(prev.first, prev.second));
-	_display(&*entry);
+	_display(entry);
 }
 
 void DetailedView::next()
@@ -217,7 +212,7 @@ void DetailedView::next()
 	bool ok = _history.next(next);
 	if (!ok) return;
 	EntryPointer entry(EntriesCache::get(next.first, next.second));
-	_display(&*entry);
+	_display(entry);
 }
 
 void DetailedView::addBackgroundJob(DetailedViewJob *job)
@@ -457,7 +452,7 @@ EntryMenuHandler::~EntryMenuHandler()
 void EntryMenuHandler::handleUrl(const QUrl &url, DetailedView *view)
 {
 	EntryPointer entry(EntriesCache::get(url.queryItemValue("type").toInt(), url.queryItemValue("id").toInt()));
-	if (entry.data()) MainWindow::instance()->detailedView()->display(entry.data());
+	if (entry) MainWindow::instance()->detailedView()->display(entry);
 }
 
 TagsLinkHandler::TagsLinkHandler() : DetailedViewLinkHandler("tag")

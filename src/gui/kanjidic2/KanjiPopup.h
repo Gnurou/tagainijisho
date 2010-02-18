@@ -37,7 +37,7 @@ class KanjiComponentWidget : public QWidget
 	Q_OBJECT
 private:
 	const KanjiComponent *_component;
-	EntryPointer _kanji;
+	ConstKanjidic2EntryPointer _kanji;
 
 protected:
 	virtual void paintEvent(QPaintEvent *event);
@@ -47,7 +47,7 @@ public:
 	virtual QSize sizeHint() const;
 	void setComponent(const KanjiComponent *component);
 	const KanjiComponent *component() const { return _component; }
-	const Kanjidic2Entry *kanji() const { return static_cast<Kanjidic2Entry *>(_kanji.data()); }
+	const ConstKanjidic2EntryPointer &kanji() const { return _kanji; }
 
 };
 
@@ -65,7 +65,7 @@ protected:
 	bool eventFilter(QObject *obj, QEvent *event);
 
 private slots:
-	void showKanji(Kanjidic2Entry *entry);
+	void showKanji(const Kanjidic2EntryPointer& entry);
 	void onOpenClick();
 	void onPreviousClick();
 	void onNextClick();
@@ -80,7 +80,7 @@ public:
 	KanjiPopup(QWidget *parent = 0);
 	~KanjiPopup();
 
-	void display(Kanjidic2Entry *entry);
+	void display(const Kanjidic2EntryPointer& entry);
 
 	static PreferenceItem<int> historySize;
 	static PreferenceItem<int> animationSize;

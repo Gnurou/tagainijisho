@@ -47,8 +47,8 @@ QSize KanjiComponentWidget::sizeHint() const
 void KanjiComponentWidget::setComponent(const KanjiComponent *component)
 {
 	_component = component;
-	if (component) _kanji = EntriesCache::get(KANJIDIC2ENTRY_GLOBALID, TextTools::singleCharToUnicode(component->element()));
-	else _kanji.reset();
+	if (component) _kanji = EntriesCache::get(KANJIDIC2ENTRY_GLOBALID, TextTools::singleCharToUnicode(component->element())).objectCast<const Kanjidic2Entry>();
+	else _kanji.clear();
 	update();
 }
 
@@ -60,7 +60,7 @@ void KanjiComponentWidget::paintEvent(QPaintEvent *event)
 	QFontMetrics metrics(font());
 	const int kanjiSize(metrics.height() * 2);
 
-	const Kanjidic2Entry *kEntry(kanji());
+	const ConstKanjidic2EntryPointer &kEntry(kanji());
 	if (kEntry && !kEntry->strokes().isEmpty()) {
 		KanjiRenderer renderer(kEntry);
 		QPen pen(painter.pen());
@@ -129,7 +129,7 @@ KanjiPopup::~KanjiPopup()
 {
 }
 
-void KanjiPopup::showKanji(Kanjidic2Entry *entry)
+void KanjiPopup::showKanji(const Kanjidic2EntryPointer &entry)
 {
 	QString str;
 
@@ -198,7 +198,7 @@ void KanjiPopup::setComponentsLabelText(int highlightPos)
 	else componentsLabel->setText(QString("<style>a.highlighted { background-color: %1; color: %2; }</style>").arg(palette.color(QPalette::Highlight).name()).arg(palette.color(QPalette::HighlightedText).name()) + tr("<b>Components:</b>%2 %1").arg(componentsStrings.join(" ")).arg(componentsStrings.size() > 3 ? "<br/>" : ""));
 }
 
-void KanjiPopup::display(Kanjidic2Entry *entry)
+void KanjiPopup::display(const Kanjidic2EntryPointer &entry)
 {
 	_history.add(entry->kanji());
 	showKanji(entry);
@@ -216,7 +216,7 @@ void KanjiPopup::onPreviousClick()
 	bool ok = _history.previous(kanji);
 	if (ok) {
 		EntryPointer entry = EntriesCache::get(KANJIDIC2ENTRY_GLOBALID, TextTools::singleCharToUnicode(kanji));
-		showKanji(static_cast<Kanjidic2Entry *>(entry.data()));
+		showKanji(entry.objectCast<Kanjidic2Entry>());
 	}
 }
 
@@ -226,7 +226,7 @@ void KanjiPopup::onNextClick()
 	bool ok = _history.next(kanji);
 	if (ok) {
 		EntryPointer entry = EntriesCache::get(KANJIDIC2ENTRY_GLOBALID, TextTools::singleCharToUnicode(kanji));
-		showKanji(static_cast<Kanjidic2Entry *>(entry.data()));
+		showKanji(entry.objectCast<Kanjidic2Entry>());
 	}
 }
 
@@ -251,8 +251,7 @@ void KanjiPopup::onComponentUnHighlighted()
 
 void KanjiPopup::onComponentClicked(const KanjiComponent *component)
 {
-	EntryPointer element = EntriesCache::get(KANJIDIC2ENTRY_GLOBALID, TextTools::singleCharToUnicode(component->element()));
-	Kanjidic2Entry *kElement = static_cast<const Kanjidic2Entry *>(element.data());
+	Kanjidic2EntryPointer kElement(EntriesCache::get(KANJIDIC2ENTRY_GLOBALID, TextTools::singleCharToUnicode(component->element())).objectCast<Kanjidic2Entry>());
 	if (!kElement) return;
 	_history.add(kElement->kanji());
 	showKanji(kElement);
@@ -261,7 +260,7 @@ void KanjiPopup::onComponentClicked(const KanjiComponent *component)
 void KanjiPopup::onComponentLinkHovered(const QString &link)
 {
 	int idx(link.toInt());
-	const Kanjidic2Entry *entry(static_cast<const Kanjidic2Entry *>(entryView.entry().data()));
+	ConstKanjidic2EntryPointer entry(entryView.entry().objectCast<const Kanjidic2Entry>());
 	const KanjiComponent *component(entry->rootComponents()[idx]);
 
 	stroke->highlightComponent(component);

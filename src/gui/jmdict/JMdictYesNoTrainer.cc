@@ -30,7 +30,7 @@ JMdictYesNoTrainer::JMdictYesNoTrainer(QWidget *parent) : YesNoTrainer(parent)
 void JMdictYesNoTrainer::onShowFuriganasChecked(bool checked)
 {
 	JMdictGUIPlugin::furiganasForTraining.set(checked);
-	if (showAnswerButton->isEnabled()) train(currentEntry.data());
+	if (showAnswerButton->isEnabled()) train(currentEntry);
 }
 
 void JMdictYesNoTrainer::setTrainingMode(TrainingMode mode)

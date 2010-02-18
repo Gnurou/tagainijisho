@@ -106,10 +106,10 @@ void ReadingTrainer::train()
 		entry = EntriesCache::get(JMDICTENTRY_GLOBALID, (query.value(0).toInt()));
 		ui.writingLabel->setText(entry->writings()[0]);
 		QTextCursor cursor(ui.detailedView->detailedView()->document());
-		const EntryFormatter *formatter = EntryFormatter::getFormatter(entry.data());
+		const EntryFormatter *formatter = EntryFormatter::getFormatter(entry);
 		if (_showMeaning->isChecked()) {
 			ui.detailedView->detailedView()->clear();
-			formatter->detailedVersionPart2(entry.data(), cursor, ui.detailedView->detailedView());
+			formatter->detailedVersionPart2(entry, cursor, ui.detailedView->detailedView());
 		}
 		ui.userInput->clear();
 	} else {
@@ -142,14 +142,14 @@ void ReadingTrainer::checkAnswer()
 		ui.okButton->setVisible(false);
 		ui.userInput->setVisible(false);
 		ui.nextButton->setFocus();
-		ui.detailedView->detailedView()->display(entry.data());
+		ui.detailedView->detailedView()->display(entry);
 	}
 	_totalCount++;
 	updateStatusLabel();
 	if (correct) {
 		if (!_showMeaning->isChecked()) {
 			ui.detailedView->detailedView()->clear();
-			ui.detailedView->detailedView()->display(entry.data());
+			ui.detailedView->detailedView()->display(entry);
 		}
 
 		train();
@@ -162,8 +162,8 @@ void ReadingTrainer::onShowMeaningChecked(bool checked)
 	ui.detailedView->detailedView()->clear();
 	if (checked) {
 		QTextCursor cursor(ui.detailedView->detailedView()->document());
-		const EntryFormatter *formatter = EntryFormatter::getFormatter(entry.data());
-		formatter->detailedVersionPart2(entry.data(), cursor, ui.detailedView->detailedView());
+		const EntryFormatter *formatter = EntryFormatter::getFormatter(entry);
+		formatter->detailedVersionPart2(entry, cursor, ui.detailedView->detailedView());
 	}
 }
 

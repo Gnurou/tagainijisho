@@ -34,8 +34,7 @@ JMdictPreferences::JMdictPreferences(QWidget *parent) : PreferencesWindowCategor
 	connect(filterButton, SIGNAL(clicked()), this, SLOT(onFilterButtonClicked()));
 	connect(unFilterButton, SIGNAL(clicked()), this, SLOT(onUnFilterButtonClicked()));
 
-	_previewEntry = EntriesCache::get(JMDICTENTRY_GLOBALID, 1415000);
-	previewEntry = static_cast<const JMdictEntry *>(_previewEntry.data());
+	previewEntry = EntriesCache::get(JMDICTENTRY_GLOBALID, 1415000).objectCast<const JMdictEntry>();
 
 	previewLabel->installEventFilter(this);
 

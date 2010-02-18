@@ -145,7 +145,7 @@ void JMdictEntryFormatter::writeSensePos(const Sense &sense, QTextCursor &cursor
 	cursor.insertText(" ");
 }
 
-void JMdictEntryFormatter::writeKanaHeader(const JMdictEntry *entry, QTextCursor &cursor, DetailedView *view) const
+void JMdictEntryFormatter::writeKanaHeader(const ConstJMdictEntryPointer &entry, QTextCursor &cursor, DetailedView *view) const
 {
 	const QList<KanjiReading> &kanjis = entry->getKanjiReadings();
 	const QList<KanaReading> &kanas = entry->getKanaReadings();
@@ -156,7 +156,7 @@ void JMdictEntryFormatter::writeKanaHeader(const JMdictEntry *entry, QTextCursor
 	}
 }
 
-void JMdictEntryFormatter::writeKanjiHeader(const JMdictEntry *entry, QTextCursor &cursor, DetailedView *view) const
+void JMdictEntryFormatter::writeKanjiHeader(const ConstJMdictEntryPointer &entry, QTextCursor &cursor, DetailedView *view) const
 {
 	const QList<KanjiReading> &kanjis = entry->getKanjiReadings();
 	const QList<KanaReading> &kanas = entry->getKanaReadings();
@@ -172,7 +172,7 @@ void JMdictEntryFormatter::writeKanjiHeader(const JMdictEntry *entry, QTextCurso
 	}
 }
 
-void JMdictEntryFormatter::writeJapanese(const JMdictEntry *entry, QTextCursor &cursor, DetailedView *view) const
+void JMdictEntryFormatter::writeJapanese(const ConstJMdictEntryPointer &entry, QTextCursor &cursor, DetailedView *view) const
 {
 	const QList<KanjiReading> &kanjis = entry->getKanjiReadings();
 	const QList<KanaReading> &kanas = entry->getKanaReadings();
@@ -244,7 +244,7 @@ void JMdictEntryFormatter::writeJapanese(const JMdictEntry *entry, QTextCursor &
 	// TODO Orphan pronunciations
 }
 
-void JMdictEntryFormatter::writeTranslation(const JMdictEntry *entry, QTextCursor &cursor, DetailedView *view) const
+void JMdictEntryFormatter::writeTranslation(const ConstJMdictEntryPointer& entry, QTextCursor& cursor, DetailedView* view) const
 {
 	const QList<KanjiReading> &kanjis = entry->getKanjiReadings();
 	const QList<KanaReading> &kanas = entry->getKanaReadings();
@@ -310,7 +310,7 @@ void JMdictEntryFormatter::writeTranslation(const JMdictEntry *entry, QTextCurso
 	}
 }
 
-void JMdictEntryFormatter::writeEntryInfo(const JMdictEntry *entry, QTextCursor &cursor, DetailedView *view) const
+void JMdictEntryFormatter::writeEntryInfo(const ConstJMdictEntryPointer& entry, QTextCursor& cursor, DetailedView* view) const
 {
 	const QList<const Sense *> senses = entry->getSenses();
 
@@ -342,8 +342,8 @@ void JMdictEntryFormatter::writeEntryInfo(const JMdictEntry *entry, QTextCursor 
 				EntryPointer _entry = EntriesCache::get(KANJIDIC2ENTRY_GLOBALID, TextTools::singleCharToUnicode(k));
 				view->addWatchEntry(_entry);
 
-				const EntryFormatter *formatter(EntryFormatter::getFormatter(_entry.data()));
-				formatter->writeShortDesc(_entry.data(), cursor);
+				const EntryFormatter *formatter(EntryFormatter::getFormatter(_entry));
+				formatter->writeShortDesc(_entry, cursor);
 			}
 		}
 	}
@@ -373,14 +373,14 @@ void JMdictEntryFormatter::writeEntryInfo(const JMdictEntry *entry, QTextCursor 
 	if (maxHomophonesToDisplay.value()) view->addBackgroundJob(new FindHomonymsJob(entry, maxHomophonesToDisplay.value(), displayStudiedHomophonesOnly.value(), cursor));
 }
 
-void JMdictEntryFormatter::writeShortDesc(const Entry *entry, QTextCursor &cursor) const
+void JMdictEntryFormatter::writeShortDesc(const ConstEntryPointer& entry, QTextCursor& cursor) const
 {
 	QTextCharFormat scoreFormat;
 	if (entry->trained()) {
 		scoreFormat.setBackground(entry->scoreColor());
 	}
 	autoFormat(entry, entry->shortVersion(Entry::TinyVersion), cursor, scoreFormat);
-	const JMdictEntry *jEntry(static_cast<const JMdictEntry *>(entry));
+	ConstJMdictEntryPointer jEntry(entry.objectCast<const JMdictEntry>());
 	if (shortDescShowJLPT.value() && jEntry->jlpt() != -1) {
 		scoreFormat.setFontWeight(QFont::Bold);
 		autoFormat(jEntry, tr(" (JLPT %1)").arg(jEntry->jlpt()), cursor, scoreFormat);
@@ -392,9 +392,9 @@ void JMdictEntryFormatter::writeShortDesc(const Entry *entry, QTextCursor &curso
 	cursor.insertImage(imgFormat);
 }
 
-void JMdictEntryFormatter::_detailedVersion(const Entry *entry, QTextCursor &cursor, DetailedView *view) const
+void JMdictEntryFormatter::_detailedVersion(const ConstEntryPointer& entry, QTextCursor& cursor, DetailedView* view) const
 {
-	const JMdictEntry *jEntry(static_cast<const JMdictEntry *>(entry));
+	ConstJMdictEntryPointer jEntry(entry.objectCast<const JMdictEntry>());
 	writeJapanese(jEntry, cursor, view);
 	cursor.insertBlock(QTextBlockFormat());
 	writeTranslation(jEntry, cursor, view);
@@ -402,9 +402,9 @@ void JMdictEntryFormatter::_detailedVersion(const Entry *entry, QTextCursor &cur
 	writeEntryInfo(jEntry, cursor, view);
 }
 
-void JMdictEntryFormatter::drawCustom(const Entry *_entry, QPainter &painter, const QRectF &rectangle, QRectF &usedSpace, const QFont &textFont, int headerPrintSize, bool printKanjis, bool printOnlyStudiedKanjis, int maxDefinitionsToPrint) const
+void JMdictEntryFormatter::drawCustom(const ConstEntryPointer& _entry, QPainter& painter, const QRectF& rectangle, QRectF& usedSpace, const QFont& textFont, int headerPrintSize, bool printKanjis, bool printOnlyStudiedKanjis, int maxDefinitionsToPrint) const
 {
-	const JMdictEntry *entry(static_cast<const JMdictEntry *>(_entry));
+	ConstJMdictEntryPointer entry(_entry.objectCast<const JMdictEntry>());
 	QFont kanjiFont;
 	kanjiFont.setPointSize(headerPrintSize);
 	QRectF leftArea(rectangle);
@@ -439,7 +439,7 @@ void JMdictEntryFormatter::drawCustom(const Entry *_entry, QPainter &painter, co
 			if (TextTools::isKanjiChar(c) && !usedKanjis.contains(c)) {
 				usedKanjis << c;
 				EntryPointer _entry = EntriesCache::get(KANJIDIC2ENTRY_GLOBALID, c.unicode());
-				if (!_entry.data()) continue;
+				if (!_entry) continue;
 				Kanjidic2Entry *kanji = qobject_cast<Kanjidic2Entry *>(_entry.data());
 				if (printOnlyStudiedKanjis && !kanji->trained()) continue;
 				QString s = QString(c) + ": " + kanji->meanings().join(", ");
@@ -484,9 +484,9 @@ void JMdictEntryFormatter::drawCustom(const Entry *_entry, QPainter &painter, co
 					 QPointF(rectangle.left() + leftArea.width(), usedSpace.bottom()));
 }
 
-void JMdictEntryFormatter::detailedVersionPart1(const Entry *_entry, QTextCursor &cursor, DetailedView *view) const
+void JMdictEntryFormatter::detailedVersionPart1(const ConstEntryPointer& _entry, QTextCursor& cursor, DetailedView* view) const
 {
-	const JMdictEntry *entry(static_cast<const JMdictEntry *>(_entry));
+	ConstJMdictEntryPointer entry(_entry.objectCast<const JMdictEntry>());
 	QTextBlockFormat header;
 	header.setAlignment(Qt::AlignHCenter);
 	cursor.setBlockFormat(header);
@@ -494,14 +494,14 @@ void JMdictEntryFormatter::detailedVersionPart1(const Entry *_entry, QTextCursor
 	writeKanjiHeader(entry, cursor, view);
 }
 
-void JMdictEntryFormatter::detailedVersionPart2(const Entry *_entry, QTextCursor &cursor, DetailedView *view) const
+void JMdictEntryFormatter::detailedVersionPart2(const ConstEntryPointer& _entry, QTextCursor& cursor, DetailedView* view) const
 {
-	const JMdictEntry *entry(static_cast<const JMdictEntry *>(_entry));
+	ConstJMdictEntryPointer entry(_entry.objectCast<const JMdictEntry>());
 	writeTranslation(entry, cursor, view);
 }
 
 
-FindVerbBuddyJob::FindVerbBuddyJob(const JMdictEntry* verb, const QString& pos, const QTextCursor& cursor) :
+FindVerbBuddyJob::FindVerbBuddyJob(const ConstJMdictEntryPointer& verb, const QString& pos, const QTextCursor& cursor) :
 	DetailedViewJob(cursor), lastKanjiPos(0), searchedPos(pos)
 {
 	// Check that the pos we are looking for actually exists
@@ -528,9 +528,9 @@ FindVerbBuddyJob::FindVerbBuddyJob(const JMdictEntry* verb, const QString& pos, 
 	lastKanjiPos = matchPattern.size();
 }
 
-void FindVerbBuddyJob::result(EntryPointer entry)
+void FindVerbBuddyJob::result(ConstEntryPointer entry)
 {
-	JMdictEntry *jEntry = qobject_cast<JMdictEntry *>(entry.data());
+	ConstJMdictEntryPointer jEntry = entry.objectCast<const JMdictEntry>();
 	if (!jEntry) return;
 	// We now that we have a writing, as the SQL request matched with it
 	QString writing(jEntry->writings()[0]);
@@ -601,11 +601,11 @@ void FindVerbBuddyJob::completed()
 						searchedPos == "vi" ? tr("Intransitive buddy:") :
 						tr("Buddy:")) + " ");
 	cursor().setCharFormat(normal);
-	const EntryFormatter *formatter = EntryFormatter::getFormatter(bestMatch.data());
-	if (formatter) formatter->writeShortDesc(bestMatch.data(), cursor());
+	const EntryFormatter *formatter = EntryFormatter::getFormatter(bestMatch);
+	if (formatter) formatter->writeShortDesc(bestMatch, cursor());
 }
 
-FindHomonymsJob::FindHomonymsJob(const JMdictEntry *entry, int maxToDisplay, bool studiedOnly, const QTextCursor &cursor) :
+FindHomonymsJob::FindHomonymsJob(const ConstJMdictEntryPointer& entry, int maxToDisplay, bool studiedOnly, const QTextCursor& cursor) :
 	DetailedViewJob(cursor)
 {
 	QString s;
@@ -627,12 +627,12 @@ void FindHomonymsJob::firstResult()
 	cursor().setCharFormat(normal);
 }
 
-void FindHomonymsJob::result(EntryPointer entry)
+void FindHomonymsJob::result(ConstEntryPointer entry)
 {
 	QTextList *currentList = cursor().currentList();
 	cursor().insertBlock(QTextBlockFormat());
 	cursor().setCharFormat(QTextCharFormat());
-	JMdictEntry *jmEntry = qobject_cast<JMdictEntry *>(entry.data());
+	ConstJMdictEntryPointer jmEntry = entry.objectCast<const JMdictEntry>();
 	Q_ASSERT(jmEntry != 0);
 	const EntryFormatter *formatter = EntryFormatter::getFormatter(jmEntry);
 	if (formatter) formatter->writeShortDesc(jmEntry, cursor());

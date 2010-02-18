@@ -37,6 +37,7 @@
  * the EntriesCache before actually deleting it, ensuring atomic
  * deletion of entries.
  */
+/*
 template <class T> class TmplEntryPointer
 {
 private:
@@ -139,6 +140,12 @@ private:
 typedef TmplEntryPointer<Entry> EntryPointer;
 Q_DECLARE_METATYPE(EntryPointer)
 typedef TmplEntryPointer<const Entry> ConstEntryPointer;
+*/
+
+typedef QSharedPointer<Entry> EntryPointer;
+Q_DECLARE_METATYPE(EntryPointer)
+typedef QSharedPointer<const Entry> ConstEntryPointer;
+Q_DECLARE_METATYPE(ConstEntryPointer)
 
 /**
  * Used to reference an entry without having to load it entirely. A shared pointer to
@@ -176,7 +183,7 @@ private:
     QHash<QPair<int, int>, Entry *> _loadedEntries;
     QMutex _loadedEntriesMutex;
 
-    QQueue<TmplEntryPointer<Entry> > _cache;
+    QQueue<EntryPointer> _cache;
     QMutex _cacheMutex;
 
     /**
@@ -184,16 +191,13 @@ private:
      * This operation is atomic, i.e. it ensures no reference to the
      * deleted entries are created by the meantime.
      */
-    void _removeAndDelete(const Entry *entry);
+    static void _removeAndDelete(const Entry *entry);
 
     friend class Entry;
 
     EntryPointer _get(int type, int id);
     EntriesCache(QObject *parent = 0);
     ~EntriesCache();
-
-    friend class TmplEntryPointer<Entry>;
-    friend class TmplEntryPointer<const Entry>;
 
 public:
     static void init();
@@ -213,12 +217,12 @@ public:
      */
     static PreferenceItem<int> cacheSize;
 };
-
+/*
 template <class T> void TmplEntryPointer<T>::_deref()
 {
     if (d && !d->ref.deref()) {
         EntriesCache::_instance->_removeAndDelete(d);
     }
-}
+}*/
 
 #endif

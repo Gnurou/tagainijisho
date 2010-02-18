@@ -32,8 +32,7 @@ class Kanjidic2Preferences : public PreferencesWindowCategory, private Ui::Kanji
 private:
 	KanjiPlayer *_player;
 	QPicture previewPic;
-	ConstEntryPointer _previewEntry;
-	const Kanjidic2Entry *previewEntry;
+	ConstKanjidic2EntryPointer previewEntry;
 
 protected:
 	virtual bool eventFilter(QObject *obj, QEvent *event);

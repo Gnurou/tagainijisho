@@ -47,8 +47,8 @@ protected slots:
 public:
 	SingleEntryView(QObject *parent = 0);
 
-	EntryPointer entry() { return _entry; }
-	void setEntry(Entry *entry);
+	const EntryPointer &entry() { return _entry; }
+	void setEntry(const EntryPointer &entry);
 	void populateMenu(QMenu *menu) { EntryMenu::populateMenu(menu); }
 	void populateToolBar(QToolBar *bar) { EntryMenu::populateToolBar(bar); }
 

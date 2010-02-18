@@ -26,26 +26,26 @@ class Kanjidic2EntryFormatter : public EntryFormatter
 {
 Q_DECLARE_TR_FUNCTIONS(EntryFormatter)
 protected:
-	virtual void _detailedVersion(const Entry *entry, QTextCursor &cursor, DetailedView *view) const;
+	virtual void _detailedVersion(const ConstEntryPointer &_entry, QTextCursor& cursor, DetailedView* view) const;
 
 public:
 	Kanjidic2EntryFormatter();
 	virtual ~Kanjidic2EntryFormatter() {}
 
-	void writeJapanese(const Kanjidic2Entry *entry, QTextCursor &cursor, DetailedView *view) const;
-	void writeTranslation(const Kanjidic2Entry *entry, QTextCursor &cursor, DetailedView *view) const;
-	void writeKanjiInfo(const Kanjidic2Entry *entry, QTextCursor &cursor, DetailedView *view) const;
+	void writeJapanese(const ConstKanjidic2EntryPointer &entry, QTextCursor& cursor, DetailedView* view) const;
+	void writeTranslation(const ConstKanjidic2EntryPointer &entry, QTextCursor& cursor, DetailedView* view) const;
+	void writeKanjiInfo(const ConstKanjidic2EntryPointer &entry, QTextCursor& cursor, DetailedView* view) const;
 
-	virtual void writeShortDesc(const Entry *entry, QTextCursor &cursor) const;
-	virtual void draw(const Entry *entry, QPainter &painter, const QRectF &rectangle, QRectF &usedSpace, const QFont &textFont = QFont()) const;
-	void drawCustom(const Entry *entry, QPainter &painter, const QRectF &rectangle, QRectF &usedSpace, const QFont &textFont = QFont(), int printSize = Kanjidic2EntryFormatter::printSize.value(), bool printWithFont = Kanjidic2EntryFormatter::printWithFont.value(), bool printMeanings = Kanjidic2EntryFormatter::printMeanings.value(), bool printOnyomi = Kanjidic2EntryFormatter::printOnyomi.value(), bool printKunyomi = Kanjidic2EntryFormatter::printKunyomi.value(), bool printComponents = Kanjidic2EntryFormatter::printComponents.value(), bool printOnlyStudiedComponents = Kanjidic2EntryFormatter::printOnlyStudiedComponents.value(), int maxWordsToPrint = Kanjidic2EntryFormatter::maxWordsToPrint.value(), bool printOnlyStudiedVocab = Kanjidic2EntryFormatter::printOnlyStudiedVocab.value()) const;
-	virtual void detailedVersionPart1(const Entry *entry, QTextCursor &cursor, DetailedView *view) const;
-	virtual void detailedVersionPart2(const Entry *entry, QTextCursor &cursor, DetailedView *view) const;
+	virtual void writeShortDesc(const ConstEntryPointer &entry, QTextCursor& cursor) const;
+	virtual void draw(const ConstEntryPointer &entry, QPainter &painter, const QRectF &rectangle, QRectF &usedSpace, const QFont &textFont = QFont()) const;
+	void drawCustom(const ConstKanjidic2EntryPointer& entry, QPainter& painter, const QRectF& rectangle, QRectF& usedSpace, const QFont& textFont = QFont(), int printSize = Kanjidic2EntryFormatter::printSize.value(), bool printWithFont = Kanjidic2EntryFormatter::printWithFont.value(), bool printMeanings = Kanjidic2EntryFormatter::printMeanings.value(), bool printOnyomi = Kanjidic2EntryFormatter::printOnyomi.value(), bool printKunyomi = Kanjidic2EntryFormatter::printKunyomi.value(), bool printComponents = Kanjidic2EntryFormatter::printComponents.value(), bool printOnlyStudiedComponents = Kanjidic2EntryFormatter::printOnlyStudiedComponents.value(), int maxWordsToPrint = Kanjidic2EntryFormatter::maxWordsToPrint.value(), bool printOnlyStudiedVocab = Kanjidic2EntryFormatter::printOnlyStudiedVocab.value()) const;
+	virtual void detailedVersionPart1(const ConstEntryPointer &entry, QTextCursor& cursor, DetailedView* view) const;
+	virtual void detailedVersionPart2(const ConstEntryPointer &entry, QTextCursor &cursor, DetailedView *view) const;
 
 	/**
 	 * Shows a tooltip with a short description of the kanji
 	 */
-	void showToolTip(const Kanjidic2Entry *entry, const QPoint &pos) const;
+	void showToolTip(const ConstKanjidic2EntryPointer entry, const QPoint& pos) const;
 
 	static QString getQueryUsedInWordsSql(int kanji, int limit = maxWordsToDisplay.value(), bool onlyStudied = showOnlyStudiedVocab.value());
 	static QString getQueryUsedInKanjiSql(int kanji, int limit = maxCompoundsToDisplay.value(), bool onlyStudied = showOnlyStudiedCompounds.value());

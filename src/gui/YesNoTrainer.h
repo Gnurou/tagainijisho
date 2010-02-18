@@ -88,7 +88,7 @@ protected slots:
 	 * and its database entry will be updated according to
 	 * the result.
 	 */
-	void train(Entry *entry);
+	void train(const EntryPointer& entry);
 
 	void hasResults(unsigned int nbResults);
 

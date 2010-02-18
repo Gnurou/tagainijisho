@@ -29,8 +29,7 @@ class JMdictPreferences : public PreferencesWindowCategory, private Ui::JMdictPr
 	Q_OBJECT
 private:
 	QPicture previewPic;
-	EntryPointer _previewEntry;
-	const JMdictEntry *previewEntry;
+	ConstJMdictEntryPointer previewEntry;
 
 protected:
 	virtual bool eventFilter(QObject *obj, QEvent *event);

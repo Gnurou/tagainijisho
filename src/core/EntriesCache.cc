@@ -70,7 +70,7 @@ EntryPointer EntriesCache::_get(int type, int id)
 	_loadedEntries[key] = entry;
 	// Keep a reference to the entry now - this is needed
 	// for the case the cache size is zero
-	EntryPointer ret(entry);
+	EntryPointer ret(entry, &_removeAndDelete);
 	_cacheMutex.lock();
 	_cache << ret;
 	while (_cache.size() > cacheSize.value()) _cache.removeFirst();
@@ -82,11 +82,11 @@ EntryPointer EntriesCache::_get(int type, int id)
 
 void EntriesCache::_removeAndDelete(const Entry *entry)
 {
-	QMutexLocker loadedEntriesLock(&_loadedEntriesMutex);
+	QMutexLocker loadedEntriesLock(&_instance->_loadedEntriesMutex);
 	// From here we know that the reference counter of our entry will not be changed
 	// Have we created a new reference to this entry by the meantime?
 	if (entry->ref > 0) return;
 	// No, we can safely remove and delete it then!
-	_loadedEntries.remove(QPair<int, int>(entry->type(), entry->id()));
+	_instance->_loadedEntries.remove(QPair<int, int>(entry->type(), entry->id()));
 	delete entry;
 }

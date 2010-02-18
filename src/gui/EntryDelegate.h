@@ -18,7 +18,7 @@
 #ifndef __GUI_ENTRYDELEGATE_H
 #define __GUI_ENTRYDELEGATE_H
 
-#include "core/Entry.h"
+#include "core/EntriesCache.h"
 #include "gui/ResultsList.h"
 #include <QStyledItemDelegate>
 

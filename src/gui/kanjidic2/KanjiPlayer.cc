@@ -101,14 +101,13 @@ KanjiPlayer::KanjiPlayer(QWidget *parent) : QWidget(parent), _timer(), _kanji(0)
 	connect(&_timer, SIGNAL(timeout()), this, SLOT(updateAnimationState()));
 }
 
-void KanjiPlayer::setKanji(const Kanjidic2Entry *kanji)
+void KanjiPlayer::setKanji(const ConstKanjidic2EntryPointer &entry)
 {
-	_entry = kanji;
-	_kanji = kanji;
+	_kanji = entry;
 	_highlightedComponent = 0;
 	strokeCountLabel->setText("");
 	playButton->setEnabled(true);
-	renderer.setKanji(kanji);
+	renderer.setKanji(_kanji);
 	reset();
 	renderCurrentState();
 	updateStrokesCountLabel();
