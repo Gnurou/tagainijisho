@@ -1,5 +1,5 @@
 /*
- *  Copyright (C) 2009  Alexandre Courbot
+ *  Copyright (C) 2009,2010  Alexandre Courbot
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -116,6 +116,7 @@ class ResultsViewPreferences : public PreferencesWindowCategory, private Ui::Res
 	Q_OBJECT
 private:
 	ResultsList *_list;
+	EntryDelegateLayout *_delegateLayout;
 	ResultsView *_view;
 
 	PreferencesFontChooser *romajifontChooser;
@@ -131,6 +132,11 @@ public slots:
 	void applySettings();
 	void refresh();
 	void updateUI();
+	void setKanjiFont(const QFont &font);
+	void setKanaFont(const QFont &font);
+	void setTextFont(const QFont &font);
+	void setOneLineDisplay();
+	void setTwoLinesDisplay();
 
 public:
 	ResultsViewPreferences(QWidget *parent = 0);
@@ -201,36 +207,4 @@ signals:
 	void fontChanged(const QFont &font);
 };
 
-class PreferencesEntryDelegateLayout : public EntryDelegateLayout
-{
-	Q_OBJECT
-public:
-	PreferencesEntryDelegateLayout(EntryDelegateLayout::DisplayMode displayMode = OneLine, const QString& textFont = "", const QString& kanjiFont = "", const QString& kanaFont = "", QObject* parent = 0);
-
-public slots:
-	void setKanjiFont(const QFont &font);
-	void setKanaFont(const QFont &font);
-	void setTextFont(const QFont &font);
-	void setOneLineDisplay();
-	void setTwoLinesDisplay();
-};
-/*
-class PreferencesEntryDelegate : public EntryDelegate
-{
-	Q_OBJECT
-protected:
-	ResultsView *_watchedView;
-
-public:
-	PreferencesEntryDelegate(ResultsView *watchedView);
-	void updateLayout();
-
-public slots:
-	void setKanjiFont(const QFont &font);
-	void setKanaFont(const QFont &font);
-	void setTextFont(const QFont &font);
-	void setOneLineDisplay();
-	void setTwoLinesDisplay();
-};
-*/
 #endif

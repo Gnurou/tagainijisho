@@ -1,5 +1,5 @@
 /*
- *  Copyright (C) 2009  Alexandre Courbot
+ *  Copyright (C) 2009,2010  Alexandre Courbot
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -216,13 +216,12 @@ ResultsViewPreferences::ResultsViewPreferences(QWidget *parent) : PreferencesWin
 	setupUi(this);
 
 	_list = new ResultsList(this);
-	PreferencesEntryDelegateLayout *delegateLayout = new PreferencesEntryDelegateLayout(EntryDelegateLayout::OneLine, "", "", "", this);
-	_view = new ResultsView(this, delegateLayout, true);
+	_delegateLayout = new EntryDelegateLayout(EntryDelegateLayout::OneLine, "", "", "", this);
+	_view = new ResultsView(this, _delegateLayout, true);
 	_view->setModel(_list);
 	
-
-	connect(oneLine, SIGNAL(clicked()), delegateLayout, SLOT(setOneLineDisplay()));
-	connect(twoLines, SIGNAL(clicked()), delegateLayout, SLOT(setTwoLinesDisplay()));
+	connect(oneLine, SIGNAL(clicked()), this, SLOT(setOneLineDisplay()));
+	connect(twoLines, SIGNAL(clicked()), this, SLOT(setTwoLinesDisplay()));
 
 	connect(smoothScrolling, SIGNAL(toggled(bool)), this, SLOT(onSmoothScrollingToggled(bool)));
 
@@ -230,19 +229,19 @@ ResultsViewPreferences::ResultsViewPreferences(QWidget *parent) : PreferencesWin
 	QFont kFont;
 	kFont.fromString(ResultsView::kanjiFont.defaultValue());
 	kanjifontChooser = new PreferencesFontChooser(tr("Main writing"), kFont, fontsBox);
-	connect(kanjifontChooser, SIGNAL(fontChanged(const QFont &)), delegateLayout, SLOT(setKanjiFont(const QFont &)));
+	connect(kanjifontChooser, SIGNAL(fontChanged(const QFont &)), this, SLOT(setKanjiFont(const QFont &)));
 	vLayout->addWidget(kanjifontChooser);
 
 	kFont = QFont();
 	kFont.fromString(ResultsView::kanaFont.defaultValue());
 	kanafontChooser = new PreferencesFontChooser(tr("Readings and alternate writings"), kFont, fontsBox);
-	connect(kanafontChooser, SIGNAL(fontChanged(const QFont &)), delegateLayout, SLOT(setKanaFont(const QFont &)));
+	connect(kanafontChooser, SIGNAL(fontChanged(const QFont &)), this, SLOT(setKanaFont(const QFont &)));
 	vLayout->addWidget(kanafontChooser);
 
 	kFont = QFont();
 	kFont.fromString(ResultsView::textFont.defaultValue());
 	romajifontChooser = new PreferencesFontChooser(tr("Definitions"), kFont, fontsBox);
-	connect(romajifontChooser, SIGNAL(fontChanged(const QFont &)), delegateLayout, SLOT(setTextFont(const QFont &)));
+	connect(romajifontChooser, SIGNAL(fontChanged(const QFont &)), this, SLOT(setTextFont(const QFont &)));
 	vLayout->addWidget(romajifontChooser);
 
 	EntryPointer<Entry> ePtr(new ResultsViewPrefsDummyEntry());
@@ -316,6 +315,31 @@ void ResultsViewPreferences::updateUI()
 	font = QFont();
 	font.fromString(ResultsView::kanaFont.value());
 	mwDelegateLayout->setFont(EntryDelegateLayout::Kana, font);
+}
+
+void ResultsViewPreferences::setKanjiFont(const QFont &font)
+{
+	_delegateLayout->setFont(EntryDelegateLayout::Kanji, font);
+}
+
+void ResultsViewPreferences::setKanaFont(const QFont &font)
+{
+	_delegateLayout->setFont(EntryDelegateLayout::Kana, font);
+}
+
+void ResultsViewPreferences::setTextFont(const QFont &font)
+{
+	_delegateLayout->setFont(EntryDelegateLayout::DefaultText, font);
+}
+
+void ResultsViewPreferences::setOneLineDisplay()
+{
+	_delegateLayout->setDisplayMode(EntryDelegateLayout::OneLine);
+}
+
+void ResultsViewPreferences::setTwoLinesDisplay()
+{
+	_delegateLayout->setDisplayMode(EntryDelegateLayout::TwoLines);
 }
 
 DetailedViewPreferences::DetailedViewPreferences(QWidget *parent) : PreferencesWindowCategory(tr("Detailed View"), parent)
@@ -457,76 +481,6 @@ void PreferencesFontChooser::checkDefaultState(const QFont &f)
 	}
 }
 
-PreferencesEntryDelegateLayout::PreferencesEntryDelegateLayout(DisplayMode displayMode, const QString &textFont, const QString &kanjiFont, const QString &kanaFont, QObject *parent) : EntryDelegateLayout(displayMode, textFont, kanjiFont, kanaFont, parent)
-{
-}
-
-void PreferencesEntryDelegateLayout::setKanjiFont(const QFont &font)
-{
-	setFont(Kanji, font);
-}
-
-void PreferencesEntryDelegateLayout::setKanaFont(const QFont &font)
-{
-	setFont(Kana, font);
-}
-
-void PreferencesEntryDelegateLayout::setTextFont(const QFont &font)
-{
-	setFont(DefaultText, font);
-}
-
-void PreferencesEntryDelegateLayout::setOneLineDisplay()
-{
-	setDisplayMode(OneLine);
-}
-
-void PreferencesEntryDelegateLayout::setTwoLinesDisplay()
-{
-	setDisplayMode(TwoLines);
-}
-
-/*
-PreferencesEntryDelegate::PreferencesEntryDelegate(ResultsView *watchedView) : EntryDelegate(watchedView), _watchedView(watchedView)
-{
-	watchedView->setItemDelegate(this);
-}
-
-void PreferencesEntryDelegate::updateLayout()
-{
-	// Do nothing here, as our fonts are already updated from the font selectors
-}
-
-void PreferencesEntryDelegate::setKanjiFont(const QFont &font)
-{
-	kanjiFont = font;
-	_watchedView->updateLayout();
-}
-
-void PreferencesEntryDelegate::setKanaFont(const QFont &font)
-{
-	kanaFont = font;
-	_watchedView->updateLayout();
-}
-
-void PreferencesEntryDelegate::setTextFont(const QFont &font)
-{
-	textFont = font;
-	_watchedView->updateLayout();
-}
-
-void PreferencesEntryDelegate::setOneLineDisplay()
-{
-	displayMode = EntryDelegateLayout::OneLine;
-	_watchedView->updateLayout();
-}
-
-void PreferencesEntryDelegate::setTwoLinesDisplay()
-{
-	displayMode = EntryDelegateLayout::TwoLines;
-	_watchedView->updateLayout();
-}
-*/
 PreferencesDetailedViewExample::PreferencesDetailedViewExample(QWidget *parent) : DetailedView(parent)
 {
 	setKanjisClickable(false);
