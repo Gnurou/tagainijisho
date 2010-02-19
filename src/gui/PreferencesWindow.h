@@ -181,6 +181,18 @@ public:
 	DetailedViewPreferences(QWidget *parent = 0);
 };
 
+class ListsPreferences : public PreferencesWindowCategory
+{
+	Q_OBJECT
+public:
+	ListsPreferences(QWidget *parent = 0);
+
+public slots:
+	void applySettings();
+	void refresh();
+	void updateUI();
+};
+
 class QGridLayout;
 class PreferencesFontChooser : public QWidget
 {

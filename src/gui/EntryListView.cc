@@ -25,9 +25,15 @@
 #include <QSqlError>
 #include <QMessageBox>
 
+PreferenceItem<bool> EntryListView::smoothScrolling("mainWindow/lists", "smoothScrolling", true);
+PreferenceItem<QString> EntryListView::textFont("mainWindow/lists", "textFont", "");
+PreferenceItem<QString> EntryListView::kanaFont("mainWindow/lists", "kanaFont", "");
+PreferenceItem<QString> EntryListView::kanjiFont("mainWindow/lists", "kanjiFont", QFont("Helvetica", 12).toString());
+PreferenceItem<int> EntryListView::displayMode("mainWindow/lists", "displayMode", EntryDelegateLayout::OneLine);
+
 EntryListView::EntryListView(QWidget *parent) : QTreeView(parent)
 {
-	EntryDelegateLayout *delegateLayout = new EntryDelegateLayout(EntryDelegateLayout::OneLine, "", "", "", this);
+	EntryDelegateLayout *delegateLayout = new EntryDelegateLayout(static_cast<EntryDelegateLayout::DisplayMode>(displayMode.value()), textFont.value(), kanjiFont.value(), kanaFont.value(), this);
 	delegate = new EntryDelegate(delegateLayout, this);
 	setItemDelegate(delegate);
 	setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);

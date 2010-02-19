@@ -45,6 +45,12 @@ protected slots:
 public:
 	EntryListView(QWidget *parent = 0);
 
+	static PreferenceItem<bool> smoothScrolling;
+	static PreferenceItem<QString> kanjiFont;
+	static PreferenceItem<QString> kanaFont;
+	static PreferenceItem<QString> textFont;
+	static PreferenceItem<int> displayMode;
+
 public slots:
 	void newList();
 	void deleteSelectedItems();

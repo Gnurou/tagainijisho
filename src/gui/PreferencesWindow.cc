@@ -49,6 +49,8 @@ PreferencesWindow::PreferencesWindow(QWidget *parent, Qt::WindowFlags f) : QDial
 	addCategory(category);
 	category = new DetailedViewPreferences(this);
 	addCategory(category);
+	category = new ListsPreferences(this);
+	addCategory(category);
 
 	// Now add the panels provided by plugins
 	foreach (const QMetaObject *objClass, _pluginPanels) {
@@ -444,6 +446,22 @@ PreferencesFontChooser::PreferencesFontChooser(const QString &whatFor, const QFo
 	connect(_fontButton, SIGNAL(clicked()), this, SLOT(changeFont()));
 	setFont(_defaultFont);
 	layout->addWidget(_fontButton);
+}
+
+ListsPreferences::ListsPreferences(QWidget *parent) : PreferencesWindowCategory(tr("Lists"), parent)
+{
+}
+
+void ListsPreferences::refresh()
+{
+}
+
+void ListsPreferences::applySettings()
+{
+}
+
+void ListsPreferences::updateUI()
+{
 }
 
 void PreferencesFontChooser::setFont(const QFont &f)
