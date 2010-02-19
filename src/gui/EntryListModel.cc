@@ -164,7 +164,7 @@ QVariant EntryListModel::data(const QModelIndex &index, int role) const
 		{
 			if (cEntry.type == -1) return QPalette().button();
 			EntryPointer entry(EntriesCache::get(cEntry.type, cEntry.id));
-			if (!entry->trained()) return QVariant();
+			if (!entry || !entry->trained()) return QVariant();
 			else return entry->scoreColor();
 		}
 		case Qt::FontRole:
@@ -309,7 +309,7 @@ bool EntryListModel::_removeRows(int row, int count, const QModelIndex &parent)
 bool EntryListModel::removeRows(int row, int count, const QModelIndex &parent)
 {
 	if (!TRANSACTION) return false;
-	if (!_removeRows(row, count, parent)) return true;
+	if (!_removeRows(row, count, parent)) goto transactionFailed;
 	if (!COMMIT) goto transactionFailed;
 	return true;
 transactionFailed:

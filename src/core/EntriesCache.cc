@@ -63,7 +63,9 @@ EntryPointer EntriesCache::_get(int type, int id)
 	Entry *entry = EntrySearcherManager::instance().loadEntry(type, id);
 	// If the entry is not found, do not add anything to the cache and return
 	// a null pointer
-	if (!entry) return EntryPointer();
+	if (!entry) {
+		return EntryPointer();
+	}
 	// All the signal processing of the entry must take place in the main thread
 	entry->moveToThread(QCoreApplication::instance()->thread());
 
