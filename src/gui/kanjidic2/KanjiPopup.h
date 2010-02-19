@@ -90,7 +90,7 @@ public slots:
 	void updateInfo();
 
 signals:
-	void requestDisplay(EntryPointer);
+	void requestDisplay(const EntryPointer &);
 };
 
 #endif

@@ -144,7 +144,6 @@ void YesNoTrainer::train(const EntryPointer &entry)
 void YesNoTrainer::showAnswer()
 {
 	_detailedView->detailedView()->setKanjisClickable(true);
-//	_detailedView->setEntry(currentEntry.data());
 
 	showAnswerButton->setEnabled(false);
 	goodAnswerButton->setEnabled(true);

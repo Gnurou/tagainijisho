@@ -367,12 +367,11 @@ void Kanjidic2EntryFormatter::drawCustom(const ConstKanjidic2EntryPointer &entry
 		// Draw the components
 		painter.setFont(textFont);
 		foreach(const KanjiComponent *c, entry->rootComponents()) {
-			EntryPointer _entry;
+			ConstKanjidic2EntryPointer component;
 			// If the component has an original, get the meaning from it!
 			if (!c->original().isEmpty())
-				_entry = EntriesCache::get(KANJIDIC2ENTRY_GLOBALID, TextTools::singleCharToUnicode(c->original()));
-			else _entry = EntriesCache::get(KANJIDIC2ENTRY_GLOBALID, c->unicode());
-			Kanjidic2Entry *component = qobject_cast<Kanjidic2Entry *>(_entry.data());
+				component = EntriesCache::get(KANJIDIC2ENTRY_GLOBALID, TextTools::singleCharToUnicode(c->original())).objectCast<const Kanjidic2Entry>();
+			else component = EntriesCache::get(KANJIDIC2ENTRY_GLOBALID, c->unicode()).objectCast<const Kanjidic2Entry>();
 			if (printOnlyStudiedComponents && !component->trained()) continue;
 			QString s = c->repr();
 			QString meanings(component->meaningsString());
@@ -445,8 +444,7 @@ void Kanjidic2EntryFormatter::drawCustom(const ConstKanjidic2EntryPointer &entry
 		query.exec(getQueryUsedInWordsSql(entry->id(), maxWordsToPrint, printOnlyStudiedVocab));
 		painter.setFont(textFont);
 		while (query.next()) {
-			EntryPointer _entry(EntriesCache::get(query.value(0).toInt(), query.value(1).toInt()));
-			JMdictEntry *jmEntry = qobject_cast<JMdictEntry *>(_entry.data());
+			ConstJMdictEntryPointer jmEntry(EntriesCache::get(query.value(0).toInt(), query.value(1).toInt()).objectCast<const JMdictEntry>());
 
 			QString str = QFontMetrics(painter.font(), painter.device()).elidedText(jmEntry->shortVersion(Entry::TinyVersion), Qt::ElideRight, rightArea.width());
 			textBB = painter.boundingRect(rightArea, Qt::AlignLeft, str);

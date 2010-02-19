@@ -269,7 +269,7 @@ public slots:
 
 	/**
 	 * Manually inform the view about which entry it is displaying. Calling
-	 * display(Entry *) is enough to do this, but there are times when this
+	 * display() is enough to do this, but there are times when this
 	 * the entry is drawn manually using the QTextBrowser interface (for instance,
 	 * when drawing only part of the entry for flashcards). In these cases, calling
 	 * this function allows to use the right-click menu entries.

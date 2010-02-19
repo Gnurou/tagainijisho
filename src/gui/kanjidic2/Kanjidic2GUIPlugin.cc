@@ -262,7 +262,7 @@ bool Kanjidic2GUIPlugin::eventFilter(QObject *obj, QEvent *_event)
 							ConstKanjidic2EntryPointer entry(EntriesCache::get(KANJIDIC2ENTRY_GLOBALID, TextTools::singleCharToUnicode(c)).objectCast<const Kanjidic2Entry>());
 							view->viewport()->setCursor(QCursor(Qt::PointingHandCursor));
 							// Only show the tooltip if the entry exists in the database!
-							if (kanjiTooltipEnabled.value() && entry.data()) {
+							if (kanjiTooltipEnabled.value() && entry) {
 								const Kanjidic2EntryFormatter *formatter(static_cast<const Kanjidic2EntryFormatter *>(EntryFormatter::getFormatter(KANJIDIC2ENTRY_GLOBALID)));
 								formatter->showToolTip(entry, QCursor::pos());
 							}
@@ -317,14 +317,14 @@ bool Kanjidic2GUIPlugin::eventFilter(QObject *obj, QEvent *_event)
 					QUrl url(cursor.charFormat().anchorHref());
 					if (url.scheme() == "entry") {
 						EntryPointer entry(EntriesCache::get(url.queryItemValue("type").toInt(), url.queryItemValue("id").toInt()));
-						if (entry.data()) tview.setEntry(entry);
+						if (entry) tview.setEntry(entry);
 					}
 				}
 				else {
 					QChar c(cursor.selectedText()[0]);
 					if (TextTools::isKanjiChar(c)) {
 						EntryPointer entry(EntriesCache::get(KANJIDIC2ENTRY_GLOBALID, c.unicode()));
-						if (entry.data()) tview.setEntry(entry);
+						if (entry) tview.setEntry(entry);
 					}
 				}
 			}
@@ -369,7 +369,7 @@ void KanjiLinkHandler::handleUrl(const QUrl &url, DetailedView *view)
 	if (!entry) return;
 
 	KanjiPopup *popup = new KanjiPopup();
-	QObject::connect(popup, SIGNAL(requestDisplay(Entry*)), MainWindow::instance()->detailedView(), SLOT(display(Entry*)));
+	QObject::connect(popup, SIGNAL(requestDisplay(EntryPointer)), MainWindow::instance()->detailedView(), SLOT(display(EntryPointer)));
 
 	popup->setFrameStyle(QFrame::StyledPanel | QFrame::Raised);
 	popup->setWindowModality(Qt::ApplicationModal);

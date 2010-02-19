@@ -25,7 +25,7 @@
 #include <QDate>
 #include <QSet>
 #include <QObject>
-#include <QSharedData>
+#include <QSharedPointer>
 
 class Entry : public QObject, public QSharedData
 {
@@ -90,13 +90,11 @@ private:
 	void setNbTrained(unsigned int nb) { _nbTrained = nb; }
 	void setNbSuccess(unsigned int nb) { _nbSuccess = nb; }
 
-public:
-	/**
-	 * List of the targets we can render an entry to, to allow specific behavior
-	 * for some media.
-	 */
-	Entry();
+protected:
 	Entry(quint8 type, quint32 id);
+
+public:
+	// Must be public or QSharedPointer won't work
 	virtual ~Entry();
 
 	quint8 type() const { return _type; }
@@ -157,6 +155,7 @@ signals:
 	/**
 	 * Emitted when the entry has changed and its views
 	 * need to be redrawn.
+	 * TODO should we not use a ConstEntryPointer for safety here?
 	 */
 	void entryChanged(Entry *);
 
@@ -167,6 +166,12 @@ signals:
 friend class EntrySearcher;
 };
 
+// TODO try to remove this, needed by the notes edit dialog
 Q_DECLARE_METATYPE(Entry::Note *)
+
+typedef QSharedPointer<Entry> EntryPointer;
+Q_DECLARE_METATYPE(EntryPointer)
+typedef QSharedPointer<const Entry> ConstEntryPointer;
+Q_DECLARE_METATYPE(ConstEntryPointer)
 
 #endif

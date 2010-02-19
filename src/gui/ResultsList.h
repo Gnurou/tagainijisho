@@ -48,7 +48,7 @@ private:
 	
 protected slots:
 	void updateViews();
-	void onEntryChanged(Entry *entry);
+	void onEntryChanged(const EntryPointer &entry);
 
 public:
 	enum { EntryRole = Qt::UserRole };

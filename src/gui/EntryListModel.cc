@@ -157,7 +157,7 @@ QVariant EntryListModel::data(const QModelIndex &index, int role) const
 		{
 			if (cEntry.type == -1) return cEntry.label;
 			EntryPointer entry(EntriesCache::get(cEntry.type, cEntry.id));
-			if (!entry.data()) return QVariant();
+			if (!entry) return QVariant();
 			else return entry->shortVersion(Entry::TinyVersion);
 		}
 		case Qt::BackgroundRole:

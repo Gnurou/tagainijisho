@@ -21,6 +21,7 @@
 #include <QtDebug>
 #include <QCoreApplication>
 #include <QMutexLocker>
+#include <QWeakPointer>
 
 EntriesCache *EntriesCache::_instance = 0;
 PreferenceItem<int> EntriesCache::cacheSize("", "entriesCacheSize", 1000);
@@ -47,33 +48,36 @@ void EntriesCache::cleanup()
 
 EntryPointer EntriesCache::_get(int type, int id)
 {
-	QPair<int, int> key(type, id);
+	EntryRef key(type, id);
 	// First look if the entry is already loaded
 	// Keep that lock until the Entry is loaded, as the entry searchers
 	// are not thread-safe yet. :(
 	// TODO Make the entry searchers thread-safe!
 	QMutexLocker loadedLocker(&_loadedEntriesMutex);
 	if (_loadedEntries.contains(key)) {
-		return EntryPointer(_loadedEntries[key]);
+		return _loadedEntries[key].toStrongRef();
 	}
 
 	// Nope, we must load it from the database
 	Entry *entry = EntrySearcherManager::instance().loadEntry(type, id);
 	// If the entry is not found, do not add anything to the cache and return
-	// immediatly
-	if (!entry) return EntryPointer(entry);
+	// a null pointer
+	if (!entry) return EntryPointer();
 	// All the signal processing of the entry must take place in the main thread
 	entry->moveToThread(QCoreApplication::instance()->thread());
-	// Used to remove entries from the list of loaded entries
-	//connect(entry, SIGNAL(entryDestroyed(Entry *)), this, SLOT(onDestroyed(Entry *)));
 
-	_loadedEntries[key] = entry;
 	// Keep a reference to the entry now - this is needed
 	// for the case the cache size is zero
 	EntryPointer ret(entry, &_removeAndDelete);
 	_cacheMutex.lock();
 	_cache << ret;
 	while (_cache.size() > cacheSize.value()) _cache.removeFirst();
+	// Keep a weak pointer in the list of loaded entries - it is convertible to a
+	// QSharedPointer but will not influence the reference count.
+	_loadedEntries[key] = ret.toWeakRef();
+#ifdef DEBUG_ENTRIES_CACHE
+	qDebug("Entry <%d,%d> loaded, %d in cache", entry->type(), entry->id(), _loadedEntries.size());
+#endif
 	_cacheMutex.unlock();
 	loadedLocker.unlock();
 
@@ -87,6 +91,9 @@ void EntriesCache::_removeAndDelete(const Entry *entry)
 	// Have we created a new reference to this entry by the meantime?
 	if (entry->ref > 0) return;
 	// No, we can safely remove and delete it then!
-	_instance->_loadedEntries.remove(QPair<int, int>(entry->type(), entry->id()));
+	_instance->_loadedEntries.remove(EntryRef(entry));
+#ifdef DEBUG_ENTRIES_CACHE
+	qDebug("Entry <%d,%d> deleted, %d in cache", entry->type(), entry->id(), _instance->_loadedEntries.size());
+#endif
 	delete entry;
 }

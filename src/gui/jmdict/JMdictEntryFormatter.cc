@@ -438,9 +438,8 @@ void JMdictEntryFormatter::drawCustom(const ConstEntryPointer& _entry, QPainter&
 		foreach (const QChar &c, writing) {
 			if (TextTools::isKanjiChar(c) && !usedKanjis.contains(c)) {
 				usedKanjis << c;
-				EntryPointer _entry = EntriesCache::get(KANJIDIC2ENTRY_GLOBALID, c.unicode());
-				if (!_entry) continue;
-				Kanjidic2Entry *kanji = qobject_cast<Kanjidic2Entry *>(_entry.data());
+				ConstKanjidic2EntryPointer kanji(EntriesCache::get(KANJIDIC2ENTRY_GLOBALID, c.unicode()).objectCast<const Kanjidic2Entry>());
+				if (!kanji) continue;
 				if (printOnlyStudiedKanjis && !kanji->trained()) continue;
 				QString s = QString(c) + ": " + kanji->meanings().join(", ");
 				QFontMetrics metrics(painter.font(), painter.device());
@@ -546,7 +545,7 @@ void FindVerbBuddyJob::result(ConstEntryPointer entry)
 	}
 	// We are have a best match if
 	// 1) There is no candidate yet
-	if (!bestMatch.data()) {
+	if (!bestMatch) {
 		bestMatch = jEntry;
 		return;
 	}
@@ -590,7 +589,7 @@ void FindVerbBuddyJob::result(ConstEntryPointer entry)
 
 void FindVerbBuddyJob::completed()
 {
-	if (!bestMatch.data()) return;
+	if (!bestMatch) return;
 	QTextCharFormat normal(DetailedViewFonts::charFormat(DetailedViewFonts::DefaultText));
 	QTextCharFormat bold(normal);
 	bold.setFontWeight(QFont::Bold);

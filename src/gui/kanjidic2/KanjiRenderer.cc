@@ -158,8 +158,7 @@ void KanjiRenderer::setKanji(ConstKanjidic2EntryPointer kanji)
 
 void KanjiRenderer::renderStrokes(QPainter *painter)
 {
-	const Kanjidic2Entry *k(static_cast<const Kanjidic2Entry *>(_kanji.data()));
-	foreach (const KanjiStroke &stroke, k->strokes())
+	foreach (const KanjiStroke &stroke, _kanji->strokes())
 		renderStroke(stroke, painter);
 }
 

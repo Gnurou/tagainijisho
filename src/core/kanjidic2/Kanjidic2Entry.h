@@ -127,10 +127,10 @@ protected:
 	KanjiComponent *addComponent(const QString &element, const QString &original, bool isRoot = false);
 	KanjiStroke *addStroke(const QChar &type, const QString &path);
 
-public:
-	// Needed to register type
-	Kanjidic2Entry() : Entry() {}
+protected:
 	Kanjidic2Entry(const QString &kanji, bool inDB, int grade = -1, int strokeCount = -1, int kanjiFrequency = -1, int jlpt = -1);
+
+public:
 	virtual ~Kanjidic2Entry() {}
 
 	/**

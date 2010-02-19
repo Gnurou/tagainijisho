@@ -124,7 +124,7 @@ void ReadingTrainer::checkAnswer()
 	if (ui.userInput->text().isEmpty()) return;
 	bool correct(false);
 	QString answer(ui.userInput->text());
-	foreach (QString reading, entry.data()->readings()) {
+	foreach (const QString &reading, entry->readings()) {
 		if (TextTools::hiragana2Katakana(answer) == TextTools::hiragana2Katakana(reading)) {
 			correct = true;
 			break;

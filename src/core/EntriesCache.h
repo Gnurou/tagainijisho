@@ -26,126 +26,6 @@
 #include <QObject>
 #include <QQueue>
 #include <QMutex>
-#include <QSharedPointer>
-
-/**
- * A reference-counting entry pointer. It is designed to only
- * accept members of Entry type and properly deletes them when
- * their reference count reaches zero. It is largely inspired by
- * Qt's QExplicitlySharedDataPointer class, with the difference
- * that is removes the entry from the list of loaded entries in
- * the EntriesCache before actually deleting it, ensuring atomic
- * deletion of entries.
- */
-/*
-template <class T> class TmplEntryPointer
-{
-private:
-    void _ref() const {
-        if (d) d->ref.ref();
-    }
-    void _deref();
-public:
-    typedef T Type;
-
-    inline T &operator*() {
-        return *d;
-    }
-    inline const T &operator*() const {
-        return *d;
-    }
-    inline T *operator->() {
-        return d;
-    }
-    inline T *operator->() const {
-        return d;
-    }
-    inline T *data() const {
-        return d;
-    }
-    inline const T *constData() const {
-        return d;
-    }
-
-    inline void reset()
-    {
-        _deref();
-        d = 0;
-    }
-
-    inline operator bool () const {
-        return d != 0;
-    }
-
-    inline bool operator==(const TmplEntryPointer<T> &other) const {
-        return d == other.d;
-    }
-    inline bool operator!=(const TmplEntryPointer<T> &other) const {
-        return d != other.d;
-    }
-    inline bool operator==(const T *ptr) const {
-        return d == ptr;
-    }
-    inline bool operator!=(const T *ptr) const {
-        return d != ptr;
-    }
-
-    inline TmplEntryPointer() {
-        d = 0;
-    }
-    inline ~TmplEntryPointer() {
-        _deref();
-    }
-
-    explicit TmplEntryPointer(T *data) : d(data) {
-        _ref();
-    }
-    inline TmplEntryPointer(const TmplEntryPointer<T> &o) : d(o.d) {
-        _ref();
-    }
-
-#ifndef QT_NO_MEMBER_TEMPLATES
-    template<class X>
-    inline TmplEntryPointer(const TmplEntryPointer<X> &o) : d(static_cast<T *>(o.data())) {
-        _ref();
-    }
-#endif
-
-    inline TmplEntryPointer<T> & operator=(const TmplEntryPointer<T> &o) {
-        if (o.d != d) {
-            o._ref();
-            _deref();
-            d = o.d;
-        }
-        return *this;
-    }
-    inline TmplEntryPointer &operator=(T *o) {
-        if (o != d) {
-            if (o)
-                o->ref.ref();
-            _deref();
-            d = o;
-        }
-        return *this;
-    }
-
-    inline bool operator!() const {
-        return !d;
-    }
-
-private:
-    T *d;
-};
-
-typedef TmplEntryPointer<Entry> EntryPointer;
-Q_DECLARE_METATYPE(EntryPointer)
-typedef TmplEntryPointer<const Entry> ConstEntryPointer;
-*/
-
-typedef QSharedPointer<Entry> EntryPointer;
-Q_DECLARE_METATYPE(EntryPointer)
-typedef QSharedPointer<const Entry> ConstEntryPointer;
-Q_DECLARE_METATYPE(ConstEntryPointer)
 
 /**
  * Used to reference an entry without having to load it entirely. A shared pointer to
@@ -154,12 +34,20 @@ Q_DECLARE_METATYPE(ConstEntryPointer)
 class EntryRef : protected QPair<quint8, quint32>
 {
 public:
-	EntryRef() : QPair<quint8, quint32>() {}
 	EntryRef(quint8 type, quint32 id) : QPair<quint8, quint32>(type, id) {}
+	EntryRef(const Entry *entry) : QPair<quint8, quint32>(entry->type(), entry->id()) {}
 	quint8 type() const { return first; }
 	quint32 id() const { return second; }
+	bool operator==(const EntryRef &other) const { return static_cast<const QPair<quint8, quint32> >(*this) == other; }
+	bool operator!=(const EntryRef &other) const { return !(*this == other); }
 };
-Q_DECLARE_METATYPE(EntryRef)
+inline uint qHash(const EntryRef &key)
+{
+	uint h1 = qHash(key.type());
+	uint h2 = qHash(key.id());
+	return ((h1 << 16) | (h1 >> 16)) ^ h2;
+}
+//Q_DECLARE_METATYPE(EntryRef)
 
 /**
  * The EntryCache plays a double role:
@@ -178,51 +66,46 @@ class EntriesCache : public QObject
 {
     Q_OBJECT
 private:
-    static EntriesCache * _instance;
+	static EntriesCache * _instance;
 
-    QHash<QPair<int, int>, Entry *> _loadedEntries;
-    QMutex _loadedEntriesMutex;
+	QHash<EntryRef, QWeakPointer<Entry> > _loadedEntries;
+	QMutex _loadedEntriesMutex;
 
-    QQueue<EntryPointer> _cache;
-    QMutex _cacheMutex;
+	QQueue<EntryPointer> _cache;
+	QMutex _cacheMutex;
 
-    /**
-     * Removes the given entry from the entries list, then delete it.
-     * This operation is atomic, i.e. it ensures no reference to the
-     * deleted entries are created by the meantime.
-     */
-    static void _removeAndDelete(const Entry *entry);
+	/**
+	 * This method is automatically called when the reference count of
+	 * an entry pointer reaches 0. It removes the entry from the list
+	 * of loaded entries list and takes care to delete the entry.
+	 *
+	 * This operation is atomic, i.e. it ensures no reference to the
+	 * deleted entry is created by the meantime.
+	 */
+	static void _removeAndDelete(const Entry *entry);
 
-    friend class Entry;
+	friend class Entry;
 
-    EntryPointer _get(int type, int id);
-    EntriesCache(QObject *parent = 0);
-    ~EntriesCache();
+	EntryPointer _get(int type, int id);
+	EntriesCache(QObject *parent = 0);
+	~EntriesCache();
 
 public:
-    static void init();
-    static void cleanup();
+	static void init();
+	static void cleanup();
 
-    /**
-     * Returns the unique instance of the entry given as argument,
-     * loading it from the database if necessary. Returns null
-     * if the entry could not be loaded.
-     */
-    static EntryPointer get(int type, int id) {
-        return _instance->_get(type, id);
-    }
+	/**
+	 * Returns the unique instance of the entry given as argument,
+	 * loading it from the database if necessary. Returns null
+	 * if the entry could not be loaded.
+	 */
+	static EntryPointer get(int type, int id) {
+		return _instance->_get(type, id);
+	}
 
-    /**
-     * The size of the cache can be modified in real-time through this value.
-     */
-    static PreferenceItem<int> cacheSize;
+	/**
+	 * The size of the cache can be modified in real-time through this value.
+	 */
+	static PreferenceItem<int> cacheSize;
 };
-/*
-template <class T> void TmplEntryPointer<T>::_deref()
-{
-    if (d && !d->ref.deref()) {
-        EntriesCache::_instance->_removeAndDelete(d);
-    }
-}*/
-
 #endif

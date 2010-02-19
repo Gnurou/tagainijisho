@@ -17,6 +17,7 @@
 
 #include "core/TextTools.h"
 #include "core/EntriesCache.h"
+#include "core/kanjidic2/Kanjidic2Entry.h"
 #include "gui/kanjidic2/KanjiPopup.h"
 #include "gui/EntryFormatter.h"
 #include "gui/SingleEntryView.h"
@@ -167,7 +168,7 @@ void KanjiPopup::showKanji(const Kanjidic2EntryPointer &entry)
 
 void KanjiPopup::updateInfo()
 {
-	const Kanjidic2Entry *entry(static_cast<const Kanjidic2Entry *>(entryView.entry().data()));
+	ConstKanjidic2EntryPointer entry(entryView.entry().objectCast<const Kanjidic2Entry>());
 	QString str;
 	if (entry->kanjiFrequency() != -1)
 		str += tr("<b>Freq:</b> %1<br/>").arg(entry->kanjiFrequency());
@@ -184,7 +185,7 @@ void KanjiPopup::updateInfo()
 
 void KanjiPopup::setComponentsLabelText(int highlightPos)
 {
-	const Kanjidic2Entry *entry(static_cast<const Kanjidic2Entry *>(entryView.entry().data()));
+	ConstKanjidic2EntryPointer entry(entryView.entry().objectCast<const Kanjidic2Entry>());
 	QStringList componentsStrings;
 	int i = 0;
 	foreach (const KanjiComponent *component, entry->rootComponents()) {
@@ -232,7 +233,7 @@ void KanjiPopup::onNextClick()
 
 void KanjiPopup::onComponentHighlighted(const KanjiComponent *component)
 {
-	const Kanjidic2Entry *entry(static_cast<const Kanjidic2Entry *>(entryView.entry().data()));
+	ConstKanjidic2EntryPointer entry(entryView.entry().objectCast<const Kanjidic2Entry>());
 	stroke->highlightComponent(component);
 	int pos = -1;
 	for (int i = 0; i < entry->rootComponents().size(); ++i) if (component == entry->rootComponents()[i]) { pos = i; break; }
@@ -271,7 +272,7 @@ void KanjiPopup::onComponentLinkHovered(const QString &link)
 void KanjiPopup::onComponentLinkActivated(const QString &link)
 {
 	int idx(link.toInt());
-	const Kanjidic2Entry *entry(static_cast<const Kanjidic2Entry *>(entryView.entry().data()));
+	ConstKanjidic2EntryPointer entry(entryView.entry().objectCast<const Kanjidic2Entry>());
 	const KanjiComponent *component(entry->rootComponents()[idx]);
 	onComponentClicked(component);
 }

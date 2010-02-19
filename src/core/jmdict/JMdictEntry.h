@@ -125,10 +125,10 @@ private:
 
 	void addKanaReading(const KanaReading &reading);
 
-public:
-	// Needed to register type
-	JMdictEntry() : Entry() {}
+protected:
 	JMdictEntry(int id);
+
+public:
 	virtual ~JMdictEntry();
 
 	const QList<KanjiReading> &getKanjiReadings() const { return kanjis; }

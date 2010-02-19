@@ -37,15 +37,6 @@
 #define KANJI_SIZE 50
 #define PADDING 5
 
-/*void ComponentSearchWidget::onItemEntered(QListWidgetItem *item)
-{
-	EntryPointer<Entry> entry(EntriesCache::get(KANJIDIC2ENTRY_GLOBALID, TextTools::singleCharToUnicode(item->text())).data());
-	const Kanjidic2Entry *kanji(static_cast<const Kanjidic2Entry *>(entry.data()));
-	if (!kanji) return;
-	const Kanjidic2EntryFormatter *formatter(static_cast<const Kanjidic2EntryFormatter *>(EntryFormatter::getFormatter(kanji)));
-	formatter->showToolTip(kanji, QCursor::pos());
-}*/
-
 CandidatesKanjiList::CandidatesKanjiList(QWidget *parent) : QGraphicsView(parent), _scene(), curItem(0), pos(0), wheelDelta(0)
 {
 	setScene(&_scene);
@@ -198,8 +189,7 @@ void ComponentSearchWidget::populateList(QSqlQuery &query)
 
 		// Do we have a new complement?
 		if (query.value(1) == 0) continue;
-		EntryPointer entry = EntriesCache::get(2, query.value(1).toInt());
-		Kanjidic2Entry *kEntry(static_cast<Kanjidic2Entry *>(entry.data()));
+		ConstKanjidic2EntryPointer kEntry(EntriesCache::get(2, query.value(1).toInt()).objectCast<const Kanjidic2Entry>());
 		if (!kEntry) continue;
 		val = kEntry->kanji();
 		if (!val.isEmpty() && !complements[kEntry->strokeCount()].contains(val)) {

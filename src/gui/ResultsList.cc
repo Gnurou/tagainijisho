@@ -58,7 +58,7 @@ QVariant ResultsList::data(const QModelIndex &index, int role) const
 	if (index.row() >= entries.size()) return QVariant();
 
 	if (role == Qt::BackgroundRole) {
-		Entry *entry = entries.at(index.row()).data();
+		const EntryPointer &entry = entries.at(index.row());
 		if (!entry->trained()) return QVariant();
 		else return entry->scoreColor();
 	}
@@ -81,9 +81,9 @@ void ResultsList::addResult(EntryPointer entry)
 	entries << entry;
 }
 
-void ResultsList::onEntryChanged(Entry *entry)
+void ResultsList::onEntryChanged(const EntryPointer &entry)
 {
-	int idx = entries.indexOf(EntryPointer(entry));
+	int idx = entries.indexOf(entry);
 	QModelIndex itemIndex = createIndex(idx, 0);
 	emit dataChanged(itemIndex, itemIndex);
 }

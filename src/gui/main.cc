@@ -67,7 +67,10 @@ void messageHandler(QtMsgType type, const char *msg)
 		fprintf(stderr, "Critical: %s\n", msg);
 		break;
 	case QtFatalMsg:
-		QMessageBox::critical(0, "Tagaini Jisho fatal error", msg);
+		// TODO here a message should be emitted and caught by the main thread in
+		// order to display the message box. This is because fatal errors may occur
+		// in auxiliary threads too.
+		//QMessageBox::critical(0, "Tagaini Jisho fatal error", msg);
 		fprintf(stderr, "Fatal: %s\n", msg);
 		exit(1);
 	}
