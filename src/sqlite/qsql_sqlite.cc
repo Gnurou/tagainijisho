@@ -554,7 +554,6 @@ bool QSQLiteDriver::commitTransaction()
                                q.lastError().databaseText(), QSqlError::TransactionError));
         return false;
     }
-
     return true;
 }
 

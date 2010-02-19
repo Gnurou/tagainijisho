@@ -220,7 +220,9 @@ bool EntryListModel::setData(const QModelIndex &index, const QVariant &value, in
 	}
 	return false;
 transactionFailed:
+	qDebug() << __FILE__ << __LINE__ << "Cannot execute query:" << QSqlDatabase::database().lastError().text();
 	ROLLBACK;
+	invalidateCache();
 	return false;
 }
 	
@@ -263,7 +265,9 @@ bool EntryListModel::insertRows(int row, int count, const QModelIndex & parent)
 	endInsertRows();
 	return true;
 transactionFailed:
+	qDebug() << __FILE__ << __LINE__ << "Cannot execute query:" << QSqlDatabase::database().lastError().text();
 	ROLLBACK;
+	invalidateCache();
 	return false;
 }
 
@@ -313,7 +317,9 @@ bool EntryListModel::removeRows(int row, int count, const QModelIndex &parent)
 	if (!COMMIT) goto transactionFailed;
 	return true;
 transactionFailed:
+	qDebug() << __FILE__ << __LINE__ << "Cannot execute query:" << QSqlDatabase::database().lastError().text();
 	ROLLBACK;
+	invalidateCache();
 	return false;
 }
 
@@ -425,11 +431,12 @@ bool EntryListModel::dropMimeData(const QMimeData *data, Qt::DropAction action, 
 		}
 		QByteArray ba = data->data("tagainijisho/entry");
 		QDataStream ds(&ba, QIODevice::ReadOnly);
-		QList<QPair<int, int> > entries;
+		QList<EntryRef> entries;
 		while (!ds.atEnd()) {
-			int type, id;
+			quint8 type;
+			quint32 id;
 			ds >> type >> id;
-			entries << QPair<int, int>(type, id);
+			entries << EntryRef(type, id);
 		}
 		// If dropped on a list, append the entries
 		if (row == -1) row = rowCount(parent);
@@ -443,8 +450,8 @@ bool EntryListModel::dropMimeData(const QMimeData *data, Qt::DropAction action, 
 			for (int i = 0; i < entries.size(); ++i) {
 				query.addBindValue(parent.internalId());
 				query.addBindValue(row + i);
-				query.addBindValue(entries[i].first);
-				query.addBindValue(entries[i].second);
+				query.addBindValue(entries[i].type());
+				query.addBindValue(entries[i].id());
 				EXEC_T(query);
 			}
 		}
@@ -455,6 +462,8 @@ bool EntryListModel::dropMimeData(const QMimeData *data, Qt::DropAction action, 
 	}
 	return true;
 transactionFailed:
+	qDebug() << __FILE__ << __LINE__ << "Cannot execute query:" << QSqlDatabase::database().lastError().text();
 	ROLLBACK;
+	invalidateCache();
 	return false;
 }
