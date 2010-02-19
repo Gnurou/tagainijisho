@@ -1,5 +1,3 @@
-# TODO Download & extract SQLite, JMdict, kanjidic2 and kanjivg
-
 project(tagainijisho)
 set(VERSION 0.2.4.80)
 cmake_minimum_required(VERSION 2.6.0)
@@ -21,6 +19,8 @@ if(CMAKE_SYSTEM_NAME MATCHES "Linux")
 		set(DATA_DIR "${CMAKE_INSTALL_PREFIX}/share/tagainijisho")
 	endif(NOT DATA_DIR)
 endif()
+
+option(DEBUG_ENTRIES_CACHE "Print entries cache behavior" OFF)
 
 configure_file(${CMAKE_SOURCE_DIR}/src/config.h.cmake ${CMAKE_BINARY_DIR}/src/config.h)
 # For config.h
