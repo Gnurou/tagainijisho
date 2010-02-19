@@ -248,3 +248,15 @@ void ResultsView::setModel(QAbstractItemModel *model)
 	connect(selectionModel(), SIGNAL(selectionChanged(QItemSelection,QItemSelection)),
 			this, SIGNAL(listSelectionChanged(QItemSelection,QItemSelection)));
 }
+
+void ResultsView::startDrag(Qt::DropActions supportedActions)
+{
+	QModelIndexList indexes = selectedIndexes();
+	if (indexes.count() > 0) {
+		QMimeData *data(model()->mimeData(indexes));
+		if (!data) return;
+		QDrag *drag = new QDrag(this);
+		drag->setMimeData(data);
+		drag->exec(supportedActions, Qt::CopyAction);
+	}
+}

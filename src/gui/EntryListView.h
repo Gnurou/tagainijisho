@@ -36,9 +36,8 @@ private:
 	EntryDelegate *delegate;
 
 protected:
-	virtual void dragEnterEvent(QDragEnterEvent *event);
-	virtual void dragMoveEvent(QDragMoveEvent *event);
-	
+	virtual void startDrag(Qt::DropActions supportedActions);
+
 protected slots:
 	virtual void selectionChanged(const QItemSelection &selected, const QItemSelection &deselected);
 

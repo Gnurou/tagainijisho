@@ -51,6 +51,8 @@ protected:
 	QMenu contextMenu;
 	QAction *selectAllAction;
 	SmoothScroller _charm;
+	
+	virtual void startDrag(Qt::DropActions supportedActions);
 
 protected slots:
 	void studySelected();

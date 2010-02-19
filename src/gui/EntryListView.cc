@@ -57,31 +57,16 @@ void EntryListView::selectionChanged(const QItemSelection &selected, const QItem
 	}
 }
 
-/*
- * This part is tricky - we want the drag and drop of list items to appear as move events instead of copy, because
- * this is what actually happens when a list item is drag'n dropped. On the other hand, the action received by
- * the drop handler must be a copy, otherwise the list will try to remove the row itself (the row within the
- * database is updated, not inserted/deleted). By forcing the type of the QDragEnterEvent and QDragMoveEvent
- * (but not of the QDropEvent), we obtain the desired effect.
- */
-void EntryListView::dragEnterEvent(QDragEnterEvent *event)
+void EntryListView::startDrag(Qt::DropActions supportedActions)
 {
-	const QMimeData *mimeData = event->mimeData();
-	if (mimeData->hasFormat("tagainijisho/listitem")) {
-		if (event->proposedAction() == Qt::MoveAction) event->acceptProposedAction();
-		else { event->setDropAction(Qt::MoveAction); event->accept(); }
+	QModelIndexList indexes = selectedIndexes();
+	if (indexes.count() > 0) {
+		QMimeData *data(model()->mimeData(indexes));
+		if (!data) return;
+		QDrag *drag = new QDrag(this);
+		drag->setMimeData(data);
+		drag->exec(supportedActions, Qt::MoveAction);
 	}
-	QTreeView::dragEnterEvent(event);
-}
-
-void EntryListView::dragMoveEvent(QDragMoveEvent *event)
-{  
-	const QMimeData *mimeData = event->mimeData();
-	if (mimeData->hasFormat("tagainijisho/listitem")) {
-		if (event->proposedAction() == Qt::MoveAction) event->acceptProposedAction();
-		else { event->setDropAction(Qt::MoveAction); event->accept(); }
-	}
-	QTreeView::dragMoveEvent(event);
 }
 
 // TODO Allow to create lists elsewhere than on the root
