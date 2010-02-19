@@ -7,16 +7,12 @@
     <message>
         <location filename="../src/gui/AboutDialog.ui" line="14"/>
         <location filename="../build/src/gui/ui_AboutDialog.h" line="94"/>
-        <location filename="../build-win32/src/gui/ui_AboutDialog.h" line="94"/>
-        <location filename="../src/gui/ui_AboutDialog.h" line="94"/>
         <source>About Tagaini Jisho</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/AboutDialog.ui" line="27"/>
         <location filename="../build/src/gui/ui_AboutDialog.h" line="95"/>
-        <location filename="../build-win32/src/gui/ui_AboutDialog.h" line="95"/>
-        <location filename="../src/gui/ui_AboutDialog.h" line="95"/>
         <source>Tagaini Jisho</source>
         <translation type="unfinished"></translation>
     </message>
@@ -24,7 +20,7 @@
 <context>
     <name>ComponentSearchButton</name>
     <message>
-        <location filename="../src/gui/kanjidic2/ComponentSearchWidget.cc" line="227"/>
+        <location filename="../src/gui/kanjidic2/ComponentSearchWidget.cc" line="217"/>
         <source>Triggers the kanji input panel</source>
         <translation type="unfinished"></translation>
     </message>
@@ -34,8 +30,6 @@
     <message>
         <location filename="../src/gui/kanjidic2/ComponentSearchWidget.ui" line="14"/>
         <location filename="../build/src/gui/ui_ComponentSearchWidget.h" line="96"/>
-        <location filename="../build-win32/src/gui/ui_ComponentSearchWidget.h" line="96"/>
-        <location filename="../src/gui/ui_ComponentSearchWidget.h" line="96"/>
         <source>Form</source>
         <translation type="unfinished"></translation>
     </message>
@@ -58,78 +52,66 @@
     <message>
         <location filename="../src/gui/DetailedViewPreferences.ui" line="14"/>
         <location filename="../build/src/gui/ui_DetailedViewPreferences.h" line="79"/>
-        <location filename="../build-win32/src/gui/ui_DetailedViewPreferences.h" line="79"/>
-        <location filename="../src/gui/ui_DetailedViewPreferences.h" line="79"/>
         <source>Form</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/DetailedViewPreferences.ui" line="20"/>
         <location filename="../build/src/gui/ui_DetailedViewPreferences.h" line="80"/>
-        <location filename="../build-win32/src/gui/ui_DetailedViewPreferences.h" line="80"/>
-        <location filename="../src/gui/ui_DetailedViewPreferences.h" line="80"/>
         <source>General</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/DetailedViewPreferences.ui" line="26"/>
         <location filename="../build/src/gui/ui_DetailedViewPreferences.h" line="81"/>
-        <location filename="../build-win32/src/gui/ui_DetailedViewPreferences.h" line="81"/>
-        <location filename="../src/gui/ui_DetailedViewPreferences.h" line="81"/>
         <source>Smooth scrolling</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/DetailedViewPreferences.ui" line="33"/>
         <location filename="../build/src/gui/ui_DetailedViewPreferences.h" line="82"/>
-        <location filename="../build-win32/src/gui/ui_DetailedViewPreferences.h" line="82"/>
-        <location filename="../src/gui/ui_DetailedViewPreferences.h" line="82"/>
         <source>Show JLPT level in short descriptions</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/DetailedViewPreferences.ui" line="43"/>
         <location filename="../build/src/gui/ui_DetailedViewPreferences.h" line="83"/>
-        <location filename="../build-win32/src/gui/ui_DetailedViewPreferences.h" line="83"/>
-        <location filename="../src/gui/ui_DetailedViewPreferences.h" line="83"/>
         <source>Fonts</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/DetailedViewPreferences.ui" line="50"/>
         <location filename="../build/src/gui/ui_DetailedViewPreferences.h" line="84"/>
-        <location filename="../build-win32/src/gui/ui_DetailedViewPreferences.h" line="84"/>
-        <location filename="../src/gui/ui_DetailedViewPreferences.h" line="84"/>
         <source>Preview</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="301"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="345"/>
         <source>Detailed View</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="316"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="360"/>
         <source>Default text</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="322"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="366"/>
         <source>Kana header</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="328"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="372"/>
         <source>Kanji header</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="334"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="378"/>
         <source>Kanji</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="341"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="385"/>
         <source>Kana</source>
         <translation type="unfinished"></translation>
     </message>
@@ -160,32 +142,32 @@
 <context>
     <name>EntryFormatter</name>
     <message>
-        <location filename="../src/gui/EntryFormatter.cc" line="93"/>
+        <location filename="../src/gui/EntryFormatter.cc" line="86"/>
         <source>Notes:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/EntryFormatter.cc" line="118"/>
+        <location filename="../src/gui/EntryFormatter.cc" line="111"/>
         <source>Studied since %1.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/EntryFormatter.cc" line="119"/>
+        <location filename="../src/gui/EntryFormatter.cc" line="112"/>
         <source> Score: %1.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/EntryFormatter.cc" line="121"/>
+        <location filename="../src/gui/EntryFormatter.cc" line="114"/>
         <source> Last trained on %1.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/EntryFormatter.cc" line="123"/>
+        <location filename="../src/gui/EntryFormatter.cc" line="116"/>
         <source> Last mistaken on %1.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/EntryFormatter.cc" line="126"/>
+        <location filename="../src/gui/EntryFormatter.cc" line="119"/>
         <source> Never trained.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -206,26 +188,26 @@
     </message>
     <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="189"/>
+        <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="496"/>
         <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="502"/>
-        <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="508"/>
         <source>&lt;b&gt;Strokes:&lt;/b&gt; %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="194"/>
-        <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="511"/>
+        <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="505"/>
         <source>&lt;b&gt;Frequency:&lt;/b&gt; %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="199"/>
-        <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="517"/>
+        <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="511"/>
         <source>&lt;b&gt;Grade:&lt;/b&gt; %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="205"/>
-        <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="523"/>
+        <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="517"/>
         <source>&lt;b&gt;JLPT:&lt;/b&gt; %1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -241,19 +223,19 @@
     </message>
     <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="247"/>
-        <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="529"/>
+        <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="523"/>
         <source>&lt;b&gt;Unicode:&lt;/b&gt; 0x%1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="252"/>
-        <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="535"/>
+        <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="529"/>
         <source>&lt;b&gt;SKIP:&lt;/b&gt; %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="257"/>
-        <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="541"/>
+        <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="535"/>
         <source>&lt;b&gt;4 corner:&lt;/b&gt; %1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -263,7 +245,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="299"/>
+        <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="296"/>
         <source> (JLPT %1)</source>
         <translation type="unfinished"></translation>
     </message>
@@ -271,7 +253,7 @@
 <context>
     <name>EntryListModel</name>
     <message>
-        <location filename="../src/gui/EntryListModel.cc" line="220"/>
+        <location filename="../src/gui/EntryListModel.cc" line="256"/>
         <source>New list</source>
         <translation type="unfinished"></translation>
     </message>
@@ -279,32 +261,32 @@
 <context>
     <name>EntryListView</name>
     <message>
-        <location filename="../src/gui/EntryListView.cc" line="84"/>
+        <location filename="../src/gui/EntryListView.cc" line="85"/>
         <source>Unable to create list</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/EntryListView.cc" line="84"/>
+        <location filename="../src/gui/EntryListView.cc" line="85"/>
         <source>A database error occured while trying to add the list.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/EntryListView.cc" line="89"/>
+        <location filename="../src/gui/EntryListView.cc" line="90"/>
         <source>Confirm deletion</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/EntryListView.cc" line="89"/>
+        <location filename="../src/gui/EntryListView.cc" line="90"/>
         <source>This will delete the selected lists items and lists, including all their children. Continue?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/EntryListView.cc" line="95"/>
+        <location filename="../src/gui/EntryListView.cc" line="96"/>
         <source>Removal failed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/EntryListView.cc" line="95"/>
+        <location filename="../src/gui/EntryListView.cc" line="96"/>
         <source>A database error occured while trying to remove the selected items. Some of them may be remaining.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -314,28 +296,24 @@
     <message>
         <location filename="../src/gui/EntryListWidget.ui" line="14"/>
         <location filename="../build/src/gui/ui_EntryListWidget.h" line="93"/>
-        <location filename="../build-win32/src/gui/ui_EntryListWidget.h" line="93"/>
         <source>Form</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/EntryListWidget.ui" line="22"/>
         <location filename="../build/src/gui/ui_EntryListWidget.h" line="95"/>
-        <location filename="../build-win32/src/gui/ui_EntryListWidget.h" line="95"/>
         <source>Create a new list</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/EntryListWidget.ui" line="39"/>
         <location filename="../build/src/gui/ui_EntryListWidget.h" line="99"/>
-        <location filename="../build-win32/src/gui/ui_EntryListWidget.h" line="99"/>
         <source>Delete currently selected list</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/EntryListWidget.ui" line="42"/>
         <location filename="../build/src/gui/ui_EntryListWidget.h" line="101"/>
-        <location filename="../build-win32/src/gui/ui_EntryListWidget.h" line="101"/>
         <source>...</source>
         <translation type="unfinished"></translation>
     </message>
@@ -432,7 +410,7 @@
 <context>
     <name>FindHomonymsJob</name>
     <message>
-        <location filename="../src/gui/jmdict/JMdictEntryFormatter.cc" line="626"/>
+        <location filename="../src/gui/jmdict/JMdictEntryFormatter.cc" line="625"/>
         <source>Homophones:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -440,17 +418,17 @@
 <context>
     <name>FindVerbBuddyJob</name>
     <message>
-        <location filename="../src/gui/jmdict/JMdictEntryFormatter.cc" line="600"/>
+        <location filename="../src/gui/jmdict/JMdictEntryFormatter.cc" line="599"/>
         <source>Transitive buddy:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/jmdict/JMdictEntryFormatter.cc" line="601"/>
+        <location filename="../src/gui/jmdict/JMdictEntryFormatter.cc" line="600"/>
         <source>Intransitive buddy:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/jmdict/JMdictEntryFormatter.cc" line="602"/>
+        <location filename="../src/gui/jmdict/JMdictEntryFormatter.cc" line="601"/>
         <source>Buddy:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -460,136 +438,102 @@
     <message>
         <location filename="../src/gui/GeneralPreferences.ui" line="14"/>
         <location filename="../build/src/gui/ui_GeneralPreferences.h" line="186"/>
-        <location filename="../build-win32/src/gui/ui_GeneralPreferences.h" line="186"/>
-        <location filename="../src/gui/ui_GeneralPreferences.h" line="186"/>
         <source>Form</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/GeneralPreferences.ui" line="20"/>
         <location filename="../build/src/gui/ui_GeneralPreferences.h" line="187"/>
-        <location filename="../build-win32/src/gui/ui_GeneralPreferences.h" line="187"/>
-        <location filename="../src/gui/ui_GeneralPreferences.h" line="187"/>
         <source>General settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/GeneralPreferences.ui" line="28"/>
         <location filename="../build/src/gui/ui_GeneralPreferences.h" line="188"/>
-        <location filename="../build-win32/src/gui/ui_GeneralPreferences.h" line="188"/>
-        <location filename="../src/gui/ui_GeneralPreferences.h" line="188"/>
         <source>GUI language</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/GeneralPreferences.ui" line="36"/>
         <location filename="../build/src/gui/ui_GeneralPreferences.h" line="191"/>
-        <location filename="../build-win32/src/gui/ui_GeneralPreferences.h" line="191"/>
-        <location filename="../src/gui/ui_GeneralPreferences.h" line="191"/>
         <source>System default</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/GeneralPreferences.ui" line="46"/>
         <location filename="../build/src/gui/ui_GeneralPreferences.h" line="193"/>
-        <location filename="../build-win32/src/gui/ui_GeneralPreferences.h" line="193"/>
-        <location filename="../src/gui/ui_GeneralPreferences.h" line="193"/>
         <source>You need to restart Tagaini Jisho for these changes to take effect.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/GeneralPreferences.ui" line="59"/>
         <location filename="../build/src/gui/ui_GeneralPreferences.h" line="194"/>
-        <location filename="../build-win32/src/gui/ui_GeneralPreferences.h" line="194"/>
-        <location filename="../src/gui/ui_GeneralPreferences.h" line="194"/>
         <source>Dates</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/GeneralPreferences.ui" line="65"/>
         <location filename="../build/src/gui/ui_GeneralPreferences.h" line="195"/>
-        <location filename="../build-win32/src/gui/ui_GeneralPreferences.h" line="195"/>
-        <location filename="../src/gui/ui_GeneralPreferences.h" line="195"/>
         <source>Weeks start on</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/GeneralPreferences.ui" line="78"/>
         <location filename="../build/src/gui/ui_GeneralPreferences.h" line="196"/>
-        <location filename="../build-win32/src/gui/ui_GeneralPreferences.h" line="196"/>
-        <location filename="../src/gui/ui_GeneralPreferences.h" line="196"/>
         <source>Updates</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/GeneralPreferences.ui" line="86"/>
         <location filename="../build/src/gui/ui_GeneralPreferences.h" line="197"/>
-        <location filename="../build-win32/src/gui/ui_GeneralPreferences.h" line="197"/>
-        <location filename="../src/gui/ui_GeneralPreferences.h" line="197"/>
         <source>Check for updates</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/GeneralPreferences.ui" line="93"/>
         <location filename="../build/src/gui/ui_GeneralPreferences.h" line="198"/>
-        <location filename="../build-win32/src/gui/ui_GeneralPreferences.h" line="198"/>
-        <location filename="../src/gui/ui_GeneralPreferences.h" line="198"/>
         <source>every day</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/GeneralPreferences.ui" line="96"/>
         <location filename="../build/src/gui/ui_GeneralPreferences.h" line="199"/>
-        <location filename="../build-win32/src/gui/ui_GeneralPreferences.h" line="199"/>
-        <location filename="../src/gui/ui_GeneralPreferences.h" line="199"/>
         <source> days</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/GeneralPreferences.ui" line="99"/>
         <location filename="../build/src/gui/ui_GeneralPreferences.h" line="200"/>
-        <location filename="../build-win32/src/gui/ui_GeneralPreferences.h" line="200"/>
-        <location filename="../src/gui/ui_GeneralPreferences.h" line="200"/>
         <source>every </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/GeneralPreferences.ui" line="114"/>
         <location filename="../build/src/gui/ui_GeneralPreferences.h" line="201"/>
-        <location filename="../build-win32/src/gui/ui_GeneralPreferences.h" line="201"/>
-        <location filename="../src/gui/ui_GeneralPreferences.h" line="201"/>
         <source>Also check for development versions</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/GeneralPreferences.ui" line="121"/>
         <location filename="../build/src/gui/ui_GeneralPreferences.h" line="202"/>
-        <location filename="../build-win32/src/gui/ui_GeneralPreferences.h" line="202"/>
-        <location filename="../src/gui/ui_GeneralPreferences.h" line="202"/>
         <source>Next check:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/GeneralPreferences.ui" line="131"/>
         <location filename="../build/src/gui/ui_GeneralPreferences.h" line="203"/>
-        <location filename="../build-win32/src/gui/ui_GeneralPreferences.h" line="203"/>
-        <location filename="../src/gui/ui_GeneralPreferences.h" line="203"/>
         <source>Entries cache (advanced)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/GeneralPreferences.ui" line="139"/>
         <location filename="../build/src/gui/ui_GeneralPreferences.h" line="204"/>
-        <location filename="../build-win32/src/gui/ui_GeneralPreferences.h" line="204"/>
-        <location filename="../src/gui/ui_GeneralPreferences.h" line="204"/>
         <source>Default</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/GeneralPreferences.ui" line="155"/>
         <location filename="../build/src/gui/ui_GeneralPreferences.h" line="205"/>
-        <location filename="../build-win32/src/gui/ui_GeneralPreferences.h" line="205"/>
-        <location filename="../src/gui/ui_GeneralPreferences.h" line="205"/>
         <source>Defines how many recent entries are kept in memory. High values may improve performance when manipulating a large number of entries.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -681,47 +625,7 @@
     </message>
 </context>
 <context>
-    <name>JMdictGUIPlugin</name>
-    <message>
-        <location filename="../src/gui/jmdict/JMdictGUIPlugin.cc" line="65"/>
-        <source>Vocabulary flashcards</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/gui/jmdict/JMdictGUIPlugin.cc" line="66"/>
-        <source>From &amp;japanese, whole study list</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/gui/jmdict/JMdictGUIPlugin.cc" line="67"/>
-        <source>From &amp;japanese, current set</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/gui/jmdict/JMdictGUIPlugin.cc" line="71"/>
-        <source>From &amp;translation, whole study list</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/gui/jmdict/JMdictGUIPlugin.cc" line="72"/>
-        <source>From &amp;translation, current set</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/gui/jmdict/JMdictGUIPlugin.cc" line="198"/>
-        <location filename="../src/gui/jmdict/JMdictGUIPlugin.cc" line="218"/>
-        <source>Nothing to train</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/gui/jmdict/JMdictGUIPlugin.cc" line="198"/>
-        <location filename="../src/gui/jmdict/JMdictGUIPlugin.cc" line="218"/>
-        <source>There are no vocabulary entries in this set to train on.</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>JMdictOptionsWidget</name>
+    <name>JMdictFilterWidget</name>
     <message>
         <location filename="../src/gui/jmdict/JMdictGUIPlugin.cc" line="244"/>
         <source>Using studied kanji only</source>
@@ -809,6 +713,46 @@
     </message>
 </context>
 <context>
+    <name>JMdictGUIPlugin</name>
+    <message>
+        <location filename="../src/gui/jmdict/JMdictGUIPlugin.cc" line="65"/>
+        <source>Vocabulary flashcards</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/jmdict/JMdictGUIPlugin.cc" line="66"/>
+        <source>From &amp;japanese, whole study list</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/jmdict/JMdictGUIPlugin.cc" line="67"/>
+        <source>From &amp;japanese, current set</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/jmdict/JMdictGUIPlugin.cc" line="71"/>
+        <source>From &amp;translation, whole study list</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/jmdict/JMdictGUIPlugin.cc" line="72"/>
+        <source>From &amp;translation, current set</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/jmdict/JMdictGUIPlugin.cc" line="198"/>
+        <location filename="../src/gui/jmdict/JMdictGUIPlugin.cc" line="218"/>
+        <source>Nothing to train</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/jmdict/JMdictGUIPlugin.cc" line="198"/>
+        <location filename="../src/gui/jmdict/JMdictGUIPlugin.cc" line="218"/>
+        <source>There are no vocabulary entries in this set to train on.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>JMdictPreferences</name>
     <message>
         <location filename="../src/gui/jmdict/JMdictPreferences.cc" line="24"/>
@@ -818,192 +762,144 @@
     <message>
         <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="14"/>
         <location filename="../build/src/gui/ui_JMdictPreferences.h" line="346"/>
-        <location filename="../build-win32/src/gui/ui_JMdictPreferences.h" line="346"/>
-        <location filename="../src/gui/ui_JMdictPreferences.h" line="346"/>
         <source>Form</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="24"/>
         <location filename="../build/src/gui/ui_JMdictPreferences.h" line="360"/>
-        <location filename="../build-win32/src/gui/ui_JMdictPreferences.h" line="360"/>
-        <location filename="../src/gui/ui_JMdictPreferences.h" line="360"/>
         <source>Display</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="30"/>
         <location filename="../build/src/gui/ui_JMdictPreferences.h" line="347"/>
-        <location filename="../build-win32/src/gui/ui_JMdictPreferences.h" line="347"/>
-        <location filename="../src/gui/ui_JMdictPreferences.h" line="347"/>
         <source>Basic information</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="36"/>
         <location filename="../build/src/gui/ui_JMdictPreferences.h" line="348"/>
-        <location filename="../build-win32/src/gui/ui_JMdictPreferences.h" line="348"/>
-        <location filename="../src/gui/ui_JMdictPreferences.h" line="348"/>
         <source>JLPT level</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="43"/>
         <location filename="../build/src/gui/ui_JMdictPreferences.h" line="349"/>
-        <location filename="../build-win32/src/gui/ui_JMdictPreferences.h" line="349"/>
-        <location filename="../src/gui/ui_JMdictPreferences.h" line="349"/>
         <source>Kanji used in main reading</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="53"/>
         <location filename="../build/src/gui/ui_JMdictPreferences.h" line="350"/>
-        <location filename="../build-win32/src/gui/ui_JMdictPreferences.h" line="350"/>
-        <location filename="../src/gui/ui_JMdictPreferences.h" line="350"/>
         <source>Additional information</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="59"/>
         <location filename="../build/src/gui/ui_JMdictPreferences.h" line="352"/>
-        <location filename="../build-win32/src/gui/ui_JMdictPreferences.h" line="352"/>
-        <location filename="../src/gui/ui_JMdictPreferences.h" line="352"/>
         <source>For transitive verbs, look for the equivalent intransitive entry and vice-versa.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="62"/>
         <location filename="../build/src/gui/ui_JMdictPreferences.h" line="354"/>
-        <location filename="../build-win32/src/gui/ui_JMdictPreferences.h" line="354"/>
-        <location filename="../src/gui/ui_JMdictPreferences.h" line="354"/>
         <source>Search for transitive/intransitive verb buddy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="74"/>
         <location filename="../build/src/gui/ui_JMdictPreferences.h" line="356"/>
-        <location filename="../build-win32/src/gui/ui_JMdictPreferences.h" line="356"/>
-        <location filename="../src/gui/ui_JMdictPreferences.h" line="356"/>
         <source>Display words that have the same pronunciation.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="77"/>
         <location filename="../build/src/gui/ui_JMdictPreferences.h" line="358"/>
-        <location filename="../build-win32/src/gui/ui_JMdictPreferences.h" line="358"/>
-        <location filename="../src/gui/ui_JMdictPreferences.h" line="358"/>
         <source>Homophones</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="84"/>
         <location filename="../build/src/gui/ui_JMdictPreferences.h" line="359"/>
-        <location filename="../build-win32/src/gui/ui_JMdictPreferences.h" line="359"/>
-        <location filename="../src/gui/ui_JMdictPreferences.h" line="359"/>
         <source>Studied only</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="110"/>
         <location filename="../build/src/gui/ui_JMdictPreferences.h" line="370"/>
-        <location filename="../build-win32/src/gui/ui_JMdictPreferences.h" line="370"/>
-        <location filename="../src/gui/ui_JMdictPreferences.h" line="370"/>
         <source>Printing</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="116"/>
         <location filename="../build/src/gui/ui_JMdictPreferences.h" line="361"/>
-        <location filename="../build-win32/src/gui/ui_JMdictPreferences.h" line="361"/>
-        <location filename="../src/gui/ui_JMdictPreferences.h" line="361"/>
         <source>General</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="129"/>
         <location filename="../build/src/gui/ui_JMdictPreferences.h" line="362"/>
-        <location filename="../build-win32/src/gui/ui_JMdictPreferences.h" line="362"/>
-        <location filename="../src/gui/ui_JMdictPreferences.h" line="362"/>
         <source>Header font size:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="136"/>
         <location filename="../build/src/gui/ui_JMdictPreferences.h" line="363"/>
-        <location filename="../build-win32/src/gui/ui_JMdictPreferences.h" line="363"/>
-        <location filename="../src/gui/ui_JMdictPreferences.h" line="363"/>
         <source>Maximum number of definitions:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="143"/>
         <location filename="../build/src/gui/ui_JMdictPreferences.h" line="364"/>
-        <location filename="../build-win32/src/gui/ui_JMdictPreferences.h" line="364"/>
-        <location filename="../src/gui/ui_JMdictPreferences.h" line="364"/>
         <source>All</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="153"/>
         <location filename="../build/src/gui/ui_JMdictPreferences.h" line="365"/>
-        <location filename="../build-win32/src/gui/ui_JMdictPreferences.h" line="365"/>
-        <location filename="../src/gui/ui_JMdictPreferences.h" line="365"/>
         <source>Kanji</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="159"/>
         <location filename="../build/src/gui/ui_JMdictPreferences.h" line="366"/>
-        <location filename="../build-win32/src/gui/ui_JMdictPreferences.h" line="366"/>
-        <location filename="../src/gui/ui_JMdictPreferences.h" line="366"/>
         <source>Kanji used in word</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="166"/>
         <location filename="../build/src/gui/ui_JMdictPreferences.h" line="367"/>
-        <location filename="../build-win32/src/gui/ui_JMdictPreferences.h" line="367"/>
-        <location filename="../src/gui/ui_JMdictPreferences.h" line="367"/>
         <source>Only studied kanji</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="176"/>
         <location filename="../build/src/gui/ui_JMdictPreferences.h" line="368"/>
-        <location filename="../build-win32/src/gui/ui_JMdictPreferences.h" line="368"/>
-        <location filename="../src/gui/ui_JMdictPreferences.h" line="368"/>
         <source>Preview</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="264"/>
         <location filename="../build/src/gui/ui_JMdictPreferences.h" line="382"/>
-        <location filename="../build-win32/src/gui/ui_JMdictPreferences.h" line="382"/>
-        <location filename="../src/gui/ui_JMdictPreferences.h" line="382"/>
         <source>Definitions filtering</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="270"/>
         <location filename="../build/src/gui/ui_JMdictPreferences.h" line="371"/>
-        <location filename="../build-win32/src/gui/ui_JMdictPreferences.h" line="371"/>
-        <location filename="../src/gui/ui_JMdictPreferences.h" line="371"/>
         <source>Filtered definitions</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="278"/>
         <location filename="../build/src/gui/ui_JMdictPreferences.h" line="372"/>
-        <location filename="../build-win32/src/gui/ui_JMdictPreferences.h" line="372"/>
-        <location filename="../src/gui/ui_JMdictPreferences.h" line="372"/>
         <source>Displayed:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="285"/>
         <location filename="../build/src/gui/ui_JMdictPreferences.h" line="374"/>
-        <location filename="../build-win32/src/gui/ui_JMdictPreferences.h" line="374"/>
-        <location filename="../src/gui/ui_JMdictPreferences.h" line="374"/>
         <source>Definitions types in this list will be searched for and displayed.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1012,26 +908,18 @@
         <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="336"/>
         <location filename="../build/src/gui/ui_JMdictPreferences.h" line="376"/>
         <location filename="../build/src/gui/ui_JMdictPreferences.h" line="377"/>
-        <location filename="../build-win32/src/gui/ui_JMdictPreferences.h" line="376"/>
-        <location filename="../build-win32/src/gui/ui_JMdictPreferences.h" line="377"/>
-        <location filename="../src/gui/ui_JMdictPreferences.h" line="376"/>
-        <location filename="../src/gui/ui_JMdictPreferences.h" line="377"/>
         <source>...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="364"/>
         <location filename="../build/src/gui/ui_JMdictPreferences.h" line="378"/>
-        <location filename="../build-win32/src/gui/ui_JMdictPreferences.h" line="378"/>
-        <location filename="../src/gui/ui_JMdictPreferences.h" line="378"/>
         <source>Filtered:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="371"/>
         <location filename="../build/src/gui/ui_JMdictPreferences.h" line="380"/>
-        <location filename="../build-win32/src/gui/ui_JMdictPreferences.h" line="380"/>
-        <location filename="../src/gui/ui_JMdictPreferences.h" line="380"/>
         <source>Definitions types in this list will be ignored when searching and displaying entries.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1055,58 +943,54 @@
 <context>
     <name>KanjiPopup</name>
     <message>
-        <location filename="../src/gui/kanjidic2/KanjiPopup.cc" line="143"/>
+        <location filename="../src/gui/kanjidic2/KanjiPopup.cc" line="144"/>
         <source>No information about this kanji!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/kanjidic2/KanjiPopup.cc" line="154"/>
+        <location filename="../src/gui/kanjidic2/KanjiPopup.cc" line="155"/>
         <source>&lt;b&gt;On:&lt;/b&gt; %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/kanjidic2/KanjiPopup.cc" line="155"/>
+        <location filename="../src/gui/kanjidic2/KanjiPopup.cc" line="156"/>
         <source>&lt;b&gt;Kun:&lt;/b&gt; %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/kanjidic2/KanjiPopup.cc" line="173"/>
+        <location filename="../src/gui/kanjidic2/KanjiPopup.cc" line="174"/>
         <source>&lt;b&gt;Freq:&lt;/b&gt; %1&lt;br/&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/kanjidic2/KanjiPopup.cc" line="175"/>
+        <location filename="../src/gui/kanjidic2/KanjiPopup.cc" line="176"/>
         <source>&lt;b&gt;Grade:&lt;/b&gt; %1&lt;br/&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/kanjidic2/KanjiPopup.cc" line="177"/>
+        <location filename="../src/gui/kanjidic2/KanjiPopup.cc" line="178"/>
         <source>&lt;b&gt;JLPT:&lt;/b&gt; %1&lt;br/&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/kanjidic2/KanjiPopup.cc" line="179"/>
+        <location filename="../src/gui/kanjidic2/KanjiPopup.cc" line="180"/>
         <source>&lt;b&gt;Score:&lt;/b&gt; %1&lt;br/&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/kanjidic2/KanjiPopup.cc" line="198"/>
+        <location filename="../src/gui/kanjidic2/KanjiPopup.cc" line="199"/>
         <source>&lt;b&gt;Components:&lt;/b&gt;%2 %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/kanjidic2/KanjiPopup.ui" line="20"/>
         <location filename="../build/src/gui/ui_KanjiPopup.h" line="179"/>
-        <location filename="../build-win32/src/gui/ui_KanjiPopup.h" line="179"/>
-        <location filename="../src/gui/ui_KanjiPopup.h" line="179"/>
         <source>Form</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/kanjidic2/KanjiPopup.ui" line="31"/>
         <location filename="../build/src/gui/ui_KanjiPopup.h" line="181"/>
-        <location filename="../build-win32/src/gui/ui_KanjiPopup.h" line="181"/>
-        <location filename="../src/gui/ui_KanjiPopup.h" line="181"/>
         <source>Previous entry</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1121,48 +1005,30 @@
         <location filename="../build/src/gui/ui_KanjiPopup.h" line="191"/>
         <location filename="../build/src/gui/ui_KanjiPopup.h" line="195"/>
         <location filename="../build/src/gui/ui_KanjiPopup.h" line="199"/>
-        <location filename="../build-win32/src/gui/ui_KanjiPopup.h" line="183"/>
-        <location filename="../build-win32/src/gui/ui_KanjiPopup.h" line="187"/>
-        <location filename="../build-win32/src/gui/ui_KanjiPopup.h" line="191"/>
-        <location filename="../build-win32/src/gui/ui_KanjiPopup.h" line="195"/>
-        <location filename="../build-win32/src/gui/ui_KanjiPopup.h" line="199"/>
-        <location filename="../src/gui/ui_KanjiPopup.h" line="183"/>
-        <location filename="../src/gui/ui_KanjiPopup.h" line="187"/>
-        <location filename="../src/gui/ui_KanjiPopup.h" line="191"/>
-        <location filename="../src/gui/ui_KanjiPopup.h" line="195"/>
-        <location filename="../src/gui/ui_KanjiPopup.h" line="199"/>
         <source>...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/kanjidic2/KanjiPopup.ui" line="51"/>
         <location filename="../build/src/gui/ui_KanjiPopup.h" line="185"/>
-        <location filename="../build-win32/src/gui/ui_KanjiPopup.h" line="185"/>
-        <location filename="../src/gui/ui_KanjiPopup.h" line="185"/>
         <source>Next entry</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/kanjidic2/KanjiPopup.ui" line="81"/>
         <location filename="../build/src/gui/ui_KanjiPopup.h" line="189"/>
-        <location filename="../build-win32/src/gui/ui_KanjiPopup.h" line="189"/>
-        <location filename="../src/gui/ui_KanjiPopup.h" line="189"/>
         <source>See in detailed view</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/kanjidic2/KanjiPopup.ui" line="101"/>
         <location filename="../build/src/gui/ui_KanjiPopup.h" line="193"/>
-        <location filename="../build-win32/src/gui/ui_KanjiPopup.h" line="193"/>
-        <location filename="../src/gui/ui_KanjiPopup.h" line="193"/>
         <source>Entry options menu</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/kanjidic2/KanjiPopup.ui" line="124"/>
         <location filename="../build/src/gui/ui_KanjiPopup.h" line="197"/>
-        <location filename="../build-win32/src/gui/ui_KanjiPopup.h" line="197"/>
-        <location filename="../src/gui/ui_KanjiPopup.h" line="197"/>
         <source>Close this popup</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1176,108 +1042,7 @@
     </message>
 </context>
 <context>
-    <name>Kanjidic2GUIPlugin</name>
-    <message>
-        <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="45"/>
-        <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="52"/>
-        <source>Invalid</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="46"/>
-        <source>Elementary 1st grade</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="47"/>
-        <source>Elementary 2nd grade</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="48"/>
-        <source>Elementary 3rd grade</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="49"/>
-        <source>Elementary 4th grade</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="50"/>
-        <source>Elementary 5th grade</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="51"/>
-        <source>Elementary 6th grade</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="53"/>
-        <source>Secondary school</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="54"/>
-        <source>Used for names (1)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="55"/>
-        <source>Used for names (2)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="86"/>
-        <source>Kanji flashcards</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="87"/>
-        <source>From &amp;kanji, whole study list</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="88"/>
-        <source>From &amp;kanji, current set</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="92"/>
-        <source>From &amp;meaning, whole study list</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="93"/>
-        <source>From &amp;meaning, current set</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="96"/>
-        <source>&amp;Reading practice, whole study list</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="183"/>
-        <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="201"/>
-        <source>Nothing to train</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="183"/>
-        <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="201"/>
-        <source>There are no kanji entries in this set to train on.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="334"/>
-        <source>Open in detailed view...</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>Kanjidic2OptionsWidget</name>
+    <name>Kanjidic2FilterWidget</name>
     <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="460"/>
         <source>Stroke count</source>
@@ -1367,6 +1132,107 @@
     </message>
 </context>
 <context>
+    <name>Kanjidic2GUIPlugin</name>
+    <message>
+        <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="46"/>
+        <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="53"/>
+        <source>Invalid</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="47"/>
+        <source>Elementary 1st grade</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="48"/>
+        <source>Elementary 2nd grade</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="49"/>
+        <source>Elementary 3rd grade</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="50"/>
+        <source>Elementary 4th grade</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="51"/>
+        <source>Elementary 5th grade</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="52"/>
+        <source>Elementary 6th grade</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="54"/>
+        <source>Secondary school</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="55"/>
+        <source>Used for names (1)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="56"/>
+        <source>Used for names (2)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="87"/>
+        <source>Kanji flashcards</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="88"/>
+        <source>From &amp;kanji, whole study list</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="89"/>
+        <source>From &amp;kanji, current set</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="93"/>
+        <source>From &amp;meaning, whole study list</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="94"/>
+        <source>From &amp;meaning, current set</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="97"/>
+        <source>&amp;Reading practice, whole study list</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="184"/>
+        <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="202"/>
+        <source>Nothing to train</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="184"/>
+        <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="202"/>
+        <source>There are no kanji entries in this set to train on.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="335"/>
+        <source>Open in detailed view...</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>Kanjidic2Preferences</name>
     <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2Preferences.cc" line="24"/>
@@ -1376,32 +1242,24 @@
     <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2Preferences.ui" line="14"/>
         <location filename="../build/src/gui/ui_Kanjidic2Preferences.h" line="635"/>
-        <location filename="../build-win32/src/gui/ui_Kanjidic2Preferences.h" line="635"/>
-        <location filename="../src/gui/ui_Kanjidic2Preferences.h" line="635"/>
         <source>Form</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2Preferences.ui" line="24"/>
         <location filename="../build/src/gui/ui_Kanjidic2Preferences.h" line="654"/>
-        <location filename="../build-win32/src/gui/ui_Kanjidic2Preferences.h" line="654"/>
-        <location filename="../src/gui/ui_Kanjidic2Preferences.h" line="654"/>
         <source>Display</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2Preferences.ui" line="30"/>
         <location filename="../build/src/gui/ui_Kanjidic2Preferences.h" line="636"/>
-        <location filename="../build-win32/src/gui/ui_Kanjidic2Preferences.h" line="636"/>
-        <location filename="../src/gui/ui_Kanjidic2Preferences.h" line="636"/>
         <source>Basic information</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2Preferences.ui" line="36"/>
         <location filename="../build/src/gui/ui_Kanjidic2Preferences.h" line="637"/>
-        <location filename="../build-win32/src/gui/ui_Kanjidic2Preferences.h" line="637"/>
-        <location filename="../src/gui/ui_Kanjidic2Preferences.h" line="637"/>
         <source>Readings</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1410,26 +1268,18 @@
         <location filename="../src/gui/kanjidic2/Kanjidic2Preferences.ui" line="442"/>
         <location filename="../build/src/gui/ui_Kanjidic2Preferences.h" line="638"/>
         <location filename="../build/src/gui/ui_Kanjidic2Preferences.h" line="674"/>
-        <location filename="../build-win32/src/gui/ui_Kanjidic2Preferences.h" line="638"/>
-        <location filename="../build-win32/src/gui/ui_Kanjidic2Preferences.h" line="674"/>
-        <location filename="../src/gui/ui_Kanjidic2Preferences.h" line="638"/>
-        <location filename="../src/gui/ui_Kanjidic2Preferences.h" line="674"/>
         <source>Unicode</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2Preferences.ui" line="99"/>
         <location filename="../build/src/gui/ui_Kanjidic2Preferences.h" line="646"/>
-        <location filename="../build-win32/src/gui/ui_Kanjidic2Preferences.h" line="646"/>
-        <location filename="../src/gui/ui_Kanjidic2Preferences.h" line="646"/>
         <source>Variations</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2Preferences.ui" line="92"/>
         <location filename="../build/src/gui/ui_Kanjidic2Preferences.h" line="645"/>
-        <location filename="../build-win32/src/gui/ui_Kanjidic2Preferences.h" line="645"/>
-        <location filename="../src/gui/ui_Kanjidic2Preferences.h" line="645"/>
         <source>Original</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1438,10 +1288,6 @@
         <location filename="../src/gui/kanjidic2/Kanjidic2Preferences.ui" line="421"/>
         <location filename="../build/src/gui/ui_Kanjidic2Preferences.h" line="639"/>
         <location filename="../build/src/gui/ui_Kanjidic2Preferences.h" line="671"/>
-        <location filename="../build-win32/src/gui/ui_Kanjidic2Preferences.h" line="639"/>
-        <location filename="../build-win32/src/gui/ui_Kanjidic2Preferences.h" line="671"/>
-        <location filename="../src/gui/ui_Kanjidic2Preferences.h" line="639"/>
-        <location filename="../src/gui/ui_Kanjidic2Preferences.h" line="671"/>
         <source>SKIP code</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1450,10 +1296,6 @@
         <location filename="../src/gui/kanjidic2/Kanjidic2Preferences.ui" line="449"/>
         <location filename="../build/src/gui/ui_Kanjidic2Preferences.h" line="647"/>
         <location filename="../build/src/gui/ui_Kanjidic2Preferences.h" line="675"/>
-        <location filename="../build-win32/src/gui/ui_Kanjidic2Preferences.h" line="647"/>
-        <location filename="../build-win32/src/gui/ui_Kanjidic2Preferences.h" line="675"/>
-        <location filename="../src/gui/ui_Kanjidic2Preferences.h" line="647"/>
-        <location filename="../src/gui/ui_Kanjidic2Preferences.h" line="675"/>
         <source>Frequency</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1462,10 +1304,6 @@
         <location filename="../src/gui/kanjidic2/Kanjidic2Preferences.ui" line="456"/>
         <location filename="../build/src/gui/ui_Kanjidic2Preferences.h" line="640"/>
         <location filename="../build/src/gui/ui_Kanjidic2Preferences.h" line="676"/>
-        <location filename="../build-win32/src/gui/ui_Kanjidic2Preferences.h" line="640"/>
-        <location filename="../build-win32/src/gui/ui_Kanjidic2Preferences.h" line="676"/>
-        <location filename="../src/gui/ui_Kanjidic2Preferences.h" line="640"/>
-        <location filename="../src/gui/ui_Kanjidic2Preferences.h" line="676"/>
         <source>School grade</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1474,10 +1312,6 @@
         <location filename="../src/gui/kanjidic2/Kanjidic2Preferences.ui" line="463"/>
         <location filename="../build/src/gui/ui_Kanjidic2Preferences.h" line="641"/>
         <location filename="../build/src/gui/ui_Kanjidic2Preferences.h" line="677"/>
-        <location filename="../build-win32/src/gui/ui_Kanjidic2Preferences.h" line="641"/>
-        <location filename="../build-win32/src/gui/ui_Kanjidic2Preferences.h" line="677"/>
-        <location filename="../src/gui/ui_Kanjidic2Preferences.h" line="641"/>
-        <location filename="../src/gui/ui_Kanjidic2Preferences.h" line="677"/>
         <source>JLPT level</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1486,10 +1320,6 @@
         <location filename="../src/gui/kanjidic2/Kanjidic2Preferences.ui" line="229"/>
         <location filename="../build/src/gui/ui_Kanjidic2Preferences.h" line="642"/>
         <location filename="../build/src/gui/ui_Kanjidic2Preferences.h" line="659"/>
-        <location filename="../build-win32/src/gui/ui_Kanjidic2Preferences.h" line="642"/>
-        <location filename="../build-win32/src/gui/ui_Kanjidic2Preferences.h" line="659"/>
-        <location filename="../src/gui/ui_Kanjidic2Preferences.h" line="642"/>
-        <location filename="../src/gui/ui_Kanjidic2Preferences.h" line="659"/>
         <source>Components</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1498,18 +1328,12 @@
         <location filename="../src/gui/kanjidic2/Kanjidic2Preferences.ui" line="435"/>
         <location filename="../build/src/gui/ui_Kanjidic2Preferences.h" line="643"/>
         <location filename="../build/src/gui/ui_Kanjidic2Preferences.h" line="673"/>
-        <location filename="../build-win32/src/gui/ui_Kanjidic2Preferences.h" line="643"/>
-        <location filename="../build-win32/src/gui/ui_Kanjidic2Preferences.h" line="673"/>
-        <location filename="../src/gui/ui_Kanjidic2Preferences.h" line="643"/>
-        <location filename="../src/gui/ui_Kanjidic2Preferences.h" line="673"/>
         <source># of strokes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2Preferences.ui" line="85"/>
         <location filename="../build/src/gui/ui_Kanjidic2Preferences.h" line="644"/>
-        <location filename="../build-win32/src/gui/ui_Kanjidic2Preferences.h" line="644"/>
-        <location filename="../src/gui/ui_Kanjidic2Preferences.h" line="644"/>
         <source>Nanori</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1518,26 +1342,18 @@
         <location filename="../src/gui/kanjidic2/Kanjidic2Preferences.ui" line="470"/>
         <location filename="../build/src/gui/ui_Kanjidic2Preferences.h" line="648"/>
         <location filename="../build/src/gui/ui_Kanjidic2Preferences.h" line="678"/>
-        <location filename="../build-win32/src/gui/ui_Kanjidic2Preferences.h" line="648"/>
-        <location filename="../build-win32/src/gui/ui_Kanjidic2Preferences.h" line="678"/>
-        <location filename="../src/gui/ui_Kanjidic2Preferences.h" line="648"/>
-        <location filename="../src/gui/ui_Kanjidic2Preferences.h" line="678"/>
         <source>Four corner code</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2Preferences.ui" line="123"/>
         <location filename="../build/src/gui/ui_Kanjidic2Preferences.h" line="649"/>
-        <location filename="../build-win32/src/gui/ui_Kanjidic2Preferences.h" line="649"/>
-        <location filename="../src/gui/ui_Kanjidic2Preferences.h" line="649"/>
         <source>Additional information</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2Preferences.ui" line="131"/>
         <location filename="../build/src/gui/ui_Kanjidic2Preferences.h" line="650"/>
-        <location filename="../build-win32/src/gui/ui_Kanjidic2Preferences.h" line="650"/>
-        <location filename="../src/gui/ui_Kanjidic2Preferences.h" line="650"/>
         <source>Compounds:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1546,170 +1362,126 @@
         <location filename="../src/gui/kanjidic2/Kanjidic2Preferences.ui" line="170"/>
         <location filename="../build/src/gui/ui_Kanjidic2Preferences.h" line="651"/>
         <location filename="../build/src/gui/ui_Kanjidic2Preferences.h" line="653"/>
-        <location filename="../build-win32/src/gui/ui_Kanjidic2Preferences.h" line="651"/>
-        <location filename="../build-win32/src/gui/ui_Kanjidic2Preferences.h" line="653"/>
-        <location filename="../src/gui/ui_Kanjidic2Preferences.h" line="651"/>
-        <location filename="../src/gui/ui_Kanjidic2Preferences.h" line="653"/>
         <source>Studied only</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2Preferences.ui" line="156"/>
         <location filename="../build/src/gui/ui_Kanjidic2Preferences.h" line="652"/>
-        <location filename="../build-win32/src/gui/ui_Kanjidic2Preferences.h" line="652"/>
-        <location filename="../src/gui/ui_Kanjidic2Preferences.h" line="652"/>
         <source>Words using the kanji:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2Preferences.ui" line="196"/>
         <location filename="../build/src/gui/ui_Kanjidic2Preferences.h" line="669"/>
-        <location filename="../build-win32/src/gui/ui_Kanjidic2Preferences.h" line="669"/>
-        <location filename="../src/gui/ui_Kanjidic2Preferences.h" line="669"/>
         <source>Printing</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2Preferences.ui" line="202"/>
         <location filename="../build/src/gui/ui_Kanjidic2Preferences.h" line="655"/>
-        <location filename="../build-win32/src/gui/ui_Kanjidic2Preferences.h" line="655"/>
-        <location filename="../src/gui/ui_Kanjidic2Preferences.h" line="655"/>
         <source>Kanji information</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2Preferences.ui" line="208"/>
         <location filename="../build/src/gui/ui_Kanjidic2Preferences.h" line="656"/>
-        <location filename="../build-win32/src/gui/ui_Kanjidic2Preferences.h" line="656"/>
-        <location filename="../src/gui/ui_Kanjidic2Preferences.h" line="656"/>
         <source>Meaning</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2Preferences.ui" line="215"/>
         <location filename="../build/src/gui/ui_Kanjidic2Preferences.h" line="657"/>
-        <location filename="../build-win32/src/gui/ui_Kanjidic2Preferences.h" line="657"/>
-        <location filename="../src/gui/ui_Kanjidic2Preferences.h" line="657"/>
         <source>Onyomi</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2Preferences.ui" line="222"/>
         <location filename="../build/src/gui/ui_Kanjidic2Preferences.h" line="658"/>
-        <location filename="../build-win32/src/gui/ui_Kanjidic2Preferences.h" line="658"/>
-        <location filename="../src/gui/ui_Kanjidic2Preferences.h" line="658"/>
         <source>Kunyomi</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2Preferences.ui" line="239"/>
         <location filename="../build/src/gui/ui_Kanjidic2Preferences.h" line="660"/>
-        <location filename="../build-win32/src/gui/ui_Kanjidic2Preferences.h" line="660"/>
-        <location filename="../src/gui/ui_Kanjidic2Preferences.h" line="660"/>
         <source>Only studied components</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2Preferences.ui" line="251"/>
         <location filename="../build/src/gui/ui_Kanjidic2Preferences.h" line="661"/>
-        <location filename="../build-win32/src/gui/ui_Kanjidic2Preferences.h" line="661"/>
-        <location filename="../src/gui/ui_Kanjidic2Preferences.h" line="661"/>
         <source>words</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2Preferences.ui" line="260"/>
         <location filename="../build/src/gui/ui_Kanjidic2Preferences.h" line="662"/>
-        <location filename="../build-win32/src/gui/ui_Kanjidic2Preferences.h" line="662"/>
-        <location filename="../src/gui/ui_Kanjidic2Preferences.h" line="662"/>
         <source>Only studied words</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2Preferences.ui" line="270"/>
         <location filename="../build/src/gui/ui_Kanjidic2Preferences.h" line="663"/>
-        <location filename="../build-win32/src/gui/ui_Kanjidic2Preferences.h" line="663"/>
-        <location filename="../src/gui/ui_Kanjidic2Preferences.h" line="663"/>
         <source>Kanji drawing style</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2Preferences.ui" line="278"/>
         <location filename="../build/src/gui/ui_Kanjidic2Preferences.h" line="664"/>
-        <location filename="../build-win32/src/gui/ui_Kanjidic2Preferences.h" line="664"/>
-        <location filename="../src/gui/ui_Kanjidic2Preferences.h" line="664"/>
         <source>Handwriting</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2Preferences.ui" line="285"/>
         <location filename="../build/src/gui/ui_Kanjidic2Preferences.h" line="665"/>
-        <location filename="../build-win32/src/gui/ui_Kanjidic2Preferences.h" line="665"/>
-        <location filename="../src/gui/ui_Kanjidic2Preferences.h" line="665"/>
         <source>Default font</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2Preferences.ui" line="296"/>
         <location filename="../build/src/gui/ui_Kanjidic2Preferences.h" line="666"/>
-        <location filename="../build-win32/src/gui/ui_Kanjidic2Preferences.h" line="666"/>
-        <location filename="../src/gui/ui_Kanjidic2Preferences.h" line="666"/>
         <source>Kanji header size:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2Preferences.ui" line="318"/>
         <location filename="../build/src/gui/ui_Kanjidic2Preferences.h" line="667"/>
-        <location filename="../build-win32/src/gui/ui_Kanjidic2Preferences.h" line="667"/>
-        <location filename="../src/gui/ui_Kanjidic2Preferences.h" line="667"/>
         <source>Preview</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2Preferences.ui" line="406"/>
         <location filename="../build/src/gui/ui_Kanjidic2Preferences.h" line="679"/>
-        <location filename="../build-win32/src/gui/ui_Kanjidic2Preferences.h" line="679"/>
-        <location filename="../src/gui/ui_Kanjidic2Preferences.h" line="679"/>
         <source>Tooltip</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2Preferences.ui" line="412"/>
         <location filename="../build/src/gui/ui_Kanjidic2Preferences.h" line="670"/>
-        <location filename="../build-win32/src/gui/ui_Kanjidic2Preferences.h" line="670"/>
-        <location filename="../src/gui/ui_Kanjidic2Preferences.h" line="670"/>
         <source>Kanji tooltip enabled</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2Preferences.ui" line="428"/>
         <location filename="../build/src/gui/ui_Kanjidic2Preferences.h" line="672"/>
-        <location filename="../build-win32/src/gui/ui_Kanjidic2Preferences.h" line="672"/>
-        <location filename="../src/gui/ui_Kanjidic2Preferences.h" line="672"/>
         <source>Score</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2Preferences.ui" line="494"/>
         <location filename="../build/src/gui/ui_Kanjidic2Preferences.h" line="690"/>
-        <location filename="../build-win32/src/gui/ui_Kanjidic2Preferences.h" line="690"/>
-        <location filename="../src/gui/ui_Kanjidic2Preferences.h" line="690"/>
         <source>Stroke animation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2Preferences.ui" line="506"/>
         <location filename="../build/src/gui/ui_Kanjidic2Preferences.h" line="680"/>
-        <location filename="../build-win32/src/gui/ui_Kanjidic2Preferences.h" line="680"/>
-        <location filename="../src/gui/ui_Kanjidic2Preferences.h" line="680"/>
         <source>Size:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2Preferences.ui" line="523"/>
         <location filename="../build/src/gui/ui_Kanjidic2Preferences.h" line="681"/>
-        <location filename="../build-win32/src/gui/ui_Kanjidic2Preferences.h" line="681"/>
-        <location filename="../src/gui/ui_Kanjidic2Preferences.h" line="681"/>
         <source>Drawing speed:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1718,58 +1490,42 @@
         <location filename="../src/gui/kanjidic2/Kanjidic2Preferences.ui" line="563"/>
         <location filename="../build/src/gui/ui_Kanjidic2Preferences.h" line="682"/>
         <location filename="../build/src/gui/ui_Kanjidic2Preferences.h" line="684"/>
-        <location filename="../build-win32/src/gui/ui_Kanjidic2Preferences.h" line="682"/>
-        <location filename="../build-win32/src/gui/ui_Kanjidic2Preferences.h" line="684"/>
-        <location filename="../src/gui/ui_Kanjidic2Preferences.h" line="682"/>
-        <location filename="../src/gui/ui_Kanjidic2Preferences.h" line="684"/>
         <source>Default</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2Preferences.ui" line="554"/>
         <location filename="../build/src/gui/ui_Kanjidic2Preferences.h" line="683"/>
-        <location filename="../build-win32/src/gui/ui_Kanjidic2Preferences.h" line="683"/>
-        <location filename="../src/gui/ui_Kanjidic2Preferences.h" line="683"/>
         <source>Pause between strokes:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2Preferences.ui" line="614"/>
         <location filename="../build/src/gui/ui_Kanjidic2Preferences.h" line="685"/>
-        <location filename="../build-win32/src/gui/ui_Kanjidic2Preferences.h" line="685"/>
-        <location filename="../src/gui/ui_Kanjidic2Preferences.h" line="685"/>
         <source>Animation playback</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2Preferences.ui" line="620"/>
         <location filename="../build/src/gui/ui_Kanjidic2Preferences.h" line="686"/>
-        <location filename="../build-win32/src/gui/ui_Kanjidic2Preferences.h" line="686"/>
-        <location filename="../src/gui/ui_Kanjidic2Preferences.h" line="686"/>
         <source>Play animation when the kanji popup appears</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2Preferences.ui" line="635"/>
         <location filename="../build/src/gui/ui_Kanjidic2Preferences.h" line="687"/>
-        <location filename="../build-win32/src/gui/ui_Kanjidic2Preferences.h" line="687"/>
-        <location filename="../src/gui/ui_Kanjidic2Preferences.h" line="687"/>
         <source>Loop animation after:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2Preferences.ui" line="642"/>
         <location filename="../build/src/gui/ui_Kanjidic2Preferences.h" line="688"/>
-        <location filename="../build-win32/src/gui/ui_Kanjidic2Preferences.h" line="688"/>
-        <location filename="../src/gui/ui_Kanjidic2Preferences.h" line="688"/>
         <source>Do not loop</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2Preferences.ui" line="645"/>
         <location filename="../build/src/gui/ui_Kanjidic2Preferences.h" line="689"/>
-        <location filename="../build-win32/src/gui/ui_Kanjidic2Preferences.h" line="689"/>
-        <location filename="../src/gui/ui_Kanjidic2Preferences.h" line="689"/>
         <source> seconds</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1779,409 +1535,347 @@
     <message>
         <location filename="../src/gui/MainWindow.ui" line="50"/>
         <location filename="../build/src/gui/ui_MainWindow.h" line="310"/>
-        <location filename="../build-win32/src/gui/ui_MainWindow.h" line="413"/>
         <source>&amp;Program</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/MainWindow.ui" line="114"/>
         <location filename="../build/src/gui/ui_MainWindow.h" line="316"/>
-        <location filename="../build-win32/src/gui/ui_MainWindow.h" line="419"/>
         <source>Tools</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/MainWindow.ui" line="133"/>
         <location filename="../build/src/gui/ui_MainWindow.h" line="317"/>
-        <location filename="../build-win32/src/gui/ui_MainWindow.h" line="420"/>
         <source>Search filters</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/MainWindow.ui" line="148"/>
         <location filename="../build/src/gui/ui_MainWindow.h" line="287"/>
-        <location filename="../build-win32/src/gui/ui_MainWindow.h" line="369"/>
-        <location filename="../src/gui/MainWindow.cc" line="205"/>
+        <location filename="../src/gui/MainWindow.cc" line="206"/>
         <source>Export user data...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/MainWindow.ui" line="157"/>
         <location filename="../build/src/gui/ui_MainWindow.h" line="288"/>
-        <location filename="../build-win32/src/gui/ui_MainWindow.h" line="370"/>
-        <location filename="../src/gui/MainWindow.cc" line="214"/>
+        <location filename="../src/gui/MainWindow.cc" line="215"/>
         <source>Import user data...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/MainWindow.ui" line="166"/>
         <location filename="../build/src/gui/ui_MainWindow.h" line="289"/>
-        <location filename="../build-win32/src/gui/ui_MainWindow.h" line="371"/>
         <source>Preferences...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/MainWindow.ui" line="178"/>
         <location filename="../build/src/gui/ui_MainWindow.h" line="290"/>
-        <location filename="../build-win32/src/gui/ui_MainWindow.h" line="372"/>
         <source>&amp;Quit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/MainWindow.ui" line="267"/>
         <location filename="../build/src/gui/ui_MainWindow.h" line="302"/>
-        <location filename="../build-win32/src/gui/ui_MainWindow.h" line="386"/>
         <source>&amp;Manual</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/MainWindow.ui" line="327"/>
         <location filename="../build/src/gui/ui_MainWindow.h" line="308"/>
-        <location filename="../build-win32/src/gui/ui_MainWindow.h" line="393"/>
         <source>Previous search</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/MainWindow.ui" line="339"/>
         <location filename="../build/src/gui/ui_MainWindow.h" line="309"/>
-        <location filename="../build-win32/src/gui/ui_MainWindow.h" line="397"/>
         <source>Next search</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/MainWindow.ui" line="98"/>
         <location filename="../build/src/gui/ui_MainWindow.h" line="315"/>
-        <location filename="../build-win32/src/gui/ui_MainWindow.h" line="414"/>
         <source>&amp;Search</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/MainWindow.ui" line="14"/>
         <location filename="../build/src/gui/ui_MainWindow.h" line="286"/>
-        <location filename="../build-win32/src/gui/ui_MainWindow.h" line="368"/>
         <source>Tagaini Jisho</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/MainWindow.ui" line="60"/>
         <location filename="../build/src/gui/ui_MainWindow.h" line="311"/>
-        <location filename="../build-win32/src/gui/ui_MainWindow.h" line="415"/>
         <source>&amp;Results</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/MainWindow.ui" line="190"/>
         <location filename="../build/src/gui/ui_MainWindow.h" line="291"/>
-        <location filename="../build-win32/src/gui/ui_MainWindow.h" line="375"/>
         <source>Reset search</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/MainWindow.ui" line="193"/>
         <location filename="../build/src/gui/ui_MainWindow.h" line="292"/>
-        <location filename="../build-win32/src/gui/ui_MainWindow.h" line="376"/>
         <source>Ctrl+R</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/MainWindow.ui" line="202"/>
         <location filename="../build/src/gui/ui_MainWindow.h" line="293"/>
-        <location filename="../build-win32/src/gui/ui_MainWindow.h" line="377"/>
         <source>&amp;Print...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/MainWindow.ui" line="211"/>
         <location filename="../build/src/gui/ui_MainWindow.h" line="294"/>
-        <location filename="../build-win32/src/gui/ui_MainWindow.h" line="378"/>
         <source>Print &amp;preview...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/MainWindow.ui" line="229"/>
         <location filename="../build/src/gui/ui_MainWindow.h" line="296"/>
-        <location filename="../build-win32/src/gui/ui_MainWindow.h" line="380"/>
         <source>Booklet(s) &amp;preview...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/MainWindow.ui" line="89"/>
         <location filename="../build/src/gui/ui_MainWindow.h" line="314"/>
-        <location filename="../build-win32/src/gui/ui_MainWindow.h" line="418"/>
         <source>&amp;Sets</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/MainWindow.ui" line="248"/>
         <location filename="../build/src/gui/ui_MainWindow.h" line="299"/>
-        <location filename="../build-win32/src/gui/ui_MainWindow.h" line="383"/>
         <source>&amp;New sets folder...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/MainWindow.ui" line="253"/>
         <location filename="../build/src/gui/ui_MainWindow.h" line="300"/>
-        <location filename="../build-win32/src/gui/ui_MainWindow.h" line="384"/>
         <source>&amp;Organize sets...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/MainWindow.ui" line="71"/>
         <location filename="../build/src/gui/ui_MainWindow.h" line="312"/>
-        <location filename="../build-win32/src/gui/ui_MainWindow.h" line="416"/>
         <source>&amp;Practice</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/MainWindow.ui" line="220"/>
         <location filename="../build/src/gui/ui_MainWindow.h" line="295"/>
-        <location filename="../build-win32/src/gui/ui_MainWindow.h" line="379"/>
         <source>Print &amp;booklet(s)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/MainWindow.ui" line="238"/>
         <location filename="../build/src/gui/ui_MainWindow.h" line="297"/>
-        <location filename="../build-win32/src/gui/ui_MainWindow.h" line="381"/>
         <source>&amp;Export displayed entries...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/MainWindow.ui" line="243"/>
         <location filename="../build/src/gui/ui_MainWindow.h" line="298"/>
-        <location filename="../build-win32/src/gui/ui_MainWindow.h" line="382"/>
         <source>&amp;New set from current search,,,</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/MainWindow.ui" line="258"/>
         <location filename="../build/src/gui/ui_MainWindow.h" line="301"/>
-        <location filename="../build-win32/src/gui/ui_MainWindow.h" line="385"/>
         <source>Whole study list train &amp;settings...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/MainWindow.ui" line="78"/>
         <location filename="../build/src/gui/ui_MainWindow.h" line="313"/>
-        <location filename="../build-win32/src/gui/ui_MainWindow.h" line="417"/>
         <source>&amp;Help</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/MainWindow.ui" line="276"/>
         <location filename="../build/src/gui/ui_MainWindow.h" line="303"/>
-        <location filename="../build-win32/src/gui/ui_MainWindow.h" line="387"/>
         <source>&amp;Report a bug...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/MainWindow.ui" line="285"/>
         <location filename="../build/src/gui/ui_MainWindow.h" line="304"/>
-        <location filename="../build-win32/src/gui/ui_MainWindow.h" line="388"/>
         <source>&amp;Suggest a feature...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/MainWindow.ui" line="294"/>
         <location filename="../build/src/gui/ui_MainWindow.h" line="305"/>
-        <location filename="../build-win32/src/gui/ui_MainWindow.h" line="389"/>
         <source>Ask a &amp;question...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/MainWindow.ui" line="303"/>
         <location filename="../build/src/gui/ui_MainWindow.h" line="306"/>
-        <location filename="../build-win32/src/gui/ui_MainWindow.h" line="390"/>
         <source>Support Tagaini Jisho - Make a &amp;donation!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/MainWindow.ui" line="312"/>
         <location filename="../build/src/gui/ui_MainWindow.h" line="307"/>
-        <location filename="../build-win32/src/gui/ui_MainWindow.h" line="391"/>
         <source>&amp;About...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="217"/>
+        <location filename="../src/gui/MainWindow.cc" line="218"/>
         <source>About to replace user data!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="217"/>
+        <location filename="../src/gui/MainWindow.cc" line="218"/>
         <source>&lt;b&gt;WARNING:&lt;/b&gt; All the user data (study list, tags, notes, training, ...) is going to be replaced by the selected user data file. Are you &lt;b&gt;sure&lt;/b&gt; you want to do this?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="224"/>
+        <location filename="../src/gui/MainWindow.cc" line="225"/>
         <source>Please restart Tagaini Jisho</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="224"/>
+        <location filename="../src/gui/MainWindow.cc" line="225"/>
         <source>The imported data will be available the next time you start Tagaini Jisho. All changes performed from now will be lost. Do you want to exit Tagaini Jisho now?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="306"/>
+        <location filename="../src/gui/MainWindow.cc" line="307"/>
         <source>Preparing print job...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="306"/>
+        <location filename="../src/gui/MainWindow.cc" line="307"/>
         <source>Abort</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="308"/>
+        <location filename="../src/gui/MainWindow.cc" line="309"/>
         <source>Printing...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="372"/>
+        <location filename="../src/gui/MainWindow.cc" line="373"/>
         <source>Print preview</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="380"/>
+        <location filename="../src/gui/MainWindow.cc" line="381"/>
         <source>Booklet print</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="388"/>
+        <location filename="../src/gui/MainWindow.cc" line="389"/>
         <source>Booklet print preview</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="395"/>
+        <location filename="../src/gui/MainWindow.cc" line="396"/>
         <source>Export to tab-separated file...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="399"/>
+        <location filename="../src/gui/MainWindow.cc" line="400"/>
         <source>Cannot write file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="399"/>
+        <location filename="../src/gui/MainWindow.cc" line="400"/>
         <source>Unable to write file %1.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="423"/>
+        <location filename="../src/gui/MainWindow.cc" line="424"/>
         <source>Error writing file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="423"/>
+        <location filename="../src/gui/MainWindow.cc" line="424"/>
         <source>Error while writing file %1.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="494"/>
+        <location filename="../src/gui/MainWindow.cc" line="500"/>
         <source>An update is available!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="495"/>
+        <location filename="../src/gui/MainWindow.cc" line="501"/>
         <source>Version %1 of Tagaini Jisho is available. Do you want to download it now?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="497"/>
-        <location filename="../src/gui/MainWindow.cc" line="512"/>
+        <location filename="../src/gui/MainWindow.cc" line="503"/>
+        <location filename="../src/gui/MainWindow.cc" line="518"/>
         <source>Let&apos;s go!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="499"/>
-        <location filename="../src/gui/MainWindow.cc" line="514"/>
+        <location filename="../src/gui/MainWindow.cc" line="505"/>
+        <location filename="../src/gui/MainWindow.cc" line="520"/>
         <source>Maybe later</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="509"/>
+        <location filename="../src/gui/MainWindow.cc" line="515"/>
         <source>A development update is available!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="510"/>
+        <location filename="../src/gui/MainWindow.cc" line="516"/>
         <source>Development version %1 of Tagaini Jisho is available. Do you want to download it now?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="564"/>
+        <location filename="../src/gui/MainWindow.cc" line="570"/>
         <source>Create new set here...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="566"/>
+        <location filename="../src/gui/MainWindow.cc" line="572"/>
         <source>Create new folder here...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="578"/>
+        <location filename="../src/gui/MainWindow.cc" line="584"/>
         <source>New set</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="578"/>
+        <location filename="../src/gui/MainWindow.cc" line="584"/>
         <source>Please enter a name for this set:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="578"/>
+        <location filename="../src/gui/MainWindow.cc" line="584"/>
         <source>Unnamed set</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="600"/>
+        <location filename="../src/gui/MainWindow.cc" line="606"/>
         <source>New sets folder</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="600"/>
+        <location filename="../src/gui/MainWindow.cc" line="606"/>
         <source>Please enter a name for this folder</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="600"/>
+        <location filename="../src/gui/MainWindow.cc" line="606"/>
         <source>Unnamed folder</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/MainWindow.h" line="90"/>
         <source>Print</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../build-win32/src/gui/ui_MainWindow.h" line="373"/>
-        <source>Focus search bar,,,</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../build-win32/src/gui/ui_MainWindow.h" line="374"/>
-        <source>Ctrl+L</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../build-win32/src/gui/ui_MainWindow.h" line="402"/>
-        <source>Previous page</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../build-win32/src/gui/ui_MainWindow.h" line="406"/>
-        <source>Next page</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../build-win32/src/gui/ui_MainWindow.h" line="410"/>
-        <source>Show all results</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../build-win32/src/gui/ui_MainWindow.h" line="421"/>
-        <source>Search status</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2228,17 +1922,17 @@
 <context>
     <name>PreferencesFontChooser</name>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="394"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="438"/>
         <source>%1:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="396"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="440"/>
         <source>Default</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="399"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="443"/>
         <source>Change...</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2248,8 +1942,6 @@
     <message>
         <location filename="../src/gui/PreferencesWindow.ui" line="14"/>
         <location filename="../build/src/gui/ui_PreferencesWindow.h" line="79"/>
-        <location filename="../build-win32/src/gui/ui_PreferencesWindow.h" line="79"/>
-        <location filename="../src/gui/ui_PreferencesWindow.h" line="79"/>
         <source>Preferences</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2322,9 +2014,7 @@
     <message>
         <location filename="../src/gui/ReadingTrainer.ui" line="14"/>
         <location filename="../build/src/gui/ui_ReadingTrainer.h" line="114"/>
-        <location filename="../build-win32/src/gui/ui_ReadingTrainer.h" line="114"/>
         <location filename="../src/gui/ReadingTrainer.cc" line="38"/>
-        <location filename="../src/gui/ui_ReadingTrainer.h" line="114"/>
         <source>Reading practice</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2381,24 +2071,18 @@
     <message>
         <location filename="../src/gui/ReadingTrainer.ui" line="23"/>
         <location filename="../build/src/gui/ui_ReadingTrainer.h" line="115"/>
-        <location filename="../build-win32/src/gui/ui_ReadingTrainer.h" line="115"/>
-        <location filename="../src/gui/ui_ReadingTrainer.h" line="115"/>
         <source>Type the correct reading for this word:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/ReadingTrainer.ui" line="53"/>
         <location filename="../build/src/gui/ui_ReadingTrainer.h" line="117"/>
-        <location filename="../build-win32/src/gui/ui_ReadingTrainer.h" line="117"/>
-        <location filename="../src/gui/ui_ReadingTrainer.h" line="117"/>
         <source>&amp;Next</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/ReadingTrainer.ui" line="63"/>
         <location filename="../build/src/gui/ui_ReadingTrainer.h" line="118"/>
-        <location filename="../build-win32/src/gui/ui_ReadingTrainer.h" line="118"/>
-        <location filename="../src/gui/ui_ReadingTrainer.h" line="118"/>
         <source>&amp;Ok!</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2520,42 +2204,42 @@
 <context>
     <name>ResultsView</name>
     <message>
-        <location filename="../src/gui/EntryDelegate.cc" line="144"/>
+        <location filename="../src/gui/ResultsView.cc" line="71"/>
         <source>Select All</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/ResultsView.cc" line="92"/>
-        <location filename="../src/gui/ResultsView.cc" line="111"/>
-        <location filename="../src/gui/ResultsView.cc" line="130"/>
+        <location filename="../src/gui/ResultsView.cc" line="112"/>
+        <location filename="../src/gui/ResultsView.cc" line="131"/>
+        <location filename="../src/gui/ResultsView.cc" line="150"/>
         <source>Marking entries...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/ResultsView.cc" line="92"/>
-        <location filename="../src/gui/ResultsView.cc" line="111"/>
-        <location filename="../src/gui/ResultsView.cc" line="130"/>
-        <location filename="../src/gui/ResultsView.cc" line="149"/>
-        <location filename="../src/gui/ResultsView.cc" line="192"/>
+        <location filename="../src/gui/ResultsView.cc" line="112"/>
+        <location filename="../src/gui/ResultsView.cc" line="131"/>
+        <location filename="../src/gui/ResultsView.cc" line="150"/>
+        <location filename="../src/gui/ResultsView.cc" line="169"/>
+        <location filename="../src/gui/ResultsView.cc" line="212"/>
         <source>Abort</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/ResultsView.cc" line="94"/>
-        <location filename="../src/gui/ResultsView.cc" line="113"/>
-        <location filename="../src/gui/ResultsView.cc" line="132"/>
-        <location filename="../src/gui/ResultsView.cc" line="151"/>
-        <location filename="../src/gui/ResultsView.cc" line="194"/>
+        <location filename="../src/gui/ResultsView.cc" line="114"/>
+        <location filename="../src/gui/ResultsView.cc" line="133"/>
+        <location filename="../src/gui/ResultsView.cc" line="152"/>
+        <location filename="../src/gui/ResultsView.cc" line="171"/>
+        <location filename="../src/gui/ResultsView.cc" line="214"/>
         <source>Operation in progress...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/ResultsView.cc" line="149"/>
+        <location filename="../src/gui/ResultsView.cc" line="169"/>
         <source>Resetting entries...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/ResultsView.cc" line="192"/>
+        <location filename="../src/gui/ResultsView.cc" line="212"/>
         <source>Adding tags...</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2585,96 +2269,72 @@
     <message>
         <location filename="../src/gui/ResultsViewPreferences.ui" line="14"/>
         <location filename="../build/src/gui/ui_ResultsViewPreferences.h" line="165"/>
-        <location filename="../build-win32/src/gui/ui_ResultsViewPreferences.h" line="165"/>
-        <location filename="../src/gui/ui_ResultsViewPreferences.h" line="165"/>
         <source>Form</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/ResultsViewPreferences.ui" line="20"/>
         <location filename="../build/src/gui/ui_ResultsViewPreferences.h" line="166"/>
-        <location filename="../build-win32/src/gui/ui_ResultsViewPreferences.h" line="166"/>
-        <location filename="../src/gui/ui_ResultsViewPreferences.h" line="166"/>
         <source>Results display</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/ResultsViewPreferences.ui" line="28"/>
         <location filename="../build/src/gui/ui_ResultsViewPreferences.h" line="167"/>
-        <location filename="../build-win32/src/gui/ui_ResultsViewPreferences.h" line="167"/>
-        <location filename="../src/gui/ui_ResultsViewPreferences.h" line="167"/>
         <source>Style:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/ResultsViewPreferences.ui" line="35"/>
         <location filename="../build/src/gui/ui_ResultsViewPreferences.h" line="168"/>
-        <location filename="../build-win32/src/gui/ui_ResultsViewPreferences.h" line="168"/>
-        <location filename="../src/gui/ui_ResultsViewPreferences.h" line="168"/>
         <source>One line</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/ResultsViewPreferences.ui" line="42"/>
         <location filename="../build/src/gui/ui_ResultsViewPreferences.h" line="169"/>
-        <location filename="../build-win32/src/gui/ui_ResultsViewPreferences.h" line="169"/>
-        <location filename="../src/gui/ui_ResultsViewPreferences.h" line="169"/>
         <source>Two lines</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/ResultsViewPreferences.ui" line="56"/>
         <location filename="../build/src/gui/ui_ResultsViewPreferences.h" line="170"/>
-        <location filename="../build-win32/src/gui/ui_ResultsViewPreferences.h" line="170"/>
-        <location filename="../src/gui/ui_ResultsViewPreferences.h" line="170"/>
         <source>Smooth scrolling</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/ResultsViewPreferences.ui" line="67"/>
         <location filename="../build/src/gui/ui_ResultsViewPreferences.h" line="171"/>
-        <location filename="../build-win32/src/gui/ui_ResultsViewPreferences.h" line="171"/>
-        <location filename="../src/gui/ui_ResultsViewPreferences.h" line="171"/>
         <source>Number of results per page:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/ResultsViewPreferences.ui" line="105"/>
         <location filename="../build/src/gui/ui_ResultsViewPreferences.h" line="172"/>
-        <location filename="../build-win32/src/gui/ui_ResultsViewPreferences.h" line="172"/>
-        <location filename="../src/gui/ui_ResultsViewPreferences.h" line="172"/>
         <source>Results sorting:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/ResultsViewPreferences.ui" line="126"/>
         <location filename="../build/src/gui/ui_ResultsViewPreferences.h" line="175"/>
-        <location filename="../build-win32/src/gui/ui_ResultsViewPreferences.h" line="175"/>
-        <location filename="../src/gui/ui_ResultsViewPreferences.h" line="175"/>
         <source>By relevance</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/ResultsViewPreferences.ui" line="131"/>
         <location filename="../build/src/gui/ui_ResultsViewPreferences.h" line="176"/>
-        <location filename="../build-win32/src/gui/ui_ResultsViewPreferences.h" line="176"/>
-        <location filename="../src/gui/ui_ResultsViewPreferences.h" line="176"/>
         <source>By score, then relevance</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/ResultsViewPreferences.ui" line="144"/>
         <location filename="../build/src/gui/ui_ResultsViewPreferences.h" line="178"/>
-        <location filename="../build-win32/src/gui/ui_ResultsViewPreferences.h" line="178"/>
-        <location filename="../src/gui/ui_ResultsViewPreferences.h" line="178"/>
         <source>Fonts</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/ResultsViewPreferences.ui" line="151"/>
         <location filename="../build/src/gui/ui_ResultsViewPreferences.h" line="179"/>
-        <location filename="../build-win32/src/gui/ui_ResultsViewPreferences.h" line="179"/>
-        <location filename="../src/gui/ui_ResultsViewPreferences.h" line="179"/>
         <source>Preview</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2720,7 +2380,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/ResultsViewWidget.cc" line="135"/>
+        <location filename="../src/gui/ResultsViewWidget.cc" line="122"/>
         <source>Results %1 - %2 of %3</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2743,16 +2403,12 @@
     <message>
         <location filename="../src/gui/SetsOrganizer.ui" line="14"/>
         <location filename="../build/src/gui/ui_SetsOrganizer.h" line="75"/>
-        <location filename="../build-win32/src/gui/ui_SetsOrganizer.h" line="75"/>
-        <location filename="../src/gui/ui_SetsOrganizer.h" line="75"/>
         <source>Organize sets</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/SetsOrganizer.ui" line="20"/>
         <location filename="../build/src/gui/ui_SetsOrganizer.h" line="76"/>
-        <location filename="../build-win32/src/gui/ui_SetsOrganizer.h" line="76"/>
-        <location filename="../src/gui/ui_SetsOrganizer.h" line="76"/>
         <source>You can organize your sets here. Double-click to change the set&apos;s label, drag and drop to move them or right-click for other options, including deletion.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2778,26 +2434,56 @@
 <context>
     <name>ShowUsedInJob</name>
     <message>
-        <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="565"/>
+        <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="559"/>
         <source>Direct compounds:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="587"/>
+        <source>Make a new search using only this filter</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="589"/>
+        <source>All compounds</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="593"/>
-        <source>(All compounds)</source>
+        <source>Add this filter to the current search</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="595"/>
+        <source>(+)</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>ShowUsedInWordsJob</name>
     <message>
-        <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="611"/>
+        <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="613"/>
         <source>Seen in:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="646"/>
-        <source>Find all words using this kanji</source>
+        <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="648"/>
+        <source>Make a new search using only this filter</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="650"/>
+        <source>All words using this kanji</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="654"/>
+        <source>Add this filter to the current search</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="656"/>
+        <source>(+)</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3018,17 +2704,22 @@
 <context>
     <name>TextFilterWidget</name>
     <message>
-        <location filename="../src/gui/TextFilterWidget.cc" line="28"/>
+        <location filename="../src/gui/TextFilterWidget.cc" line="30"/>
         <source>Search</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/TextFilterWidget.cc" line="45"/>
+        <location filename="../src/gui/TextFilterWidget.cc" line="47"/>
         <source>Clear search text</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/TextFilterWidget.cc" line="60"/>
+        <location filename="../src/gui/TextFilterWidget.cc" line="58"/>
+        <source>Auto-search on clipboard content</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/TextFilterWidget.cc" line="66"/>
         <source>Text search</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3048,32 +2739,24 @@
     <message>
         <location filename="../src/gui/TrainSettings.ui" line="14"/>
         <location filename="../build/src/gui/ui_TrainSettings.h" line="172"/>
-        <location filename="../build-win32/src/gui/ui_TrainSettings.h" line="172"/>
-        <location filename="../src/gui/ui_TrainSettings.h" line="167"/>
         <source>Train settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/TrainSettings.ui" line="20"/>
         <location filename="../build/src/gui/ui_TrainSettings.h" line="173"/>
-        <location filename="../build-win32/src/gui/ui_TrainSettings.h" line="173"/>
-        <location filename="../src/gui/ui_TrainSettings.h" line="168"/>
         <source>Date of last training</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/TrainSettings.ui" line="26"/>
         <location filename="../build/src/gui/ui_TrainSettings.h" line="174"/>
-        <location filename="../build-win32/src/gui/ui_TrainSettings.h" line="174"/>
-        <location filename="../src/gui/ui_TrainSettings.h" line="169"/>
         <source>Before</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/TrainSettings.ui" line="36"/>
         <location filename="../build/src/gui/ui_TrainSettings.h" line="175"/>
-        <location filename="../build-win32/src/gui/ui_TrainSettings.h" line="175"/>
-        <location filename="../src/gui/ui_TrainSettings.h" line="170"/>
         <source>After</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3082,66 +2765,48 @@
         <location filename="../src/gui/TrainSettings.ui" line="53"/>
         <location filename="../build/src/gui/ui_TrainSettings.h" line="176"/>
         <location filename="../build/src/gui/ui_TrainSettings.h" line="177"/>
-        <location filename="../build-win32/src/gui/ui_TrainSettings.h" line="176"/>
-        <location filename="../build-win32/src/gui/ui_TrainSettings.h" line="177"/>
-        <location filename="../src/gui/ui_TrainSettings.h" line="171"/>
-        <location filename="../src/gui/ui_TrainSettings.h" line="172"/>
         <source>PushButton</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/TrainSettings.ui" line="63"/>
         <location filename="../build/src/gui/ui_TrainSettings.h" line="178"/>
-        <location filename="../build-win32/src/gui/ui_TrainSettings.h" line="178"/>
-        <location filename="../src/gui/ui_TrainSettings.h" line="173"/>
         <source>Score</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/TrainSettings.ui" line="69"/>
         <location filename="../build/src/gui/ui_TrainSettings.h" line="179"/>
-        <location filename="../build-win32/src/gui/ui_TrainSettings.h" line="179"/>
-        <location filename="../src/gui/ui_TrainSettings.h" line="174"/>
         <source>between</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/TrainSettings.ui" line="86"/>
         <location filename="../build/src/gui/ui_TrainSettings.h" line="180"/>
-        <location filename="../build-win32/src/gui/ui_TrainSettings.h" line="180"/>
-        <location filename="../src/gui/ui_TrainSettings.h" line="175"/>
         <source>and</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/TrainSettings.ui" line="106"/>
         <location filename="../build/src/gui/ui_TrainSettings.h" line="181"/>
-        <location filename="../build-win32/src/gui/ui_TrainSettings.h" line="181"/>
-        <location filename="../src/gui/ui_TrainSettings.h" line="176"/>
         <source>Sort biais</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/TrainSettings.ui" line="114"/>
         <location filename="../build/src/gui/ui_TrainSettings.h" line="182"/>
-        <location filename="../build-win32/src/gui/ui_TrainSettings.h" line="182"/>
-        <location filename="../src/gui/ui_TrainSettings.h" line="177"/>
         <source>Bias:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/TrainSettings.ui" line="122"/>
         <location filename="../build/src/gui/ui_TrainSettings.h" line="185"/>
-        <location filename="../build-win32/src/gui/ui_TrainSettings.h" line="185"/>
-        <location filename="../src/gui/ui_TrainSettings.h" line="180"/>
         <source>No bias</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/TrainSettings.ui" line="127"/>
         <location filename="../build/src/gui/ui_TrainSettings.h" line="186"/>
-        <location filename="../build-win32/src/gui/ui_TrainSettings.h" line="186"/>
-        <location filename="../src/gui/ui_TrainSettings.h" line="181"/>
         <source>By score</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3174,22 +2839,22 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/YesNoTrainer.cc" line="158"/>
+        <location filename="../src/gui/YesNoTrainer.cc" line="157"/>
         <source>No entries to train</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/YesNoTrainer.cc" line="158"/>
+        <location filename="../src/gui/YesNoTrainer.cc" line="157"/>
         <source>There are no entries that match the requested settings.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/YesNoTrainer.cc" line="159"/>
+        <location filename="../src/gui/YesNoTrainer.cc" line="158"/>
         <source>No more entries to train</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/YesNoTrainer.cc" line="159"/>
+        <location filename="../src/gui/YesNoTrainer.cc" line="158"/>
         <source>All the requested entries have been trained.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3197,12 +2862,12 @@
 <context>
     <name>main.cc</name>
     <message>
-        <location filename="../src/gui/main.cc" line="102"/>
+        <location filename="../src/gui/main.cc" line="105"/>
         <source>User data migrated</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/main.cc" line="102"/>
+        <location filename="../src/gui/main.cc" line="105"/>
         <source>Your user data and settings have successfully been migrated. Tagaini Jisho needs to be restarted and will now exit.</source>
         <translation type="unfinished"></translation>
     </message>
