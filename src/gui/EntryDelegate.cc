@@ -39,12 +39,6 @@ void EntryDelegateLayout::setDisplayMode(DisplayMode mode)
 	emit layoutHasChanged();
 }
 
-// TODO never called - either use or remove
-void EntryDelegateLayout::_fontsChanged()
-{
-	emit layoutHasChanged();
-}
-
 EntryDelegate::EntryDelegate(EntryDelegateLayout *dLayout, QObject* parent) : QStyledItemDelegate(parent), layout(dLayout)
 {
 	_tagsIcon.load(":/images/icons/tags.png");
@@ -52,8 +46,6 @@ EntryDelegate::EntryDelegate(EntryDelegateLayout *dLayout, QObject* parent) : QS
 	_notesIcon.load(":/images/icons/notes.png");
 	_notesIcon = _notesIcon.scaledToHeight(15);
 }
-
-
 
 QSize EntryDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
@@ -111,16 +103,18 @@ void EntryDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
 	painter->drawText(QPoint(rect.left(), rect.top() + topLineAscent),
 	                  entry->writings()[0]);
 	QString s = " ";
-	for (int i = 1; i < entry->writings().size(); i++) {
-		s += entry->writings()[i];
-		if (i < entry->writings().size() - 1) s += ", ";
+	if (layout->displayMode() == EntryDelegateLayout::OneLine) {
+		if (!entry->readings().isEmpty()) s += "(" + entry->readings()[0] + "): ";
+	} else {
+		for (int i = 1; i < entry->writings().size(); i++) {
+			s += entry->writings()[i];
+			if (i < entry->writings().size() - 1) s += ", ";
+		}
+		if (!entry->readings().isEmpty()) {
+			if (entry->writings().size() > 1) s += " ";
+			s += "(" + entry->readings().join(", ") + ")";
+		}
 	}
-	if (!entry->readings().isEmpty()) {
-		if (entry->writings().size() > 1) s += " ";
-		s += "(" + entry->readings().join(", ") + ")";
-	}
-	if (layout->displayMode() == EntryDelegateLayout::OneLine)
-		s += ": ";
 	painter->setFont(layout->kanaFont());
 	s = QFontMetrics(layout->kanaFont()).elidedText(s, Qt::ElideRight, rect.width() - bbox.width());
 	QRect rect2(rect);
