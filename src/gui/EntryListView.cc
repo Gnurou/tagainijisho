@@ -22,6 +22,7 @@
 
 #include <QInputDialog>
 #include <QSqlDatabase>
+#include <QSqlError>
 #include <QMessageBox>
 
 EntryListView::EntryListView(QWidget *parent) : QTreeView(parent)
@@ -93,6 +94,6 @@ void EntryListView::deleteSelectedItems()
 	foreach (const QModelIndex &index, selection) {
 		if (!model()->removeRow(index.row(), index.parent())) success = false;
 	}
-	if (!success) QMessageBox::information(this, tr("Removal failed"), tr("A database error occured while trying to remove the selected items. Some of them may be remaining."));
+	if (!success) QMessageBox::information(this, tr("Removal failed"), tr("A database error has occured while trying to remove the selected items:\n\n%1\n\n Some of them may be remaining.").arg(QSqlDatabase::database().lastError().text()));
 }
 

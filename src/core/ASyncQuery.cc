@@ -175,6 +175,8 @@ bool ThreadedDatabaseConnection::connect(const QString &dbFile)
 		qWarning("Cannot fetch sqlite3 handler - will most probably crash when a query is interrupted...");
 		_handler = 0;
 	}
+	_database.exec("pragma journal_mode=MEMORY");
+	_database.exec("pragma encoding=\"UTF-16le\"");
 	return true;
 }
 

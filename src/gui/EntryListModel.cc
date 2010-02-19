@@ -26,6 +26,7 @@
 #include <QPalette>
 
 #define TRANSACTION QSqlDatabase::database().transaction()
+//#define TRANSACTION QSqlDatabase::database().exec("BEGIN IMMEDIATE TRANSACTION").isValid()
 #define ROLLBACK QSqlDatabase::database().rollback()
 #define COMMIT QSqlDatabase::database().commit()
 
@@ -220,7 +221,7 @@ bool EntryListModel::setData(const QModelIndex &index, const QVariant &value, in
 	}
 	return false;
 transactionFailed:
-	qDebug() << __FILE__ << __LINE__ << "Cannot execute query:" << QSqlDatabase::database().lastError().text();
+	qDebug() << __FILE__ << __LINE__ << "Database error:" << QSqlDatabase::database().lastError().text();
 	ROLLBACK;
 	invalidateCache();
 	return false;
@@ -265,7 +266,7 @@ bool EntryListModel::insertRows(int row, int count, const QModelIndex & parent)
 	endInsertRows();
 	return true;
 transactionFailed:
-	qDebug() << __FILE__ << __LINE__ << "Cannot execute query:" << QSqlDatabase::database().lastError().text();
+	qDebug() << __FILE__ << __LINE__ << "Database error:" << QSqlDatabase::database().lastError().text();
 	ROLLBACK;
 	invalidateCache();
 	return false;
@@ -317,7 +318,7 @@ bool EntryListModel::removeRows(int row, int count, const QModelIndex &parent)
 	if (!COMMIT) goto transactionFailed;
 	return true;
 transactionFailed:
-	qDebug() << __FILE__ << __LINE__ << "Cannot execute query:" << QSqlDatabase::database().lastError().text();
+	qDebug() << __FILE__ << __LINE__ << "Database error:" << QSqlDatabase::database().lastError().text();
 	ROLLBACK;
 	invalidateCache();
 	return false;
@@ -462,7 +463,7 @@ bool EntryListModel::dropMimeData(const QMimeData *data, Qt::DropAction action, 
 	}
 	return true;
 transactionFailed:
-	qDebug() << __FILE__ << __LINE__ << "Cannot execute query:" << QSqlDatabase::database().lastError().text();
+	qDebug() << __FILE__ << __LINE__ << "Database error:" << QSqlDatabase::database().lastError().text();
 	ROLLBACK;
 	invalidateCache();
 	return false;

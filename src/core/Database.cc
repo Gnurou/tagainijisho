@@ -303,6 +303,7 @@ void Database::checkUserDB()
 {
 	int currentVersion;
 	QSqlQuery query;
+	query.exec("pragma journal_mode=MEMORY");
 	query.exec("pragma encoding=\"UTF-16le\"");
 	query.exec("SELECT version FROM info");
 	if (query.next()) currentVersion = query.value(0).toInt();
