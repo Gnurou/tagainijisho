@@ -21,3 +21,4 @@ EntryListWidget::EntryListWidget(QWidget *parent) : SearchFilterWidget(parent)
 {
 	setupUi(this);
 }
+

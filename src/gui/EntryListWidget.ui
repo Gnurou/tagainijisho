@@ -76,9 +76,6 @@
      <property name="dragDropMode">
       <enum>QAbstractItemView::DragDrop</enum>
      </property>
-     <property name="indentation">
-      <number>10</number>
-     </property>
      <property name="rootIsDecorated">
       <bool>true</bool>
      </property>

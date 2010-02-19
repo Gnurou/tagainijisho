@@ -95,3 +95,4 @@ void EntryListView::deleteSelectedItems()
 	}
 	if (!success) QMessageBox::information(this, tr("Removal failed"), tr("A database error occured while trying to remove the selected items. Some of them may be remaining."));
 }
+
