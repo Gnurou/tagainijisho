@@ -1,43 +1,41 @@
 /****************************************************************************
 **
-** Copyright (C) 1992-2008 Trolltech ASA. All rights reserved.
+** Copyright (C) 2010 Nokia Corporation and/or its subsidiary(-ies).
+** All rights reserved.
+** Contact: Nokia Corporation (qt-info@nokia.com)
 **
 ** This file is part of the QtSql module of the Qt Toolkit.
 **
-** This file may be used under the terms of the GNU General Public
-** License versions 2.0 or 3.0 as published by the Free Software
-** Foundation and appearing in the files LICENSE.GPL2 and LICENSE.GPL3
-** included in the packaging of this file.  Alternatively you may (at
-** your option) use any later version of the GNU General Public
-** License if such license has been publicly approved by Trolltech ASA
-** (or its successors, if any) and the KDE Free Qt Foundation. In
-** addition, as a special exception, Trolltech gives you certain
-** additional rights. These rights are described in the Trolltech GPL
-** Exception version 1.2, which can be found at
-** http://www.trolltech.com/products/qt/gplexception/ and in the file
-** GPL_EXCEPTION.txt in this package.
+** $QT_BEGIN_LICENSE:LGPL$
+** No Commercial Usage
+** This file contains pre-release code and may not be distributed.
+** You may use this file in accordance with the terms and conditions
+** contained in the Technology Preview License Agreement accompanying
+** this package.
 **
-** Please review the following information to ensure GNU General
-** Public Licensing requirements will be met:
-** http://trolltech.com/products/qt/licenses/licensing/opensource/. If
-** you are unsure which license is appropriate for your use, please
-** review the following information:
-** http://trolltech.com/products/qt/licenses/licensing/licensingoverview
-** or contact the sales department at sales@trolltech.com.
+** GNU Lesser General Public License Usage
+** Alternatively, this file may be used under the terms of the GNU Lesser
+** General Public License version 2.1 as published by the Free Software
+** Foundation and appearing in the file LICENSE.LGPL included in the
+** packaging of this file.  Please review the following information to
+** ensure the GNU Lesser General Public License version 2.1 requirements
+** will be met: http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
 **
-** In addition, as a special exception, Trolltech, as the sole
-** copyright holder for Qt Designer, grants users of the Qt/Eclipse
-** Integration plug-in the right for the Qt/Eclipse Integration to
-** link to functionality provided by Qt Designer and its related
-** libraries.
+** In addition, as a special exception, Nokia gives you certain additional
+** rights.  These rights are described in the Nokia Qt LGPL Exception
+** version 1.1, included in the file LGPL_EXCEPTION.txt in this package.
 **
-** This file is provided "AS IS" with NO WARRANTY OF ANY KIND,
-** INCLUDING THE WARRANTIES OF DESIGN, MERCHANTABILITY AND FITNESS FOR
-** A PARTICULAR PURPOSE. Trolltech reserves all rights not expressly
-** granted herein.
+** If you have questions regarding the use of this file, please contact
+** Nokia at qt-info@nokia.com.
 **
-** This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
-** WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+**
+**
+**
+**
+**
+**
+**
+** $QT_END_LICENSE$
 **
 ****************************************************************************/
 
@@ -59,12 +57,23 @@
 # include <unistd.h>
 #endif
 
-#include "sqlite3.h"
+#include <sqlite3.h>
 
 Q_DECLARE_METATYPE(sqlite3*)
 Q_DECLARE_METATYPE(sqlite3_stmt*)
 
 QT_BEGIN_NAMESPACE
+
+static QString _q_escapeIdentifier(const QString &identifier) 
+{
+    QString res = identifier;
+    if(!identifier.isEmpty() && identifier.left(1) != QString(QLatin1Char('"')) && identifier.right(1) != QString(QLatin1Char('"')) ) {
+        res.replace(QLatin1Char('"'), QLatin1String("\"\""));
+        res.prepend(QLatin1Char('"')).append(QLatin1Char('"'));
+        res.replace(QLatin1Char('.'), QLatin1String("\".\""));
+    }
+    return res;
+}
 
 static QVariant::Type qGetColumnType(const QString &tpName)
 {
@@ -113,16 +122,14 @@ public:
 
     sqlite3_stmt *stmt;
 
-    uint skippedStatus: 1; // the status of the fetchNext() that's skipped
-    uint skipRow: 1; // skip the next fetchNext()?
-    uint utf8: 1;
+    bool skippedStatus; // the status of the fetchNext() that's skipped
+    bool skipRow; // skip the next fetchNext()?
     QSqlRecord rInf;
+    QVector<QVariant> firstRow;
 };
 
-static const uint initial_cache_size = 128;
-
 QSQLiteResultPrivate::QSQLiteResultPrivate(QSQLiteResult* res) : q(res), access(0),
-    stmt(0), skippedStatus(false), skipRow(false), utf8(false)
+    stmt(0), skippedStatus(false), skipRow(false)
 {
 }
 
@@ -182,9 +189,16 @@ bool QSQLiteResultPrivate::fetchNext(_QSqlCachedResult::ValueCache &values, int 
         // already fetched
         Q_ASSERT(!initialFetch);
         skipRow = false;
+        for(int i=0;i<firstRow.count();i++)
+            values[i]=firstRow[i];
         return skippedStatus;
     }
     skipRow = initialFetch;
+
+    if(initialFetch) {
+        firstRow.clear();
+        firstRow.resize(sqlite3_column_count(stmt));
+    }
 
     if (!stmt) {
         q->setLastError(QSqlError(QCoreApplication::translate("QSQLiteResult", "Unable to fetch row"),
@@ -213,7 +227,19 @@ bool QSQLiteResultPrivate::fetchNext(_QSqlCachedResult::ValueCache &values, int 
                 values[i + idx] = sqlite3_column_int64(stmt, i);
                 break;
             case SQLITE_FLOAT:
-                values[i + idx] = sqlite3_column_double(stmt, i);
+                switch(q->numericalPrecisionPolicy()) {
+                    case QSql::LowPrecisionInt32:
+                        values[i + idx] = sqlite3_column_int(stmt, i);
+                        break;
+                    case QSql::LowPrecisionInt64:
+                        values[i + idx] = sqlite3_column_int64(stmt, i);
+                        break;
+                    case QSql::LowPrecisionDouble:
+                    case QSql::HighPrecision:
+                    default:
+                        values[i + idx] = sqlite3_column_double(stmt, i);
+                        break;
+                };
                 break;
             case SQLITE_NULL:
                 values[i + idx] = QVariant(QVariant::String);
@@ -269,12 +295,14 @@ QSQLiteResult::~QSQLiteResult()
 
 void QSQLiteResult::virtual_hook(int id, void *data)
 {
-    if (id == DetachFromResultSet) {
+    switch (id) {
+    case QSqlResult::DetachFromResultSet:
         if (d->stmt)
             sqlite3_reset(d->stmt);
-        return;
+        break;
+    default:
+        _QSqlCachedResult::virtual_hook(id, data);
     }
-    QSqlResult::virtual_hook(id, data);
 }
 
 bool QSQLiteResult::reset(const QString &query)
@@ -378,7 +406,7 @@ bool QSQLiteResult::exec()
                         "Parameter count mismatch"), QString(), QSqlError::StatementError));
         return false;
     }
-    d->skippedStatus = d->fetchNext(cache(), 0, true);
+    d->skippedStatus = d->fetchNext(d->firstRow, 0, true);
     if (lastError().isValid()) {
         setSelect(false);
         setActive(false);
@@ -460,11 +488,11 @@ bool QSQLiteDriver::hasFeature(DriverFeature f) const
     case PositionalPlaceholders:
     case SimpleLocking:
     case FinishQuery:
+    case LowPrecisionNumbers:
         return true;
     case QuerySize:
     case NamedPlaceholders:
     case BatchOperations:
-    case LowPrecisionNumbers:
     case EventNotifications:
     case MultipleResultSets:
         return false;
@@ -477,13 +505,25 @@ static int qGetSqliteTimeout(QString opts)
     enum { DefaultTimeout = 5000 };
 
     opts.remove(QLatin1Char(' '));
-    if (opts.startsWith(QLatin1String("QSQLITE_BUSY_TIMEOUT="))) {
-        bool ok;
-        int nt = opts.mid(21).toInt(&ok);
-        if (ok)
-            return nt;
+    foreach(QString option, opts.split(QLatin1Char(';'))) {
+        if (option.startsWith(QLatin1String("QSQLITE_BUSY_TIMEOUT="))) {
+            bool ok;
+            int nt = option.mid(21).toInt(&ok);
+            if (ok)
+                return nt;
+        }
     }
     return DefaultTimeout;
+}
+
+static int qGetSqliteOpenMode(QString opts)
+{
+    opts.remove(QLatin1Char(' '));
+    foreach(QString option, opts.split(QLatin1Char(';'))) {
+        if (option == QLatin1String("QSQLITE_OPEN_READONLY"))
+                return SQLITE_OPEN_READONLY;
+    }
+    return SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE;
 }
 
 /*
@@ -498,7 +538,7 @@ bool QSQLiteDriver::open(const QString & db, const QString &, const QString &, c
     if (db.isEmpty())
         return false;
 
-    if (sqlite3_open16(db.constData(), &d->access) == SQLITE_OK) {
+    if (sqlite3_open_v2(db.toUtf8().constData(), &d->access, qGetSqliteOpenMode(conOpts), NULL) == SQLITE_OK) {
         sqlite3_busy_timeout(d->access, qGetSqliteTimeout(conOpts));
         setOpen(true);
         setOpenError(false);
@@ -554,6 +594,7 @@ bool QSQLiteDriver::commitTransaction()
                                q.lastError().databaseText(), QSqlError::TransactionError));
         return false;
     }
+
     return true;
 }
 
@@ -609,12 +650,12 @@ static QSqlIndex qGetTableInfo(QSqlQuery &q, const QString &tableName, bool only
 {
     QString schema;
     QString table(tableName);
-    int indexOfSeparator = tableName.indexOf(QLatin1String("."));
+    int indexOfSeparator = tableName.indexOf(QLatin1Char('.'));
     if (indexOfSeparator > -1) {
-        schema = tableName.left(indexOfSeparator).append(QLatin1String("."));
+        schema = tableName.left(indexOfSeparator).append(QLatin1Char('.'));
         table = tableName.mid(indexOfSeparator + 1);
     }
-    q.exec(QLatin1String("PRAGMA ") + schema + QLatin1String("table_info ('") + table + QLatin1String("')"));
+    q.exec(QLatin1String("PRAGMA ") + schema + QLatin1String("table_info (") + _q_escapeIdentifier(table) + QLatin1String(")"));
 
     QSqlIndex ind;
     while (q.next()) {
@@ -639,9 +680,13 @@ QSqlIndex QSQLiteDriver::primaryIndex(const QString &tblname) const
     if (!isOpen())
         return QSqlIndex();
 
+    QString table = tblname;
+    if (isIdentifierEscaped(table, QSqlDriver::TableName))
+        table = stripDelimiters(table, QSqlDriver::TableName);
+
     QSqlQuery q(createResult());
     q.setForwardOnly(true);
-    return qGetTableInfo(q, tblname, true);
+    return qGetTableInfo(q, table, true);
 }
 
 QSqlRecord QSQLiteDriver::record(const QString &tbl) const
@@ -649,9 +694,13 @@ QSqlRecord QSQLiteDriver::record(const QString &tbl) const
     if (!isOpen())
         return QSqlRecord();
 
+    QString table = tbl;
+    if (isIdentifierEscaped(table, QSqlDriver::TableName))
+        table = stripDelimiters(table, QSqlDriver::TableName);
+
     QSqlQuery q(createResult());
     q.setForwardOnly(true);
-    return qGetTableInfo(q, tbl);
+    return qGetTableInfo(q, table);
 }
 
 QVariant QSQLiteDriver::handle() const
@@ -659,14 +708,10 @@ QVariant QSQLiteDriver::handle() const
     return qVariantFromValue(d->access);
 }
 
-QString QSQLiteDriver::escapeIdentifier(const QString &identifier, IdentifierType /*type*/) const
+QString QSQLiteDriver::escapeIdentifier(const QString &identifier, IdentifierType type) const
 {
-    QString res = identifier;
-    res.replace(QLatin1Char('"'), QLatin1String("\"\""));
-    res.prepend(QLatin1Char('"')).append(QLatin1Char('"'));
-    res.replace(QLatin1Char('.'), QLatin1String("\".\""));
-    return res;
+    Q_UNUSED(type);
+    return _q_escapeIdentifier(identifier);
 }
 
 QT_END_NAMESPACE
-

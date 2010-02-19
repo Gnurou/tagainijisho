@@ -124,6 +124,7 @@ bool ASyncQuery::abort()
 	_dbConn->_abortRunningQuery(this);
 	// Here we are sure we are not running
 	Q_ASSERT(_dbConn->_activeQuery != this);
+	_query.finish();
 	_active = false;
 	return true;
 }

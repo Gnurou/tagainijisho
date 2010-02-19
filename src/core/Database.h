@@ -72,6 +72,8 @@ public:
 
 	static QVector<QRegExp> staticRegExps;
 
+	// Begin immediate cannot work correctly here because it tries to get a lock on the attached databases, which are read-only
+	//static bool transaction() { bool r = instance->database.exec("BEGIN IMMEDIATE TRANSACTION").isValid(); qDebug() << "T" << r; if (!r) qDebug() << instance->database.lastError().text(); return r; }
 	static bool transaction() { return instance->database.transaction(); }
 	static bool rollback() { return instance->database.rollback(); }
 	static bool commit() { return instance->database.commit(); }

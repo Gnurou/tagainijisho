@@ -15,6 +15,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "core/Database.h"
 #include "gui/EntryListModel.h"
 // TODO for EntryRole - get rid of it
 #include "gui/ResultsList.h"
@@ -25,10 +26,9 @@
 #include <QSize>
 #include <QPalette>
 
-#define TRANSACTION QSqlDatabase::database().transaction()
-//#define TRANSACTION QSqlDatabase::database().exec("BEGIN IMMEDIATE TRANSACTION").isValid()
-#define ROLLBACK QSqlDatabase::database().rollback()
-#define COMMIT QSqlDatabase::database().commit()
+#define TRANSACTION Database::transaction()
+#define ROLLBACK Database::rollback()
+#define COMMIT Database::commit()
 
 #define EXEC(q) if (!q.exec()) { qDebug() << __FILE__ << __LINE__ << "Cannot execute query:" << q.lastError().text(); return false; }
 #define EXEC_T(q) if (!q.exec()) { qDebug() << __FILE__ << __LINE__ << "Cannot execute query:" << q.lastError().text(); goto transactionFailed; }
@@ -221,7 +221,6 @@ bool EntryListModel::setData(const QModelIndex &index, const QVariant &value, in
 	}
 	return false;
 transactionFailed:
-	qDebug() << __FILE__ << __LINE__ << "Database error:" << QSqlDatabase::database().lastError().text();
 	ROLLBACK;
 	invalidateCache();
 	return false;
@@ -266,7 +265,6 @@ bool EntryListModel::insertRows(int row, int count, const QModelIndex & parent)
 	endInsertRows();
 	return true;
 transactionFailed:
-	qDebug() << __FILE__ << __LINE__ << "Database error:" << QSqlDatabase::database().lastError().text();
 	ROLLBACK;
 	invalidateCache();
 	return false;
@@ -318,7 +316,6 @@ bool EntryListModel::removeRows(int row, int count, const QModelIndex &parent)
 	if (!COMMIT) goto transactionFailed;
 	return true;
 transactionFailed:
-	qDebug() << __FILE__ << __LINE__ << "Database error:" << QSqlDatabase::database().lastError().text();
 	ROLLBACK;
 	invalidateCache();
 	return false;
@@ -463,7 +460,6 @@ bool EntryListModel::dropMimeData(const QMimeData *data, Qt::DropAction action, 
 	}
 	return true;
 transactionFailed:
-	qDebug() << __FILE__ << __LINE__ << "Database error:" << QSqlDatabase::database().lastError().text();
 	ROLLBACK;
 	invalidateCache();
 	return false;
