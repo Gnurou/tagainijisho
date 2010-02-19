@@ -22,7 +22,7 @@ endif()
 
 option(DEBUG_ENTRIES_CACHE "Print entries cache behavior" OFF)
 
-configure_file(${CMAKE_SOURCE_DIR}/src/config.h.cmake ${CMAKE_BINARY_DIR}/src/config.h)
+configure_file(${CMAKE_SOURCE_DIR}/src/tagaini_config.h.cmake ${CMAKE_BINARY_DIR}/src/tagaini_config.h)
 # For config.h
 include_directories(${CMAKE_BINARY_DIR}/src)
 
