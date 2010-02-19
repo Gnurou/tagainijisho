@@ -527,7 +527,7 @@ FindVerbBuddyJob::FindVerbBuddyJob(const ConstJMdictEntryPointer& verb, const QS
 	lastKanjiPos = matchPattern.size();
 }
 
-void FindVerbBuddyJob::result(ConstEntryPointer entry)
+void FindVerbBuddyJob::result(EntryPointer entry)
 {
 	ConstJMdictEntryPointer jEntry = entry.objectCast<const JMdictEntry>();
 	if (!jEntry) return;
@@ -626,7 +626,7 @@ void FindHomonymsJob::firstResult()
 	cursor().setCharFormat(normal);
 }
 
-void FindHomonymsJob::result(ConstEntryPointer entry)
+void FindHomonymsJob::result(EntryPointer entry)
 {
 	QTextList *currentList = cursor().currentList();
 	cursor().insertBlock(QTextBlockFormat());

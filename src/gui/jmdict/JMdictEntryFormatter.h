@@ -81,7 +81,7 @@ private:
 
 public:
 	FindVerbBuddyJob(const ConstJMdictEntryPointer &verb, const QString &pos, const QTextCursor &cursor);
-	virtual void result(ConstEntryPointer entry);
+	virtual void result(EntryPointer entry);
 	virtual void completed();
 };
 
@@ -90,7 +90,7 @@ class FindHomonymsJob : public DetailedViewJob {
 public:
 	FindHomonymsJob(const ConstJMdictEntryPointer &entry, int maxToDisplay, bool studiedOnly, const QTextCursor &cursor);
 	virtual void firstResult();
-	virtual void result(ConstEntryPointer entry);
+	virtual void result(EntryPointer entry);
 	virtual void completed();
 };
 
