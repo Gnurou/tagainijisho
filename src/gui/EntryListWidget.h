@@ -21,7 +21,7 @@
 #include "gui/ui_EntryListWidget.h"
 #include "gui/SearchFilterWidget.h"
 
-class EntryListWidget : public SearchFilterWidget, public Ui::EntryListWidget
+class EntryListWidget : public SearchFilterWidget, private Ui::EntryListWidget
 {
 	Q_OBJECT
 protected:

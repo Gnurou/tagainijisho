@@ -17,12 +17,11 @@
 
 #include <QtDebug>
 
+#include "core/Database.h"
 #include "gui/EntryListModel.h"
 #include "gui/EntryListView.h"
 
 #include <QInputDialog>
-#include <QSqlDatabase>
-#include <QSqlError>
 #include <QMessageBox>
 
 PreferenceItem<bool> EntryListView::smoothScrolling("mainWindow/lists", "smoothScrolling", true);
@@ -31,30 +30,36 @@ PreferenceItem<QString> EntryListView::kanaFont("mainWindow/lists", "kanaFont", 
 PreferenceItem<QString> EntryListView::kanjiFont("mainWindow/lists", "kanjiFont", QFont("Helvetica", 12).toString());
 PreferenceItem<int> EntryListView::displayMode("mainWindow/lists", "displayMode", EntryDelegateLayout::OneLine);
 
-EntryListView::EntryListView(QWidget *parent) : QTreeView(parent)
+EntryListView::EntryListView(QWidget *parent) : QTreeView(parent), helper(this), _newListAction(QIcon(":/images/icons/document-new.png"), tr("New list"), 0), _deleteSelectionAction(QIcon(":/images/icons/delete.png"), tr("Delete"), 0)
 {
 	EntryDelegateLayout *delegateLayout = new EntryDelegateLayout(static_cast<EntryDelegateLayout::DisplayMode>(displayMode.value()), textFont.value(), kanjiFont.value(), kanaFont.value(), this);
 	delegate = new EntryDelegate(delegateLayout, this);
 	setItemDelegate(delegate);
 	setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
 	scroller.activateOn(this);
+	helper.populateMenu(&contextMenu);
+	connect(&_newListAction, SIGNAL(triggered()), this, SLOT(newList()));
+	connect(&_deleteSelectionAction, SIGNAL(triggered()), this, SLOT(deleteSelectedItems()));
+}
+
+void EntryListView::contextMenuEvent(QContextMenuEvent *event)
+{
+	QList<EntryPointer> _selectedEntries(helper.selectedEntries());
+	// This is stupid, but const-safety forces us here
+	QList<ConstEntryPointer> selectedEntries;
+	foreach (const EntryPointer &entry, _selectedEntries) selectedEntries << entry;
+	helper.updateStatus(selectedEntries);
+	contextMenu.exec(mapToGlobal(event->pos()));
 }
 
 void EntryListView::selectionChanged(const QItemSelection &selected, const QItemSelection &deselected)
 {
+	QTreeView::selectionChanged(selected, deselected);
 	if (selected.isEmpty()) return;
 	QModelIndex index(selected.indexes().last());
-	QSqlQuery query;
-	query.prepare("select type, id from lists where rowid = ?");
-	query.addBindValue(index.internalId());
-	query.exec();
-	if (query.next()) {
-		if (query.value(0).isNull()) emit listSelected(index.internalId());
-		else {
-			EntryPointer entry(EntriesCache::get(query.value(0).toInt(), query.value(1).toInt()));
-			if (entry) emit entrySelected(entry);
-		}
-	}
+	// Use the model data directly!
+	EntryPointer entry(qvariant_cast<EntryPointer>(model()->data(index, ResultsList::EntryRole)));
+	if (entry) emit entrySelected(entry);
 }
 
 void EntryListView::startDrag(Qt::DropActions supportedActions)
@@ -85,6 +90,6 @@ void EntryListView::deleteSelectedItems()
 	foreach (const QModelIndex &index, selection) {
 		if (!model()->removeRow(index.row(), index.parent())) success = false;
 	}
-	if (!success) QMessageBox::information(this, tr("Removal failed"), tr("A database error has occured while trying to remove the selected items:\n\n%1\n\n Some of them may be remaining.").arg(QSqlDatabase::database().lastError().text()));
+	if (!success) QMessageBox::information(this, tr("Removal failed"), tr("A database error has occured while trying to remove the selected items:\n\n%1\n\n Some of them may be remaining.").arg(Database::lastError().text()));
 }
 

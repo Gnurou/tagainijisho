@@ -44,6 +44,7 @@ protected:
 	QAction *selectAllAction;
 	SmoothScroller _charm;
 	
+	void contextMenuEvent(QContextMenuEvent *event);
 	virtual void startDrag(Qt::DropActions supportedActions);
 	/**
 	 * Reimplemented to emit the listSelectionChanged signal
@@ -52,7 +53,6 @@ protected:
 
 public:
 	ResultsView(QWidget* parent = 0, EntryDelegateLayout* delegateLayout = 0, bool viewOnly = false);
-	void contextMenuEvent(QContextMenuEvent *event);
 
 	void setSmoothScrolling(bool value);
 	EntryDelegateLayout *delegateLayout() { return _delegateLayout; }

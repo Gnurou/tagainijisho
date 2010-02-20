@@ -18,15 +18,8 @@
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
       <widget class="QToolButton" name="newListButton">
-       <property name="toolTip">
-        <string>Create a new list</string>
-       </property>
        <property name="text">
         <string/>
-       </property>
-       <property name="icon">
-        <iconset resource="../../tagainijisho.qrc">
-         <normaloff>:/images/icons/document-new.png</normaloff>:/images/icons/document-new.png</iconset>
        </property>
        <property name="autoRaise">
         <bool>true</bool>
@@ -34,17 +27,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QToolButton" name="deleteListButton">
-       <property name="toolTip">
-        <string>Delete currently selected list</string>
-       </property>
-       <property name="text">
-        <string>...</string>
-       </property>
-       <property name="icon">
-        <iconset resource="../../tagainijisho.qrc">
-         <normaloff>:/images/icons/delete.png</normaloff>:/images/icons/delete.png</iconset>
-       </property>
+      <widget class="QToolButton" name="deleteSelectionButton">
        <property name="autoRaise">
         <bool>true</bool>
        </property>
@@ -76,6 +59,9 @@
      <property name="dragDropMode">
       <enum>QAbstractItemView::DragDrop</enum>
      </property>
+     <property name="selectionMode">
+      <enum>QAbstractItemView::ExtendedSelection</enum>
+     </property>
      <property name="rootIsDecorated">
       <bool>true</bool>
      </property>
@@ -106,38 +92,5 @@
  <resources>
   <include location="../../tagainijisho.qrc"/>
  </resources>
- <connections>
-  <connection>
-   <sender>newListButton</sender>
-   <signal>clicked()</signal>
-   <receiver>lists</receiver>
-   <slot>newList()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>20</x>
-     <y>24</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>19</x>
-     <y>70</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>deleteListButton</sender>
-   <signal>clicked()</signal>
-   <receiver>lists</receiver>
-   <slot>deleteSelectedItems()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>50</x>
-     <y>18</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>48</x>
-     <y>49</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
 </ui>

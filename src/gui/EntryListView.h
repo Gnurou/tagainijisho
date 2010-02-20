@@ -21,10 +21,12 @@
 #include "core/EntriesCache.h"
 #include "gui/SmoothScroller.h"
 #include "gui/EntryDelegate.h"
+#include "gui/EntriesViewHelper.h"
 
 #include <QTreeWidget>
 #include <QTreeView>
-
+#include <QAction>
+#include <QMenu>
 #include <QDragEnterEvent>
 #include <QDragMoveEvent>
 
@@ -34,8 +36,13 @@ class EntryListView : public QTreeView
 private:
 	SmoothScroller scroller;
 	EntryDelegate *delegate;
+	EntriesViewHelper helper;
+	QMenu contextMenu;
+	QAction _newListAction;
+	QAction _deleteSelectionAction;
 
 protected:
+	void contextMenuEvent(QContextMenuEvent *event);
 	virtual void startDrag(Qt::DropActions supportedActions);
 
 protected slots:
@@ -43,6 +50,8 @@ protected slots:
 
 public:
 	EntryListView(QWidget *parent = 0);
+	QAction *newListAction() { return &_newListAction; }
+	QAction *deleteSelectionAction() { return &_deleteSelectionAction; }
 
 	static PreferenceItem<bool> smoothScrolling;
 	static PreferenceItem<QString> kanjiFont;

@@ -20,5 +20,7 @@
 EntryListWidget::EntryListWidget(QWidget *parent) : SearchFilterWidget(parent)
 {
 	setupUi(this);
+	newListButton->setDefaultAction(entryListView()->newListAction());
+	deleteSelectionButton->setDefaultAction(entryListView()->deleteSelectionAction());
 }
 
