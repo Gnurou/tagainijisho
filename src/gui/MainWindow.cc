@@ -93,6 +93,13 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), _history(historyS
 	_instance = this;
 	
 	setupUi(this);
+	// Add the prev/next search actions to the results view bar
+	QToolButton *prevSearchButton = new QToolButton(this);
+	prevSearchButton->setDefaultAction(actionPreviousSearch);
+	_resultsView->buttonsLayout()->insertWidget(0, prevSearchButton);
+	QToolButton *nextSearchButton = new QToolButton(this);
+	nextSearchButton->setDefaultAction(actionNextSearch);
+	_resultsView->buttonsLayout()->insertWidget(1, nextSearchButton);
 	// Strangely this is not done properly by Qt designer...
 	connect(_setsMenu, SIGNAL(aboutToShow()), this, SLOT(populateSetsMenu()));
 	

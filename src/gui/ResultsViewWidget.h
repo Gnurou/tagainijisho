@@ -24,7 +24,7 @@
 #include <QWidget>
 #include <QMovie>
 
-class ResultsViewWidget : public QWidget, public Ui::ResultsViewWidget
+class ResultsViewWidget : public QWidget, private Ui::ResultsViewWidget
 {
 	Q_OBJECT
 private:
@@ -54,6 +54,7 @@ public:
 	
 	void setModel(ResultsList *rList);
 	ResultsView *resultsView() { return _resultsView; }
+	QHBoxLayout *buttonsLayout() { return _buttonsLayout; }
 	
 public slots:
 	/// Set the total number of results of a search.

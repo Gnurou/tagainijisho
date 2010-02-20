@@ -42,7 +42,7 @@
      <x>0</x>
      <y>0</y>
      <width>900</width>
-     <height>23</height>
+     <height>19</height>
     </rect>
    </property>
    <widget class="QMenu" name="_fileMenu">
@@ -125,8 +125,6 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
-   <addaction name="actionPreviousSearch"/>
-   <addaction name="actionNextSearch"/>
   </widget>
   <widget class="QToolBar" name="_filtersToolBar">
    <property name="windowTitle">

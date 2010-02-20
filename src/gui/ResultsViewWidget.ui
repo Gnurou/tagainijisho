@@ -15,7 +15,7 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <layout class="QHBoxLayout" name="navigationButtonsLayout">
+    <layout class="QHBoxLayout" name="_buttonsLayout">
      <item>
       <widget class="QLabel" name="nbResultsLabel">
        <property name="text">
@@ -24,7 +24,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="previousPageButton">
+      <widget class="QToolButton" name="previousPageButton">
        <property name="enabled">
         <bool>false</bool>
        </property>
@@ -47,7 +47,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="nextPageButton">
+      <widget class="QToolButton" name="nextPageButton">
        <property name="enabled">
         <bool>false</bool>
        </property>
@@ -70,7 +70,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="showAllResultsButton">
+      <widget class="QToolButton" name="showAllResultsButton">
        <property name="enabled">
         <bool>false</bool>
        </property>
