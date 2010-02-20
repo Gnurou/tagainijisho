@@ -78,10 +78,20 @@ void EntryListView::startDrag(Qt::DropActions supportedActions)
 void EntryListView::newList()
 {
 	int idx = model()->rowCount(QModelIndex());
-	if (!model()->insertRows(idx, 1, QModelIndex()))
+	if (!model()->insertRows(idx, 1, QModelIndex())) {
 		QMessageBox::information(this, tr("Unable to create list"), tr("A database error occured while trying to add the list."));
+		return;
+	}
+	QModelIndex index(model()->index(idx, 0, QModelIndex()));
+	if (index.isValid()) {
+		setCurrentIndex(index);
+		edit(index);
+	}
 }
 
+// TODO won't work if parent and children are selected
+// BUG totally buggy in case of multiple selection - that's
+// because the indexes change as they are deleted!
 void EntryListView::deleteSelectedItems()
 {
 	if (QMessageBox::question(this, tr("Confirm deletion"), tr("This will delete the selected lists items and lists, including all their children. Continue?"), QMessageBox::Yes | QMessageBox::No, QMessageBox::No) != QMessageBox::Yes) return;
