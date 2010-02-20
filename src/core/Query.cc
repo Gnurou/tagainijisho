@@ -142,7 +142,6 @@ void Query::__fetch(int min, int nb)
 		else emitNbResults();
 	}
 	emit lastResult();
-	finish();
 	_statusMutex.lock();
 	_status = Idle;
 	_statusMutex.unlock();
