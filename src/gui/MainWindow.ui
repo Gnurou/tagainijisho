@@ -23,16 +23,7 @@
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
-     <widget class="MultiStackedWidget" name="_searchFilters" native="true"/>
-    </item>
-    <item>
-     <widget class="QSplitter" name="splitter">
-      <property name="orientation">
-       <enum>Qt::Vertical</enum>
-      </property>
-      <widget class="ResultsViewWidget" name="_resultsView" native="true"/>
-      <widget class="ToolBarDetailedView" name="_detailedView"/>
-     </widget>
+     <widget class="ToolBarDetailedView" name="_detailedView"/>
     </item>
    </layout>
   </widget>
@@ -136,6 +127,24 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
+  </widget>
+  <widget class="QDockWidget" name="searchDockWidget">
+   <property name="windowTitle">
+    <string>Search</string>
+   </property>
+   <attribute name="dockWidgetArea">
+    <number>4</number>
+   </attribute>
+   <widget class="QWidget" name="dockWidgetContents">
+    <layout class="QVBoxLayout" name="verticalLayout_2">
+     <item>
+      <widget class="MultiStackedWidget" name="_searchFilters" native="true"/>
+     </item>
+     <item>
+      <widget class="ResultsViewWidget" name="_resultsView" native="true"/>
+     </item>
+    </layout>
+   </widget>
   </widget>
   <action name="actionExport_user_data">
    <property name="icon">
@@ -713,6 +722,22 @@
     <hint type="destinationlabel">
      <x>449</x>
      <y>324</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>searchDockWidget</sender>
+   <signal>visibilityChanged(bool)</signal>
+   <receiver>_filtersToolBar</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>449</x>
+     <y>105</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>453</x>
+     <y>23</y>
     </hint>
    </hints>
   </connection>

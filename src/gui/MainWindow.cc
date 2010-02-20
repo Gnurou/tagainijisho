@@ -130,22 +130,24 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), _history(historyS
 	elWidget->entryListView()->setModel(&_listModel);
 	connect(elWidget->entryListView(), SIGNAL(entrySelected(EntryPointer)), detailedView(), SLOT(display(EntryPointer)));
 	QDockWidget *dWidget = new QDockWidget(elWidget->currentTitle(), this);
-	dWidget->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
+	dWidget->setAllowedAreas(Qt::AllDockWidgetAreas);
+	//dWidget->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
 	dWidget->setWidget(elWidget);
 	addDockWidget(Qt::LeftDockWidgetArea, dWidget);
 	dWidget->setObjectName(elWidget->currentTitle() + "Dock");
 	_searchMenu->addSeparator();
+	_searchMenu->addAction(searchDockWidget->toggleViewAction());
 	_searchMenu->addAction(dWidget->toggleViewAction());
 	
 	// Geometry & state
 	restoreGeometry(windowGeometry.value());
 	restoreState(windowState.value(), MAINWINDOW_STATE_VERSION);
 	// Splitter layout
-	if (splitterState.isDefault()) {
-		splitter->setStretchFactor(0, 1);
-		splitter->setStretchFactor(1, 3);
-	}
-	else splitter->restoreState(splitterState.value());
+	//if (splitterState.isDefault()) {
+		//splitter->setStretchFactor(0, 1);
+		//splitter->setStretchFactor(1, 3);
+	//}
+	//else splitter->restoreState(splitterState.value());
 	
 
 	// Docks
@@ -164,6 +166,12 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), _history(historyS
 	*/
 	// TODO dirty fix!
 	//restoreState(windowState.value(), MAINWINDOW_STATE_VERSION);
+	// Setup the corners
+	setCorner(Qt::TopLeftCorner, Qt::LeftDockWidgetArea);
+	setCorner(Qt::BottomLeftCorner, Qt::LeftDockWidgetArea);
+	setCorner(Qt::TopRightCorner, Qt::RightDockWidgetArea);
+	setCorner(Qt::BottomRightCorner, Qt::RightDockWidgetArea);
+	_filtersToolBar->setEnabled(searchDockWidget->isVisible());
 	
 	// Display selected items in the results view
 	connect(_resultsView->resultsView(), SIGNAL(listSelectionChanged(QItemSelection,QItemSelection)), this, SLOT(display(QItemSelection,QItemSelection)));
@@ -190,7 +198,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), _history(historyS
 
 MainWindow::~MainWindow()
 {
-	splitterState.set(splitter->saveState());
+	//splitterState.set(splitter->saveState());
 	windowState.set(saveState(MAINWINDOW_STATE_VERSION));
 	windowGeometry.set(saveGeometry());
 }
