@@ -1,5 +1,5 @@
 /*
- *  Copyright (C) 2008  Alexandre Courbot
+ *  Copyright (C) 2008/2009/2010  Alexandre Courbot
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -25,7 +25,7 @@
 #include <QObject>
 #include <QMenu>
 #include <QToolBar>
-#include <QList>
+#include <QAbstractItemView>
 
 class Entry;
 class QMenu;
@@ -51,9 +51,9 @@ protected:
 protected slots:
 	void makeLastTagsMenu();
 	void onLastTagsActionTriggered();
-
+	
 public:
-	EntryMenu(QObject *parent = 0);
+	EntryMenu(QObject* parent = 0);
 
 	/**
 	 * Populates the given menu with the entry-related options
@@ -70,12 +70,12 @@ public:
 	 * Enable/disable items according to the properties of the
 	 * entries list given as argument.
 	 */
-	void updateStatus(const QList<ConstEntryPointer> &entries);
+	void updateStatus(const QList<ConstEntryPointer>& entries);
 
 	/**
 	 * Shortcut method.
 	 */
-	void updateStatus(const ConstEntryPointer &entry);
+	void updateStatus(const ConstEntryPointer& entry);
 
 signals:
 	/**

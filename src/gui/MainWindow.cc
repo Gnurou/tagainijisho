@@ -651,7 +651,7 @@ void MainWindow::display(const QItemSelection &selected, const QItemSelection &d
 {
 	if (selected.isEmpty()) return;
 	EntryPointer entry = qVariantValue<EntryPointer>(selected.indexes()[0].data(ResultsList::EntryRole));
-	_detailedView->detailedView()->display(entry);
+	if (entry) _detailedView->detailedView()->display(entry);
 }
 
 void MainWindow::search(const QString &commands)

@@ -1,5 +1,5 @@
 /*
- *  Copyright (C) 2008  Alexandre Courbot
+ *  Copyright (C) 2008/2009/2010  Alexandre Courbot
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -69,7 +69,7 @@ void EntryMenu::setEnabledAll(bool enabled)
 	lastTagsMenu.setEnabled(enabled);
 }
 
-void EntryMenu::updateStatus(const QList<ConstEntryPointer> &entries)
+void EntryMenu::updateStatus(const QList<ConstEntryPointer>& entries)
 {
 	// Change the mark to study label according to the selection properties:
 	bool allMarked = true;
@@ -97,7 +97,7 @@ void EntryMenu::updateStatus(const QList<ConstEntryPointer> &entries)
 	lastTagsMenu.setEnabled(!TagsDialogs::lastAddedTags.isEmpty());
 }
 
-void EntryMenu::updateStatus(const ConstEntryPointer &entry)
+void EntryMenu::updateStatus(const ConstEntryPointer& entry)
 {
 	QList<ConstEntryPointer> entries;
 	if (entry) entries << entry;
