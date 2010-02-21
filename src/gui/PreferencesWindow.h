@@ -25,7 +25,7 @@
 #include "gui/ResultsView.h"
 #include "gui/ui_PreferencesWindow.h"
 #include "gui/ui_GeneralPreferences.h"
-#include "gui/ui_ResultsViewPreferences.h"
+#include "gui/ui_EntryDelegatePreferences.h"
 #include "gui/ui_DetailedViewPreferences.h"
 
 #include <QDialog>
@@ -111,19 +111,51 @@ public:
 	virtual QStringList meanings() const;
 };
 
+class EntryDelegatePreferences : public QWidget, private Ui::EntryDelegatePreferences
+{
+	Q_OBJECT
+private:
+	EntryDelegateLayout *_delegateLayout;
+	PreferencesFontChooser *romajifontChooser;
+	PreferencesFontChooser *kanafontChooser;
+	PreferencesFontChooser *kanjifontChooser;
+	PreferenceItem<int> *_twoLinesPref;
+	PreferenceItem<QString> *_defaultFontPref;
+	PreferenceItem<QString> *_kanjiFontPref;
+	PreferenceItem<QString> *_kanaFontPref;
+
+	void applyFontSetting(PreferencesFontChooser *fontChooser, PreferenceItem<QString> *prefItem, const EntryDelegateLayout::FontRole fontRole);
+
+protected slots:
+	void setKanjiFont(const QFont &font);
+	void setKanaFont(const QFont &font);
+	void setTextFont(const QFont &font);
+	void setOneLineDisplay();
+	void setTwoLinesDisplay();
+
+public:
+	EntryDelegatePreferences(QWidget *parent = 0);
+	/**
+	 * Sets which preferences are changed by this preferences instance. This
+	 * method MUST be called before any call to refresh or whatever else 
+	 * is performed!
+	 */
+	void setPrefsToWatch(PreferenceItem< int >* twoLinesPref, PreferenceItem< QString >* defaultFontPref, PreferenceItem< QString >* kanjiFontPref, PreferenceItem< QString >* kanaFontPref);
+	EntryDelegateLayout *delegateLayout() { return _delegateLayout; }
+	
+	void applySettings();
+	void refresh();
+	void updateUI();
+};
+
+#include "gui/ui_ResultsViewPreferences.h"
+
 class ResultsViewPreferences : public PreferencesWindowCategory, private Ui::ResultsViewPreferences
 {
 	Q_OBJECT
 private:
 	ResultsList *_list;
-	EntryDelegateLayout *_delegateLayout;
 	ResultsView *_view;
-
-	PreferencesFontChooser *romajifontChooser;
-	PreferencesFontChooser *kanafontChooser;
-	PreferencesFontChooser *kanjifontChooser;
-
-	void applyFontSetting(PreferencesFontChooser *fontChooser, PreferenceItem<QString> *prefItem, const EntryDelegateLayout::FontRole fontRole);
 
 protected slots:
 	void onSmoothScrollingToggled(bool value) { _view->setSmoothScrolling(value); }
@@ -132,11 +164,6 @@ public slots:
 	void applySettings();
 	void refresh();
 	void updateUI();
-	void setKanjiFont(const QFont &font);
-	void setKanaFont(const QFont &font);
-	void setTextFont(const QFont &font);
-	void setOneLineDisplay();
-	void setTwoLinesDisplay();
 
 public:
 	ResultsViewPreferences(QWidget *parent = 0);

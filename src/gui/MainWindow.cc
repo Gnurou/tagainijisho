@@ -138,6 +138,12 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), _history(historyS
 	_searchMenu->addSeparator();
 	_searchMenu->addAction(searchDockWidget->toggleViewAction());
 	_searchMenu->addAction(dWidget->toggleViewAction());
+	QAction *action = searchDockWidget->toggleViewAction();
+	action->setShortcut(QKeySequence("F2"));
+	_searchMenu->addAction(action);
+	action = dWidget->toggleViewAction();
+	action->setShortcut(QKeySequence("F3"));
+	_searchMenu->addAction(action);
 	
 	// Geometry & state
 	restoreGeometry(windowGeometry.value());
