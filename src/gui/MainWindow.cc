@@ -136,8 +136,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), _history(historyS
 	addDockWidget(Qt::LeftDockWidgetArea, dWidget);
 	dWidget->setObjectName(elWidget->currentTitle() + "Dock");
 	_searchMenu->addSeparator();
-	_searchMenu->addAction(searchDockWidget->toggleViewAction());
-	_searchMenu->addAction(dWidget->toggleViewAction());
 	QAction *action = searchDockWidget->toggleViewAction();
 	action->setShortcut(QKeySequence("F2"));
 	_searchMenu->addAction(action);
