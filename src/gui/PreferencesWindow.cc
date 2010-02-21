@@ -307,10 +307,6 @@ void EntryDelegatePreferences::applySettings()
 	applyFontSetting(kanjifontChooser, _kanjiFontPref, EntryDelegateLayout::Kanji);
 }
 
-void EntryDelegatePreferences::updateUI()
-{
-}
-
 ResultsViewPreferences::ResultsViewPreferences(QWidget *parent) : PreferencesWindowCategory(tr("Results View"), parent)
 {
 	setupUi(this);

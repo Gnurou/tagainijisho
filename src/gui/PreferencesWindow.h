@@ -145,7 +145,6 @@ public:
 	
 	void applySettings();
 	void refresh();
-	void updateUI();
 };
 
 #include "gui/ui_ResultsViewPreferences.h"
