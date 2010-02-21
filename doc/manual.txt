@@ -25,7 +25,7 @@ Table of Contents
     2.3. [Dictionary Entries]  
  &emsp;&emsp;   2.3.1. [Vocabulary]  
  &emsp;&emsp;   2.3.2. [Kanji]   
-    2.4. [Search Tabs]  
+    2.4. [Search Filters]  
  &emsp;&emsp;	    2.4.1. [Text Search]  
  &emsp;&emsp;       2.4.2. [The Study Tab]  
  &emsp;&emsp;       2.4.3. [The Tags and Notes Tab]  
@@ -114,10 +114,10 @@ the application.
 ![The GUI](images/tagaini_gui.png)
 
 Tagaini Jisho's GUI, when opened for the first time, four main sections and
-two toolbars. The first toolbar is holds miscellaneous functions, the second,
-reasonably larger than the first, is the search toolbar. It controls which
+two toolbars. The first toolbar holds miscellaneous functions, the second,
+reasonably larger than the first, is the `filters toolbar`. It controls which
 search controls are displayed in the `search panel`, Directly beneath the
-Toolbar. 
+filters toolbar. 
 
 Below the search panel is `the results view`, which lists any results of the
 search. The information is a short description to allow you to chose the
@@ -152,17 +152,16 @@ it close enough to the top or bottom of the window, then it will snap up to
 the edge, effectively removing the results or detailed view from the window.
 This can be handy when practising sets, which will be covered latter. 
 
-In 0.2.5, the lists view is added and will be on the left of the results view
-the first time Tagaini 0.2.5 is opened. The Lists view can be detached from
-the main window, used as a floating window or be reattached to the other side
-of the Window, to appear on the right of the results view. In 0.2.5, the lists
-view is added and will be on the left of the results view the first time
-Tagaini 0.2.5 is opened. The Lists view can be detached from the main window,
-used as a floating window or be reattached to the other side of the Window, to
-appear on the right of the results view. There are also two toolbars, one made
-up of the search tabs and the other miscellaneous tools. They can also be
-detached and moved around separate to the main window, or repositioned,
-either around the edges of the window. 
+When opened for the first time, Tagaini will also have an extra panel, known
+as the `lists panel`, down the left of the window. The lists panel can be
+detached from the main window, used as a floating window or be reattached to
+the other side of the Window, to appear on the right of the results view. The
+Lists view can be detached from the main window, used as a floating window or
+be reattached to the other side of the Window, to appear on the right of the
+results view. There are also two toolbars, one made up of the search tabs and
+the other miscellaneous tools. They can also be detached and moved around
+separate to the main window, or repositioned, either around the edges of the
+window. 
 
 ******
 [Table of Contents] - [Top](#top "Top")
@@ -172,7 +171,7 @@ either around the edges of the window.
 ----------------------
 
 Along the top of the Tagaini window there is, by default, two toolbars. The
-second of these toolbars is the search toolbar and it contains six tabs which
+second of these toolbars is the filters toolbar and it contains six tabs which
 control which search options are currently visible. By default, the `Text
 search` tab is selected, displaying the `Search Bar`, which is the simplest
 way to search for entries. 
@@ -335,11 +334,11 @@ the window.
 [Table of Contents] - [Top](#top "Top")
 ******
 
-2.4. Search Tabs
-----------------
+2.4. Search Filters
+-------------------
 
-There are six search tabs located in the study toolbar, next to the dictionary
-drop down list.
+There are six search tabs located in the filters toolbar, next to the
+dictionary drop down list. Each of these tabs represents a different filter.
 By default [Text Search][textex] is selected, and
 the search bar is displayed. The other search tabs are labelled:
 [Study][studyex]; [Tags][TagsnNotes]; [Notes][TagsnNotes]; 
@@ -367,16 +366,16 @@ search bar.
 
 ### 2.4.1. Text Search
 
-The text search tab, as described above in section [2.2. Searching Entries]
+The text search filter, as described above in section [2.2. Searching Entries]
 is used for entering search terms. The text field also acts as a drop down
 box, allowing previously searched terms to be found and reused easily. 
 
 Another thing that can be put into the search field is a dictionary field
 value. Doing this allows you to filter through your search results. This can
 be done by adding `:field=value` as a search term, so `:grade=1` results in
-every elementary grade 1 kanji being listed in the results view. The tabs
-provide the same functionality for most of the fields, for instance kanji
-grade can be found under the kanji tab. 
+every elementary grade 1 kanji being listed in the results view. The different 
+filters provide the same functionality for most of the fields, for instance
+kanji grade can be found under the kanji tab. 
 
 Tagaini also has support for wild cards[^wildcards]. The `*` character
 represents an unknown string. Placing it at the end of a term searches for
@@ -407,7 +406,7 @@ again.
 	
 ![The Study Extender](images/tagaini_ex_studied.png)
 
-The study tab, the second tab, filters through searches according
+The study filter, the second tab, filters through searches according
 to whether or not the entry is on the study list. The study status defaults to
 `None`, so it does not filter results. Changing this to `Studied` will cause
 only entries in the study list to be listed in the results view. `Not studied`
@@ -536,7 +535,7 @@ Up until 2010 there have been four levels, with level 4 being the lowest and 1
 being the highest. Currently JMDict and kanjidict, the Japanese Vocabulary and
 Kanji dictionaries used by Tagaini Jisho, have vocabulary and kanji likely to
 be included in the tests marked as such. This gives us the ability to filter
-our searches for entries known to be used in the tests. The JLPT tab
+our searches for entries known to be used in the tests. The JLPT filter
 provides that functionality.
 
 [^jlptfoot]: http://en.wikipedia.org/wiki/Japanese_Language_Proficiency_Test  
@@ -559,8 +558,8 @@ entries. Selecting multiple levels will include multiple levels.
 
 ![Vocabulary Extender - Dialect: Kansai-ben](images/tagaini_ex_vocab_ksb.png)
 
-`The vocabulary tab` has vocabulary specific filter options. It can not be
-used in conjunction with the kanji tab.
+`The vocabulary filter` has vocabulary specific filter options. It can not be
+used in conjunction with the kanji filter.
 
 The first two text fields relate to the kanji found in vocab entries. The `With
 kanji` field will find any vocab entry that contains a kanji. If you enter two
@@ -593,17 +592,17 @@ as children's language, obsolete terms and slang.
 
 ![Kanji Extender - Component: 又](images/tagaini_ex_kanji.png)
 
-The kanji tab contains filtration options specific to kanji entries and
-as such cannot be used in conjunction with the vocabulary tab.
+The kanji filter contains filtration options specific to kanji entries and
+as such cannot be used in conjunction with the vocabulary filter.
 
 The first section on the tab, `Stroke count`, finds every kanji that has 
 `n` strokes in it, `n` being a number between 1 and 34.
 
 The next section, `Components`, acts in the same way as its counterpart in
-the vocabulary tab. It searches for a kanji based on the radicals that
+the vocabulary filter. It searches for a kanji based on the radicals that
 create it. The difference is in the entries being searched, instead of
 searching vocabulary entries, which could have multiple kanji, The kanji
-tab affects searches through the kanji dictionary. As such, only one
+filter affects searches through the kanji dictionary. As such, only one
 instance of a kanji will be returned.
 
 The `Unicode` section, in the middle of the tab, finds the character with
