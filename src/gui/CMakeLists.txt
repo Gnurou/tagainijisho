@@ -118,6 +118,7 @@ TrainSettings.ui
 AboutDialog.ui
 ResultsViewWidget.ui
 EntryListWidget.ui
+EntryDelegatePreferences.ui
 DetailedViewPreferences.ui
 ResultsViewPreferences.ui
 GeneralPreferences.ui

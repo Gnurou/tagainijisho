@@ -135,7 +135,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), _history(historyS
 	addDockWidget(Qt::LeftDockWidgetArea, dWidget);
 	dWidget->setObjectName(elWidget->currentTitle() + "Dock");
 	_searchMenu->addSeparator();
-	_searchMenu->addAction(dWidget->toggleViewAction());
+	QAction *action = dWidget->toggleViewAction();
+	action->setShortcut(QKeySequence("F3"));
+	_searchMenu->addAction(action);
 	
 	// Geometry & state
 	restoreGeometry(windowGeometry.value());
