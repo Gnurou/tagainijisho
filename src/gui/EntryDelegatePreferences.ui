@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>EntryDelegatePreferences</class>
+ <widget class="QWidget" name="EntryDelegatePreferences">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>388</width>
+    <height>212</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="QGroupBox" name="layoutBox">
+     <property name="title">
+      <string>Layout</string>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_2">
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout">
+        <item>
+         <widget class="QLabel" name="label_3">
+          <property name="text">
+           <string>Style:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QRadioButton" name="oneLine">
+          <property name="text">
+           <string>One line</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QRadioButton" name="twoLines">
+          <property name="text">
+           <string>Two lines</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>oneLine</sender>
+   <signal>clicked()</signal>
+   <receiver>EntryDelegatePreferences</receiver>
+   <slot>setOneLineDisplay()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>185</x>
+     <y>112</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>282</x>
+     <y>-3</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>twoLines</sender>
+   <signal>clicked()</signal>
+   <receiver>EntryDelegatePreferences</receiver>
+   <slot>setTwoLinesDisplay()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>297</x>
+     <y>111</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>249</x>
+     <y>2</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>setOneLineDisplay()</slot>
+  <slot>setTwoLinesDisplay()</slot>
+ </slots>
+</ui>
