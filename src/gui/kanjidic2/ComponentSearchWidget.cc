@@ -189,7 +189,7 @@ void ComponentSearchWidget::populateList(QSqlQuery &query)
 
 		// Do we have a new complement?
 		if (query.value(1) == 0) continue;
-		ConstKanjidic2EntryPointer kEntry(EntriesCache::get(2, query.value(1).toInt()).objectCast<const Kanjidic2Entry>());
+		ConstKanjidic2EntryPointer kEntry(EntriesCache::get(2, query.value(1).toInt()).staticCast<const Kanjidic2Entry>());
 		if (!kEntry) continue;
 		val = kEntry->kanji();
 		if (!val.isEmpty() && !complements[kEntry->strokeCount()].contains(val)) {
