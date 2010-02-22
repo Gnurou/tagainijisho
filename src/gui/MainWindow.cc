@@ -62,6 +62,7 @@
 #include <QPrintPreviewDialog>
 #include <QDataStream>
 #include <QDockWidget>
+#include <QScrollBar>
 
 /// State version of the main window - should be increated every time the docks or statusbars change
 #define MAINWINDOW_STATE_VERSION 0
@@ -93,6 +94,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), _history(historyS
 	_instance = this;
 	
 	setupUi(this);
+	// Setup our event listener
+	//filtersScrollArea->viewport()->installEventFilter(this);
+	_searchFilters->installEventFilter(this);
 	// Add the prev/next search actions to the results view bar
 	QToolButton *prevSearchButton = new QToolButton(this);
 	prevSearchButton->setDefaultAction(actionPreviousSearch);
@@ -729,4 +733,19 @@ void MainWindow::removeSearchFilterWidget(const QString &name)
 void MainWindow::resetSearch()
 {
 	_searchBuilder.reset();
+}
+
+bool MainWindow::eventFilter(QObject *obj, QEvent *event)
+{
+	if (obj == _searchFilters) {
+		if (event->type() == QEvent::Resize) {
+			QResizeEvent *revt(static_cast<QResizeEvent *>(event));
+			// The new height of the scroll area will depend on whether we need to display the horizontal scrollbar or not
+			int newHeight = revt->size().height();
+			if (revt->size().width() > filtersScrollArea->viewport()->width()) newHeight += filtersScrollArea->horizontalScrollBar()->height();
+			filtersScrollArea->setMinimumHeight(newHeight);
+			filtersScrollArea->setMaximumHeight(newHeight);
+		}
+	}
+	return QMainWindow::eventFilter(obj, event);
 }

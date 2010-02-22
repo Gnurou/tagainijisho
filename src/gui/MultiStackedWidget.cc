@@ -83,6 +83,7 @@ void MultiStackedWidgetButton::hideAltWidget()
 
 MultiStackedWidget::MultiStackedWidget(QWidget *parent) : QWidget(parent)
 {
+	setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
 	QVBoxLayout *mainLayout = new QVBoxLayout(this);
 	mainLayout->setContentsMargins(0, 0, 0, 0);
 	mainLayout->setSpacing(0);
@@ -149,6 +150,7 @@ void MultiStackedWidget::showWidget(QWidget *widget)
 		widget->setVisible(true);
 		widget->setFocus();
 	}
+	updateGeometry();
 }
 
 void MultiStackedWidget::hideWidget(QWidget *widget)
@@ -158,6 +160,7 @@ void MultiStackedWidget::hideWidget(QWidget *widget)
 		widget->setVisible(false);
 		_buttonMap[widget].button->setChecked(false);
 	}
+	updateGeometry();
 }
 
 QWidget *MultiStackedWidget::getWidgetByLabel(const QString &label)

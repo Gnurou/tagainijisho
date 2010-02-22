@@ -94,6 +94,8 @@ protected:
 	 * than the available height of the painter.
 	 */
 	void printPageOfEntries(const QList<QPicture> &entries, QPainter *painter, int height);
+	
+	virtual bool eventFilter(QObject *obj, QEvent *event);
 
 private slots:
 	void populateMenu(QMenu *menu, int parentId);
