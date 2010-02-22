@@ -752,7 +752,7 @@ bool MainWindow::eventFilter(QObject *obj, QEvent *event)
 			QResizeEvent *revt(static_cast<QResizeEvent *>(event));
 			// The new height of the scroll area will depend on whether we need to display the horizontal scrollbar or not
 			int newHeight = revt->size().height();
-			if (revt->size().width() > filtersScrollArea->viewport()->width()) newHeight += filtersScrollArea->horizontalScrollBar()->height();
+			if (revt->size().width() > filtersScrollArea->viewport()->width()) newHeight += filtersScrollArea->horizontalScrollBar()->height() + 2;
 			filtersScrollArea->setMinimumHeight(newHeight);
 			filtersScrollArea->setMaximumHeight(newHeight);
 		}
