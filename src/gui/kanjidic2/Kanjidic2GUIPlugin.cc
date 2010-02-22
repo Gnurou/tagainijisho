@@ -257,7 +257,7 @@ bool Kanjidic2GUIPlugin::eventFilter(QObject *obj, QEvent *_event)
 							c += cursor.selectedText()[1];
 						}
 						if (TextTools::isKanjiChar(c)) {
-							ConstKanjidic2EntryPointer entry(EntriesCache::get(KANJIDIC2ENTRY_GLOBALID, TextTools::singleCharToUnicode(c)).objectCast<const Kanjidic2Entry>());
+							ConstKanjidic2EntryPointer entry(EntriesCache::get(KANJIDIC2ENTRY_GLOBALID, TextTools::singleCharToUnicode(c)).staticCast<const Kanjidic2Entry>());
 							view->viewport()->setCursor(QCursor(Qt::PointingHandCursor));
 							// Only show the tooltip if the entry exists in the database!
 							if (kanjiTooltipEnabled.value() && entry) {
@@ -363,7 +363,7 @@ void KanjiLinkHandler::handleUrl(const QUrl &url, DetailedView *view)
 //	QRect windowRect = QApplication::activeWindow()->frameGeometry();
 	QRect windowRect = QApplication::desktop()->availableGeometry(view);
 
-	Kanjidic2EntryPointer entry(EntriesCache::get(KANJIDIC2ENTRY_GLOBALID, TextTools::singleCharToUnicode(kanji)).objectCast<Kanjidic2Entry>());
+	Kanjidic2EntryPointer entry(EntriesCache::get(KANJIDIC2ENTRY_GLOBALID, TextTools::singleCharToUnicode(kanji)).staticCast<Kanjidic2Entry>());
 	if (!entry) return;
 
 	KanjiPopup *popup = new KanjiPopup();
