@@ -15,6 +15,7 @@ RelativeDateEdit.cc
 ProxyPaintEngine.cc
 BookletPrintEngine.cc
 BookletPrinter.cc
+EntriesPrinter.cc
 KanjiValidator.cc
 TagsDialogs.cc
 FlowLayout.cc
@@ -70,6 +71,7 @@ DetailedView.h
 EditEntryNotesDialog.h
 EntryMenu.h
 HexSpinBox.h
+EntriesPrinter.h
 KanjiValidator.h
 MainWindow.h
 MultiStackedWidget.h

@@ -1,5 +1,5 @@
 /*
- *  Copyright (C) 2008, 2009  Alexandre Courbot
+ *  Copyright (C) 2008/2009/2010  Alexandre Courbot
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -83,18 +83,6 @@ private:
 	// End of SearchWidget stuff
 	
 protected:
-	/**
-	 * Present the user with a config dialog to setup printing. Returns true
-	 * if the user confirmed the dialog, false if he cancelled it.
-	 */
-	bool askForPrintOptions(QPrinter &printer, const QString &title = tr("Print"));
-	/**
-	 * Prints all the given entries (pre-printed into QPictures) on one page. The
-	 * entries must all fit within the range 0..height, and height must not be higher
-	 * than the available height of the painter.
-	 */
-	void printPageOfEntries(const QList<QPicture> &entries, QPainter *painter, int height);
-	
 	virtual bool eventFilter(QObject *obj, QEvent *event);
 
 private slots:
@@ -112,16 +100,12 @@ protected slots:
 	
 	void exportUserData();
 	void importUserData();
-	/**
-	 * Print the job on the given printer, using the default print font.
-	 * An alternative font can be specified if font is not null.
-	 */
-	void prepareAndPrintJob(QPrinter *printer, const QFont *font = 0);
-	void prepareAndPrintBookletJob(QPrinter *printer);
+
 	void print();
 	void printPreview();
 	void printBooklet();
 	void printBookletPreview();
+
 	void tabExport();
 	void preferences();
 
