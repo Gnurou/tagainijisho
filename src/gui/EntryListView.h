@@ -64,6 +64,7 @@ public slots:
 	void deleteSelectedItems();
 	
 signals:
+	void selectionHasChanged(const QItemSelection &selected, const QItemSelection &deselected);
 	void listSelected(int rowIndex);
 	void entrySelected(EntryPointer entry);
 };

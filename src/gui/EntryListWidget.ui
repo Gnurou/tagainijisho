@@ -34,6 +34,16 @@
       </widget>
      </item>
      <item>
+      <widget class="QToolButton" name="printButton">
+       <property name="text">
+        <string/>
+       </property>
+       <property name="autoRaise">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
       <spacer name="horizontalSpacer">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
@@ -77,6 +87,15 @@
     </widget>
    </item>
   </layout>
+  <action name="printSelectionAction">
+   <property name="icon">
+    <iconset resource="../../tagainijisho.qrc">
+     <normaloff>:/images/icons/print.png</normaloff>:/images/icons/print.png</iconset>
+   </property>
+   <property name="text">
+    <string>Print selected entries/lists</string>
+   </property>
+  </action>
  </widget>
  <customwidgets>
   <customwidget>
@@ -92,5 +111,25 @@
  <resources>
   <include location="../../tagainijisho.qrc"/>
  </resources>
- <connections/>
+ <connections>
+  <connection>
+   <sender>printSelectionAction</sender>
+   <signal>triggered()</signal>
+   <receiver>EntryListWidget</receiver>
+   <slot>printSelection()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>146</x>
+     <y>221</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>printSelection()</slot>
+ </slots>
 </ui>

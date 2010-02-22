@@ -27,12 +27,18 @@ class EntryListWidget : public SearchFilterWidget, private Ui::EntryListWidget
 protected:
 	virtual void _reset() {}
 
+protected slots:
+	void onListSelectionChanged(const QItemSelection &selected, const QItemSelection &deselected);
+
 public:
 	EntryListWidget(QWidget *parent = 0);
 	virtual QString name() const { return "lists"; }
 	virtual QString currentTitle() const { return tr("Lists"); }
 	virtual QString currentCommand() const { return ""; }
 	EntryListView *entryListView() const { return lists; }
+	
+public slots:
+	void printSelection();
 };
 
 #endif
