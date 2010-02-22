@@ -58,7 +58,7 @@ const QString Kanjidic2GUIPlugin::kanjiGrades[] = {
 
 PreferenceItem<bool> Kanjidic2GUIPlugin::kanjiTooltipEnabled("kanjidic", "kanjiTooltipEnabled", true);
 
-Kanjidic2GUIPlugin::Kanjidic2GUIPlugin() : Plugin("kanjidic2GUI"), _formatter(0), _flashKL(0), _flashKS(0), _flashML(0), _flashMS(0), _readingPractice(0), _linkHandler(0), _wordsLinkHandler(0), _componentsLinkHandler(0), _filter(0), _trainer(0), _readingTrainer(0), _cButton(0)
+Kanjidic2GUIPlugin::Kanjidic2GUIPlugin() : Plugin("kanjidic2GUI"), _flashKL(0), _flashKS(0), _flashML(0), _flashMS(0), _readingPractice(0), _linkHandler(0), _wordsLinkHandler(0), _componentsLinkHandler(0), _filter(0), _trainer(0), _readingTrainer(0), _cButton(0)
 {
 }
 
@@ -71,8 +71,7 @@ bool Kanjidic2GUIPlugin::onRegister()
 	// Check if the kanjidic plugin is loaded
 	if (!Plugin::pluginExists("kanjidic2")) return false;
 	// Register the formatter
-	_formatter = new Kanjidic2EntryFormatter();
-	if (!EntryFormatter::registerFormatter(KANJIDIC2ENTRY_GLOBALID, _formatter)) { delete _formatter; return false; }
+	if (!EntryFormatter::registerFormatter(KANJIDIC2ENTRY_GLOBALID, &Kanjidic2EntryFormatter::instance())) return false;
 	// Register the link handlers
 	_linkHandler = new KanjiLinkHandler();
 	if (!DetailedViewLinkManager::registerHandler(_linkHandler)) return false;
@@ -144,7 +143,6 @@ bool Kanjidic2GUIPlugin::onUnregister()
 	delete _componentsLinkHandler; _componentsLinkHandler = 0;
 	// Remove the formatter
 	EntryFormatter::removeFormatter(KANJIDIC2ENTRY_GLOBALID);
-	delete _formatter; _formatter = 0;
 	return true;
 }
 

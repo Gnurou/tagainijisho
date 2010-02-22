@@ -41,6 +41,11 @@ PreferenceItem<bool> JMdictEntryFormatter::printKanjis("jmdict", "printKanjis", 
 PreferenceItem<bool> JMdictEntryFormatter::printOnlyStudiedKanjis("jmdict", "printOnlyStudiedKanjis", false);
 PreferenceItem<int> JMdictEntryFormatter::maxDefinitionsToPrint("jmdict", "maxDefinitionsToPrint", 0);
 
+JMdictEntryFormatter &JMdictEntryFormatter::instance()
+{
+	static JMdictEntryFormatter _instance;
+	return _instance;
+}
 
 QString JMdictEntryFormatter::getVerbBuddySql(const QString &matchPattern, quint64 pos, int id)
 {

@@ -84,6 +84,12 @@ QString Kanjidic2EntryFormatter::getQueryUsedInKanjiSql(int kanji, int limit, bo
 	return queryUsedInKanjiSql.arg(kanji).arg(limit).arg(onlyStudied ? "" : "left ");
 }
 
+Kanjidic2EntryFormatter &Kanjidic2EntryFormatter::instance()
+{
+	static Kanjidic2EntryFormatter _instance;
+	return _instance;
+}
+
 Kanjidic2EntryFormatter::Kanjidic2EntryFormatter() : EntryFormatter()
 {
 }

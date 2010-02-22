@@ -29,7 +29,6 @@
 #include <QStringList>
 #include <QAction>
 
-class JMdictEntryFormatter;
 class JMdictLinkHandler;
 class JMdictFilterWidget;
 
@@ -37,7 +36,6 @@ class JMdictGUIPlugin : public QObject, public Plugin
 {
 	Q_OBJECT
 private:
-	JMdictEntryFormatter *_formatter;
 	QAction *_flashJL, *_flashJS, *_flashTL, *_flashTS;
 	JMdictLinkHandler *_linkhandler;
 	JMdictFilterWidget *_filter;

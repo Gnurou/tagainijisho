@@ -28,7 +28,6 @@
 #include <QSpinBox>
 #include <QComboBox>
 
-class Kanjidic2EntryFormatter;
 class KanjiLinkHandler;
 class KanjiAllWordsHandler;
 class KanjiAllComponentsOfHandler;
@@ -38,7 +37,6 @@ class Kanjidic2GUIPlugin : public QObject, public Plugin
 {
 	Q_OBJECT
 private:
-	Kanjidic2EntryFormatter *_formatter;
 	QAction *_flashKL, *_flashKS, *_flashML, *_flashMS, *_readingPractice;
 	KanjiLinkHandler *_linkHandler;
 	KanjiAllWordsHandler *_wordsLinkHandler;
