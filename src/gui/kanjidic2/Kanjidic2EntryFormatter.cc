@@ -221,7 +221,7 @@ void Kanjidic2EntryFormatter::writeKanjiInfo(const ConstKanjidic2EntryPointer& e
 
 			for (int i = 0; i < entries.size(); i++) {
 				cursor.insertText(" ");
-				ConstKanjidic2EntryPointer kEntry(entries[i].objectCast<const Kanjidic2Entry>());
+				ConstKanjidic2EntryPointer kEntry(entries[i].staticCast<const Kanjidic2Entry>());
 				const EntryFormatter *formatter(EntryFormatter::getFormatter(kEntry));
 				formatter->writeEntryTitle(kEntry, cursor);
 			}
@@ -236,7 +236,7 @@ void Kanjidic2EntryFormatter::writeKanjiInfo(const ConstKanjidic2EntryPointer& e
 		foreach (quint32 kid, entry->variationOf()) {
 			EntryPointer varOf = EntriesCache::get(KANJIDIC2ENTRY_GLOBALID, kid);
 			cursor.insertText(" ");
-			ConstKanjidic2EntryPointer kEntry(varOf.objectCast<const Kanjidic2Entry>());
+			ConstKanjidic2EntryPointer kEntry(varOf.staticCast<const Kanjidic2Entry>());
 			const EntryFormatter *formatter(EntryFormatter::getFormatter(kEntry));
 			formatter->writeEntryTitle(kEntry, cursor);
 		}
@@ -274,7 +274,7 @@ void Kanjidic2EntryFormatter::writeKanjiInfo(const ConstKanjidic2EntryPointer& e
 			cursor.insertText("\n");
 			EntryPointer _entry = EntriesCache::get(KANJIDIC2ENTRY_GLOBALID, component->unicode());
 			view->addWatchEntry(_entry);
-			ConstKanjidic2EntryPointer kEntry(_entry.objectCast<const Kanjidic2Entry>());
+			ConstKanjidic2EntryPointer kEntry(_entry.staticCast<const Kanjidic2Entry>());
 			const EntryFormatter *formatter(EntryFormatter::getFormatter(kEntry));
 			formatter->writeShortDesc(kEntry, cursor);
 		}
@@ -285,7 +285,7 @@ void Kanjidic2EntryFormatter::writeKanjiInfo(const ConstKanjidic2EntryPointer& e
 
 void Kanjidic2EntryFormatter::writeShortDesc(const ConstEntryPointer& entry, QTextCursor& cursor) const
 {
-	ConstKanjidic2EntryPointer kEntry = entry.objectCast<const Kanjidic2Entry>();
+	ConstKanjidic2EntryPointer kEntry = entry.staticCast<const Kanjidic2Entry>();
 	QTextCharFormat charFormat;
 	if (kEntry->trained()) charFormat.setBackground(kEntry->scoreColor());
 	QString str(kEntry->kanji());
@@ -304,7 +304,7 @@ void Kanjidic2EntryFormatter::writeShortDesc(const ConstEntryPointer& entry, QTe
 
 void Kanjidic2EntryFormatter::_detailedVersion(const ConstEntryPointer& _entry, QTextCursor& cursor, DetailedView* view) const
 {
-	ConstKanjidic2EntryPointer entry(_entry.objectCast<const Kanjidic2Entry>());
+	ConstKanjidic2EntryPointer entry(_entry.staticCast<const Kanjidic2Entry>());
 	writeJapanese(entry, cursor, view);
 	cursor.insertBlock(QTextBlockFormat());
 	writeTranslation(entry, cursor, view);
@@ -314,7 +314,7 @@ void Kanjidic2EntryFormatter::_detailedVersion(const ConstEntryPointer& _entry, 
 
 void Kanjidic2EntryFormatter::draw(const ConstEntryPointer &entry, QPainter &painter, const QRectF &rectangle, QRectF &usedSpace, const QFont &textFont) const
 {
-	drawCustom(entry.objectCast<const Kanjidic2Entry>(), painter, rectangle, usedSpace, textFont);
+	drawCustom(entry.staticCast<const Kanjidic2Entry>(), painter, rectangle, usedSpace, textFont);
 }
 
 void Kanjidic2EntryFormatter::drawCustom(const ConstKanjidic2EntryPointer &entry, QPainter &painter, const QRectF &rectangle, QRectF &usedSpace, const QFont &textFont, int printSize, bool printWithFont, bool printMeanings, bool printOnyomi, bool printKunyomi, bool printComponents, bool printOnlyStudiedComponents, int maxWordsToPrint, bool printOnlyStudiedVocab) const
@@ -370,8 +370,8 @@ void Kanjidic2EntryFormatter::drawCustom(const ConstKanjidic2EntryPointer &entry
 			ConstKanjidic2EntryPointer component;
 			// If the component has an original, get the meaning from it!
 			if (!c->original().isEmpty())
-				component = EntriesCache::get(KANJIDIC2ENTRY_GLOBALID, TextTools::singleCharToUnicode(c->original())).objectCast<const Kanjidic2Entry>();
-			else component = EntriesCache::get(KANJIDIC2ENTRY_GLOBALID, c->unicode()).objectCast<const Kanjidic2Entry>();
+				component = EntriesCache::get(KANJIDIC2ENTRY_GLOBALID, TextTools::singleCharToUnicode(c->original())).staticCast<const Kanjidic2Entry>();
+			else component = EntriesCache::get(KANJIDIC2ENTRY_GLOBALID, c->unicode()).staticCast<const Kanjidic2Entry>();
 			if (printOnlyStudiedComponents && !component->trained()) continue;
 			QString s = c->repr();
 			QString meanings(component->meaningsString());
@@ -444,7 +444,7 @@ void Kanjidic2EntryFormatter::drawCustom(const ConstKanjidic2EntryPointer &entry
 		query.exec(getQueryUsedInWordsSql(entry->id(), maxWordsToPrint, printOnlyStudiedVocab));
 		painter.setFont(textFont);
 		while (query.next()) {
-			ConstJMdictEntryPointer jmEntry(EntriesCache::get(query.value(0).toInt(), query.value(1).toInt()).objectCast<const JMdictEntry>());
+			ConstJMdictEntryPointer jmEntry(EntriesCache::get(query.value(0).toInt(), query.value(1).toInt()).staticCast<const JMdictEntry>());
 
 			QString str = QFontMetrics(painter.font(), painter.device()).elidedText(jmEntry->shortVersion(Entry::TinyVersion), Qt::ElideRight, rightArea.width());
 			textBB = painter.boundingRect(rightArea, Qt::AlignLeft, str);
@@ -464,12 +464,12 @@ void Kanjidic2EntryFormatter::drawCustom(const ConstKanjidic2EntryPointer &entry
 
 void Kanjidic2EntryFormatter::detailedVersionPart1(const ConstEntryPointer &entry, QTextCursor &cursor, DetailedView *view) const
 {
-	writeJapanese(entry.objectCast<const Kanjidic2Entry>(), cursor, view);
+	writeJapanese(entry.staticCast<const Kanjidic2Entry>(), cursor, view);
 }
 
 void Kanjidic2EntryFormatter::detailedVersionPart2(const ConstEntryPointer &entry, QTextCursor &cursor, DetailedView *view) const
 {
-	writeTranslation(entry.objectCast<const Kanjidic2Entry>(), cursor, view);
+	writeTranslation(entry.staticCast<const Kanjidic2Entry>(), cursor, view);
 }
 
 void Kanjidic2EntryFormatter::showToolTip(const ConstKanjidic2EntryPointer entry, const QPoint &pos) const
@@ -562,7 +562,7 @@ void ShowUsedInKanjiJob::firstResult()
 
 void ShowUsedInKanjiJob::result(EntryPointer entry)
 {
-	ConstKanjidic2EntryPointer kEntry = entry.objectCast<const Kanjidic2Entry>();
+	ConstKanjidic2EntryPointer kEntry = entry.staticCast<const Kanjidic2Entry>();
 	Q_ASSERT(kEntry);
 	
 	QTextCharFormat normal(DetailedViewFonts::charFormat(DetailedViewFonts::DefaultText));
@@ -616,7 +616,7 @@ void ShowUsedInWordsJob::firstResult()
 
 void ShowUsedInWordsJob::result(EntryPointer entry)
 {
-	ConstJMdictEntryPointer jmEntry(entry.objectCast<const JMdictEntry>());
+	ConstJMdictEntryPointer jmEntry(entry.staticCast<const JMdictEntry>());
 	Q_ASSERT(jmEntry);
 
 	QTextList *currentList = cursor().currentList();

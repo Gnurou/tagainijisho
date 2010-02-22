@@ -380,7 +380,7 @@ void JMdictEntryFormatter::writeShortDesc(const ConstEntryPointer& entry, QTextC
 		scoreFormat.setBackground(entry->scoreColor());
 	}
 	autoFormat(entry, entry->shortVersion(Entry::TinyVersion), cursor, scoreFormat);
-	ConstJMdictEntryPointer jEntry(entry.objectCast<const JMdictEntry>());
+	ConstJMdictEntryPointer jEntry(entry.staticCast<const JMdictEntry>());
 	if (shortDescShowJLPT.value() && jEntry->jlpt() != -1) {
 		scoreFormat.setFontWeight(QFont::Bold);
 		autoFormat(jEntry, tr(" (JLPT %1)").arg(jEntry->jlpt()), cursor, scoreFormat);
@@ -394,7 +394,7 @@ void JMdictEntryFormatter::writeShortDesc(const ConstEntryPointer& entry, QTextC
 
 void JMdictEntryFormatter::_detailedVersion(const ConstEntryPointer& entry, QTextCursor& cursor, DetailedView* view) const
 {
-	ConstJMdictEntryPointer jEntry(entry.objectCast<const JMdictEntry>());
+	ConstJMdictEntryPointer jEntry(entry.staticCast<const JMdictEntry>());
 	writeJapanese(jEntry, cursor, view);
 	cursor.insertBlock(QTextBlockFormat());
 	writeTranslation(jEntry, cursor, view);
@@ -404,7 +404,7 @@ void JMdictEntryFormatter::_detailedVersion(const ConstEntryPointer& entry, QTex
 
 void JMdictEntryFormatter::drawCustom(const ConstEntryPointer& _entry, QPainter& painter, const QRectF& rectangle, QRectF& usedSpace, const QFont& textFont, int headerPrintSize, bool printKanjis, bool printOnlyStudiedKanjis, int maxDefinitionsToPrint) const
 {
-	ConstJMdictEntryPointer entry(_entry.objectCast<const JMdictEntry>());
+	ConstJMdictEntryPointer entry(_entry.staticCast<const JMdictEntry>());
 	QFont kanjiFont;
 	kanjiFont.setPointSize(headerPrintSize);
 	QRectF leftArea(rectangle);
@@ -438,7 +438,7 @@ void JMdictEntryFormatter::drawCustom(const ConstEntryPointer& _entry, QPainter&
 		foreach (const QChar &c, writing) {
 			if (TextTools::isKanjiChar(c) && !usedKanjis.contains(c)) {
 				usedKanjis << c;
-				ConstKanjidic2EntryPointer kanji(EntriesCache::get(KANJIDIC2ENTRY_GLOBALID, c.unicode()).objectCast<const Kanjidic2Entry>());
+				ConstKanjidic2EntryPointer kanji(EntriesCache::get(KANJIDIC2ENTRY_GLOBALID, c.unicode()).staticCast<const Kanjidic2Entry>());
 				if (!kanji) continue;
 				if (printOnlyStudiedKanjis && !kanji->trained()) continue;
 				QString s = QString(c) + ": " + kanji->meanings().join(", ");
@@ -485,7 +485,7 @@ void JMdictEntryFormatter::drawCustom(const ConstEntryPointer& _entry, QPainter&
 
 void JMdictEntryFormatter::detailedVersionPart1(const ConstEntryPointer& _entry, QTextCursor& cursor, DetailedView* view) const
 {
-	ConstJMdictEntryPointer entry(_entry.objectCast<const JMdictEntry>());
+	ConstJMdictEntryPointer entry(_entry.staticCast<const JMdictEntry>());
 	QTextBlockFormat header;
 	header.setAlignment(Qt::AlignHCenter);
 	cursor.setBlockFormat(header);
@@ -495,7 +495,7 @@ void JMdictEntryFormatter::detailedVersionPart1(const ConstEntryPointer& _entry,
 
 void JMdictEntryFormatter::detailedVersionPart2(const ConstEntryPointer& _entry, QTextCursor& cursor, DetailedView* view) const
 {
-	ConstJMdictEntryPointer entry(_entry.objectCast<const JMdictEntry>());
+	ConstJMdictEntryPointer entry(_entry.staticCast<const JMdictEntry>());
 	writeTranslation(entry, cursor, view);
 }
 
@@ -529,7 +529,7 @@ FindVerbBuddyJob::FindVerbBuddyJob(const ConstJMdictEntryPointer& verb, const QS
 
 void FindVerbBuddyJob::result(EntryPointer entry)
 {
-	ConstJMdictEntryPointer jEntry = entry.objectCast<const JMdictEntry>();
+	ConstJMdictEntryPointer jEntry = entry.staticCast<const JMdictEntry>();
 	if (!jEntry) return;
 	// We now that we have a writing, as the SQL request matched with it
 	QString writing(jEntry->writings()[0]);
@@ -631,7 +631,7 @@ void FindHomonymsJob::result(EntryPointer entry)
 	QTextList *currentList = cursor().currentList();
 	cursor().insertBlock(QTextBlockFormat());
 	cursor().setCharFormat(QTextCharFormat());
-	ConstJMdictEntryPointer jmEntry = entry.objectCast<const JMdictEntry>();
+	ConstJMdictEntryPointer jmEntry = entry.staticCast<const JMdictEntry>();
 	Q_ASSERT(jmEntry != 0);
 	const EntryFormatter *formatter = EntryFormatter::getFormatter(jmEntry);
 	if (formatter) formatter->writeShortDesc(jmEntry, cursor());
