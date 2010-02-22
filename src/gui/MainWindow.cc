@@ -57,6 +57,7 @@
 #include <QDataStream>
 #include <QDockWidget>
 #include <QScrollBar>
+#include <QPrintDialog>
 
 /// State version of the main window - should be increated every time the docks or statusbars change
 #define MAINWINDOW_STATE_VERSION 0
@@ -233,25 +234,45 @@ void MainWindow::importUserData()
 	if (ret == QMessageBox::Yes) close();
 }
 
+bool MainWindow::askForPrintOptions(QPrinter &printer, const QString &title)
+{
+	QPrintDialog printDialog(&printer, this);
+	printDialog.setWindowTitle(title);
+	#if QT_VERSION >= 0x040500
+	printDialog.setOptions(QAbstractPrintDialog::PrintToFile | QAbstractPrintDialog::PrintPageRange | QAbstractPrintDialog::PrintSelection);
+	#endif
+	if (printDialog.exec() != QDialog::Accepted) return false;
+	return true;
+}
+
 void MainWindow::print()
 {
-	EntriesPrinter(resultsList(), resultsView()->selectionModel()->selectedIndexes(), this).print();
-	
+	QPrinter printer;
+	if (!askForPrintOptions(printer)) return;
+	QModelIndexList selIndexes;
+	if (printer.printRange() == QPrinter::Selection) selIndexes = resultsView()->selectionModel()->selectedIndexes();
+	EntriesPrinter(resultsList(), selIndexes, this).print(&printer);
 }
 
 void MainWindow::printPreview()
 {
-	EntriesPrinter(resultsList(), resultsView()->selectionModel()->selectedIndexes(), this).printPreview();
+	QPrinter printer;
+	EntriesPrinter(resultsList(), QModelIndexList(), this).printPreview(&printer);
 }
 
 void MainWindow::printBooklet()
 {
-	EntriesPrinter(resultsList(), resultsView()->selectionModel()->selectedIndexes(), this).printBooklet();
+	QPrinter printer;
+	if (!askForPrintOptions(printer, tr("Booklet print"))) return;
+	QModelIndexList selIndexes;
+	if (printer.printRange() == QPrinter::Selection) selIndexes = resultsView()->selectionModel()->selectedIndexes();
+	EntriesPrinter(resultsList(), selIndexes, this).printBooklet(&printer);
 }
 
 void MainWindow::printBookletPreview()
 {
-	EntriesPrinter(resultsList(), resultsView()->selectionModel()->selectedIndexes(), this).printBookletPreview();
+	QPrinter printer;
+	EntriesPrinter(resultsList(), QModelIndexList(), this).printBookletPreview(&printer);
 }
 
 void MainWindow::tabExport()

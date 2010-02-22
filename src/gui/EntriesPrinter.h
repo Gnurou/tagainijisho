@@ -38,11 +38,6 @@ private:
 	QWidget *_parent;
 
 	/**
-	 * Present the user with a config dialog to setup printing. Returns true
-	 * if the user confirmed the dialog, false if he cancelled it.
-	 */
-	bool askForPrintOptions(QPrinter &printer, const QString &title = tr("Print"));
-	/**
 	 * Prints all the given entries (pre-printed into QPictures) on one page. The
 	 * entries must all fit within the range 0..height, and height must not be higher
 	 * than the available height of the painter.
@@ -60,10 +55,10 @@ protected slots:
 public:
 	EntriesPrinter(const QAbstractItemModel *model, const QModelIndexList &selection = QModelIndexList(), QWidget *parent = 0);
 	
-	void print();
-	void printPreview();
-	void printBooklet();
-	void printBookletPreview();
+	void print(QPrinter* printer);
+	void printPreview(QPrinter* printer);
+	void printBooklet(QPrinter* printer);
+	void printBookletPreview(QPrinter* printer);
 };
 
 #endif

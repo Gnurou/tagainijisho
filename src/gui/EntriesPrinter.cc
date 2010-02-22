@@ -22,7 +22,6 @@
 // TODO for ResultsRole - remove!
 #include "gui/ResultsList.h"
 
-#include <QPrintDialog>
 #include <QPrintPreviewDialog>
 #include <QProgressDialog>
 
@@ -56,37 +55,25 @@ void EntriesPrinter::printPageOfEntries(const QList<QPicture> &entries, QPainter
 	}
 }
 
-bool EntriesPrinter::askForPrintOptions(QPrinter &printer, const QString &title)
-{
-	QPrintDialog printDialog(&printer, _parent);
-	printDialog.setWindowTitle(title);
-	#if QT_VERSION >= 0x040500
-	printDialog.setOptions(QAbstractPrintDialog::PrintToFile | QAbstractPrintDialog::PrintPageRange | QAbstractPrintDialog::PrintSelection);
-	#endif
-	if (printDialog.exec() != QDialog::Accepted) return false;
-	return true;
-}
-
 void EntriesPrinter::prepareAndPrintJob(QPrinter* printer)
 {
 	int fromPage = -1, toPage = -1;
-	bool selectionOnly = false;
 	// Do we have a print range specified?
 	if (printer->printRange() == QPrinter::PageRange) {
 		fromPage = printer->fromPage();
 		toPage = printer->toPage();
 	}
-	// Else are we supposed to print the selection only?
-	else if (printer->printRange() == QPrinter::Selection) selectionOnly = true;
 
 	// Build the list of entries to print
 	QList<ConstEntryPointer> entries;
-	if (!selectionOnly) {
+	// No selection specified, we print all the model
+	if (_selection.isEmpty()) {
 		// Parse the model and print all its content
 		for (int i = 0; i < _model->rowCount(); i++) {
 			ConstEntryPointer entry(qVariantValue<EntryPointer>(_model->index(i, 0, QModelIndex()).data(ResultsList::EntryRole)));
 			if (entry) entries << entry;
 		}
+	// Selection specified, we limit ourselves to it
 	} else {
 		foreach (const QModelIndex &idx, _selection) {
 			ConstEntryPointer entry(qVariantValue<EntryPointer>(idx.data(ResultsList::EntryRole)));
@@ -160,33 +147,27 @@ void EntriesPrinter::prepareAndPrintBookletJob(QPrinter* printer)
 	_baseFont = QFont();
 }
 
-void EntriesPrinter::print()
+void EntriesPrinter::print(QPrinter *printer)
 {
-	QPrinter printer;
-	if (!askForPrintOptions(printer)) return;
-	prepareAndPrintJob(&printer);
+	prepareAndPrintJob(printer);
 }
 
-void EntriesPrinter::printPreview()
+void EntriesPrinter::printPreview(QPrinter *printer)
 {
-	QPrinter tprinter;
-	QPrintPreviewDialog dialog(&tprinter, _parent);
+	QPrintPreviewDialog dialog(printer, _parent);
 	dialog.setWindowTitle(tr("Print preview"));
 	connect(&dialog, SIGNAL(paintRequested(QPrinter *)), this, SLOT(prepareAndPrintJob(QPrinter *)));
 	dialog.exec();
 }
 
-void EntriesPrinter::printBooklet()
+void EntriesPrinter::printBooklet(QPrinter *printer)
 {
-	QPrinter printer;
-	if (!askForPrintOptions(printer, tr("Booklet print"))) return;
-	prepareAndPrintBookletJob(&printer);
+	prepareAndPrintBookletJob(printer);
 }
 
-void EntriesPrinter::printBookletPreview()
+void EntriesPrinter::printBookletPreview(QPrinter *printer)
 {
-	QPrinter tprinter;
-	QPrintPreviewDialog dialog(&tprinter, _parent);
+	QPrintPreviewDialog dialog(printer, _parent);
 	dialog.setWindowTitle(tr("Booklet print preview"));
 	connect(&dialog, SIGNAL(paintRequested(QPrinter *)), this, SLOT(prepareAndPrintBookletJob(QPrinter *)));
 	dialog.exec();
