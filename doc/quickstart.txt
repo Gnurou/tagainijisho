@@ -25,6 +25,12 @@ here will be incorrect for your version. Though you may find it similar in
 many ways to older versions, we still recomend getting the latest version from
 the [Download][dlpage] page.
 
+Whilst it was last written for version 0.2.4, it has been updated in places to
+refelect changes made for 0.2.5. It is possible that some information may
+conflict or confuse. If you find any descrpencies then please feel free to
+contact the docuemnts author via the mailing list, found in the contact
+section.
+
 Tagaini does several things:
 
 * Primarily, it is a dictionary Japanese-Language
@@ -42,75 +48,80 @@ Tagaini does several things:
 Main Window Overview
 --------------------
 
-The main window follows a simple design. From the top of the program there are
-three sections. The search bar, the results view and the detailed view. 
+The main window revolves around dictionary searching. When opened for the
+first time it will contain four main sections: The Search Filters; The Results
+View; The Detailed View and the Lists Panel. The Lists Panel can be moved
+around the window, or seperated to be come a floating window, as can the
+Toolbars. 
 
 ![Main Window](images/tagaini_entries.png)
 
-The Search Bar
---------------
+The Search Filters
+------------------
 
-The search bar is where you can enter terms to be searched for, in either
-Japanese or the language of your program. Just ener the text you wish to look
-up and click the search button, or press enter. While tagaini is searching for
-your terms the icon at the right of the window animates. Clicking it allows
-you to cancel the ongoing search in case it takes too much time.
+At the top of the window, by default, is the filters toolbar. It contains all
+the search filters, as tabs, which open above the results view on the filter
+pane. 
 
-You can search through Tagaini's vocabulary database, kanji database or
-through both, depending on what is set in the drop down menu next to the
-search bar. By default you are searching through all entries, or both
-databases. 
+First it allows you to select which dictionary you wish to search, either both
+dictionaries with the `All` entry in the drop down box, which is the default,
+or through either the `Vocabulary` or `Kanji` dictionaries. 
 
-At the bottom of the search bar, you probably noticed these little buttons:
+### Text Search Filter
 
-They are the search bar extenders, and clicking them expands an additional set
-of options that let you perform searches using parameters other than text
-searchs. 
+By default the `Text Search` Filter is open. It allows you to enter terms to
+be searched for, in either Japanese or the language of your program. Just ener
+the text you wish to look up and click the search button, or press enter.
+While tagaini is searching for your terms the icon at the right of the window
+animates. Clicking it allows you to cancel the ongoing search in case it takes
+too much time.
 
-### The Study Extender
+### The Study Filter
 
-This extender filters the results by their study state. One can choose to only
-display results that are studied, or those that are not. In addition, when
-studied results are displayed, one can also filter by score, date of inclusion
-in the study list, or the date they you last got the entry wrong.
+This tab contains filters for the results by their study state. One can choose
+to only display results that are studied, or those that are not. In addition,
+when studied results are displayed, one can also filter by score, date of
+inclusion in the study list, or the date they you last got the entry wrong.
 
-### The Tags Extender
+### The Tags Filter
 
-This widget lets you filter the results by tag. Enter a list of tags (or
+This filter lets you filter the results by tag. Enter a list of tags (or
 choose them using the combo box on the right) and only entries that have
 these tags will be displayed. 
 
-### The Notes Extender
+### The Notes Filter
 
-This extender shows only entries which have a note that contains a given set
+This filter shows only entries which have a note that contains a given set
 of words. When you type a string into the text field then all notes will
 be searched for that string. 
 
-### The JLPT Extender
+### The JLPT Filter
 
-This extender displays only entries belonging to a given JLPT level. Be
+This filter displays only entries belonging to a given JLPT level. Be
 aware that the JLPT lists are *not* official, and that words and kanji from
 the upper level are often randomly included during the examination. Therefore,
 this list does in no way claim to be totally accurate!
 
-###The Vocabulary Extender
+### The Vocabulary Filter
 
-Settings in this extender let you control filtering properties that only apply
+Settings in this filter let you control filtering properties that only apply
 to vocabulary entries. Kanji entries are therefore filtered out when one of
-the settings in this extender is active. You can enter a list of kanji that
+the settings in this filter is active. You can enter a list of kanji that
 the word must contains, or choose to only display words which are entirely
 made of kanji you are studying. It is also possible to filter words by their
 grammatical function, the local dialect they belong to, and other settings.
 
-###The Kanji Extender
+### The Kanji Filter
 
-Using this extender, you can precisely search for kanji. The following
+Using this filter, you can precisely search for kanji. The following
 parameters are available:
 
 * Stroke count: show only kanjis that have a given stroke count.
 * Components: enter some kanjis in this text field, and only kanjis containing
   them will be shown.
 * Unicode: lookup by unicode.
+* SKIP Code: lookup by skip code.
+* Four Corner: lookup with the four corner method.
 * School grade: choose the school grade from which a kanji is learnt.
 
 The Results View

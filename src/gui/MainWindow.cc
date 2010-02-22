@@ -1,5 +1,5 @@
 /*
- *  Copyright (C) 2008  Alexandre Courbot
+ *  Copyright (C) 2008/2009/2010  Alexandre Courbot
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -21,8 +21,6 @@
 #include "core/Database.h"
 #include "core/Plugin.h"
 #include "core/EntrySearcherManager.h"
-#include "gui/EntryFormatter.h"
-#include "gui/BookletPrinter.h"
 #include "gui/UpdateChecker.h"
 #include "gui/SetsOrganizer.h"
 #include "gui/TrainSettings.h"
@@ -38,6 +36,7 @@
 #include "gui/JLPTFilterWidget.h"
 #include "gui/EntryListWidget.h"
 #include "gui/ClickableLabel.h"
+#include "gui/EntriesPrinter.h"
 
 #include <QtDebug>
 
@@ -51,18 +50,14 @@
 #include <QFileDialog>
 #include <QSqlQuery>
 #include <QTextBrowser>
-#include <QPrinter>
-#include <QPrintDialog>
 #include <QTextEdit>
-#include <QProgressDialog>
-#include <QPicture>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QDialogButtonBox>
-#include <QPrintPreviewDialog>
 #include <QDataStream>
 #include <QDockWidget>
 #include <QScrollBar>
+#include <QPrintDialog>
 
 /// State version of the main window - should be increated every time the docks or statusbars change
 #define MAINWINDOW_STATE_VERSION 0
@@ -249,32 +244,6 @@ void MainWindow::importUserData()
 	if (ret == QMessageBox::Yes) close();
 }
 
-#define PRINT_MINIMAL_SPACING 10
-
-void MainWindow::printPageOfEntries(const QList<QPicture> &entries, QPainter *painter, int height)
-{
-	// First adjust the distance between entries
-	int dist;
-	if (entries.size() == 1) dist = 0;
-	else {
-		int totalHeight = 0;
-		foreach(const QPicture &pic, entries) totalHeight += pic.height();
-		// Use uniform repartition only if the space taken by the entries is more than 3/4 of the page
-		if (totalHeight > height / 1.5) dist = (height - totalHeight) / entries.size() - 1;
-		// Otherwise use a default space
-		else dist = PRINT_MINIMAL_SPACING;
-	}
-
-	// Then print all entries drawn so far
-	int pos = 0;
-	foreach(const QPicture &pic, entries) {
-		painter->save();
-		painter->drawPicture(QPoint(0, pos), pic);
-		painter->restore();
-		pos += pic.height() + dist;
-	}
-}
-
 bool MainWindow::askForPrintOptions(QPrinter &printer, const QString &title)
 {
 	QPrintDialog printDialog(&printer, this);
@@ -286,132 +255,34 @@ bool MainWindow::askForPrintOptions(QPrinter &printer, const QString &title)
 	return true;
 }
 
-void MainWindow::prepareAndPrintBookletJob(QPrinter *printer)
-{
-	BookletPrinter bPrinter(printer);
-	bPrinter.setPrintRange(printer->printRange());
-	bPrinter.setFromTo(printer->fromPage() * 8 - 7, printer->toPage() * 8);
-	QFont textFont;
-	textFont.setPointSize(15);
-	prepareAndPrintJob(&bPrinter, &textFont);
-}
-
-void MainWindow::prepareAndPrintJob(QPrinter *printer, const QFont *font)
-{
-	int fromPage = -1, toPage = -1;
-	bool selectionOnly = false;
-	// Do we have a print range specified?
-	if (printer->printRange() == QPrinter::PageRange) {
-		fromPage = printer->fromPage();
-		toPage = printer->toPage();
-	}
-	// Else are we supposed to print the selection only?
-	else if (printer->printRange() == QPrinter::Selection) selectionOnly = true;
-
-	// Setup the font
-	QFont textFont;
-	if (!font) {
-		font = &textFont;
-	}
-
-	// Build the list of entries to print
-	QList<ConstEntryPointer> entries;
-	if (!selectionOnly) {
-		const ResultsList *results = resultsList();
-		for (int i = 0; i < results->nbResults(); i++)
-			entries << results->getEntry(i);
-	} else {
-		QModelIndexList selection = resultsView()->selectionModel()->selection().indexes();
-		for (int i = 0; i < selection.size(); i++)
-			entries << qVariantValue<EntryPointer>(selection[i].data(ResultsList::EntryRole));
-	}
-
-	// Setup progress bar
-	QProgressDialog progressDialog(tr("Preparing print job..."), tr("Abort"), 0, entries.size(), this);
-	progressDialog.setMinimumDuration(50);
-	progressDialog.setWindowTitle(tr("Printing..."));
-	progressDialog.setWindowModality(Qt::WindowModal);
-	progressDialog.show();
-
-	// Print entries page by page
-	int pageNbr = 1;
-	QList<QPicture> waitingEntries;
-	QPainter painter(printer);
-	QRectF pageRect = painter.window();
-	QRectF remainingSpace = pageRect;
-	for (int i = 0; i < entries.size(); i++) {
-		if (progressDialog.wasCanceled()) return;
-		ConstEntryPointer entry = entries[i];
-		QRectF usedSpace;
-		QPicture tPicture;
-		QPainter picPainter(&tPicture);
-		const EntryFormatter *formatter(EntryFormatter::getFormatter(entry));
-		if (!formatter) continue;
-		formatter->draw(entry, picPainter, pageRect, usedSpace, *font);
-		if (!pageRect.contains(usedSpace)) {
-			qDebug() << "Warning: entry does not fit on whole page, giving up this one...";
-			continue;
-		}
-		picPainter.end();
-		tPicture.setBoundingRect(usedSpace.toRect());
-
-		// Do we need a new page here?
-		if (remainingSpace.height() < usedSpace.height()) {
-			// Print the current page
-			if (fromPage == -1 || (pageNbr >= fromPage && pageNbr <= toPage)) {
-				// If not on the first page, get a new page
-				if (pageNbr > 1 && pageNbr > fromPage) printer->newPage();
-				printPageOfEntries(waitingEntries, &painter, pageRect.height());
-			}
-			remainingSpace = pageRect;
-			waitingEntries.clear();
-			++pageNbr;
-			// Optimize if we already reached the last page
-			if (fromPage != -1 && pageNbr > toPage) return;
-		}
-		waitingEntries << tPicture;
-		// Update remaining space, taking care to keep some white between entries
-		remainingSpace.setTop(remainingSpace.top() + usedSpace.height() + PRINT_MINIMAL_SPACING);
-
-		progressDialog.setValue(i);
-	}
-
-	if (fromPage == -1 || (pageNbr >= fromPage && pageNbr <= toPage)) {
-		if (pageNbr > 1 && pageNbr > fromPage) printer->newPage();
-		printPageOfEntries(waitingEntries, &painter, pageRect.height());
-	}
-}
-
 void MainWindow::print()
 {
 	QPrinter printer;
 	if (!askForPrintOptions(printer)) return;
-	prepareAndPrintJob(&printer);
+	QModelIndexList selIndexes;
+	if (printer.printRange() == QPrinter::Selection) selIndexes = resultsView()->selectionModel()->selectedIndexes();
+	EntriesPrinter(resultsList(), selIndexes, this).print(&printer);
 }
 
 void MainWindow::printPreview()
 {
-	QPrinter tprinter;
-	QPrintPreviewDialog dialog(&tprinter, this);
-	dialog.setWindowTitle(tr("Print preview"));
-	connect(&dialog, SIGNAL(paintRequested(QPrinter *)), this, SLOT(prepareAndPrintJob(QPrinter *)));
-	dialog.exec();
+	QPrinter printer;
+	EntriesPrinter(resultsList(), QModelIndexList(), this).printPreview(&printer);
 }
 
 void MainWindow::printBooklet()
 {
 	QPrinter printer;
 	if (!askForPrintOptions(printer, tr("Booklet print"))) return;
-	prepareAndPrintBookletJob(&printer);
+	QModelIndexList selIndexes;
+	if (printer.printRange() == QPrinter::Selection) selIndexes = resultsView()->selectionModel()->selectedIndexes();
+	EntriesPrinter(resultsList(), selIndexes, this).printBooklet(&printer);
 }
 
 void MainWindow::printBookletPreview()
 {
-	QPrinter tprinter;
-	QPrintPreviewDialog dialog(&tprinter, this);
-	dialog.setWindowTitle(tr("Booklet print preview"));
-	connect(&dialog, SIGNAL(paintRequested(QPrinter *)), this, SLOT(prepareAndPrintBookletJob(QPrinter *)));
-	dialog.exec();
+	QPrinter printer;
+	EntriesPrinter(resultsList(), QModelIndexList(), this).printBookletPreview(&printer);
 }
 
 void MainWindow::tabExport()

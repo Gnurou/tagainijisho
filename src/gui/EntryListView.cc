@@ -39,6 +39,7 @@ EntryListView::EntryListView(QWidget *parent) : QTreeView(parent), helper(this),
 	scroller.activateOn(this);
 	helper.populateMenu(&contextMenu);
 	connect(&_newListAction, SIGNAL(triggered()), this, SLOT(newList()));
+	_deleteSelectionAction.setEnabled(false);
 	connect(&_deleteSelectionAction, SIGNAL(triggered()), this, SLOT(deleteSelectedItems()));
 }
 
@@ -55,7 +56,11 @@ void EntryListView::contextMenuEvent(QContextMenuEvent *event)
 void EntryListView::selectionChanged(const QItemSelection &selected, const QItemSelection &deselected)
 {
 	QTreeView::selectionChanged(selected, deselected);
-	if (selected.isEmpty()) return;
+	_deleteSelectionAction.setEnabled(!selected.isEmpty());
+	emit selectionHasChanged(selected, deselected);
+	if (selected.isEmpty()) {
+		return;
+	}
 	QModelIndex index(selected.indexes().last());
 	// Use the model data directly!
 	EntryPointer entry(qvariant_cast<EntryPointer>(model()->data(index, ResultsList::EntryRole)));
