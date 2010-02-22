@@ -28,9 +28,11 @@ Q_DECLARE_TR_FUNCTIONS(EntryFormatter)
 protected:
 	virtual void _detailedVersion(const ConstEntryPointer &_entry, QTextCursor& cursor, DetailedView* view) const;
 
-public:
 	Kanjidic2EntryFormatter();
 	virtual ~Kanjidic2EntryFormatter() {}
+
+public:
+	static Kanjidic2EntryFormatter &instance();
 
 	void writeJapanese(const ConstKanjidic2EntryPointer &entry, QTextCursor& cursor, DetailedView* view) const;
 	void writeTranslation(const ConstKanjidic2EntryPointer &entry, QTextCursor& cursor, DetailedView* view) const;

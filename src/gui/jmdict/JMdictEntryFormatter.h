@@ -29,10 +29,11 @@ Q_DECLARE_TR_FUNCTIONS(JMdictEntryFormatter)
 protected:
 	virtual void _detailedVersion(const ConstEntryPointer &entry, QTextCursor &cursor, DetailedView *view) const;
 
-public:
 	JMdictEntryFormatter();
 	virtual ~JMdictEntryFormatter() {}
-
+public:
+	static JMdictEntryFormatter &instance();
+	
 	/**
 	 * Writes the part of speech using the given cursor.
 	 */

@@ -40,7 +40,7 @@
 
 PreferenceItem<bool> JMdictGUIPlugin::furiganasForTraining("jmdict", "furiganasForTraining", true);
 
-JMdictGUIPlugin::JMdictGUIPlugin() : Plugin("JMdictGUI"), _formatter(0), _flashJL(0), _flashJS(0), _flashTL(0), _flashTS(0), _linkhandler(0), _filter(0), _trainer(0)
+JMdictGUIPlugin::JMdictGUIPlugin() : Plugin("JMdictGUI"), _flashJL(0), _flashJS(0), _flashTL(0), _flashTS(0), _linkhandler(0), _filter(0), _trainer(0)
 {
 }
 
@@ -53,8 +53,7 @@ bool JMdictGUIPlugin::onRegister()
 	// Check if the JMdict plugin is loaded
 	if (!Plugin::pluginExists("JMdict")) return false;
 	// Register the formatter
-	_formatter = new JMdictEntryFormatter();
-	if (!EntryFormatter::registerFormatter(JMDICTENTRY_GLOBALID, _formatter)) { delete _formatter; return false; }
+	if (!EntryFormatter::registerFormatter(JMDICTENTRY_GLOBALID, &JMdictEntryFormatter::instance())) return false;
 	// Register the link handler
 	_linkhandler = new JMdictLinkHandler();
 	if (!DetailedViewLinkManager::registerHandler(_linkhandler)) return false;
@@ -102,7 +101,6 @@ bool JMdictGUIPlugin::onUnregister()
 	delete _linkhandler; _linkhandler = 0;
 	// Remove the formatter
 	EntryFormatter::removeFormatter(JMDICTENTRY_GLOBALID);
-	delete _formatter; _formatter = 0;
 	return true;
 }
 
