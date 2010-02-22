@@ -26,7 +26,7 @@
 #include <QPrintPreviewDialog>
 #include <QProgressDialog>
 
-EntriesPrinter::EntriesPrinter(const QAbstractListModel *model, const QModelIndexList &selection, QWidget *parent) : _model(model), _selection(selection), _parent(parent)
+EntriesPrinter::EntriesPrinter(const QAbstractItemModel* model, const QModelIndexList& selection, QWidget* parent) : _model(model), _selection(selection), _parent(parent)
 {
 }
 

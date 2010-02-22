@@ -18,7 +18,7 @@
 #ifndef __GUI_ENTRIES_PRINTER_H
 #define __GUI_ENTRIES_PRINTER_H
 
-#include <QAbstractListModel>
+#include <QAbstractItemModel>
 #include <QModelIndexList>
 #include <QWidget>
 #include <QFont>
@@ -32,7 +32,7 @@ class EntriesPrinter : public QObject
 {
 	Q_OBJECT
 private:
-	const QAbstractListModel *_model;
+	const QAbstractItemModel *_model;
 	const QModelIndexList &_selection;
 	QFont _baseFont;
 	QWidget *_parent;
@@ -58,7 +58,7 @@ protected slots:
 	void prepareAndPrintBookletJob(QPrinter* printer);
 
 public:
-	EntriesPrinter(const QAbstractListModel *model, const QModelIndexList &selection = QModelIndexList(), QWidget *parent = 0);
+	EntriesPrinter(const QAbstractItemModel *model, const QModelIndexList &selection = QModelIndexList(), QWidget *parent = 0);
 	
 	void print();
 	void printPreview();
