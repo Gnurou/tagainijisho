@@ -110,8 +110,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), _history(historyS
 	
 	_filtersToolBar = new QToolBar(searchDockWidgetContents);
 	_filtersToolBar->layout()->setContentsMargins(0, 0, 0, 0);
-	QVBoxLayout *fLayout(static_cast<QVBoxLayout *>(searchDockWidgetContents->layout()));
-	fLayout->insertWidget(0, _filtersToolBar);
+	searchDockWidget->setTitleBarWidget(_filtersToolBar);
 	QMenu *entriesMenu = new QMenu(searchDockWidget);
 	entriesMenu->addAction(action_Print);
 	entriesMenu->addAction(actionPrint_preview);
