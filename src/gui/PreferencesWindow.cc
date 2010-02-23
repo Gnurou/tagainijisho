@@ -18,7 +18,6 @@
 #include "core/EntrySearcherManager.h"
 #include "core/RelativeDate.h"
 #include "gui/UpdateChecker.h"
-#include "gui/ResultsView.h"
 #include "gui/DetailedView.h"
 #include "gui/PreferencesWindow.h"
 #include "gui/EntryFormatter.h"
@@ -48,7 +47,7 @@ PreferencesWindow::PreferencesWindow(QWidget *parent, Qt::WindowFlags f) : QDial
 	addCategory(category);
 	category = new DetailedViewPreferences(this);
 	addCategory(category);
-	category = new ListsPreferences(this);
+	category = new ListsViewPreferences(this);
 	addCategory(category);
 
 	// Now add the panels provided by plugins
@@ -217,24 +216,24 @@ EntryDelegatePreferences::EntryDelegatePreferences(QWidget *parent) : QWidget(pa
 	setupUi(this);
 	_delegateLayout = new EntryDelegateLayout(EntryDelegateLayout::OneLine, "", "", "", this);
 	
-	QLayout *layout = layoutBox->layout();
+	QLayout *topLayout = layout();
 	QFont kFont;
 	kFont.fromString(ResultsView::kanjiFont.defaultValue());
-	kanjifontChooser = new PreferencesFontChooser(tr("Main writing"), kFont, layoutBox);
+	kanjifontChooser = new PreferencesFontChooser(tr("Main writing"), kFont, this);
 	connect(kanjifontChooser, SIGNAL(fontChanged(const QFont &)), this, SLOT(setKanjiFont(const QFont &)));
-	layout->addWidget(kanjifontChooser);
+	topLayout->addWidget(kanjifontChooser);
 
 	kFont = QFont();
 	kFont.fromString(ResultsView::kanaFont.defaultValue());
-	kanafontChooser = new PreferencesFontChooser(tr("Readings and alternate writings"), kFont, layoutBox);
+	kanafontChooser = new PreferencesFontChooser(tr("Readings and alternate writings"), kFont, this);
 	connect(kanafontChooser, SIGNAL(fontChanged(const QFont &)), this, SLOT(setKanaFont(const QFont &)));
-	layout->addWidget(kanafontChooser);
+	topLayout->addWidget(kanafontChooser);
 
 	kFont = QFont();
 	kFont.fromString(ResultsView::textFont.defaultValue());
-	romajifontChooser = new PreferencesFontChooser(tr("Definitions"), kFont, layoutBox);
+	romajifontChooser = new PreferencesFontChooser(tr("Definitions"), kFont, this);
 	connect(romajifontChooser, SIGNAL(fontChanged(const QFont &)), this, SLOT(setTextFont(const QFont &)));
-	layout->addWidget(romajifontChooser);
+	topLayout->addWidget(romajifontChooser);
 }
 
 void EntryDelegatePreferences::setPrefsToWatch(PreferenceItem<int> *twoLinesPref, PreferenceItem<QString> *defaultFontPref, PreferenceItem<QString> *kanjiFontPref, PreferenceItem<QString> *kanaFontPref)
@@ -363,6 +362,60 @@ void ResultsViewPreferences::updateUI()
 	mwDelegateLayout->setFont(EntryDelegateLayout::Kana, font);
 }
 
+ListsViewPreferences::ListsViewPreferences(QWidget *parent) : PreferencesWindowCategory(tr("Lists"), parent)
+{
+	setupUi(this);
+
+	// Configure the delegate layout
+	entryDelegatePrefs->setPrefsToWatch(&EntryListView::displayMode, &EntryListView::textFont, &EntryListView::kanjiFont, &EntryListView::kanaFont);
+	// Prepare the preview list
+	_list = new ResultsList(this);
+	_view = new EntryListView(this, entryDelegatePrefs->delegateLayout(), true);
+	// Otherwise scrollbar appears when the display mode changes
+	_view->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+	_view->setModel(_list);
+	EntryPointer ePtr(new ResultsViewPrefsDummyEntry());
+	for (int i = 0; i < 20; i++) _list->addResult(ePtr);
+	QVBoxLayout *vLayout = new QVBoxLayout(previewBox);
+	vLayout->addWidget(_view);
+
+	connect(smoothScrolling, SIGNAL(toggled(bool)), this, SLOT(onSmoothScrollingToggled(bool)));
+}
+
+void ListsViewPreferences::refresh()
+{
+	smoothScrolling->setChecked(EntryListView::smoothScrolling.value());
+
+	entryDelegatePrefs->refresh();
+}
+
+void ListsViewPreferences::applySettings()
+{
+	EntryListView::smoothScrolling.set(smoothScrolling->isChecked());
+	
+	entryDelegatePrefs->applySettings();
+}
+
+// TODO Replace with preferences signals?
+void ListsViewPreferences::updateUI()
+{
+	MainWindow::instance()->entryListWidget()->entryListView()->setSmoothScrolling(EntryListView::smoothScrolling.value());
+
+	EntryDelegateLayout *mwDelegateLayout = MainWindow::instance()->entryListWidget()->entryListView()->delegateLayout();
+	mwDelegateLayout->setDisplayMode(static_cast<EntryDelegateLayout::DisplayMode>(EntryListView::displayMode.value()));
+	QFont font;
+	font.fromString(EntryListView::textFont.value());
+	mwDelegateLayout->setFont(EntryDelegateLayout::DefaultText, font);
+	
+	font = QFont();
+	font.fromString(EntryListView::kanjiFont.value());
+	mwDelegateLayout->setFont(EntryDelegateLayout::Kanji, font);
+	
+	font = QFont();
+	font.fromString(EntryListView::kanaFont.value());
+	mwDelegateLayout->setFont(EntryDelegateLayout::Kana, font);
+}
+
 DetailedViewPreferences::DetailedViewPreferences(QWidget *parent) : PreferencesWindowCategory(tr("Detailed View"), parent)
 {
 	setupUi(this);
@@ -465,22 +518,6 @@ PreferencesFontChooser::PreferencesFontChooser(const QString &whatFor, const QFo
 	connect(_fontButton, SIGNAL(clicked()), this, SLOT(changeFont()));
 	setFont(_defaultFont);
 	layout->addWidget(_fontButton);
-}
-
-ListsPreferences::ListsPreferences(QWidget *parent) : PreferencesWindowCategory(tr("Lists"), parent)
-{
-}
-
-void ListsPreferences::refresh()
-{
-}
-
-void ListsPreferences::applySettings()
-{
-}
-
-void ListsPreferences::updateUI()
-{
 }
 
 void PreferencesFontChooser::setFont(const QFont &f)

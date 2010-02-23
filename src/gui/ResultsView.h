@@ -63,7 +63,7 @@ public:
 	static PreferenceItem<QString> textFont;
 	static PreferenceItem<int> displayMode;
 	
-public slots:
+private slots:
 	/**
 	 * Used to update the view in case the layout changed.
 	 */

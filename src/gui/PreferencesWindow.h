@@ -23,6 +23,7 @@
 #include "gui/EntryDelegate.h"
 #include "gui/ResultsList.h"
 #include "gui/ResultsView.h"
+#include "gui/EntryListView.h"
 #include "gui/ui_PreferencesWindow.h"
 #include "gui/ui_GeneralPreferences.h"
 #include "gui/ui_EntryDelegatePreferences.h"
@@ -182,6 +183,27 @@ public slots:
 	void redrawRomajis(const QFont &font);
 };
 
+#include "gui/ui_ListsViewPreferences.h"
+
+class ListsViewPreferences : public PreferencesWindowCategory, private Ui::ListsViewPreferences
+{
+	Q_OBJECT
+private:
+	ResultsList *_list;
+	EntryListView *_view;
+
+protected slots:
+	void onSmoothScrollingToggled(bool value) { _view->setSmoothScrolling(value); }
+
+public:
+	ListsViewPreferences(QWidget *parent = 0);
+
+public slots:
+	void applySettings();
+	void refresh();
+	void updateUI();
+};
+
 class DetailedViewPreferences : public PreferencesWindowCategory, private Ui::DetailedViewPreferences
 {
 	Q_OBJECT
@@ -205,18 +227,6 @@ public slots:
 
 public:
 	DetailedViewPreferences(QWidget *parent = 0);
-};
-
-class ListsPreferences : public PreferencesWindowCategory
-{
-	Q_OBJECT
-public:
-	ListsPreferences(QWidget *parent = 0);
-
-public slots:
-	void applySettings();
-	void refresh();
-	void updateUI();
 };
 
 class QGridLayout;

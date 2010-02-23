@@ -34,7 +34,6 @@
 #include "gui/NotesFilterWidget.h"
 #include "gui/StudyFilterWidget.h"
 #include "gui/JLPTFilterWidget.h"
-#include "gui/EntryListWidget.h"
 #include "gui/ClickableLabel.h"
 #include "gui/EntriesPrinter.h"
 
@@ -125,14 +124,14 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), _history(historyS
 	_searchMenu->addAction(textFilter->enableClipboardInputAction());
 
 	// List widget
-	EntryListWidget *elWidget = new EntryListWidget(this);
-	elWidget->entryListView()->setModel(&_listModel);
-	connect(elWidget->entryListView(), SIGNAL(entrySelected(EntryPointer)), detailedView(), SLOT(display(EntryPointer)));
-	QDockWidget *dWidget = new QDockWidget(elWidget->currentTitle(), this);
+	_entryListWidget = new EntryListWidget(this);
+	_entryListWidget->entryListView()->setModel(&_listModel);
+	connect(_entryListWidget->entryListView(), SIGNAL(entrySelected(EntryPointer)), detailedView(), SLOT(display(EntryPointer)));
+	QDockWidget *dWidget = new QDockWidget(_entryListWidget->currentTitle(), this);
 	dWidget->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
-	dWidget->setWidget(elWidget);
+	dWidget->setWidget(_entryListWidget);
 	addDockWidget(Qt::LeftDockWidgetArea, dWidget);
-	dWidget->setObjectName(elWidget->currentTitle() + "Dock");
+	dWidget->setObjectName(_entryListWidget->currentTitle() + "Dock");
 	_searchMenu->addSeparator();
 	QAction *action = dWidget->toggleViewAction();
 	action->setShortcut(QKeySequence("F3"));
