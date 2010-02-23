@@ -29,6 +29,7 @@
 #include "gui/ToolBarDetailedView.h"
 #include "gui/SearchFilterWidget.h"
 #include "gui/SearchBuilder.h"
+#include "gui/EntryListWidget.h"
 
 #include <QSplitter>
 #include <QList>
@@ -76,6 +77,7 @@ private:
 	QueryBuilder _queryBuilder;
 	
 	EntryListModel _listModel;
+	EntryListWidget *_entryListWidget;
 	
 	/**
 	 * Run the search without touching the history.
@@ -161,6 +163,7 @@ public:
 	ResultsList *resultsList() { return _results; }
 	ResultsView *resultsView() { return _resultsView->resultsView(); }
 	DetailedView *detailedView() { return _detailedView->detailedView(); }
+	EntryListWidget *entryListWidget() { return _entryListWidget; }
 
 	const QueryBuilder &queryBuilder() const { return _queryBuilder; }
 	

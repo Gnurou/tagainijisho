@@ -35,11 +35,18 @@ class EntryListView : public QTreeView
 	Q_OBJECT
 private:
 	SmoothScroller scroller;
+	EntryDelegateLayout *_delegateLayout;
 	EntryDelegate *delegate;
 	EntriesViewHelper helper;
 	QMenu contextMenu;
 	QAction _newListAction;
 	QAction _deleteSelectionAction;
+
+private slots:
+	/**
+	 * Used to update the view in case the layout changed.
+	 */
+	void updateLayout();
 
 protected:
 	void contextMenuEvent(QContextMenuEvent *event);
@@ -49,7 +56,10 @@ protected slots:
 	virtual void selectionChanged(const QItemSelection &selected, const QItemSelection &deselected);
 
 public:
-	EntryListView(QWidget *parent = 0);
+	EntryListView(QWidget* parent = 0, EntryDelegateLayout* delegateLayout = 0, bool viewOnly = false);
+	
+	void setSmoothScrolling(bool value);
+	EntryDelegateLayout *delegateLayout() { return _delegateLayout; }
 	QAction *newListAction() { return &_newListAction; }
 	QAction *deleteSelectionAction() { return &_deleteSelectionAction; }
 

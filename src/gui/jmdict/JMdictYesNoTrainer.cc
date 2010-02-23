@@ -30,7 +30,12 @@ JMdictYesNoTrainer::JMdictYesNoTrainer(QWidget *parent) : YesNoTrainer(parent)
 void JMdictYesNoTrainer::onShowFuriganasChecked(bool checked)
 {
 	JMdictGUIPlugin::furiganasForTraining.set(checked);
-	if (showAnswerButton->isEnabled()) train(currentEntry);
+	if (showAnswerButton->isEnabled()) {
+		// Necessary because train train received a const reference to an EntryPointer
+		// and starts by reseting currentEntry - therefore if we pass it here we
+		// will lose the value
+		train(EntryPointer(currentEntry));
+	}
 }
 
 void JMdictYesNoTrainer::setTrainingMode(TrainingMode mode)

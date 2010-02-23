@@ -30,17 +30,46 @@ PreferenceItem<QString> EntryListView::kanaFont("mainWindow/lists", "kanaFont", 
 PreferenceItem<QString> EntryListView::kanjiFont("mainWindow/lists", "kanjiFont", QFont("Helvetica", 12).toString());
 PreferenceItem<int> EntryListView::displayMode("mainWindow/lists", "displayMode", EntryDelegateLayout::OneLine);
 
-EntryListView::EntryListView(QWidget *parent) : QTreeView(parent), helper(this), _newListAction(QIcon(":/images/icons/document-new.png"), tr("New list"), 0), _deleteSelectionAction(QIcon(":/images/icons/delete.png"), tr("Delete"), 0)
+EntryListView::EntryListView(QWidget *parent, EntryDelegateLayout* delegateLayout, bool viewOnly) : QTreeView(parent), helper(this), _newListAction(QIcon(":/images/icons/document-new.png"), tr("New list"), 0), _deleteSelectionAction(QIcon(":/images/icons/delete.png"), tr("Delete"), 0)
 {
-	EntryDelegateLayout *delegateLayout = new EntryDelegateLayout(static_cast<EntryDelegateLayout::DisplayMode>(displayMode.value()), textFont.value(), kanjiFont.value(), kanaFont.value(), this);
-	delegate = new EntryDelegate(delegateLayout, this);
+	// If no delegate layout has been specified, let's use our private one...
+	if (!delegateLayout) delegateLayout = new EntryDelegateLayout(static_cast<EntryDelegateLayout::DisplayMode>(displayMode.value()), textFont.value(), kanjiFont.value(), kanaFont.value(), this);
+	connect(delegateLayout, SIGNAL(layoutHasChanged()), this, SLOT(updateLayout()));
+	_delegateLayout = delegateLayout;
+	delegate = new EntryDelegate(_delegateLayout, this);
+	connect(_delegateLayout, SIGNAL(layoutHasChanged()), this, SLOT(updateLayout()));
 	setItemDelegate(delegate);
 	setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
-	scroller.activateOn(this);
-	helper.populateMenu(&contextMenu);
+	setSmoothScrolling(smoothScrolling.value());
+	// If the view is editable, the helper menu shall be enabled
+	if (!viewOnly) {
+		helper.populateMenu(&contextMenu);
+		contextMenu.addSeparator();
+	}
+	setHeaderHidden(true);
 	connect(&_newListAction, SIGNAL(triggered()), this, SLOT(newList()));
 	_deleteSelectionAction.setEnabled(false);
 	connect(&_deleteSelectionAction, SIGNAL(triggered()), this, SLOT(deleteSelectedItems()));
+}
+
+void EntryListView::setSmoothScrolling(bool value)
+{
+	if (value) {
+		setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
+		scroller.activateOn(this);
+	}
+	else {
+		scroller.deactivate();
+		setVerticalScrollMode(QAbstractItemView::ScrollPerItem);
+	}
+}
+
+void EntryListView::updateLayout()
+{
+	// This is needed to force a redraw - but we loose the selection.
+	QAbstractItemModel *m = model();
+	setModel(0);
+	setModel(m);
 }
 
 void EntryListView::contextMenuEvent(QContextMenuEvent *event)

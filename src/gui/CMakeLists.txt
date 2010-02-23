@@ -123,6 +123,7 @@ EntryListWidget.ui
 EntryDelegatePreferences.ui
 DetailedViewPreferences.ui
 ResultsViewPreferences.ui
+ListsViewPreferences.ui
 GeneralPreferences.ui
 MainWindow.ui
 jmdict/JMdictPreferences.ui
