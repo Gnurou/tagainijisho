@@ -37,6 +37,8 @@ TagsFilterWidget::TagsFilterWidget(QWidget *parent) : SearchFilterWidget(parent)
 	tagsButton->setMenu(menu);
 	hLayout->addWidget(tagsButton);
 	connect(menu, SIGNAL(triggered(QAction*)), this, SLOT(tagMenuClicked(QAction*)));
+	
+	setFocusProxy(lineInput);
 }
 
 void TagsFilterWidget::populateTagsMenu()
@@ -51,11 +53,6 @@ void TagsFilterWidget::populateTagsMenu()
 		action->setCheckable(true);
 		if (tags.contains(tag.toLower())) action->setChecked(true);
 	}
-}
-
-void TagsFilterWidget::focusInEvent(QFocusEvent *event)
-{
-	lineInput->setFocus(event->reason());
 }
 
 void TagsFilterWidget::tagMenuClicked(QAction *action)

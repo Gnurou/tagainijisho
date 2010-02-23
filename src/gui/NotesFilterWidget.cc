@@ -30,11 +30,8 @@ NotesFilterWidget::NotesFilterWidget(QWidget *parent) : SearchFilterWidget(paren
 	connect(words, SIGNAL(textChanged(QString)), this, SLOT(onTextChanged(QString)));
 	connect(words, SIGNAL(returnPressed()), this, SLOT(commandUpdate()));
 	hLayout->addWidget(words);
-}
-
-void NotesFilterWidget::focusInEvent(QFocusEvent *event)
-{
-	words->setFocus(event->reason());
+	
+	setFocusProxy(words);
 }
 
 void NotesFilterWidget::setNotes(const QString &notes)

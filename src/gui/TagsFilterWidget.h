@@ -34,7 +34,6 @@ private slots:
 
 protected:
 	virtual void _reset();
-	void focusInEvent(QFocusEvent *event);
 
 public:
 	TagsFilterWidget(QWidget *parent = 0);

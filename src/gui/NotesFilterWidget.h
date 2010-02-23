@@ -32,7 +32,6 @@ private slots:
 
 protected:
 	virtual void _reset();
-	void focusInEvent(QFocusEvent *event);
 
 public:
 	NotesFilterWidget(QWidget *parent = 0);

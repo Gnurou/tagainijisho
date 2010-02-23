@@ -55,6 +55,10 @@ TextFilterWidget::TextFilterWidget(QWidget *parent) : SearchFilterWidget(parent)
 	hLayout->addWidget(_searchField);
 	hLayout->addWidget(searchButton);
 	
+	setTabOrder(_searchField, searchButton);
+	setTabOrder(searchButton, resetText);
+	setFocusProxy(_searchField);
+	
 	_enableClipboardInputAction = new QAction(tr("Auto-search on clipboard content"), this);
 	_enableClipboardInputAction->setCheckable(true);
 	connect(_enableClipboardInputAction, SIGNAL(toggled(bool)), this, SLOT(enableClipboardInput(bool)));
