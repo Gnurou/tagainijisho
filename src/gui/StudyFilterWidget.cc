@@ -165,15 +165,6 @@ StudyFilterWidget::StudyFilterWidget(QWidget *parent) : SearchFilterWidget(paren
 		nonStudiedEntriesButton = new QRadioButton(tr("Not studied"), entriesBox);
 		connect(nonStudiedEntriesButton, SIGNAL(toggled(bool)), this, SLOT(onRadioButtonToggled(bool)));
 
-		connect(studiedEntriesButton, SIGNAL(toggled(bool)), scoreBox, SLOT(setEnabled(bool)));
-		connect(studiedEntriesButton, SIGNAL(toggled(bool)), studyBox, SLOT(setEnabled(bool)));
-		connect(studiedEntriesButton, SIGNAL(toggled(bool)), trainBox, SLOT(setEnabled(bool)));
-		connect(studiedEntriesButton, SIGNAL(toggled(bool)), mistakeBox, SLOT(setEnabled(bool)));
-		connect(studiedEntriesButton, SIGNAL(toggled(bool)), scoreBox, SLOT(setVisible(bool)));
-		connect(studiedEntriesButton, SIGNAL(toggled(bool)), studyBox, SLOT(setVisible(bool)));
-		connect(studiedEntriesButton, SIGNAL(toggled(bool)), trainBox, SLOT(setVisible(bool)));
-		connect(studiedEntriesButton, SIGNAL(toggled(bool)), mistakeBox, SLOT(setVisible(bool)));
-
 		QHBoxLayout *hLayout = new QHBoxLayout(entriesBox);
 		hLayout->addWidget(new QLabel(tr("Study status:"), entriesBox));
 		hLayout->addStretch();
@@ -199,6 +190,16 @@ StudyFilterWidget::StudyFilterWidget(QWidget *parent) : SearchFilterWidget(paren
 
 void StudyFilterWidget::onRadioButtonToggled(bool toggled)
 {
+	if (sender() == studiedEntriesButton) {
+		scoreBox->setEnabled(toggled);
+		scoreBox->setVisible(toggled);
+		studyBox->setEnabled(toggled);
+		studyBox->setVisible(toggled);
+		trainBox->setEnabled(toggled);
+		trainBox->setVisible(toggled);
+		mistakeBox->setEnabled(toggled);
+		mistakeBox->setVisible(toggled);
+	}
 	if (toggled) commandUpdate();
 }
 
