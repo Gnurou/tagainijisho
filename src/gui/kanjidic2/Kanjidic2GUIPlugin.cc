@@ -97,9 +97,9 @@ bool Kanjidic2GUIPlugin::onRegister()
 	connect(_readingPractice, SIGNAL(triggered()), this, SLOT(readingPractice()));
 
 	// Add the components searcher to the tool bar
-	QToolBar *toolBar = mainWindow->toolBar();
-	_cButton = new ComponentSearchButton(mainWindow);
-	toolBar->addWidget(_cButton);
+	//QToolBar *toolBar = mainWindow->toolBar();
+	//_cButton = new ComponentSearchButton(mainWindow);
+	//toolBar->addWidget(_cButton);
 
 	// Register the searchbar extender
 	_filter = new Kanjidic2FilterWidget(0);

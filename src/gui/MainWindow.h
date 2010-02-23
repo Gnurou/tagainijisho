@@ -59,6 +59,7 @@ private:
 	static PreferenceItem<QByteArray> windowState;
 	static MainWindow *_instance;
 
+	QToolBar *_filtersToolBar;
 	// Used by sets
 	QList<QAction *> _rootActions;
 	QList<QMenu *> _rootMenus;
@@ -141,7 +142,7 @@ public:
 	~MainWindow();
 	static MainWindow *instance() { return _instance; }
 	
-	QToolBar *toolBar() { return _toolsToolBar; }
+	//QToolBar *toolBar() { return _toolsToolBar; }
 
 	QMenu *fileMenu() { return _fileMenu; }
 	QMenu *searchMenu() { return _searchMenu; }

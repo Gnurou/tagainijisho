@@ -22,6 +22,7 @@
 #include <QMap>
 #include <QToolButton>
 #include <QVBoxLayout>
+#include <QWidgetAction>
 
 #include "gui/ElidedPushButton.h"
 
@@ -30,32 +31,51 @@ class MultiStackedWidgetButton : public ElidedPushButton<QToolButton> {
 private:
 	QWidget *_altWidget;
 	QString _currentTitle;
+	QAction *_resetAction;
 
-	void rewriteCurrentTitle();
+	//void rewriteCurrentTitle();
+
+private slots:
+	void onResetActionChanged();
 
 public:
-	MultiStackedWidgetButton(QWidget *parent = 0);
+	MultiStackedWidgetButton(QAction* action, QAction* resetAction, QWidget* parent = 0);
 	QWidget *altWidget() { return _altWidget; }
 	void setAltWidget(QWidget *widget) { _altWidget = widget; }
 
-	void setText(const QString &str);
+	//void setText(const QString &str);
 	void showAltWidget();
 	void hideAltWidget();
 
 	virtual void resizeEvent(QResizeEvent *event);
 };
 
+class ToolBarWidget : public QWidgetAction
+{
+	Q_OBJECT
+private:
+	QPair<QAction *, QAction *> _actions;
+protected:
+	virtual QWidget *createWidget(QWidget *parent)
+	{
+		MultiStackedWidgetButton *button = new MultiStackedWidgetButton(_actions.first, _actions.second, parent);
+		return button;
+	}
+public:
+	ToolBarWidget(QPair<QAction *, QAction *> actions, QObject *parent = 0) : QWidgetAction(parent), _actions(actions) { }
+};
+
 struct StackedWidgetEntryInfo {
 	QString label;
-	MultiStackedWidgetButton *button;
+	QPair<QAction *, QAction *> actions;
 };
 
 class MultiStackedWidget : public QWidget {
 	Q_OBJECT
 private:
 	QVBoxLayout *_layout;
-	QList<MultiStackedWidgetButton *> _toolButtons;
 	QMap<QWidget *, StackedWidgetEntryInfo> _buttonMap;
+	QList<QAction *> _orderedActions;
 
 protected:
 	QWidget *getWidgetByLabel(const QString &label);
@@ -63,7 +83,7 @@ protected:
 public:
 	MultiStackedWidget(QWidget *parent = 0);
 
-	MultiStackedWidgetButton* addWidget(const QString &label, QWidget *widget);
+	QPair<QAction *, QAction *> addWidget(const QString &label, QWidget *widget);
 	void removeWidget(QWidget *widget);
 
 	void setWidgetEnabled(QWidget *widget, bool enabled);

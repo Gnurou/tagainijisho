@@ -46,17 +46,6 @@
     <addaction name="separator"/>
     <addaction name="action_Quit"/>
    </widget>
-   <widget class="QMenu" name="_resultsMenu">
-    <property name="title">
-     <string>&amp;Results</string>
-    </property>
-    <addaction name="action_Print"/>
-    <addaction name="actionPrint_preview"/>
-    <addaction name="actionPrint_booklet_s"/>
-    <addaction name="actionBooklet_s_preview"/>
-    <addaction name="separator"/>
-    <addaction name="action_Export_displayed_entries"/>
-   </widget>
    <widget class="QMenu" name="_trainMenu">
     <property name="title">
      <string>&amp;Practice</string>
@@ -75,6 +64,12 @@
     <addaction name="actionSupport_Tagaini_Jisho_Make_a_donation"/>
     <addaction name="action_About"/>
    </widget>
+   <widget class="QMenu" name="_searchMenu">
+    <property name="title">
+     <string>&amp;Search</string>
+    </property>
+    <addaction name="actionResetSearch"/>
+   </widget>
    <widget class="QMenu" name="_setsMenu">
     <property name="title">
      <string>&amp;Sets</string>
@@ -84,49 +79,11 @@
     <addaction name="action_Organize_sets"/>
     <addaction name="separator"/>
    </widget>
-   <widget class="QMenu" name="_searchMenu">
-    <property name="title">
-     <string>&amp;Search</string>
-    </property>
-    <addaction name="actionResetSearch"/>
-   </widget>
    <addaction name="_fileMenu"/>
    <addaction name="_searchMenu"/>
-   <addaction name="_resultsMenu"/>
    <addaction name="_setsMenu"/>
    <addaction name="_trainMenu"/>
    <addaction name="_helpMenu"/>
-  </widget>
-  <widget class="QToolBar" name="_toolsToolBar">
-   <property name="enabled">
-    <bool>true</bool>
-   </property>
-   <property name="windowTitle">
-    <string>Tools</string>
-   </property>
-   <property name="movable">
-    <bool>true</bool>
-   </property>
-   <property name="floatable">
-    <bool>false</bool>
-   </property>
-   <attribute name="toolBarArea">
-    <enum>TopToolBarArea</enum>
-   </attribute>
-   <attribute name="toolBarBreak">
-    <bool>false</bool>
-   </attribute>
-  </widget>
-  <widget class="QToolBar" name="_filtersToolBar">
-   <property name="windowTitle">
-    <string>Search filters</string>
-   </property>
-   <attribute name="toolBarArea">
-    <enum>TopToolBarArea</enum>
-   </attribute>
-   <attribute name="toolBarBreak">
-    <bool>false</bool>
-   </attribute>
   </widget>
   <widget class="QDockWidget" name="searchDockWidget">
    <property name="windowTitle">
@@ -135,7 +92,7 @@
    <attribute name="dockWidgetArea">
     <number>4</number>
    </attribute>
-   <widget class="QWidget" name="dockWidgetContents">
+   <widget class="QWidget" name="searchDockWidgetContents">
     <layout class="QVBoxLayout" name="verticalLayout_2">
      <item>
       <widget class="QScrollArea" name="filtersScrollArea">
@@ -756,22 +713,6 @@
     <hint type="destinationlabel">
      <x>449</x>
      <y>324</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>searchDockWidget</sender>
-   <signal>visibilityChanged(bool)</signal>
-   <receiver>_filtersToolBar</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>449</x>
-     <y>105</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>453</x>
-     <y>23</y>
     </hint>
    </hints>
   </connection>

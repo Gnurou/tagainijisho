@@ -25,16 +25,28 @@
 
 #define ALTWIDGETSIZE 20
 
-MultiStackedWidgetButton::MultiStackedWidgetButton(QWidget *parent) : ElidedPushButton<QToolButton>(parent)
+MultiStackedWidgetButton::MultiStackedWidgetButton(QAction *action, QAction *resetAction, QWidget *parent) : ElidedPushButton<QToolButton>(parent), _resetAction(resetAction)
 {
-	QToolButton *alt = new QToolButton(this);
-	alt->setIcon(QIcon(":/images/icons/reset-search.png"));
-	alt->setAutoRaise(true);
-	alt->setToolTip(tr("Reset this extender"));
-	alt->hide();
+	QFont fnt = font();
+	fnt.setPointSize(fnt.pointSize() - 1);
+	setFont(fnt);
+	setAutoRaise(true);
+	setCheckable(true);
 	setMaxTextWidth(150);
+	setDefaultAction(action);
+	QToolButton *alt = new QToolButton(this);
+	alt->setAutoRaise(true);
+	alt->hide();
+	alt->setDefaultAction(resetAction);
 	_altWidget = alt;
 	setMinimumHeight(ALTWIDGETSIZE + 2);
+	connect(resetAction, SIGNAL(changed()), this, SLOT(onResetActionChanged()));
+}
+
+void MultiStackedWidgetButton::onResetActionChanged()
+{
+	if (_resetAction->isEnabled()) showAltWidget();
+	else hideAltWidget();
 }
 
 void MultiStackedWidgetButton::resizeEvent(QResizeEvent *event)
@@ -44,12 +56,13 @@ void MultiStackedWidgetButton::resizeEvent(QResizeEvent *event)
 	_altWidget->setGeometry((event->size().width() - 3 - ALTWIDGETSIZE), (event->size().height() - ALTWIDGETSIZE) / 2, ALTWIDGETSIZE, ALTWIDGETSIZE);
 }
 
+/*
 void MultiStackedWidgetButton::setText(const QString &str)
 {
 	_currentTitle = str;
 	rewriteCurrentTitle();
-}
-
+}*/
+/*
 void MultiStackedWidgetButton::rewriteCurrentTitle()
 {
 	if (_altWidget && _altWidget->isVisible()) {
@@ -64,13 +77,13 @@ void MultiStackedWidgetButton::rewriteCurrentTitle()
 	else {
 		ElidedPushButton<QToolButton>::setText(_currentTitle);
 	}
-}
+}*/
 
 void MultiStackedWidgetButton::showAltWidget()
 {
 	if (_altWidget) {
 		_altWidget->show();
-		rewriteCurrentTitle();
+		//rewriteCurrentTitle();
 	}
 }
 
@@ -111,33 +124,30 @@ MultiStackedWidget::MultiStackedWidget(QWidget *parent) : QWidget(parent)
 	addAction(popupShortcut);
 }
 
-MultiStackedWidgetButton *MultiStackedWidget::addWidget(const QString &label, QWidget *widget)
+QPair<QAction *, QAction *> MultiStackedWidget::addWidget(const QString &label, QWidget *widget)
 {
-	MultiStackedWidgetButton *button = new MultiStackedWidgetButton(this);
-	QFont font = button->font();
-	font.setPointSize(font.pointSize() - 1);
-	button->setFont(font);
-	button->setText(label);
-	button->setAutoRaise(true);
-	button->setCheckable(true);
-	connect(button->altWidget(), SIGNAL(clicked()), widget, SLOT(reset()));
+	QAction *action = new QAction(label, this);
+	action->setCheckable(true);
+	connect(action, SIGNAL(toggled(bool)), this, SLOT(onButtonToggled()));
+	QAction *resetAction = new QAction(QIcon(":/images/icons/reset-search.png"), tr("Reset this filter"), this);
+	resetAction->setEnabled(false);
+	connect(resetAction, SIGNAL(triggered()), widget, SLOT(reset()));
+	QPair<QAction *, QAction *> actions(action, resetAction);
 	widget->setVisible(false);
 	StackedWidgetEntryInfo info;
 	info.label = label;
-	info.button = button;
+	info.actions = actions;
 	_buttonMap[widget] = info;
+	_orderedActions << action;
 	_layout->addWidget(widget);
-	connect(button, SIGNAL(toggled(bool)), this, SLOT(onButtonToggled()));
-	_toolButtons << button;
-	return button;
+	return actions;
 }
 
 void MultiStackedWidget::removeWidget(QWidget *widget)
 {
 	if (!_buttonMap.contains(widget)) return;
 	_layout->removeWidget(widget);
-	//hideWidget(widget);
-	_toolButtons.removeOne(_buttonMap[widget].button);
+	_orderedActions.removeOne(_buttonMap[widget].actions.first);
 	_buttonMap.remove(widget);
 }
 
@@ -145,8 +155,8 @@ void MultiStackedWidget::showWidget(QWidget *widget)
 {
 	if (!_buttonMap.contains(widget)) return;
 	if (!widget->isVisible()) {
-		foreach (QWidget *otherWidget, _buttonMap.keys()) if (otherWidget->isVisible()) _buttonMap[otherWidget].button->click();
-		_buttonMap[widget].button->setChecked(true);
+		foreach (QWidget *otherWidget, _buttonMap.keys()) if (otherWidget->isVisible()) _buttonMap[otherWidget].actions.first->toggle();
+		_buttonMap[widget].actions.first->setChecked(true);
 		widget->setVisible(true);
 		widget->setFocus();
 	}
@@ -158,7 +168,7 @@ void MultiStackedWidget::hideWidget(QWidget *widget)
 	if (!_buttonMap.contains(widget)) return;
 	if (widget->isVisible()) {
 		widget->setVisible(false);
-		_buttonMap[widget].button->setChecked(false);
+		_buttonMap[widget].actions.first->setChecked(false);
 	}
 	updateGeometry();
 }
@@ -180,7 +190,7 @@ void MultiStackedWidget::onButtonToggled()
 	QObject *signalSender = sender();
 	QWidget *widget = 0;
 	foreach(QWidget *key, _buttonMap.keys()) {
-		if (_buttonMap[key].button == signalSender) {
+		if (_buttonMap[key].actions.first == signalSender) {
 			widget = key;
 			break;
 		}
@@ -196,16 +206,12 @@ void MultiStackedWidget::onTitleChanged(const QString &newTitle)
 	if (!_buttonMap.contains(signalSender)) return;
 	const StackedWidgetEntryInfo &info = _buttonMap[signalSender];
 	if (newTitle == info.label) {
-//		info.button->setBackgroundRole(QPalette::Button);
-//		info.button->setAutoFillBackground(false);
-		info.button->hideAltWidget();
-		info.button->setText(_buttonMap[signalSender].label);
+		info.actions.second->setEnabled(false);
+		info.actions.first->setText(_buttonMap[signalSender].label);
 	}
 	else {
-//		info.button->setAutoFillBackground(true);
-//		info.button->setBackgroundRole(QPalette::Mid);
-		info.button->showAltWidget();
-		info.button->setText(newTitle);
+		info.actions.second->setEnabled(true);
+		info.actions.first->setText(newTitle + "    ");
 	}
 }
 
@@ -214,10 +220,10 @@ void MultiStackedWidget::setWidgetEnabled(QWidget *widget, bool enabled)
 	if (!_buttonMap.contains(widget)) return;
 	const StackedWidgetEntryInfo &info = _buttonMap[widget];
 
-	if (!enabled && info.button->isChecked()) {
-		info.button->click();
+	if (!enabled && info.actions.first->isChecked()) {
+		info.actions.first->toggle();
 	}
-	info.button->setEnabled(enabled);
+	info.actions.first->setEnabled(enabled);
 	widget->setEnabled(enabled);
 }
 
@@ -225,13 +231,13 @@ void MultiStackedWidget::onShortcutTriggered()
 {
 	QAction *action = qobject_cast<QAction *>(sender());
 	int nbr = action->property("buttonNbr").toInt();
-	if (nbr >= _toolButtons.size()) return;
-	_toolButtons[nbr]->click();
+	if (nbr >= _orderedActions.size()) return;
+	_orderedActions[nbr]->trigger();
 }
 
 void MultiStackedWidget::hideAllExtenders()
 {
 	foreach(QWidget *key, _buttonMap.keys()) {
-		if (_buttonMap[key].button->isChecked()) _buttonMap[key].button->click();
+		if (_buttonMap[key].actions.first->isChecked()) _buttonMap[key].actions.first->trigger();
 	}
 }

@@ -109,6 +109,23 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), _history(historyS
 	// Search builder
 	connect(&_searchBuilder, SIGNAL(queryRequested(QString)), this, SLOT(search(QString)));
 	
+	_filtersToolBar = new QToolBar(searchDockWidgetContents);
+	//_filtersToolBar->setIconSize(QSize(10, 10));
+	QVBoxLayout *fLayout(static_cast<QVBoxLayout *>(searchDockWidgetContents->layout()));
+	fLayout->insertWidget(0, _filtersToolBar);
+	QMenu *entriesMenu = new QMenu(searchDockWidget);
+	entriesMenu->addAction(action_Print);
+	entriesMenu->addAction(actionPrint_preview);
+	entriesMenu->addAction(actionPrint_booklet_s);
+	entriesMenu->addAction(actionBooklet_s_preview);
+	entriesMenu->addSeparator();
+	entriesMenu->addAction(action_Export_displayed_entries);
+	QAction *entriesMenuAction = new QAction(QIcon(QPixmap(":/images/icons/print.png")), tr("Results"), _filtersToolBar);
+	entriesMenuAction->setMenu(entriesMenu);
+	_filtersToolBar->addAction(entriesMenuAction);
+	// Fix the behavior of the entries button
+	QToolButton *tButton = qobject_cast<QToolButton *>(_filtersToolBar->widgetForAction(entriesMenuAction));
+	if (tButton) tButton->setPopupMode(QToolButton::InstantPopup);
 	// Search filters
 	EntryTypeFilterWidget *typeFilter = new EntryTypeFilterWidget(this);
 	_searchFilterWidgets[typeFilter->name()] = typeFilter;
@@ -174,7 +191,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), _history(historyS
 	setCorner(Qt::BottomLeftCorner, Qt::LeftDockWidgetArea);
 	setCorner(Qt::TopRightCorner, Qt::RightDockWidgetArea);
 	setCorner(Qt::BottomRightCorner, Qt::RightDockWidgetArea);
-	_filtersToolBar->setEnabled(searchDockWidget->isVisible());
 	
 	// Display selected items in the results view
 	connect(_resultsView->resultsView(), SIGNAL(listSelectionChanged(QItemSelection,QItemSelection)), this, SLOT(display(QItemSelection,QItemSelection)));
@@ -592,7 +608,7 @@ void MainWindow::addSearchFilter(SearchFilterWidget *sWidget)
 {
 	if (_searchBuilder.contains(sWidget->name())) return;
 	_searchFilterWidgets[sWidget->name()] = sWidget;
-	_filtersToolBar->addWidget(_searchFilters->addWidget(sWidget->currentTitle(), sWidget));
+	_filtersToolBar->addAction(new ToolBarWidget(_searchFilters->addWidget(sWidget->currentTitle(), sWidget), _filtersToolBar));
 	connect(sWidget, SIGNAL(updateTitle(const QString &)), _searchFilters, SLOT(onTitleChanged(const QString &)));
 	_searchBuilder.addSearchFilter(sWidget);
 }
