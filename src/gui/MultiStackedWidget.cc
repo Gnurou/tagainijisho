@@ -25,21 +25,19 @@
 
 #define ALTWIDGETSIZE 20
 
-MultiStackedWidgetButton::MultiStackedWidgetButton(QAction *action, QAction *resetAction, QWidget *parent) : ElidedPushButton<QToolButton>(parent), _resetAction(resetAction)
+MultiStackedWidgetButton::MultiStackedWidgetButton(QAction *action, QAction *resetAction, QWidget *parent) : ElidedPushButton<QToolButton>(parent), _action(action), _resetAction(resetAction)
 {
-	QFont fnt = font();
-	fnt.setPointSize(fnt.pointSize() - 1);
-	setFont(fnt);
 	setAutoRaise(true);
 	setCheckable(true);
 	setMaxTextWidth(150);
 	setDefaultAction(action);
 	QToolButton *alt = new QToolButton(this);
 	alt->setAutoRaise(true);
-	alt->hide();
 	alt->setDefaultAction(resetAction);
+	alt->setVisible(resetAction->isEnabled());
 	_altWidget = alt;
 	setMinimumHeight(ALTWIDGETSIZE + 2);
+	connect(action, SIGNAL(changed()), this, SLOT(onActionChanged()));
 	connect(resetAction, SIGNAL(changed()), this, SLOT(onResetActionChanged()));
 }
 
@@ -49,6 +47,11 @@ void MultiStackedWidgetButton::onResetActionChanged()
 	else hideAltWidget();
 }
 
+void MultiStackedWidgetButton::onActionChanged()
+{
+	setText(_action->text());
+}
+
 void MultiStackedWidgetButton::resizeEvent(QResizeEvent *event)
 {
 	QToolButton::resizeEvent(event);
@@ -56,13 +59,12 @@ void MultiStackedWidgetButton::resizeEvent(QResizeEvent *event)
 	_altWidget->setGeometry((event->size().width() - 3 - ALTWIDGETSIZE), (event->size().height() - ALTWIDGETSIZE) / 2, ALTWIDGETSIZE, ALTWIDGETSIZE);
 }
 
-/*
 void MultiStackedWidgetButton::setText(const QString &str)
 {
 	_currentTitle = str;
 	rewriteCurrentTitle();
-}*/
-/*
+}
+
 void MultiStackedWidgetButton::rewriteCurrentTitle()
 {
 	if (_altWidget && _altWidget->isVisible()) {
@@ -77,13 +79,13 @@ void MultiStackedWidgetButton::rewriteCurrentTitle()
 	else {
 		ElidedPushButton<QToolButton>::setText(_currentTitle);
 	}
-}*/
+}
 
 void MultiStackedWidgetButton::showAltWidget()
 {
 	if (_altWidget) {
 		_altWidget->show();
-		//rewriteCurrentTitle();
+		rewriteCurrentTitle();
 	}
 }
 
@@ -97,13 +99,9 @@ void MultiStackedWidgetButton::hideAltWidget()
 MultiStackedWidget::MultiStackedWidget(QWidget *parent) : QWidget(parent)
 {
 	setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
-	QVBoxLayout *mainLayout = new QVBoxLayout(this);
-	mainLayout->setContentsMargins(0, 0, 0, 0);
-	mainLayout->setSpacing(0);
-	_layout = new QVBoxLayout();
+	_layout = new QVBoxLayout(this);
 	_layout->setContentsMargins(0, 0, 0, 0);
 	_layout->setSpacing(0);
-	mainLayout->addLayout(_layout);
 
 	QAction *popupShortcut = new QAction(this);
 	for (int i = 1; i < 10; i++) {
@@ -211,7 +209,7 @@ void MultiStackedWidget::onTitleChanged(const QString &newTitle)
 	}
 	else {
 		info.actions.second->setEnabled(true);
-		info.actions.first->setText(newTitle + "    ");
+		info.actions.first->setText(newTitle);
 	}
 }
 

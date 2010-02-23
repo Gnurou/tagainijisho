@@ -22,7 +22,7 @@
 EntryTypeFilterWidget::EntryTypeFilterWidget(QWidget *parent) : SearchFilterWidget(parent)
 {
 	_propsToSave << "type";
-
+	
 	_comboBox = new QComboBox(this);
 	_comboBox->addItem(tr("All"), 0);
 	_comboBox->addItem(tr("Vocabulary"), 1);

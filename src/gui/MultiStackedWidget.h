@@ -31,11 +31,12 @@ class MultiStackedWidgetButton : public ElidedPushButton<QToolButton> {
 private:
 	QWidget *_altWidget;
 	QString _currentTitle;
-	QAction *_resetAction;
+	QAction *const _action, *const _resetAction;
 
-	//void rewriteCurrentTitle();
+	void rewriteCurrentTitle();
 
 private slots:
+	void onActionChanged();
 	void onResetActionChanged();
 
 public:
@@ -43,7 +44,7 @@ public:
 	QWidget *altWidget() { return _altWidget; }
 	void setAltWidget(QWidget *widget) { _altWidget = widget; }
 
-	//void setText(const QString &str);
+	void setText(const QString &str);
 	void showAltWidget();
 	void hideAltWidget();
 

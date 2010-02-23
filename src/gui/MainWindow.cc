@@ -110,7 +110,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), _history(historyS
 	connect(&_searchBuilder, SIGNAL(queryRequested(QString)), this, SLOT(search(QString)));
 	
 	_filtersToolBar = new QToolBar(searchDockWidgetContents);
-	//_filtersToolBar->setIconSize(QSize(10, 10));
+	_filtersToolBar->layout()->setContentsMargins(0, 0, 0, 0);
 	QVBoxLayout *fLayout(static_cast<QVBoxLayout *>(searchDockWidgetContents->layout()));
 	fLayout->insertWidget(0, _filtersToolBar);
 	QMenu *entriesMenu = new QMenu(searchDockWidget);
@@ -126,6 +126,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), _history(historyS
 	// Fix the behavior of the entries button
 	QToolButton *tButton = qobject_cast<QToolButton *>(_filtersToolBar->widgetForAction(entriesMenuAction));
 	if (tButton) tButton->setPopupMode(QToolButton::InstantPopup);
+	//_filtersToolBar->setMaximumHeight(tButton->sizeHint().height());
 	// Search filters
 	EntryTypeFilterWidget *typeFilter = new EntryTypeFilterWidget(this);
 	_searchFilterWidgets[typeFilter->name()] = typeFilter;
