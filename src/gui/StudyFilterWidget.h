@@ -35,6 +35,8 @@ protected:
 
 private:
 	QRadioButton *allEntriesButton, *studiedEntriesButton, *nonStudiedEntriesButton;
+
+	QGroupBox *scoreBox;
 	QSpinBox *minSpinBox, *maxSpinBox;
 
 	QGroupBox *studyBox;

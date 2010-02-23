@@ -25,9 +25,9 @@ StudyFilterWidget::StudyFilterWidget(QWidget *parent) : SearchFilterWidget(paren
 {
 	_propsToSave << "studyState" << "studyMinScore" << "studyMaxScore" << "studyMinDate" << "studyMaxDate" << "trainMinDate" << "trainMaxDate" <<"mistakenMinDate" << "mistakenMaxDate";
 
-	QGroupBox *scoreBox = new QGroupBox(tr("Score"), this);
+	scoreBox = new QGroupBox(tr("Score"), this);
 	scoreBox->setEnabled(false);
-//	scoreBox->setVisible(false);
+	scoreBox->setVisible(false);
 	{
 		QSlider *minSlider = new QSlider(scoreBox);
 		minSlider->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed);
@@ -65,7 +65,7 @@ StudyFilterWidget::StudyFilterWidget(QWidget *parent) : SearchFilterWidget(paren
 
 	studyBox = new QGroupBox(tr("Study date"), this);
 	studyBox->setEnabled(false);
-//	studyBox->setVisible(false);
+	studyBox->setVisible(false);
 	connect(studyBox, SIGNAL(toggled(bool)), this, SLOT(commandUpdate()));
 	{
 		QDate infDate, supDate;
@@ -95,7 +95,7 @@ StudyFilterWidget::StudyFilterWidget(QWidget *parent) : SearchFilterWidget(paren
 
 	trainBox = new QGroupBox(tr("Last trained"), this);
 	trainBox->setEnabled(false);
-//	trainBox->setVisible(false);
+	trainBox->setVisible(false);
 	connect(trainBox, SIGNAL(toggled(bool)), this, SLOT(commandUpdate()));
 	{
 		QDate infDate, supDate;
@@ -125,7 +125,7 @@ StudyFilterWidget::StudyFilterWidget(QWidget *parent) : SearchFilterWidget(paren
 
 	mistakeBox = new QGroupBox(tr("Last mistaken"), this);
 	mistakeBox->setEnabled(false);
-//	mistakeBox->setVisible(false);
+	mistakeBox->setVisible(false);
 	connect(mistakeBox, SIGNAL(toggled(bool)), this, SLOT(commandUpdate()));
 	{
 		QDate infDate, supDate;
@@ -169,10 +169,10 @@ StudyFilterWidget::StudyFilterWidget(QWidget *parent) : SearchFilterWidget(paren
 		connect(studiedEntriesButton, SIGNAL(toggled(bool)), studyBox, SLOT(setEnabled(bool)));
 		connect(studiedEntriesButton, SIGNAL(toggled(bool)), trainBox, SLOT(setEnabled(bool)));
 		connect(studiedEntriesButton, SIGNAL(toggled(bool)), mistakeBox, SLOT(setEnabled(bool)));
-/*		connect(studiedEntriesButton, SIGNAL(toggled(bool)), scoreBox, SLOT(setVisible(bool)));
+		connect(studiedEntriesButton, SIGNAL(toggled(bool)), scoreBox, SLOT(setVisible(bool)));
 		connect(studiedEntriesButton, SIGNAL(toggled(bool)), studyBox, SLOT(setVisible(bool)));
 		connect(studiedEntriesButton, SIGNAL(toggled(bool)), trainBox, SLOT(setVisible(bool)));
-		connect(studiedEntriesButton, SIGNAL(toggled(bool)), mistakeBox, SLOT(setVisible(bool)));*/
+		connect(studiedEntriesButton, SIGNAL(toggled(bool)), mistakeBox, SLOT(setVisible(bool)));
 
 		QHBoxLayout *hLayout = new QHBoxLayout(entriesBox);
 		hLayout->addWidget(new QLabel(tr("Study status:"), entriesBox));
@@ -199,7 +199,7 @@ StudyFilterWidget::StudyFilterWidget(QWidget *parent) : SearchFilterWidget(paren
 
 void StudyFilterWidget::onRadioButtonToggled(bool toggled)
 {
-		if (toggled) commandUpdate();
+	if (toggled) commandUpdate();
 }
 
 QString StudyFilterWidget::currentCommand() const

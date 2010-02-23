@@ -27,6 +27,10 @@
 
 MultiStackedWidgetButton::MultiStackedWidgetButton(QAction *action, QAction *resetAction, QWidget *parent) : ElidedPushButton<QToolButton>(parent), _action(action), _resetAction(resetAction)
 {
+	QFont fnt(font());
+	fnt.setPointSize(fnt.pointSize() - 1);
+	setFont(fnt);
+
 	setAutoRaise(true);
 	setCheckable(true);
 	setMaxTextWidth(150);

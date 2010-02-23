@@ -22,6 +22,9 @@
 EntryTypeFilterWidget::EntryTypeFilterWidget(QWidget *parent) : SearchFilterWidget(parent)
 {
 	_propsToSave << "type";
+	QFont fnt(font());
+	fnt.setPointSize(fnt.pointSize() - 1);
+	setFont(fnt);
 	
 	_comboBox = new QComboBox(this);
 	_comboBox->addItem(tr("All"), 0);
