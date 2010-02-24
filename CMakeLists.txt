@@ -1,5 +1,5 @@
 project(tagainijisho)
-set(VERSION 0.2.4.80)
+set(VERSION 0.2.4.85)
 cmake_minimum_required(VERSION 2.6.0)
 find_package(Qt4 4.5 REQUIRED)
 
