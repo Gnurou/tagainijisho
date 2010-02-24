@@ -42,9 +42,16 @@ extern QSettings &_prefsSettings();
 class PreferenceRoot : public QObject
 {
 	Q_OBJECT
+protected:
+	const QString _group;
+	const QString _name;
+	bool _isDefault;
+	
 public:
-	PreferenceRoot(QObject *parent = 0) : QObject(parent) {}
+	PreferenceRoot(const QString &group, const QString &name, QObject *parent = 0) : QObject(parent),  _group(group), _name(name) {}
 	virtual ~PreferenceRoot() {}
+	const QString &group() const { return _group; }
+	const QString &name() const { return _name; }
 
 public slots:
 	virtual void setValue(QVariant newValue) = 0;
@@ -62,12 +69,9 @@ class PreferenceItem : public PreferenceRoot {
 private:
 	T _value;
 	T _defaultValue;
-	const QString _group;
-	const QString _name;
-	bool _isDefault;
 
 public:
-	PreferenceItem(const QString &group, const QString &name, const T &defaultValue) : _defaultValue(defaultValue), _group(group), _name(name) {
+	PreferenceItem(const QString &group, const QString &name, const T &defaultValue, QObject *parent = 0) : PreferenceRoot(group, name, parent), _defaultValue(defaultValue) {
 		_settingsMutex().lock();
 		_prefsSettings().beginGroup(_group);
 		_value = qVariantValue<T>(_prefsSettings().value(_name, _defaultValue));
@@ -95,6 +99,7 @@ public:
 	 * Reset the preference to its default value.
 	 */
 	void reset() {
+		bool toEmit(value() != defaultValue());
 		_settingsMutex().lock();
 		_prefsSettings().beginGroup(_group);
 		_prefsSettings().remove(_name);
@@ -102,6 +107,7 @@ public:
 		_value = _defaultValue;
 		_isDefault = true;
 		_settingsMutex().unlock();
+		if (toEmit) emit valueChanged(value());
 	}
 
 	void setValue(QVariant newValue) {

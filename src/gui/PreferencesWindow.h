@@ -163,24 +163,9 @@ protected slots:
 public slots:
 	void applySettings();
 	void refresh();
-	void updateUI();
 
 public:
 	ResultsViewPreferences(QWidget *parent = 0);
-};
-
-class PreferencesDetailedViewExample : public DetailedView
-{
-	Q_OBJECT
-public:
-	PreferencesDetailedViewExample(QWidget *parent = 0);
-
-public slots:
-	void redrawKanasHeader(const QFont &font);
-	void redrawKanjisHeader(const QFont &font);
-	void redrawKanas(const QFont &font);
-	void redrawKanjis(const QFont &font);
-	void redrawRomajis(const QFont &font);
 };
 
 #include "gui/ui_ListsViewPreferences.h"
@@ -201,7 +186,20 @@ public:
 public slots:
 	void applySettings();
 	void refresh();
-	void updateUI();
+};
+
+class PreferencesDetailedViewExample : public DetailedView
+{
+	Q_OBJECT
+public:
+	PreferencesDetailedViewExample(QWidget *parent = 0);
+
+public slots:
+	void redrawKanasHeader(const QFont &font);
+	void redrawKanjisHeader(const QFont &font);
+	void redrawKanas(const QFont &font);
+	void redrawKanjis(const QFont &font);
+	void redrawRomajis(const QFont &font);
 };
 
 class DetailedViewPreferences : public PreferencesWindowCategory, private Ui::DetailedViewPreferences

@@ -47,6 +47,7 @@ private slots:
 	 * Used to update the view in case the layout changed.
 	 */
 	void updateLayout();
+	void updateConfig(const QVariant &value);
 
 protected:
 	void contextMenuEvent(QContextMenuEvent *event);
@@ -57,17 +58,20 @@ protected slots:
 
 public:
 	EntryListView(QWidget* parent = 0, EntryDelegateLayout* delegateLayout = 0, bool viewOnly = false);
-	
-	void setSmoothScrolling(bool value);
 	EntryDelegateLayout *delegateLayout() { return _delegateLayout; }
+	
+	bool smoothScrolling() const { return verticalScrollMode() == QAbstractItemView::ScrollPerPixel; }
+	void setSmoothScrolling(bool value);
+	Q_PROPERTY(bool smoothScrolling READ smoothScrolling WRITE setSmoothScrolling);
+
 	QAction *newListAction() { return &_newListAction; }
 	QAction *deleteSelectionAction() { return &_deleteSelectionAction; }
 
-	static PreferenceItem<bool> smoothScrolling;
-	static PreferenceItem<QString> kanjiFont;
-	static PreferenceItem<QString> kanaFont;
-	static PreferenceItem<QString> textFont;
-	static PreferenceItem<int> displayMode;
+	static PreferenceItem<bool> smoothScrollingSetting;
+	static PreferenceItem<QString> kanjiFontSetting;
+	static PreferenceItem<QString> kanaFontSetting;
+	static PreferenceItem<QString> textFontSetting;
+	static PreferenceItem<int> displayModeSetting;
 
 public slots:
 	void newList();

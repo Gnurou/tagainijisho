@@ -53,21 +53,24 @@ protected:
 
 public:
 	ResultsView(QWidget* parent = 0, EntryDelegateLayout* delegateLayout = 0, bool viewOnly = false);
-
-	void setSmoothScrolling(bool value);
 	EntryDelegateLayout *delegateLayout() { return _delegateLayout; }
 
-	static PreferenceItem<bool> smoothScrolling;
-	static PreferenceItem<QString> kanjiFont;
-	static PreferenceItem<QString> kanaFont;
-	static PreferenceItem<QString> textFont;
-	static PreferenceItem<int> displayMode;
+	bool smoothScrolling() const { return verticalScrollMode() == QAbstractItemView::ScrollPerPixel; }
+	void setSmoothScrolling(bool value);
+	Q_PROPERTY(bool smoothScrolling READ smoothScrolling WRITE setSmoothScrolling);
+
+	static PreferenceItem<bool> smoothScrollingSetting;
+	static PreferenceItem<QString> kanjiFontSetting;
+	static PreferenceItem<QString> kanaFontSetting;
+	static PreferenceItem<QString> textFontSetting;
+	static PreferenceItem<int> displayModeSetting;
 	
 private slots:
 	/**
 	 * Used to update the view in case the layout changed.
 	 */
 	void updateLayout();
+	void updateConfig(const QVariant &value);
 
 signals:
 	// Used to abstract the selection model which may not be consistent

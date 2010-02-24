@@ -218,19 +218,19 @@ EntryDelegatePreferences::EntryDelegatePreferences(QWidget *parent) : QWidget(pa
 	
 	QLayout *topLayout = layout();
 	QFont kFont;
-	kFont.fromString(ResultsView::kanjiFont.defaultValue());
+	kFont.fromString(ResultsView::kanjiFontSetting.defaultValue());
 	kanjifontChooser = new PreferencesFontChooser(tr("Main writing"), kFont, this);
 	connect(kanjifontChooser, SIGNAL(fontChanged(const QFont &)), this, SLOT(setKanjiFont(const QFont &)));
 	topLayout->addWidget(kanjifontChooser);
 
 	kFont = QFont();
-	kFont.fromString(ResultsView::kanaFont.defaultValue());
+	kFont.fromString(ResultsView::kanaFontSetting.defaultValue());
 	kanafontChooser = new PreferencesFontChooser(tr("Readings and alternate writings"), kFont, this);
 	connect(kanafontChooser, SIGNAL(fontChanged(const QFont &)), this, SLOT(setKanaFont(const QFont &)));
 	topLayout->addWidget(kanafontChooser);
 
 	kFont = QFont();
-	kFont.fromString(ResultsView::textFont.defaultValue());
+	kFont.fromString(ResultsView::textFontSetting.defaultValue());
 	romajifontChooser = new PreferencesFontChooser(tr("Definitions"), kFont, this);
 	connect(romajifontChooser, SIGNAL(fontChanged(const QFont &)), this, SLOT(setTextFont(const QFont &)));
 	topLayout->addWidget(romajifontChooser);
@@ -311,7 +311,7 @@ ResultsViewPreferences::ResultsViewPreferences(QWidget *parent) : PreferencesWin
 	setupUi(this);
 
 	// Configure the delegate layout
-	entryDelegatePrefs->setPrefsToWatch(&ResultsView::displayMode, &ResultsView::textFont, &ResultsView::kanjiFont, &ResultsView::kanaFont);
+	entryDelegatePrefs->setPrefsToWatch(&ResultsView::displayModeSetting, &ResultsView::textFontSetting, &ResultsView::kanjiFontSetting, &ResultsView::kanaFontSetting);
 	// Prepare the preview list
 	_list = new ResultsList(this);
 	_view = new ResultsView(this, entryDelegatePrefs->delegateLayout(), true);
@@ -328,7 +328,7 @@ void ResultsViewPreferences::refresh()
 {
 	nbResults->setValue(ResultsList::resultsPerPagePref.value());
 	resultsOrder->setCurrentIndex(EntrySearcherManager::studiedEntriesFirst.value());
-	smoothScrolling->setChecked(ResultsView::smoothScrolling.value());
+	smoothScrolling->setChecked(ResultsView::smoothScrollingSetting.value());
 
 	entryDelegatePrefs->refresh();
 }
@@ -336,30 +336,10 @@ void ResultsViewPreferences::refresh()
 void ResultsViewPreferences::applySettings()
 {
 	ResultsList::resultsPerPagePref.set(nbResults->value());
-	ResultsView::smoothScrolling.set(smoothScrolling->isChecked());
+	ResultsView::smoothScrollingSetting.set(smoothScrolling->isChecked());
 	EntrySearcherManager::studiedEntriesFirst.set(resultsOrder->currentIndex());
 	
 	entryDelegatePrefs->applySettings();
-}
-
-// TODO replace with preferences signals?
-void ResultsViewPreferences::updateUI()
-{
-	MainWindow::instance()->resultsView()->setSmoothScrolling(ResultsView::smoothScrolling.value());
-
-	EntryDelegateLayout *mwDelegateLayout = MainWindow::instance()->resultsView()->delegateLayout();
-	mwDelegateLayout->setDisplayMode(static_cast<EntryDelegateLayout::DisplayMode>(ResultsView::displayMode.value()));
-	QFont font;
-	font.fromString(ResultsView::textFont.value());
-	mwDelegateLayout->setFont(EntryDelegateLayout::DefaultText, font);
-	
-	font = QFont();
-	font.fromString(ResultsView::kanjiFont.value());
-	mwDelegateLayout->setFont(EntryDelegateLayout::Kanji, font);
-	
-	font = QFont();
-	font.fromString(ResultsView::kanaFont.value());
-	mwDelegateLayout->setFont(EntryDelegateLayout::Kana, font);
 }
 
 ListsViewPreferences::ListsViewPreferences(QWidget *parent) : PreferencesWindowCategory(tr("Lists"), parent)
@@ -367,7 +347,7 @@ ListsViewPreferences::ListsViewPreferences(QWidget *parent) : PreferencesWindowC
 	setupUi(this);
 
 	// Configure the delegate layout
-	entryDelegatePrefs->setPrefsToWatch(&EntryListView::displayMode, &EntryListView::textFont, &EntryListView::kanjiFont, &EntryListView::kanaFont);
+	entryDelegatePrefs->setPrefsToWatch(&EntryListView::displayModeSetting, &EntryListView::textFontSetting, &EntryListView::kanjiFontSetting, &EntryListView::kanaFontSetting);
 	// Prepare the preview list
 	_list = new ResultsList(this);
 	_view = new EntryListView(this, entryDelegatePrefs->delegateLayout(), true);
@@ -384,36 +364,16 @@ ListsViewPreferences::ListsViewPreferences(QWidget *parent) : PreferencesWindowC
 
 void ListsViewPreferences::refresh()
 {
-	smoothScrolling->setChecked(EntryListView::smoothScrolling.value());
+	smoothScrolling->setChecked(EntryListView::smoothScrollingSetting.value());
 
 	entryDelegatePrefs->refresh();
 }
 
 void ListsViewPreferences::applySettings()
 {
-	EntryListView::smoothScrolling.set(smoothScrolling->isChecked());
+	EntryListView::smoothScrollingSetting.set(smoothScrolling->isChecked());
 	
 	entryDelegatePrefs->applySettings();
-}
-
-// TODO Replace with preferences signals?
-void ListsViewPreferences::updateUI()
-{
-	MainWindow::instance()->entryListWidget()->entryListView()->setSmoothScrolling(EntryListView::smoothScrolling.value());
-
-	EntryDelegateLayout *mwDelegateLayout = MainWindow::instance()->entryListWidget()->entryListView()->delegateLayout();
-	mwDelegateLayout->setDisplayMode(static_cast<EntryDelegateLayout::DisplayMode>(EntryListView::displayMode.value()));
-	QFont font;
-	font.fromString(EntryListView::textFont.value());
-	mwDelegateLayout->setFont(EntryDelegateLayout::DefaultText, font);
-	
-	font = QFont();
-	font.fromString(EntryListView::kanjiFont.value());
-	mwDelegateLayout->setFont(EntryDelegateLayout::Kanji, font);
-	
-	font = QFont();
-	font.fromString(EntryListView::kanaFont.value());
-	mwDelegateLayout->setFont(EntryDelegateLayout::Kana, font);
 }
 
 DetailedViewPreferences::DetailedViewPreferences(QWidget *parent) : PreferencesWindowCategory(tr("Detailed View"), parent)

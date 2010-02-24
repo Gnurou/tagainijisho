@@ -46,7 +46,21 @@ public:
 
 	void setFont(FontRole role, const QFont &font);
 	void setDisplayMode(DisplayMode mode);
+	void setDisplayModeInt(int mode) { setDisplayMode(static_cast<DisplayMode>(mode)); }
+	Q_PROPERTY(int displayMode READ displayMode WRITE setDisplayModeInt);
+	QString getKanjiFont() const { return font(Kanji).toString(); }
+	void setKanjiFont(const QString &font) { QFont f; f.fromString(font); setFont(Kanji, f); }
+	Q_PROPERTY(QString kanjiFont READ getKanjiFont WRITE setKanjiFont);
+	QString getKanaFont() const { return font(Kana).toString(); }
+	void setKanaFont(const QString &font) { QFont f; f.fromString(font); setFont(Kana, f); }
+	Q_PROPERTY(QString kanaFont READ getKanaFont WRITE setKanaFont);
+	QString getTextFont() const { return font(DefaultText).toString(); }
+	void setTextFont(const QString &font) { QFont f; f.fromString(font); setFont(DefaultText, f); }
+	Q_PROPERTY(QString textFont READ getTextFont WRITE setTextFont);
 
+public slots:
+	void updateConfig(const QVariant &value);
+	
 signals:
 	void layoutHasChanged();
 };

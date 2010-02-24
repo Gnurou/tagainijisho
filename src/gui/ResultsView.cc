@@ -31,16 +31,16 @@
 #include <QPixmap>
 #include <QScrollBar>
 
-PreferenceItem<bool> ResultsView::smoothScrolling("mainWindow/resultsView", "smoothScrolling", true);
-PreferenceItem<QString> ResultsView::textFont("mainWindow/resultsView", "textFont", "");
-PreferenceItem<QString> ResultsView::kanaFont("mainWindow/resultsView", "kanaFont", "");
-PreferenceItem<QString> ResultsView::kanjiFont("mainWindow/resultsView", "kanjiFont", QFont("Helvetica", 15).toString());
-PreferenceItem<int> ResultsView::displayMode("mainWindow/resultsView", "displayMode", EntryDelegateLayout::TwoLines);
+PreferenceItem<bool> ResultsView::smoothScrollingSetting("mainWindow/resultsView", "smoothScrolling", true);
+PreferenceItem<QString> ResultsView::textFontSetting("mainWindow/resultsView", "textFont", "");
+PreferenceItem<QString> ResultsView::kanaFontSetting("mainWindow/resultsView", "kanaFont", "");
+PreferenceItem<QString> ResultsView::kanjiFontSetting("mainWindow/resultsView", "kanjiFont", QFont("Helvetica", 15).toString());
+PreferenceItem<int> ResultsView::displayModeSetting("mainWindow/resultsView", "displayMode", EntryDelegateLayout::TwoLines);
 
 ResultsView::ResultsView(QWidget *parent, EntryDelegateLayout *delegateLayout, bool viewOnly) : QListView(parent), helper(this), contextMenu()
 {
 	// If no delegate layout has been specified, let's use our private one...
-	if (!delegateLayout) delegateLayout = new EntryDelegateLayout(static_cast<EntryDelegateLayout::DisplayMode>(displayMode.value()), textFont.value(), kanjiFont.value(), kanaFont.value(), this);
+	if (!delegateLayout) delegateLayout = new EntryDelegateLayout(static_cast<EntryDelegateLayout::DisplayMode>(displayModeSetting.value()), textFontSetting.value(), kanjiFontSetting.value(), kanaFontSetting.value(), this);
 	connect(delegateLayout, SIGNAL(layoutHasChanged()), this, SLOT(updateLayout()));
 	_delegateLayout = delegateLayout;
 
@@ -57,7 +57,14 @@ ResultsView::ResultsView(QWidget *parent, EntryDelegateLayout *delegateLayout, b
 		helper.populateMenu(&contextMenu);
 	}
 	updateLayout();
-	setSmoothScrolling(smoothScrolling.value());
+	setSmoothScrolling(smoothScrollingSetting.value());
+
+	// Automatically update the view if the configuration changes
+	connect(&smoothScrollingSetting, SIGNAL(valueChanged(QVariant)), this, SLOT(updateConfig(QVariant)));
+	connect(&textFontSetting, SIGNAL(valueChanged(QVariant)), delegateLayout, SLOT(updateConfig(QVariant)));
+	connect(&kanaFontSetting, SIGNAL(valueChanged(QVariant)), delegateLayout, SLOT(updateConfig(QVariant)));
+	connect(&kanjiFontSetting, SIGNAL(valueChanged(QVariant)), delegateLayout, SLOT(updateConfig(QVariant)));
+	connect(&displayModeSetting, SIGNAL(valueChanged(QVariant)), delegateLayout, SLOT(updateConfig(QVariant)));
 }
 
 void ResultsView::setSmoothScrolling(bool value)
@@ -107,4 +114,11 @@ void ResultsView::startDrag(Qt::DropActions supportedActions)
 		drag->setMimeData(data);
 		drag->exec(supportedActions, Qt::CopyAction);
 	}
+}
+
+void ResultsView::updateConfig(const QVariant &value)
+{
+	PreferenceRoot *from = qobject_cast<PreferenceRoot *>(sender());
+	if (!from) return;
+	setProperty(from->name().toLatin1().constData(), value);
 }

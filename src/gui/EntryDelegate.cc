@@ -39,6 +39,13 @@ void EntryDelegateLayout::setDisplayMode(DisplayMode mode)
 	emit layoutHasChanged();
 }
 
+void EntryDelegateLayout::updateConfig(const QVariant &value)
+{
+	PreferenceRoot *from = qobject_cast<PreferenceRoot *>(sender());
+	if (!from) return;
+	setProperty(from->name().toLatin1().constData(), value);
+}
+
 EntryDelegate::EntryDelegate(EntryDelegateLayout *dLayout, QObject* parent) : QStyledItemDelegate(parent), layout(dLayout)
 {
 	_tagsIcon.load(":/images/icons/tags.png");

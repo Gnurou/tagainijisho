@@ -24,23 +24,23 @@
 #include <QInputDialog>
 #include <QMessageBox>
 
-PreferenceItem<bool> EntryListView::smoothScrolling("mainWindow/lists", "smoothScrolling", true);
-PreferenceItem<QString> EntryListView::textFont("mainWindow/lists", "textFont", "");
-PreferenceItem<QString> EntryListView::kanaFont("mainWindow/lists", "kanaFont", "");
-PreferenceItem<QString> EntryListView::kanjiFont("mainWindow/lists", "kanjiFont", QFont("Helvetica", 12).toString());
-PreferenceItem<int> EntryListView::displayMode("mainWindow/lists", "displayMode", EntryDelegateLayout::OneLine);
+PreferenceItem<bool> EntryListView::smoothScrollingSetting("mainWindow/lists", "smoothScrolling", true);
+PreferenceItem<QString> EntryListView::textFontSetting("mainWindow/lists", "textFont", "");
+PreferenceItem<QString> EntryListView::kanaFontSetting("mainWindow/lists", "kanaFont", "");
+PreferenceItem<QString> EntryListView::kanjiFontSetting("mainWindow/lists", "kanjiFont", QFont("Helvetica", 12).toString());
+PreferenceItem<int> EntryListView::displayModeSetting("mainWindow/lists", "displayMode", EntryDelegateLayout::OneLine);
 
 EntryListView::EntryListView(QWidget *parent, EntryDelegateLayout* delegateLayout, bool viewOnly) : QTreeView(parent), helper(this), _newListAction(QIcon(":/images/icons/document-new.png"), tr("New list"), 0), _deleteSelectionAction(QIcon(":/images/icons/delete.png"), tr("Delete"), 0)
 {
 	// If no delegate layout has been specified, let's use our private one...
-	if (!delegateLayout) delegateLayout = new EntryDelegateLayout(static_cast<EntryDelegateLayout::DisplayMode>(displayMode.value()), textFont.value(), kanjiFont.value(), kanaFont.value(), this);
+	if (!delegateLayout) delegateLayout = new EntryDelegateLayout(static_cast<EntryDelegateLayout::DisplayMode>(displayModeSetting.value()), textFontSetting.value(), kanjiFontSetting.value(), kanaFontSetting.value(), this);
 	connect(delegateLayout, SIGNAL(layoutHasChanged()), this, SLOT(updateLayout()));
 	_delegateLayout = delegateLayout;
 	delegate = new EntryDelegate(_delegateLayout, this);
 	connect(_delegateLayout, SIGNAL(layoutHasChanged()), this, SLOT(updateLayout()));
 	setItemDelegate(delegate);
 	setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
-	setSmoothScrolling(smoothScrolling.value());
+	setSmoothScrolling(smoothScrollingSetting.value());
 	// If the view is editable, the helper menu shall be enabled
 	if (!viewOnly) {
 		helper.populateMenu(&contextMenu);
@@ -50,6 +50,13 @@ EntryListView::EntryListView(QWidget *parent, EntryDelegateLayout* delegateLayou
 	connect(&_newListAction, SIGNAL(triggered()), this, SLOT(newList()));
 	_deleteSelectionAction.setEnabled(false);
 	connect(&_deleteSelectionAction, SIGNAL(triggered()), this, SLOT(deleteSelectedItems()));
+
+	// Automatically update the view if the configuration changes
+	connect(&smoothScrollingSetting, SIGNAL(valueChanged(QVariant)), this, SLOT(updateConfig(QVariant)));
+	connect(&textFontSetting, SIGNAL(valueChanged(QVariant)), delegateLayout, SLOT(updateConfig(QVariant)));
+	connect(&kanaFontSetting, SIGNAL(valueChanged(QVariant)), delegateLayout, SLOT(updateConfig(QVariant)));
+	connect(&kanjiFontSetting, SIGNAL(valueChanged(QVariant)), delegateLayout, SLOT(updateConfig(QVariant)));
+	connect(&displayModeSetting, SIGNAL(valueChanged(QVariant)), delegateLayout, SLOT(updateConfig(QVariant)));
 }
 
 void EntryListView::setSmoothScrolling(bool value)
@@ -137,3 +144,9 @@ void EntryListView::deleteSelectedItems()
 	if (!success) QMessageBox::information(this, tr("Removal failed"), tr("A database error has occured while trying to remove the selected items:\n\n%1\n\n Some of them may be remaining.").arg(Database::lastError().text()));
 }
 
+void EntryListView::updateConfig(const QVariant &value)
+{
+	PreferenceRoot *from = qobject_cast<PreferenceRoot *>(sender());
+	if (!from) return;
+	setProperty(from->name().toLatin1().constData(), value);
+}
