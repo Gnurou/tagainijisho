@@ -62,6 +62,13 @@ bool KanjiVGParser::parse_strokegr(QXmlStreamReader &reader, KanjiVGItem &kanji,
 					group->element = element;
 					group->original = original;
 					group->number = number;
+					if (HAS_ATTR("radical")) {
+						QString rad(ATTR("radical"));
+						if (rad == "general") group->radicalType = KanjiVGGroupItem::GENERAL;
+						else if (rad == "tradit") group->radicalType = KanjiVGGroupItem::TRADIT;
+						else if (rad == "nelson") group->radicalType = KanjiVGGroupItem::NELSON;
+						else qDebug("Unknown radical type: %s", rad.toLatin1().constData());
+					}
 					if (gStack.isEmpty()) group->isRoot = true;
 					// Do not push the group if it is already in the stack
 					alreadyInStack = gStack.contains(group);
@@ -97,7 +104,19 @@ bool KanjiVGParser::parse(QXmlStreamReader &reader)
 			TAG_BEGIN(kanji)
 				if (shallInsert) {
 					TAG_PRE(strokegr)
-						QStack<KanjiVGGroupItem *> gStack;
+						int element(TextTools::singleCharToUnicode(ATTR("element")));
+						int original(TextTools::singleCharToUnicode(ATTR("original")));	QStack<KanjiVGGroupItem *> gStack;
+						kanji.groups << KanjiVGGroupItem();
+						KanjiVGGroupItem *group = &kanji.groups.last();
+						group->element = element;
+						group->original = original;
+						if (HAS_ATTR("radical")) {
+							QString rad(ATTR("radical"));
+							if (rad == "general") group->radicalType = KanjiVGGroupItem::GENERAL;
+							else if (rad == "tradit") group->radicalType = KanjiVGGroupItem::TRADIT;
+							else if (rad == "nelson") group->radicalType = KanjiVGGroupItem::NELSON;
+							else qDebug("Unknown radical type: %s", rad.toLatin1().constData());
+						}
 						KanjiVGParser::parse_strokegr(reader, kanji, gStack, strokeCounter);
 					DONE
 					TAG_PRE(stroke)

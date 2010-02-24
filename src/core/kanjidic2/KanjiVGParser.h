@@ -27,13 +27,15 @@
 
 class KanjiVGGroupItem {
 public:
+	typedef enum { NONE, GENERAL, TRADIT, NELSON } RadicalType;
 	int number;
 	int element;
 	int original;
 	bool isRoot;
+	RadicalType radicalType;
 	// List of stroke numbers that are part of this group
 	QList<quint8> pathsIndexes;
-	KanjiVGGroupItem() : number(0), element(0), original(0), isRoot(false) {}
+	KanjiVGGroupItem() : number(0), element(0), original(0), isRoot(false), radicalType(NONE) {}
 };
 
 class KanjiVGStrokeItem {

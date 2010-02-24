@@ -26,6 +26,8 @@
 
 #include <QtDebug>
 
+static QMap<quint32, quint8> knownRadicals;
+
 // All the SQL queries used to build the database
 // Having them here will allow us to prepare them once and for all
 // instead of doing it for every entry.
@@ -43,6 +45,8 @@ static QSqlQuery insertStrokeGroupQuery;
 static QSqlQuery updateJLPTLevelsQuery;
 static QSqlQuery updateStrokeCountQuery;
 static QSqlQuery updatePathsString;
+static QSqlQuery addRadicalQuery;
+static QSqlQuery insertRadicalQuery;
 
 #define BIND(query, val) query.addBindValue(val)
 #define AUTO_BIND(query, val, nval) if (val == nval) BIND(query, QVariant::Int); else BIND(query, val)
@@ -152,7 +156,10 @@ bool KanjiVGDBParser::onItemParsed(KanjiVGItem &kanji)
 	EXEC(insertOrIgnoreEntryQuery);
 
 	// Insert groups
+	bool skipFirst = false;
 	foreach (const KanjiVGGroupItem &group, kanji.groups) {
+		// The first group is only used for radical information - we don't need it here
+		if (!skipFirst) { skipFirst = true; continue; }
 		BIND(insertStrokeGroupQuery, kanji.id);
 		AUTO_BIND(insertStrokeGroupQuery, group.element, 0);
 		AUTO_BIND(insertStrokeGroupQuery, group.original, 0);
@@ -174,6 +181,21 @@ bool KanjiVGDBParser::onItemParsed(KanjiVGItem &kanji)
 		BIND(updatePathsString, kanji.id);
 		EXEC(updatePathsString);
 	}
+	// Insert radicals
+	foreach (const KanjiVGGroupItem &group, kanji.groups) if (group.radicalType != KanjiVGGroupItem::NONE) {
+		if (knownRadicals.contains(group.element)) BIND(insertRadicalQuery, knownRadicals[group.element]);
+		else if (group.original && knownRadicals.contains(group.original)) BIND(insertRadicalQuery, knownRadicals[group.original]);
+		else {
+			qDebug("Radical (%s,%s) for kanji %s not in the radicals list", 
+			       TextTools::unicodeToSingleChar(group.element).toUtf8().constData(),
+			       TextTools::unicodeToSingleChar(group.original).toUtf8().constData(),
+			       TextTools::unicodeToSingleChar(kanji.id).toUtf8().constData());
+			continue;
+		}
+		BIND(insertRadicalQuery, kanji.id);
+		BIND(insertRadicalQuery, group.radicalType);
+		EXEC(insertRadicalQuery);
+	}
 	return true;
 }
 
@@ -193,6 +215,30 @@ bool updateJLPTLevels(const QString &fName, int level)
 	return true;
 }
 
+bool createRadicalsTable(const QString &fName)
+{
+	QFile file(fName);
+	if (!file.open(QFile::ReadOnly | QFile::Text)) return false;
+	char line[50];
+	int lineSize;
+	int cpt = 0;
+	while ((lineSize = file.readLine(line, 50)) != -1) {
+		if (lineSize == 0) continue;
+		++cpt;
+		if (line[lineSize - 1] == '\n') line[lineSize - 1] = 0;
+		QString kChr(QString::fromUtf8(line));
+		for (int pos = 0; pos < kChr.size(); ) {
+			int code = TextTools::singleCharToUnicode(kChr, pos);
+			knownRadicals[code] = cpt;
+			pos += TextTools::unicodeToSingleChar(code).size();
+		}
+		BIND(addRadicalQuery, cpt);
+		BIND(addRadicalQuery, kChr);
+		EXEC(addRadicalQuery);
+	}
+	return true;
+}
+
 static void create_tables()
 {
 	QSqlQuery query;
@@ -207,6 +253,8 @@ static void create_tables()
 	query.exec("create table strokeGroups(kanji INTEGER, element INTEGER, original INTEGER, isRoot BOOLEAN, pathsRefs BLOB)");
 	query.exec("create table skip(entry INTEGER, type TINYINT, c1 TINYINT, c2 TINYINT)");
 	query.exec("create table fourCorner(entry INTEGER, topLeft TINYINT, topRight TINYINT, botLeft TINYINT, botRight TINYINT, extra TINYINT)");
+	query.exec("create table radicalsList(number INTEGER PRIMARY KEY, kanji TEXT)");
+	query.exec("create table radicals(number INTEGER REFERENCES radicalsList, kanji INTEGER REFERENCES entries, type TINYINT)");
 }
 
 static void create_indexes()
@@ -296,6 +344,8 @@ int main(int argc, char *argv[])
 	PREPQUERY(updateJLPTLevelsQuery, "update entries set jlpt = ? where id = ?");
 	PREPQUERY(updateStrokeCountQuery, "update entries set strokeCount = ? where id = ?");
 	PREPQUERY(updatePathsString, "update entries set paths = ? where id = ?");
+	PREPQUERY(addRadicalQuery, "insert into radicalsList values(?, ?)");
+	PREPQUERY(insertRadicalQuery, "insert into radicals values(?, ?, ?)");
 	#undef PREPQUERY
 
 	// Parse and insert kanjidic2
@@ -311,6 +361,9 @@ int main(int argc, char *argv[])
 	}
 	file.close();
 	
+	// Create radicals table
+	createRadicalsTable(QDir(srcDir).absoluteFilePath("src/core/kanjidic2/radicals.txt"));
+
 	// Parse and insert KanjiVG data
 	file.setFileName(QDir(srcDir).absoluteFilePath("3rdparty/kanjivg.xml"));
 	if (!file.open(QFile::ReadOnly | QFile::Text)) return 1;
@@ -333,11 +386,11 @@ int main(int argc, char *argv[])
 	}
 	
 	// Insert JLPT levels
-	updateJLPTLevels("src/core/kanjidic2/jlpt-level1.txt", 1);
-	updateJLPTLevels("src/core/kanjidic2/jlpt-level2.txt", 2);
-	updateJLPTLevels("src/core/kanjidic2/jlpt-level3.txt", 3);
-	updateJLPTLevels("src/core/kanjidic2/jlpt-level4.txt", 4);
-		
+	updateJLPTLevels(QDir(srcDir).absoluteFilePath("src/core/kanjidic2/jlpt-level1.txt"), 1);
+	updateJLPTLevels(QDir(srcDir).absoluteFilePath("src/core/kanjidic2/jlpt-level2.txt"), 2);
+	updateJLPTLevels(QDir(srcDir).absoluteFilePath("src/core/kanjidic2/jlpt-level3.txt"), 3);
+	updateJLPTLevels(QDir(srcDir).absoluteFilePath("src/core/kanjidic2/jlpt-level4.txt"), 4);
+	
 	// Create indexes
 	create_indexes();
 	
