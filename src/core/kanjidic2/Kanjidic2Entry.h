@@ -23,7 +23,7 @@
 #include <QStack>
 
 #define KANJIDIC2ENTRY_GLOBALID 2
-#define KANJIDIC2DB_REVISION 4
+#define KANJIDIC2DB_REVISION 5
 
 class KanjiStroke;
 
