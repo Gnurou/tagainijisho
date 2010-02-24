@@ -57,6 +57,7 @@
 #include <QDockWidget>
 #include <QScrollBar>
 #include <QPrintDialog>
+#include <QApplication>
 
 /// State version of the main window - should be increated every time the docks or statusbars change
 #define MAINWINDOW_STATE_VERSION 0
@@ -82,6 +83,21 @@ PreferenceItem<QByteArray> MainWindow::splitterState("mainWindow", "splitterGeom
 	if (sfw) sfw->reset();
 	QDockWidget::closeEvent(event);
 }*/
+
+DockTitleBar::DockTitleBar(QWidget *widget, QDockWidget *parent) : QWidget(parent)
+{
+	QHBoxLayout *hLayout = new QHBoxLayout(this);
+	//hLayout->setContentsMargins(0, 0, 0, 0);
+	hLayout->addWidget(widget);
+	hLayout->addStretch();
+	QIcon icon(static_cast<QApplication *>(QApplication::instance())->style()->standardIcon(QStyle::SP_TitleBarCloseButton));
+	QToolButton *ttButton = new QToolButton(parent);
+	ttButton->setIcon(icon);
+	ttButton->setAutoRaise(true);
+	ttButton->setMaximumSize(icon.actualSize(QSize(16, 16)) + QSize(1, 1));
+	connect(ttButton, SIGNAL(clicked()), parent, SLOT(close()));
+	hLayout->addWidget(ttButton);
+}
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), _history(historySize.value())
 {
@@ -110,7 +126,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), _history(historyS
 	
 	_filtersToolBar = new QToolBar(searchDockWidgetContents);
 	_filtersToolBar->layout()->setContentsMargins(0, 0, 0, 0);
-	searchDockWidget->setTitleBarWidget(_filtersToolBar);
+	DockTitleBar *dBar = new DockTitleBar(_filtersToolBar, searchDockWidget);
+	searchDockWidget->setTitleBarWidget(dBar);
 	QMenu *entriesMenu = new QMenu(searchDockWidget);
 	entriesMenu->addAction(action_Print);
 	entriesMenu->addAction(actionPrint_preview);
@@ -124,7 +141,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), _history(historyS
 	// Fix the behavior of the entries button
 	QToolButton *tButton = qobject_cast<QToolButton *>(_filtersToolBar->widgetForAction(entriesMenuAction));
 	if (tButton) tButton->setPopupMode(QToolButton::InstantPopup);
-	//_filtersToolBar->setMaximumHeight(tButton->sizeHint().height());
 	// Search filters
 	EntryTypeFilterWidget *typeFilter = new EntryTypeFilterWidget(this);
 	_searchFilterWidgets[typeFilter->name()] = typeFilter;
@@ -146,7 +162,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), _history(historyS
 	connect(_entryListWidget->entryListView(), SIGNAL(entrySelected(EntryPointer)), detailedView(), SLOT(display(EntryPointer)));
 	QDockWidget *dWidget = new QDockWidget(_entryListWidget->currentTitle(), this);
 	dWidget->setAllowedAreas(Qt::AllDockWidgetAreas);
-	//dWidget->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
+	dBar = new DockTitleBar(new QLabel(tr("Lists"), dWidget), dWidget);
+	dWidget->setTitleBarWidget(dBar);
+	
 	dWidget->setWidget(_entryListWidget);
 	addDockWidget(Qt::LeftDockWidgetArea, dWidget);
 	dWidget->setObjectName(_entryListWidget->currentTitle() + "Dock");

@@ -52,6 +52,14 @@ public:
 	SearchFilterDock(QWidget *parent = 0) : QDockWidget(parent) {}
 };*/
 
+class DockTitleBar : public QWidget
+{
+	Q_OBJECT
+private:
+public:
+	DockTitleBar(QWidget *widget, QDockWidget *parent = 0);
+};
+
 class MainWindow : public QMainWindow, private Ui::MainWindow
 {
 	Q_OBJECT
