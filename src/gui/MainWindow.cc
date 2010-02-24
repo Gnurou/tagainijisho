@@ -135,7 +135,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), _history(historyS
 	entriesMenu->addAction(actionBooklet_s_preview);
 	entriesMenu->addSeparator();
 	entriesMenu->addAction(action_Export_displayed_entries);
-	QAction *entriesMenuAction = new QAction(QIcon(QPixmap(":/images/icons/print.png")), tr("Results"), _filtersToolBar);
+	QAction *entriesMenuAction = new QAction(QIcon(QPixmap(":/images/icons/list-add.png")), tr("Displayed entries..."), _filtersToolBar);
 	entriesMenuAction->setMenu(entriesMenu);
 	_filtersToolBar->addAction(entriesMenuAction);
 	// Fix the behavior of the entries button
