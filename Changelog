@@ -8,6 +8,8 @@
 * Entries can now be organized into hierarchical, ordered lists
 * Refactored user interface
 * Added option to automatically search clipboard content as it changes
+* Updates of JMdict database takes moved and deleted entries into account
+  and updates user data accordingly
 
 0.2.4 released on 2009-12-16
 * Updated to SQLite 3.6.21
