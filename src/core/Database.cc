@@ -26,7 +26,7 @@
 #include <QtDebug>
 #include <QSemaphore>
 
-#define USERDB_REVISION 5
+#define USERDB_REVISION 6
 
 #define QUERY(Q) if (!query.exec(Q)) return false
 
@@ -36,9 +36,9 @@ bool Database::createUserDB()
 {
 	if (!database.transaction()) return false;
 	QSqlQuery query;
-	// Info table
-	QUERY("CREATE TABLE info(version INT)");
-	QUERY(QString("INSERT INTO info VALUES(") + QString::number(USERDB_REVISION) + ")");
+	// Versions table
+	QUERY("CREATE TABLE versions(id TEXT PRIMARY KEY, version INTEGER)");
+	QUERY(QString("INSERT INTO versions VALUES(\"userDB\", ") + QString::number(USERDB_REVISION) + ")");
 
 	// Study table
 	QUERY("CREATE TABLE training(type INT NOT NULL, id INTEGER SECONDARY KEY NOT NULL, score INT NOT NULL, dateAdded UNSIGNED INT NOT NULL, dateLastTrain UNSIGNED INT, nbTrained UNSIGNED INT NOT NULL, nbSuccess UNSIGNED INT NOT NULL, dateLastMistake UNSIGNED INT, CONSTRAINT training_unique_ids UNIQUE(type, id))");
@@ -120,13 +120,23 @@ bool update4to5(QSqlQuery &query) {
 	return true;
 }
 
+/// Add the versions table, drop info
+bool update5to6(QSqlQuery &query) {
+	QUERY("CREATE TABLE versions(id TEXT PRIMARY KEY, version INTEGER)");
+	QUERY("INSERT INTO versions VALUES(\"userDB\", 6)");
+	QUERY("DROP TABLE info");
+
+	return true;
+}
+
 #undef QUERY
 
 bool (*dbUpdateFuncs[USERDB_REVISION - 1])(QSqlQuery &) = {
 	&update1to2,
 	&update2to3,
 	&update3to4,
-	&update4to5
+	&update4to5,
+	&update5to6
 };
 
 static Qt::ConnectionType alwaysSync = Qt::BlockingQueuedConnection;
@@ -287,7 +297,7 @@ bool Database::updateUserDB(int currentVersion)
 		QSqlQuery query2;
 		if (!dbUpdateFuncs[currentVersion - 1](query2)) return false;
 		// Update version number
-		if (!query2.exec(QString("UPDATE info SET version=%1").arg(currentVersion + 1))) return false;
+		if (!query2.exec(QString("UPDATE versions SET version=%1 where id=\"userDB\"").arg(currentVersion + 1))) return false;
 		query2.clear();
 		if (!database.commit()) return false;
 	}
@@ -305,9 +315,15 @@ void Database::checkUserDB()
 	QSqlQuery query;
 	query.exec("pragma journal_mode=MEMORY");
 	query.exec("pragma encoding=\"UTF-16le\"");
-	query.exec("SELECT version FROM info");
+	// Try to get the version from the versions table
+	query.exec("SELECT version FROM versions where id=\"userDB\"");
 	if (query.next()) currentVersion = query.value(0).toInt();
-	else currentVersion = -1;
+	else {
+		// No versions table, we have an older version!
+		query.exec("SELECT version FROM info");
+		if (query.next()) currentVersion = query.value(0).toInt();
+		else currentVersion = -1;
+	}
 	query.clear();
 
 	if (currentVersion != -1) {
