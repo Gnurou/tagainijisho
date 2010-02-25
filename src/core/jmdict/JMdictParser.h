@@ -77,9 +77,19 @@ public:
 	JMdictItem() : id(0), frequency(0) {}
 };
 
+class JMdictDeletedItem {
+public:
+	quint32 id;
+	quint32 replacedBy;
+
+	JMdictDeletedItem(quint32 _id, quint32 _replacedBy) : id(_id), replacedBy(_replacedBy) {}
+};
+
 class JMdictParser {
 protected:
 	static QRegExp versionRegExp;
+	static QRegExp deletedItemRegExp;
+	static QRegExp mergedItemRegExp;
 	
 	QStringList languages;
 	bool gotVersion;
@@ -103,10 +113,11 @@ public:
 	bool parse(QXmlStreamReader &reader);
 	const QString &dictVersion() const { return _dictVersion; }
 	
-	// This method can be overloaded by subclasses in order to implement
+	// These methods can be overloaded by subclasses in order to implement
 	// a behavior when an item is finished being parsed.
 	// Returns true if the processing completed successfully, false otherwise
-	virtual bool onItemParsed(JMdictItem &entry) { return true; }
+	virtual bool onItemParsed(const JMdictItem &entry) { return true; }
+	virtual bool onDeletedItemParsed(const JMdictDeletedItem &entry) { return true; }
 };
 
 #endif

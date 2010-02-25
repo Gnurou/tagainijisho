@@ -20,6 +20,8 @@
 #include "core/jmdict/JMdictParser.h"
 
 QRegExp JMdictParser::versionRegExp(" JMdict created: (\\d\\d\\d\\d\\-\\d\\d\\-\\d\\d) ");
+QRegExp JMdictParser::deletedItemRegExp(" *Deleted: *(\\d\\d\\d\\d\\d\\d\\d).*");
+QRegExp JMdictParser::mergedItemRegExp(" *Deleted: *(\\d\\d\\d\\d\\d\\d\\d) with (\\d\\d\\d\\d\\d\\d\\d).*");
 
 quint64 JMdictSenseItem::posBitField(const JMdictParser &parser) const {
 	quint64 ret(0);
@@ -198,7 +200,9 @@ bool JMdictParser::parse(QXmlStreamReader &reader)
 			onItemParsed(entry);
 			DONE
 			COMMENT
-				// TODO check for deleted entries and have a table of them to update the user entries!
+				const QString comment(TEXT);
+				if (mergedItemRegExp.exactMatch(comment)) onDeletedItemParsed(JMdictDeletedItem(mergedItemRegExp.capturedTexts()[1].toInt(), mergedItemRegExp.capturedTexts()[2].toInt()));
+				else if (deletedItemRegExp.exactMatch(comment)) onDeletedItemParsed(JMdictDeletedItem(deletedItemRegExp.capturedTexts()[1].toInt(), 0));
 			DONE
 		ENDTAG
 		COMMENT

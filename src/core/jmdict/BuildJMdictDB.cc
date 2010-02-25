@@ -39,6 +39,7 @@ static QSqlQuery insertSenseQuery;
 static QSqlQuery insertGlossTextQuery;
 static QSqlQuery insertGlossQuery;
 static QSqlQuery insertJLPTQuery;
+static QSqlQuery insertDeletedEntryQuery;
 
 #define BIND(query, val) query.addBindValue(val)
 #define AUTO_BIND(query, val, nval) if (val == nval) BIND(query, QVariant::Int); else BIND(query, val)
@@ -48,10 +49,11 @@ class JMdictDBParser : public JMdictParser
 {
 public:
 	JMdictDBParser(const QStringList &languages) : JMdictParser(languages) {}
-	virtual bool onItemParsed(JMdictItem &entry);
+	virtual bool onItemParsed(const JMdictItem &entry);
+	virtual bool onDeletedItemParsed(const JMdictDeletedItem &entry);
 };
 
-bool JMdictDBParser::onItemParsed(JMdictItem &entry)
+bool JMdictDBParser::onItemParsed(const JMdictItem &entry)
 {
 	// Insert writings
 	int kanjiCount = 0;
@@ -151,6 +153,14 @@ bool JMdictDBParser::onItemParsed(JMdictItem &entry)
 	return true;
 }
 
+bool JMdictDBParser::onDeletedItemParsed(const JMdictDeletedItem &entry)
+{
+	BIND(insertDeletedEntryQuery, entry.id);
+	BIND(insertDeletedEntryQuery, entry.replacedBy ? entry.replacedBy : QVariant(QVariant::Int));
+	EXEC(insertDeletedEntryQuery);
+	return true;
+}
+
 bool insertJLPTLevels(const QString &fName, int level)
 {
 	QFile file(fName);
@@ -185,6 +195,7 @@ static void create_tables()
 	query.exec("create virtual table glossText using fts3(reading)");
 	query.exec("create table kanjiChar(kanji INTEGER, id INTEGER SECONDARY KEY REFERENCES entries, priority INT)");
 	query.exec("create table jlpt(id INTEGER PRIMARY KEY, level TINYINT)");
+	query.exec("create table deletedEntries(id INTEGER PRIMARY KEY, movedTo INTEGER REFERENCES entries)");
 }
 
 static void create_indexes()
@@ -270,6 +281,7 @@ int main(int argc, char *argv[])
 	PREPQUERY(insertGlossTextQuery, "insert into glossText values(?)");
 	PREPQUERY(insertGlossQuery, "insert into gloss values(?, ?, ?, ?)");
 	PREPQUERY(insertJLPTQuery, "insert or ignore into jlpt values(?, ?)");
+	PREPQUERY(insertDeletedEntryQuery, "insert into deletedEntries values(?, ?)");
 	#undef PREPQUERY
 
 	// Parse and insert JMdict
