@@ -1,9 +1,10 @@
 #!/bin/sh
-QTPATH=/home/gnurou/.wine/drive_c/Qt/4.6.1
-MINGWDLLPATH=/usr/i486-mingw32/bin
 VERSION=`grep "set(VERSION " CMakeLists.txt |sed "s/set(VERSION \(.*\))/\1/"`
-NSIFILE=tagainijisho.nsi
-DBDIR=build
+QTPATH=`grep "^set(QT_ROOT" scripts/Toolchain-win32.cmake |sed "s/set(QT_ROOT \(.*\))/\1/"`
+MINGWDLLPATH=${MINGWDLLPATH-/usr/i486-mingw32/bin}
+DBDIR=${DBDIR-.}
+NSIFILE=${NSIFILE-tagainijisho.nsi}
+BUILDDIR=build-win32
 
 mkdir win32-translations
 for lang in fr de es ru;
@@ -11,9 +12,15 @@ do
 	lrelease $QTPATH/translations/qt_$lang.ts -qm win32-translations/qt_$lang.qm
 done
 
+mkdir $BUILDDIR
+cd $BUILDDIR
+cmake -DCMAKE_TOOLCHAIN_FILE=../scripts/Toolchain-win32.cmake -DCMAKE_BUILD_TYPE=Release ..
+make tagainijisho
+cd ..
+
 for lang in en fr de es ru;
 do
-	makensis -DLANG=$lang -DVERSION=$VERSION -DBUILDDIR=build-win32 -DDBDIR=$DBDIR -DQTPATH=$QTPATH -DMINGWDLLPATH=$MINGWDLLPATH $NSIFILE
+	makensis -DLANG=$lang -DVERSION=$VERSION -DBUILDDIR=$BUILDDIR -DDBDIR=$DBDIR -DQTPATH=$QTPATH -DMINGWDLLPATH=$MINGWDLLPATH $NSIFILE
 	mv install.exe tagainijisho-${VERSION}-${lang}.exe
 done
 

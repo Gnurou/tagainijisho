@@ -10,8 +10,8 @@ serviceRoot = LPNET_SERVICE_ROOT
 projectName = 'tagaini-jisho'
 cachedir = "/tmp/tagainiuploader/cache/"
 credentialsfile = "credentials.txt"
-releaseVersion = "0.2.4.80"
-lpRelease = "0.2.5b1"
+releaseVersion = "0.2.4.85"
+lpRelease = "0.2.5b2"
 launchpad = None
 
 FILE_TYPES = dict(source='Code Release Tarball',

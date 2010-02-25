@@ -4,10 +4,10 @@ include(${QT_USE_FILE})
 add_subdirectory(jmdict)
 add_subdirectory(kanjidic2)
 
-qt4_add_resources(tagainijisho_gui_QRC ${CMAKE_SOURCE_DIR}/tagainijisho.qrc)
+qt4_add_resources(tagainijisho_gui_RC ${CMAKE_SOURCE_DIR}/tagainijisho.qrc)
 
 set(tagainijisho_gui_SRCS
-${tagainijisho_gui_QRC}
+${tagainijisho_gui_RC}
 EntryFormatter.cc
 BetterSpinBox.cc
 HexSpinBox.cc
@@ -63,6 +63,12 @@ kanjidic2/Kanjidic2Preferences.cc
 kanjidic2/Kanjidic2GUIPlugin.cc
 main.cc
 )
+
+if (${CMAKE_SYSTEM_NAME} MATCHES "Windows")
+	add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/tagainijisho_rc.obj COMMAND i486-mingw32-windres -I${CMAKE_SOURCE_DIR} -i${CMAKE_SOURCE_DIR}/tagainijisho.rc -o ${CMAKE_CURRENT_BINARY_DIR}/tagainijisho_rc.obj)
+	set(tagainijisho_gui_SRCS ${tagainijisho_gui_SRCS} ${CMAKE_CURRENT_BINARY_DIR}/tagainijisho_rc.obj)
+	set(extra_link_flags "-mwindows")
+endif()
 
 qt4_wrap_cpp(tagainijisho_gui_MOC_SRCS
 BetterSpinBox.h
@@ -133,7 +139,11 @@ kanjidic2/Kanjidic2Preferences.ui
 )
 
 include_directories(${QT_INCLUDE_DIR})
+if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+add_executable(tagainijisho MACOSX_BUNDLE ${tagainijisho_gui_SRCS} ${tagainijisho_gui_MOC_SRCS} ${tagainijisho_gui_UI_SRCS})
+else()
 add_executable(tagainijisho ${tagainijisho_gui_SRCS} ${tagainijisho_gui_MOC_SRCS} ${tagainijisho_gui_UI_SRCS})
-target_link_libraries(tagainijisho tagaini_core tagaini_sqlite ${QT_LIBRARIES})
 install(TARGETS tagainijisho RUNTIME DESTINATION bin)
+endif()
+target_link_libraries(tagainijisho tagaini_core tagaini_sqlite ${QT_LIBRARIES} ${extra_link_flags})
 

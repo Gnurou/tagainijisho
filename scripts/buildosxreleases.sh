@@ -1,67 +1,29 @@
 #!/bin/sh
-VERSION=`grep "VERSION" buildconfig.pri |sed -n 's/.*=\(.*\)/\1/p'`
+VERSION=`grep "set(VERSION " CMakeLists.txt |sed "s/set(VERSION \(.*\))/\1/"`
+BUNDLEPATH=build/src/gui
 
-rm -Rf tagainijisho.app
-qmake -spec macx-g++
-make
-macdeployqt tagainijisho.app
-echo "Translations = Translations" >> tagainijisho.app/Contents/Resources/qt.conf
-mkdir tagainijisho.app/Contents/Translations
-cp /Developer/Applications/Qt/translations/qt_fr.qm tagainijisho.app/Contents/Translations
-cp /Developer/Applications/Qt/translations/qt_de.qm tagainijisho.app/Contents/Translations
-cp /Developer/Applications/Qt/translations/qt_es.qm tagainijisho.app/Contents/Translations
-cp /Developer/Applications/Qt/translations/qt_ru.qm tagainijisho.app/Contents/Translations
-rm -Rf tagainijisho.app/Contents/PlugIns/accessible
-rm -Rf tagainijisho.app/Contents/PlugIns/codecs
-rm -Rf tagainijisho.app/Contents/PlugIns/sqldrivers
-rm -f tagainijisho.app/Contents/PlugIns/imageformats/libqico.dylib tagainijisho.app/Contents/PlugIns/imageformats/libqjpeg.dylib tagainijisho.app/Contents/PlugIns/imageformats/libqmng.dylib tagainijisho.app/Contents/PlugIns/imageformats/libqtiff.dylib
+macdeployqt $BUNDLEPATH/tagainijisho.app
+echo "Translations = Translations" >> $BUNDLEPATH/tagainijisho.app/Contents/Resources/qt.conf
+mkdir $BUNDLEPATH/tagainijisho.app/Contents/Translations
+cp /Developer/Applications/Qt/translations/qt_fr.qm $BUNDLEPATH/tagainijisho.app/Contents/Translations
+cp /Developer/Applications/Qt/translations/qt_de.qm $BUNDLEPATH/tagainijisho.app/Contents/Translations
+cp /Developer/Applications/Qt/translations/qt_es.qm $BUNDLEPATH/tagainijisho.app/Contents/Translations
+cp /Developer/Applications/Qt/translations/qt_ru.qm $BUNDLEPATH/tagainijisho.app/Contents/Translations
+rm -Rf $BUNDLEPATH/tagainijisho.app/Contents/PlugIns/accessible
+rm -Rf $BUNDLEPATH/tagainijisho.app/Contents/PlugIns/codecs
+rm -Rf $BUNDLEPATH/tagainijisho.app/Contents/PlugIns/sqldrivers
+rm -f $BUNDLEPATH/tagainijisho.app/Contents/PlugIns/imageformats/libqico.dylib tagainijisho.app/Contents/PlugIns/imageformats/libqjpeg.dylib tagainijisho.app/Contents/PlugIns/imageformats/libqmng.dylib tagainijisho.app/Contents/PlugIns/imageformats/libqtiff.dylib
 
-./builddb.py -len
-mv -f jmdict.db kanjidic2.db tagainijisho.app/Contents/MacOS
-hdiutil convert images/macinstaller/Tagaini\ Jisho.dmg -format UDSP -o Tagaini\ Jisho
-hdiutil mount Tagaini\ Jisho.sparseimage
-cp -R tagainijisho.app/Contents /Volumes/Tagaini\ Jisho/Tagaini\ Jisho.app
-hdiutil unmount /Volumes/Tagaini\ Jisho
-hdiutil convert Tagaini\ Jisho.sparseimage -format UDBZ -o Tagaini\ Jisho.dmg
-rm Tagaini\ Jisho.sparseimage
-mv Tagaini\ Jisho.dmg Tagaini\ Jisho-$VERSION-en.dmg
+for lang in en fr de es ru;
+do
+	mv -f jmdict-$lang.db $BUNDLEPATH/tagainijisho.app/Contents/MacOS/jmdict.db
+	mv -f kanjidic2-$lang.db $BUNDLEPATH/tagainijisho.app/Contents/MacOS/kanjidic2.db
+	hdiutil convert images/macinstaller/Tagaini\ Jisho.dmg -format UDSP -o Tagaini\ Jisho
+	hdiutil mount Tagaini\ Jisho.sparseimage
+	cp -R $BUNDLEPATH/tagainijisho.app/Contents /Volumes/Tagaini\ Jisho/Tagaini\ Jisho.app
+	hdiutil unmount /Volumes/Tagaini\ Jisho
+	hdiutil convert Tagaini\ Jisho.sparseimage -format UDBZ -o Tagaini\ Jisho.dmg
+	rm Tagaini\ Jisho.sparseimage
+	mv Tagaini\ Jisho.dmg Tagaini\ Jisho-$VERSION-$lang.dmg
+done
 
-./builddb.py -lfr
-mv -f jmdict.db kanjidic2.db tagainijisho.app/Contents/MacOS
-hdiutil convert images/macinstaller/Tagaini\ Jisho.dmg -format UDSP -o Tagaini\ Jisho
-hdiutil mount Tagaini\ Jisho.sparseimage
-cp -R tagainijisho.app/Contents /Volumes/Tagaini\ Jisho/Tagaini\ Jisho.app
-hdiutil unmount /Volumes/Tagaini\ Jisho
-hdiutil convert Tagaini\ Jisho.sparseimage -format UDBZ -o Tagaini\ Jisho.dmg
-rm Tagaini\ Jisho.sparseimage
-mv Tagaini\ Jisho.dmg Tagaini\ Jisho-$VERSION-fr.dmg
-
-./builddb.py -lde
-mv -f jmdict.db kanjidic2.db tagainijisho.app/Contents/MacOS
-hdiutil convert images/macinstaller/Tagaini\ Jisho.dmg -format UDSP -o Tagaini\ Jisho
-hdiutil mount Tagaini\ Jisho.sparseimage
-cp -R tagainijisho.app/Contents /Volumes/Tagaini\ Jisho/Tagaini\ Jisho.app
-hdiutil unmount /Volumes/Tagaini\ Jisho
-hdiutil convert Tagaini\ Jisho.sparseimage -format UDBZ -o Tagaini\ Jisho.dmg
-rm Tagaini\ Jisho.sparseimage
-mv Tagaini\ Jisho.dmg Tagaini\ Jisho-$VERSION-de.dmg
-
-./builddb.py -les
-mv -f jmdict.db kanjidic2.db tagainijisho.app/Contents/MacOS
-hdiutil convert images/macinstaller/Tagaini\ Jisho.dmg -format UDSP -o Tagaini\ Jisho
-hdiutil mount Tagaini\ Jisho.sparseimage
-cp -R tagainijisho.app/Contents /Volumes/Tagaini\ Jisho/Tagaini\ Jisho.app
-hdiutil unmount /Volumes/Tagaini\ Jisho
-hdiutil convert Tagaini\ Jisho.sparseimage -format UDBZ -o Tagaini\ Jisho.dmg
-rm Tagaini\ Jisho.sparseimage
-mv Tagaini\ Jisho.dmg Tagaini\ Jisho-$VERSION-es.dmg
-
-./builddb.py -lru
-mv -f jmdict.db kanjidic2.db tagainijisho.app/Contents/MacOS
-hdiutil convert images/macinstaller/Tagaini\ Jisho.dmg -format UDSP -o Tagaini\ Jisho
-hdiutil mount Tagaini\ Jisho.sparseimage
-cp -R tagainijisho.app/Contents /Volumes/Tagaini\ Jisho/Tagaini\ Jisho.app
-hdiutil unmount /Volumes/Tagaini\ Jisho
-hdiutil convert Tagaini\ Jisho.sparseimage -format UDBZ -o Tagaini\ Jisho.dmg
-rm Tagaini\ Jisho.sparseimage
-mv Tagaini\ Jisho.dmg Tagaini\ Jisho-$VERSION-ru.dmg
