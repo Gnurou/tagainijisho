@@ -344,6 +344,7 @@ QueryBuilder::Column JMdictEntrySearcher::canSort(const QString &sort, const Que
 		}
 	}
 	else if (sort == "freq") return QueryBuilder::Column("jmdict.entries", "frequency");
+	else if (sort == "jlpt") return QueryBuilder::Column("jmdict.jlpt", "level");
 	return res;
 }
 

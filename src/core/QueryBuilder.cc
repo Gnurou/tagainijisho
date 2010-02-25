@@ -241,7 +241,7 @@ void QueryBuilder::Statement::autoJoin()
 			}
 		}
 		if (found) continue;
-		addJoin(QueryBuilder::Join(QueryBuilder::Column(table, "id")));
+		addJoin(QueryBuilder::Join(QueryBuilder::Column(table, "id"), "", QueryBuilder::Join::Left));
 	}
 
 	// Now do the same for where statements

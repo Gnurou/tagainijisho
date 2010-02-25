@@ -68,6 +68,7 @@ public:
 class JMdictItem {
 public:
 	int id;
+	// TODO frequency not yet calculated
 	int frequency;
 	QList<JMdictKanjiWritingItem> kanji;
 	QList<JMdictKanaReadingItem> kana;

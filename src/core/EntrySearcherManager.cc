@@ -28,6 +28,7 @@ EntrySearcherManager::EntrySearcherManager() : quotedWordsMatch(SearchCommand::q
 	validSearchCompoundMatch(SearchCommand::commandMatch().pattern() + "|" + SearchCommand::singleWordMatch().pattern() + "|" + SearchCommand::quotedWordsMatch().pattern()),
 	validSearchMatch(" *((" + validSearchCompoundMatch.pattern() + ") *)* *")
 {
+	QueryBuilder::Order::orderingWay["jlpt"] = QueryBuilder::Order::DESC;
 }
 
 QStringList EntrySearcherManager::splitSearchString(const QString &searchString)
@@ -101,7 +102,7 @@ bool EntrySearcherManager::buildQuery(const QString &search, QueryBuilder &query
 	// First filter ordering commands
 	QStringList orders;
 	if (studiedEntriesFirst.value()) orders << "study" << "score";
-	orders << "matchPos" << "freq";
+	orders << "matchPos" << "jlpt" << "freq";
 
 	// Transform words into commands, if applicable
 	bool validQuery = false;
