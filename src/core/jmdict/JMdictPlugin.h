@@ -42,6 +42,14 @@ private:
 	static QMap<QString, quint8> _dialectBitShift;
 	static QMap<QString, quint8> _fieldBitShift;
 
+	/**
+	 * If the version if the JMdict database has been updated, this
+	 * method checks whether JMdict entries that may have moved or been
+	 * deleted are referenced in user data tables. If so, these entries
+	 * are updated or deleted as appropriate.
+	 */
+	bool checkForMovedEntries();
+
 public:
 	JMdictPlugin();
 	virtual ~JMdictPlugin();
