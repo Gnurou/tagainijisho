@@ -126,6 +126,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), _history(historyS
 	
 	_filtersToolBar = new QToolBar(searchDockWidgetContents);
 	_filtersToolBar->layout()->setContentsMargins(0, 0, 0, 0);
+	_filtersToolBar->setStyleSheet("QToolBar { background: none; border-style: none; border-width: 0px; margin: 0px; padding: 0px; }");
 	DockTitleBar *dBar = new DockTitleBar(_filtersToolBar, searchDockWidget);
 	searchDockWidget->setTitleBarWidget(dBar);
 	QMenu *entriesMenu = new QMenu(searchDockWidget);
