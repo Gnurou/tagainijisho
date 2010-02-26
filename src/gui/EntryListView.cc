@@ -18,7 +18,7 @@
 #include <QtDebug>
 
 #include "core/Database.h"
-#include "gui/EntryListModel.h"
+#include "core/EntryListModel.h"
 #include "gui/EntryListView.h"
 
 #include <QInputDialog>
@@ -99,7 +99,7 @@ void EntryListView::selectionChanged(const QItemSelection &selected, const QItem
 	}
 	QModelIndex index(selected.indexes().last());
 	// Use the model data directly!
-	EntryPointer entry(qvariant_cast<EntryPointer>(model()->data(index, ResultsList::EntryRole)));
+	EntryPointer entry(qvariant_cast<EntryPointer>(model()->data(index, Entry::EntryRole)));
 	if (entry) emit entrySelected(entry);
 }
 

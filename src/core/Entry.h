@@ -90,10 +90,16 @@ private:
 	void setNbTrained(unsigned int nb) { _nbTrained = nb; }
 	void setNbSuccess(unsigned int nb) { _nbSuccess = nb; }
 
+	// No copy, ever!
+	Entry(const Entry &);
+
 protected:
 	Entry(quint8 type, quint32 id);
 
 public:
+	// Role used for models that allow accessing entries
+	enum { EntryRole = Qt::UserRole };
+	
 	// Must be public or QSharedPointer won't work
 	virtual ~Entry();
 

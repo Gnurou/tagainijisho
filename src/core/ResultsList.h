@@ -18,7 +18,6 @@
 #ifndef __GUI_RESULTS_LIST_H__
 #define __GUI_RESULTS_LIST_H__
 
-#include "core/Preferences.h"
 #include "core/Entry.h"
 #include "core/EntriesCache.h"
 #include "core/QueryBuilder.h"
@@ -51,7 +50,6 @@ protected slots:
 	void onEntryChanged(const EntryPointer &entry);
 
 public:
-	enum { EntryRole = Qt::UserRole };
 	ResultsList(QObject *parent = 0);
 	~ResultsList();
 

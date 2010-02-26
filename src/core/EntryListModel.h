@@ -55,6 +55,8 @@ private:
 	bool _removeRows(int row, int count, const QModelIndex &parent);
 
 public:
+	EntryListModel(QObject *parent = 0) : QAbstractItemModel(parent) {}
+
 	virtual QModelIndex index(int row, int column, const QModelIndex &parent = QModelIndex()) const;
 	virtual QModelIndex index(int rowId) const;
 	virtual QModelIndex parent(const QModelIndex &index) const;

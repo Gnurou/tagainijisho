@@ -125,6 +125,9 @@ private:
 
 	void addKanaReading(const KanaReading &reading);
 
+	// No copy, ever!
+	JMdictEntry operator=(const JMdictEntry &);
+
 protected:
 	JMdictEntry(int id);
 

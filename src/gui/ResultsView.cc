@@ -16,7 +16,6 @@
  */
 
 #include "gui/TagsDialogs.h"
-#include "gui/ResultsList.h"
 #include "gui/ResultsView.h"
 
 #include <QtDebug>

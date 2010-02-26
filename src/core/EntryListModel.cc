@@ -16,9 +16,7 @@
  */
 
 #include "core/Database.h"
-#include "gui/EntryListModel.h"
-// TODO for EntryRole - get rid of it
-#include "gui/ResultsList.h"
+#include "core/EntryListModel.h"
 
 #include <QSqlError>
 #include <QFont>
@@ -186,7 +184,7 @@ QVariant EntryListModel::data(const QModelIndex &index, int role) const
 				return QSize(300, QFontMetrics(font).height());
 			}
 			else return QVariant();
-		case ResultsList::EntryRole:
+		case Entry::EntryRole:
 		{
 			if (cEntry.type == -1) return QVariant();
 			EntryPointer entry(EntriesCache::get(cEntry.type, cEntry.id));

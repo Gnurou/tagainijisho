@@ -34,14 +34,12 @@ JLPTFilterWidget.cc
 TagsFilterWidget.cc
 NotesFilterWidget.cc
 SearchBuilder.cc
-ResultsList.cc
 SmoothScroller.cc
 EntryDelegate.cc
 EntriesViewHelper.cc
 ResultsView.cc
 ResultsViewWidget.cc
 DetailedView.cc
-EntryListModel.cc
 EntryListView.cc
 EntryListWidget.cc
 ToolBarDetailedView.cc
@@ -84,12 +82,10 @@ MultiStackedWidget.h
 PreferencesWindow.h
 ReadingTrainer.h
 RelativeDateEdit.h
-ResultsList.h
 EntryDelegate.h
 EntriesViewHelper.h
 ResultsView.h
 ResultsViewWidget.h
-EntryListModel.h
 EntryListView.h
 EntryListWidget.h
 SearchFilterWidget.h

@@ -15,7 +15,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "gui/ResultsList.h"
+#include "core/ResultsList.h"
 
 #include <QtDebug>
 
@@ -63,7 +63,7 @@ QVariant ResultsList::data(const QModelIndex &index, int role) const
 		else return entry->scoreColor();
 	}
 
-	if (role == EntryRole) return QVariant::fromValue(entries[index.row()]);
+	if (role == Entry::EntryRole) return QVariant::fromValue(entries[index.row()]);
 	else if (role == Qt::DisplayRole) return entries[index.row()]->shortVersion();
 
 	return QVariant();
@@ -146,7 +146,7 @@ QMimeData *ResultsList::mimeData(const QModelIndexList &indexes) const
 
 	foreach (QModelIndex index, indexes) {
 		if (index.isValid()) {
-			EntryPointer entry = data(index, EntryRole).value<EntryPointer>();
+			EntryPointer entry = data(index, Entry::EntryRole).value<EntryPointer>();
 			stream << entry->type() << entry->id();
 		}
 	}

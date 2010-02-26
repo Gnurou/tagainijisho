@@ -570,7 +570,7 @@ void MainWindow::trainSettings()
 void MainWindow::display(const QItemSelection &selected, const QItemSelection &deselected)
 {
 	if (selected.isEmpty()) return;
-	EntryPointer entry = qVariantValue<EntryPointer>(selected.indexes()[0].data(ResultsList::EntryRole));
+	EntryPointer entry = qVariantValue<EntryPointer>(selected.indexes()[0].data(Entry::EntryRole));
 	if (entry) _detailedView->detailedView()->display(entry);
 }
 

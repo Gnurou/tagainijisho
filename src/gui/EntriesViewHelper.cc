@@ -16,8 +16,6 @@
  */
 
 #include "gui/EntriesViewHelper.h"
-// TODO For entry role - get rid of this
-#include "gui/ResultsList.h"
 #include "gui/EntryMenu.h"
 #include "gui/EditEntryNotesDialog.h"
 #include "gui/TagsDialogs.h"
@@ -50,7 +48,7 @@ QList<EntryPointer> EntriesViewHelper::selectedEntries() const
 	QModelIndexList selection = client()->selectionModel()->selectedIndexes();
 	QList<EntryPointer> selectedEntries;
 	foreach(const QModelIndex &index, selection) {
-		EntryPointer entry(qVariantValue<EntryPointer>(index.data(ResultsList::EntryRole)));
+		EntryPointer entry(qVariantValue<EntryPointer>(index.data(Entry::EntryRole)));
 		if (entry) selectedEntries << entry;
 	}
 	return selectedEntries;
@@ -69,7 +67,7 @@ void EntriesViewHelper::studySelected()
 	foreach (const QModelIndex &index, selection) {
 		if (progressDialog.wasCanceled()) break;
 		progressDialog.setValue(i++);
-		EntryPointer entry = qVariantValue<EntryPointer>(index.data(ResultsList::EntryRole));
+		EntryPointer entry = qVariantValue<EntryPointer>(index.data(Entry::EntryRole));
 		if (!entry) continue;
 		entry->addToTraining();
 		client()->update(index);
@@ -89,7 +87,7 @@ void EntriesViewHelper::unstudySelected()
 	foreach (const QModelIndex &index, selection) {
 		if (progressDialog.wasCanceled()) break;
 		progressDialog.setValue(i++);
-		EntryPointer entry = qVariantValue<EntryPointer>(index.data(ResultsList::EntryRole));
+		EntryPointer entry = qVariantValue<EntryPointer>(index.data(Entry::EntryRole));
 		if (!entry) continue;
 		entry->removeFromTraining();
 		client()->update(index);
@@ -109,7 +107,7 @@ void EntriesViewHelper::markAsKnown()
 	foreach (const QModelIndex &index, selection) {
 		if (progressDialog.wasCanceled()) break;
 		progressDialog.setValue(i++);
-		EntryPointer entry = qVariantValue<EntryPointer>(index.data(ResultsList::EntryRole));
+		EntryPointer entry = qVariantValue<EntryPointer>(index.data(Entry::EntryRole));
 		if (!entry) continue;
 		if (!entry->alreadyKnown()) continue;
 		entry->setAlreadyKnown();
@@ -130,7 +128,7 @@ void EntriesViewHelper::resetTraining()
 	foreach (const QModelIndex &index, selection) {
 		if (progressDialog.wasCanceled()) break;
 		progressDialog.setValue(i++);
-		EntryPointer entry = qVariantValue<EntryPointer>(index.data(ResultsList::EntryRole));
+		EntryPointer entry = qVariantValue<EntryPointer>(index.data(Entry::EntryRole));
 		if (!entry) continue;
 		entry->resetScore();
 		client()->update(index);
@@ -166,7 +164,7 @@ void EntriesViewHelper::addTags(const QStringList &tags)
 	foreach (const QModelIndex &index, selection) {
 		if (progressDialog.wasCanceled()) break;
 		progressDialog.setValue(i++);
-		EntryPointer entry = qVariantValue<EntryPointer>(index.data(ResultsList::EntryRole));
+		EntryPointer entry = qVariantValue<EntryPointer>(index.data(Entry::EntryRole));
 		if (!entry) continue;
 		entry->addTags(tags);
 		client()->update(index);
@@ -177,7 +175,7 @@ void EntriesViewHelper::addNote()
 {
 	QModelIndexList selection = client()->selectionModel()->selectedIndexes();
 	if (selection.size() != 1) return;
-	EntryPointer entry = qVariantValue<EntryPointer >(selection[0].data(ResultsList::EntryRole));
+	EntryPointer entry = qVariantValue<EntryPointer >(selection[0].data(Entry::EntryRole));
 	if (!entry) return;
 	EditEntryNotesDialog dialog(*entry, client());
 	if (dialog.exec() != QDialog::Accepted) return;

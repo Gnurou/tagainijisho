@@ -123,6 +123,9 @@ private:
 	 */
 	QList<KanjiStroke> _strokes;
 
+	// No copy, ever!
+	Kanjidic2Entry operator=(const Kanjidic2Entry &);
+
 protected:
 	KanjiComponent *addComponent(const QString &element, const QString &original, bool isRoot = false);
 	KanjiStroke *addStroke(const QChar &type, const QString &path);

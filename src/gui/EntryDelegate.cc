@@ -72,7 +72,7 @@ QSize EntryDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIn
 
 void EntryDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
-	EntryPointer entry = index.data(ResultsList::EntryRole).value<EntryPointer>();
+	EntryPointer entry = index.data(Entry::EntryRole).value<EntryPointer>();
 	if (!entry) { QStyledItemDelegate::paint(painter, option, index); return; }
 
 	QRect rect = option.rect.adjusted(2, 2, -2, 2);

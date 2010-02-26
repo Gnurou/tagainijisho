@@ -19,8 +19,6 @@
 
 #include "gui/EntryFormatter.h"
 #include "gui/BookletPrinter.h"
-// TODO for ResultsRole - remove!
-#include "gui/ResultsList.h"
 
 #include <QPrintPreviewDialog>
 #include <QProgressDialog>
@@ -70,13 +68,13 @@ void EntriesPrinter::prepareAndPrintJob(QPrinter* printer)
 	if (_selection.isEmpty()) {
 		// Parse the model and print all its content
 		for (int i = 0; i < _model->rowCount(); i++) {
-			ConstEntryPointer entry(qVariantValue<EntryPointer>(_model->index(i, 0, QModelIndex()).data(ResultsList::EntryRole)));
+			ConstEntryPointer entry(qVariantValue<EntryPointer>(_model->index(i, 0, QModelIndex()).data(Entry::EntryRole)));
 			if (entry) entries << entry;
 		}
 	// Selection specified, we limit ourselves to it
 	} else {
 		foreach (const QModelIndex &idx, _selection) {
-			ConstEntryPointer entry(qVariantValue<EntryPointer>(idx.data(ResultsList::EntryRole)));
+			ConstEntryPointer entry(qVariantValue<EntryPointer>(idx.data(Entry::EntryRole)));
 			if (entry) entries << entry;
 		}
 	}

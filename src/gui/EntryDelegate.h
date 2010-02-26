@@ -19,7 +19,6 @@
 #define __GUI_ENTRYDELEGATE_H
 
 #include "core/EntriesCache.h"
-#include "gui/ResultsList.h"
 #include <QStyledItemDelegate>
 
 class EntryDelegateLayout : public QObject

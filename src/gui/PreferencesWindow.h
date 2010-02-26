@@ -19,9 +19,9 @@
 #define __GUI_PREFERENCESWINDOW_H_
 
 #include "core/Preferences.h"
+#include "core/ResultsList.h"
 #include "gui/DetailedView.h"
 #include "gui/EntryDelegate.h"
-#include "gui/ResultsList.h"
 #include "gui/ResultsView.h"
 #include "gui/EntryListView.h"
 #include "gui/ui_PreferencesWindow.h"

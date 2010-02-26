@@ -17,6 +17,8 @@ RelativeDate.cc
 SearchCommand.cc
 EntrySearcher.cc
 EntrySearcherManager.cc
+ResultsList.cc
+EntryListModel.cc
 EntriesCache.cc
 Plugin.cc
 XmlParserHelper.cc
@@ -36,6 +38,8 @@ EntriesCache.h
 Entry.h
 EntrySearcher.h
 EntrySearcherManager.h
+ResultsList.h
+EntryListModel.h
 Preferences.h
 Query.h
 Tag.h
