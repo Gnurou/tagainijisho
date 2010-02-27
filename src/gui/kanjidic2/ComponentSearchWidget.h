@@ -66,6 +66,7 @@ signals:
 
 class QSqlQuery;
 
+// TODO Change Ui::ComponentSearchWidget inheritance to private
 class ComponentSearchWidget : public QFrame, public Ui::ComponentSearchWidget
 {
 	Q_OBJECT
@@ -81,6 +82,15 @@ public:
 
 signals:
 	void kanjiSelected(const QString &kanji);
+};
+
+#include "gui/ui_RadicalSearchWidget.h"
+
+class RadicalSearchWidget : public QFrame, private Ui::RadicalSearchWidget
+{
+	Q_OBJECT
+public:
+	RadicalSearchWidget(QWidget *parent = 0);
 };
 
 class ComponentSearchButton : public QToolButton

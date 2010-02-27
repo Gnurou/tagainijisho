@@ -31,6 +31,7 @@
 #include <QCursor>
 #include <QScrollBar>
 #include <QComboBox>
+#include <QFontMetrics>
 
 #include <QDesktopWidget>
 
@@ -208,6 +209,50 @@ void ComponentSearchWidget::populateList(QSqlQuery &query)
 			QListWidgetItem *item = new QListWidgetItem(c, complementsList);
 			item->setFont(font);
 		}
+	}
+}
+
+RadicalSearchWidget::RadicalSearchWidget(QWidget *parent) : QFrame(parent)
+{
+	setupUi(this);
+	
+	QFont font(complementsList->font());
+	font.setPointSize(font.pointSize() + 2);
+	QFontMetrics fm(font);
+	QFont labelFont(font);
+	labelFont.setBold(true);
+	QFontMetrics lfm(labelFont);
+	int maxFontSize = qMax(fm.maxWidth(), fm.height()) + 2;
+	int maxBoldSize = 0;
+	for (int i = 0; i < 10; i++) {
+		int w = lfm.width(QString::number(i));
+		if (w > maxBoldSize) maxBoldSize = w;
+	}
+	maxBoldSize *= 2;
+	int gridSize = qMax(maxBoldSize, maxFontSize) + 5;
+	complementsList->setFont(font);
+	complementsList->setGridSize(QSize(gridSize, gridSize));
+	QSqlQuery query;
+	query.exec("select kanji, number, strokeCount from kanjidic2.radicalsList join kanjidic2.entries on radicalsList.kanji = entries.id order by number, radicalsList.rowid");
+	int lastNbr = 0;
+	int lastStrokeNbr = 0;
+	while (query.next()) {
+		QString car(TextTools::unicodeToSingleChar(query.value(0).toInt()));
+		int curNbr = query.value(1).toInt();
+		int strokeNbr = query.value(2).toInt();
+		qDebug() << curNbr << strokeNbr;
+		if (curNbr != lastNbr && lastStrokeNbr < strokeNbr) {
+			QListWidgetItem *item = new QListWidgetItem(QString::number(strokeNbr), complementsList);
+			item->setFlags(item->flags() & ~Qt::ItemIsSelectable);
+			item->setBackground(Qt::yellow);
+			item->setFont(labelFont);
+		}
+		QListWidgetItem *item = new QListWidgetItem(car, complementsList);
+		//item->setFlags(item->flags() & ~Qt::ItemIsSelectable);
+		//item->setBackground(nbrBg);
+		//item->setFont(nbrFont);
+		if (lastNbr != curNbr) lastStrokeNbr = strokeNbr;
+		lastNbr = curNbr;
 	}
 }
 

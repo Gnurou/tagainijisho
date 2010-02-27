@@ -230,11 +230,11 @@ bool createRadicalsTable(const QString &fName)
 		for (int pos = 0; pos < kChr.size(); ) {
 			int code = TextTools::singleCharToUnicode(kChr, pos);
 			knownRadicals[code] = cpt;
+			BIND(addRadicalQuery, code);
+			BIND(addRadicalQuery, cpt);
+			EXEC(addRadicalQuery);
 			pos += TextTools::unicodeToSingleChar(code).size();
 		}
-		BIND(addRadicalQuery, cpt);
-		BIND(addRadicalQuery, kChr);
-		EXEC(addRadicalQuery);
 	}
 	return true;
 }
@@ -253,7 +253,7 @@ static void create_tables()
 	query.exec("create table strokeGroups(kanji INTEGER, element INTEGER, original INTEGER, isRoot BOOLEAN, pathsRefs BLOB)");
 	query.exec("create table skip(entry INTEGER, type TINYINT, c1 TINYINT, c2 TINYINT)");
 	query.exec("create table fourCorner(entry INTEGER, topLeft TINYINT, topRight TINYINT, botLeft TINYINT, botRight TINYINT, extra TINYINT)");
-	query.exec("create table radicalsList(number INTEGER PRIMARY KEY, kanji TEXT)");
+	query.exec("create table radicalsList(kanji INTEGER REFERENCES entries, number SHORTINT)");
 	query.exec("create table radicals(number INTEGER REFERENCES radicalsList, kanji INTEGER REFERENCES entries, type TINYINT)");
 }
 

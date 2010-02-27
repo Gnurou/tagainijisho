@@ -100,6 +100,8 @@ bool Kanjidic2GUIPlugin::onRegister()
 	//QToolBar *toolBar = mainWindow->toolBar();
 	//_cButton = new ComponentSearchButton(mainWindow);
 	//toolBar->addWidget(_cButton);
+	RadicalSearchWidget *radWid = new RadicalSearchWidget();
+	radWid->show();
 
 	// Register the searchbar extender
 	_filter = new Kanjidic2FilterWidget(0);

@@ -131,6 +131,7 @@ MainWindow.ui
 jmdict/JMdictPreferences.ui
 kanjidic2/KanjiPopup.ui
 kanjidic2/ComponentSearchWidget.ui
+kanjidic2/RadicalSearchWidget.ui
 kanjidic2/Kanjidic2Preferences.ui
 )
 
