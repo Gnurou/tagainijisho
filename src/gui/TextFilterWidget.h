@@ -55,15 +55,13 @@ public:
 	virtual QString name() const { return "searchtext"; }
 	virtual QString currentTitle() const;
 	virtual QString currentCommand() const { return text(); }
+	QComboBox *searchField() { return _searchField; }
 	
 	QString text() const { return _searchField->lineEdit()->text(); }
 	void setText(const QString &text) { _searchField->lineEdit()->setText(text); }
 	Q_PROPERTY(QString text READ text WRITE setText)
 	
 	static PreferenceItem<int> textSearchHistorySize;
-	
-public slots:
-	void focusOnText() { _searchField->setFocus(); }
 	QAction *enableClipboardInputAction() { return _enableClipboardInputAction; }
 };
 

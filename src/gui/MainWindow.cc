@@ -650,6 +650,14 @@ void MainWindow::resetSearch()
 	_searchBuilder.reset();
 }
 
+void MainWindow::focusTextSearch()
+{
+	TextFilterWidget *tWidget = qobject_cast<TextFilterWidget *>(getSearchFilter("searchtext"));
+	if (!tWidget) return;
+	_searchFilters->showWidget(tWidget);
+	tWidget->searchField()->lineEdit()->selectAll();
+}
+
 bool MainWindow::eventFilter(QObject *obj, QEvent *event)
 {
 	if (obj == _searchFilters) {

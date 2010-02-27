@@ -113,6 +113,7 @@ protected slots:
 	void goPrev();
 	void goNext();
 	void resetSearch();
+	void focusTextSearch();
 	
 	void exportUserData();
 	void importUserData();
@@ -152,8 +153,6 @@ public:
 	~MainWindow();
 	static MainWindow *instance() { return _instance; }
 	
-	//QToolBar *toolBar() { return _toolsToolBar; }
-
 	QMenu *fileMenu() { return _fileMenu; }
 	QMenu *searchMenu() { return _searchMenu; }
 	QMenu *trainMenu() { return _trainMenu; }

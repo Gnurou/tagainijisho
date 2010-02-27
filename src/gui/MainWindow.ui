@@ -33,7 +33,7 @@
      <x>0</x>
      <y>0</y>
      <width>900</width>
-     <height>21</height>
+     <height>19</height>
     </rect>
    </property>
    <widget class="QMenu" name="_fileMenu">
@@ -64,12 +64,6 @@
     <addaction name="actionSupport_Tagaini_Jisho_Make_a_donation"/>
     <addaction name="action_About"/>
    </widget>
-   <widget class="QMenu" name="_searchMenu">
-    <property name="title">
-     <string>&amp;Search</string>
-    </property>
-    <addaction name="actionResetSearch"/>
-   </widget>
    <widget class="QMenu" name="_setsMenu">
     <property name="title">
      <string>&amp;Sets</string>
@@ -78,6 +72,13 @@
     <addaction name="action_New_sets_folder"/>
     <addaction name="action_Organize_sets"/>
     <addaction name="separator"/>
+   </widget>
+   <widget class="QMenu" name="_searchMenu">
+    <property name="title">
+     <string>&amp;Search</string>
+    </property>
+    <addaction name="actionResetSearch"/>
+    <addaction name="actionFocus_text_search"/>
    </widget>
    <addaction name="_fileMenu"/>
    <addaction name="_searchMenu"/>
@@ -335,6 +336,14 @@
    </property>
    <property name="text">
     <string>Next search</string>
+   </property>
+  </action>
+  <action name="actionFocus_text_search">
+   <property name="text">
+    <string>Focus text search</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+L</string>
    </property>
   </action>
  </widget>
@@ -705,6 +714,22 @@
    <signal>triggered()</signal>
    <receiver>MainWindow</receiver>
    <slot>resetSearch()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>449</x>
+     <y>324</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionFocus_text_search</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>focusTextSearch()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>-1</x>
