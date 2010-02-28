@@ -30,7 +30,7 @@
       <enum>Qt::NoFocus</enum>
      </property>
      <property name="selectionMode">
-      <enum>QAbstractItemView::SingleSelection</enum>
+      <enum>QAbstractItemView::MultiSelection</enum>
      </property>
      <property name="movement">
       <enum>QListView::Static</enum>

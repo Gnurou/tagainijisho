@@ -58,7 +58,7 @@ const QString Kanjidic2GUIPlugin::kanjiGrades[] = {
 
 PreferenceItem<bool> Kanjidic2GUIPlugin::kanjiTooltipEnabled("kanjidic", "kanjiTooltipEnabled", true);
 
-Kanjidic2GUIPlugin::Kanjidic2GUIPlugin() : Plugin("kanjidic2GUI"), _flashKL(0), _flashKS(0), _flashML(0), _flashMS(0), _readingPractice(0), _linkHandler(0), _wordsLinkHandler(0), _componentsLinkHandler(0), _filter(0), _trainer(0), _readingTrainer(0), _cButton(0)
+Kanjidic2GUIPlugin::Kanjidic2GUIPlugin() : Plugin("kanjidic2GUI"), _flashKL(0), _flashKS(0), _flashML(0), _flashMS(0), _readingPractice(0), _linkHandler(0), _wordsLinkHandler(0), _componentsLinkHandler(0), _filter(0), _trainer(0), _readingTrainer(0), _cAction(0)
 {
 }
 
@@ -98,10 +98,12 @@ bool Kanjidic2GUIPlugin::onRegister()
 
 	// Add the components searcher to the tool bar
 	//QToolBar *toolBar = mainWindow->toolBar();
-	//_cButton = new ComponentSearchButton(mainWindow);
-	//toolBar->addWidget(_cButton);
-	RadicalSearchWidget *radWid = new RadicalSearchWidget();
-	radWid->show();
+	_cAction = new ComponentSearchAction(mainWindow);
+	_cAction->setShortcut(QKeySequence("Ctrl+k"));
+	mainWindow->searchMenu()->addAction(_cAction);
+	//mainWindow->layout()->addWidget(_cButton);
+	//RadicalSearchWidget *radWid = new RadicalSearchWidget();
+	//radWid->show();
 
 	// Register the searchbar extender
 	_filter = new Kanjidic2FilterWidget(0);
@@ -129,7 +131,7 @@ bool Kanjidic2GUIPlugin::onUnregister()
 	mainWindow->removeSearchFilterWidget(_filter->name());
 	delete _filter; _filter = 0;
 	// Remove the components searcher
-	delete _cButton; _cButton = 0;
+	delete _cAction; _cAction = 0;
 	// Remove the main window entries
 	delete _flashKL; _flashKL = 0;
 	delete _flashKS; _flashKS = 0;

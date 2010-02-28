@@ -215,6 +215,7 @@ void ComponentSearchWidget::populateList(QSqlQuery &query)
 RadicalSearchWidget::RadicalSearchWidget(QWidget *parent) : QFrame(parent)
 {
 	setupUi(this);
+	connect(complementsList, SIGNAL(itemSelectionChanged()), this, SLOT(onSelectionChanged()));
 	
 	QFont font(complementsList->font());
 	font.setPointSize(font.pointSize() + 2);
@@ -240,7 +241,7 @@ RadicalSearchWidget::RadicalSearchWidget(QWidget *parent) : QFrame(parent)
 		QString car(TextTools::unicodeToSingleChar(query.value(0).toInt()));
 		int curNbr = query.value(1).toInt();
 		int strokeNbr = query.value(2).toInt();
-		qDebug() << curNbr << strokeNbr;
+		if (curNbr == lastNbr) continue;
 		if (curNbr != lastNbr && lastStrokeNbr < strokeNbr) {
 			QListWidgetItem *item = new QListWidgetItem(QString::number(strokeNbr), complementsList);
 			item->setFlags(item->flags() & ~Qt::ItemIsSelectable);
@@ -248,6 +249,7 @@ RadicalSearchWidget::RadicalSearchWidget(QWidget *parent) : QFrame(parent)
 			item->setFont(labelFont);
 		}
 		QListWidgetItem *item = new QListWidgetItem(car, complementsList);
+		item->setData(Qt::UserRole, curNbr);
 		//item->setFlags(item->flags() & ~Qt::ItemIsSelectable);
 		//item->setBackground(nbrBg);
 		//item->setFont(nbrFont);
@@ -256,7 +258,46 @@ RadicalSearchWidget::RadicalSearchWidget(QWidget *parent) : QFrame(parent)
 	}
 }
 
-ComponentSearchButton::ComponentSearchButton(QWidget *parent) : QToolButton(parent), focusWidget(0)
+void RadicalSearchWidget::onSelectionChanged()
+{	
+	QStringList select;
+	foreach (const QListWidgetItem *selected, complementsList->selectedItems()) {
+		select << QString::number(selected->data(Qt::UserRole).toInt());
+	}
+	candidatesList->clear();
+	
+	if (select.isEmpty()) {
+		for (int i = 0; i < complementsList->count(); i++) {
+			QListWidgetItem *item = complementsList->item(i);
+			item->setFlags(item->flags() | Qt::ItemIsEnabled);
+		}
+		return;
+	}
+	
+	QSqlQuery query;
+	//QString queryString(QString("select kanji from kanjidic2.radicals join kanjidic2.entries on entries.id = radicals.kanji where number in (%1) group by kanji having uniquecount(number) >= %2 order by entries.strokeCount, entries.frequency").arg(select.join(", ")).arg(select.size()));
+	QString queryString(QString("select kanji, number from kanjidic2.radicals join kanjidic2.entries on entries.id = radicals.kanji where number in (%1) order by entries.strokeCount, entries.frequency, entries.id").arg(select.join(", ")));
+	if (!query.exec(queryString)) qDebug() << query.lastError().text();
+	int curId = 0;
+	QSet<int> spared;
+	while (query.next()) {
+		int id = query.value(0).toInt();
+		int nbr = query.value(1).toInt();
+		if (curId != id) {
+			candidatesList->addItem(TextTools::unicodeToSingleChar(id));
+			curId = id;
+		}
+		spared << nbr;
+	}
+	for (int i = 0; i < complementsList->count(); i++) {
+		QListWidgetItem *item = complementsList->item(i);
+		if (spared.contains(item->data(Qt::UserRole).toInt()))
+			item->setFlags(item->flags() | Qt::ItemIsEnabled);
+		else item->setFlags(item->flags() & ~Qt::ItemIsEnabled);
+	}
+}
+
+ComponentSearchAction::ComponentSearchAction(QWidget *parent) : QAction(tr("Kanji component selector"), parent), focusWidget(0)
 {
 	setIcon(QIcon(":/images/icons/component-selector.png"));
 	setToolTip(tr("Triggers the kanji input panel"));
@@ -271,11 +312,11 @@ ComponentSearchButton::ComponentSearchButton(QWidget *parent) : QToolButton(pare
 	connect(componentSearchWidget(), SIGNAL(kanjiSelected(QString)), this, SLOT(onComponentSearchKanjiSelected(QString)));
 }
 
-ComponentSearchButton::~ComponentSearchButton()
+ComponentSearchAction::~ComponentSearchAction()
 {
 }
 
-void ComponentSearchButton::togglePopup(bool status)
+void ComponentSearchAction::togglePopup(bool status)
 {
 	if (status) {
 		QWidget *fWidget = QApplication::focusWidget();
@@ -288,7 +329,7 @@ void ComponentSearchButton::togglePopup(bool status)
 			_popup.currentSelection->setFocus();
 			QDesktopWidget *desktopWidget = QApplication::desktop();
 			QRect popupRect = _popup.geometry();
-			QRect screenRect(desktopWidget->screenGeometry(this));
+			QRect screenRect(desktopWidget->screenGeometry());
 			if (!screenRect.contains(_popup.geometry())) {
 				if (screenRect.left() > popupRect.left()) popupRect.moveLeft(screenRect.left());
 				if (screenRect.top() > popupRect.top()) popupRect.moveTop(screenRect.top());
@@ -304,7 +345,7 @@ void ComponentSearchButton::togglePopup(bool status)
 	}
 }
 
-void ComponentSearchButton::onComponentSearchKanjiSelected(const QString &kanji)
+void ComponentSearchAction::onComponentSearchKanjiSelected(const QString &kanji)
 {
 	if (focusWidget) {
 		QLineEdit *target = 0;
@@ -316,7 +357,7 @@ void ComponentSearchButton::onComponentSearchKanjiSelected(const QString &kanji)
 	}
 }
 
-bool ComponentSearchButton::eventFilter(QObject *obj, QEvent *event)
+bool ComponentSearchAction::eventFilter(QObject *obj, QEvent *event)
 {
 	if (event->type() == QEvent::Hide) {
 		setChecked(false);
@@ -324,7 +365,7 @@ bool ComponentSearchButton::eventFilter(QObject *obj, QEvent *event)
 	return false;
 }
 
-void ComponentSearchButton::onFocusChanged(QWidget *old, QWidget *now)
+void ComponentSearchAction::onFocusChanged(QWidget *old, QWidget *now)
 {
 	QLineEdit *lEdit = qobject_cast<QLineEdit *>(now);
 	QComboBox *cBox = qobject_cast<QComboBox *>(now);

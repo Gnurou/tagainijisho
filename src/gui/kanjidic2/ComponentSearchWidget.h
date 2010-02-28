@@ -89,11 +89,14 @@ signals:
 class RadicalSearchWidget : public QFrame, private Ui::RadicalSearchWidget
 {
 	Q_OBJECT
+protected slots:
+	void onSelectionChanged();
+
 public:
 	RadicalSearchWidget(QWidget *parent = 0);
 };
 
-class ComponentSearchButton : public QToolButton
+class ComponentSearchAction : public QAction
 {
 	Q_OBJECT
 private:
@@ -109,8 +112,8 @@ protected slots:
 	void onFocusChanged(QWidget *old, QWidget *now);
 
 public:
-	ComponentSearchButton(QWidget *parent);
-	virtual ~ComponentSearchButton();
+	ComponentSearchAction(QWidget *parent);
+	virtual ~ComponentSearchAction();
 	const ComponentSearchWidget *componentSearchWidget() const { return &_popup; }
 };
 
