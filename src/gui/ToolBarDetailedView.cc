@@ -26,6 +26,8 @@ ToolBarDetailedView::ToolBarDetailedView(QWidget *parent) : QWidget(parent)
 	layout->setSpacing(0);
 
 	_toolBar = new QToolBar(this);
+	_toolBar->layout()->setContentsMargins(0, 0, 0, 0);
+	_toolBar->setStyleSheet("QToolBar { background: none; border-style: none; border-width: 0px; margin: 0px; padding: 0px; }");
 	_detailedView = new DetailedView(this);
 	_detailedView->populateToolBar(_toolBar);
 	layout->addWidget(_toolBar);
