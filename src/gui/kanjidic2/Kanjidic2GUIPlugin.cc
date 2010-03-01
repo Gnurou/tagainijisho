@@ -107,7 +107,7 @@ bool Kanjidic2GUIPlugin::onRegister()
 
 	// Register the searchbar extender
 	_filter = new Kanjidic2FilterWidget(0);
-	mainWindow->addSearchFilter(_filter);
+	mainWindow->searchWidget()->addSearchFilter(_filter);
 
 	// Register the detailed view event filter
 	DetailedView::registerEventFilter(this);
@@ -128,7 +128,7 @@ bool Kanjidic2GUIPlugin::onUnregister()
 
 	MainWindow *mainWindow = MainWindow::instance();
 	// Remove the search extender
-	mainWindow->removeSearchFilterWidget(_filter->name());
+	mainWindow->searchWidget()->removeSearchFilterWidget(_filter->name());
 	delete _filter; _filter = 0;
 	// Remove the components searcher
 	delete _cAction; _cAction = 0;
@@ -180,8 +180,8 @@ void Kanjidic2GUIPlugin::trainingKanjiList()
 
 void Kanjidic2GUIPlugin::trainingKanjiSet()
 {
-	QueryBuilder qBuilder(MainWindow::instance()->queryBuilder());
-	const QueryBuilder::Statement *stat(qBuilder.getStatementForEntryType(KANJIDIC2ENTRY_GLOBALID));
+	QueryBuilder *qBuilder(MainWindow::instance()->searchWidget()->queryBuilder());
+	const QueryBuilder::Statement *stat(qBuilder->getStatementForEntryType(KANJIDIC2ENTRY_GLOBALID));
 	if (!stat) {
 		QMessageBox::information(MainWindow::instance(), tr("Nothing to train"), tr("There are no kanji entries in this set to train on."));
 		return;
@@ -198,8 +198,8 @@ void Kanjidic2GUIPlugin::trainingMeaningList()
 
 void Kanjidic2GUIPlugin::trainingMeaningSet()
 {
-	QueryBuilder qBuilder(MainWindow::instance()->queryBuilder());
-	const QueryBuilder::Statement *stat(qBuilder.getStatementForEntryType(KANJIDIC2ENTRY_GLOBALID));
+	QueryBuilder *qBuilder(MainWindow::instance()->searchWidget()->queryBuilder());
+	const QueryBuilder::Statement *stat(qBuilder->getStatementForEntryType(KANJIDIC2ENTRY_GLOBALID));
 	if (!stat) {
 		QMessageBox::information(MainWindow::instance(), tr("Nothing to train"), tr("There are no kanji entries in this set to train on."));
 		return;
@@ -405,18 +405,18 @@ KanjiAllWordsHandler::KanjiAllWordsHandler() : DetailedViewLinkHandler("allwords
 void KanjiAllWordsHandler::handleUrl(const QUrl &url, DetailedView *view)
 {
 	MainWindow *mainWindow = MainWindow::instance();
-	EntryTypeFilterWidget *entryType = qobject_cast<EntryTypeFilterWidget *>(mainWindow->getSearchFilter("entrytypeselector"));
-	JMdictFilterWidget *extender = qobject_cast<JMdictFilterWidget *>(mainWindow->getSearchFilter("jmdictoptions"));
+	EntryTypeFilterWidget *entryType = qobject_cast<EntryTypeFilterWidget *>(mainWindow->searchWidget()->getSearchFilter("entrytypeselector"));
+	JMdictFilterWidget *extender = qobject_cast<JMdictFilterWidget *>(mainWindow->searchWidget()->getSearchFilter("jmdictoptions"));
 	if (!entryType || !extender) return;
 
-	if (url.hasQueryItem("reset")) mainWindow->searchBuilder()->reset();
+	if (url.hasQueryItem("reset")) mainWindow->searchWidget()->searchBuilder()->reset();
 	entryType->setAutoUpdateQuery(false);
 	entryType->setType(EntryTypeFilterWidget::Vocabulary);
 	entryType->setAutoUpdateQuery(true);
 	extender->setAutoUpdateQuery(false);
 	extender->setContainedKanjis(url.queryItemValue("kanji"));
 	extender->setAutoUpdateQuery(true);
-	mainWindow->searchBuilder()->runSearch();
+	mainWindow->searchWidget()->searchBuilder()->runSearch();
 }
 
 KanjiAllComponentsOfHandler::KanjiAllComponentsOfHandler() : DetailedViewLinkHandler("component")
@@ -426,18 +426,18 @@ KanjiAllComponentsOfHandler::KanjiAllComponentsOfHandler() : DetailedViewLinkHan
 void KanjiAllComponentsOfHandler::handleUrl(const QUrl &url, DetailedView *view)
 {
 	MainWindow *mainWindow = MainWindow::instance();
-	EntryTypeFilterWidget *entryType = qobject_cast<EntryTypeFilterWidget *>(mainWindow->getSearchFilter("entrytypeselector"));
-	Kanjidic2FilterWidget *extender = qobject_cast<Kanjidic2FilterWidget *>(mainWindow->getSearchFilter("kanjidicoptions"));
+	EntryTypeFilterWidget *entryType = qobject_cast<EntryTypeFilterWidget *>(mainWindow->searchWidget()->getSearchFilter("entrytypeselector"));
+	Kanjidic2FilterWidget *extender = qobject_cast<Kanjidic2FilterWidget *>(mainWindow->searchWidget()->getSearchFilter("kanjidicoptions"));
 	if (!entryType || !extender) return;
 
-	if (url.hasQueryItem("reset")) mainWindow->searchBuilder()->reset();
+	if (url.hasQueryItem("reset")) mainWindow->searchWidget()->searchBuilder()->reset();
 	entryType->setAutoUpdateQuery(false);
 	entryType->setType(EntryTypeFilterWidget::Kanjis);
 	entryType->setAutoUpdateQuery(true);
 	extender->setAutoUpdateQuery(false);
 	extender->setComponents(url.queryItemValue("kanji"));
 	extender->setAutoUpdateQuery(true);
-	mainWindow->searchBuilder()->runSearch();
+	mainWindow->searchWidget()->searchBuilder()->runSearch();
 }
 
 static void prepareFourCornerComboBox(QComboBox *box)

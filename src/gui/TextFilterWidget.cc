@@ -18,12 +18,11 @@
 #include "gui/TextFilterWidget.h"
 
 #include <QHBoxLayout>
-#include <QClipboard>
 #include <QApplication>
 
 PreferenceItem<int> TextFilterWidget::textSearchHistorySize("mainWindow", "searchBarHistorySize", 100);
 
-TextFilterWidget::TextFilterWidget(QWidget *parent) : SearchFilterWidget(parent), _clipboardEnabled(false), _reseted(true)
+TextFilterWidget::TextFilterWidget(QWidget *parent) : SearchFilterWidget(parent), _reseted(true)
 {
 	_propsToSave << "text";
 
@@ -57,17 +56,19 @@ TextFilterWidget::TextFilterWidget(QWidget *parent) : SearchFilterWidget(parent)
 	
 	setTabOrder(_searchField, searchButton);
 	setTabOrder(searchButton, resetText);
-	setFocusProxy(_searchField);
-	
-	_enableClipboardInputAction = new QAction(tr("Auto-search on clipboard content"), this);
-	_enableClipboardInputAction->setCheckable(true);
-	connect(_enableClipboardInputAction, SIGNAL(toggled(bool)), this, SLOT(enableClipboardInput(bool)));
+	setFocusProxy(_searchField);	
 }
 
 QString TextFilterWidget::currentTitle() const
 {
 	if (!_searchField->lineEdit()->text().isEmpty()) return _searchField->lineEdit()->text();
 	return tr("Text search");
+}
+
+void TextFilterWidget::setText(const QString &text)
+{
+	_searchField->lineEdit()->setText(text);
+	commandUpdate();
 }
 
 void TextFilterWidget::onItemSelected(int item)
@@ -108,37 +109,4 @@ void TextFilterWidget::resetSearchText()
 void TextFilterWidget::_reset()
 {
 	resetSearchText();
-}
-
-void TextFilterWidget::enableClipboardInput(bool enable)
-{
-	QClipboard *clipboard = QApplication::clipboard();
-	if (enable && !_clipboardEnabled) {
-		connect(clipboard, SIGNAL(dataChanged()), this, SLOT(onClipboardChanged()));
-		connect(clipboard, SIGNAL(selectionChanged()), this, SLOT(onClipboardSelectionChanged()));
-		_clipboardEnabled = true;
-	}
-	else if (!enable && _clipboardEnabled ) {
-		disconnect(clipboard, SIGNAL(dataChanged()), this, SLOT(onClipboardChanged()));
-		disconnect(clipboard, SIGNAL(selectionChanged()), this, SLOT(onClipboardSelectionChanged()));
-		_clipboardEnabled = false;
-	}
-}
-
-void TextFilterWidget::onClipboardChanged()
-{
-	QClipboard *clipboard = QApplication::clipboard();
-	QString cText(clipboard->text(QClipboard::Clipboard));
-	if (cText.isEmpty() || cText == text()) return;
-	setText(cText);
-	commandUpdate();
-}
-
-void TextFilterWidget::onClipboardSelectionChanged()
-{
-	QClipboard *clipboard = QApplication::clipboard();
-	QString cText(clipboard->text(QClipboard::Selection));
-	if (cText.isEmpty() || cText == text()) return;
-	setText(cText);
-	commandUpdate();
 }

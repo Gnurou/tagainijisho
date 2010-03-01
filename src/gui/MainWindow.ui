@@ -33,7 +33,7 @@
      <x>0</x>
      <y>0</y>
      <width>900</width>
-     <height>19</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="_fileMenu">
@@ -96,44 +96,7 @@
    <widget class="QWidget" name="searchDockWidgetContents">
     <layout class="QVBoxLayout" name="verticalLayout_2">
      <item>
-      <widget class="QScrollArea" name="filtersScrollArea">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="frameShape">
-        <enum>QFrame::NoFrame</enum>
-       </property>
-       <property name="verticalScrollBarPolicy">
-        <enum>Qt::ScrollBarAlwaysOff</enum>
-       </property>
-       <property name="widgetResizable">
-        <bool>true</bool>
-       </property>
-       <widget class="QWidget" name="scrollAreaWidgetContents">
-        <property name="geometry">
-         <rect>
-          <x>0</x>
-          <y>0</y>
-          <width>886</width>
-          <height>61</height>
-         </rect>
-        </property>
-        <layout class="QVBoxLayout" name="verticalLayout_3">
-         <property name="margin">
-          <number>0</number>
-         </property>
-         <item>
-          <widget class="MultiStackedWidget" name="_searchFilters" native="true"/>
-         </item>
-        </layout>
-       </widget>
-      </widget>
-     </item>
-     <item>
-      <widget class="ResultsViewWidget" name="_resultsView" native="true"/>
+      <widget class="SearchWidget" name="_searchWidget" native="true"/>
      </item>
     </layout>
    </widget>
@@ -190,51 +153,6 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+R</string>
-   </property>
-  </action>
-  <action name="action_Print">
-   <property name="icon">
-    <iconset resource="../../tagainijisho.qrc">
-     <normaloff>:/images/icons/print.png</normaloff>:/images/icons/print.png</iconset>
-   </property>
-   <property name="text">
-    <string>&amp;Print...</string>
-   </property>
-  </action>
-  <action name="actionPrint_preview">
-   <property name="icon">
-    <iconset resource="../../tagainijisho.qrc">
-     <normaloff>:/images/icons/print.png</normaloff>:/images/icons/print.png</iconset>
-   </property>
-   <property name="text">
-    <string>Print &amp;preview...</string>
-   </property>
-  </action>
-  <action name="actionPrint_booklet_s">
-   <property name="icon">
-    <iconset resource="../../tagainijisho.qrc">
-     <normaloff>:/images/icons/print.png</normaloff>:/images/icons/print.png</iconset>
-   </property>
-   <property name="text">
-    <string>Print &amp;booklet(s)</string>
-   </property>
-  </action>
-  <action name="actionBooklet_s_preview">
-   <property name="icon">
-    <iconset resource="../../tagainijisho.qrc">
-     <normaloff>:/images/icons/print.png</normaloff>:/images/icons/print.png</iconset>
-   </property>
-   <property name="text">
-    <string>Booklet(s) &amp;preview...</string>
-   </property>
-  </action>
-  <action name="action_Export_displayed_entries">
-   <property name="icon">
-    <iconset resource="../../tagainijisho.qrc">
-     <normaloff>:/images/icons/document-export.png</normaloff>:/images/icons/document-export.png</iconset>
-   </property>
-   <property name="text">
-    <string>&amp;Export displayed entries...</string>
    </property>
   </action>
   <action name="action_New_set_from_current_search">
@@ -314,30 +232,6 @@
     <enum>QAction::AboutRole</enum>
    </property>
   </action>
-  <action name="actionPreviousSearch">
-   <property name="enabled">
-    <bool>false</bool>
-   </property>
-   <property name="icon">
-    <iconset resource="../../tagainijisho.qrc">
-     <normaloff>:/images/icons/go-previous.png</normaloff>:/images/icons/go-previous.png</iconset>
-   </property>
-   <property name="text">
-    <string>Previous search</string>
-   </property>
-  </action>
-  <action name="actionNextSearch">
-   <property name="enabled">
-    <bool>false</bool>
-   </property>
-   <property name="icon">
-    <iconset resource="../../tagainijisho.qrc">
-     <normaloff>:/images/icons/go-next.png</normaloff>:/images/icons/go-next.png</iconset>
-   </property>
-   <property name="text">
-    <string>Next search</string>
-   </property>
-  </action>
   <action name="actionFocus_text_search">
    <property name="text">
     <string>Focus text search</string>
@@ -354,15 +248,9 @@
    <header>gui/ToolBarDetailedView.h</header>
   </customwidget>
   <customwidget>
-   <class>MultiStackedWidget</class>
+   <class>SearchWidget</class>
    <extends>QWidget</extends>
-   <header>gui/MultiStackedWidget.h</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>ResultsViewWidget</class>
-   <extends>QWidget</extends>
-   <header>gui/ResultsViewWidget.h</header>
+   <header>gui/SearchWidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
@@ -426,86 +314,6 @@
    <signal>triggered()</signal>
    <receiver>MainWindow</receiver>
    <slot>close()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>322</x>
-     <y>335</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>action_Print</sender>
-   <signal>triggered()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>print()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>322</x>
-     <y>335</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>actionPrint_preview</sender>
-   <signal>triggered()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>printPreview()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>322</x>
-     <y>335</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>actionPrint_booklet_s</sender>
-   <signal>triggered()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>printBooklet()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>322</x>
-     <y>335</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>actionBooklet_s_preview</sender>
-   <signal>triggered()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>printBookletPreview()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>322</x>
-     <y>335</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>action_Export_displayed_entries</sender>
-   <signal>triggered()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>tabExport()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>-1</x>
@@ -678,38 +486,6 @@
    </hints>
   </connection>
   <connection>
-   <sender>actionPreviousSearch</sender>
-   <signal>triggered()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>goPrev()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>249</x>
-     <y>280</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>actionNextSearch</sender>
-   <signal>triggered()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>goNext()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>249</x>
-     <y>280</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
    <sender>actionResetSearch</sender>
    <signal>triggered()</signal>
    <receiver>MainWindow</receiver>
@@ -753,11 +529,6 @@
   <slot>exportUserData()</slot>
   <slot>importUserData()</slot>
   <slot>preferences()</slot>
-  <slot>print()</slot>
-  <slot>printPreview()</slot>
-  <slot>printBooklet()</slot>
-  <slot>printBookletPreview()</slot>
-  <slot>tabExport()</slot>
   <slot>newSet()</slot>
   <slot>newSetsFolder()</slot>
   <slot>organizeSets()</slot>

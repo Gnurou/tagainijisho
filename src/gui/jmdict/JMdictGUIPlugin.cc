@@ -74,7 +74,7 @@ bool JMdictGUIPlugin::onRegister()
 
 	// Add the search extender
 	_filter = new JMdictFilterWidget(0);
-	mainWindow->addSearchFilter(_filter);
+	mainWindow->searchWidget()->addSearchFilter(_filter);
 
 	// Add the preference panel
 	PreferencesWindow::addPanel(&JMdictPreferences::staticMetaObject);
@@ -89,7 +89,7 @@ bool JMdictGUIPlugin::onUnregister()
 	PreferencesWindow::removePanel(&JMdictPreferences::staticMetaObject);
 
 	// Remove the search extender
-	mainWindow->removeSearchFilterWidget(_filter->name());
+	mainWindow->searchWidget()->removeSearchFilterWidget(_filter->name());
 	delete _filter; _filter = 0;
 	// Remove the main window entries
 	delete _flashJS; _flashJS = 0;
@@ -190,8 +190,8 @@ void JMdictGUIPlugin::trainingJapaneseList()
 
 void JMdictGUIPlugin::trainingJapaneseSet()
 {
-	QueryBuilder qBuilder(MainWindow::instance()->queryBuilder());
-	const QueryBuilder::Statement *stat(qBuilder.getStatementForEntryType(JMDICTENTRY_GLOBALID));
+	QueryBuilder *qBuilder(MainWindow::instance()->searchWidget()->queryBuilder());
+	const QueryBuilder::Statement *stat(qBuilder->getStatementForEntryType(JMDICTENTRY_GLOBALID));
 	if (!stat) {
 		QMessageBox::information(MainWindow::instance(), tr("Nothing to train"), tr("There are no vocabulary entries in this set to train on."));
 		return;
@@ -210,8 +210,8 @@ void JMdictGUIPlugin::trainingTranslationList()
 
 void JMdictGUIPlugin::trainingTranslationSet()
 {
-	QueryBuilder qBuilder(MainWindow::instance()->queryBuilder());
-	const QueryBuilder::Statement *stat(qBuilder.getStatementForEntryType(JMDICTENTRY_GLOBALID));
+	QueryBuilder *qBuilder(MainWindow::instance()->searchWidget()->queryBuilder());
+	const QueryBuilder::Statement *stat(qBuilder->getStatementForEntryType(JMDICTENTRY_GLOBALID));
 	if (!stat) {
 		QMessageBox::information(MainWindow::instance(), tr("Nothing to train"), tr("There are no vocabulary entries in this set to train on."));
 		return;

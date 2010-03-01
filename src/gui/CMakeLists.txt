@@ -39,6 +39,7 @@ EntryDelegate.cc
 EntriesViewHelper.cc
 ResultsView.cc
 ResultsViewWidget.cc
+SearchWidget.cc
 DetailedView.cc
 EntryListView.cc
 EntryListWidget.cc
@@ -86,6 +87,7 @@ EntryDelegate.h
 EntriesViewHelper.h
 ResultsView.h
 ResultsViewWidget.h
+SearchWidget.h
 EntryListView.h
 EntryListWidget.h
 SearchFilterWidget.h
@@ -121,6 +123,7 @@ PreferencesWindow.ui
 TrainSettings.ui
 AboutDialog.ui
 ResultsViewWidget.ui
+SearchWidget.ui
 EntryListWidget.ui
 EntryDelegatePreferences.ui
 DetailedViewPreferences.ui

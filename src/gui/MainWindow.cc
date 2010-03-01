@@ -26,16 +26,9 @@
 #include "gui/TrainSettings.h"
 #include "gui/PreferencesWindow.h"
 #include "gui/YesNoTrainer.h"
+#include "gui/TextFilterWidget.h"
 #include "gui/MainWindow.h"
 #include "gui/ui_AboutDialog.h"
-#include "gui/EntryTypeFilterWidget.h"
-#include "gui/TextFilterWidget.h"
-#include "gui/TagsFilterWidget.h"
-#include "gui/NotesFilterWidget.h"
-#include "gui/StudyFilterWidget.h"
-#include "gui/JLPTFilterWidget.h"
-#include "gui/ClickableLabel.h"
-#include "gui/EntriesPrinter.h"
 
 #include <QtDebug>
 
@@ -43,10 +36,8 @@
 #include <QToolBar>
 #include <QStatusBar>
 #include <QApplication>
-#include <QMessageBox>
 #include <QInputDialog>
 #include <QDesktopServices>
-#include <QFileDialog>
 #include <QSqlQuery>
 #include <QTextBrowser>
 #include <QTextEdit>
@@ -55,9 +46,10 @@
 #include <QDialogButtonBox>
 #include <QDataStream>
 #include <QDockWidget>
-#include <QScrollBar>
-#include <QPrintDialog>
 #include <QApplication>
+#include <QFileDialog>
+#include <QMessageBox>
+#include <QClipboard>
 
 /// State version of the main window - should be increated every time the docks or statusbars change
 #define MAINWINDOW_STATE_VERSION 0
@@ -74,7 +66,6 @@ PreferenceItem<int> MainWindow::updateCheckInterval("", "updateCheckInterval", 3
 
 PreferenceItem<QByteArray> MainWindow::windowGeometry("mainWindow", "geometry", "");
 PreferenceItem<QByteArray> MainWindow::windowState("mainWindow", "state", "");
-PreferenceItem<int> MainWindow::historySize("mainWindow/resultsView", "historySize", 100);
 PreferenceItem<QByteArray> MainWindow::splitterState("mainWindow", "splitterGeometry", "");
 
 /*void SearchFilterDock::closeEvent(QCloseEvent *event)
@@ -87,7 +78,6 @@ PreferenceItem<QByteArray> MainWindow::splitterState("mainWindow", "splitterGeom
 DockTitleBar::DockTitleBar(QWidget *widget, QDockWidget *parent) : QWidget(parent)
 {
 	QHBoxLayout *hLayout = new QHBoxLayout(this);
-	//hLayout->setContentsMargins(0, 0, 0, 0);
 	hLayout->addWidget(widget);
 	hLayout->addStretch();
 	QIcon icon(static_cast<QApplication *>(QApplication::instance())->style()->standardIcon(QStyle::SP_TitleBarCloseButton));
@@ -99,64 +89,27 @@ DockTitleBar::DockTitleBar(QWidget *widget, QDockWidget *parent) : QWidget(paren
 	hLayout->addWidget(ttButton);
 }
 
-MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), _history(historySize.value())
+MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), _clipboardEnabled(false)
 {
 	_instance = this;
 	
 	setupUi(this);
-	// Setup our event listener
-	//filtersScrollArea->viewport()->installEventFilter(this);
-	_searchFilters->installEventFilter(this);
-	// Add the prev/next search actions to the results view bar
-	QToolButton *prevSearchButton = new QToolButton(this);
-	prevSearchButton->setDefaultAction(actionPreviousSearch);
-	_resultsView->buttonsLayout()->insertWidget(0, prevSearchButton);
-	QToolButton *nextSearchButton = new QToolButton(this);
-	nextSearchButton->setDefaultAction(actionNextSearch);
-	_resultsView->buttonsLayout()->insertWidget(1, nextSearchButton);
 	// Strangely this is not done properly by Qt designer...
 	connect(_setsMenu, SIGNAL(aboutToShow()), this, SLOT(populateSetsMenu()));
 	
-	// Setup the results model and view
-	_results = new ResultsList(this);
-	_resultsView->setModel(_results);
-	
-	// Search builder
-	connect(&_searchBuilder, SIGNAL(queryRequested(QString)), this, SLOT(search(QString)));
-	
-	_filtersToolBar = new QToolBar(searchDockWidgetContents);
-	_filtersToolBar->layout()->setContentsMargins(0, 0, 0, 0);
-	_filtersToolBar->setStyleSheet("QToolBar { background: none; border-style: none; border-width: 0px; margin: 0px; padding: 0px; }");
-	DockTitleBar *dBar = new DockTitleBar(_filtersToolBar, searchDockWidget);
+	// Steal the tool bar and set it as our dock title bar widget
+	QWidget *filtersToolBar = static_cast<QBoxLayout *>(searchWidget()->layout())->takeAt(0)->widget();
+	DockTitleBar *dBar = new DockTitleBar(filtersToolBar, searchDockWidget);
 	searchDockWidget->setTitleBarWidget(dBar);
-	QMenu *entriesMenu = new QMenu(searchDockWidget);
-	entriesMenu->addAction(action_Print);
-	entriesMenu->addAction(actionPrint_preview);
-	entriesMenu->addAction(actionPrint_booklet_s);
-	entriesMenu->addAction(actionBooklet_s_preview);
-	entriesMenu->addSeparator();
-	entriesMenu->addAction(action_Export_displayed_entries);
-	QAction *entriesMenuAction = new QAction(QIcon(QPixmap(":/images/icons/list-add.png")), tr("Displayed entries..."), _filtersToolBar);
-	entriesMenuAction->setMenu(entriesMenu);
-	_filtersToolBar->addAction(entriesMenuAction);
-	// Fix the behavior of the entries button
-	QToolButton *tButton = qobject_cast<QToolButton *>(_filtersToolBar->widgetForAction(entriesMenuAction));
-	if (tButton) tButton->setPopupMode(QToolButton::InstantPopup);
-	// Search filters
-	EntryTypeFilterWidget *typeFilter = new EntryTypeFilterWidget(this);
-	_searchFilterWidgets[typeFilter->name()] = typeFilter;
-	_filtersToolBar->addWidget(typeFilter);
-	connect(typeFilter, SIGNAL(updateTitle(const QString &)), _searchFilters, SLOT(onTitleChanged(const QString &)));
-	_searchBuilder.addSearchFilter(typeFilter);
-	TextFilterWidget *textFilter = new TextFilterWidget(this);
-	addSearchFilter(textFilter);
-	addSearchFilter(new StudyFilterWidget(this));
-	addSearchFilter(new JLPTFilterWidget(this));
-	addSearchFilter(new TagsFilterWidget(this));
-	addSearchFilter(new NotesFilterWidget(this));
-	_searchFilters->showWidget(textFilter);
-	_searchMenu->addAction(textFilter->enableClipboardInputAction());
-
+	// TODO Save space, otherwise the title bar may become too big
+	//filtersToolBar->setMaximumHeight(dBar->height() / 2);
+	dBar->layout()->setContentsMargins(0, 0, 0, 0);
+	
+	QAction *_enableClipboardInputAction = new QAction(tr("Auto-search on clipboard content"), this);
+	_enableClipboardInputAction->setCheckable(true);
+	connect(_enableClipboardInputAction, SIGNAL(toggled(bool)), this, SLOT(enableClipboardInput(bool)));
+	_searchMenu->addAction(_enableClipboardInputAction);
+	
 	// List widget
 	_entryListWidget = new EntryListWidget(this);
 	_entryListWidget->entryListView()->setModel(&_listModel);
@@ -211,7 +164,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), _history(historyS
 	setCorner(Qt::BottomRightCorner, Qt::RightDockWidgetArea);
 	
 	// Display selected items in the results view
-	connect(_resultsView->resultsView(), SIGNAL(listSelectionChanged(QItemSelection,QItemSelection)), this, SLOT(display(QItemSelection,QItemSelection)));
+	connect(searchWidget()->resultsView(), SIGNAL(listSelectionChanged(QItemSelection,QItemSelection)), this, SLOT(display(QItemSelection,QItemSelection)));
 	
 	// Updates checker
 	_updateChecker = new UpdateChecker("/updates/latestversion.php", this);
@@ -276,85 +229,6 @@ void MainWindow::importUserData()
 
 	ret = QMessageBox::information(this, tr("Please restart Tagaini Jisho"), tr("The imported data will be available the next time you start Tagaini Jisho. All changes performed from now will be lost. Do you want to exit Tagaini Jisho now?"), QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes);
 	if (ret == QMessageBox::Yes) close();
-}
-
-bool MainWindow::askForPrintOptions(QPrinter &printer, const QString &title)
-{
-	QPrintDialog printDialog(&printer, this);
-	printDialog.setWindowTitle(title);
-	#if QT_VERSION >= 0x040500
-	printDialog.setOptions(QAbstractPrintDialog::PrintToFile | QAbstractPrintDialog::PrintPageRange | QAbstractPrintDialog::PrintSelection);
-	#endif
-	if (printDialog.exec() != QDialog::Accepted) return false;
-	return true;
-}
-
-void MainWindow::print()
-{
-	QPrinter printer;
-	if (!askForPrintOptions(printer)) return;
-	QModelIndexList selIndexes;
-	if (printer.printRange() == QPrinter::Selection) selIndexes = resultsView()->selectionModel()->selectedIndexes();
-	EntriesPrinter(resultsList(), selIndexes, this).print(&printer);
-}
-
-void MainWindow::printPreview()
-{
-	QPrinter printer;
-	EntriesPrinter(resultsList(), QModelIndexList(), this).printPreview(&printer);
-}
-
-void MainWindow::printBooklet()
-{
-	QPrinter printer;
-	if (!askForPrintOptions(printer, tr("Booklet print"))) return;
-	QModelIndexList selIndexes;
-	if (printer.printRange() == QPrinter::Selection) selIndexes = resultsView()->selectionModel()->selectedIndexes();
-	EntriesPrinter(resultsList(), selIndexes, this).printBooklet(&printer);
-}
-
-void MainWindow::printBookletPreview()
-{
-	QPrinter printer;
-	EntriesPrinter(resultsList(), QModelIndexList(), this).printBookletPreview(&printer);
-}
-
-void MainWindow::tabExport()
-{
-	QString exportFile = QFileDialog::getSaveFileName(0, tr("Export to tab-separated file..."));
-	if (exportFile.isEmpty()) return;
-	QFile outFile(exportFile);
-	if (!outFile.open(QIODevice::WriteOnly)) {
-		QMessageBox::warning(0, tr("Cannot write file"), QString(tr("Unable to write file %1.")).arg(exportFile));
-		return;
-	}
-
-	const ResultsList *results = resultsList();
-	// Dummy entry to notify Anki that tab is our delimiter
-	//outFile.write("\t\t\n");
-	for (int i = 0; i < results->nbResults(); i++) {
-		ConstEntryPointer entry = results->getEntry(i);
-		QStringList writings = entry->writings();
-		QStringList readings = entry->readings();
-		QStringList meanings = entry->meanings();
-		QString writing;
-		QString reading;
-		QString meaning;
-		if (writings.size() > 0) writing = writings[0];
-		if (readings.size() > 0) reading = readings[0];
-		if (meanings.size() == 1) meaning += " " + meanings[0];
-		else {
-			int cpt = 1;
-			foreach (const QString &str, meanings)
-				meaning += QString(" (%1) %2").arg(cpt++).arg(str);
-		}
-		if (outFile.write(QString("%1\t%2\t%3\n").arg(writing).arg(readings.join(", ")).arg(meanings.join(", ")).toUtf8()) == -1) {
-			QMessageBox::warning(0, tr("Error writing file"), QString(tr("Error while writing file %1.")).arg(exportFile));
-			return;
-		}
-	}
-
-	outFile.close();
 }
 
 void MainWindow::preferences()
@@ -514,7 +388,7 @@ void MainWindow::newSet()
 
 	QByteArray curState;
 	QDataStream ds(&curState, QIODevice::WriteOnly);
-	ds << QVariant(_searchBuilder.getState());
+	ds << QVariant(searchWidget()->searchBuilder()->getState());
 	QSqlQuery query;
 	query.prepare(QString("INSERT INTO sets VALUES(%2, ifnull((SELECT max(position) + 1 FROM sets WHERE parent %1), 0), ?, ?)").arg(!parentId ? "is null" : QString("= %1").arg(parentId)).arg(!parentId ? "null" : QString::number(parentId)));
 	query.addBindValue(setName);
@@ -549,8 +423,8 @@ void MainWindow::onSetSelected()
 	QByteArray bState(action->property("T_state").toByteArray());
 	QDataStream ds(&bState, QIODevice::ReadOnly);
 	QMap<QString, QVariant> state(QVariant(ds).toMap());
-	_searchBuilder.restoreState(state);
-	_searchBuilder.runSearch();
+	searchWidget()->searchBuilder()->restoreState(state);
+	searchWidget()->searchBuilder()->runSearch();
 }
 
 void MainWindow::organizeSets()
@@ -575,100 +449,50 @@ void MainWindow::display(const QItemSelection &selected, const QItemSelection &d
 	if (entry) _detailedView->detailedView()->display(entry);
 }
 
-void MainWindow::search(const QString &commands)
-{
-	QString localCommands(commands.trimmed());
-	if (!(localCommands.isEmpty() || localCommands == ":jmdict" || localCommands == ":kanjidic")) {
-		_history.add(_searchBuilder.getState());
-		_search(localCommands);
-	}
-	else {
-		_results->abortSearch();
-		_results->clear();
-		_resultsView->showNbResults(0);
-	}
-}
-
-void MainWindow::_search(const QString &commands)
-{
-	_queryBuilder.clear();
-	
-	actionPreviousSearch->setEnabled(_history.hasPrevious());
-	actionNextSearch->setEnabled(_history.hasNext());
-
-	// If we cannot build a valid query, no need to continue
-	if (!EntrySearcherManager::instance().buildQuery(commands, _queryBuilder)) return;
-
-	_results->search(_queryBuilder);
-}
-
-void MainWindow::goPrev()
-{
-	QMap<QString, QVariant> q;
-	bool ok = _history.previous(q);
-	if (ok) {
-		_searchBuilder.restoreState(q);
-		_search(_searchBuilder.commands());
-	}
-}
-
-void MainWindow::goNext()
-{
-	QMap<QString, QVariant> q;
-	bool ok = _history.next(q);
-	if (ok) {
-		_searchBuilder.restoreState(q);
-		_search(_searchBuilder.commands());
-	}
-}
-
-void MainWindow::addSearchFilter(SearchFilterWidget *sWidget)
-{
-	if (_searchBuilder.contains(sWidget->name())) return;
-	_searchFilterWidgets[sWidget->name()] = sWidget;
-	_filtersToolBar->addAction(new ToolBarWidget(_searchFilters->addWidget(sWidget->currentTitle(), sWidget), _filtersToolBar));
-	connect(sWidget, SIGNAL(updateTitle(const QString &)), _searchFilters, SLOT(onTitleChanged(const QString &)));
-	_searchBuilder.addSearchFilter(sWidget);
-}
-
-SearchFilterWidget *MainWindow::getSearchFilter(const QString &name)
-{
-	if (!_searchFilterWidgets.contains(name)) return 0;
-	return _searchFilterWidgets[name];
-}
-
-void MainWindow::removeSearchFilterWidget(const QString &name)
-{
-	if (!_searchFilterWidgets.contains(name)) return;
-	
-	_searchFilterWidgets.remove(name);
-	_searchBuilder.removeSearchFilter(name);
-}
-
 void MainWindow::resetSearch()
 {
-	_searchBuilder.reset();
+	searchWidget()->resetSearch();
 }
 
 void MainWindow::focusTextSearch()
 {
-	TextFilterWidget *tWidget = qobject_cast<TextFilterWidget *>(getSearchFilter("searchtext"));
+	TextFilterWidget *tWidget = qobject_cast<TextFilterWidget *>(searchWidget()->getSearchFilter("searchtext"));
 	if (!tWidget) return;
-	_searchFilters->showWidget(tWidget);
+	searchWidget()->searchFilters()->showWidget(tWidget);
 	tWidget->searchField()->lineEdit()->selectAll();
 }
 
-bool MainWindow::eventFilter(QObject *obj, QEvent *event)
+void MainWindow::enableClipboardInput(bool enable)
 {
-	if (obj == _searchFilters) {
-		if (event->type() == QEvent::Resize) {
-			QResizeEvent *revt(static_cast<QResizeEvent *>(event));
-			// The new height of the scroll area will depend on whether we need to display the horizontal scrollbar or not
-			int newHeight = revt->size().height();
-			if (revt->size().width() > filtersScrollArea->viewport()->width()) newHeight += filtersScrollArea->horizontalScrollBar()->height() + 2;
-			filtersScrollArea->setMinimumHeight(newHeight);
-			filtersScrollArea->setMaximumHeight(newHeight);
-		}
+	QClipboard *clipboard = QApplication::clipboard();
+	if (enable && !_clipboardEnabled) {
+		connect(clipboard, SIGNAL(dataChanged()), this, SLOT(onClipboardChanged()));
+		connect(clipboard, SIGNAL(selectionChanged()), this, SLOT(onClipboardSelectionChanged()));
+		_clipboardEnabled = true;
 	}
-	return QMainWindow::eventFilter(obj, event);
+	else if (!enable && _clipboardEnabled ) {
+		disconnect(clipboard, SIGNAL(dataChanged()), this, SLOT(onClipboardChanged()));
+		disconnect(clipboard, SIGNAL(selectionChanged()), this, SLOT(onClipboardSelectionChanged()));
+		_clipboardEnabled = false;
+	}
+}
+
+void MainWindow::onClipboardChanged()
+{
+	TextFilterWidget *tfw = qobject_cast<TextFilterWidget *>(searchWidget()->getSearchFilter("searchtext"));
+	if (!tfw) return;
+	QClipboard *clipboard = QApplication::clipboard();
+	QString cText(clipboard->text(QClipboard::Clipboard));
+	if (cText.isEmpty() || cText == tfw->text()) return;
+	tfw->setText(cText);
+}
+
+void MainWindow::onClipboardSelectionChanged()
+{
+	TextFilterWidget *tfw = qobject_cast<TextFilterWidget *>(searchWidget()->getSearchFilter("searchtext"));
+	if (!tfw) return;
+	QClipboard *clipboard = QApplication::clipboard();
+	QString cText(clipboard->text(QClipboard::Selection));
+	if (cText.isEmpty() || cText == tfw->text()) return;
+	tfw->setText(cText);
 }

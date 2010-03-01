@@ -34,18 +34,13 @@ private:
 	QComboBox *_searchField;
 	QToolButton *resetText;
 	QPushButton *searchButton;	
-	bool _clipboardEnabled;
 	bool _reseted;
-	QAction *_enableClipboardInputAction;
 	
 private slots:
 	void searchButtonClicked();
 	void onItemSelected(int item);
 	void resetSearchText();
 	void onSearchTextChanged(const QString &text);
-	void onClipboardChanged();
-	void onClipboardSelectionChanged();
-	void enableClipboardInput(bool enable);
 
 protected:
 	virtual void _reset();
@@ -58,11 +53,10 @@ public:
 	QComboBox *searchField() { return _searchField; }
 	
 	QString text() const { return _searchField->lineEdit()->text(); }
-	void setText(const QString &text) { _searchField->lineEdit()->setText(text); }
+	void setText(const QString &text);
 	Q_PROPERTY(QString text READ text WRITE setText)
 	
 	static PreferenceItem<int> textSearchHistorySize;
-	QAction *enableClipboardInputAction() { return _enableClipboardInputAction; }
 };
 
 #endif

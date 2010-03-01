@@ -20,15 +20,8 @@
 
 #include "gui/ui_MainWindow.h"
 #include "core/Preferences.h"
-#include "core/QueryBuilder.h"
-#include "core/Query.h"
 #include "core/EntryListModel.h"
-#include "core/ResultsList.h"
-#include "gui/ResultsView.h"
-#include "gui/AbstractHistory.h"
 #include "gui/ToolBarDetailedView.h"
-#include "gui/SearchFilterWidget.h"
-#include "gui/SearchBuilder.h"
 #include "gui/EntryListWidget.h"
 
 #include <QSplitter>
@@ -68,62 +61,35 @@ private:
 	static PreferenceItem<QByteArray> windowState;
 	static MainWindow *_instance;
 
-	QToolBar *_filtersToolBar;
 	// Used by sets
 	QList<QAction *> _rootActions;
 	QList<QMenu *> _rootMenus;
 	
 	QTimer _updateTimer;
-
-	// SearchWidget stuff
 	static PreferenceItem<QByteArray> splitterState;
-	AbstractHistory<QMap<QString, QVariant>, QList<QMap<QString, QVariant> > > _history;
-
-	QMap<QString, SearchFilterWidget *> _searchFilterWidgets;
-	SearchBuilder _searchBuilder;
-	ResultsList *_results;
-	QueryBuilder _queryBuilder;
+	
+	bool _clipboardEnabled;
 	
 	EntryListModel _listModel;
 	EntryListWidget *_entryListWidget;
 	
-	/**
-	 * Run the search without touching the history.
-	 */
-	void _search(const QString &commands);
-	
-	/**
-	 * Present the user with a config dialog to setup printing. Returns true
-	 * if the user confirmed the dialog, false if he cancelled it.
-	 */
-	bool askForPrintOptions(QPrinter &printer, const QString &title = tr("Print"));
-	
-protected:
-	virtual bool eventFilter(QObject *obj, QEvent *event);
-
 private slots:
 	void populateMenu(QMenu *menu, int parentId);
+	void resetSearch();
+
+	void onClipboardChanged();
+	void onClipboardSelectionChanged();
+	void enableClipboardInput(bool enable);
 
 protected slots:
-	/// Start a search with the content of the search field
-	void search(const QString &commands);
 	/// Display the latest selected result in the detailed view
 	void display(const QItemSelection &selected, const QItemSelection &deselected);
 
-	void goPrev();
-	void goNext();
-	void resetSearch();
 	void focusTextSearch();
 	
 	void exportUserData();
 	void importUserData();
 
-	void print();
-	void printPreview();
-	void printBooklet();
-	void printBookletPreview();
-
-	void tabExport();
 	void preferences();
 
 	void organizeSets();
@@ -164,19 +130,10 @@ public:
 	static PreferenceItem<bool> autoCheckBetaUpdates;
 	static PreferenceItem<int> updateCheckInterval;
 	static PreferenceItem<QDateTime> lastUpdateCheck;
-	static PreferenceItem<int> historySize;
 	
-	SearchBuilder *searchBuilder() { return &_searchBuilder; }
-	ResultsList *resultsList() { return _results; }
-	ResultsView *resultsView() { return _resultsView->resultsView(); }
+	SearchWidget *searchWidget() { return _searchWidget; }
 	DetailedView *detailedView() { return _detailedView->detailedView(); }
 	EntryListWidget *entryListWidget() { return _entryListWidget; }
-
-	const QueryBuilder &queryBuilder() const { return _queryBuilder; }
-	
-	void addSearchFilter(SearchFilterWidget *widget);
-	SearchFilterWidget *getSearchFilter(const QString &name);
-	void removeSearchFilterWidget(const QString &name);
 };
 
 #endif
