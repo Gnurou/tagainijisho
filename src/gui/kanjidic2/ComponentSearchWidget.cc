@@ -212,15 +212,13 @@ void ComponentSearchWidget::populateList(QSqlQuery &query)
 	}
 }
 
-RadicalSearchWidget::RadicalSearchWidget(QWidget *parent) : QFrame(parent)
+RadicalSelector::RadicalSelector(QWidget *parent) : QListWidget(parent), baseFont(font()), labelFont(baseFont), _acceptVariants(true)
 {
-	setupUi(this);
-	connect(complementsList, SIGNAL(itemSelectionChanged()), this, SLOT(onSelectionChanged()));
+	connect(this, SIGNAL(itemSelectionChanged()), this, SLOT(updateSelectableComplements()));
 	
-	QFont font(complementsList->font());
-	font.setPointSize(font.pointSize() + 2);
-	QFontMetrics fm(font);
-	QFont labelFont(font);
+	// Setup the fonts and size of the grid
+	baseFont.setPointSize(baseFont.pointSize() + 2);
+	QFontMetrics fm(baseFont);
 	labelFont.setBold(true);
 	QFontMetrics lfm(labelFont);
 	int maxFontSize = qMax(fm.maxWidth(), fm.height()) + 2;
@@ -231,85 +229,140 @@ RadicalSearchWidget::RadicalSearchWidget(QWidget *parent) : QFrame(parent)
 	}
 	maxBoldSize *= 2;
 	int gridSize = qMax(maxBoldSize, maxFontSize) + 5;
-	complementsList->setFont(font);
-	complementsList->setGridSize(QSize(gridSize, gridSize));
+	setFont(baseFont);
+	setGridSize(QSize(gridSize, gridSize));
+	
+	buildRadicalsList();
+}
+
+void RadicalSelector::buildRadicalsList()
+{
+	clear();
 	QSqlQuery query;
-	query.exec("select kanji, number, strokeCount from kanjidic2.radicalsList join kanjidic2.entries on radicalsList.kanji = entries.id order by number, radicalsList.rowid");
+	query.exec("select kanji, number, strokeCount from kanjidic2.radicalsList join kanjidic2.entries on radicalsList.kanji = entries.id order by strokeCount, number, radicalsList.rowid");
 	int lastNbr = 0;
 	int lastStrokeNbr = 0;
 	while (query.next()) {
 		QString car(TextTools::unicodeToSingleChar(query.value(0).toInt()));
 		int curNbr = query.value(1).toInt();
 		int strokeNbr = query.value(2).toInt();
-		if (curNbr == lastNbr) continue;
+		// Skip variations for now
+		//if (curNbr == lastNbr) continue;
 		if (curNbr != lastNbr && lastStrokeNbr < strokeNbr) {
-			QListWidgetItem *item = new QListWidgetItem(QString::number(strokeNbr), complementsList);
+			QListWidgetItem *item = new QListWidgetItem(QString::number(strokeNbr), this);
 			item->setFlags(item->flags() & ~Qt::ItemIsSelectable);
 			item->setBackground(Qt::yellow);
 			item->setFont(labelFont);
 		}
-		QListWidgetItem *item = new QListWidgetItem(car, complementsList);
+		QListWidgetItem *item = new QListWidgetItem(car, this);
 		item->setData(Qt::UserRole, curNbr);
-		//item->setFlags(item->flags() & ~Qt::ItemIsSelectable);
-		//item->setBackground(nbrBg);
-		//item->setFont(nbrFont);
 		if (lastNbr != curNbr) lastStrokeNbr = strokeNbr;
 		lastNbr = curNbr;
 	}
 }
 
-void RadicalSearchWidget::onSelectionChanged()
-{	
-	QStringList select;
-	foreach (const QListWidgetItem *selected, complementsList->selectedItems()) {
-		select << QString::number(selected->data(Qt::UserRole).toInt());
+void RadicalSelector::setAcceptVariants(bool accept)
+{
+	_acceptVariants = accept;
+	buildRadicalsList();
+}
+
+void RadicalSelector::updateSelectableComplements()
+{
+	QSet<int> selection;
+	// Build the lists of selected radicals
+	foreach (const QListWidgetItem *selected, selectedItems()) {
+		int number = selected->data(Qt::UserRole).toInt();
+		selection << number;
 	}
-	candidatesList->clear();
-	
-	if (select.isEmpty()) {
-		for (int i = 0; i < complementsList->count(); i++) {
-			QListWidgetItem *item = complementsList->item(i);
-			item->setFlags(item->flags() | Qt::ItemIsEnabled);
+
+	// If nothing is selected, enable everyone and exit
+	if (selection.isEmpty()) {
+		for (int i = 0; i < count(); i++) {
+			QListWidgetItem *it = item(i);
+			it->setFlags(it->flags() | Qt::ItemIsEnabled);
 		}
-		return;
-	}
-	
-	QSqlQuery query;
-	//QString queryString(QString("select kanji from kanjidic2.radicals join kanjidic2.entries on entries.id = radicals.kanji where number in (%1) group by kanji having uniquecount(number) >= %2 order by entries.strokeCount, entries.frequency").arg(select.join(", ")).arg(select.size()));
-	QString queryString(QString("select kanji, number from kanjidic2.radicals join kanjidic2.entries on entries.id = radicals.kanji where number in (%1) order by entries.strokeCount, entries.frequency, entries.id").arg(select.join(", ")));
-	if (!query.exec(queryString)) qDebug() << query.lastError().text();
-	int curId = 0;
-	QSet<int> spared;
-	while (query.next()) {
-		int id = query.value(0).toInt();
-		int nbr = query.value(1).toInt();
-		if (curId != id) {
-			candidatesList->addItem(TextTools::unicodeToSingleChar(id));
-			curId = id;
+	} else {
+		QSet<int> selectable;
+		QStringList selStrings;
+		foreach (int n, selection) selStrings << QString::number(n);
+		QSqlQuery query;
+		query.exec(QString("select r2.number from kanjidic2.radicals as r1 join kanjidic2.radicals as r2 on r1.kanji = r2.kanji where r1.number in (%1) group by r1.kanji, r2.number having uniquecount(r1.number) >= %2").arg(selStrings.join(", ")).arg(selStrings.size()));
+		while (query.next()) selectable << query.value(0).toInt();
+		selectable -= selection;
+		// Enable/disable items in the list
+		for (int i = 0; i < count(); i++) {
+			QListWidgetItem *it = item(i);
+			// Skip stroke number items
+			if (!(it->flags() & Qt::ItemIsSelectable)) continue;
+			if (selectable.contains(it->data(Qt::UserRole).toInt()) || it->isSelected())
+				it->setFlags(it->flags() | Qt::ItemIsEnabled);
+			else it->setFlags(it->flags() & ~Qt::ItemIsEnabled);
 		}
-		spared << nbr;
-	}
-	for (int i = 0; i < complementsList->count(); i++) {
-		QListWidgetItem *item = complementsList->item(i);
-		if (spared.contains(item->data(Qt::UserRole).toInt()))
-			item->setFlags(item->flags() | Qt::ItemIsEnabled);
-		else item->setFlags(item->flags() & ~Qt::ItemIsEnabled);
 	}
 }
 
-ComponentSearchAction::ComponentSearchAction(QWidget *parent) : QAction(tr("Kanji component selector"), parent), focusWidget(0)
+QStringList RadicalSelector::selectedRadicals() const
+{
+	QStringList ret;
+	foreach (const QListWidgetItem *selected, selectedItems()) ret << selected->text();
+	return ret;
+}
+
+QSet<int> RadicalSelector::selectedRadicalsNumbers() const
+{
+	QSet<int> ret;
+	foreach (const QListWidgetItem *selected, selectedItems()) {
+		int number = selected->data(Qt::UserRole).toInt();
+		ret << number;
+	}
+	return ret;
+}
+
+RadicalSearchWidget::RadicalSearchWidget(QWidget *parent) : QFrame(parent)
+{
+	setupUi(this);
+	connect(complementsList, SIGNAL(itemSelectionChanged()), this, SLOT(onSelectionChanged()));
+	connect(candidatesList, SIGNAL(kanjiSelected(QString)), this, SIGNAL(kanjiSelected(QString)));
+	connect(this, SIGNAL(resultFound(QString)), candidatesList, SLOT(addItem(QString)));
+	
+}
+
+void RadicalSearchWidget::onSelectionChanged()
+{
+	complementsList->setEnabled(false);
+
+	// First of all clear the candidates list
+	candidatesList->clear();
+	
+	QSet<int> selected(complementsList->selectedRadicalsNumbers());
+	QStringList select;
+	foreach (int sel, selected) select << QString::number(sel);
+	
+	// Run the SQL query if we have something selected and emit the results
+	if (!selected.isEmpty()) {
+		QSqlQuery query;
+		QString queryString(QString("select r1.kanji from kanjidic2.radicals as r1 join kanjidic2.entries as e on r1.kanji = e.id where r1.number in (%1) group by r1.kanji having uniquecount(r1.number) >= %2 order by e.strokeCount, e.frequency, e.id").arg(select.join(", ")).arg(select.size()));
+		query.exec(queryString);
+		while (query.next()) emit resultFound(TextTools::unicodeToSingleChar(query.value(0).toInt()));
+	}
+	
+	complementsList->setEnabled(true);
+}
+
+ComponentSearchAction::ComponentSearchAction(QFrame *popup, QWidget *parent) : QAction(tr("Kanji component selector"), parent), _popup(popup), focusWidget(0)
 {
 	setIcon(QIcon(":/images/icons/component-selector.png"));
 	setToolTip(tr("Triggers the kanji input panel"));
 	setCheckable(true);
 	connect(this, SIGNAL(toggled(bool)), this, SLOT(togglePopup(bool)));
 	connect(QApplication::instance(), SIGNAL(focusChanged(QWidget *, QWidget *)), this, SLOT(onFocusChanged(QWidget *, QWidget *)));
-	_popup.hide();
-	_popup.installEventFilter(this);
-	_popup.setFrameStyle(QFrame::StyledPanel | QFrame::Raised);
-	_popup.setWindowModality(Qt::ApplicationModal);
-	_popup.setWindowFlags(Qt::Popup);
-	connect(componentSearchWidget(), SIGNAL(kanjiSelected(QString)), this, SLOT(onComponentSearchKanjiSelected(QString)));
+	_popup->hide();
+	_popup->installEventFilter(this);
+	_popup->setFrameStyle(QFrame::StyledPanel | QFrame::Raised);
+	_popup->setWindowModality(Qt::ApplicationModal);
+	_popup->setWindowFlags(Qt::Popup);
+	connect(_popup, SIGNAL(kanjiSelected(QString)), this, SLOT(onComponentSearchKanjiSelected(QString)));
 }
 
 ComponentSearchAction::~ComponentSearchAction()
@@ -324,24 +377,24 @@ void ComponentSearchAction::togglePopup(bool status)
 		QComboBox *cBox = qobject_cast<QComboBox *>(fWidget);
 		if (lEdit || (cBox && cBox->isEditable())) {
 			focusWidget = fWidget;
-			_popup.move(focusWidget->mapToGlobal(QPoint(focusWidget->rect().left() + (focusWidget->rect().width() - _popup.rect().width()) / 2, focusWidget->rect().bottom())));
-			_popup.show();
-			_popup.currentSelection->setFocus();
+			_popup->move(focusWidget->mapToGlobal(QPoint(focusWidget->rect().left() + (focusWidget->rect().width() - _popup->rect().width()) / 2, focusWidget->rect().bottom())));
+			_popup->show();
+			//_popup->currentSelection->setFocus();
 			QDesktopWidget *desktopWidget = QApplication::desktop();
-			QRect popupRect = _popup.geometry();
+			QRect popupRect = _popup->geometry();
 			QRect screenRect(desktopWidget->screenGeometry());
-			if (!screenRect.contains(_popup.geometry())) {
+			if (!screenRect.contains(_popup->geometry())) {
 				if (screenRect.left() > popupRect.left()) popupRect.moveLeft(screenRect.left());
 				if (screenRect.top() > popupRect.top()) popupRect.moveTop(screenRect.top());
 				if (screenRect.right() < popupRect.right()) popupRect.moveRight(screenRect.right());
 				if (screenRect.bottom() < popupRect.bottom()) popupRect.moveBottom(screenRect.bottom());
-				_popup.setGeometry(popupRect);
+				_popup->setGeometry(popupRect);
 			}
 		}
 	}
 	else {
 		focusWidget = 0;
-		_popup.hide();
+		_popup->hide();
 	}
 }
 

@@ -177,12 +177,14 @@ bool KanjiVGDBParser::onItemParsed(KanjiVGItem &kanji)
 	}
 	QByteArray compressedPaths(paths.join("|").toAscii());
 	if (!paths.isEmpty()) {
+		BIND(updatePathsString, paths.size());
 		BIND(updatePathsString, qCompress(compressedPaths, 9));
 		BIND(updatePathsString, kanji.id);
 		EXEC(updatePathsString);
 	}
 	// Insert radicals
-	foreach (const KanjiVGGroupItem &group, kanji.groups) if (group.radicalType != KanjiVGGroupItem::NONE) {
+	//foreach (const KanjiVGGroupItem &group, kanji.groups) if (group.radicalType != KanjiVGGroupItem::NONE) {
+	foreach (const KanjiVGGroupItem &group, kanji.groups) if (knownRadicals.contains(group.element) || knownRadicals.contains(group.original)) {
 		if (knownRadicals.contains(group.element)) BIND(insertRadicalQuery, knownRadicals[group.element]);
 		else if (group.original && knownRadicals.contains(group.original)) BIND(insertRadicalQuery, knownRadicals[group.original]);
 		else {
@@ -271,6 +273,7 @@ static void create_indexes()
 	query.exec("create index idx_skip on skip(entry)");
 	query.exec("create index idx_skip_type on skip(type, c1, c2)");
 	query.exec("create index idx_fourCorner on fourCorner(entry)");
+	query.exec("create index idx_Radicals on radicals(kanji)");
 }
 
 void printUsage(char *argv[])
@@ -343,7 +346,7 @@ int main(int argc, char *argv[])
 	PREPQUERY(insertStrokeGroupQuery, "insert into strokeGroups values(?, ?, ?, ?, ?)");
 	PREPQUERY(updateJLPTLevelsQuery, "update entries set jlpt = ? where id = ?");
 	PREPQUERY(updateStrokeCountQuery, "update entries set strokeCount = ? where id = ?");
-	PREPQUERY(updatePathsString, "update entries set paths = ? where id = ?");
+	PREPQUERY(updatePathsString, "update entries set strokeCount = ?, paths = ? where id = ?");
 	PREPQUERY(addRadicalQuery, "insert into radicalsList values(?, ?)");
 	PREPQUERY(insertRadicalQuery, "insert into radicals values(?, ?, ?)");
 	#undef PREPQUERY

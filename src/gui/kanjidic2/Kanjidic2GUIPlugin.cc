@@ -98,7 +98,7 @@ bool Kanjidic2GUIPlugin::onRegister()
 
 	// Add the components searcher to the tool bar
 	//QToolBar *toolBar = mainWindow->toolBar();
-	_cAction = new ComponentSearchAction(mainWindow);
+	_cAction = new ComponentSearchAction(new RadicalSearchWidget(), mainWindow);
 	_cAction->setShortcut(QKeySequence("Ctrl+k"));
 	mainWindow->searchMenu()->addAction(_cAction);
 	//mainWindow->layout()->addWidget(_cButton);

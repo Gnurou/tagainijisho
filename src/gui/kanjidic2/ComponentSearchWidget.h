@@ -84,6 +84,26 @@ signals:
 	void kanjiSelected(const QString &kanji);
 };
 
+class RadicalSelector : public QListWidget
+{
+	Q_OBJECT
+private:
+	QFont baseFont;
+	QFont labelFont;
+	bool _acceptVariants;
+	void buildRadicalsList();
+
+protected slots:
+	void updateSelectableComplements();
+
+public:
+	RadicalSelector(QWidget *parent = 0);
+	bool acceptVariants() const { return _acceptVariants; }
+	void setAcceptVariants(bool accept);
+	QStringList selectedRadicals() const;
+	QSet<int> selectedRadicalsNumbers() const;
+};
+
 #include "gui/ui_RadicalSearchWidget.h"
 
 class RadicalSearchWidget : public QFrame, private Ui::RadicalSearchWidget
@@ -94,13 +114,17 @@ protected slots:
 
 public:
 	RadicalSearchWidget(QWidget *parent = 0);
+
+signals:
+	void resultFound(const QString &kanji);
+	void kanjiSelected(const QString &kanji);
 };
 
 class ComponentSearchAction : public QAction
 {
 	Q_OBJECT
 private:
-	ComponentSearchWidget _popup;
+	QFrame * _popup;
 	QWidget *focusWidget;
 
 protected:
@@ -112,9 +136,8 @@ protected slots:
 	void onFocusChanged(QWidget *old, QWidget *now);
 
 public:
-	ComponentSearchAction(QWidget *parent);
+	ComponentSearchAction(QFrame *popup, QWidget *parent = 0);
 	virtual ~ComponentSearchAction();
-	const ComponentSearchWidget *componentSearchWidget() const { return &_popup; }
 };
 
 #endif
