@@ -39,7 +39,7 @@ for f in $TS_FILES; do
 done
 
 # Generate documentation
-for f in `ls doc/*.txt`; do
+type mmd2XHTML.pl &>/dev/null && for f in `ls doc/*.txt`; do
 	mmd2XHTML.pl $f
-done
+done || echo "mmd2XHTML.pl not found - documentation not generated"
 
