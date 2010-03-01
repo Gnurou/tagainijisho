@@ -2,18 +2,24 @@
 VERSION=`grep "set(VERSION " CMakeLists.txt |sed "s/set(VERSION \(.*\))/\1/"`
 BUNDLEPATH=build/src/gui
 
+# Include and re-link the Qt libraries in the bundle
 macdeployqt $BUNDLEPATH/tagainijisho.app
+# Include Qt translations
 echo "Translations = Translations" >> $BUNDLEPATH/tagainijisho.app/Contents/Resources/qt.conf
 mkdir $BUNDLEPATH/tagainijisho.app/Contents/Translations
 cp /Developer/Applications/Qt/translations/qt_fr.qm $BUNDLEPATH/tagainijisho.app/Contents/Translations
 cp /Developer/Applications/Qt/translations/qt_de.qm $BUNDLEPATH/tagainijisho.app/Contents/Translations
 cp /Developer/Applications/Qt/translations/qt_es.qm $BUNDLEPATH/tagainijisho.app/Contents/Translations
 cp /Developer/Applications/Qt/translations/qt_ru.qm $BUNDLEPATH/tagainijisho.app/Contents/Translations
+# The .plist file correctly sets the application name in the mac menu
+cp scripts/Info.plist $BUNDLEPATH/tagainijisho.app/Contents
+# Remove unneeded Qt stuff
 rm -Rf $BUNDLEPATH/tagainijisho.app/Contents/PlugIns/accessible
 rm -Rf $BUNDLEPATH/tagainijisho.app/Contents/PlugIns/codecs
 rm -Rf $BUNDLEPATH/tagainijisho.app/Contents/PlugIns/sqldrivers
 rm -f $BUNDLEPATH/tagainijisho.app/Contents/PlugIns/imageformats/libqico.dylib tagainijisho.app/Contents/PlugIns/imageformats/libqjpeg.dylib tagainijisho.app/Contents/PlugIns/imageformats/libqmng.dylib tagainijisho.app/Contents/PlugIns/imageformats/libqtiff.dylib
 
+# Create the disk images from our master
 for lang in en fr de es ru;
 do
 	mv -f jmdict-$lang.db $BUNDLEPATH/tagainijisho.app/Contents/MacOS/jmdict.db
