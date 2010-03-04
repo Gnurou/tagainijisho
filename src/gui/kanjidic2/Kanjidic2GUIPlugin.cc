@@ -457,17 +457,30 @@ static void prepareFourCornerComboBox(QComboBox *box)
 
 Kanjidic2FilterWidget::Kanjidic2FilterWidget(QWidget *parent) : SearchFilterWidget(parent, "kanjidic")
 {
-	_propsToSave << "strokeCount" << "components" << "unicode" << "skip" << "fourCorner" << "grades";
+	_propsToSave << "strokeCount" << "isStrokeRange" << "maxStrokeCount" << "components" << "unicode" << "skip" << "fourCorner" << "grades";
 
 	QGroupBox *_strokeCountGroupBox = new QGroupBox(tr("Stroke count"), this);
 	connect(_strokeCountGroupBox, SIGNAL(toggled(bool)), this, SLOT(commandUpdate()));
 	{
-		QHBoxLayout *hLayout = new QHBoxLayout(_strokeCountGroupBox);
+		QVBoxLayout *vLayout = new QVBoxLayout(_strokeCountGroupBox);
+		QHBoxLayout *hLayout = new QHBoxLayout();
+		hLayout->setContentsMargins(0, 0, 0, 0);
 		_strokeCountSpinBox = new BetterSpinBox(this);
 		_strokeCountSpinBox->setSpecialValueText("");
 		_strokeCountSpinBox->setRange(0, 34);
 		hLayout->addWidget(_strokeCountSpinBox);
-		connect(_strokeCountSpinBox, SIGNAL(valueChanged(QString)), this, SLOT(delayedCommandUpdate()));
+		connect(_strokeCountSpinBox, SIGNAL(valueChanged(QString)), this, SLOT(onStrokeRangeChanged()));
+		_maxStrokeCountSpinBox = new BetterSpinBox(this);
+		_maxStrokeCountSpinBox->setSpecialValueText("");
+		_maxStrokeCountSpinBox->setRange(0, 34);
+		_maxStrokeCountSpinBox->setVisible(false);
+		_maxStrokeCountSpinBox->setEnabled(false);
+		hLayout->addWidget(_maxStrokeCountSpinBox);
+		connect(_maxStrokeCountSpinBox, SIGNAL(valueChanged(QString)), this, SLOT(onStrokeRangeChanged()));
+		_rangeCheckBox = new QCheckBox(tr("Range"), _strokeCountGroupBox);
+		vLayout->addLayout(hLayout);
+		vLayout->addWidget(_rangeCheckBox);
+		connect(_rangeCheckBox, SIGNAL(toggled(bool)), this, SLOT(onStrokeRangeToggled(bool)));
 	}
 	QGroupBox *componentsGroupBox = new QGroupBox(tr("Components"), this);
 	{
@@ -570,6 +583,30 @@ Kanjidic2FilterWidget::Kanjidic2FilterWidget(QWidget *parent) : SearchFilterWidg
 	mainLayout->setContentsMargins(0, 0, 0, 0);
 }
 
+void Kanjidic2FilterWidget::onStrokeRangeToggled(bool checked)
+{
+	// We will need to update the query if we uncheck the strokes checkbox and maxStrokes != minStrokes != 0.
+	bool needUpdate = (!checked && _maxStrokeCountSpinBox->value() != 0 && _maxStrokeCountSpinBox->value() != _strokeCountSpinBox->value());
+	_maxStrokeCountSpinBox->setVisible(checked);
+	_maxStrokeCountSpinBox->setEnabled(checked);
+	// Do not allow the command update to be called as the state did not really change
+	_maxStrokeCountSpinBox->blockSignals(true);
+	_maxStrokeCountSpinBox->setValue(checked ? _strokeCountSpinBox->value() : 0);
+	_maxStrokeCountSpinBox->blockSignals(false);
+	if (needUpdate) commandUpdate();
+}
+
+void Kanjidic2FilterWidget::onStrokeRangeChanged()
+{
+	if (_maxStrokeCountSpinBox->isEnabled()) {
+		int minValue = _strokeCountSpinBox->value();
+		int maxValue = _maxStrokeCountSpinBox->value();
+		if (sender() == _strokeCountSpinBox && minValue > maxValue) _maxStrokeCountSpinBox->setValue(minValue);
+		else if (sender() == _maxStrokeCountSpinBox && maxValue < minValue) _strokeCountSpinBox->setValue(maxValue);
+	}
+	delayedCommandUpdate();
+}
+
 void Kanjidic2FilterWidget::allKyoukuKanjis(bool checked)
 {
 	bool prevStatus = allJouyou->blockSignals(true);
@@ -610,8 +647,13 @@ QString Kanjidic2FilterWidget::currentCommand() const
 {
 	QString ret;
 
-	if (_strokeCountSpinBox->value() > 0) {
-		ret += QString(" :stroke=%1").arg(_strokeCountSpinBox->value());
+	int minStrokes = _strokeCountSpinBox->value();
+	int maxStrokes = _maxStrokeCountSpinBox->value();
+	if ((!_maxStrokeCountSpinBox->isEnabled() || maxStrokes == 0 || maxStrokes == minStrokes) && minStrokes > 0) {
+		ret += QString(" :stroke=%1").arg(minStrokes);
+	}
+	else if (minStrokes != 0 && maxStrokes != 0) {
+		ret += QString(" :stroke=%1,%2").arg(minStrokes).arg(maxStrokes);
 	}
 	QString kanjis = _components->text();
 	if (!kanjis.isEmpty()) {
@@ -645,9 +687,14 @@ QString Kanjidic2FilterWidget::currentTitle() const
 		}
 		ret += "]";
 	}
-	if (_strokeCountSpinBox->value() > 0) {
-		if (_strokeCountSpinBox->value() == 1) ret += tr(", 1 stroke");
-		else ret += tr(", %1 strokes").arg(_strokeCountSpinBox->value());
+	int minStrokes = _strokeCountSpinBox->value();
+	int maxStrokes = _maxStrokeCountSpinBox->value();
+	if ((!_maxStrokeCountSpinBox->isEnabled() || maxStrokes == 0 || maxStrokes == minStrokes) && minStrokes > 0) {
+		ret += tr(", %1 strokes").arg(minStrokes);
+	} else if (minStrokes != 0 && maxStrokes != 0) {
+		if (minStrokes == 0) ret += tr(", strokes<=%1").arg(maxStrokes);
+		else if (maxStrokes == 0) ret += tr(", strokes>=%1").arg(minStrokes);
+		else ret += tr(", %1-%2 strokes").arg(minStrokes).arg(maxStrokes);
 	}
 	if (_unicode->value()) ret += tr(", unicode: %1").arg(_unicode->text());
 	if (_skip1->value() || _skip2->value() || _skip3->value()) ret += tr(", skip: %1").arg(skip());
@@ -674,13 +721,15 @@ void Kanjidic2FilterWidget::onGradeTriggered(QAction *action)
 
 void Kanjidic2FilterWidget::updateFeatures()
 {
-	if (_strokeCountSpinBox->value() || !_components->text().isEmpty() || !_gradesList.isEmpty() || _unicode->value() ||_skip1->value() || _skip2->value() || _skip3->value()) emit disableFeature("wordsdic");
+	if (_strokeCountSpinBox->value() || _maxStrokeCountSpinBox->value() || !_components->text().isEmpty() || !_gradesList.isEmpty() || _unicode->value() ||_skip1->value() || _skip2->value() || _skip3->value()) emit disableFeature("wordsdic");
 	else emit enableFeature("wordsdic");
 }
 
 void Kanjidic2FilterWidget::_reset()
 {
 	_strokeCountSpinBox->setValue(0);
+	_maxStrokeCountSpinBox->setValue(0);
+	_rangeCheckBox->setChecked(false);
 	_unicode->setValue(0);
 	_skip1->setValue(0);
 	_skip2->setValue(0);

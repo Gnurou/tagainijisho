@@ -149,8 +149,13 @@ void Kanjidic2EntrySearcher::buildStatement(QList<SearchCommand> &commands, Quer
 			}
 		}
 		else if (command.command() == "stroke") {
-			if (command.args().size() != 1) continue;
-			statement.addWhere(QString("kanjidic2.entries.strokeCount = %1").arg(command.args()[0].toInt()));
+			if (command.args().size() == 1) {
+				statement.addWhere(QString("kanjidic2.entries.strokeCount = %1").arg(command.args()[0].toInt()));
+			}
+			else if (command.args().size() == 2) {
+				statement.addWhere(QString("kanjidic2.entries.strokeCount between %1 and %2").arg(command.args()[0].toInt()).arg(command.args()[1].toInt()));
+			}
+			else continue;
 		}
 		else if (command.command() == "component") {
 			if (command.args().size() > 0) {

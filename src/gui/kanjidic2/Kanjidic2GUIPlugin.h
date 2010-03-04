@@ -103,6 +103,8 @@ class Kanjidic2FilterWidget : public SearchFilterWidget
 	Q_OBJECT
 private:
 	QSpinBox *_strokeCountSpinBox;
+	QSpinBox *_maxStrokeCountSpinBox;
+	QCheckBox *_rangeCheckBox;
 	QPushButton *_gradeButton;
 	QStringList _gradesList;
 	QLineEdit *_components;
@@ -128,6 +130,14 @@ public:
 	void setStrokeCount(int value) { _strokeCountSpinBox->setValue(value); }
 	Q_PROPERTY(int strokeCount READ strokeCount WRITE setStrokeCount)
 
+	int maxStrokeCount() const { return _maxStrokeCountSpinBox->value(); }
+	void setMaxStrokeCount(int value) { _maxStrokeCountSpinBox->setValue(value); }
+	Q_PROPERTY(int maxStrokeCount READ maxStrokeCount WRITE setMaxStrokeCount)
+	
+	bool isStrokeRange() const { return _rangeCheckBox->isChecked(); }
+	void setStrokeRange(bool value) { _rangeCheckBox->setChecked(value); }
+	Q_PROPERTY(int isStrokeRange READ isStrokeRange WRITE setStrokeRange)
+	
 	QString components() const { return _components->text(); }
 	void setComponents(const QString &value) { _components->setText(value); }
 	Q_PROPERTY(QString components READ components WRITE setComponents)
@@ -149,6 +159,8 @@ public:
 	Q_PROPERTY(QStringList grades READ grades WRITE setGrades)
 
 protected slots:
+	void onStrokeRangeToggled(bool checked);
+	void onStrokeRangeChanged();
 	void onGradeTriggered(QAction *action);
 	void allKyoukuKanjis(bool checked);
 	void allJouyouKanjis(bool checked);

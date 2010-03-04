@@ -37,9 +37,7 @@ void SearchFilterWidget::updateVisualState()
 void SearchFilterWidget::commandUpdate()
 {
 	updateVisualState();
-	if (autoUpdateQuery()) {
-		emit commandUpdated();
-	}
+	if (autoUpdateQuery()) emit commandUpdated();
 }
 
 void SearchFilterWidget::delayedCommandUpdate()
