@@ -1,7 +1,7 @@
 0.2.5 released on
 * Added option to choose GUI language
 * Now uses CMake as build system
-* Database building Python scripts replaced with Python programs
+* Database building Python scripts replaced with more portable C++ programs
 * Strokes belonging to several components now correctly handled
 * Added four corner kanji search method
 * Optimized kanjis database - from 24 Mbytes to 11 Mbytes
