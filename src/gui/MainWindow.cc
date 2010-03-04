@@ -18,6 +18,7 @@
 #include "tagaini_config.h"
 
 #include "core/Paths.h"
+#include "core/TextTools.h"
 #include "core/Database.h"
 #include "core/Plugin.h"
 #include "core/EntrySearcherManager.h"
@@ -104,7 +105,11 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), _clipboardEnabled
 	// TODO Save space, otherwise the title bar may become too big
 	//filtersToolBar->setMaximumHeight(dBar->height() / 2);
 	dBar->layout()->setContentsMargins(0, 0, 0, 0);
+
+	// Focus on the text input on startup
+	actionFocus_text_search->trigger();
 	
+	// Auto-clipboard search action
 	QAction *_enableClipboardInputAction = new QAction(tr("Auto-search on clipboard content"), this);
 	_enableClipboardInputAction->setCheckable(true);
 	connect(_enableClipboardInputAction, SIGNAL(toggled(bool)), this, SLOT(enableClipboardInput(bool)));
@@ -165,7 +170,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), _clipboardEnabled
 	
 	// Display selected items in the results view
 	connect(searchWidget()->resultsView(), SIGNAL(listSelectionChanged(QItemSelection,QItemSelection)), this, SLOT(display(QItemSelection,QItemSelection)));
-	
+		
 	// Updates checker
 	_updateChecker = new UpdateChecker("/updates/latestversion.php", this);
 	_betaUpdateChecker = new UpdateChecker("/updates/latestbetaversion.php", this);
@@ -493,6 +498,23 @@ void MainWindow::onClipboardSelectionChanged()
 	if (!tfw) return;
 	QClipboard *clipboard = QApplication::clipboard();
 	QString cText(clipboard->text(QClipboard::Selection));
-	if (cText.isEmpty() || cText == tfw->text()) return;
-	tfw->setText(cText);
+	QString cText2;
+	// Remove any space between Japanese content
+	bool lastCharJapanese = true;
+	bool lastCharSpace = false;
+	foreach (QChar c, cText) {
+		bool isJapanese = TextTools::isJapaneseChar(c);
+		bool isSpace = c.isSpace();
+		if (lastCharSpace) {
+			// Space between japanese chars, skip it.
+			if (isJapanese && lastCharJapanese) cText2 += c;
+			// Otherwise include the space
+			else { cText2 += QString(" ") + c; }
+		}
+		else if (!isSpace) cText2 += c;
+		if (!isSpace) lastCharJapanese = isJapanese;
+		lastCharSpace = isSpace;
+	}
+	if (cText2.isEmpty() || cText2 == tfw->text()) return;
+	tfw->setText(cText2);
 }
