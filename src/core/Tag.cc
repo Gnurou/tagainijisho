@@ -97,12 +97,21 @@ bool Tag::isValidTag(const QString &string)
 {
 	if (string.isEmpty()) return false;
 
-	return (TextTools::isRomaji(string) || TextTools::isJapanese(string));
+	//return (TextTools::isRomaji(string) || TextTools::isJapanese(string));
 
 	// A tag is valid if it is made of letters, digits, or Japanese characters
 	foreach(const QChar &c, string) {
-		if (!(c.category() & (QChar::Number_DecimalDigit | QChar::Letter_Lowercase | QChar::Letter_Uppercase) ||
-				TextTools::isJapaneseChar(c))) return false;
+		switch (c.category()) {
+			case QChar::Punctuation_InitialQuote:
+			case QChar::Punctuation_FinalQuote:
+			case QChar::Separator_Space:
+			case QChar::Separator_Line:
+				return false;
+			default:
+				continue;
+		}
+		//if (!(c.category() & (QChar::Number_DecimalDigit | QChar::Letter_Lowercase | QChar::Letter_Uppercase) ||
+		//		TextTools::isJapaneseChar(c))) return false;
 	}
 	return true;
 }

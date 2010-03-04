@@ -166,7 +166,7 @@ bool TagsDialogs::setTagsDialog(const QList<EntryPointer> &entries, QWidget *par
 		else return false;
 
 		if (!splitTagsString(tags, split, invalidTags))
-			QMessageBox::warning(0, tr("Invalid tags"), tr("<p>These tags have invalid characters: ") + invalidTags.join(", ") + tr("</p><p>Accepted characters are letters and digits.</p>"));
+			QMessageBox::warning(0, tr("Invalid tags"), tr("<p>These tags have invalid characters: ") + invalidTags.join(", ") + tr("</p><p>Accepted characters are letters, digits and non-quoting punctuation.</p>"));
 
 	} while (!invalidTags.isEmpty());
 
@@ -200,7 +200,7 @@ bool TagsDialogs::addTagsDialog(const QList<EntryPointer> &entries, QWidget *par
 		else return false;
 
 		if (!splitTagsString(tags, split, invalidTags))
-			QMessageBox::warning(0, tr("Invalid tags"), tr("<p>These tags have invalid characters: ") + invalidTags.join(", ") + tr("</p><p>Accepted characters are letters and digits.</p>"));
+			QMessageBox::warning(0, tr("Invalid tags"), tr("<p>These tags have invalid characters: ") + invalidTags.join(", ") + tr("</p><p>Accepted characters are letters, digits and non-quoting punctuation.</p>"));
 
 	} while (!invalidTags.isEmpty());
 
