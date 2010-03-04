@@ -21,7 +21,7 @@
 
 SearchCommand SearchCommand::_invalid("invalid");
 
-static QString singleWordString = "(-?[\\w\\*\\?\\-\\._]+)";
+static QString singleWordString = "(-?[\\w\\*\\?\\-\\._:]+)";
 static QString quotedWordsString = "\"([^\"]*)\"";
 static QString argString = singleWordString + "|" + quotedWordsString;
 
