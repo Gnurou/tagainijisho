@@ -350,7 +350,7 @@ void RadicalSearchWidget::onSelectionChanged()
 	complementsList->setEnabled(true);
 }
 
-ComponentSearchAction::ComponentSearchAction(QFrame *popup, QWidget *parent) : QAction(tr("Kanji component selector"), parent), _popup(popup), focusWidget(0)
+KanjiInputPopupAction::KanjiInputPopupAction(QFrame *popup, const QString &title, QWidget *parent) : QAction(title, parent), _popup(popup), focusWidget(0)
 {
 	setIcon(QIcon(":/images/icons/component-selector.png"));
 	setToolTip(tr("Triggers the kanji input panel"));
@@ -365,11 +365,11 @@ ComponentSearchAction::ComponentSearchAction(QFrame *popup, QWidget *parent) : Q
 	connect(_popup, SIGNAL(kanjiSelected(QString)), this, SLOT(onComponentSearchKanjiSelected(QString)));
 }
 
-ComponentSearchAction::~ComponentSearchAction()
+KanjiInputPopupAction::~KanjiInputPopupAction()
 {
 }
 
-void ComponentSearchAction::togglePopup(bool status)
+void KanjiInputPopupAction::togglePopup(bool status)
 {
 	if (status) {
 		QWidget *fWidget = QApplication::focusWidget();
@@ -398,7 +398,7 @@ void ComponentSearchAction::togglePopup(bool status)
 	}
 }
 
-void ComponentSearchAction::onComponentSearchKanjiSelected(const QString &kanji)
+void KanjiInputPopupAction::onComponentSearchKanjiSelected(const QString &kanji)
 {
 	if (focusWidget) {
 		QLineEdit *target = 0;
@@ -410,7 +410,7 @@ void ComponentSearchAction::onComponentSearchKanjiSelected(const QString &kanji)
 	}
 }
 
-bool ComponentSearchAction::eventFilter(QObject *obj, QEvent *event)
+bool KanjiInputPopupAction::eventFilter(QObject *obj, QEvent *event)
 {
 	if (event->type() == QEvent::Hide) {
 		setChecked(false);
@@ -418,7 +418,7 @@ bool ComponentSearchAction::eventFilter(QObject *obj, QEvent *event)
 	return false;
 }
 
-void ComponentSearchAction::onFocusChanged(QWidget *old, QWidget *now)
+void KanjiInputPopupAction::onFocusChanged(QWidget *old, QWidget *now)
 {
 	QLineEdit *lEdit = qobject_cast<QLineEdit *>(now);
 	QComboBox *cBox = qobject_cast<QComboBox *>(now);

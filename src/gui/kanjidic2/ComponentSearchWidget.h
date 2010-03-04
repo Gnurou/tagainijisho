@@ -120,7 +120,7 @@ signals:
 	void kanjiSelected(const QString &kanji);
 };
 
-class ComponentSearchAction : public QAction
+class KanjiInputPopupAction : public QAction
 {
 	Q_OBJECT
 private:
@@ -136,8 +136,8 @@ protected slots:
 	void onFocusChanged(QWidget *old, QWidget *now);
 
 public:
-	ComponentSearchAction(QFrame *popup, QWidget *parent = 0);
-	virtual ~ComponentSearchAction();
+	KanjiInputPopupAction(QFrame* popup, const QString& title, QWidget* parent = 0);
+	virtual ~KanjiInputPopupAction();
 };
 
 #endif

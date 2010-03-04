@@ -96,10 +96,13 @@ bool Kanjidic2GUIPlugin::onRegister()
 	_readingPractice = menu->addAction(tr("&Reading practice, whole study list"));
 	connect(_readingPractice, SIGNAL(triggered()), this, SLOT(readingPractice()));
 
-	// Add the components searcher to the tool bar
+	// Add the components searchers to the tool bar
 	//QToolBar *toolBar = mainWindow->toolBar();
-	_cAction = new ComponentSearchAction(new RadicalSearchWidget(), mainWindow);
-	_cAction->setShortcut(QKeySequence("Ctrl+k"));
+	_kAction = new KanjiInputPopupAction(new RadicalSearchWidget(), tr("Radical search input"), mainWindow);
+	_kAction->setShortcut(QKeySequence("Ctrl+k"));
+	mainWindow->searchMenu()->addAction(_kAction);
+	_cAction = new KanjiInputPopupAction(new ComponentSearchWidget(), tr("Component search input"), mainWindow);
+	_cAction->setShortcut(QKeySequence("Ctrl+j"));
 	mainWindow->searchMenu()->addAction(_cAction);
 	//mainWindow->layout()->addWidget(_cButton);
 	//RadicalSearchWidget *radWid = new RadicalSearchWidget();
@@ -130,8 +133,9 @@ bool Kanjidic2GUIPlugin::onUnregister()
 	// Remove the search extender
 	mainWindow->searchWidget()->removeSearchFilterWidget(_filter->name());
 	delete _filter; _filter = 0;
-	// Remove the components searcher
+	// Remove the components searchers
 	delete _cAction; _cAction = 0;
+	delete _kAction; _kAction = 0;
 	// Remove the main window entries
 	delete _flashKL; _flashKL = 0;
 	delete _flashKS; _flashKS = 0;

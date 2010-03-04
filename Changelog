@@ -11,6 +11,7 @@
 * Updates of JMdict database takes moved and deleted entries into account
   and updates user data accordingly
 * Can now specify stroke count ranges for kanji search
+* Component and radical search based kanji input methods
 
 0.2.4 released on 2009-12-16
 * Updated to SQLite 3.6.21

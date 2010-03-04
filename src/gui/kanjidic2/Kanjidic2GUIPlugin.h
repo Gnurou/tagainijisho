@@ -44,7 +44,7 @@ private:
 	Kanjidic2FilterWidget *_filter;
 	YesNoTrainer *_trainer;
 	ReadingTrainer *_readingTrainer;
-	ComponentSearchAction * _cAction;
+	KanjiInputPopupAction * _cAction, *_kAction;
 
 	void training(YesNoTrainer::TrainingMode mode, const QString &queryString);
 
