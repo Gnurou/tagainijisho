@@ -252,7 +252,8 @@ bool Kanjidic2GUIPlugin::eventFilter(QObject *obj, QEvent *_event)
 	case QEvent::MouseButtonPress:
 	{
 		QMouseEvent *e(static_cast<QMouseEvent *>(_event));
-		if (e->button() == Qt::LeftButton && view->kanjisClickable()) {
+		// Left click on a kanji?
+		if (e->button() == Qt::LeftButton && pos != -1) {
 			// Either prepare for a drag or a click to display the kanji popup
 			// if we are on a kanji
 			QTextCursor cursor(view->document());
@@ -287,7 +288,7 @@ bool Kanjidic2GUIPlugin::eventFilter(QObject *obj, QEvent *_event)
 				QMimeData *data = new QMimeData();
 				QByteArray encodedData;
 				QDataStream stream(&encodedData, QIODevice::WriteOnly);
-				stream << _dragEntryRef.type() << _dragEntryRef.id();
+				stream << _dragEntryRef;
 				data->setData("tagainijisho/entry", encodedData);
 				drag->setMimeData(data);
 				drag->exec(Qt::CopyAction, Qt::CopyAction);

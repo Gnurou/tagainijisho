@@ -27,6 +27,18 @@
 EntriesCache *EntriesCache::_instance = 0;
 PreferenceItem<int> EntriesCache::cacheSize("", "entriesCacheSize", 1000);
 
+QDataStream &operator<<(QDataStream &out, const EntryRef &ref)
+{
+	out << ref.first << ref.second;
+	return out;
+}
+
+QDataStream &operator>>(QDataStream &in, EntryRef &ref)
+{
+	in >> ref.first >> ref.second;
+	return in;
+}
+
 EntriesCache::EntriesCache(QObject *parent) : QObject(parent), _loadedEntriesMutex(QMutex::Recursive), _cacheMutex(QMutex::Recursive)
 {
 }
@@ -94,7 +106,7 @@ void EntriesCache::_removeAndDelete(const Entry *entry)
 	// Have we created a new reference to this entry by the meantime?
 	if (entry->ref > 0) return;
 	// No, we can safely remove and delete it then!
-	_instance->_loadedEntries.remove(EntryRef(entry));
+	_instance->_loadedEntries.remove(EntryRef(entry->type(), entry->id()));
 #ifdef DEBUG_ENTRIES_CACHE
 	qDebug("Entry <%d,%d> deleted, %d in cache", entry->type(), entry->id(), _instance->_loadedEntries.size());
 #endif

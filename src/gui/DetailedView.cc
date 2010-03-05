@@ -258,7 +258,7 @@ void DetailedView::mouseMoveEvent(QMouseEvent *e)
 			QMimeData *data = new QMimeData();
 			QByteArray encodedData;
 			QDataStream stream(&encodedData, QIODevice::WriteOnly);
-			stream << _dragEntryRef.type() << _dragEntryRef.id();
+			stream << _dragEntryRef;
 			data->setData("tagainijisho/entry", encodedData);
 			drag->setMimeData(data);
 			drag->exec(Qt::CopyAction, Qt::CopyAction);

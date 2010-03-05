@@ -52,7 +52,7 @@ void EntryDragButton::mouseMoveEvent(QMouseEvent *e)
 			QMimeData *data = new QMimeData();
 			QByteArray encodedData;
 			QDataStream stream(&encodedData, QIODevice::WriteOnly);
-			stream << _view->entry()->type() << _view->entry()->id();
+			stream << EntryRef(_view->entry());
 			data->setData("tagainijisho/entry", encodedData);
 			drag->setMimeData(data);
 			drag->exec(Qt::CopyAction, Qt::CopyAction);

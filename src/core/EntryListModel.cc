@@ -355,7 +355,7 @@ QMimeData *EntryListModel::mimeData(const QModelIndexList &indexes) const
 			
 			// If the item is an entry, add it
 			const EntryListModelCache &cEntry = getFromCache(index.internalId());
-			if (cEntry.type != -1) entriesStream << cEntry.type << cEntry.id;
+			if (cEntry.type != -1) entriesStream << EntryRef(cEntry.type, cEntry.id);
 		}
 	}
 	if (!entriesEncodedData.isEmpty()) mimeData->setData("tagainijisho/entry", entriesEncodedData);
@@ -429,10 +429,9 @@ bool EntryListModel::dropMimeData(const QMimeData *data, Qt::DropAction action, 
 		QDataStream ds(&ba, QIODevice::ReadOnly);
 		QList<EntryRef> entries;
 		while (!ds.atEnd()) {
-			quint8 type;
-			quint32 id;
-			ds >> type >> id;
-			entries << EntryRef(type, id);
+			EntryRef entryRef;
+			ds >> entryRef;
+			entries << entryRef;
 		}
 		// If dropped on a list, append the entries
 		if (row == -1) row = rowCount(parent);

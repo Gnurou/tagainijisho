@@ -147,7 +147,7 @@ QMimeData *ResultsList::mimeData(const QModelIndexList &indexes) const
 	foreach (QModelIndex index, indexes) {
 		if (index.isValid()) {
 			EntryPointer entry = data(index, Entry::EntryRole).value<EntryPointer>();
-			stream << entry->type() << entry->id();
+			stream << EntryRef(entry);
 		}
 	}
 

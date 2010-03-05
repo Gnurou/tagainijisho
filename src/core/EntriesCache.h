@@ -28,19 +28,26 @@
 #include <QMutex>
 
 /**
- * Used to reference an entry without having to load it entirely. A shared pointer to
- * the actual entry can be obtained using the get() method.
+ * A very lightweight reference to an entry.
+ *
+ * It can be read/written using QDataStreams and can also be encapsulated as
+ * a QVariant, making it the preferred solution to communicate entries.
  */
 class EntryRef : protected QPair<quint8, quint32>
 {
 public:
+	/// Constructs an invalid reference
+	EntryRef() : QPair<quint8, quint32>(0, 0) {}
+	EntryRef(const EntryPointer &entry) : QPair<quint8, quint32>(entry->type(), entry->id()) {}
 	EntryRef(quint8 type, quint32 id) : QPair<quint8, quint32>(type, id) {}
-	EntryRef(const Entry *entry) : QPair<quint8, quint32>(entry->type(), entry->id()) {}
+	bool isValid() const { return first != 0; }
 	quint8 type() const { return first; }
 	quint32 id() const { return second; }
 	//EntryPointer get() const { return EntriesCache::get(type(), id()); }
 	bool operator==(const EntryRef &other) const { return static_cast<const QPair<quint8, quint32> >(*this) == other; }
 	bool operator!=(const EntryRef &other) const { return !(*this == other); }
+	friend QDataStream &operator<<(QDataStream &out, const EntryRef &ref);
+	friend QDataStream &operator>>(QDataStream &in, EntryRef &ref);
 };
 
 inline uint qHash(const EntryRef &key)
@@ -49,6 +56,7 @@ inline uint qHash(const EntryRef &key)
 	uint h2 = qHash(key.id());
 	return ((h1 << 16) | (h1 >> 16)) ^ h2;
 }
+
 //Q_DECLARE_METATYPE(EntryRef)
 
 /**
