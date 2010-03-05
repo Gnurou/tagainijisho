@@ -156,10 +156,10 @@ bool KanjiVGDBParser::onItemParsed(KanjiVGItem &kanji)
 	EXEC(insertOrIgnoreEntryQuery);
 
 	// Insert groups
-	bool skipFirst = false;
+	//bool skipFirst = false;
 	foreach (const KanjiVGGroupItem &group, kanji.groups) {
 		// The first group is only used for radical information - we don't need it here
-		if (!skipFirst) { skipFirst = true; continue; }
+		//if (!skipFirst) { skipFirst = true; continue; }
 		BIND(insertStrokeGroupQuery, kanji.id);
 		AUTO_BIND(insertStrokeGroupQuery, group.element, 0);
 		AUTO_BIND(insertStrokeGroupQuery, group.original, 0);

@@ -161,7 +161,7 @@ void ComponentSearchWidget::onSelectedComponentsChanged(const QString &component
 		"join kanjidic2.strokeGroups c2 on c.kanji = c2.kanji left join kanjidic2.entries on entries.id = c2.kanji where (c2.element not in (%1) or c2.kanji in (%1)) order by entries.strokeCount, entries.frequency is null ASC, entries.frequency ASC").arg(selection.join(",")).arg(selection.size());
 	//if (!selection.isEmpty()) queryString = QString("select distinct c2.element, strokeCount from kanjidic2.strokeGroups c1 join kanjidic2.strokeGroups c2 on c1.kanji = c2.kanji left join kanjidic2.entries on entries.id = c2.element where c1.element in (%1) and c1.kanji in (select kanji from kanjidic2.strokeGroups where element in (%1) group by kanji having count(distinct element) >= %2) and c2.element not in (select element from strokeGroups where kanji in (%1)) order by entries.frequency is null ASC, entries.frequency ASC").arg(l.join(",")).arg(selection.size());
 	// If there is no selection, select all elements that are root and employed as a part of another kanji
-	else queryString = "select distinct 0, ks.element, 0 from kanjidic2.strokeGroups as ks where ks.element not in (select distinct kanji from strokeGroups)";
+	else queryString = "select distinct 0, ks.element, 0 from kanjidic2.strokeGroups as ks where ks.element not in (select distinct kanji from strokeGroups where element != kanji)";
 	if (!query.exec(queryString)) qDebug() << query.lastError();
 	populateList(query);
 }
