@@ -47,7 +47,7 @@ protected slots:
 public:
 	SingleEntryView(QObject *parent = 0);
 
-	const EntryPointer &entry() { return _entry; }
+	const EntryPointer &entry() const { return _entry; }
 	void setEntry(const EntryPointer &entry);
 	void populateMenu(QMenu *menu) { EntryMenu::populateMenu(menu); }
 	void populateToolBar(QToolBar *bar) { EntryMenu::populateToolBar(bar); }
@@ -64,6 +64,11 @@ signals:
 	 * Emited every time the entry status has been changed.
 	 */
 	void entryChanged(Entry *);
+	
+	/**
+	 * Emited when the watched entry changes.
+	 */
+	void entrySet(Entry *);
 };
 
 #endif

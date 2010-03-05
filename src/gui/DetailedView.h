@@ -208,14 +208,22 @@ private:
 	bool _kanjisClickable;
 	bool _historyEnabled;
 	SmoothScroller _charm;
+	/// Used to know whether we are about to drag the entry currently displayed
+	EntryRef _dragEntryRef;
+	QPoint _dragStartPos;
+	bool _dragStarted;
 
 protected:
 	AbstractHistory<QPair<int, int>, QList<QPair<int, int> > > _history;
-	SingleEntryView entryView;
+	SingleEntryView _entryView;
 	DetailedViewJobRunner _jobsRunner;
 	QList<EntryPointer> _watchedEntries;
 	QAction *_historyPrevAction;
 	QAction *_historyNextAction;
+	
+	virtual void mousePressEvent(QMouseEvent *e);
+	virtual void mouseMoveEvent(QMouseEvent *e);
+	virtual void mouseReleaseEvent(QMouseEvent *e);
 
 public:
 	static void registerEventFilter(QObject *obj);
@@ -228,6 +236,7 @@ public:
 	bool kanjisClickable() const { return _kanjisClickable; }
 	void setKanjisClickable(bool clickable);
 	void setHistoryEnabled(bool enabled);
+	const SingleEntryView *entryView() const { return &_entryView; }
 
 	void addBackgroundJob(DetailedViewJob *job);
 	static const QSet<DetailedView *> &instances() { return _instances; }
@@ -276,7 +285,7 @@ public slots:
 	 *
 	 * Note that the history is not updated by this function.
 	 */
-	void setEntry(const EntryPointer &entry) { entryView.setEntry(entry); }
+	void setEntry(const EntryPointer &entry) { _entryView.setEntry(entry); }
 };
 
 #endif

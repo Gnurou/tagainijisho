@@ -117,6 +117,7 @@ void EntryFormatter::writeUserData(const ConstEntryPointer& entry, QTextCursor& 
 			}
 		}
 		else cursor.insertText(tr(" Never trained."));
+		
 		cursor.setCharFormat(normal);
 	}
 }

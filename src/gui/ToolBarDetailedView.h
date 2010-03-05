@@ -19,8 +19,29 @@
 #define __GUI_TOOLBARDETAILEDVIEW_H_
 
 #include <QToolBar>
+#include <QToolButton>
 
 #include "gui/DetailedView.h"
+
+class EntryDragButton : public QToolButton
+{
+	Q_OBJECT
+private:
+	const SingleEntryView *const _view;
+	bool _dragStarted;
+	QPoint _dragPos;
+
+protected:
+	virtual void mousePressEvent(QMouseEvent *e);
+	virtual void mouseMoveEvent(QMouseEvent *e);
+	virtual void mouseReleaseEvent(QMouseEvent *e);
+
+protected slots:
+	void onViewEntryChanged(Entry *newEntry);
+
+public:
+	EntryDragButton(const SingleEntryView *view, QWidget *parent = 0);
+};
 
 /// TODO remove and layout things manually?
 class ToolBarDetailedView : public QWidget
@@ -29,6 +50,7 @@ class ToolBarDetailedView : public QWidget
 private:
 	QToolBar *_toolBar;
 	DetailedView *_detailedView;
+	EntryDragButton *dragButton;
 
 public:
 	ToolBarDetailedView(QWidget *parent = 0);

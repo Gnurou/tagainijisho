@@ -64,7 +64,7 @@ void DetailedView::removeEventFilter(QObject *obj)
 	_eventFilters.remove(obj);
 }
 
-DetailedView::DetailedView(QWidget *parent) : QTextBrowser(parent), _kanjisClickable(true), _historyEnabled(true), _history(historySize.value()), entryView(0), _jobsRunner(this)
+DetailedView::DetailedView(QWidget *parent) : QTextBrowser(parent), _kanjisClickable(true), _historyEnabled(true), _dragEntryRef(0, 0), _dragStarted(false), _history(historySize.value()), _entryView(0), _jobsRunner(this)
 {
 	// Add the default handlers if not already done (first instanciation)
 	if (!DetailedViewLinkManager::getHandler(_entryHandler.scheme())) DetailedViewLinkManager::registerHandler(&_entryHandler);
@@ -86,7 +86,7 @@ DetailedView::DetailedView(QWidget *parent) : QTextBrowser(parent), _kanjisClick
 	setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
 	setOpenLinks(false);
 	setMouseTracking(true);
-	connect(&entryView, SIGNAL(entryChanged(Entry*)), this, SLOT(redisplay()));
+	connect(&_entryView, SIGNAL(entryChanged(Entry*)), this, SLOT(redisplay()));
 
 	_historyPrevAction = new QAction(QIcon(":/images/icons/go-previous.png"), tr("Previous entry"), this);
 	_historyPrevAction->setShortcuts(QKeySequence::Back);
@@ -114,7 +114,7 @@ void DetailedView::_display(const EntryPointer &entry, bool update)
 {
 //	if (!update && entry == entryView.entry()) return;
 	clear();
-	entryView.setEntry(entry);
+	_entryView.setEntry(entry);
 	if (_historyEnabled) {
 		_historyPrevAction->setEnabled(_history.hasPrevious());
 		_historyNextAction->setEnabled(_history.hasNext());
@@ -146,12 +146,12 @@ void DetailedView::display(const EntryPointer &entry)
 
 void DetailedView::redisplay()
 {
-	if (entryView.entry()) {
+	if (_entryView.entry()) {
 		// We need this pointer because display starts by clearing
 		// the entryView - which means the current entry reference
 		// counter could potentially reach zero and the entry be
 		// deleted.
-		EntryPointer tentry(entryView.entry());
+		EntryPointer tentry(_entryView.entry());
 		_display(tentry, true);
 	}
 }
@@ -166,7 +166,7 @@ void DetailedView::clear()
 	_jobsRunner.abortAllJobs();
 
 	QTextBrowser::clear();
-	entryView.setEntry(EntryPointer());
+	_entryView.setEntry(EntryPointer());
 
 	QDir dir(":/images/flags");
 	QStringList fileNames = dir.entryList(QStringList("*.png"), QDir::Files, QDir::Name);
@@ -231,7 +231,48 @@ void DetailedView::populateToolBar(QToolBar *toolBar)
 	toolBar->addAction(_historyPrevAction);
 	toolBar->addAction(_historyNextAction);
 	toolBar->addSeparator();
-	entryView.populateToolBar(toolBar);
+	_entryView.populateToolBar(toolBar);
+}
+
+void DetailedView::mousePressEvent(QMouseEvent *e)
+{
+	QString anchor(anchorAt(e->pos()));
+	if (e->button() == Qt::LeftButton && anchor.startsWith("entry://")) {
+		QUrl url(anchor);
+		_dragStarted = true;
+		_dragStartPos = e->pos();
+		_dragEntryRef = EntryRef(url.queryItemValue("type").toInt(), url.queryItemValue("id").toInt());
+		e->accept();
+	} else {
+		_dragStarted = false;
+		QTextBrowser::mousePressEvent(e);
+	}
+}
+
+void DetailedView::mouseMoveEvent(QMouseEvent *e)
+{
+	if ((e->buttons() & Qt::LeftButton) && _dragStarted) {
+		if ((e->pos() - _dragStartPos).manhattanLength() >= QApplication::startDragDistance()) {
+			_dragStarted = false;
+			QDrag *drag = new QDrag(this);
+			QMimeData *data = new QMimeData();
+			QByteArray encodedData;
+			QDataStream stream(&encodedData, QIODevice::WriteOnly);
+			stream << _dragEntryRef.type() << _dragEntryRef.id();
+			data->setData("tagainijisho/entry", encodedData);
+			drag->setMimeData(data);
+			drag->exec(Qt::CopyAction, Qt::CopyAction);
+		}
+		e->accept();
+		return;
+	}
+	QTextBrowser::mouseMoveEvent(e);
+}
+
+void DetailedView::mouseReleaseEvent(QMouseEvent *e)
+{
+	_dragStarted = false;
+	QTextBrowser::mouseReleaseEvent(e);
 }
 
 DetailedViewJobRunner::DetailedViewJobRunner(DetailedView * view, QObject *parent) : QObject(parent), _view(view), _currentJob(0), _ignoreJobs(false)

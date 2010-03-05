@@ -38,6 +38,7 @@ void SingleEntryView::setEntry(const EntryPointer &entry)
 	if (entry) connect(entry.data(), SIGNAL(entryChanged(Entry *)), this, SIGNAL(entryChanged(Entry *)));
 	_entry = entry;
 	updateStatus(_entry);
+	emit entrySet(entry.data());
 }
 
 void SingleEntryView::addToStudy()
