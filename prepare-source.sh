@@ -20,6 +20,8 @@ fi
 # Get JMdict
 if [ ! -f 3rdparty/JMdict ]; then
 	wget $JMDICT_SOURCE -O - |gunzip >3rdparty/JMdict
+	# Extract long descriptions for translation
+	grep '^<\!ENTITY' 3rdparty/JMdict | sed "s/.*\"\(.*\)\".*/\1/" | while read line; do echo "QT_TRANSLATE_NOOP(\"JMdictLongDescs\", \"$line\");"; done >3rdparty/JMdictDescs.cc
 fi
 
 # Get Kanjidic2
@@ -33,6 +35,7 @@ if [ ! -f 3rdparty/kanjivg.xml ]; then
 fi
 
 # Generate translations
+lupdate . -ts i18n/*.ts
 TS_FILES=`ls i18n/*.ts`
 for f in $TS_FILES; do
 	lrelease $f -qm i18n/`basename $f .ts`.qm
