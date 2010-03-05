@@ -105,7 +105,7 @@ protected:
 	void _detailedVersion(QTextCursor &cursor, DetailedView *view) const {}
 
 public:
-	ResultsViewPrefsDummyEntry() : Entry(-1, -1) {}
+	ResultsViewPrefsDummyEntry() : Entry(0, 0) {}
 	void writeShortDesc(QTextCursor &cursor) const {}
 	virtual QStringList writings() const;
 	virtual QStringList readings() const;
