@@ -85,9 +85,9 @@ const QStringList GeneralPreferences::langCodes = (QStringList() <<
 	"nl");
 
 const QStringList GeneralPreferences::langNames = (QStringList() <<
-	QT_TR_NOOP("English") <<
-	QT_TR_NOOP("French") <<
-	QT_TR_NOOP("Dutch"));
+	QT_TRANSLATE_NOOP("GeneralPreferences", "English") <<
+	QT_TRANSLATE_NOOP("GeneralPreferences", "French") <<
+	QT_TRANSLATE_NOOP("GeneralPreferences", "Dutch"));
 
 GeneralPreferences::GeneralPreferences(QWidget *parent) : PreferencesWindowCategory(tr("General"), parent)
 {
