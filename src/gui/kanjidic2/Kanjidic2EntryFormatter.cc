@@ -72,14 +72,14 @@ PreferenceItem<bool> Kanjidic2EntryFormatter::printOnlyStudiedVocab("kanjidic", 
 
 QString Kanjidic2EntryFormatter::getQueryUsedInWordsSql(int kanji, int limit, bool onlyStudied)
 {
-	const QString queryUsedInWordsSql("select distinct " QUOTEMACRO(JMDICTENTRY_GLOBALID) ", jmdict.entries.id from jmdict.entries join jmdict.kanjiChar on jmdict.kanjiChar.id = jmdict.entries.id join jmdict.senses on jmdict.senses.id = jmdict.entries.id %3join training on training.id = jmdict.entries.id and training.type = " QUOTEMACRO(JMDICTENTRY_GLOBALID) " where jmdict.kanjiChar.kanji = %1 and jmdict.kanjiChar.priority = 0 and jmdict.senses.misc & %4 == 0 order by training.dateAdded is null ASC, training.score ASC, jmdict.entries.frequency DESC limit %2");
+	const QString queryUsedInWordsSql("select distinct " QUOTEMACRO(JMDICTENTRY_GLOBALID) ", jmdict.entries.id from jmdict.entries join jmdict.kanjiChar on jmdict.kanjiChar.id = jmdict.entries.id join jmdict.senses on jmdict.senses.id = jmdict.entries.id %3join training on training.id = jmdict.entries.id and training.type = " QUOTEMACRO(JMDICTENTRY_GLOBALID) " join jmdict.jlpt on jmdict.entries.id = jmdict.jlpt.id where jmdict.kanjiChar.kanji = %1 and jmdict.kanjiChar.priority = 0 and jmdict.senses.misc & %4 == 0 order by training.dateAdded is null ASC, training.score ASC, jmdict.jlpt.level DESC, jmdict.entries.frequency DESC limit %2");
 
 	return queryUsedInWordsSql.arg(kanji).arg(limit).arg(onlyStudied ? "" : "left ").arg(JMdictEntrySearcher::miscFilterMask());
 }
 
 QString Kanjidic2EntryFormatter::getQueryUsedInKanjiSql(int kanji, int limit, bool onlyStudied)
 {
-	const QString queryUsedInKanjiSql("select distinct " QUOTEMACRO(KANJIDIC2ENTRY_GLOBALID) ", ks1.kanji from kanjidic2.strokeGroups as ks1 join kanjidic2.entries on ks1.isRoot == 1 and ks1.kanji = entries.id %3join training on training.type = " QUOTEMACRO(KANJIDIC2ENTRY_GLOBALID) " and training.id = entries.id where (ks1.element = %1 or ks1.original = %1) and ks1.kanji != %1 order by training.dateAdded is null ASC, training.score ASC, entries.strokeCount limit %2");
+	const QString queryUsedInKanjiSql("select distinct " QUOTEMACRO(KANJIDIC2ENTRY_GLOBALID) ", ks1.kanji from kanjidic2.strokeGroups as ks1 join kanjidic2.entries on ks1.isRoot == 1 and ks1.kanji = entries.id %3join training on training.type = " QUOTEMACRO(KANJIDIC2ENTRY_GLOBALID) " and training.id = entries.id where (ks1.element = %1 or ks1.original = %1) and ks1.kanji != %1 order by training.dateAdded is null ASC, training.score ASC, entries.strokeCount, entries.jlpt DESC limit %2");
 
 	return queryUsedInKanjiSql.arg(kanji).arg(limit).arg(onlyStudied ? "" : "left ");
 }
