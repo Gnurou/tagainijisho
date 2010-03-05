@@ -190,6 +190,11 @@ public:
 	friend class Kanjidic2EntrySearcher;
 };
 
+typedef QSharedPointer<Kanjidic2Entry> Kanjidic2EntryPointer;
+Q_DECLARE_METATYPE(Kanjidic2EntryPointer)
+typedef QSharedPointer<const Kanjidic2Entry> ConstKanjidic2EntryPointer;
+Q_DECLARE_METATYPE(ConstKanjidic2EntryPointer)
+
 /**
  * Just to simplify making references to kanji entries.
  */
@@ -198,11 +203,7 @@ class KanjiEntryRef : public EntryRef
 public:
 	KanjiEntryRef(quint32 id) : EntryRef(KANJIDIC2ENTRY_GLOBALID, id) {}
 	QString kanji() const { return TextTools::unicodeToSingleChar(id()); }
+	Kanjidic2EntryPointer get() const { return EntryRef::get().staticCast<Kanjidic2Entry>(); }
 };
-
-typedef QSharedPointer<Kanjidic2Entry> Kanjidic2EntryPointer;
-Q_DECLARE_METATYPE(Kanjidic2EntryPointer)
-typedef QSharedPointer<const Kanjidic2Entry> ConstKanjidic2EntryPointer;
-Q_DECLARE_METATYPE(ConstKanjidic2EntryPointer)
 
 #endif

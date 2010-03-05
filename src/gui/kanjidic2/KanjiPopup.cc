@@ -48,7 +48,7 @@ QSize KanjiComponentWidget::sizeHint() const
 void KanjiComponentWidget::setComponent(const KanjiComponent *component)
 {
 	_component = component;
-	if (component) _kanji = EntriesCache::get(KANJIDIC2ENTRY_GLOBALID, TextTools::singleCharToUnicode(component->element())).staticCast<const Kanjidic2Entry>();
+	if (component) _kanji = KanjiEntryRef(TextTools::singleCharToUnicode(component->element())).get();
 	else _kanji.clear();
 	update();
 }
@@ -216,8 +216,7 @@ void KanjiPopup::onPreviousClick()
 	QString kanji;
 	bool ok = _history.previous(kanji);
 	if (ok) {
-		EntryPointer entry = EntriesCache::get(KANJIDIC2ENTRY_GLOBALID, TextTools::singleCharToUnicode(kanji));
-		showKanji(entry.staticCast<Kanjidic2Entry>());
+		showKanji(KanjiEntryRef(TextTools::singleCharToUnicode(kanji)).get());
 	}
 }
 
@@ -226,8 +225,7 @@ void KanjiPopup::onNextClick()
 	QString kanji;
 	bool ok = _history.next(kanji);
 	if (ok) {
-		EntryPointer entry = EntriesCache::get(KANJIDIC2ENTRY_GLOBALID, TextTools::singleCharToUnicode(kanji));
-		showKanji(entry.staticCast<Kanjidic2Entry>());
+		showKanji(KanjiEntryRef(TextTools::singleCharToUnicode(kanji)).get());
 	}
 }
 
@@ -252,7 +250,7 @@ void KanjiPopup::onComponentUnHighlighted()
 
 void KanjiPopup::onComponentClicked(const KanjiComponent *component)
 {
-	Kanjidic2EntryPointer kElement(EntriesCache::get(KANJIDIC2ENTRY_GLOBALID, TextTools::singleCharToUnicode(component->element())).staticCast<Kanjidic2Entry>());
+	Kanjidic2EntryPointer kElement(KanjiEntryRef(TextTools::singleCharToUnicode(component->element())).get());
 	if (!kElement) return;
 	_history.add(kElement->kanji());
 	showKanji(kElement);

@@ -130,7 +130,7 @@ void Query::__fetch(int min, int nb)
 			return;
 		}
 		// Load and emit found entries
-		emit foundEntry(EntriesCache::get(query.value(0).toInt(), query.value(1).toInt()));
+		emit foundEntry(EntryRef(query.value(0).toInt(), query.value(1).toInt()).get());
 		valid = query.next();
 		_currentPos++;
 	}

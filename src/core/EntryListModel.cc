@@ -155,14 +155,14 @@ QVariant EntryListModel::data(const QModelIndex &index, int role) const
 		case Qt::EditRole:
 		{
 			if (cEntry.type == -1) return cEntry.label;
-			EntryPointer entry(EntriesCache::get(cEntry.type, cEntry.id));
+			EntryPointer entry(EntryRef(cEntry.type, cEntry.id).get());
 			if (!entry) return QVariant();
 			else return entry->shortVersion(Entry::TinyVersion);
 		}
 		case Qt::BackgroundRole:
 		{
 			if (cEntry.type == -1) return QPalette().button();
-			EntryPointer entry(EntriesCache::get(cEntry.type, cEntry.id));
+			EntryPointer entry(EntryRef(cEntry.type, cEntry.id).get());
 			if (!entry || !entry->trained()) return QVariant();
 			else return entry->scoreColor();
 		}
@@ -187,7 +187,7 @@ QVariant EntryListModel::data(const QModelIndex &index, int role) const
 		case Entry::EntryRole:
 		{
 			if (cEntry.type == -1) return QVariant();
-			EntryPointer entry(EntriesCache::get(cEntry.type, cEntry.id));
+			EntryPointer entry(EntryRef(cEntry.type, cEntry.id).get());
 			if (!entry) return QVariant();
 			else return QVariant::fromValue(entry);
 		}

@@ -344,7 +344,7 @@ void JMdictEntryFormatter::writeEntryInfo(const ConstJMdictEntryPointer& entry, 
 				QString k(reading[i]);
 				if (reading[i].isHighSurrogate()) k += reading[++i];
 				cursor.insertText("\n");
-				EntryPointer _entry = EntriesCache::get(KANJIDIC2ENTRY_GLOBALID, TextTools::singleCharToUnicode(k));
+				EntryPointer _entry = KanjiEntryRef(TextTools::singleCharToUnicode(k)).get();
 				view->addWatchEntry(_entry);
 
 				const EntryFormatter *formatter(EntryFormatter::getFormatter(_entry));
@@ -443,7 +443,7 @@ void JMdictEntryFormatter::drawCustom(const ConstEntryPointer& _entry, QPainter&
 		foreach (const QChar &c, writing) {
 			if (TextTools::isKanjiChar(c) && !usedKanjis.contains(c)) {
 				usedKanjis << c;
-				ConstKanjidic2EntryPointer kanji(EntriesCache::get(KANJIDIC2ENTRY_GLOBALID, c.unicode()).staticCast<const Kanjidic2Entry>());
+				ConstKanjidic2EntryPointer kanji(KanjiEntryRef(c.unicode()).get().staticCast<const Kanjidic2Entry>());
 				if (!kanji) continue;
 				if (printOnlyStudiedKanjis && !kanji->trained()) continue;
 				QString s = QString(c) + ": " + kanji->meanings().join(", ");

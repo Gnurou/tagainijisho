@@ -214,10 +214,10 @@ private:
 	bool _dragStarted;
 
 protected:
-	AbstractHistory<QPair<int, int>, QList<QPair<int, int> > > _history;
+	AbstractHistory<EntryRef, QList<EntryRef> > _history;
 	SingleEntryView _entryView;
 	DetailedViewJobRunner _jobsRunner;
-	QList<EntryPointer> _watchedEntries;
+	QList<ConstEntryPointer> _watchedEntries;
 	QAction *_historyPrevAction;
 	QAction *_historyNextAction;
 	
@@ -249,7 +249,7 @@ public:
 	 * Add an entry to watch, i.e. the view will be
 	 * redrawn if this entry changes.
 	 */
-	void addWatchEntry(const EntryPointer &entry);
+	void addWatchEntry(const ConstEntryPointer &entry);
 
 	static PreferenceItem<int> historySize;
 	static PreferenceItem<bool> smoothScrolling;

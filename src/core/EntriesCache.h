@@ -27,37 +27,7 @@
 #include <QQueue>
 #include <QMutex>
 
-/**
- * A very lightweight reference to an entry.
- *
- * It can be read/written using QDataStreams and can also be encapsulated as
- * a QVariant, making it the preferred solution to communicate entries.
- */
-class EntryRef : protected QPair<quint8, quint32>
-{
-public:
-	/// Constructs an invalid reference
-	EntryRef() : QPair<quint8, quint32>(0, 0) {}
-	EntryRef(const EntryPointer &entry) : QPair<quint8, quint32>(entry->type(), entry->id()) {}
-	EntryRef(quint8 type, quint32 id) : QPair<quint8, quint32>(type, id) {}
-	bool isValid() const { return first != 0; }
-	quint8 type() const { return first; }
-	quint32 id() const { return second; }
-	//EntryPointer get() const { return EntriesCache::get(type(), id()); }
-	bool operator==(const EntryRef &other) const { return static_cast<const QPair<quint8, quint32> >(*this) == other; }
-	bool operator!=(const EntryRef &other) const { return !(*this == other); }
-	friend QDataStream &operator<<(QDataStream &out, const EntryRef &ref);
-	friend QDataStream &operator>>(QDataStream &in, EntryRef &ref);
-};
-
-inline uint qHash(const EntryRef &key)
-{
-	uint h1 = qHash(key.type());
-	uint h2 = qHash(key.id());
-	return ((h1 << 16) | (h1 >> 16)) ^ h2;
-}
-
-//Q_DECLARE_METATYPE(EntryRef)
+class EntryRef;
 
 /**
  * The EntryCache plays a double role:
@@ -100,10 +70,6 @@ private:
 	EntriesCache(QObject *parent = 0);
 	~EntriesCache();
 
-public:
-	static void init();
-	static void cleanup();
-
 	/**
 	 * Returns the unique instance of the entry given as argument,
 	 * loading it from the database if necessary. Returns null
@@ -113,9 +79,54 @@ public:
 		return _instance->_get(type, id);
 	}
 
+public:
+	static void init();
+	static void cleanup();
+
 	/**
 	 * The size of the cache can be modified in real-time through this value.
 	 */
 	static PreferenceItem<int> cacheSize;
+friend class EntryRef;
 };
+
+/**
+ * A very lightweight reference to an entry.
+ *
+ * It can be read/written using QDataStreams and can also be encapsulated as
+ * a QVariant, making it the preferred solution to keep track of an entry
+ * we do not need to be loaded now but might need later.
+ */
+class EntryRef : protected QPair<quint8, quint32>
+{
+public:
+	/// Constructs an invalid reference
+	EntryRef() : QPair<quint8, quint32>(0, 0) {}
+	EntryRef(const EntryPointer &entry) : QPair<quint8, quint32>(entry->type(), entry->id()) {}
+	EntryRef(quint8 type, quint32 id) : QPair<quint8, quint32>(type, id) {}
+	bool isValid() const { return first != 0; }
+	quint8 type() const { return first; }
+	quint32 id() const { return second; }
+
+	/**
+	 * Returns a pointer to the entry corresponding to this reference. If needed, the entry will
+	 * be loaded from the database.
+	 *
+	 * Note that the referenced entry may not exist - it is a good idea to check whether the 
+	 * returned pointer actually points to something before using it.
+	 */
+	EntryPointer get() const { return EntriesCache::get(type(), id()); }
+	bool operator==(const EntryRef &other) const { return static_cast<const QPair<quint8, quint32> >(*this) == other; }
+	bool operator!=(const EntryRef &other) const { return !(*this == other); }
+	friend QDataStream &operator<<(QDataStream &out, const EntryRef &ref);
+	friend QDataStream &operator>>(QDataStream &in, EntryRef &ref);
+};
+
+inline uint qHash(const EntryRef &key)
+{
+	uint h1 = qHash(key.type());
+	uint h2 = qHash(key.id());
+	return ((h1 << 16) | (h1 >> 16)) ^ h2;
+}
+
 #endif

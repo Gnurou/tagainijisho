@@ -103,7 +103,7 @@ void ReadingTrainer::train()
 	ui.userInput->setVisible(true);
 	ui.userInput->setFocus();
 	if (query.next()) {
-		entry = EntriesCache::get(JMDICTENTRY_GLOBALID, (query.value(0).toInt()));
+		entry = JMdictEntryRef(query.value(0).toInt()).get();
 		ui.writingLabel->setText(entry->writings()[0]);
 		QTextCursor cursor(ui.detailedView->detailedView()->document());
 		const EntryFormatter *formatter = EntryFormatter::getFormatter(entry);

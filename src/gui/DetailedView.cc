@@ -112,7 +112,6 @@ DetailedView::~DetailedView()
 
 void DetailedView::_display(const EntryPointer &entry, bool update)
 {
-//	if (!update && entry == entryView.entry()) return;
 	clear();
 	_entryView.setEntry(entry);
 	if (_historyEnabled) {
@@ -139,7 +138,7 @@ void DetailedView::setSmoothScrolling(bool value)
 void DetailedView::display(const EntryPointer &entry)
 {
 	if (_historyEnabled) {
-		_history.add(QPair<int, int>(entry->type(), entry->id()));
+		_history.add(EntryRef(entry));
 	}
 	_display(entry);
 }
@@ -158,7 +157,7 @@ void DetailedView::redisplay()
 
 void DetailedView::clear()
 {
-	foreach (const EntryPointer &entry, _watchedEntries) {
+	foreach (const ConstEntryPointer &entry, _watchedEntries) {
 		disconnect(entry.data(), SIGNAL(entryChanged(Entry *)), this, SLOT(redisplay()));
 	}
 	_watchedEntries.clear();
@@ -199,20 +198,18 @@ void DetailedView::setHistoryEnabled(bool enabled)
 
 void DetailedView::previous()
 {
-	QPair<int, int> prev;
+	EntryRef prev;
 	bool ok = _history.previous(prev);
 	if (!ok) return;
-	EntryPointer entry(EntriesCache::get(prev.first, prev.second));
-	_display(entry);
+	_display(prev.get());
 }
 
 void DetailedView::next()
 {
-	QPair<int, int> next;
+	EntryRef next;
 	bool ok = _history.next(next);
 	if (!ok) return;
-	EntryPointer entry(EntriesCache::get(next.first, next.second));
-	_display(entry);
+	_display(next.get());
 }
 
 void DetailedView::addBackgroundJob(DetailedViewJob *job)
@@ -220,7 +217,7 @@ void DetailedView::addBackgroundJob(DetailedViewJob *job)
 	_jobsRunner.addJob(job);
 }
 
-void DetailedView::addWatchEntry(const EntryPointer &entry)
+void DetailedView::addWatchEntry(const ConstEntryPointer &entry)
 {
 	_watchedEntries << entry;
 	connect(entry.data(), SIGNAL(entryChanged(Entry *)), this, SLOT(redisplay()));
@@ -492,7 +489,7 @@ EntryMenuHandler::~EntryMenuHandler()
 
 void EntryMenuHandler::handleUrl(const QUrl &url, DetailedView *view)
 {
-	EntryPointer entry(EntriesCache::get(url.queryItemValue("type").toInt(), url.queryItemValue("id").toInt()));
+	EntryPointer entry(EntryRef(url.queryItemValue("type").toInt(), url.queryItemValue("id").toInt()).get());
 	if (entry) MainWindow::instance()->detailedView()->display(entry);
 }
 
