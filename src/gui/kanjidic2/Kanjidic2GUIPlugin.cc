@@ -58,7 +58,7 @@ const QString Kanjidic2GUIPlugin::kanjiGrades[] = {
 
 PreferenceItem<bool> Kanjidic2GUIPlugin::kanjiTooltipEnabled("kanjidic", "kanjiTooltipEnabled", true);
 
-Kanjidic2GUIPlugin::Kanjidic2GUIPlugin() : Plugin("kanjidic2GUI"), _flashKL(0), _flashKS(0), _flashML(0), _flashMS(0), _readingPractice(0), _linkHandler(0), _wordsLinkHandler(0), _componentsLinkHandler(0), _filter(0), _trainer(0), _readingTrainer(0), _cAction(0)
+Kanjidic2GUIPlugin::Kanjidic2GUIPlugin() : Plugin("kanjidic2GUI"), _flashKL(0), _flashKS(0), _flashML(0), _flashMS(0), _readingPractice(0), _linkHandler(0), _wordsLinkHandler(0), _componentsLinkHandler(0), _filter(0), _trainer(0), _readingTrainer(0), _cAction(0), _dragStarted(false), _dragEntryRef(0)
 {
 }
 
@@ -249,107 +249,139 @@ bool Kanjidic2GUIPlugin::eventFilter(QObject *obj, QEvent *_event)
 	if (!view) return false;
 	int pos = view->document()->documentLayout()->hitTest(view->viewport()->mapFromGlobal(QCursor::pos() + QPoint(0, view->verticalScrollBar()->value())), Qt::ExactHit);
 	switch(_event->type()) {
- case QEvent::MouseMove:
-		{
-			// TODO this property should be moved out of view
-			if (view->kanjisClickable()) {
-				if (pos != -1) {
-					QTextCursor cursor(view->document());
-					cursor.setPosition(pos);
-					cursor.movePosition(QTextCursor::NextCharacter, QTextCursor::KeepAnchor);
-					if (!cursor.charFormat().isAnchor()) {
-						QChar t(cursor.selectedText()[0]);
-						QString c(t);
-						if (t.isHighSurrogate()) {
-							cursor.movePosition(QTextCursor::NextCharacter, QTextCursor::KeepAnchor);
-							c += cursor.selectedText()[1];
+	case QEvent::MouseButtonPress:
+	{
+		QMouseEvent *e(static_cast<QMouseEvent *>(_event));
+		if (e->button() == Qt::LeftButton && view->kanjisClickable()) {
+			// Either prepare for a drag or a click to display the kanji popup
+			// if we are on a kanji
+			QTextCursor cursor(view->document());
+			cursor.setPosition(pos);
+			cursor.movePosition(QTextCursor::NextCharacter, QTextCursor::KeepAnchor);
+			if (cursor.charFormat().isAnchor()) return false;
+			QChar t(cursor.selectedText()[0]);
+			QString c(t);
+			if (t.isHighSurrogate()) {
+				cursor.movePosition(QTextCursor::NextCharacter, QTextCursor::KeepAnchor);
+				c += cursor.selectedText()[1];
+			}
+			if (TextTools::isKanjiChar(c)) {
+				// Yes, it is a kanji - prepare for a drag or a click
+				// and consume the event.
+				_dragStarted = true;
+				_dragPos = e->pos();
+				_dragEntryRef = KanjiEntryRef(TextTools::singleCharToUnicode(c));
+				return true;
+			}
+		}
+		return false;
+	}
+	case QEvent::MouseMove:
+	{
+		QMouseEvent *e(static_cast<QMouseEvent *>(_event));
+		// Drag in progress -> see if we shall start a drag!
+		if (_dragStarted) {
+			if ((e->pos() - _dragPos).manhattanLength() >= QApplication::startDragDistance()) {
+				_dragStarted = false;
+				QDrag *drag = new QDrag(view);
+				QMimeData *data = new QMimeData();
+				QByteArray encodedData;
+				QDataStream stream(&encodedData, QIODevice::WriteOnly);
+				stream << _dragEntryRef.type() << _dragEntryRef.id();
+				data->setData("tagainijisho/entry", encodedData);
+				drag->setMimeData(data);
+				drag->exec(Qt::CopyAction, Qt::CopyAction);
+				_dragStarted = false;
+			}
+			// Always filter the event if the button is pushed
+			return true;
+		}
+		// No button pushed - see if we have to show the kanji popup
+		// TODO this property should be moved out of view
+		if (view->kanjisClickable()) {
+			if (pos != -1) {
+				QTextCursor cursor(view->document());
+				cursor.setPosition(pos);
+				cursor.movePosition(QTextCursor::NextCharacter, QTextCursor::KeepAnchor);
+				if (!cursor.charFormat().isAnchor()) {
+					QChar t(cursor.selectedText()[0]);
+					QString c(t);
+					if (t.isHighSurrogate()) {
+						cursor.movePosition(QTextCursor::NextCharacter, QTextCursor::KeepAnchor);
+						c += cursor.selectedText()[1];
+					}
+					if (TextTools::isKanjiChar(c)) {
+						ConstKanjidic2EntryPointer entry(EntriesCache::get(KANJIDIC2ENTRY_GLOBALID, TextTools::singleCharToUnicode(c)).staticCast<const Kanjidic2Entry>());
+						view->viewport()->setCursor(QCursor(Qt::PointingHandCursor));
+						// Only show the tooltip if the entry exists in the database!
+						if (kanjiTooltipEnabled.value() && entry) {
+							const Kanjidic2EntryFormatter *formatter(static_cast<const Kanjidic2EntryFormatter *>(EntryFormatter::getFormatter(KANJIDIC2ENTRY_GLOBALID)));
+							formatter->showToolTip(entry, QCursor::pos());
 						}
-						if (TextTools::isKanjiChar(c)) {
-							ConstKanjidic2EntryPointer entry(EntriesCache::get(KANJIDIC2ENTRY_GLOBALID, TextTools::singleCharToUnicode(c)).staticCast<const Kanjidic2Entry>());
-							view->viewport()->setCursor(QCursor(Qt::PointingHandCursor));
-							// Only show the tooltip if the entry exists in the database!
-							if (kanjiTooltipEnabled.value() && entry) {
-								const Kanjidic2EntryFormatter *formatter(static_cast<const Kanjidic2EntryFormatter *>(EntryFormatter::getFormatter(KANJIDIC2ENTRY_GLOBALID)));
-								formatter->showToolTip(entry, QCursor::pos());
-							}
-							return false;
-						}
-					} else return false;
-				}
-				view->viewport()->unsetCursor();
-				if (QToolTip::isVisible()) {
-					QToolTip::hideText();
+					}
 				}
 				return false;
 			}
-			break;
+			view->viewport()->unsetCursor();
+			if (QToolTip::isVisible()) {
+				QToolTip::hideText();
+			}
 		}
- case QEvent::MouseButtonPress:
-		{
-			QMouseEvent *event(static_cast<QMouseEvent *>(_event));
-			if (!view->kanjisClickable()) return false;
-			if (event->button() != Qt::LeftButton) return false;
-
-			if (pos != -1) {
-				QTextCursor cursor(view->document());
-				cursor.setPosition(pos);
-				cursor.movePosition(QTextCursor::NextCharacter, QTextCursor::KeepAnchor);
-				if (cursor.charFormat().isAnchor()) return false;
-				QChar t(cursor.selectedText()[0]);
-				QString c(t);
-				if (t.isHighSurrogate()) {
-					cursor.movePosition(QTextCursor::NextCharacter, QTextCursor::KeepAnchor);
-					c += cursor.selectedText()[1];
-				}
-				if (TextTools::isKanjiChar(c)) {
-					view->fakeClick(QUrl(QString("drawkanji:?kanji=%1").arg(c)));
-					return true;
-				}
-			}
-			break;
-		}
- case QEvent::ContextMenu:
-		{
-			QContextMenuEvent *event(static_cast<QContextMenuEvent *>(_event));
-			QMenu *menu = 0;
-			SingleEntryView tview;
-
-			// Are we on an entry link or a kanji character?
-			if (pos != -1) {
-				QTextCursor cursor(view->document());
-				cursor.setPosition(pos);
-				cursor.movePosition(QTextCursor::NextCharacter, QTextCursor::KeepAnchor);
-				if (cursor.charFormat().isAnchor()) {
-					QUrl url(cursor.charFormat().anchorHref());
-					if (url.scheme() == "entry") {
-						EntryPointer entry(EntriesCache::get(url.queryItemValue("type").toInt(), url.queryItemValue("id").toInt()));
-						if (entry) tview.setEntry(entry);
-					}
-				}
-				else {
-					QChar c(cursor.selectedText()[0]);
-					if (TextTools::isKanjiChar(c)) {
-						EntryPointer entry(EntriesCache::get(KANJIDIC2ENTRY_GLOBALID, c.unicode()));
-						if (entry) tview.setEntry(entry);
-					}
-				}
-			}
-
-			QAction *openAction(0);
-			if (tview.entry()) {
-				menu = new QMenu();
-				openAction = menu->addAction(QIcon("images/icons/zoom-in.png"), tr("Open in detailed view..."));
-				menu->addSeparator();
-				tview.populateMenu(menu);
-			}
-			else return false;
-
-			QAction *selected = menu->exec(event->globalPos());
-			if (selected && selected == openAction) MainWindow::instance()->detailedView()->display(tview.entry());
-			delete menu;
+		return false;
+	}
+	case QEvent::MouseButtonRelease:
+	{
+		QMouseEvent *e(static_cast<QMouseEvent *>(_event));
+		if (e->button() == Qt::LeftButton && _dragStarted) {
+			// Released on a kanji? Let's show the popup if needed.
+			_dragStarted = false;
+			if (view->kanjisClickable()) view->fakeClick(QUrl(QString("drawkanji:?kanji=%1").arg(_dragEntryRef.kanji())));
 			return true;
 		}
- default:
+		return false;
+	}
+	case QEvent::ContextMenu:
+	{
+		QContextMenuEvent *event(static_cast<QContextMenuEvent *>(_event));
+		QMenu *menu = 0;
+		SingleEntryView tview;
+
+		// Are we on an entry link or a kanji character?
+		if (pos != -1) {
+			QTextCursor cursor(view->document());
+			cursor.setPosition(pos);
+			cursor.movePosition(QTextCursor::NextCharacter, QTextCursor::KeepAnchor);
+			if (cursor.charFormat().isAnchor()) {
+				QUrl url(cursor.charFormat().anchorHref());
+				if (url.scheme() == "entry") {
+					EntryPointer entry(EntriesCache::get(url.queryItemValue("type").toInt(), url.queryItemValue("id").toInt()));
+					if (entry) tview.setEntry(entry);
+				}
+			}
+			else {
+				QChar c(cursor.selectedText()[0]);
+				if (TextTools::isKanjiChar(c)) {
+					EntryPointer entry(EntriesCache::get(KANJIDIC2ENTRY_GLOBALID, c.unicode()));
+					if (entry) tview.setEntry(entry);
+				}
+			}
+		}
+
+		QAction *openAction(0);
+		if (tview.entry()) {
+			menu = new QMenu();
+			openAction = menu->addAction(QIcon("images/icons/zoom-in.png"), tr("Open in detailed view..."));
+			menu->addSeparator();
+			tview.populateMenu(menu);
+		}
+		else return false;
+
+		QAction *selected = menu->exec(event->globalPos());
+		if (selected && selected == openAction) MainWindow::instance()->detailedView()->display(tview.entry());
+		delete menu;
+		return true;
+	}
+	default:
 		break;
 	}
 	return false;

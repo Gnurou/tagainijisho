@@ -45,6 +45,10 @@ private:
 	YesNoTrainer *_trainer;
 	ReadingTrainer *_readingTrainer;
 	KanjiInputPopupAction * _cAction, *_kAction;
+	/// Used for drag'n drop of kanji from the detailed view
+	bool _dragStarted;
+	QPoint _dragPos;
+	KanjiEntryRef _dragEntryRef;
 
 	void training(YesNoTrainer::TrainingMode mode, const QString &queryString);
 
