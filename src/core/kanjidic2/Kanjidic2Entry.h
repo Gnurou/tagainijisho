@@ -19,6 +19,7 @@
 #define __CORE_KANJIDIC2_ENTRY
 
 #include "core/EntriesCache.h"
+#include "core/TextTools.h"
 
 #include <QStack>
 
@@ -187,6 +188,16 @@ public:
 	QStringList kunyomiReadings() const;
 
 	friend class Kanjidic2EntrySearcher;
+};
+
+/**
+ * Just to simplify making references to kanji entries.
+ */
+class KanjiEntryRef : public EntryRef
+{
+public:
+	KanjiEntryRef(quint32 id) : EntryRef(KANJIDIC2ENTRY_GLOBALID, id) {}
+	QString kanji() const { return TextTools::unicodeToSingleChar(id()); }
 };
 
 typedef QSharedPointer<Kanjidic2Entry> Kanjidic2EntryPointer;

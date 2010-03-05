@@ -156,6 +156,15 @@ public:
 	friend class JMdictEntrySearcher;
 };
 
+/**
+ * Just to simplify making references to JMdict entries.
+ */
+class JMdictEntryRef : public EntryRef
+{
+public:
+	JMdictEntryRef(quint32 id) : EntryRef(JMDICTENTRY_GLOBALID, id) {}
+};
+
 typedef QSharedPointer<JMdictEntry> JMdictEntryPointer;
 Q_DECLARE_METATYPE(JMdictEntryPointer)
 typedef QSharedPointer<const JMdictEntry> ConstJMdictEntryPointer;

@@ -38,9 +38,11 @@ public:
 	EntryRef(const Entry *entry) : QPair<quint8, quint32>(entry->type(), entry->id()) {}
 	quint8 type() const { return first; }
 	quint32 id() const { return second; }
+	//EntryPointer get() const { return EntriesCache::get(type(), id()); }
 	bool operator==(const EntryRef &other) const { return static_cast<const QPair<quint8, quint32> >(*this) == other; }
 	bool operator!=(const EntryRef &other) const { return !(*this == other); }
 };
+
 inline uint qHash(const EntryRef &key)
 {
 	uint h1 = qHash(key.type());
