@@ -464,6 +464,8 @@ void MainWindow::focusTextSearch()
 	TextFilterWidget *tWidget = qobject_cast<TextFilterWidget *>(searchWidget()->getSearchFilter("searchtext"));
 	if (!tWidget) return;
 	searchWidget()->searchFilters()->showWidget(tWidget);
+	// showWidget is supposed to do this already, but somehow this is still necessary.
+	tWidget->setFocus();
 	tWidget->searchField()->lineEdit()->selectAll();
 }
 
