@@ -93,7 +93,7 @@ const EntryListModelCache &EntryListModel::getFromCache(int row, int parent) con
 
 void EntryListModel::invalidateCache(int rowId) const
 {
-	if (rowIdCache.contains(rowId));
+	if (!rowIdCache.contains(rowId)) return;
 	const EntryListModelCache &cEntry = rowIdCache[rowId];
 	rowParentCache.remove(QPair<int, int>(cEntry.position, cEntry.parent));
 	rowIdCache.remove(rowId);
