@@ -130,15 +130,17 @@ void EntryListView::newList()
 	}
 }
 
-// TODO won't work if parent and children are selected
-// BUG totally buggy in case of multiple selection - that's
-// because the indexes change as they are deleted!
 void EntryListView::deleteSelectedItems()
 {
 	if (QMessageBox::question(this, tr("Confirm deletion"), tr("This will delete the selected lists items and lists, including all their children. Continue?"), QMessageBox::Yes | QMessageBox::No, QMessageBox::No) != QMessageBox::Yes) return;
 	QModelIndexList selection(selectionModel()->selectedIndexes());
+	QList<QPersistentModelIndex> perList;
+	foreach (const QModelIndex &idx, selection) {
+		perList << QPersistentModelIndex(idx);
+	}
 	bool success = true;
-	foreach (const QModelIndex &index, selection) {
+	foreach (const QPersistentModelIndex &index, perList) {
+		if (!index.isValid()) continue;
 		if (!model()->removeRow(index.row(), index.parent())) success = false;
 	}
 	if (!success) QMessageBox::information(this, tr("Removal failed"), tr("A database error has occured while trying to remove the selected items:\n\n%1\n\n Some of them may be remaining.").arg(Database::lastError().text()));
