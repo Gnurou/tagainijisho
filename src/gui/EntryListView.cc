@@ -30,7 +30,7 @@ PreferenceItem<QString> EntryListView::kanaFontSetting("mainWindow/lists", "kana
 PreferenceItem<QString> EntryListView::kanjiFontSetting("mainWindow/lists", "kanjiFont", QFont("Helvetica", 12).toString());
 PreferenceItem<int> EntryListView::displayModeSetting("mainWindow/lists", "displayMode", EntryDelegateLayout::OneLine);
 
-EntryListView::EntryListView(QWidget *parent, EntryDelegateLayout* delegateLayout, bool viewOnly) : QTreeView(parent), helper(this), _newListAction(QIcon(":/images/icons/document-new.png"), tr("New list"), 0), _deleteSelectionAction(QIcon(":/images/icons/delete.png"), tr("Delete"), 0)
+EntryListView::EntryListView(QWidget *parent, EntryDelegateLayout* delegateLayout, bool viewOnly) : QTreeView(parent), helper(this), _newListAction(QIcon(":/images/icons/document-new.png"), tr("New list..."), 0), _deleteSelectionAction(QIcon(":/images/icons/delete.png"), tr("Delete"), 0)
 {
 	// If no delegate layout has been specified, let's use our private one...
 	if (!delegateLayout) delegateLayout = new EntryDelegateLayout(static_cast<EntryDelegateLayout::DisplayMode>(displayModeSetting.value()), textFontSetting.value(), kanjiFontSetting.value(), kanaFontSetting.value(), this);
@@ -46,6 +46,7 @@ EntryListView::EntryListView(QWidget *parent, EntryDelegateLayout* delegateLayou
 		helper.populateMenu(&contextMenu);
 		contextMenu.addSeparator();
 	}
+	//contextMenu.addAction(newListAction());
 	setHeaderHidden(true);
 	connect(&_newListAction, SIGNAL(triggered()), this, SLOT(newList()));
 	_deleteSelectionAction.setEnabled(false);
@@ -115,15 +116,16 @@ void EntryListView::startDrag(Qt::DropActions supportedActions)
 	}
 }
 
-// TODO Allow to create lists elsewhere than on the root
 void EntryListView::newList()
 {
-	int idx = model()->rowCount(QModelIndex());
-	if (!model()->insertRows(idx, 1, QModelIndex())) {
+	// Root index
+	QModelIndex parent;
+	int idx = model()->rowCount(parent);
+	if (!model()->insertRows(idx, 1, parent)) {
 		QMessageBox::information(this, tr("Unable to create list"), tr("A database error occured while trying to add the list."));
 		return;
 	}
-	QModelIndex index(model()->index(idx, 0, QModelIndex()));
+	QModelIndex index(model()->index(idx, 0, parent));
 	if (index.isValid()) {
 		setCurrentIndex(index);
 		edit(index);
