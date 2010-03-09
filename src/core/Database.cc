@@ -38,7 +38,7 @@ bool Database::createUserDB()
 	QSqlQuery query;
 	// Versions table
 	QUERY("CREATE TABLE versions(id TEXT PRIMARY KEY, version INTEGER)");
-	QUERY(QString("INSERT INTO versions VALUES(\"userDB\", %1").arg(USERDB_REVISION));
+	QUERY(QString("INSERT INTO versions VALUES(\"userDB\", %1)").arg(USERDB_REVISION));
 
 	// Study table
 	QUERY("CREATE TABLE training(type INT NOT NULL, id INTEGER SECONDARY KEY NOT NULL, score INT NOT NULL, dateAdded UNSIGNED INT NOT NULL, dateLastTrain UNSIGNED INT, nbTrained UNSIGNED INT NOT NULL, nbSuccess UNSIGNED INT NOT NULL, dateLastMistake UNSIGNED INT, CONSTRAINT training_unique_ids UNIQUE(type, id))");
@@ -341,6 +341,7 @@ void Database::checkUserDB()
 	}
 	else {
 		if (!createUserDB()) {
+			database.rollback();
 			qFatal("Cannot create user database: %s", database.lastError().text().toLatin1().constData());
 			return;
 		}
