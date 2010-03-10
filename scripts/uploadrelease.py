@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import sys, os, launchpadlib, subprocess, codecs
+import sys, os, launchpadlib, subprocess, codecs, re
 from launchpadlib.launchpad import Launchpad, STAGING_SERVICE_ROOT, EDGE_SERVICE_ROOT, LPNET_SERVICE_ROOT
 from launchpadlib.credentials import Credentials
 import lazr.restfulclient.errors
@@ -10,8 +10,25 @@ serviceRoot = LPNET_SERVICE_ROOT
 projectName = 'tagaini-jisho'
 cachedir = "/tmp/tagainiuploader/cache/"
 credentialsfile = "credentials.txt"
-releaseVersion = "0.2.4.85"
-lpRelease = "0.2.5b2"
+releaseVersion = None
+# Get the current release
+for line in open("CMakeLists.txt"):
+	if "set(VERSION " in line:
+		releaseVersion = re.match("set\\(VERSION (.*)\\)", line).group(1)
+		break
+if not releaseVersion:
+	print "Cannot find release version"
+	sys.exit(1)
+# Build the launchpad release name
+vers = releaseVersion.split('.')
+if len(vers) == 4: vers[2] = str(int(vers[2]) + 1)
+lpRelease = '.'.join(vers[0:3])
+if len(vers) == 4:
+	if vers[3] == "80": lpRelease += "b1"
+	elif vers[3] == "85": lpRelease += "b2"
+	elif vers[3] == "90": lpRelease += "rc1"
+	elif vers[3] == "95": lpRelease += "rc2"
+
 launchpad = None
 
 FILE_TYPES = dict(source='Code Release Tarball',
