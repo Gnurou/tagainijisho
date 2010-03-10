@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import sys, os, launchpadlib, subprocess, codecs, re
+import sys, os, launchpadlib, subprocess, codecs, re, os.path, getpass
 from launchpadlib.launchpad import Launchpad, STAGING_SERVICE_ROOT, EDGE_SERVICE_ROOT, LPNET_SERVICE_ROOT
 from launchpadlib.credentials import Credentials
 import lazr.restfulclient.errors
@@ -68,7 +68,7 @@ def uploadFile(f, fType, lang, gpgPass):
 	finalDesc = FILE_DESCRIPTIONS[fType]
 	if lang: finalDesc = finalDesc % (lang)
 	try:
-		releaseFile = release.add_file(filename = f, description = finalDesc, file_content = open(f, 'r').read(), content_type = FILE_CONTENTTYPES[fType], file_type = FILE_TYPES[fType], signature_filename = fSign, signature_content = open(fSign, 'r').read())
+		releaseFile = release.add_file(filename = os.path.basename(f), description = finalDesc, file_content = open(f, 'r').read(), content_type = FILE_CONTENTTYPES[fType], file_type = FILE_TYPES[fType], signature_filename = fSign, signature_content = open(fSign, 'r').read())
 	# Don't know why, but an exception will always be thrown even though the file is uploaded
 	except lazr.restfulclient.errors.HTTPError:
 		pass
@@ -88,13 +88,12 @@ if not launchpad:
 project = launchpad.projects[projectName]
 for release in project.releases:
 	if release.version == lpRelease:
-		sys.stdout.write("Found the release. I will now create signature files - please enter your GPG private key passphrase: ")
-		gpgPass = sys.stdin.readline()
+		gpgPass = getpass.getpass("Found the release. I will now create signature files - please enter your GPG private key passphrase: ")
 		# Upload the source tarball
 		uploadFile('releasefiles/tagainijisho-' + releaseVersion + '.tar.gz', 'source', '', gpgPass)
 		# Upload the mac binaries
-		for lang in LANGUAGES:
-			uploadFile('releasefiles/Tagaini Jisho-' + releaseVersion + '-' + LANGUAGES_SUFFIXES[lang] + '.dmg', 'mac', lang, gpgPass)
+		#for lang in LANGUAGES:
+			#uploadFile('releasefiles/Tagaini Jisho-' + releaseVersion + '-' + LANGUAGES_SUFFIXES[lang] + '.dmg', 'mac', lang, gpgPass)
 		# Upload the win32 binaries
 		for lang in LANGUAGES:
 			uploadFile('releasefiles/tagainijisho-' + releaseVersion + '-' + LANGUAGES_SUFFIXES[lang] + '.exe', 'win32', lang, gpgPass)
