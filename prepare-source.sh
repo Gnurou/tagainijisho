@@ -35,7 +35,6 @@ if [ ! -f 3rdparty/kanjivg.xml ]; then
 fi
 
 # Generate translations
-lupdate . -ts i18n/*.ts
 TS_FILES=`ls i18n/*.ts`
 for f in $TS_FILES; do
 	lrelease $f -qm i18n/`basename $f .ts`.qm
