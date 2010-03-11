@@ -295,13 +295,16 @@ bool Database::updateUserDB(int currentVersion)
 	if (!database.transaction()) return false;
 	QSqlQuery query2;
 	for (; currentVersion < USERDB_REVISION; ++currentVersion) {
-		if (!dbUpdateFuncs[currentVersion - 1](query2)) return false;
+		if (!dbUpdateFuncs[currentVersion - 1](query2)) goto failed;
 		query2.clear();
 	}
 	// Update version number
-	if (!query2.exec(QString("UPDATE versions SET version=%1 where id=\"userDB\"").arg(currentVersion + 1))) return false;
-	if (!database.commit()) return false;
+	if (!query2.exec(QString("UPDATE versions SET version=%1 where id=\"userDB\"").arg(currentVersion + 1))) goto failed;
+	if (!database.commit()) goto failed;
 	return true;
+failed:
+	database.rollback();
+	return false;
 }
 
 /**
