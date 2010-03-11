@@ -292,15 +292,15 @@ bool Database::updateUserDB(int currentVersion)
 {
 	// Check user DB version number, upgrade if necessary
 	// The database is older than our version of Tagaini - we have to update the database
+	if (!database.transaction()) return false;
+	QSqlQuery query2;
 	for (; currentVersion < USERDB_REVISION; ++currentVersion) {
-		if (!database.transaction()) return false;
-		QSqlQuery query2;
 		if (!dbUpdateFuncs[currentVersion - 1](query2)) return false;
-		// Update version number
-		if (!query2.exec(QString("UPDATE versions SET version=%1 where id=\"userDB\"").arg(currentVersion + 1))) return false;
 		query2.clear();
-		if (!database.commit()) return false;
 	}
+	// Update version number
+	if (!query2.exec(QString("UPDATE versions SET version=%1 where id=\"userDB\"").arg(currentVersion + 1))) return false;
+	if (!database.commit()) return false;
 	return true;
 }
 
