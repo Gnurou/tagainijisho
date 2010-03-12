@@ -26,7 +26,7 @@
 #include <QtDebug>
 #include <QSemaphore>
 
-#define USERDB_REVISION 6
+#define USERDB_REVISION 7
 
 #define QUERY(Q) if (!query.exec(Q)) return false
 
@@ -129,6 +129,12 @@ bool update5to6(QSqlQuery &query) {
 	return true;
 }
 
+/// Do nothing - this is because some users database version got inadvertedly
+/// upgraded one step too much during 0.2.5rc1
+bool update6to7(QSqlQuery &query) {
+	return true;
+}
+
 #undef QUERY
 
 bool (*dbUpdateFuncs[USERDB_REVISION - 1])(QSqlQuery &) = {
@@ -136,7 +142,8 @@ bool (*dbUpdateFuncs[USERDB_REVISION - 1])(QSqlQuery &) = {
 	&update2to3,
 	&update3to4,
 	&update4to5,
-	&update5to6
+	&update5to6,
+	&update6to7,
 };
 
 static Qt::ConnectionType alwaysSync = Qt::BlockingQueuedConnection;
@@ -299,7 +306,7 @@ bool Database::updateUserDB(int currentVersion)
 		query2.clear();
 	}
 	// Update version number
-	if (!query2.exec(QString("UPDATE versions SET version=%1 where id=\"userDB\"").arg(currentVersion + 1))) goto failed;
+	if (!query2.exec(QString("UPDATE versions SET version=%1 where id=\"userDB\"").arg(USERDB_REVISION))) goto failed;
 	if (!database.commit()) goto failed;
 	return true;
 failed:
