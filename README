@@ -77,10 +77,7 @@ make will be enough:
 
 $ make
 
-Generating the databases is just a matter of invoking make again with a different
-target:
-
-$ make databases
+This will take some time, especially to generate the dictionaries databases.
 
 Finally, you can install the program to its destination:
 
