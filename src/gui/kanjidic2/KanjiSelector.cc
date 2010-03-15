@@ -46,12 +46,15 @@ ComplementsList::ComplementsList(QWidget *parent) : QListWidget(parent), baseFon
 	setGridSize(QSize(gridSize, gridSize));
 }
 
-QSet<int> ComplementsList::currentSelection() const
+QSet<int> ComplementsList::currentSelection(bool numbers) const
 {
 	QSet<int> ret;
 	QList<QListWidgetItem *> selection(selectedItems());
-	foreach (const QListWidgetItem *item, selection) {
+	if (numbers) foreach (const QListWidgetItem *item, selection) {
 		ret << item->data(Qt::UserRole).toInt();
+	}
+	else foreach (const QListWidgetItem *item, selection) {
+		ret << TextTools::singleCharToUnicode(item->text());
 	}
 	return ret;
 }
@@ -111,10 +114,10 @@ void KanjiSelector::updateComplementsList(const QSet<int> &selection, const QSet
 		int curNbr = 0;
 		while (query.next()) {
 			int kanji = query.value(0).toInt();
+			int number = query.value(1).toInt();
 			// Do not display kanji that are already in candidates, excepted if they
 			// are part of the current selection
 			if (candidates.contains(kanji) && !selection.contains(kanji)) continue;
-			int number = query.value(1).toInt();
 			int strokeNbr = query.value(2).toInt();
 			if (strokeNbr > curStrokes) {
 				complementsList->setCurrentStrokeNbr(strokeNbr);
@@ -122,7 +125,7 @@ void KanjiSelector::updateComplementsList(const QSet<int> &selection, const QSet
 			}
 			if (curNbr != number) {
 				QListWidgetItem *item = complementsList->addComplement(kanji, number);
-				if (selection.contains(item->data(Qt::UserRole).toInt())) item->setSelected(true);
+				if (selection.contains(kanji)) item->setSelected(true);
 				curNbr = number;
 			}
 		}
@@ -134,7 +137,8 @@ void KanjiSelector::updateComplementsList(const QSet<int> &selection, const QSet
 void KanjiSelector::onSelectionChanged()
 {
 	QSet<int> selection(complementsList->currentSelection());
-	QSet<int> candidates(updateCandidatesList(selection));
+	QSet<int> selectionNbrs(complementsList->currentSelection(true));
+	QSet<int> candidates(updateCandidatesList(selectionNbrs));
 	updateComplementsList(selection, candidates);
 }
 
@@ -150,14 +154,14 @@ QString RadicalKanjiSelector::getCandidatesQuery(const QSet<int> &selection) con
 
 QString RadicalKanjiSelector::getComplementsQuery(const QSet<int> &candidates) const
 {
-	if (candidates.isEmpty()) return "select kanji, number, strokeCount from kanjidic2.radicalsList join kanjidic2.entries on radicalsList.kanji = entries.id order by strokeCount, number, radicalsList.rowid";
+	if (candidates.isEmpty()) return "select kanji, number, strokeCount from kanjidic2.radicalsList join kanjidic2.entries on radicalsList.kanji = entries.id order by number, radicalsList.rowid";
 	else {
 		QString selString;
 		foreach (int candidate, candidates) {
 			if (selString.isEmpty()) selString = QString::number(candidate);
 			else selString += "," + QString::number(candidate);
 		}
-		return QString("select distinct rl.kanji, r.number, strokeCount from kanjidic2.radicals as r join kanjidic2.radicalsList as rl on r.number = rl.number join kanjidic2.entries as e on rl.kanji = e.id where r.kanji in (%1) order by strokeCount, rl.number, rl.rowid").arg(selString);
+		return QString("select distinct rl.kanji, r.number, strokeCount from kanjidic2.radicals as r join kanjidic2.radicalsList as rl on r.number = rl.number join kanjidic2.entries as e on rl.kanji = e.id where r.kanji in (%1) order by rl.number, rl.rowid").arg(selString);
 	}
 }
 

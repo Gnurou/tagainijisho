@@ -34,7 +34,7 @@ private:
 
 public:
 	ComplementsList(QWidget *parent = 0);
-	QSet<int> currentSelection() const;
+	QSet<int> currentSelection(bool numbers = false) const;
 
 public slots:
 	/// Add a complement character to the list
