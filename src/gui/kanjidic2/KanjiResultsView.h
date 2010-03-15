@@ -18,9 +18,11 @@
 #ifndef __GUI_KANJI_RESULTS_VIEW_H
 #define __GUI_KANJI_RESULTS_VIEW_H
 
+#include "gui/ScrollBarSmoothScroller.h"
+
 #include <QGraphicsView>
 #include <QGraphicsScene>
-#include <QTimer>
+#include <QWheelEvent>
 
 /**
  * A horizontally-scrollable results view designed to display kanji
@@ -31,17 +33,12 @@ class KanjiResultsView : public QGraphicsView
 	Q_OBJECT
 private:
 	QGraphicsScene _scene;
-	int curItem, pos;
-	int wheelDelta;
 	QList<QGraphicsTextItem *> items;
-	QTimer timer;
-
-protected:
-	void wheelEvent(QWheelEvent *event);
+	ScrollBarSmoothScroller _smoothScroller;
 
 protected slots:
-	void updateAnimationState();
 	void onSelectionChanged();
+	void wheelEvent(QWheelEvent *event);
 
 public:
 	KanjiResultsView(QWidget *parent = 0);

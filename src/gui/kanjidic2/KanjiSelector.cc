@@ -199,6 +199,7 @@ ComponentKanjiSelector::ComponentKanjiSelector(QWidget *parent) : KanjiSelector(
 	KanjiValidator *validator = new KanjiValidator(_components);
 	_components->setValidator(validator);
 	verticalLayout->insertWidget(0, _components);
+	setFocusProxy(_components);
 	connect(_components, SIGNAL(textChanged(QString)), this, SLOT(onComponentsListChanged()));
 	onComponentsListChanged();
 }
@@ -232,10 +233,7 @@ void ComponentKanjiSelector::onSelectionChanged()
 
 void ComponentKanjiSelector::onComponentsListChanged()
 {
-	// Run the queries & update
-	QSet<int> selection(currentComponents());
-	QSet<int> candidates(updateCandidatesList(selection));
-	updateComplementsList(selection, candidates);
+	KanjiSelector::onSelectionChanged();
 }
 
 KanjiInputPopupAction::KanjiInputPopupAction(KanjiSelector *popup, const QString &title, QWidget *parent) : QAction(title, parent), _popup(popup), focusWidget(0)
@@ -274,6 +272,7 @@ void KanjiInputPopupAction::togglePopup(bool status)
 				if (screenRect.bottom() < popupRect.bottom()) popupRect.moveBottom(screenRect.bottom());
 				_popup->setGeometry(popupRect);
 			}
+			_popup->setFocus();
 		}
 	}
 	else {

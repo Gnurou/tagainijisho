@@ -35,6 +35,7 @@ TagsFilterWidget.cc
 NotesFilterWidget.cc
 SearchBuilder.cc
 SmoothScroller.cc
+ScrollBarSmoothScroller.cc
 EntryDelegate.cc
 EntriesViewHelper.cc
 ResultsView.cc
@@ -103,6 +104,7 @@ SearchBuilder.h
 SetsOrganizer.h
 SingleEntryView.h
 SmoothScroller.h
+ScrollBarSmoothScroller.h
 TagsDialogs.h
 ToolBarDetailedView.h
 TrainSettings.h
