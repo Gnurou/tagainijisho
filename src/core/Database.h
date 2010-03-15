@@ -27,6 +27,7 @@
 #include <QRegExp>
 #include <QVector>
 #include <QMap>
+#include <QTemporaryFile>
 
 struct sqlite3;
 
@@ -38,6 +39,10 @@ class Database : public QThread
 {
 	Q_OBJECT
 private:
+	/// Set to the name of the current user DB file
+	static QString _userDBFile;
+	/// Temporary file used to create the temporary user DB
+	QTemporaryFile *_tFile;
 	static QMap<QString, QString> _attachedDBs;
 	static Database *instance;
 
@@ -50,6 +55,7 @@ private:
 	void connectUserDB();
 	void checkUserDB();
 	void closeDB();
+	void createTemporaryDatabase();
 
 private slots:
 	// Synchronous
@@ -62,6 +68,7 @@ public:
 	static void startThreaded();
 	static void startUnthreaded();
 	static void stop();
+	static const QString &userDBFile() { return _userDBFile; }
 
 	static bool attachDictionaryDB(const QString &file, const QString &alias, int expectedVersion);
 	static bool detachDictionaryDB(const QString &alias);

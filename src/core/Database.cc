@@ -30,7 +30,15 @@
 
 #define QUERY(Q) if (!query.exec(Q)) return false
 
+static Qt::ConnectionType alwaysSync = Qt::BlockingQueuedConnection;
+QString Database::_userDBFile;
+Database *Database::instance = NULL;
 QMap<QString, QString> Database::_attachedDBs;
+
+/**
+ * Creates the user database. The database file on which
+ * this takes place *must* be cleared.
+ */
 
 bool Database::createUserDB()
 {
@@ -146,9 +154,109 @@ bool (*dbUpdateFuncs[USERDB_REVISION - 1])(QSqlQuery &) = {
 	&update6to7,
 };
 
-static Qt::ConnectionType alwaysSync = Qt::BlockingQueuedConnection;
+/**
+ * Upgrade the database from the version number given in parameter to
+ * the current version.
+ */
+bool Database::updateUserDB(int currentVersion)
+{
+	// The database is older than our version of Tagaini - we have to update the database
+	if (!database.transaction()) return false;
+	QSqlQuery query2;
+	for (; currentVersion < USERDB_REVISION; ++currentVersion) {
+		if (!dbUpdateFuncs[currentVersion - 1](query2)) goto failed;
+		query2.clear();
+	}
+	// Update version number
+	if (!query2.exec(QString("UPDATE versions SET version=%1 where id=\"userDB\"").arg(USERDB_REVISION))) goto failed;
+	if (!database.commit()) goto failed;
+	return true;
+failed:
+	database.rollback();
+	return false;
+}
 
-Database *Database::instance = NULL;
+/**
+ * Checks if the user DB exists and create it if necessary. In case of failure,
+ * backs on a temporary file for the database.
+ * @return true if the database exists or have been successfully created; false
+ *         if an error occured while building the database.
+ */
+void Database::checkUserDB()
+{
+	int currentVersion;
+	QSqlQuery query;
+	query.exec("pragma journal_mode=MEMORY");
+	query.exec("pragma encoding=\"UTF-16le\"");
+	// Try to get the version from the versions table
+	query.exec("SELECT version FROM versions where id=\"userDB\"");
+	if (query.next()) currentVersion = query.value(0).toInt();
+	else {
+		// No versions table, we have an older version!
+		query.exec("SELECT version FROM info");
+		if (query.next()) currentVersion = query.value(0).toInt();
+		else currentVersion = -1;
+	}
+	query.clear();
+
+	if (currentVersion != -1) {
+		if (currentVersion < USERDB_REVISION) {
+			if (!updateUserDB(currentVersion)) {
+				// Big issue here - start with a temporary database
+				qFatal("Error while upgrading user database: %s", database.lastError().text().toLatin1().constData());
+				return;
+			}
+		}
+		// The database is more recent than our version of Tagaini - there is nothing we can do!
+		else if (currentVersion > USERDB_REVISION) {
+			qFatal("Bad user database version: expected %d, got %d.", USERDB_REVISION, currentVersion);
+			return;
+		}
+	}
+	else {
+		if (!createUserDB()) {
+			database.rollback();
+			// Big issue here - start with a temporary database
+			qFatal("Cannot create user database: %s", database.lastError().text().toLatin1().constData());
+			return;
+		}
+	}
+	// No problem, the database file name can be set.
+	_userDBFile = database.databaseName();
+	qDebug() << _userDBFile;
+}
+
+void Database::connectUserDB()
+{
+	// Connect to the user DB
+	QString filename(QDir(userProfile()).absoluteFilePath("user.db"));
+
+	// Instanciate our custom driver
+	QSQLiteDriver *driver = new QSQLiteDriver();
+
+	database = QSqlDatabase::addDatabase(driver);
+	database.setDatabaseName(filename);
+	if (!database.open()) {
+		qFatal("Cannot open database: %s", database.lastError().text().toLatin1().data());
+		return;
+	}
+
+	// Attach custom functions
+	QVariant handler = database.driver()->handle();
+	if (handler.isValid() && !qstrcmp(handler.typeName(), "sqlite3*")) {
+		sqliteHandler = *static_cast<sqlite3 **>(handler.data());
+		// TODO Move into dedicated open function? Since it cannot be used
+		// the sqlite3_auto_extension
+		register_all_tokenizers(sqliteHandler);
+	}
+
+	checkUserDB();
+}
+
+void Database::createTemporaryDatabase()
+{
+	
+}
 
 Qt::ConnectionType Database::aSyncConnection() { return alwaysSync; }
 
@@ -244,33 +352,6 @@ Database::Database(QObject *parent) : QThread(parent), sqliteHandler(0)
 
 QVector<QRegExp> Database::staticRegExps;
 
-void Database::connectUserDB()
-{
-	// Connect to the user DB
-	QString filename(QDir(userProfile()).absoluteFilePath("user.db"));
-
-	// Instanciate our custom driver
-	QSQLiteDriver *driver = new QSQLiteDriver();
-
-	database = QSqlDatabase::addDatabase(driver);
-	database.setDatabaseName(filename);
-	if (!database.open()) {
-		qFatal("Cannot open database: %s", database.lastError().text().toLatin1().data());
-		return;
-	}
-
-	// Attach custom functions
-	QVariant handler = database.driver()->handle();
-	if (handler.isValid() && !qstrcmp(handler.typeName(), "sqlite3*")) {
-		sqliteHandler = *static_cast<sqlite3 **>(handler.data());
-		// TODO Move into dedicated open function? Since it cannot be used
-		// the sqlite3_auto_extension
-		register_all_tokenizers(sqliteHandler);
-	}
-
-	checkUserDB();
-}
-
 void Database::run()
 {
 	// We can let the GUI thread go!
@@ -293,69 +374,6 @@ void Database::quit()
 	// The database being closed, we can exit the thread
 	QThread::quit();
 	QThread::wait();
-}
-
-bool Database::updateUserDB(int currentVersion)
-{
-	// Check user DB version number, upgrade if necessary
-	// The database is older than our version of Tagaini - we have to update the database
-	if (!database.transaction()) return false;
-	QSqlQuery query2;
-	for (; currentVersion < USERDB_REVISION; ++currentVersion) {
-		if (!dbUpdateFuncs[currentVersion - 1](query2)) goto failed;
-		query2.clear();
-	}
-	// Update version number
-	if (!query2.exec(QString("UPDATE versions SET version=%1 where id=\"userDB\"").arg(USERDB_REVISION))) goto failed;
-	if (!database.commit()) goto failed;
-	return true;
-failed:
-	database.rollback();
-	return false;
-}
-
-/**
- * Checks if the user DB exists and create it if necessary.
- * @return true if the database exists or have been successfully created; false
- *         if an error occured while building the database.
- */
-void Database::checkUserDB()
-{
-	int currentVersion;
-	QSqlQuery query;
-	query.exec("pragma journal_mode=MEMORY");
-	query.exec("pragma encoding=\"UTF-16le\"");
-	// Try to get the version from the versions table
-	query.exec("SELECT version FROM versions where id=\"userDB\"");
-	if (query.next()) currentVersion = query.value(0).toInt();
-	else {
-		// No versions table, we have an older version!
-		query.exec("SELECT version FROM info");
-		if (query.next()) currentVersion = query.value(0).toInt();
-		else currentVersion = -1;
-	}
-	query.clear();
-
-	if (currentVersion != -1) {
-		if (currentVersion < USERDB_REVISION) {
-			if (!updateUserDB(currentVersion)) {
-				qFatal("Error while upgrading user database: %s", database.lastError().text().toLatin1().constData());
-				return;
-			}
-		}
-		// The database is more recent than our version of Tagaini - there is nothing we can do!
-		else if (currentVersion > USERDB_REVISION) {
-			qFatal("Bad user database version: expected %d, got %d.", USERDB_REVISION, currentVersion);
-			return;
-		}
-	}
-	else {
-		if (!createUserDB()) {
-			database.rollback();
-			qFatal("Cannot create user database: %s", database.lastError().text().toLatin1().constData());
-			return;
-		}
-	}
 }
 
 /**
