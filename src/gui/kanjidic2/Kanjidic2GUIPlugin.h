@@ -19,12 +19,13 @@
 #define __GUI_KANJIDIC2GUIPLUGIN_H
 
 #include "core/Plugin.h"
+#include "core/kanjidic2/Kanjidic2Entry.h"
 #include "gui/HexSpinBox.h"
 #include "gui/ReadingTrainer.h"
-#include "gui/kanjidic2/ComponentSearchWidget.h"
 #include "gui/SearchFilterWidget.h"
-
 #include "gui/YesNoTrainer.h"
+#include "gui/kanjidic2/KanjiSelector.h"
+
 #include <QSpinBox>
 #include <QComboBox>
 

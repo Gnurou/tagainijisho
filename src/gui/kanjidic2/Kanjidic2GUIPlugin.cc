@@ -58,7 +58,7 @@ const QString Kanjidic2GUIPlugin::kanjiGrades[] = {
 
 PreferenceItem<bool> Kanjidic2GUIPlugin::kanjiTooltipEnabled("kanjidic", "kanjiTooltipEnabled", true);
 
-Kanjidic2GUIPlugin::Kanjidic2GUIPlugin() : Plugin("kanjidic2GUI"), _flashKL(0), _flashKS(0), _flashML(0), _flashMS(0), _readingPractice(0), _linkHandler(0), _wordsLinkHandler(0), _componentsLinkHandler(0), _filter(0), _trainer(0), _readingTrainer(0), _cAction(0), _dragStarted(false), _dragEntryRef(0)
+Kanjidic2GUIPlugin::Kanjidic2GUIPlugin() : Plugin("kanjidic2GUI"), _flashKL(0), _flashKS(0), _flashML(0), _flashMS(0), _readingPractice(0), _linkHandler(0), _wordsLinkHandler(0), _componentsLinkHandler(0), _filter(0), _trainer(0), _readingTrainer(0), _cAction(0), _kAction(0), _dragStarted(false), _dragEntryRef(0)
 {
 }
 
@@ -97,16 +97,12 @@ bool Kanjidic2GUIPlugin::onRegister()
 	connect(_readingPractice, SIGNAL(triggered()), this, SLOT(readingPractice()));
 
 	// Add the components searchers to the tool bar
-	//QToolBar *toolBar = mainWindow->toolBar();
-	_kAction = new KanjiInputPopupAction(new RadicalSearchWidget(), tr("Radical search input"), mainWindow);
+	_kAction = new KanjiInputPopupAction(new RadicalKanjiSelector(mainWindow), tr("Radical search input"), mainWindow);
 	_kAction->setShortcut(QKeySequence("Ctrl+k"));
 	mainWindow->searchMenu()->addAction(_kAction);
-	_cAction = new KanjiInputPopupAction(new ComponentSearchWidget(), tr("Component search input"), mainWindow);
+	_cAction = new KanjiInputPopupAction(new ComponentKanjiSelector(mainWindow), tr("Component search input"), mainWindow);
 	_cAction->setShortcut(QKeySequence("Ctrl+j"));
 	mainWindow->searchMenu()->addAction(_cAction);
-	//mainWindow->layout()->addWidget(_cButton);
-	//RadicalSearchWidget *radWid = new RadicalSearchWidget();
-	//radWid->show();
 
 	// Register the searchbar extender
 	_filter = new Kanjidic2FilterWidget(0);

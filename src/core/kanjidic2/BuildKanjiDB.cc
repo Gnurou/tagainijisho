@@ -273,7 +273,8 @@ static void create_indexes()
 	query.exec("create index idx_skip on skip(entry)");
 	query.exec("create index idx_skip_type on skip(type, c1, c2)");
 	query.exec("create index idx_fourCorner on fourCorner(entry)");
-	query.exec("create index idx_Radicals on radicals(kanji)");
+	query.exec("create index idx_radicalsList_number on radicalsList(number)");
+	query.exec("create index idx_radicals on radicals(kanji)");
 }
 
 void printUsage(char *argv[])
