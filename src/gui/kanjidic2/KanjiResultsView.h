@@ -35,6 +35,7 @@ private:
 	QGraphicsScene _scene;
 	QList<QGraphicsTextItem *> items;
 	ScrollBarSmoothScroller _smoothScroller;
+	QFont kanjiFont;
 
 protected slots:
 	void onSelectionChanged();
@@ -48,6 +49,8 @@ public:
 
 public slots:
 	void addItem(const QString &kanji);
+	void startReceive() { }
+	void endReceive();
 
 signals:
 	void kanjiSelected(const QString &kanji);

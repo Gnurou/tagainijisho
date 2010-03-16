@@ -95,6 +95,7 @@ QSet<int> KanjiSelector::updateCandidatesList(const QSet<int> &selection)
 	candidatesList->clear();
 	QString resQuery(getCandidatesQuery(selection));
 	if (!resQuery.isEmpty()) {
+		candidatesList->startReceive();
 		QSqlQuery query;
 		if (!query.exec(resQuery)) qDebug() << query.lastError().text();
 		while (query.next()) {
@@ -103,6 +104,7 @@ QSet<int> KanjiSelector::updateCandidatesList(const QSet<int> &selection)
 			QString c(TextTools::unicodeToSingleChar(ch));
 			candidatesList->addItem(c);
 		}
+		candidatesList->endReceive();
 	}
 	return res;
 }

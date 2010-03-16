@@ -20,6 +20,7 @@
 
 #include "gui/kanjidic2/KanjiResultsView.h"
 
+#include <QCoreApplication>
 #include <QGraphicsTextItem>
 
 #define KANJI_SIZE 50
@@ -27,6 +28,7 @@
 
 KanjiResultsView::KanjiResultsView(QWidget *parent) : QGraphicsView(parent), _scene()
 {
+	kanjiFont.setPixelSize(KANJI_SIZE);
 	setScene(&_scene);
 	setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Minimum);
 	setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -58,18 +60,19 @@ void KanjiResultsView::onSelectionChanged()
 
 void KanjiResultsView::addItem(const QString &kanji)
 {
-	QFont font;
-	font.setPixelSize(KANJI_SIZE);
-	QGraphicsTextItem *item = _scene.addText(kanji, font);
+	QGraphicsTextItem *item = _scene.addText(kanji, kanjiFont);
 	item->setPos(ITEM_POSITION(items.size()), 0);
 	item->setFlags(QGraphicsItem::ItemIsSelectable);
-	setSceneRect(_scene.itemsBoundingRect());
-	centerOn(0.0, ITEM_CENTER(item).y());
 	items << item;
+}
 
-	// Must be done here. This is stupid.
-	QScrollBar *hBar(horizontalScrollBar());
-	hBar->setSingleStep(KANJI_SIZE + PADDING);
+void KanjiResultsView::endReceive()
+{
+	setSceneRect(_scene.itemsBoundingRect());
+	if (!items.isEmpty()) centerOn(0.0, ITEM_CENTER(items[0]).y());
+	// Should not be done here. This is stupid.
+	//QScrollBar *hBar(horizontalScrollBar());
+	//hBar->setSingleStep(KANJI_SIZE + PADDING);
 }
 
 void KanjiResultsView::clear()
@@ -80,13 +83,7 @@ void KanjiResultsView::clear()
 	setSceneRect(0, 0, 1, 1);
 }
 
-#define MOUSE_STEP 120
 void KanjiResultsView::wheelEvent(QWheelEvent *event)
 {
-	event->accept();
-	if (items.isEmpty()) return;
-	int wheelDelta = event->delta();
-	int steps = wheelDelta / MOUSE_STEP;
-	if (steps > 0) while (steps--) horizontalScrollBar()->triggerAction(QAbstractSlider::SliderSingleStepSub);
-	else if (steps < 0) while (steps++) horizontalScrollBar()->triggerAction(QAbstractSlider::SliderSingleStepAdd);
+	QCoreApplication::sendEvent(horizontalScrollBar(), event);
 }

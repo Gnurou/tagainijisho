@@ -61,7 +61,8 @@ bool ScrollBarSmoothScroller::eventFilter(QObject *watched, QEvent *event)
 		_destination -= steps * _scrollee->singleStep() * QApplication::wheelScrollLines();
 		if (_destination < _scrollee->minimum()) _destination = _scrollee->minimum();
 		else if (_destination > _scrollee->maximum()) _destination = _scrollee->maximum();
-		_timer.start();
+		if (!_timer.isActive()) _timer.start();
+		event->accept();
 		return true;
 	}
 	return false;
@@ -76,7 +77,7 @@ void ScrollBarSmoothScroller::onScrollBarAction(int action)
 		case QAbstractSlider::SliderPageStepSub:
 			_destination = _scrollee->sliderPosition();
 			_scrollee->setSliderPosition(_scrollee->value());
-			_timer.start();
+			if (!_timer.isActive()) _timer.start();
 			break;
 		default:
 			break;
