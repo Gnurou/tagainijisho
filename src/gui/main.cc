@@ -145,8 +145,8 @@ void checkUserProfileDirectory()
 	if (!profileDir.exists()) profileDir.mkpath(".");
 
 	// Replace the data file by the imported one if existing
-	QFile dataFile(QDir(userProfile()).absoluteFilePath("user.db"));
-	QFile importedDataFile(QDir(userProfile()).absoluteFilePath("user.db.import"));
+	QFile dataFile(Database::defaultDBFile());
+	QFile importedDataFile(Database::defaultDBFile() + ".import");
 	if (importedDataFile.exists()) {
 		dataFile.remove();
 		importedDataFile.rename(dataFile.fileName());

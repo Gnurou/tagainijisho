@@ -31,7 +31,7 @@ Query::Query(QObject *parent) : QObject(parent), _status(Idle), _statusMutex()
 	// Events for this object should be handled
 	// by the database event handler
 	if (Database::isThreaded()) {
-		moveToThread(Database::getInstance());
+		moveToThread(Database::instance());
 	}
 
 	// This signal makes the query switch into the DB

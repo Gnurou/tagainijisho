@@ -59,7 +59,7 @@ void EntrySearcherManager::addInstance(EntrySearcher *searcher)
 	// Events for the searcher should be handled
 	// by the database event handler
 	if (Database::isThreaded()) {
-		searcher->moveToThread(Database::getInstance());
+		searcher->moveToThread(Database::instance());
 	}
 }
 

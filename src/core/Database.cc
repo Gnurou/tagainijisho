@@ -25,6 +25,7 @@
 
 #include <QtDebug>
 #include <QSemaphore>
+#include <QMessageBox>
 
 #define USERDB_REVISION 7
 
@@ -32,7 +33,7 @@
 
 static Qt::ConnectionType alwaysSync = Qt::BlockingQueuedConnection;
 QString Database::_userDBFile;
-Database *Database::instance = NULL;
+Database *Database::_instance = NULL;
 QMap<QString, QString> Database::_attachedDBs;
 
 /**
@@ -154,6 +155,11 @@ bool (*dbUpdateFuncs[USERDB_REVISION - 1])(QSqlQuery &) = {
 	&update6to7,
 };
 
+void Database::dbWarning(const QString &message)
+{
+	QMessageBox::warning(0, tr("Tagaini Jisho warning"), message);
+}
+
 /**
  * Upgrade the database from the version number given in parameter to
  * the current version.
@@ -182,7 +188,7 @@ failed:
  * @return true if the database exists or have been successfully created; false
  *         if an error occured while building the database.
  */
-void Database::checkUserDB()
+bool Database::checkUserDB()
 {
 	int currentVersion;
 	QSqlQuery query;
@@ -203,42 +209,36 @@ void Database::checkUserDB()
 		if (currentVersion < USERDB_REVISION) {
 			if (!updateUserDB(currentVersion)) {
 				// Big issue here - start with a temporary database
-				qFatal("Error while upgrading user database: %s", database.lastError().text().toLatin1().constData());
-				return;
+				dbWarning(tr("Error while upgrading user database: %1").arg(database.lastError().text().toLatin1().constData()));
+				return false;
 			}
 		}
 		// The database is more recent than our version of Tagaini - there is nothing we can do!
 		else if (currentVersion > USERDB_REVISION) {
-			qFatal("Bad user database version: expected %d, got %d.", USERDB_REVISION, currentVersion);
-			return;
+			dbWarning(tr("Wrong user database version: expected %1, got %2.").arg(USERDB_REVISION).arg(currentVersion));
+			return false;
 		}
 	}
 	else {
 		if (!createUserDB()) {
 			database.rollback();
 			// Big issue here - start with a temporary database
-			qFatal("Cannot create user database: %s", database.lastError().text().toLatin1().constData());
-			return;
+			dbWarning(tr("Cannot create user database: %1").arg(database.lastError().text().toLatin1().constData()));
+			return false;
 		}
 	}
-	// No problem, the database file name can be set.
-	_userDBFile = database.databaseName();
-	qDebug() << _userDBFile;
+	return true;
 }
 
-void Database::connectUserDB()
+bool Database::connectUserDB(QString filename)
 {
 	// Connect to the user DB
-	QString filename(QDir(userProfile()).absoluteFilePath("user.db"));
+	if (filename.isEmpty()) filename = defaultDBFile(); 
 
-	// Instanciate our custom driver
-	QSQLiteDriver *driver = new QSQLiteDriver();
-
-	database = QSqlDatabase::addDatabase(driver);
 	database.setDatabaseName(filename);
 	if (!database.open()) {
-		qFatal("Cannot open database: %s", database.lastError().text().toLatin1().data());
-		return;
+		dbWarning(tr("Cannot open database: %1").arg(database.lastError().text().toLatin1().data()));
+		return false;
 	}
 
 	// Attach custom functions
@@ -250,12 +250,20 @@ void Database::connectUserDB()
 		register_all_tokenizers(sqliteHandler);
 	}
 
-	checkUserDB();
+	if (!checkUserDB()) return false;
+	_userDBFile = database.databaseName();
+	return true;
 }
 
-void Database::createTemporaryDatabase()
+bool Database::connectToTemporaryDatabase()
 {
+	_tFile = new QTemporaryFile();
+	_tFile->open();
+	_tFile->close();
 	
+	// Now reopen the DB using the temporary file and create a clear database
+	database.close();
+	return connectUserDB(_tFile->fileName());
 }
 
 Qt::ConnectionType Database::aSyncConnection() { return alwaysSync; }
@@ -266,8 +274,8 @@ QSemaphore startSem(0);
 
 void Database::startThreaded()
 {
-	instance = new Database();
-	instance->start();
+	_instance = new Database();
+	_instance->start();
 	// Block until the database thread is ready
 	startSem.acquire();
 }
@@ -275,14 +283,14 @@ void Database::startThreaded()
 void Database::startUnthreaded()
 {
 	alwaysSync = Qt::AutoConnection;
-	instance = new Database();
-	instance->run();
+	_instance = new Database();
+	_instance->run();
 }
 
 void Database::stop()
 {
-	instance->quit();
-	delete instance;
+	_instance->quit();
+	delete _instance;
 }
 
 static void regexpFunc(sqlite3_context *context, int argc, sqlite3_value **argv)
@@ -344,10 +352,28 @@ static void load_extensions(sqlite3 *handler)
 	//register_all_tokenizers(handler);
 }
 
-Database::Database(QObject *parent) : QThread(parent), sqliteHandler(0)
+Database::Database(QObject *parent) : QThread(parent), _tFile(0), sqliteHandler(0)
 {
 	sqlite3_auto_extension((void (*)())load_extensions);
-	connectUserDB();
+	
+	// Instanciate our custom driver
+	QSQLiteDriver *driver = new QSQLiteDriver();
+
+	database = QSqlDatabase::addDatabase(driver);
+	// Cannot connect to user DB - try to switch to the temporary database
+	if (!connectUserDB()) {
+		if (!connectToTemporaryDatabase()) {
+			dbWarning(tr("Temporary database fallback failed. The program will now exit."));
+			qFatal("All database fallbacks failed, exiting...");
+		} else {
+			dbWarning(tr("Tagaini is working on a temporary database. This allows the program to work, but user data is unavailable and any change will be lost upon program exit. If you corrupted your database file, please recreate it from the preferences."));
+		}
+	}
+}
+
+Database::~Database()
+{
+	if (_tFile) delete _tFile;
 }
 
 QVector<QRegExp> Database::staticRegExps;
@@ -427,7 +453,7 @@ bool Database::detachDictionaryDB(const QString &alias)
 
 void Database::abortQuery()
 {
-	sqlite3_interrupt(instance->sqliteHandler);
+	sqlite3_interrupt(_instance->sqliteHandler);
 }
 
 void Database::closeDB()
@@ -438,9 +464,8 @@ void Database::closeDB()
 	if (!query.exec("delete from tags where docid not in (select tagId from taggedEntries)")) qWarning("Could not cleanup unused tags!");
 
 	// VACUUM the database
-	if (!query.exec("vacuum")) qWarning() << "Final VACUUM failed" << query.lastError().text();
+	if (!query.exec("vacuum")) qWarning("Final VACUUM failed %s", query.lastError().text().toLatin1().data());
 	// Call destructor for the database object
 	database = QSqlDatabase();
-//	qDebug("Database closed");
 }
 

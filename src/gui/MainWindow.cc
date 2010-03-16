@@ -216,7 +216,7 @@ void MainWindow::exportUserData()
 	QString to(QFileDialog::getSaveFileName(this, tr("Export user data...")));
 	if (to.isEmpty()) return;
 
-	QFile dataFile(QDir(userProfile()).absoluteFilePath("user.db"));
+	QFile dataFile(Database::instance()->userDBFile());
 	dataFile.copy(to);
 }
 
@@ -229,7 +229,7 @@ void MainWindow::importUserData()
 	if (ret != QMessageBox::Ok) return;
 
 	// TODO Check whether the file is valid!
-	QFile dataFile(QDir(userProfile()).absoluteFilePath("user.db"));
+	QFile dataFile(Database::defaultDBFile());
 	QFile(from).copy(dataFile.fileName() + ".import");
 
 	ret = QMessageBox::information(this, tr("Please restart Tagaini Jisho"), tr("The imported data will be available the next time you start Tagaini Jisho. All changes performed from now will be lost. Do you want to exit Tagaini Jisho now?"), QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes);

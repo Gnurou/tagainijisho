@@ -263,7 +263,7 @@ DatabaseThread::DatabaseThread() : _startSem(0)
 	_startSem.acquire();
 
 	// Connect to the main database
-	connection()->connect(QDir(userProfile()).absoluteFilePath("user.db"));
+	connection()->connect(Database::instance()->userDBFile());
 
 	// Attach all databases
 	const QMap<QString, QString> &dbsToAttach(Database::attachedDBs());
