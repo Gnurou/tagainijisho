@@ -30,7 +30,7 @@ PreferenceItem<QString> EntryListView::kanaFontSetting("mainWindow/lists", "kana
 PreferenceItem<QString> EntryListView::kanjiFontSetting("mainWindow/lists", "kanjiFont", QFont("Helvetica", 12).toString());
 PreferenceItem<int> EntryListView::displayModeSetting("mainWindow/lists", "displayMode", EntryDelegateLayout::OneLine);
 
-EntryListView::EntryListView(QWidget *parent, EntryDelegateLayout* delegateLayout, bool viewOnly) : QTreeView(parent), helper(this), _newListAction(QIcon(":/images/icons/document-new.png"), tr("New list..."), 0), _deleteSelectionAction(QIcon(":/images/icons/delete.png"), tr("Delete"), 0)
+EntryListView::EntryListView(QWidget *parent, EntryDelegateLayout* delegateLayout, bool viewOnly) : QTreeView(parent), helper(this), _newListAction(QIcon(":/images/icons/document-new.png"), tr("New list..."), 0), _rightClickNewListAction(_newListAction.icon(), _newListAction.text(), 0), _deleteSelectionAction(QIcon(":/images/icons/delete.png"), tr("Delete"), 0)
 {
 	// If no delegate layout has been specified, let's use our private one...
 	if (!delegateLayout) delegateLayout = new EntryDelegateLayout(static_cast<EntryDelegateLayout::DisplayMode>(displayModeSetting.value()), textFontSetting.value(), kanjiFontSetting.value(), kanaFontSetting.value(), this);
@@ -45,10 +45,12 @@ EntryListView::EntryListView(QWidget *parent, EntryDelegateLayout* delegateLayou
 	if (!viewOnly) {
 		helper.populateMenu(&contextMenu);
 		contextMenu.addSeparator();
+		contextMenu.addAction(&_rightClickNewListAction);
+		contextMenu.addAction(&_deleteSelectionAction);
 	}
-	//contextMenu.addAction(newListAction());
 	setHeaderHidden(true);
 	connect(&_newListAction, SIGNAL(triggered()), this, SLOT(newList()));
+	connect(&_rightClickNewListAction, SIGNAL(triggered()), this, SLOT(rightClickNewList()));
 	_deleteSelectionAction.setEnabled(false);
 	connect(&_deleteSelectionAction, SIGNAL(triggered()), this, SLOT(deleteSelectedItems()));
 
@@ -87,6 +89,11 @@ void EntryListView::contextMenuEvent(QContextMenuEvent *event)
 	QList<ConstEntryPointer> selectedEntries;
 	foreach (const EntryPointer &entry, _selectedEntries) selectedEntries << entry;
 	helper.updateStatus(selectedEntries);
+	
+	// Update the status of the right-click new list action
+	QModelIndexList selection(selectionModel()->selectedIndexes());
+	_rightClickNewListAction.setEnabled(selection.size() <= 1 && !selection[0].data(Entry::EntryRole).isValid());
+	
 	contextMenu.exec(mapToGlobal(event->pos()));
 }
 
@@ -116,10 +123,8 @@ void EntryListView::startDrag(Qt::DropActions supportedActions)
 	}
 }
 
-void EntryListView::newList()
+void EntryListView::newList(const QModelIndex &parent)
 {
-	// Root index
-	QModelIndex parent;
 	int idx = model()->rowCount(parent);
 	if (!model()->insertRows(idx, 1, parent)) {
 		QMessageBox::information(this, tr("Unable to create list"), tr("A database error occured while trying to add the list."));
@@ -130,6 +135,13 @@ void EntryListView::newList()
 		setCurrentIndex(index);
 		edit(index);
 	}
+}
+
+void EntryListView::rightClickNewList()
+{
+	QModelIndexList selection(selectionModel()->selectedIndexes());
+	if (selection.isEmpty()) newList();
+	else if (selection.size() == 1 && !selection[0].data(Entry::EntryRole).isValid()) newList(selection[0]);
 }
 
 void EntryListView::deleteSelectedItems()

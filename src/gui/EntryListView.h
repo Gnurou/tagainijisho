@@ -39,7 +39,7 @@ private:
 	EntryDelegate *delegate;
 	EntriesViewHelper helper;
 	QMenu contextMenu;
-	QAction _newListAction;
+	QAction _newListAction, _rightClickNewListAction;
 	QAction _deleteSelectionAction;
 
 private slots:
@@ -55,6 +55,7 @@ protected:
 
 protected slots:
 	virtual void selectionChanged(const QItemSelection &selected, const QItemSelection &deselected);
+	void rightClickNewList();
 
 public:
 	EntryListView(QWidget* parent = 0, EntryDelegateLayout* delegateLayout = 0, bool viewOnly = false);
@@ -64,7 +65,7 @@ public:
 	void setSmoothScrolling(bool value);
 	Q_PROPERTY(bool smoothScrolling READ smoothScrolling WRITE setSmoothScrolling);
 
-	QAction *newListAction() { return &_newListAction; }
+	QAction *newListAction(const QModelIndex &parent = QModelIndex()) { return &_newListAction; }
 	QAction *deleteSelectionAction() { return &_deleteSelectionAction; }
 
 	static PreferenceItem<bool> smoothScrollingSetting;
@@ -74,7 +75,7 @@ public:
 	static PreferenceItem<int> displayModeSetting;
 
 public slots:
-	void newList();
+	void newList(const QModelIndex &parent = QModelIndex());
 	void deleteSelectedItems();
 	
 signals:

@@ -19,6 +19,7 @@
 #define __GUI_ENTRYLISTMODEL_H
 
 #include "core/EntriesCache.h"
+
 #include <QAbstractItemModel>
 #include <QSqlQuery>
 #include <QMimeData>
