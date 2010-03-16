@@ -12,6 +12,9 @@
   and updates user data accordingly
 * Can now specify stroke count ranges for kanji search
 * Component and radical search based kanji input methods
+* Can start on a temporary database in case the user database fails for some
+  reason
+* Option to reset the user database in the preferences
 
 0.2.4 released on 2009-12-16
 * Updated to SQLite 3.6.21

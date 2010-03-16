@@ -15,6 +15,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "core/Database.h"
 #include "core/EntrySearcherManager.h"
 #include "core/RelativeDate.h"
 #include "gui/UpdateChecker.h"
@@ -30,6 +31,8 @@
 #include <QPushButton>
 #include <QFontDialog>
 #include <QRadioButton>
+#include <QMessageBox>
+#include <QFile>
 
 QList<const QMetaObject *> PreferencesWindow::_pluginPanels;
 
@@ -57,6 +60,10 @@ PreferencesWindow::PreferencesWindow(QWidget *parent, Qt::WindowFlags f) : QDial
 		addCategory(category);
 	}
 
+	// Data preferences
+	category = new DataPreferences(this);
+	addCategory(category);
+	
 	categories->setCurrentRow(0);
 
 	connect(this, SIGNAL(accepted()), this, SLOT(applySettings()));
@@ -464,6 +471,31 @@ void DetailedViewPreferences::updateUI()
 {
 	foreach (DetailedView *view, DetailedView::instances()) view->setSmoothScrolling(smoothScrolling->isChecked());
 	DetailedViewFonts::fontsChanged();
+}
+
+DataPreferences::DataPreferences(QWidget *parent) : PreferencesWindowCategory(tr("User data"), parent)
+{
+	setupUi(this);
+	connect(wipeUserDataButton, SIGNAL(pressed()), this, SLOT(onWipeUserDataButtonPushed()));
+	userDBFileLabel->setText(Database::defaultDBFile());
+}
+
+void DataPreferences::onWipeUserDataButtonPushed()
+{
+	if (QMessageBox::question(this, tr("Really erase user data?"), tr("This will erase all your user data. Are you sure you want to do this?"), QMessageBox::Yes | QMessageBox::No, QMessageBox::No) == QMessageBox::Yes) {
+		if (QMessageBox::question(this, tr("REALLY erase it?"), tr("Are you absolutely, positively, definitely sure?"), QMessageBox::Yes | QMessageBox::No, QMessageBox::No) == QMessageBox::Yes) {
+			QFile f(Database::defaultDBFile());
+			if (!f.exists()) {
+				QMessageBox::information(this, tr("No user database file"), tr("The user database file has already been erased before."));
+			}
+			else if (!f.remove()) {
+				QMessageBox::warning(this, tr("Cannot erase user database"), tr("Unable to erase user database. Please see what is wrong and try to do it manually."));
+			} else {
+				QMessageBox::information(this, tr("User data erased"), tr("User data has been erased. Tagaini Jisho will now exit. You will be back to a blank database when it is restarted."));
+				QApplication::quit();
+			}
+		}
+	}
 }
 
 PreferencesFontChooser::PreferencesFontChooser(const QString &whatFor, const QFont &defaultFont, QWidget *parent) : QWidget(parent), _defaultFont(defaultFont)

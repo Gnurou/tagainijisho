@@ -136,6 +136,7 @@ DetailedViewPreferences.ui
 ResultsViewPreferences.ui
 ListsViewPreferences.ui
 GeneralPreferences.ui
+DataPreferences.ui
 MainWindow.ui
 jmdict/JMdictPreferences.ui
 kanjidic2/KanjiPopup.ui

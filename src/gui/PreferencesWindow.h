@@ -49,8 +49,8 @@ private:
 	const QString _name;
 
 public slots:
-	virtual void applySettings() = 0;
-	virtual void refresh() = 0;
+	virtual void applySettings() {};
+	virtual void refresh() {};
 	virtual void updateUI() {}
 
 public:
@@ -226,6 +226,18 @@ public slots:
 public:
 	DetailedViewPreferences(QWidget *parent = 0);
 };
+
+#include "gui/ui_DataPreferences.h"
+class DataPreferences : public PreferencesWindowCategory, private Ui::DataPreferences
+{
+	Q_OBJECT
+protected slots:
+	void onWipeUserDataButtonPushed();
+
+public:
+	DataPreferences(QWidget *parent = 0);
+};
+
 
 class QGridLayout;
 class PreferencesFontChooser : public QWidget
