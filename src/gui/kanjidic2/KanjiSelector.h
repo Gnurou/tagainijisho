@@ -18,6 +18,7 @@
 #ifndef __GUI_KANJI_SELECTOR_H
 #define __GUI_KANJI_SELECTOR_H
 
+#include "gui/ScrollBarSmoothScroller.h"
 #include "gui/kanjidic2/KanjiResultsView.h"
 
 #include <QListWidget>
@@ -31,6 +32,8 @@ class ComplementsList : public QListWidget
 private:
 	QFont baseFont;
 	QFont labelFont;
+	ScrollBarSmoothScroller _sscroll;
+	void setupGridSize();
 
 public:
 	ComplementsList(QWidget *parent = 0);

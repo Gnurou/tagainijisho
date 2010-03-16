@@ -60,20 +60,19 @@ bool isPunctuationChar(const QChar c) {
 bool isKanaChar(const QChar c) {
 	return (isHiraganaChar(c) || isKatakanaChar(c));
 }
-
-bool isKanjiChar(const QChar c, const QChar c2) {
-	// Do we have a surrogate character here?
-	if (!c.isHighSurrogate()) {
+bool isKanjiChar(const uint c) {
 		return ( (c >= UNICODE_CJK_BEGIN && c <= UNICODE_CJK_END) ||
 				 (c >= UNICODE_CJK_COMPAT_BEGIN && c <= UNICODE_CJK_COMPAT_END) ||
 				 (c >= UNICODE_CJK_EXTA_BEGIN && c <= UNICODE_CJK_EXTA_END) ||
-				 (c >= UNICODE_CJK_RADICALS_BEGIN && c <= UNICODE_CJK_RADICALS_END));
-	}
+				 (c >= UNICODE_CJK_RADICALS_BEGIN && c <= UNICODE_CJK_RADICALS_END) ||
+				 (c >= UNICODE_CJK_EXTB_BEGIN && c <= UNICODE_CJK_EXTB_END) );
+}
+
+bool isKanjiChar(const QChar c, const QChar c2) {
+	// Do we have a surrogate character here?
+	if (!c.isHighSurrogate()) return isKanjiChar(c.unicode());
 	// If we do, the second argument must be filled!
-	else {
-		uint ucs4 = QChar::surrogateToUcs4(c, c2);
-		return ucs4 >= UNICODE_CJK_EXTB_BEGIN && ucs4 <= UNICODE_CJK_EXTB_END;
-	}
+	else return isKanjiChar(QChar::surrogateToUcs4(c, c2));
 }
 
 bool isKanjiChar(const QString &s, int pos)

@@ -27,10 +27,16 @@
 #include <QDesktopWidget>
 #include <QSqlError>
 
-ComplementsList::ComplementsList(QWidget *parent) : QListWidget(parent), baseFont(font()), labelFont(baseFont)
+ComplementsList::ComplementsList(QWidget *parent) : QListWidget(parent), baseFont(font()), labelFont(baseFont), _sscroll(verticalScrollBar())
 {
 	// Setup the fonts and size of the grid
 	baseFont.setPointSize(baseFont.pointSize() + 2);
+	setFont(baseFont);
+	setupGridSize();
+}
+
+void ComplementsList::setupGridSize()
+{
 	QFontMetrics fm(baseFont);
 	labelFont.setBold(true);
 	QFontMetrics lfm(labelFont);
@@ -40,9 +46,8 @@ ComplementsList::ComplementsList(QWidget *parent) : QListWidget(parent), baseFon
 		int w = lfm.width(QString::number(i));
 		if (w > maxBoldSize) maxBoldSize = w;
 	}
-	maxBoldSize *= 2;
+	maxBoldSize += qMax(lfm.width("0"), lfm.width("1"));
 	int gridSize = qMax(maxBoldSize, maxFontSize) + 5;
-	setFont(baseFont);
 	setGridSize(QSize(gridSize, gridSize));
 }
 
@@ -114,6 +119,7 @@ void KanjiSelector::updateComplementsList(const QSet<int> &selection, const QSet
 		int curNbr = 0;
 		while (query.next()) {
 			int kanji = query.value(0).toInt();
+			if (!TextTools::isKanjiChar(kanji)) continue;
 			int number = query.value(1).toInt();
 			// Do not display kanji that are already in candidates, excepted if they
 			// are part of the current selection
@@ -170,6 +176,29 @@ void RadicalKanjiSelector::onSelectionChanged()
 	KanjiSelector::onSelectionChanged();
 }
 
+ComponentKanjiSelector::ComponentKanjiSelector(QWidget *parent) : KanjiSelector(parent)
+{
+	_components = new QLineEdit(this);
+	KanjiValidator *validator = new KanjiValidator(_components);
+	_components->setValidator(validator);
+	verticalLayout->insertWidget(0, _components);
+	setFocusProxy(_components);
+	connect(_components, SIGNAL(textChanged(QString)), this, SLOT(onComponentsListChanged()));
+	onComponentsListChanged();
+}
+
+QSet<int> ComponentKanjiSelector::currentComponents() const
+{
+	QSet<int> ret;
+	QString cText(_components->text());
+	for (int i = 0; i < cText.size(); ) {
+		int code(TextTools::singleCharToUnicode(cText, i));
+		ret << code;
+		i += TextTools::unicodeToSingleChar(code).size();
+	}
+	return ret;
+}
+
 QString ComponentKanjiSelector::getCandidatesQuery(const QSet<int> &selection) const
 {
 	if (selection.isEmpty()) return "";
@@ -193,25 +222,6 @@ QString ComponentKanjiSelector::getComplementsQuery(const QSet<int> &candidates)
 	}
 }
 
-ComponentKanjiSelector::ComponentKanjiSelector(QWidget *parent) : KanjiSelector(parent)
-{
-	_components = new QLineEdit(this);
-	KanjiValidator *validator = new KanjiValidator(_components);
-	_components->setValidator(validator);
-	verticalLayout->insertWidget(0, _components);
-	setFocusProxy(_components);
-	connect(_components, SIGNAL(textChanged(QString)), this, SLOT(onComponentsListChanged()));
-	onComponentsListChanged();
-}
-
-QSet<int> ComponentKanjiSelector::currentComponents() const
-{
-	QStringList selection(_components->text().split("", QString::SkipEmptyParts));
-	QSet<int> ret;
-	foreach (const QString &s, selection) ret << TextTools::singleCharToUnicode(s);
-	return ret;
-}
-
 void ComponentKanjiSelector::onSelectionChanged()
 {
 	QSet<int> currentComps(currentComponents());
@@ -220,20 +230,21 @@ void ComponentKanjiSelector::onSelectionChanged()
 	QString compText(_components->text());
 	// Add the missing components to the text search area
 	foreach (const QListWidgetItem *selected, complementsList->selectedItems()) {
-		int code(TextTools::singleCharToUnicode(selected->text()));
+		int code(selected->data(Qt::UserRole).toInt());
 		if (!currentComps.contains(code)) comps << selected->text();
 		selComps << code;
 	}
 	// Remove text search components that are not selected
 	foreach (int comp, currentComps) if (!selComps.contains(comp)) compText.remove(TextTools::unicodeToSingleChar(comp));
-	if (!comps.isEmpty()) _components->setText(_components->text() + comps.join(""));
 	
 	_components->setText(compText + comps.join(""));
 }
 
 void ComponentKanjiSelector::onComponentsListChanged()
 {
-	KanjiSelector::onSelectionChanged();
+	QSet<int> selection(currentComponents());
+	QSet<int> candidates(updateCandidatesList(selection));
+	updateComplementsList(selection, candidates);
 }
 
 KanjiInputPopupAction::KanjiInputPopupAction(KanjiSelector *popup, const QString &title, QWidget *parent) : QAction(title, parent), _popup(popup), focusWidget(0)
