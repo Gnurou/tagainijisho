@@ -15,6 +15,7 @@ private:
 	QTimer _timer;
 	QScrollBar *_scrollee;
 	int _destination;
+	int _delta;
 
 private slots:
 	void onScrollBarAction(int action);
@@ -26,6 +27,7 @@ protected:
 
 public:
 	ScrollBarSmoothScroller(QObject *parent = 0);
+	ScrollBarSmoothScroller(QScrollBar *bar, QObject *parent = 0);
 	void setScrollBar(QScrollBar *bar);
 	QScrollBar *scrollBar() const { return _scrollee; }
 };

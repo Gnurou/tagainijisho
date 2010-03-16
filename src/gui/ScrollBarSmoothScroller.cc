@@ -20,14 +20,22 @@
 #include "gui/ScrollBarSmoothScroller.h"
 
 #include <QWheelEvent>
+#include <QApplication>
 
-ScrollBarSmoothScroller::ScrollBarSmoothScroller(QObject *parent) : QObject(parent), _scrollee(0)
+ScrollBarSmoothScroller::ScrollBarSmoothScroller(QObject *parent) : QObject(parent), _scrollee(0), _delta(0)
 {
 	_timer.setInterval(20);
 	_timer.setSingleShot(false);
 	connect(&_timer, SIGNAL(timeout()), this, SLOT(updateAnimationState()));
 }
 
+ScrollBarSmoothScroller::ScrollBarSmoothScroller(QScrollBar *bar, QObject *parent) : QObject(parent), _scrollee(0), _delta(0)
+{
+	_timer.setInterval(20);
+	_timer.setSingleShot(false);
+	connect(&_timer, SIGNAL(timeout()), this, SLOT(updateAnimationState()));
+	setScrollBar(bar);
+}
 
 void ScrollBarSmoothScroller::setScrollBar(QScrollBar *bar)
 {
@@ -47,10 +55,13 @@ bool ScrollBarSmoothScroller::eventFilter(QObject *watched, QEvent *event)
 {
 	if (event->type() == QEvent::Wheel) {
 		QWheelEvent *wEvent = static_cast<QWheelEvent *>(event);
-		int wheelDelta = wEvent->delta();
-		int steps = wheelDelta / 120;
-		if (steps > 0) while (steps--) _scrollee->triggerAction(QAbstractSlider::SliderSingleStepSub);
-		else if (steps < 0) while (steps++) _scrollee->triggerAction(QAbstractSlider::SliderSingleStepAdd);
+		_delta += wEvent->delta();
+		int steps = _delta / 120;
+		_delta %= 120;
+		_destination -= steps * _scrollee->singleStep() * QApplication::wheelScrollLines();
+		if (_destination < _scrollee->minimum()) _destination = _scrollee->minimum();
+		else if (_destination > _scrollee->maximum()) _destination = _scrollee->maximum();
+		_timer.start();
 		return true;
 	}
 	return false;
@@ -63,7 +74,6 @@ void ScrollBarSmoothScroller::onScrollBarAction(int action)
 		case QAbstractSlider::SliderSingleStepSub:
 		case QAbstractSlider::SliderPageStepAdd:
 		case QAbstractSlider::SliderPageStepSub:
-			qDebug() << _scrollee->singleStep() << _scrollee->sliderPosition() << _scrollee->value();
 			_destination = _scrollee->sliderPosition();
 			_scrollee->setSliderPosition(_scrollee->value());
 			_timer.start();
