@@ -19,11 +19,16 @@
 #include "gui/EntryMenu.h"
 #include "gui/EditEntryNotesDialog.h"
 #include "gui/TagsDialogs.h"
+#include "gui/EntriesPrinter.h"
 
 #include <QAction>
 #include <QProgressDialog>
+#include <QFile>
+#include <QPrintDialog>
+#include <QFileDialog>
+#include <QMessageBox>
 
-EntriesViewHelper::EntriesViewHelper(QAbstractItemView *parent) : EntryMenu(parent), _client(parent)
+EntriesViewHelper::EntriesViewHelper(QAbstractItemView *parent) : EntryMenu(parent), _client(parent), _actionPrint(QIcon(":/images/icons/print.png"), tr("&Print..."), 0), _actionPrintPreview(QIcon(":/images/icons/print.png"), tr("Print p&review..."), 0), _actionPrintBooklet(QIcon(":/images/icons/print.png"), tr("Print &booklet..."), 0), _actionPrintBookletPreview(QIcon(":/images/icons/print.png"), tr("Booklet p&review..."), 0), _actionExportTab(QIcon(":/images/icons/document-export.png"), tr("&Export..."), 0)
 {
 	connect(&addToStudyAction, SIGNAL(triggered()),
 			this, SLOT(studySelected()));
@@ -41,6 +46,19 @@ EntriesViewHelper::EntriesViewHelper(QAbstractItemView *parent) : EntryMenu(pare
 	        this, SLOT(addNote()));
 	connect(this, SIGNAL(tagsHistorySelected(const QStringList &)),
 			this, SLOT(addTags(const QStringList &)));
+
+	connect(&_actionPrint, SIGNAL(triggered()), this, SLOT(print()));
+	connect(&_actionPrintBooklet, SIGNAL(triggered()), this, SLOT(printBooklet()));
+	connect(&_actionPrintPreview, SIGNAL(triggered()), this, SLOT(printPreview()));
+	connect(&_actionPrintBookletPreview, SIGNAL(triggered()), this, SLOT(printBookletPreview()));
+	connect(&_actionExportTab, SIGNAL(triggered()), this, SLOT(tabExport()));
+		
+	_entriesMenu.addAction(&_actionPrint);
+	_entriesMenu.addAction(&_actionPrintPreview);
+	_entriesMenu.addAction(&_actionPrintBooklet);
+	_entriesMenu.addAction(&_actionPrintBookletPreview);
+	_entriesMenu.addSeparator();
+	_entriesMenu.addAction(&_actionExportTab);
 }
 
 QList<EntryPointer> EntriesViewHelper::selectedEntries() const
@@ -181,4 +199,99 @@ void EntriesViewHelper::addNote()
 	if (dialog.exec() != QDialog::Accepted) return;
 	foreach (const QModelIndex &index, selection)
 		client()->update(index);
+}
+
+bool EntriesViewHelper::askForPrintOptions(QPrinter &printer, const QString &title)
+{
+	QPrintDialog printDialog(&printer, client());
+	printDialog.setWindowTitle(title);
+	printDialog.setOptions(QAbstractPrintDialog::PrintToFile | QAbstractPrintDialog::PrintPageRange | QAbstractPrintDialog::PrintSelection);
+	if (printDialog.exec() != QDialog::Accepted) return false;
+	return true;
+}
+
+void EntriesViewHelper::print()
+{
+	QPrinter printer;
+	if (!askForPrintOptions(printer)) return;
+	QModelIndexList selIndexes;
+	if (printer.printRange() == QPrinter::Selection) selIndexes = client()->selectionModel()->selectedIndexes();
+	EntriesPrinter(client()->model(), selIndexes, client()).print(&printer);
+}
+
+void EntriesViewHelper::printPreview()
+{
+	QPrinter printer;
+	EntriesPrinter(client()->model(), QModelIndexList(), client()).printPreview(&printer);
+}
+
+void EntriesViewHelper::printBooklet()
+{
+	QPrinter printer;
+	if (!askForPrintOptions(printer, tr("Booklet print"))) return;
+	QModelIndexList selIndexes;
+	if (printer.printRange() == QPrinter::Selection) selIndexes = client()->selectionModel()->selectedIndexes();
+	EntriesPrinter(client()->model(), selIndexes, client()).printBooklet(&printer);
+}
+
+void EntriesViewHelper::printBookletPreview()
+{
+	QPrinter printer;
+	EntriesPrinter(client()->model(), QModelIndexList(), client()).printBookletPreview(&printer);
+}
+
+void EntriesViewHelper::tabExport()
+{
+	QString exportFile = QFileDialog::getSaveFileName(0, tr("Export to tab-separated file..."));
+	if (exportFile.isEmpty()) return;
+	QFile outFile(exportFile);
+	if (!outFile.open(QIODevice::WriteOnly)) {
+		QMessageBox::warning(0, tr("Cannot write file"), QString(tr("Unable to write file %1.")).arg(exportFile));
+		return;
+	}
+
+	QModelIndexList selection(client()->selectionModel()->selectedIndexes());
+	const QAbstractItemModel *model = client()->model();
+	
+	// Build the list of entries to export
+	QList<ConstEntryPointer> entries;
+	// No selection specified, we export all the model
+	if (selection.isEmpty()) {
+		// Parse the model and print all its content
+		for (int i = 0; i < model->rowCount(); i++) {
+			ConstEntryPointer entry(qVariantValue<EntryPointer>(model->index(i, 0, QModelIndex()).data(Entry::EntryRole)));
+			if (entry) entries << entry;
+		}
+	// Selection specified, we limit ourselves to it
+	} else {
+		foreach (const QModelIndex &idx, selection) {
+			ConstEntryPointer entry(qVariantValue<EntryPointer>(idx.data(Entry::EntryRole)));
+			if (entry) entries << entry;
+		}
+	}
+	
+	// Dummy entry to notify Anki that tab is our delimiter
+	//outFile.write("\t\t\n");
+	foreach (ConstEntryPointer entry, entries) {
+		QStringList writings = entry->writings();
+		QStringList readings = entry->readings();
+		QStringList meanings = entry->meanings();
+		QString writing;
+		QString reading;
+		QString meaning;
+		if (writings.size() > 0) writing = writings[0];
+		if (readings.size() > 0) reading = readings[0];
+		if (meanings.size() == 1) meaning += " " + meanings[0];
+		else {
+			int cpt = 1;
+			foreach (const QString &str, meanings)
+				meaning += QString(" (%1) %2").arg(cpt++).arg(str);
+		}
+		if (outFile.write(QString("%1\t%2\t%3\n").arg(writing).arg(readings.join(", ")).arg(meanings.join(", ")).toUtf8()) == -1) {
+			QMessageBox::warning(0, tr("Error writing file"), QString(tr("Error while writing file %1.")).arg(exportFile));
+			return;
+		}
+	}
+
+	outFile.close();
 }

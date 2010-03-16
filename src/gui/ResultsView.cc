@@ -36,7 +36,7 @@ PreferenceItem<QString> ResultsView::kanaFontSetting("mainWindow/resultsView", "
 PreferenceItem<QString> ResultsView::kanjiFontSetting("mainWindow/resultsView", "kanjiFont", QFont("Helvetica", 15).toString());
 PreferenceItem<int> ResultsView::displayModeSetting("mainWindow/resultsView", "displayMode", EntryDelegateLayout::TwoLines);
 
-ResultsView::ResultsView(QWidget *parent, EntryDelegateLayout *delegateLayout, bool viewOnly) : QListView(parent), helper(this), contextMenu()
+ResultsView::ResultsView(QWidget *parent, EntryDelegateLayout *delegateLayout, bool viewOnly) : QListView(parent), _helper(this), contextMenu()
 {
 	// If no delegate layout has been specified, let's use our private one...
 	if (!delegateLayout) delegateLayout = new EntryDelegateLayout(static_cast<EntryDelegateLayout::DisplayMode>(displayModeSetting.value()), textFontSetting.value(), kanjiFontSetting.value(), kanaFontSetting.value(), this);
@@ -53,7 +53,7 @@ ResultsView::ResultsView(QWidget *parent, EntryDelegateLayout *delegateLayout, b
 	// If the view is editable, the helper menu shall be enabled
 	if (!viewOnly) {
 		contextMenu.addSeparator();
-		helper.populateMenu(&contextMenu);
+		_helper.populateMenu(&contextMenu);
 	}
 	updateLayout();
 	setSmoothScrolling(smoothScrollingSetting.value());
@@ -81,11 +81,11 @@ void ResultsView::setSmoothScrolling(bool value)
 void ResultsView::contextMenuEvent(QContextMenuEvent *event)
 {
 	selectAllAction->setEnabled(model()->rowCount() > 0);
-	QList<EntryPointer> _selectedEntries(helper.selectedEntries());
+	QList<EntryPointer> _selectedEntries(_helper.selectedEntries());
 	// This is stupid, but const-safety forces us here
 	QList<ConstEntryPointer> selectedEntries;
 	foreach (const EntryPointer &entry, _selectedEntries) selectedEntries << entry;
-	helper.updateStatus(selectedEntries);
+	_helper.updateStatus(selectedEntries);
 	contextMenu.exec(mapToGlobal(event->pos()));
 }
 

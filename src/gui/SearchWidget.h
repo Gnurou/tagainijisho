@@ -54,12 +54,6 @@ private:
 protected:
 	virtual bool eventFilter(QObject *obj, QEvent *event);
 
-	/**
-	 * Present the user with a config dialog to setup printing. Returns true
-	 * if the user confirmed the dialog, false if he cancelled it.
-	 */
-	bool askForPrintOptions(QPrinter &printer, const QString &title = tr("Print"));
-	
 	/// Run the search without touching the history.
 	void _search(const QString &commands);
 
@@ -88,13 +82,6 @@ public slots:
 	void goPrev();
 	void goNext();
 	
-	void print();
-	void printPreview();
-	void printBooklet();
-	void printBookletPreview();
-
-	void tabExport();
-
 signals:
 };
 

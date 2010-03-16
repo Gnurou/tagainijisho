@@ -55,51 +55,6 @@
     <widget class="ResultsViewWidget" name="_resultsView" native="true"/>
    </item>
   </layout>
-  <action name="actionPrint">
-   <property name="icon">
-    <iconset resource="../../tagainijisho.qrc">
-     <normaloff>:/images/icons/print.png</normaloff>:/images/icons/print.png</iconset>
-   </property>
-   <property name="text">
-    <string>&amp;Print...</string>
-   </property>
-  </action>
-  <action name="actionPrintPreview">
-   <property name="icon">
-    <iconset resource="../../tagainijisho.qrc">
-     <normaloff>:/images/icons/print.png</normaloff>:/images/icons/print.png</iconset>
-   </property>
-   <property name="text">
-    <string>Print &amp;preview...</string>
-   </property>
-  </action>
-  <action name="actionPrintBooklet">
-   <property name="icon">
-    <iconset resource="../../tagainijisho.qrc">
-     <normaloff>:/images/icons/print.png</normaloff>:/images/icons/print.png</iconset>
-   </property>
-   <property name="text">
-    <string>Print &amp;booklet(s)</string>
-   </property>
-  </action>
-  <action name="actionBookletPreview">
-   <property name="icon">
-    <iconset resource="../../tagainijisho.qrc">
-     <normaloff>:/images/icons/print.png</normaloff>:/images/icons/print.png</iconset>
-   </property>
-   <property name="text">
-    <string>Booklet(s) &amp;preview...</string>
-   </property>
-  </action>
-  <action name="actionExport">
-   <property name="icon">
-    <iconset resource="../../tagainijisho.qrc">
-     <normaloff>:/images/icons/document-export.png</normaloff>:/images/icons/document-export.png</iconset>
-   </property>
-   <property name="text">
-    <string>&amp;Export displayed entries...</string>
-   </property>
-  </action>
   <action name="actionPreviousSearch">
    <property name="enabled">
     <bool>false</bool>
@@ -164,86 +119,6 @@
    <signal>triggered()</signal>
    <receiver>SearchWidget</receiver>
    <slot>goNext()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>199</x>
-     <y>149</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>actionPrint</sender>
-   <signal>triggered()</signal>
-   <receiver>SearchWidget</receiver>
-   <slot>print()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>199</x>
-     <y>149</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>actionPrintBooklet</sender>
-   <signal>triggered()</signal>
-   <receiver>SearchWidget</receiver>
-   <slot>printBooklet()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>199</x>
-     <y>149</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>actionPrintPreview</sender>
-   <signal>triggered()</signal>
-   <receiver>SearchWidget</receiver>
-   <slot>printPreview()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>199</x>
-     <y>149</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>actionBookletPreview</sender>
-   <signal>triggered()</signal>
-   <receiver>SearchWidget</receiver>
-   <slot>printBookletPreview()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>199</x>
-     <y>149</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>actionExport</sender>
-   <signal>triggered()</signal>
-   <receiver>SearchWidget</receiver>
-   <slot>tabExport()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>-1</x>

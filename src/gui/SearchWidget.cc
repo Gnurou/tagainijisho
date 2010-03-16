@@ -17,7 +17,6 @@
 
 #include "core/EntrySearcherManager.h"
 #include "gui/SearchWidget.h"
-#include "gui/EntriesPrinter.h"
 #include "gui/EntryTypeFilterWidget.h"
 #include "gui/TextFilterWidget.h"
 #include "gui/TagsFilterWidget.h"
@@ -26,9 +25,6 @@
 #include "gui/JLPTFilterWidget.h"
 #include "gui/ClickableLabel.h"
 
-#include <QFile>
-#include <QPrintDialog>
-#include <QFileDialog>
 #include <QMessageBox>
 #include <QScrollBar>
 
@@ -61,15 +57,8 @@ SearchWidget::SearchWidget(QWidget *parent) : QWidget(parent), _history(historyS
 	_filtersToolBar->layout()->setContentsMargins(0, 0, 0, 0);
 	_filtersToolBar->setStyleSheet("QToolBar { background: none; border-style: none; border-width: 0px; margin: 0px; padding: 0px; }");
 	
-	QMenu *entriesMenu = new QMenu(this);
-	entriesMenu->addAction(actionPrint);
-	entriesMenu->addAction(actionPrintPreview);
-	entriesMenu->addAction(actionPrintBooklet);
-	entriesMenu->addAction(actionBookletPreview);
-	entriesMenu->addSeparator();
-	entriesMenu->addAction(actionExport);
 	QAction *entriesMenuAction = new QAction(QIcon(QPixmap(":/images/icons/list-add.png")), tr("Displayed entries..."), _filtersToolBar);
-	entriesMenuAction->setMenu(entriesMenu);
+	entriesMenuAction->setMenu(resultsView()->helper()->entriesMenu());
 	_filtersToolBar->addAction(entriesMenuAction);
 	// Fix the behavior of the entries button
 	QToolButton *tButton = qobject_cast<QToolButton *>(_filtersToolBar->widgetForAction(entriesMenuAction));
@@ -145,85 +134,6 @@ void SearchWidget::goNext()
 void SearchWidget::resetSearch()
 {
 	_searchBuilder.reset();
-}
-
-bool SearchWidget::askForPrintOptions(QPrinter &printer, const QString &title)
-{
-	QPrintDialog printDialog(&printer, this);
-	printDialog.setWindowTitle(title);
-	#if QT_VERSION >= 0x040500
-	printDialog.setOptions(QAbstractPrintDialog::PrintToFile | QAbstractPrintDialog::PrintPageRange | QAbstractPrintDialog::PrintSelection);
-	#endif
-	if (printDialog.exec() != QDialog::Accepted) return false;
-	return true;
-}
-
-void SearchWidget::print()
-{
-	QPrinter printer;
-	if (!askForPrintOptions(printer)) return;
-	QModelIndexList selIndexes;
-	if (printer.printRange() == QPrinter::Selection) selIndexes = resultsView()->selectionModel()->selectedIndexes();
-	EntriesPrinter(resultsList(), selIndexes, this).print(&printer);
-}
-
-void SearchWidget::printPreview()
-{
-	QPrinter printer;
-	EntriesPrinter(resultsList(), QModelIndexList(), this).printPreview(&printer);
-}
-
-void SearchWidget::printBooklet()
-{
-	QPrinter printer;
-	if (!askForPrintOptions(printer, tr("Booklet print"))) return;
-	QModelIndexList selIndexes;
-	if (printer.printRange() == QPrinter::Selection) selIndexes = resultsView()->selectionModel()->selectedIndexes();
-	EntriesPrinter(resultsList(), selIndexes, this).printBooklet(&printer);
-}
-
-void SearchWidget::printBookletPreview()
-{
-	QPrinter printer;
-	EntriesPrinter(resultsList(), QModelIndexList(), this).printBookletPreview(&printer);
-}
-
-void SearchWidget::tabExport()
-{
-	QString exportFile = QFileDialog::getSaveFileName(0, tr("Export to tab-separated file..."));
-	if (exportFile.isEmpty()) return;
-	QFile outFile(exportFile);
-	if (!outFile.open(QIODevice::WriteOnly)) {
-		QMessageBox::warning(0, tr("Cannot write file"), QString(tr("Unable to write file %1.")).arg(exportFile));
-		return;
-	}
-
-	const ResultsList *results = resultsList();
-	// Dummy entry to notify Anki that tab is our delimiter
-	//outFile.write("\t\t\n");
-	for (int i = 0; i < results->nbResults(); i++) {
-		ConstEntryPointer entry = results->getEntry(i);
-		QStringList writings = entry->writings();
-		QStringList readings = entry->readings();
-		QStringList meanings = entry->meanings();
-		QString writing;
-		QString reading;
-		QString meaning;
-		if (writings.size() > 0) writing = writings[0];
-		if (readings.size() > 0) reading = readings[0];
-		if (meanings.size() == 1) meaning += " " + meanings[0];
-		else {
-			int cpt = 1;
-			foreach (const QString &str, meanings)
-				meaning += QString(" (%1) %2").arg(cpt++).arg(str);
-		}
-		if (outFile.write(QString("%1\t%2\t%3\n").arg(writing).arg(readings.join(", ")).arg(meanings.join(", ")).toUtf8()) == -1) {
-			QMessageBox::warning(0, tr("Error writing file"), QString(tr("Error while writing file %1.")).arg(exportFile));
-			return;
-		}
-	}
-
-	outFile.close();
 }
 
 void SearchWidget::addSearchFilter(SearchFilterWidget *sWidget)

@@ -32,6 +32,8 @@ class EntriesViewHelper : public EntryMenu
 	Q_OBJECT
 private:
 	QAbstractItemView *_client;
+	QMenu _entriesMenu;
+	QAction _actionPrint, _actionPrintPreview, _actionPrintBooklet, _actionPrintBookletPreview, _actionExportTab;
 
 protected slots:
 	void studySelected();
@@ -43,9 +45,17 @@ protected slots:
 	void addTags(const QStringList &tags);
 	void addNote();
 	
+	/**
+	 * Present the user with a config dialog to setup printing. Returns true
+	 * if the user confirmed the dialog, false if he cancelled it.
+	 */
+	bool askForPrintOptions(QPrinter &printer, const QString &title = tr("Print"));
+	
 public:
 	EntriesViewHelper(QAbstractItemView *parent = 0);
 	QAbstractItemView *client() const { return _client; }
+	QMenu *entriesMenu() { return &_entriesMenu; }
+
 	/**
 	 * Returns a list of the currently selected entries.
 	 *
@@ -55,6 +65,14 @@ public:
 	 * ignored.
 	 */
 	QList<EntryPointer> selectedEntries() const;
+	
+public slots:
+	void print();
+	void printPreview();
+	void printBooklet();
+	void printBookletPreview();
+
+	void tabExport();
 };
 
 #endif
