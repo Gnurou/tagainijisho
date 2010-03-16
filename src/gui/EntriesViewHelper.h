@@ -33,6 +33,7 @@ class EntriesViewHelper : public EntryMenu
 private:
 	QAbstractItemView *_client;
 	QMenu _entriesMenu;
+	bool _workOnSelection;
 	QAction _actionPrint, _actionPrintPreview, _actionPrintBooklet, _actionPrintBookletPreview, _actionExportTab;
 
 protected slots:
@@ -52,7 +53,14 @@ protected slots:
 	bool askForPrintOptions(QPrinter &printer, const QString &title = tr("Print"));
 	
 public:
-	EntriesViewHelper(QAbstractItemView *parent = 0);
+	/**
+	 * workOnSelection defines how the print and export actions will performed. If
+	 * set, printing and export will only be available if a selection is active,
+	 * and will perform on this selection exclusively. If not set (the default),
+	 * these actions will take place on the whole model, with an option to restrict
+	 * them to the current selection.
+	 */
+	EntriesViewHelper(QAbstractItemView *client, bool workOnSelection = false);
 	QAbstractItemView *client() const { return _client; }
 	QMenu *entriesMenu() { return &_entriesMenu; }
 

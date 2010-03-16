@@ -16,27 +16,16 @@
  */
 
 #include "gui/EntryListWidget.h"
-#include "gui/EntriesPrinter.h"
 
 EntryListWidget::EntryListWidget(QWidget *parent) : SearchFilterWidget(parent)
 {
 	setupUi(this);
+	QToolButton *menuButton = new QToolButton(this);
+	menuButton->setIcon(QIcon(":/images/icons/list-add.png"));
+	menuButton->setMenu(lists->helper()->entriesMenu());
+	menuButton->setPopupMode(QToolButton::InstantPopup);
+	menuButton->setAutoRaise(true);
+	hLayout->insertWidget(0, menuButton);
 	newListButton->setDefaultAction(entryListView()->newListAction());
 	deleteSelectionButton->setDefaultAction(entryListView()->deleteSelectionAction());
-	printSelectionAction->setEnabled(false);
-	printButton->setDefaultAction(printSelectionAction);
-	connect(lists, SIGNAL(selectionHasChanged(QItemSelection,QItemSelection)), this, SLOT(onListSelectionChanged(QItemSelection,QItemSelection)));
-}
-
-void EntryListWidget::onListSelectionChanged(const QItemSelection &selected, const QItemSelection &deselected)
-{
-	printSelectionAction->setEnabled(!selected.isEmpty());
-}
-
-void EntryListWidget::printSelection()
-{
-	QModelIndexList selection(lists->selectionModel()->selectedIndexes());
-	QPrinter printer;
-	EntriesPrinter ePrinter(lists->model(), selection);
-	ePrinter.printBookletPreview(&printer);
 }

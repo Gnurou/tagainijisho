@@ -28,7 +28,7 @@
 #include <QFileDialog>
 #include <QMessageBox>
 
-EntriesViewHelper::EntriesViewHelper(QAbstractItemView *parent) : EntryMenu(parent), _client(parent), _actionPrint(QIcon(":/images/icons/print.png"), tr("&Print..."), 0), _actionPrintPreview(QIcon(":/images/icons/print.png"), tr("Print p&review..."), 0), _actionPrintBooklet(QIcon(":/images/icons/print.png"), tr("Print &booklet..."), 0), _actionPrintBookletPreview(QIcon(":/images/icons/print.png"), tr("Booklet p&review..."), 0), _actionExportTab(QIcon(":/images/icons/document-export.png"), tr("&Export..."), 0)
+EntriesViewHelper::EntriesViewHelper(QAbstractItemView* client, bool workOnSelection) : EntryMenu(client), _client(client), _entriesMenu(), _workOnSelection(workOnSelection), _actionPrint(QIcon(":/images/icons/print.png"), tr("&Print..."), 0), _actionPrintPreview(QIcon(":/images/icons/print.png"), tr("Print p&review..."), 0), _actionPrintBooklet(QIcon(":/images/icons/print.png"), tr("Print &booklet..."), 0), _actionPrintBookletPreview(QIcon(":/images/icons/print.png"), tr("Booklet p&review..."), 0), _actionExportTab(QIcon(":/images/icons/document-export.png"), tr("&Export..."), 0)
 {
 	connect(&addToStudyAction, SIGNAL(triggered()),
 			this, SLOT(studySelected()));
@@ -205,7 +205,9 @@ bool EntriesViewHelper::askForPrintOptions(QPrinter &printer, const QString &tit
 {
 	QPrintDialog printDialog(&printer, client());
 	printDialog.setWindowTitle(title);
-	printDialog.setOptions(QAbstractPrintDialog::PrintToFile | QAbstractPrintDialog::PrintPageRange | QAbstractPrintDialog::PrintSelection);
+	QAbstractPrintDialog::PrintDialogOptions options = QAbstractPrintDialog::PrintToFile | QAbstractPrintDialog::PrintPageRange;
+	if (!_workOnSelection) options |= QAbstractPrintDialog::PrintSelection;
+	printDialog.setOptions(options);
 	if (printDialog.exec() != QDialog::Accepted) return false;
 	return true;
 }
@@ -215,14 +217,16 @@ void EntriesViewHelper::print()
 	QPrinter printer;
 	if (!askForPrintOptions(printer)) return;
 	QModelIndexList selIndexes;
-	if (printer.printRange() == QPrinter::Selection) selIndexes = client()->selectionModel()->selectedIndexes();
+	if (_workOnSelection || printer.printRange() == QPrinter::Selection) selIndexes = client()->selectionModel()->selectedIndexes();
 	EntriesPrinter(client()->model(), selIndexes, client()).print(&printer);
 }
 
 void EntriesViewHelper::printPreview()
 {
 	QPrinter printer;
-	EntriesPrinter(client()->model(), QModelIndexList(), client()).printPreview(&printer);
+	QModelIndexList selIndexes;
+	if (_workOnSelection) selIndexes = client()->selectionModel()->selectedIndexes();
+	EntriesPrinter(client()->model(), selIndexes, client()).printPreview(&printer);
 }
 
 void EntriesViewHelper::printBooklet()
@@ -230,14 +234,16 @@ void EntriesViewHelper::printBooklet()
 	QPrinter printer;
 	if (!askForPrintOptions(printer, tr("Booklet print"))) return;
 	QModelIndexList selIndexes;
-	if (printer.printRange() == QPrinter::Selection) selIndexes = client()->selectionModel()->selectedIndexes();
+	if (_workOnSelection || printer.printRange() == QPrinter::Selection) selIndexes = client()->selectionModel()->selectedIndexes();
 	EntriesPrinter(client()->model(), selIndexes, client()).printBooklet(&printer);
 }
 
 void EntriesViewHelper::printBookletPreview()
 {
 	QPrinter printer;
-	EntriesPrinter(client()->model(), QModelIndexList(), client()).printBookletPreview(&printer);
+	QModelIndexList selIndexes;
+	if (_workOnSelection) selIndexes = client()->selectionModel()->selectedIndexes();
+	EntriesPrinter(client()->model(), selIndexes, client()).printBookletPreview(&printer);
 }
 
 void EntriesViewHelper::tabExport()

@@ -15,7 +15,7 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout">
+    <layout class="QHBoxLayout" name="hLayout">
      <item>
       <widget class="QToolButton" name="newListButton">
        <property name="text">
@@ -28,16 +28,6 @@
      </item>
      <item>
       <widget class="QToolButton" name="deleteSelectionButton">
-       <property name="autoRaise">
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QToolButton" name="printButton">
-       <property name="text">
-        <string/>
-       </property>
        <property name="autoRaise">
         <bool>true</bool>
        </property>
@@ -87,15 +77,6 @@
     </widget>
    </item>
   </layout>
-  <action name="printSelectionAction">
-   <property name="icon">
-    <iconset resource="../../tagainijisho.qrc">
-     <normaloff>:/images/icons/print.png</normaloff>:/images/icons/print.png</iconset>
-   </property>
-   <property name="text">
-    <string>Print selected entries/lists</string>
-   </property>
-  </action>
  </widget>
  <customwidgets>
   <customwidget>
@@ -111,24 +92,7 @@
  <resources>
   <include location="../../tagainijisho.qrc"/>
  </resources>
- <connections>
-  <connection>
-   <sender>printSelectionAction</sender>
-   <signal>triggered()</signal>
-   <receiver>EntryListWidget</receiver>
-   <slot>printSelection()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>146</x>
-     <y>221</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
  <slots>
   <slot>printSelection()</slot>
  </slots>

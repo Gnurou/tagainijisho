@@ -57,7 +57,7 @@ SearchWidget::SearchWidget(QWidget *parent) : QWidget(parent), _history(historyS
 	_filtersToolBar->layout()->setContentsMargins(0, 0, 0, 0);
 	_filtersToolBar->setStyleSheet("QToolBar { background: none; border-style: none; border-width: 0px; margin: 0px; padding: 0px; }");
 	
-	QAction *entriesMenuAction = new QAction(QIcon(QPixmap(":/images/icons/list-add.png")), tr("Displayed entries..."), _filtersToolBar);
+	QAction *entriesMenuAction = new QAction(QIcon(":/images/icons/list-add.png"), "", _filtersToolBar);
 	entriesMenuAction->setMenu(resultsView()->helper()->entriesMenu());
 	_filtersToolBar->addAction(entriesMenuAction);
 	// Fix the behavior of the entries button

@@ -30,7 +30,7 @@ PreferenceItem<QString> EntryListView::kanaFontSetting("mainWindow/lists", "kana
 PreferenceItem<QString> EntryListView::kanjiFontSetting("mainWindow/lists", "kanjiFont", QFont("Helvetica", 12).toString());
 PreferenceItem<int> EntryListView::displayModeSetting("mainWindow/lists", "displayMode", EntryDelegateLayout::OneLine);
 
-EntryListView::EntryListView(QWidget *parent, EntryDelegateLayout* delegateLayout, bool viewOnly) : QTreeView(parent), helper(this), _newListAction(QIcon(":/images/icons/document-new.png"), tr("New list..."), 0), _rightClickNewListAction(_newListAction.icon(), _newListAction.text(), 0), _deleteSelectionAction(QIcon(":/images/icons/delete.png"), tr("Delete"), 0)
+EntryListView::EntryListView(QWidget *parent, EntryDelegateLayout* delegateLayout, bool viewOnly) : QTreeView(parent), _helper(this, true), _newListAction(QIcon(":/images/icons/document-new.png"), tr("New list..."), 0), _rightClickNewListAction(_newListAction.icon(), _newListAction.text(), 0), _deleteSelectionAction(QIcon(":/images/icons/delete.png"), tr("Delete"), 0)
 {
 	// If no delegate layout has been specified, let's use our private one...
 	if (!delegateLayout) delegateLayout = new EntryDelegateLayout(static_cast<EntryDelegateLayout::DisplayMode>(displayModeSetting.value()), textFontSetting.value(), kanjiFontSetting.value(), kanaFontSetting.value(), this);
@@ -43,7 +43,7 @@ EntryListView::EntryListView(QWidget *parent, EntryDelegateLayout* delegateLayou
 	setSmoothScrolling(smoothScrollingSetting.value());
 	// If the view is editable, the helper menu shall be enabled
 	if (!viewOnly) {
-		helper.populateMenu(&contextMenu);
+		_helper.populateMenu(&contextMenu);
 		contextMenu.addSeparator();
 		contextMenu.addAction(&_rightClickNewListAction);
 		contextMenu.addAction(&_deleteSelectionAction);
@@ -84,11 +84,11 @@ void EntryListView::updateLayout()
 
 void EntryListView::contextMenuEvent(QContextMenuEvent *event)
 {
-	QList<EntryPointer> _selectedEntries(helper.selectedEntries());
+	QList<EntryPointer> _selectedEntries(_helper.selectedEntries());
 	// This is stupid, but const-safety forces us here
 	QList<ConstEntryPointer> selectedEntries;
 	foreach (const EntryPointer &entry, _selectedEntries) selectedEntries << entry;
-	helper.updateStatus(selectedEntries);
+	_helper.updateStatus(selectedEntries);
 	
 	// Update the status of the right-click new list action
 	QModelIndexList selection(selectionModel()->selectedIndexes());
