@@ -113,7 +113,7 @@ void KanjiSelector::updateComplementsList(const QSet<int> &selection, const QSet
 {
 	complementsList->blockSignals(true);
 	complementsList->clear();
-	QString compQuery(getComplementsQuery(candidates));
+	QString compQuery(getComplementsQuery(selection, candidates));
 	if (!compQuery.isEmpty()) {
 		QSqlQuery query;
 		if (!query.exec(compQuery)) qDebug() << query.lastError().text();
@@ -144,10 +144,12 @@ void KanjiSelector::updateComplementsList(const QSet<int> &selection, const QSet
 
 void KanjiSelector::onSelectionChanged()
 {
+	complementsList->setEnabled(false);
 	QSet<int> selection(complementsList->currentSelection());
 	QSet<int> selectionNbrs(complementsList->currentSelection(true));
 	QSet<int> candidates(updateCandidatesList(selectionNbrs));
 	updateComplementsList(selection, candidates);
+	complementsList->setEnabled(true);
 }
 
 QString RadicalKanjiSelector::getCandidatesQuery(const QSet<int> &selection) const
@@ -160,7 +162,7 @@ QString RadicalKanjiSelector::getCandidatesQuery(const QSet<int> &selection) con
 }
 
 
-QString RadicalKanjiSelector::getComplementsQuery(const QSet<int> &candidates) const
+QString RadicalKanjiSelector::getComplementsQuery(const QSet<int> &selection, const QSet<int> &candidates) const
 {
 	if (candidates.isEmpty()) return "select kanji, number, strokeCount from kanjidic2.radicalsList join kanjidic2.entries on radicalsList.kanji = entries.id order by number, radicalsList.rowid";
 	else {
@@ -211,9 +213,18 @@ QString ComponentKanjiSelector::getCandidatesQuery(const QSet<int> &selection) c
 }
 
 
-QString ComponentKanjiSelector::getComplementsQuery(const QSet<int> &candidates) const
+QString ComponentKanjiSelector::getComplementsQuery(const QSet<int> &selection, const QSet<int> &candidates) const
 {
-	if (candidates.isEmpty()) return "select distinct ks.element, ks.element, strokeCount from kanjidic2.strokeGroups as ks join kanjidic2.entries as e on ks.element = e.id where ks.element not in (select distinct kanji from strokeGroups where element != kanji) order by strokeCount";
+	if (selection.isEmpty() && candidates.isEmpty()) return "select distinct ks.element, ks.element, strokeCount from kanjidic2.strokeGroups as ks join kanjidic2.entries as e on ks.element = e.id where ks.element not in (select distinct kanji from strokeGroups where element != kanji) order by strokeCount";
+	// Selection but no candidates - just get the selection
+	else if (candidates.isEmpty()) {
+		QString selString;
+		foreach (int sel, selection) {
+			if (selString.isEmpty()) selString = QString::number(sel);
+			else selString += "," + QString::number(sel);
+		}
+		return QString("select distinct id, id, strokeCount from kanjidic2.entries where id in (%1)").arg(selString);
+	}
 	else {
 		QString selString;
 		foreach (int candidate, candidates) {
@@ -244,9 +255,11 @@ void ComponentKanjiSelector::onSelectionChanged()
 
 void ComponentKanjiSelector::onComponentsListChanged()
 {
+	complementsList->setEnabled(false);
 	QSet<int> selection(currentComponents());
 	QSet<int> candidates(updateCandidatesList(selection));
 	updateComplementsList(selection, candidates);
+	complementsList->setEnabled(true);
 }
 
 KanjiInputPopupAction::KanjiInputPopupAction(KanjiSelector *popup, const QString &title, QWidget *parent) : QAction(title, parent), _popup(popup), focusWidget(0)

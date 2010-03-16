@@ -64,7 +64,7 @@ protected:
 	virtual QString getCandidatesQuery(const QSet<int> &selection) const = 0;
 	/// Returns the SQL query that should be run in order to get the complements list
 	/// corresponding to the given selection
-	virtual QString getComplementsQuery(const QSet<int> &candidates) const = 0;
+	virtual QString getComplementsQuery(const QSet<int> &selection, const QSet<int> &candidates) const = 0;
 	
 	virtual QSet<int> updateCandidatesList(const QSet<int> &selection);
 	virtual void updateComplementsList(const QSet<int> &selection, const QSet<int> &candidates);
@@ -85,7 +85,7 @@ class RadicalKanjiSelector : public KanjiSelector
 	Q_OBJECT
 protected:
 	virtual QString getCandidatesQuery(const QSet<int> &selection) const;
-	virtual QString getComplementsQuery(const QSet< int >& candidates) const;
+	virtual QString getComplementsQuery(const QSet<int> &selection, const QSet< int >& candidates) const;
 
 protected slots:
 	virtual void onSelectionChanged();
@@ -104,7 +104,7 @@ protected:
 	QLineEdit *_components;
 	QSet<int> currentComponents() const;
 	virtual QString getCandidatesQuery(const QSet<int> &selection) const;
-	virtual QString getComplementsQuery(const QSet<int> &candidates) const;
+	virtual QString getComplementsQuery(const QSet<int> &selection, const QSet<int> &candidates) const;
 
 protected slots:
 	virtual void onSelectionChanged();
