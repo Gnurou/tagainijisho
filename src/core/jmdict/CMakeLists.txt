@@ -8,5 +8,5 @@ set(build_jmdict_db_SRCS
 )
 
 include(${QT_USE_FILE})
-add_executable(build_jmdict_db ${build_jmdict_db_SRCS})
+add_executable(build_jmdict_db EXCLUDE_FROM_ALL ${build_jmdict_db_SRCS})
 target_link_libraries(build_jmdict_db tagaini_sqlite tagaini_core ${QT_LIBRARIES})
