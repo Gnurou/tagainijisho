@@ -44,6 +44,7 @@ static QSqlQuery insertFourCornerQuery;
 static QSqlQuery insertStrokeGroupQuery;
 static QSqlQuery updateJLPTLevelsQuery;
 static QSqlQuery updateStrokeCountQuery;
+static QSqlQuery insertRootComponentQuery;
 static QSqlQuery updatePathsString;
 static QSqlQuery addRadicalQuery;
 static QSqlQuery insertRadicalQuery;
@@ -51,6 +52,8 @@ static QSqlQuery insertRadicalQuery;
 #define BIND(query, val) query.addBindValue(val)
 #define AUTO_BIND(query, val, nval) if (val == nval) BIND(query, QVariant::Int); else BIND(query, val)
 #define EXEC(query) if (!query.exec()) { qDebug() << query.lastError().text(); return false; }
+#define EXEC_STMT(query, stmt) if (!query.exec(stmt)) { qDebug() << query.lastError().text(); return false; } 
+#define ASSERT(cond) if (!(cond)) return 1;
 
 class Kanjidic2DBParser : public Kanjidic2Parser
 {
@@ -217,6 +220,17 @@ bool updateJLPTLevels(const QString &fName, int level)
 	return true;
 }
 
+bool createRootComponentsTable()
+{
+	QSqlQuery query;
+	query.exec("select distinct ks.element from strokeGroups as ks join entries as e on ks.element = e.id where ks.element not in (select distinct kanji from strokeGroups where element != kanji) order by strokeCount");
+	while (query.next()) {
+		BIND(insertRootComponentQuery, query.value(0));
+		EXEC(insertRootComponentQuery);
+	}
+	return true;
+}
+
 bool createRadicalsTable(const QString &fName)
 {
 	QFile file(fName);
@@ -241,40 +255,43 @@ bool createRadicalsTable(const QString &fName)
 	return true;
 }
 
-static void create_tables()
+static bool create_tables()
 {
 	QSqlQuery query;
-	query.exec("create table info(version INT, kanjidic2Version TEXT, kanjiVGVersion TEXT)");
-	query.exec("create table entries(id INTEGER PRIMARY KEY, grade TINYINT, strokeCount TINYINT, frequency SMALLINT, jlpt TINYINT, paths BLOB)");
-	query.exec("create table reading(docid INTEGER PRIMARY KEY, entry INTEGER SECONDARY KEY REFERENCES entries, type TEXT)");
-	query.exec("create virtual table readingText using fts3(reading, TOKENIZE katakana)");
-	query.exec("create table meaning(docid INTEGER PRIMARY KEY, entry INTEGER SECONDARY KEY REFERENCES entries, lang TEXT)");
-	query.exec("create virtual table meaningText using fts3(reading)");
-	query.exec("create table nanori(docid INTEGER PRIMARY KEY, entry INTEGER SECONDARY KEY REFERENCES entries)");
-	query.exec("create virtual table nanoriText using fts3(reading, TOKENIZE katakana)");
-	query.exec("create table strokeGroups(kanji INTEGER, element INTEGER, original INTEGER, isRoot BOOLEAN, pathsRefs BLOB)");
-	query.exec("create table skip(entry INTEGER, type TINYINT, c1 TINYINT, c2 TINYINT)");
-	query.exec("create table fourCorner(entry INTEGER, topLeft TINYINT, topRight TINYINT, botLeft TINYINT, botRight TINYINT, extra TINYINT)");
-	query.exec("create table radicalsList(kanji INTEGER REFERENCES entries, number SHORTINT)");
-	query.exec("create table radicals(number INTEGER REFERENCES radicalsList, kanji INTEGER REFERENCES entries, type TINYINT)");
+	EXEC_STMT(query, "create table info(version INT, kanjidic2Version TEXT, kanjiVGVersion TEXT)");
+	EXEC_STMT(query, "create table entries(id INTEGER PRIMARY KEY, grade TINYINT, strokeCount TINYINT, frequency SMALLINT, jlpt TINYINT, paths BLOB)");
+	EXEC_STMT(query, "create table reading(docid INTEGER PRIMARY KEY, entry INTEGER SECONDARY KEY REFERENCES entries, type TEXT)");
+	EXEC_STMT(query, "create virtual table readingText using fts3(reading, TOKENIZE katakana)");
+	EXEC_STMT(query, "create table meaning(docid INTEGER PRIMARY KEY, entry INTEGER SECONDARY KEY REFERENCES entries, lang TEXT)");
+	EXEC_STMT(query, "create virtual table meaningText using fts3(reading)");
+	EXEC_STMT(query, "create table nanori(docid INTEGER PRIMARY KEY, entry INTEGER SECONDARY KEY REFERENCES entries)");
+	EXEC_STMT(query, "create virtual table nanoriText using fts3(reading, TOKENIZE katakana)");
+	EXEC_STMT(query, "create table strokeGroups(kanji INTEGER, element INTEGER, original INTEGER, isRoot BOOLEAN, pathsRefs BLOB)");
+	EXEC_STMT(query, "create table rootComponents(kanji INTEGER PRIMARY KEY)");
+	EXEC_STMT(query, "create table skip(entry INTEGER, type TINYINT, c1 TINYINT, c2 TINYINT)");
+	EXEC_STMT(query, "create table fourCorner(entry INTEGER, topLeft TINYINT, topRight TINYINT, botLeft TINYINT, botRight TINYINT, extra TINYINT)");
+	EXEC_STMT(query, "create table radicalsList(kanji INTEGER REFERENCES entries, number SHORTINT)");
+	EXEC_STMT(query, "create table radicals(number INTEGER REFERENCES radicalsList, kanji INTEGER REFERENCES entries, type TINYINT)");
+	return true;
 }
 
-static void create_indexes()
+static bool create_indexes()
 {
 	QSqlQuery query;
-	query.exec("create index idx_entries_frequency on entries(frequency)");
-	query.exec("create index idx_jlpt on entries(jlpt)");
-	query.exec("create index idx_reading_entry on reading(entry)");
-	query.exec("create index idx_meaning_entry on meaning(entry)");
-	query.exec("create index idx_nanori_entry on nanori(entry)");
-	query.exec("create index idx_strokeGroups_kanji on strokeGroups(kanji)");
-	query.exec("create index idx_strokeGroups_element on strokeGroups(element)");
-	query.exec("create index idx_strokeGroups_original on strokeGroups(original)");
-	query.exec("create index idx_skip on skip(entry)");
-	query.exec("create index idx_skip_type on skip(type, c1, c2)");
-	query.exec("create index idx_fourCorner on fourCorner(entry)");
-	query.exec("create index idx_radicalsList_number on radicalsList(number)");
-	query.exec("create index idx_radicals on radicals(kanji)");
+	EXEC_STMT(query, "create index idx_entries_frequency on entries(frequency)");
+	EXEC_STMT(query, "create index idx_jlpt on entries(jlpt)");
+	EXEC_STMT(query, "create index idx_reading_entry on reading(entry)");
+	EXEC_STMT(query, "create index idx_meaning_entry on meaning(entry)");
+	EXEC_STMT(query, "create index idx_nanori_entry on nanori(entry)");
+	EXEC_STMT(query, "create index idx_strokeGroups_kanji on strokeGroups(kanji)");
+	EXEC_STMT(query, "create index idx_strokeGroups_element on strokeGroups(element)");
+	EXEC_STMT(query, "create index idx_strokeGroups_original on strokeGroups(original)");
+	EXEC_STMT(query, "create index idx_skip on skip(entry)");
+	EXEC_STMT(query, "create index idx_skip_type on skip(type, c1, c2)");
+	EXEC_STMT(query, "create index idx_fourCorner on fourCorner(entry)");
+	EXEC_STMT(query, "create index idx_radicalsList_number on radicalsList(number)");
+	EXEC_STMT(query, "create index idx_radicals on radicals(kanji)");
+	return true;
 }
 
 void printUsage(char *argv[])
@@ -297,7 +314,7 @@ int main(int argc, char *argv[])
 		foreach (const QString &lang, langs) if (!languages.contains(lang)) languages << lang;
 		++argCpt;
 	}
-	if (argCpt > argc - 2) { printUsage(argv); return -1; }
+	if (argCpt > argc - 2) { printUsage(argv); return 1; }
 
 	QString srcDir(argv[argCpt]);
 	QString dstFile(argv[argCpt + 1]);
@@ -329,8 +346,8 @@ int main(int argc, char *argv[])
 		qDebug() << database.lastError().text();
 		return 1;
 	}
-	database.transaction();
-	create_tables();
+	ASSERT(database.transaction());
+	ASSERT(create_tables());
 
 	// Prepare the queries
 	#define PREPQUERY(query, text) query = QSqlQuery(database); query.prepare(text)
@@ -347,6 +364,7 @@ int main(int argc, char *argv[])
 	PREPQUERY(insertStrokeGroupQuery, "insert into strokeGroups values(?, ?, ?, ?, ?)");
 	PREPQUERY(updateJLPTLevelsQuery, "update entries set jlpt = ? where id = ?");
 	PREPQUERY(updateStrokeCountQuery, "update entries set strokeCount = ? where id = ?");
+	PREPQUERY(insertRootComponentQuery, "insert into rootComponents values(?)");
 	PREPQUERY(updatePathsString, "update entries set strokeCount = ?, paths = ? where id = ?");
 	PREPQUERY(addRadicalQuery, "insert into radicalsList values(?, ?)");
 	PREPQUERY(insertRadicalQuery, "insert into radicals values(?, ?, ?)");
@@ -354,7 +372,7 @@ int main(int argc, char *argv[])
 
 	// Parse and insert kanjidic2
 	QFile file(QDir(srcDir).absoluteFilePath("3rdparty/kanjidic2.xml"));
-	if (!file.open(QFile::ReadOnly | QFile::Text)) return 1;
+	ASSERT(file.open(QFile::ReadOnly | QFile::Text));
 	QXmlStreamReader reader(&file);
 	// English is always used as a backup
 	if (!languages.contains("en")) languages << "en";
@@ -364,13 +382,13 @@ int main(int argc, char *argv[])
 		return 1;
 	}
 	file.close();
-	
+
 	// Create radicals table
-	createRadicalsTable(QDir(srcDir).absoluteFilePath("src/core/kanjidic2/radicals.txt"));
+	ASSERT(createRadicalsTable(QDir(srcDir).absoluteFilePath("src/core/kanjidic2/radicals.txt")));
 
 	// Parse and insert KanjiVG data
 	file.setFileName(QDir(srcDir).absoluteFilePath("3rdparty/kanjivg.xml"));
-	if (!file.open(QFile::ReadOnly | QFile::Text)) return 1;
+	ASSERT(file.open(QFile::ReadOnly | QFile::Text));
 	reader.setDevice(&file);
 	KanjiVGDBParser kvgParser;
 	if (!kvgParser.parse(reader)) {
@@ -379,6 +397,9 @@ int main(int argc, char *argv[])
 	}
 	file.close();
 
+	// Create root components table
+	ASSERT(createRootComponentsTable());
+	
 	// Fill in the info table
 	{
 		QSqlQuery query;
@@ -386,23 +407,22 @@ int main(int argc, char *argv[])
 		query.addBindValue(KANJIDIC2DB_REVISION);
 		query.addBindValue(kdicParser.dateOfCreation());
 		query.addBindValue(kvgParser.version());
-		query.exec();
+		ASSERT(query.exec());
 	}
-	
+
 	// Insert JLPT levels
-	updateJLPTLevels(QDir(srcDir).absoluteFilePath("src/core/kanjidic2/jlpt-level1.txt"), 1);
-	updateJLPTLevels(QDir(srcDir).absoluteFilePath("src/core/kanjidic2/jlpt-level2.txt"), 2);
-	updateJLPTLevels(QDir(srcDir).absoluteFilePath("src/core/kanjidic2/jlpt-level3.txt"), 3);
-	updateJLPTLevels(QDir(srcDir).absoluteFilePath("src/core/kanjidic2/jlpt-level4.txt"), 4);
+	ASSERT(updateJLPTLevels(QDir(srcDir).absoluteFilePath("src/core/kanjidic2/jlpt-level2.txt"), 2));
+	ASSERT(updateJLPTLevels(QDir(srcDir).absoluteFilePath("src/core/kanjidic2/jlpt-level3.txt"), 3));
+	ASSERT(updateJLPTLevels(QDir(srcDir).absoluteFilePath("src/core/kanjidic2/jlpt-level4.txt"), 4));
 	
 	// Create indexes
-	create_indexes();
+	ASSERT(create_indexes());
 	
 	// Analyze for hopefully better performance
 	database.exec("analyze");
 	
 	// Commit everything
-	database.commit();
+	ASSERT(database.commit());
 	
 	// Close the database and set the file to read-only
 	database = QSqlDatabase();

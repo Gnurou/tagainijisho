@@ -44,6 +44,8 @@ static QSqlQuery insertDeletedEntryQuery;
 #define BIND(query, val) query.addBindValue(val)
 #define AUTO_BIND(query, val, nval) if (val == nval) BIND(query, QVariant::Int); else BIND(query, val)
 #define EXEC(query) if (!query.exec()) { qDebug() << query.lastError().text(); return false; }
+#define EXEC_STMT(query, stmt) if (!query.exec(stmt)) { qDebug() << query.lastError().text(); return false; } 
+#define ASSERT(cond) if (!(cond)) return 1;
 
 class JMdictDBParser : public JMdictParser
 {
@@ -177,41 +179,43 @@ bool insertJLPTLevels(const QString &fName, int level)
 	return true;
 }
 
-static void create_tables()
+static bool create_tables()
 {
 	QSqlQuery query;
-	query.exec("create table info(version INT, JMdictVersion TEXT)");
-	query.exec("create table posEntities(bitShift INTEGER PRIMARY KEY, name TEXT, description TEXT)");
-	query.exec("create table miscEntities(bitShift INTEGER PRIMARY KEY, name TEXT, description TEXT)");
-	query.exec("create table fieldEntities(bitShift INTEGER PRIMARY KEY, name TEXT, description TEXT)");
-	query.exec("create table dialectEntities(bitShift INTEGER PRIMARY KEY, name TEXT, description TEXT)");
-	query.exec("create table entries(id INTEGER PRIMARY KEY, frequency TINYINT, kanjiCount TINYINT)");
-	query.exec("create table kanji(id INTEGER SECONDARY KEY REFERENCES entries, priority TINYINT, docid INT, frequency TINYINT)");
-	query.exec("create virtual table kanjiText using fts3(reading)");
-	query.exec("create table kana(id INTEGER SECONDARY KEY REFERENCES entries, priority TINYINT, docid INT, nokanji BOOLEAN, frequency TINYINT, restrictedTo TEXT)");
-	query.exec("create virtual table kanaText using fts3(reading, TOKENIZE katakana)");
-	query.exec("create table senses(id INTEGER SECONDARY KEY REFERENCES entries, priority TINYINT, pos INT, misc INT, dial INT, field INT, restrictedToKanji TEXT, restrictedToKana TEXT)");
-	query.exec("create table gloss(id INTEGER SECONDARY KEY REFERENCES entries, sensePriority INT, lang CHAR(3), docid INTEGER SECONDARY KEY NOT NULL)");
-	query.exec("create virtual table glossText using fts3(reading)");
-	query.exec("create table kanjiChar(kanji INTEGER, id INTEGER SECONDARY KEY REFERENCES entries, priority INT)");
-	query.exec("create table jlpt(id INTEGER PRIMARY KEY, level TINYINT)");
-	query.exec("create table deletedEntries(id INTEGER PRIMARY KEY, movedTo INTEGER REFERENCES entries)");
+	EXEC_STMT(query, "create table info(version INT, JMdictVersion TEXT)");
+	EXEC_STMT(query, "create table posEntities(bitShift INTEGER PRIMARY KEY, name TEXT, description TEXT)");
+	EXEC_STMT(query, "create table miscEntities(bitShift INTEGER PRIMARY KEY, name TEXT, description TEXT)");
+	EXEC_STMT(query, "create table fieldEntities(bitShift INTEGER PRIMARY KEY, name TEXT, description TEXT)");
+	EXEC_STMT(query, "create table dialectEntities(bitShift INTEGER PRIMARY KEY, name TEXT, description TEXT)");
+	EXEC_STMT(query, "create table entries(id INTEGER PRIMARY KEY, frequency TINYINT, kanjiCount TINYINT)");
+	EXEC_STMT(query, "create table kanji(id INTEGER SECONDARY KEY REFERENCES entries, priority TINYINT, docid INT, frequency TINYINT)");
+	EXEC_STMT(query, "create virtual table kanjiText using fts3(reading)");
+	EXEC_STMT(query, "create table kana(id INTEGER SECONDARY KEY REFERENCES entries, priority TINYINT, docid INT, nokanji BOOLEAN, frequency TINYINT, restrictedTo TEXT)");
+	EXEC_STMT(query, "create virtual table kanaText using fts3(reading, TOKENIZE katakana)");
+	EXEC_STMT(query, "create table senses(id INTEGER SECONDARY KEY REFERENCES entries, priority TINYINT, pos INT, misc INT, dial INT, field INT, restrictedToKanji TEXT, restrictedToKana TEXT)");
+	EXEC_STMT(query, "create table gloss(id INTEGER SECONDARY KEY REFERENCES entries, sensePriority INT, lang CHAR(3), docid INTEGER SECONDARY KEY NOT NULL)");
+	EXEC_STMT(query, "create virtual table glossText using fts3(reading)");
+	EXEC_STMT(query, "create table kanjiChar(kanji INTEGER, id INTEGER SECONDARY KEY REFERENCES entries, priority INT)");
+	EXEC_STMT(query, "create table jlpt(id INTEGER PRIMARY KEY, level TINYINT)");
+	EXEC_STMT(query, "create table deletedEntries(id INTEGER PRIMARY KEY, movedTo INTEGER REFERENCES entries)");
+	return true;
 }
 
-static void create_indexes()
+static bool create_indexes()
 {
 	QSqlQuery query;
-	query.exec("create index idx_entries_frequency on entries(frequency)");
-	query.exec("create index idx_kanji on kanji(id)");
-	query.exec("create index idx_kanji_docid on kanji(docid)");
-	query.exec("create index idx_kana on kana(id)");
-	query.exec("create index idx_kana_docid on kana(docid)");
-	query.exec("create index idx_senses on senses(id)");
-	query.exec("create index idx_gloss on gloss(id)");
-	query.exec("create index idx_gloss_docid on gloss(docid)");
-	query.exec("create index idx_kanjichar on kanjiChar(kanji)");
-	query.exec("create index idx_kanjichar_id on kanjiChar(id)");
-	query.exec("create index idx_jlpt on jlpt(level)");
+	EXEC_STMT(query, "create index idx_entries_frequency on entries(frequency)");
+	EXEC_STMT(query, "create index idx_kanji on kanji(id)");
+	EXEC_STMT(query, "create index idx_kanji_docid on kanji(docid)");
+	EXEC_STMT(query, "create index idx_kana on kana(id)");
+	EXEC_STMT(query, "create index idx_kana_docid on kana(docid)");
+	EXEC_STMT(query, "create index idx_senses on senses(id)");
+	EXEC_STMT(query, "create index idx_gloss on gloss(id)");
+	EXEC_STMT(query, "create index idx_gloss_docid on gloss(docid)");
+	EXEC_STMT(query, "create index idx_kanjichar on kanjiChar(kanji)");
+	EXEC_STMT(query, "create index idx_kanjichar_id on kanjiChar(id)");
+	EXEC_STMT(query, "create index idx_jlpt on jlpt(level)");
+	return true;
 }
 
 void printUsage(char *argv[])
@@ -266,8 +270,8 @@ int main(int argc, char *argv[])
 		qDebug() << database.lastError().text();
 		return 1;
 	}
-	database.transaction();
-	create_tables();
+	ASSERT(database.transaction());
+	ASSERT(create_tables());
 	
 	// Prepare the queries
 	#define PREPQUERY(query, text) query = QSqlQuery(database); query.prepare(text)
@@ -286,7 +290,7 @@ int main(int argc, char *argv[])
 
 	// Parse and insert JMdict
 	QFile file(QDir(srcDir).absoluteFilePath("3rdparty/JMdict"));
-	if (!file.open(QFile::ReadOnly | QFile::Text)) return 1;
+	ASSERT(file.open(QFile::ReadOnly | QFile::Text));
 	QXmlStreamReader reader(&file);
 	// English is used as a backup if nothing else is available
 	if (!languages.contains("en")) languages << "en";
@@ -303,17 +307,17 @@ int main(int argc, char *argv[])
 		query.prepare("insert into info values(?, ?)");
 		query.addBindValue(JMDICTDB_REVISION);
 		query.addBindValue(JMParser.dictVersion());
-		if (!query.exec()) return 2;
+		ASSERT(query.exec());
 	}
 	
 	// Create indexes
-	create_indexes();
+	ASSERT(create_indexes());
 	
 	// Insert JLPT levels
-	insertJLPTLevels(QDir(srcDir).absoluteFilePath("src/core/jmdict/jlpt-level4.txt"), 4);
-	insertJLPTLevels(QDir(srcDir).absoluteFilePath("src/core/jmdict/jlpt-level3.txt"), 3);
-	insertJLPTLevels(QDir(srcDir).absoluteFilePath("src/core/jmdict/jlpt-level2.txt"), 2);
-	insertJLPTLevels(QDir(srcDir).absoluteFilePath("src/core/jmdict/jlpt-level1.txt"), 1);
+	ASSERT(insertJLPTLevels(QDir(srcDir).absoluteFilePath("src/core/jmdict/jlpt-level4.txt"), 4));
+	ASSERT(insertJLPTLevels(QDir(srcDir).absoluteFilePath("src/core/jmdict/jlpt-level3.txt"), 3));
+	ASSERT(insertJLPTLevels(QDir(srcDir).absoluteFilePath("src/core/jmdict/jlpt-level2.txt"), 2));
+	ASSERT(insertJLPTLevels(QDir(srcDir).absoluteFilePath("src/core/jmdict/jlpt-level1.txt"), 1));
 	
 	// Populate the entities tables
 	{
@@ -323,28 +327,28 @@ int main(int argc, char *argv[])
 			entitiesQuery.addBindValue(JMParser.posBitFields[name]);
 			entitiesQuery.addBindValue(name);
 			entitiesQuery.addBindValue(JMParser.entities[name]);
-			if (!entitiesQuery.exec()) return 2;
+			ASSERT(entitiesQuery.exec());
 		}
 		entitiesQuery.prepare("insert into miscEntities values(?, ?, ?)");
 		foreach (const QString &name, JMParser.miscBitFields.keys()) {
 			entitiesQuery.addBindValue(JMParser.miscBitFields[name]);
 			entitiesQuery.addBindValue(name);
 			entitiesQuery.addBindValue(JMParser.entities[name]);
-			if (!entitiesQuery.exec()) return 2;
+			ASSERT(entitiesQuery.exec());
 		}
 		entitiesQuery.prepare("insert into fieldEntities values(?, ?, ?)");
 		foreach (const QString &name, JMParser.fieldBitFields.keys()) {
 			entitiesQuery.addBindValue(JMParser.fieldBitFields[name]);
 			entitiesQuery.addBindValue(name);
 			entitiesQuery.addBindValue(JMParser.entities[name]);
-			if (!entitiesQuery.exec()) return 2;
+			ASSERT(entitiesQuery.exec());
 		}
 		entitiesQuery.prepare("insert into dialectEntities values(?, ?, ?)");
 		foreach (const QString &name, JMParser.dialectBitFields.keys()) {
 			entitiesQuery.addBindValue(JMParser.dialectBitFields[name]);
 			entitiesQuery.addBindValue(name);
 			entitiesQuery.addBindValue(JMParser.entities[name]);
-			if (!entitiesQuery.exec()) return 2;
+			ASSERT(entitiesQuery.exec());
 		}
 	}
 	
@@ -352,7 +356,7 @@ int main(int argc, char *argv[])
 	database.exec("analyze");
 	
 	// Commit everything
-	database.commit();
+	ASSERT(database.commit());
 	
 	// Close the database and set the file to read-only
 	database = QSqlDatabase();
