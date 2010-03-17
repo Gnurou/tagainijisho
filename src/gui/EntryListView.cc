@@ -66,10 +66,10 @@ void EntryListView::setSmoothScrolling(bool value)
 {
 	if (value) {
 		setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
-		scroller.activateOn(this);
+		scroller.setScrollBar(verticalScrollBar());
 	}
 	else {
-		scroller.deactivate();
+		scroller.setScrollBar(0);
 		setVerticalScrollMode(QAbstractItemView::ScrollPerItem);
 	}
 }

@@ -19,7 +19,7 @@
 #define __GUI_ENTRYLISTVIEW_H
 
 #include "core/EntriesCache.h"
-#include "gui/SmoothScroller.h"
+#include "gui/ScrollBarSmoothScroller.h"
 #include "gui/EntryDelegate.h"
 #include "gui/EntriesViewHelper.h"
 
@@ -34,7 +34,7 @@ class EntryListView : public QTreeView
 {
 	Q_OBJECT
 private:
-	SmoothScroller scroller;
+	ScrollBarSmoothScroller scroller;
 	EntryDelegateLayout *_delegateLayout;
 	EntryDelegate *delegate;
 	EntriesViewHelper _helper;
