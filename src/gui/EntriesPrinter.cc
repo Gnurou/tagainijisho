@@ -90,12 +90,23 @@ void EntriesPrinter::prepareAndPrintJob(QPrinter* printer)
 				qDebug() << "Warning: entry does not fit on whole page, giving up this one...";
 				continue;
 			}
-			picPainter.end();
-			tPicture.setBoundingRect(usedSpace.toRect());
 		}
 		// Not an entry, print the text role
 		else {
+			QString label("\t\t" + _entries[i].data(Qt::DisplayRole).toString());
+			picPainter.save();
+			QFont font;
+			font.setPointSize(font.pointSize() + 5);
+			font.setItalic(true);
+			picPainter.setFont(font);
+			picPainter.drawText(pageRect, Qt::TextWordWrap | Qt::TextExpandTabs, label);
+			usedSpace = picPainter.boundingRect(pageRect, Qt::TextWordWrap | Qt::TextExpandTabs, label);
+			picPainter.drawLine(usedSpace.bottomLeft(), usedSpace.bottomRight());
+			usedSpace.moveBottom(usedSpace.bottom() + 3);
+			picPainter.restore();
 		}
+		picPainter.end();
+		tPicture.setBoundingRect(usedSpace.toRect());
 		// Do we need a new page here?
 		if (remainingSpace.height() < usedSpace.height()) {
 			// Print the current page
