@@ -124,7 +124,9 @@ void ResultsList::clear()
 
 	timer.stop();
 	beginRemoveRows(QModelIndex(), 0, entries.size() - 1);
-	entries.clear();
+	// This is preferred to clear() because lists memory
+	// usage never shrinks
+	entries = QList<EntryPointer>();
 	endRemoveRows();
 	displayedUntil = 0;
 }
