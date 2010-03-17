@@ -27,7 +27,10 @@
 typedef struct {
 	int rowId;
 	int parent;
+	// For entry types, use position.
+	// For list types, use count.
 	int position;
+	int count;
 	int type;
 	int id;
 	QString label;
@@ -40,6 +43,7 @@ private:
 	mutable QHash<int, EntryListModelCache> rowIdCache;
 	mutable QHash<QPair<int, int>, EntryListModelCache> rowParentCache;
 
+	EntryListModelCache prepareCacheEntry(QSqlQuery &query) const;
 	const EntryListModelCache &getFromCache(int rowid) const;
 	const EntryListModelCache &getFromCache(int row, int parent) const;
 	/// Invalidates the cache for the specified row id
