@@ -175,9 +175,11 @@ QString RadicalKanjiSelector::getComplementsQuery(const QSet<int> &selection, co
 	}
 }
 
-void RadicalKanjiSelector::onSelectionChanged()
+void RadicalKanjiSelector::reset()
 {
-	KanjiSelector::onSelectionChanged();
+	complementsList->selectionModel()->clear();
+	// For first appearance, this is needed
+	if (complementsList->count() == 0) onSelectionChanged();
 }
 
 ComponentKanjiSelector::ComponentKanjiSelector(QWidget *parent) : KanjiSelector(parent)
@@ -188,7 +190,14 @@ ComponentKanjiSelector::ComponentKanjiSelector(QWidget *parent) : KanjiSelector(
 	verticalLayout->insertWidget(0, _components);
 	setFocusProxy(_components);
 	connect(_components, SIGNAL(textChanged(QString)), this, SLOT(onComponentsListChanged()));
-	onComponentsListChanged();
+	//onComponentsListChanged();
+}
+
+void ComponentKanjiSelector::reset()
+{
+	complementsList->selectionModel()->clear();
+	// For first appearance, this is needed
+	if (complementsList->count() == 0) onComponentsListChanged();
 }
 
 QSet<int> ComponentKanjiSelector::currentComponents() const
@@ -215,7 +224,7 @@ QString ComponentKanjiSelector::getCandidatesQuery(const QSet<int> &selection) c
 
 QString ComponentKanjiSelector::getComplementsQuery(const QSet<int> &selection, const QSet<int> &candidates) const
 {
-	if (selection.isEmpty() && candidates.isEmpty()) return "select distinct ks.element, ks.element, strokeCount from kanjidic2.strokeGroups as ks join kanjidic2.entries as e on ks.element = e.id where ks.element not in (select distinct kanji from strokeGroups where element != kanji) order by strokeCount";
+	if (selection.isEmpty() && candidates.isEmpty()) return "select distinct kanji, kanji, strokeCount from kanjidic2.rootComponents as rc join kanjidic2.entries as e on rc.kanji = e.id order by strokeCount";
 	// Selection but no candidates - just get the selection
 	else if (candidates.isEmpty()) {
 		QString selString;
@@ -286,6 +295,7 @@ void KanjiInputPopupAction::togglePopup(bool status)
 		if (lEdit || (cBox && cBox->isEditable())) {
 			focusWidget = fWidget;
 			_popup->move(focusWidget->mapToGlobal(QPoint(focusWidget->rect().left() + (focusWidget->rect().width() - _popup->rect().width()) / 2, focusWidget->rect().bottom())));
+			_popup->reset();
 			_popup->show();
 			//_popup->currentSelection->setFocus();
 			QDesktopWidget *desktopWidget = QApplication::desktop();

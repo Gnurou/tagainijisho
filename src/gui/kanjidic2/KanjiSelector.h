@@ -72,6 +72,7 @@ protected:
 public:
 	KanjiSelector(QWidget *parent = 0);
 	virtual ~KanjiSelector() {}
+	virtual void reset() = 0;
 
 signals:
 	void kanjiSelected(const QString &kanji);
@@ -87,11 +88,9 @@ protected:
 	virtual QString getCandidatesQuery(const QSet<int> &selection) const;
 	virtual QString getComplementsQuery(const QSet<int> &selection, const QSet< int >& candidates) const;
 
-protected slots:
-	virtual void onSelectionChanged();
-	
 public:
-	RadicalKanjiSelector(QWidget *parent = 0) : KanjiSelector(parent) { onSelectionChanged(); }
+	RadicalKanjiSelector(QWidget *parent = 0) : KanjiSelector(parent) {}
+	virtual void reset();
 };
 
 /**
@@ -112,6 +111,7 @@ protected slots:
 
 public:
 	ComponentKanjiSelector(QWidget *parent = 0);
+	virtual void reset();
 };
 
 /**
