@@ -1,4 +1,5 @@
 0.2.5 released on
+* Updated to SQLite 3.6.23
 * Added option to choose GUI language
 * Now uses CMake as build system
 * Database building Python scripts replaced with more portable C++ programs
