@@ -23,7 +23,7 @@
 #include <QPrintPreviewDialog>
 #include <QProgressDialog>
 
-EntriesPrinter::EntriesPrinter(const QAbstractItemModel* model, const QModelIndexList& selection, QWidget* parent) : _model(model), _selection(selection), _parent(parent)
+EntriesPrinter::EntriesPrinter(QWidget* parent) : QObject(parent)
 {
 }
 
@@ -62,25 +62,8 @@ void EntriesPrinter::prepareAndPrintJob(QPrinter* printer)
 		toPage = printer->toPage();
 	}
 
-	// Build the list of entries to print
-	QList<ConstEntryPointer> entries;
-	// No selection specified, we print all the model
-	if (_selection.isEmpty()) {
-		// Parse the model and print all its content
-		for (int i = 0; i < _model->rowCount(); i++) {
-			ConstEntryPointer entry(qVariantValue<EntryPointer>(_model->index(i, 0, QModelIndex()).data(Entry::EntryRole)));
-			if (entry) entries << entry;
-		}
-	// Selection specified, we limit ourselves to it
-	} else {
-		foreach (const QModelIndex &idx, _selection) {
-			ConstEntryPointer entry(qVariantValue<EntryPointer>(idx.data(Entry::EntryRole)));
-			if (entry) entries << entry;
-		}
-	}
-
 	// Setup progress bar
-	QProgressDialog progressDialog(tr("Preparing print job..."), tr("Abort"), 0, entries.size(), _parent);
+	QProgressDialog progressDialog(tr("Preparing print job..."), tr("Abort"), 0, _entries.size(), qobject_cast<QWidget *>(parent()));
 	progressDialog.setMinimumDuration(50);
 	progressDialog.setWindowTitle(tr("Printing..."));
 	progressDialog.setWindowModality(Qt::WindowModal);
@@ -92,22 +75,27 @@ void EntriesPrinter::prepareAndPrintJob(QPrinter* printer)
 	QPainter painter(printer);
 	QRectF pageRect = painter.window();
 	QRectF remainingSpace = pageRect;
-	for (int i = 0; i < entries.size(); i++) {
+	for (int i = 0; i < _entries.size(); i++) {
 		if (progressDialog.wasCanceled()) return;
-		ConstEntryPointer entry = entries[i];
 		QRectF usedSpace;
 		QPicture tPicture;
 		QPainter picPainter(&tPicture);
-		const EntryFormatter *formatter(EntryFormatter::getFormatter(entry));
-		if (!formatter) continue;
-		formatter->draw(entry, picPainter, pageRect, usedSpace, _baseFont);
-		if (!pageRect.contains(usedSpace)) {
-			qDebug() << "Warning: entry does not fit on whole page, giving up this one...";
-			continue;
+		ConstEntryPointer entry = qVariantValue<EntryPointer>(_entries[i].data(Entry::EntryRole));
+		// An entry, print it
+		if (entry) {
+			const EntryFormatter *formatter(EntryFormatter::getFormatter(entry));
+			if (!formatter) continue;
+			formatter->draw(entry, picPainter, pageRect, usedSpace, _baseFont);
+			if (!pageRect.contains(usedSpace)) {
+				qDebug() << "Warning: entry does not fit on whole page, giving up this one...";
+				continue;
+			}
+			picPainter.end();
+			tPicture.setBoundingRect(usedSpace.toRect());
 		}
-		picPainter.end();
-		tPicture.setBoundingRect(usedSpace.toRect());
-
+		// Not an entry, print the text role
+		else {
+		}
 		// Do we need a new page here?
 		if (remainingSpace.height() < usedSpace.height()) {
 			// Print the current page
@@ -145,27 +133,31 @@ void EntriesPrinter::prepareAndPrintBookletJob(QPrinter* printer)
 	_baseFont = QFont();
 }
 
-void EntriesPrinter::print(QPrinter *printer)
+void EntriesPrinter::print(const QModelIndexList &entries, QPrinter* printer)
 {
+	_entries = entries;
 	prepareAndPrintJob(printer);
 }
 
-void EntriesPrinter::printPreview(QPrinter *printer)
+void EntriesPrinter::printPreview(const QModelIndexList &entries, QPrinter* printer)
 {
-	QPrintPreviewDialog dialog(printer, _parent);
+	_entries = entries;
+	QPrintPreviewDialog dialog(printer, qobject_cast<QWidget *>(parent()));
 	dialog.setWindowTitle(tr("Print preview"));
 	connect(&dialog, SIGNAL(paintRequested(QPrinter *)), this, SLOT(prepareAndPrintJob(QPrinter *)));
 	dialog.exec();
 }
 
-void EntriesPrinter::printBooklet(QPrinter *printer)
+void EntriesPrinter::printBooklet(const QModelIndexList &entries, QPrinter* printer)
 {
+	_entries = entries;
 	prepareAndPrintBookletJob(printer);
 }
 
-void EntriesPrinter::printBookletPreview(QPrinter *printer)
+void EntriesPrinter::printBookletPreview(const QModelIndexList &entries, QPrinter* printer)
 {
-	QPrintPreviewDialog dialog(printer, _parent);
+	_entries = entries;
+	QPrintPreviewDialog dialog(printer, qobject_cast<QWidget *>(parent()));
 	dialog.setWindowTitle(tr("Booklet print preview"));
 	connect(&dialog, SIGNAL(paintRequested(QPrinter *)), this, SLOT(prepareAndPrintBookletJob(QPrinter *)));
 	dialog.exec();

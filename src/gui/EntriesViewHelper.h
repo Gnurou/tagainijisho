@@ -36,6 +36,15 @@ private:
 	bool _workOnSelection;
 	QAction _actionPrint, _actionPrintPreview, _actionPrintBooklet, _actionPrintBookletPreview, _actionExportTab;
 
+	/**
+	 * Parses all the given indexes recursively and returns then in the right
+	 * order.
+	 */
+	QModelIndexList getAllIndexes(const QModelIndexList& indexes, QSet<QModelIndex>& alreadyIn);
+	QModelIndexList getAllIndexes(const QModelIndexList& indexes);
+	
+	QModelIndexList getEntriesToProcess(bool limitToSelection = false);
+
 protected slots:
 	void studySelected();
 	void unstudySelected();

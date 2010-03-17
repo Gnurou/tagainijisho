@@ -212,38 +212,71 @@ bool EntriesViewHelper::askForPrintOptions(QPrinter &printer, const QString &tit
 	return true;
 }
 
+QModelIndexList EntriesViewHelper::getAllIndexes(const QModelIndexList& indexes)
+{
+	QSet<QModelIndex> alreadyIn;
+	return getAllIndexes(indexes, alreadyIn);
+}
+
+QModelIndexList EntriesViewHelper::getAllIndexes(const QModelIndexList& indexes, QSet<QModelIndex>& alreadyIn)
+{
+	QModelIndexList ret;
+	
+	foreach (const QModelIndex &idx, indexes) {
+		// Should never happen
+		if (!idx.isValid()) continue;
+		if (alreadyIn.contains(idx)) continue;
+		ret << idx;
+		alreadyIn << idx;
+		// Entries can be put directly into the return list
+		ConstEntryPointer entry(qVariantValue<EntryPointer>(idx.data(Entry::EntryRole)));
+		if (!entry) {
+			// Non entries indexes must be list - see if they have children
+			QModelIndexList childs;
+			int childsCount = idx.model()->rowCount(idx);
+			for (int i = 0; i < childsCount; i++) childs << idx.child(i, 0);
+			ret += getAllIndexes(childs, alreadyIn);
+		}
+	}
+	return ret;
+}
+
+QModelIndexList EntriesViewHelper::getEntriesToProcess(bool limitToSelection)
+{
+	QModelIndexList selIndexes;
+	if (_workOnSelection || limitToSelection) selIndexes = client()->selectionModel()->selectedIndexes();
+	else for (int i = 0; i < client()->model()->rowCount(QModelIndex()); i++) {
+		selIndexes << client()->model()->index(i, 0, QModelIndex());
+	}
+	QModelIndexList entries(getAllIndexes(selIndexes));
+	return entries;
+}
+	
+
 void EntriesViewHelper::print()
 {
 	QPrinter printer;
 	if (!askForPrintOptions(printer)) return;
-	QModelIndexList selIndexes;
-	if (_workOnSelection || printer.printRange() == QPrinter::Selection) selIndexes = client()->selectionModel()->selectedIndexes();
-	EntriesPrinter(client()->model(), selIndexes, client()).print(&printer);
+	EntriesPrinter(client()).print(getEntriesToProcess(printer.printRange() & QPrinter::Selection), &printer);
 }
 
 void EntriesViewHelper::printPreview()
 {
 	QPrinter printer;
-	QModelIndexList selIndexes;
-	if (_workOnSelection) selIndexes = client()->selectionModel()->selectedIndexes();
-	EntriesPrinter(client()->model(), selIndexes, client()).printPreview(&printer);
+	EntriesPrinter(client()).printPreview(getEntriesToProcess(), &printer);
 }
 
 void EntriesViewHelper::printBooklet()
 {
 	QPrinter printer;
 	if (!askForPrintOptions(printer, tr("Booklet print"))) return;
-	QModelIndexList selIndexes;
-	if (_workOnSelection || printer.printRange() == QPrinter::Selection) selIndexes = client()->selectionModel()->selectedIndexes();
-	EntriesPrinter(client()->model(), selIndexes, client()).printBooklet(&printer);
+	EntriesPrinter(client()).printBooklet(getEntriesToProcess(printer.printRange() & QPrinter::Selection), &printer);
 }
 
 void EntriesViewHelper::printBookletPreview()
 {
 	QPrinter printer;
-	QModelIndexList selIndexes;
-	if (_workOnSelection) selIndexes = client()->selectionModel()->selectedIndexes();
-	EntriesPrinter(client()->model(), selIndexes, client()).printBookletPreview(&printer);
+	EntriesPrinter(client()).printBookletPreview(getEntriesToProcess(), &printer);
 }
 
 void EntriesViewHelper::tabExport()
@@ -256,29 +289,14 @@ void EntriesViewHelper::tabExport()
 		return;
 	}
 
-	QModelIndexList selection(client()->selectionModel()->selectedIndexes());
-	const QAbstractItemModel *model = client()->model();
-	
-	// Build the list of entries to export
-	QList<ConstEntryPointer> entries;
-	// No selection specified, we export all the model
-	if (selection.isEmpty()) {
-		// Parse the model and print all its content
-		for (int i = 0; i < model->rowCount(); i++) {
-			ConstEntryPointer entry(qVariantValue<EntryPointer>(model->index(i, 0, QModelIndex()).data(Entry::EntryRole)));
-			if (entry) entries << entry;
-		}
-	// Selection specified, we limit ourselves to it
-	} else {
-		foreach (const QModelIndex &idx, selection) {
-			ConstEntryPointer entry(qVariantValue<EntryPointer>(idx.data(Entry::EntryRole)));
-			if (entry) entries << entry;
-		}
-	}
-	
+	QModelIndexList entries(getEntriesToProcess());
+
 	// Dummy entry to notify Anki that tab is our delimiter
 	//outFile.write("\t\t\n");
-	foreach (ConstEntryPointer entry, entries) {
+	foreach (const QModelIndex &idx, entries) {
+		ConstEntryPointer entry = qVariantValue<EntryPointer>(idx.data(Entry::EntryRole));
+		// We cannot "export" lists due to the file purpose
+		if (!entry) continue;
 		QStringList writings = entry->writings();
 		QStringList readings = entry->readings();
 		QStringList meanings = entry->meanings();
