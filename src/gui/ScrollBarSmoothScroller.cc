@@ -93,6 +93,6 @@ void ScrollBarSmoothScroller::updateAnimationState()
 		return;
 	}
 	if (qAbs(_destination - pos) == 1) pos = _destination;
-	else pos += (_destination - pos) / 2;
+	else pos += (_destination - pos) / 3;
 	_scrollee->setValue(pos);
 }
