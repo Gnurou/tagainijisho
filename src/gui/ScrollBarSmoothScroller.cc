@@ -58,6 +58,7 @@ bool ScrollBarSmoothScroller::eventFilter(QObject *watched, QEvent *event)
 		_delta += wEvent->delta();
 		int steps = _delta / 120;
 		_delta %= 120;
+		if (!_timer.isActive()) _destination = _scrollee->value();
 		_destination -= steps * _scrollee->singleStep() * QApplication::wheelScrollLines();
 		if (_destination < _scrollee->minimum()) _destination = _scrollee->minimum();
 		else if (_destination > _scrollee->maximum()) _destination = _scrollee->maximum();
