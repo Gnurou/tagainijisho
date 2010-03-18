@@ -313,7 +313,7 @@ void EntryDelegatePreferences::applySettings()
 	applyFontSetting(kanjifontChooser, _kanjiFontPref, EntryDelegateLayout::Kanji);
 }
 
-ResultsViewPreferences::ResultsViewPreferences(QWidget *parent) : PreferencesWindowCategory(tr("Results View"), parent)
+ResultsViewPreferences::ResultsViewPreferences(QWidget *parent) : PreferencesWindowCategory(tr("Results view"), parent)
 {
 	setupUi(this);
 
@@ -383,7 +383,7 @@ void ListsViewPreferences::applySettings()
 	entryDelegatePrefs->applySettings();
 }
 
-DetailedViewPreferences::DetailedViewPreferences(QWidget *parent) : PreferencesWindowCategory(tr("Detailed View"), parent)
+DetailedViewPreferences::DetailedViewPreferences(QWidget *parent) : PreferencesWindowCategory(tr("Detailed view"), parent)
 {
 	setupUi(this);
 
