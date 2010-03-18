@@ -490,7 +490,7 @@ static void prepareFourCornerComboBox(QComboBox *box)
 
 Kanjidic2FilterWidget::Kanjidic2FilterWidget(QWidget *parent) : SearchFilterWidget(parent, "kanjidic")
 {
-	_propsToSave << "strokeCount" << "isStrokeRange" << "maxStrokeCount" << "components" << "unicode" << "skip" << "fourCorner" << "grades";
+	_propsToSave << "strokeCount" << "isStrokeRange" << "maxStrokeCount" << "radicals" << "components" << "unicode" << "skip" << "fourCorner" << "grades";
 
 	QGroupBox *_strokeCountGroupBox = new QGroupBox(tr("Stroke count"), this);
 	connect(_strokeCountGroupBox, SIGNAL(toggled(bool)), this, SLOT(commandUpdate()));
@@ -515,14 +515,25 @@ Kanjidic2FilterWidget::Kanjidic2FilterWidget(QWidget *parent) : SearchFilterWidg
 		vLayout->addWidget(_rangeCheckBox);
 		connect(_rangeCheckBox, SIGNAL(toggled(bool)), this, SLOT(onStrokeRangeToggled(bool)));
 	}
-	QGroupBox *componentsGroupBox = new QGroupBox(tr("Components"), this);
+	QGroupBox *componentsGroupBox = new QGroupBox(this);
 	{
-		QHBoxLayout *hLayout = new QHBoxLayout(componentsGroupBox);
+		QVBoxLayout *vLayout = new QVBoxLayout(componentsGroupBox);
+		QLabel *label;
+		label = new QLabel(tr("Radicals"), componentsGroupBox);
+		label->setAlignment(Qt::AlignHCenter);
+		vLayout->addWidget(label);
+		_radicals = new QLineEdit(componentsGroupBox);
+		KanjiValidator *kanjiValidator = new KanjiValidator(componentsGroupBox);
+		_radicals->setValidator(kanjiValidator);
+		connect(_radicals, SIGNAL(textChanged(const QString &)), this, SLOT(commandUpdate()));
+		vLayout->addWidget(_radicals);
+		label = new QLabel(tr("Components"), componentsGroupBox);
+		label->setAlignment(Qt::AlignHCenter);
+		vLayout->addWidget(label);
 		_components = new QLineEdit(componentsGroupBox);
-		KanjiValidator *kanjiValidator = new KanjiValidator(_components);
 		_components->setValidator(kanjiValidator);
 		connect(_components, SIGNAL(textChanged(const QString &)), this, SLOT(commandUpdate()));
-		hLayout->addWidget(_components);
+		vLayout->addWidget(_components);
 	}
 	QGroupBox *unicodeGroupBox = new QGroupBox(tr("Unicode"), this);
 	{
@@ -688,7 +699,17 @@ QString Kanjidic2FilterWidget::currentCommand() const
 	else if (minStrokes != 0 && maxStrokes != 0) {
 		ret += QString(" :stroke=%1,%2").arg(minStrokes).arg(maxStrokes);
 	}
-	QString kanjis = _components->text();
+	QString kanjis = _radicals->text();
+	if (!kanjis.isEmpty()) {
+		bool first = true;
+		ret += " :radical=";
+		foreach(QChar c, kanjis) {
+			if (!first) ret +=",";
+			else first = false;
+			ret += QString("\"%1\"").arg(c);
+		}
+	}
+	kanjis = _components->text();
 	if (!kanjis.isEmpty()) {
 		bool first = true;
 		ret += " :component=";
@@ -709,7 +730,7 @@ QString Kanjidic2FilterWidget::currentTitle() const
 {
 	QString ret;
 
-	QString kanjis = _components->text();
+	QString kanjis = _radicals->text() + _components->text();
 	if (!kanjis.isEmpty()) {
 		bool first = true;
 		ret += "[";
@@ -754,7 +775,7 @@ void Kanjidic2FilterWidget::onGradeTriggered(QAction *action)
 
 void Kanjidic2FilterWidget::updateFeatures()
 {
-	if (_strokeCountSpinBox->value() || _maxStrokeCountSpinBox->value() || !_components->text().isEmpty() || !_gradesList.isEmpty() || _unicode->value() ||_skip1->value() || _skip2->value() || _skip3->value()) emit disableFeature("wordsdic");
+	if (_strokeCountSpinBox->value() || _maxStrokeCountSpinBox->value() || !_radicals->text().isEmpty() || !_components->text().isEmpty() || !_gradesList.isEmpty() || _unicode->value() ||_skip1->value() || _skip2->value() || _skip3->value() || _fcTopLeft->currentIndex() != 0 || _fcTopRight->currentIndex() != 0 || _fcBotLeft->currentIndex() != 0 || _fcBotRight->currentIndex() != 0 || _fcExtra->currentIndex() != 0) emit disableFeature("wordsdic");
 	else emit enableFeature("wordsdic");
 }
 
@@ -774,6 +795,7 @@ void Kanjidic2FilterWidget::_reset()
 	_fcExtra->setCurrentIndex(0);
 	_gradesList.clear();
 	foreach (QAction *action, _gradeButton->menu()->actions()) if (action->isChecked()) action->trigger();
+	_radicals->clear();
 	_components->clear();
 }
 

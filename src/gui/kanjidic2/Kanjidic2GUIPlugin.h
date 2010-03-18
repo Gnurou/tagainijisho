@@ -112,6 +112,7 @@ private:
 	QCheckBox *_rangeCheckBox;
 	QPushButton *_gradeButton;
 	QStringList _gradesList;
+	QLineEdit *_radicals;
 	QLineEdit *_components;
 	HexSpinBox *_unicode;
 	QSpinBox *_skip1, *_skip2, *_skip3;
@@ -142,6 +143,10 @@ public:
 	bool isStrokeRange() const { return _rangeCheckBox->isChecked(); }
 	void setStrokeRange(bool value) { _rangeCheckBox->setChecked(value); }
 	Q_PROPERTY(int isStrokeRange READ isStrokeRange WRITE setStrokeRange)
+	
+	QString radicals() const { return _radicals->text(); }
+	void setRadicals(const QString &value) { _radicals->setText(value); }
+	Q_PROPERTY(QString radicals READ radicals WRITE setRadicals)
 	
 	QString components() const { return _components->text(); }
 	void setComponents(const QString &value) { _components->setText(value); }

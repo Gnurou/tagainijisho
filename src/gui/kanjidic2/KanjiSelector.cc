@@ -158,7 +158,7 @@ QString RadicalKanjiSelector::getCandidatesQuery(const QSet<int> &selection) con
 	QStringList select;
 	foreach (int sel, selection) select << QString::number(sel);
 	
-	return QString("select r1.kanji from kanjidic2.radicals as r1 join kanjidic2.entries as e on r1.kanji = e.id where r1.number in (%1) group by r1.kanji having uniquecount(r1.number) >= %2 order by e.strokeCount, e.frequency, e.id").arg(select.join(", ")).arg(select.size());
+	return QString("select r1.kanji from kanjidic2.radicals as r1 join kanjidic2.entries as e on r1.kanji = e.id where r1.number in (%1) and r1.type is not null group by r1.kanji having uniquecount(r1.number) >= %2 order by e.strokeCount, e.frequency, e.id").arg(select.join(", ")).arg(select.size());
 }
 
 
@@ -171,7 +171,7 @@ QString RadicalKanjiSelector::getComplementsQuery(const QSet<int> &selection, co
 			if (selString.isEmpty()) selString = QString::number(candidate);
 			else selString += "," + QString::number(candidate);
 		}
-		return QString("select distinct rl.kanji, r.number, strokeCount from kanjidic2.radicals as r join kanjidic2.radicalsList as rl on r.number = rl.number join kanjidic2.entries as e on rl.kanji = e.id where r.kanji in (%1) order by rl.number, rl.rowid").arg(selString);
+		return QString("select distinct rl.kanji, r.number, strokeCount from kanjidic2.radicals as r join kanjidic2.radicalsList as rl on r.number = rl.number join kanjidic2.entries as e on rl.kanji = e.id where r.kanji in (%1) and r.type is not null order by rl.number, rl.rowid").arg(selString);
 	}
 }
 

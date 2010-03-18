@@ -33,7 +33,7 @@ Kanjidic2EntrySearcher::Kanjidic2EntrySearcher(QObject *parent) : EntrySearcher(
 
 	QueryBuilder::Order::orderingWay["freq"] = QueryBuilder::Order::DESC;
 
-	validCommands << "kanji" << "kana" << "mean" << "jlpt" << "grade" << "stroke" << "component" << "unicode" << "skip" << "fourcorner" << "kanjidic";
+	validCommands << "kanji" << "kana" << "mean" << "jlpt" << "grade" << "stroke" << "radical" << "component" << "unicode" << "skip" << "fourcorner" << "kanjidic";
 }
 
 SearchCommand Kanjidic2EntrySearcher::commandFromWord(const QString &word) const
@@ -102,6 +102,7 @@ void Kanjidic2EntrySearcher::buildStatement(QList<SearchCommand> &commands, Quer
 	// And do the rest
 	QStringList kanaSearch;
 	QStringList transSearch;
+	QStringList radicalSearch;
 	QStringList componentSearch;
 	foreach (const SearchCommand &command, commands) {
 		bool processed = true;
@@ -158,6 +159,20 @@ void Kanjidic2EntrySearcher::buildStatement(QList<SearchCommand> &commands, Quer
 			else continue;
 			// Also ensure we do not return kana or roman characters
 			statement.addWhere(QString("kanjidic2.entries.id > %1").arg(0x31ff));
+		}
+		else if (command.command() == "radical") {
+			if (command.args().size() > 0) {
+				bool valid = true;
+				foreach (const QString &arg, command.args()) {
+					if (arg.size() != 1 || !TextTools::isKanjiChar(arg)) {
+						valid = false;
+						break;
+					}
+					else radicalSearch << QString::number(TextTools::singleCharToUnicode(arg));
+				}
+				// Break command if one of the arguments were invalid
+				if (!valid) continue;
+			}
 		}
 		else if (command.command() == "component") {
 			if (command.args().size() > 0) {
@@ -229,6 +244,10 @@ void Kanjidic2EntrySearcher::buildStatement(QList<SearchCommand> &commands, Quer
 	if (!kanaSearch.isEmpty()) statement.addWhere(buildTextSearchCondition(kanaSearch, "kanjidic2.reading"));
 	if (!transSearch.isEmpty()) statement.addWhere(buildTextSearchCondition(transSearch, "kanjidic2.meaning"));
 
+	if (!radicalSearch.isEmpty()) {
+		statement.addWhere(QString("kanjidic2.entries.id IN(select r1.kanji from kanjidic2.radicals as r1 join kanjidic2.entries as e on r1.kanji = e.id where r1.number in (select distinct number from radicalsList where kanji in (%1)) and r1.type is not null group by r1.kanji having uniquecount(r1.number) >= %2)").arg(radicalSearch.join(", ")).arg(radicalSearch.size()));
+	}
+	
 	if (!componentSearch.isEmpty()) {
 		QString onlyDirectComponentsString("and ks1.isRoot = 1");
 		QString qString;
@@ -365,7 +384,7 @@ Entry *Kanjidic2EntrySearcher::loadEntry(int id)
 	}
 	
 	// Load radicals
-	query.prepare("select rl.number, rl.kanji from kanjidic2.radicals as r join kanjidic2.radicalsList as rl on r.number = rl.number where r.kanji = ? order by rl.number, rl.rowid");
+	query.prepare("select rl.number, rl.kanji from kanjidic2.radicals as r join kanjidic2.radicalsList as rl on r.number = rl.number where r.kanji = ? and r.type is not null order by rl.number, rl.rowid");
 	query.addBindValue(id);
 	query.exec();
 	// We take the first radical character corresponding to the number,

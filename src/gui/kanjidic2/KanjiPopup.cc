@@ -195,8 +195,18 @@ void KanjiPopup::setComponentsLabelText(int highlightPos)
 
 	const QPalette &palette(componentsLabel->palette());
 
-	if (componentsStrings.isEmpty()) componentsLabel->clear();
-	else componentsLabel->setText(QString("<style>a.highlighted { background-color: %1; color: %2; }</style>").arg(palette.color(QPalette::Highlight).name()).arg(palette.color(QPalette::HighlightedText).name()) + tr("<b>Components:</b>%2 %1").arg(componentsStrings.join(" ")).arg(componentsStrings.size() > 3 ? "<br/>" : ""));
+	QString cString;
+	if (!componentsStrings.isEmpty()) cString = QString("<style>a.highlighted { background-color: %1; color: %2; }</style>").arg(palette.color(QPalette::Highlight).name()).arg(palette.color(QPalette::HighlightedText).name()) + tr("<b>Components:</b> %2 %1").arg(componentsStrings.join(" ")).arg(componentsStrings.size() > 3 ? "<br/>" : "");
+	
+	QString radString;
+	QList<QPair<uint, quint8> > rads(entry->radicals());
+	if (!rads.isEmpty()) {
+		QStringList strl;
+		typedef QPair<uint, quint8> radType;
+		foreach (const radType &rad, rads) strl << QString("%1 (%2)").arg(TextTools::unicodeToSingleChar(rad.first)).arg(rad.second);
+		radString = tr("<b>Radicals:</b> %1").arg(strl.join(", "));
+	}
+	componentsLabel->setText(radString + (radString.isEmpty() ? "" : "<br/>") + cString);
 }
 
 void KanjiPopup::display(const Kanjidic2EntryPointer &entry)
