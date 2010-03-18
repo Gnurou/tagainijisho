@@ -100,8 +100,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), _clipboardEnabled
 	
 	// Steal the tool bar and set it as our dock title bar widget
 	QWidget *filtersToolBar = static_cast<QBoxLayout *>(searchWidget()->layout())->takeAt(0)->widget();
-	DockTitleBar *dBar = new DockTitleBar(filtersToolBar, searchDockWidget);
-	searchDockWidget->setTitleBarWidget(dBar);
+	DockTitleBar *dBar = new DockTitleBar(filtersToolBar, _searchDockWidget);
+	_searchDockWidget->setTitleBarWidget(dBar);
 	// TODO Save space, otherwise the title bar may become too big
 	//filtersToolBar->setMaximumHeight(dBar->height() / 2);
 	dBar->layout()->setContentsMargins(0, 0, 0, 0);
@@ -128,7 +128,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), _clipboardEnabled
 	addDockWidget(Qt::LeftDockWidgetArea, dWidget);
 	dWidget->setObjectName(_entryListWidget->currentTitle() + "Dock");
 	_searchMenu->addSeparator();
-	QAction *action = searchDockWidget->toggleViewAction();
+	QAction *action = _searchDockWidget->toggleViewAction();
 	action->setShortcut(QKeySequence("F2"));
 	_searchMenu->addAction(action);
 	action = dWidget->toggleViewAction();
@@ -430,6 +430,7 @@ void MainWindow::onSetSelected()
 	QMap<QString, QVariant> state(QVariant(ds).toMap());
 	searchWidget()->searchBuilder()->restoreState(state);
 	searchWidget()->searchBuilder()->runSearch();
+	if (_searchDockWidget->isHidden()) _searchDockWidget->setHidden(false);
 }
 
 void MainWindow::organizeSets()
