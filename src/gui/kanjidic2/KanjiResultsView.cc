@@ -58,6 +58,11 @@ void KanjiResultsView::onSelectionChanged()
 	emit kanjiSelected(static_cast<QGraphicsTextItem *>(selection[selection.size() - 1])->toPlainText());
 }
 
+void KanjiResultsView::startReceive()
+{
+	clear();
+}
+
 void KanjiResultsView::addItem(const QString &kanji)
 {
 	QGraphicsTextItem *item = _scene.addText(kanji, kanjiFont);
@@ -70,9 +75,6 @@ void KanjiResultsView::endReceive()
 {
 	setSceneRect(_scene.itemsBoundingRect());
 	if (!items.isEmpty()) centerOn(0.0, ITEM_CENTER(items[0]).y());
-	// Should not be done here. This is stupid.
-	//QScrollBar *hBar(horizontalScrollBar());
-	//hBar->setSingleStep(KANJI_SIZE + PADDING);
 }
 
 void KanjiResultsView::clear()

@@ -85,27 +85,25 @@ KanjiSelector::KanjiSelector(QWidget *parent) : QFrame(parent)
 {
 	setupUi(this);
 	connect(complementsList, SIGNAL(itemSelectionChanged()), this, SLOT(onSelectionChanged()));
-	connect(candidatesList, SIGNAL(kanjiSelected(QString)), this, SIGNAL(kanjiSelected(QString)));
 }
 
-QSet<int> KanjiSelector::updateCandidatesList(const QSet<int> &selection)
+QSet<int> KanjiSelector::getCandidates(const QSet<int> &selection)
 {
 	QSet<int> res;
 	// Get the new results
-	candidatesList->clear();
+	emit startQuery();
 	QString resQuery(getCandidatesQuery(selection));
 	if (!resQuery.isEmpty()) {
-		candidatesList->startReceive();
 		QSqlQuery query;
 		if (!query.exec(resQuery)) qDebug() << query.lastError().text();
 		while (query.next()) {
 			int ch(query.value(0).toInt());
 			res << ch;
 			QString c(TextTools::unicodeToSingleChar(ch));
-			candidatesList->addItem(c);
+			emit foundResult(c);
 		}
-		candidatesList->endReceive();
 	}
+	emit endQuery();
 	return res;
 }
 
@@ -147,7 +145,7 @@ void KanjiSelector::onSelectionChanged()
 	complementsList->setEnabled(false);
 	QSet<int> selection(complementsList->currentSelection());
 	QSet<int> selectionNbrs(complementsList->currentSelection(true));
-	QSet<int> candidates(updateCandidatesList(selectionNbrs));
+	QSet<int> candidates(getCandidates(selectionNbrs));
 	updateComplementsList(selection, candidates);
 	complementsList->setEnabled(true);
 }
@@ -266,12 +264,27 @@ void ComponentKanjiSelector::onComponentsListChanged()
 {
 	complementsList->setEnabled(false);
 	QSet<int> selection(currentComponents());
-	QSet<int> candidates(updateCandidatesList(selection));
+	QSet<int> candidates(getCandidates(selection));
 	updateComplementsList(selection, candidates);
 	complementsList->setEnabled(true);
 }
 
-KanjiInputPopupAction::KanjiInputPopupAction(KanjiSelector *popup, const QString &title, QWidget *parent) : QAction(title, parent), _popup(popup), focusWidget(0)
+KanjiInputter::KanjiInputter(KanjiSelector *selector, QWidget *parent) : QFrame(parent), _selector(selector)
+{
+	QVBoxLayout *layout = new QVBoxLayout(this);
+	KanjiResultsView *candidatesList = new KanjiResultsView(this);
+	layout->addWidget(candidatesList);
+	_selector->setParent(this);
+	_selector->layout()->setContentsMargins(0, 0, 0, 0);
+	layout->addWidget(_selector);
+	connect(selector, SIGNAL(startQuery()), candidatesList, SLOT(startReceive()));
+	connect(selector, SIGNAL(endQuery()), candidatesList, SLOT(endReceive()));
+	connect(selector, SIGNAL(foundResult(QString)), candidatesList, SLOT(addItem(QString)));
+	connect(candidatesList, SIGNAL(kanjiSelected(QString)), this, SIGNAL(kanjiSelected(QString)));
+	resize(400, 300);
+}
+
+KanjiInputPopupAction::KanjiInputPopupAction(KanjiInputter *popup, const QString &title, QWidget *parent) : QAction(title, parent), _popup(popup), focusWidget(0)
 {
 	setIcon(QIcon(":/images/icons/component-selector.png"));
 	setToolTip(tr("Triggers the kanji input panel"));

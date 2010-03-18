@@ -49,7 +49,7 @@ public:
 
 public slots:
 	void addItem(const QString &kanji);
-	void startReceive() { }
+	void startReceive();
 	void endReceive();
 
 signals:

@@ -66,7 +66,11 @@ protected:
 	/// corresponding to the given selection
 	virtual QString getComplementsQuery(const QSet<int> &selection, const QSet<int> &candidates) const = 0;
 	
-	virtual QSet<int> updateCandidatesList(const QSet<int> &selection);
+	/**
+	 * Returns the list of candidates corresponding to the given selection. Also
+	 * emits the startQuery, foundResult and endQuery signals as results are found.
+	 */
+	virtual QSet<int> getCandidates(const QSet<int> &selection);
 	virtual void updateComplementsList(const QSet<int> &selection, const QSet<int> &candidates);
 
 public:
@@ -75,7 +79,9 @@ public:
 	virtual void reset() = 0;
 
 signals:
-	void kanjiSelected(const QString &kanji);
+	void startQuery();
+	void foundResult(const QString &kanji);
+	void endQuery();
 };
 
 /**
@@ -115,13 +121,32 @@ public:
 };
 
 /**
+ * Combines a kanji selector with a kanji results list to make
+ * a complete component-based kanji input widget.
+ */
+class KanjiInputter : public QFrame {
+	Q_OBJECT
+private:
+	KanjiSelector *_selector;
+
+public:
+	/// The inputter takes ownership of the passed selector.
+	KanjiInputter(KanjiSelector *selector, QWidget *parent = 0);
+	KanjiSelector *selector() { return _selector; }
+	void reset() { _selector->reset(); }
+
+signals:
+	void kanjiSelected(const QString &kanji);
+};
+
+/**
  * An action that shows/hides a given kanji selector.
  */
 class KanjiInputPopupAction : public QAction
 {
 	Q_OBJECT
 private:
-	KanjiSelector * _popup;
+	KanjiInputter * _popup;
 	QWidget *focusWidget;
 
 protected:
@@ -133,7 +158,7 @@ protected slots:
 	void onFocusChanged(QWidget *old, QWidget *now);
 
 public:
-	KanjiInputPopupAction(KanjiSelector* popup, const QString& title, QWidget* parent = 0);
+	KanjiInputPopupAction(KanjiInputter* popup, const QString& title, QWidget* parent = 0);
 };
 
 #endif

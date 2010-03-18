@@ -97,10 +97,10 @@ bool Kanjidic2GUIPlugin::onRegister()
 	connect(_readingPractice, SIGNAL(triggered()), this, SLOT(readingPractice()));
 
 	// Add the components searchers to the tool bar
-	_kAction = new KanjiInputPopupAction(new RadicalKanjiSelector(mainWindow), tr("Radical search input"), mainWindow);
+	_kAction = new KanjiInputPopupAction(new KanjiInputter(new RadicalKanjiSelector(), mainWindow), tr("Radical search input"), mainWindow);
 	_kAction->setShortcut(QKeySequence("Ctrl+k"));
 	mainWindow->searchMenu()->addAction(_kAction);
-	_cAction = new KanjiInputPopupAction(new ComponentKanjiSelector(mainWindow), tr("Component search input"), mainWindow);
+	_cAction = new KanjiInputPopupAction(new KanjiInputter(new ComponentKanjiSelector(), mainWindow), tr("Component search input"), mainWindow);
 	_cAction->setShortcut(QKeySequence("Ctrl+j"));
 	mainWindow->searchMenu()->addAction(_cAction);
 

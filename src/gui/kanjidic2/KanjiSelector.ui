@@ -15,13 +15,6 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <widget class="KanjiResultsView" name="candidatesList" native="true">
-     <property name="focusPolicy">
-      <enum>Qt::NoFocus</enum>
-     </property>
-    </widget>
-   </item>
-   <item>
     <widget class="ComplementsList" name="complementsList">
      <property name="mouseTracking">
       <bool>true</bool>
@@ -55,12 +48,6 @@
   </layout>
  </widget>
  <customwidgets>
-  <customwidget>
-   <class>KanjiResultsView</class>
-   <extends>QWidget</extends>
-   <header>gui/kanjidic2/KanjiResultsView.h</header>
-   <container>1</container>
-  </customwidget>
   <customwidget>
    <class>ComplementsList</class>
    <extends>QListWidget</extends>
