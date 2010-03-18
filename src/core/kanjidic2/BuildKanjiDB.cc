@@ -152,10 +152,10 @@ bool KanjiVGDBParser::onItemParsed(KanjiVGItem &kanji)
 	// First ensure the kanji is into the DB by attempting to
 	// insert a dummy entry
 	AUTO_BIND(insertOrIgnoreEntryQuery, kanji.id, 0);
-	BIND(insertOrIgnoreEntryQuery, 0);
-	BIND(insertOrIgnoreEntryQuery, 0);
-	BIND(insertOrIgnoreEntryQuery, 0);
-	BIND(insertOrIgnoreEntryQuery, 0);
+	BIND(insertOrIgnoreEntryQuery, -1);
+	BIND(insertOrIgnoreEntryQuery, -1);
+	BIND(insertOrIgnoreEntryQuery, -1);
+	BIND(insertOrIgnoreEntryQuery, -1);
 	EXEC(insertOrIgnoreEntryQuery);
 
 	// Insert groups

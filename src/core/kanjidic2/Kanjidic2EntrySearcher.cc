@@ -287,10 +287,10 @@ Entry *Kanjidic2EntrySearcher::loadEntry(int id)
 	Kanjidic2Entry *entry;
 	QStringList paths;
 	// We have no information about this kanji! This is probably an unknown radical
-	if (!query.next())
-		entry = new Kanjidic2Entry(character, false, -1, -1, -1, -1);
-	// Else load the kanji
-	else {
+	if (!query.next()) {
+		entry = new Kanjidic2Entry(character, false);
+	} else {
+		// Else load the kanji
 		int grade = query.value(0).isNull() ? -1 : query.value(0).toInt();
 		int strokeCount = query.value(1).isNull() ? -1 : query.value(1).toInt();
 		int frequency = query.value(2).isNull() ? -1 : query.value(2).toInt();
