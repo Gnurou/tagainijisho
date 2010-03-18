@@ -27,6 +27,7 @@
 #include "gui/TrainSettings.h"
 #include "gui/PreferencesWindow.h"
 #include "gui/YesNoTrainer.h"
+#include "gui/ScrollBarSmoothScroller.h"
 #include "gui/TextFilterWidget.h"
 #include "gui/MainWindow.h"
 #include "gui/ui_AboutDialog.h"
@@ -261,13 +262,13 @@ void MainWindow::about()
 	}
 	Ui::AboutDialog aboutDialogUI;
 	QDialog aboutDialog;
-	SmoothScroller scroller;
+	ScrollBarSmoothScroller scroller;
 	aboutDialogUI.setupUi(&aboutDialog);
 	aboutDialogUI.title->setText(aboutDialogUI.title->text() + " " + QUOTEMACRO(VERSION));
 	aboutDialogUI.logo->setPixmap(aboutDialogUI.logo->pixmap()->scaledToWidth(75, Qt::SmoothTransformation));
 	aboutDialogUI.credits->setHtml(message + credits);
 	aboutDialogUI.credits->viewport()->setAutoFillBackground(false);
-	scroller.activateOn(aboutDialogUI.credits);
+	scroller.setScrollBar(aboutDialogUI.credits->verticalScrollBar());
 	connect(aboutDialogUI.credits, SIGNAL(anchorClicked(QUrl)), this, SLOT(openUrl(QUrl)));
 	aboutDialog.exec();
 }
