@@ -51,24 +51,19 @@ void ComplementsList::setupGridSize()
 	setGridSize(QSize(gridSize, gridSize));
 }
 
-QSet<int> ComplementsList::currentSelection(bool numbers) const
+QSet<uint> ComplementsList::currentSelection() const
 {
-	QSet<int> ret;
+	QSet<uint> ret;
 	QList<QListWidgetItem *> selection(selectedItems());
-	if (numbers) foreach (const QListWidgetItem *item, selection) {
+	foreach (const QListWidgetItem *item, selection)
 		ret << item->data(Qt::UserRole).toInt();
-	}
-	else foreach (const QListWidgetItem *item, selection) {
-		ret << TextTools::singleCharToUnicode(item->text());
-	}
 	return ret;
 }
 
-QListWidgetItem *ComplementsList::addComplement(int kanji, int uData)
+QListWidgetItem *ComplementsList::addComplement(int kanji)
 {
 	QListWidgetItem *item = new QListWidgetItem(TextTools::unicodeToSingleChar(kanji), this);
-	if (uData != -1) item->setData(Qt::UserRole, uData);
-	else item->setData(Qt::UserRole, kanji);
+	item->setData(Qt::UserRole, kanji);
 	return item;
 }
 
@@ -87,9 +82,9 @@ KanjiSelector::KanjiSelector(QWidget *parent) : QFrame(parent)
 	connect(complementsList, SIGNAL(itemSelectionChanged()), this, SLOT(onSelectionChanged()));
 }
 
-QSet<int> KanjiSelector::getCandidates(const QSet<int> &selection)
+QSet<uint> KanjiSelector::getCandidates(const QSet<uint> &selection)
 {
-	QSet<int> res;
+	QSet<uint> res;
 	// Get the new results
 	emit startQuery();
 	QString resQuery(getCandidatesQuery(selection));
@@ -107,7 +102,7 @@ QSet<int> KanjiSelector::getCandidates(const QSet<int> &selection)
 	return res;
 }
 
-void KanjiSelector::updateComplementsList(const QSet<int> &selection, const QSet<int> &candidates)
+void KanjiSelector::updateComplementsList(const QSet<uint> &selection, const QSet<uint> &candidates)
 {
 	complementsList->blockSignals(true);
 	complementsList->clear();
@@ -116,60 +111,60 @@ void KanjiSelector::updateComplementsList(const QSet<int> &selection, const QSet
 		QSqlQuery query;
 		if (!query.exec(compQuery)) qDebug() << query.lastError().text();
 		int curStrokes = 0;
-		int curNbr = 0;
 		while (query.next()) {
 			int kanji = query.value(0).toInt();
 			if (!TextTools::isKanjiChar(kanji)) continue;
-			int number = query.value(1).toInt();
 			// Do not display kanji that are already in candidates, excepted if they
 			// are part of the current selection
 			if (candidates.contains(kanji) && !selection.contains(kanji)) continue;
-			int strokeNbr = query.value(2).toInt();
+			int strokeNbr = query.value(1).toInt();
 			if (strokeNbr > curStrokes) {
 				complementsList->setCurrentStrokeNbr(strokeNbr);
 				curStrokes = strokeNbr;
 			}
-			if (curNbr != number) {
-				QListWidgetItem *item = complementsList->addComplement(kanji, number);
-				if (selection.contains(kanji)) item->setSelected(true);
-				curNbr = number;
-			}
+			QListWidgetItem *item = complementsList->addComplement(kanji);
+			if (selection.contains(kanji)) item->setSelected(true);
 		}
 	}
 	complementsList->blockSignals(false);
 }
 
+void KanjiSelector::setSelection(const QSet<uint> &selection)
+{
+	//QSet<uint> selectionNbrs(complementsList->currentSelection(true));
+	QSet<uint> candidates(getCandidates(selection));
+	updateComplementsList(selection, candidates);
+}
 
 void KanjiSelector::onSelectionChanged()
 {
 	complementsList->setEnabled(false);
-	QSet<int> selection(complementsList->currentSelection());
-	QSet<int> selectionNbrs(complementsList->currentSelection(true));
-	QSet<int> candidates(getCandidates(selectionNbrs));
-	updateComplementsList(selection, candidates);
+	QSet<uint> selection(complementsList->currentSelection());
+	emit selectionChanged(selection);
+	setSelection(selection);
 	complementsList->setEnabled(true);
 }
 
-QString RadicalKanjiSelector::getCandidatesQuery(const QSet<int> &selection) const
+QString RadicalKanjiSelector::getCandidatesQuery(const QSet<uint> &selection) const
 {
 	if (selection.isEmpty()) return "";
 	QStringList select;
-	foreach (int sel, selection) select << QString::number(sel);
+	foreach (uint sel, selection) select << QString::number(sel);
 	
 	return QString("select r1.kanji from kanjidic2.radicals as r1 join kanjidic2.entries as e on r1.kanji = e.id where r1.number in (%1) and r1.type is not null group by r1.kanji having uniquecount(r1.number) >= %2 order by e.strokeCount, e.frequency, e.id").arg(select.join(", ")).arg(select.size());
 }
 
 
-QString RadicalKanjiSelector::getComplementsQuery(const QSet<int> &selection, const QSet<int> &candidates) const
+QString RadicalKanjiSelector::getComplementsQuery(const QSet<uint> &selection, const QSet<uint> &candidates) const
 {
-	if (candidates.isEmpty()) return "select kanji, number, strokeCount from kanjidic2.radicalsList join kanjidic2.entries on radicalsList.kanji = entries.id order by number, radicalsList.rowid";
+	if (candidates.isEmpty()) return "select number, strokeCount from kanjidic2.radicalsList join kanjidic2.entries on radicalsList.kanji = entries.id order by number, radicalsList.rowid";
 	else {
 		QString selString;
-		foreach (int candidate, candidates) {
+		foreach (uint candidate, candidates) {
 			if (selString.isEmpty()) selString = QString::number(candidate);
 			else selString += "," + QString::number(candidate);
 		}
-		return QString("select distinct rl.kanji, r.number, strokeCount from kanjidic2.radicals as r join kanjidic2.radicalsList as rl on r.number = rl.number join kanjidic2.entries as e on rl.kanji = e.id where r.kanji in (%1) and r.type is not null order by rl.number, rl.rowid").arg(selString);
+		return QString("select distinct r.number, strokeCount from kanjidic2.radicals as r join kanjidic2.radicalsList as rl on r.number = rl.number join kanjidic2.entries as e on rl.kanji = e.id where r.kanji in (%1) and r.type is not null order by rl.number, rl.rowid").arg(selString);
 	}
 }
 
@@ -188,6 +183,7 @@ ComponentKanjiSelector::ComponentKanjiSelector(QWidget *parent) : KanjiSelector(
 	verticalLayout->insertWidget(0, _components);
 	setFocusProxy(_components);
 	connect(_components, SIGNAL(textChanged(QString)), this, SLOT(onComponentsListChanged()));
+	connect(this, SIGNAL(selectionChanged(QSet<uint>)), this, SLOT(updateComponentsFromSelection(QSet<uint>)));
 	//onComponentsListChanged();
 }
 
@@ -198,9 +194,9 @@ void ComponentKanjiSelector::reset()
 	if (complementsList->count() == 0) onComponentsListChanged();
 }
 
-QSet<int> ComponentKanjiSelector::currentComponents() const
+QSet<uint> ComponentKanjiSelector::currentComponents() const
 {
-	QSet<int> ret;
+	QSet<uint> ret;
 	QString cText(_components->text());
 	for (int i = 0; i < cText.size(); ) {
 		int code(TextTools::singleCharToUnicode(cText, i));
@@ -210,78 +206,82 @@ QSet<int> ComponentKanjiSelector::currentComponents() const
 	return ret;
 }
 
-QString ComponentKanjiSelector::getCandidatesQuery(const QSet<int> &selection) const
+QString ComponentKanjiSelector::getCandidatesQuery(const QSet<uint> &selection) const
 {
 	if (selection.isEmpty()) return "";
 	QStringList select;
-	foreach (int sel, selection) select << QString::number(sel);
+	foreach (uint sel, selection) select << QString::number(sel);
 	
 	return QString("select ks1.kanji from kanjidic2.strokeGroups as ks1 left join kanjidic2.entries as e on ks1.kanji = e.id where (ks1.element in (%1) or ks1.original in (%1)) group by ks1.kanji having uniquecount(CASE WHEN ks1.element IN (%1) THEN ks1.element ELSE NULL END, CASE WHEN ks1.original IN (%1) THEN ks1.original ELSE NULL END) >= %2 order by strokeCount").arg(select.join(", ")).arg(select.size());
 }
 
 
-QString ComponentKanjiSelector::getComplementsQuery(const QSet<int> &selection, const QSet<int> &candidates) const
+QString ComponentKanjiSelector::getComplementsQuery(const QSet<uint> &selection, const QSet<uint> &candidates) const
 {
-	if (selection.isEmpty() && candidates.isEmpty()) return "select distinct kanji, kanji, strokeCount from kanjidic2.rootComponents as rc join kanjidic2.entries as e on rc.kanji = e.id order by strokeCount";
+	if (selection.isEmpty() && candidates.isEmpty()) return "select distinct kanji, strokeCount from kanjidic2.rootComponents as rc join kanjidic2.entries as e on rc.kanji = e.id order by strokeCount";
 	// Selection but no candidates - just get the selection
 	else if (candidates.isEmpty()) {
 		QString selString;
-		foreach (int sel, selection) {
+		foreach (uint sel, selection) {
 			if (selString.isEmpty()) selString = QString::number(sel);
 			else selString += "," + QString::number(sel);
 		}
-		return QString("select distinct id, id, strokeCount from kanjidic2.entries where id in (%1)").arg(selString);
+		return QString("select distinct id, strokeCount from kanjidic2.entries where id in (%1)").arg(selString);
 	}
 	else {
 		QString selString;
-		foreach (int candidate, candidates) {
+		foreach (uint candidate, candidates) {
 			if (selString.isEmpty()) selString = QString::number(candidate);
 			else selString += "," + QString::number(candidate);
 		}
-		return QString("select distinct ks2.element, ks2.element, strokeCount from kanjidic2.strokeGroups as ks join kanjidic2.strokeGroups as ks2 on ks.kanji = ks2.kanji left join kanjidic2.entries as e on ks2.element = e.id where ks.kanji in (%1) order by strokeCount").arg(selString);
+		return QString("select distinct ks2.element, strokeCount from kanjidic2.strokeGroups as ks join kanjidic2.strokeGroups as ks2 on ks.kanji = ks2.kanji left join kanjidic2.entries as e on ks2.element = e.id where ks.kanji in (%1) order by strokeCount").arg(selString);
 	}
 }
 
-void ComponentKanjiSelector::onSelectionChanged()
+void ComponentKanjiSelector::updateComponentsFromSelection(QSet<uint> selection)
 {
-	QSet<int> currentComps(currentComponents());
+	QSet<uint> currentComps(currentComponents());
 	QStringList comps;
-	QSet<int> selComps;
+	QList<uint> selComps;
 	QString compText(_components->text());
 	// Add the missing components to the text search area
-	foreach (const QListWidgetItem *selected, complementsList->selectedItems()) {
-		int code(selected->data(Qt::UserRole).toInt());
-		if (!currentComps.contains(code)) comps << selected->text();
+	foreach (uint code, selection) {
+		if (!currentComps.contains(code)) comps << TextTools::unicodeToSingleChar(code);
 		selComps << code;
 	}
 	// Remove text search components that are not selected
-	foreach (int comp, currentComps) if (!selComps.contains(comp)) compText.remove(TextTools::unicodeToSingleChar(comp));
+	foreach (uint comp, currentComps) if (!selComps.contains(comp)) compText.remove(TextTools::unicodeToSingleChar(comp));
 	
-	_components->setText(compText + comps.join(""));
+	_components->blockSignals(true);
+	_components->setText(compText + comps.join(""));	
+	_components->blockSignals(false);
 }
 
 void ComponentKanjiSelector::onComponentsListChanged()
 {
-	complementsList->setEnabled(false);
-	QSet<int> selection(currentComponents());
-	QSet<int> candidates(getCandidates(selection));
-	updateComplementsList(selection, candidates);
-	complementsList->setEnabled(true);
+	QSet<uint> selection(currentComponents());
+	setSelection(selection);
 }
 
 KanjiInputter::KanjiInputter(KanjiSelector *selector, QWidget *parent) : QFrame(parent), _selector(selector)
 {
 	QVBoxLayout *layout = new QVBoxLayout(this);
-	KanjiResultsView *candidatesList = new KanjiResultsView(this);
-	layout->addWidget(candidatesList);
+	_results = new KanjiResultsView(this);
+	layout->addWidget(_results);
 	_selector->setParent(this);
 	_selector->layout()->setContentsMargins(0, 0, 0, 0);
 	layout->addWidget(_selector);
-	connect(selector, SIGNAL(startQuery()), candidatesList, SLOT(startReceive()));
-	connect(selector, SIGNAL(endQuery()), candidatesList, SLOT(endReceive()));
-	connect(selector, SIGNAL(foundResult(QString)), candidatesList, SLOT(addItem(QString)));
-	connect(candidatesList, SIGNAL(kanjiSelected(QString)), this, SIGNAL(kanjiSelected(QString)));
+	connect(selector, SIGNAL(startQuery()), _results, SLOT(startReceive()));
+	connect(selector, SIGNAL(endQuery()), _results, SLOT(endReceive()));
+	connect(selector, SIGNAL(foundResult(QString)), _results, SLOT(addItem(QString)));
+	connect(_results, SIGNAL(kanjiSelected(QString)), this, SIGNAL(kanjiSelected(QString)));
 	resize(400, 300);
+}
+
+void KanjiInputter::reset()
+{
+	_selector->reset();
+	_results->clear();
 }
 
 KanjiInputPopupAction::KanjiInputPopupAction(KanjiInputter *popup, const QString &title, QWidget *parent) : QAction(title, parent), _popup(popup), focusWidget(0)
