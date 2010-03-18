@@ -269,9 +269,9 @@ QList<Kanjidic2Entry::KanjiMeaning> Kanjidic2EntrySearcher::getMeanings(int id)
 	if (ret.isEmpty()) {
 		QString character = TextTools::unicodeToSingleChar(id);
 		// Handle characters without any description
+		if (TextTools::isRomaji(character)) ret << Kanjidic2Entry::KanjiMeaning("en", QString("Roman character %1").arg(character));
 		if (TextTools::isKatakana(character)) ret << Kanjidic2Entry::KanjiMeaning("en", QString("Katakana %1").arg(character));
 		if (TextTools::isHiragana(character)) ret << Kanjidic2Entry::KanjiMeaning("en", QString("Hiragana %1").arg(character));
-		if (TextTools::isRomaji(character)) ret << Kanjidic2Entry::KanjiMeaning("en", QString("Roman letter %1").arg(character));
 	}
 	return ret;
 }
