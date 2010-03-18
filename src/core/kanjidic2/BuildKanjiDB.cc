@@ -68,6 +68,10 @@ public:
 	virtual bool onItemParsed(KanjiVGItem &kanji);
 };
 
+/// Keeps track of the radicals inserted from kanjidic2, so
+/// that we don't insert them again using kanjivg
+QSet<QPair<uint, quint8> > insertedRadicals;
+
 bool Kanjidic2DBParser::onItemParsed(Kanjidic2Item &kanji)
 {
 	// Entries table
@@ -144,6 +148,16 @@ bool Kanjidic2DBParser::onItemParsed(Kanjidic2Item &kanji)
 		BIND(insertFourCornerQuery, extra);
 		EXEC(insertFourCornerQuery);
 	}
+	
+	// Radicals
+	typedef QPair<quint8, Kanjidic2Item::RadicalType> KRadType;
+	foreach (const KRadType &rad, kanji.radicals) {
+		BIND(insertRadicalQuery, rad.first);
+		BIND(insertRadicalQuery, kanji.id);
+		BIND(insertRadicalQuery, rad.second);
+		EXEC(insertRadicalQuery);
+		insertedRadicals << QPair<uint, quint8>(kanji.id, rad.first);
+	}
 	return true;
 }
 
@@ -188,8 +202,9 @@ bool KanjiVGDBParser::onItemParsed(KanjiVGItem &kanji)
 	// Insert radicals
 	//foreach (const KanjiVGGroupItem &group, kanji.groups) if (group.radicalType != KanjiVGGroupItem::NONE) {
 	foreach (const KanjiVGGroupItem &group, kanji.groups) if (knownRadicals.contains(group.element) || knownRadicals.contains(group.original)) {
-		if (knownRadicals.contains(group.element)) BIND(insertRadicalQuery, knownRadicals[group.element]);
-		else if (group.original && knownRadicals.contains(group.original)) BIND(insertRadicalQuery, knownRadicals[group.original]);
+		quint8 radCode;
+		if (knownRadicals.contains(group.element)) radCode = knownRadicals[group.element];
+		else if (group.original && knownRadicals.contains(group.original)) radCode = knownRadicals[group.original];
 		else {
 			qDebug("Radical (%s,%s) for kanji %s not in the radicals list", 
 			       TextTools::unicodeToSingleChar(group.element).toUtf8().constData(),
@@ -197,9 +212,14 @@ bool KanjiVGDBParser::onItemParsed(KanjiVGItem &kanji)
 			       TextTools::unicodeToSingleChar(kanji.id).toUtf8().constData());
 			continue;
 		}
+		// Do not insert radicals already inserted from kanjidic2
+		QPair<uint, quint8> rad(kanji.id, radCode);
+		if (insertedRadicals.contains(rad)) continue;
+		BIND(insertRadicalQuery, radCode);
 		BIND(insertRadicalQuery, kanji.id);
-		BIND(insertRadicalQuery, group.radicalType);
+		BIND(insertRadicalQuery, group.radicalType != 0 ? group.radicalType : QVariant(QVariant::Int));
 		EXEC(insertRadicalQuery);
+		insertedRadicals << rad;
 	}
 	return true;
 }

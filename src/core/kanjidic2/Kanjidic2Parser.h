@@ -22,10 +22,12 @@
 
 #include <QStringList>
 #include <QMap>
+#include <QPair>
 
 class Kanjidic2Item {
 public:
-	int id;
+	typedef enum { NONE, GENERAL, TRADIT, NELSON } RadicalType;
+	uint id;
 	int grade;
 	int stroke_count;
 	int freq;
@@ -38,6 +40,7 @@ public:
 	// Associate the language to the meaning
 	QMap<QString, QStringList> meanings;
 	QStringList nanori;
+	QList<QPair<quint8, RadicalType> > radicals;
 	
 	Kanjidic2Item() : id(0), grade(0), stroke_count(0), freq(0), jlpt(0) {}
 };

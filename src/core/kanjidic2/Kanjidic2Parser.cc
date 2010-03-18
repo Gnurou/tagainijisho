@@ -29,29 +29,42 @@ bool Kanjidic2Parser::parse(QXmlStreamReader &reader)
 			TAG_BEGIN(character)
 				TAG(literal)
 				CHARACTERS
-					int kanjiCode = TextTools::singleCharToUnicode(TEXT);
+					uint kanjiCode = TextTools::singleCharToUnicode(TEXT);
 					kanji.id = kanjiCode;
 				DONE
+				ENDTAG
+				TAG(radical)
+					TAG_PRE(rad_value)
+						QPair<quint8, Kanjidic2Item::RadicalType> rad;
+						QString rad_type(ATTR("rad_type"));
+						if (rad_type == "classical") rad.second = Kanjidic2Item::GENERAL;
+						else if (rad_type == "nelson_c") rad.second = Kanjidic2Item::NELSON;
+					TAG_BEGIN(rad_value)
+					CHARACTERS
+						rad.first = TEXT.toUInt();
+						kanji.radicals << rad;
+					DONE
+					ENDTAG
 				ENDTAG
 				TAG(misc)
 					TAG(grade)
 					CHARACTERS
-						kanji.grade = TEXT.toInt();
+						kanji.grade = TEXT.toUInt();
 					DONE
 					ENDTAG
 					TAG(stroke_count)
 					CHARACTERS
-						kanji.stroke_count = TEXT.toInt();
+						kanji.stroke_count = TEXT.toUInt();
 					DONE
 					ENDTAG
 					TAG(freq)
 					CHARACTERS
-						kanji.freq = TEXT.toInt();
+						kanji.freq = TEXT.toUInt();
 					DONE
 					ENDTAG
 					TAG(jlpt)
 					CHARACTERS
-						kanji.jlpt = TEXT.toInt();
+						kanji.jlpt = TEXT.toUInt();
 					DONE
 					ENDTAG
 				ENDTAG

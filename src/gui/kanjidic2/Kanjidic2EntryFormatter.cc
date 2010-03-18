@@ -273,7 +273,7 @@ void Kanjidic2EntryFormatter::writeKanjiInfo(const ConstKanjidic2EntryPointer& e
 		cursor.setCharFormat(bold);
 		cursor.insertText(tr("Radicals:"));
 		cursor.setCharFormat(normal);
-		typedef QPair<uint, ushort> radicalType;
+		typedef QPair<uint, quint8> radicalType;
 		foreach (const radicalType &radical, entry->radicals()) {
 			cursor.insertText(" ");
 			ConstKanjidic2EntryPointer kEntry(KanjiEntryRef(radical.first).get());

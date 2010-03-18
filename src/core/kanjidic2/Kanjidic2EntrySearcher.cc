@@ -365,11 +365,19 @@ Entry *Kanjidic2EntrySearcher::loadEntry(int id)
 	}
 	
 	// Load radicals
-	query.prepare("select rl.number, rl.kanji from kanjidic2.radicals as r join kanjidic2.radicalsList as rl on r.number = rl.number where r.kanji = ? group by r.number having rl.rowid = min(rl.rowid)");
+	query.prepare("select rl.number, rl.kanji from kanjidic2.radicals as r join kanjidic2.radicalsList as rl on r.number = rl.number where r.kanji = ? order by rl.number, rl.rowid");
 	query.addBindValue(id);
 	query.exec();
-	while (query.next()) entry->_radicals << QPair<uint, ushort>(query.value(1).toUInt(), query.value(0).toUInt());
-	
+	// We take the first radical character corresponding to the number,
+	// as it is the one that represents the radical the best
+	int curNbr = -1;
+	while (query.next()) {
+		quint8 nbr = query.value(0).toUInt();
+		uint kanji = query.value(1).toUInt();
+		if (curNbr == nbr) continue;
+		curNbr = nbr;
+		entry->_radicals << QPair<uint, quint8>(kanji, nbr);
+	}
 	// Load skip code
 	query.prepare("select type, c1, c2 from skip where entry = ? limit 1");
 	query.addBindValue(id);
