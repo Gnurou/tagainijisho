@@ -364,6 +364,12 @@ Entry *Kanjidic2EntrySearcher::loadEntry(int id)
 		}
 	}
 	
+	// Load radicals
+	query.prepare("select rl.number, rl.kanji from kanjidic2.radicals as r join kanjidic2.radicalsList as rl on r.number = rl.number where r.kanji = ? group by r.number having rl.rowid = min(rl.rowid)");
+	query.addBindValue(id);
+	query.exec();
+	while (query.next()) entry->_radicals << QPair<uint, ushort>(query.value(1).toUInt(), query.value(0).toUInt());
+	
 	// Load skip code
 	query.prepare("select type, c1, c2 from skip where entry = ? limit 1");
 	query.addBindValue(id);

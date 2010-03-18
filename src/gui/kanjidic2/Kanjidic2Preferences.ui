@@ -51,27 +51,6 @@
             </property>
            </widget>
           </item>
-          <item row="1" column="2">
-           <widget class="QCheckBox" name="showGrade">
-            <property name="text">
-             <string>School grade</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="1">
-           <widget class="QCheckBox" name="showJLPT">
-            <property name="text">
-             <string>JLPT level</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="0">
-           <widget class="QCheckBox" name="showComponents">
-            <property name="text">
-             <string>Components</string>
-            </property>
-           </widget>
-          </item>
           <item row="0" column="2">
            <widget class="QCheckBox" name="showStrokesNumber">
             <property name="text">
@@ -114,6 +93,20 @@
             </property>
            </widget>
           </item>
+          <item row="1" column="0">
+           <widget class="QCheckBox" name="showJLPT">
+            <property name="text">
+             <string>JLPT level</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QCheckBox" name="showGrade">
+            <property name="text">
+             <string>School grade</string>
+            </property>
+           </widget>
+          </item>
          </layout>
         </widget>
        </item>
@@ -123,6 +116,24 @@
           <string>Additional information</string>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_5">
+          <item>
+           <layout class="QGridLayout" name="gridLayout_2">
+            <item row="0" column="0">
+             <widget class="QCheckBox" name="showRadicals">
+              <property name="text">
+               <string>Radicals</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1">
+             <widget class="QCheckBox" name="showComponents">
+              <property name="text">
+               <string>Components</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
           <item>
            <layout class="QHBoxLayout" name="horizontalLayout_3">
             <item>
@@ -184,7 +195,7 @@
          <property name="sizeHint" stdset="0">
           <size>
            <width>20</width>
-           <height>105</height>
+           <height>40</height>
           </size>
          </property>
         </spacer>
@@ -681,7 +692,6 @@
   <tabstop>showReadings</tabstop>
   <tabstop>showNanori</tabstop>
   <tabstop>showStrokesNumber</tabstop>
-  <tabstop>showComponents</tabstop>
   <tabstop>showJLPT</tabstop>
   <tabstop>showGrade</tabstop>
   <tabstop>showUnicode</tabstop>
@@ -690,6 +700,8 @@
   <tabstop>showFrequency</tabstop>
   <tabstop>showVariations</tabstop>
   <tabstop>showVariationOf</tabstop>
+  <tabstop>showRadicals</tabstop>
+  <tabstop>showComponents</tabstop>
   <tabstop>maxCompounds</tabstop>
   <tabstop>showOnlyStudiedCompounds</tabstop>
   <tabstop>maxWords</tabstop>

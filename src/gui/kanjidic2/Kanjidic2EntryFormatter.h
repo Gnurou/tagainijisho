@@ -59,6 +59,7 @@ public:
 	static PreferenceItem<bool> showFourCorner;
 	static PreferenceItem<bool> showJLPT;
 	static PreferenceItem<bool> showGrade;
+	static PreferenceItem<bool> showRadicals;
 	static PreferenceItem<bool> showComponents;
 	static PreferenceItem<bool> showStrokesNumber;
 	static PreferenceItem<bool> showFrequency;

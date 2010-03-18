@@ -41,6 +41,7 @@ PreferenceItem<bool> Kanjidic2EntryFormatter::showSKIP("kanjidic", "showSKIP", t
 PreferenceItem<bool> Kanjidic2EntryFormatter::showFourCorner("kanjidic", "showFourCorner", true);
 PreferenceItem<bool> Kanjidic2EntryFormatter::showJLPT("kanjidic", "showJLPT", true);
 PreferenceItem<bool> Kanjidic2EntryFormatter::showGrade("kanjidic", "showGrade", true);
+PreferenceItem<bool> Kanjidic2EntryFormatter::showRadicals("kanjidic", "showRadicals", true);
 PreferenceItem<bool> Kanjidic2EntryFormatter::showComponents("kanjidic", "showComponents", true);
 PreferenceItem<bool> Kanjidic2EntryFormatter::showStrokesNumber("kanjidic", "showStrokesNumber", true);
 PreferenceItem<bool> Kanjidic2EntryFormatter::showFrequency("kanjidic", "showFrequency", true);
@@ -268,6 +269,20 @@ void Kanjidic2EntryFormatter::writeKanjiInfo(const ConstKanjidic2EntryPointer& e
 	if (cellCpt % 2 == 0) table->removeRows(table->rows() - 1, 1);
 
 	cursor.movePosition(QTextCursor::NextBlock);
+	if (showRadicals.value() && !entry->radicals().isEmpty()) {
+		cursor.setCharFormat(bold);
+		cursor.insertText(tr("Radicals:"));
+		cursor.setCharFormat(normal);
+		typedef QPair<uint, ushort> radicalType;
+		foreach (const radicalType &radical, entry->radicals()) {
+			cursor.insertText(" ");
+			ConstKanjidic2EntryPointer kEntry(KanjiEntryRef(radical.first).get());
+			view->addWatchEntry(kEntry);
+			const EntryFormatter *formatter(EntryFormatter::getFormatter(kEntry));
+			formatter->writeEntryTitle(kEntry, cursor);
+			cursor.insertText(QString(" (%1)").arg(radical.second));
+		}
+	}
 	QList<const KanjiComponent *> components(entry->rootComponents());
 	if (!components.isEmpty() && showComponents.value()) {
 		QList<const KanjiComponent *> singleComponents;

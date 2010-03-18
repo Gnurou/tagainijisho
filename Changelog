@@ -13,6 +13,7 @@
   and updates user data accordingly
 * Can now specify stroke count ranges for kanji search
 * Component and radical search based kanji input methods
+* Display of radical information
 * Can start on a temporary database in case the user database fails for some
   reason
 * Option to reset the user database in the preferences
