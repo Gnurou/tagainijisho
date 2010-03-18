@@ -156,6 +156,8 @@ void Kanjidic2EntrySearcher::buildStatement(QList<SearchCommand> &commands, Quer
 				statement.addWhere(QString("kanjidic2.entries.strokeCount between %1 and %2").arg(command.args()[0].toInt()).arg(command.args()[1].toInt()));
 			}
 			else continue;
+			// Also ensure we do not return kana or roman characters
+			statement.addWhere(QString("kanjidic2.entries.id > %1").arg(0x31ff));
 		}
 		else if (command.command() == "component") {
 			if (command.args().size() > 0) {
