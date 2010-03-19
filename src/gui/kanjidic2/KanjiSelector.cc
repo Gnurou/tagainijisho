@@ -256,13 +256,6 @@ void RadicalKanjiSelector::reset()
 
 ComponentKanjiSelector::ComponentKanjiSelector(QWidget *parent) : KanjiSelector(parent)
 {
-	QLineEdit *associate = new QLineEdit(this);
-	KanjiValidator *validator = new KanjiValidator(associate);
-	associate->setValidator(validator);
-	verticalLayout->insertWidget(0, associate);
-	setFocusProxy(associate);
-	associateTo(associate);
-	//onComponentsListChanged();
 }
 
 void ComponentKanjiSelector::reset()
@@ -304,15 +297,22 @@ QString ComponentKanjiSelector::getComplementsQuery(const QSet<uint> &selection,
 	}
 }
 
-KanjiInputter::KanjiInputter(KanjiSelector *selector, QWidget *parent) : QFrame(parent), _selector(selector)
+KanjiInputter::KanjiInputter(KanjiSelector *selector, bool useLineEdit, QWidget *parent) : QFrame(parent), _selector(selector)
 {
 	QVBoxLayout *layout = new QVBoxLayout(this);
+	if (useLineEdit) {
+		QLineEdit *associate = new QLineEdit(this);
+		KanjiValidator *validator = new KanjiValidator(associate);
+		associate->setValidator(validator);
+		layout->addWidget(associate);
+		_selector->associateTo(associate);
+		setFocusProxy(associate);
+	}
 	_results = new KanjiResultsView(this);
 	layout->addWidget(_results);
 	_selector->setParent(this);
 	_selector->layout()->setContentsMargins(0, 0, 0, 0);
 	layout->addWidget(_selector);
-	setFocusProxy(_selector);
 	connect(selector, SIGNAL(startQuery()), _results, SLOT(startReceive()));
 	connect(selector, SIGNAL(endQuery()), _results, SLOT(endReceive()));
 	connect(selector, SIGNAL(foundResult(QString)), _results, SLOT(addItem(QString)));

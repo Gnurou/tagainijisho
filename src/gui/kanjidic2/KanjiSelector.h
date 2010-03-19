@@ -162,8 +162,13 @@ private:
 	KanjiResultsView *_results;
 
 public:
-	/// The inputter takes ownership of the passed selector.
-	KanjiInputter(KanjiSelector *selector, QWidget *parent = 0);
+	/**
+	 * Constructor. The inputter takes ownership of the passed selector which
+	 * cannot be used elsewhere.
+	 * If useLineEdit is true, a line edit will be associated with the selector
+	 * in order to allow the user to directly input kanji.
+	 */
+	KanjiInputter(KanjiSelector *selector, bool useLineEdit = false, QWidget *parent = 0);
 	KanjiSelector *selector() { return _selector; }
 	void reset();
 
