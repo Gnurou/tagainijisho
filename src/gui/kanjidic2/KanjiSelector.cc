@@ -60,9 +60,9 @@ QSet<uint> ComplementsList::currentSelection() const
 	return ret;
 }
 
-QListWidgetItem *ComplementsList::addComplement(int kanji)
+QListWidgetItem *ComplementsList::addComplement(const QString &repr, uint kanji)
 {
-	QListWidgetItem *item = new QListWidgetItem(TextTools::unicodeToSingleChar(kanji), this);
+	QListWidgetItem *item = new QListWidgetItem(repr, this);
 	item->setData(Qt::UserRole, kanji);
 	return item;
 }
@@ -132,6 +132,11 @@ QSet<uint> KanjiSelector::associateComplements() const
 	return ret;
 }
 
+QString KanjiSelector::complementRepr(uint kanji)
+{
+	return TextTools::unicodeToSingleChar(kanji);
+}
+
 QSet<uint> KanjiSelector::getCandidates(const QSet<uint> &selection)
 {
 	QSet<uint> res;
@@ -161,9 +166,14 @@ void KanjiSelector::updateComplementsList(const QSet<uint> &selection, const QSe
 		QSqlQuery query;
 		if (!query.exec(compQuery)) qDebug() << query.lastError().text();
 		int curStrokes = 0;
+		uint curKanji = 0;
 		while (query.next()) {
-			int kanji = query.value(0).toInt();
-			if (!TextTools::isKanjiChar(kanji)) continue;
+			uint kanji = query.value(0).toUInt();
+			// Do not display the same kanji twice - useful for radical selector
+			if (curKanji == kanji) continue;
+			curKanji = kanji;
+			QString repr = complementRepr(kanji);
+			if (!TextTools::isKanjiChar(repr)) continue;
 			// Do not display kanji that are already in candidates, excepted if they
 			// are part of the current selection
 			if (candidates.contains(kanji) && !selection.contains(kanji)) continue;
@@ -172,7 +182,7 @@ void KanjiSelector::updateComplementsList(const QSet<uint> &selection, const QSe
 				complementsList->setCurrentStrokeNbr(strokeNbr);
 				curStrokes = strokeNbr;
 			}
-			QListWidgetItem *item = complementsList->addComplement(kanji);
+			QListWidgetItem *item = complementsList->addComplement(repr, kanji);
 			if (selection.contains(kanji)) item->setSelected(true);
 		}
 	}
@@ -204,7 +214,6 @@ QString RadicalKanjiSelector::getCandidatesQuery(const QSet<uint> &selection) co
 	return QString("select r1.kanji from kanjidic2.radicals as r1 join kanjidic2.entries as e on r1.kanji = e.id where r1.number in (%1) and r1.type is not null group by r1.kanji having uniquecount(r1.number) >= %2 order by e.strokeCount, e.frequency, e.id").arg(select.join(", ")).arg(select.size());
 }
 
-
 QString RadicalKanjiSelector::getComplementsQuery(const QSet<uint> &selection, const QSet<uint> &candidates) const
 {
 	if (candidates.isEmpty()) return "select number, strokeCount from kanjidic2.radicalsList join kanjidic2.entries on radicalsList.kanji = entries.id order by number, radicalsList.rowid";
@@ -216,6 +225,11 @@ QString RadicalKanjiSelector::getComplementsQuery(const QSet<uint> &selection, c
 		}
 		return QString("select distinct r.number, strokeCount from kanjidic2.radicals as r join kanjidic2.radicalsList as rl on r.number = rl.number join kanjidic2.entries as e on rl.kanji = e.id where r.kanji in (%1) and r.type is not null order by rl.number, rl.rowid").arg(selString);
 	}
+}
+
+QString RadicalKanjiSelector::complementRepr(uint kanji)
+{
+	return QString::fromUtf8("高");
 }
 
 void RadicalKanjiSelector::reset()

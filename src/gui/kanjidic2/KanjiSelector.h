@@ -41,7 +41,7 @@ public:
 
 public slots:
 	/// Add a complement character to the list
-	QListWidgetItem *addComplement(int kanji);
+	QListWidgetItem *addComplement(const QString &repr, uint kanji);
 	/// Start a new series of characters with the given stroke number
 	QListWidgetItem *setCurrentStrokeNbr(int strokeNbr);
 };
@@ -62,12 +62,11 @@ private:
 	 */
 	QSet<uint> associateComplements() const;
 
-protected slots:
-	virtual void onSelectionChanged();
-	virtual void onAssociateChanged();
-	void updateAssociateFromSelection(QSet<uint> selection);
-
 protected:
+	/// Returns the string representation suitable for the given complement kanji.
+	/// The default is to return the string corresponding to the unicode of the
+	/// given character.
+	virtual QString complementRepr(uint kanji);
 	/// Returns the SQL query that should be run in order to get the results list
 	/// corresponding to the given selection. Results should comprehend a single
 	/// column with the kanji ids.
@@ -82,6 +81,11 @@ protected:
 	 */
 	virtual QSet<uint> getCandidates(const QSet<uint> &selection);
 	virtual void updateComplementsList(const QSet<uint> &selection, const QSet<uint> &candidates);
+
+protected slots:
+	virtual void onSelectionChanged();
+	virtual void onAssociateChanged();
+	void updateAssociateFromSelection(QSet<uint> selection);
 
 public:
 	KanjiSelector(QWidget *parent = 0);
@@ -119,6 +123,8 @@ class RadicalKanjiSelector : public KanjiSelector
 protected:
 	virtual QString getCandidatesQuery(const QSet<uint> &selection) const;
 	virtual QString getComplementsQuery(const QSet<uint> &selection, const QSet<uint> &candidates) const;
+	/// Returns the kanji associated with the given radical code
+	virtual QString complementRepr(uint kanji);
 	
 public:
 	RadicalKanjiSelector(QWidget *parent = 0) : KanjiSelector(parent) {}
