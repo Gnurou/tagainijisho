@@ -27,6 +27,7 @@ jmdict/JMdictEntrySearcher.cc
 jmdict/JMdictPlugin.cc
 kanjidic2/Kanjidic2Entry.cc
 kanjidic2/Kanjidic2EntrySearcher.cc
+kanjidic2/KanjiRadicals.cc
 kanjidic2/Kanjidic2Plugin.cc
 )
 

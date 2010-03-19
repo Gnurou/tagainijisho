@@ -18,6 +18,7 @@
 #include <QtDebug>
 
 #include "core/TextTools.h"
+#include "core/kanjidic2/KanjiRadicals.h"
 #include "gui/KanjiValidator.h"
 #include "gui/kanjidic2/KanjiSelector.h"
 
@@ -173,7 +174,7 @@ void KanjiSelector::updateComplementsList(const QSet<uint> &selection, const QSe
 			if (curKanji == kanji) continue;
 			curKanji = kanji;
 			QString repr = complementRepr(kanji);
-			if (!TextTools::isKanjiChar(repr)) continue;
+			//if (!TextTools::isKanjiChar(repr)) continue;
 			// Do not display kanji that are already in candidates, excepted if they
 			// are part of the current selection
 			if (candidates.contains(kanji) && !selection.contains(kanji)) continue;
@@ -229,7 +230,7 @@ QString RadicalKanjiSelector::getComplementsQuery(const QSet<uint> &selection, c
 
 QString RadicalKanjiSelector::complementRepr(uint kanji)
 {
-	return QString::fromUtf8("高");
+	return TextTools::unicodeToSingleChar(KanjiRadicals::instance().rad2Kanji(kanji)[0]);
 }
 
 void RadicalKanjiSelector::reset()

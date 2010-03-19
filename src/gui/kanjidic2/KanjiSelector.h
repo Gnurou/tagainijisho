@@ -21,6 +21,7 @@
 #include "gui/ScrollBarSmoothScroller.h"
 #include "gui/kanjidic2/KanjiResultsView.h"
 
+#include <QHash>
 #include <QListWidget>
 
 /**
