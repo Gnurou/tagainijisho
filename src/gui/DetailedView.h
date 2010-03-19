@@ -22,7 +22,7 @@
 #include "core/ASyncEntryLoader.h"
 #include "gui/SingleEntryView.h"
 #include "gui/AbstractHistory.h"
-#include "gui/SmoothScroller.h"
+#include "gui/ScrollBarSmoothScroller.h"
 
 #include <QTextBrowser>
 #include <QTextCursor>
@@ -207,7 +207,7 @@ private:
 	static TagsLinkHandler _tagsLinkHandler;
 	bool _kanjisClickable;
 	bool _historyEnabled;
-	SmoothScroller _charm;
+	ScrollBarSmoothScroller _scroller;
 	/// Used to know whether we are about to drag the entry currently displayed
 	EntryRef _dragEntryRef;
 	QPoint _dragStartPos;

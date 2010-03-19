@@ -128,10 +128,10 @@ void DetailedView::_display(const EntryPointer &entry, bool update)
 void DetailedView::setSmoothScrolling(bool value)
 {
 	if (value) {
-		_charm.activateOn(this);
+		_scroller.setScrollBar(this->verticalScrollBar());
 	}
 	else {
-		_charm.deactivate();
+		_scroller.setScrollBar(0);
 	}
 }
 
