@@ -129,7 +129,6 @@ protected:
 	
 public:
 	Kanjidic2FilterWidget(QWidget *parent = 0);
-	~Kanjidic2FilterWidget();
 
 	virtual QString name() const { return "kanjidicoptions"; }
 	virtual QString currentTitle() const;

@@ -633,37 +633,76 @@ Kanjidic2FilterWidget::Kanjidic2FilterWidget(QWidget *parent) : SearchFilterWidg
 	mainLayout->setContentsMargins(0, 0, 0, 0);
 }
 
-Kanjidic2FilterWidget::~Kanjidic2FilterWidget()
-{
-	if (_compKSelector) delete _compKSelector;
-	if (_radKSelector) delete _radKSelector;
-}
-
 bool Kanjidic2FilterWidget::eventFilter(QObject *watched, QEvent *event)
 {
-	if (watched == _radicals || watched == _components) {
-		QWidget *widget = qobject_cast<QWidget *>(watched);
-		if (event->type() == QEvent::FocusIn) {
-			if (widget == _radicals) {
-				if (!_radKSelector) {
-					_radKSelector = new RadicalKanjiSelector();
-					_radKSelector->associateTo(_radicals);
-					_radKSelector->reset();
-				}
-				_radKSelector->show();
-			} else if (widget == _components)
+	if ((watched == _radicals || watched == _components)) {
+		QLineEdit *focusWidget = qobject_cast<QLineEdit *>(watched);
+		switch (event->type()) {
+			// Automatically popup the selector on focus
+			case QEvent::FocusIn:
 			{
-				if (!_compKSelector) {
-					_compKSelector = new ComponentKanjiSelector();
-					_compKSelector->associateTo(_components);
-					_compKSelector->reset();
+				KanjiSelector *selector = 0;
+				bool justCreated = false;
+				// Create the selector if this is the first time we use it
+				if (focusWidget == _radicals && !_radKSelector) {
+					_radKSelector = new RadicalKanjiSelector(_radicals);
+					justCreated = true;
+				} else if (focusWidget == _components && !_compKSelector) {
+					_compKSelector = new ComponentKanjiSelector(_components);
+					justCreated = true;
 				}
-				_compKSelector->show();
+				if (focusWidget == _radicals) selector = _radKSelector;
+				else if (focusWidget == _components) selector = _compKSelector;
+				// If the selector has been created, setup its properties
+				if (justCreated) {
+					selector->setWindowFlags(Qt::Window | Qt::FramelessWindowHint | Qt::X11BypassWindowManagerHint);
+					selector->setWindowModality(Qt::NonModal);
+					selector->setFocusPolicy(Qt::NoFocus);
+					selector->installEventFilter(this);
+					selector->associateTo(focusWidget);
+					selector->reset();
+				}
+				selector->move(focusWidget->mapToGlobal(QPoint(focusWidget->rect().left() + (focusWidget->rect().width() - _radKSelector->rect().width()) / 2, focusWidget->rect().bottom())));	
+				selector->show();
+				break;
 			}
-		} else if (event->type() == QEvent::FocusOut) {
-			if (widget == _radicals) {
-				//_radKSelector->hide();
+			// Automatically hide the selector of focus out
+			case QEvent::FocusOut:
+				if (focusWidget == _radicals) _radKSelector->hide();
+				else if (focusWidget == _components) _compKSelector->hide();
+				break;
+			// Show the selector is the line edit has focus
+			case QEvent::Enter:
+				if (focusWidget == _radicals && _radicals->hasFocus()) _radKSelector->show();
+				else if (focusWidget == _components && _components->hasFocus()) _compKSelector->show();
+				break;
+			// Hide the selector when leaving for something else than the selector
+			case QEvent::Leave:
+				if (focusWidget == _radicals && _radicals->hasFocus() && QApplication::widgetAt(QCursor::pos()) != _radKSelector) _radKSelector->hide();
+				else if (focusWidget == _components && _components->hasFocus() && QApplication::widgetAt(QCursor::pos()) != _compKSelector) _compKSelector->hide();
+				break;
+			// If ESC is pressed while a radical/component line edit has focus, hide its selector
+			case QEvent::KeyPress:
+			{
+				int key = static_cast<QKeyEvent *>(event)->key();
+				if (key != Qt::Key_Escape) break;
+				if (focusWidget == _radicals) _radKSelector->hide();
+				else if (focusWidget == _components) _compKSelector->hide();
+				break;
 			}
+			default:
+				break;
+		}
+	}
+	else if (watched == _radKSelector || watched == _compKSelector) {
+		switch (event->type()) {
+			// If the mouse leaves a selector for something else than its associated line edit, hide it
+			case QEvent::Leave:
+				if (watched == _radKSelector && QApplication::widgetAt(QCursor::pos()) != _radicals) _radKSelector->hide();
+				else if (watched == _compKSelector && QApplication::widgetAt(QCursor::pos()) != _components) _compKSelector->hide();
+				break;
+			default:
+				break;
 		}
 	}
 	return SearchFilterWidget::eventFilter(watched, event);
