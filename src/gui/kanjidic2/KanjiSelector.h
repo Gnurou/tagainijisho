@@ -58,6 +58,9 @@ class KanjiSelector : public QFrame, protected Ui::KanjiSelector
 	Q_OBJECT
 private:
 	QLineEdit *_associate;
+	/// Used when the widget is hidden to tell it should update
+	/// itself once shown again
+	bool _outOfSyncWithAssociate;
 	/// The currently displayed complements, code and representation
 	QSet<QPair<uint, QString > > _currentComplements;
 	bool _ignoreAssociateSignals;
@@ -68,6 +71,7 @@ private:
 	QSet<uint> associateComplements() const;
 
 protected:
+	KanjiSelector(QWidget *parent = 0);
 	/// Returns the string representation suitable for the given complement kanji.
 	/// The default is to return the string corresponding to the unicode of the
 	/// given character.
@@ -88,14 +92,14 @@ protected:
 	 */
 	virtual QSet<uint> getCandidates(const QSet<uint> &selection);
 	virtual void updateComplementsList(const QSet<uint> &selection, const QSet<uint> &candidates);
-
+	virtual void showEvent (QShowEvent *event);
+	
 protected slots:
 	virtual void onSelectionChanged();
 	virtual void onAssociateChanged();
 	void updateAssociateFromSelection(QSet<uint> selection);
 
 public:
-	KanjiSelector(QWidget *parent = 0);
 	virtual ~KanjiSelector() {}
 	virtual void reset() = 0;
 	const QSet<QPair<uint, QString> > &currentComplements() const { return _currentComplements; }

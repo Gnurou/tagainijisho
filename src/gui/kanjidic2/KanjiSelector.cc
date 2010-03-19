@@ -77,10 +77,18 @@ QListWidgetItem *ComplementsList::setCurrentStrokeNbr(int strokeNbr)
 	return item;
 }
 
-KanjiSelector::KanjiSelector(QWidget *parent) : QFrame(parent), _associate(0), _ignoreAssociateSignals(false)
+KanjiSelector::KanjiSelector(QWidget *parent) : QFrame(parent), _associate(0), _outOfSyncWithAssociate(false), _ignoreAssociateSignals(false)
 {
 	setupUi(this);
 	connect(complementsList, SIGNAL(itemSelectionChanged()), this, SLOT(onSelectionChanged()));
+}
+
+void KanjiSelector::showEvent (QShowEvent *event)
+{
+	if (_outOfSyncWithAssociate) {
+		_outOfSyncWithAssociate = false;
+		onAssociateChanged();
+	}
 }
 
 void KanjiSelector::associateTo(QLineEdit *associate)
@@ -118,6 +126,10 @@ void KanjiSelector::updateAssociateFromSelection(QSet<uint> selection)
 
 void KanjiSelector::onAssociateChanged()
 {
+	if (!isVisible()) {
+		_outOfSyncWithAssociate = true;
+		return;
+	}
 	if (_ignoreAssociateSignals) return;
 	complementsList->setEnabled(false);
 	QSet<uint> selection(associateComplements());
@@ -204,7 +216,6 @@ void KanjiSelector::updateComplementsList(const QSet<uint> &selection, const QSe
 
 void KanjiSelector::setSelection(const QSet<uint> &selection)
 {
-	qDebug() << "setselection";
 	QSet<uint> candidates(getCandidates(selection));
 	updateComplementsList(selection, candidates);
 }
