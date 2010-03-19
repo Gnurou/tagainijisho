@@ -174,11 +174,10 @@ void KanjiSelector::updateComplementsList(const QSet<uint> &selection, const QSe
 			if (curKanji == kanji) continue;
 			curKanji = kanji;
 			QString repr = complementRepr(kanji);
-			//if (!TextTools::isKanjiChar(repr)) continue;
 			// Do not display kanji that are already in candidates, excepted if they
 			// are part of the current selection
 			if (candidates.contains(kanji) && !selection.contains(kanji)) continue;
-			int strokeNbr = query.value(1).toInt();
+			int strokeNbr = query.value(1).toUInt();
 			if (strokeNbr > curStrokes) {
 				complementsList->setCurrentStrokeNbr(strokeNbr);
 				curStrokes = strokeNbr;

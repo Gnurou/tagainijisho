@@ -243,7 +243,10 @@ bool updateJLPTLevels(const QString &fName, int level)
 bool createRootComponentsTable()
 {
 	QSqlQuery query;
-	query.exec("select distinct ks.element from strokeGroups as ks join entries as e on ks.element = e.id where ks.element not in (select distinct kanji from strokeGroups where element != kanji) order by strokeCount");
+	if (!query.exec("select distinct ks.element from strokeGroups as ks join entries as e on ks.element = e.id where ks.element not in (select distinct kanji from strokeGroups where element != kanji) "
+	// We are not counting components that are only components of themselves (whatever that means)
+	"and ks.kanji != ks.element "
+	"order by strokeCount")) return false;
 	while (query.next()) {
 		BIND(insertRootComponentQuery, query.value(0));
 		EXEC(insertRootComponentQuery);
