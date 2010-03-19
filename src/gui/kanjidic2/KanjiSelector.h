@@ -22,6 +22,7 @@
 #include "gui/kanjidic2/KanjiResultsView.h"
 
 #include <QHash>
+#include <QValidator>
 #include <QListWidget>
 
 /**
@@ -57,6 +58,8 @@ class KanjiSelector : public QFrame, protected Ui::KanjiSelector
 	Q_OBJECT
 private:
 	QLineEdit *_associate;
+	/// The currently displayed complements, code and representation
+	QSet<QPair<uint, QString > > _currentComplements;
 	bool _ignoreAssociateSignals;
 	/**
 	 * Returns all the complements that have been inputted into
@@ -95,6 +98,7 @@ public:
 	KanjiSelector(QWidget *parent = 0);
 	virtual ~KanjiSelector() {}
 	virtual void reset() = 0;
+	const QSet<QPair<uint, QString> > &currentComplements() const { return _currentComplements; }
 	/**
 	 * Set the current selection to the given list of complements.
 	 */
@@ -116,6 +120,20 @@ signals:
 	void startQuery();
 	void foundResult(const QString &kanji);
 	void endQuery();
+};
+
+/**
+ * A validator that only accepts input within the complements list
+ * of a given kanji selector.
+ */
+class KanjiSelectorValidator : public QValidator {
+Q_OBJECT
+private:
+	KanjiSelector *_filter;
+public:
+	KanjiSelectorValidator(KanjiSelector *filter, QObject *parent = 0);
+	KanjiSelector *filter() { return _filter; }
+	virtual State validate(QString &input, int &pos) const;
 };
 
 /**

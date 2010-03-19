@@ -173,6 +173,7 @@ void KanjiSelector::updateComplementsList(const QSet<uint> &selection, const QSe
 {
 	complementsList->blockSignals(true);
 	complementsList->clear();
+	_currentComplements = QSet<QPair<uint, QString> >();
 	QString compQuery(getComplementsQuery(selection, candidates));
 	if (!compQuery.isEmpty()) {
 		QSqlQuery query;
@@ -195,6 +196,7 @@ void KanjiSelector::updateComplementsList(const QSet<uint> &selection, const QSe
 			}
 			QListWidgetItem *item = complementsList->addComplement(repr, kanji);
 			if (selection.contains(kanji)) item->setSelected(true);
+			_currentComplements << QPair<uint, QString>(kanji, repr);
 		}
 	}
 	complementsList->blockSignals(false);
@@ -202,6 +204,7 @@ void KanjiSelector::updateComplementsList(const QSet<uint> &selection, const QSe
 
 void KanjiSelector::setSelection(const QSet<uint> &selection)
 {
+	qDebug() << "setselection";
 	QSet<uint> candidates(getCandidates(selection));
 	updateComplementsList(selection, candidates);
 }
@@ -215,6 +218,35 @@ void KanjiSelector::onSelectionChanged()
 	complementsList->setEnabled(true);
 }
 
+KanjiSelectorValidator::KanjiSelectorValidator(KanjiSelector *filter, QObject *parent) : _filter(filter)
+{
+}
+
+QValidator::State KanjiSelectorValidator::validate(QString &input, int &pos) const
+{
+	typedef QPair<uint, QString> compType;
+	const QSet<compType> &complements = _filter->currentComplements();
+	QSet<QString> validChars;
+	foreach (const compType &comp, complements) validChars << comp.second;
+	int i = 0;
+	while (i < input.size()) {
+		const QChar &c = input[i];
+		bool isValid = false;
+		int isSurrogate = c.isHighSurrogate() ? 1 : 0;
+		// Should never happen, but done for safety
+		if (isSurrogate && i == input.size() - 1) isSurrogate = 0;
+		if (!isSurrogate) isValid = validChars.contains(c);
+		else isValid = validChars.contains(QString(c) + input[i + 1]);
+		if (!isValid) {
+			input.remove(i, 1 + isSurrogate);
+			if (i < pos) pos -= 1 + isSurrogate;
+		}
+		else i += 1 + isSurrogate;
+	}
+
+	return QValidator::Acceptable;
+}
+	
 QString RadicalKanjiSelector::getCandidatesQuery(const QSet<uint> &selection) const
 {
 	if (selection.isEmpty()) return "";

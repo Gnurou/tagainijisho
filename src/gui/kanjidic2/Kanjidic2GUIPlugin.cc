@@ -523,8 +523,6 @@ Kanjidic2FilterWidget::Kanjidic2FilterWidget(QWidget *parent) : SearchFilterWidg
 		label->setAlignment(Qt::AlignHCenter);
 		vLayout->addWidget(label);
 		_radicals = new QLineEdit(componentsGroupBox);
-		KanjiValidator *kanjiValidator = new KanjiValidator(componentsGroupBox);
-		_radicals->setValidator(kanjiValidator);
 		connect(_radicals, SIGNAL(textChanged(const QString &)), this, SLOT(commandUpdate()));
 		// _radKSelector will be allocated the first time it is used
 		_radKSelector = 0;
@@ -534,6 +532,7 @@ Kanjidic2FilterWidget::Kanjidic2FilterWidget(QWidget *parent) : SearchFilterWidg
 		label->setAlignment(Qt::AlignHCenter);
 		vLayout->addWidget(label);
 		_components = new QLineEdit(componentsGroupBox);
+		KanjiValidator *kanjiValidator = new KanjiValidator(_components);
 		_components->setValidator(kanjiValidator);
 		connect(_components, SIGNAL(textChanged(const QString &)), this, SLOT(commandUpdate()));
 		// _compKSelector will be allocated the first time it is used
@@ -646,6 +645,8 @@ bool Kanjidic2FilterWidget::eventFilter(QObject *watched, QEvent *event)
 				// Create the selector if this is the first time we use it
 				if (focusWidget == _radicals && !_radKSelector) {
 					_radKSelector = new RadicalKanjiSelector(_radicals);
+					KanjiSelectorValidator *selectorValidator = new KanjiSelectorValidator(_radKSelector, _radicals);
+					_radicals->setValidator(selectorValidator);
 					justCreated = true;
 				} else if (focusWidget == _components && !_compKSelector) {
 					_compKSelector = new ComponentKanjiSelector(_components);
@@ -662,7 +663,7 @@ bool Kanjidic2FilterWidget::eventFilter(QObject *watched, QEvent *event)
 					selector->associateTo(focusWidget);
 					selector->reset();
 				}
-				selector->move(focusWidget->mapToGlobal(QPoint(focusWidget->rect().left() + (focusWidget->rect().width() - _radKSelector->rect().width()) / 2, focusWidget->rect().bottom())));	
+				selector->move(focusWidget->mapToGlobal(QPoint(focusWidget->rect().left() + (focusWidget->rect().width() - selector->rect().width()) / 2, focusWidget->rect().bottom())));	
 				selector->show();
 				break;
 			}
