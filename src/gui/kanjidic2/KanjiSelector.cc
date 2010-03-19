@@ -76,10 +76,60 @@ QListWidgetItem *ComplementsList::setCurrentStrokeNbr(int strokeNbr)
 	return item;
 }
 
-KanjiSelector::KanjiSelector(QWidget *parent) : QFrame(parent)
+KanjiSelector::KanjiSelector(QWidget *parent) : QFrame(parent), _associate(0)
 {
 	setupUi(this);
 	connect(complementsList, SIGNAL(itemSelectionChanged()), this, SLOT(onSelectionChanged()));
+}
+
+void KanjiSelector::associateTo(QLineEdit *associate)
+{
+	if (_associate) {
+		disconnect(_associate, SIGNAL(textChanged(QString)), this, SLOT(onAssociateChanged()));
+		disconnect(this, SIGNAL(selectionChanged(QSet<uint>)), this, SLOT(updateAssociateFromSelection(QSet<uint>)));
+	}
+	_associate = associate;
+	if (!_associate) return;
+	connect(_associate, SIGNAL(textChanged(QString)), this, SLOT(onAssociateChanged()));
+	connect(this, SIGNAL(selectionChanged(QSet<uint>)), this, SLOT(updateAssociateFromSelection(QSet<uint>)));
+}
+
+void KanjiSelector::updateAssociateFromSelection(QSet<uint> selection)
+{
+	QSet<uint> currentComps(associateComplements());
+	QStringList comps;
+	QList<uint> selComps;
+	QString compText(_associate->text());
+	// Add the missing components to the text search area
+	foreach (uint code, selection) {
+		if (!currentComps.contains(code)) comps << TextTools::unicodeToSingleChar(code);
+		selComps << code;
+	}
+	// Remove text search components that are not selected
+	foreach (uint comp, currentComps) if (!selComps.contains(comp)) compText.remove(TextTools::unicodeToSingleChar(comp));
+	
+	_associate->blockSignals(true);
+	_associate->setText(compText + comps.join(""));	
+	_associate->blockSignals(false);
+}
+
+void KanjiSelector::onAssociateChanged()
+{
+	QSet<uint> selection(associateComplements());
+	setSelection(selection);
+}
+
+QSet<uint> KanjiSelector::associateComplements() const
+{
+	QSet<uint> ret;
+	if (!_associate) return ret;
+	QString cText(_associate->text());
+	for (int i = 0; i < cText.size(); ) {
+		int code(TextTools::singleCharToUnicode(cText, i));
+		ret << code;
+		i += TextTools::unicodeToSingleChar(code).size();
+	}
+	return ret;
 }
 
 QSet<uint> KanjiSelector::getCandidates(const QSet<uint> &selection)
@@ -177,13 +227,12 @@ void RadicalKanjiSelector::reset()
 
 ComponentKanjiSelector::ComponentKanjiSelector(QWidget *parent) : KanjiSelector(parent)
 {
-	_components = new QLineEdit(this);
-	KanjiValidator *validator = new KanjiValidator(_components);
-	_components->setValidator(validator);
-	verticalLayout->insertWidget(0, _components);
-	setFocusProxy(_components);
-	connect(_components, SIGNAL(textChanged(QString)), this, SLOT(onComponentsListChanged()));
-	connect(this, SIGNAL(selectionChanged(QSet<uint>)), this, SLOT(updateComponentsFromSelection(QSet<uint>)));
+	QLineEdit *associate = new QLineEdit(this);
+	KanjiValidator *validator = new KanjiValidator(associate);
+	associate->setValidator(validator);
+	verticalLayout->insertWidget(0, associate);
+	setFocusProxy(associate);
+	associateTo(associate);
 	//onComponentsListChanged();
 }
 
@@ -191,19 +240,7 @@ void ComponentKanjiSelector::reset()
 {
 	complementsList->selectionModel()->clear();
 	// For first appearance, this is needed
-	if (complementsList->count() == 0) onComponentsListChanged();
-}
-
-QSet<uint> ComponentKanjiSelector::currentComponents() const
-{
-	QSet<uint> ret;
-	QString cText(_components->text());
-	for (int i = 0; i < cText.size(); ) {
-		int code(TextTools::singleCharToUnicode(cText, i));
-		ret << code;
-		i += TextTools::unicodeToSingleChar(code).size();
-	}
-	return ret;
+	if (complementsList->count() == 0) onAssociateChanged();
 }
 
 QString ComponentKanjiSelector::getCandidatesQuery(const QSet<uint> &selection) const
@@ -238,31 +275,6 @@ QString ComponentKanjiSelector::getComplementsQuery(const QSet<uint> &selection,
 	}
 }
 
-void ComponentKanjiSelector::updateComponentsFromSelection(QSet<uint> selection)
-{
-	QSet<uint> currentComps(currentComponents());
-	QStringList comps;
-	QList<uint> selComps;
-	QString compText(_components->text());
-	// Add the missing components to the text search area
-	foreach (uint code, selection) {
-		if (!currentComps.contains(code)) comps << TextTools::unicodeToSingleChar(code);
-		selComps << code;
-	}
-	// Remove text search components that are not selected
-	foreach (uint comp, currentComps) if (!selComps.contains(comp)) compText.remove(TextTools::unicodeToSingleChar(comp));
-	
-	_components->blockSignals(true);
-	_components->setText(compText + comps.join(""));	
-	_components->blockSignals(false);
-}
-
-void ComponentKanjiSelector::onComponentsListChanged()
-{
-	QSet<uint> selection(currentComponents());
-	setSelection(selection);
-}
-
 KanjiInputter::KanjiInputter(KanjiSelector *selector, QWidget *parent) : QFrame(parent), _selector(selector)
 {
 	QVBoxLayout *layout = new QVBoxLayout(this);
@@ -271,6 +283,7 @@ KanjiInputter::KanjiInputter(KanjiSelector *selector, QWidget *parent) : QFrame(
 	_selector->setParent(this);
 	_selector->layout()->setContentsMargins(0, 0, 0, 0);
 	layout->addWidget(_selector);
+	setFocusProxy(_selector);
 	connect(selector, SIGNAL(startQuery()), _results, SLOT(startReceive()));
 	connect(selector, SIGNAL(endQuery()), _results, SLOT(endReceive()));
 	connect(selector, SIGNAL(foundResult(QString)), _results, SLOT(addItem(QString)));

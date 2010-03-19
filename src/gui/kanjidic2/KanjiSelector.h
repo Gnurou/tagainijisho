@@ -54,8 +54,18 @@ public slots:
 class KanjiSelector : public QFrame, protected Ui::KanjiSelector
 {
 	Q_OBJECT
+private:
+	QLineEdit *_associate;
+	/**
+	 * Returns all the complements that have been inputted into
+	 * the associate
+	 */
+	QSet<uint> associateComplements() const;
+
 protected slots:
 	virtual void onSelectionChanged();
+	virtual void onAssociateChanged();
+	void updateAssociateFromSelection(QSet<uint> selection);
 
 protected:
 	/// Returns the SQL query that should be run in order to get the results list
@@ -81,6 +91,13 @@ public:
 	 * Set the current selection to the given list of complements.
 	 */
 	void setSelection(const QSet<uint> &selection);
+	/**
+	 * Associate this selector to a given line edit. Doing so provides
+	 * an additional selection method for the user, who can input or
+	 * delete complementary characters using the line edit.
+	 */
+	void associateTo(QLineEdit *associate);
+	QLineEdit *associate() { return _associate; }
 
 signals:
 	/**
@@ -102,7 +119,7 @@ class RadicalKanjiSelector : public KanjiSelector
 protected:
 	virtual QString getCandidatesQuery(const QSet<uint> &selection) const;
 	virtual QString getComplementsQuery(const QSet<uint> &selection, const QSet<uint> &candidates) const;
-
+	
 public:
 	RadicalKanjiSelector(QWidget *parent = 0) : KanjiSelector(parent) {}
 	virtual void reset();
@@ -115,14 +132,8 @@ class ComponentKanjiSelector : public KanjiSelector
 {
 	Q_OBJECT
 protected:
-	QLineEdit *_components;
-	QSet<uint> currentComponents() const;
 	virtual QString getCandidatesQuery(const QSet<uint> &selection) const;
 	virtual QString getComplementsQuery(const QSet<uint> &selection, const QSet<uint> &candidates) const;
-
-protected slots:
-	virtual void onComponentsListChanged();
-	void updateComponentsFromSelection(QSet<uint> selection);
 
 public:
 	ComponentKanjiSelector(QWidget *parent = 0);
