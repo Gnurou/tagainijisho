@@ -526,6 +526,9 @@ Kanjidic2FilterWidget::Kanjidic2FilterWidget(QWidget *parent) : SearchFilterWidg
 		KanjiValidator *kanjiValidator = new KanjiValidator(componentsGroupBox);
 		_radicals->setValidator(kanjiValidator);
 		connect(_radicals, SIGNAL(textChanged(const QString &)), this, SLOT(commandUpdate()));
+		// _radKSelector will be allocated the first time it is used
+		_radKSelector = 0;
+		_radicals->installEventFilter(this);
 		vLayout->addWidget(_radicals);
 		label = new QLabel(tr("Components"), componentsGroupBox);
 		label->setAlignment(Qt::AlignHCenter);
@@ -533,6 +536,9 @@ Kanjidic2FilterWidget::Kanjidic2FilterWidget(QWidget *parent) : SearchFilterWidg
 		_components = new QLineEdit(componentsGroupBox);
 		_components->setValidator(kanjiValidator);
 		connect(_components, SIGNAL(textChanged(const QString &)), this, SLOT(commandUpdate()));
+		// _compKSelector will be allocated the first time it is used
+		_compKSelector = 0;
+		_components->installEventFilter(this);
 		vLayout->addWidget(_components);
 	}
 	QGroupBox *unicodeGroupBox = new QGroupBox(tr("Unicode"), this);
@@ -625,6 +631,42 @@ Kanjidic2FilterWidget::Kanjidic2FilterWidget(QWidget *parent) : SearchFilterWidg
 	mainLayout->addWidget(fourCornerGroupBox);
 	mainLayout->addWidget(gradeGroupBox);
 	mainLayout->setContentsMargins(0, 0, 0, 0);
+}
+
+Kanjidic2FilterWidget::~Kanjidic2FilterWidget()
+{
+	if (_compKSelector) delete _compKSelector;
+	if (_radKSelector) delete _radKSelector;
+}
+
+bool Kanjidic2FilterWidget::eventFilter(QObject *watched, QEvent *event)
+{
+	if (watched == _radicals || watched == _components) {
+		QWidget *widget = qobject_cast<QWidget *>(watched);
+		if (event->type() == QEvent::FocusIn) {
+			if (widget == _radicals) {
+				if (!_radKSelector) {
+					_radKSelector = new RadicalKanjiSelector();
+					_radKSelector->associateTo(_radicals);
+					_radKSelector->reset();
+				}
+				_radKSelector->show();
+			} else if (widget == _components)
+			{
+				if (!_compKSelector) {
+					_compKSelector = new ComponentKanjiSelector();
+					_compKSelector->associateTo(_components);
+					_compKSelector->reset();
+				}
+				_compKSelector->show();
+			}
+		} else if (event->type() == QEvent::FocusOut) {
+			if (widget == _radicals) {
+				//_radKSelector->hide();
+			}
+		}
+	}
+	return SearchFilterWidget::eventFilter(watched, event);
 }
 
 void Kanjidic2FilterWidget::onStrokeRangeToggled(bool checked)

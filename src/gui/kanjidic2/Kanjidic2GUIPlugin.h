@@ -113,7 +113,9 @@ private:
 	QPushButton *_gradeButton;
 	QStringList _gradesList;
 	QLineEdit *_radicals;
+	RadicalKanjiSelector *_radKSelector;
 	QLineEdit *_components;
+	ComponentKanjiSelector *_compKSelector;
 	HexSpinBox *_unicode;
 	QSpinBox *_skip1, *_skip2, *_skip3;
 	QComboBox *_fcTopLeft, *_fcTopRight, *_fcBotLeft, *_fcBotRight, *_fcExtra;
@@ -123,9 +125,12 @@ private:
 
 protected:
 	virtual void _reset();
-
+	virtual bool eventFilter(QObject *watched, QEvent *event);
+	
 public:
 	Kanjidic2FilterWidget(QWidget *parent = 0);
+	~Kanjidic2FilterWidget();
+
 	virtual QString name() const { return "kanjidicoptions"; }
 	virtual QString currentTitle() const;
 	virtual QString currentCommand() const;

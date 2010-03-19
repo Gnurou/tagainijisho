@@ -77,7 +77,7 @@ QListWidgetItem *ComplementsList::setCurrentStrokeNbr(int strokeNbr)
 	return item;
 }
 
-KanjiSelector::KanjiSelector(QWidget *parent) : QFrame(parent), _associate(0)
+KanjiSelector::KanjiSelector(QWidget *parent) : QFrame(parent), _associate(0), _ignoreAssociateSignals(false)
 {
 	setupUi(this);
 	connect(complementsList, SIGNAL(itemSelectionChanged()), this, SLOT(onSelectionChanged()));
@@ -103,21 +103,26 @@ void KanjiSelector::updateAssociateFromSelection(QSet<uint> selection)
 	QString compText(_associate->text());
 	// Add the missing components to the text search area
 	foreach (uint code, selection) {
-		if (!currentComps.contains(code)) comps << TextTools::unicodeToSingleChar(code);
+		if (!currentComps.contains(code)) comps << complementRepr(code);
 		selComps << code;
 	}
 	// Remove text search components that are not selected
-	foreach (uint comp, currentComps) if (!selComps.contains(comp)) compText.remove(TextTools::unicodeToSingleChar(comp));
+	foreach (uint comp, currentComps) if (!selComps.contains(comp)) compText.remove(complementRepr(comp));
 	
-	_associate->blockSignals(true);
+	// Modifying the associate will trigger the onAssociateChanged slot,
+	// but we don't want to process it this time
+	_ignoreAssociateSignals = true;
 	_associate->setText(compText + comps.join(""));	
-	_associate->blockSignals(false);
+	_ignoreAssociateSignals = false;
 }
 
 void KanjiSelector::onAssociateChanged()
 {
+	if (_ignoreAssociateSignals) return;
+	complementsList->setEnabled(false);
 	QSet<uint> selection(associateComplements());
 	setSelection(selection);
+	complementsList->setEnabled(true);
 }
 
 QSet<uint> KanjiSelector::associateComplements() const
@@ -126,16 +131,22 @@ QSet<uint> KanjiSelector::associateComplements() const
 	if (!_associate) return ret;
 	QString cText(_associate->text());
 	for (int i = 0; i < cText.size(); ) {
-		int code(TextTools::singleCharToUnicode(cText, i));
-		ret << code;
-		i += TextTools::unicodeToSingleChar(code).size();
+		uint unicode(TextTools::singleCharToUnicode(cText, i));
+		QString chr = TextTools::unicodeToSingleChar(unicode);
+		ret << complementCode(chr);
+		i += chr.size();
 	}
 	return ret;
 }
 
-QString KanjiSelector::complementRepr(uint kanji)
+QString KanjiSelector::complementRepr(uint kanji) const
 {
 	return TextTools::unicodeToSingleChar(kanji);
+}
+
+uint KanjiSelector::complementCode(const QString &repr) const
+{
+	return TextTools::singleCharToUnicode(repr);
 }
 
 QSet<uint> KanjiSelector::getCandidates(const QSet<uint> &selection)
@@ -191,7 +202,6 @@ void KanjiSelector::updateComplementsList(const QSet<uint> &selection, const QSe
 
 void KanjiSelector::setSelection(const QSet<uint> &selection)
 {
-	//QSet<uint> selectionNbrs(complementsList->currentSelection(true));
 	QSet<uint> candidates(getCandidates(selection));
 	updateComplementsList(selection, candidates);
 }
@@ -227,9 +237,14 @@ QString RadicalKanjiSelector::getComplementsQuery(const QSet<uint> &selection, c
 	}
 }
 
-QString RadicalKanjiSelector::complementRepr(uint kanji)
+QString RadicalKanjiSelector::complementRepr(uint kanji) const
 {
 	return TextTools::unicodeToSingleChar(KanjiRadicals::instance().rad2Kanji(kanji)[0]);
+}
+
+uint RadicalKanjiSelector::complementCode(const QString &repr) const
+{
+	return KanjiRadicals::instance().kanji2Rad(TextTools::singleCharToUnicode(repr));
 }
 
 void RadicalKanjiSelector::reset()

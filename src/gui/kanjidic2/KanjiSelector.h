@@ -57,6 +57,7 @@ class KanjiSelector : public QFrame, protected Ui::KanjiSelector
 	Q_OBJECT
 private:
 	QLineEdit *_associate;
+	bool _ignoreAssociateSignals;
 	/**
 	 * Returns all the complements that have been inputted into
 	 * the associate
@@ -67,7 +68,9 @@ protected:
 	/// Returns the string representation suitable for the given complement kanji.
 	/// The default is to return the string corresponding to the unicode of the
 	/// given character.
-	virtual QString complementRepr(uint kanji);
+	virtual QString complementRepr(uint kanji) const;
+	/// Invert method of complementRepr
+	virtual uint complementCode(const QString &repr) const;
 	/// Returns the SQL query that should be run in order to get the results list
 	/// corresponding to the given selection. Results should comprehend a single
 	/// column with the kanji ids.
@@ -125,7 +128,8 @@ protected:
 	virtual QString getCandidatesQuery(const QSet<uint> &selection) const;
 	virtual QString getComplementsQuery(const QSet<uint> &selection, const QSet<uint> &candidates) const;
 	/// Returns the kanji associated with the given radical code
-	virtual QString complementRepr(uint kanji);
+	virtual QString complementRepr(uint kanji) const;
+	virtual uint complementCode(const QString &repr) const;
 	
 public:
 	RadicalKanjiSelector(QWidget *parent = 0) : KanjiSelector(parent) {}
