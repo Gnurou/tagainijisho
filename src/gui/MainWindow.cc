@@ -103,9 +103,10 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), _clipboardEnabled
 	QWidget *filtersToolBar = static_cast<QBoxLayout *>(searchWidget()->layout())->takeAt(0)->widget();
 	DockTitleBar *dBar = new DockTitleBar(filtersToolBar, _searchDockWidget);
 	_searchDockWidget->setTitleBarWidget(dBar);
+	QMargins margins(dBar->layout()->contentsMargins());
+	dBar->layout()->setContentsMargins(margins.left(), 0, margins.right(), 0);
 	// TODO Save space, otherwise the title bar may become too big
 	//filtersToolBar->setMaximumHeight(dBar->height() / 2);
-	dBar->layout()->setContentsMargins(0, 0, 0, 0);
 
 	// Focus on the text input on startup
 	actionFocus_text_search->trigger();
