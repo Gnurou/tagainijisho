@@ -117,6 +117,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), _clipboardEnabled
 	connect(_enableClipboardInputAction, SIGNAL(toggled(bool)), this, SLOT(enableClipboardInput(bool)));
 	_searchMenu->addAction(_enableClipboardInputAction);
 	
+	_searchWidget->resetSearchAction()->setShortcut(QKeySequence("Ctrl+R"));
+	_searchMenu->addAction(_searchWidget->resetSearchAction());
+	
 	// List widget
 	_entryListWidget = new EntryListWidget(this);
 	_entryListWidget->entryListView()->setModel(&_listModel);

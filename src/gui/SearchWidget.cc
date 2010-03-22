@@ -60,6 +60,7 @@ SearchWidget::SearchWidget(QWidget *parent) : QWidget(parent), _history(historyS
 	QAction *entriesMenuAction = new QAction(QIcon(":/images/icons/list-add.png"), "", _filtersToolBar);
 	entriesMenuAction->setMenu(resultsView()->helper()->entriesMenu());
 	_filtersToolBar->addAction(entriesMenuAction);
+	_filtersToolBar->addAction(actionResetSearch);
 	// Fix the behavior of the entries button
 	QToolButton *tButton = qobject_cast<QToolButton *>(_filtersToolBar->widgetForAction(entriesMenuAction));
 	if (tButton) tButton->setPopupMode(QToolButton::InstantPopup);

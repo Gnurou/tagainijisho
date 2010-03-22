@@ -69,6 +69,7 @@ public:
 	ResultsView *resultsView() { return _resultsView->resultsView(); }
 	QueryBuilder *queryBuilder() { return &_queryBuilder; }
 	MultiStackedWidget *searchFilters() { return _searchFilters; }
+	QAction *resetSearchAction() { return actionResetSearch; }
 	
 	void addSearchFilter(SearchFilterWidget *widget);
 	SearchFilterWidget *getSearchFilter(const QString &name);

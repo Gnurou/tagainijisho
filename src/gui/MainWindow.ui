@@ -33,7 +33,7 @@
      <x>0</x>
      <y>0</y>
      <width>900</width>
-     <height>21</height>
+     <height>19</height>
     </rect>
    </property>
    <widget class="QMenu" name="_fileMenu">
@@ -77,7 +77,6 @@
     <property name="title">
      <string>&amp;Search</string>
     </property>
-    <addaction name="actionResetSearch"/>
     <addaction name="actionFocus_text_search"/>
    </widget>
    <addaction name="_fileMenu"/>
@@ -86,7 +85,7 @@
    <addaction name="_trainMenu"/>
    <addaction name="_helpMenu"/>
   </widget>
-  <widget class="QDockWidget" name="searchDockWidget">
+  <widget class="QDockWidget" name="_searchDockWidget">
    <property name="windowTitle">
     <string>Search</string>
    </property>
@@ -141,18 +140,6 @@
    </property>
    <property name="menuRole">
     <enum>QAction::QuitRole</enum>
-   </property>
-  </action>
-  <action name="actionResetSearch">
-   <property name="icon">
-    <iconset resource="../../tagainijisho.qrc">
-     <normaloff>:/images/icons/reset-search.png</normaloff>:/images/icons/reset-search.png</iconset>
-   </property>
-   <property name="text">
-    <string>Reset search</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+R</string>
    </property>
   </action>
   <action name="action_New_set_from_current_search">
@@ -482,22 +469,6 @@
     <hint type="destinationlabel">
      <x>322</x>
      <y>335</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>actionResetSearch</sender>
-   <signal>triggered()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>resetSearch()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>449</x>
-     <y>324</y>
     </hint>
    </hints>
   </connection>
