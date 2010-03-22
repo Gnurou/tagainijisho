@@ -27,6 +27,7 @@ EntryTypeFilterWidget::EntryTypeFilterWidget(QWidget *parent) : SearchFilterWidg
 	setFont(fnt);
 	
 	_comboBox = new QComboBox(this);
+	_comboBox->setFont(fnt);
 	_comboBox->addItem(tr("All"), 0);
 	_comboBox->addItem(tr("Vocabulary"), 1);
 	_comboBox->addItem(tr("Kanji"), 2);
