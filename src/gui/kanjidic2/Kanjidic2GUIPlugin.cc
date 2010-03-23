@@ -656,7 +656,8 @@ bool Kanjidic2FilterWidget::eventFilter(QObject *watched, QEvent *event)
 				else if (focusWidget == _components) selector = _compKSelector;
 				// If the selector has been created, setup its properties
 				if (justCreated) {
-					selector->setWindowFlags(Qt::Window | Qt::FramelessWindowHint | Qt::X11BypassWindowManagerHint);
+					selector->setWindowFlags(Qt::Tool | Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint | Qt::X11BypassWindowManagerHint);
+					selector->setAttribute(Qt::WA_ShowWithoutActivating);
 					selector->setWindowModality(Qt::NonModal);
 					selector->setFocusPolicy(Qt::NoFocus);
 					selector->installEventFilter(this);
@@ -667,10 +668,10 @@ bool Kanjidic2FilterWidget::eventFilter(QObject *watched, QEvent *event)
 				selector->show();
 				break;
 			}
-			// Automatically hide the selector of focus out
+			// Automatically hide the selector on focus out
 			case QEvent::FocusOut:
-				if (focusWidget == _radicals) _radKSelector->hide();
-				else if (focusWidget == _components) _compKSelector->hide();
+				if (focusWidget == _radicals && !(QApplication::widgetAt(QCursor::pos()) != _radKSelector)) _radKSelector->hide();
+				else if (focusWidget == _components && !(QApplication::widgetAt(QCursor::pos()) != _compKSelector)) _compKSelector->hide();
 				break;
 			// Show the selector is the line edit has focus
 			case QEvent::Enter:
