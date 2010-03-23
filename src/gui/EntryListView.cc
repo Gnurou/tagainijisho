@@ -92,7 +92,7 @@ void EntryListView::contextMenuEvent(QContextMenuEvent *event)
 	
 	// Update the status of the right-click new list action
 	QModelIndexList selection(selectionModel()->selectedIndexes());
-	_rightClickNewListAction.setEnabled(selection.size() <= 1 && !selection[0].data(Entry::EntryRole).isValid());
+	_rightClickNewListAction.setEnabled(selection.size() <= 1 && (selection.size() == 0 || !selection[0].data(Entry::EntryRole).isValid()));
 	
 	contextMenu.exec(mapToGlobal(event->pos()));
 }
