@@ -92,8 +92,8 @@ for release in project.releases:
 		# Upload the source tarball
 		uploadFile('releasefiles/tagainijisho-' + releaseVersion + '.tar.gz', 'source', '', gpgPass)
 		# Upload the mac binaries
-		#for lang in LANGUAGES:
-			#uploadFile('releasefiles/Tagaini Jisho-' + releaseVersion + '-' + LANGUAGES_SUFFIXES[lang] + '.dmg', 'mac', lang, gpgPass)
+		for lang in LANGUAGES:
+			uploadFile('releasefiles/Tagaini Jisho-' + releaseVersion + '-' + LANGUAGES_SUFFIXES[lang] + '.dmg', 'mac', lang, gpgPass)
 		# Upload the win32 binaries
 		for lang in LANGUAGES:
 			uploadFile('releasefiles/tagainijisho-' + releaseVersion + '-' + LANGUAGES_SUFFIXES[lang] + '.exe', 'win32', lang, gpgPass)
