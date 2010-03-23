@@ -2091,7 +2091,7 @@ improve performance when manipulating a large number of entries.</source>
     </message>
     <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="600"/>
-        <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="854"/>
+        <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="855"/>
         <source>Grade</source>
         <translation type="unfinished">Niveau</translation>
     </message>
@@ -2110,53 +2110,53 @@ improve performance when manipulating a large number of entries.</source>
         <translation type="obsolete">, 1 trait</translation>
     </message>
     <message>
-        <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="829"/>
+        <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="830"/>
         <source>, %1 strokes</source>
         <translation type="unfinished">, %1 traits</translation>
     </message>
     <message>
-        <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="831"/>
+        <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="832"/>
         <source>, strokes&lt;=%1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="832"/>
+        <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="833"/>
         <source>, strokes&gt;=%1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="833"/>
+        <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="834"/>
         <source>, %1-%2 strokes</source>
         <translation type="unfinished">, %1 traits {1-%2 ?}</translation>
     </message>
     <message>
-        <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="835"/>
+        <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="836"/>
         <source>, unicode: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="836"/>
+        <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="837"/>
         <source>, skip: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="837"/>
+        <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="838"/>
         <source>, 4c: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="838"/>
+        <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="839"/>
         <source>, grade: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="839"/>
         <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="840"/>
+        <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="841"/>
         <source>Kanji</source>
         <translation type="unfinished">Kanji</translation>
     </message>
     <message>
-        <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="853"/>
+        <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="854"/>
         <source>Grade:</source>
         <translation type="unfinished">Niveau:</translation>
     </message>
