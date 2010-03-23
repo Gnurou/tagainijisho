@@ -149,6 +149,7 @@ kanjidic2/Kanjidic2Preferences.ui
 include_directories(${QT_INCLUDE_DIR})
 if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 add_executable(tagainijisho MACOSX_BUNDLE ${tagainijisho_gui_SRCS} ${tagainijisho_gui_MOC_SRCS} ${tagainijisho_gui_UI_SRCS})
+set(extra_link_flags "-bind_at_load")
 else()
 add_executable(tagainijisho ${tagainijisho_gui_SRCS} ${tagainijisho_gui_MOC_SRCS} ${tagainijisho_gui_UI_SRCS})
 install(TARGETS tagainijisho RUNTIME DESTINATION bin)
