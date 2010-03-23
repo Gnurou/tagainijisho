@@ -403,7 +403,7 @@ void KanjiLinkHandler::handleUrl(const QUrl &url, DetailedView *view)
 	Kanjidic2EntryPointer entry(KanjiEntryRef(TextTools::singleCharToUnicode(kanji)).get());
 	if (!entry) return;
 
-	KanjiPopup *popup = new KanjiPopup();
+	KanjiPopup *popup = new KanjiPopup(QApplication::focusWidget());
 	QObject::connect(popup, SIGNAL(requestDisplay(EntryPointer)), MainWindow::instance()->detailedView(), SLOT(display(EntryPointer)));
 
 	popup->setFrameStyle(QFrame::StyledPanel | QFrame::Raised);
