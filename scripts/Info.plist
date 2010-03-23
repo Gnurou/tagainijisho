@@ -3,17 +3,17 @@
 <plist version="0.9">
 <dict>
 	<key>CFBundleIconFile</key>
-	<string>@ICON@</string>
+	<string>appicon.icns</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleGetInfoString</key>
 	<string>Created by Qt/QMake</string>
 	<key>CFBundleSignature</key>
-	<string>@TYPEINFO@</string>
+	<string>????</string>
 	<key>CFBundleExecutable</key>
-	<string>@EXECUTABLE@</string>
+	<string>tagainijisho</string>
 	<key>CFBundleIdentifier</key>
-	<string>net.tagaini.@EXECUTABLE@</string>
+	<string>net.tagaini.tagainijisho</string>
 	<key>CFBundleName</key>
 	<string>Tagaini Jisho</string>
 	<key>NOTE</key>
