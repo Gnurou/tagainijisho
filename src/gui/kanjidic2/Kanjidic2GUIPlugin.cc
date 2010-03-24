@@ -407,7 +407,6 @@ void KanjiLinkHandler::handleUrl(const QUrl &url, DetailedView *view)
 	QObject::connect(popup, SIGNAL(requestDisplay(EntryPointer)), MainWindow::instance()->detailedView(), SLOT(display(EntryPointer)));
 
 	popup->setFrameStyle(QFrame::StyledPanel | QFrame::Raised);
-	popup->setWindowModality(Qt::ApplicationModal);
 	popup->setWindowTitle(tr("Tracing for %1").arg(kanji));
 	popup->setAttribute(Qt::WA_DeleteOnClose);
 	popup->setWindowFlags(Qt::Popup);

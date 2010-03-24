@@ -379,7 +379,6 @@ KanjiInputPopupAction::KanjiInputPopupAction(KanjiInputter *popup, const QString
 	_popup->hide();
 	_popup->installEventFilter(this);
 	_popup->setFrameStyle(QFrame::StyledPanel | QFrame::Raised);
-	_popup->setWindowModality(Qt::ApplicationModal);
 	_popup->setWindowFlags(Qt::Popup);
 	connect(_popup, SIGNAL(kanjiSelected(QString)), this, SLOT(onComponentSearchKanjiSelected(QString)));
 }
