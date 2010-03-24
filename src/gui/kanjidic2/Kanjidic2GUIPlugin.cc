@@ -397,9 +397,6 @@ void KanjiLinkHandler::handleUrl(const QUrl &url, DetailedView *view)
 	// takes time and we moved the mouse.
 	QPoint pos = QCursor::pos();
 
-//	QRect windowRect = QApplication::activeWindow()->frameGeometry();
-	QRect windowRect = QApplication::desktop()->availableGeometry(view);
-
 	Kanjidic2EntryPointer entry(KanjiEntryRef(TextTools::singleCharToUnicode(kanji)).get());
 	if (!entry) return;
 
@@ -412,22 +409,13 @@ void KanjiLinkHandler::handleUrl(const QUrl &url, DetailedView *view)
 	popup->setWindowFlags(Qt::Popup);
 	popup->display(entry);
 
-	QPoint lowerRight = pos + QPoint(popup->size().width(), popup->size().height());
-	if (!windowRect.contains(QPoint(lowerRight.x(), pos.y()))) pos.setX(windowRect.right() - popup->width());
-	if (!windowRect.contains(QPoint(pos.x(), lowerRight.y()))) pos.setY(windowRect.bottom() - popup->height());
-
 	popup->move(pos);
+	MainWindow::fitToScreen(popup);
 	popup->show();
 	// Need to display a second time once the window is visible to get the labels correctly formatted.
 	popup->display(entry);
 
-	pos = QCursor::pos();
-	lowerRight = pos + QPoint(popup->size().width(), popup->size().height());
-	if (!windowRect.contains(QPoint(lowerRight.x(), pos.y()))) pos.setX(windowRect.right() - popup->width());
-	if (!windowRect.contains(QPoint(pos.x(), lowerRight.y()))) pos.setY(windowRect.bottom() - popup->height());
-
-	// Do it again to ensure the geometry is correctly calculated after show()
-	popup->move(pos);
+	MainWindow::fitToScreen(popup);
 }
 
 KanjiAllWordsHandler::KanjiAllWordsHandler() : DetailedViewLinkHandler("allwords")
@@ -631,6 +619,13 @@ Kanjidic2FilterWidget::Kanjidic2FilterWidget(QWidget *parent) : SearchFilterWidg
 	mainLayout->setContentsMargins(0, 0, 0, 0);
 }
 
+void showSelector(QWidget *selector, QWidget *focusWidget)
+{
+	selector->move(focusWidget->mapToGlobal(QPoint(focusWidget->rect().left() + (focusWidget->rect().width() - selector->rect().width()) / 2, focusWidget->rect().bottom())));	
+	MainWindow::fitToScreen(selector);
+	selector->show();
+}
+
 bool Kanjidic2FilterWidget::eventFilter(QObject *watched, QEvent *event)
 {
 	if ((watched == _radicals || watched == _components)) {
@@ -663,8 +658,7 @@ bool Kanjidic2FilterWidget::eventFilter(QObject *watched, QEvent *event)
 					selector->associateTo(focusWidget);
 					selector->reset();
 				}
-				selector->move(focusWidget->mapToGlobal(QPoint(focusWidget->rect().left() + (focusWidget->rect().width() - selector->rect().width()) / 2, focusWidget->rect().bottom())));	
-				selector->show();
+				showSelector(selector, focusWidget);
 				break;
 			}
 			// Automatically hide the selector on focus out
@@ -674,8 +668,8 @@ bool Kanjidic2FilterWidget::eventFilter(QObject *watched, QEvent *event)
 				break;
 			// Show the selector is the line edit has focus
 			case QEvent::Enter:
-				if (focusWidget == _radicals && _radicals->hasFocus()) _radKSelector->show();
-				else if (focusWidget == _components && _components->hasFocus()) _compKSelector->show();
+				if (focusWidget == _radicals && _radicals->hasFocus()) showSelector(_radKSelector, _radicals);
+				else if (focusWidget == _components && _components->hasFocus()) showSelector(_compKSelector, _components);
 				break;
 			// Hide the selector when leaving for something else than the selector
 			case QEvent::Leave:

@@ -73,6 +73,7 @@ void KanjiResultsView::addItem(const QString &kanji)
 
 void KanjiResultsView::endReceive()
 {
+	_scene.setSceneRect(_scene.itemsBoundingRect());
 	setSceneRect(_scene.itemsBoundingRect());
 	if (!items.isEmpty()) centerOn(0.0, ITEM_CENTER(items[0]).y());
 }

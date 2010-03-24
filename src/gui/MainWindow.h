@@ -134,6 +134,12 @@ public:
 	SearchWidget *searchWidget() { return _searchWidget; }
 	DetailedView *detailedView() { return _detailedView->detailedView(); }
 	EntryListWidget *entryListWidget() { return _entryListWidget; }
+	
+	/**
+	 * Ensures the widget fits within the screen, i.e. adjust its position
+	 * if it is out of bounds
+	 */
+	static void fitToScreen(QWidget *widget);
 };
 
 #endif

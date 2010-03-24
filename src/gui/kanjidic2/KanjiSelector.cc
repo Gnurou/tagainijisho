@@ -21,6 +21,7 @@
 #include "core/kanjidic2/KanjiRadicals.h"
 #include "gui/KanjiValidator.h"
 #include "gui/kanjidic2/KanjiSelector.h"
+#include <gui/MainWindow.h>
 
 #include <QSqlQuery>
 #include <QComboBox>
@@ -80,7 +81,8 @@ QListWidgetItem *ComplementsList::setCurrentStrokeNbr(int strokeNbr)
 KanjiSelector::KanjiSelector(QWidget *parent) : QFrame(parent), _associate(0), _outOfSyncWithAssociate(false), _ignoreAssociateSignals(false)
 {
 	setupUi(this);
-	connect(complementsList, SIGNAL(itemSelectionChanged()), this, SLOT(onSelectionChanged()));
+	connect(_complementsList, SIGNAL(itemSelectionChanged()), this, SLOT(onSelectionChanged()));
+	resize(complementsList()->gridSize().width() * 10 + complementsList()->verticalScrollBar()->width(), complementsList()->gridSize().height() * 7);
 }
 
 void KanjiSelector::showEvent (QShowEvent *event)
@@ -131,10 +133,10 @@ void KanjiSelector::onAssociateChanged()
 		return;
 	}
 	if (_ignoreAssociateSignals) return;
-	complementsList->setEnabled(false);
+	_complementsList->setEnabled(false);
 	QSet<uint> selection(associateComplements());
 	setSelection(selection);
-	complementsList->setEnabled(true);
+	_complementsList->setEnabled(true);
 }
 
 QSet<uint> KanjiSelector::associateComplements() const
@@ -183,8 +185,8 @@ QSet<uint> KanjiSelector::getCandidates(const QSet<uint> &selection)
 
 void KanjiSelector::updateComplementsList(const QSet<uint> &selection, const QSet<uint> &candidates)
 {
-	complementsList->blockSignals(true);
-	complementsList->clear();
+	_complementsList->blockSignals(true);
+	_complementsList->clear();
 	_currentComplements = QSet<QPair<uint, QString> >();
 	QString compQuery(getComplementsQuery(selection, candidates));
 	if (!compQuery.isEmpty()) {
@@ -203,15 +205,15 @@ void KanjiSelector::updateComplementsList(const QSet<uint> &selection, const QSe
 			if (candidates.contains(kanji) && !selection.contains(kanji)) continue;
 			int strokeNbr = query.value(1).toUInt();
 			if (strokeNbr > curStrokes) {
-				complementsList->setCurrentStrokeNbr(strokeNbr);
+				_complementsList->setCurrentStrokeNbr(strokeNbr);
 				curStrokes = strokeNbr;
 			}
-			QListWidgetItem *item = complementsList->addComplement(repr, kanji);
+			QListWidgetItem *item = _complementsList->addComplement(repr, kanji);
 			if (selection.contains(kanji)) item->setSelected(true);
 			_currentComplements << QPair<uint, QString>(kanji, repr);
 		}
 	}
-	complementsList->blockSignals(false);
+	_complementsList->blockSignals(false);
 }
 
 void KanjiSelector::setSelection(const QSet<uint> &selection)
@@ -222,11 +224,11 @@ void KanjiSelector::setSelection(const QSet<uint> &selection)
 
 void KanjiSelector::onSelectionChanged()
 {
-	complementsList->setEnabled(false);
-	QSet<uint> selection(complementsList->currentSelection());
+	_complementsList->setEnabled(false);
+	QSet<uint> selection(_complementsList->currentSelection());
 	emit selectionChanged(selection);
 	setSelection(selection);
-	complementsList->setEnabled(true);
+	_complementsList->setEnabled(true);
 }
 
 KanjiSelectorValidator::KanjiSelectorValidator(KanjiSelector *filter, QObject *parent) : QValidator(parent), _filter(filter)
@@ -292,9 +294,9 @@ uint RadicalKanjiSelector::complementCode(const QString &repr) const
 
 void RadicalKanjiSelector::reset()
 {
-	complementsList->selectionModel()->clear();
+	_complementsList->selectionModel()->clear();
 	// For first appearance, this is needed
-	if (complementsList->count() == 0) onSelectionChanged();
+	if (_complementsList->count() == 0) onSelectionChanged();
 }
 
 ComponentKanjiSelector::ComponentKanjiSelector(QWidget *parent) : KanjiSelector(parent)
@@ -303,9 +305,9 @@ ComponentKanjiSelector::ComponentKanjiSelector(QWidget *parent) : KanjiSelector(
 
 void ComponentKanjiSelector::reset()
 {
-	complementsList->selectionModel()->clear();
+	_complementsList->selectionModel()->clear();
 	// For first appearance, this is needed
-	if (complementsList->count() == 0) onAssociateChanged();
+	if (_complementsList->count() == 0) onAssociateChanged();
 }
 
 QString ComponentKanjiSelector::getCandidatesQuery(const QSet<uint> &selection) const
@@ -360,7 +362,7 @@ KanjiInputter::KanjiInputter(KanjiSelector *selector, bool useLineEdit, QWidget 
 	connect(selector, SIGNAL(endQuery()), _results, SLOT(endReceive()));
 	connect(selector, SIGNAL(foundResult(QString)), _results, SLOT(addItem(QString)));
 	connect(_results, SIGNAL(kanjiSelected(QString)), this, SIGNAL(kanjiSelected(QString)));
-	resize(400, 300);
+	resize(_selector->complementsList()->gridSize().width() * 10 + _selector->complementsList()->verticalScrollBar()->width(), _selector->complementsList()->gridSize().height() * 7 + _results->sizeHint().height());
 }
 
 void KanjiInputter::reset()
@@ -395,16 +397,7 @@ void KanjiInputPopupAction::togglePopup(bool status)
 			_popup->reset();
 			_popup->show();
 			//_popup->currentSelection->setFocus();
-			QDesktopWidget *desktopWidget = QApplication::desktop();
-			QRect popupRect = _popup->geometry();
-			QRect screenRect(desktopWidget->screenGeometry());
-			if (!screenRect.contains(_popup->geometry())) {
-				if (screenRect.left() > popupRect.left()) popupRect.moveLeft(screenRect.left());
-				if (screenRect.top() > popupRect.top()) popupRect.moveTop(screenRect.top());
-				if (screenRect.right() < popupRect.right()) popupRect.moveRight(screenRect.right());
-				if (screenRect.bottom() < popupRect.bottom()) popupRect.moveBottom(screenRect.bottom());
-				_popup->setGeometry(popupRect);
-			}
+			MainWindow::fitToScreen(_popup);
 			_popup->setFocus();
 		}
 	}

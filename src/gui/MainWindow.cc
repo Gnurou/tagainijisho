@@ -52,6 +52,7 @@
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QClipboard>
+#include <QDesktopWidget>
 
 /// State version of the main window - should be increated every time the docks or statusbars change
 #define MAINWINDOW_STATE_VERSION 0
@@ -530,4 +531,15 @@ void MainWindow::onClipboardSelectionChanged()
 	}
 	if (cText2.isEmpty() || cText2 == tfw->text()) return;
 	tfw->setText(cText2);
+}
+
+void MainWindow::fitToScreen(QWidget *widget)
+{
+	QRect screenRect = QApplication::desktop()->availableGeometry(widget);
+	QRect popupRect(widget->geometry());
+	if (screenRect.left() > popupRect.left()) popupRect.moveLeft(screenRect.left());
+	if (screenRect.top() > popupRect.top()) popupRect.moveTop(screenRect.top());
+	if (screenRect.right() < popupRect.right()) popupRect.moveRight(screenRect.right());
+	if (screenRect.bottom() < popupRect.bottom()) popupRect.moveBottom(screenRect.bottom());
+	widget->setGeometry(popupRect);
 }

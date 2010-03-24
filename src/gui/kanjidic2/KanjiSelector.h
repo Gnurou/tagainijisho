@@ -114,6 +114,7 @@ public:
 	 */
 	void associateTo(QLineEdit *associate);
 	QLineEdit *associate() { return _associate; }
+	ComplementsList *complementsList() { return _complementsList; }
 
 signals:
 	/**
