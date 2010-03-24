@@ -425,6 +425,7 @@ void KanjiInputPopupAction::onComponentSearchKanjiSelected(const QString &kStrin
 		else if (cBox && cBox->isEditable()) target = cBox->lineEdit();
 		if (target) target->insert(TextTools::unicodeToSingleChar(kanji));
 	}
+	_popup->hide();
 }
 
 bool KanjiInputPopupAction::eventFilter(QObject *obj, QEvent *event)
