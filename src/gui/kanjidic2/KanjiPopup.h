@@ -58,11 +58,14 @@ class KanjiPopup : public QFrame, public Ui::KanjiPopup {
 private:
 	AbstractHistory<QString, QList<QString> > _history;
 	SingleEntryView entryView;
+	QPoint dragPos;
 
 	void setComponentsLabelText(int highlightPos = -1);
 
 protected:
 	bool eventFilter(QObject *obj, QEvent *event);
+	virtual void mousePressEvent(QMouseEvent *event);
+	virtual void mouseMoveEvent(QMouseEvent *event);
 
 private slots:
 	void showKanji(const Kanjidic2EntryPointer& entry);

@@ -130,6 +130,24 @@ KanjiPopup::~KanjiPopup()
 {
 }
 
+void KanjiPopup::mousePressEvent(QMouseEvent *event)
+{
+	event->accept();
+	if (event->buttons() & Qt::LeftButton) {
+		dragPos = event->globalPos();
+	}
+	QFrame::mousePressEvent(event);
+}
+
+void KanjiPopup::mouseMoveEvent(QMouseEvent *event)
+{
+	event->accept();
+	if (event->buttons() & Qt::LeftButton) {
+		move(pos() - dragPos + event->globalPos());
+		dragPos = event->globalPos();
+	}
+}
+
 void KanjiPopup::showKanji(const Kanjidic2EntryPointer &entry)
 {
 	QString str;
