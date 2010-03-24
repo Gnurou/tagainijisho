@@ -31,6 +31,7 @@ private:
 	S _storage;
 	int _pos;
 	int _maxSize;
+	bool _lastIsTemporary;
 
 	/**
 	 * Ensures that the history size does not exceeds _maxSize
@@ -39,8 +40,12 @@ private:
 	void checkCapacity();
 
 public:
-	AbstractHistory(int maxSize) : _storage(), _pos(0), _maxSize(maxSize) {}
-	void add(const T &item);
+	AbstractHistory(int maxSize) : _storage(), _pos(0), _maxSize(maxSize), _lastIsTemporary(false) {}
+	/**
+	 * @arg temporary set to true if this entry should just be a placeholder
+	 * and should be replaced by the next item
+	 */
+	void add(const T &item, bool temporary = false);
 	bool next(T &item);
 	bool previous(T &item);
 	bool first(T &item);
@@ -72,14 +77,17 @@ void AbstractHistory<T, S>::checkCapacity()
 }
 
 template <class T, class S>
-void AbstractHistory<T, S>::add(const T &item)
+void AbstractHistory<T, S>::add(const T &item, bool temporary)
 {
+	// Replace the last added item if it was a temporary
+	if (_lastIsTemporary) { _storage.removeLast(); --_pos; }
 	// Clear items after the current one
 	while (pos() < size()) _storage.removeLast();
 	// Do not add the same item twice
 	if (pos() > 0 && _storage[pos() - 1] == item) return;
 	_storage.append(item);
 	++_pos;
+	_lastIsTemporary = temporary;
 	
 	checkCapacity();
 }

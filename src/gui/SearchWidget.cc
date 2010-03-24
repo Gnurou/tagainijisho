@@ -93,9 +93,13 @@ void SearchWidget::search(const QString &commands)
 		_search(localCommands);
 	}
 	else {
+		// Empty state
+		_history.add(_searchBuilder.getState(), true);
 		_results->abortSearch();
 		_results->clear();
 		_resultsView->showNbResults(0);
+		actionPreviousSearch->setEnabled(_history.hasPrevious());
+		actionNextSearch->setEnabled(_history.hasNext());
 	}
 }
 
