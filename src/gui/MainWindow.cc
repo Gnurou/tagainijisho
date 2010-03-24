@@ -103,8 +103,13 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), _clipboardEnabled
 	QWidget *filtersToolBar = static_cast<QBoxLayout *>(searchWidget()->layout())->takeAt(0)->widget();
 	DockTitleBar *dBar = new DockTitleBar(filtersToolBar, _searchDockWidget);
 	_searchDockWidget->setTitleBarWidget(dBar);
-	QMargins margins(dBar->layout()->contentsMargins());
-	dBar->layout()->setContentsMargins(margins.left(), 0, margins.right(), 0);
+	// Requires Qt 4.6
+	// QMargins margins(dBar->layout()->contentsMargins());
+	// dBar->layout()->setContentsMargins(margins.left(), 0, margins.right(), 0);
+	int left, right, top, bottom;
+	dBar->layout()->getContentsMargins(&left, &top, &right, &bottom);
+	dBar->layout()->setContentsMargins(left, 0, right, 0);
+	
 	// TODO Save space, otherwise the title bar may become too big
 	//filtersToolBar->setMaximumHeight(dBar->height() / 2);
 

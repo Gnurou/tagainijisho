@@ -229,7 +229,7 @@ void KanjiSelector::onSelectionChanged()
 	complementsList->setEnabled(true);
 }
 
-KanjiSelectorValidator::KanjiSelectorValidator(KanjiSelector *filter, QObject *parent) : _filter(filter)
+KanjiSelectorValidator::KanjiSelectorValidator(KanjiSelector *filter, QObject *parent) : QValidator(parent), _filter(filter)
 {
 }
 
