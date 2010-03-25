@@ -7,7 +7,7 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <widget class="ComplementsList" name="complementsList">
+    <widget class="ComplementsList" name="_complementsList">
      <property name="mouseTracking">
       <bool>true</bool>
      </property>
