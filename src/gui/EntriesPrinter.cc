@@ -93,15 +93,15 @@ void EntriesPrinter::prepareAndPrintJob(QPrinter* printer)
 		}
 		// Not an entry, print the text role
 		else {
-			QString label("\t\t" + _entries[i].data(Qt::DisplayRole).toString());
+			QString label(_entries[i].data(Qt::DisplayRole).toString());
 			picPainter.save();
 			QFont font;
-			font.setPointSize(font.pointSize() + 5);
+			font.setPointSize(font.pointSize() + 10);
 			font.setItalic(true);
 			picPainter.setFont(font);
 			picPainter.drawText(pageRect, Qt::TextWordWrap | Qt::TextExpandTabs, label);
 			usedSpace = picPainter.boundingRect(pageRect, Qt::TextWordWrap | Qt::TextExpandTabs, label);
-			picPainter.drawLine(usedSpace.bottomLeft(), usedSpace.bottomRight());
+			picPainter.drawLine(usedSpace.bottomLeft(), QPoint(pageRect.right(), usedSpace.bottomRight().y()));
 			usedSpace.moveBottom(usedSpace.bottom() + 3);
 			picPainter.restore();
 		}
