@@ -90,6 +90,10 @@ DockTitleBar::DockTitleBar(QWidget *widget, QDockWidget *parent) : QWidget(paren
 	ttButton->setMaximumSize(icon.actualSize(QSize(16, 16)) + QSize(1, 1));
 	connect(ttButton, SIGNAL(clicked()), parent, SLOT(close()));
 	hLayout->addWidget(ttButton);
+
+	int left, right, top, bottom;
+	hLayout->getContentsMargins(&left, &top, &right, &bottom);
+	hLayout->setContentsMargins(left, 0, right, 0);
 }
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), _clipboardEnabled(false)
@@ -107,9 +111,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), _clipboardEnabled
 	// Requires Qt 4.6
 	// QMargins margins(dBar->layout()->contentsMargins());
 	// dBar->layout()->setContentsMargins(margins.left(), 0, margins.right(), 0);
-	int left, right, top, bottom;
-	dBar->layout()->getContentsMargins(&left, &top, &right, &bottom);
-	dBar->layout()->setContentsMargins(left, 0, right, 0);
 	
 	// TODO Save space, otherwise the title bar may become too big
 	//filtersToolBar->setMaximumHeight(dBar->height() / 2);
@@ -132,7 +133,12 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), _clipboardEnabled
 	connect(_entryListWidget->entryListView(), SIGNAL(entrySelected(EntryPointer)), detailedView(), SLOT(display(EntryPointer)));
 	QDockWidget *dWidget = new QDockWidget(_entryListWidget->currentTitle(), this);
 	dWidget->setAllowedAreas(Qt::AllDockWidgetAreas);
-	dBar = new DockTitleBar(new QLabel(tr("Lists"), dWidget), dWidget);
+	// Steal the toolbar
+	QWidget *toolsWidget = new QWidget(_entryListWidget);
+	QHBoxLayout *hLayout = new QHBoxLayout(toolsWidget);
+	hLayout->addWidget(new QLabel(tr("Lists"), toolsWidget));
+	hLayout->addWidget(static_cast<QBoxLayout *>(_entryListWidget->layout())->takeAt(0)->widget());
+	dBar = new DockTitleBar(toolsWidget, dWidget);
 	dWidget->setTitleBarWidget(dBar);
 	
 	dWidget->setWidget(_entryListWidget);

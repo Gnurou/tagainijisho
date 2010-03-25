@@ -25,7 +25,7 @@ EntryListWidget::EntryListWidget(QWidget *parent) : SearchFilterWidget(parent)
 	menuButton->setMenu(lists->helper()->entriesMenu());
 	menuButton->setPopupMode(QToolButton::InstantPopup);
 	menuButton->setAutoRaise(true);
-	hLayout->insertWidget(0, menuButton);
+	static_cast<QHBoxLayout *>(_toolsWidget->layout())->insertWidget(0, menuButton);
 	newListButton->setDefaultAction(entryListView()->newListAction());
 	deleteSelectionButton->setDefaultAction(entryListView()->deleteSelectionAction());
 }
