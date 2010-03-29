@@ -197,8 +197,8 @@ void Kanjidic2EntryFormatter::writeKanjiInfo(const ConstKanjidic2EntryPointer& e
 		if (++cellCpt % 2 == 0) { table->insertRows(table->rows(), 1); cursor.movePosition(QTextCursor::PreviousBlock); }
 		else cursor.movePosition(QTextCursor::NextBlock);
 	}
-	if (entry->kanjiFrequency() != -1 && showFrequency.value()) {
-		cursor.insertHtml(tr("<b>Frequency:</b> %1").arg(entry->kanjiFrequency()));
+	if (entry->frequency() != -1 && showFrequency.value()) {
+		cursor.insertHtml(tr("<b>Frequency:</b> %1").arg(entry->frequency()));
 		if (++cellCpt % 2 == 0) { table->insertRows(table->rows(), 1); cursor.movePosition(QTextCursor::PreviousBlock); }
 		else cursor.movePosition(QTextCursor::NextBlock);
 	}
@@ -520,8 +520,8 @@ void Kanjidic2EntryFormatter::showToolTip(const ConstKanjidic2EntryPointer entry
 	if (entry->strokeCount() != -1 && tooltipShowStrokesNumber.value()) {
 		BODY(tr("<b>Strokes:</b> %1").arg(entry->strokeCount()));
 	}
-	if (entry->kanjiFrequency() != -1 && tooltipShowFrequency.value()) {
-		QString body(tr("<b>Frequency:</b> %1").arg(entry->kanjiFrequency()));
+	if (entry->frequency() != -1 && tooltipShowFrequency.value()) {
+		QString body(tr("<b>Frequency:</b> %1").arg(entry->frequency()));
 		if (tCpt % 2) s += "<td>" + body + "</td></tr>";
 		else s += "<tr><td>" + body + "</td>";
 		++tCpt;

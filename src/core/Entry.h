@@ -67,7 +67,6 @@ public:
 private:
 	quint8 _type;
 	quint32 _id;
-	unsigned int _frequency;
 	QDateTime _dateAdded;
 	QDateTime _dateLastTrain;
 	QDateTime _dateLastMistake;
@@ -94,6 +93,7 @@ private:
 	Entry(const Entry &);
 
 protected:
+	unsigned int _frequency;
 	Entry(quint8 type, quint32 id);
 
 public:

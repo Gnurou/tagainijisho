@@ -188,8 +188,8 @@ void KanjiPopup::updateInfo()
 {
 	ConstKanjidic2EntryPointer entry(entryView.entry().staticCast<const Kanjidic2Entry>());
 	QString str;
-	if (entry->kanjiFrequency() != -1)
-		str += tr("<b>Freq:</b> %1<br/>").arg(entry->kanjiFrequency());
+	if (entry->frequency() != -1)
+		str += tr("<b>Freq:</b> %1<br/>").arg(entry->frequency());
 	if (entry->jlpt() != -1)
 		str += tr("<b>Grade:</b> %1<br/>").arg(entry->grade());
 	if (entry->jlpt() != -1)

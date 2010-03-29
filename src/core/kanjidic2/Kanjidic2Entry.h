@@ -107,7 +107,6 @@ private:
 
 	int _grade;
 	int _strokeCount;
-	int _kanjiFrequency;
 	int _jlpt;
 	QString _skip;
 	QString _fourCorner;
@@ -169,11 +168,6 @@ public:
 	 * is unknown.
 	 */
 	int strokeCount() const { return _strokeCount; }
-	/**
-	 * Returns the frequency of this kanji. -1 means it has no frequency
-	 * associated.
-	 */
-	int kanjiFrequency() const { return _kanjiFrequency; }
 	/**
 	 * Returns the jlpt level of this kanji. -1 means it is not part of
 	 * any JLPT test.
