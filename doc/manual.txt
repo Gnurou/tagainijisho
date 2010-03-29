@@ -65,27 +65,39 @@ Table of Contents
 =========================
 
 Tagaini Jisho is an open source[^OSS] Japanese dictionary application. It is
-designed to help students of the Japanese language in their studies by 
-providing:
-    
-* Complete Japanese vocabulary and Kanji Dictionaries, with more than
-      130,000 entries and stroke order animation for more than 6,000 kanji;
-* Powerful search mechanisms, including kanji radical search and other
-      filters;
+designed to help students of the Japanese language in their study by 
+providing powerful tools to search, organize and study japanese vocabulary and kanji entries.
+
+1.1. Search
+-----------
+* Complete Japanese vocabulary and kanji Dictionaries, with more than
+      140,000 vocabulary and 12,000 kanji entries;
+* Full wildcard support in textual search;
+* Radical and component-based kanji lookup, including an input method that let you find almost
+  any kanji provided you can recognize some of its components;
+* JLPT classifications or vocabulary and kanji
+
+1.2. Organize
+-------------
+* A study list keeps track of all the vocabulary and kanji entries you wish to study;
+* Sets let you easily remember any search, allowing you to quickly access queries like "What are the JLPT-2 kanji I added to my study list this week?";
+* Notes and tags can be applied to entries, allowing you to group entries
+      in a way that makes sense to you;
+* Hierarchical and ordered lists provide an easy way to classify vocabulary and kanji met in textbooks or to organize them arbitrarily;
+
+1.3. Study
+----------
+* Stroke order animations for more than 6000 kanji
 * Transparent connection of related entries, including transitive / 
       intransitive verb references and Homophones. Tagaini maximises the 
       logical connections between elements of the Japanese language in order
       to facilitate their memorisation;
-* A study list which allows Tagaini to keep track of entries as you learn 
-      them. It tracks your ability to remember each entry with flash cards.
-* Notes and tags can be applied to entries, allowing you to group entries
-      in a way that makes sense to you;
+* Flash cards for both vocabulary and kanji entries that insist on the entries you have trouble memorizing;
 * Production of printed material, including a handy fold-able booklet to
       study anywhere. 
 
 This version of the Tagaini Jisho documentation has been written using Tagaini
-Jisho 0.2.4 as a base, and changes have been iterated into it for version
-0.2.5. It is possible that some aspects of the program have been left out
+Jisho 0.2.5. It is possible that some aspects of the program have been left out
 or are ambiguous. If so, please feel free to contact the author or the Tagaini
 mailing list. Contact details can be found in the contact section on either
 the website or this document.
@@ -100,7 +112,7 @@ the website or this document.
 2. Getting Started
 ==================
 
-Tagaini Jisho is a dictionary program. It allows you to search a dictionary for
+Tagaini Jisho is, above all, a dictionary program. It allows you to search a dictionary for
 terms and easily find related entries. This chapter covers the basic usage of
 the application. 
 
@@ -113,24 +125,18 @@ the application.
 
 ![The GUI](images/tagaini_gui.png)
 
-Tagaini Jisho's GUI, when opened for the first time, four main sections and
-two toolbars. The first toolbar holds miscellaneous functions, the second,
-reasonably larger than the first, is the `filters toolbar`. It controls which
-search controls are displayed in the `search panel`, Directly beneath the
-filters toolbar. 
+Tagaini Jisho's GUI, when opened for the first time, displays the results view (upper right), the lists view (left), and the detailed view (bottom right).
 
-Below the search panel is `the results view`, which lists any results of the
-search. The information is a short description to allow you to chose the
-result you were after.
+The `results view` provides a series of text filters that allows you to search according to some criteria. In order to avoid cluttering the GUI with the many search options, only one filter is visible at a time, when you click its button. Once a search is run, its results are going to be displayed under the search filters, in the form of a short description that allows you to spot the ones you were specifically after.
 
-Tagaini will remember your searches, and you can go back and forward through
-them with the left and right arrow at the top left of the results view, next
+Tagaini remembers your searches, and you can go back and forward through
+them using the left and right arrow at the top left of the results view, next
 to where it displays the number of results. By default, the results view will
 only list up to 50 entries. Beyond that, it will put them on a new page. Which
-page you are viewing is controlled with the buttons to the top right of the
+page you are viewing is controlled with the buttons at the top right of the
 list. 
 
-Below that is `the detailed view`, which displays any and all information on
+Below the results view is the `detailed view`, which displays any and all information on
 a selected entry. The buttons above the view allow you to go back and forward
 through selected entries. Next to them are the study flags, tag and
 note buttons.
