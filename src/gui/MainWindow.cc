@@ -31,6 +31,7 @@
 #include "gui/TextFilterWidget.h"
 #include "gui/MainWindow.h"
 #include "gui/ui_AboutDialog.h"
+#include "gui/ManualBrowser.h"
 
 #include <QtDebug>
 
@@ -298,10 +299,14 @@ void MainWindow::manual()
 {
 	// First check if we have an installation prefix
 #ifdef DATA_DIR
-	QDesktopServices::openUrl(QUrl("file://" + QDir(QUOTEMACRO(DATA_DIR)).filePath("doc/manual.html")));
+	QString f = QDir(QUOTEMACRO(DATA_DIR)).filePath("doc");
 #else
-	QDesktopServices::openUrl(QUrl("file://" + QDir(QCoreApplication::applicationDirPath()).filePath("doc/manual.html")));
+	QString f = QDir(QCoreApplication::applicationDirPath()).filePath("doc");
 #endif
+	ManualBrowser *mb = new ManualBrowser(f, this);
+	mb->setAttribute(Qt::WA_DeleteOnClose);
+	mb->setWindowFlags(Qt::Window);
+	mb->show();
 }
 
 void MainWindow::bugReport()
