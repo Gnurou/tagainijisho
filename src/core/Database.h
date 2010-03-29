@@ -95,6 +95,7 @@ public:
 	 * the query is completely stopped.
 	 */
 	static void abortQuery();
+	static void sqliteFix();
 };
 
 #endif

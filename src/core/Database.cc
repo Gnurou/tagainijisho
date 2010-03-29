@@ -455,10 +455,15 @@ extern "C" {
 void tagaini_sqlite3_fix_activevdbecnt(sqlite3 *db);
 }
 
+void Database::sqliteFix()
+{
+	tagaini_sqlite3_fix_activevdbecnt(_instance->sqliteHandler);
+}
+
 void Database::abortQuery()
 {
 	sqlite3_interrupt(_instance->sqliteHandler);
-	tagaini_sqlite3_fix_activevdbecnt(_instance->sqliteHandler);
+	sqliteFix();
 }
 
 void Database::closeDB()
