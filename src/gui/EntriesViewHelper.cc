@@ -218,6 +218,18 @@ QModelIndexList EntriesViewHelper::getAllIndexes(const QModelIndexList& indexes)
 	return getAllIndexes(indexes, alreadyIn);
 }
 
+static bool modelIndexLessThan(const QModelIndex &i1, const QModelIndex &i2)
+{
+	QModelIndex p1(i1.parent());
+	QModelIndex p2(i2.parent());
+	if (i1 == p2) return true;
+	else if (p1 == p2) {
+		return (i1.row() < i2.row());
+	}
+	else if (p1.isValid() && modelIndexLessThan(p1, i2)) return true;
+	return false;
+}
+
 QModelIndexList EntriesViewHelper::getAllIndexes(const QModelIndexList& indexes, QSet<QModelIndex>& alreadyIn)
 {
 	QModelIndexList ret;
@@ -238,6 +250,7 @@ QModelIndexList EntriesViewHelper::getAllIndexes(const QModelIndexList& indexes,
 			ret += getAllIndexes(childs, alreadyIn);
 		}
 	}
+	qStableSort(ret.begin(), ret.end(), modelIndexLessThan);
 	return ret;
 }
 
