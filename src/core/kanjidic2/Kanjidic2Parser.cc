@@ -57,9 +57,12 @@ bool Kanjidic2Parser::parse(QXmlStreamReader &reader)
 						kanji.stroke_count = TEXT.toUInt();
 					DONE
 					ENDTAG
-					TAG(freq)
+					TAG_PRE(freq)
+						uint curFreq;
+					TAG_BEGIN(freq)
 					CHARACTERS
-						kanji.freq = TEXT.toUInt();
+						curFreq = TEXT.toUInt();
+						kanji.freq = curFreq;
 					DONE
 					ENDTAG
 					TAG(jlpt)

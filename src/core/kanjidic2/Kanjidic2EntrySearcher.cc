@@ -273,7 +273,7 @@ QueryBuilder::Column Kanjidic2EntrySearcher::canSort(const QString &sort, const 
 	}*/
 	// TODO replace with frequency, once the sort order is changed
 	else if (sort == "freq") return QueryBuilder::Column("kanjidic2.entries", "jlpt");
-	else if (sort == "jlpt") return QueryBuilder::Column("kanjidic2.entries", "jlpt");
+	else if (sort == "jlpt") return QueryBuilder::Column("kanjidic2.entries", "frequency");
 	return res;
 }
 

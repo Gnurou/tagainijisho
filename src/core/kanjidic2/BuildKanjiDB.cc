@@ -78,7 +78,7 @@ bool Kanjidic2DBParser::onItemParsed(Kanjidic2Item &kanji)
 	AUTO_BIND(insertEntryQuery, kanji.id, 0);
 	AUTO_BIND(insertEntryQuery, kanji.grade, 0);
 	AUTO_BIND(insertEntryQuery, kanji.stroke_count, 0);
-	AUTO_BIND(insertEntryQuery, kanji.freq, 0);
+	AUTO_BIND(insertEntryQuery, (kanji.freq == 0 ? 0 : 2502 - kanji.freq), 0);
 	AUTO_BIND(insertEntryQuery, kanji.jlpt, 0);
 	EXEC(insertEntryQuery);
 
@@ -166,10 +166,10 @@ bool KanjiVGDBParser::onItemParsed(KanjiVGItem &kanji)
 	// First ensure the kanji is into the DB by attempting to
 	// insert a dummy entry
 	AUTO_BIND(insertOrIgnoreEntryQuery, kanji.id, 0);
-	BIND(insertOrIgnoreEntryQuery, -1);
-	BIND(insertOrIgnoreEntryQuery, -1);
-	BIND(insertOrIgnoreEntryQuery, -1);
-	BIND(insertOrIgnoreEntryQuery, -1);
+	BIND(insertOrIgnoreEntryQuery, QVariant(QVariant::Int));
+	BIND(insertOrIgnoreEntryQuery, QVariant(QVariant::Int));
+	BIND(insertOrIgnoreEntryQuery, QVariant(QVariant::Int));
+	BIND(insertOrIgnoreEntryQuery, QVariant(QVariant::Int));
 	EXEC(insertOrIgnoreEntryQuery);
 
 	// Insert groups
