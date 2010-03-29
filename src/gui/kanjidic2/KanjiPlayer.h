@@ -49,6 +49,7 @@ private:
 	int _strokesCpt;
 	int _state;
 	qreal _lengthCpt;
+	bool _showGrid;
 	const KanjiComponent *_highlightedComponent;
 	QAbstractButton *playButton;
 	QAbstractButton *resetButton;
@@ -78,10 +79,13 @@ public:
 
 	void setKanji(const ConstKanjidic2EntryPointer &entry);
 	void setPosition(int strokeNbr);
+	
+	bool showGrid() const { return _showGrid; }
 
 	static PreferenceItem<int> animationSpeed;
 	static PreferenceItem<int> delayBetweenStrokes;
 	static PreferenceItem<int> animationLoopDelay;
+	static PreferenceItem<bool> showGridPref;
 
 public slots:
 	void setAnimationSpeed(int speed) { _animationSpeed = speed / 10.0; }
@@ -97,6 +101,7 @@ public slots:
 	void reset();
 	void nextStroke();
 	void prevStroke();
+	void setShowGrid(bool show) { _showGrid = show; update(); }
 
 signals:
 	void animationStarted();

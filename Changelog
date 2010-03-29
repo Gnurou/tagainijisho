@@ -19,6 +19,7 @@
 * Option to reset the user database in the preferences
 * Popup window behavior fixed on Windows - will now close when clicked outside
 * Kanji popup window can now be moved by click and drag
+* Added option to show grid during kanji stroke animations
 
 0.2.4 released on 2009-12-16
 * Updated to SQLite 3.6.21

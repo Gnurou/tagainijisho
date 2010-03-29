@@ -587,6 +587,13 @@
                </item>
               </layout>
              </item>
+             <item row="3" column="1">
+              <widget class="QCheckBox" name="showGrid">
+               <property name="text">
+                <string>Show grid</string>
+               </property>
+              </widget>
+             </item>
             </layout>
            </item>
            <item>
@@ -731,6 +738,7 @@
   <tabstop>animSpeedSlider</tabstop>
   <tabstop>animDelayDefault</tabstop>
   <tabstop>animDelaySlider</tabstop>
+  <tabstop>showGrid</tabstop>
   <tabstop>autoStartAnim</tabstop>
   <tabstop>animationLoopDelay</tabstop>
  </tabstops>

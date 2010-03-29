@@ -175,6 +175,12 @@ void KanjiRenderer::renderStroke(const KanjiStroke &stroke, QPainter *painter)
 	str->render(painter);
 }
 
+void KanjiRenderer::renderGrid(QPainter *painter)
+{
+	painter->drawLine(QLineF(0, 54.5, 109, 54.5));
+	painter->drawLine(QLineF(54.5, 0, 54.5, 109));
+}
+
 const KanjiRenderer::Stroke *KanjiRenderer::strokeFor(const KanjiStroke &stroke) const
 {
 	if (!_strokesMap.contains(&stroke)) return 0;

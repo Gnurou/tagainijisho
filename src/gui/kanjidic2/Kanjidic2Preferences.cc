@@ -47,6 +47,7 @@ Kanjidic2Preferences::Kanjidic2Preferences(QWidget *parent) : PreferencesWindowC
 	_player->setPictureSize(KanjiPopup::animationSize.value());
 	previewEntry = KanjiEntryRef(0x9593).get();
 	_player->setKanji(previewEntry);
+	connect(showGrid, SIGNAL(toggled(bool)), _player, SLOT(setShowGrid(bool)));
 	connect(animSpeedSlider, SIGNAL(valueChanged(int)), _player, SLOT(setAnimationSpeed(int)));
 	connect(animDelaySlider, SIGNAL(valueChanged(int)), _player, SLOT(setDelayBetweenStrokes(int)));
 	connect(animationLoopDelay, SIGNAL(valueChanged(int)), _player, SLOT(setAnimationLoopDelay(int)));
@@ -103,6 +104,7 @@ void Kanjidic2Preferences::refresh()
 	animSpeedDefault->setChecked(KanjiPlayer::animationSpeed.isDefault());
 	animDelaySlider->setValue(KanjiPlayer::delayBetweenStrokes.value());
 	animDelayDefault->setChecked(KanjiPlayer::delayBetweenStrokes.isDefault());
+	showGrid->setChecked(KanjiPlayer::showGridPref.value());
 	autoStartAnim->setChecked(KanjiPopup::autoStartAnim.value());
 	animationLoopDelay->setValue(KanjiPlayer::animationLoopDelay.value());
 
@@ -155,6 +157,7 @@ void Kanjidic2Preferences::applySettings()
 	else KanjiPlayer::animationSpeed.set(animSpeedSlider->value());
 	if (animDelayDefault->isChecked()) KanjiPlayer::delayBetweenStrokes.reset();
 	else KanjiPlayer::delayBetweenStrokes.set(animDelaySlider->value());
+	KanjiPlayer::showGridPref.set(showGrid->isChecked());
 	KanjiPopup::autoStartAnim.set(autoStartAnim->isChecked());
 	KanjiPlayer::animationLoopDelay.set(animationLoopDelay->value());
 }

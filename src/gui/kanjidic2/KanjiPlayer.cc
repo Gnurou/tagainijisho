@@ -34,8 +34,9 @@
 PreferenceItem<int> KanjiPlayer::animationSpeed("kanjidic", "animationSpeed", 30);
 PreferenceItem<int> KanjiPlayer::delayBetweenStrokes("kanjidic", "delayBetweenStrokes", 10);
 PreferenceItem<int> KanjiPlayer::animationLoopDelay("kanjidic", "animationLoopDelay", -1);
+PreferenceItem<bool> KanjiPlayer::showGridPref("kanjidic", "showStrokesGrid", false);
 
-KanjiPlayer::KanjiPlayer(QWidget *parent) : QWidget(parent), _timer(), _kanji(0), renderer(), _picture(), _state(STATE_STROKE), _highlightedComponent(0)
+KanjiPlayer::KanjiPlayer(QWidget *parent) : QWidget(parent), _timer(), _kanji(0), renderer(), _picture(), _state(STATE_STROKE), _showGrid(showGridPref.value()), _highlightedComponent(0)
 {
 	setAnimationSpeed(animationSpeed.value());
 	setDelayBetweenStrokes(delayBetweenStrokes.value());
@@ -189,12 +190,24 @@ void KanjiPlayer::renderCurrentState()
 	pen2.setWidth(DEFAULT_PEN_WIDTH);
 	pen2.setCapStyle(Qt::RoundCap);
 	pen2.setJoinStyle(Qt::RoundJoin);
-
+	
 	QPainter painter(&_picture);
 	painter.scale(pictureSize() / 109.0, pictureSize() / 109.0);
 	painter.setRenderHint(QPainter::Antialiasing);
 
-	// First render the outline
+	// Render the grid, if relevant
+	if (showGrid()) {
+		QPen pen3;
+		pen3.setWidth(DEFAULT_PEN_WIDTH / 2);
+		pen3.setColor(palette().color(QPalette::Mid));
+		pen3.setCapStyle(Qt::RoundCap);
+		pen3.setJoinStyle(Qt::RoundJoin);
+		painter.setPen(pen3);
+
+		renderer.renderGrid(&painter);
+	}
+	
+	// Render the outline
 	pen.setWidth(HIGHLIGHT_PEN_WIDTH);
 	painter.setPen(pen);
 	renderer.renderStrokes(&painter);

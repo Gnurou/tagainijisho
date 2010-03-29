@@ -90,6 +90,10 @@ public:
 	 */
 	void renderStrokePart(const KanjiStroke &stroke, qreal length, QPainter *painter);
 	/**
+	 * Render the kanji grid.
+	 */
+	void renderGrid(QPainter *painter);
+	/**
 	 * Returns the total length of a stroke, useful for partial drawing. 0 is returned
 	 * if the path is unknown to this renderer.
 	 */
