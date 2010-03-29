@@ -121,11 +121,8 @@ void JMdictEntrySearcher::buildStatement(QList<SearchCommand> &commands, QueryBu
 	// First delegate to the parent
 	EntrySearcher::buildStatement(commands, statement);
 
-	QueryBuilder::Column frequencyColumn("jmdict.entries", "frequency");
-
 	// Then process remaining commands
-	// Default frequency table is the global entry one
-	QString table, freqTable = "jmdict.entries";
+	QString table;
 	QStringList kanjiReadingsMatch;
 	QStringList kanaReadingsMatch;
 	QStringList transReadingsMatch;
@@ -140,8 +137,6 @@ void JMdictEntrySearcher::buildStatement(QList<SearchCommand> &commands, QueryBu
 			if (command.command() == "mean") table = "jmdict.gloss";
 			else if (command.command() == "kana") table = "jmdict.kana";
 			else if (command.command() == "kanji") table = "jmdict.kanji";
-
-			if (command.command() != "mean") freqTable = table;
 
 			statement.addJoin(QueryBuilder::Join(QueryBuilder::Column(table, "id")));
 

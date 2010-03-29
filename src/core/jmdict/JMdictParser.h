@@ -29,7 +29,6 @@
 class JMdictKanjiWritingItem {
 public:
 	QString writing;
-	// TODO Frequency not yet calculated
 	int frequency;
 	
 	JMdictKanjiWritingItem() : writing(), frequency(0) {}
@@ -39,10 +38,9 @@ class JMdictKanaReadingItem {
 public:
 	QString reading;
 	bool noKanji;
-	// TODO Frequency not yet calculated
 	int frequency;
 	QList<quint8> restrictedTo;
-	
+
 	JMdictKanaReadingItem() : reading(), noKanji(false), frequency(0) {}
 };
 
@@ -68,7 +66,6 @@ public:
 class JMdictItem {
 public:
 	int id;
-	// TODO frequency not yet calculated
 	int frequency;
 	QList<JMdictKanjiWritingItem> kanji;
 	QList<JMdictKanaReadingItem> kana;

@@ -55,6 +55,23 @@ JMdictParser::JMdictParser(const QStringList &langs) : languages(langs), gotVers
 {
 }
 
+static uint getFreqScore(const QString &code)
+{
+	if (code == "news1") return 50;
+	else if (code == "news2") return 10;
+	else if (code == "ichi1") return 50;
+	else if (code == "ichi2") return 10;
+	else if (code == "spec1") return 50;
+	else if (code == "spec2") return 10;
+	else if (code == "gai1") return 50;
+	else if (code == "gai2") return 10;
+	else if (code.mid(0, 2) == "nf") return 51 - code.mid(2,4).toInt();
+	else {
+		qDebug() << "Unknown frequency code" << code;
+		return 0;
+	}
+}
+
 bool JMdictParser::parse(QXmlStreamReader &reader)
 {
 	DOCUMENT_BEGIN(reader)
@@ -82,6 +99,10 @@ bool JMdictParser::parse(QXmlStreamReader &reader)
 						kWriting.writing = TEXT;
 						DONE
 					ENDTAG
+					TAG(ke_pri)
+						kWriting.frequency = getFreqScore(TEXT);
+						entry.frequency += kWriting.frequency;
+					ENDTAG
 				ENDTAG
 				TAG_PRE(r_ele)
 				entry.kana << JMdictKanaReadingItem();
@@ -91,6 +112,10 @@ bool JMdictParser::parse(QXmlStreamReader &reader)
 						CHARACTERS
 						kReading.reading = TEXT;
 						DONE
+					ENDTAG
+					TAG(re_pri)
+						kReading.frequency = getFreqScore(TEXT);
+						entry.frequency += kReading.frequency;
 					ENDTAG
 					TAG_PRE(re_nokanji)
 						kReading.noKanji = true;

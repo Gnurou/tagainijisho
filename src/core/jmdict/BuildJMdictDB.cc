@@ -67,7 +67,7 @@ bool JMdictDBParser::onItemParsed(const JMdictItem &entry)
 		BIND(insertKanjiQuery, entry.id);
 		BIND(insertKanjiQuery, idx);
 		BIND(insertKanjiQuery, rowId);
-		BIND(insertKanjiQuery, kWriting.frequency);
+		AUTO_BIND(insertKanjiQuery, kWriting.frequency, 0);
 		EXEC(insertKanjiQuery);
 		
 		// Insert kanji mappings
@@ -98,7 +98,7 @@ bool JMdictDBParser::onItemParsed(const JMdictItem &entry)
 		BIND(insertKanaQuery, idx);
 		BIND(insertKanaQuery, rowId);
 		BIND(insertKanaQuery, (quint8) kReading.noKanji);
-		BIND(insertKanaQuery, kReading.frequency);
+		AUTO_BIND(insertKanaQuery, kReading.frequency, 0);
 		QStringList restrictedToList;
 		foreach (quint8 res, kReading.restrictedTo) restrictedToList << QString::number(res);
 		AUTO_BIND(insertKanaQuery, restrictedToList.join(","), "");
@@ -149,7 +149,7 @@ bool JMdictDBParser::onItemParsed(const JMdictItem &entry)
 	
 	// Insert entry
 	BIND(insertEntryQuery, entry.id);
-	BIND(insertEntryQuery, entry.frequency);
+	AUTO_BIND(insertEntryQuery, entry.frequency, 0);
 	BIND(insertEntryQuery, kanjiCount);
 	EXEC(insertEntryQuery);
 	return true;
@@ -187,7 +187,7 @@ static bool create_tables()
 	EXEC_STMT(query, "create table miscEntities(bitShift INTEGER PRIMARY KEY, name TEXT, description TEXT)");
 	EXEC_STMT(query, "create table fieldEntities(bitShift INTEGER PRIMARY KEY, name TEXT, description TEXT)");
 	EXEC_STMT(query, "create table dialectEntities(bitShift INTEGER PRIMARY KEY, name TEXT, description TEXT)");
-	EXEC_STMT(query, "create table entries(id INTEGER PRIMARY KEY, frequency TINYINT, kanjiCount TINYINT)");
+	EXEC_STMT(query, "create table entries(id INTEGER PRIMARY KEY, frequency SMALLINT, kanjiCount TINYINT)");
 	EXEC_STMT(query, "create table kanji(id INTEGER SECONDARY KEY REFERENCES entries, priority TINYINT, docid INT, frequency TINYINT)");
 	EXEC_STMT(query, "create virtual table kanjiText using fts3(reading)");
 	EXEC_STMT(query, "create table kana(id INTEGER SECONDARY KEY REFERENCES entries, priority TINYINT, docid INT, nokanji BOOLEAN, frequency TINYINT, restrictedTo TEXT)");
