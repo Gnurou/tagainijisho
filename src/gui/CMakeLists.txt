@@ -53,6 +53,7 @@ ManualBrowser.cc
 MainWindow.cc
 jmdict/JMdictEntryFormatter.cc
 jmdict/JMdictPreferences.cc
+jmdict/JMdictFilterWidget.cc
 jmdict/JMdictGUIPlugin.cc
 jmdict/JMdictYesNoTrainer.cc
 kanjidic2/Kanjidic2EntryFormatter.cc
@@ -112,6 +113,7 @@ TrainSettings.h
 UpdateChecker.h
 YesNoTrainer.h
 ManualBrowser.h
+jmdict/JMdictFilterWidget.h
 jmdict/JMdictGUIPlugin.h
 jmdict/JMdictPreferences.h
 jmdict/JMdictYesNoTrainer.h
