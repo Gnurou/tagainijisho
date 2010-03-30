@@ -177,8 +177,18 @@ void KanjiRenderer::renderStroke(const KanjiStroke &stroke, QPainter *painter)
 
 void KanjiRenderer::renderGrid(QPainter *painter)
 {
+	painter->save();
 	painter->drawLine(QLineF(0, 54.5, 109, 54.5));
 	painter->drawLine(QLineF(54.5, 0, 54.5, 109));
+	QPen pen(painter->pen());
+	pen.setWidth(pen.width() / 3.0);
+	pen.setStyle(Qt::DotLine);
+	painter->setPen(pen);
+	painter->drawLine(QLineF(0, 28.25, 109, 28.25));
+	painter->drawLine(QLineF(0, 82.75, 109, 82.75));
+	painter->drawLine(QLineF(28.25, 0, 28.25, 109));
+	painter->drawLine(QLineF(82.75, 0, 82.75, 109));
+	painter->restore();
 }
 
 const KanjiRenderer::Stroke *KanjiRenderer::strokeFor(const KanjiStroke &stroke) const
