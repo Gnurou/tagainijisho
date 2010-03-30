@@ -22,6 +22,7 @@
 
 #include <QHBoxLayout>
 #include <QVBoxLayout>
+#include <QGridLayout>
 #include <QLabel>
 
 JMdictFilterWidget::JMdictFilterWidget(QWidget *parent) : SearchFilterWidget(parent, "wordsdic")
@@ -29,24 +30,24 @@ JMdictFilterWidget::JMdictFilterWidget(QWidget *parent) : SearchFilterWidget(par
 	_propsToSave << "containedKanjis" << "containedComponents" << "studiedKanjisOnly" << "pos" << "dial" << "field" << "misc";
 	QVBoxLayout *mainLayout = new QVBoxLayout(this);
 	{
-		QHBoxLayout *hLayout = new QHBoxLayout();
 		_containedKanjis = new QLineEdit(this);
 		KanjiValidator *kanjiValidator = new KanjiValidator(this);
 		_containedKanjis->setValidator(kanjiValidator);
 		_containedComponents = new QLineEdit(this);
 		_containedComponents->setValidator(kanjiValidator);
 
+		QGridLayout *gLayout = new QGridLayout();
+		gLayout->addWidget(new QLabel(tr("With kanji:"), this), 0, 0);
+		QHBoxLayout *hLayout = new QHBoxLayout();
 		_studiedKanjisCheckBox = new QCheckBox(tr("Using studied kanji only"));
-		hLayout->addWidget(new QLabel(tr("With kanji:"), this));
 		hLayout->addWidget(_containedKanjis);
 		hLayout->addWidget(_studiedKanjisCheckBox);
-		mainLayout->addLayout(hLayout);
+		gLayout->addLayout(hLayout, 0, 1);
 
-		hLayout = new QHBoxLayout();
-		hLayout->addWidget(new QLabel(tr("With components:"), this));
-		hLayout->addWidget(_containedComponents);
-		mainLayout->addLayout(hLayout);
+		gLayout->addWidget(new QLabel(tr("With components:"), this), 1, 0);
+		gLayout->addWidget(_containedComponents, 1, 1);
 
+		mainLayout->addLayout(gLayout);
 		connect(_containedKanjis, SIGNAL(textChanged(const QString &)), this, SLOT(commandUpdate()));
 		connect(_containedComponents, SIGNAL(textChanged(const QString &)), this, SLOT(commandUpdate()));
 		connect(_studiedKanjisCheckBox, SIGNAL(toggled(bool)), this, SLOT(commandUpdate()));
