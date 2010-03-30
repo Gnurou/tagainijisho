@@ -47,6 +47,7 @@ EntryListModelCache EntryListModel::prepareCacheEntry(QSqlQuery &query) const
 	} else {
 		nCache.rowId = query.value(0).toInt();
 		nCache.parent = query.value(1).isNull() ? -1 : query.value(1).toInt();
+		nCache.position = query.value(2).toInt();
 		nCache.type = query.value(3).isNull() ? -1 : query.value(3).toInt();
 		nCache.id = query.value(4).toInt();
 		nCache.label = query.value(5).toString();
@@ -59,8 +60,7 @@ EntryListModelCache EntryListModel::prepareCacheEntry(QSqlQuery &query) const
 			query.exec();
 			if (query.next()) nCache.count = query.value(0).toInt();
 		}
-		// Otherwise its position is its row
-		else nCache.position = query.value(2).toInt();	
+		else nCache.count = 0;
 	}
 	return nCache;
 }
@@ -248,6 +248,7 @@ bool EntryListModel::moveRows(int row, int delta, const QModelIndex &parent, QSq
 bool EntryListModel::insertRows(int row, int count, const QModelIndex & parent)
 {
 	if (!TRANSACTION) return false;
+	beginInsertRows(parent, row, row + count -1);
 	{
 		QSqlQuery query;
 		// First update the positions of items located after the new lists
@@ -265,7 +266,6 @@ bool EntryListModel::insertRows(int row, int count, const QModelIndex & parent)
 			EXEC_T(query);
 		}
 	}
-	beginInsertRows(parent, row, row + count -1);
 	if (!COMMIT) goto transactionFailed;
 	invalidateCache();
 	endInsertRows();
