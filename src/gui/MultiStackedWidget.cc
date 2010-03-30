@@ -77,7 +77,7 @@ void MultiStackedWidgetButton::rewriteCurrentTitle()
 		QFontMetrics metrics(_altWidget->font());
 		int nbSpaces = ALTWIDGETSIZE / metrics.width(' ');
 		QString spaces;
-		for (int i = 0; i < nbSpaces; i++) spaces += ' ';
+		for (int i = 0; i < nbSpaces + 1; i++) spaces += ' ';
 		QToolButton::setText(elidedText + spaces);
 	}
 	else {
