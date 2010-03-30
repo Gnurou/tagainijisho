@@ -59,10 +59,10 @@ kanjidic2/Kanjidic2EntryFormatter.cc
 kanjidic2/KanjiRenderer.cc
 kanjidic2/KanjiPopup.cc
 kanjidic2/KanjiPlayer.cc
-#kanjidic2/ComponentSearchWidget.cc
 kanjidic2/KanjiResultsView.cc
 kanjidic2/KanjiSelector.cc
 kanjidic2/Kanjidic2Preferences.cc
+kanjidic2/Kanjidic2FilterWidget.cc
 kanjidic2/Kanjidic2GUIPlugin.cc
 main.cc
 )
@@ -118,9 +118,9 @@ jmdict/JMdictYesNoTrainer.h
 kanjidic2/Kanjidic2GUIPlugin.h
 kanjidic2/Kanjidic2Preferences.h
 kanjidic2/KanjiPlayer.h
-#kanjidic2/ComponentSearchWidget.h
 kanjidic2/KanjiPopup.h
 kanjidic2/KanjiResultsView.h
+kanjidic2/Kanjidic2FilterWidget.h
 kanjidic2/KanjiSelector.h
 )
 

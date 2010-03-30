@@ -20,14 +20,10 @@
 
 #include "core/Plugin.h"
 #include "core/kanjidic2/Kanjidic2Entry.h"
-#include "gui/HexSpinBox.h"
 #include "gui/ReadingTrainer.h"
 #include "gui/SearchFilterWidget.h"
 #include "gui/YesNoTrainer.h"
-#include "gui/kanjidic2/KanjiSelector.h"
-
-#include <QSpinBox>
-#include <QComboBox>
+#include "gui/kanjidic2/Kanjidic2FilterWidget.h"
 
 class KanjiLinkHandler;
 class KanjiAllWordsHandler;
@@ -38,7 +34,7 @@ class Kanjidic2GUIPlugin : public QObject, public Plugin
 {
 	Q_OBJECT
 private:
-	QAction *_flashKL, *_flashKS, *_flashML, *_flashMS, *_readingPractice;
+	QAction *_flashKL, *_flashKS, *_flashML, *_flashMS, *_readingPractice, *_showKanjiPopup;
 	KanjiLinkHandler *_linkHandler;
 	KanjiAllWordsHandler *_wordsLinkHandler;
 	KanjiAllComponentsOfHandler *_componentsLinkHandler;
@@ -63,6 +59,7 @@ protected slots:
 	void trainingMeaningList();
 	void trainingMeaningSet();
 	void readingPractice();
+	void popupDetailedViewKanjiEntry();
 
 public:
 	Kanjidic2GUIPlugin();
@@ -79,6 +76,7 @@ public:
 	static const QString kanjiGrades[];
 
 	static PreferenceItem<bool> kanjiTooltipEnabled;
+	static void showPopup(const Kanjidic2EntryPointer &entry, const QPoint &pos);
 };
 
 class KanjiLinkHandler : public DetailedViewLinkHandler
@@ -101,83 +99,6 @@ class KanjiAllComponentsOfHandler : public DetailedViewLinkHandler
 public:
 	KanjiAllComponentsOfHandler();
 	void handleUrl(const QUrl &url, DetailedView *view);
-};
-
-class Kanjidic2FilterWidget : public SearchFilterWidget
-{
-	Q_OBJECT
-private:
-	QSpinBox *_strokeCountSpinBox;
-	QSpinBox *_maxStrokeCountSpinBox;
-	QCheckBox *_rangeCheckBox;
-	QPushButton *_gradeButton;
-	QStringList _gradesList;
-	QLineEdit *_radicals;
-	RadicalKanjiSelector *_radKSelector;
-	QLineEdit *_components;
-	ComponentKanjiSelector *_compKSelector;
-	HexSpinBox *_unicode;
-	QSpinBox *_skip1, *_skip2, *_skip3;
-	QComboBox *_fcTopLeft, *_fcTopRight, *_fcBotLeft, *_fcBotRight, *_fcExtra;
-	/// Actiongroup used to store the kanjis grades options
-	QActionGroup *actionGroup;
-	QAction *allKyouku, *allJouyou;
-
-protected:
-	virtual void _reset();
-	virtual bool eventFilter(QObject *watched, QEvent *event);
-	
-public:
-	Kanjidic2FilterWidget(QWidget *parent = 0);
-
-	virtual QString name() const { return "kanjidicoptions"; }
-	virtual QString currentTitle() const;
-	virtual QString currentCommand() const;
-
-	virtual void updateFeatures();
-
-	int strokeCount() const { return _strokeCountSpinBox->value(); }
-	void setStrokeCount(int value) { _strokeCountSpinBox->setValue(value); }
-	Q_PROPERTY(int strokeCount READ strokeCount WRITE setStrokeCount)
-
-	int maxStrokeCount() const { return _maxStrokeCountSpinBox->value(); }
-	void setMaxStrokeCount(int value) { _maxStrokeCountSpinBox->setValue(value); }
-	Q_PROPERTY(int maxStrokeCount READ maxStrokeCount WRITE setMaxStrokeCount)
-	
-	bool isStrokeRange() const { return _rangeCheckBox->isChecked(); }
-	void setStrokeRange(bool value) { _rangeCheckBox->setChecked(value); }
-	Q_PROPERTY(int isStrokeRange READ isStrokeRange WRITE setStrokeRange)
-	
-	QString radicals() const { return _radicals->text(); }
-	void setRadicals(const QString &value) { _radicals->setText(value); }
-	Q_PROPERTY(QString radicals READ radicals WRITE setRadicals)
-	
-	QString components() const { return _components->text(); }
-	void setComponents(const QString &value) { _components->setText(value); }
-	Q_PROPERTY(QString components READ components WRITE setComponents)
-
-	int unicode() const { return _unicode->value(); }
-	void setUnicode(int value) { _unicode->setValue(value); }
-	Q_PROPERTY(int unicode READ unicode WRITE setUnicode)
-
-	QString skip() const;
-	void setSkip(const QString &value);
-	Q_PROPERTY(QString skip READ skip WRITE setSkip)
-
-	QString fourCorner() const;
-	void setFourCorner(const QString &value);
-	Q_PROPERTY(QString fourCorner READ fourCorner WRITE setFourCorner)
-	
-	QStringList grades() const { return _gradesList; }
-	void setGrades(const QStringList &list);
-	Q_PROPERTY(QStringList grades READ grades WRITE setGrades)
-
-protected slots:
-	void onStrokeRangeToggled(bool checked);
-	void onStrokeRangeChanged();
-	void onGradeTriggered(QAction *action);
-	void allKyoukuKanjis(bool checked);
-	void allJouyouKanjis(bool checked);
 };
 
 #endif // KANJIDIC2GUIPLUGIN_H
