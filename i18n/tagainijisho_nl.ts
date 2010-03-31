@@ -545,42 +545,42 @@
 <context>
     <name>EntryListView</name>
     <message>
-        <location filename="../src/gui/EntryListView.cc" line="33"/>
+        <location filename="../src/gui/EntryListView.cc" line="34"/>
         <source>Delete</source>
         <translation type="unfinished">Verwijderen</translation>
     </message>
     <message>
-        <location filename="../src/gui/EntryListView.cc" line="33"/>
+        <location filename="../src/gui/EntryListView.cc" line="34"/>
         <source>New list...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/EntryListView.cc" line="130"/>
+        <location filename="../src/gui/EntryListView.cc" line="131"/>
         <source>Unable to create list</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/EntryListView.cc" line="130"/>
+        <location filename="../src/gui/EntryListView.cc" line="131"/>
         <source>A database error occured while trying to add the list.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/EntryListView.cc" line="149"/>
+        <location filename="../src/gui/EntryListView.cc" line="150"/>
         <source>Confirm deletion</source>
         <translation type="unfinished">Bevestig verwijdering</translation>
     </message>
     <message>
-        <location filename="../src/gui/EntryListView.cc" line="149"/>
+        <location filename="../src/gui/EntryListView.cc" line="150"/>
         <source>This will delete the selected lists items and lists, including all their children. Continue?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/EntryListView.cc" line="160"/>
+        <location filename="../src/gui/EntryListView.cc" line="161"/>
         <source>Removal failed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/EntryListView.cc" line="160"/>
+        <location filename="../src/gui/EntryListView.cc" line="161"/>
         <source>A database error has occured while trying to remove the selected items:
 
 %1
@@ -670,17 +670,17 @@
 <context>
     <name>EntryTypeFilterWidget</name>
     <message>
-        <location filename="../src/gui/EntryTypeFilterWidget.cc" line="31"/>
+        <location filename="../src/gui/EntryTypeFilterWidget.cc" line="33"/>
         <source>All</source>
         <translation type="unfinished">Alles</translation>
     </message>
     <message>
-        <location filename="../src/gui/EntryTypeFilterWidget.cc" line="32"/>
+        <location filename="../src/gui/EntryTypeFilterWidget.cc" line="34"/>
         <source>Vocabulary</source>
         <translation type="unfinished">Woordenschat</translation>
     </message>
     <message>
-        <location filename="../src/gui/EntryTypeFilterWidget.cc" line="33"/>
+        <location filename="../src/gui/EntryTypeFilterWidget.cc" line="35"/>
         <source>Kanji</source>
         <translation type="unfinished">Kanji</translation>
     </message>
@@ -2644,13 +2644,13 @@ improve performance when manipulating a large number of entries.</source>
     </message>
     <message>
         <location filename="../src/gui/MainWindow.ui" line="109"/>
-        <location filename="../src/gui/MainWindow.cc" line="234"/>
+        <location filename="../src/gui/MainWindow.cc" line="227"/>
         <source>Export user data...</source>
         <translation>Gebruiksgegevens exporteren...</translation>
     </message>
     <message>
         <location filename="../src/gui/MainWindow.ui" line="118"/>
-        <location filename="../src/gui/MainWindow.cc" line="243"/>
+        <location filename="../src/gui/MainWindow.cc" line="236"/>
         <source>Import user data...</source>
         <translation>Gebruiksgegevens importeren...</translation>
     </message>
@@ -2817,22 +2817,22 @@ improve performance when manipulating a large number of entries.</source>
         <translation>&amp;Over...</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="246"/>
+        <location filename="../src/gui/MainWindow.cc" line="239"/>
         <source>About to replace user data!</source>
         <translation>Gebruikersgegevens zullen worden vervangen!</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="246"/>
+        <location filename="../src/gui/MainWindow.cc" line="239"/>
         <source>&lt;b&gt;WARNING:&lt;/b&gt; All the user data (study list, tags, notes, training, ...) is going to be replaced by the selected user data file. Are you &lt;b&gt;sure&lt;/b&gt; you want to do this?</source>
         <translation>&lt;b&gt;LET OP:&lt;/b&gt; Alle gebruikersgegevens (studielijst, labels, aantekeningen, oefeningen, etc.) zullen worden vervangen door het geselecteerde gebruikersgegevensbestand. Weet je &lt;b&gt;zeker&lt;/b&gt; dat je dit wil doen?</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="253"/>
+        <location filename="../src/gui/MainWindow.cc" line="246"/>
         <source>Please restart Tagaini Jisho</source>
         <translation>Gelieve Tagaini Jisho opnieuw op te starten</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="253"/>
+        <location filename="../src/gui/MainWindow.cc" line="246"/>
         <source>The imported data will be available the next time you start Tagaini Jisho. All changes performed from now will be lost. Do you want to exit Tagaini Jisho now?</source>
         <translation>De geïmporteerde gegevens zullen de volgende keer dat Tagaini Jisho gestart wordt beschikbaar zijn. Alle wijzigingen die nu nog uitgevoerd worden zullen verloren gaan. Wil je Tagaini Jisho nu sluiten?</translation>
     </message>
@@ -2881,84 +2881,79 @@ improve performance when manipulating a large number of entries.</source>
         <translation type="obsolete">Er is een fout opgetreden bij het wegschrijven van bestand %1.</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="123"/>
+        <location filename="../src/gui/MainWindow.cc" line="119"/>
         <source>Auto-search on clipboard content</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="140"/>
-        <source>Lists</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/gui/MainWindow.cc" line="329"/>
+        <location filename="../src/gui/MainWindow.cc" line="322"/>
         <source>An update is available!</source>
         <translation>Een update is beschikbaar!</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="330"/>
+        <location filename="../src/gui/MainWindow.cc" line="323"/>
         <source>Version %1 of Tagaini Jisho is available. Do you want to download it now?</source>
         <translation>Versie %1 van Tagaini Jisho is beschikbaar. Wil je deze nu downloaden?</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="332"/>
-        <location filename="../src/gui/MainWindow.cc" line="347"/>
+        <location filename="../src/gui/MainWindow.cc" line="325"/>
+        <location filename="../src/gui/MainWindow.cc" line="340"/>
         <source>Let&apos;s go!</source>
         <translation>Kom maar op!</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="334"/>
-        <location filename="../src/gui/MainWindow.cc" line="349"/>
+        <location filename="../src/gui/MainWindow.cc" line="327"/>
+        <location filename="../src/gui/MainWindow.cc" line="342"/>
         <source>Maybe later</source>
         <translation>Misschien later</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="344"/>
+        <location filename="../src/gui/MainWindow.cc" line="337"/>
         <source>A development update is available!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="345"/>
+        <location filename="../src/gui/MainWindow.cc" line="338"/>
         <source>Development version %1 of Tagaini Jisho is available. Do you want to download it now?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="399"/>
+        <location filename="../src/gui/MainWindow.cc" line="392"/>
         <source>Create new set here...</source>
         <translation>Maak hier een nieuwe reeks aan...</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="401"/>
+        <location filename="../src/gui/MainWindow.cc" line="394"/>
         <source>Create new folder here...</source>
         <translation>Maak hier een nieuwe map aan...</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="413"/>
+        <location filename="../src/gui/MainWindow.cc" line="406"/>
         <source>New set</source>
         <translation>Nieuwe reeks</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="413"/>
+        <location filename="../src/gui/MainWindow.cc" line="406"/>
         <source>Please enter a name for this set:</source>
         <translation>Geef een naam op voor deze reeks:</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="413"/>
+        <location filename="../src/gui/MainWindow.cc" line="406"/>
         <source>Unnamed set</source>
         <translation>Naamloze reeks</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="435"/>
+        <location filename="../src/gui/MainWindow.cc" line="428"/>
         <source>New sets folder</source>
         <translation>Nieuwe reeksenmap</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="435"/>
+        <location filename="../src/gui/MainWindow.cc" line="428"/>
         <source>Please enter a name for this folder</source>
         <translation>Geef een naam op voor deze map</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="435"/>
+        <location filename="../src/gui/MainWindow.cc" line="428"/>
         <source>Unnamed folder</source>
         <translation>Naamloze map</translation>
     </message>
@@ -2995,18 +2990,18 @@ improve performance when manipulating a large number of entries.</source>
 <context>
     <name>MultiStackedWidget</name>
     <message>
-        <location filename="../src/gui/MultiStackedWidget.cc" line="115"/>
+        <location filename="../src/gui/MultiStackedWidget.cc" line="118"/>
         <source>Ctrl+%1</source>
         <translation>Ctrl+%1</translation>
     </message>
     <message>
-        <location filename="../src/gui/MultiStackedWidget.cc" line="123"/>
+        <location filename="../src/gui/MultiStackedWidget.cc" line="126"/>
         <source>Ctrl+0</source>
         <extracomment>Shortcut for hiding all extenders</extracomment>
         <translation>Ctrl+0</translation>
     </message>
     <message>
-        <location filename="../src/gui/MultiStackedWidget.cc" line="134"/>
+        <location filename="../src/gui/MultiStackedWidget.cc" line="137"/>
         <source>Reset this filter</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3510,14 +3505,12 @@ improve performance when manipulating a large number of entries.</source>
         <translation type="obsolete">Ctrl+R</translation>
     </message>
     <message>
-        <location filename="../src/gui/SearchBar.cc" line="50"/>
         <source>Search</source>
-        <translation>Zoeken</translation>
+        <translation type="obsolete">Zoeken</translation>
     </message>
     <message>
-        <location filename="../src/gui/SearchBar.cc" line="56"/>
         <source>Clear search text</source>
-        <translation>Zoekopdracht wissen</translation>
+        <translation type="obsolete">Zoekopdracht wissen</translation>
     </message>
 </context>
 <context>
