@@ -2,6 +2,12 @@
 # Build all that is possible to build under Linux (source tarball + databases + win32 binaries)
 VERSION=`grep "set(VERSION " CMakeLists.txt |sed -n 's/set(VERSION \(.*\))$/\1/p'`
 
+# Update translation files 
+lupdate . -ts i18n/*.ts 
+git add i18n/*.ts 
+git commit -m "Updated translation files for release $VERSION" 
+git tag -f $VERSION 
+
 rm -Rf releasefiles
 mkdir releasefiles
 sh scripts/buildsourcerelease.sh
