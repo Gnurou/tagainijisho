@@ -17,15 +17,25 @@
 
 #include "gui/EntryListWidget.h"
 
+#include <QToolButton>
+
 EntryListWidget::EntryListWidget(QWidget *parent) : SearchFilterWidget(parent)
 {
 	setupUi(this);
+	
 	QToolButton *menuButton = new QToolButton(this);
 	menuButton->setIcon(QIcon(":/images/icons/list-add.png"));
 	menuButton->setMenu(lists->helper()->entriesMenu());
 	menuButton->setPopupMode(QToolButton::InstantPopup);
 	menuButton->setAutoRaise(true);
-	static_cast<QHBoxLayout *>(_toolsWidget->layout())->insertWidget(0, menuButton);
-	newListButton->setDefaultAction(entryListView()->newListAction());
-	deleteSelectionButton->setDefaultAction(entryListView()->deleteSelectionAction());
+
+	QToolBar *_toolBar = new QToolBar(this);
+	_toolBar->setAttribute(Qt::WA_MacMiniSize);
+	_toolBar->layout()->setContentsMargins(0, 0, 0, 0);
+	_toolBar->setStyleSheet("QToolBar { background: none; border-style: none; border-width: 0px; margin: 0px; padding: 0px; }");	
+	_toolBar->addWidget(menuButton);
+	_toolBar->addAction(entryListView()->newListAction());
+	_toolBar->addAction(entryListView()->deleteSelectionAction());
+	
+	vLayout->insertWidget(0, _toolBar);
 }

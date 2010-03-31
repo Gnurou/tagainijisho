@@ -91,6 +91,7 @@ DockTitleBar::DockTitleBar(QWidget *widget, QDockWidget *parent) : QWidget(paren
 	ttButton->setMaximumSize(icon.actualSize(QSize(16, 16)) + QSize(1, 1));
 	connect(ttButton, SIGNAL(clicked()), parent, SLOT(close()));
 	hLayout->addWidget(ttButton);
+	setAttribute(Qt::WA_MacMiniSize);
 
 	int left, right, top, bottom;
 	hLayout->getContentsMargins(&left, &top, &right, &bottom);
@@ -108,14 +109,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), _clipboardEnabled
 	// Steal the tool bar and set it as our dock title bar widget
 	QWidget *filtersToolBar = static_cast<QBoxLayout *>(searchWidget()->layout())->takeAt(0)->widget();
 	DockTitleBar *dBar = new DockTitleBar(filtersToolBar, _searchDockWidget);
+	dBar->setAttribute(Qt::WA_MacMiniSize);
 	_searchDockWidget->setTitleBarWidget(dBar);
-	// Requires Qt 4.6
-	// QMargins margins(dBar->layout()->contentsMargins());
-	// dBar->layout()->setContentsMargins(margins.left(), 0, margins.right(), 0);
 	
-	// TODO Save space, otherwise the title bar may become too big
-	//filtersToolBar->setMaximumHeight(dBar->height() / 2);
-
 	// Focus on the text input on startup
 	actionFocus_text_search->trigger();
 	
@@ -135,11 +131,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), _clipboardEnabled
 	QDockWidget *dWidget = new QDockWidget(_entryListWidget->currentTitle(), this);
 	dWidget->setAllowedAreas(Qt::AllDockWidgetAreas);
 	// Steal the toolbar
-	QWidget *toolsWidget = new QWidget(_entryListWidget);
-	QHBoxLayout *hLayout = new QHBoxLayout(toolsWidget);
-	hLayout->addWidget(new QLabel(tr("Lists"), toolsWidget));
-	hLayout->addWidget(static_cast<QBoxLayout *>(_entryListWidget->layout())->takeAt(0)->widget());
-	dBar = new DockTitleBar(toolsWidget, dWidget);
+	dBar = new DockTitleBar(static_cast<QBoxLayout *>(_entryListWidget->layout())->takeAt(0)->widget(), dWidget);
+	dBar->setAttribute(Qt::WA_MacMiniSize);
 	dWidget->setTitleBarWidget(dBar);
 	
 	dWidget->setWidget(_entryListWidget);

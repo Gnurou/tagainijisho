@@ -54,6 +54,7 @@ SearchWidget::SearchWidget(QWidget *parent) : QWidget(parent), _history(historyS
 	connect(&_searchBuilder, SIGNAL(queryRequested(QString)), this, SLOT(search(QString)));
 	
 	_filtersToolBar = new QToolBar(this);
+	_filtersToolBar->setAttribute(Qt::WA_MacMiniSize);
 	_filtersToolBar->layout()->setContentsMargins(0, 0, 0, 0);
 	_filtersToolBar->setStyleSheet("QToolBar { background: none; border-style: none; border-width: 0px; margin: 0px; padding: 0px; }");
 	

@@ -22,18 +22,22 @@
 EntryTypeFilterWidget::EntryTypeFilterWidget(QWidget *parent) : SearchFilterWidget(parent)
 {
 	_propsToSave << "type";
+	
+	_comboBox = new QComboBox(this);
+#ifndef Q_WS_MAC
 	QFont fnt(font());
 	fnt.setPointSize(fnt.pointSize() - 1);
 	setFont(fnt);
-	
-	_comboBox = new QComboBox(this);
 	_comboBox->setFont(fnt);
+#endif
 	_comboBox->addItem(tr("All"), 0);
 	_comboBox->addItem(tr("Vocabulary"), 1);
 	_comboBox->addItem(tr("Kanji"), 2);
 	connect(_comboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(onComboBoxChanged(int)));
+	_comboBox->setAttribute(Qt::WA_MacMiniSize);
 
 	QHBoxLayout *hLayout = new QHBoxLayout(this);
+	hLayout->setContentsMargins(0, 0, 0, 0);
 	hLayout->addWidget(_comboBox);
 }
 

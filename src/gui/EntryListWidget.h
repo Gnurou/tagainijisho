@@ -33,7 +33,6 @@ public:
 	virtual QString currentTitle() const { return tr("Lists"); }
 	virtual QString currentCommand() const { return ""; }
 	EntryListView *entryListView() const { return lists; }
-	QWidget *toolsWidget() { return _toolsWidget; }
 };
 
 #endif

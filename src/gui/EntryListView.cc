@@ -23,6 +23,7 @@
 
 #include <QInputDialog>
 #include <QMessageBox>
+#include <QToolBar>
 
 PreferenceItem<bool> EntryListView::smoothScrollingSetting("mainWindow/lists", "smoothScrolling", true);
 PreferenceItem<QString> EntryListView::textFontSetting("mainWindow/lists", "textFont", "");
