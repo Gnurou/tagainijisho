@@ -92,7 +92,7 @@ void JMdictPreferences::refresh()
 	const QStringList &filtered(JMdictEntrySearcher::miscPropertiesFilter.value().split(','));
 	for (int i = 0; i < JMdictPlugin::miscEntities().size(); i++) {
 		QPair<QString, QString> entity(JMdictPlugin::miscEntities()[i]);
-		QString s(entity.second);
+		QString s(QCoreApplication::translate("JMdictLongDescs", entity.second.toLatin1()));
 		s[0] = s[0].toUpper();
 		if (filtered.contains(entity.first)) filteredDefs->addItem(s);
 		else displayedDefs->addItem(s);
