@@ -28,9 +28,9 @@ Table of Contents
 		- [The Tags and Notes Filters]
 		- [The Vocabulary Filter]
 		- [The Kanji Filter]
-	- [Dictionary Entries]  
-		- [Vocabulary]  
-		- [Kanji]   
+	- [Viewing Entries]  
+		- [Vocabulary Entries]  
+		- [Kanji Entries]   
 3. [Advanced Features]
 	- [Lists]
 	- [Sets]
@@ -63,9 +63,7 @@ Table of Contents
 What is Tagaini-Jisho?
 ======================
 
-Tagaini Jisho is an open source[^OSS] Japanese dictionary application. It is
-designed to help students of the Japanese language in their study by 
-providing powerful tools to search, organize and study japanese vocabulary and kanji entries.
+Tagaini Jisho is an open source[^OSS] Japanese dictionary application. It is designed to help students of the Japanese language in their study by providing powerful tools to search, organize and study japanese vocabulary and kanji entries.
 
 ### Search
 * Complete Japanese vocabulary and kanji Dictionaries, with more than
@@ -92,14 +90,9 @@ providing powerful tools to search, organize and study japanese vocabulary and k
 * Production of printed material, including a handy fold-able booklet to
       study anywhere. 
 
-This version of the Tagaini Jisho documentation has been written using Tagaini
-Jisho 0.2.5. It is possible that some aspects of the program have been left out
-or are ambiguous. If so, please feel free to contact the author or the Tagaini
-mailing list. Contact details can be found in the contact section on either
-the website or this document.
+This version of the Tagaini Jisho documentation has been written using Tagaini Jisho 0.2.5. It is possible that some aspects of the program have been left out or are ambiguous. If so, please feel free to contact the author or the Tagaini mailing list. Contact details can be found in the contact section on either the website or this document.
 
-[^OSS]: Open Source Software: Software that has been released for free by its 
-	author, along with its source code. 
+[^OSS]: Open Source Software: Software that has been released for free by its author, along with its source code. 
 
 ******
 [Table of Contents] - [Top](#top "Top")
@@ -123,22 +116,11 @@ Tagaini Jisho's GUI, when opened for the first time, displays the results view (
 
 The **results view** provides a series of search filters that allows you to search according to some criteria. In order to avoid cluttering the GUI with the many search options, only one filter is visible at a time, when you click its button. Once a search is run, its results are displayed under the search filters, in the form of a short description that allows you to spot the ones you were specifically after.
 
-Tagaini remembers your searches, and you can go back and forward through
-them using the left and right arrow at the top left of the results view, next
-to where it displays the number of results. By default, the results view will
-only list up to 50 entries. Beyond that, they will be put on a new page. Which
-page you are viewing is controlled with the buttons at the top right of the
-list. 
+Tagaini remembers your searches, and you can go back and forward through them using the left and right arrow at the top left of the results view, next to where it displays the number of results. By default, the results view will only list up to 50 entries. Beyond that, they will be put on a new page. Which page you are viewing is controlled with the buttons at the top right of the list. 
 
-Below the results view is the **detailed view**, which displays any and all information about
-a selected entry. The buttons above the view allow you to go back and forward
-through selected entries. Next to them are the study flags, tag and
-note buttons.
+Below the results view is the **detailed view**, which displays any and all information about a selected entry. The buttons above the view allow you to go back and forward through selected entries. Next to them are the study flags, tag and note buttons.
 
-When you right click on an entry in the results window, a context
-menu opens. In the context menu are the same actions that are along the top of the
-detailed view, as well as a *Select All* option. Right clicking on a kanji in
-the detailed view has the same effect, and provides an *Open in detailed view...* option which opens the entry for the kanji in the detailed view. You may also right click on the magnifying icon, which is a reference to the stated entry.
+When you right click on an entry in the results window, a context menu opens. In the context menu are the same actions that are along the top of the detailed view, as well as a *Select All* option. Right clicking on a kanji in the detailed view has the same effect, and provides an *Open in detailed view...* option which opens the entry for the kanji in the detailed view. You may also right click on the magnifying icon, which is a reference to the stated entry.
 
 Tagaini's views can also be resized, moved or hidden in order to adapt the interface to your current activity, available screen surface, or way of working. To hide a view, simply click on the *x* icon at the right of their toolbar. A hidden view can be made visible again using the corresponding action in the **Search** menu or its keyboard shortcut. Clicking and dragging on a view's toolbar will let you detach and move it around the workspace.
 
@@ -181,7 +163,7 @@ The text search filter is used for entering textual search terms. The text field
 
 Search terms are character-set sensitive and can be combined. For instance, if you enter "`しけん`" into the search bar it will result in 試験 (test), 私見 (personal opinion) and 私権 (private right.) If, however, you enter "`しけん test`", it will search both terms and only result in 試験 (test) as Tagaini will only display entries for which all the search terms match.
 
-Every search term is separated by spaces, or double quotes; or `""`. To search for a sentence, which includes spaces, you can enclose the sentence in quotation marks, or `""`. For instance, if you search for `to run`, then Tagaini will find and list every entry with both the word to and run in it. If instead you search `"to run"`, then Tagaini will only find entries with the words "to run" in them in that order, which probably makes sense if you are looking for the verb.
+Every search term is separated by spaces, or double quotes; or `""`. To search for a sentence which includes spaces, you can enclose the sentence in quotation marks, or `""`. For instance, if you search for `to run`, then Tagaini will find and list every entry with both the word to and run in it. If instead you search `"to run"`, then Tagaini will only find entries with the words "to run" in them in that order, which probably makes sense if you are looking for the verb.
 
 As Tagaini matches terms to entries exactly, there is currently no romaji search. So, searching for "`watashi`" will not result in 私：わたし. To find an entry you must search either its kanji or hiragana reading.
 
@@ -201,19 +183,19 @@ Tagaini supports *wild cards*[^wildcards]. The `*` character represents an unkno
 	
 ![The Study Extender](images/search_study.png)
 
-The study tab filters through searches according to whether or not the entry is on the study list. Tagaini indeed lets you mark entries you want to study and keeps lots of statistics about them, including a score that represents how well you remember it. The study status defaults to `None`, so it does not filter results. Changing this to `Studied` will cause only entries in the study list to be listed in the results view. `Not studied` causes only results not in the study list to be shown[^studynum].
+The study tab filters through searches according to whether or not the entry is on the study list. Tagaini indeed lets you mark entries you want to study and keeps lots of statistics about them, including a score that represents how well you remember it. The study status defaults to *None*, so it does not filter results. Changing this to *Studied* will cause only entries in the study list to be listed in the results view. `Not studied` causes only results not in the study list to be shown[^studynum].
 
-To add entries to the study list, either right click on them in the results view, or use the detailed view toolbar and click the blue flag, `Add to study list`, which adds the entry to the list with a score of 0. The green flag, `Already known`, will add the entry with a score of 95. 
+To add entries to the study list, either right click on them in the results view, or use the detailed view toolbar and click the blue flag, *Add to study list*, which adds the entry to the list with a score of 0. The green flag, *Already known*, will add the entry with a score of 95. 
 
-Each entry is given a colour between red and green according to their score, and it is displayed as the entries background in the results view. As you practise[^practicefoot], the score on each entry in your study list will change. You will then be able to filter entries that you know you know from your searches. When the study status is set to `studied` Tagaini will only search through entries that have a score within the range of `Min` and `Max`, the values from the score section.
+Each entry is given a colour between red and green according to their score, and it is displayed as the entries background in the results view. As you practise[^practicefoot], the score on each entry in your study list will change. You will then be able to filter entries that you know you know from your searches. When the study status is set to *studied* Tagaini will only search through entries that have a score within the range of *Min* and *Max*, the values from the score section.
 
-The study date section filters entries according to the date the entry was added to the study list. Clicking any of the not set buttons, in this section or the others, brings up a calendar to select a date or allows you to set a  number of days／weeks／months／years prior to today's date. If an entry has been added after the `since` date and before the `until` date then it will be listed in the results view in any searches.
+The study date section filters entries according to the date the entry was added to the study list. Clicking any of the not set buttons, in this section or the others, brings up a calendar to select a date or allows you to set a  number of days／weeks／months／years prior to today's date. If an entry has been added after the *since* date and before the *until* date then it will be listed in the results view in any searches.
 
 The last trained section allows you to set a time range for finding entries according to when you last practised it, and the last mistaken section allows  you to set a time range for when you last made a mistake on the entry.
 
 [^practicefoot]: See Chapter 5 Section 2; [Study List][] for more information on practising with your study list, as well as manipulating it. 
 
-[^studynum]: Just setting the status to `not studied` without any other search criteria will cause every entry not in the study list to be listed. This is likely to be a very large number of entries.
+[^studynum]: Just setting the status to *not studied* without any other search criteria will cause every entry not in the study list to be listed. This is likely to be a very large number of entries.
 
 <a name="jlptex" />
 
@@ -223,7 +205,7 @@ The last trained section allows you to set a time range for finding entries acco
 
 ### The JLPT Filter
 
-JLPT stands for the Japanese Language Proficiency Test. It is a test administered by the `Japan Foundation` and `Japan Educational Exchanges and Services` for the purposes of evaluating and certifying the Japanese language proficiency of non-native speakers.[^jlptfoot]
+JLPT stands for the Japanese Language Proficiency Test. It is a test administered by the *Japan Foundation* and *Japan Educational Exchanges and Services* for the purposes of evaluating and certifying the Japanese language proficiency of non-native speakers.[^jlptfoot]
 
 Up until 2010 there have been four levels, with level 4 being the lowest and 1 being the highest. The JLPT filter lets you filter vocabulary and kanji entries according to the JLPT level they are likely to show in. You can check several levels. Please keep in mind that although this information can probably be considered reliable, it is only given for informational purposes, as there is no official JLPT lists of vocabulary and kanji.
 
@@ -255,9 +237,9 @@ If an entry has a tag, a small tag icon will be displayed on the right side of
 the entry in the results view, next to the scroll bar and at the bottom of
 the entry in the detailed view.
 
-To add a tag, you can use the `Add tags...` button, which looks like a tag with a green bit at the top. White space, or spaces, separates each tag, so writing "genki ch04" adds two tags; "genki" and "ch04".
+To add a tag, you can use the **Add tags...** button, which looks like a tag with a green bit at the top. White space, or spaces, separates each tag, so writing "genki ch04" adds two tags; "genki" and "ch04".
 
-Any tags you add with the `Add tags...` in the current session[^tagainisession] can be found again in the `Recently added tags...` sub menu of the context menu[^contextmenu], which makes adding tags to a set of entries easier. The `Set tags...` button brings up a list of all the current tags attached to an entry so that they can be edited. Additional tags can be entered here. Despite the `Add tags...` button not bringing up tags that have already been set on an entry, adding new ones does not overwrite the existing ones, it just appends them to the list.
+Any tags you add with the **Add tags...** in the current session[^tagainisession] can be found again in the **Recently added tags...** sub menu of the context menu[^contextmenu], which makes adding tags to a set of entries easier. The **Set tags...** button brings up a list of all the current tags attached to an entry so that they can be edited. Additional tags can be entered here. Despite the **Add tags...** button not bringing up tags that have already been set on an entry, adding new ones does not overwrite the existing ones, it just appends them to the list.
 
 [^tagainisession]: A session is started each time you run the program. If you run Tagaini, use it for five minutes and close it, then that is one session. If you run it again five minutes later then you are running a different session.
 
@@ -265,9 +247,9 @@ Any tags you add with the `Add tags...` in the current session[^tagainisession] 
 
 Notes are post-it like information that you can add about an entry. You could use notes to describe the relationship between a word or another or any other information you judge noteworthy about the entry. For instance, if a word, such as 降る、appears in a textbook you are studying in a phrase, such as 雨が降る/雨が降ります、in a chapter before the entry itself, you may wish note that in the entry. In the example one may write "Appears in chapter 4 of textbook_name as 雨が降る".
 
-When you search with the `notes` filter, the search will match any entries with whatever text you write in the text field, exactly. If, using the above example, you have two different entries on verbs that have been used in phrases and have noted this, if you search for "Appears in" it will find both of these entries, however if they are in separate chapters and you extend that string to "Appears in chapter 5", then it will only find the one that has that exactly. 
+When you search with the **Notes** filter, the search will match any entries with whatever text you write in the text field, exactly. If, using the above example, you have two different entries on verbs that have been used in phrases and have noted this, if you search for "Appears in" it will find both of these entries, however if they are in separate chapters and you extend that string to "Appears in chapter 5", then it will only find the one that has that exactly. 
 
-To add a note, use the `Edit notes...` button, which looks like a yellow stick-it note pad and a pen. It will bring up a window with any existing notes. You can edit existing notes by selecting them and editing them, add new notes with the `New note` button, and delete notes. 
+To add a note, use the **Edit notes...** button, which looks like a yellow stick-it note pad and a pen. It will bring up a window with any existing notes. You can edit existing notes by selecting them and editing them, add new notes with the **New note** button, and delete notes. 
 
 <a name="vocabex" />
 
@@ -299,55 +281,38 @@ Below that are four sub menus, labelled **Part of speech**, **Dialect**, **Field
 
 ![Kanji Filter](images/search_kanji.png)
 
-The kanji filter contains filtration options specific to kanji entries and
-as such cannot be used in conjunction with the vocabulary filter.
+The kanji filter contains filtration options specific to kanji entries and as such cannot be used in conjunction with the vocabulary filter.
 
-The first section on the tab, `Stroke count`, finds every kanji that has 
-`n` strokes in it, `n` being a number between 1 and 34.
+The first section on the tab, **Stroke count**, filters kanji by their number of strokes. It is possible to specify a range by checking the corresponding checkbox.
 
-The next section, `Components`, acts in the same way as its counterpart in
-the vocabulary filter. It searches for a kanji based on the radicals that
-create it. The difference is in the entries being searched, instead of
-searching vocabulary entries, which could have multiple kanji, The kanji
-filter affects searches through the kanji dictionary. As such, only one
-instance of a kanji will be returned.
+The next section allows to filter kanji by their radical or components. Focusing the **Radicals** input line will trigger a popup listing the 214 radicals, from which you can selects those you want to filter against. Every time a radical is selected, the radicals list updates itself to only list the radicals that can be combined with the current selection.
 
 ![Kanji Filter](images/search_kanji_radical.png)
 
-The `Unicode` section, in the middle of the tab, finds the character with
-the Unicode value `0xH` where `H` is a hexadecimal[^hex] value representing the 
-number. No two characters have the same value. For instance, the character 取
-has a Unicode value of 0x53d6. Putting that in the Unicode field will result
-in the entry for 取 being listed.
+**Components**, acts in the same way as radicals, but broaden the concept. While radicals are limited to a set of 214 key characters, a component can be any part of a kanji for which a character exists, which makes lookup using components much more flexible. You can click on or input just any component that you recognize in the kanji, and the list of complementary components will update itself automatically, while the search for corresponding kanji is run in the background.
 
-The next section is for finding kanji by `SKIP code`. A skip code is a way of
-categorising kanji according to its type. SKIP codes are comprised of three
-numbers and are annotated X-Y-Z. Each slider in the `SKIP code` section relates
-to one of these numbers.[^SKIPfoot]
+Radical and component-based kanji search are very powerful kanji lookup methods. They can also be used to insert kanji into any text input, including the text search widget, using the [Kanji Input Panel][].
 
-The fifth section, or second from the right, is labelled `Four corner`. It
-provides four drop down boxes corresponding to each corner of a Chinese
-character and a fifth box for miscellaneous strokes. Four corner method is a
-Chinese input method to used to find kanji.[^FCfoot] 
+The **Unicode** section, in the middle of the tab, finds the character with the Unicode value `0xH` where `H` is a hexadecimal[^hex] value representing the number. No two characters have the same value. For instance, the character 取 has a Unicode value of 0x53d6. Putting that in the Unicode field will result in the entry for 取 being listed.
 
-The last section, `School grade`, represents which school level the kanji is
-taught in. 
+The next section is for finding kanji by **SKIP code**. A skip code is a way of categorising kanji according to its type. SKIP codes are comprised of three numbers and are annotated X-Y-Z. Each slider in the **SKIP code** section relates to one of these numbers.[^SKIPfoot]
+
+The fifth section, or second from the right, is labelled **Four corner**. It provides four drop down boxes corresponding to each corner of a Chinese character and a fifth box for miscellaneous strokes. Four corner method is a Chinese input method to used to find kanji.[^FCfoot] 
+
+The last section, **School grade**, represents which school level the kanji is taught in. 
 
 [^SKIPfoot]: http://www.basic-japanese.com/Hilfsdateien/skipCode.html  
 
 [^FCfoot]: http://en.wikipedia.org/wiki/Four_Corner_Method
 
-[^hex]: Hexadecimal, or hex, is a counting system like decimal. Instead of
-having 10 values (0-9), such as decimal or base ten, it has 16 values and can be
-called base 16. As there are no more single numeric characters after 9, hex
-continues on from the beginning of the alphabet, so A is equivalent to decimal
-10. This means hex has a range of 0-F.
+[^hex]: http://en.wikipedia.org/wiki/Hexadecimal
 
 ******
 [Table of Contents] - [Top](#top "Top")
 ******
-2.3. Dictionary Entries
------------------------
+
+Viewing Entries
+---------------
 
 Entries are displayed in two different places. The results view and the
 Detailed view.
@@ -360,7 +325,7 @@ In the detailed view each selected entry is displayed with all the information
 in the entry. [Vocabulary][] entries are different to [Kanji][] entries.
 
 
-### 2.3.1 Vocabulary 
+### Vocabulary Entries
 
 ![The GUI - 取る](images/tagaini_entries.png)
 
@@ -396,12 +361,11 @@ entry for 取れる in the detailed view. This does not affect your current set.
 parts of speech markers.
 
 
-
 ******
 [Table of Contents] - [Top](#top "Top")
 ******
 
-### 2.3.2 Kanji
+### Kanji Entries
 
 Kanji entries contain information about a single kanji, what it means and how
 it is used. By default, the kanji is centred in the detail view window and its meanings
