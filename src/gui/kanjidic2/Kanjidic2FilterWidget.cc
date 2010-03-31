@@ -414,7 +414,7 @@ void Kanjidic2FilterWidget::onGradeTriggered(QAction *action)
 
 void Kanjidic2FilterWidget::updateFeatures()
 {
-	if (_strokeCountSpinBox->value() || _maxStrokeCountSpinBox->value() || !_radicals->text().isEmpty() || !_components->text().isEmpty() || !_gradesList.isEmpty() || _unicode->value() ||_skip1->value() || _skip2->value() || _skip3->value() || _fcTopLeft->currentIndex() != 0 || _fcTopRight->currentIndex() != 0 || _fcBotLeft->currentIndex() != 0 || _fcBotRight->currentIndex() != 0 || _fcExtra->currentIndex() != 0) emit disableFeature("wordsdic");
+	if (!currentCommand().isEmpty()) emit disableFeature("wordsdic");
 	else emit enableFeature("wordsdic");
 }
 

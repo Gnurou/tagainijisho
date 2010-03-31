@@ -54,6 +54,8 @@ bool SearchBuilder::addSearchFilter(SearchFilterWidget *filter)
 {
 	if (_filters.contains(filter->name())) return false;
 	connect(filter, SIGNAL(commandUpdated()), this, SLOT(runSearch()));
+	connect(filter, SIGNAL(enableFeature(QString)), this, SLOT(onFeatureEnabled(QString)));
+	connect(filter, SIGNAL(disableFeature(QString)), this, SLOT(onFeatureDisabled(QString)));
 	_filters[filter->name()] = filter;
 	return true;
 }
@@ -62,6 +64,8 @@ void SearchBuilder::removeSearchFilter(const QString &name)
 {
 	if (_filters.contains(name)) {
 		SearchFilterWidget *filter = _filters[name];
+		disconnect(filter, SIGNAL(disableFeature(QString)), this, SLOT(onFeatureDisabled(QString)));
+		disconnect(filter, SIGNAL(enableFeature(QString)), this, SLOT(onFeatureEnabled(QString)));
 		disconnect(filter, SIGNAL(commandUpdated()), this, SLOT(runSearch()));
 		_filters.remove(name);
 	}
@@ -87,5 +91,19 @@ void SearchBuilder::restoreState(const QMap<QString, QVariant> &state)
 			filter->restoreState(state.value(filter->name()).toMap());
 		}
 		filter->setAutoUpdateQuery(true);
+	}
+}
+
+void SearchBuilder::onFeatureEnabled(const QString &feature)
+{
+	foreach (SearchFilterWidget *filter, _filters.values()) {
+		if (filter->feature() == feature) filter->setEnabled(true);
+	}
+}
+
+void SearchBuilder::onFeatureDisabled(const QString &feature)
+{
+	foreach (SearchFilterWidget *filter, _filters.values()) {
+		if (filter->feature() == feature) filter->setEnabled(false);
 	}
 }

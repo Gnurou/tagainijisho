@@ -35,6 +35,10 @@ class SearchBuilder : public QObject {
 private:	
 	QMap<QString, SearchFilterWidget *> _filters;
 	
+protected slots:
+	void onFeatureEnabled(const QString &feature);
+	void onFeatureDisabled(const QString &feature);
+		
 public:
 	SearchBuilder(QObject *parent = 0);
 	

@@ -234,7 +234,7 @@ void JMdictFilterWidget::_reset()
 
 void JMdictFilterWidget::updateFeatures()
 {
-	if (!_containedKanjis->text().isEmpty() || !_containedComponents->text().isEmpty() || _studiedKanjisCheckBox->isChecked() || !_posList.isEmpty() || !_dialList.isEmpty() || !_fieldList.isEmpty() || !_miscList.isEmpty()) emit disableFeature("kanjidic");
+	if (!currentCommand().isEmpty()) emit disableFeature("kanjidic");
 	else emit enableFeature("kanjidic");
 }
 
@@ -277,4 +277,3 @@ void JMdictFilterWidget::setMisc(const QStringList &list)
 			action->trigger();
 	}
 }
-

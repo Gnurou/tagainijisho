@@ -80,6 +80,7 @@ private:
 
 protected:
 	QWidget *getWidgetByLabel(const QString &label);
+	virtual bool eventFilter(QObject *watched, QEvent *event);
 
 public:
 	MultiStackedWidget(QWidget *parent = 0);

@@ -145,15 +145,27 @@ QPair<QAction *, QAction *> MultiStackedWidget::addWidget(const QString &label, 
 	_buttonMap[widget] = info;
 	_orderedActions << action;
 	_layout->addWidget(widget);
+	widget->installEventFilter(this);
 	return actions;
 }
 
 void MultiStackedWidget::removeWidget(QWidget *widget)
 {
 	if (!_buttonMap.contains(widget)) return;
+	widget->removeEventFilter(this);
 	_layout->removeWidget(widget);
 	_orderedActions.removeOne(_buttonMap[widget].actions.first);
 	_buttonMap.remove(widget);
+}
+
+bool MultiStackedWidget::eventFilter(QObject *watched, QEvent *event)
+{
+	if (event->type() == QEvent::EnabledChange) {
+		QWidget *widget(qobject_cast<QWidget *>(watched));
+		bool enabled(widget->isEnabled());
+		_buttonMap[widget].actions.first->setEnabled(enabled);
+	}
+	return false;
 }
 
 void MultiStackedWidget::showWidget(QWidget *widget)
