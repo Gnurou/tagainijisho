@@ -121,12 +121,12 @@ Tagaini Jisho's GUI, when opened for the first time, displays the results view (
 
 ![The GUI](images/gui.png)
 
-The **results view** provides a series of search filters that allows you to search according to some criteria. In order to avoid cluttering the GUI with the many search options, only one filter is visible at a time, when you click its button. Once a search is run, its results are going to be displayed under the search filters, in the form of a short description that allows you to spot the ones you were specifically after.
+The **results view** provides a series of search filters that allows you to search according to some criteria. In order to avoid cluttering the GUI with the many search options, only one filter is visible at a time, when you click its button. Once a search is run, its results are displayed under the search filters, in the form of a short description that allows you to spot the ones you were specifically after.
 
 Tagaini remembers your searches, and you can go back and forward through
 them using the left and right arrow at the top left of the results view, next
 to where it displays the number of results. By default, the results view will
-only list up to 50 entries. Beyond that, it will put them on a new page. Which
+only list up to 50 entries. Beyond that, they will be put on a new page. Which
 page you are viewing is controlled with the buttons at the top right of the
 list. 
 
@@ -135,24 +135,12 @@ a selected entry. The buttons above the view allow you to go back and forward
 through selected entries. Next to them are the study flags, tag and
 note buttons.
 
-When you right click on an entry in the results window, it will open a context
-menu. In the context menu are the same options that are along the top of the
+When you right click on an entry in the results window, a context
+menu opens. In the context menu are the same actions that are along the top of the
 detailed view, as well as a *Select All* option. Right clicking on a kanji in
-the detailed view has the same effect, and provides an *Open in detailed view...* option which opens the entry for the kanji in the
-detailed view. You may also right click on the magnifying icon, which is a reference to the stated chapter.
+the detailed view has the same effect, and provides an *Open in detailed view...* option which opens the entry for the kanji in the detailed view. You may also right click on the magnifying icon, which is a reference to the stated entry.
 
-Tagaini's views can also be sized, to make the results or detailed view
-larger, whilst making the other smaller. To do this, there is a small dotted
-line above the detailed view's toolbar, directly below the results view
-window. Clicking and dragging this up and down changes the size.
-
-When opened for the first time, Tagaini will also have an extra panel on the left part, known
-as the **lists view**. 
-
-Both the lists view and results view can be
-detached from the main window, used as a floating window or be reattached to
-any side of the Window, to appear on the right of the results view - allowing you
-to arrange the interface optimally with respect to your screen surface and way to study.
+Tagaini's views can also be resized, moved or hidden in order to adapt the interface to your current activity, available screen surface, or way of working. To hide a view, simply click on the *x* icon at the right of their toolbar. A hidden view can be made visible again using the corresponding action in the **Search** menu or its keyboard shortcut. Clicking and dragging on a view's toolbar will let you detach and move it around the workspace.
 
 ******
 [Table of Contents] - [Top](#top "Top")
@@ -165,68 +153,19 @@ Any search for vocabulary or kanji entries takes place in the results view. Its 
 
 ![Results view options](images/search_titlebar.png)
 
-Along the top of the Tagaini window there is, by default, two toolbars. The
-second of these toolbars is the filters toolbar and it contains six tabs which
-control which search options are currently visible. By default, the `Text
-search` tab is selected, displaying the `Search Bar`, which is the simplest
-way to search for entries. 
+The first button displays a list of print/export options to apply to the currently displayed results, and is explained in a latter section. The second button let you reset the current search, bringing the results view back to an empty state. It is also accessible through the **Ctrl+r** shortcut.
 
-The search bar consists of a text field which doubles as a drop down list, and
-a button. You can enter words, or terms, to search for
-into the text field and then, when you either press the enter key or the search
-button, it will search for the terms in the search bar. Whilst Tagaini is
-searching for entries, the Tagaini Jisho logo, located above the results view
-and below the search button, will spin. 
+The following combo box is the **entry type selector**, and lets you filter which type of entry you want to search. Tagaini references both dictionary (words) and kanji (characters) entries, and by default let you search on both type of entries. But some searches may only make sense for one type - for instance if you want to specifically study kanji for a test.
 
-For instance, if you enter "`しけん`" into the search bar it will result in 試験
-(test,) 私見 (personal opinion) and 私権 (private right.) If, however, you
-enter "`しけん test`", it will search both terms and only result in 試験 (test)
-as Tagaini will only display entries with all the search terms.
+Next are labelled buttons which give you access to the various search filters. Tagaini lets you search for entries according to many different criteria, each one being accessible through its own filter that appears if the button is pressed. Once a search filter's state is changed from its default, a reset button similar to the results view's reset button, but local to the filter, will appear on the filter's button.
 
-Every search term is separated by spaces, or double quotes; or `""`. To search
-for a sentence, which includes spaces, you can enclose the sentence in
-quotation marks, or `""`. For instance, if you search for `to run`, then
-Tagaini will find and list every entry with both the word to and run in it. If
-instead you search `"to run"`, then Tagaini will only find entries with the
-words "to run" in them in that order.
+Finally, the last noticeable element of the results view is the Tagaini logo, which will animate as a search takes place. You can cancel a long search by clicking it.
 
-As Tagaini matches terms to entries exactly, there is currently no romaji
-search. So, searching for "`watashi`" will not result in 私：わたし. To find
-an entry you must search either its kanji or hiragana reading.
+There are six search filters located in the view's toolbar. By default [Text Search][textex] is selected, and the text search filter is displayed. The other search tabs are labelled: [Study][studyex]; [JLPT][jlptex]; [Tags][TagsnNotes]; [Notes][TagsnNotes]; [Vocabulary][vocabex]; [Kanji][kanjiex].
 
-On the search toolbar, to the right of the search tabs, there is a drop down
-list  which, by default, says `All`. It is the dictionary selector. It has two
-other options, `Vocabulary` and `Kanji`. Choosing one will tell Tagaini to
-only search for vocabulary or kanji. Selecting all will tell Tagaini to search
-through both the kanji and vocabulary dictionaries.
+Clicking on a different filter replaces the current one. It is also possible to select a filter through the **Ctrl+0..5** keyboard shortcuts, while **Ctrl+0** hides them all.
 
-When searching through both dictionaries, it's quite common to come across two
-similar-looking entries, such as two entries for 私 or 駅. These entries will
-usually come up for single kanji words. This happens because it is displaying
-an entry for the word, and an entry for the kanji. The two different entries
-will have information about different things. This is discussed further in the 
-next section.
-
-There are six search tabs located in the filters toolbar, next to the
-dictionary drop down list. Each of these tabs represents a different filter.
-By default [Text Search][textex] is selected, and
-the search bar is displayed. The other search tabs are labelled:
-[Study][studyex]; [Tags][TagsnNotes]; [Notes][TagsnNotes]; 
-[JLPT][jlptex]; [Vocabulary][vocabex]; [Kanji][kanjiex].
-Changing the tab replaces the search bar with a set of different options
-above the results view, that extends the search functionality to filter your
-results according to set criteria.
-
-If an an option in a tab is set then its the option will be included in the
-tabs title along with a reset button, identical to the one to the left of the
-search bar.
-
-[textex]: #textex
-[studyex]: #studyex
-[TagsnNotes]: #tagsnNotesex
-[jlptex]: #jlptex
-[vocabex]: #vocabex
-[kanjiex]: #kanjiex
+Now let's review the different search filters at our disposal.
 
 <a name="textex" />
 
@@ -238,33 +177,17 @@ search bar.
 
 ![Text filter](images/search_text.png)
 
-The text search filter, as described above in section [2.2. Searching Entries]
-is used for entering search terms. The text field also acts as a drop down
-box, allowing previously searched terms to be found and reused easily. 
+The text search filter is used for entering textual search terms. The text field also acts as a drop down box, allowing previously searched terms to be found and reused easily. You can enter words, or terms, to search for into the text field and then, when you either press the enter key or the search button, it will search for the terms in the search bar.
 
-Another thing that can be put into the search field is a dictionary field
-value. Doing this allows you to filter through your search results. This can
-be done by adding `:field=value` as a search term, so `:grade=1` results in
-every elementary grade 1 kanji being listed in the results view. The different 
-filters provide the same functionality for most of the fields, for instance
-kanji grade can be found under the kanji tab. 
+Search terms are character-set sensitive and can be combined. For instance, if you enter "`しけん`" into the search bar it will result in 試験 (test), 私見 (personal opinion) and 私権 (private right.) If, however, you enter "`しけん test`", it will search both terms and only result in 試験 (test) as Tagaini will only display entries for which all the search terms match.
 
-Tagaini also has support for wild cards[^wildcards]. The `*` character
-represents an unknown string. Placing it at the end of a term searches for
-everything beginning with that term, placing it at the beginning of a term
-searches for everything ending with that term and placing it in the middle of
-the a term searches for everything that starts and ends with that part of the
-term. The `?` character represents a single unknown character but otherwise
-works the same way. So `大*` represents everything that starts with 大 and
-`*す` represents everything that ends with す. If the `?` character was used
-instead then then `大?` would be any two character entry where the first was
-大 and `?す` would be any two character entry that ends with す. Note that the
-asterisk and question marked gotten from IM's, `＊` and `？`, are different
-from the ASCII characters, `*` and `?`, which work as wild cards. 
+Every search term is separated by spaces, or double quotes; or `""`. To search for a sentence, which includes spaces, you can enclose the sentence in quotation marks, or `""`. For instance, if you search for `to run`, then Tagaini will find and list every entry with both the word to and run in it. If instead you search `"to run"`, then Tagaini will only find entries with the words "to run" in them in that order, which probably makes sense if you are looking for the verb.
 
-The button to the left of the search bar, which looks like a black box with a
-white x in it, clears the search bar, resetting it to default, ready to use
-again.
+As Tagaini matches terms to entries exactly, there is currently no romaji search. So, searching for "`watashi`" will not result in 私：わたし. To find an entry you must search either its kanji or hiragana reading.
+
+When searching single-character words with the entry type selector set to **All**, it is quite common to come across two similar-looking entries, such as two entries for 私 or 駅. These entries will usually come up for single kanji words. This happens because it is displaying an entry for the word, and an entry for the kanji. The two different entries will have information about different things. This is discussed further in the next section.
+
+Tagaini supports *wild cards*[^wildcards]. The `*` character represents an unknown string. Placing it at the end of a term searches for everything beginning with that term, placing it at the beginning of a term searches for everything ending with that term and placing it in the middle of the a term searches for everything that starts and ends with that part of the term. The `?` character represents a single unknown character but otherwise works the same way. So `大*` represents everything that starts with 大 and `*す` represents everything that ends with す. If the `?` character was used instead then then `大?` would be any two character entry where the first was 大 and `?す` would be any two character entry that ends with す. Wildcards are especially useful for looking up a word you cannot read entirely.
 
 [^wildcards]: Wild cards are characters used to represent unknown characters in search terms. 
 
@@ -278,43 +201,19 @@ again.
 	
 ![The Study Extender](images/search_study.png)
 
-The study filter, the second tab, filters through searches according
-to whether or not the entry is on the study list. The study status defaults to
-`None`, so it does not filter results. Changing this to `Studied` will cause
-only entries in the study list to be listed in the results view. `Not studied`
-causes only results not in the study list to be shown[^studynum].
+The study tab filters through searches according to whether or not the entry is on the study list. Tagaini indeed lets you mark entries you want to study and keeps lots of statistics about them, including a score that represents how well you remember it. The study status defaults to `None`, so it does not filter results. Changing this to `Studied` will cause only entries in the study list to be listed in the results view. `Not studied` causes only results not in the study list to be shown[^studynum].
 
-To add entries to the study list, either right click on them in the results
-view, or use the detailed view toolbar and click the blue flag, `Add to study
-list`, which adds the entry to the list with a score of 0. The green flag,
-`Already known`, will add the entry with a score of 100. 
+To add entries to the study list, either right click on them in the results view, or use the detailed view toolbar and click the blue flag, `Add to study list`, which adds the entry to the list with a score of 0. The green flag, `Already known`, will add the entry with a score of 95. 
 
-Each entry is given a colour between red and green according to their score, and
-it is displayed as the entries background in the results view. As you 
-practise[^practicefoot], the score on each entry in your study list will
-change. You will then be able to filter entries that you know you know from
-your searches. When the study status is set to `studied` Tagaini will only
-search through entries that have a score within the range of `Min` and `Max`,
-the values from the score section.
+Each entry is given a colour between red and green according to their score, and it is displayed as the entries background in the results view. As you practise[^practicefoot], the score on each entry in your study list will change. You will then be able to filter entries that you know you know from your searches. When the study status is set to `studied` Tagaini will only search through entries that have a score within the range of `Min` and `Max`, the values from the score section.
 
-The study date section filters entries according to the date the entry was
-added to the study list. Clicking any of the not set buttons, in this section
-or the others, brings up a calendar to select a date or allows you to set a 
-number of days／weeks／months／years prior to today's date. If an entry has
-been added after the `since` date and before the `until` date then it will be
-listed in the results view in any searches.
+The study date section filters entries according to the date the entry was added to the study list. Clicking any of the not set buttons, in this section or the others, brings up a calendar to select a date or allows you to set a  number of days／weeks／months／years prior to today's date. If an entry has been added after the `since` date and before the `until` date then it will be listed in the results view in any searches.
 
-The last trained section allows you to set a time range for finding entries
-according to when you last practised it, and the last mistaken section allows 
-you to set a time range for when you last marked an entry as incorrect.
+The last trained section allows you to set a time range for finding entries according to when you last practised it, and the last mistaken section allows  you to set a time range for when you last made a mistake on the entry.
 
-[^practicefoot]: See Chapter 5 Section 2; [Study List][] for more information on
-practising with your study list, as well as manipulating it. 
+[^practicefoot]: See Chapter 5 Section 2; [Study List][] for more information on practising with your study list, as well as manipulating it. 
 
-[^studynum]: Just setting the status to `not studied` without any other search 
-criteria will cause every entry not in the study list to be listed. This is
-likely to be a large number of entries.
-
+[^studynum]: Just setting the status to `not studied` without any other search criteria will cause every entry not in the study list to be listed. This is likely to be a very large number of entries.
 
 <a name="jlptex" />
 
@@ -324,28 +223,16 @@ likely to be a large number of entries.
 
 ### The JLPT Filter
 
-JLPT stands for the Japanese Language Proficiency Test. It is a test
-administered by the `Japan Foundation` and `Japan Educational Exchanges and
-Services` for the purposes of evaluating and certifying the Japanese language
-proficiency of non-native speakers.[^jlptfoot]
+JLPT stands for the Japanese Language Proficiency Test. It is a test administered by the `Japan Foundation` and `Japan Educational Exchanges and Services` for the purposes of evaluating and certifying the Japanese language proficiency of non-native speakers.[^jlptfoot]
 
-Up until 2010 there have been four levels, with level 4 being the lowest and 1
-being the highest. Currently JMDict and kanjidict, the Japanese Vocabulary and
-Kanji dictionaries used by Tagaini Jisho, have vocabulary and kanji likely to
-be included in the tests marked as such. This gives us the ability to filter
-our searches for entries known to be used in the tests. The JLPT filter
-provides that functionality.
+Up until 2010 there have been four levels, with level 4 being the lowest and 1 being the highest. The JLPT filter lets you filter vocabulary and kanji entries according to the JLPT level they are likely to show in. You can check several levels. Please keep in mind that although this information can probably be considered reliable, it is only given for informational purposes, as there is no official JLPT lists of vocabulary and kanji.
+
+Starting the 2010, there are now 5 JLPT levels - former level 4 corresponds to N5, former level 3 to N3, former level 2 to N2 and former level 1 to N1.
 
 [^jlptfoot]: http://en.wikipedia.org/wiki/Japanese_Language_Proficiency_Test  
 http://www.jlpt.jp/e/
 
 ![The JLPT Extender](images/search_jlpt.png)
-
-There are four check boxes, each one matching a level. With level 4 selected,
-every level 4 entry will be listed and any searches will only find level 4
-entries. Selecting multiple levels will include multiple levels. 
-
-
 
 <a name="tagsnNotesex" />
 
@@ -362,61 +249,25 @@ detailed views toolbar.
 ![The Tags Extender](images/search_tags.png)
 
 Tags are short strings used to identify an entry. Each tag is a single
-word given to an entry that can be used as a filter. For instance, if you are
-studying from a text book, you could add the text books name to each vocab
-entry you need to learn, along with its chapter number as another entry. You
-can then type tags into the filter and search through just those
-entries, or view all of them. There is also a drop down list to the right
-of the text field which contains a complete list of tags, so you can just select
-the ones you want. 
+word given to an entry that can be used as a filter. For instance, if you met a word in a given book, you can mark it with the book's name so that you are able to quickly find entries you met in the same context. Typing tags into the filter will search through just those entries. There is also a drop down list to the right of the text field which contains a complete list of tags, so you can just select the ones you want. 
 
 If an entry has a tag, a small tag icon will be displayed on the right side of
 the entry in the results view, next to the scroll bar and at the bottom of
 the entry in the detailed view.
 
-To add a tag, you can use the `Add tags...` button, which looks like a tag
-with a green bit at the top. White space, or spaces, separates each tag, so
-writing "genki ch04" adds two tags; "genki" and "ch04".
+To add a tag, you can use the `Add tags...` button, which looks like a tag with a green bit at the top. White space, or spaces, separates each tag, so writing "genki ch04" adds two tags; "genki" and "ch04".
 
-Any tags you add with the `Add tags...` in the current
-session[^tagainisession] can be found again in the `Recently added tags...`
-sub menu of the context menu[^contextmenu], which makes adding tags to a set
-of entries easier. The `Set tags...` button brings up a list of all the
-current tags attached to an entry so that they can be edited. Additional tags
-can be entered here. Despite the `Add tags...` button not bringing up tags
-that have already been set on an entry, adding new ones does not overwrite the
-existing ones, it just appends them to the list.
+Any tags you add with the `Add tags...` in the current session[^tagainisession] can be found again in the `Recently added tags...` sub menu of the context menu[^contextmenu], which makes adding tags to a set of entries easier. The `Set tags...` button brings up a list of all the current tags attached to an entry so that they can be edited. Additional tags can be entered here. Despite the `Add tags...` button not bringing up tags that have already been set on an entry, adding new ones does not overwrite the existing ones, it just appends them to the list.
 
-[^tagainisession]: Each session is each time you run the program. If you run
-Tagaini, use it for five minutes and close it, then that is one session.
-If you run it again five minutes later then you are running a different
-session.
+[^tagainisession]: A session is started each time you run the program. If you run Tagaini, use it for five minutes and close it, then that is one session. If you run it again five minutes later then you are running a different session.
 
 [^contextmenu]: Right click menu.
 
+Notes are post-it like information that you can add about an entry. You could use notes to describe the relationship between a word or another or any other information you judge noteworthy about the entry. For instance, if a word, such as 降る、appears in a textbook you are studying in a phrase, such as 雨が降る/雨が降ります、in a chapter before the entry itself, you may wish note that in the entry. In the example one may write "Appears in chapter 4 of textbook_name as 雨が降る".
 
-![The Notes Extender](images/tagaini_ex_notes.png)
+When you search with the `notes` filter, the search will match any entries with whatever text you write in the text field, exactly. If, using the above example, you have two different entries on verbs that have been used in phrases and have noted this, if you search for "Appears in" it will find both of these entries, however if they are in separate chapters and you extend that string to "Appears in chapter 5", then it will only find the one that has that exactly. 
 
-Notes are different to tags in that a note can be a sentence or two. You could
-use notes to describe the relationship between a word or another or any other
-noteworthy information about the entry. For instance, if a word, such as
-降る、appears in a textbook you are studying in a phrase, such as
-雨が降る/雨が降ります、in a chapter before the entry itself, you may wish note
-that in the entry. In the example one may write "Appears in chapter 4 of
-textbook_name as 雨が降る".
-
-When you search with the `notes` filter, the search will match any entries with
-whatever text you write in the text field, exactly. If, using the above
-example, you have two different entries on verbs that have been used in
-phrases and have noted this, if you search for "Appears in" it will find both
-of these entries, however if they are in separate chapters and you extend that
-string to "Appears in chapter 5", then it will only find the one that has that
-exactly. 
-
-To add a note, use the `Edit notes...` button, which looks like a yellow
-stick-it note pad and a pen. It will bring up a window with
-any existing notes. You can edit existing notes by selecting them and editing
-them, add new notes with the `New note` button, and delete notes. 
+To add a note, use the `Edit notes...` button, which looks like a yellow stick-it note pad and a pen. It will bring up a window with any existing notes. You can edit existing notes by selecting them and editing them, add new notes with the `New note` button, and delete notes. 
 
 <a name="vocabex" />
 
@@ -428,29 +279,15 @@ them, add new notes with the `New note` button, and delete notes.
 
 ![Vocabulary Filter](images/search_vocabulary.png)
 
-`The vocabulary filter` has vocabulary specific filter options. It can not be
-used in conjunction with the kanji filter.
+The **vocabulary filter** has vocabulary specific filter options. It can not be used in conjunction with the kanji filter.
 
-The first two text fields relate to the kanji found in vocab entries. The `With
-kanji` field will find any vocab entry that contains a kanji. If you enter two
-kanji then the entry must contain both kanji. Next to it is a checkbox labelled
-`Using studied kanji only`. It forces the search to use only kanji from the
-study list. 
+The first two text fields relate to the kanji found in vocab entries. The **With kanji** field will find any vocab entry that contains a list of given kanji. Next to it is a checkbox labelled **Using studied kanji only**. It forces the search to use only kanji from the study list, and may to useful to find new words that you should be able to read, but are not necessarily studying.
 
-Kanji are made up of different kanji, or radicals, so the `With components`
-field searches for kanji that include a component. For instance, 私 is made up
-of 禾 (which is composed of 丿 and 木) and 厶, so searching for 丿, 木 and 厶
-in the `With components` field will find any entry with kanji with those
-radicals, including any entry that contains the kanji 私.
+Kanji are made up of different sub-kanji, or components, so the **With components** field searches for kanji that include a component. This feature is useful to find words that you cannot write, but for which you can identify some of their components. For instance, say you are looking for the word "紅葉". You cannot read it, but can recognize the 糸, 工 and 木 components it its kanji. Entering these in the components line will display all words which kanji feature these components, including the one you are looking after, 紅葉.
 
-Below that are four sub menus, labelled `Part of speech`, `Dialect`,
-`Field` and `Misc`. Each of these finds entries that belong to any of the
-groups you select in the menus. The `Part of speech` menu allows you to search
-for different parts of speech, such as nouns or verbs; `Dialect` finds words
-that belong to different places in Japan; `Field` finds terms and jargon from
-different fields and schools of knowledge, such as computer or religious terms
-and `Misc` contains anything that doesn't belong in the other categories, such
-as children's language, obsolete terms and slang. 
+![Vocabulary search by components](images/search_vocabulary_components.png)
+
+Below that are four sub menus, labelled **Part of speech**, **Dialect**, **Field** and **Misc**. Each of these finds entries that belong to any of the groups you select in the menus. The **Part of speech** menu allows you to search for different parts of speech, such as nouns or verbs; **Dialect** finds words that belong to different places in Japan; **Field** finds terms and jargon from different fields and schools of knowledge, such as computer or religious terms and **Misc** contains anything that doesn't belong in the other categories, such as children's language, obsolete terms and slang. 
 
 <a name="kanjiex" />
 
@@ -871,10 +708,7 @@ Lists
 
 A new feature in Tagaini Jisho 0.2.5, `Lists` should be visable as soon as you
 start the Tagaini. A panel, by default, down the left of the window that is
-marked `Lists`. This panel can be removed, by clicking the small `X` button
-at the top right of the panel. It can also be detached from the main window,
-or moved to the right of the results view. If the Lists panel is not visible
-in 0.2.5 then it can be turned back on via the checkbox in the `Search` menu.
+marked `Lists`.
 
 ![Lists view](images/lists.png)
 
