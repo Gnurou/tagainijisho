@@ -1,4 +1,4 @@
-0.2.5 released on
+0.2.5 released on 2010/04/01
 * Updated to SQLite 3.6.23
 * Added option to choose GUI language
 * Now uses CMake as build system
@@ -23,7 +23,7 @@
 * Ctrl+s when a kanji entry is displayed automatically displays its popup
   window
 
-0.2.4 released on 2009-12-16
+0.2.4 released on 2009/12/16
 * Updated to SQLite 3.6.21
 * Huge reorganization of the source code, separation of the functional
   aspects from the GUI
