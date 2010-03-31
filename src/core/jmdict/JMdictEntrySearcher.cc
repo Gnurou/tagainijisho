@@ -240,8 +240,8 @@ void JMdictEntrySearcher::buildStatement(QList<SearchCommand> &commands, QueryBu
 			foreach (const QString &arg, command.args()) {
 				// Check if the argument is defined
 				if (JMdictPlugin::posBitShifts().contains(arg)) {
-					int bitShift(JMdictPlugin::posBitShifts()[arg]);
-					posFilter |= 1 << bitShift;
+					quint8 bitShift(JMdictPlugin::posBitShifts()[arg]);
+					posFilter |= 1L << bitShift;
 				} else allArgsProcessed = false;
 			}
 			if (!allArgsProcessed) continue;
@@ -252,8 +252,8 @@ void JMdictEntrySearcher::buildStatement(QList<SearchCommand> &commands, QueryBu
 			foreach (const QString &arg, command.args()) {
 				// Check if the argument is defined
 				if (JMdictPlugin::miscBitShifts().contains(arg)) {
-					int bitShift(JMdictPlugin::miscBitShifts()[arg]);
-					miscFilter |= 1 << bitShift;
+					quint8 bitShift(JMdictPlugin::miscBitShifts()[arg]);
+					miscFilter |= 1L << bitShift;
 				} else allArgsProcessed = false;
 			}
 			if (!allArgsProcessed) continue;
@@ -264,8 +264,8 @@ void JMdictEntrySearcher::buildStatement(QList<SearchCommand> &commands, QueryBu
 			foreach (const QString &arg, command.args()) {
 				// Check if the argument is defined
 				if (JMdictPlugin::dialectBitShifts().contains(arg)) {
-					int bitShift(JMdictPlugin::dialectBitShifts()[arg]);
-					dialectFilter |= 1 << bitShift;
+					quint8 bitShift(JMdictPlugin::dialectBitShifts()[arg]);
+					dialectFilter |= 1L << bitShift;
 				} else allArgsProcessed = false;
 			}
 			if (!allArgsProcessed) continue;
@@ -276,8 +276,8 @@ void JMdictEntrySearcher::buildStatement(QList<SearchCommand> &commands, QueryBu
 			foreach (const QString &arg, command.args()) {
 				// Check if the argument is defined
 				if (JMdictPlugin::fieldBitShifts().contains(arg)) {
-					int bitShift(JMdictPlugin::fieldBitShifts()[arg]);
-					fieldFilter |= 1 << bitShift;
+					quint8 bitShift(JMdictPlugin::fieldBitShifts()[arg]);
+					fieldFilter |= 1L << bitShift;
 				} else allArgsProcessed = false;
 			}
 			if (!allArgsProcessed) continue;
