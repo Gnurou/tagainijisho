@@ -41,11 +41,6 @@ These dependencies are:
 * [Qt][WQt]  
     &emsp;&emsp;&emsp; Qt is an application toolkit that was used to write
     Tagaini.
-* [Python][WPy]  
-    &emsp;&emsp;&emsp; Python is a programing language that was used to  
-    &emsp;&emsp;&emsp; write part of the setup process when compiling from  
-    &emsp;&emsp;&emsp; source. Python is only required for version 0.2.4 and  
-    &emsp;&emsp;&emsp; anything versions prior to it.   
 * [CMake][Wcmake]   
     &emsp;&emsp;&emsp; Cmake is a cross platform build system, which allows   
     &emsp;&emsp;&emsp; an alternative to automake's configure scripts. It   
@@ -56,7 +51,6 @@ These dependencies are:
 
 [WIM]: http://en.wikipedia.org/wiki/Input_method "Wikipedia: IM"
 [WQt]: http://en.wikipedia.org/wiki/Qt_%28toolkit%29 "Wikipedia: Qt"
-[WPy]: http://en.wikipedia.org/wiki/Python_%28programming_language%29 "Wikipedia: Python"
 [Wcmake]: http://en.wikipedia.org/wiki/Cmake "Wikipedia: CMake"  
 
 <br>
@@ -67,19 +61,8 @@ Dependency|&emsp;|Windows|&emsp;|Mac OS|&emsp;|Linux Binary|&emsp;|Source|
  Japanese Fonts     || yes          ||  yes     || yes              || yes   |
  An IM              || yes          || yes      || yes              || yes   |
  Qt                 || no           || no       || yes              || yes   |
- Python             || no           || no       || no               || yes   |
-[Platform Dependencies - version 0.2.4 and older]
-
-<br><br>
-
-|   ||                                    Platform    |||||||
-Dependency|&emsp;|Windows|&emsp;|Mac OS|&emsp;|Linux Binary|&emsp;|Source|
-------------------------------------------------------------------------------
- Japanese Fonts     || yes          ||  yes     || yes              || yes   |
- An IM              || yes          || yes      || yes              || yes   |
- Qt                 || no           || no       || yes              || yes   |
  CMake              || no           || no       || no               || yes   |
-[Platform Dependencies - newer than version 0.2.4]
+[Platform Dependencies - version 0.2.5]
 
 
 [^bin]: A binary file is an executable file that contains information that the
@@ -249,8 +232,8 @@ tarball[^tarball]. You can also clone the git repository at
 
 [sourcedlpage]: http://tagaini.net/download#Source_code__Any_other_Qt4-supported_platform "Source code download"
 
-Tagaini Jisho 0.2.4 only has two dependencies, `Qt`[^qtdepfoot] and
-`python`. It uses several other third party libraries, but provides custom
+Tagaini Jisho 0.2.5 only has two dependencies, `Qt`[^qtdepfoot] and
+`CMake`. It uses several other third party libraries, but provides custom
 versions of them in the source tarball.
 
 [^qtdepfoot]: The gentoo Qt maintainers split Qt into 14 seperate pacakges. This
@@ -258,7 +241,7 @@ is done so that one does not have to compile the entire monolithic library.
 Tagaini only requires `x11-libs/qt-core`, `x11-libs/qt-gui` and `x11-libs/qt-sql`.
 
 
-### From the source tarball, version 0.2.4
+### From the source tarball, version 0.2.5
 
 The tarball comes with extra dependencies, so all you should not have to get
 them. First, the makefiles must be generated:
@@ -344,6 +327,4 @@ ask to be restarted.
 
 **Note:** This information may be subject to change due to differences between
 releases.
-
-**0.2.3 - 0.2.4, source:** Make sure to rebuild and replace your databases. Due to a field change Tagaini 0.2.4 wont read 0.2.3 kanji databased properly.
 
