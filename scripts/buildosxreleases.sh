@@ -18,6 +18,9 @@ rm -Rf $BUNDLEPATH/tagainijisho.app/Contents/PlugIns/accessible
 rm -Rf $BUNDLEPATH/tagainijisho.app/Contents/PlugIns/codecs
 rm -Rf $BUNDLEPATH/tagainijisho.app/Contents/PlugIns/sqldrivers
 rm -f $BUNDLEPATH/tagainijisho.app/Contents/PlugIns/imageformats/libqico.dylib tagainijisho.app/Contents/PlugIns/imageformats/libqjpeg.dylib tagainijisho.app/Contents/PlugIns/imageformats/libqmng.dylib tagainijisho.app/Contents/PlugIns/imageformats/libqtiff.dylib
+mkdir $BUNDLEPATH/tagainijisho.app/Contents/MacOS/doc
+cp -R doc/images $BUNDLEPATH/tagainijisho.app/Contents/MacOS/doc/
+cp -R doc/manual.html $BUNDLEPATH/tagainijisho.app/Contents/MacOS/doc/
 
 # Create the disk images from our master
 for lang in en fr de es ru;
