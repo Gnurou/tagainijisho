@@ -106,7 +106,7 @@ GeneralPreferences::GeneralPreferences(QWidget *parent) : PreferencesWindowCateg
 	static_cast<QBoxLayout*>(generalGroupBox->layout())->insertWidget(0, fontChooser);
 
 	for (int i = 0; i < langNames.size(); i++) {
-		guiLanguage->addItem(langNames[i]);
+		guiLanguage->addItem(QCoreApplication::translate("GeneralPreferences", langNames[i].toLatin1().constData()));
 		guiLanguage->setItemData(guiLanguage->count() - 1, langCodes[i]);
 	}
 
