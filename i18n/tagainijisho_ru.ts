@@ -43,57 +43,57 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="476"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="478"/>
         <source>User data</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="485"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="487"/>
         <source>Really erase user data?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="485"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="487"/>
         <source>This will erase all your user data. Are you sure you want to do this?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="486"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="488"/>
         <source>REALLY erase it?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="486"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="488"/>
         <source>Are you absolutely, positively, definitely sure?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="489"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="491"/>
         <source>No user database file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="489"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="491"/>
         <source>The user database file has already been erased before.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="492"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="494"/>
         <source>Cannot erase user database</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="492"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="494"/>
         <source>Unable to erase user database. Please see what is wrong and try to do it manually.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="494"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="496"/>
         <source>User data erased</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="494"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="496"/>
         <source>User data has been erased. Tagaini Jisho will now exit. You will be back to a blank database when it is restarted.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -182,32 +182,32 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="386"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="388"/>
         <source>Detailed view</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="401"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="403"/>
         <source>Default text</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="407"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="409"/>
         <source>Kana header</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="413"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="415"/>
         <source>Kanji header</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="419"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="421"/>
         <source>Kanji</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="426"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="428"/>
         <source>Kana</source>
         <translation type="unfinished"></translation>
     </message>
@@ -384,17 +384,17 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="229"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="231"/>
         <source>Main writing</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="235"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="237"/>
         <source>Readings and alternate writings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="241"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="243"/>
         <source>Definitions</source>
         <translation type="unfinished"></translation>
     </message>
@@ -790,42 +790,47 @@ improve performance when manipulating a large number of entries.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="95"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="96"/>
         <source>English</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="96"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="97"/>
+        <source>German</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/PreferencesWindow.cc" line="98"/>
         <source>French</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="97"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="99"/>
         <source>Dutch</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="99"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="101"/>
         <source>General</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="103"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="105"/>
         <source>Application-wide default font</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="111"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="113"/>
         <source>Monday</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="112"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="114"/>
         <source>Sunday</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="158"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="160"/>
         <source>Next check: %1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2350,7 +2355,7 @@ improve performance when manipulating a large number of entries.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="352"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="354"/>
         <source>Lists</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2620,17 +2625,17 @@ improve performance when manipulating a large number of entries.</source>
 <context>
     <name>PreferencesFontChooser</name>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="504"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="506"/>
         <source>%1:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="506"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="508"/>
         <source>Default</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="509"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="511"/>
         <source>Change...</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2953,7 +2958,7 @@ improve performance when manipulating a large number of entries.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="316"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="318"/>
         <source>Results view</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2961,7 +2966,7 @@ improve performance when manipulating a large number of entries.</source>
 <context>
     <name>ResultsViewPrefsDummyEntry</name>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="217"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="219"/>
         <source>Romaji text</source>
         <translation type="unfinished"></translation>
     </message>

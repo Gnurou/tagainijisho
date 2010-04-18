@@ -88,11 +88,13 @@ void PreferencesWindow::applySettings() {
 
 const QStringList GeneralPreferences::langCodes = (QStringList() <<
 	"en" <<
+	"de" <<
 	"fr" <<
 	"nl");
 
 const QStringList GeneralPreferences::langNames = (QStringList() <<
 	QT_TRANSLATE_NOOP("GeneralPreferences", "English") <<
+	QT_TRANSLATE_NOOP("GeneralPreferences", "German") <<
 	QT_TRANSLATE_NOOP("GeneralPreferences", "French") <<
 	QT_TRANSLATE_NOOP("GeneralPreferences", "Dutch"));
 
