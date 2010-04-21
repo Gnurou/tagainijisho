@@ -309,36 +309,37 @@ bool Kanjidic2GUIPlugin::eventFilter(QObject *obj, QEvent *_event)
 			// Always filter the event if the button is pushed
 			return true;
 		}
-		// No button pushed - see if we have to show the kanji popup
-		// TODO this property should be moved out of view
-		if (view->kanjisClickable()) {
-			if (pos != -1) {
-				QTextCursor cursor(view->document());
-				cursor.setPosition(pos);
-				cursor.movePosition(QTextCursor::NextCharacter, QTextCursor::KeepAnchor);
-				if (!cursor.charFormat().isAnchor()) {
-					QChar t(cursor.selectedText()[0]);
-					QString c(t);
-					if (t.isHighSurrogate()) {
-						cursor.movePosition(QTextCursor::NextCharacter, QTextCursor::KeepAnchor);
-						c += cursor.selectedText()[1];
-					}
-					if (TextTools::isKanjiChar(c)) {
-						ConstKanjidic2EntryPointer entry(KanjiEntryRef(TextTools::singleCharToUnicode(c)).get());
-						view->viewport()->setCursor(QCursor(Qt::PointingHandCursor));
-						// Only show the tooltip if the entry exists in the database!
-						if (kanjiTooltipEnabled.value() && entry) {
-							const Kanjidic2EntryFormatter *formatter(static_cast<const Kanjidic2EntryFormatter *>(EntryFormatter::getFormatter(KANJIDIC2ENTRY_GLOBALID)));
-							formatter->showToolTip(entry, QCursor::pos());
-						}
-					}
+		// See if we have to show the kanji tooltip
+		if (pos != -1) {
+			QTextCursor cursor(view->document());
+			cursor.setPosition(pos);
+			cursor.movePosition(QTextCursor::NextCharacter, QTextCursor::KeepAnchor);
+			if (!cursor.charFormat().isAnchor()) {
+				QChar t(cursor.selectedText()[0]);
+				QString c(t);
+				if (t.isHighSurrogate()) {
+					cursor.movePosition(QTextCursor::NextCharacter, QTextCursor::KeepAnchor);
+					c += cursor.selectedText()[1];
 				}
-				return false;
+				if (TextTools::isKanjiChar(c)) {
+					ConstKanjidic2EntryPointer entry(KanjiEntryRef(TextTools::singleCharToUnicode(c)).get());
+					// If kanji are clickable, change the cursor
+					if (view->kanjisClickable()) view->viewport()->setCursor(QCursor(Qt::PointingHandCursor));
+					// Only show the tooltip if the entry exists in the database!
+					if (kanjiTooltipEnabled.value() && entry) {
+						const Kanjidic2EntryFormatter *formatter(static_cast<const Kanjidic2EntryFormatter *>(EntryFormatter::getFormatter(KANJIDIC2ENTRY_GLOBALID)));
+						formatter->showToolTip(entry, QCursor::pos());
+					}
+				} else {
+					if (view->kanjisClickable()) view->viewport()->setCursor(QCursor(Qt::ArrowCursor));
+					QToolTip::showText(QCursor::pos(), "");
+				}
 			}
-			view->viewport()->unsetCursor();
-			if (QToolTip::isVisible()) {
-				QToolTip::hideText();
-			}
+			return false;
+		}
+		view->viewport()->unsetCursor();
+		if (QToolTip::isVisible()) {
+			QToolTip::hideText();
 		}
 		return false;
 	}
@@ -348,6 +349,7 @@ bool Kanjidic2GUIPlugin::eventFilter(QObject *obj, QEvent *_event)
 		if (e->button() == Qt::LeftButton && _dragStarted) {
 			// Released on a kanji? Let's show the popup if needed.
 			_dragStarted = false;
+			// TODO this property should be moved out of view
 			if (view->kanjisClickable()) view->fakeClick(QUrl(QString("drawkanji:?kanji=%1").arg(_dragEntryRef.kanji())));
 			return true;
 		}
