@@ -127,7 +127,7 @@ void EntriesViewHelper::markAsKnown()
 		progressDialog.setValue(i++);
 		EntryPointer entry = qVariantValue<EntryPointer>(index.data(Entry::EntryRole));
 		if (!entry) continue;
-		if (!entry->alreadyKnown()) continue;
+		if (entry->alreadyKnown()) continue;
 		entry->setAlreadyKnown();
 		client()->update(index);
 	}

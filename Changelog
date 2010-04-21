@@ -1,6 +1,7 @@
 0.2.6 released on
 * Added German translation (thanks Philipp Meyer!)
 * Kanji tooltip now disappear correctly when the pointed kanji loses focus
+* "Mark as known" action from the list context menu fixed
 
 0.2.5 released on 2010/04/01
 * Updated to SQLite 3.6.23
