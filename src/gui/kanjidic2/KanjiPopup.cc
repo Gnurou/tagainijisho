@@ -224,6 +224,8 @@ void KanjiPopup::setComponentsLabelText(int highlightPos)
 		foreach (const radType &rad, rads) strl << QString("%1 (%2)").arg(TextTools::unicodeToSingleChar(rad.first)).arg(rad.second);
 		radString = tr("<b>Radicals:</b> %1").arg(strl.join(", "));
 	}
+	// Needed to the hovered signal to be emited for the previous label value
+	componentsLabel->clear();
 	componentsLabel->setText(radString + (radString.isEmpty() ? "" : "<br/>") + cString);
 }
 
