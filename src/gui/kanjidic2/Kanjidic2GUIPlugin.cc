@@ -104,6 +104,7 @@ bool Kanjidic2GUIPlugin::onRegister()
 
 	_showKanjiPopup = new QAction(tr("Show stroke popup for currently displayed kanji"), this);
 	_showKanjiPopup->setShortcut(QKeySequence("Ctrl+s"));
+	_showKanjiPopup->setShortcutContext(Qt::ApplicationShortcut);
 	connect(_showKanjiPopup, SIGNAL(triggered()), this, SLOT(popupDetailedViewKanjiEntry()));
 	MainWindow::instance()->addAction(_showKanjiPopup);
 
@@ -244,8 +245,16 @@ void Kanjidic2GUIPlugin::readingPractice()
 
 void Kanjidic2GUIPlugin::popupDetailedViewKanjiEntry()
 {
-	EntryPointer tEntry(MainWindow::instance()->detailedView()->entryView()->entry());
-	if (tEntry->type() == KANJIDIC2ENTRY_GLOBALID) {
+	EntryPointer tEntry;
+	QWidget *activeWindow = QApplication::activeWindow();
+	if (activeWindow == MainWindow::instance())
+		tEntry = MainWindow::instance()->detailedView()->entryView()->entry();
+	else if (activeWindow->inherits("YesNoTrainer")) {
+		YesNoTrainer *trainer = qobject_cast<YesNoTrainer *>(activeWindow);
+		if (!trainer->answerShown()) return;
+		tEntry = trainer->detailedView()->entryView()->entry();
+	}
+	if (tEntry && tEntry->type() == KANJIDIC2ENTRY_GLOBALID) {
 		showPopup(tEntry.staticCast<Kanjidic2Entry>(), QCursor::pos());
 	}
 }

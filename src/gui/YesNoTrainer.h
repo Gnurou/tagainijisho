@@ -60,6 +60,8 @@ public:
 	void setQuery(QString queryString);
 	virtual void setTrainingMode(TrainingMode mode) { _trainingMode = mode; }
 	TrainingMode trainingMode() const { return _trainingMode; }
+	DetailedView *detailedView() { return _detailedView->detailedView(); }
+	bool answerShown() const { return !showAnswerButton->isEnabled(); }
 
 protected slots:
 	/**
