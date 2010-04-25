@@ -25,7 +25,8 @@
 #include <QTimer>
 #include <QPixmap>
 #include <QList>
-#include <QPushButton>
+#include <QToolButton>
+#include <QAction>
 
 #include "core/kanjidic2/Kanjidic2Entry.h"
 #include "gui/kanjidic2/KanjiRenderer.h"
@@ -51,10 +52,12 @@ private:
 	qreal _lengthCpt;
 	bool _showGrid;
 	const KanjiComponent *_highlightedComponent;
-	QAbstractButton *playButton;
-	QAbstractButton *resetButton;
-	QAbstractButton *nextButton;
-	QAbstractButton *prevButton;
+	QToolButton *playButton;
+	QToolButton *resetButton;
+	QToolButton *nextButton;
+	QToolButton *prevButton;
+	
+	QAction *_playAction, *_pauseAction, *_resetAction, *_nextStrokeAction, *_prevStrokeAction;
 
 protected:
 	/**
@@ -64,7 +67,7 @@ protected:
 	virtual void paintEvent(QPaintEvent * event);
 	virtual bool eventFilter(QObject *obj, QEvent *event);
 	void updateStrokesCountLabel();
-	void updateButtonsState();
+	void updateActionsState();
 
 protected slots:
 	virtual void updateAnimationState();
@@ -81,6 +84,12 @@ public:
 	void setPosition(int strokeNbr);
 	
 	bool showGrid() const { return _showGrid; }
+	
+	QAction *playAction() { return _playAction; }
+	QAction *pauseAction() { return _pauseAction; }
+	QAction *resetAction() { return _resetAction; }
+	QAction *nextStrokeAction() { return _nextStrokeAction; }
+	QAction *prevStrokeAction() { return _prevStrokeAction; }
 
 	static PreferenceItem<int> animationSpeed;
 	static PreferenceItem<int> delayBetweenStrokes;

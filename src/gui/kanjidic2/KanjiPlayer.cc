@@ -41,7 +41,29 @@ KanjiPlayer::KanjiPlayer(QWidget *parent) : QWidget(parent), _timer(), _kanji(0)
 	setAnimationSpeed(animationSpeed.value());
 	setDelayBetweenStrokes(delayBetweenStrokes.value());
 	setAnimationLoopDelay(animationLoopDelay.value());
-
+	
+	_playAction = new QAction(QIcon(QPixmap(":/images/icons/control-play.png").scaledToHeight(CONTROL_ICON_SIZE, Qt::SmoothTransformation)), tr("Play"), this);
+	_playAction->setShortcut(QKeySequence("Space"));
+	connect(_playAction, SIGNAL(triggered()), this, SLOT(play()));
+	_pauseAction = new QAction(QIcon(QPixmap(":/images/icons/control-pause.png").scaledToHeight(CONTROL_ICON_SIZE, Qt::SmoothTransformation)), tr("Pause"), this);
+	_pauseAction->setShortcut(QKeySequence("Space"));
+	connect(_pauseAction, SIGNAL(triggered()), this, SLOT(stop()));
+	_resetAction = new QAction(QIcon(QPixmap(":/images/icons/control-stop.png").scaledToHeight(CONTROL_ICON_SIZE, Qt::SmoothTransformation)), tr("Reset"), this);
+	_resetAction->setShortcut(QKeySequence("R"));
+	connect(_resetAction, SIGNAL(triggered()), this, SLOT(reset()));
+	_nextStrokeAction = new QAction(QIcon(QPixmap(":/images/icons/control-ff.png").scaledToHeight(CONTROL_ICON_SIZE, Qt::SmoothTransformation)), tr("Next stroke"), this);
+	_nextStrokeAction->setShortcut(QKeySequence("Right"));
+	connect(_nextStrokeAction, SIGNAL(triggered()), this, SLOT(nextStroke()));
+	_prevStrokeAction = new QAction(QIcon(QPixmap(":/images/icons/control-fr.png").scaledToHeight(CONTROL_ICON_SIZE, Qt::SmoothTransformation)), tr("Previous stroke"), this);
+	_prevStrokeAction->setShortcut(QKeySequence("Left"));
+	connect(_prevStrokeAction, SIGNAL(triggered()), this, SLOT(prevStroke()));
+	
+	_playAction->setEnabled(false);
+	_pauseAction->setEnabled(false);
+	_resetAction->setEnabled(false);
+	_prevStrokeAction->setEnabled(false);
+	_nextStrokeAction->setEnabled(false);
+	
 	kanjiView = new QLabel(this);
 	kanjiView->setFrameStyle(QFrame::StyledPanel | QFrame::Sunken);
 	kanjiView->setPicture(_picture);
@@ -60,33 +82,31 @@ KanjiPlayer::KanjiPlayer(QWidget *parent) : QWidget(parent), _timer(), _kanji(0)
 	QHBoxLayout *controlLayout = new QHBoxLayout();
 	controlLayout->setContentsMargins(0, 0, 0, 0);
 	controlLayout->setSpacing(0);
+	
 	playButton = new QToolButton(this);
 	playButton->setMaximumSize(20, 20);
-	playButton->setIcon(QIcon(QPixmap(":/images/icons/control-play.png").scaledToHeight(CONTROL_ICON_SIZE, Qt::SmoothTransformation)));
+	playButton->setDefaultAction(playAction());
 	controlLayout->addWidget(playButton);
 	resetButton = new QToolButton(this);
 	resetButton->setMaximumSize(20, 20);
-	resetButton->setIcon(QIcon(QPixmap(":/images/icons/control-stop.png").scaledToHeight(CONTROL_ICON_SIZE, Qt::SmoothTransformation)));
+	resetButton->setDefaultAction(resetAction());
 	controlLayout->addWidget(resetButton);
 	controlLayout->addWidget(strokeCountLabel);
 	prevButton = new QToolButton(this);
 	prevButton->setMaximumSize(20, 20);
-	prevButton->setIcon(QIcon(QPixmap(":/images/icons/control-fr.png").scaledToHeight(CONTROL_ICON_SIZE, Qt::SmoothTransformation)));
+	prevButton->setDefaultAction(prevStrokeAction());
 	controlLayout->addWidget(prevButton);
 	nextButton = new QToolButton(this);
 	nextButton->setMaximumSize(20, 20);
-	nextButton->setIcon(QIcon(QPixmap(":/images/icons/control-ff.png").scaledToHeight(CONTROL_ICON_SIZE, Qt::SmoothTransformation)));
+	nextButton->setDefaultAction(nextStrokeAction());
 	controlLayout->addWidget(nextButton);
 	mainLayout->addLayout(controlLayout);
 
-	connect(playButton, SIGNAL(clicked()), this, SLOT(onPlayButtonPushed()));
+	/*connect(playButton, SIGNAL(clicked()), this, SLOT(onPlayButtonPushed()));
 	connect(resetButton, SIGNAL(clicked()), this, SLOT(gotoEnd()));
 	connect(prevButton, SIGNAL(clicked()), this, SLOT(prevStroke()));
-	connect(nextButton, SIGNAL(clicked()), this, SLOT(nextStroke()));
-	playButton->setEnabled(false);
-	resetButton->setEnabled(false);
-	prevButton->setEnabled(false);
-	nextButton->setEnabled(false);
+	connect(nextButton, SIGNAL(clicked()), this, SLOT(nextStroke()));*/
+	
 
 	QFontMetrics metrics(font);
 	strokeCountLabel->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
@@ -124,14 +144,16 @@ void KanjiPlayer::setPictureSize(int newSize)
 	kanjiView->setMinimumSize(newSize, newSize);
 }
 
-void KanjiPlayer::updateButtonsState()
+void KanjiPlayer::updateActionsState()
 {
-	// Update play button pixmap
-	if (_timer.isActive()) playButton->setIcon(QIcon(QPixmap(":/images/icons/control-pause.png").scaledToHeight(CONTROL_ICON_SIZE, Qt::SmoothTransformation)));
-	else playButton->setIcon(QIcon(QPixmap(":/images/icons/control-play.png").scaledToHeight(CONTROL_ICON_SIZE, Qt::SmoothTransformation)));
-	resetButton->setEnabled(_strokesCpt < renderer.strokes().size());
-	prevButton->setEnabled(_strokesCpt > 0);
-	nextButton->setEnabled(_strokesCpt < renderer.strokes().size());
+	// Update play button action
+	if (_timer.isActive()) { playButton->removeAction(playAction()); playButton->setDefaultAction(pauseAction()); }
+	else { playButton->removeAction(pauseAction()); playButton->setDefaultAction(playAction()); }
+	_playAction->setEnabled(!_timer.isActive());
+	_pauseAction->setEnabled(_timer.isActive());
+	_resetAction->setEnabled(_timer.isActive() && _strokesCpt < renderer.strokes().size());
+	_prevStrokeAction->setEnabled(_strokesCpt > 0);
+	_nextStrokeAction->setEnabled(_strokesCpt < renderer.strokes().size());
 }
 
 void KanjiPlayer::updateAnimationState()
@@ -315,7 +337,7 @@ void KanjiPlayer::setPosition(int strokeNbr)
 	_strokesCpt = strokeNbr;
 	_lengthCpt = 0.0;
 	_state = STATE_STROKE;
-	updateButtonsState();
+	updateActionsState();
 	updateStrokesCountLabel();
 	update();
 }
@@ -325,7 +347,7 @@ void KanjiPlayer::play()
 	if (_timer.isActive()) return;
 	if (_strokesCpt >= renderer.strokes().size()) reset();
 	_timer.start();
-	updateButtonsState();
+	updateActionsState();
 	emit animationStarted();
 }
 
@@ -333,7 +355,7 @@ void KanjiPlayer::stop()
 {
 	if (!_timer.isActive()) return;
 	_timer.stop();
-	updateButtonsState();
+	updateActionsState();
 	emit animationStopped();
 }
 
