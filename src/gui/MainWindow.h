@@ -83,7 +83,7 @@ private slots:
 
 protected slots:
 	/// Display the latest selected result in the detailed view
-	void display(const QItemSelection &selected, const QItemSelection &deselected);
+	void display(const QModelIndex& clicked);
 
 	void focusTextSearch();
 	

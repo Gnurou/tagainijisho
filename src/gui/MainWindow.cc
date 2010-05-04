@@ -127,7 +127,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), _clipboardEnabled
 	// List widget
 	_entryListWidget = new EntryListWidget(this);
 	_entryListWidget->entryListView()->setModel(&_listModel);
-	connect(_entryListWidget->entryListView(), SIGNAL(entrySelected(EntryPointer)), detailedView(), SLOT(display(EntryPointer)));
+	connect(_entryListWidget->entryListView(), SIGNAL(clicked(QModelIndex)), this, SLOT(display(QModelIndex)));
 	QDockWidget *dWidget = new QDockWidget(_entryListWidget->currentTitle(), this);
 	dWidget->setAllowedAreas(Qt::AllDockWidgetAreas);
 	// Steal the toolbar
@@ -180,7 +180,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), _clipboardEnabled
 	setCorner(Qt::BottomRightCorner, Qt::RightDockWidgetArea);
 	
 	// Display selected items in the results view
-	connect(searchWidget()->resultsView(), SIGNAL(listSelectionChanged(QItemSelection,QItemSelection)), this, SLOT(display(QItemSelection,QItemSelection)));
+	connect(searchWidget()->resultsView(), SIGNAL(clicked(QModelIndex)), this, SLOT(display(QModelIndex)));
 		
 	// Updates checker
 	_updateChecker = new UpdateChecker("/updates/latestversion.php", this);
@@ -463,10 +463,14 @@ void MainWindow::trainSettings()
 }
 
 // SearchWidget stuff
-void MainWindow::display(const QItemSelection &selected, const QItemSelection &deselected)
+void MainWindow::display(const QModelIndex &clicked)
 {
-	if (selected.isEmpty()) return;
-	EntryPointer entry = qVariantValue<EntryPointer>(selected.indexes()[0].data(Entry::EntryRole));
+	QAbstractItemView *view(qobject_cast<QAbstractItemView *>(sender()));
+	if (view == searchWidget()->resultsView() && !searchWidget()->resultsView()->selectionModel()->isSelected(clicked)) return;
+	else if (view == _entryListWidget->entryListView() && !_entryListWidget->entryListView()->selectionModel()->isSelected(clicked)) return;
+	EntryPointer entry = qVariantValue<EntryPointer>(clicked.data(Entry::EntryRole));
+	// Do not redisplay an entry if it is already shown
+	if (_detailedView->detailedView()->entryView()->entry() == entry) return;
 	if (entry) _detailedView->detailedView()->display(entry);
 }
 

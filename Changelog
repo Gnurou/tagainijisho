@@ -4,6 +4,7 @@
 * "Mark as known" action from the list context menu fixed
 * Added keyboard shortcuts (Space, R, Left, Right) to kanji popup window
 * Ctrl+s kanji shortcut also works in kanji flashcards
+* Fixed click behavior of entries lists
 
 0.2.5 released on 2010/04/01
 * Updated to SQLite 3.6.23
