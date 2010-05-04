@@ -121,7 +121,7 @@ void Kanjidic2EntryFormatter::writeTranslation(const ConstKanjidic2EntryPointer&
 	// Meanings
 	if (!entry->kanjiMeanings().isEmpty()) {
 		cursor.setBlockFormat(header);
-		cursor.setCharFormat(DetailedViewFonts::charFormat(DetailedViewFonts::DefaultText));
+		cursor.setCharFormat(normal);
 		QString s = entry->meaningsString();
 		if (!s.isEmpty()) s[0] = s[0].toUpper();
 		cursor.insertText(s);
@@ -193,23 +193,35 @@ void Kanjidic2EntryFormatter::writeKanjiInfo(const ConstKanjidic2EntryPointer& e
 	QTextTable *table = cursor.insertTable(1, 2, tableFormat);
 	int cellCpt = 0;
 	if (entry->strokeCount() != -1 && showStrokesNumber.value()) {
-		cursor.insertHtml(tr("<b>Strokes:</b> %1").arg(entry->strokeCount()));
+		cursor.setCharFormat(bold);
+		cursor.insertText(tr("Strokes:"));
+		cursor.setCharFormat(normal);
+		cursor.insertText(tr(" %1").arg(entry->strokeCount()));
 		if (++cellCpt % 2 == 0) { table->insertRows(table->rows(), 1); cursor.movePosition(QTextCursor::PreviousBlock); }
 		else cursor.movePosition(QTextCursor::NextBlock);
 	}
 	if (entry->frequency() != -1 && showFrequency.value()) {
-		cursor.insertHtml(tr("<b>Frequency:</b> %1").arg(entry->frequency()));
+		cursor.setCharFormat(bold);
+		cursor.insertText(tr("Frequency:"));
+		cursor.setCharFormat(normal);
+		cursor.insertText(tr(" %1").arg(entry->frequency()));
 		if (++cellCpt % 2 == 0) { table->insertRows(table->rows(), 1); cursor.movePosition(QTextCursor::PreviousBlock); }
 		else cursor.movePosition(QTextCursor::NextBlock);
 	}
 	if (entry->grade() != -1 && showGrade.value()) {
-		cursor.insertHtml(tr("<b>Grade:</b> %1").arg(tr(Kanjidic2GUIPlugin::kanjiGrades[entry->grade()].toLatin1())));
+		cursor.setCharFormat(bold);
+		cursor.insertText(tr("Grade:"));
+		cursor.setCharFormat(normal);
+		cursor.insertText(tr(" %1").arg(tr(Kanjidic2GUIPlugin::kanjiGrades[entry->grade()].toLatin1())));
 		cursor.setCharFormat(normal);
 		if (++cellCpt % 2 == 0) { table->insertRows(table->rows(), 1); cursor.movePosition(QTextCursor::PreviousBlock); }
 		else cursor.movePosition(QTextCursor::NextBlock);
 	}
 	if (entry->jlpt() != -1 && showJLPT.value()) {
-		cursor.insertHtml(tr("<b>JLPT:</b> %1").arg(entry->jlpt()));
+		cursor.setCharFormat(bold);
+		cursor.insertText(tr("JLPT:"));
+		cursor.setCharFormat(normal);
+		cursor.insertText(tr(" %1").arg(entry->jlpt()));
 		if (++cellCpt % 2 == 0) { table->insertRows(table->rows(), 1); cursor.movePosition(QTextCursor::PreviousBlock); }
 		else cursor.movePosition(QTextCursor::NextBlock);
 	}
@@ -250,17 +262,26 @@ void Kanjidic2EntryFormatter::writeKanjiInfo(const ConstKanjidic2EntryPointer& e
 		else cursor.movePosition(QTextCursor::NextBlock);
 	}
 	if (showUnicode.value()) {
-		cursor.insertHtml(tr("<b>Unicode:</b> 0x%1").arg(QString::number(TextTools::singleCharToUnicode(entry->kanji()), 16)));
+		cursor.setCharFormat(bold);
+		cursor.insertText(tr("Unicode:"));
+		cursor.setCharFormat(normal);
+		cursor.insertText(tr(" 0x%1").arg(QString::number(TextTools::singleCharToUnicode(entry->kanji()), 16)));
 		if (++cellCpt % 2 == 0) { table->insertRows(table->rows(), 1); cursor.movePosition(QTextCursor::PreviousBlock); }
 		else cursor.movePosition(QTextCursor::NextBlock);
 	}
 	if (showSKIP.value() && !entry->skipCode().isEmpty()) {
-		cursor.insertHtml(tr("<b>SKIP:</b> %1").arg(entry->skipCode()));
+		cursor.setCharFormat(bold);
+		cursor.insertText(tr("SKIP:"));
+		cursor.setCharFormat(normal);
+		cursor.insertText(tr(" %1").arg(entry->skipCode()));
 		if (++cellCpt % 2 == 0) { table->insertRows(table->rows(), 1); cursor.movePosition(QTextCursor::PreviousBlock); }
 		else cursor.movePosition(QTextCursor::NextBlock);
 	}
 	if (showFourCorner.value() && !entry->fourCorner().isEmpty()) {
-		cursor.insertHtml(tr("<b>4 corner:</b> %1").arg(entry->fourCorner()));
+		cursor.setCharFormat(bold);
+		cursor.insertText(tr("4 corner:"));
+		cursor.setCharFormat(normal);
+		cursor.insertText(tr(" %1").arg(entry->fourCorner()));
 		if (++cellCpt % 2 == 0) { table->insertRows(table->rows(), 1); cursor.movePosition(QTextCursor::PreviousBlock); }
 		else cursor.movePosition(QTextCursor::NextBlock);
 	}
