@@ -130,6 +130,10 @@ public:
 	static PreferenceItem<bool> autoCheckBetaUpdates;
 	static PreferenceItem<int> updateCheckInterval;
 	static PreferenceItem<QDateTime> lastUpdateCheck;
+	// Keep track of when the user started the program for the first time
+	// so that we can bother him with a donation reminder
+	static PreferenceItem<bool> donationReminderDisplayed;
+	static PreferenceItem<QDateTime> firstRunTime;
 	
 	SearchWidget *searchWidget() { return _searchWidget; }
 	DetailedView *detailedView() { return _detailedView->detailedView(); }

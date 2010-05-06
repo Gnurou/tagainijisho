@@ -72,12 +72,8 @@ PreferenceItem<QByteArray> MainWindow::windowGeometry("mainWindow", "geometry", 
 PreferenceItem<QByteArray> MainWindow::windowState("mainWindow", "state", "");
 PreferenceItem<QByteArray> MainWindow::splitterState("mainWindow", "splitterGeometry", "");
 
-/*void SearchFilterDock::closeEvent(QCloseEvent *event)
-{
-	SearchFilterWidget *sfw = qobject_cast<SearchFilterWidget *>(widget());
-	if (sfw) sfw->reset();
-	QDockWidget::closeEvent(event);
-}*/
+PreferenceItem<bool> MainWindow::donationReminderDisplayed("mainWindow", "donationReminderDisplayed", false);
+PreferenceItem<QDateTime> MainWindow::firstRunTime("mainWindow", "firstRunTime", QDateTime::currentDateTime());
 
 DockTitleBar::DockTitleBar(QWidget *widget, QDockWidget *parent) : QWidget(parent)
 {
@@ -212,6 +208,26 @@ MainWindow::~MainWindow()
 PreferenceItem<QDateTime> MainWindow::lastUpdateCheck("", "lastUpdateCheck", QDateTime(QDate(2000, 1, 1)));
 void MainWindow::updateCheck()
 {
+	if (!donationReminderDisplayed.value()) {
+		// Display the reminder if two weeks passed since the first usage
+		if (QDateTime::currentDateTime() > firstRunTime.value().addDays(14)) {
+			QMessageBox messageBox(QMessageBox::NoIcon, tr("Please consider supporting Tagaini"),
+					tr("You have now been using Tagaini Jisho for a short while. If you like it, please show your support by making a donation that expresses your appreciation of this software. While Tagaini is free, its development has a cost and your support will have a positive influence on its future. You can donate via Paypal or credit card.\n\nThis message will not appear anymore - you can still donate later by choosing the corresponding option in the Help menu."),
+					QMessageBox::NoButton, this);
+			messageBox.setIconPixmap(QPixmap(":/images/icons/donate.png"));
+			QPushButton donateButton(tr("Donate!"));
+			donateButton.setIcon(QIcon(QPixmap(":/images/icons/donate.png")));
+			messageBox.addButton(&donateButton, QMessageBox::AcceptRole);
+			QPushButton laterButton(tr("Nah"));
+			messageBox.addButton(&laterButton, QMessageBox::RejectRole);
+			if (messageBox.exec() == QMessageBox::AcceptRole) {
+				donate();
+			}
+			
+			donationReminderDisplayed.setValue(true);
+		}
+	}
+	
 	if (autoCheckUpdates.value()) {
 		QDateTime dt(lastUpdateCheck.value());
 		if (!dt.isValid() || dt.addDays(updateCheckInterval.value()) <= QDateTime::currentDateTime()) {
@@ -329,7 +345,7 @@ void MainWindow::updateAvailable(const QString &version)
 	if (messageBox.exec() == QMessageBox::AcceptRole) {
 		QDesktopServices::openUrl(QUrl("http://www.tagaini.net"));
 	}
-	else _updateTimer.stop();
+	_updateTimer.stop();
 }
 
 void MainWindow::betaUpdateAvailable(const QString &version)
@@ -344,7 +360,7 @@ void MainWindow::betaUpdateAvailable(const QString &version)
 	if (messageBox.exec() == QMessageBox::AcceptRole) {
 		QDesktopServices::openUrl(QUrl("http://www.tagaini.net"));
 	}
-	else _updateTimer.stop();
+	_updateTimer.stop();
 }
 
 void MainWindow::populateMenu(QMenu *menu, int parentId)
