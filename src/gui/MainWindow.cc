@@ -72,8 +72,8 @@ PreferenceItem<QByteArray> MainWindow::windowGeometry("mainWindow", "geometry", 
 PreferenceItem<QByteArray> MainWindow::windowState("mainWindow", "state", "");
 PreferenceItem<QByteArray> MainWindow::splitterState("mainWindow", "splitterGeometry", "");
 
-PreferenceItem<bool> MainWindow::donationReminderDisplayed("mainWindow", "donationReminderDisplayed", false);
-PreferenceItem<QDateTime> MainWindow::firstRunTime("mainWindow", "firstRunTime", QDateTime::currentDateTime());
+PreferenceItem<bool> MainWindow::donationReminderDisplayed("mainWindow", "donationReminderDisplayed", false, true);
+PreferenceItem<QDateTime> MainWindow::firstRunTime("mainWindow", "firstRunTime", QDateTime::currentDateTime(), true);
 
 DockTitleBar::DockTitleBar(QWidget *widget, QDockWidget *parent) : QWidget(parent)
 {
