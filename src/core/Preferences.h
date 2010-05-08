@@ -48,7 +48,7 @@ protected:
 	bool _isDefault;
 	
 public:
-	PreferenceRoot(const QString &group, const QString &name, QObject *parent = 0) : QObject(parent),  _group(group), _name(name) {}
+	PreferenceRoot(const QString &group, const QString &name) : QObject(),  _group(group), _name(name) {}
 	virtual ~PreferenceRoot() {}
 	const QString &group() const { return _group; }
 	const QString &name() const { return _name; }
@@ -71,11 +71,12 @@ private:
 	T _defaultValue;
 
 public:
-	PreferenceItem(const QString &group, const QString &name, const T &defaultValue, QObject *parent = 0) : PreferenceRoot(group, name, parent), _defaultValue(defaultValue) {
+	PreferenceItem(const QString &group, const QString &name, const T &defaultValue, bool persistent = false) : PreferenceRoot(group, name), _defaultValue(defaultValue) {
 		_settingsMutex().lock();
 		_prefsSettings().beginGroup(_group);
 		_value = qVariantValue<T>(_prefsSettings().value(_name, _defaultValue));
 		_isDefault = !_prefsSettings().contains(name);
+		if (_isDefault && persistent) set(value());
 		_prefsSettings().endGroup();
 		_settingsMutex().unlock();
 	}
