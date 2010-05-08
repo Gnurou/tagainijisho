@@ -76,9 +76,9 @@ public:
 		_prefsSettings().beginGroup(_group);
 		_value = qVariantValue<T>(_prefsSettings().value(_name, _defaultValue));
 		_isDefault = !_prefsSettings().contains(name);
-		if (_isDefault && persistent) set(value());
 		_prefsSettings().endGroup();
 		_settingsMutex().unlock();
+		if (_isDefault && persistent) set(value());
 	}
 	const T &value() const { return _value; }
 	const T &defaultValue() const { return _defaultValue; }
