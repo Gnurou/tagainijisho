@@ -32,10 +32,20 @@
 #define EXEC(q) if (!q.exec()) { qDebug() << __FILE__ << __LINE__ << "Cannot execute query:" << q.lastError().text(); return false; }
 #define EXEC_T(q) if (!q.exec()) { qDebug() << __FILE__ << __LINE__ << "Cannot execute query:" << q.lastError().text(); goto transactionFailed; }
 
+void EntryListModel::setRoot(int rootId)
+{
+	// Nothing changes?
+	if (rootId == _rootId) return;
+
+	beginResetModel();
+	_rootId = rootId;
+	endResetModel();
+}
+
 QModelIndex EntryListModel::index(int row, int column, const QModelIndex &parent) const
 {
 	if (column > 0) return QModelIndex();
-	const EntryListCachedEntry &cEntry = EntryListCache::instance().get(parent.isValid() ? parent.internalId() : -1, row);
+	const EntryListCachedEntry &cEntry = EntryListCache::instance().get(parent.isValid() ? parent.internalId() : rootId(), row);
 	if (cEntry.isRoot()) return QModelIndex();
 	else return createIndex(row, column, cEntry.rowId());
 }
@@ -52,15 +62,17 @@ QModelIndex EntryListModel::index(int rowId) const
 QModelIndex EntryListModel::parent(const QModelIndex &idx) const
 {
 	if (!idx.isValid()) return QModelIndex();
-	const EntryListCachedEntry &cEntry = EntryListCache::instance().get(idx.isValid() ? idx.internalId() : -1);
-	if (cEntry.isRoot()) return QModelIndex();
-	else return index(cEntry.parent());
+	const EntryListCachedEntry &cEntry = EntryListCache::instance().get(idx.isValid() ? idx.internalId() : rootId());
+	if (cEntry.isRoot() || cEntry.rowId() == rootId()) return QModelIndex();
+	else {
+		int pIndex(cEntry.parent());
+		return index(pIndex == rootId() ? -1 : pIndex);
+	}
 }
 
 int EntryListModel::rowCount(const QModelIndex &parent) const
 {
-	// Root node has -1 id
-	const EntryListCachedEntry &cEntry = EntryListCache::instance().get(parent.isValid() ? parent.internalId() : -1);
+	const EntryListCachedEntry &cEntry = EntryListCache::instance().get(parent.isValid() ? parent.internalId() : rootId());
 	// Not a list? No child!
 	if (!cEntry.isList()) return 0;
 	return cEntry.count();
