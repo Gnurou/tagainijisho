@@ -70,6 +70,8 @@ void EntryFormatter::writeUserData(const ConstEntryPointer& entry, QTextCursor& 
 		}
 	}
 
+	// Lists
+	
 	//Notes
 	if (!entry->notes().isEmpty()) {
 		QTextTableFormat tableFormat;

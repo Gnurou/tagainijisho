@@ -5,6 +5,7 @@
 * Added keyboard shortcuts (Space, R, Left, Right) to kanji popup window
 * Ctrl+s kanji shortcut also works in kanji flashcards
 * Fixed click behavior of entries lists
+* Duplicate kanji components no longer displayed in detailed view
 
 0.2.5 released on 2010/04/01
 * Updated to SQLite 3.6.23
