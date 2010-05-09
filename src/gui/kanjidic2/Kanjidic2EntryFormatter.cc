@@ -311,7 +311,10 @@ void Kanjidic2EntryFormatter::writeKanjiInfo(const ConstKanjidic2EntryPointer& e
 		cursor.setCharFormat(bold);
 		cursor.insertText(tr("Components:"));
 		cursor.setCharFormat(normal);
+		QSet<uint> listedComps;
 		foreach (const KanjiComponent *component, components) {
+			if (listedComps.contains(component->unicode())) continue;
+			listedComps << component->unicode();
 			cursor.insertText("\n");
 			ConstKanjidic2EntryPointer kEntry(KanjiEntryRef(component->unicode()).get());
 			view->addWatchEntry(kEntry);
