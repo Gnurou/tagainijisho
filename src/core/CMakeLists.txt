@@ -18,6 +18,7 @@ SearchCommand.cc
 EntrySearcher.cc
 EntrySearcherManager.cc
 ResultsList.cc
+EntryListCache.cc
 EntryListModel.cc
 EntriesCache.cc
 Plugin.cc

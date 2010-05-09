@@ -15,42 +15,17 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef __GUI_ENTRYLISTMODEL_H
-#define __GUI_ENTRYLISTMODEL_H
-
-#include "core/EntriesCache.h"
+#ifndef __CORE_ENTRYLISTMODEL_H
+#define __CORE_ENTRYLISTMODEL_H
 
 #include <QAbstractItemModel>
 #include <QSqlQuery>
 #include <QMimeData>
 
-typedef struct {
-	int rowId;
-	int parent;
-	// For entry types, use position.
-	// For list types, use count.
-	int position;
-	int count;
-	int type;
-	int id;
-	QString label;
-} EntryListModelCache;
-
 class EntryListModel : public QAbstractItemModel
 {
 	Q_OBJECT
 private:
-	mutable QHash<int, EntryListModelCache> rowIdCache;
-	mutable QHash<QPair<int, int>, EntryListModelCache> rowParentCache;
-
-	EntryListModelCache prepareCacheEntry(QSqlQuery &query) const;
-	const EntryListModelCache &getFromCache(int rowid) const;
-	const EntryListModelCache &getFromCache(int row, int parent) const;
-	/// Invalidates the cache for the specified row id
-	void invalidateCache(int rowId) const;
-	/// Invalidates the whole cache
-	void invalidateCache() const;
-
 	/**
 	 * Move all rows in parent with a position >= row by adding delta to their position.
 	 * Returns true upon success.

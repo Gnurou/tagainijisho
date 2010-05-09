@@ -17,6 +17,7 @@
 
 #include "core/Database.h"
 #include "core/EntryListModel.h"
+#include "core/EntryListCache.h"
 
 #include <QSqlError>
 #include <QFont>
@@ -31,151 +32,64 @@
 #define EXEC(q) if (!q.exec()) { qDebug() << __FILE__ << __LINE__ << "Cannot execute query:" << q.lastError().text(); return false; }
 #define EXEC_T(q) if (!q.exec()) { qDebug() << __FILE__ << __LINE__ << "Cannot execute query:" << q.lastError().text(); goto transactionFailed; }
 
-EntryListModelCache EntryListModel::prepareCacheEntry(QSqlQuery &query) const
-{
-	EntryListModelCache nCache;
-	// Invalid model, return root list
-	if (!query.next()) {
-		nCache.rowId = -1;
-		nCache.parent = -1;
-		nCache.type = -1;
-		nCache.id = -1;
-		nCache.position = -1;
-		query.prepare("select count(*) from lists where parent is null");
-		query.exec();
-		if (query.next()) nCache.count = query.value(0).toInt();
-	} else {
-		nCache.rowId = query.value(0).toInt();
-		nCache.parent = query.value(1).isNull() ? -1 : query.value(1).toInt();
-		nCache.position = query.value(2).toInt();
-		nCache.type = query.value(3).isNull() ? -1 : query.value(3).toInt();
-		nCache.id = query.value(4).toInt();
-		nCache.label = query.value(5).toString();
-		nCache.count = 0;
-
-		// If the type is a list, get its number of childs
-		if (nCache.type == -1) {
-			query.prepare("select count(*) from lists where parent = ?");
-			query.addBindValue(nCache.rowId);
-			query.exec();
-			if (query.next()) nCache.count = query.value(0).toInt();
-		}
-		else nCache.count = 0;
-	}
-	return nCache;
-}
-
-const EntryListModelCache &EntryListModel::getFromCache(int rowId) const
-{
-	if (!rowIdCache.contains(rowId)) {
-		QSqlQuery query;
-		query.prepare("select lists.rowid, parent, position, type, id, label from lists left join listsLabels on lists.rowid == listsLabels.rowid where lists.rowid = ?");
-		query.addBindValue(rowId);
-		query.exec();
-		EntryListModelCache nCache(prepareCacheEntry(query));
-		rowIdCache[nCache.rowId] = nCache;
-		rowParentCache[QPair<int, int>(nCache.position, nCache.parent)] = nCache;
-	}
-	return rowIdCache[rowId];
-}
-
-const EntryListModelCache &EntryListModel::getFromCache(int row, int parent) const
-{
-	QPair<int, int> key(row, parent);
-	if (!rowParentCache.contains(key)) {
-		QSqlQuery query;
-		query.prepare(QString("select lists.rowid, parent, position, type, id, label from lists left join listsLabels on lists.rowid == listsLabels.rowid where lists.parent %1 order by position limit 1 offset ?").arg(parent == -1 ? "is null" : "= ?"));
-		if (parent != -1) query.addBindValue(parent);
-		query.addBindValue(row);
-		query.exec();
-		
-		EntryListModelCache nCache(prepareCacheEntry(query));
-		// Row inconsistency, try to fix!
-		if (row != nCache.position) {
-			query.prepare("update lists set position = ? where rowid = ?");
-			query.addBindValue(row);
-			query.addBindValue(nCache.rowId);
-			query.exec();
-			nCache.position = row;
-		}
-		rowIdCache[nCache.rowId] = nCache;
-		rowParentCache[key] = nCache;
-	}
-	return rowParentCache[key];
-}
-
-void EntryListModel::invalidateCache(int rowId) const
-{
-	if (!rowIdCache.contains(rowId)) return;
-	const EntryListModelCache &cEntry = rowIdCache[rowId];
-	rowParentCache.remove(QPair<int, int>(cEntry.position, cEntry.parent));
-	rowIdCache.remove(rowId);
-}
-
-void EntryListModel::invalidateCache() const
-{
-	rowParentCache.clear();
-	rowIdCache.clear();
-}
-
 QModelIndex EntryListModel::index(int row, int column, const QModelIndex &parent) const
 {
 	if (column > 0) return QModelIndex();
-	const EntryListModelCache &cEntry = getFromCache(row, parent.isValid() ? parent.internalId() : -1);
-	if (cEntry.rowId == -1) return QModelIndex();
-	else return createIndex(row, column, cEntry.rowId);
+	const EntryListCachedEntry &cEntry = EntryListCache::instance().get(parent.isValid() ? parent.internalId() : -1, row);
+	if (cEntry.isRoot()) return QModelIndex();
+	else return createIndex(row, column, cEntry.rowId());
 }
 	
 QModelIndex EntryListModel::index(int rowId) const
 {
 	// Invalid items have no parent
 	if (rowId == -1) return QModelIndex();
-	const EntryListModelCache &cEntry = getFromCache(rowId);
-	if (cEntry.rowId == -1) return QModelIndex();
-	return createIndex(cEntry.position, 0, rowId);
+	const EntryListCachedEntry &cEntry = EntryListCache::instance().get(rowId);
+	if (cEntry.isRoot()) return QModelIndex();
+	return createIndex(cEntry.position(), 0, rowId);
 }
 
 QModelIndex EntryListModel::parent(const QModelIndex &idx) const
 {
 	if (!idx.isValid()) return QModelIndex();
-	const EntryListModelCache &cEntry = getFromCache(idx.isValid() ? idx.internalId() : -1);
-	if (cEntry.rowId == -1) return QModelIndex();
-	else return index(cEntry.parent);
+	const EntryListCachedEntry &cEntry = EntryListCache::instance().get(idx.isValid() ? idx.internalId() : -1);
+	if (cEntry.isRoot()) return QModelIndex();
+	else return index(cEntry.parent());
 }
 
 int EntryListModel::rowCount(const QModelIndex &parent) const
 {
 	// Root node has -1 id
-	const EntryListModelCache &cEntry = getFromCache(parent.isValid() ? parent.internalId() : -1);
+	const EntryListCachedEntry &cEntry = EntryListCache::instance().get(parent.isValid() ? parent.internalId() : -1);
 	// Not a list? No child!
-	if (!cEntry.type == -1) return 0;
-	return cEntry.count;
+	if (!cEntry.isList()) return 0;
+	return cEntry.count();
 }
 
 QVariant EntryListModel::data(const QModelIndex &index, int role) const
 {
 	if (!index.isValid() || index.column() != 0) return QVariant();
-	const EntryListModelCache &cEntry = getFromCache(index.isValid() ? index.internalId() : -1);
-	if (cEntry.rowId == -1) return QVariant();
+	const EntryListCachedEntry &cEntry = EntryListCache::instance().get(index.isValid() ? index.internalId() : -1);
+	if (cEntry.isRoot()) return QVariant();
 	switch (role) {
 		case Qt::DisplayRole:
 		case Qt::EditRole:
 		{
-			if (cEntry.type == -1) return cEntry.label;
-			EntryPointer entry(EntryRef(cEntry.type, cEntry.id).get());
+			if (cEntry.isList()) return cEntry.label();
+			EntryPointer entry(cEntry.entryRef().get());
 			if (!entry) return QVariant();
 			else return entry->shortVersion(Entry::TinyVersion);
 		}
 		case Qt::BackgroundRole:
 		{
-			if (cEntry.type == -1) return QPalette().button();
-			EntryPointer entry(EntryRef(cEntry.type, cEntry.id).get());
+			if (cEntry.isList()) return QPalette().button();
+			EntryPointer entry(cEntry.entryRef().get());
 			if (!entry || !entry->trained()) return QVariant();
 			else return entry->scoreColor();
 		}
 		case Qt::FontRole:
 		{
-			if (cEntry.type == -1) {
+			if (cEntry.isList()) {
 				QFont font;
 				font.setPointSize(font.pointSize() + 1);
 				font.setItalic(true);
@@ -184,7 +98,7 @@ QVariant EntryListModel::data(const QModelIndex &index, int role) const
 			else return QVariant();
 		}
 		case Qt::SizeHintRole:
-			if (cEntry.type == -1) {
+			if (cEntry.isList()) {
 				QFont font;
 				font.setPointSize(font.pointSize() + 1);
 				font.setItalic(true);
@@ -193,8 +107,8 @@ QVariant EntryListModel::data(const QModelIndex &index, int role) const
 			else return QVariant();
 		case Entry::EntryRole:
 		{
-			if (cEntry.type == -1) return QVariant();
-			EntryPointer entry(EntryRef(cEntry.type, cEntry.id).get());
+			if (cEntry.isList()) return QVariant();
+			EntryPointer entry(cEntry.entryRef().get());
 			if (!entry) return QVariant();
 			else return QVariant::fromValue(entry);
 		}
@@ -221,13 +135,13 @@ bool EntryListModel::setData(const QModelIndex &index, const QVariant &value, in
 		}
 		if (!COMMIT) goto transactionFailed;
 		// Invalidate the cache entry
-		invalidateCache(index.internalId());
+		EntryListCache::instance().invalidate(index.internalId());
 		return true;
 	}
 	return false;
 transactionFailed:
 	ROLLBACK;
-	invalidateCache();
+	EntryListCache::instance().invalidateAll();
 	return false;
 }
 	
@@ -267,12 +181,12 @@ bool EntryListModel::insertRows(int row, int count, const QModelIndex & parent)
 		}
 	}
 	if (!COMMIT) goto transactionFailed;
-	invalidateCache();
+	EntryListCache::instance().invalidateAll();
 	endInsertRows();
 	return true;
 transactionFailed:
 	ROLLBACK;
-	invalidateCache();
+	EntryListCache::instance().invalidateAll();
 	return false;
 }
 
@@ -310,7 +224,7 @@ bool EntryListModel::_removeRows(int row, int count, const QModelIndex &parent)
 	EXEC(query);
 	// Update the positions of items that were after the ones we removed
 	if (!moveRows(row + count, -count, parent, query)) return false;
-	invalidateCache();
+	EntryListCache::instance().invalidateAll();
 	endRemoveRows();
 	return true;
 }
@@ -323,7 +237,7 @@ bool EntryListModel::removeRows(int row, int count, const QModelIndex &parent)
 	return true;
 transactionFailed:
 	ROLLBACK;
-	invalidateCache();
+	EntryListCache::instance().invalidateAll();
 	return false;
 }
 
@@ -332,9 +246,9 @@ Qt::ItemFlags EntryListModel::flags(const QModelIndex &index) const
 	Qt::ItemFlags ret(Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsDragEnabled);
 	
 	if (index.isValid()) {
-		const EntryListModelCache &cEntry = getFromCache(index.internalId());
-		if (cEntry.rowId == -1) return Qt::ItemIsEnabled;
-		if (cEntry.type == -1) ret |= Qt::ItemIsEditable | Qt::ItemIsDropEnabled;
+		const EntryListCachedEntry &cEntry = EntryListCache::instance().get(index.internalId());
+		if (cEntry.isRoot()) return Qt::ItemIsEnabled;
+		if (cEntry.isList()) ret |= Qt::ItemIsEditable | Qt::ItemIsDropEnabled;
 	}
 	else ret |= Qt::ItemIsDropEnabled;
 	return ret;
@@ -362,8 +276,8 @@ QMimeData *EntryListModel::mimeData(const QModelIndexList &indexes) const
 			itemsStream << (int)index.internalId();
 			
 			// If the item is an entry, add it
-			const EntryListModelCache &cEntry = getFromCache(index.internalId());
-			if (cEntry.type != -1) entriesStream << EntryRef(cEntry.type, cEntry.id);
+			const EntryListCachedEntry &cEntry = EntryListCache::instance().get(index.internalId());
+			if (!cEntry.isRoot()) entriesStream << cEntry.entryRef();
 		}
 	}
 	if (!entriesEncodedData.isEmpty()) mimeData->setData("tagainijisho/entry", entriesEncodedData);
@@ -431,7 +345,7 @@ bool EntryListModel::dropMimeData(const QMimeData *data, Qt::DropAction action, 
 				query.addBindValue(realRow + itemCpt);
 				query.addBindValue(rowid);
 				EXEC_T(query);
-				invalidateCache(rowid);
+				EntryListCache::instance().invalidateAll();
 				// Don't forget to change any persistent index - views use them at least to keep track
 				// of the current selection
 				changePersistentIndex(idx, index(rowid));
@@ -439,7 +353,7 @@ bool EntryListModel::dropMimeData(const QMimeData *data, Qt::DropAction action, 
 			}
 		}
 		if (!COMMIT) goto transactionFailed;
-		invalidateCache();
+		EntryListCache::instance().invalidateAll();
 		emit layoutChanged();
 	}
 	// No list data, we probably dropped from the results view or something -
@@ -447,8 +361,8 @@ bool EntryListModel::dropMimeData(const QMimeData *data, Qt::DropAction action, 
 	else if (data->hasFormat("tagainijisho/entry")) {
 		//if (!parent.isValid()) return false;
 		{
-			const EntryListModelCache &cEntry = getFromCache(parent.isValid() ? parent.internalId() : -1);
-			if (cEntry.type != -1) return false;
+			const EntryListCachedEntry &cEntry = EntryListCache::instance().get(parent.isValid() ? parent.internalId() : -1);
+			if (cEntry.isRoot()) return false;
 		}
 		QByteArray ba = data->data("tagainijisho/entry");
 		QDataStream ds(&ba, QIODevice::ReadOnly);
@@ -477,12 +391,12 @@ bool EntryListModel::dropMimeData(const QMimeData *data, Qt::DropAction action, 
 		}
 		beginInsertRows(parent, row, row + entries.size() - 1);
 		if (!COMMIT) goto transactionFailed;
-		invalidateCache();
+		EntryListCache::instance().invalidateAll();
 		endInsertRows();
 	}
 	return true;
 transactionFailed:
 	ROLLBACK;
-	invalidateCache();
+	EntryListCache::instance().invalidateAll();
 	return false;
 }
