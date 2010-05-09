@@ -211,10 +211,9 @@ void MainWindow::updateCheck()
 	if (!donationReminderDisplayed.value()) {
 		// Display the reminder if two weeks passed since the first usage
 		if (QDateTime::currentDateTime() > firstRunTime.value().addDays(14)) {
-			QMessageBox messageBox(QMessageBox::NoIcon, tr("Please consider supporting Tagaini"),
-					tr("You have now been using Tagaini Jisho for a short while. If you like it, please show your support by making a donation that expresses your appreciation of this software. While Tagaini is free, its development has a cost and your support will have a positive influence on its future. You can donate via Paypal or credit card.\n\nThis message will not appear anymore - you can still donate later by choosing the corresponding option in the Help menu."),
+			QMessageBox messageBox(QMessageBox::Information, tr("Please consider supporting Tagaini Jisho"),
+					tr("You have now been using Tagaini Jisho for a short while. If you like it, please show your support by making a donation that expresses your appreciation of this software. While Tagaini is free, its development has a cost and your support will have a positive influence on its future. You can donate via Paypal or credit card.\n\nThis message is a one-time reminder and will not appear anymore - you can still donate later by choosing the corresponding option in the Help menu."),
 					QMessageBox::NoButton, this);
-			messageBox.setIconPixmap(QPixmap(":/images/icons/donate.png"));
 			QPushButton donateButton(tr("Donate!"));
 			donateButton.setIcon(QIcon(QPixmap(":/images/icons/donate.png")));
 			messageBox.addButton(&donateButton, QMessageBox::AcceptRole);
