@@ -64,6 +64,9 @@ ResultsView::ResultsView(QWidget *parent, EntryDelegateLayout *delegateLayout, b
 	connect(&kanaFontSetting, SIGNAL(valueChanged(QVariant)), delegateLayout, SLOT(updateConfig(QVariant)));
 	connect(&kanjiFontSetting, SIGNAL(valueChanged(QVariant)), delegateLayout, SLOT(updateConfig(QVariant)));
 	connect(&displayModeSetting, SIGNAL(valueChanged(QVariant)), delegateLayout, SLOT(updateConfig(QVariant)));
+
+	// Propagate the clicked signal as a selection signal
+	connect(this, SIGNAL(clicked(QModelIndex)), this, SLOT(itemClicked(QModelIndex)));
 }
 
 void ResultsView::setSmoothScrolling(bool value)
@@ -97,10 +100,22 @@ void ResultsView::updateLayout()
 	setModel(m);
 }
 
+void ResultsView::itemClicked(const QModelIndex &clicked)
+{
+	// Do not emit signal for entries that are not selected
+	if (!selectionModel()->isSelected(clicked)) return;
+	// Use the model data directly!
+	EntryPointer entry(qvariant_cast<EntryPointer>(model()->data(clicked, Entry::EntryRole)));
+	if (entry) emit entrySelected(entry);
+}
+
 void ResultsView::selectionChanged(const QItemSelection &selected, const QItemSelection &deselected)
 {
 	QListView::selectionChanged(selected, deselected);
 	emit listSelectionChanged(selected, deselected);
+	if (selected.isEmpty()) return;
+	QModelIndex index(selected.indexes().last());
+	itemClicked(index);
 }
 
 void ResultsView::startDrag(Qt::DropActions supportedActions)

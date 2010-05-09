@@ -124,7 +124,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), _clipboardEnabled
 	// List widget
 	_entryListWidget = new EntryListWidget(this);
 	_entryListWidget->entryListView()->setModel(&_listModel);
-	connect(_entryListWidget->entryListView(), SIGNAL(clicked(QModelIndex)), this, SLOT(display(QModelIndex)));
+	connect(_entryListWidget->entryListView(), SIGNAL(entrySelected(EntryPointer)), detailedView(), SLOT(display(EntryPointer)));
 	QDockWidget *dWidget = new QDockWidget(_entryListWidget->currentTitle(), this);
 	dWidget->setAllowedAreas(Qt::AllDockWidgetAreas);
 	// Steal the toolbar
@@ -177,7 +177,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), _clipboardEnabled
 	setCorner(Qt::BottomRightCorner, Qt::RightDockWidgetArea);
 	
 	// Display selected items in the results view
-	connect(searchWidget()->resultsView(), SIGNAL(clicked(QModelIndex)), this, SLOT(display(QModelIndex)));
+	connect(searchWidget()->resultsView(), SIGNAL(entrySelected(EntryPointer)), detailedView(), SLOT(display(EntryPointer)));
 		
 	// Updates checker
 	_updateChecker = new UpdateChecker("/updates/latestversion.php", this);

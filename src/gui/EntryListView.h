@@ -49,13 +49,13 @@ private slots:
 	void updateLayout();
 	void updateConfig(const QVariant &value);
 
+	virtual void itemClicked(const QModelIndex &clicked);
+	void rightClickNewList();
+
 protected:
 	void contextMenuEvent(QContextMenuEvent *event);
 	virtual void startDrag(Qt::DropActions supportedActions);
-
-protected slots:
 	virtual void selectionChanged(const QItemSelection &selected, const QItemSelection &deselected);
-	void rightClickNewList();
 
 public:
 	EntryListView(QWidget* parent = 0, EntryDelegateLayout* delegateLayout = 0, bool viewOnly = false);
@@ -82,7 +82,7 @@ public slots:
 signals:
 	void selectionHasChanged(const QItemSelection &selected, const QItemSelection &deselected);
 	void listSelected(int rowIndex);
-	void entrySelected(EntryPointer entry);
+	void entrySelected(const EntryPointer &entry);
 };
 
 #endif

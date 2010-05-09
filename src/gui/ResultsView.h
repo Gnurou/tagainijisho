@@ -73,10 +73,13 @@ private slots:
 	void updateLayout();
 	void updateConfig(const QVariant &value);
 
+	virtual void itemClicked(const QModelIndex &clicked);
+
 signals:
 	// Used to abstract the selection model which may not be consistent
 	// if the user changes fonts
 	void listSelectionChanged(const QItemSelection &selected, const QItemSelection &deselected);
+	void entrySelected(const EntryPointer &entry);
 };
 
 #endif

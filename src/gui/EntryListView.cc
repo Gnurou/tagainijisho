@@ -61,6 +61,9 @@ EntryListView::EntryListView(QWidget *parent, EntryDelegateLayout* delegateLayou
 	connect(&kanaFontSetting, SIGNAL(valueChanged(QVariant)), delegateLayout, SLOT(updateConfig(QVariant)));
 	connect(&kanjiFontSetting, SIGNAL(valueChanged(QVariant)), delegateLayout, SLOT(updateConfig(QVariant)));
 	connect(&displayModeSetting, SIGNAL(valueChanged(QVariant)), delegateLayout, SLOT(updateConfig(QVariant)));
+	
+	// Propagate the clicked signal as a selection signal
+	connect(this, SIGNAL(clicked(QModelIndex)), this, SLOT(itemClicked(QModelIndex)));
 }
 
 void EntryListView::setSmoothScrolling(bool value)
@@ -98,18 +101,23 @@ void EntryListView::contextMenuEvent(QContextMenuEvent *event)
 	contextMenu.exec(mapToGlobal(event->pos()));
 }
 
+void EntryListView::itemClicked(const QModelIndex &clicked)
+{
+	// Do not emit signal for entries that are not selected
+	if (!selectionModel()->isSelected(clicked)) return;
+	// Use the model data directly!
+	EntryPointer entry(qvariant_cast<EntryPointer>(model()->data(clicked, Entry::EntryRole)));
+	if (entry) emit entrySelected(entry);
+}
+
 void EntryListView::selectionChanged(const QItemSelection &selected, const QItemSelection &deselected)
 {
 	QTreeView::selectionChanged(selected, deselected);
 	_deleteSelectionAction.setEnabled(!selected.isEmpty());
 	emit selectionHasChanged(selected, deselected);
-	if (selected.isEmpty()) {
-		return;
-	}
+	if (selected.isEmpty()) return;
 	QModelIndex index(selected.indexes().last());
-	// Use the model data directly!
-	EntryPointer entry(qvariant_cast<EntryPointer>(model()->data(index, Entry::EntryRole)));
-	if (entry) emit entrySelected(entry);
+	itemClicked(index);
 }
 
 void EntryListView::startDrag(Qt::DropActions supportedActions)
