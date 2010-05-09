@@ -111,14 +111,15 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), _clipboardEnabled
 	// Focus on the text input on startup
 	actionFocus_text_search->trigger();
 	
+	// Reset search
+	_searchWidget->resetSearchAction()->setShortcut(QKeySequence("Ctrl+R"));
+	_searchMenu->addAction(_searchWidget->resetSearchAction());
+	
 	// Auto-clipboard search action
 	QAction *_enableClipboardInputAction = new QAction(tr("Auto-search on clipboard content"), this);
 	_enableClipboardInputAction->setCheckable(true);
 	connect(_enableClipboardInputAction, SIGNAL(toggled(bool)), this, SLOT(enableClipboardInput(bool)));
 	_searchMenu->addAction(_enableClipboardInputAction);
-	
-	_searchWidget->resetSearchAction()->setShortcut(QKeySequence("Ctrl+R"));
-	_searchMenu->addAction(_searchWidget->resetSearchAction());
 	
 	// List widget
 	_entryListWidget = new EntryListWidget(this);
