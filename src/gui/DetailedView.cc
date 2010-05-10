@@ -137,6 +137,7 @@ void DetailedView::setSmoothScrolling(bool value)
 
 void DetailedView::display(const EntryPointer &entry)
 {
+	if (entry == _entryView.entry()) return;
 	if (_historyEnabled) {
 		_history.add(EntryRef(entry));
 	}

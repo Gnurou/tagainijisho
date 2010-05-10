@@ -100,6 +100,10 @@ void ResultsView::updateLayout()
 	setModel(m);
 }
 
+/**
+ * @bug The signal will be emitted twice when an unselected item is clicked - filtered by
+ *      the detailed view
+ */
 void ResultsView::itemClicked(const QModelIndex &clicked)
 {
 	// Do not emit signal for entries that are not selected
