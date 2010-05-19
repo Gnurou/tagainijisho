@@ -62,16 +62,17 @@ MainWindow *MainWindow::_instance = 0;
 UpdateChecker *_updateChecker = 0;
 UpdateChecker *_betaUpdateChecker = 0;
 
-PreferenceItem<QString> MainWindow::applicationFont("", "defaultFont", "");
-PreferenceItem<QString> MainWindow::guiLanguage("", "guiLanguage", "");
-PreferenceItem<bool> MainWindow::autoCheckUpdates("", "autoCheckUpdates", true);
-PreferenceItem<bool> MainWindow::autoCheckBetaUpdates("", "autoCheckBetaUpdates", false);
-PreferenceItem<int> MainWindow::updateCheckInterval("", "updateCheckInterval", 3);
+PreferenceItem<QString> MainWindow::applicationFont("mainWindow", "defaultFont", "");
+PreferenceItem<QString> MainWindow::guiLanguage("mainWindow", "guiLanguage", "");
+PreferenceItem<bool> MainWindow::autoCheckUpdates("mainWindow", "autoCheckUpdates", true);
+PreferenceItem<bool> MainWindow::autoCheckBetaUpdates("mainWindow", "autoCheckBetaUpdates", false);
+PreferenceItem<int> MainWindow::updateCheckInterval("mainWindow", "updateCheckInterval", 3);
 
 PreferenceItem<QByteArray> MainWindow::windowGeometry("mainWindow", "geometry", "");
 PreferenceItem<QByteArray> MainWindow::windowState("mainWindow", "state", "");
 PreferenceItem<QByteArray> MainWindow::splitterState("mainWindow", "splitterGeometry", "");
 
+PreferenceItem<QDateTime> MainWindow::lastUpdateCheck("mainWindow", "lastUpdateCheck", QDateTime(QDate(2000, 1, 1)));
 PreferenceItem<bool> MainWindow::donationReminderDisplayed("mainWindow", "donationReminderDisplayed", false, true);
 PreferenceItem<QDateTime> MainWindow::firstRunTime("mainWindow", "firstRunTime", QDateTime::currentDateTime(), true);
 
@@ -99,86 +100,28 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), _clipboardEnabled
 	_instance = this;
 	
 	setupUi(this);
-	// Strangely this is not done properly by Qt designer...
-	connect(_setsMenu, SIGNAL(aboutToShow()), this, SLOT(populateSetsMenu()));
-	
-	// Steal the tool bar and set it as our dock title bar widget
-	QWidget *filtersToolBar = static_cast<QBoxLayout *>(searchWidget()->layout())->takeAt(0)->widget();
-	DockTitleBar *dBar = new DockTitleBar(filtersToolBar, _searchDockWidget);
-	dBar->setAttribute(Qt::WA_MacMiniSize);
-	_searchDockWidget->setTitleBarWidget(dBar);
-	
-	// Focus on the text input on startup
-	actionFocus_text_search->trigger();
-	
-	// Reset search
-	_searchWidget->resetSearchAction()->setShortcut(QKeySequence("Ctrl+R"));
-	_searchMenu->addAction(_searchWidget->resetSearchAction());
-	
-	// Auto-clipboard search action
-	QAction *_enableClipboardInputAction = new QAction(tr("Auto-search on clipboard content"), this);
-	_enableClipboardInputAction->setCheckable(true);
-	connect(_enableClipboardInputAction, SIGNAL(toggled(bool)), this, SLOT(enableClipboardInput(bool)));
-	_searchMenu->addAction(_enableClipboardInputAction);
-	
-	// List widget
-	_entryListWidget = new EntryListWidget(this);
-	_entryListWidget->entryListView()->setModel(&_listModel);
-	connect(_entryListWidget->entryListView(), SIGNAL(entrySelected(EntryPointer)), detailedView(), SLOT(display(EntryPointer)));
-	QDockWidget *dWidget = new QDockWidget(_entryListWidget->currentTitle(), this);
-	dWidget->setAllowedAreas(Qt::AllDockWidgetAreas);
-	// Steal the toolbar
-	dBar = new DockTitleBar(static_cast<QBoxLayout *>(_entryListWidget->layout())->takeAt(0)->widget(), dWidget);
-	dBar->setAttribute(Qt::WA_MacMiniSize);
-	dWidget->setTitleBarWidget(dBar);
-	
-	dWidget->setWidget(_entryListWidget);
-	addDockWidget(Qt::LeftDockWidgetArea, dWidget);
-	dWidget->setObjectName(_entryListWidget->currentTitle() + "Dock");
-	_searchMenu->addSeparator();
-	QAction *action = _searchDockWidget->toggleViewAction();
-	action->setShortcut(QKeySequence("F2"));
-	_searchMenu->addAction(action);
-	action = dWidget->toggleViewAction();
-	action->setShortcut(QKeySequence("F3"));
-	_searchMenu->addAction(action);
-	
-	// Geometry & state
-	restoreGeometry(windowGeometry.value());
-	restoreState(windowState.value(), MAINWINDOW_STATE_VERSION);
-	// Splitter layout
-	//if (splitterState.isDefault()) {
-		//splitter->setStretchFactor(0, 1);
-		//splitter->setStretchFactor(1, 3);
-	//}
-	//else splitter->restoreState(splitterState.value());
-	
 
-	// Docks
-	/*
-	setTabPosition(Qt::TopDockWidgetArea, QTabWidget::North);
-	QDockWidget *textWidget = addSearchFilter(new TextFilterWidget(this), Qt::TopDockWidgetArea);
-	addSearchFilter(new StudyFilterWidget(this), textWidget);
-	addSearchFilter(new JLPTFilterWidget(this), textWidget);
-	addSearchFilter(new TagsFilterWidget(this), textWidget);
-	addSearchFilter(new NotesFilterWidget(this), textWidget);
-	EntryListWidget *elWidget = new EntryListWidget(this);
-	elWidget->entryListView()->setModel(&_listModel);
-	connect(elWidget->entryListView(), SIGNAL(entrySelected(EntryPointer<Entry>)), detailedView(), SLOT(display(EntryPointer<Entry>)));
-	addSearchFilter(elWidget, Qt::LeftDockWidgetArea);
-	textWidget->raise();
-	*/
-	// TODO dirty fix!
-	//restoreState(windowState.value(), MAINWINDOW_STATE_VERSION);
 	// Setup the corners
 	setCorner(Qt::TopLeftCorner, Qt::LeftDockWidgetArea);
 	setCorner(Qt::BottomLeftCorner, Qt::LeftDockWidgetArea);
 	setCorner(Qt::TopRightCorner, Qt::RightDockWidgetArea);
 	setCorner(Qt::BottomRightCorner, Qt::RightDockWidgetArea);
 	
-	// Display selected items in the results view
-	connect(searchWidget()->resultsView(), SIGNAL(entrySelected(EntryPointer)), detailedView(), SLOT(display(EntryPointer)));
-		
+	// Strangely this is not done properly by Qt designer...
+	connect(_setsMenu, SIGNAL(aboutToShow()), this, SLOT(populateSetsMenu()));
+	
+	// Reset search action
+	_searchWidget->resetSearchAction()->setShortcut(QKeySequence("Ctrl+R"));
+	_searchMenu->addAction(_searchWidget->resetSearchAction());
+	setupClipboardSearchShortcut();
+	_searchMenu->addSeparator();
+	setupSearchWidget();
+	setupListWidget();
+	
+	// Geometry & state
+	restoreGeometry(windowGeometry.value());
+	restoreState(windowState.value(), MAINWINDOW_STATE_VERSION);
+
 	// Updates checker
 	_updateChecker = new UpdateChecker("/updates/latestversion.php", this);
 	_betaUpdateChecker = new UpdateChecker("/updates/latestbetaversion.php", this);
@@ -195,7 +138,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), _clipboardEnabled
 	_updateTimer.setInterval(600000);
 	_updateTimer.setSingleShot(false);
 	_updateTimer.start();
-	// And perform our startup check
+
+	// And perform our startup checks
+	donationReminderCheck();
 	updateCheck();
 }
 
@@ -206,8 +151,65 @@ MainWindow::~MainWindow()
 	windowGeometry.set(saveGeometry());
 }
 
-PreferenceItem<QDateTime> MainWindow::lastUpdateCheck("", "lastUpdateCheck", QDateTime(QDate(2000, 1, 1)));
+void MainWindow::setupSearchWidget()
+{
+	// Steal the tool bar and set it as our dock title bar widget
+	QWidget *filtersToolBar = static_cast<QBoxLayout *>(searchWidget()->layout())->takeAt(0)->widget();
+	DockTitleBar *dBar = new DockTitleBar(filtersToolBar, _searchDockWidget);
+	dBar->setAttribute(Qt::WA_MacMiniSize);
+	_searchDockWidget->setTitleBarWidget(dBar);
+	
+	connect(searchWidget()->resultsView(), SIGNAL(entrySelected(EntryPointer)), detailedView(), SLOT(display(EntryPointer)));
+
+	// Focus on the text input on startup
+	actionFocus_text_search->trigger();
+	
+	// Toggle action
+	QAction *action = _searchDockWidget->toggleViewAction();
+	action->setShortcut(QKeySequence("F2"));
+	_searchMenu->addAction(action);
+}
+
+void MainWindow::setupListWidget()
+{
+	entryListWidget()->entryListView()->setModel(&_listModel);
+
+	// Steal the toolbar
+	QWidget *toolsBar = static_cast<QBoxLayout *>(entryListWidget()->layout())->takeAt(0)->widget();
+	DockTitleBar *dBar = new DockTitleBar(toolsBar, _listDockWidget);
+	dBar->setAttribute(Qt::WA_MacMiniSize);
+	_listDockWidget->setTitleBarWidget(dBar);
+	
+	connect(_entryListWidget->entryListView(), SIGNAL(entrySelected(EntryPointer)), detailedView(), SLOT(display(EntryPointer)));
+	
+	// Toggle action
+	QAction *action = _listDockWidget->toggleViewAction();
+	action->setShortcut(QKeySequence("F3"));
+	_searchMenu->addAction(action);
+}
+
+void MainWindow::setupClipboardSearchShortcut()
+{
+	// Auto-clipboard search action
+	QAction *_enableClipboardInputAction = new QAction(tr("Auto-search on clipboard content"), this);
+	_enableClipboardInputAction->setCheckable(true);
+	connect(_enableClipboardInputAction, SIGNAL(toggled(bool)), this, SLOT(enableClipboardInput(bool)));
+	_searchMenu->addAction(_enableClipboardInputAction);
+}
+
 void MainWindow::updateCheck()
+{
+	if (autoCheckUpdates.value()) {
+		QDateTime dt(lastUpdateCheck.value());
+		if (!dt.isValid() || dt.addDays(updateCheckInterval.value()) <= QDateTime::currentDateTime()) {
+			_updateChecker->checkForUpdates();
+			if (autoCheckBetaUpdates.value()) _betaUpdateChecker->checkForUpdates();
+			lastUpdateCheck.set(QDateTime::currentDateTime());
+		}
+	}
+}
+
+void MainWindow::donationReminderCheck()
 {
 	if (!donationReminderDisplayed.value()) {
 		// Display the reminder if two weeks passed since the first usage
@@ -225,15 +227,6 @@ void MainWindow::updateCheck()
 			}
 			
 			donationReminderDisplayed.setValue(true);
-		}
-	}
-	
-	if (autoCheckUpdates.value()) {
-		QDateTime dt(lastUpdateCheck.value());
-		if (!dt.isValid() || dt.addDays(updateCheckInterval.value()) <= QDateTime::currentDateTime()) {
-			_updateChecker->checkForUpdates();
-			if (autoCheckBetaUpdates.value()) _betaUpdateChecker->checkForUpdates();
-			lastUpdateCheck.set(QDateTime::currentDateTime());
 		}
 	}
 }

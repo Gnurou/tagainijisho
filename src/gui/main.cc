@@ -81,7 +81,7 @@ void messageHandler(QtMsgType type, const char *msg)
  * to update configuration options that have changed or to remove obsolete
  * ones.
  */
-#define CONFIG_VERSION 1
+#define CONFIG_VERSION 2
 PreferenceItem<int> configVersion("", "configVersion", 0);
 
 void migrateOldData()
@@ -120,9 +120,20 @@ void checkConfigurationVersion()
 			settings.remove("userProfile");
 			settings.remove("kanjidic/delayBetweenStrokes");
 			settings.remove("kanjidic/animationSpeed");
-			break;
+		case 1:
+			settings.remove("lastUpdateCheck");
+			if (settings.contains("defaultFont")) settings.setValue("mainWindow/defaultFont", settings.value("defaultFont"));
+			if (settings.contains("guiLanguage")) settings.setValue("mainWindow/guiLanguage", settings.value("guiLanguage"));
+			if (settings.contains("autoCheckUpdates")) settings.setValue("mainWindow/autoCheckUpdates", settings.value("autoCheckUpdates"));
+			if (settings.contains("autoCheckBetaUpdates")) settings.setValue("mainWindow/autoCheckBetaUpdates", settings.value("autoCheckBetaUpdates"));
+			if (settings.contains("updateCheckInterval")) settings.setValue("mainWindow/updateCheckInterval", settings.value("updateCheckInterval"));
+			settings.remove("defaultFont");
+			settings.remove("guiLanguage");
+			settings.remove("autoCheckUpdates");
+			settings.remove("autoCheckBetaUpdates");
+			settings.remove("updateCheckInterval");
 		default:
-			// If we arrive here, this means we are running an older version - do nothing in that case
+			// If we arrive here, this means we are running an pre-tracking version - do nothing in that case
 			break;
 		}
 	}

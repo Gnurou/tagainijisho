@@ -6,6 +6,7 @@
 * Ctrl+s kanji shortcut also works in kanji flashcards
 * Fixed click behavior of entries lists
 * Duplicate kanji components no longer displayed in detailed view
+* Detailed view font parameter bug fixed (thanks Tracy!)
 
 0.2.5 released on 2010/04/01
 * Updated to SQLite 3.6.23

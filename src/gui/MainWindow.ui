@@ -20,6 +20,9 @@
   <property name="dockNestingEnabled">
    <bool>true</bool>
   </property>
+  <property name="dockOptions">
+   <set>QMainWindow::AllowNestedDocks|QMainWindow::AllowTabbedDocks|QMainWindow::AnimatedDocks|QMainWindow::VerticalTabs</set>
+  </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
@@ -33,7 +36,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>21</height>
+     <height>19</height>
     </rect>
    </property>
    <widget class="QMenu" name="_fileMenu">
@@ -96,6 +99,21 @@
     <layout class="QVBoxLayout" name="verticalLayout_2">
      <item>
       <widget class="SearchWidget" name="_searchWidget" native="true"/>
+     </item>
+    </layout>
+   </widget>
+  </widget>
+  <widget class="QDockWidget" name="_listDockWidget">
+   <property name="windowTitle">
+    <string>Lists</string>
+   </property>
+   <attribute name="dockWidgetArea">
+    <number>1</number>
+   </attribute>
+   <widget class="QWidget" name="dockWidgetContents">
+    <layout class="QVBoxLayout" name="verticalLayout_3">
+     <item>
+      <widget class="EntryListWidget" name="_entryListWidget" native="true"/>
      </item>
     </layout>
    </widget>
@@ -238,6 +256,12 @@
    <class>SearchWidget</class>
    <extends>QWidget</extends>
    <header>gui/SearchWidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>EntryListWidget</class>
+   <extends>QWidget</extends>
+   <header location="global">gui/EntryListWidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

@@ -22,7 +22,6 @@
 #include "core/Preferences.h"
 #include "core/EntryListModel.h"
 #include "gui/ToolBarDetailedView.h"
-#include "gui/EntryListWidget.h"
 
 #include <QSplitter>
 #include <QList>
@@ -71,8 +70,11 @@ private:
 	bool _clipboardEnabled;
 	
 	EntryListModel _listModel;
-	EntryListWidget *_entryListWidget;
 	
+	void setupSearchWidget();
+	void setupClipboardSearchShortcut();
+	void setupListWidget();
+
 private slots:
 	void populateMenu(QMenu *menu, int parentId);
 	void resetSearch();
@@ -103,6 +105,7 @@ protected slots:
 	void updateAvailable(const QString &version);
 	void betaUpdateAvailable(const QString &version);
 	void updateCheck();
+	void donationReminderCheck();
 
 	void populateSetsMenu();
 	void populateSubMenu();
@@ -136,8 +139,8 @@ public:
 	static PreferenceItem<QDateTime> firstRunTime;
 	
 	SearchWidget *searchWidget() { return _searchWidget; }
-	DetailedView *detailedView() { return _detailedView->detailedView(); }
 	EntryListWidget *entryListWidget() { return _entryListWidget; }
+	DetailedView *detailedView() { return _detailedView->detailedView(); }
 	
 	/**
 	 * Ensures the widget fits within the screen, i.e. adjust its position
