@@ -28,6 +28,10 @@
 #include <QTimer>
 #include <QMimeData>
 
+/**
+ * An entity that fetches and store results emitted by a query in pages of
+ * given size. It can also be used as a list model to display the results.
+ */
 class ResultsList : public QAbstractListModel
 {
 	Q_OBJECT
