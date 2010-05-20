@@ -44,6 +44,14 @@ private:
 	QModelIndexList getAllIndexes(const QModelIndexList& indexes);
 	
 	QModelIndexList getEntriesToProcess(bool limitToSelection = false);
+	
+public slots:
+	/**
+	 * Used to update the view in case the layout changed.
+	 */
+	void updateLayout();
+	void updateConfig(const QVariant &value);
+
 
 protected slots:
 	void studySelected();

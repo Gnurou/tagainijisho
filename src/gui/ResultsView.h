@@ -34,6 +34,9 @@
 #include <QTextCharFormat>
 #include <QPixmap>
 
+/**
+ * A list view suitable for displaying entries that come as the result of a query.
+ */
 class ResultsView : public QListView
 {
 	Q_OBJECT
@@ -67,12 +70,6 @@ public:
 	static PreferenceItem<int> displayModeSetting;
 	
 private slots:
-	/**
-	 * Used to update the view in case the layout changed.
-	 */
-	void updateLayout();
-	void updateConfig(const QVariant &value);
-
 	virtual void itemClicked(const QModelIndex &clicked);
 
 signals:

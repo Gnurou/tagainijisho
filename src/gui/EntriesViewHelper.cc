@@ -332,3 +332,18 @@ void EntriesViewHelper::tabExport()
 
 	outFile.close();
 }
+
+void EntriesViewHelper::updateLayout()
+{
+	// This is needed to force a redraw - but we loose the selection.
+	QAbstractItemModel *m = client()->model();
+	client()->setModel(0);
+	client()->setModel(m);
+}
+
+void EntriesViewHelper::updateConfig(const QVariant &value)
+{
+	PreferenceRoot *from = qobject_cast<PreferenceRoot *>(sender());
+	if (!from) return;
+	client()->setProperty(from->name().toLatin1().constData(), value);
+}

@@ -43,12 +43,6 @@ private:
 	QAction _deleteSelectionAction;
 
 private slots:
-	/**
-	 * Used to update the view in case the layout changed.
-	 */
-	void updateLayout();
-	void updateConfig(const QVariant &value);
-
 	virtual void itemClicked(const QModelIndex &clicked);
 	void rightClickNewList();
 

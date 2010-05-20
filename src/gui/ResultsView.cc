@@ -40,7 +40,7 @@ ResultsView::ResultsView(QWidget *parent, EntryDelegateLayout *delegateLayout, b
 {
 	// If no delegate layout has been specified, let's use our private one...
 	if (!delegateLayout) delegateLayout = new EntryDelegateLayout(static_cast<EntryDelegateLayout::DisplayMode>(displayModeSetting.value()), textFontSetting.value(), kanjiFontSetting.value(), kanaFontSetting.value(), this);
-	connect(delegateLayout, SIGNAL(layoutHasChanged()), this, SLOT(updateLayout()));
+	connect(delegateLayout, SIGNAL(layoutHasChanged()), &_helper, SLOT(updateLayout()));
 	_delegateLayout = delegateLayout;
 
 	setUniformItemSizes(true);
@@ -55,11 +55,11 @@ ResultsView::ResultsView(QWidget *parent, EntryDelegateLayout *delegateLayout, b
 		contextMenu.addSeparator();
 		_helper.populateMenu(&contextMenu);
 	}
-	updateLayout();
+	//_helper.updateLayout();
 	setSmoothScrolling(smoothScrollingSetting.value());
 
 	// Automatically update the view if the configuration changes
-	connect(&smoothScrollingSetting, SIGNAL(valueChanged(QVariant)), this, SLOT(updateConfig(QVariant)));
+	connect(&smoothScrollingSetting, SIGNAL(valueChanged(QVariant)), &_helper, SLOT(updateConfig(QVariant)));
 	connect(&textFontSetting, SIGNAL(valueChanged(QVariant)), delegateLayout, SLOT(updateConfig(QVariant)));
 	connect(&kanaFontSetting, SIGNAL(valueChanged(QVariant)), delegateLayout, SLOT(updateConfig(QVariant)));
 	connect(&kanjiFontSetting, SIGNAL(valueChanged(QVariant)), delegateLayout, SLOT(updateConfig(QVariant)));
@@ -90,14 +90,6 @@ void ResultsView::contextMenuEvent(QContextMenuEvent *event)
 	foreach (const EntryPointer &entry, _selectedEntries) selectedEntries << entry;
 	_helper.updateStatus(selectedEntries);
 	contextMenu.exec(mapToGlobal(event->pos()));
-}
-
-void ResultsView::updateLayout()
-{
-	// This is needed to force a redraw - but we loose the selection.
-	QAbstractItemModel *m = model();
-	setModel(0);
-	setModel(m);
 }
 
 /**
@@ -132,11 +124,4 @@ void ResultsView::startDrag(Qt::DropActions supportedActions)
 		drag->setMimeData(data);
 		drag->exec(supportedActions, Qt::CopyAction);
 	}
-}
-
-void ResultsView::updateConfig(const QVariant &value)
-{
-	PreferenceRoot *from = qobject_cast<PreferenceRoot *>(sender());
-	if (!from) return;
-	setProperty(from->name().toLatin1().constData(), value);
 }

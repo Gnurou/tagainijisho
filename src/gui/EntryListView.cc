@@ -35,10 +35,9 @@ EntryListView::EntryListView(QWidget *parent, EntryDelegateLayout* delegateLayou
 {
 	// If no delegate layout has been specified, let's use our private one...
 	if (!delegateLayout) delegateLayout = new EntryDelegateLayout(static_cast<EntryDelegateLayout::DisplayMode>(displayModeSetting.value()), textFontSetting.value(), kanjiFontSetting.value(), kanaFontSetting.value(), this);
-	connect(delegateLayout, SIGNAL(layoutHasChanged()), this, SLOT(updateLayout()));
+	connect(delegateLayout, SIGNAL(layoutHasChanged()), &_helper, SLOT(updateLayout()));
 	_delegateLayout = delegateLayout;
 	delegate = new EntryDelegate(_delegateLayout, this);
-	connect(_delegateLayout, SIGNAL(layoutHasChanged()), this, SLOT(updateLayout()));
 	setItemDelegate(delegate);
 	setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
 	setSmoothScrolling(smoothScrollingSetting.value());
@@ -56,7 +55,7 @@ EntryListView::EntryListView(QWidget *parent, EntryDelegateLayout* delegateLayou
 	connect(&_deleteSelectionAction, SIGNAL(triggered()), this, SLOT(deleteSelectedItems()));
 
 	// Automatically update the view if the configuration changes
-	connect(&smoothScrollingSetting, SIGNAL(valueChanged(QVariant)), this, SLOT(updateConfig(QVariant)));
+	connect(&smoothScrollingSetting, SIGNAL(valueChanged(QVariant)), &_helper, SLOT(updateConfig(QVariant)));
 	connect(&textFontSetting, SIGNAL(valueChanged(QVariant)), delegateLayout, SLOT(updateConfig(QVariant)));
 	connect(&kanaFontSetting, SIGNAL(valueChanged(QVariant)), delegateLayout, SLOT(updateConfig(QVariant)));
 	connect(&kanjiFontSetting, SIGNAL(valueChanged(QVariant)), delegateLayout, SLOT(updateConfig(QVariant)));
@@ -76,14 +75,6 @@ void EntryListView::setSmoothScrolling(bool value)
 		scroller.setScrollBar(0);
 		setVerticalScrollMode(QAbstractItemView::ScrollPerItem);
 	}
-}
-
-void EntryListView::updateLayout()
-{
-	// This is needed to force a redraw - but we loose the selection.
-	QAbstractItemModel *m = model();
-	setModel(0);
-	setModel(m);
 }
 
 void EntryListView::contextMenuEvent(QContextMenuEvent *event)
@@ -171,11 +162,4 @@ void EntryListView::deleteSelectedItems()
 		if (!model()->removeRow(index.row(), index.parent())) success = false;
 	}
 	if (!success) QMessageBox::information(this, tr("Removal failed"), tr("A database error has occured while trying to remove the selected items:\n\n%1\n\n Some of them may be remaining.").arg(Database::lastError().text()));
-}
-
-void EntryListView::updateConfig(const QVariant &value)
-{
-	PreferenceRoot *from = qobject_cast<PreferenceRoot *>(sender());
-	if (!from) return;
-	setProperty(from->name().toLatin1().constData(), value);
 }
