@@ -36,20 +36,14 @@ PreferenceItem<QString> ResultsView::kanaFontSetting("mainWindow/resultsView", "
 PreferenceItem<QString> ResultsView::kanjiFontSetting("mainWindow/resultsView", "kanjiFont", QFont("Helvetica", 15).toString());
 PreferenceItem<int> ResultsView::displayModeSetting("mainWindow/resultsView", "displayMode", EntryDelegateLayout::TwoLines);
 
-ResultsView::ResultsView(QWidget *parent, EntryDelegateLayout *delegateLayout, bool viewOnly) : QListView(parent), _helper(this), contextMenu()
+ResultsView::ResultsView(QWidget *parent, EntryDelegateLayout *delegateLayout, bool viewOnly) : QListView(parent), _helper(this, delegateLayout, false), contextMenu()
 {
-	// If no delegate layout has been specified, let's use our private one...
-	if (!delegateLayout) delegateLayout = new EntryDelegateLayout(static_cast<EntryDelegateLayout::DisplayMode>(displayModeSetting.value()), textFontSetting.value(), kanjiFontSetting.value(), kanaFontSetting.value(), this);
-	connect(delegateLayout, SIGNAL(layoutHasChanged()), &_helper, SLOT(updateLayout()));
-	_delegateLayout = delegateLayout;
-
 	setUniformItemSizes(true);
 	setAlternatingRowColors(true);
 	selectAllAction = contextMenu.addAction(tr("Select All"));
 	selectAllAction->setShortcuts(QKeySequence::SelectAll);
-	connect(selectAllAction, SIGNAL(triggered()),
-			this, SLOT(selectAll()));
-	setItemDelegate(new EntryDelegate(delegateLayout, this));
+	connect(selectAllAction, SIGNAL(triggered()), this, SLOT(selectAll()));
+	setItemDelegate(new EntryDelegate(helper()->delegateLayout(), this));
 	// If the view is editable, the helper menu shall be enabled
 	if (!viewOnly) {
 		contextMenu.addSeparator();
@@ -58,12 +52,15 @@ ResultsView::ResultsView(QWidget *parent, EntryDelegateLayout *delegateLayout, b
 	//_helper.updateLayout();
 	setSmoothScrolling(smoothScrollingSetting.value());
 
+	// If no delegate has been given, consider this view is ruled by the default settings
+	if (!delegateLayout) {
+		_helper.setPreferenceHandler(EntriesViewHelper::TextFont, &textFontSetting);
+		_helper.setPreferenceHandler(EntriesViewHelper::KanaFont, &kanaFontSetting);
+		_helper.setPreferenceHandler(EntriesViewHelper::KanjiFont, &kanjiFontSetting);
+		_helper.setPreferenceHandler(EntriesViewHelper::DisplayMode, &displayModeSetting);
+	}
 	// Automatically update the view if the configuration changes
 	connect(&smoothScrollingSetting, SIGNAL(valueChanged(QVariant)), &_helper, SLOT(updateConfig(QVariant)));
-	connect(&textFontSetting, SIGNAL(valueChanged(QVariant)), delegateLayout, SLOT(updateConfig(QVariant)));
-	connect(&kanaFontSetting, SIGNAL(valueChanged(QVariant)), delegateLayout, SLOT(updateConfig(QVariant)));
-	connect(&kanjiFontSetting, SIGNAL(valueChanged(QVariant)), delegateLayout, SLOT(updateConfig(QVariant)));
-	connect(&displayModeSetting, SIGNAL(valueChanged(QVariant)), delegateLayout, SLOT(updateConfig(QVariant)));
 
 	// Propagate the clicked signal as a selection signal
 	connect(this, SIGNAL(clicked(QModelIndex)), this, SLOT(itemClicked(QModelIndex)));

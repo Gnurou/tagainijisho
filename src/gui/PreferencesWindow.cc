@@ -223,7 +223,7 @@ QStringList ResultsViewPrefsDummyEntry::meanings() const
 EntryDelegatePreferences::EntryDelegatePreferences(QWidget *parent) : QWidget(parent)
 {
 	setupUi(this);
-	_delegateLayout = new EntryDelegateLayout(EntryDelegateLayout::OneLine, "", "", "", this);
+	_delegateLayout = new EntryDelegateLayout(this, EntryDelegateLayout::OneLine, "", "", "");
 	
 	QLayout *topLayout = layout();
 	QFont kFont;

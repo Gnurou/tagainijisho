@@ -31,14 +31,9 @@ PreferenceItem<QString> EntryListView::kanaFontSetting("mainWindow/lists", "kana
 PreferenceItem<QString> EntryListView::kanjiFontSetting("mainWindow/lists", "kanjiFont", QFont("Helvetica", 12).toString());
 PreferenceItem<int> EntryListView::displayModeSetting("mainWindow/lists", "displayMode", EntryDelegateLayout::OneLine);
 
-EntryListView::EntryListView(QWidget *parent, EntryDelegateLayout* delegateLayout, bool viewOnly) : QTreeView(parent), _helper(this, true), _newListAction(QIcon(":/images/icons/document-new.png"), tr("New list..."), 0), _rightClickNewListAction(_newListAction.icon(), _newListAction.text(), 0), _deleteSelectionAction(QIcon(":/images/icons/delete.png"), tr("Delete"), 0)
+EntryListView::EntryListView(QWidget *parent, EntryDelegateLayout* delegateLayout, bool viewOnly) : QTreeView(parent), _helper(this, delegateLayout, true), _newListAction(QIcon(":/images/icons/document-new.png"), tr("New list..."), 0), _rightClickNewListAction(_newListAction.icon(), _newListAction.text(), 0), _deleteSelectionAction(QIcon(":/images/icons/delete.png"), tr("Delete"), 0)
 {
-	// If no delegate layout has been specified, let's use our private one...
-	if (!delegateLayout) delegateLayout = new EntryDelegateLayout(static_cast<EntryDelegateLayout::DisplayMode>(displayModeSetting.value()), textFontSetting.value(), kanjiFontSetting.value(), kanaFontSetting.value(), this);
-	connect(delegateLayout, SIGNAL(layoutHasChanged()), &_helper, SLOT(updateLayout()));
-	_delegateLayout = delegateLayout;
-	delegate = new EntryDelegate(_delegateLayout, this);
-	setItemDelegate(delegate);
+	setItemDelegate(new EntryDelegate(helper()->delegateLayout(), this));
 	setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
 	setSmoothScrolling(smoothScrollingSetting.value());
 	// If the view is editable, the helper menu shall be enabled
@@ -54,12 +49,15 @@ EntryListView::EntryListView(QWidget *parent, EntryDelegateLayout* delegateLayou
 	_deleteSelectionAction.setEnabled(false);
 	connect(&_deleteSelectionAction, SIGNAL(triggered()), this, SLOT(deleteSelectedItems()));
 
+	// If no delegate has been given, consider this view is ruled by the default settings
+	if (!delegateLayout) {
+		_helper.setPreferenceHandler(EntriesViewHelper::TextFont, &textFontSetting);
+		_helper.setPreferenceHandler(EntriesViewHelper::KanaFont, &kanaFontSetting);
+		_helper.setPreferenceHandler(EntriesViewHelper::KanjiFont, &kanjiFontSetting);
+		_helper.setPreferenceHandler(EntriesViewHelper::DisplayMode, &displayModeSetting);
+	}
 	// Automatically update the view if the configuration changes
 	connect(&smoothScrollingSetting, SIGNAL(valueChanged(QVariant)), &_helper, SLOT(updateConfig(QVariant)));
-	connect(&textFontSetting, SIGNAL(valueChanged(QVariant)), delegateLayout, SLOT(updateConfig(QVariant)));
-	connect(&kanaFontSetting, SIGNAL(valueChanged(QVariant)), delegateLayout, SLOT(updateConfig(QVariant)));
-	connect(&kanjiFontSetting, SIGNAL(valueChanged(QVariant)), delegateLayout, SLOT(updateConfig(QVariant)));
-	connect(&displayModeSetting, SIGNAL(valueChanged(QVariant)), delegateLayout, SLOT(updateConfig(QVariant)));
 	
 	// Propagate the clicked signal as a selection signal
 	connect(this, SIGNAL(clicked(QModelIndex)), this, SLOT(itemClicked(QModelIndex)));

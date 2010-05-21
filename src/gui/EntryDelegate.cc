@@ -20,7 +20,7 @@
 #include <QPainter>
 #include <QApplication>
 
-EntryDelegateLayout::EntryDelegateLayout(EntryDelegateLayout::DisplayMode displayMode, const QString& textFont, const QString& kanjiFont, const QString& kanaFont, QObject* parent) : QObject(parent), _displayMode(displayMode)
+EntryDelegateLayout::EntryDelegateLayout(QObject* parent, EntryDelegateLayout::DisplayMode displayMode, const QString& textFont, const QString& kanjiFont, const QString& kanaFont) : QObject(parent), _displayMode(displayMode)
 {
 	_font[DefaultText].fromString(textFont);
 	_font[Kanji].fromString(kanjiFont);

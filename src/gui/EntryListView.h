@@ -35,8 +35,6 @@ class EntryListView : public QTreeView
 	Q_OBJECT
 private:
 	ScrollBarSmoothScroller scroller;
-	EntryDelegateLayout *_delegateLayout;
-	EntryDelegate *delegate;
 	EntriesViewHelper _helper;
 	QMenu contextMenu;
 	QAction _newListAction, _rightClickNewListAction;
@@ -53,7 +51,6 @@ protected:
 
 public:
 	EntryListView(QWidget* parent = 0, EntryDelegateLayout* delegateLayout = 0, bool viewOnly = false);
-	EntryDelegateLayout *delegateLayout() { return _delegateLayout; }
 	EntriesViewHelper *helper() { return &_helper; }
 	
 	bool smoothScrolling() const { return verticalScrollMode() == QAbstractItemView::ScrollPerPixel; }

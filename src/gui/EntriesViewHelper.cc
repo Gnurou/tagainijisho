@@ -28,8 +28,13 @@
 #include <QFileDialog>
 #include <QMessageBox>
 
-EntriesViewHelper::EntriesViewHelper(QAbstractItemView* client, bool workOnSelection) : EntryMenu(client), _client(client), _entriesMenu(), _workOnSelection(workOnSelection), _actionPrint(QIcon(":/images/icons/print.png"), tr("&Print..."), 0), _actionPrintPreview(QIcon(":/images/icons/print.png"), tr("Print p&review..."), 0), _actionPrintBooklet(QIcon(":/images/icons/print.png"), tr("Print &booklet..."), 0), _actionPrintBookletPreview(QIcon(":/images/icons/print.png"), tr("Booklet p&review..."), 0), _actionExportTab(QIcon(":/images/icons/document-export.png"), tr("&Export..."), 0)
+EntriesViewHelper::EntriesViewHelper(QAbstractItemView* client, EntryDelegateLayout* delegateLayout, bool workOnSelection) : EntryMenu(client), _client(client), _entriesMenu(), _workOnSelection(workOnSelection), _actionPrint(QIcon(":/images/icons/print.png"), tr("&Print..."), 0), _actionPrintPreview(QIcon(":/images/icons/print.png"), tr("Print p&review..."), 0), _actionPrintBooklet(QIcon(":/images/icons/print.png"), tr("Print &booklet..."), 0), _actionPrintBookletPreview(QIcon(":/images/icons/print.png"), tr("Booklet p&review..."), 0), _actionExportTab(QIcon(":/images/icons/document-export.png"), tr("&Export..."), 0), prefRefs(MAX_PREF)
 {
+	// If no delegate layout has been specified, let's use our private one...
+	if (!delegateLayout) delegateLayout = new EntryDelegateLayout(this);
+	connect(delegateLayout, SIGNAL(layoutHasChanged()), this, SLOT(updateLayout()));
+	_delegateLayout = delegateLayout;
+
 	connect(&addToStudyAction, SIGNAL(triggered()),
 			this, SLOT(studySelected()));
 	connect(&removeFromStudyAction, SIGNAL(triggered()),
@@ -59,6 +64,16 @@ EntriesViewHelper::EntriesViewHelper(QAbstractItemView* client, bool workOnSelec
 	_entriesMenu.addAction(&_actionPrintBookletPreview);
 	_entriesMenu.addSeparator();
 	_entriesMenu.addAction(&_actionExportTab);
+}
+
+void EntriesViewHelper::setPreferenceHandler(Preference pref, PreferenceRoot *ref)
+{
+	if (prefRefs[pref]) disconnect(prefRefs[pref], SIGNAL(valueChanged(QVariant)), _delegateLayout, SLOT(updateConfig(QVariant)));
+	prefRefs[pref] = ref;
+	if (ref) {
+		_delegateLayout->setProperty(ref->name().toLatin1().constData(), ref->variantValue());
+		connect(prefRefs[pref], SIGNAL(valueChanged(QVariant)), _delegateLayout, SLOT(updateConfig(QVariant)));
+	}
 }
 
 QList<EntryPointer> EntriesViewHelper::selectedEntries() const

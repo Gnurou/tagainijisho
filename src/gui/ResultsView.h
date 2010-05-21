@@ -41,7 +41,6 @@ class ResultsView : public QListView
 {
 	Q_OBJECT
 protected:
-	EntryDelegateLayout *_delegateLayout;
 	EntriesViewHelper _helper;
 	QMenu contextMenu;
 	QAction *selectAllAction;
@@ -56,7 +55,6 @@ protected:
 
 public:
 	ResultsView(QWidget* parent = 0, EntryDelegateLayout* delegateLayout = 0, bool viewOnly = false);
-	EntryDelegateLayout *delegateLayout() { return _delegateLayout; }
 	EntriesViewHelper *helper() { return &_helper; }
 
 	bool smoothScrolling() const { return verticalScrollMode() == QAbstractItemView::ScrollPerPixel; }

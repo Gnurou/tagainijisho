@@ -19,6 +19,7 @@
 #define __GUI_ENTRIES_VIEW_HELPER_H
 
 #include "gui/EntryMenu.h"
+#include "gui/EntryDelegate.h"
 
 /**
  * Provides a set of functions commonly used by views on entry lists.
@@ -30,11 +31,16 @@
 class EntriesViewHelper : public EntryMenu
 {
 	Q_OBJECT
+public:
+	typedef enum { TextFont, KanaFont, KanjiFont, DisplayMode, MAX_PREF} Preference;
+
 private:
 	QAbstractItemView *_client;
+	EntryDelegateLayout *_delegateLayout;
 	QMenu _entriesMenu;
 	bool _workOnSelection;
 	QAction _actionPrint, _actionPrintPreview, _actionPrintBooklet, _actionPrintBookletPreview, _actionExportTab;
+	QVector<PreferenceRoot *> prefRefs;
 
 	/**
 	 * Parses all the given indexes recursively and returns then in the right
@@ -77,9 +83,12 @@ public:
 	 * these actions will take place on the whole model, with an option to restrict
 	 * them to the current selection.
 	 */
-	EntriesViewHelper(QAbstractItemView *client, bool workOnSelection = false);
+	EntriesViewHelper(QAbstractItemView* client, EntryDelegateLayout* delegateLayout = 0, bool workOnSelection = false);
+	
 	QAbstractItemView *client() const { return _client; }
 	QMenu *entriesMenu() { return &_entriesMenu; }
+	void setPreferenceHandler(Preference pref, PreferenceRoot *ref);
+	EntryDelegateLayout *delegateLayout() { return _delegateLayout; }
 
 	/**
 	 * Returns a list of the currently selected entries.

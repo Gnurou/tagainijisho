@@ -36,7 +36,7 @@ private:
 	QFont _defaultFont(FontRole role) const;
 
 public:
-	EntryDelegateLayout(EntryDelegateLayout::DisplayMode displayMode = OneLine, const QString& textFont = "", const QString& kanjiFont = "", const QString& kanaFont = "", QObject* parent = 0);
+	EntryDelegateLayout(QObject* parent = 0, EntryDelegateLayout::DisplayMode displayMode = OneLine, const QString& textFont = "", const QString& kanjiFont = "", const QString& kanaFont = "");
 	const QFont &font(FontRole role) const { return _font[role]; }
 	const QFont &textFont() const { return _font[DefaultText]; }
 	const QFont &kanaFont() const { return _font[Kana]; }

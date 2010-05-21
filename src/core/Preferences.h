@@ -52,6 +52,7 @@ public:
 	virtual ~PreferenceRoot() {}
 	const QString &group() const { return _group; }
 	const QString &name() const { return _name; }
+	virtual QVariant variantValue() const = 0;
 
 public slots:
 	virtual void setValue(QVariant newValue) = 0;
@@ -81,6 +82,7 @@ public:
 		if (_isDefault && persistent) set(value());
 	}
 	const T &value() const { return _value; }
+	QVariant variantValue() const { return _value; }
 	const T &defaultValue() const { return _defaultValue; }
 	/**
 	 * Reset the new value of the preference.
