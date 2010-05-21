@@ -31,19 +31,17 @@ PreferenceItem<QString> EntryListView::kanaFontSetting("mainWindow/lists", "kana
 PreferenceItem<QString> EntryListView::kanjiFontSetting("mainWindow/lists", "kanjiFont", QFont("Helvetica", 12).toString());
 PreferenceItem<int> EntryListView::displayModeSetting("mainWindow/lists", "displayMode", EntryDelegateLayout::OneLine);
 
-EntryListView::EntryListView(QWidget *parent, EntryDelegateLayout* delegateLayout, bool viewOnly) : QTreeView(parent), _helper(this, delegateLayout, true), _newListAction(QIcon(":/images/icons/document-new.png"), tr("New list..."), 0), _rightClickNewListAction(_newListAction.icon(), _newListAction.text(), 0), _deleteSelectionAction(QIcon(":/images/icons/delete.png"), tr("Delete"), 0)
+EntryListView::EntryListView(QWidget *parent, EntryDelegateLayout* delegateLayout, bool viewOnly) : QTreeView(parent), _helper(this, delegateLayout, true, viewOnly), _newListAction(QIcon(":/images/icons/document-new.png"), tr("New list..."), 0), _rightClickNewListAction(_newListAction.icon(), _newListAction.text(), 0), _deleteSelectionAction(QIcon(":/images/icons/delete.png"), tr("Delete"), 0)
 {
-	setItemDelegate(new EntryDelegate(helper()->delegateLayout(), this));
-	setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
-	setSmoothScrolling(smoothScrollingSetting.value());
-	// If the view is editable, the helper menu shall be enabled
-	if (!viewOnly) {
-		_helper.populateMenu(&contextMenu);
-		contextMenu.addSeparator();
-		contextMenu.addAction(&_rightClickNewListAction);
-		contextMenu.addAction(&_deleteSelectionAction);
-	}
 	setHeaderHidden(true);
+	setItemDelegate(new EntryDelegate(helper()->delegateLayout(), this));
+
+	// If the view is editable, the helper menu shall be augmented
+	if (!viewOnly) {
+		QMenu *contextMenu = helper()->contextMenu();
+		contextMenu->addAction(&_rightClickNewListAction);
+		contextMenu->addAction(&_deleteSelectionAction);
+	}
 	connect(&_newListAction, SIGNAL(triggered()), this, SLOT(newList()));
 	connect(&_rightClickNewListAction, SIGNAL(triggered()), this, SLOT(rightClickNewList()));
 	_deleteSelectionAction.setEnabled(false);
@@ -56,7 +54,10 @@ EntryListView::EntryListView(QWidget *parent, EntryDelegateLayout* delegateLayou
 		_helper.setPreferenceHandler(EntriesViewHelper::KanjiFont, &kanjiFontSetting);
 		_helper.setPreferenceHandler(EntriesViewHelper::DisplayMode, &displayModeSetting);
 	}
-	// Automatically update the view if the configuration changes
+
+	// Scrolling
+	setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
+	setSmoothScrolling(smoothScrollingSetting.value());
 	connect(&smoothScrollingSetting, SIGNAL(valueChanged(QVariant)), &_helper, SLOT(updateConfig(QVariant)));
 	
 	// Propagate the clicked signal as a selection signal
@@ -87,7 +88,8 @@ void EntryListView::contextMenuEvent(QContextMenuEvent *event)
 	QModelIndexList selection(selectionModel()->selectedIndexes());
 	_rightClickNewListAction.setEnabled(selection.size() <= 1 && (selection.size() == 0 || !selection[0].data(Entry::EntryRole).isValid()));
 	
-	contextMenu.exec(mapToGlobal(event->pos()));
+	QMenu *contextMenu = helper()->contextMenu();
+	if (!contextMenu->actions().isEmpty()) contextMenu->exec(mapToGlobal(event->pos()));
 }
 
 /**

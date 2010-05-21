@@ -36,21 +36,21 @@ PreferenceItem<QString> ResultsView::kanaFontSetting("mainWindow/resultsView", "
 PreferenceItem<QString> ResultsView::kanjiFontSetting("mainWindow/resultsView", "kanjiFont", QFont("Helvetica", 15).toString());
 PreferenceItem<int> ResultsView::displayModeSetting("mainWindow/resultsView", "displayMode", EntryDelegateLayout::TwoLines);
 
-ResultsView::ResultsView(QWidget *parent, EntryDelegateLayout *delegateLayout, bool viewOnly) : QListView(parent), _helper(this, delegateLayout, false), contextMenu()
+ResultsView::ResultsView(QWidget *parent, EntryDelegateLayout *delegateLayout, bool viewOnly) : QListView(parent), _helper(this, delegateLayout, false, viewOnly)
 {
 	setUniformItemSizes(true);
 	setAlternatingRowColors(true);
-	selectAllAction = contextMenu.addAction(tr("Select All"));
-	selectAllAction->setShortcuts(QKeySequence::SelectAll);
-	connect(selectAllAction, SIGNAL(triggered()), this, SLOT(selectAll()));
+
+	// Set the delegate
 	setItemDelegate(new EntryDelegate(helper()->delegateLayout(), this));
-	// If the view is editable, the helper menu shall be enabled
-	if (!viewOnly) {
-		contextMenu.addSeparator();
-		_helper.populateMenu(&contextMenu);
-	}
-	//_helper.updateLayout();
-	setSmoothScrolling(smoothScrollingSetting.value());
+
+	// Add the select all action to the context menu
+	QMenu *contextMenu = helper()->contextMenu();
+	selectAllAction = new QAction(tr("Select All"), contextMenu);
+	selectAllAction->setShortcut(QKeySequence::SelectAll);
+	connect(selectAllAction, SIGNAL(triggered()), this, SLOT(selectAll()));
+	QAction *firstAction = contextMenu->actions().isEmpty() ? 0 : contextMenu->actions()[0];
+	contextMenu->insertAction(firstAction, selectAllAction);
 
 	// If no delegate has been given, consider this view is ruled by the default settings
 	if (!delegateLayout) {
@@ -59,7 +59,9 @@ ResultsView::ResultsView(QWidget *parent, EntryDelegateLayout *delegateLayout, b
 		_helper.setPreferenceHandler(EntriesViewHelper::KanjiFont, &kanjiFontSetting);
 		_helper.setPreferenceHandler(EntriesViewHelper::DisplayMode, &displayModeSetting);
 	}
-	// Automatically update the view if the configuration changes
+
+	// Scrolling
+	setSmoothScrolling(smoothScrollingSetting.value());
 	connect(&smoothScrollingSetting, SIGNAL(valueChanged(QVariant)), &_helper, SLOT(updateConfig(QVariant)));
 
 	// Propagate the clicked signal as a selection signal
@@ -85,8 +87,8 @@ void ResultsView::contextMenuEvent(QContextMenuEvent *event)
 	// This is stupid, but const-safety forces us here
 	QList<ConstEntryPointer> selectedEntries;
 	foreach (const EntryPointer &entry, _selectedEntries) selectedEntries << entry;
-	_helper.updateStatus(selectedEntries);
-	contextMenu.exec(mapToGlobal(event->pos()));
+	helper()->updateStatus(selectedEntries);
+	helper()->contextMenu()->exec(mapToGlobal(event->pos()));
 }
 
 /**

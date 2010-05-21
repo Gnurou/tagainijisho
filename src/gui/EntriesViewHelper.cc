@@ -28,29 +28,21 @@
 #include <QFileDialog>
 #include <QMessageBox>
 
-EntriesViewHelper::EntriesViewHelper(QAbstractItemView* client, EntryDelegateLayout* delegateLayout, bool workOnSelection) : EntryMenu(client), _client(client), _entriesMenu(), _workOnSelection(workOnSelection), _actionPrint(QIcon(":/images/icons/print.png"), tr("&Print..."), 0), _actionPrintPreview(QIcon(":/images/icons/print.png"), tr("Print p&review..."), 0), _actionPrintBooklet(QIcon(":/images/icons/print.png"), tr("Print &booklet..."), 0), _actionPrintBookletPreview(QIcon(":/images/icons/print.png"), tr("Booklet p&review..."), 0), _actionExportTab(QIcon(":/images/icons/document-export.png"), tr("&Export..."), 0), prefRefs(MAX_PREF)
+EntriesViewHelper::EntriesViewHelper(QAbstractItemView* client, EntryDelegateLayout* delegateLayout, bool workOnSelection, bool viewOnly) : EntryMenu(client), _client(client), _entriesMenu(), _workOnSelection(workOnSelection), _actionPrint(QIcon(":/images/icons/print.png"), tr("&Print..."), 0), _actionPrintPreview(QIcon(":/images/icons/print.png"), tr("Print p&review..."), 0), _actionPrintBooklet(QIcon(":/images/icons/print.png"), tr("Print &booklet..."), 0), _actionPrintBookletPreview(QIcon(":/images/icons/print.png"), tr("Booklet p&review..."), 0), _actionExportTab(QIcon(":/images/icons/document-export.png"), tr("&Export..."), 0), prefRefs(MAX_PREF), _contextMenu()
 {
 	// If no delegate layout has been specified, let's use our private one...
 	if (!delegateLayout) delegateLayout = new EntryDelegateLayout(this);
 	connect(delegateLayout, SIGNAL(layoutHasChanged()), this, SLOT(updateLayout()));
 	_delegateLayout = delegateLayout;
 
-	connect(&addToStudyAction, SIGNAL(triggered()),
-			this, SLOT(studySelected()));
-	connect(&removeFromStudyAction, SIGNAL(triggered()),
-			this, SLOT(unstudySelected()));
-	connect(&alreadyKnownAction, SIGNAL(triggered()),
-	        this, SLOT(markAsKnown()));
-	connect(&resetTrainingAction, SIGNAL(triggered()),
-	        this, SLOT(resetTraining()));
-	connect(&setTagsAction, SIGNAL(triggered()),
-	        this, SLOT(setTags()));
-	connect(&addTagsAction, SIGNAL(triggered()),
-	        this, SLOT(addTags()));
-	connect(&setNotesAction, SIGNAL(triggered()),
-	        this, SLOT(addNote()));
-	connect(this, SIGNAL(tagsHistorySelected(const QStringList &)),
-			this, SLOT(addTags(const QStringList &)));
+	connect(&addToStudyAction, SIGNAL(triggered()), this, SLOT(studySelected()));
+	connect(&removeFromStudyAction, SIGNAL(triggered()), this, SLOT(unstudySelected()));
+	connect(&alreadyKnownAction, SIGNAL(triggered()), this, SLOT(markAsKnown()));
+	connect(&resetTrainingAction, SIGNAL(triggered()), this, SLOT(resetTraining()));
+	connect(&setTagsAction, SIGNAL(triggered()), this, SLOT(setTags()));
+	connect(&addTagsAction, SIGNAL(triggered()), this, SLOT(addTags()));
+	connect(&setNotesAction, SIGNAL(triggered()), this, SLOT(addNote()));
+	connect(this, SIGNAL(tagsHistorySelected(const QStringList &)), this, SLOT(addTags(const QStringList &)));
 
 	connect(&_actionPrint, SIGNAL(triggered()), this, SLOT(print()));
 	connect(&_actionPrintBooklet, SIGNAL(triggered()), this, SLOT(printBooklet()));
@@ -64,6 +56,13 @@ EntriesViewHelper::EntriesViewHelper(QAbstractItemView* client, EntryDelegateLay
 	_entriesMenu.addAction(&_actionPrintBookletPreview);
 	_entriesMenu.addSeparator();
 	_entriesMenu.addAction(&_actionExportTab);
+	
+	// If the view is editable, the helper menu shall be enabled
+	if (!viewOnly) {
+		_contextMenu.addSeparator();
+		populateMenu(&_contextMenu);
+		_contextMenu.addSeparator();
+	}
 }
 
 void EntriesViewHelper::setPreferenceHandler(Preference pref, PreferenceRoot *ref)

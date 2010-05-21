@@ -26,7 +26,6 @@
 #include <QTreeWidget>
 #include <QTreeView>
 #include <QAction>
-#include <QMenu>
 #include <QDragEnterEvent>
 #include <QDragMoveEvent>
 
@@ -36,7 +35,6 @@ class EntryListView : public QTreeView
 private:
 	ScrollBarSmoothScroller scroller;
 	EntriesViewHelper _helper;
-	QMenu contextMenu;
 	QAction _newListAction, _rightClickNewListAction;
 	QAction _deleteSelectionAction;
 

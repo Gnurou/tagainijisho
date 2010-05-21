@@ -325,6 +325,7 @@ ResultsViewPreferences::ResultsViewPreferences(QWidget *parent) : PreferencesWin
 	_list = new ResultsList(this);
 	_view = new ResultsView(this, entryDelegatePrefs->delegateLayout(), true);
 	_view->setModel(_list);
+	_view->setSelectionMode(QAbstractItemView::ExtendedSelection);
 	EntryPointer ePtr(new ResultsViewPrefsDummyEntry());
 	for (int i = 0; i < 20; i++) _list->addResult(ePtr);
 	QVBoxLayout *vLayout = new QVBoxLayout(previewBox);

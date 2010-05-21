@@ -27,7 +27,6 @@
 #include <QDialog>
 #include <QDialogButtonBox>
 #include <QListView>
-#include <QMenu>
 #include <QLabel>
 #include <QLineEdit>
 #include <QStyledItemDelegate>
@@ -42,7 +41,6 @@ class ResultsView : public QListView
 	Q_OBJECT
 protected:
 	EntriesViewHelper _helper;
-	QMenu contextMenu;
 	QAction *selectAllAction;
 	SmoothScroller _charm;
 	

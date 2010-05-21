@@ -21,6 +21,8 @@
 #include "gui/EntryMenu.h"
 #include "gui/EntryDelegate.h"
 
+#include <QMenu>
+
 /**
  * Provides a set of functions commonly used by views on entry lists.
  *
@@ -41,6 +43,7 @@ private:
 	bool _workOnSelection;
 	QAction _actionPrint, _actionPrintPreview, _actionPrintBooklet, _actionPrintBookletPreview, _actionExportTab;
 	QVector<PreferenceRoot *> prefRefs;
+	QMenu _contextMenu;
 
 	/**
 	 * Parses all the given indexes recursively and returns then in the right
@@ -77,18 +80,28 @@ protected slots:
 	
 public:
 	/**
-	 * workOnSelection defines how the print and export actions will performed. If
+	 * @arg workOnSelection defines how the print and export actions will performed. If
 	 * set, printing and export will only be available if a selection is active,
 	 * and will perform on this selection exclusively. If not set (the default),
 	 * these actions will take place on the whole model, with an option to restrict
 	 * them to the current selection.
+	 *
+	 * @arg viewOnly sets whether the view this helper acts on is not editable. If so,
+	 * options that let the displayed entries be modified will be omited.
 	 */
-	EntriesViewHelper(QAbstractItemView* client, EntryDelegateLayout* delegateLayout = 0, bool workOnSelection = false);
+	EntriesViewHelper(QAbstractItemView* client, EntryDelegateLayout* delegateLayout = 0, bool workOnSelection = false, bool viewOnly = false);
 	
 	QAbstractItemView *client() const { return _client; }
+	/**
+	 * Returns the entries option menu (export, print, ...)
+	 */
 	QMenu *entriesMenu() { return &_entriesMenu; }
 	void setPreferenceHandler(Preference pref, PreferenceRoot *ref);
 	EntryDelegateLayout *delegateLayout() { return _delegateLayout; }
+	/**
+	 * Returns the context menu (study, tags, notes, ...)
+	 */
+	QMenu *contextMenu() { return &_contextMenu; }
 
 	/**
 	 * Returns a list of the currently selected entries.

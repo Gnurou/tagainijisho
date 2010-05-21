@@ -71,7 +71,6 @@ public:
 	 * entries list given as argument.
 	 */
 	void updateStatus(const QList<ConstEntryPointer>& entries);
-
 	/**
 	 * Shortcut method.
 	 */
