@@ -41,7 +41,7 @@ private:
 	EntryDelegateLayout *_delegateLayout;
 	QMenu _entriesMenu;
 	bool _workOnSelection;
-	QAction _actionPrint, _actionPrintPreview, _actionPrintBooklet, _actionPrintBookletPreview, _actionExportTab;
+	QAction _actionPrint, _actionPrintPreview, _actionPrintBooklet, _actionPrintBookletPreview, _actionExportTab, _actionExportJs;
 	QVector<PreferenceRoot *> prefRefs;
 	QMenu _contextMenu;
 
@@ -119,6 +119,7 @@ public slots:
 	void printBooklet();
 	void printBookletPreview();
 
+	void jsExport();
 	void tabExport();
 };
 

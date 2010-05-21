@@ -52,5 +52,6 @@
     <file>images/icons/control-stop.png</file>
     <file>images/icons/donate.png</file>
     <file>images/icons/component-selector.png</file>
+	<file>images/export_template.html</file>
   </qresource>
 </RCC>

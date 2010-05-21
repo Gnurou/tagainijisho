@@ -4,9 +4,11 @@
 * "Mark as known" action from the list context menu fixed
 * Added keyboard shortcuts (Space, R, Left, Right) to kanji popup window
 * Ctrl+s kanji shortcut also works in kanji flashcards
-* Fixed click behavior of entries lists
+* Fixed click behavior of entries lists (thanks Tracy!)
 * Duplicate kanji components no longer displayed in detailed view
 * Detailed view font parameter bug fixed (thanks Tracy!)
+* Added HTML/JS export that allows browsing and flashcards, suitable for
+  mobile phones
 
 0.2.5 released on 2010/04/01
 * Updated to SQLite 3.6.23

@@ -28,7 +28,7 @@
 #include <QFileDialog>
 #include <QMessageBox>
 
-EntriesViewHelper::EntriesViewHelper(QAbstractItemView* client, EntryDelegateLayout* delegateLayout, bool workOnSelection, bool viewOnly) : EntryMenu(client), _client(client), _entriesMenu(), _workOnSelection(workOnSelection), _actionPrint(QIcon(":/images/icons/print.png"), tr("&Print..."), 0), _actionPrintPreview(QIcon(":/images/icons/print.png"), tr("Print p&review..."), 0), _actionPrintBooklet(QIcon(":/images/icons/print.png"), tr("Print &booklet..."), 0), _actionPrintBookletPreview(QIcon(":/images/icons/print.png"), tr("Booklet p&review..."), 0), _actionExportTab(QIcon(":/images/icons/document-export.png"), tr("&Export..."), 0), prefRefs(MAX_PREF), _contextMenu()
+EntriesViewHelper::EntriesViewHelper(QAbstractItemView* client, EntryDelegateLayout* delegateLayout, bool workOnSelection, bool viewOnly) : EntryMenu(client), _client(client), _entriesMenu(), _workOnSelection(workOnSelection), _actionPrint(QIcon(":/images/icons/print.png"), tr("&Print..."), 0), _actionPrintPreview(QIcon(":/images/icons/print.png"), tr("Print p&review..."), 0), _actionPrintBooklet(QIcon(":/images/icons/print.png"), tr("Print &booklet..."), 0), _actionPrintBookletPreview(QIcon(":/images/icons/print.png"), tr("Booklet p&review..."), 0), _actionExportTab(QIcon(":/images/icons/document-export.png"), tr("&Export..."), 0), _actionExportJs(tr("Export as &HTML..."), 0), prefRefs(MAX_PREF), _contextMenu()
 {
 	// If no delegate layout has been specified, let's use our private one...
 	if (!delegateLayout) delegateLayout = new EntryDelegateLayout(this);
@@ -49,6 +49,7 @@ EntriesViewHelper::EntriesViewHelper(QAbstractItemView* client, EntryDelegateLay
 	connect(&_actionPrintPreview, SIGNAL(triggered()), this, SLOT(printPreview()));
 	connect(&_actionPrintBookletPreview, SIGNAL(triggered()), this, SLOT(printBookletPreview()));
 	connect(&_actionExportTab, SIGNAL(triggered()), this, SLOT(tabExport()));
+	connect(&_actionExportJs, SIGNAL(triggered()), this, SLOT(jsExport()));
 		
 	_entriesMenu.addAction(&_actionPrint);
 	_entriesMenu.addAction(&_actionPrintPreview);
@@ -56,6 +57,7 @@ EntriesViewHelper::EntriesViewHelper(QAbstractItemView* client, EntryDelegateLay
 	_entriesMenu.addAction(&_actionPrintBookletPreview);
 	_entriesMenu.addSeparator();
 	_entriesMenu.addAction(&_actionExportTab);
+	_entriesMenu.addAction(&_actionExportJs);
 	
 	// If the view is editable, the helper menu shall be enabled
 	if (!viewOnly) {
@@ -343,6 +345,60 @@ void EntriesViewHelper::tabExport()
 			return;
 		}
 	}
+
+	outFile.close();
+}
+
+void EntriesViewHelper::jsExport()
+{
+	QString exportFile = QFileDialog::getSaveFileName(0, tr("Export to HTML flashcard file..."), QString(), tr("HTML files (*.html)"));
+	if (exportFile.isEmpty()) return;
+	QFile outFile(exportFile);
+	if (!outFile.open(QIODevice::WriteOnly)) {
+		QMessageBox::warning(0, tr("Cannot write file"), QString(tr("Unable to write file %1!")).arg(exportFile));
+		return;
+	}
+
+	QModelIndexList entries(getEntriesToProcess());
+	QList<ConstEntryPointer> realEntries;
+
+	foreach (const QModelIndex &idx, entries) {
+		ConstEntryPointer entry = qVariantValue<EntryPointer>(idx.data(Entry::EntryRole));
+		// We cannot "export" lists due to the file purpose
+		if (!entry) continue;
+		realEntries << entry;
+	}
+	
+	QFile tmplFile(":/images/export_template.html");
+	if (!tmplFile.open(QIODevice::ReadOnly)) {
+		QMessageBox::warning(0, tr("Cannot open template file"), QString(tr("Unable to open template file!")).arg(exportFile));
+		return;
+	}
+	
+	QString tmpl(QString::fromUtf8(tmplFile.readAll()));
+	
+	int idx = 0;
+	QString data(QString("var entries = Array();\nfor (var i = 0; i < %1; i++) entries[i] = Array();\n").arg(realEntries.size()).toUtf8());
+	foreach (const ConstEntryPointer &entry, realEntries) {
+		QStringList writings = entry->writings();
+		QStringList readings = entry->readings();
+		QStringList meanings = entry->meanings();
+		QString writing;
+		QString reading;
+		QString meaning;
+		if (writings.size() > 0) writing = writings[0];
+		if (readings.size() > 0) reading = readings[0];
+		if (meanings.size() == 1) meaning += " " + meanings[0];
+		else {
+			int cpt = 1;
+			foreach (const QString &str, meanings)
+				meaning += QString(" (%1) %2").arg(cpt++).arg(str);
+		}
+		data += QString("entries[%1][0]=\"%2\";\nentries[%1][1]=\"%3\";\nentries[%1][2]=\"%4\";\n").arg(idx++).arg(writings.join(", ")).arg(readings.join(", ")).arg(meanings.join(", "));
+	}
+	
+	tmpl.replace("__DATA__", data);
+	outFile.write(tmpl.toUtf8());
 
 	outFile.close();
 }
