@@ -54,6 +54,9 @@ private:
 	
 	QModelIndexList getEntriesToProcess(bool limitToSelection = false);
 	
+protected:
+	bool eventFilter(QObject *obj, QEvent *ev);
+
 public slots:
 	/**
 	 * Used to update the view in case the layout changed.

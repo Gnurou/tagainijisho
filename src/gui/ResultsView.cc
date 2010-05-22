@@ -82,13 +82,9 @@ void ResultsView::setSmoothScrolling(bool value)
 
 void ResultsView::contextMenuEvent(QContextMenuEvent *event)
 {
+	QListView::contextMenuEvent(event);
 	selectAllAction->setEnabled(model()->rowCount() > 0);
-	QList<EntryPointer> _selectedEntries(_helper.selectedEntries());
-	// This is stupid, but const-safety forces us here
-	QList<ConstEntryPointer> selectedEntries;
-	foreach (const EntryPointer &entry, _selectedEntries) selectedEntries << entry;
-	helper()->updateStatus(selectedEntries);
-	helper()->contextMenu()->exec(mapToGlobal(event->pos()));
+	// Display of context menu is done in helper
 }
 
 /**

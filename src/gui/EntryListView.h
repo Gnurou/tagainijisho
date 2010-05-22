@@ -43,7 +43,6 @@ private slots:
 	void rightClickNewList();
 
 protected:
-	void contextMenuEvent(QContextMenuEvent *event);
 	virtual void startDrag(Qt::DropActions supportedActions);
 	virtual void selectionChanged(const QItemSelection &selected, const QItemSelection &deselected);
 

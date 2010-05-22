@@ -76,22 +76,6 @@ void EntryListView::setSmoothScrolling(bool value)
 	}
 }
 
-void EntryListView::contextMenuEvent(QContextMenuEvent *event)
-{
-	QList<EntryPointer> _selectedEntries(_helper.selectedEntries());
-	// This is stupid, but const-safety forces us here
-	QList<ConstEntryPointer> selectedEntries;
-	foreach (const EntryPointer &entry, _selectedEntries) selectedEntries << entry;
-	_helper.updateStatus(selectedEntries);
-	
-	// Update the status of the right-click new list action
-	QModelIndexList selection(selectionModel()->selectedIndexes());
-	_rightClickNewListAction.setEnabled(selection.size() <= 1 && (selection.size() == 0 || !selection[0].data(Entry::EntryRole).isValid()));
-	
-	QMenu *contextMenu = helper()->contextMenu();
-	if (!contextMenu->actions().isEmpty()) contextMenu->exec(mapToGlobal(event->pos()));
-}
-
 /**
  * @bug The signal will be emitted twice when an unselected item is clicked - filtered by
  *      the detailed view
@@ -108,6 +92,12 @@ void EntryListView::itemClicked(const QModelIndex &clicked)
 void EntryListView::selectionChanged(const QItemSelection &selected, const QItemSelection &deselected)
 {
 	QTreeView::selectionChanged(selected, deselected);
+	
+	// Update the status of the right-click new list action
+	QModelIndexList selection(selected.indexes());
+	_rightClickNewListAction.setEnabled(selection.size() <= 1 && (selection.size() == 0 || !selection[0].data(Entry::EntryRole).isValid()));
+
+	
 	_deleteSelectionAction.setEnabled(!selected.isEmpty());
 	emit selectionHasChanged(selected, deselected);
 	if (selected.isEmpty()) return;

@@ -27,9 +27,12 @@
 #include <QPrintDialog>
 #include <QFileDialog>
 #include <QMessageBox>
+#include <QContextMenuEvent>
 
 EntriesViewHelper::EntriesViewHelper(QAbstractItemView* client, EntryDelegateLayout* delegateLayout, bool workOnSelection, bool viewOnly) : EntryMenu(client), _client(client), _entriesMenu(), _workOnSelection(workOnSelection), _actionPrint(QIcon(":/images/icons/print.png"), tr("&Print..."), 0), _actionPrintPreview(QIcon(":/images/icons/print.png"), tr("Print p&review..."), 0), _actionPrintBooklet(QIcon(":/images/icons/print.png"), tr("Print &booklet..."), 0), _actionPrintBookletPreview(QIcon(":/images/icons/print.png"), tr("Booklet p&review..."), 0), _actionExportTab(QIcon(":/images/icons/document-export.png"), tr("&Export..."), 0), _actionExportJs(tr("Export as &HTML..."), 0), prefRefs(MAX_PREF), _contextMenu()
 {
+	client->installEventFilter(this);
+	
 	// If no delegate layout has been specified, let's use our private one...
 	if (!delegateLayout) delegateLayout = new EntryDelegateLayout(this);
 	connect(delegateLayout, SIGNAL(layoutHasChanged()), this, SLOT(updateLayout()));
@@ -401,6 +404,27 @@ void EntriesViewHelper::jsExport()
 	outFile.write(tmpl.toUtf8());
 
 	outFile.close();
+}
+
+bool EntriesViewHelper::eventFilter(QObject *obj, QEvent *ev)
+{
+	switch (ev->type()) {
+		case QEvent::ContextMenu:
+		{
+			QMenu *menu(contextMenu());
+			if (menu->actions().isEmpty()) return true;
+			QContextMenuEvent *cev(static_cast<QContextMenuEvent *>(ev));
+			QList<EntryPointer> _selectedEntries(selectedEntries());
+			// This is stupid, but const-safety forces us here
+			QList<ConstEntryPointer> selectedEntries;
+			foreach (const EntryPointer &entry, _selectedEntries) selectedEntries << entry;
+			updateStatus(selectedEntries);
+			menu->exec(client()->mapToGlobal(cev->pos()));
+			return false;
+		}
+		default:
+			return false;
+	}
 }
 
 void EntriesViewHelper::updateLayout()
