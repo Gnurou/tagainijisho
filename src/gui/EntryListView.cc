@@ -59,9 +59,6 @@ EntryListView::EntryListView(QWidget *parent, EntryDelegateLayout* delegateLayou
 	setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
 	setSmoothScrolling(smoothScrollingSetting.value());
 	connect(&smoothScrollingSetting, SIGNAL(valueChanged(QVariant)), &_helper, SLOT(updateConfig(QVariant)));
-	
-	// Propagate the clicked signal as a selection signal
-	connect(this, SIGNAL(clicked(QModelIndex)), this, SLOT(itemClicked(QModelIndex)));
 }
 
 void EntryListView::setSmoothScrolling(bool value)
@@ -74,19 +71,6 @@ void EntryListView::setSmoothScrolling(bool value)
 		scroller.setScrollBar(0);
 		setVerticalScrollMode(QAbstractItemView::ScrollPerItem);
 	}
-}
-
-/**
- * @bug The signal will be emitted twice when an unselected item is clicked - filtered by
- *      the detailed view
- */
-void EntryListView::itemClicked(const QModelIndex &clicked)
-{
-	// Do not emit signal for entries that are not selected
-	if (!selectionModel()->isSelected(clicked)) return;
-	// Use the model data directly!
-	EntryPointer entry(qvariant_cast<EntryPointer>(model()->data(clicked, Entry::EntryRole)));
-	if (entry) emit entrySelected(entry);
 }
 
 void EntryListView::selectionChanged(const QItemSelection &selected, const QItemSelection &deselected)
@@ -102,7 +86,8 @@ void EntryListView::selectionChanged(const QItemSelection &selected, const QItem
 	emit selectionHasChanged(selected, deselected);
 	if (selected.isEmpty()) return;
 	QModelIndex index(selected.indexes().last());
-	itemClicked(index);
+	EntryPointer entry(qvariant_cast<EntryPointer>(model()->data(index, Entry::EntryRole)));
+	if (entry) emit entrySelected(entry);
 }
 
 void EntryListView::startDrag(Qt::DropActions supportedActions)

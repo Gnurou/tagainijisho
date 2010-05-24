@@ -63,9 +63,6 @@ ResultsView::ResultsView(QWidget *parent, EntryDelegateLayout *delegateLayout, b
 	// Scrolling
 	setSmoothScrolling(smoothScrollingSetting.value());
 	connect(&smoothScrollingSetting, SIGNAL(valueChanged(QVariant)), &_helper, SLOT(updateConfig(QVariant)));
-
-	// Propagate the clicked signal as a selection signal
-	connect(this, SIGNAL(clicked(QModelIndex)), this, SLOT(itemClicked(QModelIndex)));
 }
 
 void ResultsView::setSmoothScrolling(bool value)
@@ -87,26 +84,14 @@ void ResultsView::contextMenuEvent(QContextMenuEvent *event)
 	// Display of context menu is done in helper
 }
 
-/**
- * @bug The signal will be emitted twice when an unselected item is clicked - filtered by
- *      the detailed view
- */
-void ResultsView::itemClicked(const QModelIndex &clicked)
-{
-	// Do not emit signal for entries that are not selected
-	if (!selectionModel()->isSelected(clicked)) return;
-	// Use the model data directly!
-	EntryPointer entry(qvariant_cast<EntryPointer>(model()->data(clicked, Entry::EntryRole)));
-	if (entry) emit entrySelected(entry);
-}
-
 void ResultsView::selectionChanged(const QItemSelection &selected, const QItemSelection &deselected)
 {
 	QListView::selectionChanged(selected, deselected);
 	emit listSelectionChanged(selected, deselected);
 	if (selected.isEmpty()) return;
 	QModelIndex index(selected.indexes().last());
-	itemClicked(index);
+	EntryPointer entry(qvariant_cast<EntryPointer>(model()->data(index, Entry::EntryRole)));
+	if (entry) emit entrySelected(entry);
 }
 
 void ResultsView::startDrag(Qt::DropActions supportedActions)

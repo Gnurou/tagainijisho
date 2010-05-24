@@ -65,9 +65,6 @@ public:
 	static PreferenceItem<QString> textFontSetting;
 	static PreferenceItem<int> displayModeSetting;
 	
-private slots:
-	virtual void itemClicked(const QModelIndex &clicked);
-
 signals:
 	// Used to abstract the selection model which may not be consistent
 	// if the user changes fonts

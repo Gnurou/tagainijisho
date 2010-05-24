@@ -39,7 +39,6 @@ private:
 	QAction _deleteSelectionAction;
 
 private slots:
-	virtual void itemClicked(const QModelIndex &clicked);
 	void rightClickNewList();
 
 protected:
