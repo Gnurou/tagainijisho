@@ -48,7 +48,7 @@ QSize KanjiComponentWidget::sizeHint() const
 void KanjiComponentWidget::setComponent(const KanjiComponent *component)
 {
 	_component = component;
-	if (component) _kanji = KanjiEntryRef(TextTools::singleCharToUnicode(component->element())).get();
+	if (component) _kanji = KanjiEntryRef(component->element()).get();
 	else _kanji.clear();
 	update();
 }
@@ -61,7 +61,8 @@ void KanjiComponentWidget::paintEvent(QPaintEvent *event)
 	QFontMetrics metrics(font());
 	const int kanjiSize(metrics.height() * 2);
 
-	const ConstKanjidic2EntryPointer &kEntry(kanji());
+	// First draw the shape
+	ConstKanjidic2EntryPointer kEntry(kanji());
 	if (kEntry && !kEntry->strokes().isEmpty()) {
 		KanjiRenderer renderer(kEntry);
 		QPen pen(painter.pen());
@@ -84,7 +85,10 @@ void KanjiComponentWidget::paintEvent(QPaintEvent *event)
 		painter.restore();
 	}
 
+	// Now display the meaning
 	if (!kEntry) return;
+	if (!_component->original().isEmpty()) kEntry = KanjiEntryRef(_component->original()).get();
+	
 	QString readings;
 	QString meanings;
 
@@ -207,7 +211,7 @@ void KanjiPopup::setComponentsLabelText(int highlightPos)
 	QStringList componentsStrings;
 	int i = 0;
 	foreach (const KanjiComponent *component, entry->rootComponents()) {
-		componentsStrings << QString("<a %3href=\"%1\">%2</a>").arg(i).arg(component->element()).arg(highlightPos == i ? "class=\"highlighted\" " : "");
+		componentsStrings << QString("<a %3href=\"%1\">%2</a>").arg(i).arg(component->original().isEmpty() ? component->element() : component->original()).arg(highlightPos == i ? "class=\"highlighted\" " : "");
 		++i;
 	}
 

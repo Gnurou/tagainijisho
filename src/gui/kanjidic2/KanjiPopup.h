@@ -48,7 +48,6 @@ public:
 	void setComponent(const KanjiComponent *component);
 	const KanjiComponent *component() const { return _component; }
 	const ConstKanjidic2EntryPointer &kanji() const { return _kanji; }
-
 };
 
 #include "gui/ui_KanjiPopup.h"

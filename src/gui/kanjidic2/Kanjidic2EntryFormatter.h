@@ -30,6 +30,18 @@ protected:
 
 	Kanjidic2EntryFormatter();
 	virtual ~Kanjidic2EntryFormatter() {}
+	
+	
+	/**
+	 * Some components have the shape of a kanji but are actually variations of another one.
+	 * This function returns the right shape for a component according to the user's settings.
+	 */
+	ConstKanjidic2EntryPointer getShapeEntry(const KanjiComponent *comp) const;
+	/**
+	 * Some components have the shape of a kanji but are actually variations of another one.
+	 * This function returns the right meaning for a component according to the user's settings.
+	 */
+	ConstKanjidic2EntryPointer getMeaningEntry(const KanjiComponent *comp) const;
 
 public:
 	static Kanjidic2EntryFormatter &instance();
@@ -39,6 +51,7 @@ public:
 	void writeKanjiInfo(const ConstKanjidic2EntryPointer &entry, QTextCursor& cursor, DetailedView* view) const;
 
 	virtual void writeShortDesc(const ConstEntryPointer &entry, QTextCursor& cursor) const;
+	virtual void writeShortDesc(const ConstKanjidic2EntryPointer& shape, const ConstKanjidic2EntryPointer& kEntry, QTextCursor& cursor) const;
 	virtual void draw(const ConstEntryPointer &entry, QPainter &painter, const QRectF &rectangle, QRectF &usedSpace, const QFont &textFont = QFont()) const;
 	void drawCustom(const ConstKanjidic2EntryPointer& entry, QPainter& painter, const QRectF& rectangle, QRectF& usedSpace, const QFont& textFont = QFont(), int printSize = Kanjidic2EntryFormatter::printSize.value(), bool printWithFont = Kanjidic2EntryFormatter::printWithFont.value(), bool printMeanings = Kanjidic2EntryFormatter::printMeanings.value(), bool printOnyomi = Kanjidic2EntryFormatter::printOnyomi.value(), bool printKunyomi = Kanjidic2EntryFormatter::printKunyomi.value(), bool printComponents = Kanjidic2EntryFormatter::printComponents.value(), bool printOnlyStudiedComponents = Kanjidic2EntryFormatter::printOnlyStudiedComponents.value(), int maxWordsToPrint = Kanjidic2EntryFormatter::maxWordsToPrint.value(), bool printOnlyStudiedVocab = Kanjidic2EntryFormatter::printOnlyStudiedVocab.value()) const;
 	virtual void detailedVersionPart1(const ConstEntryPointer &entry, QTextCursor& cursor, DetailedView* view) const;
@@ -51,7 +64,7 @@ public:
 
 	static QString getQueryUsedInWordsSql(int kanji, int limit = maxWordsToDisplay.value(), bool onlyStudied = showOnlyStudiedVocab.value());
 	static QString getQueryUsedInKanjiSql(int kanji, int limit = maxCompoundsToDisplay.value(), bool onlyStudied = showOnlyStudiedCompounds.value());
-
+	
 	static PreferenceItem<bool> showReadings;
 	static PreferenceItem<bool> showNanori;
 	static PreferenceItem<bool> showUnicode;

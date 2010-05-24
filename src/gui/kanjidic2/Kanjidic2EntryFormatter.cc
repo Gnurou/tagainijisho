@@ -316,10 +316,10 @@ void Kanjidic2EntryFormatter::writeKanjiInfo(const ConstKanjidic2EntryPointer& e
 			if (listedComps.contains(component->unicode())) continue;
 			listedComps << component->unicode();
 			cursor.insertText("\n");
-			ConstKanjidic2EntryPointer kEntry(KanjiEntryRef(component->unicode()).get());
+			ConstKanjidic2EntryPointer kEntry(getMeaningEntry(component));
+			ConstKanjidic2EntryPointer shape(getShapeEntry(component));
 			view->addWatchEntry(kEntry);
-			const EntryFormatter *formatter(EntryFormatter::getFormatter(kEntry));
-			formatter->writeShortDesc(kEntry, cursor);
+			writeShortDesc(shape, kEntry, cursor);
 		}
 	}
 	if (maxCompoundsToDisplay.value()) view->addBackgroundJob(new ShowUsedInKanjiJob(entry->kanji(), cursor));
@@ -328,10 +328,16 @@ void Kanjidic2EntryFormatter::writeKanjiInfo(const ConstKanjidic2EntryPointer& e
 
 void Kanjidic2EntryFormatter::writeShortDesc(const ConstEntryPointer& entry, QTextCursor& cursor) const
 {
-	ConstKanjidic2EntryPointer kEntry = entry.staticCast<const Kanjidic2Entry>();
+	ConstKanjidic2EntryPointer kEntry(entry.staticCast<const Kanjidic2Entry>());
+	writeShortDesc(kEntry, kEntry, cursor);
+}
+
+void Kanjidic2EntryFormatter::writeShortDesc(const ConstKanjidic2EntryPointer& shape, const ConstKanjidic2EntryPointer &kEntry, QTextCursor& cursor) const
+{
 	QTextCharFormat charFormat;
 	if (kEntry->trained()) charFormat.setBackground(kEntry->scoreColor());
 	QString str(kEntry->kanji());
+	if (shape != kEntry) str += tr(" (%1) ").arg(shape->kanji());
 	if (!kEntry->meanings().isEmpty()) str += ": " + kEntry->meaningsString();
 	autoFormat(kEntry, str, cursor, charFormat);
 	if (shortDescShowJLPT.value() && kEntry->jlpt() != -1) {
@@ -410,20 +416,19 @@ void Kanjidic2EntryFormatter::drawCustom(const ConstKanjidic2EntryPointer &entry
 		// Draw the components
 		painter.setFont(textFont);
 		foreach(const KanjiComponent *c, entry->rootComponents()) {
-			ConstKanjidic2EntryPointer component;
-			// If the component has an original, get the meaning from it!
-			if (!c->original().isEmpty())
-				component = KanjiEntryRef(TextTools::singleCharToUnicode(c->original())).get();
-			else component = KanjiEntryRef(c->unicode()).get();
-			if (printOnlyStudiedComponents && !component->trained()) continue;
-			QString s = c->repr();
-			QString meanings(component->meaningsString());
+			ConstKanjidic2EntryPointer original(getMeaningEntry(c));
+			ConstKanjidic2EntryPointer element(getShapeEntry(c));
+			
+			if (printOnlyStudiedComponents && !original->trained()) continue;
+			QString s = original->kanji();
+			if (original != element) s += tr(" (%1) ").arg(element->kanji());
+			QString meanings(original->meaningsString());
 			if (!meanings.isEmpty()) s += ": " + meanings;
 			QFontMetrics metrics(painter.font(), painter.device());
 			s = metrics.elidedText(s, Qt::ElideRight, leftArea.width());
 			textBB = painter.boundingRect(leftArea, Qt::AlignLeft, s);
 			painter.drawText(leftArea, Qt::AlignLeft, s);
-			if (!printOnlyStudiedComponents && component->trained()) painter.drawLine(textBB.topLeft() + QPoint(0, metrics.ascent() + metrics.underlinePos()), textBB.topRight() + QPoint(0, metrics.ascent() + metrics.underlinePos()));
+			if (!printOnlyStudiedComponents && original->trained()) painter.drawLine(textBB.topLeft() + QPoint(0, metrics.ascent() + metrics.underlinePos()), textBB.topRight() + QPoint(0, metrics.ascent() + metrics.underlinePos()));
 			leftArea.setTop(textBB.bottom());
 		}
 	}
@@ -583,6 +588,21 @@ void Kanjidic2EntryFormatter::showToolTip(const ConstKanjidic2EntryPointer entry
 	if (tCpt % 2) s += "<td></td></tr>";
 	s += "</table>";
 	QToolTip::showText(pos, s);
+}
+
+ConstKanjidic2EntryPointer Kanjidic2EntryFormatter::getShapeEntry(const KanjiComponent *comp) const
+{
+	ConstKanjidic2EntryPointer component(KanjiEntryRef(comp->unicode()).get());
+	return component;
+}
+
+ConstKanjidic2EntryPointer Kanjidic2EntryFormatter::getMeaningEntry(const KanjiComponent *comp) const
+{
+	ConstKanjidic2EntryPointer component;
+	// If the component has an original, get the meaning from it!
+	if (!comp->original().isEmpty()) component = KanjiEntryRef(TextTools::singleCharToUnicode(comp->original())).get();
+	else component = KanjiEntryRef(comp->unicode()).get();
+	return component;
 }
 
 ShowUsedInKanjiJob::ShowUsedInKanjiJob(const QString &kanji, const QTextCursor &cursor) :

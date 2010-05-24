@@ -198,6 +198,7 @@ class KanjiEntryRef : public EntryRef
 {
 public:
 	KanjiEntryRef(quint32 id) : EntryRef(KANJIDIC2ENTRY_GLOBALID, id) {}
+	KanjiEntryRef(const QString &kanji) : EntryRef(KANJIDIC2ENTRY_GLOBALID, TextTools::singleCharToUnicode(kanji)) {}
 	QString kanji() const { return TextTools::unicodeToSingleChar(id()); }
 	Kanjidic2EntryPointer get() const { return EntryRef::get().staticCast<Kanjidic2Entry>(); }
 };
