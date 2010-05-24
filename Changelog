@@ -7,6 +7,7 @@
 * Fixed click behavior of entries lists (thanks Tracy!)
 * Duplicate kanji components no longer displayed in detailed view
 * Detailed view font parameter bug fixed (thanks Tracy!)
+* Components variations information now correctly displayed
 * Added HTML/JS export that allows browsing and flashcards, suitable for
   mobile phones
 
