@@ -34,6 +34,7 @@ QPainterPath KanjiRenderer::Stroke::pathFromSVG(QString svgPath)
 {
 	enum SVGPathCommand { None = 0, Movepath, movepath, Closepath, Lineto, lineto, HLineto, Hlineto, VLineto, vLineto, Curveto, curveto, sCurveto, scurveto, Ellipse };
 	QPainterPath retPath;
+	retPath.setFillRule(Qt::WindingFill);
 
 	// Process the string - add spaces between unseparated tokens
 	int idx;

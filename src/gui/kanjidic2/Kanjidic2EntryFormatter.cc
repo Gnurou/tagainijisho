@@ -383,7 +383,7 @@ void Kanjidic2EntryFormatter::drawCustom(const ConstKanjidic2EntryPointer &entry
 		painter.save();
 		QPen pen(painter.pen());
 		pen.setWidth(5);
-		pen.setCapStyle(Qt::RoundCap);
+		pen.setCapStyle(Qt::SquareCap);
 		painter.translate((leftArea.width() - printSize) / 2.0, 0.0);
 		painter.scale(printSize / 109.0, printSize / 109.0);
 		painter.setRenderHint(QPainter::Antialiasing);

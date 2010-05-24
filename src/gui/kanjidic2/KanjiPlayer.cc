@@ -207,11 +207,11 @@ void KanjiPlayer::renderCurrentState()
 	pen.setWidth(DEFAULT_PEN_WIDTH);
 	pen.setColor(palette().color(QPalette::Dark));
 	pen.setCapStyle(Qt::RoundCap);
-	pen.setJoinStyle(Qt::RoundJoin);
+	//pen.setJoinStyle(Qt::BevelJoin);
 	QPen pen2;
 	pen2.setWidth(DEFAULT_PEN_WIDTH);
-	pen2.setCapStyle(Qt::RoundCap);
-	pen2.setJoinStyle(Qt::RoundJoin);
+	pen2.setCapStyle(Qt::SquareCap);
+	//pen2.setJoinStyle(Qt::MiterJoin);
 	
 	QPainter painter(&_picture);
 	painter.scale(pictureSize() / 109.0, pictureSize() / 109.0);
@@ -222,8 +222,6 @@ void KanjiPlayer::renderCurrentState()
 		QPen pen3;
 		pen3.setWidth(DEFAULT_PEN_WIDTH / 2);
 		pen3.setColor(palette().color(QPalette::Mid));
-		pen3.setCapStyle(Qt::RoundCap);
-		pen3.setJoinStyle(Qt::RoundJoin);
 		painter.setPen(pen3);
 
 		renderer.renderGrid(&painter);
