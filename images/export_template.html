@@ -16,36 +16,111 @@
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <html>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 <title>Flashcards</title>
 <style type="text/css">
 body {
 	height: 100%;
+}
+
+.views {
+	position: absolute;
+	top: 0px;
+	font-size: 1em;
+	margin: 0;
+	padding: 0 0 0 12px;
+}
+
+.views ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	border: none;
+}
+
+.views li {
+	color: #444;
+	display: block;
+	text-decoration: none;
+	background: #DDDDDD;
+	margin: 0;
+	padding: 2px 10px;
+	border-left: 1px solid #fff;
+	border-top: 1px solid #fff;
+	border-right: 1px solid #aaa;
+	display: block;
+	float: left;
+	width: auto;
+	cursor: pointer;
+}
+
+.views li:hover {
+	background: #BBBBBB;
+}
+
+#main {
+	position: absolute;
+	top: 2em;
+	width: 100%;
+	height: 80%;
+}
+
+#list {
+	display: none;
+}
+
+.entriestab {
+	border: 1px solid black;
+	border-collapse: collapse;
+	width: 100%;
+}
+
+.entriestab tr td {
+	border: 1px solid black;
+}
+
+.entriestab td {
+	padding: 15px;
+}
+
+.entriestab .writing {
 	font-size: 3em;
+}
+
+.entriestab .reading {
+	font-size: 1.5em;
+}
+
+.entriestab .meaning {
+	font-style: italic;
+	font-size: 1.5em;
 }
 
 #card {
 	margin-left: auto;
 	margin-right: auto;
 	text-align: center;
+	margin-top: 2em;
 	width: 90%;
 	height: 80%;
-	padding: 20px;
 	display: table;
+	cursor: pointer;
 }
 
-#card #contents {
+#card .contents {
 	display: table-cell;
 	border: solid 2px;
+	padding: 20px;
 	vertical-align: middle;
+	font-size: 2em;
 }
 
-.writing {
+#card .writing {
 	font-size: 4em;
 }
 
-.reading {
+#card .reading {
 	margin-top: .5em;
 	font-size: .5em;
 }
@@ -55,6 +130,9 @@ body {
 }
 
 .controls {
+	position: absolute;
+	bottom: 0px;
+	width: 100%;
 	text-align: center;
 	font-size: x-large;
 }
@@ -65,16 +143,23 @@ body {
 	font-size: x-large;
 	padding: 1em;
 }
+
+.options {
+	position: absolute;
+	top: 0px;
+	left: 50%;
+	font-size: x-large;
+}
+
 </style>
 <script>
 
-
 __DATA__
-
 
 var querySequence = Array();
 for (var i = 0; i < entries.length; ++i) querySequence[i] = i;
 var seqPos;
+var startSide = 1;
 
 var curSide;
 
@@ -88,25 +173,36 @@ function shuffle(v)
 	for (var j, x, i = v.length; i; j = parseInt(Math.random() * i), x = v[--i], v[i] = v[j], v[j] = x);
 }
 
-function updateCard()
+function currentWriting()
 {
 	var curCard = querySequence[seqPos];
-	var card = document.getElementById("contents");
-	var res = "";
+	res = "<div class=\"writing\">";
+	res += entries[curCard][0];
+	res += "</div>";
+	return res;
+}
+
+function currentMeaningReading()
+{
+	var curCard = querySequence[seqPos];
+	res = "<div class=\"meaning\">";
+	res += entries[curCard][2];
+	res += "</div>";
+	res += "<div class=\"reading\">";
+	res += entries[curCard][1];
+	res += "</div>";
+	return res;
+}
+
+function updateCard()
+{
+	var card = document.getElementById("cardcontents");
 	if (curSide == 0) {
-		res += "<div class=\"writing\">";
-		res += entries[curCard][0];
-		res += "</div>";
+		card.innerHTML = currentWriting();
 	}
 	else {
-		res += "<div class=\"meaning\">";
-		res += entries[curCard][2];
-		res += "</div>";
-		res += "<div class=\"reading\">";
-		res += entries[curCard][1];
-		res += "</div>";
+		card.innerHTML = currentMeaningReading();
 	}
-	card.innerHTML = res;
 
 	document.getElementById("nextButton").disabled = (seqPos >= querySequence.length - 1);
 }
@@ -122,7 +218,7 @@ function start()
 {
 	shuffle(querySequence);
 	seqPos = 0;
-	curSide = 1;
+	curSide = startSide;
 	updateCard();
 }
 
@@ -132,22 +228,68 @@ function next()
 		return;
 	}
 	++seqPos
-	curSide = 1;
+	curSide = startSide;
 	updateCard();
 }
+
+function generateList()
+{
+	res = "<table class=\"entriestab\">";
+	for (var i = 0; i < entries.length; i++) {
+		res += "<tr><td><div class=\"writing\">" + entries[i][0] + "</div></td><td><div class=\"reading\">" + entries[i][1] + "</div><div class=\"meaning\">" + entries[i][2] + "</div></td></tr>";
+	}
+	res += "</table>";
+	return res;
+}
+
+tabs = new Array('list', 'flashcards');
+
+function showTab(id)
+{
+	for (var i = 0; i < tabs.length; ++i)
+		document.getElementById(tabs[i]).style.display = 'none';
+	document.getElementById(tabs[id]).style.display = 'block';
+}
+
 </script>
 </head>
 
 <body>
-<div id="card" onclick="flip()">
-<div id="contents">
+<div id="main">
+
+<div id="list">
+<h3>All entries</h3>
+<div id="listcontents" class="contents">
 </div>
+<script>
+document.getElementById("listcontents").innerHTML = generateList();
+</script>
 </div>
 
+<div id="flashcards">
+<div id="card" onclick="flip()">
+<div id="cardcontents" class="contents">
+</div>
+</div>
+<div class="options">
+<label for="writingRB"><input type="radio" name="flashside" value="w" id="writingRB" onClick="startSide=0"/>Writing</label>
+<label for="meaningRB"><input type="radio" name="flashside" value="mr" checked="true" onClick="startSide=1" id="meaningRB"/>Meaning + reading</label>
+</div>
 <div class="controls">
 <input type="button" value="Start" onclick="start()"/>
 <input disabled type="button" id="nextButton" value="Next" onclick="next()"/>
 </div>
+</div>
+
+</div>
+
+<div class="views">
+<ul>
+<li onClick="showTab(0)">List</li>
+<li onClick="showTab(1)">Flashcards</li>
+</ul>
+</div>
+
 
 <script>
 start();
