@@ -47,6 +47,8 @@ public:
 	virtual QModelIndex index(int row, int column, const QModelIndex &parent = QModelIndex()) const;
 	virtual QModelIndex index(int rowId) const;
 	virtual QModelIndex parent(const QModelIndex &index) const;
+	/// Works like parent, but do not take care of the root element that has manually been set
+	virtual QModelIndex realParent(const QModelIndex &index) const;
 	virtual int rowCount(const QModelIndex &parent = QModelIndex()) const;
 	virtual int columnCount(const QModelIndex &parent = QModelIndex()) const { return 1; }
 	virtual Qt::ItemFlags flags(const QModelIndex &index) const;
@@ -59,6 +61,10 @@ public:
 	virtual QMimeData *mimeData(const QModelIndexList &indexes) const;
 	virtual Qt::DropActions supportedDropActions() const { return Qt::CopyAction | Qt::MoveAction; }
 	virtual bool dropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &parent);
+	
+signals:
+	/// Emitted when the root index has changed
+	void rootHasChanged(int rowIndex);
 };
 
 #endif

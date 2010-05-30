@@ -23,17 +23,19 @@ EntryListWidget::EntryListWidget(QWidget *parent) : SearchFilterWidget(parent)
 {
 	setupUi(this);
 	
+	QToolBar *_toolBar = new QToolBar(this);
+	_toolBar->setAttribute(Qt::WA_MacMiniSize);
+	_toolBar->layout()->setContentsMargins(0, 0, 0, 0);
+	_toolBar->setStyleSheet("QToolBar { background: none; border-style: none; border-width: 0px; margin: 0px; padding: 0px; }");	
+
 	QToolButton *menuButton = new QToolButton(this);
 	menuButton->setIcon(QIcon(":/images/icons/list-add.png"));
 	menuButton->setMenu(lists->helper()->entriesMenu());
 	menuButton->setPopupMode(QToolButton::InstantPopup);
 	menuButton->setAutoRaise(true);
-
-	QToolBar *_toolBar = new QToolBar(this);
-	_toolBar->setAttribute(Qt::WA_MacMiniSize);
-	_toolBar->layout()->setContentsMargins(0, 0, 0, 0);
-	_toolBar->setStyleSheet("QToolBar { background: none; border-style: none; border-width: 0px; margin: 0px; padding: 0px; }");	
 	_toolBar->addWidget(menuButton);
+
+	_toolBar->addAction(entryListView()->goUpAction());
 	_toolBar->addAction(entryListView()->newListAction());
 	_toolBar->addAction(entryListView()->deleteSelectionAction());
 	

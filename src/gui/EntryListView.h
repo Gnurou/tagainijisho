@@ -35,9 +35,8 @@ class EntryListView : public QTreeView
 private:
 	ScrollBarSmoothScroller scroller;
 	EntriesViewHelper _helper;
-	QAction _newListAction, _rightClickNewListAction;
-	QAction _deleteSelectionAction;
-
+	QAction _setAsRootAction, _newListAction, _rightClickNewListAction, _deleteSelectionAction, _goUpAction;
+	
 private slots:
 	void rightClickNewList();
 
@@ -49,13 +48,16 @@ public:
 	EntryListView(QWidget* parent = 0, EntryDelegateLayout* delegateLayout = 0, bool viewOnly = false);
 	EntriesViewHelper *helper() { return &_helper; }
 	
+	virtual void setModel(QAbstractItemModel *model);
+	
 	bool smoothScrolling() const { return verticalScrollMode() == QAbstractItemView::ScrollPerPixel; }
 	void setSmoothScrolling(bool value);
 	Q_PROPERTY(bool smoothScrolling READ smoothScrolling WRITE setSmoothScrolling);
 
-	QAction *newListAction(const QModelIndex &parent = QModelIndex()) { return &_newListAction; }
+	QAction *newListAction() { return &_newListAction; }
 	QAction *deleteSelectionAction() { return &_deleteSelectionAction; }
-
+	QAction *goUpAction() { return &_goUpAction; }
+	
 	static PreferenceItem<bool> smoothScrollingSetting;
 	static PreferenceItem<QString> kanjiFontSetting;
 	static PreferenceItem<QString> kanaFontSetting;
@@ -63,12 +65,14 @@ public:
 	static PreferenceItem<int> displayModeSetting;
 
 public slots:
+	void setSelectedAsRoot();
 	void newList(const QModelIndex &parent = QModelIndex());
 	void deleteSelectedItems();
+	void goUp();
+	void onModelRootChanged(int rootId);
 	
 signals:
 	void selectionHasChanged(const QItemSelection &selected, const QItemSelection &deselected);
-	void listSelected(int rowIndex);
 	void entrySelected(const EntryPointer &entry);
 };
 

@@ -427,11 +427,9 @@ bool EntriesViewHelper::eventFilter(QObject *obj, QEvent *ev)
 			}
 			case QEvent::MouseButtonPress:
 			{
-				qDebug() << "nev";
 				QMouseEvent *mev(static_cast<QMouseEvent *>(ev));
 				if (mev->modifiers() == Qt::NoModifier) {
 					client()->selectionModel()->clear();
-					qDebug() << "clear";
 				}
 				return false;
 			}

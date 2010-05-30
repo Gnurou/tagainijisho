@@ -40,6 +40,7 @@ void EntryListModel::setRoot(int rootId)
 	beginResetModel();
 	_rootId = rootId;
 	endResetModel();
+	emit rootHasChanged(rootId);
 }
 
 QModelIndex EntryListModel::index(int row, int column, const QModelIndex &parent) const
@@ -57,6 +58,17 @@ QModelIndex EntryListModel::index(int rowId) const
 	const EntryListCachedEntry &cEntry = EntryListCache::instance().get(rowId);
 	if (cEntry.isRoot()) return QModelIndex();
 	return createIndex(cEntry.position(), 0, rowId);
+}
+
+QModelIndex EntryListModel::realParent(const QModelIndex &idx) const
+{
+	if (!idx.isValid()) return QModelIndex();
+	const EntryListCachedEntry &cEntry = EntryListCache::instance().get(idx.isValid() ? idx.internalId() : rootId());
+	if (cEntry.isRoot()) return QModelIndex();
+	else {
+		int pIndex(cEntry.parent());
+		return index(pIndex);
+	}
 }
 
 QModelIndex EntryListModel::parent(const QModelIndex &idx) const

@@ -31,21 +31,28 @@ PreferenceItem<QString> EntryListView::kanaFontSetting("mainWindow/lists", "kana
 PreferenceItem<QString> EntryListView::kanjiFontSetting("mainWindow/lists", "kanjiFont", QFont("Helvetica", 12).toString());
 PreferenceItem<int> EntryListView::displayModeSetting("mainWindow/lists", "displayMode", EntryDelegateLayout::OneLine);
 
-EntryListView::EntryListView(QWidget *parent, EntryDelegateLayout* delegateLayout, bool viewOnly) : QTreeView(parent), _helper(this, delegateLayout, true, viewOnly), _newListAction(QIcon(":/images/icons/document-new.png"), tr("New list..."), 0), _rightClickNewListAction(_newListAction.icon(), _newListAction.text(), 0), _deleteSelectionAction(QIcon(":/images/icons/delete.png"), tr("Delete"), 0)
+EntryListView::EntryListView(QWidget *parent, EntryDelegateLayout* delegateLayout, bool viewOnly) : QTreeView(parent), _helper(this, delegateLayout, true, viewOnly), _setAsRootAction(tr("Set as root"), 0), _newListAction(QIcon(":/images/icons/document-new.png"), tr("New list..."), 0), _rightClickNewListAction(_newListAction.icon(), _newListAction.text(), 0), _deleteSelectionAction(QIcon(":/images/icons/delete.png"), tr("Delete"), 0), _goUpAction(QIcon(":/images/icons/go-up.png"), tr("Go up"), 0)
 {
 	setHeaderHidden(true);
 	setItemDelegate(new EntryDelegate(helper()->delegateLayout(), this));
 
-	// If the view is editable, the helper menu shall be augmented
+	// Add the set as root option to the context menu
+	QMenu *contextMenu = helper()->contextMenu();
+	QAction *firstAction = contextMenu->actions().isEmpty() ? 0 : contextMenu->actions()[0];
+	contextMenu->insertAction(firstAction, &_setAsRootAction);
+	// If the view is editable, the helper menu shall be augmented with edit options
 	if (!viewOnly) {
-		QMenu *contextMenu = helper()->contextMenu();
 		contextMenu->addAction(&_rightClickNewListAction);
 		contextMenu->addAction(&_deleteSelectionAction);
 	}
+	_setAsRootAction.setEnabled(false);
+	connect(&_setAsRootAction, SIGNAL(triggered()), this, SLOT(setSelectedAsRoot()));
 	connect(&_newListAction, SIGNAL(triggered()), this, SLOT(newList()));
 	connect(&_rightClickNewListAction, SIGNAL(triggered()), this, SLOT(rightClickNewList()));
 	_deleteSelectionAction.setEnabled(false);
 	connect(&_deleteSelectionAction, SIGNAL(triggered()), this, SLOT(deleteSelectedItems()));
+	_goUpAction.setEnabled(false);
+	connect(&_goUpAction, SIGNAL(triggered()), this, SLOT(goUp()));
 
 	// If no delegate has been given, consider this view is ruled by the default settings
 	if (!delegateLayout) {
@@ -59,6 +66,16 @@ EntryListView::EntryListView(QWidget *parent, EntryDelegateLayout* delegateLayou
 	setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
 	setSmoothScrolling(smoothScrollingSetting.value());
 	connect(&smoothScrollingSetting, SIGNAL(valueChanged(QVariant)), &_helper, SLOT(updateConfig(QVariant)));
+}
+
+void EntryListView::setModel(QAbstractItemModel *newModel)
+{
+	QAbstractItemModel *oldModel = model();
+	if (oldModel) disconnect(oldModel, SIGNAL(rootHasChanged(int)), this, SLOT(onModelRootChanged(int)));
+	QTreeView::setModel(newModel);
+	_setAsRootAction.setEnabled(false);
+	_goUpAction.setEnabled(false);
+	if (newModel) connect(newModel, SIGNAL(rootHasChanged(int)), this, SLOT(onModelRootChanged(int)));
 }
 
 void EntryListView::setSmoothScrolling(bool value)
@@ -80,7 +97,7 @@ void EntryListView::selectionChanged(const QItemSelection &selected, const QItem
 	// Update the status of the right-click new list action
 	QModelIndexList selection(selected.indexes());
 	_rightClickNewListAction.setEnabled(selection.size() <= 1 && (selection.size() == 0 || !selection[0].data(Entry::EntryRole).isValid()));
-
+	_setAsRootAction.setEnabled(selection.size() == 1 && !selection[0].data(Entry::EntryRole).isValid());
 	
 	_deleteSelectionAction.setEnabled(!selected.isEmpty());
 	emit selectionHasChanged(selected, deselected);
@@ -137,4 +154,33 @@ void EntryListView::deleteSelectedItems()
 		if (!model()->removeRow(index.row(), index.parent())) success = false;
 	}
 	if (!success) QMessageBox::information(this, tr("Removal failed"), tr("A database error has occured while trying to remove the selected items:\n\n%1\n\n Some of them may be remaining.").arg(Database::lastError().text()));
+}
+
+void EntryListView::setSelectedAsRoot()
+{
+	QModelIndexList selection(selectionModel()->selectedIndexes());
+	if (!selection.isEmpty() && selection.size() == 1) {
+		EntryListModel *myModel = static_cast<EntryListModel *>(model());
+		int id = selection[0].internalId();
+		myModel->setRoot(id);
+	}
+}
+
+void EntryListView::goUp()
+{
+	EntryListModel *myModel = static_cast<EntryListModel *>(model());
+
+	if (myModel->rootId() == -1) return;
+	
+	QModelIndex idx(myModel->index(myModel->rootId()));
+	QModelIndex parent(myModel->realParent(idx));
+	int parentId = parent.isValid() ? parent.internalId() : -1;
+	
+	myModel->setRoot(parentId);
+}
+
+void EntryListView::onModelRootChanged(int rootId)
+{
+	_setAsRootAction.setEnabled(false);
+	_goUpAction.setEnabled(rootId != -1);
 }
