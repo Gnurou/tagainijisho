@@ -49,13 +49,6 @@
     <addaction name="separator"/>
     <addaction name="action_Quit"/>
    </widget>
-   <widget class="QMenu" name="_trainMenu">
-    <property name="title">
-     <string>&amp;Practice</string>
-    </property>
-    <addaction name="actionWhole_study_list_train_settings"/>
-    <addaction name="separator"/>
-   </widget>
    <widget class="QMenu" name="_helpMenu">
     <property name="title">
      <string>&amp;Help</string>
@@ -69,7 +62,7 @@
    </widget>
    <widget class="QMenu" name="_setsMenu">
     <property name="title">
-     <string>&amp;Sets</string>
+     <string>S&amp;ets</string>
     </property>
     <addaction name="action_New_set_from_current_search"/>
     <addaction name="action_New_sets_folder"/>
@@ -81,6 +74,13 @@
      <string>&amp;Search</string>
     </property>
     <addaction name="actionFocus_text_search"/>
+   </widget>
+   <widget class="QMenu" name="_trainMenu">
+    <property name="title">
+     <string>P&amp;ractice</string>
+    </property>
+    <addaction name="actionWhole_study_list_train_settings"/>
+    <addaction name="separator"/>
    </widget>
    <addaction name="_fileMenu"/>
    <addaction name="_searchMenu"/>
