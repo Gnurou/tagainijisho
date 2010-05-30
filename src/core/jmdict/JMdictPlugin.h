@@ -29,7 +29,6 @@ class JMdictPlugin : public Plugin
 {
 private:
 	QString _dictVersion;
-	QString getDBFile() const;
 	JMdictEntrySearcher *searcher;
 	// Associates entities shift with their short and long descriptions
 	static QVector<QPair<QString, QString> > _posEntities;

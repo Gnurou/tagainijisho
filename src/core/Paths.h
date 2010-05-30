@@ -20,16 +20,26 @@
 
 #include <QString>
 
+#define _QUOTEMACRO(x) #x
+#define QUOTEMACRO(x) _QUOTEMACRO(x)
+
 extern QString __userProfile;
 inline const QString& userProfile()
 {
 	return __userProfile;
 }
 
-#define _QUOTEMACRO(x) #x
-#define QUOTEMACRO(x) _QUOTEMACRO(x)
+/**
+ * Searches in the standard paths for a file that matches, and
+ * return its absolute path if found, or an empty string if no
+ * matching file exist. Paths are scanned in this order:
+ * - The current directory,
+ * - The data prefix, if set,
+ * - The binary path,
+ * - The ressources of the binary,
+ *
+ * This routine should be used whenever external data files are needed.
+ */
+QString lookForFile(const QString &name);
 
-#ifdef PREFIX
-#define DATAPREFIX PREFIX/share/tagainijisho
-#endif
 #endif

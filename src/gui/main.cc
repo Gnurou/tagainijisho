@@ -199,12 +199,14 @@ int main(int argc, char *argv[])
 		locale = settings.value("locale", QLocale::system().name().left(2)).toString();
 	}
 	QLocale::setDefault(QLocale(locale));
+	
+	// Now try to load additional translation files
 	QTranslator appTranslator;
 	QTranslator qtTranslator;
-	if (appTranslator.load(":/i18n/tagainijisho_" + locale)) app.installTranslator(&appTranslator);
-	if (qtTranslator.load(QDir(QLibraryInfo::location(QLibraryInfo::TranslationsPath)).absoluteFilePath(QString("qt_%1").arg(locale)))) {
-		app.installTranslator(&qtTranslator);
-	}
+	// Load the translation for Tagaini
+	if (appTranslator.load(lookForFile("i18n/tagainijisho_" + locale + ".qm"))) app.installTranslator(&appTranslator);
+	// Load the translations for Qt
+	if (qtTranslator.load(QDir(QLibraryInfo::location(QLibraryInfo::TranslationsPath)).absoluteFilePath(QString("qt_%1").arg(locale))) || qtTranslator.load(lookForFile(QString("i18n/qt_%1.qm").arg(locale)))) app.installTranslator(&qtTranslator);
 
 	checkUserProfileDirectory();
 

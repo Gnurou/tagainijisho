@@ -13,4 +13,3 @@ target_link_libraries(build_jmdict_db tagaini_sqlite tagaini_core ${QT_LIBRARIES
 if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 set(extra_link_flags "-bind_at_load")
 endif()
-

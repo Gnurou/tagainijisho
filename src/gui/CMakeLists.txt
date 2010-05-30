@@ -161,3 +161,9 @@ install(TARGETS tagainijisho RUNTIME DESTINATION bin)
 endif()
 target_link_libraries(tagainijisho tagaini_core tagaini_sqlite ${QT_LIBRARIES} ${extra_link_flags})
 
+
+# HTML export template
+install(FILES ${CMAKE_SOURCE_DIR}/src/gui/export_template.html DESTINATION share/tagainijisho PERMISSIONS OWNER_READ GROUP_READ WORLD_READ)
+# i18n files
+file(GLOB i18nfiles ${CMAKE_SOURCE_DIR}/i18n/*.qm)
+install(FILES ${i18nfiles} DESTINATION share/tagainijisho/i18n PERMISSIONS OWNER_READ GROUP_READ WORLD_READ)

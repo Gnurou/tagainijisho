@@ -4,4 +4,5 @@
 #cmakedefine DATA_DIR ${DATA_DIR}
 
 #cmakedefine DEBUG_ENTRIES_CACHE ${DEBUG_ENTRIES_CACHE}
+#cmakedefine DEBUG_PATHS ${DEBUG_PATHS}
 #endif

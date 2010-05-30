@@ -46,7 +46,7 @@ QString Kanjidic2Plugin::pluginInfo() const
 bool Kanjidic2Plugin::onRegister()
 {
 	// First connect our table to the database
-	QString dbFile = getDBFile();
+	QString dbFile = lookForFile("kanjidic2.db");
 	if (!Database::attachDictionaryDB(dbFile, "kanjidic2", KANJIDIC2DB_REVISION)) {
 		qFatal("kanjidic2 plugin fatal error: failed to attach Kanjidic2 database!");
 		return false;
@@ -76,21 +76,4 @@ bool Kanjidic2Plugin::onUnregister()
 	if (!Database::detachDictionaryDB("kanjidic2")) return false;
 
 	return true;
-}
-
-QString Kanjidic2Plugin::getDBFile() const
-{
-	// Look in the current directory
-	QFile dbFile("kanjidic2.db");
-#ifdef DATA_DIR
-	// Otherwise, check for the default installation prefix, if set
-	if (!dbFile.exists()) dbFile.setFileName(QDir(QUOTEMACRO(DATA_DIR)).filePath("kanjidic2.db"));
-#endif
-	// Still no clue, then look in the binary directory
-	if (!dbFile.exists()) dbFile.setFileName(QDir(QCoreApplication::applicationDirPath()).filePath("kanjidic2.db"));
-	if (!dbFile.exists()) {
-		qFatal("kanjidic2 plugin fatal error: failed to find Kanjidic2 database!");
-		return "";
-	}
-	return dbFile.fileName();
 }

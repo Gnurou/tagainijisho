@@ -266,7 +266,7 @@ errorOccured:
 bool JMdictPlugin::onRegister()
 {
 	// First attach our database
-	QString dbFile = getDBFile();
+	QString dbFile = lookForFile("jmdict.db");
 	if (!Database::attachDictionaryDB(dbFile, "jmdict", JMDICTDB_REVISION)) {
 		qFatal("JMdict plugin fatal error: failed to attach JMdict database!");
 		return false;
@@ -329,21 +329,4 @@ bool JMdictPlugin::onUnregister()
 	if (!Database::detachDictionaryDB("jmdict")) return false;
 
 	return true;
-}
-
-QString JMdictPlugin::getDBFile() const
-{
-	// Look in the current directory
-	QFile dbFile("jmdict.db");
-#ifdef DATA_DIR
-	// Otherwise, check for the default installation prefix, if set	
-	if (!dbFile.exists()) dbFile.setFileName(QDir(QUOTEMACRO(DATA_DIR)).filePath("jmdict.db"));
-#endif
-	// Still no clue, then look in the binary directory
-	if (!dbFile.exists()) dbFile.setFileName(QDir(QCoreApplication::applicationDirPath()).filePath("jmdict.db"));
-	if (!dbFile.exists()) {
-		qFatal("jmdict plugin fatal error: failed to find JMdict database!");
-		return "";
-	}
-	return dbFile.fileName();
 }

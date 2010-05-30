@@ -5,6 +5,7 @@ add_subdirectory(kanjidic2)
 
 set(tagainijisho_core_SRCS
 TextTools.cc
+Paths.cc
 Database.cc
 QueryBuilder.cc
 Query.cc

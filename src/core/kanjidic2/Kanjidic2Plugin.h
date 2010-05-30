@@ -29,7 +29,6 @@ private:
 	QString _kanjidic2Version;
 	QString _kanjiVGVersion;
 	Kanjidic2EntrySearcher *searcher;
-	QString getDBFile() const;
 
 public:
 	Kanjidic2Plugin();

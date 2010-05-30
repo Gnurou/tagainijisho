@@ -15,6 +15,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "core/Paths.h"
 #include "gui/EntriesViewHelper.h"
 #include "gui/EntryMenu.h"
 #include "gui/EditEntryNotesDialog.h"
@@ -373,7 +374,7 @@ void EntriesViewHelper::jsExport()
 		realEntries << entry;
 	}
 	
-	QFile tmplFile(":/images/export_template.html");
+	QFile tmplFile(lookForFile("export_template.html"));
 	if (!tmplFile.open(QIODevice::ReadOnly)) {
 		QMessageBox::warning(0, tr("Cannot open template file"), QString(tr("Unable to open template file!")).arg(exportFile));
 		return;

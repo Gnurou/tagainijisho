@@ -20,7 +20,9 @@ if(CMAKE_SYSTEM_NAME MATCHES "Linux")
 	endif(NOT DATA_DIR)
 endif()
 
-option(DEBUG_ENTRIES_CACHE "Print entries cache behavior" OFF)
+# Debug options
+option(DEBUG_ENTRIES_CACHE "Debug entries cache behavior" OFF)
+option(DEBUG_PATHS "Debug files lookup" OFF)
 
 configure_file(${CMAKE_SOURCE_DIR}/src/tagaini_config.h.cmake ${CMAKE_BINARY_DIR}/src/tagaini_config.h)
 # For config.h
