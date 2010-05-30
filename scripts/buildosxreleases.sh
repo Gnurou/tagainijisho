@@ -4,6 +4,15 @@ BUNDLEPATH=build/src/gui
 
 # Include and re-link the Qt libraries in the bundle
 macdeployqt $BUNDLEPATH/tagainijisho.app
+# Include HTML export template
+cp src/gui/export_template.html $BUNDLEPATH/tagainijisho.app/Contents/
+# Include Tagaini translations
+mkdir $BUNDLEPATH/tagainijisho.app/Contents/i18n
+cp i18n/tagainijisho_fr.qm $BUNDLEPATH/tagainijisho.app/Contents/i18n
+cp i18n/tagainijisho_de.qm $BUNDLEPATH/tagainijisho.app/Contents/i18n
+cp i18n/tagainijisho_en.qm $BUNDLEPATH/tagainijisho.app/Contents/i18n
+cp i18n/tagainijisho_ru.qm $BUNDLEPATH/tagainijisho.app/Contents/i18n
+cp i18n/tagainijisho_nl.qm $BUNDLEPATH/tagainijisho.app/Contents/i18n
 # Include Qt translations
 echo "Translations = Translations" >> $BUNDLEPATH/tagainijisho.app/Contents/Resources/qt.conf
 mkdir $BUNDLEPATH/tagainijisho.app/Contents/Translations
@@ -11,6 +20,7 @@ cp /Developer/Applications/Qt/translations/qt_fr.qm $BUNDLEPATH/tagainijisho.app
 cp /Developer/Applications/Qt/translations/qt_de.qm $BUNDLEPATH/tagainijisho.app/Contents/Translations
 cp /Developer/Applications/Qt/translations/qt_es.qm $BUNDLEPATH/tagainijisho.app/Contents/Translations
 cp /Developer/Applications/Qt/translations/qt_ru.qm $BUNDLEPATH/tagainijisho.app/Contents/Translations
+cp /Developer/Applications/Qt/translations/qt_nl.qm $BUNDLEPATH/tagainijisho.app/Contents/Translations
 # The .plist file correctly sets the application name in the mac menu
 cp scripts/Info.plist $BUNDLEPATH/tagainijisho.app/Contents
 # Remove unneeded Qt stuff
