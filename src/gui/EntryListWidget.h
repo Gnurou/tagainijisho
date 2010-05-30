@@ -32,7 +32,10 @@ public:
 	virtual QString name() const { return "lists"; }
 	virtual QString currentTitle() const { return tr("Lists"); }
 	virtual QString currentCommand() const { return ""; }
-	EntryListView *entryListView() const { return lists; }
+	EntryListView *entryListView() const { return _lists; }
+
+public slots:
+	void onModelRootChanged(int rootId);
 };
 
 #endif

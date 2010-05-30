@@ -15,6 +15,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "core/EntryListModel.h"
 #include "gui/EntryListWidget.h"
 
 #include <QToolButton>
@@ -22,6 +23,10 @@
 EntryListWidget::EntryListWidget(QWidget *parent) : SearchFilterWidget(parent)
 {
 	setupUi(this);
+	_titleLabel->setVisible(false);
+	QFont titleFont;
+	titleFont.setPointSize(titleFont.pointSize() + 2);
+	_titleLabel->setFont(titleFont);
 	
 	QToolBar *_toolBar = new QToolBar(this);
 	_toolBar->setAttribute(Qt::WA_MacMiniSize);
@@ -30,7 +35,7 @@ EntryListWidget::EntryListWidget(QWidget *parent) : SearchFilterWidget(parent)
 
 	QToolButton *menuButton = new QToolButton(this);
 	menuButton->setIcon(QIcon(":/images/icons/list-add.png"));
-	menuButton->setMenu(lists->helper()->entriesMenu());
+	menuButton->setMenu(entryListView()->helper()->entriesMenu());
 	menuButton->setPopupMode(QToolButton::InstantPopup);
 	menuButton->setAutoRaise(true);
 	_toolBar->addWidget(menuButton);
@@ -40,4 +45,19 @@ EntryListWidget::EntryListWidget(QWidget *parent) : SearchFilterWidget(parent)
 	_toolBar->addAction(entryListView()->deleteSelectionAction());
 	
 	vLayout->insertWidget(0, _toolBar);
+	
+	connect(entryListView(), SIGNAL(rootHasChanged(int)), this, SLOT(onModelRootChanged(int)));
+}
+
+void EntryListWidget::onModelRootChanged(int rootId)
+{
+	if (rootId == -1) {
+		_titleLabel->setText("");
+		_titleLabel->setVisible(false);
+	} else {
+		EntryListModel *model = static_cast<EntryListModel *>(entryListView()->model());
+		QModelIndex idx(model->index(rootId));
+		_titleLabel->setText(idx.data(Qt::DisplayRole).toString());
+		_titleLabel->setVisible(true);
+	}
 }

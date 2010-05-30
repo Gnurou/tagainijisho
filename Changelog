@@ -12,6 +12,7 @@
   mobile phones
 * Translation files now available as external files to ease testing and
   replacement of translations
+* Lists now navigable
 
 0.2.5 released on 2010/04/01
 * Updated to SQLite 3.6.23

@@ -18,7 +18,14 @@
     <number>0</number>
    </property>
    <item>
-    <widget class="EntryListView" name="lists">
+    <widget class="QLabel" name="_titleLabel">
+     <property name="text">
+      <string>Test test</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="EntryListView" name="_lists">
      <property name="acceptDrops">
       <bool>true</bool>
      </property>

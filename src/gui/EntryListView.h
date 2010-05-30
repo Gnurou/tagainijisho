@@ -74,6 +74,8 @@ public slots:
 signals:
 	void selectionHasChanged(const QItemSelection &selected, const QItemSelection &deselected);
 	void entrySelected(const EntryPointer &entry);
+	/// Propagates the same signal from the model
+	void rootHasChanged(int rowIndex);
 };
 
 #endif

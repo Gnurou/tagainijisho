@@ -71,11 +71,11 @@ EntryListView::EntryListView(QWidget *parent, EntryDelegateLayout* delegateLayou
 void EntryListView::setModel(QAbstractItemModel *newModel)
 {
 	QAbstractItemModel *oldModel = model();
-	if (oldModel) disconnect(oldModel, SIGNAL(rootHasChanged(int)), this, SLOT(onModelRootChanged(int)));
+	if (oldModel && oldModel->metaObject()->indexOfSignal(QMetaObject::normalizedSignature(SIGNAL(rootHasChanged(int))).constData() + 1) != -1) disconnect(oldModel, SIGNAL(rootHasChanged(int)), this, SLOT(onModelRootChanged(int)));
 	QTreeView::setModel(newModel);
 	_setAsRootAction.setEnabled(false);
 	_goUpAction.setEnabled(false);
-	if (newModel) connect(newModel, SIGNAL(rootHasChanged(int)), this, SLOT(onModelRootChanged(int)));
+	if (newModel && newModel->metaObject()->indexOfSignal(QMetaObject::normalizedSignature(SIGNAL(rootHasChanged(int))).constData() + 1) != -1) connect(newModel, SIGNAL(rootHasChanged(int)), this, SLOT(onModelRootChanged(int)));
 }
 
 void EntryListView::setSmoothScrolling(bool value)
@@ -160,7 +160,8 @@ void EntryListView::setSelectedAsRoot()
 {
 	QModelIndexList selection(selectionModel()->selectedIndexes());
 	if (!selection.isEmpty() && selection.size() == 1) {
-		EntryListModel *myModel = static_cast<EntryListModel *>(model());
+		EntryListModel *myModel = qobject_cast<EntryListModel *>(model());
+		if (!myModel) return;
 		int id = selection[0].internalId();
 		myModel->setRoot(id);
 	}
@@ -168,10 +169,9 @@ void EntryListView::setSelectedAsRoot()
 
 void EntryListView::goUp()
 {
-	EntryListModel *myModel = static_cast<EntryListModel *>(model());
+	EntryListModel *myModel = qobject_cast<EntryListModel *>(model());
+	if (!myModel || myModel->rootId() == -1) return;
 
-	if (myModel->rootId() == -1) return;
-	
 	QModelIndex idx(myModel->index(myModel->rootId()));
 	QModelIndex parent(myModel->realParent(idx));
 	int parentId = parent.isValid() ? parent.internalId() : -1;
@@ -183,4 +183,5 @@ void EntryListView::onModelRootChanged(int rootId)
 {
 	_setAsRootAction.setEnabled(false);
 	_goUpAction.setEnabled(rootId != -1);
+	emit rootHasChanged(rootId);
 }
