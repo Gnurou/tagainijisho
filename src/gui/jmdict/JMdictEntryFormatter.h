@@ -49,7 +49,7 @@ public:
 	virtual void detailedVersionPart1(const ConstEntryPointer &entry, QTextCursor &cursor, DetailedView *view) const;
 	virtual void detailedVersionPart2(const ConstEntryPointer &entry, QTextCursor &cursor, DetailedView *view) const;
 	virtual void draw(const ConstEntryPointer &entry, QPainter &painter, const QRectF &rectangle, QRectF &usedSpace, const QFont &textFont = QFont()) const { drawCustom(entry, painter, rectangle, usedSpace, textFont); }
-	void drawCustom(const ConstEntryPointer &entry, QPainter &painter, const QRectF &rectangle, QRectF &usedSpace, const QFont &textFont = QFont(), int headerPrintSize = JMdictEntryFormatter::headerPrintSize.defaultValue(), bool printKanjis = JMdictEntryFormatter::printKanjis.defaultValue(), bool printOnlyStudiedKanjis = JMdictEntryFormatter::printOnlyStudiedKanjis.defaultValue(), int maxDefinitionsToPrint = JMdictEntryFormatter::maxDefinitionsToPrint.defaultValue()) const;
+	void drawCustom(const ConstEntryPointer &entry, QPainter &painter, const QRectF &rectangle, QRectF &usedSpace, const QFont &textFont = QFont(), int headerPrintSize = headerPrintSize.defaultValue(), bool printKanjis = printKanjis.defaultValue(), bool printOnlyStudiedKanjis = printOnlyStudiedKanjis.defaultValue(), int maxDefinitionsToPrint = maxDefinitionsToPrint.defaultValue()) const;
 
 	static const QString queryFindVerbBuddySql;
 	static const QString queryFindHomonymsSql;
