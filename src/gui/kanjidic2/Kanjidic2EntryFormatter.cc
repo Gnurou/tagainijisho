@@ -70,6 +70,8 @@ PreferenceItem<bool> Kanjidic2EntryFormatter::printComponents("kanjidic", "print
 PreferenceItem<bool> Kanjidic2EntryFormatter::printOnlyStudiedComponents("kanjidic", "printOnlyStudiedComponents", false);
 PreferenceItem<int> Kanjidic2EntryFormatter::maxWordsToPrint("kanjidic", "maxWordsToPrint", 5);
 PreferenceItem<bool> Kanjidic2EntryFormatter::printOnlyStudiedVocab("kanjidic", "printOnlyStudiedVocab", false);
+PreferenceItem<bool> Kanjidic2EntryFormatter::printStrokesNumbers("kanjidic", "printStrokesNumbers", false);
+PreferenceItem<int> Kanjidic2EntryFormatter::strokesNumbersSize("kanjidic", "strokesNumbersSize", 6);
 
 QString Kanjidic2EntryFormatter::getQueryUsedInWordsSql(int kanji, int limit, bool onlyStudied)
 {
@@ -366,7 +368,7 @@ void Kanjidic2EntryFormatter::draw(const ConstEntryPointer &entry, QPainter &pai
 	drawCustom(entry.staticCast<const Kanjidic2Entry>(), painter, rectangle, usedSpace, textFont);
 }
 
-void Kanjidic2EntryFormatter::drawCustom(const ConstKanjidic2EntryPointer &entry, QPainter &painter, const QRectF &rectangle, QRectF &usedSpace, const QFont &textFont, int printSize, bool printWithFont, bool printMeanings, bool printOnyomi, bool printKunyomi, bool printComponents, bool printOnlyStudiedComponents, int maxWordsToPrint, bool printOnlyStudiedVocab) const
+void Kanjidic2EntryFormatter::drawCustom(const ConstKanjidic2EntryPointer& entry, QPainter& painter, const QRectF& rectangle, QRectF& usedSpace, const QFont& textFont, int printSize, bool printWithFont, bool printMeanings, bool printOnyomi, bool printKunyomi, bool printComponents, bool printOnlyStudiedComponents, int maxWordsToPrint, bool printOnlyStudiedVocab, bool printStrokesNumbers, int printStrokesNumbersSize) const
 {
 	QFont kanjiFont;
 	kanjiFont.setPointSizeF(textFont.pointSize() * 5);
@@ -410,6 +412,20 @@ void Kanjidic2EntryFormatter::drawCustom(const ConstKanjidic2EntryPointer &entry
 		painter.drawText(leftArea, Qt::AlignHCenter | Qt::AlignTop, entry->kanji());
 		painter.restore();
 	}
+	
+	if (printStrokesNumbers) {
+		KanjiRenderer renderer(entry);
+		painter.save();
+		painter.translate((leftArea.width() - printSize) / 2.0, 0.0);
+		painter.scale(printSize / 109.0, printSize / 109.0);
+		painter.setRenderHint(QPainter::Antialiasing);
+
+		foreach (const KanjiStroke &stroke, entry->strokes()) {
+			renderer.renderStrokeNumber(stroke, &painter, printStrokesNumbersSize);
+		}
+		painter.restore();
+	}
+
 	leftArea.setTop(textBB.bottom());
 
 	if (printComponents) {
@@ -432,7 +448,7 @@ void Kanjidic2EntryFormatter::drawCustom(const ConstKanjidic2EntryPointer &entry
 			leftArea.setTop(textBB.bottom());
 		}
 	}
-
+	
 	QRectF rightArea = rectangle;
 	QString str;
 	rightArea.setTopLeft(QPointF(rectangle.left() + leftArea.width() + leftArea.width() / 20.0, rectangle.top()));

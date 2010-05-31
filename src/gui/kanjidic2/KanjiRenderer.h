@@ -56,6 +56,8 @@ public:
 		 * stroke (if length < 0).
 		 */
 		void render(QPainter *painter, qreal length = -1) const;
+		
+		bool operator ==(const Stroke &s) { return this == &s; }
 	};
 
 private:
@@ -84,6 +86,10 @@ public:
 	 * Render a single stroke of the kanji.
 	 */
 	void renderStroke(const KanjiStroke &stroke, QPainter *painter);
+	/**
+	 * Render the stroke number.
+	 */
+	void renderStrokeNumber(const KanjiStroke& stroke, QPainter* painter, qreal baseSize = 4);
 	/**
 	 * Render only a part of the stroke given as argument. The length
 	 * should be comprised between 0 and the value returned by strokeLength.

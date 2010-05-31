@@ -34,6 +34,8 @@ Kanjidic2Preferences::Kanjidic2Preferences(QWidget *parent) : PreferencesWindowC
 	connect(maxWordsPrint, SIGNAL(valueChanged(int)), this, SLOT(updatePrintPreview()));
 	connect(fontButton, SIGNAL(toggled(bool)), this, SLOT(updatePrintPreview()));
 	connect(printOnlyStudiedVocab, SIGNAL(toggled(bool)), this, SLOT(updatePrintPreview()));
+	connect(printStrokesNumbersButton, SIGNAL(toggled(bool)), this, SLOT(updatePrintPreview()));
+	connect(printStrokesNumbersSize, SIGNAL(valueChanged(int)), SLOT(updatePrintPreview()));
 	previewLabel->installEventFilter(this);
 
 	connect(printComponents, SIGNAL(toggled(bool)), printOnlyStudiedComponents, SLOT(setEnabled(bool)));
@@ -51,6 +53,8 @@ Kanjidic2Preferences::Kanjidic2Preferences(QWidget *parent) : PreferencesWindowC
 	connect(animSpeedSlider, SIGNAL(valueChanged(int)), _player, SLOT(setAnimationSpeed(int)));
 	connect(animDelaySlider, SIGNAL(valueChanged(int)), _player, SLOT(setDelayBetweenStrokes(int)));
 	connect(animationLoopDelay, SIGNAL(valueChanged(int)), _player, SLOT(setAnimationLoopDelay(int)));
+	connect(showStrokesNumbersButton, SIGNAL(toggled(bool)), _player, SLOT(setShowStrokesNumbers(bool)));
+	connect(showStrokesNumbersSize, SIGNAL(valueChanged(int)), _player, SLOT(setStrokesNumbersSize(int)));
 	animationLayout->addWidget(_player, 0, Qt::AlignVCenter);
 	_player->installEventFilter(this);
 
@@ -95,6 +99,8 @@ void Kanjidic2Preferences::refresh()
 	printComponents->setChecked(Kanjidic2EntryFormatter::printComponents.value());
 	printOnlyStudiedComponents->setChecked(Kanjidic2EntryFormatter::printOnlyStudiedComponents.value());
 	maxWordsPrint->setValue(Kanjidic2EntryFormatter::maxWordsToPrint.value());
+	printStrokesNumbersButton->setChecked(Kanjidic2EntryFormatter::printStrokesNumbers.value());
+	printStrokesNumbersSize->setValue(Kanjidic2EntryFormatter::strokesNumbersSize.value());
 	if (Kanjidic2EntryFormatter::printWithFont.value()) fontButton->setChecked(true);
 	else handWritingButton->setChecked(true);
 	printOnlyStudiedVocab->setChecked(Kanjidic2EntryFormatter::printOnlyStudiedVocab.value());
@@ -105,6 +111,8 @@ void Kanjidic2Preferences::refresh()
 	animDelaySlider->setValue(KanjiPlayer::delayBetweenStrokes.value());
 	animDelayDefault->setChecked(KanjiPlayer::delayBetweenStrokes.isDefault());
 	showGrid->setChecked(KanjiPlayer::showGridPref.value());
+	showStrokesNumbersButton->setChecked(KanjiPlayer::showStrokesNumbersPref.value());
+	showStrokesNumbersSize->setValue(KanjiPlayer::strokesNumbersSizePref.value());
 	autoStartAnim->setChecked(KanjiPopup::autoStartAnim.value());
 	animationLoopDelay->setValue(KanjiPlayer::animationLoopDelay.value());
 
@@ -151,6 +159,8 @@ void Kanjidic2Preferences::applySettings()
 	Kanjidic2EntryFormatter::maxWordsToPrint.set(maxWordsPrint->value());
 	Kanjidic2EntryFormatter::printWithFont.set(fontButton->isChecked());
 	Kanjidic2EntryFormatter::printOnlyStudiedVocab.set(printOnlyStudiedVocab->isChecked());
+	Kanjidic2EntryFormatter::printStrokesNumbers.set(printStrokesNumbersButton->isChecked());
+	Kanjidic2EntryFormatter::strokesNumbersSize.set(printStrokesNumbersSize->value());
 
 	KanjiPopup::animationSize.set(animSize->value());
 	if (animSpeedDefault->isChecked()) KanjiPlayer::animationSpeed.reset();
@@ -158,6 +168,8 @@ void Kanjidic2Preferences::applySettings()
 	if (animDelayDefault->isChecked()) KanjiPlayer::delayBetweenStrokes.reset();
 	else KanjiPlayer::delayBetweenStrokes.set(animDelaySlider->value());
 	KanjiPlayer::showGridPref.set(showGrid->isChecked());
+	KanjiPlayer::showStrokesNumbersPref.set(showStrokesNumbersButton->isChecked());
+	KanjiPlayer::strokesNumbersSizePref.set(showStrokesNumbersSize->value());
 	KanjiPopup::autoStartAnim.set(autoStartAnim->isChecked());
 	KanjiPlayer::animationLoopDelay.set(animationLoopDelay->value());
 }
@@ -198,7 +210,7 @@ void Kanjidic2Preferences::updatePrintPreview()
 	const Kanjidic2EntryFormatter *formatter = static_cast<const Kanjidic2EntryFormatter *>(EntryFormatter::getFormatter(previewEntry));
 	QPainter painter(&previewPic);
 	QRectF usedSpace;
-	formatter->drawCustom(previewEntry, painter, QRectF(0, 0, printPreviewScrollArea->viewport()->contentsRect().width() - 20, 300), usedSpace, QFont(), kanjiPrintSize->value(), fontButton->isChecked(), printMeanings->isChecked(), printOnyomi->isChecked(), printKunyomi->isChecked(), printComponents->isChecked(), printOnlyStudiedComponents->isChecked(), maxWordsPrint->value(), printOnlyStudiedVocab->isChecked());
+	formatter->drawCustom(previewEntry, painter, QRectF(0, 0, printPreviewScrollArea->viewport()->contentsRect().width() - 20, 300), usedSpace, QFont(), kanjiPrintSize->value(), fontButton->isChecked(), printMeanings->isChecked(), printOnyomi->isChecked(), printKunyomi->isChecked(), printComponents->isChecked(), printOnlyStudiedComponents->isChecked(), maxWordsPrint->value(), printOnlyStudiedVocab->isChecked(), printStrokesNumbersButton->isChecked(), printStrokesNumbersSize->value());
 	previewPic.setBoundingRect(usedSpace.toRect());
 	previewLabel->clear();
 	previewLabel->setPicture(previewPic);

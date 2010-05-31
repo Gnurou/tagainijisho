@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>562</width>
-    <height>435</height>
+    <height>484</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -320,6 +320,49 @@
             </item>
            </layout>
           </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_9">
+            <item>
+             <widget class="QCheckBox" name="printStrokesNumbersButton">
+              <property name="text">
+               <string>Show stroke numbers</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="label_8">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="text">
+               <string>Size:</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QSpinBox" name="printStrokesNumbersSize">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
+              <property name="suffix">
+               <string>px</string>
+              </property>
+              <property name="minimum">
+               <number>3</number>
+              </property>
+              <property name="value">
+               <number>6</number>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
          </layout>
         </widget>
        </item>
@@ -345,8 +388,8 @@
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>496</width>
-               <height>136</height>
+               <width>497</width>
+               <height>146</height>
               </rect>
              </property>
              <layout class="QVBoxLayout" name="verticalLayout_7">
@@ -510,7 +553,10 @@
          <item>
           <layout class="QVBoxLayout" name="verticalLayout">
            <item>
-            <layout class="QGridLayout" name="gridLayout_3">
+            <layout class="QFormLayout" name="formLayout">
+             <property name="fieldGrowthPolicy">
+              <enum>QFormLayout::ExpandingFieldsGrow</enum>
+             </property>
              <item row="0" column="0">
               <widget class="QLabel" name="label_6">
                <property name="text">
@@ -586,6 +632,26 @@
                 </widget>
                </item>
               </layout>
+             </item>
+             <item row="4" column="0">
+              <widget class="QCheckBox" name="showStrokesNumbersButton">
+               <property name="text">
+                <string>Show numbers</string>
+               </property>
+              </widget>
+             </item>
+             <item row="4" column="1">
+              <widget class="QSpinBox" name="showStrokesNumbersSize">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+               <property name="suffix">
+                <string>px</string>
+               </property>
+               <property name="minimum">
+                <number>3</number>
+               </property>
+              </widget>
              </item>
              <item row="3" column="1">
               <widget class="QCheckBox" name="showGrid">
@@ -723,6 +789,8 @@
   <tabstop>handWritingButton</tabstop>
   <tabstop>fontButton</tabstop>
   <tabstop>kanjiPrintSize</tabstop>
+  <tabstop>printStrokesNumbersButton</tabstop>
+  <tabstop>printStrokesNumbersSize</tabstop>
   <tabstop>printPreviewScrollArea</tabstop>
   <tabstop>kanjiTooltipEnabled</tabstop>
   <tabstop>tooltipShowScore</tabstop>
@@ -739,11 +807,62 @@
   <tabstop>animDelayDefault</tabstop>
   <tabstop>animDelaySlider</tabstop>
   <tabstop>showGrid</tabstop>
+  <tabstop>showStrokesNumbersButton</tabstop>
+  <tabstop>showStrokesNumbersSize</tabstop>
   <tabstop>autoStartAnim</tabstop>
   <tabstop>animationLoopDelay</tabstop>
  </tabstops>
  <resources>
   <include location="../../../tagainijisho.qrc"/>
  </resources>
- <connections/>
+ <connections>
+  <connection>
+   <sender>printStrokesNumbersButton</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>printStrokesNumbersSize</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>239</x>
+     <y>256</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>323</x>
+     <y>256</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>printStrokesNumbersButton</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>label_8</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>250</x>
+     <y>249</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>274</x>
+     <y>251</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>showStrokesNumbersButton</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>showStrokesNumbersSize</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>140</x>
+     <y>156</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>173</x>
+     <y>157</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

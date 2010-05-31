@@ -35,8 +35,10 @@ PreferenceItem<int> KanjiPlayer::animationSpeed("kanjidic", "animationSpeed", 30
 PreferenceItem<int> KanjiPlayer::delayBetweenStrokes("kanjidic", "delayBetweenStrokes", 10);
 PreferenceItem<int> KanjiPlayer::animationLoopDelay("kanjidic", "animationLoopDelay", -1);
 PreferenceItem<bool> KanjiPlayer::showGridPref("kanjidic", "showStrokesGrid", false);
+PreferenceItem<bool> KanjiPlayer::showStrokesNumbersPref("kanjidic", "showStrokesNumbers", false);
+PreferenceItem<int> KanjiPlayer::strokesNumbersSizePref("kanjidic", "strokesNumbersSize", 4);
 
-KanjiPlayer::KanjiPlayer(QWidget *parent) : QWidget(parent), _timer(), _kanji(0), renderer(), _picture(), _state(STATE_STROKE), _showGrid(showGridPref.value()), _highlightedComponent(0)
+KanjiPlayer::KanjiPlayer(QWidget *parent) : QWidget(parent), _timer(), _kanji(0), renderer(), _picture(), _state(STATE_STROKE), _showGrid(showGridPref.value()), _showStrokesNumbers(showStrokesNumbersPref.value()), _strokesNumbersSize(strokesNumbersSizePref.value()), _highlightedComponent(0)
 {
 	setAnimationSpeed(animationSpeed.value());
 	setDelayBetweenStrokes(delayBetweenStrokes.value());
@@ -272,6 +274,13 @@ void KanjiPlayer::renderCurrentState()
 		if (highlightedComponent() && parent == highlightedComponent()) pen2.setColor(pen2.color().lighter(200));
 		painter.setPen(pen2);
 		currentStroke.render(&painter, _lengthCpt);
+	}
+	// Render stroke numbers
+	if (showStrokesNumbers()) {
+		int strokesMax = _strokesCpt + (_state == STATE_STROKE && _strokesCpt < renderer.strokes().size() ? 1 : 0);
+		for (int i = 0; i < strokesMax; i++) {
+			renderer.renderStrokeNumber(kStrokes[i], &painter, strokesNumbersSize());
+		}
 	}
 
 	painter.end();

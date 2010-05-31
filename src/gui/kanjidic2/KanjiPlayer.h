@@ -51,6 +51,8 @@ private:
 	int _state;
 	qreal _lengthCpt;
 	bool _showGrid;
+	bool _showStrokesNumbers;
+	int _strokesNumbersSize;
 	const KanjiComponent *_highlightedComponent;
 	QToolButton *playButton;
 	QToolButton *resetButton;
@@ -84,6 +86,8 @@ public:
 	void setPosition(int strokeNbr);
 	
 	bool showGrid() const { return _showGrid; }
+	bool showStrokesNumbers() const { return _showStrokesNumbers; }
+	int strokesNumbersSize() const { return _strokesNumbersSize; }
 	
 	QAction *playAction() { return _playAction; }
 	QAction *pauseAction() { return _pauseAction; }
@@ -95,11 +99,16 @@ public:
 	static PreferenceItem<int> delayBetweenStrokes;
 	static PreferenceItem<int> animationLoopDelay;
 	static PreferenceItem<bool> showGridPref;
+	static PreferenceItem<bool> showStrokesNumbersPref;
+	static PreferenceItem<int> strokesNumbersSizePref;
 
 public slots:
 	void setAnimationSpeed(int speed) { _animationSpeed = speed / 10.0; }
 	void setDelayBetweenStrokes(int delay) { _delayBetweenStrokes = delay; }
 	void setAnimationLoopDelay(int delay) { _animationLoopDelay = delay; }
+	void setShowGrid(bool show) { _showGrid = show; update(); }
+	void setShowStrokesNumbers(bool show) { _showStrokesNumbers = show; update(); }
+	void setStrokesNumbersSize(int size) { _strokesNumbersSize = size; update(); }
 
 	void highlightComponent(const KanjiComponent *component);
 	void unHighlightComponent();
@@ -110,7 +119,6 @@ public slots:
 	void reset();
 	void nextStroke();
 	void prevStroke();
-	void setShowGrid(bool show) { _showGrid = show; update(); }
 
 signals:
 	void animationStarted();
