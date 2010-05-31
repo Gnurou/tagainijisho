@@ -21,58 +21,71 @@
 <title>Flashcards</title>
 <style type="text/css">
 body {
-	height: 100%;
+	height: 90%;
+	padding: 0px;
 }
 
-.views {
+.menutrigger {
 	position: absolute;
+	right: 10px;
 	top: 0px;
-	font-size: 1em;
+	font-size: 2em;
 	margin: 0;
+}
+
+#views {
+	position: absolute;
+	right: 0px;
+	top: 0px;
+	font-size: 2em;
+	margin: 0;
+	display: none;
 	padding: 0 0 0 12px;
 }
 
-.views ul {
+#views ul {
 	list-style: none;
 	margin: 0;
 	padding: 0;
 	border: none;
 }
 
-.views li {
+#views li {
 	color: #444;
 	display: block;
 	text-decoration: none;
-	background: #DDDDDD;
+	background: #dddddd;
 	margin: 0;
 	padding: 2px 10px;
-	border-left: 1px solid #fff;
-	border-top: 1px solid #fff;
-	border-right: 1px solid #aaa;
-	display: block;
-	float: left;
+	border: 1px solid #fff;
+	border-bottom: 1px solid #aaa;
+	display: list-item;
 	width: auto;
 	cursor: pointer;
 }
 
-.views li:hover {
+#views li:hover {
 	background: #BBBBBB;
 }
 
 #main {
 	position: absolute;
-	top: 2em;
-	width: 100%;
+	margin: 0px;
+	padding: 0px;
 	height: 80%;
 }
 
 #list {
 	display: none;
+	font-size: 2em;
+	width: 100%;
 }
 
 .entriestab {
 	border: 1px solid black;
 	border-collapse: collapse;
+	margin: 0px;
+	padding: 0px;
 	width: 100%;
 }
 
@@ -82,10 +95,6 @@ body {
 
 .entriestab td {
 	padding: 15px;
-}
-
-.entriestab .writing {
-	font-size: 3em;
 }
 
 .entriestab .reading {
@@ -116,7 +125,7 @@ body {
 	font-size: 2em;
 }
 
-#card .writing {
+.writing {
 	font-size: 4em;
 }
 
@@ -257,6 +266,10 @@ function showTab(id)
 <body>
 <div id="main">
 
+<div class="menutrigger">
+<a href="#" onClick="document.getElementById('views').style.display = 'block'">x</a>
+</div>
+
 <div id="list">
 <h3>All entries</h3>
 <div id="listcontents" class="contents">
@@ -264,7 +277,7 @@ function showTab(id)
 <script>
 document.getElementById("listcontents").innerHTML = generateList();
 </script>
-</div>
+</div> <!-- list -->
 
 <div id="flashcards">
 <div id="card" onclick="flip()">
@@ -274,19 +287,19 @@ document.getElementById("listcontents").innerHTML = generateList();
 <div class="options">
 <label for="writingRB"><input type="radio" name="flashside" value="w" id="writingRB" onClick="startSide=0"/>Writing</label>
 <label for="meaningRB"><input type="radio" name="flashside" value="mr" checked="true" onClick="startSide=1" id="meaningRB"/>Meaning + reading</label>
-</div>
+</div> <!-- options -->
 <div class="controls">
 <input type="button" value="Start" onclick="start()"/>
 <input disabled type="button" id="nextButton" value="Next" onclick="next()"/>
-</div>
-</div>
+</div> <!-- controls -->
+</div> <!-- flashcards -->
 
-</div>
+</div> <!-- main -->
 
-<div class="views">
+<div id="views">
 <ul>
-<li onClick="showTab(0)">List</li>
-<li onClick="showTab(1)">Flashcards</li>
+<li onClick="showTab(0); document.getElementById('views').style.display = 'none'">List</li>
+<li onClick="showTab(1); document.getElementById('views').style.display = 'none'">Flashcards</li>
 </ul>
 </div>
 
