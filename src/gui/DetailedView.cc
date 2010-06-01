@@ -23,6 +23,8 @@
 #include "gui/MainWindow.h"
 // TODO and this one too
 #include "gui/TagsFilterWidget.h"
+// TODO and this one too!
+#include "gui/EntryListWidget.h"
 
 #include <QtDebug>
 
@@ -49,6 +51,7 @@ PreferenceItem<bool> DetailedView::smoothScrolling("mainWindow/detailedView", "s
 PreferenceItem<int> DetailedView::historySize("mainWindow/detailedView", "historySize", 1000);
 EntryMenuHandler DetailedView::_entryHandler;
 TagsLinkHandler DetailedView::_tagsLinkHandler;
+ListLinkHandler DetailedView::_listLinkHandler;
 QSet<QObject *> DetailedView::_eventFilters;
 QSet<DetailedView *> DetailedView::_instances;
 
@@ -69,6 +72,7 @@ DetailedView::DetailedView(QWidget *parent) : QTextBrowser(parent), _kanjisClick
 	// Add the default handlers if not already done (first instanciation)
 	if (!DetailedViewLinkManager::getHandler(_entryHandler.scheme())) DetailedViewLinkManager::registerHandler(&_entryHandler);
 	if (!DetailedViewLinkManager::getHandler(_tagsLinkHandler.scheme())) DetailedViewLinkManager::registerHandler(&_tagsLinkHandler);
+	if (!DetailedViewLinkManager::getHandler(_listLinkHandler.scheme())) DetailedViewLinkManager::registerHandler(&_listLinkHandler);
 	// Is the fonts manager instance already running?
 	if (!DetailedViewFonts::_instance) DetailedViewFonts::_instance = new DetailedViewFonts();
 	connect(DetailedViewFonts::_instance, SIGNAL(fontsHaveChanged()), this, SLOT(redisplay()));
@@ -181,6 +185,7 @@ void DetailedView::clear()
 		document()->addResource(QTextDocument::ImageResource, QUrl(url), QPixmap(imageFile));
 	}
 	document()->addResource(QTextDocument::ImageResource, QUrl("tagicon"), QPixmap(":/images/icons/tags.png"));
+	document()->addResource(QTextDocument::ImageResource, QUrl("listicon"), QPixmap(":/images/icons/list.png"));
 	document()->addResource(QTextDocument::ImageResource, QUrl("moreicon"), QPixmap(":/images/icons/zoom-in.png"));
 }
 
@@ -484,21 +489,29 @@ EntryMenuHandler::EntryMenuHandler() : DetailedViewLinkHandler("entry")
 {
 }
 
-EntryMenuHandler::~EntryMenuHandler()
-{
-}
-
 void EntryMenuHandler::handleUrl(const QUrl &url, DetailedView *view)
 {
 	EntryPointer entry(EntryRef(url.queryItemValue("type").toInt(), url.queryItemValue("id").toInt()).get());
 	if (entry) MainWindow::instance()->detailedView()->display(entry);
 }
 
-TagsLinkHandler::TagsLinkHandler() : DetailedViewLinkHandler("tag")
+ListLinkHandler::ListLinkHandler() : DetailedViewLinkHandler("list")
 {
 }
 
-TagsLinkHandler::~TagsLinkHandler()
+void ListLinkHandler::handleUrl(const QUrl &url, DetailedView *view)
+{
+	int rowId = url.queryItemValue("rowid").toInt();
+
+	QAbstractItemView *aView = MainWindow::instance()->entryListWidget()->entryListView();
+	EntryListModel *model = qobject_cast<EntryListModel *>(aView->model());
+	if (!model) return;
+	QModelIndex idx(model->index(rowId));
+	aView->selectionModel()->select(idx, QItemSelectionModel::ClearAndSelect);
+	aView->scrollTo(idx);
+}
+
+TagsLinkHandler::TagsLinkHandler() : DetailedViewLinkHandler("tag")
 {
 }
 

@@ -19,6 +19,7 @@
 
 #include "core/EntriesCache.h"
 #include "core/Preferences.h"
+#include "gui/DetailedView.h"
 
 #include <QPainter>
 #include <QTextCursor>
@@ -112,6 +113,18 @@ public:
 	virtual void draw(const ConstEntryPointer &entry, QPainter &painter, const QRectF &rectangle, QRectF &usedSpace, const QFont &textFont = QFont()) const;
 
 	static PreferenceItem<bool> shortDescShowJLPT;
+};
+
+class ShowListsJob : public DetailedViewJob {
+	Q_DECLARE_TR_FUNCTIONS(ShowUsedInJob)
+private:
+	QString _kanji;
+	bool _gotResult;
+public:
+	ShowListsJob(EntryRef entry, const QTextCursor &cursor);
+	virtual void firstResult();
+	virtual void result(EntryPointer entry);
+	virtual void completed();
 };
 
 #endif

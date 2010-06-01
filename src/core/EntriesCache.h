@@ -102,7 +102,7 @@ class EntryRef : protected QPair<quint8, quint32>
 public:
 	/// Constructs an invalid reference
 	EntryRef() : QPair<quint8, quint32>(0, 0) {}
-	EntryRef(const EntryPointer &entry) : QPair<quint8, quint32>(entry->type(), entry->id()) {}
+	EntryRef(const ConstEntryPointer &entry) : QPair<quint8, quint32>(entry->type(), entry->id()) {}
 	EntryRef(quint8 type, quint32 id) : QPair<quint8, quint32>(type, id) {}
 	bool isValid() const { return first != 0; }
 	quint8 type() const { return first; }

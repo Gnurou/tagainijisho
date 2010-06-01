@@ -174,7 +174,13 @@ class EntryMenuHandler : public DetailedViewLinkHandler
 {
 public:
 	EntryMenuHandler();
-	virtual ~EntryMenuHandler();
+	void handleUrl(const QUrl &url, DetailedView *view);
+};
+
+class ListLinkHandler : public DetailedViewLinkHandler
+{
+public:
+	ListLinkHandler();
 	void handleUrl(const QUrl &url, DetailedView *view);
 };
 
@@ -186,7 +192,6 @@ class TagsLinkHandler : public DetailedViewLinkHandler
 {
 public:
 	TagsLinkHandler();
-	virtual ~TagsLinkHandler();
 	void handleUrl(const QUrl &url, DetailedView *view);
 };
 
@@ -205,6 +210,7 @@ private:
 	static QSet<DetailedView *> _instances;
 	static EntryMenuHandler _entryHandler;
 	static TagsLinkHandler _tagsLinkHandler;
+	static ListLinkHandler _listLinkHandler;
 	bool _kanjisClickable;
 	bool _historyEnabled;
 	ScrollBarSmoothScroller _scroller;

@@ -58,8 +58,9 @@ void EntryFormatter::writeUserData(const ConstEntryPointer& entry, QTextCursor& 
 		cursor.setCharFormat(normal);
 		cursor.insertImage("tagicon");
 		bool first = true;
+		cursor.insertText(" ");
 		foreach(const Tag &tag, entry->tags()) {
-			if (!first) cursor.insertText("  ");
+			if (!first) cursor.insertText("   ");
 			else first = false;
 			QTextCharFormat linkFormat(normal);
 			linkFormat.setAnchor(true);
@@ -71,6 +72,29 @@ void EntryFormatter::writeUserData(const ConstEntryPointer& entry, QTextCursor& 
 	}
 
 	// Lists
+	QSqlQuery query;
+	query.prepare("select lists.rowid, listsLabels.label from lists join listsLabels on lists.parent = listsLabels.rowid where lists.type = ? and lists.id = ?");
+	query.addBindValue(entry->type());
+	query.addBindValue(entry->id());
+	query.exec();
+	if (query.next()) {
+		cursor.insertBlock(QTextBlockFormat());
+		cursor.setCharFormat(normal);
+		cursor.insertImage("listicon");
+		bool first = true;
+		cursor.insertText(" ");
+		do {
+			if (!first) cursor.insertText("   ");
+			else first = false;
+			QTextCharFormat linkFormat(normal);
+			linkFormat.setAnchor(true);
+			linkFormat.setAnchorHref(QString("list://?rowid=%1").arg(query.value(0).toInt()));
+			cursor.mergeCharFormat(linkFormat);
+			cursor.insertText(query.value(1).toString());
+			cursor.setCharFormat(normal);
+		} while (query.next());
+	}
+	//view->addBackgroundJob(new ShowListsJob(EntryRef(entry), cursor));
 	
 	//Notes
 	if (!entry->notes().isEmpty()) {
@@ -210,4 +234,21 @@ void EntryFormatter::writeEntryTitle(const ConstEntryPointer& entry, QTextCursor
 	if (!entry->writings().isEmpty()) title = entry->writings()[0];
 	else if (!entry->readings().isEmpty()) title = entry->readings()[0];
 	autoFormat(entry, title, cursor, scoreFormat);
+}
+
+
+ShowListsJob::ShowListsJob(EntryRef entry, const QTextCursor &cursor) : DetailedViewJob(QString("select lists.parent, listsLabels.label from lists join listsLabels on lists.parent = listsLabels.rowid where lists.type = %1 and lists.id = %2").arg(entry.type()).arg(entry.id()), cursor)
+{
+}
+
+void ShowListsJob::firstResult()
+{
+}
+
+void ShowListsJob::result(EntryPointer entry)
+{
+}
+
+void ShowListsJob::completed()
+{
 }

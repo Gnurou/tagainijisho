@@ -18,14 +18,14 @@
 #ifndef __CORE_ENTRY_H
 #define __CORE_ENTRY_H
 
-#include "core/Tag.h"
-
 #include <QColor>
 #include <QMetaType>
 #include <QDate>
 #include <QSet>
 #include <QObject>
 #include <QSharedPointer>
+
+#include "core/Tag.h"
 
 class Entry : public QObject, public QSharedData
 {
