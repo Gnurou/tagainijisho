@@ -72,6 +72,7 @@ PreferenceItem<int> Kanjidic2EntryFormatter::maxWordsToPrint("kanjidic", "maxWor
 PreferenceItem<bool> Kanjidic2EntryFormatter::printOnlyStudiedVocab("kanjidic", "printOnlyStudiedVocab", false);
 PreferenceItem<bool> Kanjidic2EntryFormatter::printStrokesNumbers("kanjidic", "printStrokesNumbers", false);
 PreferenceItem<int> Kanjidic2EntryFormatter::strokesNumbersSize("kanjidic", "strokesNumbersSize", 6);
+PreferenceItem<bool> Kanjidic2EntryFormatter::printGrid("kanjidic", "printStrokesGrid", false);
 
 QString Kanjidic2EntryFormatter::getQueryUsedInWordsSql(int kanji, int limit, bool onlyStudied)
 {
@@ -368,7 +369,7 @@ void Kanjidic2EntryFormatter::draw(const ConstEntryPointer &entry, QPainter &pai
 	drawCustom(entry.staticCast<const Kanjidic2Entry>(), painter, rectangle, usedSpace, textFont);
 }
 
-void Kanjidic2EntryFormatter::drawCustom(const ConstKanjidic2EntryPointer& entry, QPainter& painter, const QRectF& rectangle, QRectF& usedSpace, const QFont& textFont, int printSize, bool printWithFont, bool printMeanings, bool printOnyomi, bool printKunyomi, bool printComponents, bool printOnlyStudiedComponents, int maxWordsToPrint, bool printOnlyStudiedVocab, bool printStrokesNumbers, int printStrokesNumbersSize) const
+void Kanjidic2EntryFormatter::drawCustom(const ConstKanjidic2EntryPointer& entry, QPainter& painter, const QRectF& rectangle, QRectF& usedSpace, const QFont& textFont, int printSize, bool printWithFont, bool printMeanings, bool printOnyomi, bool printKunyomi, bool printComponents, bool printOnlyStudiedComponents, int maxWordsToPrint, bool printOnlyStudiedVocab, bool printStrokesNumbers, int printStrokesNumbersSize, bool printGrid) const
 {
 	QFont kanjiFont;
 	kanjiFont.setPointSizeF(textFont.pointSize() * 5);
@@ -384,6 +385,21 @@ void Kanjidic2EntryFormatter::drawCustom(const ConstKanjidic2EntryPointer& entry
 		kanjiFont.setPointSize(kanjiFont.pointSize() - 1);
 
 	QRectF textBB;
+	// Render the grid, if relevant
+	if (printGrid) {
+		KanjiRenderer renderer(entry);
+		painter.save();
+		QPen pen;
+		pen.setWidth(2);
+		pen.setColor(Qt::gray);
+		painter.setPen(pen);
+		painter.translate((leftArea.width() - printSize) / 2.0, 0.0);
+		painter.scale(printSize / 109.0, printSize / 109.0);
+		painter.setRenderHint(QPainter::Antialiasing);
+
+		renderer.renderGrid(&painter);
+		painter.restore();
+	}
 	// Draw the kanji
 	if (!printWithFont) {
 		//painter.setFont(kanjiFont);

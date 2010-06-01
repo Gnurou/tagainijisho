@@ -302,19 +302,30 @@
           <item>
            <layout class="QHBoxLayout" name="horizontalLayout_6">
             <item>
-             <widget class="QLabel" name="label_3">
-              <property name="text">
-               <string>Kanji header size:</string>
-              </property>
-             </widget>
+             <layout class="QFormLayout" name="formLayout_2">
+              <item row="0" column="0">
+               <widget class="QLabel" name="label_3">
+                <property name="text">
+                 <string>Kanji header size:</string>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="1">
+               <widget class="QSpinBox" name="kanjiPrintSize">
+                <property name="minimum">
+                 <number>1</number>
+                </property>
+                <property name="maximum">
+                 <number>300</number>
+                </property>
+               </widget>
+              </item>
+             </layout>
             </item>
             <item>
-             <widget class="QSpinBox" name="kanjiPrintSize">
-              <property name="minimum">
-               <number>1</number>
-              </property>
-              <property name="maximum">
-               <number>300</number>
+             <widget class="QCheckBox" name="printGrid">
+              <property name="text">
+               <string>Print grid</string>
               </property>
              </widget>
             </item>
@@ -389,7 +400,7 @@
                <x>0</x>
                <y>0</y>
                <width>497</width>
-               <height>146</height>
+               <height>144</height>
               </rect>
              </property>
              <layout class="QVBoxLayout" name="verticalLayout_7">

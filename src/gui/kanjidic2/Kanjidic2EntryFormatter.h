@@ -53,7 +53,7 @@ public:
 	virtual void writeShortDesc(const ConstEntryPointer &entry, QTextCursor& cursor) const;
 	virtual void writeShortDesc(const ConstKanjidic2EntryPointer& shape, const ConstKanjidic2EntryPointer& kEntry, QTextCursor& cursor) const;
 	virtual void draw(const ConstEntryPointer &entry, QPainter &painter, const QRectF &rectangle, QRectF &usedSpace, const QFont &textFont = QFont()) const;
-	void drawCustom(const ConstKanjidic2EntryPointer& entry, QPainter& painter, const QRectF& rectangle, QRectF& usedSpace, const QFont& textFont = QFont(), int printSize = printSize.value(), bool printWithFont = printWithFont.value(), bool printMeanings = printMeanings.value(), bool printOnyomi = printOnyomi.value(), bool printKunyomi = printKunyomi.value(), bool printComponents = printComponents.value(), bool printOnlyStudiedComponents = printOnlyStudiedComponents.value(), int maxWordsToPrint = maxWordsToPrint.value(), bool printOnlyStudiedVocab = printOnlyStudiedVocab.value(), bool printStrokesNumbers = printStrokesNumbers.value(), int printStrokesNumbersSize = strokesNumbersSize.value()) const;
+	void drawCustom(const ConstKanjidic2EntryPointer& entry, QPainter& painter, const QRectF& rectangle, QRectF& usedSpace, const QFont& textFont = QFont(), int printSize = printSize.value(), bool printWithFont = printWithFont.value(), bool printMeanings = printMeanings.value(), bool printOnyomi = printOnyomi.value(), bool printKunyomi = printKunyomi.value(), bool printComponents = printComponents.value(), bool printOnlyStudiedComponents = printOnlyStudiedComponents.value(), int maxWordsToPrint = maxWordsToPrint.value(), bool printOnlyStudiedVocab = printOnlyStudiedVocab.value(), bool printStrokesNumbers = printStrokesNumbers.value(), int printStrokesNumbersSize = strokesNumbersSize.value(), bool printGrid = printGrid.value()) const;
 	virtual void detailedVersionPart1(const ConstEntryPointer &entry, QTextCursor& cursor, DetailedView* view) const;
 	virtual void detailedVersionPart2(const ConstEntryPointer &entry, QTextCursor &cursor, DetailedView *view) const;
 
@@ -103,6 +103,7 @@ public:
 	static PreferenceItem<int> maxWordsToPrint;
 	static PreferenceItem<bool> printStrokesNumbers;
 	static PreferenceItem<int> strokesNumbersSize;
+	static PreferenceItem<bool> printGrid;
 };
 
 class ShowUsedInKanjiJob : public DetailedViewJob {
