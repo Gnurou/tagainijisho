@@ -86,10 +86,10 @@ public:
 	virtual void completed();
 };
 
-class FindHomonymsJob : public DetailedViewJob {
-	Q_DECLARE_TR_FUNCTIONS(FindHomonymsJob)
+class FindHomophonesJob : public DetailedViewJob {
+	Q_DECLARE_TR_FUNCTIONS(FindHomophonesJob)
 public:
-	FindHomonymsJob(const ConstJMdictEntryPointer &entry, int maxToDisplay, bool studiedOnly, const QTextCursor &cursor);
+	FindHomophonesJob(const ConstJMdictEntryPointer &entry, int maxToDisplay, bool studiedOnly, const QTextCursor &cursor);
 	virtual void firstResult();
 	virtual void result(EntryPointer entry);
 };

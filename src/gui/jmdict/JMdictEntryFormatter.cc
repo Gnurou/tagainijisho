@@ -58,9 +58,9 @@ QString JMdictEntryFormatter::getVerbBuddySql(const QString &matchPattern, quint
 
 QString JMdictEntryFormatter::getHomophonesSql(const QString &reading, int id, int maxToDisplay, bool studiedOnly)
 {
-	const QString queryFindHomonymsSql("select distinct " QUOTEMACRO(JMDICTENTRY_GLOBALID) ", jmdict.entries.id from jmdict.entries join jmdict.kana on jmdict.kana.id = jmdict.entries.id %4join training on training.id = jmdict.entries.id and training.type = " QUOTEMACRO(JMDICTENTRY_GLOBALID) " join jmdict.senses on jmdict.senses.id = jmdict.entries.id left join jmdict.jlpt on jmdict.entries.id = jmdict.jlpt.id where jmdict.kana.docid in (select docid from jmdict.kanaText where jmdict.kanaText.reading match '\"%1\"') and jmdict.kana.priority = 0 and jmdict.senses.misc & %5 == 0 and jmdict.entries.id != %3 order by training.dateAdded is null ASC, training.score ASC, jmdict.jlpt.level DESC, jmdict.entries.frequency DESC limit %2");
+	const QString queryFindHomophonesSql("select distinct " QUOTEMACRO(JMDICTENTRY_GLOBALID) ", jmdict.entries.id from jmdict.entries join jmdict.kana on jmdict.kana.id = jmdict.entries.id %4join training on training.id = jmdict.entries.id and training.type = " QUOTEMACRO(JMDICTENTRY_GLOBALID) " join jmdict.senses on jmdict.senses.id = jmdict.entries.id left join jmdict.jlpt on jmdict.entries.id = jmdict.jlpt.id where jmdict.kana.docid in (select docid from jmdict.kanaText where jmdict.kanaText.reading match '\"%1\"') and jmdict.kana.priority = 0 and jmdict.senses.misc & %5 == 0 and jmdict.entries.id != %3 order by training.dateAdded is null ASC, training.score ASC, jmdict.jlpt.level DESC, jmdict.entries.frequency DESC limit %2");
 
-	return queryFindHomonymsSql.arg(reading).arg(maxToDisplay).arg(id).arg(studiedOnly ? "" : "left ").arg(JMdictEntrySearcher::miscFilterMask());
+	return queryFindHomophonesSql.arg(reading).arg(maxToDisplay).arg(id).arg(studiedOnly ? "" : "left ").arg(JMdictEntrySearcher::miscFilterMask());
 }
 
 QString JMdictEntryFormatter::getHomographsSql(const QString &writing, int id, int maxToDisplay, bool studiedOnly)
@@ -384,7 +384,7 @@ void JMdictEntryFormatter::writeEntryInfo(const ConstJMdictEntryPointer& entry, 
 			}
 		}
 	}
-	if (maxHomophonesToDisplay.value()) view->addBackgroundJob(new FindHomonymsJob(entry, maxHomophonesToDisplay.value(), displayStudiedHomophonesOnly.value(), cursor));
+	if (maxHomophonesToDisplay.value()) view->addBackgroundJob(new FindHomophonesJob(entry, maxHomophonesToDisplay.value(), displayStudiedHomophonesOnly.value(), cursor));
 	if (maxHomographsToDisplay.value()) view->addBackgroundJob(new FindHomographsJob(entry, maxHomographsToDisplay.value(), displayStudiedHomographsOnly.value(), cursor));
 }
 
@@ -619,7 +619,7 @@ void FindVerbBuddyJob::completed()
 	if (formatter) formatter->writeShortDesc(bestMatch, cursor());
 }
 
-FindHomonymsJob::FindHomonymsJob(const ConstJMdictEntryPointer& entry, int maxToDisplay, bool studiedOnly, const QTextCursor& cursor) :
+FindHomophonesJob::FindHomophonesJob(const ConstJMdictEntryPointer& entry, int maxToDisplay, bool studiedOnly, const QTextCursor& cursor) :
 	DetailedViewJob(cursor)
 {
 	QString s;
@@ -630,7 +630,7 @@ FindHomonymsJob::FindHomonymsJob(const ConstJMdictEntryPointer& entry, int maxTo
 	_sql = JMdictEntryFormatter::getHomophonesSql(s, entry->id(), maxToDisplay, studiedOnly);
 }
 
-void FindHomonymsJob::firstResult()
+void FindHomophonesJob::firstResult()
 {
 	QTextCharFormat normal(DetailedViewFonts::charFormat(DetailedViewFonts::DefaultText));
 	QTextCharFormat bold(normal);
@@ -641,7 +641,7 @@ void FindHomonymsJob::firstResult()
 	cursor().setCharFormat(normal);
 }
 
-void FindHomonymsJob::result(EntryPointer entry)
+void FindHomophonesJob::result(EntryPointer entry)
 {
 	QTextList *currentList = cursor().currentList();
 	cursor().insertBlock(QTextBlockFormat());
