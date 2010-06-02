@@ -94,7 +94,6 @@ void EntryFormatter::writeUserData(const ConstEntryPointer& entry, QTextCursor& 
 			cursor.setCharFormat(normal);
 		} while (query.next());
 	}
-	//view->addBackgroundJob(new ShowListsJob(EntryRef(entry), cursor));
 	
 	//Notes
 	if (!entry->notes().isEmpty()) {
@@ -234,21 +233,4 @@ void EntryFormatter::writeEntryTitle(const ConstEntryPointer& entry, QTextCursor
 	if (!entry->writings().isEmpty()) title = entry->writings()[0];
 	else if (!entry->readings().isEmpty()) title = entry->readings()[0];
 	autoFormat(entry, title, cursor, scoreFormat);
-}
-
-
-ShowListsJob::ShowListsJob(EntryRef entry, const QTextCursor &cursor) : DetailedViewJob(QString("select lists.parent, listsLabels.label from lists join listsLabels on lists.parent = listsLabels.rowid where lists.type = %1 and lists.id = %2").arg(entry.type()).arg(entry.id()), cursor)
-{
-}
-
-void ShowListsJob::firstResult()
-{
-}
-
-void ShowListsJob::result(EntryPointer entry)
-{
-}
-
-void ShowListsJob::completed()
-{
 }

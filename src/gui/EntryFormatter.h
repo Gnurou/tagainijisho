@@ -115,16 +115,4 @@ public:
 	static PreferenceItem<bool> shortDescShowJLPT;
 };
 
-class ShowListsJob : public DetailedViewJob {
-	Q_DECLARE_TR_FUNCTIONS(ShowUsedInJob)
-private:
-	QString _kanji;
-	bool _gotResult;
-public:
-	ShowListsJob(EntryRef entry, const QTextCursor &cursor);
-	virtual void firstResult();
-	virtual void result(EntryPointer entry);
-	virtual void completed();
-};
-
 #endif
