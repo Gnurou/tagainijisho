@@ -35,6 +35,8 @@ PreferenceItem<bool> JMdictEntryFormatter::showKanjis("jmdict", "showKanjis", tr
 PreferenceItem<bool> JMdictEntryFormatter::searchVerbBuddy("jmdict", "searchVerbBuddy", true);
 PreferenceItem<int> JMdictEntryFormatter::maxHomophonesToDisplay("jmdict", "maxHomophonesToDisplay", 5);
 PreferenceItem<bool> JMdictEntryFormatter::displayStudiedHomophonesOnly("jmdict", "displayStudiedHomophonesOnly", false);
+PreferenceItem<int> JMdictEntryFormatter::maxHomographsToDisplay("jmdict", "maxHomographsToDisplay", 5);
+PreferenceItem<bool> JMdictEntryFormatter::displayStudiedHomographsOnly("jmdict", "displayStudiedHomographsOnly", false);
 
 PreferenceItem<int> JMdictEntryFormatter::headerPrintSize("jmdict", "headerPrintSize", 20);
 PreferenceItem<bool> JMdictEntryFormatter::printKanjis("jmdict", "printKanjis", true);
@@ -59,6 +61,13 @@ QString JMdictEntryFormatter::getHomophonesSql(const QString &reading, int id, i
 	const QString queryFindHomonymsSql("select distinct " QUOTEMACRO(JMDICTENTRY_GLOBALID) ", jmdict.entries.id from jmdict.entries join jmdict.kana on jmdict.kana.id = jmdict.entries.id %4join training on training.id = jmdict.entries.id and training.type = " QUOTEMACRO(JMDICTENTRY_GLOBALID) " join jmdict.senses on jmdict.senses.id = jmdict.entries.id left join jmdict.jlpt on jmdict.entries.id = jmdict.jlpt.id where jmdict.kana.docid in (select docid from jmdict.kanaText where jmdict.kanaText.reading match '\"%1\"') and jmdict.kana.priority = 0 and jmdict.senses.misc & %5 == 0 and jmdict.entries.id != %3 order by training.dateAdded is null ASC, training.score ASC, jmdict.jlpt.level DESC, jmdict.entries.frequency DESC limit %2");
 
 	return queryFindHomonymsSql.arg(reading).arg(maxToDisplay).arg(id).arg(studiedOnly ? "" : "left ").arg(JMdictEntrySearcher::miscFilterMask());
+}
+
+QString JMdictEntryFormatter::getHomographsSql(const QString &writing, int id, int maxToDisplay, bool studiedOnly)
+{
+	const QString queryFindHomographsSql("select distinct " QUOTEMACRO(JMDICTENTRY_GLOBALID) ", jmdict.entries.id from jmdict.entries join jmdict.kanji on jmdict.kanji.id = jmdict.entries.id %4join training on training.id = jmdict.entries.id and training.type = " QUOTEMACRO(JMDICTENTRY_GLOBALID) " join jmdict.senses on jmdict.senses.id = jmdict.entries.id left join jmdict.jlpt on jmdict.entries.id = jmdict.jlpt.id where jmdict.kanji.docid in (select docid from jmdict.kanjiText where jmdict.kanjiText.reading match '\"%1\"') and jmdict.kanji.priority = 0 and jmdict.senses.misc & %5 == 0 and jmdict.entries.id != %3 order by training.dateAdded is null ASC, training.score ASC, jmdict.jlpt.level DESC, jmdict.entries.frequency DESC limit %2");
+
+	return queryFindHomographsSql.arg(writing).arg(maxToDisplay).arg(id).arg(studiedOnly ? "" : "left ").arg(JMdictEntrySearcher::miscFilterMask());
 }
 
 JMdictEntryFormatter::JMdictEntryFormatter() : EntryFormatter()
@@ -376,6 +385,7 @@ void JMdictEntryFormatter::writeEntryInfo(const ConstJMdictEntryPointer& entry, 
 		}
 	}
 	if (maxHomophonesToDisplay.value()) view->addBackgroundJob(new FindHomonymsJob(entry, maxHomophonesToDisplay.value(), displayStudiedHomophonesOnly.value(), cursor));
+	if (maxHomographsToDisplay.value()) view->addBackgroundJob(new FindHomographsJob(entry, maxHomographsToDisplay.value(), displayStudiedHomographsOnly.value(), cursor));
 }
 
 void JMdictEntryFormatter::writeShortDesc(const ConstEntryPointer& entry, QTextCursor& cursor) const
@@ -649,6 +659,39 @@ void FindHomonymsJob::result(EntryPointer entry)
 	else currentList->add(cursor().block());
 }
 
-void FindHomonymsJob::completed()
+FindHomographsJob::FindHomographsJob(const ConstJMdictEntryPointer& entry, int maxToDisplay, bool studiedOnly, const QTextCursor& cursor) :
+	DetailedViewJob(cursor)
 {
+	// No writing? Nothing we can possibly do here.
+	if (entry->writings().isEmpty()) return;
+	_sql = JMdictEntryFormatter::getHomographsSql(entry->writings()[0], entry->id(), maxToDisplay, studiedOnly);
+}
+
+void FindHomographsJob::firstResult()
+{
+	QTextCharFormat normal(DetailedViewFonts::charFormat(DetailedViewFonts::DefaultText));
+	QTextCharFormat bold(normal);
+	bold.setFontWeight(QFont::Bold);
+	cursor().insertBlock(QTextBlockFormat());
+	cursor().setCharFormat(bold);
+	cursor().insertText(tr("Homographs:"));
+	cursor().setCharFormat(normal);
+}
+
+void FindHomographsJob::result(EntryPointer entry)
+{
+	QTextList *currentList = cursor().currentList();
+	cursor().insertBlock(QTextBlockFormat());
+	cursor().setCharFormat(QTextCharFormat());
+	ConstJMdictEntryPointer jmEntry = entry.staticCast<const JMdictEntry>();
+	Q_ASSERT(jmEntry != 0);
+	const EntryFormatter *formatter = EntryFormatter::getFormatter(jmEntry);
+	if (formatter) formatter->writeShortDesc(jmEntry, cursor());
+	if (!currentList) {
+		QTextListFormat listFormat;
+		listFormat.setStyle(QTextListFormat::ListDisc);
+		listFormat.setIndent(0);
+		cursor().createList(listFormat);
+	}
+	else currentList->add(cursor().block());
 }

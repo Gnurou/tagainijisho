@@ -52,7 +52,7 @@
          <property name="title">
           <string>Additional information</string>
          </property>
-         <layout class="QVBoxLayout" name="verticalLayout_5">
+         <layout class="QVBoxLayout" name="verticalLayout_2">
           <item>
            <widget class="QCheckBox" name="lookupVerbBuddy">
             <property name="toolTip">
@@ -80,6 +80,30 @@
             </item>
             <item>
              <widget class="QCheckBox" name="studiedHomophonesOnly">
+              <property name="text">
+               <string>Studied only</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_3">
+            <item>
+             <widget class="QSpinBox" name="homographsCount"/>
+            </item>
+            <item>
+             <widget class="QLabel" name="label_6">
+              <property name="toolTip">
+               <string>Display words that have the same pronunciation.</string>
+              </property>
+              <property name="text">
+               <string>Homographs</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="studiedHomographsOnly">
               <property name="text">
                <string>Studied only</string>
               </property>
@@ -192,8 +216,8 @@
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>77</width>
-               <height>24</height>
+               <width>434</width>
+               <height>137</height>
               </rect>
              </property>
              <layout class="QVBoxLayout" name="verticalLayout_10">

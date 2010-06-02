@@ -80,6 +80,8 @@ void JMdictPreferences::refresh()
 	showKanjis->setChecked(JMdictEntryFormatter::showKanjis.value());
 	homophonesCount->setValue(JMdictEntryFormatter::maxHomophonesToDisplay.value());
 	studiedHomophonesOnly->setChecked(JMdictEntryFormatter::displayStudiedHomophonesOnly.value());
+	homographsCount->setValue(JMdictEntryFormatter::maxHomographsToDisplay.value());
+	studiedHomographsOnly->setChecked(JMdictEntryFormatter::displayStudiedHomographsOnly.value());
 	lookupVerbBuddy->setChecked(JMdictEntryFormatter::searchVerbBuddy.value());
 
 	headerPrintSize->setValue(JMdictEntryFormatter::headerPrintSize.value());
@@ -105,6 +107,8 @@ void JMdictPreferences::applySettings()
 	JMdictEntryFormatter::showKanjis.set(showKanjis->isChecked());
 	JMdictEntryFormatter::maxHomophonesToDisplay.set(homophonesCount->value());
 	JMdictEntryFormatter::displayStudiedHomophonesOnly.set(studiedHomophonesOnly->isChecked());
+	JMdictEntryFormatter::maxHomographsToDisplay.set(homographsCount->value());
+	JMdictEntryFormatter::displayStudiedHomographsOnly.set(studiedHomographsOnly->isChecked());
 	JMdictEntryFormatter::searchVerbBuddy.set(lookupVerbBuddy->isChecked());
 
 	JMdictEntryFormatter::headerPrintSize.set(headerPrintSize->value());

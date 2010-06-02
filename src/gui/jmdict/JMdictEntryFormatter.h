@@ -51,14 +51,13 @@ public:
 	virtual void draw(const ConstEntryPointer &entry, QPainter &painter, const QRectF &rectangle, QRectF &usedSpace, const QFont &textFont = QFont()) const { drawCustom(entry, painter, rectangle, usedSpace, textFont); }
 	void drawCustom(const ConstEntryPointer &entry, QPainter &painter, const QRectF &rectangle, QRectF &usedSpace, const QFont &textFont = QFont(), int headerPrintSize = headerPrintSize.defaultValue(), bool printKanjis = printKanjis.defaultValue(), bool printOnlyStudiedKanjis = printOnlyStudiedKanjis.defaultValue(), int maxDefinitionsToPrint = maxDefinitionsToPrint.defaultValue()) const;
 
-	static const QString queryFindVerbBuddySql;
-	static const QString queryFindHomonymsSql;
-
 	static PreferenceItem<bool> showJLPT;
 	static PreferenceItem<bool> showKanjis;
 	static PreferenceItem<bool> searchVerbBuddy;
 	static PreferenceItem<int> maxHomophonesToDisplay;
 	static PreferenceItem<bool> displayStudiedHomophonesOnly;
+	static PreferenceItem<int> maxHomographsToDisplay;
+	static PreferenceItem<bool> displayStudiedHomographsOnly;
 
 	static PreferenceItem<int> headerPrintSize;
 	static PreferenceItem<bool> printKanjis;
@@ -67,6 +66,7 @@ public:
 
 	static QString getVerbBuddySql(const QString &matchPattern, quint64 pos, int id);
 	static QString getHomophonesSql(const QString &reading, int id, int maxToDisplay = maxHomophonesToDisplay.value(), bool studiedOnly = displayStudiedHomophonesOnly.value());
+	static QString getHomographsSql(const QString &writing, int id, int maxToDisplay = maxHomophonesToDisplay.value(), bool studiedOnly = displayStudiedHomophonesOnly.value());
 };
 
 class FindVerbBuddyJob : public DetailedViewJob {
@@ -92,7 +92,14 @@ public:
 	FindHomonymsJob(const ConstJMdictEntryPointer &entry, int maxToDisplay, bool studiedOnly, const QTextCursor &cursor);
 	virtual void firstResult();
 	virtual void result(EntryPointer entry);
-	virtual void completed();
+};
+
+class FindHomographsJob : public DetailedViewJob {
+	Q_DECLARE_TR_FUNCTIONS(FindHomographsJob)
+public:
+	FindHomographsJob(const ConstJMdictEntryPointer &entry, int maxToDisplay, bool studiedOnly, const QTextCursor &cursor);
+	virtual void firstResult();
+	virtual void result(EntryPointer entry);
 };
 
 #endif
