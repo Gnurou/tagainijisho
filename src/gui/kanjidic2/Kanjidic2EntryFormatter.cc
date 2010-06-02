@@ -94,7 +94,7 @@ Kanjidic2EntryFormatter &Kanjidic2EntryFormatter::instance()
 	return _instance;
 }
 
-Kanjidic2EntryFormatter::Kanjidic2EntryFormatter() : EntryFormatter()
+Kanjidic2EntryFormatter::Kanjidic2EntryFormatter(QObject* parent) : EntryFormatter(parent)
 {
 }
 

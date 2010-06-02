@@ -24,11 +24,11 @@
 
 class Kanjidic2EntryFormatter : public EntryFormatter
 {
-Q_DECLARE_TR_FUNCTIONS(EntryFormatter)
+	Q_OBJECT
 protected:
 	virtual void _detailedVersion(const ConstEntryPointer &_entry, QTextCursor& cursor, DetailedView* view) const;
 
-	Kanjidic2EntryFormatter();
+	Kanjidic2EntryFormatter(QObject *parent = 0);
 	virtual ~Kanjidic2EntryFormatter() {}
 	
 	

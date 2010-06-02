@@ -18,6 +18,7 @@
 #include "core/TextTools.h"
 #include "core/Database.h"
 #include "gui/EntryFormatter.h"
+#include "gui/TemplateFiller.h"
 #include "gui/DetailedView.h"
 // TODO Would be nice to get rid of this one...
 #include "gui/MainWindow.h"
@@ -124,9 +125,15 @@ void DetailedView::_display(const EntryPointer &entry, bool update)
 	}
 	QTextCursor cursor(document());
 	const EntryFormatter *formatter(EntryFormatter::getFormatter(entry));
-	if (formatter) formatter->detailedVersion(entry, cursor, this);
-	else qWarning("%s %d: %s", __FILE__, __LINE__, "No formatter found for entry!");
-	_jobsRunner.runAllJobs();
+	TemplateFiller filler;
+	
+	if (!formatter) qWarning("%s %d: %s", __FILE__, __LINE__, "No formatter found for entry!");
+	else {
+		document()->setDefaultStyleSheet(formatter->CSS());
+		QString html(filler.fill(formatter->htmlTemplate(), formatter, entry));
+		document()->setHtml(html);
+		_jobsRunner.runAllJobs();
+	}
 }
 
 void DetailedView::setSmoothScrolling(bool value)

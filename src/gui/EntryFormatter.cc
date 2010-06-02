@@ -15,11 +15,13 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "core/Paths.h"
 #include "core/TextTools.h"
 #include "gui/EntryFormatter.h"
 #include "gui/DetailedView.h"
 
 #include <QToolTip>
+#include <QFile>
 
 PreferenceItem<bool> EntryFormatter::shortDescShowJLPT("mainWindow/detailedView", "shortEntryShowJLPT", false);
 
@@ -28,8 +30,22 @@ QMap<int, EntryFormatter *> EntryFormatter::_formatters;
 static const int entryTextProperties = Qt::AlignJustify | Qt::TextWordWrap;
 static QFont printFont = QFont("", 14);
 
-EntryFormatter::EntryFormatter()
+EntryFormatter::EntryFormatter(QObject *parent) : QObject(parent)
 {
+	QString cssFile(lookForFile("detailed_template.css"));
+	if (cssFile.isEmpty()) qCritical(tr("Cannot find detailed view CSS file!").toUtf8().constData());
+	else {
+		QFile f(cssFile);
+		f.open(QIODevice::ReadOnly);
+		_css = QString::fromUtf8(f.readAll());
+	}
+	QString htmlFile(lookForFile("detailed_template.html"));
+	if (htmlFile.isEmpty()) qCritical(tr("Cannot find detailed view HTML file!").toUtf8().constData());
+	else {
+		QFile f(htmlFile);
+		f.open(QIODevice::ReadOnly);
+		_html = QString::fromUtf8(f.readAll());
+	}
 }
 
 bool EntryFormatter::registerFormatter(const int entryType, EntryFormatter *formatter)
@@ -233,4 +249,30 @@ void EntryFormatter::writeEntryTitle(const ConstEntryPointer& entry, QTextCursor
 	if (!entry->writings().isEmpty()) title = entry->writings()[0];
 	else if (!entry->readings().isEmpty()) title = entry->readings()[0];
 	autoFormat(entry, title, cursor, scoreFormat);
+}
+
+QString EntryFormatter::formatLists(const ConstEntryPointer &entry) const
+{
+	return "Lists";
+}
+
+QString EntryFormatter::formatTags(const ConstEntryPointer &entry) const
+{
+	QString ret;
+	if (!entry->tags().isEmpty()) {
+		bool first = true;
+		ret += "<img src=\"tagicon\"> ";
+		foreach(const Tag &tag, entry->tags()) {
+			if (!first) ret += "   ";
+			else first = false;
+			ret += QString("<a href=\"tag://%1\">%1</a>").arg(tag.name());
+		}
+	}
+	
+	return ret;
+}
+
+QString EntryFormatter::formatTrainingData(const ConstEntryPointer &entry) const
+{
+	return "Training data";
 }

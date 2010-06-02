@@ -25,11 +25,11 @@
 
 class JMdictEntryFormatter : public EntryFormatter
 {
-Q_DECLARE_TR_FUNCTIONS(JMdictEntryFormatter)
+	Q_OBJECT
 protected:
 	virtual void _detailedVersion(const ConstEntryPointer &entry, QTextCursor &cursor, DetailedView *view) const;
 
-	JMdictEntryFormatter();
+	JMdictEntryFormatter(QObject *parent = 0);
 	virtual ~JMdictEntryFormatter() {}
 public:
 	static JMdictEntryFormatter &instance();

@@ -27,9 +27,9 @@
 
 class DetailedView;
 
-class EntryFormatter
+class EntryFormatter : public QObject
 {
-	Q_DECLARE_TR_FUNCTIONS(EntryFormatter)
+	Q_OBJECT
 private:
 	static QMap<int, EntryFormatter *> _formatters;
 
@@ -48,6 +48,7 @@ protected:
 	virtual ~EntryFormatter() {}
 
 public:
+	EntryFormatter(QObject *parent = 0);
 
 	/**
 	 * Register a new formatter for an entry type.
@@ -101,8 +102,8 @@ public:
 	/**
 	 * Writes the meta data of this entry (tags, training data, notes)
 	 */
-	void writeUserData(const ConstEntryPointer &entry, QTextCursor &cursor, DetailedView *view) const;
-
+	void writeUserData(const ConstEntryPointer &entry, QTextCursor &cursor, DetailedView *view) const;	
+	
 	void autoFormat(const ConstEntryPointer &entry, const QString &str, QTextCursor &cursor, const QTextCharFormat &mergeWith = QTextCharFormat()) const;
 
 	/**
@@ -111,8 +112,23 @@ public:
 	 * The default version just paints the short version.
 	 */
 	virtual void draw(const ConstEntryPointer &entry, QPainter &painter, const QRectF &rectangle, QRectF &usedSpace, const QFont &textFont = QFont()) const;
-
+	
 	static PreferenceItem<bool> shortDescShowJLPT;
+	
+	
+	
+protected:
+	QString _css;
+	QString _html;
+
+public:
+	const QString &CSS() const { return _css; }
+	const QString &htmlTemplate() const { return _html; }
+
+public slots:
+	QString formatLists(const ConstEntryPointer &entry) const;
+	QString formatTags(const ConstEntryPointer &entry) const;
+	QString formatTrainingData(const ConstEntryPointer &entry) const;
 };
 
 #endif

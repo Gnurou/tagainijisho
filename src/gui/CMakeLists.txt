@@ -41,6 +41,7 @@ EntriesViewHelper.cc
 ResultsView.cc
 ResultsViewWidget.cc
 SearchWidget.cc
+TemplateFiller.cc
 DetailedView.cc
 EntryListView.cc
 EntryListWidget.cc
@@ -77,6 +78,8 @@ endif()
 qt4_wrap_cpp(tagainijisho_gui_MOC_SRCS
 BetterSpinBox.h
 ClickableLabel.h
+EntryFormatter.h
+TemplateFiller.h
 DetailedView.h
 EditEntryNotesDialog.h
 EntryMenu.h
@@ -113,10 +116,12 @@ TrainSettings.h
 UpdateChecker.h
 YesNoTrainer.h
 ManualBrowser.h
+jmdict/JMdictEntryFormatter.h
 jmdict/JMdictFilterWidget.h
 jmdict/JMdictGUIPlugin.h
 jmdict/JMdictPreferences.h
 jmdict/JMdictYesNoTrainer.h
+kanjidic2/Kanjidic2EntryFormatter.h
 kanjidic2/Kanjidic2GUIPlugin.h
 kanjidic2/Kanjidic2Preferences.h
 kanjidic2/KanjiPlayer.h
@@ -164,6 +169,8 @@ target_link_libraries(tagainijisho tagaini_core tagaini_sqlite ${QT_LIBRARIES} $
 
 # HTML export template
 install(FILES ${CMAKE_SOURCE_DIR}/src/gui/export_template.html DESTINATION share/tagainijisho PERMISSIONS OWNER_READ GROUP_READ WORLD_READ)
+# Detailed view templates
+install(FILES ${CMAKE_SOURCE_DIR}/src/gui/detailed_template.css ${CMAKE_SOURCE_DIR}/src/gui/detailed_template.html DESTINATION share/tagainijisho PERMISSIONS OWNER_READ GROUP_READ WORLD_READ)
 # i18n files
 file(GLOB i18nfiles ${CMAKE_SOURCE_DIR}/i18n/*.qm)
 install(FILES ${i18nfiles} DESTINATION share/tagainijisho/i18n PERMISSIONS OWNER_READ GROUP_READ WORLD_READ)

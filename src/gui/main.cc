@@ -212,6 +212,7 @@ int main(int argc, char *argv[])
 
 	// Register meta-types
 	qRegisterMetaType<EntryPointer>("EntryPointer");
+	qRegisterMetaType<ConstEntryPointer>("ConstEntryPointer");
 	qRegisterMetaType<QSqlRecord>("QSqlRecord");
 	qRegisterMetaType<QSqlRecord>("QSqlError");
 	qRegisterMetaType<QVariant>("QVariant");
