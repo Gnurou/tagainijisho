@@ -23,7 +23,7 @@ Tagaini Jisho is an open source[^OSS] Japanese dictionary application. It is des
 * Full wildcard support in textual search;
 * Radical and component-based kanji lookup, including an input method that let you find almost
   any kanji provided you can recognize some of its components;
-* JLPT classifications or vocabulary and kanji.
+* JLPT classifications of vocabulary and kanji.
 
 ### Organize
 * A study list keeps track of all the vocabulary and kanji entries you wish to study;
@@ -63,11 +63,11 @@ Searching Entries
 
 Tagaini Jisho is, above all, a very powerful dictionary program. It allows you to search for terms and kanji even if you have limited information about them, and connects them to related entries. This chapter covers the basic usage of the application. 
 
-Any search for vocabulary or kanji entries takes place in the results view. Its top bar features a couple of boutons, as well as accessors to the various search filters.
+Any search for vocabulary or kanji entries takes place in the results view. Its top bar features a couple of buttons, as well as accessors to the various search filters.
 
 ![Results view options](images/search_titlebar.png)
 
-The first button displays a list of print/export options to apply to the currently displayed results, and is explained in a latter section. The second button let you reset the current search, bringing the results view back to an empty state. It is also accessible through the **Ctrl+r** shortcut.
+The first button displays a list of print/export options to apply to the currently displayed results, and is explained in a latter section. The second button lets you reset the current search, bringing the results view back to an empty state. It is also accessible through the **Ctrl+r** shortcut.
 
 The following combo box is the **entry type selector**, and lets you filter which type of entry you want to search. Tagaini references both dictionary (words) and kanji (characters) entries, and by default searches for both type of entries. But some searches may only make sense for one type - for instance if you want to specifically study kanji for a test.
 
@@ -113,11 +113,11 @@ The study tab filters through searches according to whether or not the entry is 
 
 To add entries to the study list, either right click on them in the results view, or use the detailed view toolbar and click the blue flag, *Add to study list*, which adds the entry to the list with a score of 0. The green flag, *Already known*, will add the entry with a score of 95. 
 
-Each entry is given a colour between red and green according to their score, and it is displayed as the entries background in the results view. As you practise[^practicefoot], the score on each entry in your study list will change. You will then be able to filter entries that you know you know from your searches. When the study status is set to *studied* Tagaini will only search through entries that have a score within the range of *Min* and *Max*, the values from the score section.
+Each entry is given a colour between red and green according to its score, and it is displayed as the entry's background in the results view. As you practise[^practicefoot], the score on each entry in your study list will change. You will then be able to filter entries that you know you know from your searches. When the study status is set to *studied* Tagaini will only search through entries that have a score within the range of *Min* and *Max*, the values from the score section.
 
 The study date section filters entries according to the date the entry was added to the study list. Clicking any of the not set buttons, in this section or the others, brings up a calendar to select a date or allows you to set a  number of days／weeks／months／years prior to today's date. If an entry has been added after the *since* date and before the *until* date then it will be listed in the results view in any searches.
 
-The last trained section allows you to set a time range for finding entries according to when you last practised it, and the last mistaken section allows  you to set a time range for when you last made a mistake on the entry.
+The last trained section allows you to set a time range for finding entries according to when you last practised it, and the last mistaken section allows you to set a time range for when you last made a mistake on the entry.
 
 [^practicefoot]: See [Study List][] for more information on practising with your study list, as well as manipulating it. 
 
@@ -157,7 +157,7 @@ If an entry has a tag, a small tag icon will be displayed on the right side of
 the entry in the results view, next to the scroll bar and at the bottom of
 the entry in the detailed view.
 
-To add a tag, you can use the **Add tags...** button, which looks like a tag with a green bit at the top. White space, or spaces, separates each tag, so writing "genki ch04" adds two tags; "genki" and "ch04".
+To add a tag, you can use the **Add tags...** button, which looks like a tag with a green bit at the top. White space, or spaces, separates each tag, so writing "genki ch04" adds two tags: "genki" and "ch04".
 
 Any tags you add with the **Add tags...** in the current session[^tagainisession] can be found again in the **Recently added tags...** sub menu of the context menu[^contextmenu], which makes adding tags to a set of entries easier. The **Set tags...** button brings up a list of all the current tags attached to an entry so that they can be edited. Additional tags can be entered here. Despite the **Add tags...** button not bringing up tags that have already been set on an entry, adding new ones does not overwrite the existing ones, it just appends them to the list.
 
@@ -195,11 +195,11 @@ The Kanji Filter
 
 ![Kanji Filter](images/search_kanji.png)
 
-The kanji filter contains filtration options specific to kanji entries and as such cannot be used in conjunction with the vocabulary filter.
+The kanji filter contains filtering options specific to kanji entries and as such cannot be used in conjunction with the vocabulary filter.
 
 The first section on the tab, **Stroke count**, filters kanji by their number of strokes. It is possible to specify a range by checking the corresponding checkbox.
 
-The next section allows to filter kanji by their radical or components. Focusing the **Radicals** input line will trigger a popup listing the 214 radicals, from which you can selects those you want to filter against. Every time a radical is selected, the radicals list updates itself to only list the radicals that can be combined with the current selection.
+The next section allows to filter kanji by their radical or components. Focusing the **Radicals** input line will trigger a popup listing the 214 radicals, from which you can select those you want to filter against. Every time a radical is selected, the radicals list updates itself to only list the radicals that can be combined with the current selection.
 
 ![Kanji Filter](images/search_kanji_radical.png)
 
@@ -231,12 +231,12 @@ In the detailed view each selected entry is displayed with exhaustive informatio
 
 Vocabulary entries contain information about a word, particle or expression. The following sections are common to them.
 
-* **Main Reading** - Centred at the top of the view will be the wait the word or phrase is written, with furigana written in red above it. 
+* **Main Reading** - Centred at the top of the view will be the way the word or phrase is written, with furigana written in red above it. 
 * **Variants** - Any variants are listed here, with their reading in brackets.
 * **The definition block** - Here, different definitions are listed. First, it displays the definitions part of speech[^pos] in grey, and then lists different definitions, next to a flag representing the language of the definition.
-* **JLPT level** - The entries JLPT level.
+* **JLPT level** - The entry's JLPT level.
 * **Kanji** - The kanji used in the main reading, and its meanings. This is off by default. The kanji's JLPT level can also be appended to each reference.
-* **Transitive／Intransitive buddy** - The entry corresponding with the current entries opposite transitive state.
+* **Transitive／Intransitive buddy** - The entry corresponding with the current entry's opposite transitive state.
 * **Homophones** - Entries that are homophones of the current entry. A homophone is a word with the same or similar pronunciation. 
 
 Any entry referenced in the detailed view will have a little magnifying glass next to it, which is a link to the referenced entry. For instance, in the entry 取る it references its intransitive buddy;
@@ -297,11 +297,11 @@ The study list is an invisible list of vocabulary and kanji, used to mark entrie
 
 The study list is manipulated with the flag buttons in the detailed view tool bar and the context menu given when right clicking on entry references, either in the results view or the display view. 
 
-When adding entries to the study list, there are two relevant flags. The blue flag, **Add to study list** and the green flag, **already known**. The blue flag adds the entry with a score of 0, whilst the green flag adds the entry with a score of 100.
+When adding entries to the study list, there are two relevant flags. The blue flag, **Add to study list** and the green flag, **already known**. The blue flag adds the entry with a score of 0, whilst the green flag adds the entry with a score of 95.
 
-After an entry has been added, the blue flag changes colour and becomes a black flag, which removes the entry from the study list. Another flag, which was previously greyed out, also becomes available. It is a red flag and marked **Reset score**. It sets the entries score to 0.
+After an entry has been added, the blue flag changes colour and becomes a black flag, which removes the entry from the study list. Another flag, which was previously greyed out, also becomes available. It is a red flag and marked **Reset score**. It sets the entry's score to 0.
 
-An entries score goes up and down as you practise it.
+An entry's score goes up and down as you practise it.
 
 Lists
 -----
@@ -314,7 +314,7 @@ In addition to an export/print menu similar to the one of the results list, the 
 
 Each list is a tree branch in the list view panel. When a new list is created, it does not have a parent and is named *New list*. Double clicking on the branch will allow renaming. As every list is a branch, clicking and dragging them onto another list will set it to be a child of that list, allowing this lists to be embedded.
 
-Lists are useful for sorting and organizing entries that may be frequently viewed. To add an entry to a list, Drag and drop it onto one of the lists from the results view. doing this creates a child entry that links to that entry. Clicking on it in the lists view then opens the entry in the detailed view. You can drag from the results view, the list view (in which case the entry will move), the drag button of the detailed view's toolbar, or any kanji of the detailed view.
+Lists are useful for sorting and organizing entries that may be frequently viewed. To add an entry to a list, Drag and drop it onto one of the lists from the results view. Doing this creates a child entry that links to that entry. Clicking on it in the lists view then opens the entry in the detailed view. You can drag from the results view, the list view (in which case the entry will move), the drag button of the detailed view's toolbar, or any kanji of the detailed view.
 
 To delete a list and its contents, select it and click the button that looks like a red `x`. This will display a warning that points out that the operation will delete the list and all of its children. 
 
@@ -343,7 +343,7 @@ Practice
 
 The practice menu has four different options. Settings; vocab flash cards; kanji flash cards and reading practice. The flash card options are sub menus, each with **by set** and **entire study list** options for reading to translation and translation to reading.
 
-The settings window, brought up by clicking the **Whole study list train settings...** buttons, Which allows you to set what to include and exclude in study exercises. The **date of last training** section specifies what to include based on the last time it was studied. It defaults to before yesterday, so it wont include anything that you have already studied in the last twenty four hours. The score section specifies what to include based on score. If you only want to study things you are less familiar with you can change it to **between 0 and 50** and it would only show you red to yellow entries. The **sort bias** specifies if entries with a low score should be more likely to appear before entries with higher scores.
+The settings window, brought up by clicking the **Whole study list train settings...** buttons, Which allows you to set what to include and exclude in study exercises. The **date of last training** section specifies what to include based on the last time it was studied. It defaults to before yesterday, so it won't include anything that you have already studied in the last twenty four hours. The score section specifies what to include based on score. If you only want to study things you are less familiar with you can change it to **between 0 and 50** and it would only show you red to yellow entries. The **sort bias** specifies if entries with a low score should be more likely to appear before entries with higher scores.
 
 ### Flashcards
 
@@ -355,7 +355,7 @@ The flashcard window has four buttons up the top; **Answer** and **Skip**, as we
 
 If you have selected a **from Japanese** option for vocabulary flashcards, then there is an extra option along the detailed view toolbar, **Show furigana**, a checkbox which toggles whether or not the furigana for the entry is displayed.
 
-When you have decided whether or not you know the answer, pressing the answer button will display the rest of the entry, just as it would in the detailed display. You can then tell Tagaini if you got it correct or incorrect, which modifies the entries score, or skip the entry, which doesn't change it at all.
+When you have decided whether or not you know the answer, pressing the answer button will display the rest of the entry, just as it would in the detailed display. You can then tell Tagaini if you got it correct or incorrect, which modifies the entry's score, or skip the entry, which doesn't change it at all.
 
 ![Kanji Training](images/tagaini_train_kanji.png)
 
@@ -371,16 +371,16 @@ The last option in the practice menu is **reading practice, whole study set**. I
 
 ![Reading Practise](images/tagaini_train_reading.png)
 
-The window shows you a vocab entries written form, and asks you to type the correct reading for the entry. Underneath the text field, it has a detailed display which shows only the entries definitions. You must type the entry in kana (かな) to get entries correct, it will not accept romaji answers, though it does not mind if the answer is in hiragana ひらがな or katakana かたがな. 
+The window shows you a vocab entry's written form, and asks you to type the correct reading for the entry. Underneath the text field, it has a detailed display which shows only the entry's definitions. You must type the entry in kana (かな) to get entries correct, it will not accept romaji answers, though it does not mind if the answer is in hiragana ひらがな or katakana かたがな. 
 
 ![Reading Practise Error](images/tagaini_train_reading_batsu.png)
 
-When you get the answer correct it displays the word **Correct** in green writing between the detailed display and the text field and moves immediately on to the next entry. When you get the entry incorrect, however, it displays **Error!** in read writing between the text field and the detailed view and changes the text field into a long next button. The detailed view shows the entire entry so you can see where you went wrong. When you press the next button it will show the next entry.
+When you get the answer correct it displays the word **Correct** in green writing between the detailed display and the text field and moves immediately on to the next entry. When you get the entry incorrect, however, it displays **Error!** in red writing between the text field and the detailed view and changes the text field into a long next button. The detailed view shows the entire entry so you can see where you went wrong. When you press the next button it will show the next entry.
 
 Printing and Export
 -------------------
 
-Tagaini is a computer application, and some of the best times to study are those long hours spent commuting on trains, in waiting rooms or, for students, between classes. Unless you are drag a laptop around with you everywhere, You wont have access to Tagaini or its study features, so instead you can print out sets from the results or lists view, by selecting the desired print option from the menu of the first icon in their tool bar.
+Tagaini is a computer application, and some of the best times to study are those long hours spent commuting on trains, in waiting rooms or, for students, between classes. Unless you drag a laptop around with you everywhere, you won't have access to Tagaini or its study features, so instead you can print out sets from the results or lists view, by selecting the desired print option from the menu of the first icon in their tool bar.
 
 ![Print preview](images/print_preview.png)
 
@@ -539,7 +539,7 @@ Troubleshooting
 Unable to read Japanese
 -----------------------
 
-If you are unable to read Japanese text, you probably don't have any Japanese font's installed. You will likely have to install the Japanese language pack in windows and Mac OS X. To get Japanese support in Linux please see your distributions documentation, if the information and links provided in Tagaini's Install Guide were insufficient. 
+If you are unable to read Japanese text, you probably don't have any Japanese fonts installed. You will likely have to install the Japanese language pack in windows and Mac OS X. To get Japanese support in Linux please see your distribution's documentation, if the information and links provided in Tagaini's Install Guide were insufficient. 
 
 Unable to type Japanese text
 ----------------------------
@@ -560,7 +560,7 @@ Other Bugs
 
 If you have an issue that is not listed above, you may wish to check Tagaini's
 bug tracker on [launchpad][btfoot], or the [mailing lists][mailfoot]. Chances are that someone else
-has already reported the problem and an work around has been posted. If no one
+has already reported the problem and a work around has been posted. If no one
 else has reported the bug, then please feel free to do so. 
 
 Contact
