@@ -52,7 +52,6 @@
 #include <QApplication>
 #include <QFileDialog>
 #include <QMessageBox>
-#include <QClipboard>
 #include <QDesktopWidget>
 
 /// State version of the main window - should be increated every time the docks or statusbars change
@@ -502,33 +501,21 @@ void MainWindow::enableClipboardInput(bool enable)
 {
 	QClipboard *clipboard = QApplication::clipboard();
 	if (enable && !_clipboardEnabled) {
-		connect(clipboard, SIGNAL(dataChanged()), this, SLOT(onClipboardChanged()));
-		connect(clipboard, SIGNAL(selectionChanged()), this, SLOT(onClipboardSelectionChanged()));
 		_clipboardEnabled = true;
+		connect(clipboard, SIGNAL(changed(QClipboard::Mode)), this, SLOT(onClipboardChanged(QClipboard::Mode)));
 	}
 	else if (!enable && _clipboardEnabled ) {
-		disconnect(clipboard, SIGNAL(dataChanged()), this, SLOT(onClipboardChanged()));
-		disconnect(clipboard, SIGNAL(selectionChanged()), this, SLOT(onClipboardSelectionChanged()));
+		disconnect(clipboard, SIGNAL(changed(QClipboard::Mode)), this, SLOT(onClipboardChanged(QClipboard::Mode)));
 		_clipboardEnabled = false;
 	}
 }
 
-void MainWindow::onClipboardChanged()
+void MainWindow::onClipboardChanged(QClipboard::Mode mode)
 {
 	TextFilterWidget *tfw = qobject_cast<TextFilterWidget *>(searchWidget()->getSearchFilter("searchtext"));
 	if (!tfw) return;
 	QClipboard *clipboard = QApplication::clipboard();
-	QString cText(clipboard->text(QClipboard::Clipboard));
-	if (cText.isEmpty() || cText == tfw->text()) return;
-	tfw->setText(cText);
-}
-
-void MainWindow::onClipboardSelectionChanged()
-{
-	TextFilterWidget *tfw = qobject_cast<TextFilterWidget *>(searchWidget()->getSearchFilter("searchtext"));
-	if (!tfw) return;
-	QClipboard *clipboard = QApplication::clipboard();
-	QString cText(clipboard->text(QClipboard::Selection));
+	QString cText(clipboard->text(mode));
 	QString cText2;
 	// Remove any space between Japanese content
 	bool lastCharJapanese = true;

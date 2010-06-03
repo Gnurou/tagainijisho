@@ -32,6 +32,7 @@
 #include <QDialog>
 #include <QSpinBox>
 #include <QTimer>
+#include <QClipboard>
 
 /*class SearchFilterDock : public QDockWidget
 {
@@ -79,8 +80,7 @@ private slots:
 	void populateMenu(QMenu *menu, int parentId);
 	void resetSearch();
 
-	void onClipboardChanged();
-	void onClipboardSelectionChanged();
+	void onClipboardChanged(QClipboard::Mode mode);
 	void enableClipboardInput(bool enable);
 
 protected slots:
