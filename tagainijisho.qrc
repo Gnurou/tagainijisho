@@ -48,5 +48,8 @@
     <file>images/icons/control-stop.png</file>
     <file>images/icons/donate.png</file>
     <file>images/icons/component-selector.png</file>
+
+	<file alias="detailed_default.css">src/gui/detailed_default.css</file>
+	<file alias="detailed_default.html">src/gui/detailed_default.html</file>
   </qresource>
 </RCC>

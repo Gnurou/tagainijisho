@@ -48,7 +48,7 @@ protected:
 	virtual ~EntryFormatter() {}
 
 public:
-	EntryFormatter(QObject *parent = 0);
+	EntryFormatter(const QString& _cssFile = "", const QString& _htmlFile = "", QObject* parent = 0);
 
 	/**
 	 * Register a new formatter for an entry type.
@@ -125,10 +125,18 @@ public:
 	const QString &CSS() const { return _css; }
 	const QString &htmlTemplate() const { return _html; }
 
+	QString buildSubInfoLine(const QString &title, const QString &content);
+	QString buildSubInfoBlock(const QString &title, const QString &content);
+	// Background jobs should be added through a HTML comment that is parsed later by the detailed view.
+
 public slots:
-	QString formatLists(const ConstEntryPointer &entry) const;
-	QString formatTags(const ConstEntryPointer &entry) const;
-	QString formatTrainingData(const ConstEntryPointer &entry) const;
+	virtual QString formatHeadFurigana(const ConstEntryPointer &entry) const;
+	virtual QString formatHead(const ConstEntryPointer &entry) const;
+	virtual QString formatLists(const ConstEntryPointer &entry) const;
+	virtual QString formatTags(const ConstEntryPointer &entry) const;
+	virtual QString formatNotes(const ConstEntryPointer &entry) const;
+	virtual QString formatTrainingData(const ConstEntryPointer &entry) const;
+	
 };
 
 #endif

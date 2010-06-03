@@ -30,16 +30,21 @@ QMap<int, EntryFormatter *> EntryFormatter::_formatters;
 static const int entryTextProperties = Qt::AlignJustify | Qt::TextWordWrap;
 static QFont printFont = QFont("", 14);
 
-EntryFormatter::EntryFormatter(QObject *parent) : QObject(parent)
+EntryFormatter::EntryFormatter(const QString& _cssFile, const QString& _htmlFile, QObject* parent) : QObject(parent)
 {
-	QString cssFile(lookForFile("detailed_template.css"));
+	// Try to load custom file first
+	QString cssFile(lookForFile(_cssFile));
+	// Failed, revert to default file
+	if (cssFile.isEmpty()) cssFile = lookForFile("detailed_default.css");
 	if (cssFile.isEmpty()) qCritical(tr("Cannot find detailed view CSS file!").toUtf8().constData());
 	else {
 		QFile f(cssFile);
 		f.open(QIODevice::ReadOnly);
 		_css = QString::fromUtf8(f.readAll());
 	}
-	QString htmlFile(lookForFile("detailed_template.html"));
+	// Do the same for HTML
+	QString htmlFile(lookForFile(_htmlFile));
+	if (htmlFile.isEmpty()) htmlFile = lookForFile("detailed_default.html");
 	if (htmlFile.isEmpty()) qCritical(tr("Cannot find detailed view HTML file!").toUtf8().constData());
 	else {
 		QFile f(htmlFile);
@@ -68,99 +73,6 @@ void EntryFormatter::writeUserData(const ConstEntryPointer& entry, QTextCursor& 
 	QTextCharFormat bold(normal);
 	bold.setFontWeight(QFont::Bold);
 
-	// Tags
-	if (!entry->tags().isEmpty()) {
-		cursor.insertBlock(QTextBlockFormat());
-		cursor.setCharFormat(normal);
-		cursor.insertImage("tagicon");
-		bool first = true;
-		cursor.insertText(" ");
-		foreach(const Tag &tag, entry->tags()) {
-			if (!first) cursor.insertText("   ");
-			else first = false;
-			QTextCharFormat linkFormat(normal);
-			linkFormat.setAnchor(true);
-			linkFormat.setAnchorHref(QString("tag://%1").arg(tag.name()));
-			cursor.mergeCharFormat(linkFormat);
-			cursor.insertText(tag.name());
-			cursor.setCharFormat(normal);
-		}
-	}
-
-	// Lists
-	QSqlQuery query;
-	query.prepare("select lists.rowid, listsLabels.label from lists join listsLabels on lists.parent = listsLabels.rowid where lists.type = ? and lists.id = ?");
-	query.addBindValue(entry->type());
-	query.addBindValue(entry->id());
-	query.exec();
-	if (query.next()) {
-		cursor.insertBlock(QTextBlockFormat());
-		cursor.setCharFormat(normal);
-		cursor.insertImage("listicon");
-		bool first = true;
-		cursor.insertText(" ");
-		do {
-			if (!first) cursor.insertText("   ");
-			else first = false;
-			QTextCharFormat linkFormat(normal);
-			linkFormat.setAnchor(true);
-			linkFormat.setAnchorHref(QString("list://?rowid=%1").arg(query.value(0).toInt()));
-			cursor.mergeCharFormat(linkFormat);
-			cursor.insertText(query.value(1).toString());
-			cursor.setCharFormat(normal);
-		} while (query.next());
-	}
-	
-	//Notes
-	if (!entry->notes().isEmpty()) {
-		QTextTableFormat tableFormat;
-		tableFormat.setBorder(1);
-		tableFormat.setBorderBrush(Qt::black);
-		tableFormat.setBorderStyle(QTextFrameFormat::BorderStyle_Solid);
-		tableFormat.setBackground(QColor(Qt::yellow).lighter());
-		QVector<QTextLength> constraints;
-		constraints << QTextLength(QTextLength::PercentageLength, 100);
-		tableFormat.setColumnWidthConstraints(constraints);
-		cursor.insertTable(1, 1, tableFormat);
-
-		cursor.setCharFormat(bold);
-		cursor.insertText(tr("Notes:"));
-		cursor.setCharFormat(normal);
-		bool first = true;
-		cursor.setCharFormat(normal);
-		foreach(const Entry::Note &note, entry->notes()) {
-			if (!first) cursor.insertText("\n");
-			cursor.insertBlock(QTextBlockFormat());
-			cursor.setCharFormat(normal);
-			autoFormat(entry, note.note(), cursor);
-			first = false;
-		}
-		cursor.movePosition(QTextCursor::NextBlock);
-	}
-
-	// Training data
-	if (entry->trained()) {
-		QTextBlockFormat trainingFormat;
-		trainingFormat.setAlignment(Qt::AlignRight);
-		QTextCharFormat charFormat(normal);
-		QFont font(charFormat.font());
-		font.setPointSize(font.pointSize() / 1.5);
-		charFormat.setFont(font);
-		charFormat.setFontItalic(true);
-		cursor.insertBlock(trainingFormat);
-		cursor.setCharFormat(charFormat);
-		cursor.insertText(tr("Studied since %1.").arg(entry->dateAdded().date().toString(Qt::DefaultLocaleShortDate)));
-		cursor.insertText(tr(" Score: %1.").arg(entry->score()));
-		if (entry->dateLastTrain().isValid()) {
-			cursor.insertText(tr(" Last trained on %1.").arg(entry->dateLastTrain().date().toString(Qt::DefaultLocaleShortDate)));
-			if (entry->dateLastMistake().isValid()) {
-				cursor.insertText(tr(" Last mistaken on %1.").arg(entry->dateLastMistake().date().toString(Qt::DefaultLocaleShortDate)));
-			}
-		}
-		else cursor.insertText(tr(" Never trained."));
-		
-		cursor.setCharFormat(normal);
-	}
 }
 
 void EntryFormatter::detailedVersion(const ConstEntryPointer &entry, QTextCursor &cursor, DetailedView *view) const
@@ -251,28 +163,89 @@ void EntryFormatter::writeEntryTitle(const ConstEntryPointer& entry, QTextCursor
 	autoFormat(entry, title, cursor, scoreFormat);
 }
 
+QString EntryFormatter::formatHeadFurigana(const ConstEntryPointer &entry) const
+{
+	QStringList readings(entry->readings());
+	if (!entry->writings().isEmpty() && !readings.isEmpty())
+		return readings[0];
+	else return "";
+}
+
+QString EntryFormatter::formatHead(const ConstEntryPointer &entry) const
+{
+	if (!entry->writings().isEmpty())
+		return entry->writings()[0];
+	else if (!entry->readings().isEmpty())
+		return entry->readings()[0];
+	else return "";
+}
+
 QString EntryFormatter::formatLists(const ConstEntryPointer &entry) const
 {
-	return "Lists";
+	// Lists
+	QSqlQuery query;
+	query.prepare("select lists.rowid, listsLabels.label from lists join listsLabels on lists.parent = listsLabels.rowid where lists.type = ? and lists.id = ?");
+	query.addBindValue(entry->type());
+	query.addBindValue(entry->id());
+	query.exec();
+	if (query.next()) {
+		QString ret("<img src=\"listicon\"> ");
+		bool first = true;
+		do {
+			if (!first) ret += "   ";
+			else first = false;
+			// TODO correctly encode link data
+			ret += QString("<a href=\"list://?rowid=%1\">%2</a>").arg(query.value(0).toInt()).arg(query.value(1).toString());
+		} while (query.next());
+		return ret;
+	}
+	else return "";
 }
 
 QString EntryFormatter::formatTags(const ConstEntryPointer &entry) const
 {
-	QString ret;
 	if (!entry->tags().isEmpty()) {
+		QString ret("<img src=\"tagicon\"> ");
 		bool first = true;
-		ret += "<img src=\"tagicon\"> ";
 		foreach(const Tag &tag, entry->tags()) {
 			if (!first) ret += "   ";
 			else first = false;
+			// TODO correctly encode link data
 			ret += QString("<a href=\"tag://%1\">%1</a>").arg(tag.name());
 		}
+		return ret;
 	}
-	
-	return ret;
+	else return "";
+}
+
+QString EntryFormatter::formatNotes(const ConstEntryPointer &entry) const
+{
+	//Notes
+	if (!entry->notes().isEmpty()) {
+		QString ret("<div class=\"title\">" + tr("Notes:") + "</div>");
+		foreach(const Entry::Note &note, entry->notes()) {
+			// TODO autoformat
+			ret += QString("<p>%1</p>").arg(note.note());
+		}
+		return ret;
+	}
+	else return "";
 }
 
 QString EntryFormatter::formatTrainingData(const ConstEntryPointer &entry) const
 {
-	return "Training data";
+	// Training data
+	if (entry->trained()) {
+		QString ret;
+		ret += tr("Studied since %1.").arg(entry->dateAdded().date().toString(Qt::DefaultLocaleShortDate));
+		ret += tr(" Score: %1.").arg(entry->score());
+		if (entry->dateLastTrain().isValid()) {
+			ret += tr(" Last trained on %1.").arg(entry->dateLastTrain().date().toString(Qt::DefaultLocaleShortDate));
+			if (entry->dateLastMistake().isValid()) {
+				ret += tr(" Last mistaken on %1.").arg(entry->dateLastMistake().date().toString(Qt::DefaultLocaleShortDate));
+			}
+		}
+		return ret;
+	}
+	else return "";
 }

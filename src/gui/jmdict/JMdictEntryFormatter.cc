@@ -70,7 +70,7 @@ QString JMdictEntryFormatter::getHomographsSql(const QString &writing, int id, i
 	return queryFindHomographsSql.arg(writing).arg(maxToDisplay).arg(id).arg(studiedOnly ? "" : "left ").arg(JMdictEntrySearcher::miscFilterMask());
 }
 
-JMdictEntryFormatter::JMdictEntryFormatter(QObject* parent) : EntryFormatter(parent)
+JMdictEntryFormatter::JMdictEntryFormatter(QObject* parent) : EntryFormatter("detailed_jmdict.css", "detailed_jmdict.html", parent)
 {
 }
 
