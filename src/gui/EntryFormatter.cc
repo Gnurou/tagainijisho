@@ -163,6 +163,47 @@ void EntryFormatter::writeEntryTitle(const ConstEntryPointer& entry, QTextCursor
 	autoFormat(entry, title, cursor, scoreFormat);
 }
 
+QString EntryFormatter::colorTriplet(const QColor &color)
+{
+	return QString("#%1%2%3").arg(QString::number(color.red(), 16), 2, '0').arg(QString::number(color.green(), 16), 2, '0').arg(QString::number(color.blue(), 16), 2, '0');
+}
+
+QString EntryFormatter::autoFormat(const QString &str) const
+{
+	return str;
+}
+
+QString EntryFormatter::entryTitle(const ConstEntryPointer& entry) const
+{
+	QString title;
+	if (!entry->writings().isEmpty()) title = entry->writings()[0];
+	else if (!entry->readings().isEmpty()) title = entry->readings()[0];
+	else return "";
+	title = autoFormat(title);
+	if (entry->trained()) {
+		// TODO
+		title = QString("<div style=\"background-color:%1\">%2</div>").arg(colorTriplet(entry->scoreColor())).arg(autoFormat(title));
+	}
+	return title;
+}
+
+QString EntryFormatter::shortDesc(const ConstEntryPointer &entry) const
+{
+	QString ret(QString("%1: %2").arg(entryTitle(entry)).arg(entry->meanings().join(". ")));
+	return ret;
+}
+
+QString EntryFormatter::buildSubInfoLine(const QString &title, const QString &content) const
+{
+	return QString("<span class=\"subinfo\">\n<span class=\"title\">%1:</span>\n<span class=\"contents\">\n %2\n</span>\n</span>\n").arg(title).arg(content);
+}
+
+QString EntryFormatter::buildSubInfoBlock(const QString &title, const QString &content) const
+{
+	return QString("<div class=\"subinfo\">\n<div class=\"title\">%1</div>\n<div class=\"contents\">\n%2\n</div>\n</div>\n").arg(title).arg(content);
+}
+
+
 QString EntryFormatter::formatHeadFurigana(const ConstEntryPointer &entry) const
 {
 	QStringList readings(entry->readings());

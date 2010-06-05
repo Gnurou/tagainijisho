@@ -104,6 +104,14 @@ public:
 	static PreferenceItem<bool> printStrokesNumbers;
 	static PreferenceItem<int> strokesNumbersSize;
 	static PreferenceItem<bool> printGrid;
+	
+public:
+	virtual QString shortDesc(const ConstEntryPointer &entry) const;
+	
+	/**
+	 * Variant that takes kanji variations into account.
+	 */
+	virtual QString shortDesc(const ConstKanjidic2EntryPointer &shape, const ConstKanjidic2EntryPointer &entry) const;
 };
 
 class ShowUsedInKanjiJob : public DetailedViewJob {

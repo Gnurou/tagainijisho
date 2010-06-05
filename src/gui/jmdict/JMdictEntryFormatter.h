@@ -67,6 +67,18 @@ public:
 	static QString getVerbBuddySql(const QString &matchPattern, quint64 pos, int id);
 	static QString getHomophonesSql(const QString &reading, int id, int maxToDisplay = maxHomophonesToDisplay.value(), bool studiedOnly = displayStudiedHomophonesOnly.value());
 	static QString getHomographsSql(const QString &writing, int id, int maxToDisplay = maxHomophonesToDisplay.value(), bool studiedOnly = displayStudiedHomophonesOnly.value());
+	
+public slots:
+	virtual QString formatHeadFurigana(const ConstEntryPointer &entry) const;
+	virtual QString formatHead(const ConstEntryPointer &entry) const;
+	virtual QString formatAltReadings(const ConstEntryPointer &entry) const;
+	virtual QString formatAltWritings(const ConstEntryPointer &entry) const;
+	virtual QString formatSenses(const ConstEntryPointer &entry) const;
+	virtual QString formatJLPT(const ConstEntryPointer &entry) const;
+	virtual QString formatKanji(const ConstEntryPointer &entry) const;
+	virtual QString formatVerbBuddy(const ConstEntryPointer &entry) const;
+	virtual QString formatHomophones(const ConstEntryPointer &entry) const;
+	virtual QString formatHomographs(const ConstEntryPointer &entry) const;
 };
 
 class FindVerbBuddyJob : public DetailedViewJob {

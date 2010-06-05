@@ -637,6 +637,28 @@ ConstKanjidic2EntryPointer Kanjidic2EntryFormatter::getMeaningEntry(const KanjiC
 	return component;
 }
 
+QString Kanjidic2EntryFormatter::shortDesc(const ConstEntryPointer &entry) const
+{
+	ConstKanjidic2EntryPointer kEntry(entry.staticCast<const Kanjidic2Entry>());
+	return shortDesc(kEntry, kEntry);
+}
+
+QString Kanjidic2EntryFormatter::shortDesc(const ConstKanjidic2EntryPointer &shape, const ConstKanjidic2EntryPointer &entry) const
+{
+	QString ret;
+	if (entry->trained()) ret += QString("<span style=\"background-color:%1\">").arg(colorTriplet(entry->scoreColor()));
+
+	QString str(entry->kanji());
+	if (shape != entry) str += QString(" (%1) ").arg(shape->kanji());
+	if (!entry->meanings().isEmpty()) str += ": " + entry->meaningsString();
+	ret += autoFormat(str);
+	if (shortDescShowJLPT.value() && entry->jlpt() != -1)
+		ret += QString("<b>%1</b>").arg(autoFormat(tr(" (JLPT %1)").arg(entry->jlpt())));
+	ret += QString(" <a href=\"entry://?type=%1&id=%2\"><img src=\"moreicon\"/></a>").arg(entry->type()).arg(entry->id());
+	if (entry->trained()) ret += "</span>";
+	return ret;
+}
+
 ShowUsedInKanjiJob::ShowUsedInKanjiJob(const QString &kanji, const QTextCursor &cursor) :
 		DetailedViewJob(Kanjidic2EntryFormatter::getQueryUsedInKanjiSql(TextTools::singleCharToUnicode(kanji), Kanjidic2EntryFormatter::maxCompoundsToDisplay.value(), Kanjidic2EntryFormatter::showOnlyStudiedCompounds.value()), cursor), _kanji(kanji), _gotResult(false)
 {

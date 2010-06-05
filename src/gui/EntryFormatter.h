@@ -120,13 +120,28 @@ public:
 protected:
 	QString _css;
 	QString _html;
+	
+	static QString colorTriplet(const QColor &color);
 
 public:
 	const QString &CSS() const { return _css; }
 	const QString &htmlTemplate() const { return _html; }
+	
+	QString autoFormat(const QString &str) const;
 
-	QString buildSubInfoLine(const QString &title, const QString &content);
-	QString buildSubInfoBlock(const QString &title, const QString &content);
+	/**
+	 * Return a as-short as possible title to identify this entry.
+	 */
+	virtual QString entryTitle(const ConstEntryPointer &entry) const;
+
+	/**
+	 * Return a short description with all the fancy and interaction the user
+	 * can expect on the detailed view.
+	 */
+	virtual QString shortDesc(const ConstEntryPointer &entry) const;
+
+	QString buildSubInfoLine(const QString &title, const QString &content) const;
+	QString buildSubInfoBlock(const QString &title, const QString &content) const;
 	// Background jobs should be added through a HTML comment that is parsed later by the detailed view.
 
 public slots:

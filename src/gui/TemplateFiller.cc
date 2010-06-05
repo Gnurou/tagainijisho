@@ -32,11 +32,8 @@ QString TemplateFiller::fill(const QString &tmpl, const EntryFormatter *formatte
         QString whole = funcMatch.cap(0);
         QString meth = funcMatch.cap(1);
         QStringList options = funcMatch.cap(2).split(',');
-        qDebug() << meth << options;
 		QString repl;
-		qDebug() << QMetaObject::invokeMethod(const_cast<EntryFormatter *>(formatter), QString("format" + meth).toLatin1().constData(), Qt::DirectConnection,
-		                               Q_RETURN_ARG(QString, repl),
-		                               Q_ARG(ConstEntryPointer, entry));
+		QMetaObject::invokeMethod(const_cast<EntryFormatter *>(formatter), QString("format" + meth).toLatin1().constData(), Qt::DirectConnection, Q_RETURN_ARG(QString, repl), Q_ARG(ConstEntryPointer, entry));
         ret.replace(matchPos, whole.size(), repl);
         pos = matchPos;
     }

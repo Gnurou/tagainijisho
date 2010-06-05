@@ -20,6 +20,7 @@
 #include "core/EntriesCache.h"
 #include "core/jmdict/JMdictEntry.h"
 #include "core/jmdict/JMdictEntrySearcher.h"
+#include "core/jmdict/JMdictPlugin.h"
 
 #include <QtDebug>
 #include <QSqlQuery>
@@ -118,4 +119,9 @@ QList<const Sense *> JMdictEntry::getSenses() const
 		if (!(sense.misc() & filter)) res << &sense;
 	}
 	return res;
+}
+
+bool JMdictEntry::writtenInKana() const
+{
+	return (!senses.isEmpty() && senses[0].misc() & (1 << JMdictPlugin::miscBitShifts()["uk"]));
 }

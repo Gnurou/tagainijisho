@@ -152,6 +152,11 @@ public:
 	virtual QStringList writings() const;
 	virtual QStringList readings() const;
 	virtual QStringList meanings() const;
+	
+	/**
+	 * Returns true if the most significant meaning of this entry is usually written in kana.
+	 */
+	bool writtenInKana() const;
 
 	friend class JMdictEntrySearcher;
 };
