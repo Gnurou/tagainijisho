@@ -130,8 +130,19 @@ void DetailedView::_display(const EntryPointer &entry, bool update)
 	if (!formatter) qWarning("%s %d: %s", __FILE__, __LINE__, "No formatter found for entry!");
 	else {
 		document()->setDefaultStyleSheet(formatter->CSS());
+		// Fill the HTML template with the immediate information
 		QString html(filler.fill(formatter->htmlTemplate(), formatter, entry));
 		document()->setHtml(html);
+		// Now find the jobs that need to be run from the document
+		QRegExp funcMatch("\\$\\!\\$(\\w+)");
+		QTextCursor pos(document()), matchPos;
+		while (!(matchPos = document()->find(funcMatch, pos)).isNull()) {
+			funcMatch.exactMatch(matchPos.selectedText());
+			QString jobClass(funcMatch.cap(1));
+			qDebug() << jobClass;
+			matchPos.removeSelectedText();
+			pos = matchPos;
+		}
 		_jobsRunner.runAllJobs();
 	}
 }

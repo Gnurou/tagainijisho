@@ -551,22 +551,6 @@ QString JMdictEntryFormatter::formatKanji(const ConstEntryPointer &entry) const
 	else return "";
 }
 
-QString JMdictEntryFormatter::formatVerbBuddy(const ConstEntryPointer &entry) const
-{
-	return "";
-}
-
-QString JMdictEntryFormatter::formatHomophones(const ConstEntryPointer &entry) const
-{
-	return "";
-}
-
-QString JMdictEntryFormatter::formatHomographs(const ConstEntryPointer &entry) const
-{
-	return "";
-}
-
-
 FindVerbBuddyJob::FindVerbBuddyJob(const ConstJMdictEntryPointer& verb, const QString& pos, const QTextCursor& cursor) :
 	DetailedViewJob(cursor), lastKanjiPos(0), searchedPos(pos)
 {

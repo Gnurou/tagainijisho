@@ -76,9 +76,6 @@ public slots:
 	virtual QString formatSenses(const ConstEntryPointer &entry) const;
 	virtual QString formatJLPT(const ConstEntryPointer &entry) const;
 	virtual QString formatKanji(const ConstEntryPointer &entry) const;
-	virtual QString formatVerbBuddy(const ConstEntryPointer &entry) const;
-	virtual QString formatHomophones(const ConstEntryPointer &entry) const;
-	virtual QString formatHomographs(const ConstEntryPointer &entry) const;
 };
 
 class FindVerbBuddyJob : public DetailedViewJob {
