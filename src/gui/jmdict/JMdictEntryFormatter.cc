@@ -533,20 +533,14 @@ QString JMdictEntryFormatter::formatKanji(const ConstEntryPointer &entry) const
 		QString title();
 		QString contents;
 		const QString &reading(jEntry->getKanjiReadings()[0].getReading());
-		bool firstKanji = true;
 		for (int i = 0; i < reading.size(); ++i) {
 			if (TextTools::isKanjiChar(reading, i)) {
 				QString k(reading[i]);
 				if (reading[i].isHighSurrogate()) k += reading[++i];
 				ConstKanjidic2EntryPointer kanji = KanjiEntryRef(TextTools::singleCharToUnicode(k)).get();
 				if (kanji) {
-					if (!firstKanji) {
-						contents += "<br/>";
-						contents += "\n";
-					}
-					else firstKanji = false;
 					const EntryFormatter *formatter(EntryFormatter::getFormatter(kanji));
-					contents += QString("<span class=\"kanjiinfo\">%1</span>").arg(formatter->shortDesc(kanji));
+					contents += QString("<div class=\"kanjiinfo\">%1</div>").arg(formatter->shortDesc(kanji));
 					// TODO
 					//view->addWatchEntry(_entry);
 				}

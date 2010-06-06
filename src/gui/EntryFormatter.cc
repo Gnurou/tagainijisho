@@ -32,24 +32,32 @@ static QFont printFont = QFont("", 14);
 
 EntryFormatter::EntryFormatter(const QString& _cssFile, const QString& _htmlFile, QObject* parent) : QObject(parent)
 {
-	// Try to load custom file first
-	QString cssFile(lookForFile(_cssFile));
-	// Failed, revert to default file
-	if (cssFile.isEmpty()) cssFile = lookForFile("detailed_default.css");
-	if (cssFile.isEmpty()) qCritical(tr("Cannot find detailed view CSS file!").toUtf8().constData());
-	else {
-		QFile f(cssFile);
-		f.open(QIODevice::ReadOnly);
-		_css = QString::fromUtf8(f.readAll());
-	}
-	// Do the same for HTML
-	QString htmlFile(lookForFile(_htmlFile));
+	// Try to load custom html file
+	QString htmlFile;
+	if (!_htmlFile.isEmpty()) htmlFile = lookForFile(_htmlFile);
 	if (htmlFile.isEmpty()) htmlFile = lookForFile("detailed_default.html");
 	if (htmlFile.isEmpty()) qCritical(tr("Cannot find detailed view HTML file!").toUtf8().constData());
 	else {
 		QFile f(htmlFile);
 		f.open(QIODevice::ReadOnly);
 		_html = QString::fromUtf8(f.readAll());
+	}
+	// Load default css file
+	QString cssFile(lookForFile("detailed_default.css"));
+	if (cssFile.isEmpty()) qCritical(tr("Cannot find detailed view CSS file!").toUtf8().constData());
+	else {
+		QFile f(cssFile);
+		f.open(QIODevice::ReadOnly);
+		_css = QString::fromUtf8(f.readAll());
+	}
+	// Append custom CSS if specified
+	if (!_cssFile.isEmpty()) {
+		cssFile = lookForFile(_cssFile);
+		if (!cssFile.isEmpty()) {
+			QFile f(cssFile);
+			f.open(QIODevice::ReadOnly);
+			_css += QString::fromUtf8(f.readAll());
+		}
 	}
 }
 
@@ -200,7 +208,7 @@ QString EntryFormatter::buildSubInfoLine(const QString &title, const QString &co
 
 QString EntryFormatter::buildSubInfoBlock(const QString &title, const QString &content) const
 {
-	return QString("<div class=\"subinfo\">\n<div class=\"title\">%1</div>\n<div class=\"contents\">\n%2\n</div>\n</div>\n").arg(title).arg(content);
+	return QString("<table class=\"subinfo\"><tr><td class=\"title\">\n%1</td></tr>\n<tr><td class=\"contents\">\n%2\n</td></tr>\n</table>\n").arg(title).arg(content);
 }
 
 

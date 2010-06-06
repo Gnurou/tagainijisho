@@ -51,5 +51,9 @@
 
 	<file alias="detailed_default.css">src/gui/detailed_default.css</file>
 	<file alias="detailed_default.html">src/gui/detailed_default.html</file>
+	<file alias="detailed_jmdict.css">src/gui/jmdict/detailed_jmdict.css</file>
+	<file alias="detailed_jmdict.html">src/gui/jmdict/detailed_jmdict.html</file>
+	<file alias="detailed_kanjidic2.css">src/gui/kanjidic2/detailed_kanjidic2.css</file>
+	<file alias="detailed_kanjidic2.html">src/gui/kanjidic2/detailed_kanjidic2.html</file>
   </qresource>
 </RCC>
