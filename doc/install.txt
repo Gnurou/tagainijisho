@@ -3,7 +3,7 @@ Subtitle:   Install Guide
 Web:        tagaini.net
 Author:	    Neil Caldwell
 	    Alexandre Courbot
-Date:       Thu 17 Dec 2009
+Date:       Thu 17 Dec 2009 - Sun 06 Jun 2010
 Email:      ncaldwell@alumnaie.net
 Copyright:  Creative Commons Attribution-Share Alike 3.0.
 	    http://creativecommons.org/licenses/by-sa/3.0/
@@ -31,7 +31,7 @@ These dependencies are:
 
 * Fonts  
     &emsp;&emsp;&emsp; Fonts to display Japanese characters.  
-    &emsp;&emsp;&emsp; これを読んだら日本語のフォントはもうインストールしています。  
+    &emsp;&emsp;&emsp; これを読んだら日本語のフォントはもうインストールしました。  
     &emsp;&emsp;&emsp; If you can not read the above then you need to install fonts.
 * An [IM][WIM]  
     &emsp;&emsp;&emsp; An *Input Method*. It is an application that allows the  
@@ -62,7 +62,7 @@ Dependency|&emsp;|Windows|&emsp;|Mac OS|&emsp;|Linux Binary|&emsp;|Source|
  An IM              || yes          || yes      || yes              || yes   |
  Qt                 || no           || no       || yes              || yes   |
  CMake              || no           || no       || no               || yes   |
-[Platform Dependencies - version 0.2.5]
+[Platform Dependencies - version 0.2.5+]
 
 
 [^bin]: A binary file is an executable file that contains information that the
@@ -96,7 +96,7 @@ add different input languages. Add Japanese. The keyboard should say Microsoft
 IME.
 
 If the above instructions didn't work for you, or if you would like to read a
-how to on the Windows IME, one can be found
+how-to on the Windows IME, one can be found
 [here](http://newton.uor.edu/Departments&Programs/AsianStudiesDept/Language/japanese_write.htm "Writing Japanese on the Windows Platform") or [here](http://www.declan-software.com/japanese_ime/ "Declan Software; Installing the Japanese IME").
 
 
@@ -127,7 +127,7 @@ distributions provide packages with locales in them, possibly called language
 packs, whilst others expect you to use
 [localegen](http://man.he.net/man8/locale-gen "man locale-gen") or to set them up yourself.
 
-If the information is not one of our [how to links](#howto), then you will have
+If the information is not one of our [how-to links](#howto), then you will have
 to search through your distributions documentation.
 
 [UTF8]: http://en.wikipedia.org/wiki/UTF-8
@@ -238,7 +238,7 @@ versions of them in the source tarball.
 
 [^qtdepfoot]: The gentoo Qt maintainers split Qt into 14 seperate pacakges. This
 is done so that one does not have to compile the entire monolithic library. 
-Tagaini only requires `x11-libs/qt-core`, `x11-libs/qt-gui` and `x11-libs/qt-sql`.
+Tagaini only requires `x11-libs/qt-core`, `x11-libs/qt-gui`, `x11-libs/qt-test` and `x11-libs/qt-sql`.
 
 
 ### From the source tarball, version 0.2.5
@@ -256,20 +256,17 @@ The debug version can be compiled by:
 
     tagaini-jisho $ make debug
 
-To install the program, you can run:
+Now that you have a working binary but no databases. Compile the database
+with:
+    
+    tagaini-jisho $ make databases
 
+To install the program, you can run:
 
     tagaini-jisho $ make install
 
-Now that you have installed the program, you can compile the dictionary
-databases;
-
-    tagaini-jisho $ ./builddb.py
-
-By default `builddb.py` generates the databases in English. Passing the `-h`
-to `builddb.py` will list its usage and options. If you would like to build
-the database in another language then the you can use the `--lang LA` switch,
-where `LA` is a language.
+By default `make databases` generates the databases in English. *Needs
+instructions for other language databases.* 
 
 The valid values are:
 
@@ -282,9 +279,8 @@ The valid values are:
 ### Compiling from GIT sources. 
 
 If you have cloned the git repository then you are going to compile the
-latest, not nessasarly stable, build. As it is moving towards 0.2.5 it may
-have features that are yet undocumented. First of all the build system has
-also moved from python to cmake.
+latest, not nessasarly stable, build. As it is moving towards 0.2.7 it may
+have features that are yet undocumented.
 
 The git repository does not hold any of the custom 3rd party libraries or the
 dictionaries, so they must fisrt be downloaded. 
@@ -316,7 +312,7 @@ or installed with:
 Upgrading
 ---------
 
-Tagaini Jisho is a work in progress and is constantly updated. To upgrade 
+Tagaini Jisho is a work in progress and is constantly being updated. To upgrade 
 Tagaini, there is no special upgrade procedure. Simpily installing the new 
 version over the top of the old one should work.
 
