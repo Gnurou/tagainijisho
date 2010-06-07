@@ -227,8 +227,6 @@ void JMdictEntryFormatter::writeEntryInfo(const ConstJMdictEntryPointer& entry, 
 			}
 		}
 	}
-	if (maxHomophonesToDisplay.value()) view->addBackgroundJob(new FindHomophonesJob(entry, maxHomophonesToDisplay.value(), displayStudiedHomophonesOnly.value(), cursor));
-	if (maxHomographsToDisplay.value()) view->addBackgroundJob(new FindHomographsJob(entry, maxHomographsToDisplay.value(), displayStudiedHomographsOnly.value(), cursor));
 }
 
 void JMdictEntryFormatter::writeShortDesc(const ConstEntryPointer& entry, QTextCursor& cursor) const
@@ -551,6 +549,52 @@ QString JMdictEntryFormatter::formatKanji(const ConstEntryPointer &entry) const
 	else return "";
 }
 
+QList<DetailedViewJob *> JMdictEntryFormatter::jobVerbBuddy(const ConstEntryPointer &_entry, const QTextCursor &cursor) const
+{
+	QList<DetailedViewJob *> ret;
+	ConstJMdictEntryPointer entry(_entry.staticCast<const JMdictEntry>());
+	const QList<const Sense *> senses = entry->getSenses();
+
+	QTextCharFormat normal(DetailedViewFonts::charFormat(DetailedViewFonts::DefaultText));
+	QTextCharFormat bold(normal);
+	bold.setFontWeight(QFont::Bold);
+	bool searchVi = true, searchVt = true;
+	
+	// This check should not be needed, but just in case...
+	if (JMdictPlugin::posBitShifts().contains("vi") && JMdictPlugin::posBitShifts().contains("vt")) {
+		quint64 posVi(1 << JMdictPlugin::posBitShifts()["vi"]);
+		quint64 posVt(1 << JMdictPlugin::posBitShifts()["vt"]);
+		foreach (const Sense *sense, senses) {
+			if (sense->partOfSpeech() & posVi && searchVt) {
+				ret << new FindVerbBuddyJob(entry, "vt", cursor);
+				searchVt = false;
+			}
+			if (sense->partOfSpeech() & posVt && searchVi) {
+				ret << new FindVerbBuddyJob(entry, "vi", cursor);
+				searchVi = false;
+			}
+		}
+	}
+	return ret;
+}
+
+QList<DetailedViewJob *> JMdictEntryFormatter::jobHomophones(const ConstEntryPointer& _entry, const QTextCursor& cursor) const
+{
+	ConstJMdictEntryPointer entry(_entry.staticCast<const JMdictEntry>());
+	QList<DetailedViewJob *> ret;
+	if (maxHomophonesToDisplay.value()) ret << new FindHomophonesJob(entry, maxHomophonesToDisplay.value(), displayStudiedHomophonesOnly.value(), cursor);
+	return ret;
+}
+
+QList<DetailedViewJob *> JMdictEntryFormatter::jobHomographs(const ConstEntryPointer& _entry, const QTextCursor& cursor) const
+{
+	ConstJMdictEntryPointer entry(_entry.staticCast<const JMdictEntry>());
+	QList<DetailedViewJob *> ret;
+	if (maxHomographsToDisplay.value()) ret << new FindHomographsJob(entry, maxHomographsToDisplay.value(), displayStudiedHomographsOnly.value(), cursor);
+	return ret;
+}
+
+
 FindVerbBuddyJob::FindVerbBuddyJob(const ConstJMdictEntryPointer& verb, const QString& pos, const QTextCursor& cursor) :
 	DetailedViewJob(cursor), lastKanjiPos(0), searchedPos(pos)
 {
@@ -641,18 +685,8 @@ void FindVerbBuddyJob::result(EntryPointer entry)
 void FindVerbBuddyJob::completed()
 {
 	if (!bestMatch) return;
-	QTextCharFormat normal(DetailedViewFonts::charFormat(DetailedViewFonts::DefaultText));
-	QTextCharFormat bold(normal);
-	bold.setFontWeight(QFont::Bold);
-
-	cursor().insertBlock();
-	cursor().setCharFormat(bold);
-	cursor().insertText(QString(searchedPos == "vt" ? tr("Transitive buddy:") :
-						searchedPos == "vi" ? tr("Intransitive buddy:") :
-						tr("Buddy:")) + " ");
-	cursor().setCharFormat(normal);
 	const EntryFormatter *formatter = EntryFormatter::getFormatter(bestMatch);
-	if (formatter) formatter->writeShortDesc(bestMatch, cursor());
+	if (formatter) cursor().insertHtml(EntryFormatter::buildSubInfoLine(QString(searchedPos == "vt" ? tr("Transitive buddy") : searchedPos == "vi" ? tr("Intransitive buddy") : tr("Buddy")), formatter->shortDesc(bestMatch)));
 }
 
 FindHomophonesJob::FindHomophonesJob(const ConstJMdictEntryPointer& entry, int maxToDisplay, bool studiedOnly, const QTextCursor& cursor) :
@@ -666,33 +700,15 @@ FindHomophonesJob::FindHomophonesJob(const ConstJMdictEntryPointer& entry, int m
 	_sql = JMdictEntryFormatter::getHomophonesSql(s, entry->id(), maxToDisplay, studiedOnly);
 }
 
-void FindHomophonesJob::firstResult()
-{
-	QTextCharFormat normal(DetailedViewFonts::charFormat(DetailedViewFonts::DefaultText));
-	QTextCharFormat bold(normal);
-	bold.setFontWeight(QFont::Bold);
-	cursor().insertBlock(QTextBlockFormat());
-	cursor().setCharFormat(bold);
-	cursor().insertText(tr("Homophones:"));
-	cursor().setCharFormat(normal);
-}
-
 void FindHomophonesJob::result(EntryPointer entry)
 {
-	QTextList *currentList = cursor().currentList();
-	cursor().insertBlock(QTextBlockFormat());
-	cursor().setCharFormat(QTextCharFormat());
-	ConstJMdictEntryPointer jmEntry = entry.staticCast<const JMdictEntry>();
-	Q_ASSERT(jmEntry != 0);
-	const EntryFormatter *formatter = EntryFormatter::getFormatter(jmEntry);
-	if (formatter) formatter->writeShortDesc(jmEntry, cursor());
-	if (!currentList) {
-		QTextListFormat listFormat;
-		listFormat.setStyle(QTextListFormat::ListDisc);
-		listFormat.setIndent(0);
-		cursor().createList(listFormat);
-	}
-	else currentList->add(cursor().block());
+	const EntryFormatter *formatter = EntryFormatter::getFormatter(entry);
+	if (formatter) contents << formatter->shortDesc(entry);
+}
+
+void FindHomophonesJob::completed()
+{
+	if (!contents.isEmpty()) cursor().insertHtml(EntryFormatter::buildSubInfoBlock(tr("Homophones"), contents.join("")));
 }
 
 FindHomographsJob::FindHomographsJob(const ConstJMdictEntryPointer& entry, int maxToDisplay, bool studiedOnly, const QTextCursor& cursor) :
@@ -703,31 +719,13 @@ FindHomographsJob::FindHomographsJob(const ConstJMdictEntryPointer& entry, int m
 	_sql = JMdictEntryFormatter::getHomographsSql(entry->writings()[0], entry->id(), maxToDisplay, studiedOnly);
 }
 
-void FindHomographsJob::firstResult()
-{
-	QTextCharFormat normal(DetailedViewFonts::charFormat(DetailedViewFonts::DefaultText));
-	QTextCharFormat bold(normal);
-	bold.setFontWeight(QFont::Bold);
-	cursor().insertBlock(QTextBlockFormat());
-	cursor().setCharFormat(bold);
-	cursor().insertText(tr("Homographs:"));
-	cursor().setCharFormat(normal);
-}
-
 void FindHomographsJob::result(EntryPointer entry)
 {
-	QTextList *currentList = cursor().currentList();
-	cursor().insertBlock(QTextBlockFormat());
-	cursor().setCharFormat(QTextCharFormat());
-	ConstJMdictEntryPointer jmEntry = entry.staticCast<const JMdictEntry>();
-	Q_ASSERT(jmEntry != 0);
-	const EntryFormatter *formatter = EntryFormatter::getFormatter(jmEntry);
-	if (formatter) formatter->writeShortDesc(jmEntry, cursor());
-	if (!currentList) {
-		QTextListFormat listFormat;
-		listFormat.setStyle(QTextListFormat::ListDisc);
-		listFormat.setIndent(0);
-		cursor().createList(listFormat);
-	}
-	else currentList->add(cursor().block());
+	const EntryFormatter *formatter = EntryFormatter::getFormatter(entry);
+	if (formatter) contents << formatter->shortDesc(entry);
+}
+
+void FindHomographsJob::completed()
+{
+	if (!contents.isEmpty()) cursor().insertHtml(EntryFormatter::buildSubInfoBlock(tr("Homographs"), contents.join("")));
 }

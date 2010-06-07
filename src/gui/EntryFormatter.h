@@ -140,9 +140,8 @@ public:
 	 */
 	virtual QString shortDesc(const ConstEntryPointer &entry) const;
 
-	QString buildSubInfoLine(const QString &title, const QString &content) const;
-	QString buildSubInfoBlock(const QString &title, const QString &content) const;
-	// Background jobs should be added through a HTML comment that is parsed later by the detailed view.
+	static QString buildSubInfoLine(const QString &title, const QString &content);
+	static QString buildSubInfoBlock(const QString &title, const QString &content);
 
 public slots:
 	virtual QString formatHeadFurigana(const ConstEntryPointer &entry) const;

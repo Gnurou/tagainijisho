@@ -201,12 +201,12 @@ QString EntryFormatter::shortDesc(const ConstEntryPointer &entry) const
 	return ret;
 }
 
-QString EntryFormatter::buildSubInfoLine(const QString &title, const QString &content) const
+QString EntryFormatter::buildSubInfoLine(const QString &title, const QString &content)
 {
 	return QString("<span class=\"subinfo\">\n<span class=\"title\">%1:</span>\n<span class=\"contents\">\n %2\n</span>\n</span>\n").arg(title).arg(content);
 }
 
-QString EntryFormatter::buildSubInfoBlock(const QString &title, const QString &content) const
+QString EntryFormatter::buildSubInfoBlock(const QString &title, const QString &content)
 {
 	return QString("<table class=\"subinfo\"><tr><td class=\"title\">\n%1</td></tr>\n<tr><td class=\"contents\">\n%2\n</td></tr>\n</table>\n").arg(title).arg(content);
 }

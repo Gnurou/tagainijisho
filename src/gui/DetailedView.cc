@@ -123,7 +123,6 @@ void DetailedView::_display(const EntryPointer &entry, bool update)
 		_historyPrevAction->setEnabled(_history.hasPrevious());
 		_historyNextAction->setEnabled(_history.hasNext());
 	}
-	QTextCursor cursor(document());
 	const EntryFormatter *formatter(EntryFormatter::getFormatter(entry));
 	TemplateFiller filler;
 	
@@ -133,16 +132,25 @@ void DetailedView::_display(const EntryPointer &entry, bool update)
 		// Fill the HTML template with the immediate information
 		QString html(filler.fill(formatter->htmlTemplate(), formatter, entry));
 		document()->setHtml(html);
+		
 		// Now find the jobs that need to be run from the document
 		QRegExp funcMatch("\\$\\!\\$(\\w+)");
 		QTextCursor pos(document()), matchPos;
 		while (!(matchPos = document()->find(funcMatch, pos)).isNull()) {
 			funcMatch.exactMatch(matchPos.selectedText());
 			QString jobClass(funcMatch.cap(1));
-			qDebug() << jobClass;
+			// Remove the matched text and update the current position
 			matchPos.removeSelectedText();
 			pos = matchPos;
+			// Get the list of jobs to run by invoking the jobs method
+			QList<DetailedViewJob *> jobs;
+			QMetaObject::invokeMethod(const_cast<EntryFormatter *>(formatter), QString("job" + jobClass).toLatin1().constData(), Qt::DirectConnection, Q_RETURN_ARG(QList<DetailedViewJob *>, jobs), Q_ARG(ConstEntryPointer, entry), Q_ARG(QTextCursor, matchPos));
+			// Add the jobs added by the keyword to the list of jobs to run
+			foreach (DetailedViewJob *job, jobs) {
+				addBackgroundJob(job);
+			}
 		}
+		// Start running background jobs
 		_jobsRunner.runAllJobs();
 	}
 }
@@ -455,8 +463,8 @@ void DetailedViewJob::__init()
 	// We *must* move the cursor one step to the left, otherwise it will move as
 	// the user continues to insert text. The position will be fixed before
 	// the cursor is passed to the callback function.
-	_cursor.insertText(" ");
-	_cursor.movePosition(QTextCursor::Left);
+	//_cursor.insertText(" ");
+	//_cursor.movePosition(QTextCursor::Left);
 }
 
 DetailedViewFonts::DetailedViewFonts(QWidget *parent) : QObject(parent)

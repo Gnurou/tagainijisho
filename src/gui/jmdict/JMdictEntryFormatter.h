@@ -76,6 +76,10 @@ public slots:
 	virtual QString formatSenses(const ConstEntryPointer &entry) const;
 	virtual QString formatJLPT(const ConstEntryPointer &entry) const;
 	virtual QString formatKanji(const ConstEntryPointer &entry) const;
+	
+	virtual QList<DetailedViewJob *> jobVerbBuddy(const ConstEntryPointer& _entry, const QTextCursor& cursor) const;
+	virtual QList<DetailedViewJob *> jobHomophones(const ConstEntryPointer &_entry, const QTextCursor& cursor) const;
+	virtual QList<DetailedViewJob *> jobHomographs(const ConstEntryPointer &_entry, const QTextCursor& cursor) const;
 };
 
 class FindVerbBuddyJob : public DetailedViewJob {
@@ -88,6 +92,7 @@ private:
 	QString matchPattern;
 	QString kanaPattern;
 	QString firstReading;
+	QString contents;
 
 public:
 	FindVerbBuddyJob(const ConstJMdictEntryPointer &verb, const QString &pos, const QTextCursor &cursor);
@@ -97,18 +102,24 @@ public:
 
 class FindHomophonesJob : public DetailedViewJob {
 	Q_DECLARE_TR_FUNCTIONS(FindHomophonesJob)
+private:
+	QStringList contents;
+
 public:
 	FindHomophonesJob(const ConstJMdictEntryPointer &entry, int maxToDisplay, bool studiedOnly, const QTextCursor &cursor);
-	virtual void firstResult();
 	virtual void result(EntryPointer entry);
+	virtual void completed();
 };
 
 class FindHomographsJob : public DetailedViewJob {
 	Q_DECLARE_TR_FUNCTIONS(FindHomographsJob)
+private:
+	QStringList contents;
+
 public:
 	FindHomographsJob(const ConstJMdictEntryPointer &entry, int maxToDisplay, bool studiedOnly, const QTextCursor &cursor);
-	virtual void firstResult();
 	virtual void result(EntryPointer entry);
+	virtual void completed();
 };
 
 #endif
