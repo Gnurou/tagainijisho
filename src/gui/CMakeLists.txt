@@ -169,6 +169,8 @@ target_link_libraries(tagainijisho tagaini_core tagaini_sqlite ${QT_LIBRARIES} $
 
 # HTML export template
 install(FILES ${CMAKE_SOURCE_DIR}/src/gui/export_template.html DESTINATION share/tagainijisho PERMISSIONS OWNER_READ GROUP_READ WORLD_READ)
+# Detailed view templates
+install(FILES ${CMAKE_SOURCE_DIR}/src/gui/detailed_default.html ${CMAKE_SOURCE_DIR}/src/gui/detailed_default.css DESTINATION share/tagainijisho PERMISSIONS OWNER_READ GROUP_READ WORLD_READ)
 # i18n files
 file(GLOB i18nfiles ${CMAKE_SOURCE_DIR}/i18n/*.qm)
 install(FILES ${i18nfiles} DESTINATION share/tagainijisho/i18n PERMISSIONS OWNER_READ GROUP_READ WORLD_READ)
