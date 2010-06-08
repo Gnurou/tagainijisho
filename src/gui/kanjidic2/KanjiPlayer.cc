@@ -212,7 +212,7 @@ void KanjiPlayer::renderCurrentState()
 	//pen.setJoinStyle(Qt::BevelJoin);
 	QPen pen2;
 	pen2.setWidth(DEFAULT_PEN_WIDTH);
-	pen2.setCapStyle(Qt::SquareCap);
+	pen2.setCapStyle(Qt::RoundCap);
 	//pen2.setJoinStyle(Qt::MiterJoin);
 	
 	QPainter painter(&_picture);
