@@ -112,16 +112,37 @@ public:
 	 * Variant that takes kanji variations into account.
 	 */
 	virtual QString shortDesc(const ConstKanjidic2EntryPointer &shape, const ConstKanjidic2EntryPointer &entry) const;
+	
+public slots:
+	virtual QString formatMeanings(const ConstEntryPointer &entry) const;
+	virtual QString formatOnReadings(const ConstEntryPointer &entry) const;
+	virtual QString formatKunReadings(const ConstEntryPointer &entry) const;
+	virtual QString formatNanori(const ConstEntryPointer &entry) const;
+	
+	virtual QString formatStrokesCount(const ConstEntryPointer &entry) const;
+	virtual QString formatFrequency(const ConstEntryPointer &entry) const;
+	virtual QString formatGrade(const ConstEntryPointer &entry) const;
+	virtual QString formatJLPT(const ConstEntryPointer &entry) const;
+	virtual QString formatVariations(const ConstEntryPointer &entry) const;
+	virtual QString formatVariationsOf(const ConstEntryPointer &entry) const;
+	virtual QString formatUnicode(const ConstEntryPointer &entry) const;
+	virtual QString formatSkip(const ConstEntryPointer &entry) const;
+	virtual QString formatFourCorner(const ConstEntryPointer &entry) const;
+
+	virtual QString formatRadicals(const ConstEntryPointer &entry) const;
+	virtual QString formatComponents(const ConstEntryPointer &entry) const;
+
+	virtual QList<DetailedViewJob *> jobUsedInKanji(const ConstEntryPointer &_entry, const QTextCursor &cursor) const;
+	virtual QList<DetailedViewJob *> jobUsedInWords(const ConstEntryPointer &_entry, const QTextCursor &cursor) const;
 };
 
 class ShowUsedInKanjiJob : public DetailedViewJob {
 	Q_DECLARE_TR_FUNCTIONS(ShowUsedInJob)
 private:
 	QString _kanji;
-	bool _gotResult;
+	QStringList contents;
 public:
 	ShowUsedInKanjiJob(const QString &kanji, const QTextCursor &cursor);
-	virtual void firstResult();
 	virtual void result(EntryPointer entry);
 	virtual void completed();
 };
@@ -130,10 +151,9 @@ class ShowUsedInWordsJob : public DetailedViewJob {
 	Q_DECLARE_TR_FUNCTIONS(ShowUsedInWordsJob)
 private:
 	QString _kanji;
-	bool _gotResult;
+	QStringList contents;
 public:
 	ShowUsedInWordsJob(const QString &kanji, const QTextCursor &cursor);
-	virtual void firstResult();
 	virtual void result(EntryPointer entry);
 	virtual void completed();
 };
