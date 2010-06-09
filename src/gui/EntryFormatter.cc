@@ -178,6 +178,7 @@ QString EntryFormatter::colorTriplet(const QColor &color)
 
 QString EntryFormatter::autoFormat(const QString &str) const
 {
+	// TODO
 	return str;
 }
 
@@ -190,14 +191,19 @@ QString EntryFormatter::entryTitle(const ConstEntryPointer& entry) const
 	title = autoFormat(title);
 	if (entry->trained()) {
 		// TODO
-		title = QString("<div style=\"background-color:%1\">%2</div>").arg(colorTriplet(entry->scoreColor())).arg(autoFormat(title));
+		title = QString("<span style=\"background-color:%1\">%2</span>").arg(colorTriplet(entry->scoreColor())).arg(autoFormat(title));
 	}
 	return title;
 }
 
 QString EntryFormatter::shortDesc(const ConstEntryPointer &entry) const
 {
-	QString ret(QString("%1: %2").arg(entryTitle(entry)).arg(entry->meanings().join(". ")));
+	QString ret(entry->shortVersion(Entry::TinyVersion));
+	ret += QString(" <a href=\"entry://?type=%1&id=%2\"><img src=\"moreicon\"/></a>").arg(entry->type()).arg(entry->id());
+	if (entry->trained()) {
+		// TODO
+		ret = QString("<span style=\"background-color:%1\">%2</span>").arg(colorTriplet(entry->scoreColor())).arg(ret);
+	}
 	return ret;
 }
 

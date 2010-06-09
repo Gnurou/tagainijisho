@@ -813,7 +813,7 @@ QString Kanjidic2EntryFormatter::formatRadicals(const ConstEntryPointer &_entry)
 			// TODO
 			//view->addWatchEntry(kEntry);
 			formats << QString("%1 (%2)").arg(entryTitle(kEntry)).arg(radical.second);
-		}	
+		} 
 		return buildSubInfoLine(tr("Radicals"), formats.join(" "));
 	}
 	return "";
@@ -873,10 +873,7 @@ void ShowUsedInKanjiJob::result(EntryPointer entry)
 void ShowUsedInKanjiJob::completed()
 {
 	if (!contents.isEmpty()) {
-		contents << QString("<a href=\"component:?reset=true&kanji=%1\">%2</a> <a href=\"component:?kanji=%1\">%3</a>").arg(_kanji).arg(tr("All compounds")).arg(tr("(+)"));
-		// TODO
-		// linkFormat.setToolTip(tr("Make a new search using only this filter"));
-		// linkFormat.setToolTip(tr("Add this filter to the current search"));
+		contents << QString("<a href=\"component:?reset=true&kanji=%1\" title=\"%4\">%2</a> <a href=\"component:?kanji=%1\" title=\"%5\">%3</a>").arg(_kanji).arg(tr("All compounds")).arg(tr("(+)")).arg("Make a new search using only this filter").arg("Add this filter to the current search");
 		cursor().insertHtml(EntryFormatter::buildSubInfoLine(tr("Direct compounds"), contents.join(" ")));
 	}
 }
@@ -897,10 +894,7 @@ void ShowUsedInWordsJob::result(EntryPointer entry)
 void ShowUsedInWordsJob::completed()
 {
 	if (!contents.isEmpty()) {
-		contents << QString("<a href=\"allwords:?reset=true&kanji=%1\">%2</a> <a href=\"allwords:?kanji=%1\">%3</a>").arg(_kanji).arg(tr("All words using this kanji")).arg(tr("(+)"));
-		// TODO
-		// linkFormat.setToolTip(tr("Make a new search using only this filter"));
-		// linkFormat.setToolTip(tr("Add this filter to the current search"));
+		contents << QString("<a href=\"allwords:?reset=true&kanji=%1\" title=\"%4\">%2</a> <a href=\"allwords:?kanji=%1\" title=\"%5\">%3</a>").arg(_kanji).arg(tr("All words using this kanji")).arg(tr("(+)")).arg("Make a new search using only this filter").arg("Add this filter to the current search");
 		cursor().insertHtml(EntryFormatter::buildSubInfoBlock(tr("Seen in"), contents.join("<br/>")));
 	}
 }

@@ -432,7 +432,7 @@ static QString senseProps(const QList<const QPair<QString, QString> *> &entities
 	for (int i = 0; i < entities.size(); i++) {
 		QString translated = QCoreApplication::translate("JMdictLongDescs", entities[i]->second.toLatin1());
 		translated.replace(0, 1, translated[0].toUpper());
-		ret << QString("<a href=\"%1\">%2</a>").arg(QString("longdesc://%1#%2").arg(tag).arg(shiftBits[entities[i]->first])).arg(entities[i]->first);
+		ret << QString("<a href=\"%1\" title=\"%3\">%2</a>").arg(QString("longdesc://%1#%2").arg(tag).arg(shiftBits[entities[i]->first])).arg(entities[i]->first).arg(translated);
 	}
 	return ret.join(", ");
 }
