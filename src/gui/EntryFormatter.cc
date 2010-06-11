@@ -213,7 +213,7 @@ QString EntryFormatter::buildSubInfoLine(const QString &title, const QString &co
 
 QString EntryFormatter::buildSubInfoBlock(const QString &title, const QString &content)
 {
-	return QString("<table class=\"subinfo\"><tr><td class=\"title\">\n%1</td></tr>\n<tr><td class=\"contents\">\n%2\n</td></tr>\n</table>\n").arg(title).arg(content);
+	return QString("<table width=\"100%\"class=\"subinfo\"><tr><td class=\"title\">\n%1</td></tr>\n<tr><td class=\"contents\">\n%2\n</td></tr>\n</table>\n").arg(title).arg(content);
 }
 
 
