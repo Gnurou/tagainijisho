@@ -185,16 +185,17 @@ bool EntryListModel::moveRows(int row, int delta, const QModelIndex &parent, QSq
 // TODO How to handle the beginInsertRows if the transaction failed and endInsertRows is not called?
 bool EntryListModel::insertRows(int row, int count, const QModelIndex & parent)
 {
+	const QModelIndex realParent(parent.isValid() ? parent : index(rootId()));
 	if (!TRANSACTION) return false;
 	beginInsertRows(parent, row, row + count -1);
 	{
 		QSqlQuery query;
 		// First update the positions of items located after the new lists
-		if (!moveRows(row, count, parent, query)) goto transactionFailed;
+		if (!moveRows(row, count, realParent, query)) goto transactionFailed;
 		// Then insert the lists themselves with a default name
 		for (int i = 0; i < count; i++) {
 			query.prepare("insert into lists values(?, ?, NULL, NULL)");
-			query.addBindValue(parent.isValid() ? parent.internalId() : QVariant(QVariant::Int));
+			query.addBindValue(realParent.isValid() ? realParent.internalId() : QVariant(QVariant::Int));
 			query.addBindValue(row + i);
 			EXEC_T(query);
 			int rowId = query.lastInsertId().toInt();
@@ -240,7 +241,6 @@ bool EntryListModel::_removeRows(int row, int count, const QModelIndex &parent)
 	QStringList strIds;
 	foreach (int id, ids) strIds << QString::number(id);
 	
-	beginRemoveRows(parent, row, row + count - 1);
 	query.prepare(QString("delete from listsLabels where rowid in (%1)").arg(strIds.join(", ")));
 	EXEC(query);
 	// Remove the lists entries
@@ -248,16 +248,18 @@ bool EntryListModel::_removeRows(int row, int count, const QModelIndex &parent)
 	EXEC(query);
 	// Update the positions of items that were after the ones we removed
 	if (!moveRows(row + count, -count, parent, query)) return false;
-	EntryListCache::instance().invalidateAll();
-	endRemoveRows();
 	return true;
 }
 
 bool EntryListModel::removeRows(int row, int count, const QModelIndex &parent)
 {
+	const QModelIndex realParent(parent.isValid() ? parent : index(rootId()));
 	if (!TRANSACTION) return false;
-	if (!_removeRows(row, count, parent)) goto transactionFailed;
+	beginRemoveRows(parent, row, row + count - 1);
+	if (!_removeRows(row, count, realParent)) goto transactionFailed;
 	if (!COMMIT) goto transactionFailed;
+	EntryListCache::instance().invalidateAll();
+	endRemoveRows();
 	return true;
 transactionFailed:
 	ROLLBACK;
