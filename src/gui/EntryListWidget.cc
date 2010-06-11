@@ -26,6 +26,7 @@ EntryListWidget::EntryListWidget(QWidget *parent) : SearchFilterWidget(parent)
 	_titleLabel->setVisible(false);
 	QFont titleFont;
 	titleFont.setPointSize(titleFont.pointSize() + 2);
+	titleFont.setBold(true);
 	_titleLabel->setFont(titleFont);
 	
 	QToolBar *_toolBar = new QToolBar(this);
