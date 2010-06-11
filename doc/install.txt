@@ -32,7 +32,8 @@ These dependencies are:
 * Fonts  
     &emsp;&emsp;&emsp; Fonts to display Japanese characters.  
     &emsp;&emsp;&emsp; これを読んだら日本語のフォントはもうインストールしました。  
-    &emsp;&emsp;&emsp; If you can not read the above then you need to install fonts.
+    &emsp;&emsp;&emsp; If you can not read the above then you need to install 
+    fonts.
 * An [IM][WIM]  
     &emsp;&emsp;&emsp; An *Input Method*. It is an application that allows the  
     &emsp;&emsp;&emsp; user to type characters that do not appear on the  
