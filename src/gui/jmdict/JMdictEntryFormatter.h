@@ -68,6 +68,9 @@ public:
 	static QString getHomophonesSql(const QString &reading, int id, int maxToDisplay = maxHomophonesToDisplay.value(), bool studiedOnly = displayStudiedHomophonesOnly.value());
 	static QString getHomographsSql(const QString &writing, int id, int maxToDisplay = maxHomophonesToDisplay.value(), bool studiedOnly = displayStudiedHomophonesOnly.value());
 	
+	
+
+	virtual QString shortDesc(const ConstEntryPointer &entry) const;
 public slots:
 	virtual QString formatHeadFurigana(const ConstEntryPointer &entry) const;
 	virtual QString formatHead(const ConstEntryPointer &entry) const;
