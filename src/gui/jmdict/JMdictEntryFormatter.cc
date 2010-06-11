@@ -708,7 +708,7 @@ void FindHomophonesJob::result(EntryPointer entry)
 
 void FindHomophonesJob::completed()
 {
-	if (!contents.isEmpty()) cursor().insertHtml(EntryFormatter::buildSubInfoBlock(tr("Homophones"), contents.join("")));
+	if (!contents.isEmpty()) cursor().insertHtml(EntryFormatter::buildSubInfoBlock(tr("Homophones"), contents.join("<br/>")));
 }
 
 FindHomographsJob::FindHomographsJob(const ConstJMdictEntryPointer& entry, int maxToDisplay, bool studiedOnly, const QTextCursor& cursor) :
@@ -727,5 +727,5 @@ void FindHomographsJob::result(EntryPointer entry)
 
 void FindHomographsJob::completed()
 {
-	if (!contents.isEmpty()) cursor().insertHtml(EntryFormatter::buildSubInfoBlock(tr("Homographs"), contents.join("")));
+	if (!contents.isEmpty()) cursor().insertHtml(EntryFormatter::buildSubInfoBlock(tr("Homographs"), contents.join("<br/>")));
 }
