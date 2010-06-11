@@ -458,30 +458,6 @@ The following sections are common to them.
 :   Entries that are homophones of the current entry. A homophone is a word
     with the same or similar pronunciation.
 
-
-
-* **Main Reading**	    - Centred at the top of the view will be the way the
-			      word or phrase is written, with furigana written
-			      in red above it.
-* **Variants**		    - Any variants are listed here, with their reading 
-			      in brackets.
-* **The definition block**  - Here, different definitions are listed. First, it
-			      displays the definitions part of speech[^pos] in
-			      grey, and then lists different definitions, next
-			      to a flag representing the language of the
-			      definition.
-* **JLPT level**	    - The entry's JLPT level.
-* **Kanji**		    - The kanji used in the main reading, and its 
-			      meanings. This is off by default. The kanji's
-			      JLPT level can also be appended to each
-			      reference.
-* **Transitive／Intransitive buddy**	- The entry corresponding with the 
-					  current entry's opposite transitive
-					  state.
-* **Homophones**	    - Entries that are homophones of the current entry.
-			      A homophone is a word with the same or similar
-			      pronunciation.
-
 Any entry referenced in the detailed view will have a little magnifying glass
 next to it, which is a link to the referenced entry. For instance, in the
 entry 取る it references its intransitive buddy;
@@ -501,18 +477,45 @@ it is used. By default, the kanji is centred in the detail view window and its
 meanings are listed underneath it, also centred. From there there are several
 common sections.
 
-* **On**	    - The on reading, or 音読み（おんよみ）is the Chinese reading of the kanji. It is written in katakana.
-* **Kun**	    - The kun reading, or 訓読み（くんよみ）is the Japanese reading of the character. It is written in hiragana.
-* **Nanori**	    - The name readings of the kanji, or 名乗り（なのり）are readings that are only used in names.
-* **Strokes**	    - The number of strokes it takes to write the kanji. 
-* **Grade**	    - The grade it is taught to in Japanese schools.
-* **Unicode**	    - The Unicode number, in hexadecimal.
-* **Frequency**	    - How frequently the kanji appears in newspapers.
-* **JLPT**	    - The kanji's JLPT level.  
-* **SKIP**	    - The kanji's SKIP code.
-* **Components**    - The radicals that make up the kanji.
-* **Compounds**	    - Kanji that are made up with this kanji. 
-* **Seen in**	    - A list of vocabulary that contains the kanji. Following 6 words have been displayed is a link to find all words using that the kanji.
+**On**
+:   The on reading, or 音読み（おんよみ）is the Chinese reading of the kanji.
+    It is written in katakana.
+
+**Kun**
+:   The kun reading, or 訓読み（くんよみ）is the Japanese reading of the
+    character. It is written in hiragana.
+
+**Nanori**
+:   The name readings of the kanji, or 名乗り（なのり）are readings that are
+    only used in names.
+
+**Strokes**
+:   The number of strokes it takes to write the kanji. 
+
+**Grade**
+:   The grade it is taught to in Japanese schools.
+
+**Unicode**
+:   The Unicode number, in hexadecimal.
+
+**Frequency**
+:   How frequently the kanji appears in newspapers.
+
+**JLPT**
+:   The kanji's JLPT level.  
+
+**SKIP**
+:   The kanji's SKIP code.
+
+**Components**
+:   The radicals that make up the kanji.
+
+**Compounds**
+:   Kanji that are made up with this kanji. 
+
+**Seen in**
+:   A list of vocabulary that contains the kanji. Following 6 words have been
+    displayed is a link to find all words using that the kanji.
 
 Although kun readings for some entries, such as verbs and adjectives, can
 include any extra kana needed to use the kanji, such as 取る's る (written
@@ -864,11 +867,20 @@ displayed.
 The **fonts** section specifies each font used in the detailed view. There are
 five in all.
 
-* **Default text** -  The font to use with any non-Japanese characters. 
-* **Kana header** -   The red furigana reading, centred above the large kanji text.
-* **Kanji header** -  The large centred kanji text, signifying the main reading.
-* **Kanji** -	    Any kanji in the display, for alternative writings and referenced entries.
-* **Kana** -	    Any kana in the display, for alternative readings and referenced entries.
+**Default text**
+:   The font to use with any non-Japanese characters. 
+
+**Kana header**
+:   The red furigana reading, centred above the large kanji text.
+
+**Kanji header**
+:   The large centred kanji text, signifying the main reading.
+
+**Kanji**
+:   Any kanji in the display, for alternative writings and referenced entries.
+
+**Kana**
+:   Any kana in the display, for alternative readings and referenced entries.
 
 Vocabulary Entries
 ------------------
@@ -913,18 +925,41 @@ In **basic information**, there are a series of checkboxes relating to
 different pieces of information in the entry. Each one toggles display of that
 element on and off.
 
-* **Readings**	    - On and Kun readings.
-* **Nanori**	    - Nanori reading.
-* **# of strokes**  - Number of strokes in the kanji.
-* **Components**    - The kanji radicals used in the kanji.
-* **JLPT level**    - The JLPT level of the kanji.
-* **School grade**  - The grade the kanji is taught at school.
-* **Unicode**	    - The kanji's Unicode value.
-* **SKIP code**	    - The kanji's SKIP code.
-* **Four corner code**  - The kanji's four corner code.
-* **Frequency**	    - The frequency rating of the kanji.
-* **Variations**    - Any variations in the strokes of the kanji.
-* **Original**	    - The way the kanji was originally written.
+**Readings**
+:   On and Kun readings.
+
+**Nanori**
+:   Nanori reading.
+
+**# of strokes**
+:   Number of strokes in the kanji.
+
+**Components**
+:   The kanji radicals used in the kanji.
+
+**JLPT level**
+:   The JLPT level of the kanji.
+
+**School grade**
+:   The grade the kanji is taught at school.
+
+**Unicode**
+:   The kanji's Unicode value.
+
+**SKIP code**
+:   The kanji's SKIP code.
+
+**Four corner code**
+:   The kanji's four corner code.
+
+**Frequency**
+:   The frequency rating of the kanji.
+
+**Variations**
+:   Any variations in the strokes of the kanji.
+
+**Original**
+:   The way the kanji was originally written.
 
 The **additional information** section controls how many **compounds** kanji
 (kanji that uses the currently displayed one as component) and how many
@@ -941,13 +976,26 @@ for 間.
 
 The values in **kanji information** are:
 
-* **Meaning**			- The kanji's meaning
-* **Onyomi**			- The **on** reading, or 音読み。
-* **Kunyomi**			- The **kun** reading, or 訓読み
-* **Components**		- The kanji's components.
-* **Only studied components**	- Only show components that are in the study list.
-* **n words**			- Shows *n* words using the kanji.
-* **Only studied words**	- Filter out words not in the study list.
+**Meaning**
+:   The kanji's meaning
+
+**Onyomi**
+:   The **on** reading, or 音読み。
+
+**Kunyomi**
+:   The **kun** reading, or 訓読み
+
+**Components**
+:   The kanji's components.
+
+**Only studied components**
+:   Only show components that are in the study list.
+
+**`n` words**
+:   Shows `n` words using the kanji.
+
+**Only studied words**
+:   Filter out words not in the study list.
 
 If components printing is enabled, studied components are underlined.
 
@@ -961,15 +1009,33 @@ the detailed view, is a yellow box which displays the kanji; its first reading
 and its meanings. The options on this page toggle on／off additional
 information.
 
-* **Kanji tool tip enabled** - Enables the tool tip.
-* **Score**		    - Shows the score colour for entries in the study list as the tool tips background colour.
-* **# of strokes**	    - Show the number of strokes.
-* **JLPT level**	    - Show the kanji's JLPT level.
-* **School grade**	    - Show the kanji's school grade.
-* **Frequency**		    - Show the kanji's frequency.
-* **Unicode**		    - Show the kanji's Unicode value.
-* **SKIP code**		    - Show the kanji's SKIP code.
-* **Four corner code**	    - Show the kanji's four corner code.
+**Kanji tool tip enabled**
+:   Enables the tool tip.
+
+**Score**
+:   Shows the score colour for entries in the study list as the tool tips
+    background colour
+
+**# of strokes**
+:   Show the number of strokes.
+
+**JLPT level**
+:   Show the kanji's JLPT level.
+
+**School grade**
+:   Show the kanji's school grade.
+
+**Frequency**
+:   Show the kanji's frequency.
+
+**Unicode**
+:   Show the kanji's Unicode value.
+
+**SKIP code**
+:   Show the kanji's SKIP code.
+
+**Four corner code**
+:   Show the kanji's four corner code.
 
 ![Kanji Stroke Order](images/tagaini_pref_kanji_stroke.png)
 

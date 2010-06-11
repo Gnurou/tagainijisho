@@ -29,25 +29,25 @@ software in order to use Tagaini, whilst the other dependencies are provided in 
 
 These dependencies are:
 
-* Fonts  
-    &emsp;&emsp;&emsp; Fonts to display Japanese characters.  
-    &emsp;&emsp;&emsp; これを読んだら日本語のフォントはもうインストールしました。  
-    &emsp;&emsp;&emsp; If you can not read the above then you need to install 
-    fonts.
-* An [IM][WIM]  
-    &emsp;&emsp;&emsp; An *Input Method*. It is an application that allows the  
-    &emsp;&emsp;&emsp; user to type characters that do not appear on the  
-    &emsp;&emsp;&emsp; keyboard. You will likely need one to input Japanese  
-    &emsp;&emsp;&emsp; characters.
-* [Qt][WQt]  
-    &emsp;&emsp;&emsp; Qt is an application toolkit that was used to write
-    Tagaini.
-* [CMake][Wcmake]   
-    &emsp;&emsp;&emsp; Cmake is a cross platform build system, which allows   
-    &emsp;&emsp;&emsp; an alternative to automake's configure scripts. It   
-    &emsp;&emsp;&emsp; sets up the source code to be built according to the   
-    &emsp;&emsp;&emsp; system it is run on. CMake is required for versions  
-    &emsp;&emsp;&emsp; after 0.2.4.  
+Fonts  
+:   Fonts to display Japanese characters.  
+    これを読んだら日本語のフォントはもうインストールしました。  
+    If you can not read the above then you need to install fonts.
+
+An [IM][WIM]  
+:   An *Input Method*. It is an application that allows the user to type
+    characters that do not appear on the keyboard. You will likely need one to
+    input Japanese characters.
+
+[Qt][WQt]  
+:    Qt is an application toolkit that was used to write Tagaini.
+
+[CMake][Wcmake]   
+:   Cmake is a cross platform build system, which allows
+    an alternative to automake's configure scripts. It 
+    sets up the source code to be built according to the
+    system it is run on. CMake is required for versions
+    after 0.2.4.  
 
 
 [WIM]: http://en.wikipedia.org/wiki/Input_method "Wikipedia: IM"
