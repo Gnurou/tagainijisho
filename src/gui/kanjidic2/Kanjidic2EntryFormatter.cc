@@ -858,8 +858,15 @@ QList<DetailedViewJob *> Kanjidic2EntryFormatter::jobUsedInWords(const ConstEntr
 }
 
 ShowUsedInKanjiJob::ShowUsedInKanjiJob(const QString &kanji, const QTextCursor &cursor) :
-		DetailedViewJob(Kanjidic2EntryFormatter::getQueryUsedInKanjiSql(TextTools::singleCharToUnicode(kanji), Kanjidic2EntryFormatter::maxCompoundsToDisplay.value(), Kanjidic2EntryFormatter::showOnlyStudiedCompounds.value()), cursor), _kanji(kanji)
+		DetailedViewJob(Kanjidic2EntryFormatter::getQueryUsedInKanjiSql(TextTools::singleCharToUnicode(kanji), Kanjidic2EntryFormatter::maxCompoundsToDisplay.value(), Kanjidic2EntryFormatter::showOnlyStudiedCompounds.value()), cursor), _kanji(kanji), gotResults(false)
 {
+}
+
+void ShowUsedInKanjiJob::firstResult()
+{
+	cursor().insertHtml(EntryFormatter::buildSubInfoLine(tr("Direct compounds"), ""));
+	_cursor.movePosition(QTextCursor::PreviousBlock);
+	gotResults = true;
 }
 
 void ShowUsedInKanjiJob::result(EntryPointer entry)
@@ -867,20 +874,25 @@ void ShowUsedInKanjiJob::result(EntryPointer entry)
 	ConstKanjidic2EntryPointer kEntry = entry.staticCast<const Kanjidic2Entry>();
 	Q_ASSERT(kEntry);
 	const EntryFormatter *formatter(EntryFormatter::getFormatter(kEntry));
-	contents << formatter->entryTitle(kEntry);
+	cursor().insertHtml(formatter->entryTitle(kEntry) + "&nbsp;");
 }
 
 void ShowUsedInKanjiJob::completed()
 {
-	if (!contents.isEmpty()) {
-		contents << QString("<a href=\"component:?reset=true&kanji=%1\" title=\"%4\">%2</a> <a href=\"component:?kanji=%1\" title=\"%5\">%3</a>").arg(_kanji).arg(tr("All compounds")).arg(tr("(+)")).arg("Make a new search using only this filter").arg("Add this filter to the current search");
-		cursor().insertHtml(EntryFormatter::buildSubInfoLine(tr("Direct compounds"), contents.join(" ")));
-	}
+	if (!gotResults) return;
+	cursor().insertHtml(QString("<a href=\"component:?reset=true&kanji=%1\" title=\"%4\">%2</a> <a href=\"component:?kanji=%1\" title=\"%5\">%3</a>").arg(_kanji).arg(tr("All compounds")).arg(tr("(+)")).arg("Make a new search using only this filter").arg("Add this filter to the current search"));
 }
 
 ShowUsedInWordsJob::ShowUsedInWordsJob(const QString &kanji, const QTextCursor &cursor) :
-		DetailedViewJob(Kanjidic2EntryFormatter::getQueryUsedInWordsSql(TextTools::singleCharToUnicode(kanji), Kanjidic2EntryFormatter::maxWordsToDisplay.value(), Kanjidic2EntryFormatter::showOnlyStudiedVocab.value()), cursor), _kanji(kanji)
+		DetailedViewJob(Kanjidic2EntryFormatter::getQueryUsedInWordsSql(TextTools::singleCharToUnicode(kanji), Kanjidic2EntryFormatter::maxWordsToDisplay.value(), Kanjidic2EntryFormatter::showOnlyStudiedVocab.value()), cursor), _kanji(kanji), gotResults(false)
 {
+}
+
+void ShowUsedInWordsJob::firstResult()
+{
+	cursor().insertHtml(EntryFormatter::buildSubInfoBlock(tr("Seen in"), ""));
+	_cursor.movePosition(QTextCursor::PreviousBlock);
+	gotResults = true;
 }
 
 void ShowUsedInWordsJob::result(EntryPointer entry)
@@ -888,13 +900,11 @@ void ShowUsedInWordsJob::result(EntryPointer entry)
 	ConstJMdictEntryPointer jmEntry(entry.staticCast<const JMdictEntry>());
 	Q_ASSERT(jmEntry);
 	const EntryFormatter *formatter(EntryFormatter::getFormatter(jmEntry));
-	contents << formatter->shortDesc(jmEntry);
+	cursor().insertHtml(formatter->shortDesc(jmEntry) + "<br/>\n");
 }
 
 void ShowUsedInWordsJob::completed()
 {
-	if (!contents.isEmpty()) {
-		contents << QString("<a href=\"allwords:?reset=true&kanji=%1\" title=\"%4\">%2</a> <a href=\"allwords:?kanji=%1\" title=\"%5\">%3</a>").arg(_kanji).arg(tr("All words using this kanji")).arg(tr("(+)")).arg("Make a new search using only this filter").arg("Add this filter to the current search");
-		cursor().insertHtml(EntryFormatter::buildSubInfoBlock(tr("Seen in"), contents.join("<br/>")));
-	}
+	if (!gotResults) return;
+	cursor().insertHtml(QString("<a href=\"allwords:?reset=true&kanji=%1\" title=\"%4\">%2</a> <a href=\"allwords:?kanji=%1\" title=\"%5\">%3</a>").arg(_kanji).arg(tr("All words using this kanji")).arg(tr("(+)")).arg("Make a new search using only this filter").arg("Add this filter to the current search"));
 }

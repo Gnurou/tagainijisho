@@ -689,8 +689,7 @@ void FindVerbBuddyJob::completed()
 	if (formatter) cursor().insertHtml(EntryFormatter::buildSubInfoLine(QString(searchedPos == "vt" ? tr("Transitive buddy") : searchedPos == "vi" ? tr("Intransitive buddy") : tr("Buddy")), formatter->shortDesc(bestMatch)));
 }
 
-FindHomophonesJob::FindHomophonesJob(const ConstJMdictEntryPointer& entry, int maxToDisplay, bool studiedOnly, const QTextCursor& cursor) :
-	DetailedViewJob(cursor)
+FindHomophonesJob::FindHomophonesJob(const ConstJMdictEntryPointer& entry, int maxToDisplay, bool studiedOnly, const QTextCursor& cursor) : DetailedViewJob(cursor), gotResults(false)
 {
 	QString s;
 	// No reading? Must be a katakana entry, take the writing in this case.
@@ -700,32 +699,41 @@ FindHomophonesJob::FindHomophonesJob(const ConstJMdictEntryPointer& entry, int m
 	_sql = JMdictEntryFormatter::getHomophonesSql(s, entry->id(), maxToDisplay, studiedOnly);
 }
 
+void FindHomophonesJob::firstResult()
+{
+	cursor().insertHtml(EntryFormatter::buildSubInfoBlock(tr("Homophones"), ""));
+	_cursor.movePosition(QTextCursor::PreviousBlock);
+}
+
 void FindHomophonesJob::result(EntryPointer entry)
 {
 	const EntryFormatter *formatter = EntryFormatter::getFormatter(entry);
-	if (formatter) contents << formatter->shortDesc(entry);
+	QString format;
+	if (!gotResults) gotResults = true;
+	else format = "<br/>\n";
+	format += formatter->shortDesc(entry);
+	cursor().insertHtml(format);
 }
 
-void FindHomophonesJob::completed()
-{
-	if (!contents.isEmpty()) cursor().insertHtml(EntryFormatter::buildSubInfoBlock(tr("Homophones"), contents.join("<br/>")));
-}
-
-FindHomographsJob::FindHomographsJob(const ConstJMdictEntryPointer& entry, int maxToDisplay, bool studiedOnly, const QTextCursor& cursor) :
-	DetailedViewJob(cursor)
+FindHomographsJob::FindHomographsJob(const ConstJMdictEntryPointer& entry, int maxToDisplay, bool studiedOnly, const QTextCursor& cursor) : DetailedViewJob(cursor), gotResults(false)
 {
 	// No writing? Nothing we can possibly do here.
 	if (entry->writings().isEmpty()) return;
 	_sql = JMdictEntryFormatter::getHomographsSql(entry->writings()[0], entry->id(), maxToDisplay, studiedOnly);
 }
 
+void FindHomographsJob::firstResult()
+{
+	cursor().insertHtml(EntryFormatter::buildSubInfoBlock(tr("Homographs"), ""));
+	_cursor.movePosition(QTextCursor::PreviousBlock);
+}
+
 void FindHomographsJob::result(EntryPointer entry)
 {
 	const EntryFormatter *formatter = EntryFormatter::getFormatter(entry);
-	if (formatter) contents << formatter->shortDesc(entry);
-}
-
-void FindHomographsJob::completed()
-{
-	if (!contents.isEmpty()) cursor().insertHtml(EntryFormatter::buildSubInfoBlock(tr("Homographs"), contents.join("<br/>")));
+	QString format;
+	if (!gotResults) gotResults = true;
+	else format = "<br/>\n";
+	format += formatter->shortDesc(entry);
+	cursor().insertHtml(format);
 }

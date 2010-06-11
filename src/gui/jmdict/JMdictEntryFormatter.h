@@ -103,23 +103,23 @@ public:
 class FindHomophonesJob : public DetailedViewJob {
 	Q_DECLARE_TR_FUNCTIONS(FindHomophonesJob)
 private:
-	QStringList contents;
+	bool gotResults;
 
 public:
 	FindHomophonesJob(const ConstJMdictEntryPointer &entry, int maxToDisplay, bool studiedOnly, const QTextCursor &cursor);
+	virtual void firstResult();
 	virtual void result(EntryPointer entry);
-	virtual void completed();
 };
 
 class FindHomographsJob : public DetailedViewJob {
 	Q_DECLARE_TR_FUNCTIONS(FindHomographsJob)
 private:
-	QStringList contents;
+	bool gotResults;
 
 public:
 	FindHomographsJob(const ConstJMdictEntryPointer &entry, int maxToDisplay, bool studiedOnly, const QTextCursor &cursor);
+	virtual void firstResult();
 	virtual void result(EntryPointer entry);
-	virtual void completed();
 };
 
 #endif

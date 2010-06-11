@@ -396,12 +396,7 @@ void DetailedViewJobRunner::onFirstResult()
 	if (_ignoreJobs) return;
 
 	Q_ASSERT(_currentJob != 0);
-	// Fix the position of the cursor - we moved it one step to the left to ensure it does not follow
-	// the flow of text
-	QTextCursor &tCursor = _currentJob->cursor();
-	tCursor.movePosition(QTextCursor::Right);
 	_currentJob->firstResult();
-	tCursor.movePosition(QTextCursor::Left);
 }
 
 void DetailedViewJobRunner::onResult(EntryPointer entry)
@@ -410,13 +405,8 @@ void DetailedViewJobRunner::onResult(EntryPointer entry)
 	if (_ignoreJobs) return;
 
 	Q_ASSERT(_currentJob != 0);
-	// Fix the position of the cursor - we moved it one step to the left to ensure it does not follow
-	// the flow of text
-	QTextCursor &tCursor = _currentJob->cursor();
-	tCursor.movePosition(QTextCursor::Right);
 	_currentJob->result(entry);
 	_view->addWatchEntry(entry);
-	tCursor.movePosition(QTextCursor::Left);
 }
 
 void DetailedViewJobRunner::onCompleted()
@@ -425,12 +415,7 @@ void DetailedViewJobRunner::onCompleted()
 	if (_ignoreJobs) return;
 
 	Q_ASSERT(_currentJob != 0);
-	// Fix the position of the cursor - we moved it one step to the left to ensure it does not follow
-	// the flow of text
-	QTextCursor &tCursor = _currentJob->cursor();
-	tCursor.movePosition(QTextCursor::Right);
 	_currentJob->completed();
-	tCursor.movePosition(QTextCursor::Left);
 
 	runNextJob();
 }

@@ -201,7 +201,6 @@ QString EntryFormatter::shortDesc(const ConstEntryPointer &entry) const
 	QString ret(entry->shortVersion(Entry::TinyVersion));
 	ret += QString(" <a href=\"entry://?type=%1&id=%2\"><img src=\"moreicon\"/></a>").arg(entry->type()).arg(entry->id());
 	if (entry->trained()) {
-		// TODO
 		ret = QString("<span style=\"background-color:%1\">%2</span>").arg(colorTriplet(entry->scoreColor())).arg(ret);
 	}
 	return ret;
@@ -209,7 +208,7 @@ QString EntryFormatter::shortDesc(const ConstEntryPointer &entry) const
 
 QString EntryFormatter::buildSubInfoLine(const QString &title, const QString &content)
 {
-	return QString("<span class=\"subinfo\">\n<span class=\"title\">%1:</span>\n<span class=\"contents\">\n %2\n</span>\n</span>\n").arg(title).arg(content);
+	return QString("<table class=\"subinfo\"><tr><td class=\"title\">%1:</td><td class=\"contents\"> %2</td></tr></table>\n").arg(title).arg(content);
 }
 
 QString EntryFormatter::buildSubInfoBlock(const QString &title, const QString &content)

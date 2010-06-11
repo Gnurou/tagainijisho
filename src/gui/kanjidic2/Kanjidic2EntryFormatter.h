@@ -140,9 +140,10 @@ class ShowUsedInKanjiJob : public DetailedViewJob {
 	Q_DECLARE_TR_FUNCTIONS(ShowUsedInJob)
 private:
 	QString _kanji;
-	QStringList contents;
+	bool gotResults;
 public:
 	ShowUsedInKanjiJob(const QString &kanji, const QTextCursor &cursor);
+	virtual void firstResult();
 	virtual void result(EntryPointer entry);
 	virtual void completed();
 };
@@ -151,9 +152,10 @@ class ShowUsedInWordsJob : public DetailedViewJob {
 	Q_DECLARE_TR_FUNCTIONS(ShowUsedInWordsJob)
 private:
 	QString _kanji;
-	QStringList contents;
+	bool gotResults;
 public:
 	ShowUsedInWordsJob(const QString &kanji, const QTextCursor &cursor);
+	virtual void firstResult();
 	virtual void result(EntryPointer entry);
 	virtual void completed();
 };
