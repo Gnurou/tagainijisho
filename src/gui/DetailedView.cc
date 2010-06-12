@@ -15,6 +15,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "tagaini_config.h"
 #include "core/TextTools.h"
 #include "core/Database.h"
 #include "gui/EntryFormatter.h"
@@ -131,6 +132,9 @@ void DetailedView::_display(const EntryPointer &entry, bool update)
 		document()->setDefaultStyleSheet(formatter->CSS());
 		// Fill the HTML template with the immediate information
 		QString html(filler.fill(formatter->htmlTemplate(), formatter, entry));
+#ifdef DEBUG_DETAILED_VIEW
+		qDebug() << html;
+#endif
 		document()->setHtml(html);
 		
 		// Now find the jobs that need to be run from the document

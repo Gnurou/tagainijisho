@@ -1,3 +1,18 @@
+table {
+	margin: 0px;
+	padding: 0px;
+}
+
+tr {
+	margin: 0px;
+	padding: 0px;
+}
+
+td {
+	margin: 0px;
+	padding: 0px;
+}
+
 .mainwriting {
 	text-align: center;
 	font-size: xx-large;

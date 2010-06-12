@@ -25,18 +25,63 @@
 
 QString TemplateFiller::fill(const QString &tmpl, const EntryFormatter *formatter, const EntryPointer &entry)
 {
+	// For 'T' option
+	int tablePos = -1;
+	int colCpt = 0;
+
     QString ret(tmpl);
     QRegExp funcMatch("\\$\\$(\\w+)(?:\\[([^\\]]+)\\]){0,1}");
     int pos = 0, matchPos;
     while ((matchPos = funcMatch.indexIn(ret, pos)) != -1) {
         QString whole = funcMatch.cap(0);
         QString meth = funcMatch.cap(1);
-        QStringList options = funcMatch.cap(2).split(',');
+        QStringList options = funcMatch.cap(2).split(',', QString::SkipEmptyParts);
 		QString repl;
 		// Try to invoke the format method
 		QMetaObject::invokeMethod(const_cast<EntryFormatter *>(formatter), QString("format" + meth).toLatin1().constData(), Qt::DirectConnection, Q_RETURN_ARG(QString, repl), Q_ARG(ConstEntryPointer, entry));
-        ret.replace(matchPos, whole.size(), repl);
-        pos = matchPos;
+		// Process options
+		foreach (const QString &option, options) switch (option[0].toAscii()) {
+			// If the result if empty, remove the block which tag is given
+			case 'R':
+			{
+				if (!repl.isEmpty()) break;
+				QString tag(option.mid(1));
+				// Extend the match position to the tag we want to remove
+				int nPos = ret.lastIndexOf("<" + tag, matchPos);
+				if (nPos == -1) break;
+				matchPos = nPos;
+				nPos = ret.indexOf("</" + tag, matchPos);
+				if (nPos != -1) nPos = ret.indexOf(">", nPos);
+				if (nPos == -1) break;
+				++nPos;
+				whole = ret.mid(matchPos, nPos - matchPos);
+				break;
+			}
+			// Output the result as a table cell according to the given number of columns
+			case 'T':
+			{
+				// Do not output cell for empty string
+				if (repl.isEmpty()) break;
+				int tPos = ret.lastIndexOf("<table", matchPos);
+				// Found matching table?
+				if (tPos != -1) {
+					int maxCols = option.mid(1).toInt();
+					QString t("<td>%1</td>");
+					if (tPos != tablePos || ++colCpt >= maxCols) colCpt = 0;
+					if (colCpt == 0) t = "<tr>" + t;
+					else if (colCpt == maxCols -1) t += "</tr>";
+					repl = t.arg(repl);
+				}
+				tablePos = tPos;
+				break;
+			}
+			default:
+				break;
+		}
+		ret.replace(matchPos, whole.size(), repl);
+		// If we did not output anything, remove ending newline of space
+		if (repl.isEmpty()) while (ret[matchPos] == '\n' || ret[matchPos] == ' ') ret.remove(matchPos, 1);
+		pos = matchPos;
     }
     return ret;
 }

@@ -178,8 +178,36 @@ QString EntryFormatter::colorTriplet(const QColor &color)
 
 QString EntryFormatter::autoFormat(const QString &str) const
 {
-	// TODO
-	return str;
+	QString ret;
+	enum { Romaji, Kanji, Kana } curChar, nextChar;
+	
+	int pos = 0;
+	int written = 0;
+	while (pos < str.size()) {
+		// Guess the format of the next char
+		if (TextTools::isKanjiChar(str[pos])) nextChar = Kanji;
+		else if (TextTools::isKanaChar(str[pos])) nextChar = Kana;
+		else nextChar = Romaji;
+		// Late initialization of curChar
+		if (pos == 0) curChar = nextChar;
+		if (nextChar != curChar || pos == str.size() - 1) {
+			switch (curChar) {
+				case Kanji:
+					ret += QString("<span class=\"kanji\">%1</span>").arg(str.mid(written, pos - written));
+					break;
+				case Kana:
+					ret += QString("<span class=\"kana\">%1</span>").arg(str.mid(written, pos - written));
+					break;
+				case Romaji:
+					ret += str.mid(written, pos - written);
+					break;
+			};
+			curChar = nextChar;
+			written = pos;
+		}
+		++pos;
+	}
+	return ret;
 }
 
 QString EntryFormatter::entryTitle(const ConstEntryPointer& entry) const
@@ -208,12 +236,12 @@ QString EntryFormatter::shortDesc(const ConstEntryPointer &entry) const
 
 QString EntryFormatter::buildSubInfoLine(const QString &title, const QString &content)
 {
-	return QString("<table class=\"subinfo\"><tr><td class=\"title\">%1:</td><td class=\"contents\"> %2</td></tr></table>\n").arg(title).arg(content);
+	return QString("<table class=\"subinfo\"><tr><td class=\"title\">%1:</td><td class=\"contents\"> %2</td></tr></table>").arg(title).arg(content);
 }
 
 QString EntryFormatter::buildSubInfoBlock(const QString &title, const QString &content)
 {
-	return QString("<table width=\"100%\"class=\"subinfo\"><tr><td class=\"title\">\n%1</td></tr>\n<tr><td class=\"contents\">\n%2\n</td></tr>\n</table>\n").arg(title).arg(content);
+	return QString("<table width=\"100%\"class=\"subinfo\"><tr><td class=\"title\">%1</td></tr>\n<tr><td class=\"contents\">\n%2\n</td></tr></table>").arg(title).arg(content);
 }
 
 
