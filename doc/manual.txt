@@ -93,12 +93,13 @@ In the context menu are the same actions that are along the top of the
 detailed view, as well as a *Select All* option. Right clicking on links to
 other entries in the detailed view has the same effect, and provides an *Open
 in detailed view...* option which opens the entry in the detailed view. You
-may also right click on the magnifying icon to access referenced entries.
+may also left click on the link or magnifying glass icon to access referenced
+entries.
 
 Tagaini's views can also be resized, moved or hidden in order to adapt the
 interface to your current activity, available screen surface, or way of
-working. To hide a view, simply click on the *x* icon at the right of their
-toolbar. A hidden view can be made visible again using the corresponding
+working. To hide a panel, simply click on the *x* icon at the right of their
+toolbar. A hidden panel can be made visible again using the corresponding
 action in the **Search** menu or its keyboard shortcut. Clicking and dragging
 on a view's toolbar will let you detach and move it around the workspace.
 
@@ -111,7 +112,7 @@ and connects them to related entries. This chapter covers the basic usage
 of the application. 
 
 Any search for vocabulary or kanji entries takes place in the search panel.
-Its top bar features a couple of buttons, as well as accessors to the various
+It's top bar features a couple of buttons, as well as accessors to the various
 search filters.
 
 ![Results view options](images/search_titlebar.png)
@@ -121,32 +122,32 @@ currently displayed results, and is explained in a latter section. The second
 button lets you reset the current search, bringing the search panel back to an
 empty state. It is also accessible through the **Ctrl+r** shortcut
 
-The following combo box is the **entry type selector**, and lets you filter
-which type of entry you want to search. Tagaini references both dictionary
-(words) and kanji (characters) entries, and by default searches for both type
-of entries. But some searches may only make sense for one type - for instance
-if you want to specifically study kanji for a test.
+The drop down box to the left of that is the **entry type selector**, and lets
+you filter which type of entry you want to search. Tagaini references both
+dictionary (words) and kanji (characters) entries, and by default searches for
+both type of entries. But some searches may only make sense for one type - for
+instance if you want to specifically study kanji for a test.
 
 Next are labelled buttons which give you access to the various search filters.
 Tagaini lets you search for entries according to many different criteria, each
 one being accessible through its own filter that appears if the button is
-pressed. Once a search filter's state is changed from its default, a reset
-button similar to the search panel's reset button, but local to the filter,
-will appear on the filter's button.
+pressed. When a search filter is in use, a reset button similar to the search
+panel's reset button will appear on the filter's button. This button will only
+reset search options within that filter.
 
-The last noticeable element of the search panel is the Tagaini logo,
-which will animate as a search takes place. You can cancel a long search
+The last noticeable element of the search panel's toolbar is the Tagaini logo,
+which will animate as a search takes place. You can stop a long search
 by clicking it.
 
-There are six search filters located in the view's toolbar. By default [Text
+There are seven search filters located in the view's toolbar. By default [Text
 Search][The Text Filter] is selected, and the text search filter is displayed.
 The other search tabs are labelled: [Study][The Study Filter]; [JLPT][The JLPT
 Filter]; [Tags; Notes][The Tags and Notes Filters]; [Vocabulary][The
-Vocabulary Filter]; [Kanji][The Kanji Filter].
-
-Clicking on a different filter shows the new filter in place of the current
-one. It is also possible to select a filter through the **Ctrl+0..5** keyboard
-shortcuts, while **Ctrl+0** hides them all.
+Vocabulary Filter]; [Kanji][The Kanji Filter]. Clicking on a different filter
+shows the new filter in place of the current one. It is also possible to
+select a filter through keyboard short cuts. Holding down control (**ctrl**)
+and pressing the corrisponding number, one through seven (**1** - **7**),
+while **Ctrl+0** hides them all.
 
 The Text Filter
 ---------------
@@ -159,15 +160,19 @@ found and reused easily. You can enter words, or terms, to search for into the
 text field and then, when you either press the enter key or the search button,
 it will search for the terms in the search bar.
 
-Search terms are character-set sensitive and can be combined. For instance, if you enter "`しけん`" into the search bar it will result in 試験 (test), 私見 (personal opinion) and 私権 (private right.) If, however, you enter "`しけん test`", it will search both terms and only result in 試験 (test) as Tagaini will only display entries for which all the search terms match.
+Search terms are character-set sensitive and can be combined. For instance, if
+you enter "`しけん`" into the search bar it will result in 試験 (test), 私見
+(personal opinion) and 私権 (private right.) If, however, you enter "`しけん
+test`", it will search both terms and only display 試験 (test) as Tagaini
+will only display entries for which all the search terms match.
 
-Every search term is separated by spaces, or double quotes; or `""`. To search
+Every search term is separated by spaces, or double quotes (`""`). To search
 for a sentence which includes spaces, you can enclose the sentence in
-quotation marks, or `""`. For instance, if you search for `to run`, then
-Tagaini will find and list every entry with both the word to and run in it. If
-instead you search `"to run"`, then Tagaini will only find entries with the
-words "to run" in them in that order, which probably makes sense if you are
-looking for the verb.
+quotation marks. For instance, if you search for `to run`, then Tagaini will
+find and list every entry with both the word `to` and `run` in it. If instead
+you search `"to run"`, then Tagaini will only find entries with the words "to
+run" in them in that order, which probably makes sense if you are looking for
+the verb.
 
 As Tagaini matches terms to entries exactly, there is currently no romaji
 search. So, searching for "`watashi`" will not result in 私：わたし. To find
