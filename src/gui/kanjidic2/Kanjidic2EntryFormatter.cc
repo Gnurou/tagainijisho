@@ -653,7 +653,7 @@ QString Kanjidic2EntryFormatter::shortDesc(const ConstKanjidic2EntryPointer &sha
 	ret += autoFormat(str);
 	
 	if (shortDescShowJLPT.value() && entry->jlpt() != -1)
-		ret += QString("<b>%1</b>").arg(autoFormat(tr(" (JLPT %1)").arg(entry->jlpt())));
+		ret += QString(" <b>%1</b>").arg(autoFormat(tr("(JLPT %1)").arg(entry->jlpt())));
 	ret += QString(" <a href=\"entry://?type=%1&id=%2\"><img src=\"moreicon\"/></a>").arg(entry->type()).arg(entry->id());
 	if (entry->trained()) {
 		ret = QString("<span style=\"background-color:%1\">%2</span>").arg(colorTriplet(entry->scoreColor())).arg(ret);
