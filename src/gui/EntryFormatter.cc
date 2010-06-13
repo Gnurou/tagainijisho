@@ -233,7 +233,7 @@ QString EntryFormatter::entryTitle(const ConstEntryPointer& entry) const
 
 QString EntryFormatter::shortDesc(const ConstEntryPointer &entry) const
 {
-	QString ret(entry->shortVersion(Entry::TinyVersion));
+	QString ret(autoFormat(entry->shortVersion(Entry::TinyVersion)));
 	ret += QString(" <a href=\"entry://?type=%1&id=%2\"><img src=\"moreicon\"/></a>").arg(entry->type()).arg(entry->id());
 	if (entry->trained()) {
 		ret = QString("<span style=\"background-color:%1\">%2</span>").arg(colorTriplet(entry->scoreColor())).arg(ret);

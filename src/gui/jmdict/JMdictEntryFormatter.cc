@@ -358,7 +358,7 @@ void JMdictEntryFormatter::detailedVersionPart2(const ConstEntryPointer& _entry,
 QString JMdictEntryFormatter::shortDesc(const ConstEntryPointer &_entry) const
 {
 	ConstJMdictEntryPointer entry(_entry.staticCast<const JMdictEntry>());
-	QString ret(entry->shortVersion(Entry::TinyVersion));
+	QString ret(autoFormat(entry->shortVersion(Entry::TinyVersion)));
 	if (shortDescShowJLPT.value() && entry->jlpt() != -1)
 		ret += QString(" <b>%1</b>").arg(autoFormat(tr("(JLPT %1)").arg(entry->jlpt())));
 	ret += QString(" <a href=\"entry://?type=%1&id=%2\"><img src=\"moreicon\"/></a>").arg(entry->type()).arg(entry->id());
