@@ -176,10 +176,24 @@ QString EntryFormatter::colorTriplet(const QColor &color)
 	return QString("#%1%2%3").arg(QString::number(color.red(), 16), 2, '0').arg(QString::number(color.green(), 16), 2, '0').arg(QString::number(color.blue(), 16), 2, '0');
 }
 
+typedef enum { Romaji, Kanji, Kana } formatType;
+
+QString formatString(const QString &str, formatType type)
+{
+	switch (type) {
+		case Kanji:
+			return QString("<span class=\"kanji\">%1</span>").arg(str);
+		case Kana:
+			return QString("<span class=\"kana\">%1</span>").arg(str);
+		default:
+			return str;
+	}
+}
+
 QString EntryFormatter::autoFormat(const QString &str) const
 {
 	QString ret;
-	enum { Romaji, Kanji, Kana } curChar, nextChar;
+	formatType curChar, nextChar;
 	
 	int pos = 0;
 	int written = 0;
@@ -190,22 +204,16 @@ QString EntryFormatter::autoFormat(const QString &str) const
 		else nextChar = Romaji;
 		// Late initialization of curChar
 		if (pos == 0) curChar = nextChar;
-		if (nextChar != curChar || pos == str.size() - 1) {
-			switch (curChar) {
-				case Kanji:
-					ret += QString("<span class=\"kanji\">%1</span>").arg(str.mid(written, pos - written));
-					break;
-				case Kana:
-					ret += QString("<span class=\"kana\">%1</span>").arg(str.mid(written, pos - written));
-					break;
-				case Romaji:
-					ret += str.mid(written, pos - written);
-					break;
-			};
+		if (nextChar != curChar) {
+			ret += formatString(str.mid(written, pos - written), curChar);
 			curChar = nextChar;
 			written = pos;
 		}
 		++pos;
+	}
+	// Write the remainder of the string
+	if (written < str.size()) {
+		ret += formatString(str.right(str.size() - written), curChar);
 	}
 	return ret;
 }
@@ -216,7 +224,6 @@ QString EntryFormatter::entryTitle(const ConstEntryPointer& entry) const
 	if (!entry->writings().isEmpty()) title = entry->writings()[0];
 	else if (!entry->readings().isEmpty()) title = entry->readings()[0];
 	else return "";
-	title = autoFormat(title);
 	if (entry->trained()) {
 		// TODO
 		title = QString("<span style=\"background-color:%1\">%2</span>").arg(colorTriplet(entry->scoreColor())).arg(autoFormat(title));
