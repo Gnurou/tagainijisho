@@ -64,12 +64,12 @@ author, along with its source code.
 The GUI
 -------
 
-Tagaini Jisho's GUI, when opened for the first time, displays the results view
+Tagaini Jisho's GUI, when opened for the first time, displays the search panel
 (upper right), the lists view (left), and the detailed view (bottom right).
 
 ![The GUI](images/gui.png)
 
-The **results view** provides a series of search filters that allows you to
+The **search panel** provides a series of search filters that allows you to
 perform queries according to some search criteria. In order to avoid
 cluttering the GUI with the many search options, only one filter can be
 visible at a time, when you click its button. Once a search is run, its
@@ -77,22 +77,22 @@ results are displayed under the search filters, in the form of a short
 description that allows you to spot the ones you were specifically after.
 
 Tagaini remembers your searches, and you can go back and forward through them
-using the left and right arrow at the top left of the results view, next to
-where it displays the number of results. By default, the results view will
+using the left and right arrow at the top left of the search panel, next to
+where it displays the number of results. By default, the search panel will
 only list up to 50 entries. Beyond that, they will be put on a new page. Which
 page you are viewing is controlled with the buttons at the top right of the
 list.
 
-Below the results view is the **detailed view**, which displays any and all
+Below the search panel is the **detailed view**, which displays any and all
 information about a selected entry. The buttons above the view allow you to go
 back and forward through selected entries and to manipulate the displayed
 entry.
 
 When you right click on an entry in the results window, a context menu opens.
 In the context menu are the same actions that are along the top of the
-detailed view, as well as a *Select All* option. Right clicking on a kanji in
-the detailed view has the same effect, and provides an *Open in detailed
-view...* option which opens the entry for the kanji in the detailed view. You
+detailed view, as well as a *Select All* option. Right clicking on links to
+other entries in the detailed view has the same effect, and provides an *Open
+in detailed view...* option which opens the entry in the detailed view. You
 may also right click on the magnifying icon to access referenced entries.
 
 Tagaini's views can also be resized, moved or hidden in order to adapt the
@@ -110,7 +110,7 @@ to search for terms and kanji even if you have limited information about them,
 and connects them to related entries. This chapter covers the basic usage
 of the application. 
 
-Any search for vocabulary or kanji entries takes place in the results view.
+Any search for vocabulary or kanji entries takes place in the search panel.
 Its top bar features a couple of buttons, as well as accessors to the various
 search filters.
 
@@ -118,7 +118,7 @@ search filters.
 
 The first button displays a list of print/export options to apply to the
 currently displayed results, and is explained in a latter section. The second
-button lets you reset the current search, bringing the results view back to an
+button lets you reset the current search, bringing the search panel back to an
 empty state. It is also accessible through the **Ctrl+r** shortcut
 
 The following combo box is the **entry type selector**, and lets you filter
@@ -131,10 +131,10 @@ Next are labelled buttons which give you access to the various search filters.
 Tagaini lets you search for entries according to many different criteria, each
 one being accessible through its own filter that appears if the button is
 pressed. Once a search filter's state is changed from its default, a reset
-button similar to the results view's reset button, but local to the filter,
+button similar to the search panel's reset button, but local to the filter,
 will appear on the filter's button.
 
-The last noticeable element of the results view is the Tagaini logo,
+The last noticeable element of the search panel is the Tagaini logo,
 which will animate as a search takes place. You can cancel a long search
 by clicking it.
 
@@ -205,7 +205,7 @@ is on the study list. Tagaini indeed lets you mark entries you want to study
 and keeps lots of statistics about them, including a score that represents how
 well you remember it. The study status defaults to *None*, so it does not
 filter results. Changing this to *Studied* will cause only entries in the
-study list to be listed in the results view. *Not studied* causes only results
+study list to be listed in the search panel. *Not studied* causes only results
 not in the study list to be shown[^studynum].
 
 To add entries to the study list, either right click on them in the results
@@ -214,7 +214,7 @@ list*, which adds the entry to the list with a score of 0. The green flag,
 *Already known*, will add the entry with a score of 95. 
 
 Each entry is given a colour between red and green according to its score, and
-it is displayed as the entry's background in the results view. As you
+it is displayed as the entry's background in the search panel. As you
 practise[^practicefoot], the score on each entry in your study list will
 change. You will then be able to filter entries that you know you know from
 your searches. When the study status is set to *studied* Tagaini will only
@@ -226,7 +226,7 @@ added to the study list. Clicking any of the not set buttons, in this section
 or the others, brings up a calendar to select a date or allows you to set a
 number of days／weeks／months／years prior to today's date. If an entry has
 been added after the *since* date and before the *until* date then it will be
-listed in the results view in any searches.
+listed in the search panel in any searches.
 
 The last trained section allows you to set a time range for finding entries
 according to when you last practised it, and the last mistaken section allows
@@ -266,7 +266,7 @@ The Tags and Notes Filters
 --------------------------
 
 Tags and Notes are similar in that they both label entries. They can be added
-to entries with either the right click menu in the results view or the
+to entries with either the right click menu in the search panel or the
 detailed views toolbar.
 
 ![The Tags Extender](images/search_tags.png)
@@ -280,7 +280,7 @@ to the right of the text field which contains a complete list of tags, so you
 can just select the ones you want. 
 
 If an entry has a tag, a small tag icon will be displayed on the right side of
-the entry in the results view, next to the scroll bar and at the bottom of
+the entry in the search panel, next to the scroll bar and at the bottom of
 the entry in the detailed view.
 
 To add a tag, you can use the **Add tags...** button, which looks like a tag
@@ -545,7 +545,7 @@ strokes and go back.
 
 Up the top are three buttons. The first, the magnifying glass, opens the
 kanji's entry in the detailed view. The second provides an options menu, just
-as when right clicking on an entry in the results view, and the last closes
+as when right clicking on an entry in the search panel, and the last closes
 the window. 
 
 Radical and Component Input Panels
@@ -582,14 +582,14 @@ Study List
 The study list is an invisible list of vocabulary and kanji, used to mark
 entries for study. Each entry has a score, based on how well you know the
 entry. This score is represented by a background colour for the entry when
-listed in the results view. Red represents not knowing it, or having a 0
+listed in the search panel. Red represents not knowing it, or having a 0
 score, and green represents knowing it, or having a score of 100. The colour
 gradiates from red to yellow to green as the score gets higher. Entries with
 low scores are shown first.
 
 The study list is manipulated with the flag buttons in the detailed view tool
 bar and the context menu given when right clicking on entry references, either
-in the results view or the display view.
+in the search panel or the display view.
 
 When adding entries to the study list, there are two relevant flags. The blue
 flag, **Add to study list** and the green flag, **already known**. The blue
@@ -625,9 +625,9 @@ lists to be embedded.
 
 Lists are useful for sorting and organizing entries that may be frequently
 viewed. To add an entry to a list, Drag and drop it onto one of the lists from
-the results view. Doing this creates a child entry that links to that entry.
+the search panel. Doing this creates a child entry that links to that entry.
 Clicking on it in the lists view then opens the entry in the detailed view.
-You can drag from the results view, the list view (in which case the entry
+You can drag from the search panel, the list view (in which case the entry
 will move), the drag button of the detailed view's toolbar, or any kanji of
 the detailed view.
 
@@ -641,7 +641,7 @@ available through the right-click context menu.
 Sets
 ----
 
-A **set** is the list created by a search and displayed in the results view.
+A **set** is the list created by a search and displayed in the search panel.
 Tagaini can remember specific sets. If you have made a search that you think
 you will want to make again, such as all transitive verbs used in computer
 terminology at the JLPT 2 level, you can create a new set, to make it easier
@@ -784,7 +784,7 @@ turned up 60 entries, and Tagaini is set to only show 50 of those entries on a
 page, then Tagaini will only print those 50 entries
 
 In the **Export displayed entries...** menu is an option labelled **as a tab
-separated file...**. This option exports the first page in the results view as
+separated file...**. This option exports the first page in the search panel as
 a plain text file, with entries formatted:
 
     漢字	    かな	    Romaji
@@ -841,7 +841,7 @@ Results View
 
 ![Results View Preferences](images/tagaini_pref_results.png)
 
-The results view page specifies how entries are displayed in the results view.
+The search panel page specifies how entries are displayed in the search panel.
 
 The results display section specifies the format of each entry. Entries can be
 displayed on one line, or over two with the definition underneath the reading.
