@@ -424,11 +424,23 @@ kanji is taught in.
 [^hex]: http://en.wikipedia.org/wiki/Hexadecimal
 
 The Detailed View
----------------
+-----------------
 
-In the detailed view each selected entry is displayed with exhaustive
-information about it, according to its type. [Vocabulary entries] are
-displayed differently to [Kanji entries].
+The detailed view is the main window of Tagaini Jisho where entries are
+displayed. It is the only view that cannot be hidden. If both the search and
+the lists panels are hidden, then it is the only part that remains, showing
+entries. This can be useful if you are reading digital text and are using the
+**auto-search on clipboard content** feature found in the Search Menu. 
+
+At the top of the detailed view there is a toolbar which contains back and
+forward buttons, for tranversing previously viewed entries; buttons for
+marking the entry, as discussed in the [organizing entries][] chapter and
+sections on [tags and notes][The Tags and Notes Filters]; and a button to
+allow draging the entry currently being viewed into a list. 
+
+The detailed view itself displays all the information on the currently
+selected entry, according to its type. [Vocabulary entries] are displayed
+differently to [Kanji entries].
 
 
 ### Vocabulary Entries
