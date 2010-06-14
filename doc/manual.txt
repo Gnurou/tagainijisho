@@ -631,30 +631,30 @@ An entry's score goes up and down as you practise it.
 Lists
 -----
 
-A new feature in Tagaini Jisho 0.2.5, **Lists** should be visible as soon as
-you start the program as a panel down the left of the window. If it is not,
-you can access it through the **Search** menu or the **F3** keyboard
-shortcut.
+By default, **Lists** should be visible as soon as you start the program as a
+panel down the left of the window. If it is not, you can access it through the
+**Search** menu or the **F3** keyboard shortcut.
 
 ![Lists view](images/lists.png)
 
 In addition to an export/print menu similar to the one of the results list,
-the lists panel has two buttons. The first to create a new list. The second
-recursively deletes all this list and its contents.
+the lists panel has three buttons. The first, which is greyed out to begin
+with, is the **go up** button. The second creates a new list and the third,
+a red **x**, recursively deletes the selected list and all its contents.
 
 Each list is a tree branch in the list view panel. When a new list is created,
-it does not have a parent and is named *New list*. Double clicking on the
+it does not have a parent and is named `New list`. Double clicking on the
 branch will allow renaming. As every list is a branch, clicking and dragging
 them onto another list will set it to be a child of that list, allowing this
-lists to be embedded.
+lists to be embedded within each other.
 
 Lists are useful for sorting and organizing entries that may be frequently
 viewed. To add an entry to a list, Drag and drop it onto one of the lists from
 the search panel. Doing this creates a child entry that links to that entry.
 Clicking on it in the lists view then opens the entry in the detailed view.
 You can drag from the search panel, the list view (in which case the entry
-will move), the drag button of the detailed view's toolbar, or any kanji of
-the detailed view.
+will move), the drag button of the detailed view's toolbar, or any kanji or
+link in the detailed view.
 
 To delete a list and its contents, select it and click the button that looks
 like a red `x`. This will display a warning that points out that the operation
@@ -662,6 +662,13 @@ will delete the list and all of its children.
 
 Selected entries options, as well as the create and delete actions, are also
 available through the right-click context menu.
+
+Right clicking on a list in the list view will give the option to **Set as
+root**. Clicking on this hides all the lists and only shows children of the
+selected list. The list's name will be displayed just below the panels tool
+bar. When you have set a list to the root, the **go up** button on the panel
+will turn blue to signal it is useable. Clicking it will set the root to the
+parent of the current root, until the root is the original root. 
 
 Sets
 ----
@@ -756,8 +763,8 @@ the set. Down the bottom of the view some statistics are displayed.
     Correct: 5, Wrong: 1, Total: 6
 
 The numbers correspond to how well you are doing in that particular set. Every
-time you a new training system, even with the same set, the numbers are all
-set back to 0.
+time you start using the flash cards, even with the same set, the numbers are
+all set back to 0.
 
 ### Reading Practice
 
