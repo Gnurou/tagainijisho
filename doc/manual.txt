@@ -278,22 +278,23 @@ detailed views toolbar.
 ![The Tags Extender](images/search_tags.png)
 
 Tags are short strings used to identify an entry. Each tag is a single
-word given to an entry that can be used as a filter. For instance, if you met
-a word in a given book, you can mark it with the book's name so that you are
-able to quickly find entries you met in the same context. Typing tags into the
-filter will search through just those entries. There is also a drop down list
-to the right of the text field which contains a complete list of tags, so you
-can just select the ones you want. 
+word given to an entry that can be used as a filter. For instance, if you
+first come accross a word in a given book, you can mark it with the book's
+name so that you are able to quickly find entries you learnt in the same
+context. Typing tags into the filter will search through just the entries with
+those tags. There is also a drop down list to the right of the text field
+which contains a complete list of tags, so you can just select the ones you
+want.
 
 If an entry has a tag, a small tag icon will be displayed on the right side of
 the entry in the search panel, next to the scroll bar and at the bottom of
 the entry in the detailed view.
 
 To add a tag, you can use the **Add tags...** button, which looks like a tag
-with a green bit at the top. White space, or spaces, separates each tag, so
-writing "genki ch04" adds two tags: "genki" and "ch04".
+with a green bit at the top. White space, or spaces, separate each tag, so
+writing "`genki ch04`" adds two tags: "`genki`" and "`ch04`".
 
-Any tags you add with the **Add tags...** in the current
+Any tags you have added with the **Add tags...** button in the current
 session[^tagainisession] can be found again in the **Recently added tags...**
 sub menu of the context menu[^contextmenu], which makes adding tags to a set
 of entries easier. The **Set tags...** button brings up a list of all the
@@ -309,20 +310,20 @@ session.
 
 [^contextmenu]: Right click menu.
 
-Notes are post-it like information that you can add about an entry. You could
-use notes to describe the relationship between a word or another or any other
-information you judge noteworthy about the entry. For instance, if a word,
+Notes are like yellow post-it notes that you can add to an entry. You could
+use notes to describe the relationship between one word and another or any other
+information you judge note-worthy about the entry. For instance, if a word,
 such as 降る、appears in a textbook you are studying in a phrase, such as
 雨が降る/雨が降ります、in a chapter before the entry itself, you may wish note
-that in the entry. In the example one may write "Appears in chapter 4 of
-textbook_name as 雨が降る".
+that in the entry. In the example one may write "`Appears in chapter n of
+textbook_name as 雨が降る`".
 
 When you search with the **Notes** filter, the search will match any entries
 with whatever text you write in the text field, exactly. If, using the above
 example, you have two different entries on verbs that have been used in
-phrases and have noted this, if you search for "Appears in" it will find both
+phrases and have noted this, if you search for "`Appears in`" it will find both
 of these entries, however if they are in separate chapters and you extend that
-string to "Appears in chapter 5", then it will only find the one that has that
+string to "`Appears in chapter 5`", then it will only find the one that has that
 exactly. 
 
 To add a note, use the **Edit notes...** button, which looks like a yellow
@@ -341,7 +342,7 @@ be used in conjunction with the kanji filter.
 The first two text fields relate to the kanji found in vocab entries. The
 **With kanji** field will find any vocab entry that contains a list of given
 kanji. Next to it is a checkbox labelled **Using studied kanji only**. It
-forces the search to use only kanji from the study list, and may to useful to
+forces the search to use only kanji from the study list, and may be useful to
 find new words that you should be able to read, but are not necessarily
 studying.
 
@@ -349,7 +350,7 @@ Kanji are made up of different sub-kanji, or components, so the **With
 components** field searches for kanji that include a component. This feature
 is useful to find words that you cannot write, but for which you can identify
 some of their components. For instance, say you are looking for the word
-`"紅葉"`. You cannot read it, but can recognize the `糸`, `工` and `木`
+"`紅葉`". You cannot read it, but can recognize the `糸`, `工` and `木`
 components it its kanji. Entering these in the components line will display
 all words which kanji feature these components, including the one you are
 looking after, `紅葉`.
@@ -364,8 +365,6 @@ finds words that belong to different places in Japan; **Field** finds terms
 and jargon from different fields and schools of knowledge, such as computer or
 religious terms and **Misc** contains anything that doesn't belong in the
 other categories, such as children's language, obsolete terms and slang. 
-
-<a name="kanjiex" />
 
 The Kanji Filter
 ----------------
