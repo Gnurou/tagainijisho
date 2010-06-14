@@ -475,6 +475,11 @@ The following sections are common to them.
 :   Entries that are homophones of the current entry. A homophone is a word
     with the same or similar pronunciation.
 
+**Homographs**
+:   Entries that are homographs of the current entry. A homograph is a word
+    that is written the same way as another word with a different
+    pronunciation and meaning.
+
 Any entry referenced in the detailed view will have a little magnifying glass
 next to it, which is a link to the referenced entry. For instance, in the
 entry 取る it references its intransitive buddy;
@@ -524,10 +529,13 @@ common sections.
 **SKIP**
 :   The kanji's SKIP code.
 
-**Components**
-:   The radicals that make up the kanji.
+**Radicals**
+:   Formal radicals found within the kanji.
 
-**Compounds**
+**Components**
+:   The components that make up the kanji.
+
+**Direct compounds**
 :   Kanji that are made up with this kanji. 
 
 **Seen in**
@@ -558,7 +566,8 @@ Moving your mouse over a component highlights it. Clicking on a component,
 either on the animation or in the list, will open that component by
 itself in the window. Underneath the stroke order animation are
 animation control buttons, allowing you to stop; pause; play; skip
-strokes and go back. 
+strokes and go back. Each of these buttons have corrisponding keyboard
+shortcuts: r, space, right and left respectivly.
 
 Up the top are three buttons. The first, the magnifying glass, opens the
 kanji's entry in the detailed view. The second provides an options menu, just
