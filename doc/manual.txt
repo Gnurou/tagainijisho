@@ -378,17 +378,17 @@ The first section on the tab, **Stroke count**, filters kanji by their number
 of strokes. It is possible to specify a range by checking the corresponding
 checkbox.
 
-The next section allows to filter kanji by their radical or components.
-Focusing the **Radicals** input line will trigger a popup listing the 214
+The next section filters kanji by their radical or components.
+Clicking on the **Radicals** input line will trigger a popup listing the 214
 radicals, from which you can select those you want to filter against. Every
-time a radical is selected, the radicals list updates itself to only list the
+time a radical is selected, the radicals list updates itself to only show the
 radicals that can be combined with the current selection.
 
 ![Kanji Filter](images/search_kanji_radical.png)
 
 **Components**, acts in the same way as radicals, but broaden the concept.
 While radicals are limited to a set of 214 key characters, a component can be
-any part of a kanji for which a character exists, which makes lookup using
+any part of a kanji for which a character exists, which makes searching using
 components much more flexible. You can click on or input just any component
 that you recognize in the kanji, and the list of complementary components will
 update itself automatically, while the search for corresponding kanji is run
@@ -412,7 +412,7 @@ relates to one of these numbers.[^SKIPfoot]
 The fifth section, or second from the right, is labelled **Four corner**. It
 provides four drop down boxes corresponding to each corner of a Chinese
 character and a fifth box for miscellaneous strokes. Four corner method is a
-Chinese input method to used to find kanji.[^FCfoot]a
+Chinese input method to used to find kanji.[^FCfoot]
 
 The last section, **School grade**, represents which japanese school level the
 kanji is taught in. 
