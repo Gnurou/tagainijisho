@@ -25,10 +25,13 @@ NotesFilterWidget::NotesFilterWidget(QWidget *parent) : SearchFilterWidget(paren
 {
 	_propsToSave << "notes";
 
-	QHBoxLayout *hLayout = new QHBoxLayout(this);
 	words = new QLineEdit(this);
 	connect(words, SIGNAL(textChanged(QString)), this, SLOT(onTextChanged(QString)));
 	connect(words, SIGNAL(returnPressed()), this, SLOT(commandUpdate()));
+	
+	QHBoxLayout *hLayout = new QHBoxLayout(this);
+	hLayout->setContentsMargins(0, 0, 0, 0);
+	hLayout->setSpacing(5);
 	hLayout->addWidget(words);
 	
 	setFocusProxy(words);

@@ -26,18 +26,21 @@ TagsFilterWidget::TagsFilterWidget(QWidget *parent) : SearchFilterWidget(parent)
 {
 	_propsToSave << "tags";
 
-	QHBoxLayout *hLayout = new QHBoxLayout(this);
 	lineInput = new TagsLineInput(this);
-	hLayout->addWidget(lineInput);
 	connect(lineInput, SIGNAL(allValidTags()), this, SLOT(commandUpdate()));
 
 	tagsButton = new QPushButton(tr("..."), this);
 	QMenu *menu = new QMenu(tagsButton);
 	connect(menu, SIGNAL(aboutToShow()), this, SLOT(populateTagsMenu()));
 	tagsButton->setMenu(menu);
-	hLayout->addWidget(tagsButton);
 	connect(menu, SIGNAL(triggered(QAction*)), this, SLOT(tagMenuClicked(QAction*)));
 	
+	QHBoxLayout *hLayout = new QHBoxLayout(this);
+	hLayout->setContentsMargins(0, 0, 0, 0);
+	hLayout->setSpacing(5);
+	hLayout->addWidget(lineInput);
+	hLayout->addWidget(tagsButton);
+
 	setFocusProxy(lineInput);
 }
 
