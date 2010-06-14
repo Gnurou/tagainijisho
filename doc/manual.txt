@@ -577,27 +577,26 @@ the window.
 Radical and Component Input Panels
 ----------------------------------
 
-The Kanji input panels are a powerful way to easily input kanji into any text
+The kanji input panels are a powerful way to easily input kanji into any text
 area of Tagaini Jisho. They are usable whenever a text input area (such as the
-text search filter) is focused, either via the **Search** menu of their
-keyboard shortcut. The **Radical search input** is accessible via **Ctrl+k**,
-and the **Component search input** via **Ctrl+j**.
+text search filter) is focused (when you can type in one), either via the
+**Search** menu of their keyboard shortcuts. The **Radical search input** is
+accessible via **Ctrl+k**, and the **Component search input** via **Ctrl+j**.
 
 ![Kanji IM](images/component_popup.png)
 
-Both work in a fashion similar to the radical and component search of [the
-Kanji Filter], excepted that the results are displayed into a small area.
-Clicking on a kanji displayed in this area will immediatly input it into the
-focused text input.
+Both work similarly to the radical and component search of [the
+Kanji Filter], excepted that the results are displayed in a small area.
+Clicking on a kanji displayed in this area will immediatly put it into the
+focused text field.
 
 So to find 怒 using the components search input, one could start by entering
 "`女`" into its text field, or by finding it listed under 3 strokes. The same
-thing could be done for "`又`". The field beneath would then start to list
+thing could be done for "`又`". The field beneath would be listing
 kanji with these radicals. With this example, the desired character, 怒, can
 be spotted very quickly. Clicking on the kanji will place it in the search
 field, or which ever text field had the focus when the kanji input panel was
-brought up. To close the panel, just clicking outside it will close it and
-return Tagaini to its normal functions.
+brought up. To close the panel, just clicking outside it will close it.
 
 Organizing Entries
 ==================
