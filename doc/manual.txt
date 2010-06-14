@@ -259,8 +259,9 @@ several levels. Please keep in mind that although this information can
 probably be considered reliable, it is only given for informational purposes,
 as there is no official JLPT lists of vocabulary and kanji.
 
-Starting the 2010, there are now 5 JLPT levels - former level 4 corresponds to
-N5, former level 3 to N3, former level 2 to N2 and former level 1 to N1.
+Starting from 2010, there are 5 JLPT levels - former level 4 corresponds to
+N5, former level 3 to N4, former level 2 to N2 and former level 1 to N1. There
+are not as yet vocabulary lists of known vocabulary associated to the N3 level.
 
 [^jlptfoot]: http://en.wikipedia.org/wiki/Japanese_Language_Proficiency_Test  
 http://www.jlpt.jp/e/
