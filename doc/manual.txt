@@ -806,7 +806,7 @@ Tagaini can print two different types of paper media. Lists of vocabulary or
 kanji, and pocketable booklets, vocabulary and kanji lists formatted in such a
 way that the paper can be folded into a small, pocket sized, book. The
 **print** option prints normally formatted lists, whilst the **print
-booklet(s)** option prints out booklets. Each option also has a preview
+booklet** option prints out booklets. Each option also has a preview
 option.
 
 ![Printing a booklet](images/print_booklet.png)
@@ -815,9 +815,10 @@ What is printed is limited by what is in the results window. If a search has
 turned up 60 entries, and Tagaini is set to only show 50 of those entries on a
 page, then Tagaini will only print those 50 entries
 
-In the **Export displayed entries...** menu is an option labelled **as a tab
-separated file...**. This option exports the first page in the search panel as
-a plain text file, with entries formatted:
+At the bottom of the print menu there are two more options. **Export as
+TSV...** and **Export as HTML...***.
+The TSV option exports the set or list as a tab separated file. This option
+exports entries as a plain text file, with entries formatted:
 
     漢字	    かな	    Romaji
 
@@ -828,6 +829,8 @@ or
 This was originally written for exporting to anki[^ankifoot], a flash card
 program, but will work with any other application that can import entries in
 this format.
+
+**TALK ABOUT EXPORTING TO HTML HERE**
 
 [^ankifoot]: http://www.ichi2.net/anki/
 
