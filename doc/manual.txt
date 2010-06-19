@@ -889,17 +889,21 @@ Results View
 
 ![Results View Preferences](images/tagaini_pref_results.png)
 
-The search panel page specifies how entries are displayed in the search panel.
+The results view page specifies how entries are displayed in the search panel.
 
-The results display section specifies the format of each entry. Entries can be
-displayed on one line, or over two with the definition underneath the reading.
-The number of entries per page can be changed, as well as how results are
-sorted; By score, then relevance or just by relevance. **Smooth scrolling**
-changes how scrolling behaves.
+The page is seperated into two sections: The **results display** section and
+the **preview** section. The preview section shows an example of a list of
+entries that will be displayed in the results view.
 
-The fonts section allows different fonts to be selected for the different
-parts of the display. The **Main writing** section is the first kanji or kana
-which shows how it is usually written. **Readings and alternative writings**
+The results display section specifies the format of each entry. **Smooth
+scrolling** changes how scrolling behaves. The number of entries per page can
+be changed, as well as how results are sorted: `By score, then relevance` or
+just `by relevance`. Entries can be displayed on one line, or over two with
+the definition underneath the reading. 
+
+Each of the different parts of a listed entry can then be displayed in a
+different font; The **main writing** section is the first kanji or kana which
+shows how it is usually written. **Readings and alternative writings**
 specifies how readings are displayed and **definitions** refers to the Romaji
 text that the meaning of the entry is displayed in. The default font is a
 system default.
