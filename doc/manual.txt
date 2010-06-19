@@ -997,9 +997,6 @@ element on and off.
 **# of strokes**
 :   Number of strokes in the kanji.
 
-**Components**
-:   The kanji radicals used in the kanji.
-
 **JLPT level**
 :   The JLPT level of the kanji.
 
@@ -1024,9 +1021,13 @@ element on and off.
 **Original**
 :   The way the kanji was originally written.
 
-The **additional information** section controls how many **compounds** kanji
-(kanji that uses the currently displayed one as component) and how many
-**words using the kanji** are shown.
+The **additional information** section allows you to toggle on and off
+radicals and components being shown as well as contoling how many **compound**
+kanji (kanji that uses the currently displayed one as a component) and how
+many **words using the kanji** are shown.
+
+**Components**
+:   The kanji radicals used in the kanji.
 
 ![Kanji Printing](images/tagaini_pref_kanji_print.png)
 
@@ -1063,7 +1064,8 @@ The values in **kanji information** are:
 If components printing is enabled, studied components are underlined.
 
 In the **kanji drawing style** section the kanji's size is set, along with if
-it is written in a handwritten font, or in the default font.
+it is written in a handwritten font, or in the default font, whether or not it
+is printed on a gird and if the stroke numbers should be included.
 
 ![Kanji ToolTips](images/tagaini_pref_kanji_tooltip.png)
 
