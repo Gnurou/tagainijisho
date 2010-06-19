@@ -861,10 +861,23 @@ General
 ![General Preferences](images/tagaini_pref_gen.png)
 
 The general preferences page, the one that the preferences window opens on,
-contains general settings that affect the entire program.
+contains general settings that affect the entire program. It is broken down
+into several sections, visibily seperated on the page.
 
-The **Application default font** is the font that the application uses to
-display any information in the interface itself and uses as a default.
+The first section, from the top, is the **general settings** section. It
+controls the **application-wide default font**, the font which Tagaini uses to
+display text by default, and the **GUI language**, the language the menues and
+buttons are written in. The default font has two settings. A check box labeled
+**default** and a button labeled '**Change...**'. If the default checkbox is
+ticked then the default Qt system font is used. The change button brings up
+a dialogue that allows you to select a new font. 
+
+The next section is the dates section. It allows you to tell Tagaini which day
+the week starts on: Sunday or Monday. These settings are used by your study
+list. The following section allows you to tell Tagaini how oftern it should
+connect to the internet and check for a new version. You can turn this
+functionality off or you can get it to check for updates to the development
+version. 
 
 The **Entries cache** section specifies how many entries Tagaini will keep in
 memory. Increasing this value may result in better performance for users
