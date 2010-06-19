@@ -75,10 +75,11 @@ cluttering the GUI with the many search options, only one filter can be
 visible at a time, when you click its button. Once a search is run, its
 results are displayed under the search filters, in the form of a short
 description that allows you to spot the ones you were specifically after.
+The area this list is shown in is called the **results view**.
 
 Tagaini remembers your searches, and you can go back and forward through them
-using the left and right arrow at the top left of the search panel, next to
-where it displays the number of results. By default, the search panel will
+using the left and right arrow at the top left of the results view, next to
+where it displays the number of results. By default, the results view will
 only list up to 50 entries. Beyond that, they will be put on a new page. Which
 page you are viewing is controlled with the buttons at the top right of the
 list.
