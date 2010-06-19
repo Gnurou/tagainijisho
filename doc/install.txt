@@ -242,25 +242,22 @@ is done so that one does not have to compile the entire monolithic library.
 Tagaini only requires `x11-libs/qt-core`, `x11-libs/qt-gui`, `x11-libs/qt-test` and `x11-libs/qt-sql`.
 
 
-### From the source tarball, version 0.2.5
+### From the source tarball, version 0.2.6
 
 The tarball comes with extra dependencies, so all you should not have to get
 them. First, the makefiles must be generated:
 
-    tagaini-jisho $ qmake
+    tagaini-jisho $ cmake
+
+You can also specify which language should be preferred for the dictionaries
+by passing the -DDICT_LANG=<lang> option to CMake. If you want to build your
+dictionaries in French, you can invoke CMake this way:
+
+    tagaini-jisho $ cmake -DDICT_LANG=fr .
 
 From here, you may compile the release version of Tagaini:
 
     tagaini-jisho $ make
-
-The debug version can be compiled by:
-
-    tagaini-jisho $ make debug
-
-Now that you have a working binary but no databases. Compile the database
-with:
-    
-    tagaini-jisho $ make databases
 
 To install the program, you can run:
 
@@ -294,13 +291,15 @@ the makefiles need to be generated.
     
     tagaini-jisho $ cmake .
 
+You can also specify which language should be preferred for the dictionaries
+by passing the -DDICT_LANG=<lang> option to CMake. If you want to build your
+dictionaries in French, you can invoke CMake this way:
+
+    tagaini-jisho $ cmake -DDICT_LANG=fr .
+
 Once that has finnished, Tagaini is ready to be built. 
 
     tagaini-jisho $ make
-
-From here, the databases need to be built.
-
-    tagaini-jisho $ make databases
 
 From here, it can either be run with:
 
