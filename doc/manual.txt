@@ -935,6 +935,15 @@ five in all.
 **Kana**
 :   Any kana in the display, for alternative readings and referenced entries.
 
+Lists
+-----
+
+The lists page describes how lists should be handled and displayed. The
+**style** of the list can be changed between **one line** entries and **two
+line** entries. The fonts used to display the **main writing**, **Readings and
+alternative writings** and **definitions** can each be changed seperately.
+**Smooth scrolling** can also be enabled.
+
 Vocabulary Entries
 ------------------
 
@@ -946,8 +955,9 @@ level and information about the kanji used are displayed in the detailed view.
 The **additional information** controls extra jobs about the displayed entry.
 **Search for transitive／intransitive verb buddy** controls whether or a
 references is included to an entry with an opposite transitive state. It is
-also possible to search for a given number of **Homophones**. **Studied only**
-causes only homophones in the study list to be displayed.
+also possible to search for a given number of **Homophones** or
+**Homographs**. The **Studied only** checkbox causes only homophones or
+homographs in the study list to be displayed.
 
 ![Vocabulary Printing](images/tagaini_pref_vocab_printing.png)
 
