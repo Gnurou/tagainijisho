@@ -85,3 +85,36 @@ QString TemplateFiller::fill(const QString &tmpl, const EntryFormatter *formatte
     }
     return ret;
 }
+
+QString TemplateFiller::extract(const QString &tmpl, const QStringList &parts, bool includeRootText)
+{
+	QString ret;
+	int pos = 0, cPos = -0;
+	QRegExp partMatch("<!-- *PART *: *(\\w+) *-->"), closePartMatch("<!-- */PART *-->");
+	
+	// Find an opening part tag
+	while ((pos = partMatch.indexIn(tmpl, pos)) != -1) {
+		// If the root text is to be included, do so
+		if (includeRootText) ret += tmpl.mid(cPos, pos - cPos);
+
+		// Find the associated closing tag
+		cPos = closePartMatch.indexIn(tmpl, pos);
+		// No closing tag, assume end of document
+		if (cPos < 0) cPos = tmpl.size() - 1;
+		// Otherwise remove trailing spaces and end of line after closing tag
+		else {
+			cPos += closePartMatch.cap().size();
+			while (cPos < tmpl.size() && (tmpl[cPos] == '\n' || tmpl[cPos] == ' ')) ++cPos;
+		}
+		
+		// Now decide whether or not to output this part
+		QString partName(partMatch.cap(1));
+		if (parts.contains(partName)) ret += tmpl.mid(pos, cPos - pos);
+		
+		pos = cPos;
+	}
+	// Finally include trailing text if needed
+	if (includeRootText) ret += tmpl.mid(cPos);
+	
+	return ret;
+}

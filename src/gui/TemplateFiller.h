@@ -27,7 +27,16 @@ class TemplateFiller
 public:
 	TemplateFiller() {}
 	
+	/**
+	 * Fills in the template using the given formatter with the given entry.
+	 */
 	QString fill(const QString& tmpl, const EntryFormatter* formatter, const EntryPointer& entry);
+	/**
+	 * Extracts the requested parts from the template. Parts are delimited using the PART tag
+	 * enclosed into HTML comments. The last argument specifies whether text that is not in any
+	 * part should be included or not.
+	 */
+	QString extract(const QString &tmpl, const QStringList &parts, bool includeRootText = false);
 };
 
 #endif // GUI_TEMPLATEFILLER_H
