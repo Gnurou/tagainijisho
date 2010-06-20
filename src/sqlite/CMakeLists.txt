@@ -13,7 +13,6 @@ Query.cc
 
 qt4_wrap_cpp(tagainijisho_sqlite_MOC_SRCS
 qsql_sqlite.h
-Error.h
 Connection.h
 Query.h
 )
