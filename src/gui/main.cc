@@ -141,7 +141,6 @@ void checkConfigurationVersion()
 	configVersion.setValue(CONFIG_VERSION);
 }
 
-QString __userProfile;
 /**
  * Check if a user DB directory is defined in the application settings, and
  * create a default one in case it doesn't exist.

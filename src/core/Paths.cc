@@ -24,6 +24,8 @@
 
 #include <QtDebug>
 
+QString __userProfile;
+
 QString lookForFile(const QString &name)
 {
 	// First look in the current directory
