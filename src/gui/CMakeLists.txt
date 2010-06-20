@@ -7,7 +7,6 @@ add_subdirectory(kanjidic2)
 qt4_add_resources(tagainijisho_gui_RC ${CMAKE_SOURCE_DIR}/tagainijisho.qrc)
 
 set(tagainijisho_gui_SRCS
-${tagainijisho_gui_RC}
 EntryFormatter.cc
 BetterSpinBox.cc
 HexSpinBox.cc
@@ -154,13 +153,18 @@ kanjidic2/KanjiSelector.ui
 kanjidic2/Kanjidic2Preferences.ui
 )
 
+set(tagainijisho_SRCS
+main.cc
+${tagainijisho_gui_RC}
+)
+
 include_directories(${QT_INCLUDE_DIR})
 add_library(tagaini_gui STATIC ${tagainijisho_gui_SRCS} ${tagainijisho_gui_MOC_SRCS} ${tagainijisho_gui_UI_SRCS})
 if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-add_executable(tagainijisho MACOSX_BUNDLE main.cc)
+add_executable(tagainijisho MACOSX_BUNDLE ${tagainijisho_SRCS})
 set(extra_link_flags "-bind_at_load")
 else()
-add_executable(tagainijisho main.cc)
+add_executable(tagainijisho ${tagainijisho_SRCS})
 install(TARGETS tagainijisho RUNTIME DESTINATION bin)
 endif()
 target_link_libraries(tagainijisho tagaini_gui tagaini_core tagaini_sqlite ${QT_LIBRARIES} ${extra_link_flags})
