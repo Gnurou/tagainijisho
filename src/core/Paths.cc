@@ -31,6 +31,13 @@ QString lookForFile(const QString &name)
 #ifdef DEBUG_PATHS
 	qDebug("Looking file %s: %s", resFile.fileName().toLatin1().constData(), resFile.exists() ? "found" : "not found");
 #endif  // DEBUG_PATHS
+	// Then look in the user personal directory
+	if (!resFile.exists()) {
+		resFile.setFileName(QDir(userProfile()).filePath(name));
+#ifdef DEBUG_PATHS
+		qDebug("Looking file %s: %s", resFile.fileName().toLatin1().constData(), resFile.exists() ? "found" : "not found");
+#endif // DEBUG_PATHS
+	}
 #ifdef DATA_DIR
 	// Otherwise, check for the default installation prefix, if set	
 	if (!resFile.exists()) {
