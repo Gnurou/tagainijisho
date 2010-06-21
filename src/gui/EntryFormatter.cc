@@ -20,7 +20,6 @@
 #include "gui/EntryFormatter.h"
 #include "gui/DetailedView.h"
 
-#include <QToolTip>
 #include <QFile>
 
 PreferenceItem<bool> EntryFormatter::shortDescShowJLPT("mainWindow/detailedView", "shortEntryShowJLPT", false);
@@ -325,16 +324,16 @@ QString EntryFormatter::formatTrainingData(const ConstEntryPointer &entry) const
 {
 	// Training data
 	if (entry->trained()) {
-		QString ret;
-		ret += tr("Studied since %1.").arg(entry->dateAdded().date().toString(Qt::DefaultLocaleShortDate));
-		ret += tr(" Score: %1.").arg(entry->score());
+		QStringList ret;
+		ret << tr("Studied since %1.").arg(entry->dateAdded().date().toString(Qt::DefaultLocaleShortDate));
+		ret << tr("Score: %1.").arg(entry->score());
 		if (entry->dateLastTrain().isValid()) {
-			ret += tr(" Last trained on %1.").arg(entry->dateLastTrain().date().toString(Qt::DefaultLocaleShortDate));
+			ret << tr("Last trained on %1.").arg(entry->dateLastTrain().date().toString(Qt::DefaultLocaleShortDate));
 			if (entry->dateLastMistake().isValid()) {
-				ret += tr(" Last mistaken on %1.").arg(entry->dateLastMistake().date().toString(Qt::DefaultLocaleShortDate));
+				ret << tr("Last mistaken on %1.").arg(entry->dateLastMistake().date().toString(Qt::DefaultLocaleShortDate));
 			}
 		}
-		return ret;
+		return ret.join(" ");
 	}
 	else return "";
 }
