@@ -18,6 +18,7 @@
 #include "core/EntriesCache.h"
 #include "gui/EntryFormatter.h"
 #include "gui/YesNoTrainer.h"
+#include "gui/TemplateFiller.h"
 
 #include <QtDebug>
 #include <QVBoxLayout>
@@ -32,6 +33,9 @@ PreferenceItem<QByteArray> YesNoTrainer::windowGeometry("trainWindow", "geometry
 
 YesNoTrainer::YesNoTrainer(QWidget *parent) : QWidget(parent), _trainingMode(Japanese), currentEntry(0)
 {
+	frontParts << "front";
+	backParts << "back";
+	
 	restoreGeometry(windowGeometry.value());
 
 	setWindowTitle("Training");
@@ -120,25 +124,26 @@ void YesNoTrainer::train(const EntryPointer &entry)
 
 	currentEntry = entry;
 
-	QTextCursor cursor(_detailedView->detailedView()->document());
-
-	const EntryFormatter *formatter(EntryFormatter::getFormatter(entry));
-	if (!formatter) {
-		qWarning("%s %d: Warning: cannot find formatter for entry!", __FILE__, __LINE__);
-	}
-	switch (trainingMode()) {
-		case Japanese:
-			formatter->detailedVersionPart1(entry, cursor, _detailedView->detailedView());
-			break;
-		case Translation:
-			formatter->detailedVersionPart2(entry, cursor, _detailedView->detailedView());
-			break;
-	}
-
 	showAnswerButton->setEnabled(true);
 	goodAnswerButton->setEnabled(false);
 	wrongAnswerButton->setEnabled(false);
 	skipButton->setEnabled(true);
+	
+	QTextDocument *document(_detailedView->detailedView()->document());
+
+	const EntryFormatter *formatter(EntryFormatter::getFormatter(entry));
+	if (!formatter) {
+		qWarning("%s %d: Warning: cannot find formatter for entry!", __FILE__, __LINE__);
+		return;
+	}
+	
+	document->setDefaultStyleSheet(formatter->CSS());
+	
+	const QStringList &parts = trainingMode() == Japanese ? frontParts : backParts;
+	
+	TemplateFiller filler;
+	QString html(filler.fill(filler.extract(formatter->htmlTemplate(), parts), formatter, entry));
+	document->setHtml(html);
 }
 
 void YesNoTrainer::showAnswer()

@@ -41,6 +41,8 @@ private:
 	void _train();
 
 protected:
+	// List of parts to display for front and back of the card
+	QStringList frontParts, backParts;
 	EntryPointer currentEntry;
 	QSqlQuery _query;
 	ToolBarDetailedView *_detailedView;
