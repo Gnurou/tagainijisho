@@ -27,27 +27,11 @@ class JMdictEntryFormatter : public EntryFormatter
 {
 	Q_OBJECT
 protected:
-	virtual void _detailedVersion(const ConstEntryPointer &entry, QTextCursor &cursor, DetailedView *view) const;
-
 	JMdictEntryFormatter(QObject *parent = 0);
 	virtual ~JMdictEntryFormatter() {}
 public:
 	static JMdictEntryFormatter &instance();
 	
-	/**
-	 * Writes the part of speech using the given cursor.
-	 */
-	void writeSensePos(const Sense &sense, QTextCursor &cursor) const;
-
-	void writeKanaHeader(const ConstJMdictEntryPointer &entry, QTextCursor &cursor, DetailedView *view) const;
-	void writeKanjiHeader(const ConstJMdictEntryPointer &entry, QTextCursor &cursor, DetailedView *view) const;
-	void writeJapanese(const ConstJMdictEntryPointer &entry, QTextCursor& cursor, DetailedView* view) const;
-	void writeTranslation(const ConstJMdictEntryPointer &entry, QTextCursor &cursor, DetailedView *view) const;
-	void writeEntryInfo(const ConstJMdictEntryPointer &entry, QTextCursor &cursor, DetailedView *view) const;
-
-	virtual void writeShortDesc(const ConstEntryPointer &entry, QTextCursor &cursor) const;
-	virtual void detailedVersionPart1(const ConstEntryPointer &entry, QTextCursor &cursor, DetailedView *view) const;
-	virtual void detailedVersionPart2(const ConstEntryPointer &entry, QTextCursor &cursor, DetailedView *view) const;
 	virtual void draw(const ConstEntryPointer &entry, QPainter &painter, const QRectF &rectangle, QRectF &usedSpace, const QFont &textFont = QFont()) const { drawCustom(entry, painter, rectangle, usedSpace, textFont); }
 	void drawCustom(const ConstEntryPointer &entry, QPainter &painter, const QRectF &rectangle, QRectF &usedSpace, const QFont &textFont = QFont(), int headerPrintSize = headerPrintSize.defaultValue(), bool printKanjis = printKanjis.defaultValue(), bool printOnlyStudiedKanjis = printOnlyStudiedKanjis.defaultValue(), int maxDefinitionsToPrint = maxDefinitionsToPrint.defaultValue()) const;
 

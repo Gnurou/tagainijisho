@@ -22,7 +22,6 @@
 #include "gui/DetailedView.h"
 
 #include <QPainter>
-#include <QTextCursor>
 #include <QMap>
 
 class DetailedView;
@@ -34,11 +33,6 @@ private:
 	static QMap<int, EntryFormatter *> _formatters;
 
 protected:
-	/**
-	 * Actual implementation of the detailed version rendering, to be overloaded
-	 * by subclasses
-	 */
-	virtual void _detailedVersion(const ConstEntryPointer &entry, QTextCursor &cursor, DetailedView *view) const = 0;
 	/**
 	 * Paints additional information about this entry, like notes
 	 */
@@ -68,45 +62,6 @@ public:
 	static const EntryFormatter *getFormatter(const ConstEntryPointer &entry) { return _formatters[entry->type()]; }
 
 	/**
-	 * Writes the entry with as many details as possible using the given cursor. When the
-	 * function returns, the cursor must be placed at the last position this method wrote
-	 * to.
-	 */
-	void detailedVersion(const ConstEntryPointer &entry, QTextCursor &cursor, DetailedView *view) const;
-
-	/**
-	 * Used by the flashcard trainer in order to write the first part of the quizz.
-	 * Eventually CSS elements should be used to hide the relevant parts and this
-	 * functions should disappear.
-	 */
-	virtual void detailedVersionPart1(const ConstEntryPointer &entry, QTextCursor &cursor, DetailedView *view) const {}
-
-	/**
-	 * Used by the flashcard trainer in order to write the second part of the quizz.
-	 * Eventually CSS elements should be used to hide the relevant parts and this
-	 * functions should disappear.
-	 */
-	virtual void detailedVersionPart2(const ConstEntryPointer &entry, QTextCursor &cursor, DetailedView *view) const {}
-
-	/**
-	 * Write a short description with all the fancy and interaction the user
-	 * can expect on the detailed view.
-	 */
-	virtual void writeShortDesc(const ConstEntryPointer &entry, QTextCursor &cursor) const = 0;
-
-	/**
-	 * Write a as-short as possible title to identify this entry.
-	 */
-	virtual void writeEntryTitle(const ConstEntryPointer &entry, QTextCursor &cursor) const;
-
-	/**
-	 * Writes the meta data of this entry (tags, training data, notes)
-	 */
-	void writeUserData(const ConstEntryPointer &entry, QTextCursor &cursor, DetailedView *view) const;	
-	
-	void autoFormat(const ConstEntryPointer &entry, const QString &str, QTextCursor &cursor, const QTextCharFormat &mergeWith = QTextCharFormat()) const;
-
-	/**
 	 * Paints this entry using the given painter into the given rectangle.
 	 *
 	 * The default version just paints the short version.
@@ -114,9 +69,7 @@ public:
 	virtual void draw(const ConstEntryPointer &entry, QPainter &painter, const QRectF &rectangle, QRectF &usedSpace, const QFont &textFont = QFont()) const;
 	
 	static PreferenceItem<bool> shortDescShowJLPT;
-	
-	
-	
+
 protected:
 	QString _css;
 	QString _html;

@@ -74,62 +74,6 @@ bool EntryFormatter::removeFormatter(const int entryType)
 	return true;
 }
 
-void EntryFormatter::writeUserData(const ConstEntryPointer& entry, QTextCursor& cursor, DetailedView* view) const
-{
-	QTextCharFormat normal(DetailedViewFonts::charFormat(DetailedViewFonts::DefaultText));
-	QTextCharFormat bold(normal);
-	bold.setFontWeight(QFont::Bold);
-
-}
-
-void EntryFormatter::detailedVersion(const ConstEntryPointer &entry, QTextCursor &cursor, DetailedView *view) const
-{
-	_detailedVersion(entry, cursor, view);
-
-	cursor.insertBlock(QTextBlockFormat());
-	// Now write user data
-	writeUserData(entry, cursor, view);
-
-	cursor.insertBlock(QTextBlockFormat());
-}
-
-void EntryFormatter::autoFormat(const ConstEntryPointer& entry, const QString& str, QTextCursor& cursor, const QTextCharFormat& mergeWith) const
-{
-	if (str.isEmpty()) return;
-
-	QTextCharFormat saveFormat(cursor.charFormat());
-	enum { None, Kanji, Kana, Romaji } curChar = None, nextChar;
-	QTextCharFormat format;
-	int pos = 0;
-	int written = 0;
-	while (pos < str.size()) {
-		// Guess the format of the next char
-		if (TextTools::isKanjiChar(str[pos])) nextChar = Kanji;
-		else if (TextTools::isKanaChar(str[pos])) nextChar = Kana;
-		else nextChar = Romaji;
-		if (nextChar != curChar) {
-			if (curChar == Kanji) format = DetailedViewFonts::charFormat(DetailedViewFonts::Kanji);
-			else if (curChar == Kana) format = DetailedViewFonts::charFormat(DetailedViewFonts::Kana);
-			else format = DetailedViewFonts::charFormat(DetailedViewFonts::DefaultText);
-			format.merge(mergeWith);
-			cursor.setCharFormat(format);
-			cursor.insertText(str.mid(written, pos - written));
-			curChar = nextChar;
-			written = pos;
-		}
-		++pos;
-	}
-	if (written < str.size()) {
-		if (curChar == Kanji) format = DetailedViewFonts::charFormat(DetailedViewFonts::Kanji);
-		else if (curChar == Kana) format = DetailedViewFonts::charFormat(DetailedViewFonts::Kana);
-		else format = DetailedViewFonts::charFormat(DetailedViewFonts::DefaultText);
-		format.merge(mergeWith);
-		cursor.setCharFormat(format);
-		cursor.insertText(str.mid(written, str.size() - written));
-	}
-	cursor.setCharFormat(saveFormat);
-}
-
 void EntryFormatter::drawInfo(const ConstEntryPointer &entry, QPainter &painter, QRectF &rectangle, const QFont &textFont) const
 {
 	// Draw notes
@@ -156,18 +100,6 @@ void EntryFormatter::draw(const ConstEntryPointer& entry, QPainter& painter, con
 	painter.drawText(rectangle, entryTextProperties, text);
 
 	painter.restore();
-}
-
-void EntryFormatter::writeEntryTitle(const ConstEntryPointer& entry, QTextCursor& cursor) const
-{
-	QTextCharFormat scoreFormat;
-	if (entry->trained()) {
-		scoreFormat.setBackground(entry->scoreColor());
-	}
-	QString title;
-	if (!entry->writings().isEmpty()) title = entry->writings()[0];
-	else if (!entry->readings().isEmpty()) title = entry->readings()[0];
-	autoFormat(entry, title, cursor, scoreFormat);
 }
 
 QString EntryFormatter::colorTriplet(const QColor &color)

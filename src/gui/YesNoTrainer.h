@@ -22,7 +22,6 @@
 
 #include <QFrame>
 #include <QPushButton>
-#include <QTextCursor>
 #include <QSqlQuery>
 #include <QLabel>
 
