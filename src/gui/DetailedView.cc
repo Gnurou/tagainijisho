@@ -69,7 +69,7 @@ void DetailedView::removeEventFilter(QObject *obj)
 	_eventFilters.remove(obj);
 }
 
-DetailedView::DetailedView(QWidget *parent) : QTextBrowser(parent), _kanjisClickable(true), _historyEnabled(true), _dragEntryRef(0, 0), _dragStarted(false), _history(historySize.value()), _entryView(0), _jobsRunner(this)
+DetailedView::DetailedView(QWidget *parent) : QTextBrowser(parent), _kanjiClickable(true), _historyEnabled(true), _dragEntryRef(0, 0), _dragStarted(false), _history(historySize.value()), _entryView(0), _jobsRunner(this)
 {
 	// Add the default handlers if not already done (first instanciation)
 	if (!DetailedViewLinkManager::getHandler(_entryHandler.scheme())) DetailedViewLinkManager::registerHandler(&_entryHandler);
@@ -219,10 +219,9 @@ void DetailedView::clear()
 	document()->addResource(QTextDocument::ImageResource, QUrl("moreicon"), QPixmap(":/images/icons/zoom-in.png"));
 }
 
-void DetailedView::setKanjisClickable(bool clickable)
+void DetailedView::setKanjiClickable(bool clickable)
 {
-	_kanjisClickable = clickable;
-//	if (!clickable) viewport()->unsetCursor();
+	_kanjiClickable = clickable;
 }
 
 void DetailedView::setHistoryEnabled(bool enabled)

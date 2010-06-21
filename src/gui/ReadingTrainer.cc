@@ -39,7 +39,7 @@ ReadingTrainer::ReadingTrainer(QWidget *parent) : QFrame(parent), _goodCount(0),
 	setAttribute(Qt::WA_DeleteOnClose);
 	connect(ui.okButton, SIGNAL(clicked()), this, SLOT(checkAnswer()));
 	connect(ui.nextButton, SIGNAL(clicked()), this, SLOT(train()));
-	ui.detailedView->detailedView()->setKanjisClickable(true);
+	ui.detailedView->detailedView()->setKanjiClickable(true);
 
 	_showMeaning = new QCheckBox(tr("Show &meaning"), this);
 	_showMeaning->setChecked(ReadingTrainer::showMeaning.value());

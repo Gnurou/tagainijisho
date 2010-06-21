@@ -552,7 +552,7 @@ void PreferencesFontChooser::checkDefaultState(const QFont &f)
 
 PreferencesDetailedViewExample::PreferencesDetailedViewExample(QWidget *parent) : DetailedView(parent)
 {
-	setKanjisClickable(false);
+	setKanjiClickable(false);
 	QTextCursor cursor(document());
 	QTextBlockFormat blockFormat;
 	blockFormat.setAlignment(Qt::AlignHCenter);

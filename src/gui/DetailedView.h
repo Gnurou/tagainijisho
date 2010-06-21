@@ -211,7 +211,7 @@ private:
 	static EntryMenuHandler _entryHandler;
 	static TagsLinkHandler _tagsLinkHandler;
 	static ListLinkHandler _listLinkHandler;
-	bool _kanjisClickable;
+	bool _kanjiClickable;
 	bool _historyEnabled;
 	ScrollBarSmoothScroller _scroller;
 	/// Used to know whether we are about to drag the entry currently displayed
@@ -239,8 +239,8 @@ public:
 	virtual ~DetailedView();
 	void setSmoothScrolling(bool value);
 
-	bool kanjisClickable() const { return _kanjisClickable; }
-	void setKanjisClickable(bool clickable);
+	bool kanjiClickable() const { return _kanjiClickable; }
+	void setKanjiClickable(bool clickable);
 	void setHistoryEnabled(bool enabled);
 	const SingleEntryView *entryView() const { return &_entryView; }
 

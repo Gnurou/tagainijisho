@@ -120,7 +120,7 @@ void YesNoTrainer::train(const EntryPointer &entry)
 {
 	clear();
 	_counterLabel->setText(tr("Correct: %1, Wrong: %2, Total: %3").arg(_goodCount).arg(_wrongCount).arg(_totalCount));
-	_detailedView->detailedView()->setKanjisClickable(false);
+	_detailedView->detailedView()->setKanjiClickable(false);
 
 	currentEntry = entry;
 
@@ -148,7 +148,7 @@ void YesNoTrainer::train(const EntryPointer &entry)
 
 void YesNoTrainer::showAnswer()
 {
-	_detailedView->detailedView()->setKanjisClickable(true);
+	_detailedView->detailedView()->setKanjiClickable(true);
 
 	showAnswerButton->setEnabled(false);
 	goodAnswerButton->setEnabled(true);
