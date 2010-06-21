@@ -23,6 +23,7 @@
 #include "core/kanjidic2/Kanjidic2Entry.h"
 #include "gui/TrainSettings.h"
 #include "gui/EntryFormatter.h"
+#include "gui/TemplateFiller.h"
 #include "gui/ReadingTrainer.h"
 
 #include <QtDebug>
@@ -39,7 +40,6 @@ ReadingTrainer::ReadingTrainer(QWidget *parent) : QFrame(parent), _goodCount(0),
 	setAttribute(Qt::WA_DeleteOnClose);
 	connect(ui.okButton, SIGNAL(clicked()), this, SLOT(checkAnswer()));
 	connect(ui.nextButton, SIGNAL(clicked()), this, SLOT(train()));
-	ui.detailedView->detailedView()->setKanjiClickable(true);
 
 	_showMeaning = new QCheckBox(tr("Show &meaning"), this);
 	_showMeaning->setChecked(ReadingTrainer::showMeaning.value());
@@ -105,11 +105,9 @@ void ReadingTrainer::train()
 	if (query.next()) {
 		entry = JMdictEntryRef(query.value(0).toInt()).get();
 		ui.writingLabel->setText(entry->writings()[0]);
-		QTextCursor cursor(ui.detailedView->detailedView()->document());
-		const EntryFormatter *formatter = EntryFormatter::getFormatter(entry);
 		if (_showMeaning->isChecked()) {
-			ui.detailedView->detailedView()->clear();
-			formatter->detailedVersionPart2(entry, cursor, ui.detailedView->detailedView());
+			ui.detailedView->detailedView()->setKanjiClickable(false);
+			onShowMeaningChecked(true);
 		}
 		ui.userInput->clear();
 	} else {
@@ -144,6 +142,7 @@ void ReadingTrainer::checkAnswer()
 		ui.nextButton->setFocus();
 		ui.detailedView->detailedView()->display(entry);
 	}
+	ui.detailedView->detailedView()->setKanjiClickable(true);
 	_totalCount++;
 	updateStatusLabel();
 	if (correct) {
@@ -161,9 +160,14 @@ void ReadingTrainer::onShowMeaningChecked(bool checked)
 	ReadingTrainer::showMeaning.set(checked);
 	ui.detailedView->detailedView()->clear();
 	if (checked) {
-		QTextCursor cursor(ui.detailedView->detailedView()->document());
+		QTextDocument *document(ui.detailedView->detailedView()->document());
 		const EntryFormatter *formatter = EntryFormatter::getFormatter(entry);
-		formatter->detailedVersionPart2(entry, cursor, ui.detailedView->detailedView());
+		QStringList parts;
+		TemplateFiller filler;
+		parts << "back";
+		document->setDefaultStyleSheet(formatter->CSS());
+		QString html(filler.fill(filler.extract(formatter->htmlTemplate(), parts), formatter, entry));
+		document->setHtml(html);	
 	}
 }
 
