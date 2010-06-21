@@ -333,11 +333,13 @@ bool Kanjidic2GUIPlugin::eventFilter(QObject *obj, QEvent *_event)
 				if (TextTools::isKanjiChar(c)) {
 					ConstKanjidic2EntryPointer entry(KanjiEntryRef(TextTools::singleCharToUnicode(c)).get());
 					// If kanji are clickable, change the cursor
-					if (view->kanjisClickable()) view->viewport()->setCursor(QCursor(Qt::PointingHandCursor));
-					// Only show the tooltip if the entry exists in the database!
-					if (kanjiTooltipEnabled.value() && entry) {
-						const Kanjidic2EntryFormatter *formatter(static_cast<const Kanjidic2EntryFormatter *>(EntryFormatter::getFormatter(KANJIDIC2ENTRY_GLOBALID)));
-						formatter->showToolTip(entry, QCursor::pos());
+					if (view->kanjisClickable()) {
+						view->viewport()->setCursor(QCursor(Qt::PointingHandCursor));
+						// Only show the tooltip if the entry exists in the database!
+						if (kanjiTooltipEnabled.value() && entry) {
+							const Kanjidic2EntryFormatter *formatter(static_cast<const Kanjidic2EntryFormatter *>(EntryFormatter::getFormatter(KANJIDIC2ENTRY_GLOBALID)));
+							formatter->showToolTip(entry, QCursor::pos());
+						}
 					}
 				} else {
 					if (view->kanjisClickable()) view->viewport()->setCursor(QCursor(Qt::ArrowCursor));
