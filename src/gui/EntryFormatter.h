@@ -33,17 +33,60 @@ private:
 	static QMap<int, EntryFormatter *> _formatters;
 
 protected:
+	QString _css;
+	QString _html;
+
 	/**
 	 * Paints additional information about this entry, like notes
 	 */
 	void drawInfo(const ConstEntryPointer &entry, QPainter &painter, QRectF &rectangle, const QFont &textFont = QFont()) const;
 
-	EntryFormatter();
+	EntryFormatter(const QString& _cssFile = "", const QString& _htmlFile = "", QObject* parent = 0);
 	virtual ~EntryFormatter() {}
 
 public:
-	EntryFormatter(const QString& _cssFile = "", const QString& _htmlFile = "", QObject* parent = 0);
+	const QString &CSS() const { return _css; }
+	const QString &htmlTemplate() const { return _html; }
+	
+	static QString colorTriplet(const QColor &color);
+	QString autoFormat(const QString &str) const;
 
+	/**
+	 * Return a as-short as possible title to identify this entry.
+	 */
+	virtual QString entryTitle(const ConstEntryPointer &entry) const;
+	/**
+	 * Return a short description with all the fancy and interaction the user
+	 * can expect on the detailed view.
+	 */
+	virtual QString shortDesc(const ConstEntryPointer &entry) const;
+	/**
+	 * Build a line using the given title and content.
+	 */
+	static QString buildSubInfoLine(const QString &title, const QString &content);
+	/**
+	 * Build a block using the given title and content.
+	 */
+	static QString buildSubInfoBlock(const QString &title, const QString &content);
+
+	/**
+	 * Paints this entry using the given painter into the given rectangle.
+	 *
+	 * The default version just paints the short version.
+	 */
+	virtual void draw(const ConstEntryPointer &entry, QPainter &painter, const QRectF &rectangle, QRectF &usedSpace, const QFont &textFont = QFont()) const;
+
+	static PreferenceItem<bool> shortDescShowJLPT;
+
+public slots:
+	virtual QString formatHeadFurigana(const ConstEntryPointer &entry) const;
+	virtual QString formatHead(const ConstEntryPointer &entry) const;
+	virtual QString formatLists(const ConstEntryPointer &entry) const;
+	virtual QString formatTags(const ConstEntryPointer &entry) const;
+	virtual QString formatNotes(const ConstEntryPointer &entry) const;
+	virtual QString formatTrainingData(const ConstEntryPointer &entry) const;
+
+public:
 	/**
 	 * Register a new formatter for an entry type.
 	 *
@@ -60,50 +103,6 @@ public:
 	static bool removeFormatter(const int entryType);
 	static const EntryFormatter *getFormatter(const int entryType) { return _formatters[entryType]; }
 	static const EntryFormatter *getFormatter(const ConstEntryPointer &entry) { return _formatters[entry->type()]; }
-
-	/**
-	 * Paints this entry using the given painter into the given rectangle.
-	 *
-	 * The default version just paints the short version.
-	 */
-	virtual void draw(const ConstEntryPointer &entry, QPainter &painter, const QRectF &rectangle, QRectF &usedSpace, const QFont &textFont = QFont()) const;
-	
-	static PreferenceItem<bool> shortDescShowJLPT;
-
-protected:
-	QString _css;
-	QString _html;
-	
-	static QString colorTriplet(const QColor &color);
-
-public:
-	const QString &CSS() const { return _css; }
-	const QString &htmlTemplate() const { return _html; }
-	
-	QString autoFormat(const QString &str) const;
-
-	/**
-	 * Return a as-short as possible title to identify this entry.
-	 */
-	virtual QString entryTitle(const ConstEntryPointer &entry) const;
-
-	/**
-	 * Return a short description with all the fancy and interaction the user
-	 * can expect on the detailed view.
-	 */
-	virtual QString shortDesc(const ConstEntryPointer &entry) const;
-
-	static QString buildSubInfoLine(const QString &title, const QString &content);
-	static QString buildSubInfoBlock(const QString &title, const QString &content);
-
-public slots:
-	virtual QString formatHeadFurigana(const ConstEntryPointer &entry) const;
-	virtual QString formatHead(const ConstEntryPointer &entry) const;
-	virtual QString formatLists(const ConstEntryPointer &entry) const;
-	virtual QString formatTags(const ConstEntryPointer &entry) const;
-	virtual QString formatNotes(const ConstEntryPointer &entry) const;
-	virtual QString formatTrainingData(const ConstEntryPointer &entry) const;
-	
 };
 
 #endif

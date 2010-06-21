@@ -29,11 +29,18 @@ class JMdictEntryFormatter : public EntryFormatter
 protected:
 	JMdictEntryFormatter(QObject *parent = 0);
 	virtual ~JMdictEntryFormatter() {}
+
 public:
 	static JMdictEntryFormatter &instance();
 	
+	virtual QString shortDesc(const ConstEntryPointer &entry) const;
+
 	virtual void draw(const ConstEntryPointer &entry, QPainter &painter, const QRectF &rectangle, QRectF &usedSpace, const QFont &textFont = QFont()) const { drawCustom(entry, painter, rectangle, usedSpace, textFont); }
 	void drawCustom(const ConstEntryPointer &entry, QPainter &painter, const QRectF &rectangle, QRectF &usedSpace, const QFont &textFont = QFont(), int headerPrintSize = headerPrintSize.defaultValue(), bool printKanjis = printKanjis.defaultValue(), bool printOnlyStudiedKanjis = printOnlyStudiedKanjis.defaultValue(), int maxDefinitionsToPrint = maxDefinitionsToPrint.defaultValue()) const;
+
+	static QString getVerbBuddySql(const QString &matchPattern, quint64 pos, int id);
+	static QString getHomophonesSql(const QString &reading, int id, int maxToDisplay = maxHomophonesToDisplay.value(), bool studiedOnly = displayStudiedHomophonesOnly.value());
+	static QString getHomographsSql(const QString &writing, int id, int maxToDisplay = maxHomophonesToDisplay.value(), bool studiedOnly = displayStudiedHomophonesOnly.value());
 
 	static PreferenceItem<bool> showJLPT;
 	static PreferenceItem<bool> showKanjis;
@@ -48,13 +55,6 @@ public:
 	static PreferenceItem<bool> printOnlyStudiedKanjis;
 	static PreferenceItem<int> maxDefinitionsToPrint;
 
-	static QString getVerbBuddySql(const QString &matchPattern, quint64 pos, int id);
-	static QString getHomophonesSql(const QString &reading, int id, int maxToDisplay = maxHomophonesToDisplay.value(), bool studiedOnly = displayStudiedHomophonesOnly.value());
-	static QString getHomographsSql(const QString &writing, int id, int maxToDisplay = maxHomophonesToDisplay.value(), bool studiedOnly = displayStudiedHomophonesOnly.value());
-	
-	
-
-	virtual QString shortDesc(const ConstEntryPointer &entry) const;
 public slots:
 	virtual QString formatHeadFurigana(const ConstEntryPointer &entry) const;
 	virtual QString formatHead(const ConstEntryPointer &entry) const;
