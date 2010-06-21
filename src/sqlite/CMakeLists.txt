@@ -22,4 +22,7 @@ include_directories(${CMAKE_SOURCE_DIR}/3rdparty/sqlite)
 add_definitions(-DSQLITE_ENABLE_FTS3 -DSQLITE_ENABLE_LOCKING_STYLE=0)
 add_library(tagaini_sqlite STATIC ${tagainijisho_sqlite_SRCS} ${tagainijisho_sqlite_MOC_SRCS})
 
+if (BUILD_TESTS)
 add_subdirectory(tests)
+endif()
+

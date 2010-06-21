@@ -178,4 +178,7 @@ install(FILES ${CMAKE_SOURCE_DIR}/src/gui/detailed_default.html ${CMAKE_SOURCE_D
 file(GLOB i18nfiles ${CMAKE_SOURCE_DIR}/i18n/*.qm)
 install(FILES ${i18nfiles} DESTINATION share/tagainijisho/i18n PERMISSIONS OWNER_READ GROUP_READ WORLD_READ)
 
+if (BUILD_TESTS)
 add_subdirectory(tests)
+endif()
+
