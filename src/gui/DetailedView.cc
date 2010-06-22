@@ -499,6 +499,18 @@ QTextCharFormat DetailedViewFonts::_charFormat(FontRole role) const
 	return res;
 }
 
+QString DetailedViewFonts::CSS(FontRole role) const
+{
+	const QFont &font = _font[role];
+	QString ret;
+	if (!font.family().isEmpty()) ret += QString("\tfont-family: %1;\n").arg(font.family());
+	ret += QString("\tfont-style: %1;\n").arg(font.italic() ? "italic" : "normal");
+	ret += QString("\tfont-weight: %1;\n").arg(font.bold() ? "bold" : "normal");
+	ret += QString("\tfont-size: %1pt;\n").arg(font.pointSize());
+	
+	return ret;
+}
+
 EntryMenuHandler::EntryMenuHandler() : DetailedViewLinkHandler("entry")
 {
 }
