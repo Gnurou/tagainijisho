@@ -29,13 +29,13 @@ QString TemplateFiller::fill(const QString &tmpl, const EntryFormatter *formatte
 	int tablePos = -1;
 	int colCpt = 0;
 
-    QString ret(tmpl);
-    QRegExp funcMatch("\\$\\$(\\w+)(?:\\[([^\\]]+)\\]){0,1}");
-    int pos = 0, matchPos;
-    while ((matchPos = funcMatch.indexIn(ret, pos)) != -1) {
-        QString whole = funcMatch.cap(0);
-        QString meth = funcMatch.cap(1);
-        QStringList options = funcMatch.cap(2).split(',', QString::SkipEmptyParts);
+	QString ret(tmpl);
+	QRegExp funcMatch("\\$\\$(\\w+)(?:\\[([^\\]]+)\\]){0,1}");
+	int pos = 0, matchPos;
+	while ((matchPos = funcMatch.indexIn(ret, pos)) != -1) {
+		QString whole = funcMatch.cap(0);
+		QString meth = funcMatch.cap(1);
+		QStringList options = funcMatch.cap(2).split(',', QString::SkipEmptyParts);
 		QString repl;
 		// Try to invoke the format method
 		QMetaObject::invokeMethod(const_cast<EntryFormatter *>(formatter), QString("format" + meth).toLatin1().constData(), Qt::DirectConnection, Q_RETURN_ARG(QString, repl), Q_ARG(ConstEntryPointer, entry));
@@ -82,8 +82,8 @@ QString TemplateFiller::fill(const QString &tmpl, const EntryFormatter *formatte
 		// If we did not output anything, remove ending newline of space
 		if (repl.isEmpty()) while (ret[matchPos] == '\n' || ret[matchPos] == ' ') ret.remove(matchPos, 1);
 		pos = matchPos;
-    }
-    return ret;
+	}
+	return ret;
 }
 
 QString TemplateFiller::extract(const QString &tmpl, const QStringList &parts, bool includeRootText)
