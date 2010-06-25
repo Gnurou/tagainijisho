@@ -275,7 +275,7 @@ QString JMdictEntryFormatter::formatSenses(const ConstEntryPointer &_entry) cons
 	quint16 oldField = 0;
 	QStringList oldWritingString;
 
-	QString ret("<div class=\"senses\">\n");
+	QString ret;
 	foreach (const Sense *sense, senses) {
 		ret += "<div class=\"sense\">\n";
 		// Shall we output the part of speech?
@@ -325,7 +325,6 @@ QString JMdictEntryFormatter::formatSenses(const ConstEntryPointer &_entry) cons
 		ret += "</div>\n";
 		ret += "</div>\n";
 	}
-	ret += "</div>\n";
 	return ret;
 }
 
@@ -499,7 +498,7 @@ void FindVerbBuddyJob::completed()
 {
 	if (!bestMatch) return;
 	const EntryFormatter *formatter = EntryFormatter::getFormatter(bestMatch);
-	if (formatter) cursor().insertHtml(EntryFormatter::buildSubInfoLine(QString(searchedPos == "vt" ? tr("Transitive buddy") : searchedPos == "vi" ? tr("Intransitive buddy") : tr("Buddy")), formatter->shortDesc(bestMatch)));
+	if (formatter) cursor().insertHtml(QString("<br/>%1").arg(EntryFormatter::buildSubInfoLine(QString(searchedPos == "vt" ? tr("Transitive buddy") : searchedPos == "vi" ? tr("Intransitive buddy") : tr("Buddy")), formatter->shortDesc(bestMatch))));
 }
 
 FindHomophonesJob::FindHomophonesJob(const ConstJMdictEntryPointer& entry, int maxToDisplay, bool studiedOnly, const QTextCursor& cursor) : DetailedViewJob(cursor), gotResults(false)
@@ -514,7 +513,7 @@ FindHomophonesJob::FindHomophonesJob(const ConstJMdictEntryPointer& entry, int m
 
 void FindHomophonesJob::firstResult()
 {
-	cursor().insertHtml(EntryFormatter::buildSubInfoBlock(tr("Homophones"), ""));
+	cursor().insertHtml(QString("<br/>%1").arg(EntryFormatter::buildSubInfoBlock(tr("Homophones"), "")));
 	_cursor.movePosition(QTextCursor::PreviousBlock);
 }
 
@@ -537,7 +536,7 @@ FindHomographsJob::FindHomographsJob(const ConstJMdictEntryPointer& entry, int m
 
 void FindHomographsJob::firstResult()
 {
-	cursor().insertHtml(EntryFormatter::buildSubInfoBlock(tr("Homographs"), ""));
+	cursor().insertHtml(QString("<br/>%1").arg(EntryFormatter::buildSubInfoBlock(tr("Homographs"), "")));
 	_cursor.movePosition(QTextCursor::PreviousBlock);
 }
 

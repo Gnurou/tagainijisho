@@ -538,7 +538,7 @@ QString Kanjidic2EntryFormatter::formatRadicals(const ConstEntryPointer &_entry)
 			//view->addWatchEntry(kEntry);
 			formats << QString("%1 (%2)").arg(entryTitle(kEntry)).arg(radical.second);
 		} 
-		return buildSubInfoLine(tr("Radicals"), formats.join(" "));
+		return QString("<b>%1:</b> %2").arg(tr("Radicals")).arg(formats.join(" "));
 	}
 	return "";
 }
@@ -588,7 +588,7 @@ ShowUsedInKanjiJob::ShowUsedInKanjiJob(const QString &kanji, const QTextCursor &
 
 void ShowUsedInKanjiJob::firstResult()
 {
-	cursor().insertHtml(EntryFormatter::buildSubInfoLine(tr("Direct compounds"), ""));
+	cursor().insertHtml(QString("<br/>%1").arg(EntryFormatter::buildSubInfoLine(tr("Direct compounds"), "")));
 	_cursor.movePosition(QTextCursor::PreviousBlock);
 	gotResults = true;
 }
@@ -614,7 +614,7 @@ ShowUsedInWordsJob::ShowUsedInWordsJob(const QString &kanji, const QTextCursor &
 
 void ShowUsedInWordsJob::firstResult()
 {
-	cursor().insertHtml(EntryFormatter::buildSubInfoBlock(tr("Seen in"), ""));
+	cursor().insertHtml(QString("<br/>%1").arg(EntryFormatter::buildSubInfoBlock(tr("Seen in"), "")));
 	_cursor.movePosition(QTextCursor::PreviousBlock);
 	gotResults = true;
 }
