@@ -24,11 +24,9 @@
 
 class Kanjidic2EntryFormatter : public EntryFormatter
 {
-Q_DECLARE_TR_FUNCTIONS(EntryFormatter)
+	Q_OBJECT
 protected:
-	virtual void _detailedVersion(const ConstEntryPointer &_entry, QTextCursor& cursor, DetailedView* view) const;
-
-	Kanjidic2EntryFormatter();
+	Kanjidic2EntryFormatter(QObject *parent = 0);
 	virtual ~Kanjidic2EntryFormatter() {}
 	
 	
@@ -46,17 +44,11 @@ protected:
 public:
 	static Kanjidic2EntryFormatter &instance();
 
-	void writeJapanese(const ConstKanjidic2EntryPointer &entry, QTextCursor& cursor, DetailedView* view) const;
-	void writeTranslation(const ConstKanjidic2EntryPointer &entry, QTextCursor& cursor, DetailedView* view) const;
-	void writeKanjiInfo(const ConstKanjidic2EntryPointer &entry, QTextCursor& cursor, DetailedView* view) const;
-
-	virtual void writeShortDesc(const ConstEntryPointer &entry, QTextCursor& cursor) const;
-	virtual void writeShortDesc(const ConstKanjidic2EntryPointer& shape, const ConstKanjidic2EntryPointer& kEntry, QTextCursor& cursor) const;
-	virtual void draw(const ConstEntryPointer &entry, QPainter &painter, const QRectF &rectangle, QRectF &usedSpace, const QFont &textFont = QFont()) const;
-	void drawCustom(const ConstKanjidic2EntryPointer& entry, QPainter& painter, const QRectF& rectangle, QRectF& usedSpace, const QFont& textFont = QFont(), int printSize = printSize.value(), bool printWithFont = printWithFont.value(), bool printMeanings = printMeanings.value(), bool printOnyomi = printOnyomi.value(), bool printKunyomi = printKunyomi.value(), bool printComponents = printComponents.value(), bool printOnlyStudiedComponents = printOnlyStudiedComponents.value(), int maxWordsToPrint = maxWordsToPrint.value(), bool printOnlyStudiedVocab = printOnlyStudiedVocab.value(), bool printStrokesNumbers = printStrokesNumbers.value(), int printStrokesNumbersSize = strokesNumbersSize.value(), bool printGrid = printGrid.value()) const;
-	virtual void detailedVersionPart1(const ConstEntryPointer &entry, QTextCursor& cursor, DetailedView* view) const;
-	virtual void detailedVersionPart2(const ConstEntryPointer &entry, QTextCursor &cursor, DetailedView *view) const;
-
+	virtual QString shortDesc(const ConstEntryPointer &entry) const;
+	/**
+	 * Variant that takes kanji variations into account.
+	 */
+	virtual QString shortDesc(const ConstKanjidic2EntryPointer &shape, const ConstKanjidic2EntryPointer &entry) const;
 	/**
 	 * Shows a tooltip with a short description of the kanji
 	 */
@@ -64,7 +56,10 @@ public:
 
 	static QString getQueryUsedInWordsSql(int kanji, int limit = maxWordsToDisplay.value(), bool onlyStudied = showOnlyStudiedVocab.value());
 	static QString getQueryUsedInKanjiSql(int kanji, int limit = maxCompoundsToDisplay.value(), bool onlyStudied = showOnlyStudiedCompounds.value());
-	
+
+	virtual void draw(const ConstEntryPointer &entry, QPainter &painter, const QRectF &rectangle, QRectF &usedSpace, const QFont &textFont = QFont()) const;
+	void drawCustom(const ConstKanjidic2EntryPointer& entry, QPainter& painter, const QRectF& rectangle, QRectF& usedSpace, const QFont& textFont = QFont(), int printSize = printSize.value(), bool printWithFont = printWithFont.value(), bool printMeanings = printMeanings.value(), bool printOnyomi = printOnyomi.value(), bool printKunyomi = printKunyomi.value(), bool printComponents = printComponents.value(), bool printOnlyStudiedComponents = printOnlyStudiedComponents.value(), int maxWordsToPrint = maxWordsToPrint.value(), bool printOnlyStudiedVocab = printOnlyStudiedVocab.value(), bool printStrokesNumbers = printStrokesNumbers.value(), int printStrokesNumbersSize = strokesNumbersSize.value(), bool printGrid = printGrid.value()) const;
+
 	static PreferenceItem<bool> showReadings;
 	static PreferenceItem<bool> showNanori;
 	static PreferenceItem<bool> showUnicode;
@@ -104,13 +99,33 @@ public:
 	static PreferenceItem<bool> printStrokesNumbers;
 	static PreferenceItem<int> strokesNumbersSize;
 	static PreferenceItem<bool> printGrid;
+
+public slots:
+	virtual QString formatMeanings(const ConstEntryPointer &entry) const;
+	virtual QString formatOnReadings(const ConstEntryPointer &entry) const;
+	virtual QString formatKunReadings(const ConstEntryPointer &entry) const;
+	virtual QString formatNanori(const ConstEntryPointer &entry) const;
+	virtual QString formatStrokesCount(const ConstEntryPointer &entry) const;
+	virtual QString formatFrequency(const ConstEntryPointer &entry) const;
+	virtual QString formatGrade(const ConstEntryPointer &entry) const;
+	virtual QString formatJLPT(const ConstEntryPointer &entry) const;
+	virtual QString formatVariations(const ConstEntryPointer &entry) const;
+	virtual QString formatVariationsOf(const ConstEntryPointer &entry) const;
+	virtual QString formatUnicode(const ConstEntryPointer &entry) const;
+	virtual QString formatSkip(const ConstEntryPointer &entry) const;
+	virtual QString formatFourCorner(const ConstEntryPointer &entry) const;
+	virtual QString formatRadicals(const ConstEntryPointer &entry) const;
+	virtual QString formatComponents(const ConstEntryPointer &entry) const;
+
+	virtual QList<DetailedViewJob *> jobUsedInKanji(const ConstEntryPointer &_entry, const QTextCursor &cursor) const;
+	virtual QList<DetailedViewJob *> jobUsedInWords(const ConstEntryPointer &_entry, const QTextCursor &cursor) const;
 };
 
 class ShowUsedInKanjiJob : public DetailedViewJob {
 	Q_DECLARE_TR_FUNCTIONS(ShowUsedInJob)
 private:
 	QString _kanji;
-	bool _gotResult;
+	bool gotResults;
 public:
 	ShowUsedInKanjiJob(const QString &kanji, const QTextCursor &cursor);
 	virtual void firstResult();
@@ -122,7 +137,7 @@ class ShowUsedInWordsJob : public DetailedViewJob {
 	Q_DECLARE_TR_FUNCTIONS(ShowUsedInWordsJob)
 private:
 	QString _kanji;
-	bool _gotResult;
+	bool gotResults;
 public:
 	ShowUsedInWordsJob(const QString &kanji, const QTextCursor &cursor);
 	virtual void firstResult();

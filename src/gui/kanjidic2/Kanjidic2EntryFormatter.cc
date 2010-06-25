@@ -27,7 +27,6 @@
 
 #include <QUrl>
 #include <QTextList>
-#include <QTextCursor>
 #include <QTextTable>
 #include <QPainter>
 #include <QToolTip>
@@ -94,274 +93,8 @@ Kanjidic2EntryFormatter &Kanjidic2EntryFormatter::instance()
 	return _instance;
 }
 
-Kanjidic2EntryFormatter::Kanjidic2EntryFormatter() : EntryFormatter()
+Kanjidic2EntryFormatter::Kanjidic2EntryFormatter(QObject* parent) : EntryFormatter("detailed_kanjidic2.css", "detailed_kanjidic2.html", parent)
 {
-}
-
-void Kanjidic2EntryFormatter::writeJapanese(const ConstKanjidic2EntryPointer &entry, QTextCursor &cursor, DetailedView *view) const
-{
-	QTextBlockFormat header;
-	header.setAlignment(Qt::AlignHCenter);
-	cursor.setBlockFormat(header);
-
-	// Display the kanji
-	cursor.setBlockCharFormat(DetailedViewFonts::charFormat(DetailedViewFonts::KanjiHeader));
-	cursor.insertText(entry->kanji());
-	cursor.setCharFormat(DetailedViewFonts::charFormat(DetailedViewFonts::DefaultText));
-}
-
-void Kanjidic2EntryFormatter::writeTranslation(const ConstKanjidic2EntryPointer& entry, QTextCursor& cursor, DetailedView* view) const
-{
-	QTextCharFormat normal(DetailedViewFonts::charFormat(DetailedViewFonts::DefaultText));
-	QTextCharFormat kana(DetailedViewFonts::charFormat(DetailedViewFonts::Kana));
-	QTextCharFormat bold(normal);
-	bold.setFontWeight(QFont::Bold);
-
-	QTextBlockFormat header;
-	header.setAlignment(Qt::AlignHCenter);
-	cursor.setCharFormat(QTextCharFormat());
-
-	// Meanings
-	if (!entry->kanjiMeanings().isEmpty()) {
-		cursor.setBlockFormat(header);
-		cursor.setCharFormat(normal);
-		QString s = entry->meaningsString();
-		if (!s.isEmpty()) s[0] = s[0].toUpper();
-		cursor.insertText(s);
-		cursor.insertBlock(QTextBlockFormat());
-	}
-
-	if (showReadings.value()) {
-		// Readings
-		QStringList on = entry->onyomiReadings();
-		if (!on.isEmpty()) {
-			cursor.insertBlock(QTextBlockFormat());
-			cursor.setCharFormat(bold);
-			cursor.insertText(tr("On:"));
-			cursor.setCharFormat(normal);
-			cursor.insertText(" ");
-			for (int i = 0; i < on.size(); i++) {
-				if (i != 0) cursor.insertText(", ");
-				cursor.setCharFormat(kana);
-				cursor.insertText(on[i]);
-				cursor.setCharFormat(normal);
-			}
-		}
-
-		QStringList kun = entry->kunyomiReadings();
-		if (!kun.isEmpty()) {
-			cursor.insertBlock(QTextBlockFormat());
-			cursor.setCharFormat(bold);
-			cursor.insertText(tr("Kun:"));
-			cursor.setCharFormat(normal);
-			cursor.insertText(" ");
-			for (int i = 0; i < kun.size(); i++) {
-				if (i != 0) cursor.insertText(", ");
-				cursor.setCharFormat(kana);
-				cursor.insertText(kun[i]);
-				cursor.setCharFormat(normal);
-			}
-		}
-		if (showNanori.value()) {
-			// Nanoris
-			QStringList nano = entry->nanoris();
-			if (!nano.isEmpty()) {
-				cursor.insertBlock(QTextBlockFormat());
-				cursor.setCharFormat(bold);
-				cursor.insertText(tr("Nanori:"));
-				cursor.setCharFormat(normal);
-				cursor.insertText(" ");
-				for (int i = 0; i < nano.size(); i++) {
-					if (i != 0) cursor.insertText(", ");
-					cursor.setCharFormat(kana);
-					cursor.insertText(nano[i]);
-					cursor.setCharFormat(normal);
-				}
-			}
-		}
-	}
-}
-
-void Kanjidic2EntryFormatter::writeKanjiInfo(const ConstKanjidic2EntryPointer& entry, QTextCursor& cursor, DetailedView* view) const
-{
-	QTextCharFormat normal(DetailedViewFonts::charFormat(DetailedViewFonts::DefaultText));
-	QTextCharFormat kana(DetailedViewFonts::charFormat(DetailedViewFonts::Kana));
-	QTextCharFormat kanjiF(DetailedViewFonts::charFormat(DetailedViewFonts::Kanji));
-	QTextCharFormat bold(normal);
-	bold.setFontWeight(QFont::Bold);
-
-	QTextTableFormat tableFormat;
-	tableFormat.setBorder(0);
-	tableFormat.setWidth(QTextLength(QTextLength::PercentageLength, 100));
-	QTextTable *table = cursor.insertTable(1, 2, tableFormat);
-	int cellCpt = 0;
-	if (entry->strokeCount() != -1 && showStrokesNumber.value()) {
-		cursor.setCharFormat(bold);
-		cursor.insertText(tr("Strokes:"));
-		cursor.setCharFormat(normal);
-		cursor.insertText(tr(" %1").arg(entry->strokeCount()));
-		if (++cellCpt % 2 == 0) { table->insertRows(table->rows(), 1); cursor.movePosition(QTextCursor::PreviousBlock); }
-		else cursor.movePosition(QTextCursor::NextBlock);
-	}
-	if (entry->frequency() != -1 && showFrequency.value()) {
-		cursor.setCharFormat(bold);
-		cursor.insertText(tr("Frequency:"));
-		cursor.setCharFormat(normal);
-		cursor.insertText(tr(" %1").arg(entry->frequency()));
-		if (++cellCpt % 2 == 0) { table->insertRows(table->rows(), 1); cursor.movePosition(QTextCursor::PreviousBlock); }
-		else cursor.movePosition(QTextCursor::NextBlock);
-	}
-	if (entry->grade() != -1 && showGrade.value()) {
-		cursor.setCharFormat(bold);
-		cursor.insertText(tr("Grade:"));
-		cursor.setCharFormat(normal);
-		cursor.insertText(tr(" %1").arg(tr(Kanjidic2GUIPlugin::kanjiGrades[entry->grade()].toLatin1())));
-		cursor.setCharFormat(normal);
-		if (++cellCpt % 2 == 0) { table->insertRows(table->rows(), 1); cursor.movePosition(QTextCursor::PreviousBlock); }
-		else cursor.movePosition(QTextCursor::NextBlock);
-	}
-	if (entry->jlpt() != -1 && showJLPT.value()) {
-		cursor.setCharFormat(bold);
-		cursor.insertText(tr("JLPT:"));
-		cursor.setCharFormat(normal);
-		cursor.insertText(tr(" %1").arg(entry->jlpt()));
-		if (++cellCpt % 2 == 0) { table->insertRows(table->rows(), 1); cursor.movePosition(QTextCursor::PreviousBlock); }
-		else cursor.movePosition(QTextCursor::NextBlock);
-	}
-	if (showVariations.value()) {
-		QSqlQuery query;
-		query.prepare("select distinct element from strokeGroups where original = ?");
-		query.addBindValue(entry->id());
-		query.exec();
-		if (query.next()) {
-			cursor.setCharFormat(bold);
-			cursor.insertText(tr("Variations:"));
-			cursor.setCharFormat(normal);
-			QList<EntryPointer> entries;
-			do entries << KanjiEntryRef(query.value(0).toUInt()).get();
-			while (query.next());
-
-			for (int i = 0; i < entries.size(); i++) {
-				cursor.insertText(" ");
-				ConstKanjidic2EntryPointer kEntry(entries[i].staticCast<const Kanjidic2Entry>());
-				const EntryFormatter *formatter(EntryFormatter::getFormatter(kEntry));
-				formatter->writeEntryTitle(kEntry, cursor);
-			}
-			if (++cellCpt % 2 == 0) { table->insertRows(table->rows(), 1); cursor.movePosition(QTextCursor::PreviousBlock); }
-			else cursor.movePosition(QTextCursor::NextBlock);
-		}
-	}
-	if (showVariationOf.value() && !entry->variationOf().isEmpty()) {
-		cursor.setCharFormat(bold);
-		cursor.insertText(tr("Variation of:"));
-		cursor.setCharFormat(normal);
-		foreach (quint32 kid, entry->variationOf()) {
-			cursor.insertText(" ");
-			ConstKanjidic2EntryPointer kEntry(KanjiEntryRef(kid).get().staticCast<const Kanjidic2Entry>());
-			const EntryFormatter *formatter(EntryFormatter::getFormatter(kEntry));
-			formatter->writeEntryTitle(kEntry, cursor);
-		}
-		if (++cellCpt % 2 == 0) { table->insertRows(table->rows(), 1); cursor.movePosition(QTextCursor::PreviousBlock); }
-		else cursor.movePosition(QTextCursor::NextBlock);
-	}
-	if (showUnicode.value()) {
-		cursor.setCharFormat(bold);
-		cursor.insertText(tr("Unicode:"));
-		cursor.setCharFormat(normal);
-		cursor.insertText(tr(" 0x%1").arg(QString::number(TextTools::singleCharToUnicode(entry->kanji()), 16)));
-		if (++cellCpt % 2 == 0) { table->insertRows(table->rows(), 1); cursor.movePosition(QTextCursor::PreviousBlock); }
-		else cursor.movePosition(QTextCursor::NextBlock);
-	}
-	if (showSKIP.value() && !entry->skipCode().isEmpty()) {
-		cursor.setCharFormat(bold);
-		cursor.insertText(tr("SKIP:"));
-		cursor.setCharFormat(normal);
-		cursor.insertText(tr(" %1").arg(entry->skipCode()));
-		if (++cellCpt % 2 == 0) { table->insertRows(table->rows(), 1); cursor.movePosition(QTextCursor::PreviousBlock); }
-		else cursor.movePosition(QTextCursor::NextBlock);
-	}
-	if (showFourCorner.value() && !entry->fourCorner().isEmpty()) {
-		cursor.setCharFormat(bold);
-		cursor.insertText(tr("4 corner:"));
-		cursor.setCharFormat(normal);
-		cursor.insertText(tr(" %1").arg(entry->fourCorner()));
-		if (++cellCpt % 2 == 0) { table->insertRows(table->rows(), 1); cursor.movePosition(QTextCursor::PreviousBlock); }
-		else cursor.movePosition(QTextCursor::NextBlock);
-	}
-
-	// End of text in table
-	if (cellCpt % 2 == 0) table->removeRows(table->rows() - 1, 1);
-
-	cursor.movePosition(QTextCursor::NextBlock);
-	if (showRadicals.value() && !entry->radicals().isEmpty()) {
-		cursor.setCharFormat(bold);
-		cursor.insertText(tr("Radicals:"));
-		cursor.setCharFormat(normal);
-		typedef QPair<uint, quint8> radicalType;
-		foreach (const radicalType &radical, entry->radicals()) {
-			cursor.insertText(" ");
-			ConstKanjidic2EntryPointer kEntry(KanjiEntryRef(radical.first).get());
-			view->addWatchEntry(kEntry);
-			const EntryFormatter *formatter(EntryFormatter::getFormatter(kEntry));
-			formatter->writeEntryTitle(kEntry, cursor);
-			cursor.insertText(QString(" (%1)").arg(radical.second));
-		}
-	}
-	QList<const KanjiComponent *> components(entry->rootComponents());
-	if (!components.isEmpty() && showComponents.value()) {
-		QList<const KanjiComponent *> singleComponents;
-		cursor.insertBlock(QTextBlockFormat());
-		cursor.setCharFormat(bold);
-		cursor.insertText(tr("Components:"));
-		cursor.setCharFormat(normal);
-		QSet<uint> listedComps;
-		foreach (const KanjiComponent *component, components) {
-			if (listedComps.contains(component->unicode())) continue;
-			listedComps << component->unicode();
-			cursor.insertText("\n");
-			ConstKanjidic2EntryPointer kEntry(getMeaningEntry(component));
-			ConstKanjidic2EntryPointer shape(getShapeEntry(component));
-			view->addWatchEntry(kEntry);
-			writeShortDesc(shape, kEntry, cursor);
-		}
-	}
-	if (maxCompoundsToDisplay.value()) view->addBackgroundJob(new ShowUsedInKanjiJob(entry->kanji(), cursor));
-	if (maxWordsToDisplay.value()) view->addBackgroundJob(new ShowUsedInWordsJob(entry->kanji(), cursor));
-}
-
-void Kanjidic2EntryFormatter::writeShortDesc(const ConstEntryPointer& entry, QTextCursor& cursor) const
-{
-	ConstKanjidic2EntryPointer kEntry(entry.staticCast<const Kanjidic2Entry>());
-	writeShortDesc(kEntry, kEntry, cursor);
-}
-
-void Kanjidic2EntryFormatter::writeShortDesc(const ConstKanjidic2EntryPointer& shape, const ConstKanjidic2EntryPointer &kEntry, QTextCursor& cursor) const
-{
-	QTextCharFormat charFormat;
-	if (kEntry->trained()) charFormat.setBackground(kEntry->scoreColor());
-	QString str(kEntry->kanji());
-	if (shape != kEntry) str += tr(" (%1) ").arg(shape->kanji());
-	if (!kEntry->meanings().isEmpty()) str += ": " + kEntry->meaningsString();
-	autoFormat(kEntry, str, cursor, charFormat);
-	if (shortDescShowJLPT.value() && kEntry->jlpt() != -1) {
-		charFormat.setFontWeight(QFont::Bold);
-		autoFormat(kEntry, tr(" (JLPT %1)").arg(kEntry->jlpt()), cursor, charFormat);
-	}
-	QTextImageFormat imgFormat;
-	imgFormat.setAnchor(true);
-	imgFormat.setAnchorHref(QString("entry://?type=%1&id=%2").arg(kEntry->type()).arg(kEntry->id()));
-	imgFormat.setName("moreicon");
-	cursor.insertImage(imgFormat);
-}
-
-void Kanjidic2EntryFormatter::_detailedVersion(const ConstEntryPointer& _entry, QTextCursor& cursor, DetailedView* view) const
-{
-	ConstKanjidic2EntryPointer entry(_entry.staticCast<const Kanjidic2Entry>());
-	writeJapanese(entry, cursor, view);
-	cursor.insertBlock(QTextBlockFormat());
-	writeTranslation(entry, cursor, view);
-	cursor.insertBlock(QTextBlockFormat());
-	writeKanjiInfo(entry, cursor, view);
 }
 
 void Kanjidic2EntryFormatter::draw(const ConstEntryPointer &entry, QPainter &painter, const QRectF &rectangle, QRectF &usedSpace, const QFont &textFont) const
@@ -541,17 +274,6 @@ void Kanjidic2EntryFormatter::drawCustom(const ConstKanjidic2EntryPointer& entry
 					 QPointF(rectangle.left() + leftArea.width(), usedSpace.bottom()));
 }
 
-
-void Kanjidic2EntryFormatter::detailedVersionPart1(const ConstEntryPointer &entry, QTextCursor &cursor, DetailedView *view) const
-{
-	writeJapanese(entry.staticCast<const Kanjidic2Entry>(), cursor, view);
-}
-
-void Kanjidic2EntryFormatter::detailedVersionPart2(const ConstEntryPointer &entry, QTextCursor &cursor, DetailedView *view) const
-{
-	writeTranslation(entry.staticCast<const Kanjidic2Entry>(), cursor, view);
-}
-
 void Kanjidic2EntryFormatter::showToolTip(const ConstKanjidic2EntryPointer entry, const QPoint &pos) const
 {
 	QString writing(entry->kanji()), alt;
@@ -637,117 +359,276 @@ ConstKanjidic2EntryPointer Kanjidic2EntryFormatter::getMeaningEntry(const KanjiC
 	return component;
 }
 
+QString Kanjidic2EntryFormatter::shortDesc(const ConstEntryPointer &entry) const
+{
+	ConstKanjidic2EntryPointer kEntry(entry.staticCast<const Kanjidic2Entry>());
+	return shortDesc(kEntry, kEntry);
+}
+
+QString Kanjidic2EntryFormatter::shortDesc(const ConstKanjidic2EntryPointer &shape, const ConstKanjidic2EntryPointer &entry) const
+{
+	QString ret;
+
+	QString str(entry->kanji());
+	if (shape != entry) str += QString(" (%1) ").arg(shape->kanji());
+	if (!entry->meanings().isEmpty()) str += ": " + entry->meaningsString();
+	ret += autoFormat(str);
+	
+	if (shortDescShowJLPT.value() && entry->jlpt() != -1)
+		ret += QString(" <b>%1</b>").arg(autoFormat(tr("(JLPT %1)").arg(entry->jlpt())));
+	ret += QString(" <a href=\"entry://?type=%1&id=%2\"><img src=\"moreicon\"/></a>").arg(entry->type()).arg(entry->id());
+	if (entry->trained()) {
+		ret = QString("<span style=\"background-color:%1\">%2</span>").arg(colorTriplet(entry->scoreColor())).arg(ret);
+	}
+	return ret;
+}
+
+QString Kanjidic2EntryFormatter::formatMeanings(const ConstEntryPointer &_entry) const
+{
+	ConstKanjidic2EntryPointer entry(_entry.staticCast<const Kanjidic2Entry>());
+	if (!entry->kanjiMeanings().isEmpty()) {
+		QString s = entry->meaningsString();
+		if (!s.isEmpty()) s[0] = s[0].toUpper();
+		return s;
+	}
+	return "";
+}
+
+QString Kanjidic2EntryFormatter::formatOnReadings(const ConstEntryPointer &_entry) const
+{
+	if (showReadings.value()) {
+		ConstKanjidic2EntryPointer entry(_entry.staticCast<const Kanjidic2Entry>());
+		QStringList on = entry->onyomiReadings();
+		if (!on.isEmpty())
+			return QString("<b>%1:</b> %2").arg(tr("On")).arg(autoFormat(on.join(", ")));
+	}
+	return "";
+}
+
+QString Kanjidic2EntryFormatter::formatKunReadings(const ConstEntryPointer &_entry) const
+{
+	if (showReadings.value()) {
+		ConstKanjidic2EntryPointer entry(_entry.staticCast<const Kanjidic2Entry>());
+		QStringList kun = entry->kunyomiReadings();
+		if (!kun.isEmpty())
+			return QString("<b>%1:</b> %2").arg(tr("Kun")).arg(autoFormat(kun.join(", ")));
+	}
+	return "";
+}
+
+QString Kanjidic2EntryFormatter::formatNanori(const ConstEntryPointer &_entry) const
+{
+	if (showReadings.value()) {
+		ConstKanjidic2EntryPointer entry(_entry.staticCast<const Kanjidic2Entry>());
+		QStringList nanori = entry->nanoris();
+		if (!nanori.isEmpty())
+			return QString("<b>%1:</b> %2").arg(tr("Nanori")).arg(autoFormat(nanori.join(", ")));
+	}
+	return "";
+}
+
+	
+QString Kanjidic2EntryFormatter::formatStrokesCount(const ConstEntryPointer &_entry) const
+{
+	ConstKanjidic2EntryPointer entry(_entry.staticCast<const Kanjidic2Entry>());
+	if (entry->strokeCount() != -1 && showStrokesNumber.value()) {
+		return QString("<b>%1:</b> %2").arg(tr("Strokes")).arg(entry->strokeCount());
+	}
+	return "";
+}
+
+QString Kanjidic2EntryFormatter::formatFrequency(const ConstEntryPointer &_entry) const
+{
+	ConstKanjidic2EntryPointer entry(_entry.staticCast<const Kanjidic2Entry>());
+	if (entry->frequency() != -1 && showFrequency.value()) {
+		return QString("<b>%1:</b> %2").arg(tr("Frequency")).arg(entry->frequency());
+	}
+	return "";
+}
+
+QString Kanjidic2EntryFormatter::formatGrade(const ConstEntryPointer &_entry) const
+{
+	ConstKanjidic2EntryPointer entry(_entry.staticCast<const Kanjidic2Entry>());
+	if (entry->grade() != -1 && showGrade.value()) {
+		return QString("<b>%1:</b> %2").arg(tr("Grade")).arg(entry->grade());
+	}
+	return "";
+}
+
+QString Kanjidic2EntryFormatter::formatJLPT(const ConstEntryPointer &_entry) const
+{
+	ConstKanjidic2EntryPointer entry(_entry.staticCast<const Kanjidic2Entry>());
+	if (entry->jlpt() != -1 && showJLPT.value()) {
+		return QString("<b>%1:</b> %2").arg(tr("JLPT")).arg(entry->jlpt());
+	}
+	return "";
+}
+
+QString Kanjidic2EntryFormatter::formatVariations(const ConstEntryPointer &_entry) const
+{
+	if (showVariations.value()) {
+		ConstKanjidic2EntryPointer entry(_entry.staticCast<const Kanjidic2Entry>());
+		QSqlQuery query;
+		query.prepare("select distinct element from kanjidic2.strokeGroups where original = ?");
+		query.addBindValue(entry->id());
+		query.exec();
+		QList<EntryPointer> entries;
+		QStringList formats;
+		while (query.next()) {
+			ConstKanjidic2EntryPointer kEntry(KanjiEntryRef(query.value(0).toUInt()).get());
+			formats << entryTitle(kEntry);
+		}
+		if (!formats.isEmpty()) {
+			return QString("<b>%1:</b> %2").arg(tr("Variations")).arg(formats.join(" "));
+		}
+	}
+	return "";
+}
+
+QString Kanjidic2EntryFormatter::formatVariationsOf(const ConstEntryPointer &_entry) const
+{
+	ConstKanjidic2EntryPointer entry(_entry.staticCast<const Kanjidic2Entry>());
+	if (showVariationOf.value() && !entry->variationOf().isEmpty()) {
+		QStringList formats;
+		foreach (quint32 kid, entry->variationOf()) {
+			ConstKanjidic2EntryPointer kEntry(KanjiEntryRef(kid).get());
+			formats << entryTitle(kEntry);
+		}
+		QString("<b>%1:</b> %2").arg(tr("Variation of")).arg(formats.join(" "));
+	}
+	return "";
+}
+
+QString Kanjidic2EntryFormatter::formatUnicode(const ConstEntryPointer &_entry) const
+{
+	ConstKanjidic2EntryPointer entry(_entry.staticCast<const Kanjidic2Entry>());
+	if (showUnicode.value()) {
+		return QString("<b>%1:</b> 0x%2").arg(tr("Unicode")).arg(QString::number(TextTools::singleCharToUnicode(entry->kanji()), 16));
+	}
+	return "";
+}
+
+QString Kanjidic2EntryFormatter::formatSkip(const ConstEntryPointer &_entry) const
+{
+	ConstKanjidic2EntryPointer entry(_entry.staticCast<const Kanjidic2Entry>());
+	if (!entry->skipCode().isEmpty() && showSKIP.value()) {
+		return QString("<b>%1:</b> %2").arg(tr("SKIP")).arg(entry->skipCode());
+	}
+	return "";
+}
+
+QString Kanjidic2EntryFormatter::formatFourCorner(const ConstEntryPointer &_entry) const
+{
+	ConstKanjidic2EntryPointer entry(_entry.staticCast<const Kanjidic2Entry>());
+	if (!entry->fourCorner().isEmpty() && showFourCorner.value()) {
+		return QString("<b>%1:</b> %2").arg(tr("4 corner")).arg(entry->fourCorner());
+	}
+	return "";
+}
+
+QString Kanjidic2EntryFormatter::formatRadicals(const ConstEntryPointer &_entry) const
+{
+	ConstKanjidic2EntryPointer entry(_entry.staticCast<const Kanjidic2Entry>());
+	if (!entry->radicals().isEmpty() && showRadicals.value()) {
+		QStringList formats;
+		typedef QPair<uint, quint8> radicalType;
+		foreach (const radicalType &radical, entry->radicals()) {
+			ConstKanjidic2EntryPointer kEntry(KanjiEntryRef(radical.first).get());
+			// TODO
+			//view->addWatchEntry(kEntry);
+			formats << QString("%1 (%2)").arg(entryTitle(kEntry)).arg(radical.second);
+		} 
+		return QString("<b>%1:</b> %2").arg(tr("Radicals")).arg(formats.join(" "));
+	}
+	return "";
+}
+
+QString Kanjidic2EntryFormatter::formatComponents(const ConstEntryPointer &_entry) const
+{
+	ConstKanjidic2EntryPointer entry(_entry.staticCast<const Kanjidic2Entry>());
+	QList<const KanjiComponent *> components(entry->rootComponents());
+	if (!components.isEmpty() && showComponents.value()) {
+		QStringList formats;
+		QList<const KanjiComponent *> singleComponents;
+		QSet<uint> listedComps;
+		foreach (const KanjiComponent *component, components) {
+			if (listedComps.contains(component->unicode())) continue;
+			listedComps << component->unicode();
+			ConstKanjidic2EntryPointer kEntry(getMeaningEntry(component));
+			ConstKanjidic2EntryPointer shape(getShapeEntry(component));
+			// TODO
+			//view->addWatchEntry(kEntry);
+			formats << shortDesc(shape, kEntry);
+		}
+		return buildSubInfoBlock(tr("Components"), formats.join("<br/>"));
+	}
+	return "";
+}
+
+QList<DetailedViewJob *> Kanjidic2EntryFormatter::jobUsedInKanji(const ConstEntryPointer &_entry, const QTextCursor &cursor) const
+{
+	ConstKanjidic2EntryPointer entry(_entry.staticCast<const Kanjidic2Entry>());
+	QList<DetailedViewJob *> ret;
+	if (maxCompoundsToDisplay.value()) ret << new ShowUsedInKanjiJob(entry->kanji(), cursor);
+	return ret;
+}
+
+QList<DetailedViewJob *> Kanjidic2EntryFormatter::jobUsedInWords(const ConstEntryPointer &_entry, const QTextCursor &cursor) const
+{
+	ConstKanjidic2EntryPointer entry(_entry.staticCast<const Kanjidic2Entry>());
+	QList<DetailedViewJob *> ret;
+	if (maxWordsToDisplay.value()) ret << new ShowUsedInWordsJob(entry->kanji(), cursor);
+	return ret;
+}
+
 ShowUsedInKanjiJob::ShowUsedInKanjiJob(const QString &kanji, const QTextCursor &cursor) :
-		DetailedViewJob(Kanjidic2EntryFormatter::getQueryUsedInKanjiSql(TextTools::singleCharToUnicode(kanji), Kanjidic2EntryFormatter::maxCompoundsToDisplay.value(), Kanjidic2EntryFormatter::showOnlyStudiedCompounds.value()), cursor), _kanji(kanji), _gotResult(false)
+		DetailedViewJob(Kanjidic2EntryFormatter::getQueryUsedInKanjiSql(TextTools::singleCharToUnicode(kanji), Kanjidic2EntryFormatter::maxCompoundsToDisplay.value(), Kanjidic2EntryFormatter::showOnlyStudiedCompounds.value()), cursor), _kanji(kanji), gotResults(false)
 {
 }
 
 void ShowUsedInKanjiJob::firstResult()
 {
-	QTextCharFormat normal(DetailedViewFonts::charFormat(DetailedViewFonts::DefaultText));
-	QTextCharFormat bold(normal);
-	bold.setFontWeight(QFont::Bold);
-
-	_gotResult = true;
-	cursor().insertBlock(QTextBlockFormat());
-	cursor().setCharFormat(bold);
-	cursor().insertText(tr("Direct compounds:"));
-	cursor().setCharFormat(normal);
+	cursor().insertHtml(QString("<br/>%1").arg(EntryFormatter::buildSubInfoLine(tr("Direct compounds"), "")));
+	_cursor.movePosition(QTextCursor::PreviousBlock);
+	gotResults = true;
 }
 
 void ShowUsedInKanjiJob::result(EntryPointer entry)
 {
 	ConstKanjidic2EntryPointer kEntry = entry.staticCast<const Kanjidic2Entry>();
 	Q_ASSERT(kEntry);
-	
-	QTextCharFormat normal(DetailedViewFonts::charFormat(DetailedViewFonts::DefaultText));
-	cursor().setCharFormat(normal);
-	cursor().insertText(" ");
 	const EntryFormatter *formatter(EntryFormatter::getFormatter(kEntry));
-	formatter->writeEntryTitle(kEntry, cursor());
+	cursor().insertHtml(formatter->entryTitle(kEntry) + "&nbsp;");
 }
 
 void ShowUsedInKanjiJob::completed()
 {
-	QTextCharFormat normal(DetailedViewFonts::charFormat(DetailedViewFonts::DefaultText));
-	if (!_gotResult) return;
-	QTextCursor &cursor = ShowUsedInKanjiJob::cursor();
-	cursor.setCharFormat(normal);
-	cursor.insertText(" ");
-	QTextCharFormat linkFormat(normal);
-	linkFormat.setFontUnderline(true);
-	linkFormat.setForeground(Qt::blue);
-	linkFormat.setAnchor(true);
-	linkFormat.setAnchorHref(QString("component:?reset=true&kanji=%1").arg(_kanji));
-	linkFormat.setToolTip(tr("Make a new search using only this filter"));
-	_cursor.setCharFormat(linkFormat);
-	_cursor.insertText(tr("All compounds"));
-	_cursor.setCharFormat(normal);
-	_cursor.insertText(" ");
-	linkFormat.setAnchorHref(QString("component:?kanji=%1").arg(_kanji));
-	linkFormat.setToolTip(tr("Add this filter to the current search"));
-	_cursor.setCharFormat(linkFormat);
-	_cursor.insertText(tr("(+)"));
-	_cursor.setCharFormat(normal);
+	if (!gotResults) return;
+	cursor().insertHtml(QString("<a href=\"component:?reset=true&kanji=%1\" title=\"%4\">%2</a> <a href=\"component:?kanji=%1\" title=\"%5\">%3</a>").arg(_kanji).arg(tr("All compounds")).arg(tr("(+)")).arg("Make a new search using only this filter").arg("Add this filter to the current search"));
 }
 
 ShowUsedInWordsJob::ShowUsedInWordsJob(const QString &kanji, const QTextCursor &cursor) :
-		DetailedViewJob(Kanjidic2EntryFormatter::getQueryUsedInWordsSql(TextTools::singleCharToUnicode(kanji), Kanjidic2EntryFormatter::maxWordsToDisplay.value(), Kanjidic2EntryFormatter::showOnlyStudiedVocab.value()), cursor), _kanji(kanji), _gotResult(false)
+		DetailedViewJob(Kanjidic2EntryFormatter::getQueryUsedInWordsSql(TextTools::singleCharToUnicode(kanji), Kanjidic2EntryFormatter::maxWordsToDisplay.value(), Kanjidic2EntryFormatter::showOnlyStudiedVocab.value()), cursor), _kanji(kanji), gotResults(false)
 {
 }
 
 void ShowUsedInWordsJob::firstResult()
 {
-	QTextCharFormat normal(DetailedViewFonts::charFormat(DetailedViewFonts::DefaultText));
-	QTextCharFormat bold(normal);
-	bold.setFontWeight(QFont::Bold);
-
-	_gotResult = true;
-	cursor().insertBlock(QTextBlockFormat());
-	cursor().setCharFormat(bold);
-	cursor().insertText(tr("Seen in:"));
-	cursor().setCharFormat(normal);
+	cursor().insertHtml(QString("<br/>%1").arg(EntryFormatter::buildSubInfoBlock(tr("Seen in"), "")));
+	_cursor.movePosition(QTextCursor::PreviousBlock);
+	gotResults = true;
 }
 
 void ShowUsedInWordsJob::result(EntryPointer entry)
 {
 	ConstJMdictEntryPointer jmEntry(entry.staticCast<const JMdictEntry>());
 	Q_ASSERT(jmEntry);
-
-	QTextList *currentList = cursor().currentList();
-	cursor().insertBlock(QTextBlockFormat());
-	cursor().setCharFormat(QTextCharFormat());
 	const EntryFormatter *formatter(EntryFormatter::getFormatter(jmEntry));
-	formatter->writeShortDesc(jmEntry, cursor());
-	if (!currentList) {
-		QTextListFormat listFormat;
-		listFormat.setStyle(QTextListFormat::ListDisc);
-		listFormat.setIndent(0);
-		cursor().createList(listFormat);
-	}
-	else currentList->add(cursor().block());
+	cursor().insertHtml(formatter->shortDesc(jmEntry) + "<br/>\n");
 }
 
 void ShowUsedInWordsJob::completed()
 {
-	QTextCharFormat normal(DetailedViewFonts::charFormat(DetailedViewFonts::DefaultText));
-
-	if (!_gotResult) return;
-	QTextCursor &_cursor = cursor();
-	_cursor.insertBlock(QTextBlockFormat());
-	QTextCharFormat linkFormat(normal);
-	linkFormat.setFontUnderline(true);
-	linkFormat.setForeground(Qt::blue);
-	linkFormat.setAnchor(true);
-	linkFormat.setAnchorHref(QString("allwords:?reset=true&kanji=%1").arg(_kanji));
-	linkFormat.setToolTip(tr("Make a new search using only this filter"));
-	_cursor.setCharFormat(linkFormat);
-	_cursor.insertText(tr("All words using this kanji"));
-	_cursor.setCharFormat(normal);
-	_cursor.insertText(" ");
-	linkFormat.setAnchorHref(QString("allwords:?kanji=%1").arg(_kanji));
-	linkFormat.setToolTip(tr("Add this filter to the current search"));
-	_cursor.setCharFormat(linkFormat);
-	_cursor.insertText(tr("(+)"));
-	_cursor.setCharFormat(normal);
+	if (!gotResults) return;
+	cursor().insertHtml(QString("<a href=\"allwords:?reset=true&kanji=%1\" title=\"%4\">%2</a> <a href=\"allwords:?kanji=%1\" title=\"%5\">%3</a>").arg(_kanji).arg(tr("All words using this kanji")).arg(tr("(+)")).arg("Make a new search using only this filter").arg("Add this filter to the current search"));
 }

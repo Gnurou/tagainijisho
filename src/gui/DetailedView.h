@@ -114,6 +114,7 @@ private:
 	void _fontsChanged();
 	QColor _defaultColor(FontRole role) const;
 	QTextCharFormat _charFormat(FontRole role) const;
+	QString _CSS(FontRole role) const;
 
 public:
 	DetailedViewFonts(QWidget *parent = 0);
@@ -124,6 +125,7 @@ public:
 	static const QColor &color(FontRole role) { return _instance->_color[role]; }
 	static QColor defaultColor(FontRole role) { return _instance->_defaultColor(role); }
 	static QTextCharFormat charFormat(FontRole role) { return _instance->_charFormat(role); }
+	static QString CSS(FontRole role) { return _instance->_CSS(role); }
 
 signals:
 	void fontsHaveChanged();
@@ -211,7 +213,7 @@ private:
 	static EntryMenuHandler _entryHandler;
 	static TagsLinkHandler _tagsLinkHandler;
 	static ListLinkHandler _listLinkHandler;
-	bool _kanjisClickable;
+	bool _kanjiClickable;
 	bool _historyEnabled;
 	ScrollBarSmoothScroller _scroller;
 	/// Used to know whether we are about to drag the entry currently displayed
@@ -239,8 +241,8 @@ public:
 	virtual ~DetailedView();
 	void setSmoothScrolling(bool value);
 
-	bool kanjisClickable() const { return _kanjisClickable; }
-	void setKanjisClickable(bool clickable);
+	bool kanjiClickable() const { return _kanjiClickable; }
+	void setKanjiClickable(bool clickable);
 	void setHistoryEnabled(bool enabled);
 	const SingleEntryView *entryView() const { return &_entryView; }
 

@@ -7,7 +7,6 @@ add_subdirectory(kanjidic2)
 qt4_add_resources(tagainijisho_gui_RC ${CMAKE_SOURCE_DIR}/tagainijisho.qrc)
 
 set(tagainijisho_gui_SRCS
-${tagainijisho_gui_RC}
 EntryFormatter.cc
 BetterSpinBox.cc
 HexSpinBox.cc
@@ -41,6 +40,7 @@ EntriesViewHelper.cc
 ResultsView.cc
 ResultsViewWidget.cc
 SearchWidget.cc
+TemplateFiller.cc
 DetailedView.cc
 EntryListView.cc
 EntryListWidget.cc
@@ -65,7 +65,6 @@ kanjidic2/KanjiSelector.cc
 kanjidic2/Kanjidic2Preferences.cc
 kanjidic2/Kanjidic2FilterWidget.cc
 kanjidic2/Kanjidic2GUIPlugin.cc
-main.cc
 )
 
 if (${CMAKE_SYSTEM_NAME} MATCHES "Windows")
@@ -77,6 +76,7 @@ endif()
 qt4_wrap_cpp(tagainijisho_gui_MOC_SRCS
 BetterSpinBox.h
 ClickableLabel.h
+EntryFormatter.h
 DetailedView.h
 EditEntryNotesDialog.h
 EntryMenu.h
@@ -113,10 +113,12 @@ TrainSettings.h
 UpdateChecker.h
 YesNoTrainer.h
 ManualBrowser.h
+jmdict/JMdictEntryFormatter.h
 jmdict/JMdictFilterWidget.h
 jmdict/JMdictGUIPlugin.h
 jmdict/JMdictPreferences.h
 jmdict/JMdictYesNoTrainer.h
+kanjidic2/Kanjidic2EntryFormatter.h
 kanjidic2/Kanjidic2GUIPlugin.h
 kanjidic2/Kanjidic2Preferences.h
 kanjidic2/KanjiPlayer.h
@@ -151,19 +153,32 @@ kanjidic2/KanjiSelector.ui
 kanjidic2/Kanjidic2Preferences.ui
 )
 
+set(tagainijisho_SRCS
+main.cc
+${tagainijisho_gui_RC}
+)
+
 include_directories(${QT_INCLUDE_DIR})
+add_library(tagaini_gui STATIC ${tagainijisho_gui_SRCS} ${tagainijisho_gui_MOC_SRCS} ${tagainijisho_gui_UI_SRCS})
 if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-add_executable(tagainijisho MACOSX_BUNDLE ${tagainijisho_gui_SRCS} ${tagainijisho_gui_MOC_SRCS} ${tagainijisho_gui_UI_SRCS})
+add_executable(tagainijisho MACOSX_BUNDLE ${tagainijisho_SRCS})
 set(extra_link_flags "-bind_at_load")
 else()
-add_executable(tagainijisho ${tagainijisho_gui_SRCS} ${tagainijisho_gui_MOC_SRCS} ${tagainijisho_gui_UI_SRCS})
+add_executable(tagainijisho ${tagainijisho_SRCS})
 install(TARGETS tagainijisho RUNTIME DESTINATION bin)
 endif()
-target_link_libraries(tagainijisho tagaini_core tagaini_sqlite ${QT_LIBRARIES} ${extra_link_flags})
+target_link_libraries(tagainijisho tagaini_gui tagaini_core tagaini_sqlite ${QT_LIBRARIES} ${extra_link_flags})
 
 
 # HTML export template
 install(FILES ${CMAKE_SOURCE_DIR}/src/gui/export_template.html DESTINATION share/tagainijisho PERMISSIONS OWNER_READ GROUP_READ WORLD_READ)
+# Detailed view templates
+install(FILES ${CMAKE_SOURCE_DIR}/src/gui/detailed_default.html ${CMAKE_SOURCE_DIR}/src/gui/detailed_default.css DESTINATION share/tagainijisho PERMISSIONS OWNER_READ GROUP_READ WORLD_READ)
 # i18n files
 file(GLOB i18nfiles ${CMAKE_SOURCE_DIR}/i18n/*.qm)
 install(FILES ${i18nfiles} DESTINATION share/tagainijisho/i18n PERMISSIONS OWNER_READ GROUP_READ WORLD_READ)
+
+if (BUILD_TESTS)
+add_subdirectory(tests)
+endif()
+

@@ -18,6 +18,7 @@
 #include "core/EntriesCache.h"
 #include "gui/EntryFormatter.h"
 #include "gui/YesNoTrainer.h"
+#include "gui/TemplateFiller.h"
 
 #include <QtDebug>
 #include <QVBoxLayout>
@@ -32,6 +33,9 @@ PreferenceItem<QByteArray> YesNoTrainer::windowGeometry("trainWindow", "geometry
 
 YesNoTrainer::YesNoTrainer(QWidget *parent) : QWidget(parent), _trainingMode(Japanese), currentEntry(0)
 {
+	frontParts << "front";
+	backParts << "back";
+	
 	restoreGeometry(windowGeometry.value());
 
 	setWindowTitle("Training");
@@ -116,34 +120,35 @@ void YesNoTrainer::train(const EntryPointer &entry)
 {
 	clear();
 	_counterLabel->setText(tr("Correct: %1, Wrong: %2, Total: %3").arg(_goodCount).arg(_wrongCount).arg(_totalCount));
-	_detailedView->detailedView()->setKanjisClickable(false);
+	_detailedView->detailedView()->setKanjiClickable(false);
 
 	currentEntry = entry;
-
-	QTextCursor cursor(_detailedView->detailedView()->document());
-
-	const EntryFormatter *formatter(EntryFormatter::getFormatter(entry));
-	if (!formatter) {
-		qWarning("%s %d: Warning: cannot find formatter for entry!", __FILE__, __LINE__);
-	}
-	switch (trainingMode()) {
-		case Japanese:
-			formatter->detailedVersionPart1(entry, cursor, _detailedView->detailedView());
-			break;
-		case Translation:
-			formatter->detailedVersionPart2(entry, cursor, _detailedView->detailedView());
-			break;
-	}
 
 	showAnswerButton->setEnabled(true);
 	goodAnswerButton->setEnabled(false);
 	wrongAnswerButton->setEnabled(false);
 	skipButton->setEnabled(true);
+	
+	QTextDocument *document(_detailedView->detailedView()->document());
+
+	const EntryFormatter *formatter(EntryFormatter::getFormatter(entry));
+	if (!formatter) {
+		qWarning("%s %d: Warning: cannot find formatter for entry!", __FILE__, __LINE__);
+		return;
+	}
+	
+	document->setDefaultStyleSheet(formatter->CSS());
+	
+	const QStringList &parts = trainingMode() == Japanese ? frontParts : backParts;
+	
+	TemplateFiller filler;
+	QString html(filler.fill(filler.extract(formatter->htmlTemplate(), parts), formatter, entry));
+	document->setHtml(html);
 }
 
 void YesNoTrainer::showAnswer()
 {
-	_detailedView->detailedView()->setKanjisClickable(true);
+	_detailedView->detailedView()->setKanjiClickable(true);
 
 	showAnswerButton->setEnabled(false);
 	goodAnswerButton->setEnabled(true);

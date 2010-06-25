@@ -15,9 +15,11 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "tagaini_config.h"
 #include "core/TextTools.h"
 #include "core/Database.h"
 #include "gui/EntryFormatter.h"
+#include "gui/TemplateFiller.h"
 #include "gui/DetailedView.h"
 // TODO Would be nice to get rid of this one...
 #include "gui/MainWindow.h"
@@ -67,7 +69,7 @@ void DetailedView::removeEventFilter(QObject *obj)
 	_eventFilters.remove(obj);
 }
 
-DetailedView::DetailedView(QWidget *parent) : QTextBrowser(parent), _kanjisClickable(true), _historyEnabled(true), _dragEntryRef(0, 0), _dragStarted(false), _history(historySize.value()), _entryView(0), _jobsRunner(this)
+DetailedView::DetailedView(QWidget *parent) : QTextBrowser(parent), _kanjiClickable(true), _historyEnabled(true), _dragEntryRef(0, 0), _dragStarted(false), _history(historySize.value()), _entryView(0), _jobsRunner(this)
 {
 	// Add the default handlers if not already done (first instanciation)
 	if (!DetailedViewLinkManager::getHandler(_entryHandler.scheme())) DetailedViewLinkManager::registerHandler(&_entryHandler);
@@ -122,11 +124,47 @@ void DetailedView::_display(const EntryPointer &entry, bool update)
 		_historyPrevAction->setEnabled(_history.hasPrevious());
 		_historyNextAction->setEnabled(_history.hasNext());
 	}
-	QTextCursor cursor(document());
 	const EntryFormatter *formatter(EntryFormatter::getFormatter(entry));
-	if (formatter) formatter->detailedVersion(entry, cursor, this);
-	else qWarning("%s %d: %s", __FILE__, __LINE__, "No formatter found for entry!");
-	_jobsRunner.runAllJobs();
+	TemplateFiller filler;
+	
+	if (!formatter) qWarning("%s %d: %s", __FILE__, __LINE__, "No formatter found for entry!");
+	else {
+		// Apply the default font
+		setFont(DetailedViewFonts::font(DetailedViewFonts::DefaultText));
+		QString css(formatter->CSS());
+		// Add the font style CSS
+		css += QString("\n%1 {\n%2}\n").arg(".furigana").arg(DetailedViewFonts::CSS(DetailedViewFonts::KanaHeader));
+		css += QString("\n%1 {\n%2}\n").arg(".mainwriting").arg(DetailedViewFonts::CSS(DetailedViewFonts::KanjiHeader));
+		css += QString("\n%1 {\n%2}\n").arg(".kanji").arg(DetailedViewFonts::CSS(DetailedViewFonts::Kanji));
+		css += QString("\n%1 {\n%2}\n").arg(".kana").arg(DetailedViewFonts::CSS(DetailedViewFonts::Kana));
+		// Fill the HTML template with the immediate information
+		QString html(filler.fill(formatter->htmlTemplate(), formatter, entry));
+#ifdef DEBUG_DETAILED_VIEW
+		qDebug() << css;
+		qDebug() << html;
+#endif
+		document()->setDefaultStyleSheet(css);
+		document()->setHtml(html);
+		// Now find the jobs that need to be run from the document
+		QRegExp funcMatch("\\$\\!\\$(\\w+)");
+		QTextCursor pos(document()), matchPos;
+		while (!(matchPos = document()->find(funcMatch, pos)).isNull()) {
+			funcMatch.exactMatch(matchPos.selectedText());
+			QString jobClass(funcMatch.cap(1));
+			// Remove the matched text and update the current position
+			matchPos.removeSelectedText();
+			pos = matchPos;
+			// Get the list of jobs to run by invoking the jobs method
+			QList<DetailedViewJob *> jobs;
+			QMetaObject::invokeMethod(const_cast<EntryFormatter *>(formatter), QString("job" + jobClass).toLatin1().constData(), Qt::DirectConnection, Q_RETURN_ARG(QList<DetailedViewJob *>, jobs), Q_ARG(ConstEntryPointer, entry), Q_ARG(QTextCursor, matchPos));
+			// Add the jobs added by the keyword to the list of jobs to run
+			foreach (DetailedViewJob *job, jobs) {
+				addBackgroundJob(job);
+			}
+		}
+		// Start running background jobs
+		_jobsRunner.runAllJobs();
+	}
 }
 
 void DetailedView::setSmoothScrolling(bool value)
@@ -189,10 +227,9 @@ void DetailedView::clear()
 	document()->addResource(QTextDocument::ImageResource, QUrl("moreicon"), QPixmap(":/images/icons/zoom-in.png"));
 }
 
-void DetailedView::setKanjisClickable(bool clickable)
+void DetailedView::setKanjiClickable(bool clickable)
 {
-	_kanjisClickable = clickable;
-//	if (!clickable) viewport()->unsetCursor();
+	_kanjiClickable = clickable;
 }
 
 void DetailedView::setHistoryEnabled(bool enabled)
@@ -370,12 +407,7 @@ void DetailedViewJobRunner::onFirstResult()
 	if (_ignoreJobs) return;
 
 	Q_ASSERT(_currentJob != 0);
-	// Fix the position of the cursor - we moved it one step to the left to ensure it does not follow
-	// the flow of text
-	QTextCursor &tCursor = _currentJob->cursor();
-	tCursor.movePosition(QTextCursor::Right);
 	_currentJob->firstResult();
-	tCursor.movePosition(QTextCursor::Left);
 }
 
 void DetailedViewJobRunner::onResult(EntryPointer entry)
@@ -384,13 +416,8 @@ void DetailedViewJobRunner::onResult(EntryPointer entry)
 	if (_ignoreJobs) return;
 
 	Q_ASSERT(_currentJob != 0);
-	// Fix the position of the cursor - we moved it one step to the left to ensure it does not follow
-	// the flow of text
-	QTextCursor &tCursor = _currentJob->cursor();
-	tCursor.movePosition(QTextCursor::Right);
 	_currentJob->result(entry);
 	_view->addWatchEntry(entry);
-	tCursor.movePosition(QTextCursor::Left);
 }
 
 void DetailedViewJobRunner::onCompleted()
@@ -399,12 +426,7 @@ void DetailedViewJobRunner::onCompleted()
 	if (_ignoreJobs) return;
 
 	Q_ASSERT(_currentJob != 0);
-	// Fix the position of the cursor - we moved it one step to the left to ensure it does not follow
-	// the flow of text
-	QTextCursor &tCursor = _currentJob->cursor();
-	tCursor.movePosition(QTextCursor::Right);
 	_currentJob->completed();
-	tCursor.movePosition(QTextCursor::Left);
 
 	runNextJob();
 }
@@ -437,8 +459,8 @@ void DetailedViewJob::__init()
 	// We *must* move the cursor one step to the left, otherwise it will move as
 	// the user continues to insert text. The position will be fixed before
 	// the cursor is passed to the callback function.
-	_cursor.insertText(" ");
-	_cursor.movePosition(QTextCursor::Left);
+	//_cursor.insertText(" ");
+	//_cursor.movePosition(QTextCursor::Left);
 }
 
 DetailedViewFonts::DetailedViewFonts(QWidget *parent) : QObject(parent)
@@ -483,6 +505,20 @@ QTextCharFormat DetailedViewFonts::_charFormat(FontRole role) const
 	res.setFont(font(role));
 	res.setForeground(color(role));
 	return res;
+}
+
+QString DetailedViewFonts::_CSS(FontRole role) const
+{
+	const QFont &font = _font[role];
+	QString ret;
+	if (!font.family().isEmpty()) ret += QString("\tfont-family: %1;\n").arg(font.family());
+	if (color(role) != QApplication::palette().color(QPalette::Text))
+		ret += QString("\tcolor: %1;\n").arg(EntryFormatter::colorTriplet(color(role)));
+	ret += QString("\tfont-style: %1;\n").arg(font.italic() ? "italic" : "normal");
+	ret += QString("\tfont-weight: %1;\n").arg(font.bold() ? "bold" : "normal");
+	ret += QString("\tfont-size: %1pt;\n").arg(font.pointSize());
+
+	return ret;
 }
 
 EntryMenuHandler::EntryMenuHandler() : DetailedViewLinkHandler("entry")

@@ -23,6 +23,10 @@ endif()
 # Debug options
 option(DEBUG_ENTRIES_CACHE "Debug entries cache behavior" OFF)
 option(DEBUG_PATHS "Debug files lookup" OFF)
+option(DEBUG_DETAILED_VIEW "Debug detailed view output" OFF)
+
+# Build tests suite?
+option(BUILD_TESTS "Build tests suite" OFF)
 
 configure_file(${CMAKE_SOURCE_DIR}/src/tagaini_config.h.cmake ${CMAKE_BINARY_DIR}/src/tagaini_config.h)
 # For config.h

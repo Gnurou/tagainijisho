@@ -141,7 +141,6 @@ void checkConfigurationVersion()
 	configVersion.setValue(CONFIG_VERSION);
 }
 
-QString __userProfile;
 /**
  * Check if a user DB directory is defined in the application settings, and
  * create a default one in case it doesn't exist.
@@ -180,6 +179,8 @@ int main(int argc, char *argv[])
 	migrateOldData();
 	checkConfigurationVersion();
 
+	checkUserProfileDirectory();
+
 	// Get the default font from the settings, if set
 	if (!MainWindow::applicationFont.value().isEmpty()) {
 		QFont font;
@@ -208,10 +209,9 @@ int main(int argc, char *argv[])
 	// Load the translations for Qt
 	if (qtTranslator.load(QDir(QLibraryInfo::location(QLibraryInfo::TranslationsPath)).absoluteFilePath(QString("qt_%1").arg(locale))) || qtTranslator.load(lookForFile(QString("i18n/qt_%1.qm").arg(locale)))) app.installTranslator(&qtTranslator);
 
-	checkUserProfileDirectory();
-
 	// Register meta-types
 	qRegisterMetaType<EntryPointer>("EntryPointer");
+	qRegisterMetaType<ConstEntryPointer>("ConstEntryPointer");
 	qRegisterMetaType<QSqlRecord>("QSqlRecord");
 	qRegisterMetaType<QSqlRecord>("QSqlError");
 	qRegisterMetaType<QVariant>("QVariant");

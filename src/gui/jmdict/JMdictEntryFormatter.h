@@ -25,31 +25,22 @@
 
 class JMdictEntryFormatter : public EntryFormatter
 {
-Q_DECLARE_TR_FUNCTIONS(JMdictEntryFormatter)
+	Q_OBJECT
 protected:
-	virtual void _detailedVersion(const ConstEntryPointer &entry, QTextCursor &cursor, DetailedView *view) const;
-
-	JMdictEntryFormatter();
+	JMdictEntryFormatter(QObject *parent = 0);
 	virtual ~JMdictEntryFormatter() {}
+
 public:
 	static JMdictEntryFormatter &instance();
 	
-	/**
-	 * Writes the part of speech using the given cursor.
-	 */
-	void writeSensePos(const Sense &sense, QTextCursor &cursor) const;
+	virtual QString shortDesc(const ConstEntryPointer &entry) const;
 
-	void writeKanaHeader(const ConstJMdictEntryPointer &entry, QTextCursor &cursor, DetailedView *view) const;
-	void writeKanjiHeader(const ConstJMdictEntryPointer &entry, QTextCursor &cursor, DetailedView *view) const;
-	void writeJapanese(const ConstJMdictEntryPointer &entry, QTextCursor& cursor, DetailedView* view) const;
-	void writeTranslation(const ConstJMdictEntryPointer &entry, QTextCursor &cursor, DetailedView *view) const;
-	void writeEntryInfo(const ConstJMdictEntryPointer &entry, QTextCursor &cursor, DetailedView *view) const;
-
-	virtual void writeShortDesc(const ConstEntryPointer &entry, QTextCursor &cursor) const;
-	virtual void detailedVersionPart1(const ConstEntryPointer &entry, QTextCursor &cursor, DetailedView *view) const;
-	virtual void detailedVersionPart2(const ConstEntryPointer &entry, QTextCursor &cursor, DetailedView *view) const;
 	virtual void draw(const ConstEntryPointer &entry, QPainter &painter, const QRectF &rectangle, QRectF &usedSpace, const QFont &textFont = QFont()) const { drawCustom(entry, painter, rectangle, usedSpace, textFont); }
 	void drawCustom(const ConstEntryPointer &entry, QPainter &painter, const QRectF &rectangle, QRectF &usedSpace, const QFont &textFont = QFont(), int headerPrintSize = headerPrintSize.defaultValue(), bool printKanjis = printKanjis.defaultValue(), bool printOnlyStudiedKanjis = printOnlyStudiedKanjis.defaultValue(), int maxDefinitionsToPrint = maxDefinitionsToPrint.defaultValue()) const;
+
+	static QString getVerbBuddySql(const QString &matchPattern, quint64 pos, int id);
+	static QString getHomophonesSql(const QString &reading, int id, int maxToDisplay = maxHomophonesToDisplay.value(), bool studiedOnly = displayStudiedHomophonesOnly.value());
+	static QString getHomographsSql(const QString &writing, int id, int maxToDisplay = maxHomophonesToDisplay.value(), bool studiedOnly = displayStudiedHomophonesOnly.value());
 
 	static PreferenceItem<bool> showJLPT;
 	static PreferenceItem<bool> showKanjis;
@@ -64,9 +55,18 @@ public:
 	static PreferenceItem<bool> printOnlyStudiedKanjis;
 	static PreferenceItem<int> maxDefinitionsToPrint;
 
-	static QString getVerbBuddySql(const QString &matchPattern, quint64 pos, int id);
-	static QString getHomophonesSql(const QString &reading, int id, int maxToDisplay = maxHomophonesToDisplay.value(), bool studiedOnly = displayStudiedHomophonesOnly.value());
-	static QString getHomographsSql(const QString &writing, int id, int maxToDisplay = maxHomophonesToDisplay.value(), bool studiedOnly = displayStudiedHomophonesOnly.value());
+public slots:
+	virtual QString formatHeadFurigana(const ConstEntryPointer &entry) const;
+	virtual QString formatHead(const ConstEntryPointer &entry) const;
+	virtual QString formatAltReadings(const ConstEntryPointer &entry) const;
+	virtual QString formatAltWritings(const ConstEntryPointer &entry) const;
+	virtual QString formatSenses(const ConstEntryPointer &entry) const;
+	virtual QString formatJLPT(const ConstEntryPointer &entry) const;
+	virtual QString formatKanji(const ConstEntryPointer &entry) const;
+	
+	virtual QList<DetailedViewJob *> jobVerbBuddy(const ConstEntryPointer& _entry, const QTextCursor& cursor) const;
+	virtual QList<DetailedViewJob *> jobHomophones(const ConstEntryPointer &_entry, const QTextCursor& cursor) const;
+	virtual QList<DetailedViewJob *> jobHomographs(const ConstEntryPointer &_entry, const QTextCursor& cursor) const;
 };
 
 class FindVerbBuddyJob : public DetailedViewJob {
@@ -79,6 +79,7 @@ private:
 	QString matchPattern;
 	QString kanaPattern;
 	QString firstReading;
+	QString contents;
 
 public:
 	FindVerbBuddyJob(const ConstJMdictEntryPointer &verb, const QString &pos, const QTextCursor &cursor);
@@ -88,6 +89,9 @@ public:
 
 class FindHomophonesJob : public DetailedViewJob {
 	Q_DECLARE_TR_FUNCTIONS(FindHomophonesJob)
+private:
+	bool gotResults;
+
 public:
 	FindHomophonesJob(const ConstJMdictEntryPointer &entry, int maxToDisplay, bool studiedOnly, const QTextCursor &cursor);
 	virtual void firstResult();
@@ -96,6 +100,9 @@ public:
 
 class FindHomographsJob : public DetailedViewJob {
 	Q_DECLARE_TR_FUNCTIONS(FindHomographsJob)
+private:
+	bool gotResults;
+
 public:
 	FindHomographsJob(const ConstJMdictEntryPointer &entry, int maxToDisplay, bool studiedOnly, const QTextCursor &cursor);
 	virtual void firstResult();

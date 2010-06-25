@@ -1,5 +1,5 @@
 /*
- *  Copyright (C) 2010  Alexandre Courbot
+ *  Copyright (C) 2009  Alexandre Courbot
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -15,38 +15,24 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef __SQLITE_QUERY_H
-#define __SQLITE_QUERY_H
-
 #include <QObject>
-#include <QVariant>
-
-namespace sqlite {
+#include <QTest>
 
 /**
- * A lightweight Qt/SQLite query wrapper class that provides an interface
- * similar to that of QSqlQuery but does not require QtSql.
+ * Tests the TemplateFiller class
  */
-class Query : public QObject
+
+class TemplateFillerTests : public QObject
 {
 	Q_OBJECT
 private:
-public:
-	Query(QObject *parent = 0);
-	~Query();
-	
-	bool prepare(const QString &query);
-	void addBindValue(const QVariant &val);
-	bool exec(const QString &query);
-	bool exec();
-	
-	bool next();
-	bool seek(int index, bool relative = false);
-	QVariant value(int index) const;
-	
-	void clear();
-};
-	
-}
+	QString tmpl;
 
-#endif
+private slots:
+	void initTestCase();
+	void cleanupTestCase();
+
+	void extract_1();
+	void extract_2();
+	void extract_3();
+};

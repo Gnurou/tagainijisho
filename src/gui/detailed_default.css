@@ -1,8 +1,16 @@
-.mainwriting {
-	text-align: center;
-	font-size: xx-large;
-	align: center;
-	width: 100%;
+table {
+	margin: 0px;
+	padding: 0px;
+}
+
+tr {
+	margin: 0px;
+	padding: 0px;
+}
+
+td {
+	margin: 0px;
+	padding: 0px;
 }
 
 .subinfo {
@@ -13,13 +21,8 @@
 .subinfo .title {
 	background-color: #ccddcc;
 	font-weight: bold;
-	padding-left: 5px;
-	padding-right: 5px;
-	width: 100%;
 }
 
 .subinfo .contents {
 	background-color: #ddeedd;
-	padding: 5px;
-	width: 100%;
 }

@@ -6,10 +6,10 @@ app = QApplication(sys.argv)
 w = QTextBrowser()
 w.show()
 
-css = open("template.css", "r").read();
+css = open("detailed_template.css", "r").read();
 w.document().setDefaultStyleSheet(css)
 
-html = open("template.html", "r").read();
+html = open("detailed_template.html", "r").read();
 w.document().setHtml(html)
 
 app.exec_()
