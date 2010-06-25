@@ -155,9 +155,9 @@ QString EntryFormatter::entryTitle(const ConstEntryPointer& entry) const
 	if (!entry->writings().isEmpty()) title = entry->writings()[0];
 	else if (!entry->readings().isEmpty()) title = entry->readings()[0];
 	else return "";
+	title = autoFormat(title);
 	if (entry->trained()) {
-		// TODO
-		title = QString("<span style=\"background-color:%1\">%2</span>").arg(colorTriplet(entry->scoreColor())).arg(autoFormat(title));
+		title = QString("<span style=\"background-color:%1\">%2</span>").arg(colorTriplet(entry->scoreColor())).arg(title);
 	}
 	return title;
 }
