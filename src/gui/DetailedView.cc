@@ -512,6 +512,8 @@ QString DetailedViewFonts::_CSS(FontRole role) const
 	const QFont &font = _font[role];
 	QString ret;
 	if (!font.family().isEmpty()) ret += QString("\tfont-family: %1;\n").arg(font.family());
+	if (color(role) != QApplication::palette().color(QPalette::Text))
+		ret += QString("\tcolor: %1;\n").arg(EntryFormatter::colorTriplet(color(role)));
 	ret += QString("\tfont-style: %1;\n").arg(font.italic() ? "italic" : "normal");
 	ret += QString("\tfont-weight: %1;\n").arg(font.bold() ? "bold" : "normal");
 	ret += QString("\tfont-size: %1pt;\n").arg(font.pointSize());
