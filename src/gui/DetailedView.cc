@@ -129,14 +129,22 @@ void DetailedView::_display(const EntryPointer &entry, bool update)
 	
 	if (!formatter) qWarning("%s %d: %s", __FILE__, __LINE__, "No formatter found for entry!");
 	else {
-		document()->setDefaultStyleSheet(formatter->CSS());
+		// Apply the default font
+		setFont(DetailedViewFonts::font(DetailedViewFonts::DefaultText));
+		QString css(formatter->CSS());
+		// Add the font style CSS
+		css += QString("\n%1 {\n%2}\n").arg(".furigana").arg(DetailedViewFonts::CSS(DetailedViewFonts::KanaHeader));
+		css += QString("\n%1 {\n%2}\n").arg(".mainwriting").arg(DetailedViewFonts::CSS(DetailedViewFonts::KanjiHeader));
+		css += QString("\n%1 {\n%2}\n").arg(".kanji").arg(DetailedViewFonts::CSS(DetailedViewFonts::Kanji));
+		css += QString("\n%1 {\n%2}\n").arg(".kana").arg(DetailedViewFonts::CSS(DetailedViewFonts::Kana));
 		// Fill the HTML template with the immediate information
 		QString html(filler.fill(formatter->htmlTemplate(), formatter, entry));
 #ifdef DEBUG_DETAILED_VIEW
+		qDebug() << css;
 		qDebug() << html;
 #endif
+		document()->setDefaultStyleSheet(css);
 		document()->setHtml(html);
-		
 		// Now find the jobs that need to be run from the document
 		QRegExp funcMatch("\\$\\!\\$(\\w+)");
 		QTextCursor pos(document()), matchPos;
@@ -499,7 +507,7 @@ QTextCharFormat DetailedViewFonts::_charFormat(FontRole role) const
 	return res;
 }
 
-QString DetailedViewFonts::CSS(FontRole role) const
+QString DetailedViewFonts::_CSS(FontRole role) const
 {
 	const QFont &font = _font[role];
 	QString ret;
@@ -507,7 +515,7 @@ QString DetailedViewFonts::CSS(FontRole role) const
 	ret += QString("\tfont-style: %1;\n").arg(font.italic() ? "italic" : "normal");
 	ret += QString("\tfont-weight: %1;\n").arg(font.bold() ? "bold" : "normal");
 	ret += QString("\tfont-size: %1pt;\n").arg(font.pointSize());
-	
+
 	return ret;
 }
 

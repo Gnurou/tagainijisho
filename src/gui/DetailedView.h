@@ -114,7 +114,7 @@ private:
 	void _fontsChanged();
 	QColor _defaultColor(FontRole role) const;
 	QTextCharFormat _charFormat(FontRole role) const;
-	QString CSS(FontRole role) const;
+	QString _CSS(FontRole role) const;
 
 public:
 	DetailedViewFonts(QWidget *parent = 0);
@@ -125,6 +125,7 @@ public:
 	static const QColor &color(FontRole role) { return _instance->_color[role]; }
 	static QColor defaultColor(FontRole role) { return _instance->_defaultColor(role); }
 	static QTextCharFormat charFormat(FontRole role) { return _instance->_charFormat(role); }
+	static QString CSS(FontRole role) { return _instance->_CSS(role); }
 
 signals:
 	void fontsHaveChanged();
