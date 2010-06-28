@@ -244,8 +244,7 @@ QString EntryFormatter::formatNotes(const ConstEntryPointer &entry) const
 	if (!entry->notes().isEmpty()) {
 		QString ret("<div class=\"title\">" + tr("Notes:") + "</div>");
 		foreach(const Entry::Note &note, entry->notes()) {
-			// TODO autoformat
-			ret += QString("<p>%1</p>").arg(note.note());
+			ret += QString("<p>%1</p>").arg(autoFormat(note.note()));
 		}
 		return ret;
 	}
