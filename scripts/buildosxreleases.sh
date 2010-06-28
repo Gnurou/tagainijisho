@@ -22,7 +22,7 @@ cp /Developer/Applications/Qt/translations/qt_es.qm $BUNDLEPATH/tagainijisho.app
 cp /Developer/Applications/Qt/translations/qt_ru.qm $BUNDLEPATH/tagainijisho.app/Contents/Translations
 cp /Developer/Applications/Qt/translations/qt_nl.qm $BUNDLEPATH/tagainijisho.app/Contents/Translations
 # The .plist file correctly sets the application name in the mac menu
-cp scripts/Info.plist $BUNDLEPATH/tagainijisho.app/Contents
+sed "s/\\\$VERSION/$VERSION/g" scripts/Info.plist >$BUNDLEPATH/tagainijisho.app/Contents/Info.plist
 # Remove unneeded Qt stuff
 rm -Rf $BUNDLEPATH/tagainijisho.app/Contents/PlugIns/accessible
 rm -Rf $BUNDLEPATH/tagainijisho.app/Contents/PlugIns/codecs
