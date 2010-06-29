@@ -17,19 +17,19 @@ What is Tagaini-Jisho?
 
 Tagaini Jisho is an open source[^OSS] Japanese dictionary application. It is
 designed to help students of the Japanese language in their study by providing
-powerful tools to search, organize and study japanese vocabulary and kanji
+powerful tools to search, organise and study Japanese vocabulary and kanji
 entries.
 
 ### Search
 * Complete Japanese vocabulary and kanji Dictionaries, with more than
   140,000 vocabulary and 12,000 kanji entries;
-* Full wildcard support in textual search;
-* Radical and component-based kanji lookup, including an input method that 
-  lets you find almost any kanji, as long as you can recognize some of its
+* Full wild-card support in textual search;
+* Radical and component-based kanji look-up, including an input method that 
+  lets you find almost any kanji, as long as you can recognise some of its
   components;
 * JLPT classifications of vocabulary and kanji.
 
-### Organize
+### Organise
 * A study list that keeps track of all the vocabulary and kanji entries you
   wish to study;
 * `Sets` let you easily remember any search, allowing you to quickly access
@@ -38,7 +38,7 @@ entries.
 * Notes and tags can be applied to entries, allowing you to group entries in a
   way that makes sense to you;
 * Hierarchical and ordered lists provide an easy way to classify vocabulary
-  and kanji found in textbooks or to organize them arbitrarily.
+  and kanji found in textbooks or to organise them arbitrarily.
 
 ### Study
 * Stroke order animations for more than 6000 kanji;
@@ -49,7 +49,7 @@ entries.
 * Flash cards for vocabulary and kanji entries that remember which entries you
   are having difficulty memorising so that Tagaini may display them more
   frequently. 
-* Production of printed material, including a handy foldable booklet to study
+* Production of printed material, including a handy fold-able booklet to study
   anywhere.
 
 This version of the Tagaini Jisho documentation has been written using Tagaini
@@ -147,7 +147,7 @@ Filter]; [Tags; Notes][The Tags and Notes Filters]; [Vocabulary][The
 Vocabulary Filter]; [Kanji][The Kanji Filter]. Clicking on a different filter
 shows the new filter in place of the current one. It is also possible to
 select a filter through keyboard short cuts. Holding down control (**ctrl**)
-and pressing the corrisponding number, one through seven (**1** - **7**),
+and pressing the corresponding number, one through seven (**1** - **7**),
 while **Ctrl+0** hides them all.
 
 The Text Filter
@@ -195,7 +195,7 @@ searches for everything that starts and ends with that part of the term. The
 same way. So `大*` represents everything that starts with 大 and `*す`
 represents everything that ends with す. If the `?` character was used instead
 then then `大?` would be any two character entry where the first was 大 and
-`?す` would be any two character entry that ends with す. Wildcards are
+`?す` would be any two character entry that ends with す. Wild-cards are
 especially useful for looking up a word you cannot read entirely.
 
 [^wildcards]: Wild cards are characters used to represent unknown characters
@@ -280,7 +280,7 @@ detailed views toolbar.
 
 Tags are short strings used to identify an entry. Each tag is a single
 word given to an entry that can be used as a filter. For instance, if you
-first come accross a word in a given book, you can mark it with the book's
+first come across a word in a given book, you can mark it with the book's
 name so that you are able to quickly find entries you learnt in the same
 context. Typing tags into the filter will search through just the entries with
 those tags. There is also a drop down list to the right of the text field
@@ -342,7 +342,7 @@ be used in conjunction with the kanji filter.
 
 The first two text fields relate to the kanji found in vocab entries. The
 **With kanji** field will find any vocab entry that contains a list of given
-kanji. Next to it is a checkbox labelled **Using studied kanji only**. It
+kanji. Next to it is a check-box labelled **Using studied kanji only**. It
 forces the search to use only kanji from the study list, and may be useful to
 find new words that you should be able to read, but are not necessarily
 studying.
@@ -351,7 +351,7 @@ Kanji are made up of different sub-kanji, or components, so the **With
 components** field searches for kanji that include a component. This feature
 is useful to find words that you cannot write, but for which you can identify
 some of their components. For instance, say you are looking for the word
-"`紅葉`". You cannot read it, but can recognize the `糸`, `工` and `木`
+"`紅葉`". You cannot read it, but can recognise the `糸`, `工` and `木`
 components it its kanji. Entering these in the components line will display
 all words which kanji feature these components, including the one you are
 looking after, `紅葉`.
@@ -377,10 +377,10 @@ such cannot be used in conjunction with the vocabulary filter.
 
 The first section on the tab, **Stroke count**, filters kanji by their number
 of strokes. It is possible to specify a range by checking the corresponding
-checkbox.
+check-box.
 
 The next section filters kanji by their radical or components.
-Clicking on the **Radicals** input line will trigger a popup listing the 214
+Clicking on the **Radicals** input line will trigger a pop-up listing the 214
 radicals, from which you can select those you want to filter against. Every
 time a radical is selected, the radicals list updates itself to only show the
 radicals that can be combined with the current selection.
@@ -391,11 +391,11 @@ radicals that can be combined with the current selection.
 While radicals are limited to a set of 214 key characters, a component can be
 any part of a kanji for which a character exists, which makes searching using
 components much more flexible. You can click on or input just any component
-that you recognize in the kanji, and the list of complementary components will
+that you recognise in the kanji, and the list of complementary components will
 update itself automatically, while the search for corresponding kanji is run
 in the background.
 
-Radical and component-based kanji search are very powerful kanji lookup
+Radical and component-based kanji search are very powerful kanji look-up
 methods. They can also be used to insert kanji into any text input, including
 the text search widget, using the [Kanji Input Panel][].
 
@@ -415,7 +415,7 @@ provides four drop down boxes corresponding to each corner of a Chinese
 character and a fifth box for miscellaneous strokes. Four corner method is a
 Chinese input method to used to find kanji.[^FCfoot]
 
-The last section, **School grade**, represents which japanese school level the
+The last section, **School grade**, represents which Japanese school level the
 kanji is taught in. 
 
 [^SKIPfoot]: http://www.basic-japanese.com/Hilfsdateien/skipCode.html  
@@ -434,10 +434,10 @@ entries. This can be useful if you are reading digital text and are using the
 **auto-search on clipboard content** feature found in the Search Menu. 
 
 At the top of the detailed view there is a toolbar which contains back and
-forward buttons, for tranversing previously viewed entries; buttons for
+forward buttons, for transversing previously viewed entries; buttons for
 marking the entry, as discussed in the [organizing entries][] chapter and
 sections on [tags and notes][The Tags and Notes Filters]; and a button to
-allow draging the entry currently being viewed into a list. 
+allow dragging the entry currently being viewed into a list. 
 
 The detailed view itself displays all the information on the currently
 selected entry, according to its type. [Vocabulary entries] are displayed
@@ -568,8 +568,8 @@ Moving your mouse over a component highlights it. Clicking on a component,
 either on the animation or in the list, will open that component by
 itself in the window. Underneath the stroke order animation are
 animation control buttons, allowing you to stop; pause; play; skip
-strokes and go back. Each of these buttons have corrisponding keyboard
-shortcuts: r, space, right and left respectivly.
+strokes and go back. Each of these buttons have corresponding keyboard
+shortcuts: r, space, right and left respectively.
 
 Up the top are three buttons. The first, the magnifying glass, opens the
 kanji's entry in the detailed view. The second provides an options menu, just
@@ -589,7 +589,7 @@ accessible via **Ctrl+k**, and the **Component search input** via **Ctrl+j**.
 
 Both work similarly to the radical and component search of [the
 Kanji Filter], excepted that the results are displayed in a small area.
-Clicking on a kanji displayed in this area will immediatly put it into the
+Clicking on a kanji displayed in this area will immediately put it into the
 focused text field.
 
 So to find 怒 using the components search input, one could start by entering
@@ -600,7 +600,7 @@ be spotted very quickly. Clicking on the kanji will place it in the search
 field, or which ever text field had the focus when the kanji input panel was
 brought up. To close the panel, just clicking outside it will close it.
 
-Organizing Entries
+Organising Entries
 ==================
 
 Study List
@@ -650,7 +650,7 @@ branch will allow renaming. As every list is a branch, clicking and dragging
 them onto another list will set it to be a child of that list, allowing this
 lists to be embedded within each other.
 
-Lists are useful for sorting and organizing entries that may be frequently
+Lists are useful for sorting and organising entries that may be frequently
 viewed. To add an entry to a list, Drag and drop it onto one of the lists from
 the search panel. Doing this creates a child entry that links to that entry.
 Clicking on it in the lists view then opens the entry in the detailed view.
@@ -669,7 +669,7 @@ Right clicking on a list in the list view will give the option to **Set as
 root**. Clicking on this hides all the lists and only shows children of the
 selected list. The list's name will be displayed just below the panels tool
 bar. When you have set a list to the root, the **go up** button on the panel
-will turn blue to signal it is useable. Clicking it will set the root to the
+will turn blue to signal it is usable. Clicking it will set the root to the
 parent of the current root, until the root is the original root. 
 
 Sets
@@ -710,7 +710,7 @@ Studying Entries
 Practice
 --------
 
-The practice menu has four different options. Settings; vocab flash cards;
+The practise menu has four different options. Settings; vocab flash cards;
 kanji flash cards and reading practice. The flash card options are sub menus,
 each with **by set** and **entire study list** options for reading to
 translation and translation to reading.
@@ -728,7 +728,7 @@ more likely to appear before entries with higher scores.
 
 ### Flashcards
 
-There are four options in total in the flashcards submenus: **From Japanese,
+There are four options in total in the flashcards sub-menus: **From Japanese,
 whole study set**; **From Japanese, current set**; **From translation, whole
 study set** and **from translation, current set**. Each option will display
 different contents in the same window. It will either show the translation or
@@ -745,7 +745,7 @@ or the definition.
 
 If you have selected a **from Japanese** option for vocabulary flashcards,
 then there is an extra option along the detailed view toolbar, **Show
-furigana**, a checkbox which toggles whether or not the furigana for the entry
+furigana**, a check-box which toggles whether or not the furigana for the entry
 is displayed.
 
 When you have decided whether or not you know the answer, pressing the answer
@@ -805,7 +805,7 @@ from the menu of the first icon in their tool bar.
 ![Print preview](images/print_preview.png)
 
 Tagaini can print two different types of paper media. Lists of vocabulary or
-kanji, and pocketable booklets, vocabulary and kanji lists formatted in such a
+kanji, and pocket-able booklets, vocabulary and kanji lists formatted in such a
 way that the paper can be folded into a small, pocket sized, book. The
 **print** option prints normally formatted lists, whilst the **print
 booklet** option prints out booklets. Each option also has a preview
@@ -864,19 +864,19 @@ General
 
 The general preferences page, the one that the preferences window opens on,
 contains general settings that affect the entire program. It is broken down
-into several sections, visibily seperated on the page.
+into several sections, visibly separated on the page.
 
 The first section, from the top, is the **general settings** section. It
 controls the **application-wide default font**, the font which Tagaini uses to
 display text by default, and the **GUI language**, the language the menues and
-buttons are written in. The default font has two settings. A check box labeled
-**default** and a button labeled '**Change...**'. If the default checkbox is
+buttons are written in. The default font has two settings. A check box labelled
+**default** and a button labelled '**Change...**'. If the default check-box is
 ticked then the default Qt system font is used. The change button brings up
 a dialogue that allows you to select a new font. 
 
 The next section is the dates section. It allows you to tell Tagaini which day
 the week starts on: Sunday or Monday. These settings are used by your study
-list. The following section allows you to tell Tagaini how oftern it should
+list. The following section allows you to tell Tagaini how often it should
 connect to the internet and check for a new version. You can turn this
 functionality off or you can get it to check for updates to the development
 version. 
@@ -893,7 +893,7 @@ Results View
 
 The results view page specifies how entries are displayed in the search panel.
 
-The page is seperated into two sections: The **results display** section and
+The page is separated into two sections: The **results display** section and
 the **preview** section. The preview section shows an example of a list of
 entries that will be displayed in the results view.
 
@@ -942,7 +942,7 @@ Lists
 The lists page describes how lists should be handled and displayed. The
 **style** of the list can be changed between **one line** entries and **two
 line** entries. The fonts used to display the **main writing**, **Readings and
-alternative writings** and **definitions** can each be changed seperately.
+alternative writings** and **definitions** can each be changed separately.
 **Smooth scrolling** can also be enabled.
 
 Vocabulary Entries
@@ -957,7 +957,7 @@ The **additional information** controls extra jobs about the displayed entry.
 **Search for transitive／intransitive verb buddy** controls whether or a
 references is included to an entry with an opposite transitive state. It is
 also possible to search for a given number of **Homophones** or
-**Homographs**. The **Studied only** checkbox causes only homophones or
+**Homographs**. The **Studied only** check-box causes only homophones or
 homographs in the study list to be displayed.
 
 ![Vocabulary Printing](images/tagaini_pref_vocab_printing.png)
@@ -985,7 +985,7 @@ Kanji Entries
 The **display** tab, the first of four tabs on the kanji entries page,
 describes which information should be displayed in the detailed view.
 
-In **basic information**, there are a series of checkboxes relating to
+In **basic information**, there are a series of check-boxes relating to
 different pieces of information in the entry. Each one toggles display of that
 element on and off.
 
