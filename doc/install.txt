@@ -237,7 +237,7 @@ Tagaini Jisho 0.2.5 only has two dependencies, `Qt`[^qtdepfoot] and
 `CMake`. It uses several other third party libraries, but provides custom
 versions of them in the source tarball.
 
-[^qtdepfoot]: The gentoo Qt maintainers split Qt into 14 seperate pacakges. This
+[^qtdepfoot]: The gentoo Qt maintainers split Qt into 14 separate packages. This
 is done so that one does not have to compile the entire monolithic library. 
 Tagaini only requires `x11-libs/qt-core`, `x11-libs/qt-gui`, `x11-libs/qt-test` and `x11-libs/qt-sql`.
 
@@ -270,12 +270,12 @@ latest, not nessasarly stable, build. As it is moving towards 0.2.7 it may
 have features that are yet undocumented.
 
 The git repository does not hold any of the custom 3rd party libraries or the
-dictionaries, so they must fisrt be downloaded. 
+dictionaries, so they must first be downloaded. 
 
     tagaini-jisho $ ./prepare-source.sh
 
 This script is provided to make sure all the 3rd party libraries are there,
-and fetch those that are not. It does not handle Qt. When it has finnished,
+and fetch those that are not. It does not handle Qt. When it has finished,
 the makefiles need to be generated.
     
     tagaini-jisho $ cmake .
@@ -302,7 +302,7 @@ Upgrading
 ---------
 
 Tagaini Jisho is a work in progress and is constantly being updated. To upgrade 
-Tagaini, there is no special upgrade procedure. Simpily installing the new 
+Tagaini, there is no special upgrade procedure. Simply installing the new 
 version over the top of the old one should work.
 
 User data is kept separately in your home or user directory, so it will not
