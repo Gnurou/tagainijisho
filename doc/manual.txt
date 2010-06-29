@@ -553,7 +553,8 @@ to find it.
 In the detailed view, you can click on any kanji, whilst looking at any entry,
 and a pop up window will be displayed showing a short listing of the kanji,
 and a stroke order animation. This works in both a kanji entry and a
-vocabulary entry. 
+vocabulary entry. Whilst in a kanji entry, one can also click **ctrl+s** to
+display the pop up window. 
 
 ![Kanji Tool tip](images/kanji_popup.png)
 

@@ -263,17 +263,6 @@ To install the program, you can run:
 
     tagaini-jisho $ make install
 
-By default `make databases` generates the databases in English. *Needs
-instructions for other language databases.* 
-
-The valid values are:
-
-* en - English (default)
-* de - German, Deutch
-* fr - French
-* es - Spansish, Español
-* ru - Russian
-
 ### Compiling from GIT sources. 
 
 If you have cloned the git repository then you are going to compile the

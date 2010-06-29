@@ -14,34 +14,29 @@ Language:   english
 Tagaini Jisho Quickstart Guide
 ==============================
 
-This is a short quide to Tagaini Jisho. This document is here to give you a
-breif walkthrough of Tagaini's interface, giving you a small document to help
-you through less intuative asspects of the program, without having to read the
-entire usage manual just to look up a few words. 
+** THIS GUIDE IS OUT OF DATE **
 
-This guide was last written for version 0.2.4 of Tagaini Jisho. Unfortunatly
+This is a short quide to Tagaini Jisho. This document is here to give you a
+brief walkthrough of Tagaini's interface, giving you a small document to help
+you through the program so you don't have to read the entire usage manual just
+to look up a few words.
+
+This guide was last written for version 0.2.6 of Tagaini Jisho. Unfortunatly
 that means that if you have an old version, some of the information found in
 here will be incorrect for your version. Though you may find it similar in
 many ways to older versions, we still recomend getting the latest version from
 the [Download][dlpage] page.
 
-Whilst it was last written for version 0.2.4, it has been updated in places to
-refelect changes made for 0.2.5. It is possible that some information may
-conflict or confuse. If you find any descrpencies then please feel free to
-contact the docuemnts author via the mailing list, found in the contact
-section.
-
 Tagaini does several things:
 
-* Primarily, it is a dictionary Japanese-Language
-  dictionary program. This means that Tagaini allows you to search for Japanese
-  terms, or for terms in the language of your program (several are offered,) and
-  get translations for them.
+* Primarily, it is a dictionary Japanese-Language dictionary program. This
+  means that Tagaini allows you to search for Japanese terms, or for terms in
+  the language of your program (several are offered,) and get translations for
+  them.
 * Tagaini has vocabulary and kanji training and memoriesing facilities.
-  Tagaini will keep a list of vocabulary you wish to study and
-  will display flash cards for you to memorise, as well as other methods of
-  learning. Tagaini also has other ways for you to orgainse entries, such as
-  with tags.
+  Tagaini will keep a list of vocabulary you wish to study and will display
+  flash cards for you to memorise, as well as other methods of learning.
+  Tagaini also has other ways for you to orgainse entries, such as with tags.
 
 [dlpage]: http://tagaini.net/download
 
@@ -53,8 +48,6 @@ first time it will contain four main sections: The Search Filters; The Results
 View; The Detailed View and the Lists Panel. The Lists Panel can be moved
 around the window, or seperated to be come a floating window, as can the
 Toolbars. 
-
-![Main Window](images/tagaini_entries.png)
 
 The Search Filters
 ------------------
