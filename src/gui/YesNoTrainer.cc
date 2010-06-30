@@ -137,7 +137,13 @@ void YesNoTrainer::train(const EntryPointer &entry)
 		return;
 	}
 	
-	document->setDefaultStyleSheet(formatter->CSS());
+	QString css(formatter->CSS());
+	// Add the font style CSS
+	css += QString("\n%1 {\n%2}\n").arg(".furigana").arg(DetailedViewFonts::CSS(DetailedViewFonts::KanaHeader));
+	css += QString("\n%1 {\n%2}\n").arg(".mainwriting").arg(DetailedViewFonts::CSS(DetailedViewFonts::KanjiHeader));
+	css += QString("\n%1 {\n%2}\n").arg(".kanji").arg(DetailedViewFonts::CSS(DetailedViewFonts::Kanji));
+	css += QString("\n%1 {\n%2}\n").arg(".kana").arg(DetailedViewFonts::CSS(DetailedViewFonts::Kana));
+	document->setDefaultStyleSheet(css);
 	
 	const QStringList &parts = trainingMode() == Japanese ? frontParts : backParts;
 	
