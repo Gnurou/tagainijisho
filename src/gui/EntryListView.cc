@@ -128,6 +128,7 @@ void EntryListView::newList(const QModelIndex &parent)
 	}
 	QModelIndex index(model()->index(idx, 0, parent));
 	if (index.isValid()) {
+		setExpanded(index, true);
 		setCurrentIndex(index);
 		edit(index);
 	}
