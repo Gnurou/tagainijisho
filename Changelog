@@ -17,6 +17,7 @@
 * Option to display stroke order numbers in kanji popup and printed material
 * Added option to print grid with kanji entries
 * Homographs of dictionary entries now displayed in the detailed view
+* Detailed view now built upon a HTML/CSS template
 
 0.2.5 released on 2010/04/01
 * Updated to SQLite 3.6.23
