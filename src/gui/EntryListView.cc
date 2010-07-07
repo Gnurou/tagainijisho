@@ -34,7 +34,9 @@ PreferenceItem<int> EntryListView::displayModeSetting("mainWindow/lists", "displ
 EntryListView::EntryListView(QWidget *parent, EntryDelegateLayout* delegateLayout, bool viewOnly) : QTreeView(parent), _helper(this, delegateLayout, true, viewOnly), _setAsRootAction(tr("Set as root"), 0), _newListAction(QIcon(":/images/icons/document-new.png"), tr("New list..."), 0), _rightClickNewListAction(_newListAction.icon(), _newListAction.text(), 0), _deleteSelectionAction(QIcon(":/images/icons/delete.png"), tr("Delete"), 0), _goUpAction(QIcon(":/images/icons/go-up.png"), tr("Go up"), 0)
 {
 	setHeaderHidden(true);
-	setItemDelegate(new EntryDelegate(helper()->delegateLayout(), this));
+	EntryDelegate *delegate = new EntryDelegate(helper()->delegateLayout(), this);
+	delegate->setHidden(EntryDelegate::LISTS_ICON, true);
+	setItemDelegate(delegate);
 
 	// Add the set as root option to the context menu
 	QMenu *contextMenu = helper()->contextMenu();
