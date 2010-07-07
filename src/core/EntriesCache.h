@@ -109,6 +109,12 @@ public:
 	quint32 id() const { return second; }
 
 	/**
+	 * Returns true if the entry accessible through this reference is already loaded
+	 * into the cache.
+	 */
+	bool isLoaded() const { return EntriesCache::_instance->_loadedEntries.contains(*this); }
+
+	/**
 	 * Returns a pointer to the entry corresponding to this reference. If needed, the entry will
 	 * be loaded from the database.
 	 *
