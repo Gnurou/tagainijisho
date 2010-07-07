@@ -26,3 +26,9 @@ td {
 .subinfo .contents {
 	background-color: #ddeedd;
 }
+
+.notes {
+	width: 100%;
+	padding: 5px;
+	background-color: #ffff00;
+}

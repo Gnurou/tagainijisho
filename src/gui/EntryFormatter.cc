@@ -240,13 +240,16 @@ QString EntryFormatter::formatTags(const ConstEntryPointer &entry) const
 
 QString EntryFormatter::formatNotes(const ConstEntryPointer &entry) const
 {
-	//Notes
 	if (!entry->notes().isEmpty()) {
-		QString ret("<div class=\"title\">" + tr("Notes:") + "</div>");
+		/*QString ret("<div class=\"title\">" + tr("Notes:") + "</div>");
 		foreach(const Entry::Note &note, entry->notes()) {
 			ret += QString("<p>%1</p>").arg(autoFormat(note.note()));
 		}
-		return ret;
+		return ret;*/
+		QStringList notes;
+		foreach(const Entry::Note &note, entry->notes())
+			notes << QString("<p>%1</p>").arg(autoFormat(note.note()));
+			return notes.join("<hr/>");
 	}
 	else return "";
 }
