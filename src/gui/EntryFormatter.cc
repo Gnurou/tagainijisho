@@ -17,6 +17,7 @@
 
 #include "core/Paths.h"
 #include "core/TextTools.h"
+#include "core/EntryListModel.h"
 #include "gui/EntryFormatter.h"
 #include "gui/DetailedView.h"
 
@@ -203,21 +204,18 @@ QString EntryFormatter::formatHead(const ConstEntryPointer &entry) const
 QString EntryFormatter::formatLists(const ConstEntryPointer &entry) const
 {
 	// Lists
-	QSqlQuery query;
-	query.prepare("select lists.rowid, listsLabels.label from lists join listsLabels on lists.parent = listsLabels.rowid where lists.type = ? and lists.id = ?");
-	query.addBindValue(entry->type());
-	query.addBindValue(entry->id());
-	query.exec();
-	if (query.next()) {
-		QString ret("<img src=\"listicon\"> ");
-		bool first = true;
-		do {
-			if (!first) ret += "   ";
-			else first = false;
+	if (!entry->lists().isEmpty()) {
+		EntryListModel listModel;
+		QStringList ret;
+		ret << "<img src=\"listicon\">   ";
+		foreach (quint32 id, entry->lists()) {
+			QModelIndex idx(listModel.index(id));
+			QString label(listModel.data(idx.parent(), Qt::DisplayRole).toString());
+			if (label.isEmpty()) label = tr("<Root>");
 			// TODO correctly encode link data
-			ret += QString("<a href=\"list://?rowid=%1\">%2</a>").arg(query.value(0).toInt()).arg(query.value(1).toString());
-		} while (query.next());
-		return ret;
+			ret << QString("<a href=\"list://?rowid=%1\">%2</a>").arg(id).arg(label);
+		}
+		return ret.join(" ");
 	}
 	else return "";
 }

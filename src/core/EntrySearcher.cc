@@ -206,6 +206,15 @@ void EntrySearcher::loadMiscData(Entry *entry)
 	while (query.next()) {
 		entry->_notes << Entry::Note(query.value(0).toInt(), QDateTime::fromTime_t(query.value(1).toInt()), QDateTime::fromTime_t(query.value(2).toInt()), query.value(3).toString());
 	}
+	
+	// Lists data
+	query.prepare("select lists.rowid, listsLabels.label from lists join listsLabels on lists.parent = listsLabels.rowid where lists.type = ? and lists.id = ?");
+	query.addBindValue(entry->type());
+	query.addBindValue(entry->id());
+	query.exec();
+	while (query.next()) {
+		entry->_lists << query.value(0).toUInt();
+	}
 }
 
 void EntrySearcher::setColumns(QueryBuilder::Statement &statement) const

@@ -219,7 +219,7 @@ bool EntryListModel::_removeRows(int row, int count, const QModelIndex &parent)
 {
 	QSqlQuery query;
 	// Get the list of items to remove
-	QString queryString("select rowid from lists where parent %1 and position between ? and ?");
+	QString queryString("select rowid, type, id from lists where parent %1 and position between ? and ?");
 	if (!parent.isValid()) query.prepare(queryString.arg("is null"));
 	else {
 		query.prepare(queryString.arg("= ?"));
@@ -229,7 +229,17 @@ bool EntryListModel::_removeRows(int row, int count, const QModelIndex &parent)
 	query.addBindValue(row + count - 1);
 	EXEC(query);
 	QList<int> ids;
-	while (query.next()) ids << query.value(0).toInt();
+	QList<EntryRef> entries;
+	while (query.next()) {
+		ids << query.value(0).toInt();
+		entries << EntryRef(query.value(1).toUInt(), query.value(2).toUInt());
+	}
+	// Remove the list from the entries if they are loaded
+	int i = 0;
+	foreach (EntryRef ref, entries) {
+		if (ref.isLoaded()) ref.get()->lists().remove(ids[i]);
+		++i;
+	}
 	// Recursively remove any child the items may have
 	foreach (int id, ids) {
 		QModelIndex idx(index(id));
@@ -393,6 +403,7 @@ bool EntryListModel::dropMimeData(const QMimeData *data, Qt::DropAction action, 
 		QByteArray ba = data->data("tagainijisho/entry");
 		QDataStream ds(&ba, QIODevice::ReadOnly);
 		QList<EntryRef> entries;
+		QList<quint32> ids;
 		while (!ds.atEnd()) {
 			EntryRef entryRef;
 			ds >> entryRef;
@@ -413,12 +424,19 @@ bool EntryListModel::dropMimeData(const QMimeData *data, Qt::DropAction action, 
 				query.addBindValue(entries[i].type());
 				query.addBindValue(entries[i].id());
 				EXEC_T(query);
+				ids << query.lastInsertId().toUInt();
 			}
 		}
 		beginInsertRows(parent, row, row + entries.size() - 1);
 		if (!COMMIT) goto transactionFailed;
 		EntryListCache::instance().invalidateAll();
 		endInsertRows();
+		// Now add the list to the entries, if necessary
+		int i = 0;
+		foreach (EntryRef ref, entries) {
+			if (ref.isLoaded()) ref.get()->lists() << ids[i];
+			++i;
+		}
 	}
 	return true;
 transactionFailed:

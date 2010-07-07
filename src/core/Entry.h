@@ -76,6 +76,7 @@ private:
 
 	QSet<Tag> _tags;
 	QList<Note> _notes;
+	QSet<quint32> _lists;
 
 	/**
 	 * Updates the database with new training information about this
@@ -142,6 +143,14 @@ public:
 	const Note &addNote(const QString &note);
 	void updateNote(Note &note, const QString &noteText);
 	void deleteNote(Note &note);
+
+	/**
+	 * Returns the lists this entry belongs to. Lists are just identified by
+	 * their row number, which can be used to retrieve an index in
+	 * EntryListModel.
+	 */
+	const QSet<quint32> &lists() const { return _lists; }
+	QSet<quint32> &lists() { return _lists; }
 
 	void train(bool success, float factor = 1.0f);
 
