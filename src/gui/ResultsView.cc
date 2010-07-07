@@ -88,10 +88,18 @@ void ResultsView::selectionChanged(const QItemSelection &selected, const QItemSe
 {
 	QListView::selectionChanged(selected, deselected);
 	emit listSelectionChanged(selected, deselected);
-	if (selected.isEmpty()) return;
-	QModelIndex index(selected.indexes().last());
-	EntryPointer entry(qvariant_cast<EntryPointer>(model()->data(index, Entry::EntryRole)));
-	if (entry) emit entrySelected(entry);
+	if (selected.isEmpty()) {
+		// Check the current selection - if we have only one index, emit it as selected
+		QModelIndexList selection(selectionModel()->selectedIndexes());
+		if (selection.size() != 1) return;
+		EntryPointer entry(qvariant_cast<EntryPointer>(model()->data(selection[0], Entry::EntryRole)));
+		if (entry) emit entrySelected(entry);
+	} else {
+		// Otherwise emit the last index to have been selected
+		QModelIndex index(selected.indexes().last());
+		EntryPointer entry(qvariant_cast<EntryPointer>(model()->data(index, Entry::EntryRole)));
+		if (entry) emit entrySelected(entry);
+	}
 }
 
 void ResultsView::startDrag(Qt::DropActions supportedActions)

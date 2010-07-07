@@ -28,6 +28,7 @@
 #include <QPrintDialog>
 #include <QFileDialog>
 #include <QMessageBox>
+#include <QTreeView>
 #include <QContextMenuEvent>
 
 EntriesViewHelper::EntriesViewHelper(QAbstractItemView* client, EntryDelegateLayout* delegateLayout, bool workOnSelection, bool viewOnly) : EntryMenu(client), _client(client), _entriesMenu(), _workOnSelection(workOnSelection), _actionPrint(QIcon(":/images/icons/print.png"), tr("&Print..."), 0), _actionPrintPreview(QIcon(":/images/icons/print.png"), tr("Print p&review..."), 0), _actionPrintBooklet(QIcon(":/images/icons/print.png"), tr("Print &booklet..."), 0), _actionPrintBookletPreview(QIcon(":/images/icons/print.png"), tr("Booklet p&review..."), 0), _actionExportTab(QIcon(":/images/icons/document-export.png"), tr("&Export as &TSV..."), 0), _actionExportJs(tr("Export as &HTML..."), 0), prefRefs(MAX_PREF), _contextMenu()
@@ -425,14 +426,6 @@ bool EntriesViewHelper::eventFilter(QObject *obj, QEvent *ev)
 				menu->exec(client()->mapToGlobal(cev->pos()));
 				return false;
 			}
-			case QEvent::MouseButtonPress:
-			{
-				QMouseEvent *mev(static_cast<QMouseEvent *>(ev));
-				if (mev->modifiers() == Qt::NoModifier) {
-					client()->selectionModel()->clear();
-				}
-				return false;
-			}
 			default:
 				return false;
 		}
@@ -442,6 +435,18 @@ bool EntriesViewHelper::eventFilter(QObject *obj, QEvent *ev)
 			case QEvent::MouseButtonPress:
 			{
 				QMouseEvent *mev(static_cast<QMouseEvent *>(ev));
+				{
+					QModelIndex clickedIndex;
+					QListView *view = qobject_cast<QListView *>(client());
+					if (!view) {
+						QTreeView *tView = qobject_cast<QTreeView *>(client());
+						if (!tView) return false;
+						else clickedIndex = tView->indexAt(client()->viewport()->mapTo(tView, mev->pos()));
+					} else clickedIndex = view->indexAt(client()->viewport()->mapTo(view, mev->pos())); 
+					QModelIndexList selectedIndexes(client()->selectionModel()->selectedIndexes());
+					if (selectedIndexes.size() != 1 || !selectedIndexes.contains(clickedIndex)) return false;
+				}
+				// If we arrive here we know we have clicked on the uniquely selected item.
 				// Left button and no modifier? In any case clear the current selection, so that the
 				// selection signal is emitted anyway.
 				if (mev->button() == Qt::LeftButton && mev->modifiers() == Qt::NoModifier) {
