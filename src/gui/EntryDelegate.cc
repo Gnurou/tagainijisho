@@ -46,12 +46,14 @@ void EntryDelegateLayout::updateConfig(const QVariant &value)
 	setProperty(from->name().toLatin1().constData(), value);
 }
 
-EntryDelegate::EntryDelegate(EntryDelegateLayout *dLayout, QObject* parent) : QStyledItemDelegate(parent), layout(dLayout)
+EntryDelegate::EntryDelegate(EntryDelegateLayout* dLayout, QObject* parent) : QStyledItemDelegate(parent), layout(dLayout), _hiddenIcons(0)
 {
 	_tagsIcon.load(":/images/icons/tags.png");
 	_tagsIcon = _tagsIcon.scaledToHeight(15);
 	_notesIcon.load(":/images/icons/notes.png");
 	_notesIcon = _notesIcon.scaledToHeight(15);
+	_listsIcon.load(":/images/icons/list.png");
+	_listsIcon = _listsIcon.scaledToHeight(15);
 }
 
 QSize EntryDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const
@@ -147,15 +149,19 @@ void EntryDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
 				qMax(QFontMetrics(layout->kanjiFont()).height(), QFontMetrics(layout->kanaFont()).height()) + QFontMetrics(layout->textFont()).ascent()), s);
 	}
 
-	// Now display tag and notes icons if the entry has any.
+	// Now display property icons if the entry has any.
 	int iconPos = rect.right() - 5;
-	if (!entry->notes().isEmpty()) {
+	if (!entry->notes().isEmpty() && !isHidden(NOTES_ICON)) {
 		iconPos -= _notesIcon.width() + 5;
 		painter->drawPixmap(iconPos, rect.top(), _notesIcon);
 	}
-	if (!entry->tags().isEmpty()) {
+	if (!entry->tags().isEmpty() && !isHidden(TAGS_ICON)) {
 		iconPos -= _tagsIcon.width() + 5;
 		painter->drawPixmap(iconPos, rect.top(), _tagsIcon);
+	}
+	if (!entry->lists().isEmpty() && !isHidden(LISTS_ICON)) {
+		iconPos -= _listsIcon.width() + 5;
+		painter->drawPixmap(iconPos, rect.top(), _listsIcon);
 	}
 	painter->restore();
 }

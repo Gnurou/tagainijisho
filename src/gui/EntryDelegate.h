@@ -69,13 +69,23 @@ class EntryDelegate : public QStyledItemDelegate
 	Q_OBJECT
 protected:
 	EntryDelegateLayout *layout;
-	QPixmap _tagsIcon;
-	QPixmap _notesIcon;
+	QPixmap _tagsIcon, _notesIcon, _listsIcon;
+	/**
+	 * Used to prevent displaying some icons in views where they are implicit, e.g. list views
+	 */
+	quint8 _hiddenIcons;
 
 public:
 	EntryDelegate(EntryDelegateLayout *dLayout, QObject *parent = 0);
 	QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index ) const;
 	virtual void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
+	
+	static const quint8 TAGS_ICON = 1;
+	static const quint8 NOTES_ICON = 2;
+	static const quint8 LISTS_ICON = 3;
+
+	bool isHidden(quint8 icon) const { return _hiddenIcons & icon; }
+	void setHidden(quint8 icon, bool hide) { _hiddenIcons = (hide ? _hiddenIcons | icon : _hiddenIcons & ~icon); }
 };
 
 #endif
