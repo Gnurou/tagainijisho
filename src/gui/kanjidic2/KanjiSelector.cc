@@ -168,7 +168,9 @@ QSet<uint> KanjiSelector::getCandidates(const QSet<uint> &selection)
 	QSet<uint> res;
 	// Get the new results
 	emit startQuery();
-	QString resQuery(getCandidatesQuery(selection));
+	QSet<uint> realSel;
+	foreach (uint kanji, selection) realSel << complementCode(TextTools::unicodeToSingleChar(kanji));
+	QString resQuery(getCandidatesQuery(realSel));
 	if (!resQuery.isEmpty()) {
 		QSqlQuery query;
 		if (!query.exec(resQuery)) qDebug() << query.lastError().text();
@@ -199,7 +201,6 @@ void KanjiSelector::updateComplementsList(const QSet<uint> &selection, const QSe
 			// Do not display the same kanji twice - useful for radical selector
 			if (curKanji == kanji) continue;
 			curKanji = kanji;
-			QString repr = complementRepr(kanji);
 			// Do not display kanji that are already in candidates, excepted if they
 			// are part of the current selection
 			if (candidates.contains(kanji) && !selection.contains(kanji)) continue;
@@ -208,6 +209,7 @@ void KanjiSelector::updateComplementsList(const QSet<uint> &selection, const QSe
 				_complementsList->setCurrentStrokeNbr(strokeNbr);
 				curStrokes = strokeNbr;
 			}
+			QString repr(TextTools::unicodeToSingleChar(kanji));
 			QListWidgetItem *item = _complementsList->addComplement(repr, kanji);
 			if (selection.contains(kanji)) item->setSelected(true);
 			_currentComplements << QPair<uint, QString>(kanji, repr);
@@ -271,14 +273,14 @@ QString RadicalKanjiSelector::getCandidatesQuery(const QSet<uint> &selection) co
 
 QString RadicalKanjiSelector::getComplementsQuery(const QSet<uint> &selection, const QSet<uint> &candidates) const
 {
-	if (candidates.isEmpty()) return "select number, strokeCount from kanjidic2.radicalsList join kanjidic2.entries on radicalsList.kanji = entries.id order by number, radicalsList.rowid";
+	if (candidates.isEmpty()) return "select entries.id, strokeCount from kanjidic2.radicalsList join kanjidic2.entries on radicalsList.kanji = entries.id order by strokeCount, number, radicalsList.rowid";
 	else {
 		QString selString;
 		foreach (uint candidate, candidates) {
 			if (selString.isEmpty()) selString = QString::number(candidate);
 			else selString += "," + QString::number(candidate);
 		}
-		return QString("select distinct r.number, strokeCount from kanjidic2.radicals as r join kanjidic2.radicalsList as rl on r.number = rl.number join kanjidic2.entries as e on rl.kanji = e.id where r.kanji in (%1) and r.type is not null order by rl.number, rl.rowid").arg(selString);
+		return QString("select distinct e.id, strokeCount from kanjidic2.radicals as r join kanjidic2.radicalsList as rl on r.number = rl.number join kanjidic2.entries as e on rl.kanji = e.id where r.kanji in (%1) and r.type is not null order by strokeCount, rl.number, rl.rowid").arg(selString);
 	}
 }
 
