@@ -46,7 +46,7 @@ QPainterPath KanjiRenderer::Stroke::pathFromSVG(QString svgPath)
 	QPointF dest;
 	QPointF p1;
 	QPointF p2;
-	QPointF prevP2;
+	QPointF lastControl;
 	for (int tokenPos = 0; tokenPos < tokens.count(); tokenPos++) {
 		// Check if a new action is available
 		bool gotCommand = true;
@@ -75,6 +75,7 @@ QPainterPath KanjiRenderer::Stroke::pathFromSVG(QString svgPath)
 				if (curAction == movepath) dest += retPath.currentPosition();
 				retPath.moveTo(dest);
 				tokenPos++;
+				lastControl = retPath.currentPosition();
 				break;
 			case Lineto:
 			case lineto:
@@ -82,6 +83,7 @@ QPainterPath KanjiRenderer::Stroke::pathFromSVG(QString svgPath)
 				if (curAction == lineto) dest += retPath.currentPosition();
 				retPath.lineTo(dest);
 				tokenPos++;
+				lastControl = retPath.currentPosition();
 				break;
 			case Curveto:
 			case curveto:
@@ -93,13 +95,13 @@ QPainterPath KanjiRenderer::Stroke::pathFromSVG(QString svgPath)
 					p2 += retPath.currentPosition();
 					dest += retPath.currentPosition();
 				}
-				prevP2 = p2;
 				retPath.cubicTo(p1, p2, dest);
 				tokenPos += 5;
+				lastControl = p2;
 				break;
 			case sCurveto:
 			case scurveto:
-				p1 = retPath.currentPosition() + retPath.currentPosition() - prevP2;
+				p1 = retPath.currentPosition() * 2 - lastControl;
 				p2 = QPointF(tokens[tokenPos].toFloat(), tokens[tokenPos + 1].toFloat());
 				dest = QPointF(tokens[tokenPos + 2].toFloat(), tokens[tokenPos + 3].toFloat());
 				if (curAction == scurveto) {
@@ -108,12 +110,15 @@ QPainterPath KanjiRenderer::Stroke::pathFromSVG(QString svgPath)
 				}
 				retPath.cubicTo(p1, p2, dest);
 				tokenPos += 3;
+				lastControl = p2;
 				break;
 			case Closepath:
 				retPath.closeSubpath();
+				lastControl = retPath.currentPosition();
 				break;
 			default:
 				qWarning("Unknown command while drawing kanji path!");
+				lastControl = retPath.currentPosition();
 				break;
 		}
 	}
