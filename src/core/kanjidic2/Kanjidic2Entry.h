@@ -132,7 +132,7 @@ protected:
 	KanjiStroke *addStroke(const QChar &type, const QString &path);
 
 protected:
-	Kanjidic2Entry(const QString &kanji, bool inDB, int grade = -1, int strokeCount = -1, int kanjiFrequency = -1, int jlpt = -1);
+	Kanjidic2Entry(const QString &kanji, bool inDB, int grade = -1, int strokeCount = -1, qint32 kanjiFrequency = -1, int jlpt = -1);
 
 public:
 	virtual ~Kanjidic2Entry() {}

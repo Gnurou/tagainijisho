@@ -314,7 +314,7 @@ Entry *Kanjidic2EntrySearcher::loadEntry(int id)
 		// Else load the kanji
 		int grade = query.value(0).isNull() ? -1 : query.value(0).toInt();
 		int strokeCount = query.value(1).isNull() ? -1 : query.value(1).toInt();
-		int frequency = query.value(2).isNull() ? -1 : query.value(2).toInt();
+		qint32 frequency = query.value(2).isNull() ? -1 : query.value(2).toInt();
 		int jlpt = query.value(3).isNull() ? -1 : query.value(3).toInt();
 		// Get the strokes paths for later processing
 		QByteArray pathsBA(query.value(4).toByteArray());

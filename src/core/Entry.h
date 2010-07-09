@@ -94,7 +94,7 @@ private:
 	Entry(const Entry &);
 
 protected:
-	unsigned int _frequency;
+	qint32 _frequency;
 	Entry(quint8 type, quint32 id);
 
 public:
@@ -131,7 +131,7 @@ public:
 	 */
 	bool alreadyKnown() const { return score() >= 95; }
 
-	quint8 frequency() const { return _frequency; }
+	qint32 frequency() const { return _frequency; }
 
 	const QSet<Tag> &tags() const { return _tags; }
 	QSet<Tag> &tags() { return _tags; }
