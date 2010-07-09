@@ -152,10 +152,7 @@ QString EntryFormatter::autoFormat(const QString &str) const
 
 QString EntryFormatter::entryTitle(const ConstEntryPointer& entry) const
 {
-	QString title;
-	if (!entry->writings().isEmpty()) title = entry->writings()[0];
-	else if (!entry->readings().isEmpty()) title = entry->readings()[0];
-	else return "";
+	QString title(entry->mainRepr());
 	title = autoFormat(title);
 	if (entry->trained()) {
 		title = QString("<span style=\"background-color:%1\">%2</span>").arg(colorTriplet(entry->scoreColor())).arg(title);
@@ -186,19 +183,16 @@ QString EntryFormatter::buildSubInfoBlock(const QString &title, const QString &c
 
 QString EntryFormatter::formatHeadFurigana(const ConstEntryPointer &entry) const
 {
+	QStringList writings(entry->writings());
 	QStringList readings(entry->readings());
-	if (!entry->writings().isEmpty() && !readings.isEmpty())
+	if (writings.contains(entry->mainRepr()) && !readings.isEmpty())
 		return readings[0];
 	else return "";
 }
 
 QString EntryFormatter::formatHead(const ConstEntryPointer &entry) const
 {
-	if (!entry->writings().isEmpty())
-		return entry->writings()[0];
-	else if (!entry->readings().isEmpty())
-		return entry->readings()[0];
-	else return "";
+	return entry->mainRepr();
 }
 
 QString EntryFormatter::formatLists(const ConstEntryPointer &entry) const

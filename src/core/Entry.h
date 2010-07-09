@@ -155,6 +155,10 @@ public:
 	void train(bool success, float factor = 1.0f);
 
 	typedef enum { ShortVersion, TinyVersion } VersionLength;
+
+	/// Returns the main representation of the entry
+	virtual QString mainRepr() const;
+
 	/**
 	 * Returns a string that describes the entry in a manner suitable for being displayed
 	 * in menus, etc.

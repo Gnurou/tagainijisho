@@ -108,20 +108,24 @@ void EntryDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
 	QRect bbox;
 	painter->setPen(textColor);
 	painter->setFont(layout->kanjiFont());
-	bbox = painter->boundingRect(rect, 0, entry->writings()[0]);
+	QString mainRepr(entry->mainRepr());
+	QStringList writings(entry->writings());
+	QStringList readings(entry->readings());
+	bbox = painter->boundingRect(rect, 0, mainRepr);
 	painter->drawText(QPoint(rect.left(), rect.top() + topLineAscent),
-	                  entry->writings()[0]);
+	                  mainRepr);
+	// Used for alternate writings and readings
 	QString s = " ";
 	if (layout->displayMode() == EntryDelegateLayout::OneLine) {
-		if (!entry->readings().isEmpty()) s += "(" + entry->readings()[0] + "): ";
+		// The first reading is only needed if the main representation is part of the writings
+		if (!readings.isEmpty() && writings.contains(mainRepr)) s += "(" + readings[0] + "): ";
 	} else {
-		for (int i = 1; i < entry->writings().size(); i++) {
-			s += entry->writings()[i];
-			if (i < entry->writings().size() - 1) s += ", ";
-		}
-		if (!entry->readings().isEmpty()) {
-			if (entry->writings().size() > 1) s += " ";
-			s += "(" + entry->readings().join(", ") + ")";
+		writings.removeAll(mainRepr);
+		readings.removeAll(mainRepr);
+		s += writings.join(", ");
+		if (!readings.isEmpty()) {
+			if (!writings.isEmpty()) s += " ";
+			s += "(" + readings.join(", ") + ")";
 		}
 	}
 	painter->setFont(layout->kanaFont());

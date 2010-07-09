@@ -233,25 +233,35 @@ bool Entry::Note::operator==(const Note &note)
 	return _id == note._id;
 }
 
+QString Entry::mainRepr() const {
+	QStringList strList(writings());
+	if (!strList.isEmpty()) return strList[0];
+	strList = readings();
+	if (!strList.isEmpty()) return strList[0];
+	return "";
+}
+
 QString Entry::shortVersion(VersionLength length) const {
 	QString text;
 	QStringList strList;
+	QString mRepr(mainRepr());
+	
+	text += mRepr;
 
 	strList = writings();
+	strList.removeAll(mRepr);
 	bool hasWriting = !strList.isEmpty();
-	if (hasWriting) {
-		if (length == TinyVersion) text += strList[0];
-		else text += strList.join(", ");
-	}
+	if (hasWriting && length != TinyVersion) text += ", " + strList.join(", ");
 
 	strList = readings();
+	strList.removeAll(mRepr);
 	bool hasReading = !strList.isEmpty();
-	if (hasWriting && hasReading) text += " (";
 	if (hasReading) {
-		if (length == TinyVersion) text += strList[0];
-		else text += strList.join(", ");
+		if (hasWriting) text += " (";
+		else if (length != TinyVersion) text += ", ";
+		if (length != TinyVersion) text += strList.join(", ");
+		if (hasWriting) text += ")";
 	}
-	if (hasWriting && hasReading) text += ")";
 
 	// Senses
 	strList = meanings();

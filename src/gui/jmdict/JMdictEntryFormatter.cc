@@ -215,7 +215,7 @@ QString JMdictEntryFormatter::formatAltWritings(const ConstEntryPointer &_entry)
 	// Other kanji readings
 	int start = entry->writtenInKana() ? 0 : 1;
 	if (kanjis.size() > start) {
-		QString ret(QString("<b>%1</b> ").arg(tr("Variants:")));
+		QString ret(QString("<b>%1</b> ").arg(tr("Alternate writings:")));
 		bool notFirstHomophone = false;
 		for (int j = start; j < kanjis.size(); j++) {
 			if (notFirstHomophone) ret += ", ";

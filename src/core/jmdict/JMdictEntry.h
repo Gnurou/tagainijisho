@@ -149,6 +149,8 @@ public:
 
 	qint8 jlpt() const { return _jlpt; }
 
+	QString mainRepr() const;
+
 	virtual QStringList writings() const;
 	virtual QStringList readings() const;
 	virtual QStringList meanings() const;

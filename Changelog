@@ -20,6 +20,8 @@
 * Detailed view now built upon a HTML/CSS template
 * Fixed rendering bug that affected some kanji paths
 * Fixed ordering bug in kanji popup selector
+* Main writing changed to kana reading for dictionary entries which are
+  usually written in kana.
 
 0.2.5 released on 2010/04/01
 * Updated to SQLite 3.6.23

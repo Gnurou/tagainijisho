@@ -89,6 +89,14 @@ void JMdictEntry::addKanaReading(const KanaReading &reading)
 	}
 }
 
+QString JMdictEntry::mainRepr() const
+{
+	// For a JMdict entry, the main representation is the first writing, unless
+	// the first sense has the 'uk' tag, in which case it becomes the first reading
+	if (senses.isEmpty() || kanas.isEmpty() || !writtenInKana()) return Entry::mainRepr();
+	return kanas[0].getReading();
+}
+
 QStringList JMdictEntry::writings() const
 {
 	QStringList res;
