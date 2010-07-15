@@ -207,7 +207,7 @@ QString EntryFormatter::formatLists(const ConstEntryPointer &entry) const
 			if (label.isEmpty()) label = tr("<Root>");
 			QUrl url("list://");
 			url.addQueryItem("rowid", QString::number(id));
-			ret << QString("<a href=\"%1\">%2</a>").arg(QString(url.toEncoded())).arg(label);
+			ret << QString("<a href=\"%1\">%2</a>").arg(QString(url.toEncoded())).arg(autoFormat(label));
 		}
 		return ret.join(" ");
 	}
@@ -224,7 +224,7 @@ QString EntryFormatter::formatTags(const ConstEntryPointer &entry) const
 			else first = false;
 			QUrl url("tag://");
 			url.addQueryItem("tag", tag.name());
-			ret += QString("<a href=\"%1\">%2</a>").arg(QString(url.toEncoded())).arg(tag.name());
+			ret += QString("<a href=\"%1\">%2</a>").arg(QString(url.toEncoded())).arg(autoFormat(tag.name()));
 		}
 		return ret;
 	}

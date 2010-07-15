@@ -13,6 +13,10 @@ td {
 	padding: 0px;
 }
 
+.score {
+	float: right;
+}
+
 .subinfo {
 	background-color: #ddeedd;
 	width: 100%;
