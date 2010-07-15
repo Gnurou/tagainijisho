@@ -545,6 +545,7 @@ void ListLinkHandler::handleUrl(const QUrl &url, DetailedView *view)
 	EntryListModel *model = qobject_cast<EntryListModel *>(aView->model());
 	if (!model) return;
 	QModelIndex idx(model->index(rowId));
+	MainWindow::instance()->listDockWidget()->setVisible(true);
 	aView->selectionModel()->select(idx, QItemSelectionModel::ClearAndSelect);
 	aView->scrollTo(idx);
 }

@@ -142,6 +142,9 @@ public:
 	EntryListWidget *entryListWidget() { return _entryListWidget; }
 	DetailedView *detailedView() { return _detailedView->detailedView(); }
 	
+	QDockWidget *searchDockWidget() { return _searchDockWidget; }
+	QDockWidget *listDockWidget() { return _listDockWidget; }
+	
 	/**
 	 * Ensures the widget fits within the screen, i.e. adjust its position
 	 * if it is out of bounds
