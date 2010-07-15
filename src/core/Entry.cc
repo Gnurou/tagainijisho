@@ -243,35 +243,36 @@ QString Entry::mainRepr() const {
 
 QString Entry::shortVersion(VersionLength length) const {
 	QString text;
-	QStringList strList;
+	QStringList writes;
 	QString mRepr(mainRepr());
 	
 	text += mRepr;
 
-	strList = writings();
-	strList.removeAll(mRepr);
-	bool hasWriting = !strList.isEmpty();
-	if (hasWriting && length != TinyVersion) text += ", " + strList.join(", ");
+	writes = writings();
+	bool hasWriting = writes.contains(mRepr);
+	writes.removeAll(mRepr);
+	QStringList reads(readings());
+	if (hasWriting && !writes.isEmpty() && length != TinyVersion) text += ", " + writes.join(", ");
 
-	strList = readings();
-	strList.removeAll(mRepr);
-	bool hasReading = !strList.isEmpty();
+	reads.removeAll(mRepr);
+	bool hasReading = !reads.isEmpty();
 	if (hasReading) {
 		if (hasWriting) text += " (";
 		else if (length != TinyVersion) text += ", ";
-		if (length != TinyVersion) text += strList.join(", ");
+		if (length != TinyVersion) text += reads.join(", ");
+		else text += reads[0];
 		if (hasWriting) text += ")";
 	}
 
 	// Senses
-	strList = meanings();
-	bool hasMeaning = !strList.isEmpty();
+	QStringList means = meanings();
+	bool hasMeaning = !means.isEmpty();
 	if (hasMeaning) {
 		text += ":";
-		if (strList.size() == 1 || length == TinyVersion) text += " " + strList[0];
+		if (means.size() == 1 || length == TinyVersion) text += " " + means[0];
 		else {
 			int cpt = 1;
-			foreach (const QString &str, strList)
+			foreach (const QString &str, means)
 				text += QString(" (%1) %2").arg(cpt++).arg(str);
 		}
 	}
