@@ -294,6 +294,9 @@ public slots:
 	 * Note that the history is not updated by this function.
 	 */
 	void setEntry(const EntryPointer &entry) { _entryView.setEntry(entry); }
+
+signals:
+	void entryDisplayed(const ConstEntryPointer &entry);
 };
 
 #endif

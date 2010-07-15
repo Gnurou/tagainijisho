@@ -164,6 +164,8 @@ void DetailedView::_display(const EntryPointer &entry, bool update)
 		}
 		// Start running background jobs
 		_jobsRunner.runAllJobs();
+		
+		emit entryDisplayed(entry);
 	}
 }
 
