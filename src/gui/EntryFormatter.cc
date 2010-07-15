@@ -197,7 +197,6 @@ QString EntryFormatter::formatHead(const ConstEntryPointer &entry) const
 
 QString EntryFormatter::formatLists(const ConstEntryPointer &entry) const
 {
-	// Lists
 	if (!entry->lists().isEmpty()) {
 		EntryListModel listModel;
 		QStringList ret;
@@ -206,8 +205,9 @@ QString EntryFormatter::formatLists(const ConstEntryPointer &entry) const
 			QModelIndex idx(listModel.index(id));
 			QString label(listModel.data(idx.parent(), Qt::DisplayRole).toString());
 			if (label.isEmpty()) label = tr("<Root>");
-			// TODO correctly encode link data
-			ret << QString("<a href=\"list://?rowid=%1\">%2</a>").arg(id).arg(label);
+			QUrl url("list://");
+			url.addQueryItem("rowid", QString::number(id));
+			ret << QString("<a href=\"%1\">%2</a>").arg(QString(url.toEncoded())).arg(label);
 		}
 		return ret.join(" ");
 	}
@@ -222,8 +222,9 @@ QString EntryFormatter::formatTags(const ConstEntryPointer &entry) const
 		foreach(const Tag &tag, entry->tags()) {
 			if (!first) ret += "   ";
 			else first = false;
-			// TODO correctly encode link data
-			ret += QString("<a href=\"tag://%1\">%1</a>").arg(tag.name());
+			QUrl url("tag://");
+			url.addQueryItem("tag", tag.name());
+			ret += QString("<a href=\"%1\">%2</a>").arg(QString(url.toEncoded())).arg(tag.name());
 		}
 		return ret;
 	}

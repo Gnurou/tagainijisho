@@ -559,7 +559,7 @@ void TagsLinkHandler::handleUrl(const QUrl &url, DetailedView *view)
 
 	if (url.hasQueryItem("reset")) mainWindow->searchWidget()->searchBuilder()->reset();
 	extender->setAutoUpdateQuery(false);
-	extender->setTags(url.authority() + " ");
+	extender->setTags(url.queryItemValue("tag") + " ");
 	extender->setAutoUpdateQuery(true);
 	mainWindow->searchWidget()->searchBuilder()->runSearch();
 }
