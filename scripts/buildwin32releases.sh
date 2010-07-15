@@ -9,6 +9,7 @@ BUILDDIR=build-win32
 mkdir win32-translations
 for lang in fr de es ru nl;
 do
+	touch win32-translations/qt_$lang.qm
 	lrelease $QTPATH/translations/qt_$lang.ts -qm win32-translations/qt_$lang.qm
 done
 

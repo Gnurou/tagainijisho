@@ -67,12 +67,6 @@ kanjidic2/Kanjidic2FilterWidget.cc
 kanjidic2/Kanjidic2GUIPlugin.cc
 )
 
-if (${CMAKE_SYSTEM_NAME} MATCHES "Windows")
-	add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/tagainijisho_rc.obj COMMAND i486-mingw32-windres -I${CMAKE_SOURCE_DIR} -i${CMAKE_SOURCE_DIR}/tagainijisho.rc -o ${CMAKE_CURRENT_BINARY_DIR}/tagainijisho_rc.obj)
-	set(tagainijisho_gui_SRCS ${tagainijisho_gui_SRCS} ${CMAKE_CURRENT_BINARY_DIR}/tagainijisho_rc.obj)
-	set(extra_link_flags "-mwindows")
-endif()
-
 qt4_wrap_cpp(tagainijisho_gui_MOC_SRCS
 BetterSpinBox.h
 ClickableLabel.h
@@ -158,6 +152,11 @@ main.cc
 ${tagainijisho_gui_RC}
 )
 
+if (${CMAKE_SYSTEM_NAME} MATCHES "Windows")
+	add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/tagainijisho_rc.obj COMMAND i486-mingw32-windres -I${CMAKE_SOURCE_DIR} -i${CMAKE_SOURCE_DIR}/tagainijisho.rc -o ${CMAKE_CURRENT_BINARY_DIR}/tagainijisho_rc.obj)
+	set(tagainijisho_SRCS ${tagainijisho_SRCS} ${CMAKE_CURRENT_BINARY_DIR}/tagainijisho_rc.obj)
+endif()
+
 include_directories(${QT_INCLUDE_DIR})
 add_library(tagaini_gui STATIC ${tagainijisho_gui_SRCS} ${tagainijisho_gui_MOC_SRCS} ${tagainijisho_gui_UI_SRCS})
 if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
@@ -165,6 +164,9 @@ add_executable(tagainijisho MACOSX_BUNDLE ${tagainijisho_SRCS})
 set(extra_link_flags "-bind_at_load")
 else()
 add_executable(tagainijisho ${tagainijisho_SRCS})
+if (${CMAKE_SYSTEM_NAME} MATCHES "Windows")
+set(extra_link_flags "-static-libgcc -static-libstdc++ -mwindows")
+endif()
 install(TARGETS tagainijisho RUNTIME DESTINATION bin)
 endif()
 target_link_libraries(tagainijisho tagaini_gui tagaini_core tagaini_sqlite ${QT_LIBRARIES} ${extra_link_flags})
