@@ -1,7 +1,7 @@
 #!/bin/sh
 VERSION=`grep "set(VERSION " CMakeLists.txt |sed "s/set(VERSION \(.*\))/\1/"`
 QTPATH=`grep "^set(QT_ROOT" scripts/Toolchain-win32.cmake |sed "s/set(QT_ROOT \(.*\))/\1/"`
-MINGWDLLPATH=${MINGWDLLPATH-/usr/i486-mingw32/bin}
+MINGWDLLPATH=${MINGWDLLPATH-/usr/i486-mingw32/lib}
 DBDIR=${DBDIR-.}
 NSIFILE=${NSIFILE-tagainijisho.nsi}
 BUILDDIR=build-win32
