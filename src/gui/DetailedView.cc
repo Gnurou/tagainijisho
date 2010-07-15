@@ -564,6 +564,7 @@ void TagsLinkHandler::handleUrl(const QUrl &url, DetailedView *view)
 	extender->setAutoUpdateQuery(false);
 	extender->setTags(url.queryItemValue("tag") + " ");
 	extender->setAutoUpdateQuery(true);
+	MainWindow::instance()->searchDockWidget()->setVisible(true);
 	mainWindow->searchWidget()->searchBuilder()->runSearch();
 }
 
