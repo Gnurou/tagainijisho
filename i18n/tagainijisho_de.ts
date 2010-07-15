@@ -235,7 +235,7 @@
     </message>
     <message>
         <source>&amp;Export...</source>
-        <translation>&amp;Exportieren...</translation>
+        <translation type="obsolete">&amp;Exportieren...</translation>
     </message>
     <message>
         <source>Marking entries...</source>
@@ -285,6 +285,34 @@
         <source>Print</source>
         <translation>Drucken</translation>
     </message>
+    <message>
+        <source>&amp;Export as &amp;TSV...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Export as &amp;HTML...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Export to HTML flashcard file...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>HTML files (*.html)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unable to write file %1!</source>
+        <translation type="unfinished">Kann nicht in Datei %1 schreiben. {1!?}</translation>
+    </message>
+    <message>
+        <source>Cannot open template file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unable to open template file!</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>EntryDelegatePreferences</name>
@@ -328,7 +356,7 @@
     <name>EntryFormatter</name>
     <message>
         <source>Notes:</source>
-        <translation>Notizen:</translation>
+        <translation type="obsolete">Notizen:</translation>
     </message>
     <message>
         <source>Studied since %1.</source>
@@ -336,79 +364,103 @@
     </message>
     <message>
         <source> Score: %1.</source>
-        <translation> Punktzahl: %1.</translation>
+        <translation type="obsolete"> Punktzahl: %1.</translation>
     </message>
     <message>
         <source> Last trained on %1.</source>
-        <translation> Zuletzt trainiert am %1.</translation>
+        <translation type="obsolete"> Zuletzt trainiert am %1.</translation>
     </message>
     <message>
         <source> Last mistaken on %1.</source>
-        <translation> Letzter Irrtum am %1.</translation>
+        <translation type="obsolete"> Letzter Irrtum am %1.</translation>
     </message>
     <message>
         <source> Never trained.</source>
-        <translation> Noch nie trainiert.</translation>
+        <translation type="obsolete"> Noch nie trainiert.</translation>
     </message>
     <message>
         <source>On:</source>
-        <translation>On:</translation>
+        <translation type="obsolete">On:</translation>
     </message>
     <message>
         <source>Kun:</source>
-        <translation>Kun:</translation>
+        <translation type="obsolete">Kun:</translation>
     </message>
     <message>
         <source>Nanori:</source>
-        <translation>Nanori:</translation>
+        <translation type="obsolete">Nanori:</translation>
     </message>
     <message>
         <source>&lt;b&gt;Strokes:&lt;/b&gt; %1</source>
-        <translation>&lt;b&gt;Strichzahl:&lt;/b&gt; %1</translation>
+        <translation type="obsolete">&lt;b&gt;Strichzahl:&lt;/b&gt; %1</translation>
     </message>
     <message>
         <source>&lt;b&gt;Frequency:&lt;/b&gt; %1</source>
-        <translation>&lt;b&gt;Häufigkeit:&lt;/b&gt; %1</translation>
+        <translation type="obsolete">&lt;b&gt;Häufigkeit:&lt;/b&gt; %1</translation>
     </message>
     <message>
         <source>&lt;b&gt;Grade:&lt;/b&gt; %1</source>
-        <translation>&lt;b&gt;Klasse:&lt;/b&gt; %1</translation>
+        <translation type="obsolete">&lt;b&gt;Klasse:&lt;/b&gt; %1</translation>
     </message>
     <message>
         <source>&lt;b&gt;JLPT:&lt;/b&gt; %1</source>
-        <translation>&lt;b&gt;JLPT:&lt;/b&gt; %1</translation>
+        <translation type="obsolete">&lt;b&gt;JLPT:&lt;/b&gt; %1</translation>
     </message>
     <message>
         <source>Variations:</source>
-        <translation>Variationen:</translation>
+        <translation type="obsolete">Variationen:</translation>
     </message>
     <message>
         <source>Variation of:</source>
-        <translation>Variation von:</translation>
+        <translation type="obsolete">Variation von:</translation>
     </message>
     <message>
         <source>&lt;b&gt;Unicode:&lt;/b&gt; 0x%1</source>
-        <translation>&lt;b&gt;Unicode:&lt;/b&gt; 0x%1</translation>
+        <translation type="obsolete">&lt;b&gt;Unicode:&lt;/b&gt; 0x%1</translation>
     </message>
     <message>
         <source>&lt;b&gt;SKIP:&lt;/b&gt; %1</source>
-        <translation>&lt;b&gt;SKIP:&lt;/b&gt; %1</translation>
+        <translation type="obsolete">&lt;b&gt;SKIP:&lt;/b&gt; %1</translation>
     </message>
     <message>
         <source>&lt;b&gt;4 corner:&lt;/b&gt; %1</source>
-        <translation>&lt;b&gt;4 Ecken:&lt;/b&gt; %1</translation>
+        <translation type="obsolete">&lt;b&gt;4 Ecken:&lt;/b&gt; %1</translation>
     </message>
     <message>
         <source>Radicals:</source>
-        <translation>Radikale:</translation>
+        <translation type="obsolete">Radikale:</translation>
     </message>
     <message>
         <source>Components:</source>
-        <translation>Komponenten:</translation>
+        <translation type="obsolete">Komponenten:</translation>
     </message>
     <message>
         <source> (JLPT %1)</source>
-        <translation> (JLPT %1)</translation>
+        <translation type="obsolete"> (JLPT %1)</translation>
+    </message>
+    <message>
+        <source>Cannot find detailed view HTML file!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cannot find detailed view CSS file!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;Root&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Score: %1.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Last trained on %1.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Last mistaken on %1.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -460,6 +512,14 @@
 
 Manche von ihnen sind eventuell noch vorhanden.</translation>
     </message>
+    <message>
+        <source>Set as root</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Go up</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>EntryListWidget</name>
@@ -470,6 +530,10 @@ Manche von ihnen sind eventuell noch vorhanden.</translation>
     <message>
         <source>Lists</source>
         <translation>Listen</translation>
+    </message>
+    <message>
+        <source>Test test</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -542,25 +606,51 @@ Manche von ihnen sind eventuell noch vorhanden.</translation>
     </message>
 </context>
 <context>
+    <name>FindHomographsJob</name>
+    <message>
+        <source>Homographs</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>FindHomonymsJob</name>
     <message>
         <source>Homophones:</source>
-        <translation>Homophone:</translation>
+        <translation type="obsolete">Homophone:</translation>
+    </message>
+</context>
+<context>
+    <name>FindHomophonesJob</name>
+    <message>
+        <source>Homophones</source>
+        <translation type="unfinished">Homophone</translation>
     </message>
 </context>
 <context>
     <name>FindVerbBuddyJob</name>
     <message>
         <source>Transitive buddy:</source>
-        <translation>Transitiver Partner:</translation>
+        <translation type="obsolete">Transitiver Partner:</translation>
     </message>
     <message>
         <source>Intransitive buddy:</source>
-        <translation>Intransitiver Partner:</translation>
+        <translation type="obsolete">Intransitiver Partner:</translation>
     </message>
     <message>
         <source>Buddy:</source>
-        <translation>Partner:</translation>
+        <translation type="obsolete">Partner:</translation>
+    </message>
+    <message>
+        <source>Transitive buddy</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Intransitive buddy</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Buddy</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -708,19 +798,35 @@ an Einträgen manipuliert werden.</translation>
     </message>
     <message>
         <source>Variants:</source>
-        <translation>Varianten:</translation>
+        <translation type="obsolete">Varianten:</translation>
     </message>
     <message>
         <source>JLPT level:</source>
-        <translation>JLPT-Level:</translation>
+        <translation type="obsolete">JLPT-Level:</translation>
     </message>
     <message>
         <source>Kanji:</source>
-        <translation>Kanji:</translation>
+        <translation type="obsolete">Kanji:</translation>
     </message>
     <message>
         <source> (JLPT %1)</source>
-        <translation> (JLPT %1)</translation>
+        <translation type="obsolete"> (JLPT %1)</translation>
+    </message>
+    <message>
+        <source>(JLPT %1)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Alternate writings:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>JLPT level</source>
+        <translation type="unfinished">JLPT-Level</translation>
+    </message>
+    <message>
+        <source>Kanji</source>
+        <translation type="unfinished">Kanji</translation>
     </message>
 </context>
 <context>
@@ -1385,6 +1491,10 @@ an Einträgen manipuliert werden.</translation>
         <source>Definitions types in this list will be ignored when searching and displaying entries.</source>
         <translation>Definitionen in dieser Liste werden beim Suchen und Anzeigen der Einträge ignoriert.</translation>
     </message>
+    <message>
+        <source>Homographs</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>JMdictYesNoTrainer</name>
@@ -1398,6 +1508,29 @@ an Einträgen manipuliert werden.</translation>
     <message>
         <source>Triggers the kanji input panel</source>
         <translation>Löst das Kanjieingabepanel aus</translation>
+    </message>
+</context>
+<context>
+    <name>KanjiPlayer</name>
+    <message>
+        <source>Play</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Pause</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Reset</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Next stroke</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Previous stroke</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1479,6 +1612,101 @@ an Einträgen manipuliert werden.</translation>
     <message>
         <source>(var) </source>
         <translation>(var) </translation>
+    </message>
+</context>
+<context>
+    <name>Kanjidic2EntryFormatter</name>
+    <message>
+        <source> (%1) </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;b&gt;Strokes:&lt;/b&gt; %1</source>
+        <translation type="unfinished">&lt;b&gt;Strichzahl:&lt;/b&gt; %1</translation>
+    </message>
+    <message>
+        <source>&lt;b&gt;Frequency:&lt;/b&gt; %1</source>
+        <translation type="unfinished">&lt;b&gt;Häufigkeit:&lt;/b&gt; %1</translation>
+    </message>
+    <message>
+        <source>&lt;b&gt;Grade:&lt;/b&gt; %1</source>
+        <translation type="unfinished">&lt;b&gt;Klasse:&lt;/b&gt; %1</translation>
+    </message>
+    <message>
+        <source>&lt;b&gt;JLPT:&lt;/b&gt; %1</source>
+        <translation type="unfinished">&lt;b&gt;JLPT:&lt;/b&gt; %1</translation>
+    </message>
+    <message>
+        <source>&lt;b&gt;Unicode:&lt;/b&gt; 0x%1</source>
+        <translation type="unfinished">&lt;b&gt;Unicode:&lt;/b&gt; 0x%1</translation>
+    </message>
+    <message>
+        <source>&lt;b&gt;SKIP:&lt;/b&gt; %1</source>
+        <translation type="unfinished">&lt;b&gt;SKIP:&lt;/b&gt; %1</translation>
+    </message>
+    <message>
+        <source>&lt;b&gt;4 corner:&lt;/b&gt; %1</source>
+        <translation type="unfinished">&lt;b&gt;4 Ecken:&lt;/b&gt; %1</translation>
+    </message>
+    <message>
+        <source>(JLPT %1)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>On</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Kun</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Nanori</source>
+        <translation type="unfinished">Nanori</translation>
+    </message>
+    <message>
+        <source>Strokes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Frequency</source>
+        <translation type="unfinished">Häufigkeit</translation>
+    </message>
+    <message>
+        <source>Grade</source>
+        <translation type="unfinished">Klasse</translation>
+    </message>
+    <message>
+        <source>JLPT</source>
+        <translation type="unfinished">JLPT</translation>
+    </message>
+    <message>
+        <source>Variations</source>
+        <translation type="unfinished">Variationen</translation>
+    </message>
+    <message>
+        <source>Variation of</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unicode</source>
+        <translation type="unfinished">Unicode</translation>
+    </message>
+    <message>
+        <source>SKIP</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>4 corner</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Radicals</source>
+        <translation type="unfinished">Radikale</translation>
+    </message>
+    <message>
+        <source>Components</source>
+        <translation type="unfinished">Komponenten</translation>
     </message>
 </context>
 <context>
@@ -1857,6 +2085,22 @@ an Einträgen manipuliert werden.</translation>
         <source> seconds</source>
         <translation> Sekunden</translation>
     </message>
+    <message>
+        <source>Print grid</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show stroke numbers</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>px</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show numbers</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ListsViewPreferences</name>
@@ -2050,6 +2294,36 @@ an Einträgen manipuliert werden.</translation>
     <message>
         <source>Unnamed folder</source>
         <translation>Unbenannter Ordner</translation>
+    </message>
+    <message>
+        <source>S&amp;ets</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>P&amp;ractice</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Lists</source>
+        <translation type="unfinished">Listen</translation>
+    </message>
+    <message>
+        <source>Please consider supporting Tagaini Jisho</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You have now been using Tagaini Jisho for a short while. If you like it, please show your support by making a donation that expresses your appreciation of this software. While Tagaini is free, its development has a cost and your support will have a positive influence on its future. You can donate via Paypal or credit card.
+
+This message is a one-time reminder and will not appear anymore - you can still donate later by choosing the corresponding option in the Help menu.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Donate!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Nah</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2446,11 +2720,11 @@ an Einträgen manipuliert werden.</translation>
     <name>ShowUsedInJob</name>
     <message>
         <source>Direct compounds:</source>
-        <translation>Direkte Komposita:</translation>
+        <translation type="obsolete">Direkte Komposita:</translation>
     </message>
     <message>
         <source>Make a new search using only this filter</source>
-        <translation>Neue Suche mit nur diesem Filter erstellen</translation>
+        <translation type="obsolete">Neue Suche mit nur diesem Filter erstellen</translation>
     </message>
     <message>
         <source>All compounds</source>
@@ -2458,22 +2732,26 @@ an Einträgen manipuliert werden.</translation>
     </message>
     <message>
         <source>Add this filter to the current search</source>
-        <translation>Diesen Filter zur aktuellen Suche hinzufügen</translation>
+        <translation type="obsolete">Diesen Filter zur aktuellen Suche hinzufügen</translation>
     </message>
     <message>
         <source>(+)</source>
         <translation>(+)</translation>
+    </message>
+    <message>
+        <source>Direct compounds</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>ShowUsedInWordsJob</name>
     <message>
         <source>Seen in:</source>
-        <translation>Gesehen in:</translation>
+        <translation type="obsolete">Gesehen in:</translation>
     </message>
     <message>
         <source>Make a new search using only this filter</source>
-        <translation>Neue Suche mit nur diesem Filter erstellen</translation>
+        <translation type="obsolete">Neue Suche mit nur diesem Filter erstellen</translation>
     </message>
     <message>
         <source>All words using this kanji</source>
@@ -2481,11 +2759,15 @@ an Einträgen manipuliert werden.</translation>
     </message>
     <message>
         <source>Add this filter to the current search</source>
-        <translation>Diesen Filter zur aktuellen Suche hinzufügen</translation>
+        <translation type="obsolete">Diesen Filter zur aktuellen Suche hinzufügen</translation>
     </message>
     <message>
         <source>(+)</source>
         <translation>(+)</translation>
+    </message>
+    <message>
+        <source>Seen in</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
