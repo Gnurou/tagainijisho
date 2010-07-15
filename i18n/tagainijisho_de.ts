@@ -2161,7 +2161,7 @@ an Einträgen manipuliert werden.</translation>
     </message>
     <message>
         <source>&amp;Sets</source>
-        <translation>&amp;Mengen</translation>
+        <translation type="obsolete">&amp;Mengen</translation>
     </message>
     <message>
         <source>&amp;New sets folder...</source>
@@ -2173,7 +2173,7 @@ an Einträgen manipuliert werden.</translation>
     </message>
     <message>
         <source>&amp;Practice</source>
-        <translation>&amp;Übung</translation>
+        <translation type="obsolete">&amp;Übung</translation>
     </message>
     <message>
         <source>&amp;New set from current search,,,</source>
