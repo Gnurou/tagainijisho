@@ -1171,8 +1171,8 @@ interface.
 For informal discussion about Tagaini's development, you can join the
 dedicated [Google group][mailfoot].
 
-This manual was written by Neil Caldwell, and Tagaini Jisho is copyright
-Alexandre Courbot.
+This manual has been written and maintained by Neil Caldwell and Alexandre
+Courbot, and Tagaini Jisho is copyright Alexandre Courbot.
 
 [lpfoot]: https://launchpad.net/tagaini-jisho
 [mailfoot]: http://groups.google.com/group/tagaini-jisho
