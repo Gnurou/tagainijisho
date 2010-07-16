@@ -818,7 +818,7 @@ turned up 60 entries, and Tagaini is set to only show 50 of those entries on a
 page, then Tagaini will only print those 50 entries
 
 At the bottom of the print menu there are two more options. **Export as
-TSV...** and **Export as HTML...***.
+TSV...** and **Export as HTML...**.
 The TSV option exports the set or list as a tab separated file. This option
 exports entries as a plain text file, with entries formatted:
 
@@ -832,7 +832,19 @@ This was originally written for exporting to anki[^ankifoot], a flash card
 program, but will work with any other application that can import entries in
 this format.
 
-**TALK ABOUT EXPORTING TO HTML HERE**
+The export to HTML option exports a single HTML file, or web page, that can be
+opened in a web browser. When opened in a Web browser it will, at first,
+display a large box in which will be a single entries meaning and reading.
+This box will display each flash card in the set once. The start button bellow
+the frame will shuffle the flash cards and start showing them from the
+beginning. The next button is used to go to the next entry. Across the top are
+two radio buttons that read **Writing** and **Meaning + Reading**. Checking
+the Writing button causes the next entry's kanji or writing to be displayed. 
+
+The menu button, just to the right of this (currently a big **X**) displays a
+menu with two options: **List** and **Flashcards**. Choosing the list option
+changes the page to display a list of every entry in the exported set. The
+Flashcard option returns you to the flash card page. 
 
 [^ankifoot]: http://www.ichi2.net/anki/
 
