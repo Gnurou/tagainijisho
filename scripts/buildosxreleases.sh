@@ -2,10 +2,23 @@
 VERSION=`grep "set(VERSION " CMakeLists.txt |sed "s/set(VERSION \(.*\))/\1/"`
 BUNDLEPATH=build/src/gui
 
+# Do normal build
+mkdir build
+cd build
+cmake -DCMAKE_BUILD_TYPE=Release ..
+make tagainijisho
+cd ..
+
 # Include and re-link the Qt libraries in the bundle
 macdeployqt $BUNDLEPATH/tagainijisho.app
 # Include HTML export template
 cp src/gui/export_template.html $BUNDLEPATH/tagainijisho.app/Contents/
+cp src/gui/detailed_default.html $BUNDLEPATH/tagainijisho.app/Contents/
+cp src/gui/detailed_default.css $BUNDLEPATH/tagainijisho.app/Contents/
+cp src/gui/jmdict/detailed_jmdict.html $BUNDLEPATH/tagainijisho.app/Contents/
+cp src/gui/jmdict/detailed_jmdict.css $BUNDLEPATH/tagainijisho.app/Contents/
+cp src/gui/kanjidic2/detailed_kanjidic2.html $BUNDLEPATH/tagainijisho.app/Contents/
+cp src/gui/kanjidic2/detailed_kanjidic2.css $BUNDLEPATH/tagainijisho.app/Contents/
 # Include Tagaini translations
 mkdir $BUNDLEPATH/tagainijisho.app/Contents/i18n
 cp i18n/tagainijisho_fr.qm $BUNDLEPATH/tagainijisho.app/Contents/i18n
