@@ -355,6 +355,12 @@ void EntriesViewHelper::tabExport()
 	outFile.close();
 }
 
+static QString escapeQuotes(const QString &str)
+{
+	QString ret(str);
+	return ret.replace('"', "&quot;");
+}
+
 void EntriesViewHelper::jsExport()
 {
 	QString exportFile = QFileDialog::getSaveFileName(0, tr("Export to HTML flashcard file..."), QString(), tr("HTML files (*.html)"));
@@ -386,21 +392,20 @@ void EntriesViewHelper::jsExport()
 	int idx = 0;
 	QString data(QString("var entries = Array();\nfor (var i = 0; i < %1; i++) entries[i] = Array();\n").arg(realEntries.size()).toUtf8());
 	foreach (const ConstEntryPointer &entry, realEntries) {
-		QStringList writings = entry->writings();
 		QStringList readings = entry->readings();
 		QStringList meanings = entry->meanings();
-		QString writing;
+		QString mainRepr(escapeQuotes(entry->mainRepr()));
+		readings.removeAll(mainRepr);
 		QString reading;
 		QString meaning;
-		if (writings.size() > 0) writing = writings[0];
-		if (readings.size() > 0) reading = readings[0];
-		if (meanings.size() == 1) meaning += " " + meanings[0];
+		if (readings.size() > 0) reading = escapeQuotes(readings.join(", "));
+		if (meanings.size() == 1) meaning = escapeQuotes(meanings[0]);
 		else {
 			int cpt = 1;
 			foreach (const QString &str, meanings)
-				meaning += QString(" (%1) %2").arg(cpt++).arg(str);
+				meaning += QString(" (%1) %2").arg(cpt++).arg(escapeQuotes(str));
 		}
-		data += QString("entries[%1][0]=\"%2\";\nentries[%1][1]=\"%3\";\nentries[%1][2]=\"%4\";\n").arg(idx++).arg(writings.join(", ")).arg(readings.join(", ")).arg(meanings.join(", "));
+		data += QString("entries[%1][0]=\"%2\";\nentries[%1][1]=\"%3\";\nentries[%1][2]=\"%4\";\n").arg(idx++).arg(mainRepr).arg(reading).arg(meaning);
 	}
 	
 	tmpl.replace("__DATA__", data);
