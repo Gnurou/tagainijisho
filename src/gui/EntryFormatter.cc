@@ -125,7 +125,7 @@ QString formatString(const QString &str, formatType type)
 QString EntryFormatter::autoFormat(const QString &str) const
 {
 	QString ret;
-	formatType curChar = 0, nextChar;
+	formatType curChar = Romaji, nextChar;
 	
 	int pos = 0;
 	int written = 0;
