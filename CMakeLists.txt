@@ -41,18 +41,22 @@ include_directories(${CMAKE_SOURCE_DIR}/src)
 
 # Which languages are enabled?
 if(NOT DICT_LANG)
-	set(DICT_LANG "en")
+	set(DICT_LANG de en es fr ru)
 endif()
 
-add_custom_command(OUTPUT kanjidic2.db
-	COMMAND build_kanji_db -l${DICT_LANG} ${CMAKE_SOURCE_DIR} kanjidic2.db
-	DEPENDS build_kanji_db ${CMAKE_SOURCE_DIR}/3rdparty/kanjidic2.xml ${CMAKE_SOURCE_DIR}/3rdparty/kanjivg.xml)
+add_custom_target(databases ALL)
 
-add_custom_command(OUTPUT jmdict.db
-	COMMAND build_jmdict_db -l${DICT_LANG} ${CMAKE_SOURCE_DIR} jmdict.db
-	DEPENDS build_jmdict_db ${CMAKE_SOURCE_DIR}/3rdparty/JMdict)
+foreach(LANG ${DICT_LANG})
+	add_custom_target(database-${LANG} ALL DEPENDS jmdict-${LANG}.db kanjidic2-${LANG}.db)		
+	add_custom_command(OUTPUT jmdict-${LANG}.db
+	COMMAND build_jmdict_db -l${LANG} ${CMAKE_SOURCE_DIR} jmdict-${LANG}.db
+	DEPENDS build_jmdict_db ${CMAKE_SOURCE_DIR}/3rdparty/JMdict)	
+	add_custom_command(OUTPUT kanjidic2-${LANG}.db
+	COMMAND build_kanji_db -l${LANG} ${CMAKE_SOURCE_DIR} kanjidic2-${LANG}.db
+	DEPENDS build_kanji_db ${CMAKE_SOURCE_DIR}/3rdparty/kanjidic2.xml ${CMAKE_SOURCE_DIR}/3rdparty/kanjivg.xml)	
+	add_dependencies(databases database-${LANG})	
+endforeach(LANG ${DICT_LANG})
 
-add_custom_target(databases ALL DEPENDS jmdict.db kanjidic2.db)
 # TODO does not triggers building of db files if they do not exist
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/jmdict.db ${CMAKE_CURRENT_BINARY_DIR}/kanjidic2.db DESTINATION share/tagainijisho PERMISSIONS OWNER_READ GROUP_READ WORLD_READ)
 
