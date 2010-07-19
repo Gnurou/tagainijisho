@@ -76,6 +76,7 @@ set(CPACK_SOURCE_GENERATOR "TGZ")
 set(CPACK_SOURCE_IGNORE_FILES
 "~$"
 "\\\\.gitignore$"
+"^${PROJECT_SOURCE_DIR}/.git/"
 "^${PROJECT_SOURCE_DIR}/*.kdev4/"
 )
 include(CPack)
