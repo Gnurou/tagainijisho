@@ -35,10 +35,21 @@ include_directories(${CMAKE_BINARY_DIR}/src)
 # For our own headers
 include_directories(${CMAKE_SOURCE_DIR}/src)
 
-#MESSAGE(STATUS "Downloading JMdict...")
-#FILE(DOWNLOAD ftp://ftp.monash.edu.au/pub/nihongo/JMdict.gz ./boo.gz)
-#add_custom_command(TARGET boo PRE_BUILD COMMAND gunzip ./boo.gz DEPENDS ./boo.gz)
+# External resources fecthing and generation
 
+# SQLITE
+MESSAGE(STATUS "Downloading SQLite")
+FILE(DOWNLOAD http://www.sqlite.org/sqlite-amalgamation-3.6.23.1.tar.gz ${CMAKE_SOURCE_DIR}/3rdparty/sqlite-amalgamation-3.6.23.1.tar.gz)
+execute_process(COMMAND cmake -E tar zxvf ${CMAKE_SOURCE_DIR}/3rdparty/sqlite-amalgamation-3.6.23.1.tar.gz WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/3rdparty OUTPUT_QUIET)
+FILE(MAKE_DIRECTORY ${CMAKE_SOURCE_DIR}/3rdparty/sqlite)
+FILE(RENAME ${CMAKE_SOURCE_DIR}/3rdparty/sqlite-3.6.23.1/sqlite3.c ${CMAKE_SOURCE_DIR}/3rdparty/sqlite/sqlite3.c)
+FILE(RENAME ${CMAKE_SOURCE_DIR}/3rdparty/sqlite-3.6.23.1/sqlite3.h ${CMAKE_SOURCE_DIR}/3rdparty/sqlite/sqlite3.h)
+FILE(REMOVE ${CMAKE_SOURCE_DIR}/3rdparty/sqlite-amalgamation-3.6.23.1.tar.gz)
+FILE(REMOVE_RECURSE ${CMAKE_SOURCE_DIR}/3rdparty/sqlite-3.6.23.1)
+
+# JMdictDescs
+MESSAGE(STATUS "Generating JMdictDescs")
+FILE(REMOVE ${CMAKE_SOURCE_DIR}/3rdparty/JMdictDescs.cc)
 FILE(STRINGS ${CMAKE_SOURCE_DIR}/3rdparty/JMdict LINES REGEX ENTITY)
 foreach(LINE ${LINES})
 	STRING(REGEX REPLACE ".*\\\"(.*)\\\">" "\\1" result "${LINE}" )
