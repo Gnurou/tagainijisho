@@ -1,5 +1,10 @@
 project(tagainijisho)
 set(VERSION 0.2.5.90)
+set(SQLITE_VERSION 3.6.23.1)
+set(SQLITE_SOURCE http://www.sqlite.org/sqlite-amalgamation-${SQLITE_VERSION}.tar.gz)
+set(JMDICT_SOURCE ftp://ftp.monash.edu.au/pub/nihongo/JMdict.gz)
+set(KANJIDIC2_SOURCE http://www.csse.monash.edu.au/~jwb/kanjidic2/kanjidic2.xml.gz)
+set(KANJIVG_SOURCE http://kanjivg.tagaini.net/upload/Main/kanjivg-latest.xml.gz)
 cmake_minimum_required(VERSION 2.6.0)
 find_package(Qt4 4.5 REQUIRED)
 
@@ -37,24 +42,53 @@ include_directories(${CMAKE_SOURCE_DIR}/src)
 
 # External resources fecthing and generation
 
+if(NOT EXISTS ${CMAKE_SOURCE_DIR}/3rdparty/)
+	FILE(MAKE_DIRECTORY ${CMAKE_SOURCE_DIR}/3rdparty/)
+endif()
+
 # SQLITE
-MESSAGE(STATUS "Downloading SQLite")
-FILE(DOWNLOAD http://www.sqlite.org/sqlite-amalgamation-3.6.23.1.tar.gz ${CMAKE_SOURCE_DIR}/3rdparty/sqlite-amalgamation-3.6.23.1.tar.gz)
-execute_process(COMMAND cmake -E tar zxvf ${CMAKE_SOURCE_DIR}/3rdparty/sqlite-amalgamation-3.6.23.1.tar.gz WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/3rdparty OUTPUT_QUIET)
-FILE(MAKE_DIRECTORY ${CMAKE_SOURCE_DIR}/3rdparty/sqlite)
-FILE(RENAME ${CMAKE_SOURCE_DIR}/3rdparty/sqlite-3.6.23.1/sqlite3.c ${CMAKE_SOURCE_DIR}/3rdparty/sqlite/sqlite3.c)
-FILE(RENAME ${CMAKE_SOURCE_DIR}/3rdparty/sqlite-3.6.23.1/sqlite3.h ${CMAKE_SOURCE_DIR}/3rdparty/sqlite/sqlite3.h)
-FILE(REMOVE ${CMAKE_SOURCE_DIR}/3rdparty/sqlite-amalgamation-3.6.23.1.tar.gz)
-FILE(REMOVE_RECURSE ${CMAKE_SOURCE_DIR}/3rdparty/sqlite-3.6.23.1)
+if(NOT EXISTS ${CMAKE_SOURCE_DIR}/3rdparty/sqlite/sqlite3.c) 
+	MESSAGE(STATUS "Downloading SQLite ${SQLITE_VERSION} from ${SQLITE_SOURCE}")
+	FILE(DOWNLOAD ${SQLITE_SOURCE} ${CMAKE_SOURCE_DIR}/3rdparty/sqlite-${SQLITE_VERSION}.tar.gz)
+	execute_process(COMMAND cmake -E tar zxf ${CMAKE_SOURCE_DIR}/3rdparty/sqlite-${SQLITE_VERSION}.tar.gz WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/3rdparty)
+	FILE(MAKE_DIRECTORY ${CMAKE_SOURCE_DIR}/3rdparty/sqlite)
+	FILE(RENAME ${CMAKE_SOURCE_DIR}/3rdparty/sqlite-${SQLITE_VERSION}/sqlite3.c ${CMAKE_SOURCE_DIR}/3rdparty/sqlite/sqlite3.c)
+	FILE(RENAME ${CMAKE_SOURCE_DIR}/3rdparty/sqlite-${SQLITE_VERSION}/sqlite3.h ${CMAKE_SOURCE_DIR}/3rdparty/sqlite/sqlite3.h)
+	FILE(REMOVE ${CMAKE_SOURCE_DIR}/3rdparty/sqlite-${SQLITE_VERSION}.tar.gz)
+	FILE(REMOVE_RECURSE ${CMAKE_SOURCE_DIR}/3rdparty/sqlite-${SQLITE_VERSION})
+endif()
+
+# JMdict
+if(NOT EXISTS ${CMAKE_SOURCE_DIR}/3rdparty/JMdict)
+	MESSAGE(STATUS "Downloading JMdict from ${JMDICT_SOURCE}")
+	FILE(DOWNLOAD ${JMDICT_SOURCE} ${CMAKE_SOURCE_DIR}/3rdparty/JMdict.gz)
+	execute_process(COMMAND gunzip ${CMAKE_SOURCE_DIR}/3rdparty/JMdict.gz WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/3rdparty)
+endif()
+
+# KanjiDict2
+if(NOT EXISTS ${CMAKE_SOURCE_DIR}/3rdparty/kanjidic2.xml)
+	MESSAGE(STATUS "Downloading KanjiDict2 ${KANJIDIC2_SOURCE}")
+	FILE(DOWNLOAD ${KANJIDIC2_SOURCE} ${CMAKE_SOURCE_DIR}/3rdparty/kanjidic2.xml.gz)
+	execute_process(COMMAND gunzip ${CMAKE_SOURCE_DIR}/3rdparty/kanjidic2.xml.gz WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/3rdparty)
+endif()
+
+# KanjiVG
+if(NOT EXISTS ${CMAKE_SOURCE_DIR}/3rdparty/kanjivg.xml)
+	MESSAGE(STATUS "Downloading KanjiVG ${KANJIVG_SOURCE}")
+	FILE(DOWNLOAD ${KANJIVG_SOURCE} ${CMAKE_SOURCE_DIR}/3rdparty/kanjivg-latest.xml.gz)
+	execute_process(COMMAND gunzip ${CMAKE_SOURCE_DIR}/3rdparty/kanjivg-latest.xml.gz WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/3rdparty)
+	FILE(RENAME ${CMAKE_SOURCE_DIR}/3rdparty/kanjivg-latest.xml ${CMAKE_SOURCE_DIR}/3rdparty/kanjivg.xml)
+endif()
 
 # JMdictDescs
-MESSAGE(STATUS "Generating JMdictDescs")
-FILE(REMOVE ${CMAKE_SOURCE_DIR}/3rdparty/JMdictDescs.cc)
-FILE(STRINGS ${CMAKE_SOURCE_DIR}/3rdparty/JMdict LINES REGEX ENTITY)
-foreach(LINE ${LINES})
-	STRING(REGEX REPLACE ".*\\\"(.*)\\\">" "\\1" result "${LINE}" )
-	FILE(APPEND ${CMAKE_SOURCE_DIR}/3rdparty/JMdictDescs.cc "QT_TRANSLATE_NOOP(\"JMdictLongDescs\", \"${result}\");\n")
-endforeach(LINE ${LINES})
+if(NOT EXISTS ${CMAKE_SOURCE_DIR}/3rdparty/JMdictDescs.cc)
+	MESSAGE(STATUS "Generating JMdictDescs")	
+	FILE(STRINGS ${CMAKE_SOURCE_DIR}/3rdparty/JMdict LINES REGEX ENTITY)
+	foreach(LINE ${LINES})
+		STRING(REGEX REPLACE ".*\\\"(.*)\\\">" "\\1" result "${LINE}" )
+		FILE(APPEND ${CMAKE_SOURCE_DIR}/3rdparty/JMdictDescs.cc "QT_TRANSLATE_NOOP(\"JMdictLongDescs\", \"${result}\");\n")
+	endforeach(LINE ${LINES})
+endif()
 
 # Which languages are enabled?
 if(NOT DICT_LANG)
