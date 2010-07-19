@@ -450,7 +450,7 @@ QString Kanjidic2EntryFormatter::formatGrade(const ConstEntryPointer &_entry) co
 {
 	ConstKanjidic2EntryPointer entry(_entry.staticCast<const Kanjidic2Entry>());
 	if (entry->grade() != -1 && showGrade.value()) {
-		return QString("<b>%1:</b> %2").arg(tr("Grade")).arg(entry->grade());
+		return QString("<b>%1:</b> %2").arg(tr("Grade")).arg(Kanjidic2GUIPlugin::kanjiGrades[entry->grade()]);
 	}
 	return "";
 }
