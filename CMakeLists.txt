@@ -39,6 +39,12 @@ include_directories(${CMAKE_SOURCE_DIR}/src)
 #FILE(DOWNLOAD ftp://ftp.monash.edu.au/pub/nihongo/JMdict.gz ./boo.gz)
 #add_custom_command(TARGET boo PRE_BUILD COMMAND gunzip ./boo.gz DEPENDS ./boo.gz)
 
+FILE(STRINGS ${CMAKE_SOURCE_DIR}/3rdparty/JMdict LINES REGEX ENTITY)
+foreach(LINE ${LINES})
+	STRING(REGEX REPLACE ".*\\\"(.*)\\\">" "\\1" result "${LINE}" )
+	FILE(APPEND ${CMAKE_SOURCE_DIR}/3rdparty/JMdictDescs.cc "QT_TRANSLATE_NOOP(\"JMdictLongDescs\", \"${result}\");\n")
+endforeach(LINE ${LINES})
+
 # Which languages are enabled?
 if(NOT DICT_LANG)
 	set(DICT_LANG de en es fr ru)
