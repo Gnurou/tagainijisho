@@ -8,6 +8,19 @@ set(KANJIVG_SOURCE http://kanjivg.tagaini.net/upload/Main/kanjivg-latest.xml.gz)
 cmake_minimum_required(VERSION 2.8.0)
 find_package(Qt4 4.5 REQUIRED)
 
+MACRO(GENERATE_DOCS _doc_files)
+  FOREACH (_current_FILE ${ARGN})
+    GET_FILENAME_COMPONENT(_abs_FILE ${_current_FILE} ABSOLUTE)
+    GET_FILENAME_COMPONENT(doc ${_abs_FILE} NAME_WE)
+    GET_SOURCE_FILE_PROPERTY(output_location ${_abs_FILE} OUTPUT_LOCATION)
+    SET(doc "${CMAKE_CURRENT_SOURCE_DIR}/doc/${doc}.html")
+    ADD_CUSTOM_COMMAND(OUTPUT ${doc}
+       COMMAND mmd2XHTML.pl ARGS ${_abs_FILE} DEPENDS ${_abs_FILE}
+    )
+    SET(${_doc_files} ${${_doc_files}} ${doc})
+  ENDFOREACH (_current_FILE)
+ENDMACRO(GENERATE_DOCS)
+
 # Global GCC options
 if(CMAKE_COMPILER_IS_GNUCC)
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wnon-virtual-dtor -Wno-unused-parameter -fno-exceptions -fno-rtti")
@@ -113,7 +126,12 @@ endforeach(LANG ${DICT_LANG})
 # i18n
 FILE (GLOB TRANSLATIONS_FILES ${CMAKE_SOURCE_DIR}/i18n/*.ts)
 QT4_ADD_TRANSLATION(QM_FILES ${TRANSLATIONS_FILES})
-add_custom_target (i18n DEPENDS ${QM_FILES})
+add_custom_target (i18n ALL DEPENDS ${QM_FILES})
+
+# docs
+FILE (GLOB DOCUMENTATION_FILES ${CMAKE_SOURCE_DIR}/doc/*.txt)
+GENERATE_DOCS(DOC_FILES ${DOCUMENTATION_FILES})
+add_custom_target (docs ALL DEPENDS ${DOC_FILES})
 
 # TODO does not triggers building of db files if they do not exist
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/jmdict.db ${CMAKE_CURRENT_BINARY_DIR}/kanjidic2.db DESTINATION share/tagainijisho PERMISSIONS OWNER_READ GROUP_READ WORLD_READ)
