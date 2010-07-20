@@ -5,6 +5,8 @@ set(SQLITE_SOURCE http://www.sqlite.org/sqlite-amalgamation-${SQLITE_VERSION}.ta
 set(JMDICT_SOURCE ftp://ftp.monash.edu.au/pub/nihongo/JMdict.gz)
 set(KANJIDIC2_SOURCE http://www.csse.monash.edu.au/~jwb/kanjidic2/kanjidic2.xml.gz)
 set(KANJIVG_SOURCE http://kanjivg.tagaini.net/upload/Main/kanjivg-latest.xml.gz)
+find_program(MULTI_MARKDOWN NAMES mmd2XHTML.pl)
+
 cmake_minimum_required(VERSION 2.8.0)
 find_package(Qt4 4.5 REQUIRED)
 
@@ -15,7 +17,7 @@ MACRO(GENERATE_DOCS _doc_files)
     GET_SOURCE_FILE_PROPERTY(output_location ${_abs_FILE} OUTPUT_LOCATION)
     SET(doc "${CMAKE_CURRENT_SOURCE_DIR}/doc/${doc}.html")
     ADD_CUSTOM_COMMAND(OUTPUT ${doc}
-       COMMAND mmd2XHTML.pl ARGS ${_abs_FILE} DEPENDS ${_abs_FILE}
+       COMMAND ${MULTI_MARKDOWN} ARGS ${_abs_FILE} DEPENDS ${_abs_FILE}
     )
     SET(${_doc_files} ${${_doc_files}} ${doc})
   ENDFOREACH (_current_FILE)
@@ -27,9 +29,9 @@ if(CMAKE_COMPILER_IS_GNUCC)
 endif(CMAKE_COMPILER_IS_GNUCC)
 
 # Universal binaries for OSX
-if(CMAKE_SYSTEM_NAME MATCHES "Darwin")
+IF(APPLE)
 	set(CMAKE_OSX_ARCHITECTURES "ppc;i386") 
-endif()
+endif(APPLE)
 
 # Add the default database lookup data path for Linux if not defined
 if(CMAKE_SYSTEM_NAME MATCHES "Linux")
@@ -129,9 +131,13 @@ QT4_ADD_TRANSLATION(QM_FILES ${TRANSLATIONS_FILES})
 add_custom_target (i18n ALL DEPENDS ${QM_FILES})
 
 # docs
-FILE (GLOB DOCUMENTATION_FILES ${CMAKE_SOURCE_DIR}/doc/*.txt)
-GENERATE_DOCS(DOC_FILES ${DOCUMENTATION_FILES})
-add_custom_target (docs ALL DEPENDS ${DOC_FILES})
+if(${MULTI_MARKDOWN} MATCHES "MULTI_MARKDOWN-NOTFOUND")
+	MESSAGE("MultiMarkdown not found, doc generation will not be available")
+else(${MULTI_MARKDOWN} MATCHES "MULTI_MARKDOWN-NOTFOUND")
+	FILE (GLOB DOCUMENTATION_FILES ${CMAKE_SOURCE_DIR}/doc/*.txt)
+	GENERATE_DOCS(DOC_FILES ${DOCUMENTATION_FILES})
+	add_custom_target (docs ALL DEPENDS ${DOC_FILES})
+endif(${MULTI_MARKDOWN} MATCHES "MULTI_MARKDOWN-NOTFOUND")
 
 # TODO does not triggers building of db files if they do not exist
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/jmdict.db ${CMAKE_CURRENT_BINARY_DIR}/kanjidic2.db DESTINATION share/tagainijisho PERMISSIONS OWNER_READ GROUP_READ WORLD_READ)
@@ -147,16 +153,37 @@ add_subdirectory(src)
 # Packaging
 set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "A Free Japanese dictionary and study assistant")
 set(CPACK_PACKAGE_VENDOR "tagaini.net")
+set(CPACK_PACKAGE_CONTACT http://www.tagaini.net)
 set(CPACK_PACKAGE_DESCRIPTION_FILE "${CMAKE_CURRENT_SOURCE_DIR}/README")
-set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/COPYING")
+set(CPACK_PACKAGE_VERSION ${VERSION})
 set(CPACK_PACKAGE_FILE_NAME "${CMAKE_PROJECT_NAME}-${VERSION}")
 set(CPACK_SOURCE_PACKAGE_FILE_NAME "${CMAKE_PROJECT_NAME}-${VERSION}")
+set(CPACK_SOURCE_STRIP_FILES true)
+set(CPACK_STRIP_FILES true)
+set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/COPYING")
+set(CPACK_RESOURCE_FILE_README "${CMAKE_CURRENT_SOURCE_DIR}/README")
 
-set(CPACK_SOURCE_GENERATOR "TGZ")
-set(CPACK_SOURCE_IGNORE_FILES
-"~$"
-"\\\\.gitignore$"
-"^${PROJECT_SOURCE_DIR}/.git/"
-"^${PROJECT_SOURCE_DIR}/*.kdev4/"
-)
+if(APPLE)
+    set(CPACK_SYSTEM_NAME "MacOSX-Universal")
+    set(CPACK_PACKAGE_FILE_NAME "Tagaini Jisho ${VERSION}")
+    set(CPACK_PACKAGE_ICON "")
+    set(CPACK_BUNDLE_NAME "Tagaini Jisho ${VERSION}")
+    set(CPACK_BUNDLE_ICON "${CMAKE_CURRENT_SOURCE_DIR}/images/appicon.icns")
+    set(CPACK_BUNDLE_PLIST "${CMAKE_CURRENT_SOURCE_DIR}/scripts/Info.plist")
+    set(CPACK_BUNDLE_STARTUP_COMMAND "")
+endif(APPLE)
+
+if(WIN32)
+	
+endif(WIN32)
+
+# For source code, use .tar.gz on Unix, and .zip on Windows
+if(UNIX)
+	SET(CPACK_SOURCE_GENERATOR TGZ)
+else(UNIX)
+	SET(CPACK_SOURCE_GENERATOR ZIP)
+endif(UNIX)
+
+set(CPACK_SOURCE_IGNORE_FILES "~$" "\\\\.gitignore$" "^${PROJECT_SOURCE_DIR}/.git/" "^${PROJECT_SOURCE_DIR}/*.kdev4/" )
+
 include(CPack)
