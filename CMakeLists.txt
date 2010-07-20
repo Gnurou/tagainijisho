@@ -5,7 +5,7 @@ set(SQLITE_SOURCE http://www.sqlite.org/sqlite-amalgamation-${SQLITE_VERSION}.ta
 set(JMDICT_SOURCE ftp://ftp.monash.edu.au/pub/nihongo/JMdict.gz)
 set(KANJIDIC2_SOURCE http://www.csse.monash.edu.au/~jwb/kanjidic2/kanjidic2.xml.gz)
 set(KANJIVG_SOURCE http://kanjivg.tagaini.net/upload/Main/kanjivg-latest.xml.gz)
-cmake_minimum_required(VERSION 2.6.0)
+cmake_minimum_required(VERSION 2.8.0)
 find_package(Qt4 4.5 REQUIRED)
 
 # Global GCC options
@@ -95,18 +95,25 @@ if(NOT DICT_LANG)
 	set(DICT_LANG de en es fr ru)
 endif()
 
+# This will create databases for each choosen languages
 add_custom_target(databases ALL)
 
+# Create database targets for each language
 foreach(LANG ${DICT_LANG})
-	add_custom_target(database-${LANG} ALL DEPENDS jmdict-${LANG}.db kanjidic2-${LANG}.db)		
-	add_custom_command(OUTPUT jmdict-${LANG}.db
-	COMMAND build_jmdict_db -l${LANG} ${CMAKE_SOURCE_DIR} jmdict-${LANG}.db
+	add_custom_target(database-${LANG} ALL DEPENDS ${CMAKE_BINARY_DIR}/jmdict-${LANG}.db ${CMAKE_BINARY_DIR}/kanjidic2-${LANG}.db)		
+	add_custom_command(OUTPUT ${CMAKE_BINARY_DIR}/jmdict-${LANG}.db
+	COMMAND build_jmdict_db -l${LANG} ${CMAKE_SOURCE_DIR} ${CMAKE_BINARY_DIR}/jmdict-${LANG}.db
 	DEPENDS build_jmdict_db ${CMAKE_SOURCE_DIR}/3rdparty/JMdict)	
-	add_custom_command(OUTPUT kanjidic2-${LANG}.db
-	COMMAND build_kanji_db -l${LANG} ${CMAKE_SOURCE_DIR} kanjidic2-${LANG}.db
+	add_custom_command(OUTPUT ${CMAKE_BINARY_DIR}/kanjidic2-${LANG}.db
+	COMMAND build_kanji_db -l${LANG} ${CMAKE_SOURCE_DIR} ${CMAKE_BINARY_DIR}/kanjidic2-${LANG}.db
 	DEPENDS build_kanji_db ${CMAKE_SOURCE_DIR}/3rdparty/kanjidic2.xml ${CMAKE_SOURCE_DIR}/3rdparty/kanjivg.xml)	
 	add_dependencies(databases database-${LANG})	
 endforeach(LANG ${DICT_LANG})
+
+# i18n
+FILE (GLOB TRANSLATIONS_FILES ${CMAKE_SOURCE_DIR}/i18n/*.ts)
+QT4_ADD_TRANSLATION(QM_FILES ${TRANSLATIONS_FILES})
+add_custom_target (i18n DEPENDS ${QM_FILES})
 
 # TODO does not triggers building of db files if they do not exist
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/jmdict.db ${CMAKE_CURRENT_BINARY_DIR}/kanjidic2.db DESTINATION share/tagainijisho PERMISSIONS OWNER_READ GROUP_READ WORLD_READ)
