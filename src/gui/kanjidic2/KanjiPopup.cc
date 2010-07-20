@@ -22,6 +22,7 @@
 #include "gui/EntryFormatter.h"
 #include "gui/SingleEntryView.h"
 #include "gui/kanjidic2/Kanjidic2EntryFormatter.h"
+#include "gui/kanjidic2/Kanjidic2GUIPlugin.h"
 
 #include <QtDebug>
 
@@ -195,7 +196,7 @@ void KanjiPopup::updateInfo()
 	if (entry->frequency() != -1)
 		str += tr("<b>Freq:</b> %1<br/>").arg(entry->frequency());
 	if (entry->jlpt() != -1)
-		str += tr("<b>Grade:</b> %1<br/>").arg(entry->grade());
+		str += tr("<b>Grade:</b> %1<br/>").arg(Kanjidic2GUIPlugin::kanjiGrades[entry->grade()]);
 	if (entry->jlpt() != -1)
 		str += tr("<b>JLPT:</b> %1<br/>").arg(entry->jlpt());
 	if (entry->trained())
