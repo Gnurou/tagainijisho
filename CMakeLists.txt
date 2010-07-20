@@ -5,9 +5,11 @@ set(SQLITE_SOURCE http://www.sqlite.org/sqlite-amalgamation-${SQLITE_VERSION}.ta
 set(JMDICT_SOURCE ftp://ftp.monash.edu.au/pub/nihongo/JMdict.gz)
 set(KANJIDIC2_SOURCE http://www.csse.monash.edu.au/~jwb/kanjidic2/kanjidic2.xml.gz)
 set(KANJIVG_SOURCE http://kanjivg.tagaini.net/upload/Main/kanjivg-latest.xml.gz)
-find_program(MULTI_MARKDOWN NAMES mmd2XHTML.pl)
 
 cmake_minimum_required(VERSION 2.8.0)
+
+find_program(MULTI_MARKDOWN NAMES mmd2XHTML.pl)
+find_program(GUNZIP NAMES gunzip)
 find_package(Qt4 4.5 REQUIRED)
 
 MACRO(GENERATE_DOCS _doc_files)
@@ -22,6 +24,8 @@ MACRO(GENERATE_DOCS _doc_files)
     SET(${_doc_files} ${${_doc_files}} ${doc})
   ENDFOREACH (_current_FILE)
 ENDMACRO(GENERATE_DOCS)
+
+CONFIGURE_FILE("${CMAKE_CURRENT_SOURCE_DIR}/cmake_uninstall.cmake.in" "${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake" IMMEDIATE @ONLY)
 
 # Global GCC options
 if(CMAKE_COMPILER_IS_GNUCC)
@@ -73,37 +77,41 @@ if(NOT EXISTS ${CMAKE_SOURCE_DIR}/3rdparty/sqlite/sqlite3.c)
 	FILE(REMOVE_RECURSE ${CMAKE_SOURCE_DIR}/3rdparty/sqlite-${SQLITE_VERSION})
 endif()
 
-# JMdict
-if(NOT EXISTS ${CMAKE_SOURCE_DIR}/3rdparty/JMdict)
-	MESSAGE(STATUS "Downloading JMdict from ${JMDICT_SOURCE}")
-	FILE(DOWNLOAD ${JMDICT_SOURCE} ${CMAKE_SOURCE_DIR}/3rdparty/JMdict.gz)
-	execute_process(COMMAND gunzip ${CMAKE_SOURCE_DIR}/3rdparty/JMdict.gz WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/3rdparty)
-endif()
+if(${GUNZIP} MATCHES "GUNZIP-NOTFOUND")
+	MESSAGE("Gunzip not found, building will not be possible ")
+else(${GUNZIP} MATCHES "GUNZIP-NOTFOUND")
+	# JMdict
+	if(NOT EXISTS ${CMAKE_SOURCE_DIR}/3rdparty/JMdict)
+		MESSAGE(STATUS "Downloading JMdict from ${JMDICT_SOURCE}")
+		FILE(DOWNLOAD ${JMDICT_SOURCE} ${CMAKE_SOURCE_DIR}/3rdparty/JMdict.gz)
+		execute_process(COMMAND gunzip ${CMAKE_SOURCE_DIR}/3rdparty/JMdict.gz WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/3rdparty)
+	endif()
 
-# KanjiDict2
-if(NOT EXISTS ${CMAKE_SOURCE_DIR}/3rdparty/kanjidic2.xml)
-	MESSAGE(STATUS "Downloading KanjiDict2 ${KANJIDIC2_SOURCE}")
-	FILE(DOWNLOAD ${KANJIDIC2_SOURCE} ${CMAKE_SOURCE_DIR}/3rdparty/kanjidic2.xml.gz)
-	execute_process(COMMAND gunzip ${CMAKE_SOURCE_DIR}/3rdparty/kanjidic2.xml.gz WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/3rdparty)
-endif()
+	# KanjiDict2
+	if(NOT EXISTS ${CMAKE_SOURCE_DIR}/3rdparty/kanjidic2.xml)
+		MESSAGE(STATUS "Downloading KanjiDict2 ${KANJIDIC2_SOURCE}")
+		FILE(DOWNLOAD ${KANJIDIC2_SOURCE} ${CMAKE_SOURCE_DIR}/3rdparty/kanjidic2.xml.gz)
+		execute_process(COMMAND gunzip ${CMAKE_SOURCE_DIR}/3rdparty/kanjidic2.xml.gz WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/3rdparty)
+	endif()
 
-# KanjiVG
-if(NOT EXISTS ${CMAKE_SOURCE_DIR}/3rdparty/kanjivg.xml)
-	MESSAGE(STATUS "Downloading KanjiVG ${KANJIVG_SOURCE}")
-	FILE(DOWNLOAD ${KANJIVG_SOURCE} ${CMAKE_SOURCE_DIR}/3rdparty/kanjivg-latest.xml.gz)
-	execute_process(COMMAND gunzip ${CMAKE_SOURCE_DIR}/3rdparty/kanjivg-latest.xml.gz WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/3rdparty)
-	FILE(RENAME ${CMAKE_SOURCE_DIR}/3rdparty/kanjivg-latest.xml ${CMAKE_SOURCE_DIR}/3rdparty/kanjivg.xml)
-endif()
+	# KanjiVG
+	if(NOT EXISTS ${CMAKE_SOURCE_DIR}/3rdparty/kanjivg.xml)
+		MESSAGE(STATUS "Downloading KanjiVG ${KANJIVG_SOURCE}")
+		FILE(DOWNLOAD ${KANJIVG_SOURCE} ${CMAKE_SOURCE_DIR}/3rdparty/kanjivg-latest.xml.gz)
+		execute_process(COMMAND gunzip ${CMAKE_SOURCE_DIR}/3rdparty/kanjivg-latest.xml.gz WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/3rdparty)
+		FILE(RENAME ${CMAKE_SOURCE_DIR}/3rdparty/kanjivg-latest.xml ${CMAKE_SOURCE_DIR}/3rdparty/kanjivg.xml)
+	endif()
 
-# JMdictDescs
-if(NOT EXISTS ${CMAKE_SOURCE_DIR}/3rdparty/JMdictDescs.cc)
-	MESSAGE(STATUS "Generating JMdictDescs")	
-	FILE(STRINGS ${CMAKE_SOURCE_DIR}/3rdparty/JMdict LINES REGEX ENTITY)
-	foreach(LINE ${LINES})
-		STRING(REGEX REPLACE ".*\\\"(.*)\\\">" "\\1" result "${LINE}" )
-		FILE(APPEND ${CMAKE_SOURCE_DIR}/3rdparty/JMdictDescs.cc "QT_TRANSLATE_NOOP(\"JMdictLongDescs\", \"${result}\");\n")
-	endforeach(LINE ${LINES})
-endif()
+	# JMdictDescs
+	if(NOT EXISTS ${CMAKE_SOURCE_DIR}/3rdparty/JMdictDescs.cc)
+		MESSAGE(STATUS "Generating JMdictDescs")	
+		FILE(STRINGS ${CMAKE_SOURCE_DIR}/3rdparty/JMdict LINES REGEX ENTITY)
+		foreach(LINE ${LINES})
+			STRING(REGEX REPLACE ".*\\\"(.*)\\\">" "\\1" result "${LINE}" )
+			FILE(APPEND ${CMAKE_SOURCE_DIR}/3rdparty/JMdictDescs.cc "QT_TRANSLATE_NOOP(\"JMdictLongDescs\", \"${result}\");\n")
+		endforeach(LINE ${LINES})
+	endif()
+endif(${GUNZIP} MATCHES "GUNZIP-NOTFOUND")
 
 # Which languages are enabled?
 if(NOT DICT_LANG)
@@ -147,6 +155,9 @@ if (EXISTS ${CMAKE_SOURCE_DIR}/doc/manual.html)
 	install(FILES ${CMAKE_SOURCE_DIR}/doc/manual.html DESTINATION share/tagainijisho/doc)
 	install(DIRECTORY ${CMAKE_SOURCE_DIR}/doc/images DESTINATION share/tagainijisho/doc)
 endif()
+
+# Uninstall
+ADD_CUSTOM_TARGET(uninstall "${CMAKE_COMMAND}" -P "${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake")
 
 add_subdirectory(src)
 
