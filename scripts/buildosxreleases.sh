@@ -3,11 +3,11 @@ VERSION=`grep "set(VERSION " CMakeLists.txt |sed "s/set(VERSION \(.*\))/\1/"`
 BUNDLEPATH=build/src/gui
 
 # Do normal build
-mkdir build
-cd build
-cmake -DCMAKE_BUILD_TYPE=Release ..
-make tagainijisho
-cd ..
+#mkdir build
+#cd build
+#cmake -DCMAKE_BUILD_TYPE=Release ..
+#make tagainijisho
+#cd ..
 
 # Include and re-link the Qt libraries in the bundle
 macdeployqt $BUNDLEPATH/tagainijisho.app
