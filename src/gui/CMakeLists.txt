@@ -152,6 +152,7 @@ set(tagainijisho_SRCS main.cc ${tagainijisho_gui_RC} )
 if (WIN32)
 	add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/tagainijisho_rc.obj COMMAND i486-mingw32-windres -I${CMAKE_SOURCE_DIR} -i${CMAKE_SOURCE_DIR}/tagainijisho.rc -o ${CMAKE_CURRENT_BINARY_DIR}/tagainijisho_rc.obj)
 	set(tagainijisho_SRCS ${tagainijisho_SRCS} ${CMAKE_CURRENT_BINARY_DIR}/tagainijisho_rc.obj)
+	set(extra_link_flags "-static-libgcc -static-libstdc++ -mwindows")
 endif()
 
 include_directories(${QT_INCLUDE_DIR})
@@ -159,28 +160,15 @@ include_directories(${QT_INCLUDE_DIR})
 add_library(tagaini_gui STATIC ${tagainijisho_gui_SRCS} ${tagainijisho_gui_MOC_SRCS} ${tagainijisho_gui_UI_SRCS})
 
 if (APPLE)
-	add_executable(tagainijisho MACOSX_BUNDLE ${tagainijisho_SRCS})
+	set(tagainijisho_SRCS ${tagainijisho_SRCS} ${MACOSX_BUNDLE_ICON_FILE})
 	set(extra_link_flags "-bind_at_load")
-else()
-	add_executable(tagainijisho ${tagainijisho_SRCS})
-	if (WIN32)
-		set(extra_link_flags "-static-libgcc -static-libstdc++ -mwindows")
-	endif()
 endif()
 
-install(TARGETS tagainijisho BUNDLE DESTINATION ../../../ RUNTIME DESTINATION bin)
+add_executable(tagainijisho MACOSX_BUNDLE WIN32 ${tagainijisho_SRCS})
 
 target_link_libraries(tagainijisho tagaini_gui tagaini_core tagaini_sqlite ${QT_LIBRARIES} ${extra_link_flags})
 
-# HTML export template
-install(FILES ${CMAKE_SOURCE_DIR}/src/gui/export_template.html DESTINATION share/tagainijisho PERMISSIONS OWNER_READ GROUP_READ WORLD_READ)
-
-# Detailed view templates
-install(FILES ${CMAKE_SOURCE_DIR}/src/gui/detailed_default.html ${CMAKE_SOURCE_DIR}/src/gui/detailed_default.css DESTINATION share/tagainijisho PERMISSIONS OWNER_READ GROUP_READ WORLD_READ)
-
-# i18n files
-file(GLOB i18nfiles ${CMAKE_SOURCE_DIR}/i18n/*.qm)
-install(FILES ${i18nfiles} DESTINATION share/tagainijisho/i18n PERMISSIONS OWNER_READ GROUP_READ WORLD_READ)
+install(TARGETS tagainijisho BUNDLE DESTINATION ../../../ COMPONENT Runtime RUNTIME DESTINATION bin COMPONENT Runtime)
 
 if (BUILD_TESTS)
 	add_subdirectory(tests)

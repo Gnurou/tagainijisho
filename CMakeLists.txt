@@ -7,7 +7,7 @@ set(JMDICT_SOURCE ftp://ftp.monash.edu.au/pub/nihongo/JMdict.gz)
 set(KANJIDIC2_SOURCE http://www.csse.monash.edu.au/~jwb/kanjidic2/kanjidic2.xml.gz)
 set(KANJIVG_SOURCE http://kanjivg.tagaini.net/upload/Main/kanjivg-latest.xml.gz)
 
-cmake_minimum_required(VERSION 2.8.0)
+cmake_minimum_required(VERSION 2.8)
 
 find_program(MULTI_MARKDOWN NAMES mmd2XHTML.pl)
 find_program(GUNZIP NAMES gunzip)
@@ -39,11 +39,9 @@ IF(APPLE)
 endif(APPLE)
 
 # Add the default database lookup data path for Linux if not defined
-if(CMAKE_SYSTEM_NAME MATCHES "Linux")
-	if(NOT DATA_DIR)
-		set(DATA_DIR "${CMAKE_INSTALL_PREFIX}/share/tagainijisho")
-	endif(NOT DATA_DIR)
-endif()
+if(UNIX AND NOT APPLE AND NOT DATA_DIR)
+	set(DATA_DIR "${CMAKE_INSTALL_PREFIX}/share/tagainijisho")
+endif(UNIX AND NOT APPLE AND NOT DATA_DIR)
 
 # Debug options
 option(DEBUG_ENTRIES_CACHE "Debug entries cache behavior" OFF)
@@ -54,13 +52,17 @@ option(DEBUG_DETAILED_VIEW "Debug detailed view output" OFF)
 option(BUILD_TESTS "Build tests suite" OFF)
 
 configure_file(${CMAKE_SOURCE_DIR}/src/tagaini_config.h.cmake ${CMAKE_BINARY_DIR}/src/tagaini_config.h)
+
 # For config.h
 include_directories(${CMAKE_BINARY_DIR}/src)
 
 # For our own headers
 include_directories(${CMAKE_SOURCE_DIR}/src)
 
-# External resources fecthing and generation
+# Source code location
+add_subdirectory(src)
+
+# External resources fetching and generation
 
 if(NOT EXISTS ${CMAKE_SOURCE_DIR}/3rdparty/)
 	FILE(MAKE_DIRECTORY ${CMAKE_SOURCE_DIR}/3rdparty/)
@@ -160,8 +162,6 @@ endif()
 # Uninstall
 ADD_CUSTOM_TARGET(uninstall "${CMAKE_COMMAND}" -P "${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake")
 
-add_subdirectory(src)
-
 # Packaging
 set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "A Free Japanese dictionary and study assistant")
 set(CPACK_PACKAGE_VENDOR "tagaini.net")
@@ -175,21 +175,42 @@ set(CPACK_STRIP_FILES true)
 set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/COPYING.txt")
 set(CPACK_RESOURCE_FILE_README "${CMAKE_CURRENT_SOURCE_DIR}/README.txt")
 
-if(APPLE)
-	set(CPACK_GENERATOR "Bundle")
-    set(CPACK_BUNDLE_NAME "${CMAKE_PROJECT_NAME}")
-    set(CPACK_BUNDLE_PLIST "${CMAKE_CURRENT_SOURCE_DIR}/scripts/Info.plist")
-    set(CPACK_BUNDLE_ICON "${CMAKE_CURRENT_SOURCE_DIR}/images/appicon.icns")    
-    set(CPACK_BUNDLE_STARTUP_COMMAND "${CMAKE_CURRENT_BINARY_DIR}/src/gui/${CMAKE_PROJECT_NAME}.app/Contents/MacOS/${CMAKE_PROJECT_NAME}")    
-	install(CODE "file(WRITE \"\${CMAKE_INSTALL_PREFIX}/qt.conf\" \"Translations = Translations\")")
-	install(DIRECTORY "${QT_PLUGINS_DIR}/imageformats" DESTINATION ../PlugIns)
-	install(DIRECTORY "${QT_PLUGINS_DIR}/graphicssystems" DESTINATION ../PlugIns)
-	install(FILES "${CMAKE_CURRENT_BINARY_DIR}/jmdict-fr.db" DESTINATION ../MacOS/ RENAME "jmdict.db")
-	install(FILES "${CMAKE_CURRENT_BINARY_DIR}/kanjidic2-fr.db" DESTINATION ../MacOS/ RENAME "kanjidic2.db")       
-endif(APPLE)
+if(UNIX)
+	if(APPLE)
+		set(MACOSX_BUNDLE_ICON_FILE ${CMAKE_CURRENT_SOURCE_DIR}/images/appicon.icns) 
+		set(plugin_dest_dir ${CMAKE_PROJECT_NAME}.app/Contents/MacOS)
+  		set(qtconf_dest_dir ${CMAKE_PROJECT_NAME}.app/Contents/Resources)
+		set(APPS "\${CMAKE_INSTALL_PREFIX}/${CMAKE_PROJECT_NAME}.app")
+		SET_SOURCE_FILES_PROPERTIES(${MACOSX_BUNDLE_ICON_FILE} PROPERTIES MACOSX_PACKAGE_LOCATION Resources)
+		install(CODE "file(WRITE \"\${CMAKE_INSTALL_PREFIX}/${qtconf_dest_dir}/qt.conf\" \"\")" COMPONENT Runtime)
+		install(DIRECTORY "${QT_PLUGINS_DIR}/imageformats" DESTINATION ${plugin_dest_dir}/PlugIns COMPONENT Runtime)
+		install(DIRECTORY "${QT_PLUGINS_DIR}/imageformats" DESTINATION ${plugin_dest_dir}/plugIns COMPONENT Runtime)
+		install(FILES "${CMAKE_CURRENT_BINARY_DIR}/jmdict-fr.db" DESTINATION ../MacOS/ RENAME "jmdict.db")
+		install(FILES "${CMAKE_CURRENT_BINARY_DIR}/kanjidic2-fr.db" DESTINATION ../MacOS/ RENAME "kanjidic2.db")
+		install(FILES ${CMAKE_SOURCE_DIR}/src/gui/jmdict/detailed_jmdict.html ${CMAKE_SOURCE_DIR}/src/gui/jmdict/detailed_jmdict.css DESTINATION share/tagainijisho)
+		install(FILES ${CMAKE_SOURCE_DIR}/src/gui/kanjidic2/detailed_kanjidic2.html ${CMAKE_SOURCE_DIR}/src/gui/kanjidic2/detailed_kanjidic2.css DESTINATION share/tagainijisho)
+		install(FILES ${CMAKE_SOURCE_DIR}/src/gui/export_template.html DESTINATION share/tagainijisho PERMISSIONS OWNER_READ GROUP_READ WORLD_READ)
+		install(FILES ${CMAKE_SOURCE_DIR}/src/gui/detailed_default.html ${CMAKE_SOURCE_DIR}/src/gui/detailed_default.css DESTINATION share/tagainijisho)
+		file(GLOB i18nfiles ${CMAKE_SOURCE_DIR}/i18n/*.qm)
+		install(FILES ${i18nfiles} DESTINATION share/tagainijisho/i18n PERMISSIONS OWNER_READ GROUP_READ WORLD_READ)
+		INSTALL(CODE "
+		    file(GLOB_RECURSE QTPLUGINS
+		    \"\${CMAKE_INSTALL_PREFIX}/${plugin_dest_dir}/PlugIns/*${CMAKE_SHARED_LIBRARY_SUFFIX}\")
+		    include(BundleUtilities)
+		    fixup_bundle(\"${APPS}\" \"\${QTPLUGINS}\" \"${DIRS}\")
+		    " COMPONENT Runtime)
+	else(APPLE)
+		install(FILES ${CMAKE_SOURCE_DIR}/src/gui/jmdict/detailed_jmdict.html ${CMAKE_SOURCE_DIR}/src/gui/jmdict/detailed_jmdict.css DESTINATION share/tagainijisho PERMISSIONS OWNER_READ GROUP_READ WORLD_READ)
+		install(FILES ${CMAKE_SOURCE_DIR}/src/gui/kanjidic2/detailed_kanjidic2.html ${CMAKE_SOURCE_DIR}/src/gui/kanjidic2/detailed_kanjidic2.css DESTINATION share/tagainijisho PERMISSIONS OWNER_READ GROUP_READ WORLD_READ)
+		install(FILES ${CMAKE_SOURCE_DIR}/src/gui/export_template.html DESTINATION share/tagainijisho PERMISSIONS OWNER_READ GROUP_READ WORLD_READ)
+		install(FILES ${CMAKE_SOURCE_DIR}/src/gui/detailed_default.html ${CMAKE_SOURCE_DIR}/src/gui/detailed_default.css DESTINATION share/tagainijisho PERMISSIONS OWNER_READ GROUP_READ WORLD_READ)
+		file(GLOB i18nfiles ${CMAKE_SOURCE_DIR}/i18n/*.qm)
+		install(FILES ${i18nfiles} DESTINATION share/tagainijisho/i18n PERMISSIONS OWNER_READ GROUP_READ WORLD_READ)
+	endif(APPLE)
+endif(UNIX)
 
 if(WIN32)
-	set(CPACK_GENERATOR "NSIS")
+	MESSAGE(STATUS "Not implemented")
 endif(WIN32)
 
 # For source code, use .tar.gz on Unix, and .zip on Windows

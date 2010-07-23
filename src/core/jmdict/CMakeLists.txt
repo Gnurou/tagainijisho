@@ -10,6 +10,6 @@ set(build_jmdict_db_SRCS
 include(${QT_USE_FILE})
 add_executable(build_jmdict_db EXCLUDE_FROM_ALL ${build_jmdict_db_SRCS})
 target_link_libraries(build_jmdict_db tagaini_sqlite tagaini_core ${QT_LIBRARIES})
-if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-set(extra_link_flags "-bind_at_load")
+if (APPLE)
+	set(extra_link_flags "-bind_at_load")
 endif()
