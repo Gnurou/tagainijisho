@@ -26,13 +26,15 @@ MACRO(GENERATE_DOCS _doc_files)
   ENDFOREACH (_current_FILE)
 ENDMACRO(GENERATE_DOCS)
 
-configure_file("${CMAKE_CURRENT_SOURCE_DIR}/cmake_uninstall.cmake.in" "${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake" IMMEDIATE @ONLY)
-configure_file(${CMAKE_SOURCE_DIR}/src/tagaini_config.h.cmake ${CMAKE_BINARY_DIR}/src/tagaini_config.h)
-
 # Global GCC options
 if(CMAKE_COMPILER_IS_GNUCC)
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wnon-virtual-dtor -Wno-unused-parameter -fno-exceptions -fno-rtti")
 endif(CMAKE_COMPILER_IS_GNUCC)
+
+# Add the default database lookup data path for Linux if not defined
+if(UNIX AND NOT APPLE AND NOT DATA_DIR)
+	set(DATA_DIR "${CMAKE_INSTALL_PREFIX}/share/tagainijisho")
+endif(UNIX AND NOT APPLE AND NOT DATA_DIR)
 
 # Debug options
 option(DEBUG_ENTRIES_CACHE "Debug entries cache behavior" OFF)
@@ -50,6 +52,9 @@ include_directories(${CMAKE_SOURCE_DIR}/src)
 
 # Source code location
 add_subdirectory(src)
+
+configure_file("${CMAKE_CURRENT_SOURCE_DIR}/cmake_uninstall.cmake.in" "${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake" IMMEDIATE @ONLY)
+configure_file(${CMAKE_SOURCE_DIR}/src/tagaini_config.h.cmake ${CMAKE_BINARY_DIR}/src/tagaini_config.h)
 
 # External resources fetching and generation
 
@@ -115,7 +120,7 @@ add_custom_target(databases ALL)
 
 # Create database targets for each language
 foreach(LANG ${DICT_LANG})
-	add_custom_target(database-${LANG} ALL DEPENDS ${CMAKE_BINARY_DIR}/jmdict-${LANG}.db ${CMAKE_BINARY_DIR}/kanjidic2-${LANG}.db)		
+	#add_custom_target(database-${LANG} ALL DEPENDS ${CMAKE_BINARY_DIR}/jmdict-${LANG}.db ${CMAKE_BINARY_DIR}/kanjidic2-${LANG}.db)		
 	add_custom_command(OUTPUT ${CMAKE_BINARY_DIR}/jmdict-${LANG}.db
 	COMMAND build_jmdict_db -l${LANG} ${CMAKE_SOURCE_DIR} ${CMAKE_BINARY_DIR}/jmdict-${LANG}.db
 	DEPENDS build_jmdict_db ${CMAKE_SOURCE_DIR}/3rdparty/JMdict)	
@@ -139,8 +144,14 @@ else(${MULTI_MARKDOWN} MATCHES "MULTI_MARKDOWN-NOTFOUND")
 	add_custom_target (docs ALL DEPENDS ${DOC_FILES})
 endif(${MULTI_MARKDOWN} MATCHES "MULTI_MARKDOWN-NOTFOUND")
 
+# Documentation installation
+if (EXISTS ${CMAKE_SOURCE_DIR}/doc/manual.html)
+	install(FILES ${CMAKE_SOURCE_DIR}/doc/manual.html DESTINATION share/tagainijisho/doc)
+	install(DIRECTORY ${CMAKE_SOURCE_DIR}/doc/images DESTINATION share/tagainijisho/doc)
+endif()
+
 # Uninstall
-ADD_CUSTOM_TARGET(uninstall "${CMAKE_COMMAND}" -P "${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake")
+add_custom_target(uninstall "${CMAKE_COMMAND}" -P "${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake")
 
 # Packaging
 set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "A Free Japanese dictionary and study assistant")
@@ -166,6 +177,7 @@ set(CPACK_BINARY_NSIS OFF)
 set(CPACK_BINARY_OSXX11 OFF)
 set(CPACK_BINARY_PACKAGEMAKER OFF)
 set(CPACK_BINARY_RPM OFF)
+
 set(CPACK_SOURCE_TBZ2 OFF)
 set(CPACK_SOURCE_TGZ OFF)
 set(CPACK_SOURCE_TZ OFF)
@@ -174,7 +186,7 @@ set(CPACK_SOURCE_ZIP OFF)
 if(UNIX)
 	set(CPACK_SOURCE_TGZ ON)
 	if(APPLE)
-		set(CMAKE_OSX_ARCHITECTURES "ppc;i386") 		
+		set(CMAKE_OSX_ARCHITECTURES "ppc;i386") 
 		set(CPACK_BINARY_DRAGNDROP ON)
 		set(MACOSX_BUNDLE_ICON_FILE ${CMAKE_CURRENT_SOURCE_DIR}/images/appicon.icns) 
 		set(plugin_dest_dir ${CMAKE_PROJECT_NAME}.app/Contents/MacOS)
@@ -190,12 +202,12 @@ if(UNIX)
 		install(FILES ${CMAKE_SOURCE_DIR}/src/gui/kanjidic2/detailed_kanjidic2.html ${CMAKE_SOURCE_DIR}/src/gui/kanjidic2/detailed_kanjidic2.css DESTINATION share/tagainijisho COMPONENT Runtime)
 		install(FILES ${CMAKE_SOURCE_DIR}/src/gui/export_template.html DESTINATION share/tagainijisho COMPONENT Runtime)
 		install(FILES ${CMAKE_SOURCE_DIR}/src/gui/detailed_default.html ${CMAKE_SOURCE_DIR}/src/gui/detailed_default.css DESTINATION share/tagainijisho COMPONENT Runtime)
+		file(GLOB i18nfiles ${CMAKE_CURRENT_BINARY_DIR}/i18n/*.qm)
+		install(FILES ${i18nfiles} DESTINATION share/tagainijisho/i18n COMPONENT Runtime)
 		if (EXISTS ${CMAKE_SOURCE_DIR}/doc/manual.html)
 			install(FILES ${CMAKE_SOURCE_DIR}/doc/manual.html DESTINATION share/tagainijisho/doc COMPONENT Runtime)
 			install(DIRECTORY ${CMAKE_SOURCE_DIR}/doc/images DESTINATION share/tagainijisho/doc COMPONENT Runtime)
 		endif()
-		file(GLOB i18nfiles ${CMAKE_CURRENT_BINARY_DIR}/*.qm)
-		install(FILES ${i18nfiles} DESTINATION share/tagainijisho/i18n COMPONENT Runtime)
 		INSTALL(CODE "
 		    file(GLOB_RECURSE QTPLUGINS
 		    \"\${CMAKE_INSTALL_PREFIX}/${plugin_dest_dir}/PlugIns/*${CMAKE_SHARED_LIBRARY_SUFFIX}\")
@@ -203,9 +215,6 @@ if(UNIX)
 		    fixup_bundle(\"${APPS}\" \"\${QTPLUGINS}\" \"${DIRS}\")
 		    " COMPONENT Runtime)
 	else(APPLE)
-		if(NOT DATA_DIR)
-			set(DATA_DIR "${CMAKE_INSTALL_PREFIX}/share/tagainijisho")
-		endif(NOT DATA_DIR)		
 		set(CPACK_BINARY_DEB ON)
 		set(CPACK_BINARY_NSIS ON)
 		install(FILES ${CMAKE_CURRENT_BINARY_DIR}/jmdict-fr.db DESTINATION share/tagainijisho RENAME "jmdict.db" PERMISSIONS OWNER_READ GROUP_READ WORLD_READ COMPONENT Runtime)
@@ -214,12 +223,12 @@ if(UNIX)
 		install(FILES ${CMAKE_SOURCE_DIR}/src/gui/kanjidic2/detailed_kanjidic2.html ${CMAKE_SOURCE_DIR}/src/gui/kanjidic2/detailed_kanjidic2.css DESTINATION share/tagainijisho PERMISSIONS OWNER_READ GROUP_READ WORLD_READ COMPONENT Runtime)
 		install(FILES ${CMAKE_SOURCE_DIR}/src/gui/export_template.html DESTINATION share/tagainijisho PERMISSIONS OWNER_READ GROUP_READ WORLD_READ COMPONENT Runtime)
 		install(FILES ${CMAKE_SOURCE_DIR}/src/gui/detailed_default.html ${CMAKE_SOURCE_DIR}/src/gui/detailed_default.css DESTINATION share/tagainijisho PERMISSIONS OWNER_READ GROUP_READ WORLD_READ COMPONENT Runtime)
+		file(GLOB i18nfiles ${CMAKE_CURRENT_BINARY_DIR}/i18n/*.qm)
+		install(FILES ${i18nfiles} DESTINATION share/tagainijisho/i18n PERMISSIONS OWNER_READ GROUP_READ WORLD_READ COMPONENT Runtime)
 		if (EXISTS ${CMAKE_SOURCE_DIR}/doc/manual.html)
 			install(FILES ${CMAKE_SOURCE_DIR}/doc/manual.html DESTINATION share/tagainijisho/doc COMPONENT Runtime)
 			install(DIRECTORY ${CMAKE_SOURCE_DIR}/doc/images DESTINATION share/tagainijisho/doc COMPONENT Runtime)
-		endif()		
-		file(GLOB i18nfiles ${CMAKE_CURRENT_BINARY_DIR}/*.qm)
-		install(FILES ${i18nfiles} DESTINATION share/tagainijisho/i18n PERMISSIONS OWNER_READ GROUP_READ WORLD_READ COMPONENT Runtime)
+		endif()
 	endif(APPLE)
 endif(UNIX)
 
