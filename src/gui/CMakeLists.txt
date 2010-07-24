@@ -147,7 +147,14 @@ kanjidic2/KanjiSelector.ui
 kanjidic2/Kanjidic2Preferences.ui
 )
 
-set(tagainijisho_SRCS main.cc ${tagainijisho_gui_RC} )
+SET(ICON "")
+if(APPLE)
+	set(MACOSX_BUNDLE_ICON_FILE appicon.icns) 
+	SET_SOURCE_FILES_PROPERTIES(appicon.icns PROPERTIES MACOSX_PACKAGE_LOCATION Resources)
+	set(ICON ${CMAKE_CURRENT_SOURCE_DIR}/appicon.icns)
+endif(APPLE)
+
+set(tagainijisho_SRCS main.cc ${tagainijisho_gui_RC} ${ICON})
 
 if (WIN32)
 	add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/tagainijisho_rc.obj COMMAND i486-mingw32-windres -I${CMAKE_SOURCE_DIR} -i${CMAKE_SOURCE_DIR}/tagainijisho.rc -o ${CMAKE_CURRENT_BINARY_DIR}/tagainijisho_rc.obj)
@@ -168,7 +175,7 @@ add_executable(tagainijisho MACOSX_BUNDLE WIN32 ${tagainijisho_SRCS})
 
 target_link_libraries(tagainijisho tagaini_gui tagaini_core tagaini_sqlite ${QT_LIBRARIES} ${extra_link_flags})
 
-install(TARGETS tagainijisho BUNDLE DESTINATION ../../../ COMPONENT Runtime RUNTIME DESTINATION bin COMPONENT Runtime)
+install(TARGETS tagainijisho BUNDLE DESTINATION . COMPONENT Runtime RUNTIME DESTINATION bin COMPONENT Runtime)
 
 if (BUILD_TESTS)
 	add_subdirectory(tests)
