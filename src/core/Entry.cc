@@ -249,20 +249,20 @@ QString Entry::shortVersion(VersionLength length) const {
 	text += mRepr;
 
 	writes = writings();
-	bool hasWriting = writes.contains(mRepr);
-	writes.removeAll(mRepr);
 	QStringList reads(readings());
-	if (hasWriting && !writes.isEmpty() && length != TinyVersion) text += ", " + writes.join(", ");
-
-	reads.removeAll(mRepr);
-	bool hasReading = !reads.isEmpty();
-	if (hasReading) {
-		if (hasWriting) text += " (";
-		else if (length != TinyVersion) text += ", ";
+	bool reprIsWriting = writes.contains(mRepr);
+	if (reprIsWriting) writes.removeAll(mRepr);
+	else reads.removeAll(mRepr);
+	// Show alternate writings if needed
+	if (!writes.isEmpty() && length != TinyVersion) text += ", " + writes.join(", ");
+	
+	if (reprIsWriting && !reads.isEmpty()) {
+		text += " (";
 		if (length != TinyVersion) text += reads.join(", ");
 		else text += reads[0];
-		if (hasWriting) text += ")";
+		text += ")";
 	}
+	else if (!reads.isEmpty() && length != TinyVersion) text += ", " + reads.join(", ");
 
 	// Senses
 	QStringList means = meanings();
