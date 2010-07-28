@@ -117,23 +117,18 @@ endif(${GUNZIP} MATCHES "GUNZIP-NOTFOUND")
 
 # Which languages are enabled?
 if(NOT DICT_LANG)
-	set(DICT_LANG de en es fr ru)
+	set(DICT_LANG en)
 endif()
 
-# This will create databases for each choosen languages
-add_custom_target(databases ALL)
+add_custom_target(database-${DICT_LANG} ALL DEPENDS ${CMAKE_BINARY_DIR}/jmdict-${DICT_LANG}.db ${CMAKE_BINARY_DIR}/kanjidic2-${DICT_LANG}.db)
 
-# Create database targets for each language
-foreach(LANG ${DICT_LANG})
-	add_custom_target(database-${LANG} ALL DEPENDS ${CMAKE_BINARY_DIR}/jmdict-${LANG}.db ${CMAKE_BINARY_DIR}/kanjidic2-${LANG}.db)
-	add_custom_command(OUTPUT ${CMAKE_BINARY_DIR}/jmdict-${LANG}.db
-	COMMAND build_jmdict_db -l${LANG} ${CMAKE_SOURCE_DIR} ${CMAKE_BINARY_DIR}/jmdict-${LANG}.db
+add_custom_command(OUTPUT ${CMAKE_BINARY_DIR}/jmdict-${DICT_LANG}.db
+	COMMAND build_jmdict_db -l${DICT_LANG} ${CMAKE_SOURCE_DIR} ${CMAKE_BINARY_DIR}/jmdict-${DICT_LANG}.db
 	DEPENDS build_jmdict_db ${CMAKE_SOURCE_DIR}/3rdparty/JMdict)
-	add_custom_command(OUTPUT ${CMAKE_BINARY_DIR}/kanjidic2-${LANG}.db
-	COMMAND build_kanji_db -l${LANG} ${CMAKE_SOURCE_DIR} ${CMAKE_BINARY_DIR}/kanjidic2-${LANG}.db
+
+add_custom_command(OUTPUT ${CMAKE_BINARY_DIR}/kanjidic2-${DICT_LANG}.db
+	COMMAND build_kanji_db -l${DICT_LANG} ${CMAKE_SOURCE_DIR} ${CMAKE_BINARY_DIR}/kanjidic2-${DICT_LANG}.db
 	DEPENDS build_kanji_db ${CMAKE_SOURCE_DIR}/3rdparty/kanjidic2.xml ${CMAKE_SOURCE_DIR}/3rdparty/kanjivg.xml)
-	add_dependencies(databases database-${LANG})
-endforeach(LANG ${DICT_LANG})
 
 # i18n
 FILE (GLOB TRANSLATIONS_FILES ${CMAKE_SOURCE_DIR}/i18n/*.ts)
