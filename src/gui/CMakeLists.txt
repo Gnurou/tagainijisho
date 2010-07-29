@@ -172,11 +172,11 @@ if (APPLE)
 	set(extra_link_flags "-bind_at_load")
 endif()
 
-add_executable(tagainijisho MACOSX_BUNDLE WIN32 ${tagainijisho_SRCS})
+add_executable("Tagaini Jisho" MACOSX_BUNDLE WIN32 ${tagainijisho_SRCS})
 
-target_link_libraries(tagainijisho tagaini_gui tagaini_core tagaini_sqlite ${QT_LIBRARIES} ${extra_link_flags})
+target_link_libraries("Tagaini Jisho" tagaini_gui tagaini_core tagaini_sqlite ${QT_LIBRARIES} ${extra_link_flags})
 
-install(TARGETS tagainijisho BUNDLE DESTINATION . COMPONENT Runtime RUNTIME DESTINATION bin COMPONENT Runtime)
+install(TARGETS "Tagaini Jisho" BUNDLE DESTINATION . COMPONENT Runtime RUNTIME DESTINATION bin COMPONENT Runtime)
 
 if (BUILD_TESTS)
 	add_subdirectory(tests)
