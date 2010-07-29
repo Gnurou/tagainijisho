@@ -1,7 +1,4 @@
 # Which languages are enabled?
-if(NOT DICT_LANG)
-	set(DICT_LANG en)
-endif()
 set(QT_USE_QTSQL TRUE)
 set(QT_USE_QTNETWORK TRUE)
 include(${QT_USE_FILE})
@@ -175,11 +172,11 @@ if (APPLE)
 	set(extra_link_flags "-bind_at_load")
 endif()
 
-add_executable(tagainijisho-${DICT_LANG} MACOSX_BUNDLE WIN32 ${tagainijisho_SRCS})
+add_executable(tagainijisho MACOSX_BUNDLE WIN32 ${tagainijisho_SRCS})
 
-target_link_libraries(tagainijisho-${DICT_LANG} tagaini_gui tagaini_core tagaini_sqlite ${QT_LIBRARIES} ${extra_link_flags})
+target_link_libraries(tagainijisho tagaini_gui tagaini_core tagaini_sqlite ${QT_LIBRARIES} ${extra_link_flags})
 
-install(TARGETS tagainijisho-${DICT_LANG} BUNDLE DESTINATION . COMPONENT Runtime RUNTIME DESTINATION bin COMPONENT Runtime)
+install(TARGETS tagainijisho BUNDLE DESTINATION . COMPONENT Runtime RUNTIME DESTINATION bin COMPONENT Runtime)
 
 if (BUILD_TESTS)
 	add_subdirectory(tests)
