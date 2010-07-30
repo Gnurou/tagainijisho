@@ -154,14 +154,16 @@ void JMdictEntrySearcher::buildStatement(QList<SearchCommand> &commands, QueryBu
 			commands.removeOne(command);
 		}
 		else if (commandLabel == "jmdict") {
-			if (command.args().size() > 1) continue;
 			statement.addJoin(QueryBuilder::Column("jmdict.entries", "id"));
-			if (command.args().size() == 1) {
-				int entryId;
+			if (command.args().size() >= 1) {
+				QStringList entriesId;
 				bool ok;
-				entryId = command.args()[0].toInt(&ok);
-				if (!ok) continue;
-				statement.addWhere(QString("jmdict.entries.id = %1").arg(entryId));
+				foreach (const QString &arg, command.args()) {
+					arg.toInt(&ok);
+					if (!ok) continue;
+					entriesId << arg;
+				}
+				statement.addWhere(QString("jmdict.entries.id in (%1)").arg(entriesId.join(", ")));
 			}
 			commands.removeOne(command);
 		}
