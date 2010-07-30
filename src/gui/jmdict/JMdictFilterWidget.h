@@ -34,6 +34,7 @@ private:
 	QLineEdit *_containedKanjis;
 	QLineEdit *_containedComponents;
 	QCheckBox *_studiedKanjisCheckBox;
+	QCheckBox *_kanaOnlyCheckBox;
 
 	QPushButton *_posButton;
 	QStringList _posList;
@@ -69,6 +70,10 @@ public:
 	bool studiedKanjisOnly() const { return _studiedKanjisCheckBox->isChecked(); }
 	void setStudiedKanjisOnly(bool value) { _studiedKanjisCheckBox->setChecked(value); }
 	Q_PROPERTY(bool studiedKanjisOnly READ studiedKanjisOnly WRITE setStudiedKanjisOnly)
+
+	bool kanaOnlyWords() const { return _kanaOnlyCheckBox->isChecked(); }
+	void setKanaOnlyWords(bool value) { _kanaOnlyCheckBox->setChecked(value); }
+	Q_PROPERTY(bool kanaOnlyWords READ kanaOnlyWords WRITE setKanaOnlyWords)
 
 	QStringList pos() const { return _posList; }
 	void setPos(const QStringList &list);
