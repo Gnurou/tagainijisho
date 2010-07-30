@@ -231,7 +231,12 @@ void JMdictEntrySearcher::buildStatement(QList<SearchCommand> &commands, QueryBu
 			statement.addJoin(QueryBuilder::Column("jmdict.entries", "id"));
 			// Performance is very bad when using :train with this command. changing the first jmdict.entries.id to training.id in that case fixes the issue. We must
 			// keep track of the "id column" and use it for this kind of reference
-			statement.addWhere(QString("{{leftcolumn}} in (select jmdict.entries.id from jmdict.entries join jmdict.kanjiChar on jmdict.entries.id = jmdict.kanjiChar.id and jmdict.kanjiChar.priority = 0 join training on training.id = jmdict.kanjiChar.kanji and training.type = 2 %1 group by jmdict.entries.id having count(jmdict.kanjiChar.kanji) = jmdict.entries.kanjiCount)").arg(scoreCondition));
+			statement.addWhere(QString("{{leftcolumn}} in "
+				"(select jmdict.entries.id from jmdict.entries "
+				"join jmdict.kanjiChar on jmdict.entries.id = jmdict.kanjiChar.id and jmdict.kanjiChar.priority = 0 "
+				"join training on training.id = jmdict.kanjiChar.kanji and training.type = 2 %1 "
+				"group by jmdict.entries.id "
+				"having count(jmdict.kanjiChar.kanji) = jmdict.entries.kanjiCount)").arg(scoreCondition));
 			commands.removeOne(command);
 		}
 		// Check for sense property commands
@@ -309,12 +314,29 @@ void JMdictEntrySearcher::buildStatement(QList<SearchCommand> &commands, QueryBu
 	// TODO it should be ensure that kanjisearch and componentsearch are applied on the same writing
 	if (!hasKanjiSearch.isEmpty()) {
 		statement.addJoin(QueryBuilder::Column("jmdict.entries", "id"));
-		statement.addWhere(QString("{{leftcolumn}} in (select distinct jmdict.kanjiChar.id from jmdict.kanjiChar where jmdict.kanjiChar.kanji in (%1) group by jmdict.kanjiChar.id, jmdict.kanjiChar.priority having count(jmdict.kanjiChar.kanji) = %2)").arg(hasKanjiSearch.join(", ")).arg(hasKanjiSearch.size()));
+		statement.addWhere(QString("{{leftcolumn}} in "
+			"(select distinct jmdict.kanjiChar.id from jmdict.kanjiChar "
+			"where jmdict.kanjiChar.kanji in (%1) "
+			"group by jmdict.kanjiChar.id, jmdict.kanjiChar.priority "
+			"having count(jmdict.kanjiChar.kanji) = %2)").arg(hasKanjiSearch.join(", ")).arg(hasKanjiSearch.size()));
 	}
 
 	if (!hasComponentSearch.isEmpty()) {
 		statement.addJoin(QueryBuilder::Column("jmdict.entries", "id"));
-		statement.addWhere(QString("{{leftcolumn}} in (select distinct jmdict.kanjiChar.id from jmdict.kanjiChar join kanjidic2.strokeGroups on jmdict.kanjiChar.kanji = kanjidic2.strokeGroups.kanji where kanjidic2.strokeGroups.element in (%1) or kanjidic2.strokeGroups.original in (%1) group by jmdict.kanjiChar.id, jmdict.kanjiChar.priority HAVING UNIQUECOUNT(CASE WHEN kanjidic2.strokeGroups.element IN (%1) THEN kanjidic2.strokeGroups.element ELSE NULL END, CASE WHEN kanjidic2.strokeGroups.original IN (%1) THEN kanjidic2.strokeGroups.original ELSE NULL END) >= %2)").arg(hasComponentSearch.join(", ")).arg(hasComponentSearch.size()));
+		statement.addWhere(QString("{{leftcolumn}} in "
+			"(select distinct jmdict.kanjiChar.id from jmdict.kanjiChar "
+			"join kanjidic2.strokeGroups on jmdict.kanjiChar.kanji = kanjidic2.strokeGroups.kanji "
+			"where kanjidic2.strokeGroups.element in (%1) "
+			"or kanjidic2.strokeGroups.original in (%1) "
+			"group by jmdict.kanjiChar.id, jmdict.kanjiChar.priority "
+			"HAVING UNIQUECOUNT("
+				"CASE WHEN kanjidic2.strokeGroups.element IN (%1) "
+				"THEN kanjidic2.strokeGroups.element "
+				"ELSE NULL END, "
+				"CASE WHEN kanjidic2.strokeGroups.original IN (%1) "
+				"THEN kanjidic2.strokeGroups.original "
+				"ELSE NULL END) >= %2"
+			")").arg(hasComponentSearch.join(", ")).arg(hasComponentSearch.size()));
 	}
 }
 

@@ -245,7 +245,15 @@ void Kanjidic2EntrySearcher::buildStatement(QList<SearchCommand> &commands, Quer
 	if (!transSearch.isEmpty()) statement.addWhere(buildTextSearchCondition(transSearch, "kanjidic2.meaning"));
 
 	if (!radicalSearch.isEmpty()) {
-		statement.addWhere(QString("kanjidic2.entries.id IN(select r1.kanji from kanjidic2.radicals as r1 join kanjidic2.entries as e on r1.kanji = e.id where r1.number in (select distinct number from radicalsList where kanji in (%1)) and r1.type is not null group by r1.kanji having uniquecount(r1.number) >= %2)").arg(radicalSearch.join(", ")).arg(radicalSearch.size()));
+		statement.addWhere(QString("kanjidic2.entries.id IN("
+			"select r1.kanji from kanjidic2.radicals as r1 "
+			"join kanjidic2.entries as e on r1.kanji = e.id "
+			"where r1.number in ("
+				"select distinct number from radicalsList "
+				"where kanji in (%1)) "
+			"and r1.type is not null "
+			"group by r1.kanji "
+			"having uniquecount(r1.number) >= %2)").arg(radicalSearch.join(", ")).arg(radicalSearch.size()));
 	}
 	
 	if (!componentSearch.isEmpty()) {
@@ -253,7 +261,18 @@ void Kanjidic2EntrySearcher::buildStatement(QList<SearchCommand> &commands, Quer
 		QString qString;
 		// TODO We should be able to control this - probably when we have a more powerful command system based on subclasses
 		if (0) qString = onlyDirectComponentsString;
-		statement.addWhere(QString("kanjidic2.entries.id IN (SELECT DISTINCT ks1.kanji FROM kanjidic2.strokeGroups AS ks1 WHERE (ks1.element IN (%1) OR ks1.original IN (%1)) %3 GROUP BY ks1.kanji HAVING UNIQUECOUNT(CASE WHEN ks1.element IN (%1) THEN ks1.element ELSE NULL END, CASE WHEN ks1.original IN (%1) THEN ks1.original ELSE NULL END) >= %2)").arg(componentSearch.join(", ")).arg(componentSearch.size()).arg(qString));
+		statement.addWhere(QString("kanjidic2.entries.id IN ("
+			"SELECT DISTINCT ks1.kanji FROM kanjidic2.strokeGroups AS ks1 "
+			"WHERE (ks1.element IN (%1) OR ks1.original IN (%1)) %3 "
+			"GROUP BY ks1.kanji "
+			"HAVING UNIQUECOUNT("
+				"CASE WHEN ks1.element IN (%1) "
+				"THEN ks1.element "
+				"ELSE NULL END, "
+				"CASE WHEN ks1.original IN (%1) "
+				"THEN ks1.original "
+				"ELSE NULL END) >= %2"
+			")").arg(componentSearch.join(", ")).arg(componentSearch.size()).arg(qString));
 	}
 }
 
