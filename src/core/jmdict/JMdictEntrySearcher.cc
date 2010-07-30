@@ -228,7 +228,6 @@ void JMdictEntrySearcher::buildStatement(QList<SearchCommand> &commands, QueryBu
 				scoreCondition = QString("and training.score between %1 and %2").arg(minScore).arg(maxScore);
 			}
 			else if (command.args().size() != 0) continue;
-			statement.addJoin(QueryBuilder::Column("jmdict.entries", "id"));
 			// Performance is very bad when using :train with this command. changing the first jmdict.entries.id to training.id in that case fixes the issue. We must
 			// keep track of the "id column" and use it for this kind of reference
 			statement.addWhere(QString("{{leftcolumn}} in "
@@ -313,7 +312,6 @@ void JMdictEntrySearcher::buildStatement(QList<SearchCommand> &commands, QueryBu
 
 	// TODO it should be ensure that kanjisearch and componentsearch are applied on the same writing
 	if (!hasKanjiSearch.isEmpty()) {
-		statement.addJoin(QueryBuilder::Column("jmdict.entries", "id"));
 		statement.addWhere(QString("{{leftcolumn}} in "
 			"(select distinct jmdict.kanjiChar.id from jmdict.kanjiChar "
 			"where jmdict.kanjiChar.kanji in (%1) "
@@ -322,7 +320,6 @@ void JMdictEntrySearcher::buildStatement(QList<SearchCommand> &commands, QueryBu
 	}
 
 	if (!hasComponentSearch.isEmpty()) {
-		statement.addJoin(QueryBuilder::Column("jmdict.entries", "id"));
 		statement.addWhere(QString("{{leftcolumn}} in "
 			"(select distinct jmdict.kanjiChar.id from jmdict.kanjiChar "
 			"join kanjidic2.strokeGroups on jmdict.kanjiChar.kanji = kanjidic2.strokeGroups.kanji "
