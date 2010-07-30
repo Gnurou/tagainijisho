@@ -172,11 +172,11 @@ if (APPLE)
 	set(extra_link_flags "-bind_at_load")
 endif()
 
-add_executable("Tagaini Jisho" MACOSX_BUNDLE WIN32 ${tagainijisho_SRCS})
+add_executable(${CMAKE_PROJECT_NAME} MACOSX_BUNDLE WIN32 ${tagainijisho_SRCS})
 
-target_link_libraries("Tagaini Jisho" tagaini_gui tagaini_core tagaini_sqlite ${QT_LIBRARIES} ${extra_link_flags})
+target_link_libraries(${CMAKE_PROJECT_NAME} tagaini_gui tagaini_core tagaini_sqlite ${QT_LIBRARIES} ${extra_link_flags})
 
-install(TARGETS "Tagaini Jisho" BUNDLE DESTINATION . COMPONENT Runtime RUNTIME DESTINATION bin COMPONENT Runtime)
+install(TARGETS ${CMAKE_PROJECT_NAME} BUNDLE DESTINATION . COMPONENT Runtime RUNTIME DESTINATION bin COMPONENT Runtime)
 
 if (BUILD_TESTS)
 	add_subdirectory(tests)

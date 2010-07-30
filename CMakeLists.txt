@@ -1,6 +1,5 @@
 project(tagainijisho)
 set(VERSION 0.2.5.90)
-set(PACKAGE tagainijisho)
 set(SQLITE_VERSION 3.6.23.1)
 set(SQLITE_SOURCE http://www.sqlite.org/sqlite-amalgamation-${SQLITE_VERSION}.tar.gz)
 set(JMDICT_SOURCE ftp://ftp.monash.edu.au/pub/nihongo/JMdict.gz)
@@ -143,12 +142,6 @@ else(${MULTI_MARKDOWN} MATCHES "MULTI_MARKDOWN-NOTFOUND")
 	GENERATE_DOCS(DOC_FILES ${DOCUMENTATION_FILES})
 	add_custom_target (docs ALL DEPENDS ${DOC_FILES})
 endif(${MULTI_MARKDOWN} MATCHES "MULTI_MARKDOWN-NOTFOUND")
-
-# Documentation installation
-if (EXISTS ${CMAKE_SOURCE_DIR}/doc/manual.html)
-	install(FILES ${CMAKE_SOURCE_DIR}/doc/manual.html DESTINATION share/tagainijisho/doc)
-	install(DIRECTORY ${CMAKE_SOURCE_DIR}/doc/images DESTINATION share/tagainijisho/doc)
-endif()
 
 # Uninstall
 add_custom_target(uninstall "${CMAKE_COMMAND}" -P "${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake")
