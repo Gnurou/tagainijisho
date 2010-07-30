@@ -420,6 +420,10 @@ void DetailedViewJobRunner::onResult(EntryPointer entry)
 	Q_ASSERT(_currentJob != 0);
 	_currentJob->result(entry);
 	_view->addWatchEntry(entry);
+	// Workaround for the fact QTextEdit does not seem to like when we change the
+	// displayed text document so often - without this scheduled repaint graphical
+	// glitches tend to appear on the first time a given entry is displayed.
+	_view->viewport()->update();
 }
 
 void DetailedViewJobRunner::onCompleted()
