@@ -47,12 +47,12 @@ if(UNIX)
 		
 		set(ROOT_DIR "${CMAKE_PROJECT_NAME}.app/Contents")
 		set(EXE_DIR "${ROOT_DIR}/MacOS")
-  		set(RESOURCES_DIR "${ROOT_DIR}/Resources")
-  		set(APPS "\${CMAKE_INSTALL_PREFIX}/${CMAKE_PROJECT_NAME}.app")
-  		set(DIRS ${QT_LIBRARY_DIRS})  		
-  		  				
-		install(FILES "${CMAKE_BINARY_DIR}/jmdict-${DICT_LANG}.db" DESTINATION ${EXE_DIR} RENAME "jmdict.db" COMPONENT Runtime)
-		install(FILES "${CMAKE_BINARY_DIR}/kanjidic2-${DICT_LANG}.db" DESTINATION ${EXE_DIR} RENAME "kanjidic2.db" COMPONENT Runtime)
+		set(RESOURCES_DIR "${ROOT_DIR}/Resources")
+		set(APPS "\${CMAKE_INSTALL_PREFIX}/${CMAKE_PROJECT_NAME}.app")
+		set(DIRS ${QT_LIBRARY_DIRS})
+
+		install(FILES "${CMAKE_BINARY_DIR}/jmdict-${DICT_LANG}.db" DESTINATION ${EXE_DIR} COMPONENT Runtime)
+		install(FILES "${CMAKE_BINARY_DIR}/kanjidic2-${DICT_LANG}.db" DESTINATION ${EXE_DIR} COMPONENT Runtime)
 		install(FILES ${CMAKE_SOURCE_DIR}/src/gui/jmdict/detailed_jmdict.html ${CMAKE_SOURCE_DIR}/src/gui/jmdict/detailed_jmdict.css DESTINATION ${RESOURCES_DIR} COMPONENT Runtime)
 		install(FILES ${CMAKE_SOURCE_DIR}/src/gui/kanjidic2/detailed_kanjidic2.html ${CMAKE_SOURCE_DIR}/src/gui/kanjidic2/detailed_kanjidic2.css DESTINATION ${RESOURCES_DIR} COMPONENT Runtime)
 		install(FILES ${CMAKE_SOURCE_DIR}/src/gui/export_template.html DESTINATION ${RESOURCES_DIR} COMPONENT Runtime)
@@ -72,13 +72,13 @@ if(UNIX)
 		
 		install(CODE "
 			file(GLOB_RECURSE QTPLUGINS \"\${CMAKE_INSTALL_PREFIX}/${EXE_DIR}/plugin/*${CMAKE_SHARED_LIBRARY_SUFFIX}\")
-    		include(BundleUtilities)
-    		fixup_bundle(\"${APPS}\" \"\${QTPLUGINS}\" \"${DIRS}\")" COMPONENT Runtime)
-    		
+		include(BundleUtilities)
+		fixup_bundle(\"${APPS}\" \"\${QTPLUGINS}\" \"${DIRS}\")" COMPONENT Runtime)
+		
 	else(APPLE)
 		set(CPACK_BINARY_DEB ON)
-		install(FILES ${CMAKE_BINARY_DIR}/jmdict-${DICT_LANG}.db DESTINATION share/tagainijisho RENAME "jmdict.db" PERMISSIONS OWNER_READ GROUP_READ WORLD_READ COMPONENT Runtime)
-		install(FILES ${CMAKE_BINARY_DIR}/kanjidic2-${DICT_LANG}.db DESTINATION share/tagainijisho RENAME "kanjidic2.db" PERMISSIONS OWNER_READ GROUP_READ WORLD_READ COMPONENT Runtime)
+		install(FILES ${CMAKE_BINARY_DIR}/jmdict-${DICT_LANG}.db DESTINATION share/tagainijisho PERMISSIONS OWNER_READ GROUP_READ WORLD_READ COMPONENT Runtime)
+		install(FILES ${CMAKE_BINARY_DIR}/kanjidic2-${DICT_LANG}.db DESTINATION share/tagainijisho PERMISSIONS OWNER_READ GROUP_READ WORLD_READ COMPONENT Runtime)
 		install(FILES ${CMAKE_SOURCE_DIR}/src/gui/jmdict/detailed_jmdict.html ${CMAKE_SOURCE_DIR}/src/gui/jmdict/detailed_jmdict.css DESTINATION share/tagainijisho PERMISSIONS OWNER_READ GROUP_READ WORLD_READ COMPONENT Runtime)
 		install(FILES ${CMAKE_SOURCE_DIR}/src/gui/kanjidic2/detailed_kanjidic2.html ${CMAKE_SOURCE_DIR}/src/gui/kanjidic2/detailed_kanjidic2.css DESTINATION share/tagainijisho PERMISSIONS OWNER_READ GROUP_READ WORLD_READ COMPONENT Runtime)
 		install(FILES ${CMAKE_SOURCE_DIR}/src/gui/export_template.html DESTINATION share/tagainijisho PERMISSIONS OWNER_READ GROUP_READ WORLD_READ COMPONENT Runtime)
