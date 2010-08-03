@@ -1,5 +1,5 @@
 project(tagainijisho)
-set(VERSION 0.2.5.90)
+set(VERSION 0.2.5.95)
 set(SQLITE_VERSION 3.6.23.1)
 set(SQLITE_SOURCE http://www.sqlite.org/sqlite-amalgamation-${SQLITE_VERSION}.tar.gz)
 set(JMDICT_SOURCE ftp://ftp.monash.edu.au/pub/nihongo/JMdict.gz)
@@ -44,6 +44,7 @@ endif(APPLE)
 option(DEBUG_ENTRIES_CACHE "Debug entries cache behavior" OFF)
 option(DEBUG_PATHS "Debug files lookup" OFF)
 option(DEBUG_DETAILED_VIEW "Debug detailed view output" OFF)
+option(DEBUG_QUERIES "Debug SQL queries" OFF)
 
 # Build tests suite?
 option(BUILD_TESTS "Build tests suite" OFF)

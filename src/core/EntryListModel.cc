@@ -62,7 +62,6 @@ QModelIndex EntryListModel::index(int rowId) const
 
 QModelIndex EntryListModel::realParent(const QModelIndex &idx) const
 {
-	if (!idx.isValid()) return QModelIndex();
 	const EntryListCachedEntry &cEntry = EntryListCache::instance().get(idx.isValid() ? idx.internalId() : rootId());
 	if (cEntry.isRoot()) return QModelIndex();
 	else {
@@ -73,7 +72,6 @@ QModelIndex EntryListModel::realParent(const QModelIndex &idx) const
 
 QModelIndex EntryListModel::parent(const QModelIndex &idx) const
 {
-	if (!idx.isValid()) return QModelIndex();
 	const EntryListCachedEntry &cEntry = EntryListCache::instance().get(idx.isValid() ? idx.internalId() : rootId());
 	if (cEntry.isRoot() || cEntry.rowId() == rootId()) return QModelIndex();
 	else {
@@ -171,7 +169,6 @@ transactionFailed:
 	
 bool EntryListModel::moveRows(int row, int delta, const QModelIndex &parent, QSqlQuery &query)
 {
-	QModelIndexList fromList;
 	QString queryText("update lists set position = position + ? where parent %1 and position >= ?");
 	if (!parent.isValid()) query.prepare(queryText.arg("is null"));
 	else query.prepare(queryText.arg("= ?"));
@@ -321,12 +318,16 @@ QMimeData *EntryListModel::mimeData(const QModelIndexList &indexes) const
 	return mimeData;
 }
 
-bool EntryListModel::dropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &parent)
+bool EntryListModel::dropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &_parent)
 {
 	if (action == Qt::IgnoreAction) return true;
 	if (column == -1) column = 0;
 	if (column > 0) return false;
-	
+
+	// If dropped on the root, update the parent to the real one
+	// Direct affectation of model indexes does not seem to copy the internal id
+	const QModelIndex parent(_parent.isValid() ? _parent : index(rootId()));
+
 	// If we have list items, we must move the items instead of inserting them
 	if (data->hasFormat("tagainijisho/listitem")) {
 		// Row ids of the items we move
@@ -364,7 +365,7 @@ bool EntryListModel::dropMimeData(const QMimeData *data, Qt::DropAction action, 
 				// First get the model index
 				QModelIndex idx(index(rowid));
 				// and its parent
-				QModelIndex idxParent(idx.parent());
+				QModelIndex idxParent(realParent(idx));
 				// If the destination parent is the same as the source and the destination row superior, we must decrement
 				// the latter because the source has not been moved yet.
 				if (idxParent == parent && row > idx.row() && realRow > 0) --realRow;
@@ -391,15 +392,12 @@ bool EntryListModel::dropMimeData(const QMimeData *data, Qt::DropAction action, 
 		if (!COMMIT) goto transactionFailed;
 		EntryListCache::instance().invalidateAll();
 		emit layoutChanged();
+		return true;
 	}
 	// No list data, we probably dropped from the results view or something -
 	// add the entries to the list
 	else if (data->hasFormat("tagainijisho/entry")) {
 		//if (!parent.isValid()) return false;
-		{
-			const EntryListCachedEntry &cEntry = EntryListCache::instance().get(parent.isValid() ? parent.internalId() : -1);
-			if (cEntry.isRoot()) return false;
-		}
 		QByteArray ba = data->data("tagainijisho/entry");
 		QDataStream ds(&ba, QIODevice::ReadOnly);
 		QList<EntryRef> entries;
@@ -427,7 +425,8 @@ bool EntryListModel::dropMimeData(const QMimeData *data, Qt::DropAction action, 
 				ids << query.lastInsertId().toUInt();
 			}
 		}
-		beginInsertRows(parent, row, row + entries.size() - 1);
+		// Insert rows must be done on what the view thinks is the parent
+		beginInsertRows(_parent, row, row + entries.size() - 1);
 		if (!COMMIT) goto transactionFailed;
 		EntryListCache::instance().invalidateAll();
 		endInsertRows();
@@ -437,8 +436,9 @@ bool EntryListModel::dropMimeData(const QMimeData *data, Qt::DropAction action, 
 			if (ref.isLoaded()) ref.get()->lists() << ids[i];
 			++i;
 		}
+		return true;
 	}
-	return true;
+	else return false;
 transactionFailed:
 	ROLLBACK;
 	EntryListCache::instance().invalidateAll();

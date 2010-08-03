@@ -1,5 +1,5 @@
-Tagaini Jisho, version 0.2.5
-============================
+README file for Tagaini Jisho
+=============================
 
 This is Tagaini Jisho, a free software Japanese dictionary and learning 
 assistant.

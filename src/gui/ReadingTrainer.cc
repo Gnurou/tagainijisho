@@ -102,6 +102,12 @@ void ReadingTrainer::train()
 	ui.okButton->setVisible(true);
 	ui.userInput->setVisible(true);
 	ui.userInput->setFocus();
+
+	ui.detailedView->detailedView()->clear();
+	if (!_showMeaning->isChecked()) {
+		ui.detailedView->detailedView()->display(entry);
+	}
+
 	if (query.next()) {
 		entry = JMdictEntryRef(query.value(0).toInt()).get();
 		ui.writingLabel->setText(entry->writings()[0]);
@@ -146,11 +152,6 @@ void ReadingTrainer::checkAnswer()
 	_totalCount++;
 	updateStatusLabel();
 	if (correct) {
-		if (!_showMeaning->isChecked()) {
-			ui.detailedView->detailedView()->clear();
-			ui.detailedView->detailedView()->display(entry);
-		}
-
 		train();
 	}
 }
@@ -158,6 +159,8 @@ void ReadingTrainer::checkAnswer()
 void ReadingTrainer::onShowMeaningChecked(bool checked)
 {
 	ReadingTrainer::showMeaning.set(checked);
+	// Do not update the detailed view if it is already displaying the answer to a mistaken entry.
+	if (ui.nextButton->isVisible()) return;
 	ui.detailedView->detailedView()->clear();
 	if (checked) {
 		QTextDocument *document(ui.detailedView->detailedView()->document());
