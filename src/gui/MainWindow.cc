@@ -301,6 +301,7 @@ void MainWindow::about()
 		"<p><b>Neil Caldwell</b> documentation.</p>"
 		"<p><b>Axel Bodart</b> programming, project building, Mac release manager.</p>"
 		"<h2>Thanks to</h2>"
+		"<p><b>Philip Seyfi</b> application icon.</p>"
 		"<p><b>Tracy Poff</b> bug reports, documentation fixes.</p>"
 		"<p><b>Jeroen Hoek</b> Dutch translation.</p>"
 		"<p><b>Philipp Meyer</b> German translation.</p>"
