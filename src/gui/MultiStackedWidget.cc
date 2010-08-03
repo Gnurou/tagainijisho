@@ -134,7 +134,7 @@ QPair<QAction *, QAction *> MultiStackedWidget::addWidget(const QString &label, 
 	QAction *action = new QAction(label, this);
 	action->setCheckable(true);
 	connect(action, SIGNAL(toggled(bool)), this, SLOT(onButtonToggled()));
-	QAction *resetAction = new QAction(QIcon(":/images/icons/reset-search.png"), tr("Reset this filter"), this);
+	QAction *resetAction = new QAction(QIcon(":/images/icons/eraser-small.png"), tr("Reset this filter"), this);
 	resetAction->setEnabled(false);
 	connect(resetAction, SIGNAL(triggered()), widget, SLOT(reset()));
 	QPair<QAction *, QAction *> actions(action, resetAction);
