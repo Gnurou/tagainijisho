@@ -59,7 +59,7 @@ private:
 	QToolButton *nextButton;
 	QToolButton *prevButton;
 	
-	QAction *_playAction, *_pauseAction, *_resetAction, *_nextStrokeAction, *_prevStrokeAction;
+	QAction *_playAction, *_pauseAction, *_gotoEndAction, *_nextStrokeAction, *_prevStrokeAction;
 
 protected:
 	/**
@@ -91,7 +91,7 @@ public:
 	
 	QAction *playAction() { return _playAction; }
 	QAction *pauseAction() { return _pauseAction; }
-	QAction *resetAction() { return _resetAction; }
+	QAction *resetAction() { return _gotoEndAction; }
 	QAction *nextStrokeAction() { return _nextStrokeAction; }
 	QAction *prevStrokeAction() { return _prevStrokeAction; }
 
