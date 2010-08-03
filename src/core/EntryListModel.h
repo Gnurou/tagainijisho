@@ -46,6 +46,8 @@ public:
 
 	virtual QModelIndex index(int row, int column, const QModelIndex &parent = QModelIndex()) const;
 	virtual QModelIndex index(int rowId) const;
+	/// Returns the parent as the views will see it, i.e. if the root it set it will really
+	/// behave as a root
 	virtual QModelIndex parent(const QModelIndex &index) const;
 	/// Works like parent, but do not take care of the root element that has manually been set
 	virtual QModelIndex realParent(const QModelIndex &index) const;

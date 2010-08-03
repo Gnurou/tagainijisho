@@ -107,22 +107,27 @@ void KanjiSelector::associateTo(QLineEdit *associate)
 
 void KanjiSelector::updateAssociateFromSelection(QSet<uint> selection)
 {
+	// Codes of the current complements of the associate
 	QSet<uint> currentComps(associateComplements());
-	QStringList comps;
+	// Codes of the complements being selected
 	QList<uint> selComps;
 	QString compText(_associate->text());
 	// Add the missing components to the text search area
 	foreach (uint code, selection) {
-		if (!currentComps.contains(code)) comps << complementRepr(code);
 		selComps << code;
 	}
-	// Remove text search components that are not selected
-	foreach (uint comp, currentComps) if (!selComps.contains(comp)) compText.remove(complementRepr(comp));
-	
+	// Remove text search components that are not selected from the associate
+	foreach (uint comp, currentComps) if (!selComps.contains(comp)) compText.remove(TextTools::unicodeToSingleChar(comp));
+	QStringList addComps;
+	foreach (uint comp, selComps) {
+		QString compRepr(TextTools::unicodeToSingleChar(comp));
+		if (!compText.contains(compRepr)) compText += compRepr;
+	}
+
 	// Modifying the associate will trigger the onAssociateChanged slot,
 	// but we don't want to process it this time
 	_ignoreAssociateSignals = true;
-	_associate->setText(compText + comps.join(""));	
+	_associate->setText(compText);
 	_ignoreAssociateSignals = false;
 }
 
@@ -147,7 +152,8 @@ QSet<uint> KanjiSelector::associateComplements() const
 	for (int i = 0; i < cText.size(); ) {
 		uint unicode(TextTools::singleCharToUnicode(cText, i));
 		QString chr = TextTools::unicodeToSingleChar(unicode);
-		ret << complementCode(chr);
+		ret << TextTools::singleCharToUnicode(chr);
+		//ret << complementCode(chr);
 		i += chr.size();
 	}
 	return ret;

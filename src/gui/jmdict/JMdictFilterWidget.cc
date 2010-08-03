@@ -27,7 +27,7 @@
 
 JMdictFilterWidget::JMdictFilterWidget(QWidget *parent) : SearchFilterWidget(parent, "wordsdic")
 {
-	_propsToSave << "containedKanjis" << "containedComponents" << "studiedKanjisOnly" << "pos" << "dial" << "field" << "misc";
+	_propsToSave << "containedKanjis" << "containedComponents" << "studiedKanjisOnly" << "kanaOnlyWords" << "pos" << "dial" << "field" << "misc";
 	QVBoxLayout *mainLayout = new QVBoxLayout(this);
 	{
 		_containedKanjis = new QLineEdit(this);
@@ -38,19 +38,20 @@ JMdictFilterWidget::JMdictFilterWidget(QWidget *parent) : SearchFilterWidget(par
 
 		QGridLayout *gLayout = new QGridLayout();
 		gLayout->addWidget(new QLabel(tr("With kanji:"), this), 0, 0);
-		QHBoxLayout *hLayout = new QHBoxLayout();
+		gLayout->addWidget(_containedKanjis, 0, 1);
 		_studiedKanjisCheckBox = new QCheckBox(tr("Using studied kanji only"));
-		hLayout->addWidget(_containedKanjis);
-		hLayout->addWidget(_studiedKanjisCheckBox);
-		gLayout->addLayout(hLayout, 0, 1);
+		gLayout->addWidget(_studiedKanjisCheckBox, 0, 2);
 
 		gLayout->addWidget(new QLabel(tr("With components:"), this), 1, 0);
 		gLayout->addWidget(_containedComponents, 1, 1);
+		_kanaOnlyCheckBox = new QCheckBox(tr("Include kana-only words"));
+		gLayout->addWidget(_kanaOnlyCheckBox, 1, 2);
 
 		mainLayout->addLayout(gLayout);
 		connect(_containedKanjis, SIGNAL(textChanged(const QString &)), this, SLOT(commandUpdate()));
 		connect(_containedComponents, SIGNAL(textChanged(const QString &)), this, SLOT(commandUpdate()));
 		connect(_studiedKanjisCheckBox, SIGNAL(toggled(bool)), this, SLOT(commandUpdate()));
+		connect(_kanaOnlyCheckBox, SIGNAL(toggled(bool)), this, SLOT(commandUpdate()));
 
 	}
 	{
@@ -102,6 +103,7 @@ QString JMdictFilterWidget::currentCommand() const
 		}
 	}
 	if (_studiedKanjisCheckBox->isChecked()) ret += " :withstudiedkanjis";
+	if (_kanaOnlyCheckBox->isChecked()) ret += " :withkanaonly";
 	kanjis = _containedComponents->text();
 	if (!kanjis.isEmpty()) {
 		bool first = true;
@@ -123,6 +125,7 @@ QString JMdictFilterWidget::currentTitle() const
 {
 	QString contains;
 	QString kanjis = _containedKanjis->text();
+	QString comps = _containedComponents->text();
 	if (!kanjis.isEmpty()) {
 		bool first = true;
 		contains += tr(" with ");
@@ -132,19 +135,22 @@ QString JMdictFilterWidget::currentTitle() const
 			contains += c;
 		}
 	}
-	if (_studiedKanjisCheckBox->isChecked()) {
-		if (!kanjis.isEmpty()) contains += tr(", studied kanji only");
-		else contains += tr(" with studied kanji");
-	}
-	kanjis = _containedComponents->text();
-	if (!kanjis.isEmpty()) {
+	if (!comps.isEmpty()) {
 		bool first = true;
 		contains += tr(" with component ");
-		foreach(QChar c, kanjis) {
+		foreach(QChar c, comps) {
 			if (!first) contains +=",";
 			else first = false;
 			contains += c;
 		}
+	}
+	if (_studiedKanjisCheckBox->isChecked()) {
+		if (!kanjis.isEmpty() || !comps.isEmpty()) contains += tr(", studied kanji only");
+		else contains += tr(" with studied kanji");
+	}
+	if (_kanaOnlyCheckBox->isChecked()) {
+		if (!kanjis.isEmpty() || !comps.isEmpty()) contains += tr(", including kana words");
+		else contains += tr(" using kana only");
 	}
 
 	QStringList propsList = _posList + _dialList + _fieldList + _miscList;
@@ -222,6 +228,7 @@ void JMdictFilterWidget::_reset()
 	_containedKanjis->clear();
 	_containedComponents->clear();
 	_studiedKanjisCheckBox->setChecked(false);
+	_kanaOnlyCheckBox->setChecked(false);
 	foreach (QAction *action, _posButton->menu()->actions()) if (action->isChecked()) action->trigger();
 	_posList.clear();
 	foreach (QAction *action, _dialButton->menu()->actions()) if (action->isChecked()) action->trigger();

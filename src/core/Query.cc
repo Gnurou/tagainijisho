@@ -16,6 +16,7 @@
  */
 
 #include "sqlite3.h"
+#include "tagaini_config.h"
 #include "core/Database.h"
 #include "core/Query.h"
 #include "core/EntriesCache.h"
@@ -77,7 +78,9 @@ void Query::__fetch(int min, int nb)
 		_statusMutex.lock();
 		_status = Running;
 		_statusMutex.unlock();
-//		qDebug() << _statement;
+#ifdef DEBUG_QUERIES
+		qDebug() << _statement;
+#endif
 		bool success = query.exec(_statement);
 
 		_statusMutex.lock();

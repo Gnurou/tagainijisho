@@ -46,4 +46,4 @@ src/core/kanjidic2/build_kanji_db
 doc/install.html
 doc/manual.html
 doc/quickstart.html
-
+*.txt.user
