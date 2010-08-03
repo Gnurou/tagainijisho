@@ -82,7 +82,7 @@
   <action name="actionResetSearch">
    <property name="icon">
     <iconset resource="../../tagainijisho.qrc">
-     <normaloff>:/images/icons/reset-search.png</normaloff>:/images/icons/reset-search.png</iconset>
+     <normaloff>:/images/icons/eraser.png</normaloff>:/images/icons/eraser.png</iconset>
    </property>
    <property name="text">
     <string>&amp;Reset search...</string>
