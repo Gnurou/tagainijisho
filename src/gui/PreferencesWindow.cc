@@ -86,17 +86,13 @@ void PreferencesWindow::applySettings() {
 	foreach (PreferencesWindowCategory *category, cats) category->updateUI();
 }
 
-const QStringList GeneralPreferences::langCodes = (QStringList() <<
-	"en" <<
-	"de" <<
-	"fr" <<
-	"nl");
-
-const QStringList GeneralPreferences::langNames = (QStringList() <<
-	QT_TRANSLATE_NOOP("GeneralPreferences", "English") <<
-	QT_TRANSLATE_NOOP("GeneralPreferences", "German") <<
-	QT_TRANSLATE_NOOP("GeneralPreferences", "French") <<
-	QT_TRANSLATE_NOOP("GeneralPreferences", "Dutch"));
+const QList<QPair<QString, QString> > GeneralPreferences::langs = (QList<QPair<QString, QString> >() <<
+	QPair<QString, QString>(QT_TRANSLATE_NOOP("GeneralPreferences", "English"), "en") <<
+	QPair<QString, QString>(QT_TRANSLATE_NOOP("GeneralPreferences", "Dutch"), "nl") <<
+	QPair<QString, QString>(QT_TRANSLATE_NOOP("GeneralPreferences", "French"), "fr") <<
+	QPair<QString, QString>(QT_TRANSLATE_NOOP("GeneralPreferences", "German"), "de") <<
+	QPair<QString, QString>(QT_TRANSLATE_NOOP("GeneralPreferences", "Russian"), "ru") <<
+	QPair<QString, QString>(QT_TRANSLATE_NOOP("GeneralPreferences", "Spanish"), "es"));
 
 GeneralPreferences::GeneralPreferences(QWidget *parent) : PreferencesWindowCategory(tr("General"), parent)
 {
@@ -105,9 +101,9 @@ GeneralPreferences::GeneralPreferences(QWidget *parent) : PreferencesWindowCateg
 	fontChooser = new PreferencesFontChooser(tr("Application-wide default font"), QFont(), this);
 	static_cast<QBoxLayout*>(generalGroupBox->layout())->insertWidget(0, fontChooser);
 
-	for (int i = 0; i < langNames.size(); i++) {
-		guiLanguage->addItem(QCoreApplication::translate("GeneralPreferences", langNames[i].toLatin1().constData()));
-		guiLanguage->setItemData(guiLanguage->count() - 1, langCodes[i]);
+	for (int i = 0; i < langs.size(); i++) {
+		guiLanguage->addItem(QCoreApplication::translate("GeneralPreferences", langs[i].first.toLatin1().constData()));
+		guiLanguage->setItemData(guiLanguage->count() - 1, langs[i].second);
 	}
 
 	firstDayOfWeek->addItem(tr("Monday"), Qt::Monday);
@@ -126,8 +122,15 @@ void GeneralPreferences::refresh()
 
 	if (MainWindow::guiLanguage.value() == "") guiLanguage->setCurrentIndex(0);
 	else {
-		int idx(langCodes.indexOf(MainWindow::guiLanguage.value()));
-		guiLanguage->setCurrentIndex(idx + 1);
+		int idx = 1;
+		typedef QPair<QString, QString> langPair;
+		foreach (const langPair &pair, langs) {
+			if (pair.second == MainWindow::guiLanguage.value()) {
+				guiLanguage->setCurrentIndex(idx);
+				break;
+			}
+			++idx;
+		}
 	}
 
 	firstDayOfWeek->setCurrentIndex(firstDayOfWeek->findData(RelativeDate::firstDayOfWeek.value()));

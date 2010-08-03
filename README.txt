@@ -6,7 +6,7 @@ assistant.
 
 About
 -----
-Tagaini Jisho is designed to help you remember Japanese vocabulary and kanjis
+Tagaini Jisho is designed to help you remember Japanese vocabulary and kanji
 (later referred as 'entries') by presenting them in a way that makes it easy to
 create connections between them. It does so by keeping track of all the entries you
 already know and want to study, and letting you tag and annote them, in addition to
@@ -45,7 +45,7 @@ Features
   mistaken today, yesterday or this week! 
 - Tagging of entries.
 - Annotation of entries.
-- Print feature with connections between studied kanjis and vocabulary, in a format
+- Print feature with connections between studied kanji and vocabulary, in a format
   that allows both studying and flash-carding (thumb-hideable Japanese part).
 
 Compiling
@@ -89,14 +89,14 @@ For a detailed user manual, please see http://www.tagaini.net/manual.
 
 Known bugs
 ----------
-- Kanjis stroke order may not always be accurate. Please report incorrect kanjis
+- Kanji stroke order may not always be accurate. Please report incorrect kanji
   to https://bugs.launchpad.net/tagaini-jisho.
-- Kanjis stroke color segmentation is not always accurate.
+- Kanji stroke color segmentation is not always accurate.
 - JLPT levels may not always be accurate.
 
 Credits
 -------
-Tagaini Jisho makes heavy use of the embedded Sqlite database. Many thanks to
+Tagaini Jisho makes heavy use of the embedded SQLite database. Many thanks to
 all its developers for making such a great embedded database available, and for
 their kind support.
 
@@ -106,10 +106,10 @@ Mac OS, and Windows.
 Words definitions are provided by the JMDict
 (http://www.csse.monash.edu.au/~jwb/jmdict.html). 
 
-Kanjis information come from the kanjidic2 project
+Kanji information come from the kanjidic2 project
 (http://www.csse.monash.edu.au/~jwb/kanjidic.html).
 
-Kanjis components, and stroke animations come from KanjiVG
+Kanji components, and stroke animations come from KanjiVG
 (http://kanjivg.tagaini.net) project.
 
 JLPT levels for words come from the JLPT study page
@@ -122,7 +122,13 @@ Application icon has been contributed by Philip Seyfi (http://divita.eu/).
 
 Flag images come from http://www.famfamfam.com/lab/icons/flags/.
 
-Icons are from the Oxygen icon theme (http://www.oxygen-icons.org).
+Fugue Icons 
+Copyright (C) 2010 Yusuke Kamiyamane (http://p.yusukekamiyamane.com/).
+All rights reserved.
+The icons are licensed under a Creative Commons Attribution
+3.0 license. <http://creativecommons.org/licenses/by/3.0/>
+
+<http://p.yusukekamiyamane.com/>
 
 Contact
 -------
@@ -130,4 +136,3 @@ Website: http://www.tagaini.net
 
 Development, bug reports, feature requests and general questions are handled on
 launchpad: https://launchpad.net/tagaini-jisho
-

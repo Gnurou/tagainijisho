@@ -47,19 +47,56 @@
       </widget>
      </item>
      <item>
-      <widget class="QTextBrowser" name="credits">
-       <property name="autoFillBackground">
-        <bool>false</bool>
+      <widget class="QTabWidget" name="tabWidget">
+       <property name="currentIndex">
+        <number>0</number>
        </property>
-       <property name="frameShape">
-        <enum>QFrame::NoFrame</enum>
-       </property>
-       <property name="openExternalLinks">
-        <bool>false</bool>
-       </property>
-       <property name="openLinks">
-        <bool>false</bool>
-       </property>
+       <widget class="QWidget" name="tab">
+        <attribute name="title">
+         <string>About</string>
+        </attribute>
+        <layout class="QVBoxLayout" name="verticalLayout_2">
+         <item>
+          <widget class="QTextBrowser" name="credits">
+           <property name="autoFillBackground">
+            <bool>false</bool>
+           </property>
+           <property name="frameShape">
+            <enum>QFrame::NoFrame</enum>
+           </property>
+           <property name="openExternalLinks">
+            <bool>false</bool>
+           </property>
+           <property name="openLinks">
+            <bool>false</bool>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QWidget" name="tab_2">
+        <attribute name="title">
+         <string>Authors &amp;&amp; contributors</string>
+        </attribute>
+        <layout class="QVBoxLayout" name="verticalLayout_3">
+         <item>
+          <widget class="QTextBrowser" name="authors">
+           <property name="autoFillBackground">
+            <bool>false</bool>
+           </property>
+           <property name="frameShape">
+            <enum>QFrame::NoFrame</enum>
+           </property>
+           <property name="openExternalLinks">
+            <bool>false</bool>
+           </property>
+           <property name="openLinks">
+            <bool>false</bool>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
       </widget>
      </item>
     </layout>

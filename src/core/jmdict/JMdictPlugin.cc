@@ -27,6 +27,7 @@
 #include <QtDebug>
 #include <QFile>
 #include <QDir>
+#include <QLocale>
 
 #define dictFileConfigString "jmdict/database"
 #define dictFileConfigDefault "jmdict.db"
@@ -266,7 +267,24 @@ errorOccured:
 bool JMdictPlugin::onRegister()
 {
 	// First attach our database
-	QString dbFile = lookForFile("jmdict.db");
+	QLocale locale;
+	QStringList supportedLanguages;
+	supportedLanguages << "en" << "fr" << "de" << "es" << "ru";
+	QString localeCode(locale.name().left(2));
+	supportedLanguages.removeAll(localeCode);
+	QString dbFile;
+
+	// First look for the dictionary corresponding to the current locale
+	dbFile = lookForFile(QString("jmdict-%1.db").arg(localeCode));
+	// Cannot be found? Look for the other available version
+	if (dbFile.isEmpty()) foreach (const QString &lang, supportedLanguages) {
+		dbFile = lookForFile(QString("jmdict-%1.db").arg(lang));
+		if (!dbFile.isEmpty()) break;
+	}
+	// No DB file, we have a big trouble here.
+	if (dbFile.isEmpty()) {
+		qFatal("JMdict plugin fatal error: cannot find any dictionary file!");
+	}
 	if (!Database::attachDictionaryDB(dbFile, "jmdict", JMDICTDB_REVISION)) {
 		qFatal("JMdict plugin fatal error: failed to attach JMdict database!");
 		return false;
