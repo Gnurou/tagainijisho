@@ -51,21 +51,55 @@ JMdictEntryFormatter &JMdictEntryFormatter::instance()
 
 QString JMdictEntryFormatter::getVerbBuddySql(const QString &matchPattern, quint64 pos, int id)
 {
-	const QString queryFindVerbBuddySql("select distinct " QUOTEMACRO(JMDICTENTRY_GLOBALID) ", jmdict.entries.id from jmdict.entries join jmdict.kanji on jmdict.kanji.id = jmdict.entries.id join jmdict.senses on jmdict.senses.id = jmdict.entries.id where jmdict.kanji.docid in (select docid from jmdict.kanjiText where jmdict.kanjiText.reading match '\"%1*\"') and jmdict.kanji.priority = 0 and jmdict.senses.pos & %2 == %2 and jmdict.senses.misc & %4 == 0 and jmdict.entries.id != %3");
+	const QString queryFindVerbBuddySql("select distinct " QUOTEMACRO(JMDICTENTRY_GLOBALID) ", jmdict.entries.id "
+		"from jmdict.entries "
+		"join jmdict.kanji on jmdict.kanji.id = jmdict.entries.id "
+		"join jmdict.senses on jmdict.senses.id = jmdict.entries.id "
+		"where jmdict.kanji.docid in "
+			"(select docid from jmdict.kanjiText "
+			"where jmdict.kanjiText.reading match '\"%1*\"') "
+		"and jmdict.kanji.priority = 0 "
+		"and jmdict.senses.pos & %2 == %2 "
+		"and jmdict.senses.misc & %4 == 0 "
+		"and jmdict.entries.id != %3");
 
 	return	queryFindVerbBuddySql.arg(matchPattern).arg(pos).arg(id).arg(JMdictEntrySearcher::miscFilterMask());
 }
 
 QString JMdictEntryFormatter::getHomophonesSql(const QString &reading, int id, int maxToDisplay, bool studiedOnly)
 {
-	const QString queryFindHomophonesSql("select distinct " QUOTEMACRO(JMDICTENTRY_GLOBALID) ", jmdict.entries.id from jmdict.entries join jmdict.kana on jmdict.kana.id = jmdict.entries.id %4join training on training.id = jmdict.entries.id and training.type = " QUOTEMACRO(JMDICTENTRY_GLOBALID) " join jmdict.senses on jmdict.senses.id = jmdict.entries.id left join jmdict.jlpt on jmdict.entries.id = jmdict.jlpt.id where jmdict.kana.docid in (select docid from jmdict.kanaText where jmdict.kanaText.reading match '\"%1\"') and jmdict.kana.priority = 0 and jmdict.senses.misc & %5 == 0 and jmdict.entries.id != %3 order by training.dateAdded is null ASC, training.score ASC, jmdict.jlpt.level DESC, jmdict.entries.frequency DESC limit %2");
+	const QString queryFindHomophonesSql("select distinct " QUOTEMACRO(JMDICTENTRY_GLOBALID) ", jmdict.entries.id from jmdict.entries "
+		"join jmdict.kana on jmdict.kana.id = jmdict.entries.id "
+		"%4join training on training.id = jmdict.entries.id and training.type = " QUOTEMACRO(JMDICTENTRY_GLOBALID) " "
+		"join jmdict.senses on jmdict.senses.id = jmdict.entries.id "
+		"left join jmdict.jlpt on jmdict.entries.id = jmdict.jlpt.id "
+		"where jmdict.kana.docid in "
+			"(select docid from jmdict.kanaText "
+			"where jmdict.kanaText.reading match '\"%1\"') "
+		"and jmdict.kana.priority = 0 "
+		"and jmdict.senses.misc & %5 == 0 "
+		"and jmdict.entries.id != %3 "
+		"order by training.dateAdded is null ASC, training.score ASC, jmdict.jlpt.level DESC, jmdict.entries.frequency DESC "
+		"limit %2");
 
 	return queryFindHomophonesSql.arg(reading).arg(maxToDisplay).arg(id).arg(studiedOnly ? "" : "left ").arg(JMdictEntrySearcher::miscFilterMask());
 }
 
 QString JMdictEntryFormatter::getHomographsSql(const QString &writing, int id, int maxToDisplay, bool studiedOnly)
 {
-	const QString queryFindHomographsSql("select distinct " QUOTEMACRO(JMDICTENTRY_GLOBALID) ", jmdict.entries.id from jmdict.entries join jmdict.kanji on jmdict.kanji.id = jmdict.entries.id %4join training on training.id = jmdict.entries.id and training.type = " QUOTEMACRO(JMDICTENTRY_GLOBALID) " join jmdict.senses on jmdict.senses.id = jmdict.entries.id left join jmdict.jlpt on jmdict.entries.id = jmdict.jlpt.id where jmdict.kanji.docid in (select docid from jmdict.kanjiText where jmdict.kanjiText.reading match '\"%1\"') and jmdict.kanji.priority = 0 and jmdict.senses.misc & %5 == 0 and jmdict.entries.id != %3 order by training.dateAdded is null ASC, training.score ASC, jmdict.jlpt.level DESC, jmdict.entries.frequency DESC limit %2");
+	const QString queryFindHomographsSql("select distinct " QUOTEMACRO(JMDICTENTRY_GLOBALID) ", jmdict.entries.id from jmdict.entries "
+		"join jmdict.kanji on jmdict.kanji.id = jmdict.entries.id "
+		"%4join training on training.id = jmdict.entries.id and training.type = " QUOTEMACRO(JMDICTENTRY_GLOBALID) " "
+		"join jmdict.senses on jmdict.senses.id = jmdict.entries.id "
+		"left join jmdict.jlpt on jmdict.entries.id = jmdict.jlpt.id "
+		"where jmdict.kanji.docid in "
+			"(select docid from jmdict.kanjiText "
+			"where jmdict.kanjiText.reading match '\"%1\"') "
+		"and jmdict.kanji.priority = 0 "
+		"and jmdict.senses.misc & %5 == 0 "
+		"and jmdict.entries.id != %3 "
+		"order by training.dateAdded is null ASC, training.score ASC, jmdict.jlpt.level DESC, jmdict.entries.frequency DESC "
+		"limit %2");
 
 	return queryFindHomographsSql.arg(writing).arg(maxToDisplay).arg(id).arg(studiedOnly ? "" : "left ").arg(JMdictEntrySearcher::miscFilterMask());
 }
