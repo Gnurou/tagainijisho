@@ -52,9 +52,9 @@ KanjiPlayer::KanjiPlayer(QWidget *parent) : QWidget(parent), _timer(), _kanji(0)
 	_pauseAction = new QAction(QIcon(QPixmap(":/images/icons/control-pause.png").scaledToHeight(CONTROL_ICON_SIZE, Qt::SmoothTransformation)), tr("Pause"), this);
 	_pauseAction->setShortcut(QKeySequence("Space"));
 	connect(_pauseAction, SIGNAL(triggered()), this, SLOT(stop()));
-	_resetAction = new QAction(QIcon(QPixmap(":/images/icons/control-stop.png").scaledToHeight(CONTROL_ICON_SIZE, Qt::SmoothTransformation)), tr("Reset"), this);
-	_resetAction->setShortcut(QKeySequence("R"));
-	connect(_resetAction, SIGNAL(triggered()), this, SLOT(reset()));
+	_gotoEndAction = new QAction(QIcon(QPixmap(":/images/icons/control-stop.png").scaledToHeight(CONTROL_ICON_SIZE, Qt::SmoothTransformation)), tr("Stop"), this);
+	_gotoEndAction->setShortcut(QKeySequence("R"));
+	connect(_gotoEndAction, SIGNAL(triggered()), this, SLOT(gotoEnd()));
 	_nextStrokeAction = new QAction(QIcon(QPixmap(":/images/icons/control-ff.png").scaledToHeight(CONTROL_ICON_SIZE, Qt::SmoothTransformation)), tr("Next stroke"), this);
 	_nextStrokeAction->setShortcut(QKeySequence("Right"));
 	connect(_nextStrokeAction, SIGNAL(triggered()), this, SLOT(nextStroke()));
@@ -64,7 +64,7 @@ KanjiPlayer::KanjiPlayer(QWidget *parent) : QWidget(parent), _timer(), _kanji(0)
 	
 	_playAction->setEnabled(false);
 	_pauseAction->setEnabled(false);
-	_resetAction->setEnabled(false);
+	_gotoEndAction->setEnabled(false);
 	_prevStrokeAction->setEnabled(false);
 	_nextStrokeAction->setEnabled(false);
 	
@@ -155,7 +155,7 @@ void KanjiPlayer::updateActionsState()
 	else { playButton->removeAction(pauseAction()); playButton->setDefaultAction(playAction()); }
 	_playAction->setEnabled(!_timer.isActive());
 	_pauseAction->setEnabled(_timer.isActive());
-	_resetAction->setEnabled(_timer.isActive() && _strokesCpt < renderer.strokes().size());
+	_gotoEndAction->setEnabled(_strokesCpt < renderer.strokes().size());
 	_prevStrokeAction->setEnabled(_strokesCpt > 0);
 	_nextStrokeAction->setEnabled(_strokesCpt < renderer.strokes().size());
 }
