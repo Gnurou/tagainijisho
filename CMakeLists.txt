@@ -58,6 +58,9 @@ include_directories(${CMAKE_SOURCE_DIR}/src)
 # Source code location
 add_subdirectory(src)
 
+# Packaging stuff
+add_subdirectory(pack)
+
 configure_file("${CMAKE_CURRENT_SOURCE_DIR}/cmake_uninstall.cmake.in" "${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake" IMMEDIATE @ONLY)
 configure_file(${CMAKE_SOURCE_DIR}/src/tagaini_config.h.cmake ${CMAKE_BINARY_DIR}/src/tagaini_config.h)
 
