@@ -38,6 +38,8 @@ PreferenceItem<bool> KanjiPlayer::showGridPref("kanjidic", "showStrokesGrid", fa
 PreferenceItem<bool> KanjiPlayer::showStrokesNumbersPref("kanjidic", "showStrokesNumbers", false);
 PreferenceItem<int> KanjiPlayer::strokesNumbersSizePref("kanjidic", "strokesNumbersSize", 4);
 
+static QList<QColor> colList(QList<QColor>() << Qt::black << QColor(0x0d, 0x5b, 0xa6) << QColor(0xce, 0x34, 0x34) << QColor(0x04, 0x9a,0x40) << QColor(0xe6, 0xa6, 0x00) << QColor(0xd2, 0x7d, 0x8e) << Qt::blue << Qt::red << Qt::green << Qt::cyan << Qt::magenta << Qt::yellow);
+
 KanjiPlayer::KanjiPlayer(QWidget *parent) : QWidget(parent), _timer(), _kanji(0), renderer(), _picture(), _state(STATE_STROKE), _showGrid(showGridPref.value()), _showStrokesNumbers(showStrokesNumbersPref.value()), _strokesNumbersSize(strokesNumbersSizePref.value()), _highlightedComponent(0)
 {
 	setAnimationSpeed(animationSpeed.value());
@@ -247,11 +249,10 @@ void KanjiPlayer::renderCurrentState()
 
 	const QList<const KanjiComponent *> &kComponents(_kanji->rootComponents());
 	const QList<KanjiStroke> &kStrokes(_kanji->strokes());
-	QList<QColor> colList;
-	colList << Qt::black << Qt::darkBlue << Qt::darkRed << Qt::darkGreen << Qt::darkCyan << Qt::darkMagenta << Qt::darkYellow << Qt::blue << Qt::red << Qt::green << Qt::cyan << Qt::magenta << Qt::yellow;
 
 	if (renderer.strokes().isEmpty()) return;
 
+	static const uchar HIGHLIGHT_RATIO = 135;
 	// Render full strokes
 	for (int i = 0; i < _strokesCpt; i++) {
 		const KanjiComponent *parent(0);
@@ -259,7 +260,7 @@ void KanjiPlayer::renderCurrentState()
 		else foreach (const KanjiComponent *comp, kComponents) if (comp->strokes().contains(&kStrokes[i])) { parent = comp; break; }
 		if (!parent) pen2.setColor(colList[0]);
 		else pen2.setColor(colList[kComponents.indexOf(parent) + 1]);
-		if (highlightedComponent() && parent == highlightedComponent()) pen2.setColor(pen2.color().lighter(200));
+		if (highlightedComponent() && parent == highlightedComponent()) pen2.setColor(pen2.color().lighter(HIGHLIGHT_RATIO));
 		painter.setPen(pen2);
 		renderer.strokes()[i].render(&painter);
 	}
@@ -271,7 +272,7 @@ void KanjiPlayer::renderCurrentState()
 		else foreach (const KanjiComponent *comp, kComponents) if (comp->strokes().contains(currentStroke.stroke())) { parent = comp; break; }
 		if (!parent) pen2.setColor(colList[0]);
 		else pen2.setColor(colList[kComponents.indexOf(parent) + 1]);
-		if (highlightedComponent() && parent == highlightedComponent()) pen2.setColor(pen2.color().lighter(200));
+		if (highlightedComponent() && parent == highlightedComponent()) pen2.setColor(pen2.color().lighter(HIGHLIGHT_RATIO));
 		painter.setPen(pen2);
 		currentStroke.render(&painter, _lengthCpt);
 	}
