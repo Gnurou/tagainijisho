@@ -42,7 +42,7 @@ JMdictEntrySearcher::JMdictEntrySearcher(QObject *parent) : EntrySearcher(parent
 	QueryBuilder::Order::orderingWay["freq"] = QueryBuilder::Order::DESC;
 
 	// Register text search commands
-	validCommands << "mean" << "kana" << "kanji" << "jmdict" << "haskanji" << "jlpt" << "withstudiedkanjis" << "hascomponent";
+	validCommands << "mean" << "kana" << "kanji" << "jmdict" << "haskanji" << "jlpt" << "withstudiedkanjis" << "hascomponent" << "withkanaonly";
 	// Also register commands that are sense properties
 	validCommands << "pos" << "misc" << "dial" << "field";
 
@@ -129,6 +129,11 @@ void JMdictEntrySearcher::buildStatement(QList<SearchCommand> &commands, QueryBu
 	QStringList hasKanjiSearch;
 	QStringList hasComponentSearch;
 	quint64 posFilter(0), miscFilter(0), dialectFilter(0), fieldFilter(0);
+
+	QSet<QString> allCommands;
+	// First build the global list of all commands
+	foreach(const SearchCommand &command, commands) allCommands << command.command();
+
 	foreach(const SearchCommand &command, commands) {
 		const QString &commandLabel = command.command();
 
@@ -154,14 +159,16 @@ void JMdictEntrySearcher::buildStatement(QList<SearchCommand> &commands, QueryBu
 			commands.removeOne(command);
 		}
 		else if (commandLabel == "jmdict") {
-			if (command.args().size() > 1) continue;
 			statement.addJoin(QueryBuilder::Column("jmdict.entries", "id"));
-			if (command.args().size() == 1) {
-				int entryId;
+			if (command.args().size() >= 1) {
+				QStringList entriesId;
 				bool ok;
-				entryId = command.args()[0].toInt(&ok);
-				if (!ok) continue;
-				statement.addWhere(QString("jmdict.entries.id = %1").arg(entryId));
+				foreach (const QString &arg, command.args()) {
+					arg.toInt(&ok);
+					if (!ok) continue;
+					entriesId << arg;
+				}
+				statement.addWhere(QString("jmdict.entries.id in (%1)").arg(entriesId.join(", ")));
 			}
 			commands.removeOne(command);
 		}
@@ -228,10 +235,31 @@ void JMdictEntrySearcher::buildStatement(QList<SearchCommand> &commands, QueryBu
 				scoreCondition = QString("and training.score between %1 and %2").arg(minScore).arg(maxScore);
 			}
 			else if (command.args().size() != 0) continue;
-			statement.addJoin(QueryBuilder::Column("jmdict.entries", "id"));
 			// Performance is very bad when using :train with this command. changing the first jmdict.entries.id to training.id in that case fixes the issue. We must
 			// keep track of the "id column" and use it for this kind of reference
-			statement.addWhere(QString("{{leftcolumn}} in (select jmdict.entries.id from jmdict.entries join jmdict.kanjiChar on jmdict.entries.id = jmdict.kanjiChar.id and jmdict.kanjiChar.priority = 0 join training on training.id = jmdict.kanjiChar.kanji and training.type = 2 %1 group by jmdict.entries.id having count(jmdict.kanjiChar.kanji) = jmdict.entries.kanjiCount)").arg(scoreCondition));
+			QString condition(QString("{{leftcolumn}} in "
+				"(select jmdict.entries.id from jmdict.entries "
+				"join jmdict.kanjiChar on jmdict.entries.id = jmdict.kanjiChar.id and jmdict.kanjiChar.priority = 0 "
+				"join training on training.id = jmdict.kanjiChar.kanji and training.type = 2 %1 "
+				"group by jmdict.entries.id "
+				"having count(jmdict.kanjiChar.kanji) = jmdict.entries.kanjiCount)").arg(scoreCondition));
+			// Check whether we should include kana only words as well
+			if (allCommands.contains("withkanaonly")) {
+				condition = "(" + condition + QString(" or {{leftcolumn}} in "
+					"(select id from jmdict.entries where kanjiCount == 0))");
+			}
+			statement.addWhere(condition);
+			commands.removeOne(command);
+		}
+		else if (commandLabel == "withkanaonly") {
+			if (command.args().size() != 0) continue;
+
+			QSet<QString> otherCommands;
+			otherCommands << "withstudiedkanjis" << "haskanji" << "hascomponent";
+			if (otherCommands.intersect(allCommands).size() == 0) {
+				statement.addJoin(QueryBuilder::Column("jmdict.entries", "id"));
+				statement.addWhere(QString("jmdict.entries.kanjiCount == 0"));
+			}
 			commands.removeOne(command);
 		}
 		// Check for sense property commands
@@ -308,13 +336,40 @@ void JMdictEntrySearcher::buildStatement(QList<SearchCommand> &commands, QueryBu
 
 	// TODO it should be ensure that kanjisearch and componentsearch are applied on the same writing
 	if (!hasKanjiSearch.isEmpty()) {
-		statement.addJoin(QueryBuilder::Column("jmdict.entries", "id"));
-		statement.addWhere(QString("{{leftcolumn}} in (select distinct jmdict.kanjiChar.id from jmdict.kanjiChar where jmdict.kanjiChar.kanji in (%1) group by jmdict.kanjiChar.id, jmdict.kanjiChar.priority having count(jmdict.kanjiChar.kanji) = %2)").arg(hasKanjiSearch.join(", ")).arg(hasKanjiSearch.size()));
+		QString condition(QString("{{leftcolumn}} in "
+			"(select distinct jmdict.kanjiChar.id from jmdict.kanjiChar "
+			"where jmdict.kanjiChar.kanji in (%1) "
+			"group by jmdict.kanjiChar.id, jmdict.kanjiChar.priority "
+			"having count(jmdict.kanjiChar.kanji) = %2)").arg(hasKanjiSearch.join(", ")).arg(hasKanjiSearch.size()));
+		// Check whether we should include kana only words as well
+		if (allCommands.contains("withkanaonly")) {
+			condition = "(" + condition + QString(" or {{leftcolumn}} in "
+				"(select id from jmdict.entries where kanjiCount == 0))");
+		}
+		statement.addWhere(condition);
 	}
 
 	if (!hasComponentSearch.isEmpty()) {
-		statement.addJoin(QueryBuilder::Column("jmdict.entries", "id"));
-		statement.addWhere(QString("{{leftcolumn}} in (select distinct jmdict.kanjiChar.id from jmdict.kanjiChar join kanjidic2.strokeGroups on jmdict.kanjiChar.kanji = kanjidic2.strokeGroups.kanji where kanjidic2.strokeGroups.element in (%1) or kanjidic2.strokeGroups.original in (%1) group by jmdict.kanjiChar.id, jmdict.kanjiChar.priority HAVING UNIQUECOUNT(CASE WHEN kanjidic2.strokeGroups.element IN (%1) THEN kanjidic2.strokeGroups.element ELSE NULL END, CASE WHEN kanjidic2.strokeGroups.original IN (%1) THEN kanjidic2.strokeGroups.original ELSE NULL END) >= %2)").arg(hasComponentSearch.join(", ")).arg(hasComponentSearch.size()));
+		QString condition(QString("{{leftcolumn}} in "
+			"(select distinct jmdict.kanjiChar.id from jmdict.kanjiChar "
+			"join kanjidic2.strokeGroups on jmdict.kanjiChar.kanji = kanjidic2.strokeGroups.kanji "
+			"where kanjidic2.strokeGroups.element in (%1) "
+			"or kanjidic2.strokeGroups.original in (%1) "
+			"group by jmdict.kanjiChar.id, jmdict.kanjiChar.priority "
+			"HAVING UNIQUECOUNT("
+				"CASE WHEN kanjidic2.strokeGroups.element IN (%1) "
+				"THEN kanjidic2.strokeGroups.element "
+				"ELSE NULL END, "
+				"CASE WHEN kanjidic2.strokeGroups.original IN (%1) "
+				"THEN kanjidic2.strokeGroups.original "
+				"ELSE NULL END) >= %2"
+			")").arg(hasComponentSearch.join(", ")).arg(hasComponentSearch.size()));
+		// Check whether we should include kana only words as well
+		if (allCommands.contains("withkanaonly")) {
+			condition = "(" + condition + QString(" or {{leftcolumn}} in "
+				"(select id from jmdict.entries where kanjiCount == 0))");
+		}
+		statement.addWhere(condition);
 	}
 }
 
