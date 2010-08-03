@@ -122,7 +122,13 @@ Application icon has been contributed by Philip Seyfi (http://divita.eu/).
 
 Flag images come from http://www.famfamfam.com/lab/icons/flags/.
 
-Icons are from the Oxygen icon theme (http://www.oxygen-icons.org).
+Fugue Icons 
+Copyright (C) 2010 Yusuke Kamiyamane (http://p.yusukekamiyamane.com/).
+All rights reserved.
+The icons are licensed under a Creative Commons Attribution
+3.0 license. <http://creativecommons.org/licenses/by/3.0/>
+
+<http://p.yusukekamiyamane.com/>
 
 Contact
 -------
