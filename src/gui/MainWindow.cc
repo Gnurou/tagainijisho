@@ -305,7 +305,7 @@ void MainWindow::about()
 		"<p><b>Tracy Poff</b> bug reports, documentation fixes.</p>"
 		"<p><b>Jeroen Hoek</b> Dutch translation.</p>"
 		"<p><b>Philipp Meyer</b> German translation.</p>"
-		"<p>All the people who donated or contributed directly or indirectly to this software!</p>"
+		"<p>All the people who donated and contributed directly or indirectly to this software!</p>"
 		"";
 	aboutDialogUI.authors->setHtml(authors);
 	aboutDialogUI.authors->viewport()->setAutoFillBackground(false);
