@@ -149,7 +149,7 @@ QString JMdictFilterWidget::currentTitle() const
 		else contains += tr(" with studied kanji");
 	}
 	if (_kanaOnlyCheckBox->isChecked()) {
-		if (!kanjis.isEmpty() || !comps.isEmpty()) contains += tr(", including kana words");
+		if (!kanjis.isEmpty() || !comps.isEmpty() || _studiedKanjisCheckBox->isChecked()) contains += tr(", including kana words");
 		else contains += tr(" using kana only");
 	}
 
