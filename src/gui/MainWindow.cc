@@ -272,24 +272,45 @@ void MainWindow::about()
 #ifndef VERSION
 #error No version defined - the -DVERSION=<version> flag must be set!
 #endif
-	QString message = QString("<p>Copyright (C) 2008, 2009, 2010 Alexandre Courbot.</p><p align=\"center\"><a href=\"http://www.tagaini.net\">http://www.tagaini.net</a></p><p>This program comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to redistribute it under the conditions of the <a href=\"http://www.gnu.org/licenses/gpl-3.0.html\">GNU General Public Licence, version 3.0</a>.</p><hr/>");
+	QString message = QString(
+		"<p>Copyright (C) 2008, 2009, 2010 Alexandre Courbot.</p>"
+		"<p align=\"center\"><a href=\"http://www.tagaini.net\">http://www.tagaini.net</a></p><p>This program comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to redistribute it under the conditions of the <a href=\"http://www.gnu.org/licenses/gpl-3.0.html\">GNU General Public Licence, version 3.0</a>.</p><hr/>"
+		);
 	QString credits = "<p>Tagaini Jisho uses data from various sources:</p>";
-
-	credits += "<p>Fugue Icons Copyright (C) 2010 <a href=\"http://p.yusukekamiyamane.com/\">Yusuke Kamiyamane</a>. All rights reserved. The icons are licensed under a <a href=\"http://creativecommons.org/licenses/by/3.0/\">Creative Commons Attribution 3.0 license</a>.</p>";
 
 	foreach (const Plugin *plugin, Plugin::plugins()) {
 		credits += plugin->pluginInfo();
 	}
+	credits += "<p>Fugue Icons Copyright (C) 2010 <a href=\"http://p.yusukekamiyamane.com/\">Yusuke Kamiyamane</a>. All rights reserved. The icons are licensed under a <a href=\"http://creativecommons.org/licenses/by/3.0/\">Creative Commons Attribution 3.0 license</a>.</p>";
+
 	Ui::AboutDialog aboutDialogUI;
 	QDialog aboutDialog;
-	ScrollBarSmoothScroller scroller;
 	aboutDialogUI.setupUi(&aboutDialog);
+	aboutDialog.setWindowIcon(windowIcon());
 	aboutDialogUI.title->setText(aboutDialogUI.title->text() + " " + QUOTEMACRO(VERSION));
 	aboutDialogUI.logo->setPixmap(aboutDialogUI.logo->pixmap()->scaledToWidth(75, Qt::SmoothTransformation));
 	aboutDialogUI.credits->setHtml(message + credits);
 	aboutDialogUI.credits->viewport()->setAutoFillBackground(false);
+	ScrollBarSmoothScroller scroller;
 	scroller.setScrollBar(aboutDialogUI.credits->verticalScrollBar());
 	connect(aboutDialogUI.credits, SIGNAL(anchorClicked(QUrl)), this, SLOT(openUrl(QUrl)));
+
+	QString authors =
+		"<h2>Authors</h2>"
+		"<p><b>Alexandre Courbot</b> project lead, programming.</p>"
+		"<p><b>Neil Caldwell</b> documentation.</p>"
+		"<p><b>Axel Bodart</b> programming, project building, Mac release manager.</p>"
+		"<h2>Thanks to</h2>"
+		"<p><b>Tracy Poff</b> bug reports, documentation fixes.</p>"
+		"<p><b>Jeroen Hoek</b> Dutch translation.</p>"
+		"<p><b>Philipp Meyer</b> German translation.</p>"
+		"<p>All the people who donated or contributed directly or indirectly to this software!</p>"
+		"";
+	aboutDialogUI.authors->setHtml(authors);
+	aboutDialogUI.authors->viewport()->setAutoFillBackground(false);
+	ScrollBarSmoothScroller scroller2;
+	scroller2.setScrollBar(aboutDialogUI.authors->verticalScrollBar());
+	connect(aboutDialogUI.authors, SIGNAL(anchorClicked(QUrl)), this, SLOT(openUrl(QUrl)));
 	aboutDialog.exec();
 }
 
