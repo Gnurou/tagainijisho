@@ -12,6 +12,14 @@
         <source>Tagaini Jisho</source>
         <translation>Tagaini Jisho</translation>
     </message>
+    <message>
+        <source>About</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Authors &amp;&amp; contributors</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>DataPreferences</name>
@@ -762,6 +770,14 @@ an Einträgen manipuliert werden.</translation>
         <source>German</source>
         <translation>Deutsch</translation>
     </message>
+    <message>
+        <source>Russian</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Spanish</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>JLPTFilterWidget</name>
@@ -822,11 +838,15 @@ an Einträgen manipuliert werden.</translation>
     </message>
     <message>
         <source>JLPT level</source>
-        <translation type="unfinished">JLPT-Level</translation>
+        <translation type="obsolete">JLPT-Level</translation>
     </message>
     <message>
         <source>Kanji</source>
         <translation type="unfinished">Kanji</translation>
+    </message>
+    <message>
+        <source>JLPT</source>
+        <translation type="unfinished">JLPT</translation>
     </message>
 </context>
 <context>
@@ -894,6 +914,18 @@ an Einträgen manipuliert werden.</translation>
     <message>
         <source>Misc:</source>
         <translation>Div:</translation>
+    </message>
+    <message>
+        <source>Include kana-only words</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>, including kana words</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> using kana only</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1059,7 +1091,7 @@ an Einträgen manipuliert werden.</translation>
     </message>
     <message>
         <source>gikun (meaning) reading</source>
-        <translation>gikun (Bedeutungs-) Lesung</translation>
+        <translation type="obsolete">gikun (Bedeutungs-) Lesung</translation>
     </message>
     <message>
         <source>honorific or respectful (sonkeigo) language</source>
@@ -1369,6 +1401,10 @@ an Einträgen manipuliert werden.</translation>
         <source>vulgar expression or word</source>
         <translation>vulgärer Ausdruck oder Wort</translation>
     </message>
+    <message>
+        <source>gikun (meaning as reading)  or jukujikun (special kanji reading)</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>JMdictPlugin</name>
@@ -1500,7 +1536,11 @@ an Einträgen manipuliert werden.</translation>
     <name>JMdictYesNoTrainer</name>
     <message>
         <source>Show &amp;furiganas</source>
-        <translation>Zeige &amp;Furigana</translation>
+        <translation type="obsolete">Zeige &amp;Furigana</translation>
+    </message>
+    <message>
+        <source>Show &amp;furigana</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1521,15 +1561,15 @@ an Einträgen manipuliert werden.</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Reset</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Next stroke</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Previous stroke</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Stop</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
