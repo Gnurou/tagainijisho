@@ -366,7 +366,7 @@ QString JMdictEntryFormatter::formatJLPT(const ConstEntryPointer &_entry) const
 {
 	ConstJMdictEntryPointer entry(_entry.staticCast<const JMdictEntry>());
 	if (showJLPT.value() && entry->jlpt() != -1)
-		return buildSubInfoLine(tr("JLPT level"), QString::number(entry->jlpt()));
+		return QString("<b>%1:</b> %2").arg(tr("JLPT")).arg(entry->jlpt());
 	else return "";
 }
 
