@@ -18,18 +18,21 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-<title>Flashcards</title>
+<title>Lists &amp; Flashcards</title>
 <style type="text/css">
 body {
 	height: 90%;
 	padding: 0px;
 }
 
-.menutrigger {
+.menutrigger a {
 	position: absolute;
 	right: 10px;
 	top: 0px;
-	font-size: 2em;
+	font-size: 3em;
+	font-style: normal;
+	font-weight: bold;
+	text-decoration: none;
 	margin: 0;
 }
 
@@ -156,7 +159,6 @@ body {
 .options {
 	position: absolute;
 	top: 0px;
-	left: 50%;
 	font-size: x-large;
 }
 
@@ -267,7 +269,7 @@ function showTab(id)
 <div id="main">
 
 <div class="menutrigger">
-<a href="#" onClick="document.getElementById('views').style.display = 'block'">x</a>
+<a href="#" onClick="document.getElementById('views').style.display = 'block'">+</a>
 </div>
 
 <div id="list">
@@ -286,6 +288,10 @@ document.getElementById("listcontents").innerHTML = generateList();
 </div>
 <div class="options">
 <label for="writingRB"><input type="radio" name="flashside" value="w" id="writingRB" onClick="startSide=0"/>Writing</label>
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
 <label for="meaningRB"><input type="radio" name="flashside" value="mr" checked="true" onClick="startSide=1" id="meaningRB"/>Meaning + reading</label>
 </div> <!-- options -->
 <div class="controls">
