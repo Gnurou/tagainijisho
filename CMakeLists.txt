@@ -92,9 +92,9 @@ else(${GUNZIP} MATCHES "GUNZIP-NOTFOUND")
 		execute_process(COMMAND gunzip ${CMAKE_SOURCE_DIR}/3rdparty/JMdict.gz WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/3rdparty)
 	endif()
 
-	# KanjiDict2
+	# Kanjidic2
 	if(NOT EXISTS ${CMAKE_SOURCE_DIR}/3rdparty/kanjidic2.xml)
-		MESSAGE(STATUS "Downloading KanjiDict2 ${KANJIDIC2_SOURCE}")
+		MESSAGE(STATUS "Downloading Kanjidic2 ${KANJIDIC2_SOURCE}")
 		FILE(DOWNLOAD ${KANJIDIC2_SOURCE} ${CMAKE_SOURCE_DIR}/3rdparty/kanjidic2.xml.gz)
 		execute_process(COMMAND gunzip ${CMAKE_SOURCE_DIR}/3rdparty/kanjidic2.xml.gz WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/3rdparty)
 	endif()
