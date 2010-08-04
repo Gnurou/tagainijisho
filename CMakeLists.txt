@@ -122,6 +122,8 @@ endif(${GUNZIP} MATCHES "GUNZIP-NOTFOUND")
 if(NOT DICT_LANG)
 	set(DICT_LANG en)
 endif()
+# Anyway set DICT_LANG to appear in the cache
+set(DICT_LANG ${DICT_LANG} CACHE STRING "Languages to use for the dictionary data (space-separated 2-letter codes)")
 
 add_custom_target(database-${DICT_LANG} ALL DEPENDS ${CMAKE_BINARY_DIR}/jmdict-${DICT_LANG}.db ${CMAKE_BINARY_DIR}/kanjidic2-${DICT_LANG}.db)
 
