@@ -58,6 +58,9 @@ include_directories(${CMAKE_SOURCE_DIR}/src)
 # Source code location
 add_subdirectory(src)
 
+# i18n
+add_subdirectory(i18n)
+
 # Packaging stuff
 add_subdirectory(pack)
 
@@ -142,11 +145,6 @@ foreach(LANG ${DICT_LANG})
 	DEPENDS build_kanji_db ${CMAKE_SOURCE_DIR}/3rdparty/kanjidic2.xml ${CMAKE_SOURCE_DIR}/3rdparty/kanjivg.xml)
 	add_dependencies(databases databases-${LANG})
 endforeach(LANG ${DICT_LANG})
-
-# i18n
-FILE (GLOB TRANSLATIONS_FILES ${CMAKE_SOURCE_DIR}/i18n/*.ts)
-QT4_ADD_TRANSLATION(QM_FILES ${TRANSLATIONS_FILES})
-add_custom_target (i18n ALL DEPENDS ${QM_FILES})
 
 # docs
 if(${MULTI_MARKDOWN} MATCHES "MULTI_MARKDOWN-NOTFOUND")
