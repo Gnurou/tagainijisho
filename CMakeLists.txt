@@ -1,6 +1,6 @@
 project(tagainijisho)
 set(VERSION 0.2.5.95)
-set(SQLITE_VERSION 3.7.0)
+set(SQLITE_VERSION 3.7.0.1)
 set(SQLITE_SOURCE http://www.sqlite.org/sqlite-amalgamation-${SQLITE_VERSION}.tar.gz)
 set(JMDICT_SOURCE ftp://ftp.monash.edu.au/pub/nihongo/JMdict.gz)
 set(KANJIDIC2_SOURCE http://www.csse.monash.edu.au/~jwb/kanjidic2/kanjidic2.xml.gz)
