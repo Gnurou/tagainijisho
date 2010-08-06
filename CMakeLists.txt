@@ -40,6 +40,13 @@ if(APPLE)
 	set(CMAKE_OSX_ARCHITECTURES "ppc;i386")
 endif(APPLE)
 
+# Which languages are enabled?
+if(NOT DICT_LANG)
+	set(DICT_LANG en)
+endif()
+# Set DICT_LANG to always appear in the cache
+set(DICT_LANG ${DICT_LANG} CACHE STRING "Languages to use for the dictionary data (space-separated 2-letter codes)")
+
 # Debug options
 option(DEBUG_ENTRIES_CACHE "Debug entries cache behavior" OFF)
 option(DEBUG_PATHS "Debug files lookup" OFF)
@@ -55,6 +62,13 @@ include_directories(${CMAKE_BINARY_DIR}/src)
 # For our own headers
 include_directories(${CMAKE_SOURCE_DIR}/src)
 
+# Databases helper targets
+add_custom_target(databases ALL)
+foreach(LANG ${DICT_LANG})
+	add_custom_target(databases-${LANG} ALL)
+	add_dependencies(databases databases-${LANG})
+endforeach(LANG ${DICT_LANG})
+
 # Source code location
 add_subdirectory(src)
 
@@ -64,7 +78,6 @@ add_subdirectory(i18n)
 # Packaging stuff
 add_subdirectory(pack)
 
-configure_file("${CMAKE_CURRENT_SOURCE_DIR}/cmake_uninstall.cmake.in" "${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake" IMMEDIATE @ONLY)
 configure_file(${CMAKE_SOURCE_DIR}/src/tagaini_config.h.cmake ${CMAKE_BINARY_DIR}/src/tagaini_config.h)
 
 # External resources fetching and generation
@@ -121,31 +134,6 @@ else(${GUNZIP} MATCHES "GUNZIP-NOTFOUND")
 	endif()
 endif(${GUNZIP} MATCHES "GUNZIP-NOTFOUND")
 
-# Which languages are enabled?
-if(NOT DICT_LANG)
-	set(DICT_LANG en)
-endif()
-# Set DICT_LANG to always appear in the cache
-set(DICT_LANG ${DICT_LANG} CACHE STRING "Languages to use for the dictionary data (space-separated 2-letter codes)")
-
-add_custom_target(database-${DICT_LANG} ALL DEPENDS ${CMAKE_BINARY_DIR}/jmdict-${DICT_LANG}.db ${CMAKE_BINARY_DIR}/kanjidic2-${DICT_LANG}.db)
-
-# All databases target
-add_custom_target(databases ALL)
-
-# Database targets for selected languages
-foreach(LANG ${DICT_LANG})
-	add_custom_target(databases-${LANG} ALL
-	DEPENDS ${CMAKE_BINARY_DIR}/jmdict-${LANG}.db ${CMAKE_BINARY_DIR}/kanjidic2-${LANG}.db)
-	add_custom_command(OUTPUT ${CMAKE_BINARY_DIR}/jmdict-${LANG}.db
-	COMMAND build_jmdict_db -l${LANG} ${CMAKE_SOURCE_DIR} ${CMAKE_BINARY_DIR}/jmdict-${LANG}.db
-	DEPENDS build_jmdict_db ${CMAKE_SOURCE_DIR}/3rdparty/JMdict)
-	add_custom_command(OUTPUT ${CMAKE_BINARY_DIR}/kanjidic2-${LANG}.db
-	COMMAND build_kanji_db -l${LANG} ${CMAKE_SOURCE_DIR} ${CMAKE_BINARY_DIR}/kanjidic2-${LANG}.db
-	DEPENDS build_kanji_db ${CMAKE_SOURCE_DIR}/3rdparty/kanjidic2.xml ${CMAKE_SOURCE_DIR}/3rdparty/kanjivg.xml)
-	add_dependencies(databases databases-${LANG})
-endforeach(LANG ${DICT_LANG})
-
 # docs
 if(${MULTI_MARKDOWN} MATCHES "MULTI_MARKDOWN-NOTFOUND")
 	MESSAGE("MultiMarkdown not found, doc generation will not be available")
@@ -156,4 +144,5 @@ else(${MULTI_MARKDOWN} MATCHES "MULTI_MARKDOWN-NOTFOUND")
 endif(${MULTI_MARKDOWN} MATCHES "MULTI_MARKDOWN-NOTFOUND")
 
 # Uninstall
+configure_file("${CMAKE_CURRENT_SOURCE_DIR}/cmake_uninstall.cmake.in" "${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake" IMMEDIATE @ONLY)
 add_custom_target(uninstall "${CMAKE_COMMAND}" -P "${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake")
