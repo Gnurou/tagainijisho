@@ -17,12 +17,12 @@
     <message>
         <location filename="../src/gui/AboutDialog.ui" line="56"/>
         <source>About</source>
-        <translation type="unfinished"></translation>
+        <translation>À propos</translation>
     </message>
     <message>
         <location filename="../src/gui/AboutDialog.ui" line="79"/>
         <source>Authors &amp;&amp; contributors</source>
-        <translation type="unfinished"></translation>
+        <translation>Auteurs &amp;&amp; remerciements</translation>
     </message>
 </context>
 <context>
@@ -30,82 +30,82 @@
     <message>
         <location filename="../src/gui/DataPreferences.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Form</translation>
     </message>
     <message>
         <location filename="../src/gui/DataPreferences.ui" line="20"/>
         <source>Erase user data</source>
-        <translation type="unfinished"></translation>
+        <translation>Effacer les données utilisateur</translation>
     </message>
     <message>
         <location filename="../src/gui/DataPreferences.ui" line="26"/>
         <source>Pushing this button will completely erase all your user data. This includes study list, tags, notes, scores, basically everything you did. After pushing this button, Tagaini Jisho will exit. Upon restart, you will be back to a fresh, blank database.</source>
-        <translation type="unfinished"></translation>
+        <translation>En appuyant sur ce bouton, vous effacerez toutes vos données utilisateur de façon irréversible, y compris vos liste d&apos;étude, tags, notes, scores, tout ce que vous avez fait. Après confirmation Tagaini Jisho se fermera, et au prochain lancement vous redémarrerez avec une base de données vierge.</translation>
     </message>
     <message>
         <location filename="../src/gui/DataPreferences.ui" line="36"/>
         <source>Reset user data</source>
-        <translation type="unfinished"></translation>
+        <translation>Effacer les données utilisateur</translation>
     </message>
     <message>
         <location filename="../src/gui/DataPreferences.ui" line="43"/>
         <source>User database file:</source>
-        <translation type="unfinished"></translation>
+        <translation>Fichier de base de données utilisateur:</translation>
     </message>
     <message>
         <location filename="../src/gui/PreferencesWindow.cc" line="482"/>
         <source>User data</source>
-        <translation type="unfinished"></translation>
+        <translation>Données utilisateur</translation>
     </message>
     <message>
         <location filename="../src/gui/PreferencesWindow.cc" line="491"/>
         <source>Really erase user data?</source>
-        <translation type="unfinished"></translation>
+        <translation>Êtes-vous sûr de vouloir effacer les données utilisateur?</translation>
     </message>
     <message>
         <location filename="../src/gui/PreferencesWindow.cc" line="491"/>
         <source>This will erase all your user data. Are you sure you want to do this?</source>
-        <translation type="unfinished"></translation>
+        <translation>Toutes vos données utilisateur seront effacées. Êtes-vous sûr que c&apos;est ce que vous souhaitez faire?</translation>
     </message>
     <message>
         <location filename="../src/gui/PreferencesWindow.cc" line="492"/>
         <source>REALLY erase it?</source>
-        <translation type="unfinished"></translation>
+        <translation>Voulez-vous VRAIMENT les effacer?</translation>
     </message>
     <message>
         <location filename="../src/gui/PreferencesWindow.cc" line="492"/>
         <source>Are you absolutely, positively, definitely sure?</source>
-        <translation type="unfinished"></translation>
+        <translation>Êtes-vous absolument, positivement, définitivement sûr?</translation>
     </message>
     <message>
         <location filename="../src/gui/PreferencesWindow.cc" line="495"/>
         <source>No user database file</source>
-        <translation type="unfinished"></translation>
+        <translation>Aucun fichier de base de données utilisateur</translation>
     </message>
     <message>
         <location filename="../src/gui/PreferencesWindow.cc" line="495"/>
         <source>The user database file has already been erased before.</source>
-        <translation type="unfinished"></translation>
+        <translation>Le fichier de base de données utilisateur a déjà été supprimé auparavant.</translation>
     </message>
     <message>
         <location filename="../src/gui/PreferencesWindow.cc" line="498"/>
         <source>Cannot erase user database</source>
-        <translation type="unfinished"></translation>
+        <translation>Impossible d&apos;effacer la base de données utilisateur</translation>
     </message>
     <message>
         <location filename="../src/gui/PreferencesWindow.cc" line="498"/>
         <source>Unable to erase user database. Please see what is wrong and try to do it manually.</source>
-        <translation type="unfinished"></translation>
+        <translation>Impossible d&apos;effacer la base de données utilisateur. Veuillez voir ce qui ne va pas et le faire manuellement.</translation>
     </message>
     <message>
         <location filename="../src/gui/PreferencesWindow.cc" line="500"/>
         <source>User data erased</source>
-        <translation type="unfinished"></translation>
+        <translation>Données utilisateur supprimées</translation>
     </message>
     <message>
         <location filename="../src/gui/PreferencesWindow.cc" line="500"/>
         <source>User data has been erased. Tagaini Jisho will now exit. You will be back to a blank database when it is restarted.</source>
-        <translation type="unfinished"></translation>
+        <translation>Les données utilisateur ont été supprimées. Tagaini Jisho va maintenant se fermer. Vous démarrerez d&apos;une nouvelle base vierge lors du prochain lancement.</translation>
     </message>
 </context>
 <context>
@@ -113,37 +113,37 @@
     <message>
         <location filename="../src/core/Database.cc" line="160"/>
         <source>Tagaini Jisho warning</source>
-        <translation type="unfinished"></translation>
+        <translation>Avertissement Tagaini Jisho</translation>
     </message>
     <message>
         <location filename="../src/core/Database.cc" line="212"/>
         <source>Error while upgrading user database: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Erreur lors de la mise à jour de la base de données utilisateur: %1</translation>
     </message>
     <message>
         <location filename="../src/core/Database.cc" line="218"/>
         <source>Wrong user database version: expected %1, got %2.</source>
-        <translation type="unfinished"></translation>
+        <translation>Mauvaise version de base de données utilisateur: %2 au lieu de %1.</translation>
     </message>
     <message>
         <location filename="../src/core/Database.cc" line="226"/>
         <source>Cannot create user database: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Impossible de créer la base de données utilisateur: %1</translation>
     </message>
     <message>
         <location filename="../src/core/Database.cc" line="240"/>
         <source>Cannot open database: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Impossible d&apos;ouvrir la base de données: %1</translation>
     </message>
     <message>
         <location filename="../src/core/Database.cc" line="366"/>
         <source>Temporary database fallback failed. The program will now exit.</source>
-        <translation type="unfinished"></translation>
+        <translation>Échec du basculement vers la base de données temporaire. Le programme va maintenant quitter.</translation>
     </message>
     <message>
         <location filename="../src/core/Database.cc" line="369"/>
         <source>Tagaini is working on a temporary database. This allows the program to work, but user data is unavailable and any change will be lost upon program exit. If you corrupted your database file, please recreate it from the preferences.</source>
-        <translation type="unfinished"></translation>
+        <translation>Tagaini fonctionne en ce moment avec une base de données temporaire. Cela permet au programme de fonctionner, mais vos données utilisateur seront indisponibles et toutes les opérations seront perdues à la fermeture du programme. Si votre fichier de base de données est corrompu, veuillez le recréer à partir des préférences.</translation>
     </message>
 </context>
 <context>
@@ -168,7 +168,7 @@
     <message>
         <location filename="../src/gui/PreferencesWindow.cc" line="392"/>
         <source>Detailed view</source>
-        <translation type="unfinished"></translation>
+        <translation>Vue détaillée</translation>
     </message>
     <message>
         <location filename="../src/gui/PreferencesWindow.cc" line="407"/>
@@ -254,27 +254,27 @@
     <message>
         <location filename="../src/gui/EntriesPrinter.cc" line="66"/>
         <source>Preparing print job...</source>
-        <translation type="unfinished">Préparation du travail d&apos;impression...</translation>
+        <translation>Préparation du travail d&apos;impression...</translation>
     </message>
     <message>
         <location filename="../src/gui/EntriesPrinter.cc" line="66"/>
         <source>Abort</source>
-        <translation type="unfinished">Annuler</translation>
+        <translation>Annuler</translation>
     </message>
     <message>
         <location filename="../src/gui/EntriesPrinter.cc" line="68"/>
         <source>Printing...</source>
-        <translation type="unfinished">Impression en cours...</translation>
+        <translation>Impression en cours...</translation>
     </message>
     <message>
         <location filename="../src/gui/EntriesPrinter.cc" line="157"/>
         <source>Print preview</source>
-        <translation type="unfinished">Aperçu d&apos;impression</translation>
+        <translation>Aperçu d&apos;impression</translation>
     </message>
     <message>
         <location filename="../src/gui/EntriesPrinter.cc" line="172"/>
         <source>Booklet print preview</source>
-        <translation type="unfinished">Aperçu d&apos;impression de livret</translation>
+        <translation>Aperçu d&apos;impression de livret</translation>
     </message>
 </context>
 <context>
@@ -282,7 +282,7 @@
     <message>
         <location filename="../src/gui/EntriesViewHelper.cc" line="34"/>
         <source>&amp;Print...</source>
-        <translation type="unfinished">&amp;Imprimer...</translation>
+        <translation>&amp;Imprimer...</translation>
     </message>
     <message>
         <location filename="../src/gui/EntriesViewHelper.cc" line="34"/>
@@ -388,7 +388,7 @@
     <message>
         <location filename="../src/gui/EntriesViewHelper.cc" line="370"/>
         <source>Unable to write file %1!</source>
-        <translation type="unfinished">Impossible d&apos;écrire le fichier %1. {1!?}</translation>
+        <translation>Impossible d&apos;écrire le fichier %1!</translation>
     </message>
     <message>
         <location filename="../src/gui/EntriesViewHelper.cc" line="386"/>
