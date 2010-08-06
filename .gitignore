@@ -4,13 +4,9 @@
 moc_*
 .sconsign.dblite
 qrc_*
-release
 tagainijisho_resource.rc
 install.exe
-debug
 Makefile
-Makefile.Debug
-Makefile.Release
 object_script.tagainijisho.Release
 object_script.tagainijisho.Debug
 tagainijisho.app
