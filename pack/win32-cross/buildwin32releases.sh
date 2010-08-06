@@ -29,4 +29,5 @@ do
 	makensis -DLANG=$lang -DVERSION=$VERSION -DBUILDDIR=$BUILDDIR -DSRCDIR=$SRCDIR -DQTPATH=$QTPATH -DMINGWDLLPATH=$MINGWDLLPATH $NSIFILE
 	mv install.exe tagainijisho-$VERSION-$lang.exe
 done
+rm -Rf $BUILDDIR
 cd $curpath
