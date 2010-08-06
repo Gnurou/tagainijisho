@@ -1,13 +1,18 @@
 #!/bin/sh
 curpath=`pwd`
 BASEDIR=`readlink -f \`dirname $0\``
+SRCDIR=`readlink -f $BASEDIR/../..`
+VERSION=`grep "set(VERSION " $SRCDIR/CMakeLists.txt |sed -n 's/set(VERSION \(.*\))$/\1/p'`
+cd $SRCDIR
+git archive --format=tar --prefix=gitexport/ HEAD |tar xv -C $BASEDIR
 cd $BASEDIR
-git archive --format=tar --prefix=gitexport HEAD |tar xv
-cd gitexport
+mkdir -p build
+cd build
+cmake ../gitexport
 cmake .
-cmake .
+make docs
 make package_source
+mv tagainijisho-${VERSION}.tar.gz ..
 cd ..
-rm -Rf gitexport
+rm -Rf gitexport build
 cd $curpath
-
