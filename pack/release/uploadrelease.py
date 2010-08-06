@@ -90,13 +90,13 @@ for release in project.releases:
 	if release.version == lpRelease:
 		gpgPass = getpass.getpass("Found the release. I will now create signature files - please enter your GPG private key passphrase: ")
 		# Upload the source tarball
-		uploadFile('releasefiles/tagainijisho-' + releaseVersion + '.tar.gz', 'source', '', gpgPass)
+		uploadFile('src/pack/source/tagainijisho-' + releaseVersion + '.tar.gz', 'source', '', gpgPass)
 		# Upload the mac binaries
 		for lang in LANGUAGES:
-			uploadFile('releasefiles/Tagaini Jisho-' + releaseVersion + '-' + LANGUAGES_SUFFIXES[lang] + '.dmg', 'mac', lang, gpgPass)
+			uploadFile('src/pack/MacOS/Tagaini Jisho-' + releaseVersion + '-' + LANGUAGES_SUFFIXES[lang] + '.dmg', 'mac', lang, gpgPass)
 		# Upload the win32 binaries
 		for lang in LANGUAGES:
-			uploadFile('releasefiles/tagainijisho-' + releaseVersion + '-' + LANGUAGES_SUFFIXES[lang] + '.exe', 'win32', lang, gpgPass)
+			uploadFile('src/pack/win32-cross/tagainijisho-' + releaseVersion + '-' + LANGUAGES_SUFFIXES[lang] + '.exe', 'win32', lang, gpgPass)
 		release.lp_save()
 		sys.exit(0)
 print "Release not found - please create it on Launchpad first."
