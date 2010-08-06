@@ -1,8 +1,17 @@
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 import sys, os, launchpadlib, subprocess, codecs, re, os.path, getpass
+from optparse import OptionParser
 from launchpadlib.launchpad import Launchpad, STAGING_SERVICE_ROOT, EDGE_SERVICE_ROOT, LPNET_SERVICE_ROOT
 from launchpadlib.credentials import Credentials
 import lazr.restfulclient.errors
+
+parser = OptionParser()
+parser.add_option("--no-source", action="store_false", dest="uploadsource", default=True, help="Don't load source release")
+parser.add_option("--no-win32", dest="uploadwin32", action="store_false", default=True, help="Don't load Windows binaries")
+parser.add_option("--no-mac", dest="uploadmac", action="store_false", default=True, help="Don't load Mac binaries")
+
+(options, args) = parser.parse_args()
 
 #serviceRoot = STAGING_SERVICE_ROOT
 #serviceRoot = EDGE_SERVICE_ROOT
@@ -90,13 +99,15 @@ for release in project.releases:
 	if release.version == lpRelease:
 		gpgPass = getpass.getpass("Found the release. I will now create signature files - please enter your GPG private key passphrase: ")
 		# Upload the source tarball
-		uploadFile('pack/source/tagainijisho-' + releaseVersion + '.tar.gz', 'source', '', gpgPass)
+		if options.uploadsource: uploadFile('pack/source/tagainijisho-' + releaseVersion + '.tar.gz', 'source', '', gpgPass)
 		# Upload the mac binaries
-		for lang in LANGUAGES:
-			uploadFile('pack/MacOS/Tagaini Jisho-' + releaseVersion + '-' + LANGUAGES_SUFFIXES[lang] + '.dmg', 'mac', lang, gpgPass)
+		if options.uploadmac:
+			for lang in LANGUAGES:
+				uploadFile('pack/MacOS/Tagaini Jisho-' + releaseVersion + '-' + LANGUAGES_SUFFIXES[lang] + '.dmg', 'mac', lang, gpgPass)
 		# Upload the win32 binaries
-		for lang in LANGUAGES:
-			uploadFile('pack/win32-cross/tagainijisho-' + releaseVersion + '-' + LANGUAGES_SUFFIXES[lang] + '.exe', 'win32', lang, gpgPass)
+		if options.uploadwin32:
+			for lang in LANGUAGES:
+				uploadFile('pack/win32-cross/tagainijisho-' + releaseVersion + '-' + LANGUAGES_SUFFIXES[lang] + '.exe', 'win32', lang, gpgPass)
 		release.lp_save()
 		sys.exit(0)
 print "Release not found - please create it on Launchpad first."

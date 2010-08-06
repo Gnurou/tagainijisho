@@ -1,4 +1,5 @@
 #!/bin/sh
+# Build a source release tarball. This only works from a git repository.
 curpath=`pwd`
 BASEDIR=`readlink -f \`dirname $0\``
 SRCDIR=`readlink -f $BASEDIR/../..`
