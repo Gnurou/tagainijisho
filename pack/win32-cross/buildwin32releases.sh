@@ -9,11 +9,11 @@ QTPATH=`grep "^set(QT_ROOT" $TOOLCHAIN |sed "s/set(QT_ROOT \(.*\))/\1/"`
 NSIFILE=$BASEDIR/tagainijisho.nsi
 MINGWDLLPATH=${MINGWDLLPATH-/usr/i486-mingw32/lib}
 
-mkdir -p $BUILDDIR
+mkdir -p $BUILDDIR/i18n
 for lang in fr de es ru nl;
 do
-	touch $BUILDDIR/qt_$lang.qm
-	lrelease $QTPATH/translations/qt_$lang.ts -qm $BUILDDIR/qt_$lang.qm
+	touch $BUILDDIR/i18n/qt_$lang.qm
+	lrelease $QTPATH/translations/qt_$lang.ts -qm $BUILDDIR/i18n/qt_$lang.qm
 done
 
 cd $BUILDDIR
