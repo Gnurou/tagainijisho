@@ -1,7 +1,5 @@
 set(QT_USE_QTSQL TRUE)
 include(${QT_USE_FILE})
-add_subdirectory(jmdict)
-add_subdirectory(kanjidic2)
 
 set(tagainijisho_core_SRCS
 TextTools.cc
@@ -24,16 +22,9 @@ EntryListModel.cc
 EntriesCache.cc
 Plugin.cc
 XmlParserHelper.cc
-jmdict/JMdictEntry.cc
-jmdict/JMdictEntrySearcher.cc
-jmdict/JMdictPlugin.cc
-kanjidic2/Kanjidic2Entry.cc
-kanjidic2/Kanjidic2EntrySearcher.cc
-kanjidic2/KanjiRadicals.cc
-kanjidic2/Kanjidic2Plugin.cc
 )
 
-qt4_wrap_cpp(tagainijisho_core_MOC_SRCS
+set(tagainijisho_core_MOCS
 ASyncEntryLoader.h
 ASyncQuery.h
 Database.h
@@ -46,11 +37,17 @@ EntryListModel.h
 Preferences.h
 Query.h
 Tag.h
-jmdict/JMdictEntry.h
-jmdict/JMdictEntrySearcher.h
-kanjidic2/Kanjidic2Entry.h
-kanjidic2/Kanjidic2EntrySearcher.h
 )
+
+# Add rules for jmdict and kanjidic components
+add_subdirectory(jmdict)
+get_directory_property(tagainijisho_core_SRCS DIRECTORY "jmdict" DEFINITION tagainijisho_core_SRCS)
+get_directory_property(tagainijisho_core_MOCS DIRECTORY "jmdict" DEFINITION tagainijisho_core_MOCS)
+add_subdirectory(kanjidic2)
+get_directory_property(tagainijisho_core_SRCS DIRECTORY "kanjidic2" DEFINITION tagainijisho_core_SRCS)
+get_directory_property(tagainijisho_core_MOCS DIRECTORY "kanjidic2" DEFINITION tagainijisho_core_MOCS)
+
+qt4_wrap_cpp(tagainijisho_core_MOC_SRCS ${tagainijisho_core_MOCS})
 
 include_directories(${QT_INCLUDE_DIR})
 # TODO remove once the SQLite stuff is entirely moved into the sqlite module

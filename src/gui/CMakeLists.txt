@@ -2,10 +2,6 @@
 set(QT_USE_QTSQL TRUE)
 set(QT_USE_QTNETWORK TRUE)
 include(${QT_USE_FILE})
-add_subdirectory(jmdict)
-add_subdirectory(kanjidic2)
-
-qt4_add_resources(tagainijisho_gui_RC ${CMAKE_SOURCE_DIR}/tagainijisho.qrc)
 
 set(tagainijisho_gui_SRCS
 EntryFormatter.cc
@@ -52,23 +48,9 @@ ReadingTrainer.cc
 PreferencesWindow.cc
 ManualBrowser.cc
 MainWindow.cc
-jmdict/JMdictEntryFormatter.cc
-jmdict/JMdictPreferences.cc
-jmdict/JMdictFilterWidget.cc
-jmdict/JMdictGUIPlugin.cc
-jmdict/JMdictYesNoTrainer.cc
-kanjidic2/Kanjidic2EntryFormatter.cc
-kanjidic2/KanjiRenderer.cc
-kanjidic2/KanjiPopup.cc
-kanjidic2/KanjiPlayer.cc
-kanjidic2/KanjiResultsView.cc
-kanjidic2/KanjiSelector.cc
-kanjidic2/Kanjidic2Preferences.cc
-kanjidic2/Kanjidic2FilterWidget.cc
-kanjidic2/Kanjidic2GUIPlugin.cc
 )
 
-qt4_wrap_cpp(tagainijisho_gui_MOC_SRCS
+set(tagainijisho_gui_MOCS
 BetterSpinBox.h
 ClickableLabel.h
 EntryFormatter.h
@@ -108,22 +90,9 @@ TrainSettings.h
 UpdateChecker.h
 YesNoTrainer.h
 ManualBrowser.h
-jmdict/JMdictEntryFormatter.h
-jmdict/JMdictFilterWidget.h
-jmdict/JMdictGUIPlugin.h
-jmdict/JMdictPreferences.h
-jmdict/JMdictYesNoTrainer.h
-kanjidic2/Kanjidic2EntryFormatter.h
-kanjidic2/Kanjidic2GUIPlugin.h
-kanjidic2/Kanjidic2Preferences.h
-kanjidic2/KanjiPlayer.h
-kanjidic2/KanjiPopup.h
-kanjidic2/KanjiResultsView.h
-kanjidic2/Kanjidic2FilterWidget.h
-kanjidic2/KanjiSelector.h
 )
 
-qt4_wrap_ui(tagainijisho_gui_UI_SRCS
+set(tagainijisho_gui_UIS
 ReadingTrainer.ui
 SetsOrganizer.ui
 PreferencesWindow.ui
@@ -140,13 +109,21 @@ GeneralPreferences.ui
 DataPreferences.ui
 ManualBrowser.ui
 MainWindow.ui
-jmdict/JMdictPreferences.ui
-kanjidic2/KanjiPopup.ui
-kanjidic2/KanjiSelector.ui
-#kanjidic2/ComponentSearchWidget.ui
-#kanjidic2/RadicalSearchWidget.ui
-kanjidic2/Kanjidic2Preferences.ui
 )
+
+# Add rules for jmdict and kanjidic components
+add_subdirectory(jmdict)
+get_directory_property(tagainijisho_gui_SRCS DIRECTORY "jmdict" DEFINITION tagainijisho_gui_SRCS)
+get_directory_property(tagainijisho_gui_MOCS DIRECTORY "jmdict" DEFINITION tagainijisho_gui_MOCS)
+get_directory_property(tagainijisho_gui_UIS DIRECTORY "jmdict" DEFINITION tagainijisho_gui_UIS)
+add_subdirectory(kanjidic2)
+get_directory_property(tagainijisho_gui_SRCS DIRECTORY "kanjidic2" DEFINITION tagainijisho_gui_SRCS)
+get_directory_property(tagainijisho_gui_MOCS DIRECTORY "kanjidic2" DEFINITION tagainijisho_gui_MOCS)
+get_directory_property(tagainijisho_gui_UIS DIRECTORY "kanjidic2" DEFINITION tagainijisho_gui_UIS)
+
+qt4_wrap_cpp(tagainijisho_gui_MOC_SRCS ${tagainijisho_gui_MOCS})
+qt4_wrap_ui(tagainijisho_gui_UI_SRCS ${tagainijisho_gui_UIS})
+qt4_add_resources(tagainijisho_gui_RC ${CMAKE_SOURCE_DIR}/tagainijisho.qrc)
 
 SET(ICON "")
 if(APPLE)
