@@ -64,12 +64,12 @@ if(UNIX)
 		file(GLOB i18nfiles ${CMAKE_BINARY_DIR}/i18n/*.qm)
 		install(FILES ${i18nfiles} DESTINATION "${EXE_DIR}/i18n" COMPONENT Runtime)
 		
-		if (EXISTS ${CMAKE_SOURCE_DIR}/doc/manual.html)
+		if(${MULTI_MARKDOWN} NOT MATCHES "MULTI_MARKDOWN-NOTFOUND")
 			install(FILES ${CMAKE_SOURCE_DIR}/doc/manual.html DESTINATION ${EXE_DIR}/doc COMPONENT Runtime)
 			install(DIRECTORY ${CMAKE_SOURCE_DIR}/doc/images DESTINATION ${EXE_DIR}/doc COMPONENT Runtime)
-		else(EXISTS ${CMAKE_SOURCE_DIR}/doc/manual.html)
-			MESSAGE(STATUS "Warning, docs were not generated")
-		endif()
+		else(${MULTI_MARKDOWN} NOT MATCHES "MULTI_MARKDOWN-NOTFOUND")
+			MESSAGE(STATUS "Warning, docs will not be generated")
+		endif(${MULTI_MARKDOWN} NOT MATCHES "MULTI_MARKDOWN-NOTFOUND")
 		
 		install(CODE "file(WRITE \"\${CMAKE_INSTALL_PREFIX}/${RESOURCES_DIR}/qt.conf\" \"\")" COMPONENT Runtime)
 		
