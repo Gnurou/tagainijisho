@@ -373,9 +373,8 @@ QString JMdictEntryFormatter::formatJLPT(const ConstEntryPointer &_entry) const
 QString JMdictEntryFormatter::formatKanji(const ConstEntryPointer &entry) const
 {
 	ConstJMdictEntryPointer jEntry(entry.staticCast<const JMdictEntry>());
+	QString contents;
 	if (showKanjis.value() && !jEntry->getKanjiReadings().isEmpty()) {
-		QString title();
-		QString contents;
 		const QString &reading(jEntry->getKanjiReadings()[0].getReading());
 		for (int i = 0; i < reading.size(); ++i) {
 			if (TextTools::isKanjiChar(reading, i)) {
@@ -390,8 +389,8 @@ QString JMdictEntryFormatter::formatKanji(const ConstEntryPointer &entry) const
 				}
 			}
 		}
-		return buildSubInfoBlock(tr("Kanji"), contents);
 	}
+	if (!contents.isEmpty()) return buildSubInfoBlock(tr("Kanji"), contents);
 	else return "";
 }
 
