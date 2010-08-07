@@ -35,9 +35,13 @@ if(UNIX AND NOT APPLE AND NOT DATA_DIR)
 	set(DATA_DIR "${CMAKE_INSTALL_PREFIX}/share/tagainijisho")
 endif(UNIX AND NOT APPLE AND NOT DATA_DIR)
 
-# Universal binary 32bits
+# Universal binary 32bits with 10.4 compatibility 
 if(APPLE)
 	set(CMAKE_OSX_ARCHITECTURES "ppc;i386")
+	set(CMAKE_OSX_SYSROOT /Developer/SDKs/MacOSX10.4u.sdk)
+	set(CMAKE_C_COMPILER "gcc-4.0")
+	set(CMAKE_CXX_COMPILER "g++-4.0")
+	set(CMAKE_OSX_DEPLOYMENT_TARGET 10.4)
 endif(APPLE)
 
 # Which languages are enabled?
