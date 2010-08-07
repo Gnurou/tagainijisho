@@ -52,6 +52,9 @@ if(UNIX)
 		set(APPS "\${CMAKE_INSTALL_PREFIX}/${CMAKE_PROJECT_NAME}.app")
 		set(DIRS ${QT_LIBRARY_DIRS})
 
+		install(DIRECTORY "${QT_PLUGINS_DIR}/imageformats" DESTINATION "${ROOT_DIR}/PlugIns" COMPONENT Runtime)
+		install(DIRECTORY "${QT_PLUGINS_DIR}/graphicssystems" DESTINATION "${ROOT_DIR}/PlugIns" COMPONENT Runtime)
+
 		foreach(LANG ${DICT_LANG})
 			install(FILES "${CMAKE_BINARY_DIR}/jmdict-${LANG}.db" DESTINATION ${EXE_DIR} COMPONENT Runtime)
 			install(FILES "${CMAKE_BINARY_DIR}/kanjidic2-${LANG}.db" DESTINATION ${EXE_DIR} COMPONENT Runtime)
@@ -71,10 +74,10 @@ if(UNIX)
 			MESSAGE(STATUS "Warning, docs were not generated")
 		endif()
 		
-		install(CODE "file(WRITE \"\${CMAKE_INSTALL_PREFIX}/${RESOURCES_DIR}/qt.conf\" \"\")" COMPONENT Runtime)
+		install(CODE "file(WRITE \"\${CMAKE_INSTALL_PREFIX}/${RESOURCES_DIR}/qt.conf\" \"[Paths]\nPlugins = PlugIns\nTranslations = Translations\n\")" COMPONENT Runtime)
 		
 		install(CODE "
-			file(GLOB_RECURSE QTPLUGINS \"\${CMAKE_INSTALL_PREFIX}/${EXE_DIR}/plugin/*${CMAKE_SHARED_LIBRARY_SUFFIX}\")
+			file(GLOB_RECURSE QTPLUGINS \"\${CMAKE_INSTALL_PREFIX}/${EXE_DIR}/plugins/*${CMAKE_SHARED_LIBRARY_SUFFIX}\")
 		include(BundleUtilities)
 		fixup_bundle(\"${APPS}\" \"\${QTPLUGINS}\" \"${DIRS}\")" COMPONENT Runtime)
 		
