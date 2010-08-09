@@ -1,4 +1,13 @@
-project(tagainijisho)
+# The project name decides the naming pattern of many things - choose it according
+# to the standard of the platform we run on.
+if(APPLE)
+	project("Tagaini Jisho")
+else(APPLE)
+	project("tagainijisho")
+endif(APPLE)
+# Set the program name to be the same as the project
+set(tagaini_binary ${CMAKE_PROJECT_NAME})
+
 set(VERSION 0.2.5.95)
 set(SQLITE_VERSION 3.7.0.1)
 set(SQLITE_SOURCE http://www.sqlite.org/sqlite-amalgamation-${SQLITE_VERSION}.tar.gz)

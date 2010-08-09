@@ -1,4 +1,3 @@
-# Which languages are enabled?
 set(QT_USE_QTSQL TRUE)
 set(QT_USE_QTNETWORK TRUE)
 include(${QT_USE_FILE})
@@ -125,6 +124,11 @@ qt4_wrap_cpp(tagainijisho_gui_MOC_SRCS ${tagainijisho_gui_MOCS})
 qt4_wrap_ui(tagainijisho_gui_UI_SRCS ${tagainijisho_gui_UIS})
 qt4_add_resources(tagainijisho_gui_RC ${CMAKE_SOURCE_DIR}/tagainijisho.qrc)
 
+include_directories(${QT_INCLUDE_DIR})
+
+add_library(tagaini_gui STATIC ${tagainijisho_gui_SRCS} ${tagainijisho_gui_MOC_SRCS} ${tagainijisho_gui_UI_SRCS})
+
+# Build the main program
 SET(ICON "")
 if(APPLE)
 	SET_SOURCE_FILES_PROPERTIES(appicon.icns PROPERTIES MACOSX_PACKAGE_LOCATION Resources)
@@ -139,20 +143,20 @@ if (WIN32)
 	set(extra_link_flags "-static-libgcc -static-libstdc++ -mwindows")
 endif()
 
-include_directories(${QT_INCLUDE_DIR})
-
-add_library(tagaini_gui STATIC ${tagainijisho_gui_SRCS} ${tagainijisho_gui_MOC_SRCS} ${tagainijisho_gui_UI_SRCS})
-
 if (APPLE)
 	set(tagainijisho_SRCS ${tagainijisho_SRCS} ${MACOSX_BUNDLE_ICON_FILE})
 	set(extra_link_flags "-bind_at_load")
 endif()
 
-add_executable(${CMAKE_PROJECT_NAME} MACOSX_BUNDLE WIN32 ${tagainijisho_SRCS})
+add_executable(${tagaini_binary} MACOSX_BUNDLE WIN32 ${tagainijisho_SRCS})
+target_link_libraries(${tagaini_binary} tagaini_gui tagaini_core tagaini_sqlite ${QT_LIBRARIES} ${extra_link_flags})
+install(TARGETS ${tagaini_binary} BUNDLE DESTINATION . COMPONENT Runtime RUNTIME DESTINATION bin COMPONENT Runtime)
 
-target_link_libraries(${CMAKE_PROJECT_NAME} tagaini_gui tagaini_core tagaini_sqlite ${QT_LIBRARIES} ${extra_link_flags})
+# If needed, add standard dependency to have identical build on all platforms
+if (NOT ${tagaini_binary} MATCHES "tagainijisho")
+	add_custom_target(tagainijisho DEPENDS ${tagaini_binary})
+endif()
 
-install(TARGETS ${CMAKE_PROJECT_NAME} BUNDLE DESTINATION . COMPONENT Runtime RUNTIME DESTINATION bin COMPONENT Runtime)
 
 if (BUILD_TESTS)
 	add_subdirectory(tests)

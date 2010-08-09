@@ -10,7 +10,8 @@ set(CPACK_PACKAGE_CONTACT http://www.tagaini.net)
 set(CPACK_PACKAGE_DESCRIPTION_FILE "${CMAKE_SOURCE_DIR}/README.txt")
 set(CPACK_PACKAGE_VERSION ${VERSION})
 set(CPACK_PACKAGE_FILE_NAME "${CMAKE_PROJECT_NAME}-${VERSION}-${DICT_LANG}")
-set(CPACK_SOURCE_PACKAGE_FILE_NAME "${CMAKE_PROJECT_NAME}-${VERSION}")
+# Source package should always be named the same regardless of the platform on which we build
+set(CPACK_SOURCE_PACKAGE_FILE_NAME "tagainijisho-${VERSION}")
 set(CPACK_SOURCE_STRIP_FILES true)
 set(CPACK_STRIP_FILES true)
 set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_SOURCE_DIR}/COPYING.txt")
@@ -43,7 +44,7 @@ if(UNIX)
 		set(CPACK_DMG_VOLUME_NAME "Tagaini Jisho")
 		set(CPACK_DMG_DS_STORE "${CMAKE_CURRENT_SOURCE_DIR}/MacOS/DS_Store")
 		set(CPACK_DMG_BACKGROUND_IMAGE "${CMAKE_CURRENT_SOURCE_DIR}/MacOS/background.png")
-		set_target_properties(${CMAKE_PROJECT_NAME} PROPERTIES
+		set_target_properties(${tagaini_binary} PROPERTIES
 			MACOSX_BUNDLE_BUNDLE_NAME "Tagaini Jisho"
 			MACOSX_BUNDLE_BUNDLE_VERSION ${VERSION}
 			MACOSX_BUNDLE_SHORT_VERSION_STRING ${VERSION}
@@ -52,10 +53,10 @@ if(UNIX)
 			MACOSX_BUNDLE_ICON_FILE appicon.icns
 		)
 		
-		set(ROOT_DIR "${CMAKE_PROJECT_NAME}.app/Contents")
+		set(ROOT_DIR "${tagaini_binary}.app/Contents")
 		set(EXE_DIR "${ROOT_DIR}/MacOS")
 		set(RESOURCES_DIR "${ROOT_DIR}/Resources")
-		set(APPS "\${CMAKE_INSTALL_PREFIX}/${CMAKE_PROJECT_NAME}.app")
+		set(APPS "\${CMAKE_INSTALL_PREFIX}/${tagaini_binary}.app")
 		set(DIRS ${QT_LIBRARY_DIRS})
 
 		install(DIRECTORY "${QT_PLUGINS_DIR}/imageformats" DESTINATION "${ROOT_DIR}/PlugIns" COMPONENT Runtime)
