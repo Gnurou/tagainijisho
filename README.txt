@@ -51,7 +51,7 @@ Features
 Compiling
 ---------
 The only runtime dependency to run Tagaini Jisho is Qt 4.5 or higher. In order
-to compile it, you will also need CMake 2.8 or higher.
+to compile it, you will also need CMake 2.8.1 or higher.
 
 Compilation requires two steps: first, the program is compiled, and second,
 the dictionaries it uses are created.
@@ -82,6 +82,17 @@ This will take some time, especially to generate the dictionaries databases.
 Finally, you can install the program to its destination:
 
 # make install
+
+But you may prefer to generate installers or packages for your platform
+using CPack. Mac users can obtain an installable DMG image by running the
+following command:
+
+$ cpack -G DragNDrop
+
+Linux users can make a nice deb or rpm package:
+
+$ cpack -G DEB
+$ cpack -G RPM
 
 Usage
 -----
