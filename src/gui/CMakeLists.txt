@@ -127,7 +127,6 @@ qt4_add_resources(tagainijisho_gui_RC ${CMAKE_SOURCE_DIR}/tagainijisho.qrc)
 
 SET(ICON "")
 if(APPLE)
-	set(MACOSX_BUNDLE_ICON_FILE appicon.icns) 
 	SET_SOURCE_FILES_PROPERTIES(appicon.icns PROPERTIES MACOSX_PACKAGE_LOCATION Resources)
 	set(ICON ${CMAKE_CURRENT_SOURCE_DIR}/appicon.icns)
 endif(APPLE)
