@@ -401,6 +401,15 @@ QString Kanjidic2EntryFormatter::shortDesc(const ConstKanjidic2EntryPointer &sha
 	return ret;
 }
 
+QString Kanjidic2EntryFormatter::formatHead(const ConstEntryPointer &_entry) const
+{
+	ConstKanjidic2EntryPointer entry(_entry.staticCast<const Kanjidic2Entry>());
+
+	QString res(EntryFormatter::formatHead(entry));
+	if (res.isEmpty()) return res;
+	else return QString("<a href=\"drawkanji://?kanji=%1\">").arg(entry->kanji()) + res + "</a>";
+}
+
 QString Kanjidic2EntryFormatter::formatMeanings(const ConstEntryPointer &_entry) const
 {
 	ConstKanjidic2EntryPointer entry(_entry.staticCast<const Kanjidic2Entry>());
