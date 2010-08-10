@@ -101,6 +101,7 @@ public:
 	static PreferenceItem<bool> printGrid;
 
 public slots:
+	virtual QString formatHead(const ConstEntryPointer &entry) const;
 	virtual QString formatMeanings(const ConstEntryPointer &entry) const;
 	virtual QString formatOnReadings(const ConstEntryPointer &entry) const;
 	virtual QString formatKunReadings(const ConstEntryPointer &entry) const;
