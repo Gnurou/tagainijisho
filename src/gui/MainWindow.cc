@@ -299,7 +299,7 @@ void MainWindow::about()
 		"<h2>Authors</h2>"
 		"<p><b>Alexandre Courbot</b> project lead, programming.</p>"
 		"<p><b>Neil Caldwell</b> documentation.</p>"
-		"<p><b>Axel Bodart</b> programming, project building, Mac release manager.</p>"
+		"<p><b>Axel Bodart</b> project build, Mac release manager.</p>"
 		"<h2>Thanks to</h2>"
 		"<p><b>Philip Seyfi</b> application icon.</p>"
 		"<p><b>Tracy Poff</b> bug reports, documentation fixes.</p>"
