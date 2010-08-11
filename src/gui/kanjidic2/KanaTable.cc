@@ -15,50 +15,111 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <QtDebug>
+
 #include "gui/kanjidic2/KanaTable.h"
 #include "core/TextTools.h"
+#include "core/kanjidic2/Kanjidic2Entry.h"
+#include "core/EntriesCache.h"
 
 #include <QHeaderView>
 
-KanaTable::KanaTable(QWidget *parent) : QTableWidget(parent)
+KanaTableModel::KanaTableModel(QObject *parent) : QAbstractTableModel(parent)
 {
-	QStringList hLabels(QStringList() << "a" << "i" << "u" << "e" << "o");
-	QStringList vLabels(QStringList() << "" << "" << "k" << "g" << "s" << "z" << "t" << "d" << "n" << "h"
-						<< "b" << "p" << "m" << "y" << "r" << "w" << "v" << "n");
+	_font.setPointSize(_font.pointSize() * 2);
+}
 
-	setRowCount(vLabels.size());
-	setColumnCount(hLabels.size());
-	setHorizontalHeaderLabels(hLabels);
-	setVerticalHeaderLabels(vLabels);
+int KanaTableModel::rowCount(const QModelIndex &parent) const
+{
+	return KANASTABLE_NBROWS;
+}
 
-	QFont f(font());
-	f.setPointSize(f.pointSize() * 2);
+int KanaTableModel::columnCount(const QModelIndex &parent) const
+{
+	return KANASTABLE_NBCOLS;
+}
+
+QVariant KanaTableModel::data(const QModelIndex &index, int role) const
+{
+	if (!index.isValid()) return QVariant();
+
+	if (index.row() >= rowCount()) return QVariant();
+	if (index.column() >= columnCount()) return QVariant();
+
+	QChar c(TextTools::kanasTable[index.row()][index.column()]);
+	EntryPointer entry = EntryRef(KANJIDIC2ENTRY_GLOBALID, c.unicode()).get();
+
+	switch (role) {
+	case Qt::BackgroundRole:
+		if (!entry || !entry->trained()) return QVariant();
+		else return entry->scoreColor();
+	case Entry::EntryRole:
+		return QVariant::fromValue(entry);
+	case Qt::DisplayRole:
+		if (c.unicode() != 0) return QString(c);
+		else return QVariant();
+	case Qt::TextAlignmentRole:
+		return Qt::AlignCenter;
+	case Qt::FontRole:
+		return _font;
+	default:
+		return QVariant();
+	}
+}
+
+static QStringList hLabels(QStringList() << "a" << "i" << "u" << "e" << "o");
+static QStringList vLabels(QStringList() << "" << "" << "k" << "g" << "s" << "z" << "t" << "d" << "n" << "h"
+					<< "b" << "p" << "m" << "y" << "r" << "w" << "v" << "n");
+
+QVariant KanaTableModel::headerData(int section, Qt::Orientation orientation, int role) const
+{
+	switch (role) {
+	case Qt::DisplayRole:
+		switch (orientation) {
+		case Qt::Horizontal:
+			return hLabels[section];
+		case Qt::Vertical:
+			return vLabels[section];
+		}
+		return "";
+	case Qt::SizeHintRole:
+	{
+		QFontMetrics fm(_font);
+		return QSize(fm.maxWidth(), fm.height());
+	}
+	case Qt::TextAlignmentRole:
+		return Qt::AlignCenter;
+	case Qt::FontRole:
+		return _font;
+	default:
+		return QVariant();
+	}
+}
+
+Qt::ItemFlags KanaTableModel::flags(const QModelIndex &index) const
+{
+	QChar c(TextTools::kanasTable[index.row()][index.column()]);
+	if (c.unicode() == 0) return 0;
+	else return QAbstractTableModel::flags(index);
+}
+
+KanaTable::KanaTable(QWidget *parent) : QTableView(parent), _helper(this)
+{
+	setModel(&_model);
 
 	horizontalHeader()->setResizeMode(QHeaderView::Fixed);
-	horizontalHeader()->setFont(f);
 	verticalHeader()->setResizeMode(QHeaderView::Fixed);
-	verticalHeader()->setFont(f);
 	setShowGrid(false);
 
-
-	for (int i = 0; i < KANASTABLE_NBROWS; i++) {
-		bool added(false);
-		for (int j = 0; j < KANASTABLE_NBCOLS; j++) {
-			bool selectable = true;
-			QChar c(TextTools::kanasTable[i][j]);
-			if (c.unicode() == 0) selectable = false;
-			const TextTools::KanaInfo kInfo(TextTools::kanaInfo(c));
-			if (kInfo.size == TextTools::KanaInfo::Small || kInfo.usage == TextTools::KanaInfo::Rare) selectable = false;
-			QTableWidgetItem *item = new QTableWidgetItem(selectable ? QString(c) : "");
-			item->setTextAlignment(Qt::AlignCenter);
-			item->setFont(f);
-			if (!selectable) item->setFlags(0);
-			setItem(i, j, item);
-			if (selectable) added = true;
-		}
-		// If no character is added to the row, hide it
-		if (!added) setRowHidden(i, true);
-	}
 	resizeColumnsToContents();
 	resizeRowsToContents();
+}
+
+void KanaTable::selectionChanged(const QItemSelection &selected, const QItemSelection &deselected)
+{
+	QTableView::selectionChanged(selected, deselected);
+	if (selected.isEmpty()) return;
+	QModelIndex index(selected.indexes().last());
+	EntryPointer entry(qvariant_cast<EntryPointer>(model()->data(index, Entry::EntryRole)));
+	if (entry) emit entrySelected(entry);
 }
