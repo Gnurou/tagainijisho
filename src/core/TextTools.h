@@ -65,6 +65,22 @@ namespace TextTools {
 
 	QString unicodeToSingleChar(unsigned int unicode);
 	unsigned int singleCharToUnicode(const QString &chr, int pos = 0);
+
+	class KanaInfo  {
+	public:
+		typedef enum { Small, Normal } Size;
+		typedef enum { Common, Rare } Usage;
+		QString reading;
+		Size size;
+		Usage usage;
+
+		// For QMap
+		KanaInfo() {}
+		KanaInfo(const QString &_reading, Size _size = Normal, Usage _usage = Common)
+			: reading(_reading), size(_size), usage(_usage) {}
+	};
+
+	const KanaInfo &kanaInfo(const QChar c);
 }
 
 #endif

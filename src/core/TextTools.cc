@@ -162,6 +162,126 @@ static QChar kanasTable[KANASTABLE_NBROWS][5] = {
 	{ QChar(0x3089), QChar(0x308a), QChar(0x308b), QChar(0x308c), QChar(0x308d) }, // ら
 };
 
+static QMap<QChar, KanaInfo> _kanaInfos;
+
+static void initKanaInfos()
+{
+	// Hiragana
+	_kanaInfos[QChar(0x3041)] = KanaInfo("a", KanaInfo::Small);
+	_kanaInfos[QChar(0x3042)] = KanaInfo("a");
+	_kanaInfos[QChar(0x3043)] = KanaInfo("i", KanaInfo::Small);
+	_kanaInfos[QChar(0x3044)] = KanaInfo("i");
+	_kanaInfos[QChar(0x3045)] = KanaInfo("u", KanaInfo::Small);
+	_kanaInfos[QChar(0x3046)] = KanaInfo("u");
+	_kanaInfos[QChar(0x3047)] = KanaInfo("e", KanaInfo::Small);
+	_kanaInfos[QChar(0x3048)] = KanaInfo("e");
+	_kanaInfos[QChar(0x3049)] = KanaInfo("o", KanaInfo::Small);
+	_kanaInfos[QChar(0x304a)] = KanaInfo("o");
+
+	_kanaInfos[QChar(0x3095)] = KanaInfo("ka", KanaInfo::Small);
+	_kanaInfos[QChar(0x304b)] = KanaInfo("ka");
+	_kanaInfos[QChar(0x304d)] = KanaInfo("ki");
+	_kanaInfos[QChar(0x304f)] = KanaInfo("ku");
+	_kanaInfos[QChar(0x3096)] = KanaInfo("ke", KanaInfo::Small);
+	_kanaInfos[QChar(0x3051)] = KanaInfo("ke");
+	_kanaInfos[QChar(0x3053)] = KanaInfo("ko");
+
+	_kanaInfos[QChar(0x304c)] = KanaInfo("ga");
+	_kanaInfos[QChar(0x304e)] = KanaInfo("gi");
+	_kanaInfos[QChar(0x3050)] = KanaInfo("gu");
+	_kanaInfos[QChar(0x3052)] = KanaInfo("ge");
+	_kanaInfos[QChar(0x3054)] = KanaInfo("go");
+
+	_kanaInfos[QChar(0x3055)] = KanaInfo("sa");
+	_kanaInfos[QChar(0x3057)] = KanaInfo("shi");
+	_kanaInfos[QChar(0x3059)] = KanaInfo("su");
+	_kanaInfos[QChar(0x305b)] = KanaInfo("se");
+	_kanaInfos[QChar(0x305d)] = KanaInfo("so");
+
+	_kanaInfos[QChar(0x3056)] = KanaInfo("za");
+	_kanaInfos[QChar(0x3058)] = KanaInfo("ji");
+	_kanaInfos[QChar(0x305a)] = KanaInfo("zu");
+	_kanaInfos[QChar(0x305c)] = KanaInfo("ze");
+	_kanaInfos[QChar(0x305e)] = KanaInfo("zo");
+
+	_kanaInfos[QChar(0x305f)] = KanaInfo("ta");
+	_kanaInfos[QChar(0x3061)] = KanaInfo("tchi");
+	_kanaInfos[QChar(0x3063)] = KanaInfo("tsu", KanaInfo::Small);
+	_kanaInfos[QChar(0x3064)] = KanaInfo("tsu");
+	_kanaInfos[QChar(0x3066)] = KanaInfo("te");
+	_kanaInfos[QChar(0x3068)] = KanaInfo("to");
+
+	_kanaInfos[QChar(0x3060)] = KanaInfo("da");
+	_kanaInfos[QChar(0x3062)] = KanaInfo("dji");
+	_kanaInfos[QChar(0x3065)] = KanaInfo("dzu");
+	_kanaInfos[QChar(0x3067)] = KanaInfo("de");
+	_kanaInfos[QChar(0x3069)] = KanaInfo("do");
+
+	_kanaInfos[QChar(0x306a)] = KanaInfo("na");
+	_kanaInfos[QChar(0x306b)] = KanaInfo("ni");
+	_kanaInfos[QChar(0x306c)] = KanaInfo("nu");
+	_kanaInfos[QChar(0x306d)] = KanaInfo("ne");
+	_kanaInfos[QChar(0x306e)] = KanaInfo("no");
+
+	_kanaInfos[QChar(0x306f)] = KanaInfo("ha");
+	_kanaInfos[QChar(0x3072)] = KanaInfo("hi");
+	_kanaInfos[QChar(0x3075)] = KanaInfo("hu");
+	_kanaInfos[QChar(0x3078)] = KanaInfo("he");
+	_kanaInfos[QChar(0x307b)] = KanaInfo("ho");
+
+	_kanaInfos[QChar(0x3070)] = KanaInfo("ba");
+	_kanaInfos[QChar(0x3073)] = KanaInfo("bi");
+	_kanaInfos[QChar(0x3076)] = KanaInfo("bu");
+	_kanaInfos[QChar(0x3079)] = KanaInfo("be");
+	_kanaInfos[QChar(0x307c)] = KanaInfo("bo");
+
+	_kanaInfos[QChar(0x3071)] = KanaInfo("pa");
+	_kanaInfos[QChar(0x3074)] = KanaInfo("pi");
+	_kanaInfos[QChar(0x3077)] = KanaInfo("pu");
+	_kanaInfos[QChar(0x307a)] = KanaInfo("pe");
+	_kanaInfos[QChar(0x307d)] = KanaInfo("po");
+
+	_kanaInfos[QChar(0x307e)] = KanaInfo("ma");
+	_kanaInfos[QChar(0x307f)] = KanaInfo("mi");
+	_kanaInfos[QChar(0x3080)] = KanaInfo("mu");
+	_kanaInfos[QChar(0x3081)] = KanaInfo("me");
+	_kanaInfos[QChar(0x3082)] = KanaInfo("mo");
+
+	_kanaInfos[QChar(0x3083)] = KanaInfo("ya", KanaInfo::Small);
+	_kanaInfos[QChar(0x3084)] = KanaInfo("ya");
+	_kanaInfos[QChar(0x3085)] = KanaInfo("yu", KanaInfo::Small);
+	_kanaInfos[QChar(0x3086)] = KanaInfo("yu");
+	_kanaInfos[QChar(0x3087)] = KanaInfo("yo", KanaInfo::Small);
+	_kanaInfos[QChar(0x3088)] = KanaInfo("yo");
+
+	_kanaInfos[QChar(0x3089)] = KanaInfo("ra");
+	_kanaInfos[QChar(0x308a)] = KanaInfo("ri");
+	_kanaInfos[QChar(0x308b)] = KanaInfo("ru");
+	_kanaInfos[QChar(0x308c)] = KanaInfo("re");
+	_kanaInfos[QChar(0x308d)] = KanaInfo("ro");
+
+	_kanaInfos[QChar(0x308e)] = KanaInfo("wa", KanaInfo::Small);
+	_kanaInfos[QChar(0x308f)] = KanaInfo("wa");
+	_kanaInfos[QChar(0x3090)] = KanaInfo("wi", KanaInfo::Normal, KanaInfo::Rare);
+	_kanaInfos[QChar(0x3091)] = KanaInfo("we", KanaInfo::Normal, KanaInfo::Rare);
+	_kanaInfos[QChar(0x3092)] = KanaInfo("wo");
+
+	_kanaInfos[QChar(0x3094)] = KanaInfo("vu", KanaInfo::Normal, KanaInfo::Rare);
+
+	_kanaInfos[QChar(0x3093)] = KanaInfo("n");
+
+	// Katakana
+	// Lazy loop for katakana that have a hiragana equivalent
+	foreach (const QChar hira, _kanaInfos.keys()) {
+		_kanaInfos[hiraganaChar2Katakana(hira)] = _kanaInfos[hira];
+	}
+	// Other kanatana
+	_kanaInfos[QChar(0x30f7)] = KanaInfo("va", KanaInfo::Normal, KanaInfo::Rare);
+	_kanaInfos[QChar(0x30f8)] = KanaInfo("vi", KanaInfo::Normal, KanaInfo::Rare);
+	_kanaInfos[QChar(0x30f9)] = KanaInfo("ve", KanaInfo::Normal, KanaInfo::Rare);
+	_kanaInfos[QChar(0x30fa)] = KanaInfo("vo", KanaInfo::Normal, KanaInfo::Rare);
+}
+
 int kanasTableRow(const QChar c)
 {
 	for (int i = 0; i < KANASTABLE_NBROWS; i++) {
@@ -171,6 +291,12 @@ int kanasTableRow(const QChar c)
 		}
 	}
 	return -1;
+}
+
+const KanaInfo &kanaInfo(const QChar c)
+{
+	if (_kanaInfos.isEmpty()) initKanaInfos();
+	return _kanaInfos[c];
 }
 
 QChar hiraganaChar2Katakana(const QChar hira)
@@ -185,10 +311,8 @@ QChar hiraganaChar2Katakana(const QChar hira)
 QString hiragana2Katakana(const QString &hira)
 {
 	QString kata(hira.size());
-//	qDebug() << hira.size();
 	for (int i = 0; i < hira.size(); i++) {
 		QChar c(hira[i]);
-//		qDebug() << c << isHiraganaChar(c);
 		if (isHiraganaChar(hira[i])) kata[i] = hiraganaChar2Katakana(hira[i]);
 		else kata[i] = hira[i];
 	}

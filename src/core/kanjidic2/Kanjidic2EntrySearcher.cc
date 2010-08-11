@@ -306,12 +306,18 @@ QList<Kanjidic2Entry::KanjiMeaning> Kanjidic2EntrySearcher::getMeanings(int id)
 	while(query.next()) {
 		ret << Kanjidic2Entry::KanjiMeaning(query.value(0).toString(), query.value(1).toString());
 	}
+	// Here we probably have a kana or roman character that we can build up
 	if (ret.isEmpty()) {
-		QString character = TextTools::unicodeToSingleChar(id);
-		// Handle characters without any description
-		if (TextTools::isRomaji(character)) ret << Kanjidic2Entry::KanjiMeaning("en", QString("roman character %1").arg(character));
-		if (TextTools::isKatakana(character)) ret << Kanjidic2Entry::KanjiMeaning("en", QString("katakana %1").arg(character));
-		if (TextTools::isHiragana(character)) ret << Kanjidic2Entry::KanjiMeaning("en", QString("hiragana %1").arg(character));
+		QString character(TextTools::unicodeToSingleChar(id));
+		TextTools::KanaInfo kInfo(TextTools::kanaInfo(QChar(id)));
+		QString reading(kInfo.reading);
+		QString info(reading.isEmpty() || kInfo.size == TextTools::KanaInfo::Normal ? "" : " (small)");
+		if (reading.isEmpty()) reading = character;
+
+		if (TextTools::isRomaji(character)) ret << Kanjidic2Entry::KanjiMeaning("en", QString("roman character \"%1\"").arg(reading));
+		else if (TextTools::isHiragana(character)) ret << Kanjidic2Entry::KanjiMeaning("en", QString("hiragana \"%1\"%2").arg(reading).arg(info));
+		else if (TextTools::isKatakana(character)) ret << Kanjidic2Entry::KanjiMeaning("en", QString("katakana \"%1\"%2").arg(reading).arg(info));
+		else ret << Kanjidic2Entry::KanjiMeaning("en", QString("unknown character \"%1\"").arg(reading));
 	}
 	return ret;
 }
