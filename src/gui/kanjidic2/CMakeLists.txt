@@ -8,6 +8,7 @@ kanjidic2/KanjiSelector.cc
 kanjidic2/Kanjidic2Preferences.cc
 kanjidic2/Kanjidic2FilterWidget.cc
 kanjidic2/Kanjidic2GUIPlugin.cc
+kanjidic2/KanaTable.cc
 )
 
 set(tagainijisho_gui_MOCS ${tagainijisho_gui_MOCS}
@@ -19,6 +20,7 @@ kanjidic2/KanjiPopup.h
 kanjidic2/KanjiResultsView.h
 kanjidic2/Kanjidic2FilterWidget.h
 kanjidic2/KanjiSelector.h
+kanjidic2/KanaTable.h
 )
 
 set(tagainijisho_gui_UIS ${tagainijisho_gui_UIS}

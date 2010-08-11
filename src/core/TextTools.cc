@@ -144,8 +144,8 @@ bool isRomaji(const QString & string)
 	return true;
 }
 
-#define KANASTABLE_NBROWS 14
-static QChar kanasTable[KANASTABLE_NBROWS][5] = {
+QChar kanasTable[KANASTABLE_NBROWS][KANASTABLE_NBCOLS] = {
+	{ QChar(0x3041), QChar(0x3043), QChar(0x3045), QChar(0x3047), QChar(0x3049) }, // ぁ
 	{ QChar(0x3042), QChar(0x3044), QChar(0x3046), QChar(0x3048), QChar(0x304a) }, // あ
 	{ QChar(0x304b), QChar(0x304d), QChar(0x304f), QChar(0x3051), QChar(0x3053) }, // か
 	{ QChar(0x304c), QChar(0x304e), QChar(0x3050), QChar(0x3052), QChar(0x3054) }, // が
@@ -158,8 +158,11 @@ static QChar kanasTable[KANASTABLE_NBROWS][5] = {
 	{ QChar(0x3070), QChar(0x3073), QChar(0x3076), QChar(0x3079), QChar(0x307c) }, // ば
 	{ QChar(0x3071), QChar(0x3074), QChar(0x3077), QChar(0x307a), QChar(0x307d) }, // ぱ
 	{ QChar(0x307e), QChar(0x307f), QChar(0x3080), QChar(0x3081), QChar(0x3082) }, // ま
-	{ QChar(0x3084), QChar(0x3086), QChar(0x3088), QChar(0x3088), QChar(0x3088) }, // や
+	{ QChar(0x3084), QChar(0x0000), QChar(0x3086), QChar(0x0000), QChar(0x3088) }, // や
 	{ QChar(0x3089), QChar(0x308a), QChar(0x308b), QChar(0x308c), QChar(0x308d) }, // ら
+	{ QChar(0x308f), QChar(0x3090), QChar(0x0000), QChar(0x3091), QChar(0x3092) }, // わ
+	{ QChar(0x0000), QChar(0x0000), QChar(0x3094), QChar(0x0000), QChar(0x0000) }, // う゛
+	{ QChar(0x3093), QChar(0x0000), QChar(0x0000), QChar(0x0000), QChar(0x0000) }, // ん
 };
 
 static QMap<QChar, KanaInfo> _kanaInfos;
@@ -167,16 +170,17 @@ static QMap<QChar, KanaInfo> _kanaInfos;
 static void initKanaInfos()
 {
 	// Hiragana
-	_kanaInfos[QChar(0x3041)] = KanaInfo("a", KanaInfo::Small);
-	_kanaInfos[QChar(0x3042)] = KanaInfo("a");
-	_kanaInfos[QChar(0x3043)] = KanaInfo("i", KanaInfo::Small);
-	_kanaInfos[QChar(0x3044)] = KanaInfo("i");
-	_kanaInfos[QChar(0x3045)] = KanaInfo("u", KanaInfo::Small);
-	_kanaInfos[QChar(0x3046)] = KanaInfo("u");
-	_kanaInfos[QChar(0x3047)] = KanaInfo("e", KanaInfo::Small);
-	_kanaInfos[QChar(0x3048)] = KanaInfo("e");
-	_kanaInfos[QChar(0x3049)] = KanaInfo("o", KanaInfo::Small);
-	_kanaInfos[QChar(0x304a)] = KanaInfo("o");
+	_kanaInfos[kanasTable[0][0]] = KanaInfo("a", KanaInfo::Small);
+	_kanaInfos[kanasTable[0][1]] = KanaInfo("i", KanaInfo::Small);
+	_kanaInfos[kanasTable[0][2]] = KanaInfo("u", KanaInfo::Small);
+	_kanaInfos[kanasTable[0][3]] = KanaInfo("e", KanaInfo::Small);
+	_kanaInfos[kanasTable[0][4]] = KanaInfo("o", KanaInfo::Small);
+
+	_kanaInfos[kanasTable[1][0]] = KanaInfo("a");
+	_kanaInfos[kanasTable[1][1]] = KanaInfo("i");
+	_kanaInfos[kanasTable[1][2]] = KanaInfo("u");
+	_kanaInfos[kanasTable[1][3]] = KanaInfo("e");
+	_kanaInfos[kanasTable[1][4]] = KanaInfo("o");
 
 	_kanaInfos[QChar(0x3095)] = KanaInfo("ka", KanaInfo::Small);
 	_kanaInfos[QChar(0x304b)] = KanaInfo("ka");
@@ -284,7 +288,7 @@ static void initKanaInfos()
 
 int kanasTableRow(const QChar c)
 {
-	for (int i = 0; i < KANASTABLE_NBROWS; i++) {
+	for (unsigned int i = 0; i < KANASTABLE_NBROWS; i++) {
 		if (c < kanasTable[i][0] || c > kanasTable[i][4]) continue;
 		for (int j = 0; j < 5; j++) {
 			if (c == kanasTable[i][j]) return i;

@@ -143,10 +143,14 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), _clipboardEnabled
 	updateCheck();
 }
 
-MainWindow::~MainWindow()
+void MainWindow::closeEvent(QCloseEvent *event)
 {
 	windowState.set(saveState(MAINWINDOW_STATE_VERSION));
 	windowGeometry.set(saveGeometry());
+}
+
+MainWindow::~MainWindow()
+{
 }
 
 void MainWindow::setupSearchWidget()

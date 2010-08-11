@@ -83,6 +83,9 @@ private slots:
 	void onClipboardChanged(QClipboard::Mode mode);
 	void enableClipboardInput(bool enable);
 
+protected:
+	virtual void closeEvent(QCloseEvent *event);
+
 protected slots:
 	/// Display the latest selected result in the detailed view
 	void display(const QModelIndex& clicked);
