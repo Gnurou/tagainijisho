@@ -18,14 +18,39 @@
 #ifndef __GUI_KANATABLE_H
 #define __GUI_KANATABLE_H
 
-#include <QTableWidget>
+#include "gui/EntriesViewHelper.h"
 
-class KanaTable : public QTableWidget {
+#include <QAbstractTableModel>
+#include <QTableView>
+#include <QFont>
+
+class KanaTableModel : public QAbstractTableModel {
 Q_OBJECT
 private:
+	QFont _font;
+public:
+	KanaTableModel(QObject *parent = 0);
+	int rowCount(const QModelIndex &parent = QModelIndex()) const;
+	int columnCount(const QModelIndex &parent = QModelIndex()) const;
+	QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
+	QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;
+	virtual Qt::ItemFlags flags(const QModelIndex &index) const;
+};
+
+class KanaTable : public QTableView {
+Q_OBJECT
+private:
+	KanaTableModel _model;
+	EntriesViewHelper _helper;
+
+protected:
+	virtual void selectionChanged(const QItemSelection &selected, const QItemSelection &deselected);
 
 public:
 	KanaTable(QWidget *parent = 0);
+
+signals:
+	void entrySelected(const EntryPointer &entry);
 };
 
 #endif // __GUI_KANATABLE_H

@@ -121,10 +121,13 @@ bool Kanjidic2GUIPlugin::onRegister()
 	_kanaDockWidget->setWindowTitle(tr("Kana"));
 	_kanaTable = new KanaTable(_kanaDockWidget);
 	_kanaDockWidget->setWidget(_kanaTable);
-	mainWindow->addDockWidget(Qt::NoDockWidgetArea, _kanaDockWidget);
-	mainWindow->restoreDockWidget(_kanaDockWidget);
+	// By default the kana dock widget is not visible
+	if (!mainWindow->restoreDockWidget(_kanaDockWidget)) {
+		mainWindow->addDockWidget(Qt::LeftDockWidgetArea, _kanaDockWidget);
+		_kanaDockWidget->setVisible(false);
+	}
 
-//	connect(_kanaDockWidget, SIGNAL(entrySelected(EntryPointer)), detailedView(), SLOT(display(EntryPointer)));
+	connect(_kanaTable, SIGNAL(entrySelected(EntryPointer)), mainWindow->detailedView(), SLOT(display(EntryPointer)));
 
 	// Toggle action
 	QAction *action = _kanaDockWidget->toggleViewAction();
