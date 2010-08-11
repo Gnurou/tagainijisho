@@ -30,6 +30,8 @@
 #define STATE_WAIT 2
 
 #define CONTROL_ICON_SIZE 10
+#define KANJI_AREA_WIDTH 109.0
+#define KANJI_AREA_HEIGHT 109.0
 
 PreferenceItem<int> KanjiPlayer::animationSpeed("kanjidic", "animationSpeed", 30);
 PreferenceItem<int> KanjiPlayer::delayBetweenStrokes("kanjidic", "delayBetweenStrokes", 10);
@@ -218,7 +220,7 @@ void KanjiPlayer::renderCurrentState()
 	//pen2.setJoinStyle(Qt::MiterJoin);
 	
 	QPainter painter(&_picture);
-	painter.scale(pictureSize() / 109.0, pictureSize() / 109.0);
+	painter.scale(pictureSize() / KANJI_AREA_WIDTH, pictureSize() / KANJI_AREA_HEIGHT);
 	painter.setRenderHint(QPainter::Antialiasing);
 
 	// Render the grid, if relevant
@@ -300,7 +302,7 @@ bool KanjiPlayer::eventFilter(QObject *obj, QEvent *event)
 		QMouseEvent *mEvent = static_cast<QMouseEvent *>(event);
 		// First translate the coordinates to the strokes coordinates system
 		QPointF pos(mEvent->posF());
-		QPointF fPos(pos.x() * (109.0 / pictureSize()), pos.y() * (109.0 / pictureSize()));
+		QPointF fPos(pos.x() * (KANJI_AREA_WIDTH / pictureSize()), pos.y() * (KANJI_AREA_HEIGHT / pictureSize()));
 		const QList<KanjiRenderer::Stroke> &strokes(renderer.strokes());
 		QPainterPathStroker stroker;
 		stroker.setWidth(20);
