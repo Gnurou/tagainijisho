@@ -129,9 +129,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), _clipboardEnabled
 	// slot does not return after a couple of seconds. This problem should be
 	// fixed in Qt 4.5.
 	connect(_updateChecker, SIGNAL(updateAvailable(const QString &)),
-			this, SLOT(updateAvailable(const QString &)), Qt::QueuedConnection);
+		this, SLOT(updateAvailable(const QString &)), Qt::QueuedConnection);
 	connect(_betaUpdateChecker, SIGNAL(updateAvailable(const QString &)),
-			this, SLOT(betaUpdateAvailable(const QString &)), Qt::QueuedConnection);
+		this, SLOT(betaUpdateAvailable(const QString &)), Qt::QueuedConnection);
 	connect(&_updateTimer, SIGNAL(timeout()), this, SLOT(updateCheck()));
 	// Check every 10 minutes if the update check delay expired
 	_updateTimer.setInterval(600000);
@@ -145,7 +145,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), _clipboardEnabled
 
 MainWindow::~MainWindow()
 {
-	//splitterState.set(splitter->saveState());
 	windowState.set(saveState(MAINWINDOW_STATE_VERSION));
 	windowGeometry.set(saveGeometry());
 }

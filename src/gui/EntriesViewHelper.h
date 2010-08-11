@@ -34,7 +34,7 @@ class EntriesViewHelper : public EntryMenu
 {
 	Q_OBJECT
 public:
-	typedef enum { TextFont, KanaFont, KanjiFont, DisplayMode, MAX_PREF} Preference;
+	typedef enum { TextFont, KanaFont, KanjiFont, DisplayMode, MAX_PREF } Preference;
 
 private:
 	QAbstractItemView *_client;
