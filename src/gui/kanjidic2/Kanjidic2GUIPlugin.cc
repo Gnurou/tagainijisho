@@ -115,6 +115,22 @@ bool Kanjidic2GUIPlugin::onRegister()
 	// Register the detailed view event filter
 	DetailedView::registerEventFilter(this);
 
+	// Create and register the kana table
+	_kanaDockWidget = new QDockWidget(mainWindow);
+	_kanaDockWidget->setObjectName("_kanaDockWidget");
+	_kanaDockWidget->setWindowTitle(tr("Kana"));
+	_kanaTable = new KanaTable(_kanaDockWidget);
+	_kanaDockWidget->setWidget(_kanaTable);
+	mainWindow->addDockWidget(Qt::NoDockWidgetArea, _kanaDockWidget);
+	mainWindow->restoreDockWidget(_kanaDockWidget);
+
+//	connect(_kanaDockWidget, SIGNAL(entrySelected(EntryPointer)), detailedView(), SLOT(display(EntryPointer)));
+
+	// Toggle action
+	QAction *action = _kanaDockWidget->toggleViewAction();
+	action->setShortcut(QKeySequence("F8"));
+	mainWindow->searchMenu()->addAction(action);
+
 	// Register the preferences panel
 	PreferencesWindow::addPanel(&Kanjidic2Preferences::staticMetaObject);
 
@@ -125,6 +141,8 @@ bool Kanjidic2GUIPlugin::onUnregister()
 {
 	// Remove the preferences panel
 	PreferencesWindow::removePanel(&Kanjidic2Preferences::staticMetaObject);
+
+	delete _kanaDockWidget;
 
 	// Remove the detailed view event filter
 	DetailedView::removeEventFilter(this);
