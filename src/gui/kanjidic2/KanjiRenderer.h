@@ -28,6 +28,9 @@
 #include "core/kanjidic2/Kanjidic2Entry.h"
 #include "core/EntriesCache.h"
 
+#define KANJI_AREA_WIDTH 109.0
+#define KANJI_AREA_HEIGHT 109.0
+
 /**
  * A class that is able to render a kanji of part of if using a QPainter.
  * TODO either remove and only keep the QPainterPath, or make it inherit
@@ -58,6 +61,9 @@ public:
 		void render(QPainter *painter, qreal length = -1) const;
 		
 		bool operator ==(const Stroke &s) { return this == &s; }
+
+		// KanjiRenderer needs to center the strokes with respect to the grid (for kana characters)
+		friend class KanjiRenderer;
 	};
 
 private:

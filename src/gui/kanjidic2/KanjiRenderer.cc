@@ -160,6 +160,18 @@ void KanjiRenderer::setKanji(ConstKanjidic2EntryPointer kanji)
 		_strokes << Stroke(&stroke);
 		_strokesMap.insert(&stroke, &_strokes.last());
 	}
+	// Center the character horizontally if we are treating a kana
+	if (TextTools::isKana(kanji->kanji())) {
+		QRectF bbox;
+		foreach (const Stroke &stroke, _strokes) {
+			bbox = bbox.united(stroke.painterPath().boundingRect());
+		}
+		QPointF translatePoint(QPointF(KANJI_AREA_WIDTH, KANJI_AREA_HEIGHT) / 2.0 - bbox.center());
+
+		for (QList<Stroke>::iterator stroke = _strokes.begin(); stroke != _strokes.end(); ++stroke) {
+			stroke->_painterPath.translate(translatePoint.x(), 0);
+		}
+	}
 }
 
 void KanjiRenderer::renderStrokes(QPainter *painter)

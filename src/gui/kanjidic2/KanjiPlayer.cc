@@ -30,8 +30,6 @@
 #define STATE_WAIT 2
 
 #define CONTROL_ICON_SIZE 10
-#define KANJI_AREA_WIDTH 109.0
-#define KANJI_AREA_HEIGHT 109.0
 
 PreferenceItem<int> KanjiPlayer::animationSpeed("kanjidic", "animationSpeed", 30);
 PreferenceItem<int> KanjiPlayer::delayBetweenStrokes("kanjidic", "delayBetweenStrokes", 10);
