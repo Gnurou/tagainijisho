@@ -49,6 +49,10 @@
    <class>KanaView</class>
    <extends>QTableView</extends>
    <header>gui/kanjidic2/KanaView.h</header>
+   <slots>
+    <slot>setMode(int)</slot>
+    <slot>setShowObsolete(bool)</slot>
+   </slots>
   </customwidget>
  </customwidgets>
  <tabstops>
@@ -57,5 +61,38 @@
   <tabstop>obsoleteCheckBox</tabstop>
  </tabstops>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>typeBox</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>_kanaView</receiver>
+   <slot>setMode(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>74</x>
+     <y>17</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>78</x>
+     <y>53</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>obsoleteCheckBox</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>_kanaView</receiver>
+   <slot>setShowObsolete(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>172</x>
+     <y>12</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>176</x>
+     <y>58</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

@@ -26,8 +26,13 @@
 
 class KanaModel : public QAbstractTableModel {
 Q_OBJECT
+public:
+	typedef enum { Hiragana = 0, Katakana = 1 } Mode;
 private:
 	QFont _font;
+	bool _showObsolete;
+	Mode _mode;
+
 public:
 	KanaModel(QObject *parent = 0);
 	int rowCount(const QModelIndex &parent = QModelIndex()) const;
@@ -35,6 +40,11 @@ public:
 	QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
 	QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;
 	virtual Qt::ItemFlags flags(const QModelIndex &index) const;
+
+	bool showObsolete() const { return _showObsolete; }
+	void setShowObsolete(bool show);
+	Mode mode() const { return _mode; }
+	void setMode(Mode newMode);
 };
 
 class KanaView : public QTableView {
@@ -45,10 +55,18 @@ private:
 
 protected:
 	virtual void selectionChanged(const QItemSelection &selected, const QItemSelection &deselected);
+	void updateLayout();
 
 public:
 	KanaView(QWidget *parent = 0);
 	EntriesViewHelper *helper() { return &_helper; }
+
+	bool showObsolete() const { return _model.showObsolete(); }
+	KanaModel::Mode mode() const { return _model.mode(); }
+
+public slots:
+	void setShowObsolete(bool show);
+	void setMode(int newMode);
 
 signals:
 	void entrySelected(const EntryPointer &entry);
