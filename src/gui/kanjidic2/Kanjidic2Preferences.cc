@@ -20,6 +20,9 @@
 #include "gui/kanjidic2/KanjiPopup.h"
 #include "gui/kanjidic2/Kanjidic2Preferences.h"
 #include "gui/kanjidic2/Kanjidic2GUIPlugin.h"
+#include "gui/kanjidic2/KanaView.h"
+
+#include "gui/PreferencesWindow.h"
 
 Kanjidic2Preferences::Kanjidic2Preferences(QWidget *parent) : PreferencesWindowCategory(tr("Character entries"), parent)
 {
@@ -60,6 +63,18 @@ Kanjidic2Preferences::Kanjidic2Preferences(QWidget *parent) : PreferencesWindowC
 	_player->installEventFilter(this);
 
 	connect(animSize, SIGNAL(valueChanged(int)), this, SLOT(onSizeChanged(int)));
+
+	QBoxLayout *bLayout = static_cast<QBoxLayout *>(kanaAppearanceBox->layout());
+	QFont f;
+	f.setPointSize(f.pointSize() * 2);
+	PreferencesFontChooser *kanaSelectorFont = new PreferencesFontChooser(tr("Character font"), f, this);
+	QHBoxLayout *hLayout = new QHBoxLayout();
+	hLayout->addWidget(kanaSelectorFont);
+	bLayout->addLayout(hLayout);
+
+	_kanaSelectorPreview = new KanaView(this, true);
+	QLayout *layout = kanaPreviewBox->layout();
+	layout->addWidget(_kanaSelectorPreview);
 }
 
 void Kanjidic2Preferences::refresh()
