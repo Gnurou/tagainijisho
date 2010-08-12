@@ -24,7 +24,6 @@
 #include "gui/SearchFilterWidget.h"
 #include "gui/YesNoTrainer.h"
 #include "gui/kanjidic2/Kanjidic2FilterWidget.h"
-#include "gui/kanjidic2/KanaTable.h"
 
 #include <QDockWidget>
 
@@ -32,6 +31,7 @@ class KanjiLinkHandler;
 class KanjiAllWordsHandler;
 class KanjiAllComponentsOfHandler;
 class Kanjidic2FilterWidget;
+class KanaSelector;
 
 class Kanjidic2GUIPlugin : public QObject, public Plugin
 {
@@ -45,7 +45,7 @@ private:
 	YesNoTrainer *_trainer;
 	ReadingTrainer *_readingTrainer;
 	KanjiInputPopupAction * _cAction, *_kAction;
-	KanaTable *_kanaTable;
+	KanaSelector *_kanaSelector;
 	QDockWidget *_kanaDockWidget;
 	/// Used for drag'n drop of kanji from the detailed view
 	bool _dragStarted;
