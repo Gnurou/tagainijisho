@@ -29,6 +29,7 @@
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QTreeView>
+#include <QTableView>
 #include <QContextMenuEvent>
 #include <QLayout>
 #include <QToolButton>
@@ -445,17 +446,10 @@ bool EntriesViewHelper::eventFilter(QObject *obj, QEvent *ev)
 			case QEvent::MouseButtonPress:
 			{
 				QMouseEvent *mev(static_cast<QMouseEvent *>(ev));
-				{
-					QModelIndex clickedIndex;
-					QListView *view = qobject_cast<QListView *>(client());
-					if (!view) {
-						QTreeView *tView = qobject_cast<QTreeView *>(client());
-						if (!tView) return false;
-						else clickedIndex = tView->indexAt(client()->viewport()->mapTo(tView, mev->pos()));
-					} else clickedIndex = view->indexAt(client()->viewport()->mapTo(view, mev->pos())); 
-					QModelIndexList selectedIndexes(client()->selectionModel()->selectedIndexes());
-					if (selectedIndexes.size() != 1 || !selectedIndexes.contains(clickedIndex)) return false;
-				}
+				QModelIndex clickedIndex;
+				clickedIndex = client()->indexAt(mev->pos());
+				QModelIndexList selectedIndexes(client()->selectionModel()->selectedIndexes());
+				if (selectedIndexes.size() != 1 || !selectedIndexes.contains(clickedIndex)) return false;
 				// If we arrive here we know we have clicked on the uniquely selected item.
 				// Left button and no modifier? In any case clear the current selection, so that the
 				// selection signal is emitted anyway.
