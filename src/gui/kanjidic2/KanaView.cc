@@ -39,12 +39,6 @@ int KanaModel::columnCount(const QModelIndex &parent) const
 	return KANASTABLE_NBCOLS;
 }
 
-QModelIndex KanaModel::index(int row, int column, const QModelIndex &parent) const
-{
-	if (TextTools::kanasTable[row][column] == 0) return QModelIndex();
-	else return QAbstractTableModel::index(row, column, parent);
-}
-
 QVariant KanaModel::data(const QModelIndex &index, int role) const
 {
 	if (!index.isValid()) return QVariant();
@@ -77,9 +71,9 @@ QVariant KanaModel::data(const QModelIndex &index, int role) const
 	}
 }
 
-static QStringList hLabels(QStringList() << "a" << "i" << "u" << "e" << "o");
-static QStringList vLabels(QStringList() << "" << "" << "k" << "g" << "s" << "z" << "t" << "d" << "n" << "h"
-					<< "b" << "p" << "m" << "y" << "r" << "w" << "v" << "n");
+static QStringList hLabels(QStringList() << "A" << "I" << "U" << "E" << "O");
+static QStringList vLabels(QStringList() << "" << "K" << "G" << "S" << "Z" << "T" << "D" << "N" << "H"
+					<< "B" << "P" << "M" << "Y" << "R" << "W" << "V" << "N");
 
 QVariant KanaModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
@@ -99,8 +93,6 @@ QVariant KanaModel::headerData(int section, Qt::Orientation orientation, int rol
 	}
 	case Qt::TextAlignmentRole:
 		return Qt::AlignCenter;
-	case Qt::FontRole:
-		return _font;
 	default:
 		return QVariant();
 	}
@@ -113,7 +105,7 @@ Qt::ItemFlags KanaModel::flags(const QModelIndex &index) const
 	else return QAbstractTableModel::flags(index);
 }
 
-KanaView::KanaView(QWidget *parent) : QTableView(parent), _helper(this)
+KanaView::KanaView(QWidget *parent) : QTableView(parent), _helper(this, 0, true, false)
 {
 	setModel(&_model);
 
@@ -123,6 +115,14 @@ KanaView::KanaView(QWidget *parent) : QTableView(parent), _helper(this)
 
 	resizeColumnsToContents();
 	resizeRowsToContents();
+
+	// Add the select all action to the context menu
+	QMenu *contextMenu = helper()->contextMenu();
+	QAction *selectAllAction = new QAction(tr("Select All"), contextMenu);
+	selectAllAction->setShortcut(QKeySequence::SelectAll);
+	connect(selectAllAction, SIGNAL(triggered()), this, SLOT(selectAll()));
+	QAction *firstAction = contextMenu->actions().isEmpty() ? 0 : contextMenu->actions()[0];
+	contextMenu->insertAction(firstAction, selectAllAction);
 }
 
 void KanaView::selectionChanged(const QItemSelection &selected, const QItemSelection &deselected)
