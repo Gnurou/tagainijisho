@@ -71,6 +71,8 @@ QVariant KanaModel::data(const QModelIndex &index, int role) const
 		return Qt::AlignCenter;
 	case Qt::FontRole:
 		return _font;
+	case Entry::EntryRefRole:
+		return QVariant::fromValue(EntryRef(KANJIDIC2ENTRY_GLOBALID, c.unicode()));
 	default:
 		break;
 	}
@@ -131,8 +133,7 @@ QMimeData *KanaModel::mimeData(const QModelIndexList &indexes) const
 
 	foreach (QModelIndex index, indexes) {
 		if (index.isValid()) {
-			EntryPointer entry = data(index, Entry::EntryRole).value<EntryPointer>();
-			stream << EntryRef(entry);
+			stream << data(index, Entry::EntryRefRole).value<EntryRef>();
 		}
 	}
 

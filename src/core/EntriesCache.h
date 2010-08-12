@@ -127,6 +127,7 @@ public:
 	friend QDataStream &operator<<(QDataStream &out, const EntryRef &ref);
 	friend QDataStream &operator>>(QDataStream &in, EntryRef &ref);
 };
+Q_DECLARE_METATYPE(EntryRef)
 
 inline uint qHash(const EntryRef &key)
 {
