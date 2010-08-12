@@ -144,7 +144,7 @@ bool isRomaji(const QString & string)
 	return true;
 }
 
-QChar kanasTable[KANASTABLE_NBROWS][KANASTABLE_NBCOLS] = {
+KanaTable hiraganaTable = {
 	{ QChar(0x3042), QChar(0x3044), QChar(0x3046), QChar(0x3048), QChar(0x304a) }, // あ
 	{ QChar(0x304b), QChar(0x304d), QChar(0x304f), QChar(0x3051), QChar(0x3053) }, // か
 	{ QChar(0x304c), QChar(0x304e), QChar(0x3050), QChar(0x3052), QChar(0x3054) }, // が
@@ -162,6 +162,26 @@ QChar kanasTable[KANASTABLE_NBROWS][KANASTABLE_NBCOLS] = {
 	{ QChar(0x308f), QChar(0x3090), QChar(0x0000), QChar(0x3091), QChar(0x3092) }, // わ
 	{ QChar(0x0000), QChar(0x0000), QChar(0x3094), QChar(0x0000), QChar(0x0000) }, // う゛
 	{ QChar(0x3093), QChar(0x0000), QChar(0x0000), QChar(0x0000), QChar(0x0000) }, // ん
+};
+
+KanaTable katakanaTable = {
+	{ QChar(0x30a2), QChar(0x30a4), QChar(0x30a6), QChar(0x30a8), QChar(0x30aa) }, // ア
+	{ QChar(0x30ab), QChar(0x30ad), QChar(0x30af), QChar(0x30b1), QChar(0x30b3) }, // カ
+	{ QChar(0x30ac), QChar(0x30ae), QChar(0x30b0), QChar(0x30b2), QChar(0x30b4) }, // ガ
+	{ QChar(0x30b5), QChar(0x30b7), QChar(0x30b9), QChar(0x30bb), QChar(0x30bd) }, // サ
+	{ QChar(0x30b6), QChar(0x30b8), QChar(0x30ba), QChar(0x30bc), QChar(0x30be) }, // ザ
+	{ QChar(0x30bf), QChar(0x30c1), QChar(0x30c4), QChar(0x30c6), QChar(0x30c8) }, // タ
+	{ QChar(0x30c0), QChar(0x30c2), QChar(0x30c5), QChar(0x30c7), QChar(0x30c9) }, // ダ
+	{ QChar(0x30ca), QChar(0x30cb), QChar(0x30cc), QChar(0x30cd), QChar(0x30ce) }, // ナ
+	{ QChar(0x30cf), QChar(0x30d2), QChar(0x30d5), QChar(0x30d8), QChar(0x30db) }, // ハ
+	{ QChar(0x30d0), QChar(0x30d3), QChar(0x30d6), QChar(0x30d9), QChar(0x30dc) }, // バ
+	{ QChar(0x30d1), QChar(0x30d4), QChar(0x30d7), QChar(0x30da), QChar(0x30dd) }, // パ
+	{ QChar(0x30de), QChar(0x30df), QChar(0x30e0), QChar(0x30e1), QChar(0x30e2) }, // マ
+	{ QChar(0x30e4), QChar(0x0000), QChar(0x30e6), QChar(0x0000), QChar(0x30e8) }, // ヤ
+	{ QChar(0x30e9), QChar(0x30ea), QChar(0x30eb), QChar(0x30ec), QChar(0x30ed) }, // ラ
+	{ QChar(0x30ef), QChar(0x30f0), QChar(0x0000), QChar(0x30f1), QChar(0x30f2) }, // ワ
+	{ QChar(0x30f7), QChar(0x30f8), QChar(0x30f4), QChar(0x30f9), QChar(0x30fa) }, // ヴ
+	{ QChar(0x30f3), QChar(0x0000), QChar(0x0000), QChar(0x0000), QChar(0x0000) }, // ン
 };
 
 static QMap<QChar, KanaInfo> _kanaInfos;
@@ -283,14 +303,17 @@ static void initKanaInfos()
 	_kanaInfos[QChar(0x30f8)] = KanaInfo("vi", KanaInfo::Normal, KanaInfo::Rare);
 	_kanaInfos[QChar(0x30f9)] = KanaInfo("ve", KanaInfo::Normal, KanaInfo::Rare);
 	_kanaInfos[QChar(0x30fa)] = KanaInfo("vo", KanaInfo::Normal, KanaInfo::Rare);
+	_kanaInfos[QChar(0x30f0)] = KanaInfo("wi", KanaInfo::Normal, KanaInfo::Rare);
+	_kanaInfos[QChar(0x30f1)] = KanaInfo("we", KanaInfo::Normal, KanaInfo::Rare);
+	_kanaInfos[QChar(0x30f2)] = KanaInfo("wo", KanaInfo::Normal, KanaInfo::Rare);
 }
 
 int kanasTableRow(const QChar c)
 {
 	for (unsigned int i = 0; i < KANASTABLE_NBROWS; i++) {
-		if (c < kanasTable[i][0] || c > kanasTable[i][4]) continue;
+		if (c < hiraganaTable[i][0] || c > hiraganaTable[i][4]) continue;
 		for (int j = 0; j < 5; j++) {
-			if (c == kanasTable[i][j]) return i;
+			if (c == hiraganaTable[i][j]) return i;
 		}
 	}
 	return -1;

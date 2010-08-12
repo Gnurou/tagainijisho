@@ -85,7 +85,9 @@ namespace TextTools {
 #define KANASTABLE_NBROWS 17
 #define KANASTABLE_NBCOLS 5
 
-	extern QChar kanasTable[KANASTABLE_NBROWS][KANASTABLE_NBCOLS];
+	typedef const QChar KanaTable[KANASTABLE_NBROWS][KANASTABLE_NBCOLS];
+	extern KanaTable hiraganaTable;
+	extern KanaTable katakanaTable;
 }
 
 #endif

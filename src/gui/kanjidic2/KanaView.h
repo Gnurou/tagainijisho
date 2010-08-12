@@ -19,6 +19,7 @@
 #define __GUI_KANAVIEW_H
 
 #include "gui/EntriesViewHelper.h"
+#include "core/TextTools.h"
 
 #include <QAbstractTableModel>
 #include <QTableView>
@@ -28,10 +29,12 @@ class KanaModel : public QAbstractTableModel {
 Q_OBJECT
 public:
 	typedef enum { Hiragana = 0, Katakana = 1 } Mode;
+
 private:
 	QFont _font;
 	bool _showObsolete;
 	Mode _mode;
+	TextTools::KanaTable *_kanaTable;
 
 public:
 	KanaModel(QObject *parent = 0);
@@ -46,6 +49,7 @@ public:
 	void setShowObsolete(bool show);
 	Mode mode() const { return _mode; }
 	void setMode(Mode newMode);
+	TextTools::KanaTable *kanaTable() const { return _kanaTable; }
 };
 
 class KanaView : public QTableView {
