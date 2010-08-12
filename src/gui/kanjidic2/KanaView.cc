@@ -26,7 +26,7 @@
 #include <QDrag>
 #include <QMimeData>
 
-KanaModel::KanaModel(QObject *parent) : QAbstractTableModel(parent), _showObsolete(false), _mode(Hiragana)
+KanaModel::KanaModel(QObject *parent) : QAbstractTableModel(parent), _showObsolete(false), _mode(Hiragana), _kanaTable(&TextTools::hiraganaTable)
 {
 	_font.setPointSize(_font.pointSize() * 2);
 }
@@ -50,6 +50,8 @@ void KanaModel::setShowObsolete(bool show)
 void KanaModel::setMode(Mode newMode)
 {
 	_mode = newMode;
+	if (_mode == Hiragana) _kanaTable = &TextTools::hiraganaTable;
+	else _kanaTable = &TextTools::katakanaTable;
 	emit layoutChanged();
 }
 
@@ -60,7 +62,7 @@ QVariant KanaModel::data(const QModelIndex &index, int role) const
 	if (index.row() >= rowCount()) return QVariant();
 	if (index.column() >= columnCount()) return QVariant();
 
-	QChar c(TextTools::kanasTable[index.row()][index.column()]);
+	QChar c((*_kanaTable)[index.row()][index.column()]);
 	TextTools::KanaInfo info(TextTools::kanaInfo(c));
 	if (c.unicode() == 0 || (!showObsolete() && info.usage == TextTools::KanaInfo::Rare)) return QVariant();
 
@@ -118,7 +120,7 @@ QVariant KanaModel::headerData(int section, Qt::Orientation orientation, int rol
 
 Qt::ItemFlags KanaModel::flags(const QModelIndex &index) const
 {
-	QChar c(TextTools::kanasTable[index.row()][index.column()]);
+	QChar c((*_kanaTable)[index.row()][index.column()]);
 	TextTools::KanaInfo info(TextTools::kanaInfo(c));
 	if (c.unicode() == 0 || (!showObsolete() && info.usage == TextTools::KanaInfo::Rare)) return Qt::NoItemFlags;
 	else return QAbstractTableModel::flags(index) | Qt::ItemIsDragEnabled;
@@ -174,10 +176,10 @@ void KanaView::selectionChanged(const QItemSelection &selected, const QItemSelec
 
 void KanaView::updateLayout()
 {
-	for (int i = 0; i < model()->rowCount(); ++i) {
+	for (int i = 0; i < _model.rowCount(); ++i) {
 		bool empty = true;
-		for (int j = 0; j < model()->columnCount(); ++j) {
-			QChar c = TextTools::kanasTable[i][j];
+		for (int j = 0; j < _model.columnCount(); ++j) {
+			QChar c = (*_model.kanaTable())[i][j];
 			if (c.unicode() == 0) continue;
 			TextTools::KanaInfo info(TextTools::kanaInfo(c));
 			if (!showObsolete() && info.usage == TextTools::KanaInfo::Rare) continue;
