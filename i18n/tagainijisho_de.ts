@@ -14,11 +14,11 @@
     </message>
     <message>
         <source>About</source>
-        <translation type="unfinished"></translation>
+        <translation>Über</translation>
     </message>
     <message>
         <source>Authors &amp;&amp; contributors</source>
-        <translation type="unfinished"></translation>
+        <translation>Authoren &amp;&amp; Beitragende</translation>
     </message>
 </context>
 <context>
@@ -295,31 +295,31 @@
     </message>
     <message>
         <source>&amp;Export as &amp;TSV...</source>
-        <translation type="unfinished"></translation>
+        <translation>Als &amp;TSV exportieren…</translation>
     </message>
     <message>
         <source>Export as &amp;HTML...</source>
-        <translation type="unfinished"></translation>
+        <translation>Als &amp;HTML exportieren…</translation>
     </message>
     <message>
         <source>Export to HTML flashcard file...</source>
-        <translation type="unfinished"></translation>
+        <translation>Als HTML-Lernkarteidatei exportieren…</translation>
     </message>
     <message>
         <source>HTML files (*.html)</source>
-        <translation type="unfinished"></translation>
+        <translation>HTML Dateien (*.html)</translation>
     </message>
     <message>
         <source>Unable to write file %1!</source>
-        <translation type="unfinished">Kann nicht in Datei %1 schreiben. {1!?}</translation>
+        <translation>Kann nicht in Datei %1 schreiben!</translation>
     </message>
     <message>
         <source>Cannot open template file</source>
-        <translation type="unfinished"></translation>
+        <translation>Kann Templatedatei nicht öffnen</translation>
     </message>
     <message>
         <source>Unable to open template file!</source>
-        <translation type="unfinished"></translation>
+        <translation>Kann Templatedatei nicht öffnen!</translation>
     </message>
 </context>
 <context>
@@ -448,27 +448,27 @@
     </message>
     <message>
         <source>Cannot find detailed view HTML file!</source>
-        <translation type="unfinished"></translation>
+        <translation>Kann HTML-Datei für detaillierte Ansicht nicht finden!</translation>
     </message>
     <message>
         <source>Cannot find detailed view CSS file!</source>
-        <translation type="unfinished"></translation>
+        <translation>Kann CSS-Datei für detaillierte Ansicht nicht finden!</translation>
     </message>
     <message>
         <source>&lt;Root&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;Wurzel&gt;</translation>
     </message>
     <message>
         <source>Score: %1.</source>
-        <translation type="unfinished"></translation>
+        <translation>Punktzahl: %1.</translation>
     </message>
     <message>
         <source>Last trained on %1.</source>
-        <translation type="unfinished"></translation>
+        <translation> Zuletzt trainiert am %1.</translation>
     </message>
     <message>
         <source>Last mistaken on %1.</source>
-        <translation type="unfinished"></translation>
+        <translation> Letzter Irrtum am %1.</translation>
     </message>
 </context>
 <context>
@@ -522,11 +522,11 @@ Manche von ihnen sind eventuell noch vorhanden.</translation>
     </message>
     <message>
         <source>Set as root</source>
-        <translation type="unfinished"></translation>
+        <translation>Als Wurzel setzen</translation>
     </message>
     <message>
         <source>Go up</source>
-        <translation type="unfinished"></translation>
+        <translation>Hochgehen</translation>
     </message>
 </context>
 <context>
@@ -541,7 +541,7 @@ Manche von ihnen sind eventuell noch vorhanden.</translation>
     </message>
     <message>
         <source>Test test</source>
-        <translation type="unfinished"></translation>
+        <translation>Test test</translation>
     </message>
 </context>
 <context>
@@ -617,7 +617,7 @@ Manche von ihnen sind eventuell noch vorhanden.</translation>
     <name>FindHomographsJob</name>
     <message>
         <source>Homographs</source>
-        <translation type="unfinished"></translation>
+        <translation>Homographe</translation>
     </message>
 </context>
 <context>
@@ -631,7 +631,7 @@ Manche von ihnen sind eventuell noch vorhanden.</translation>
     <name>FindHomophonesJob</name>
     <message>
         <source>Homophones</source>
-        <translation type="unfinished">Homophone</translation>
+        <translation>Homophone</translation>
     </message>
 </context>
 <context>
@@ -650,15 +650,15 @@ Manche von ihnen sind eventuell noch vorhanden.</translation>
     </message>
     <message>
         <source>Transitive buddy</source>
-        <translation type="unfinished"></translation>
+        <translation>Transitiver Partner</translation>
     </message>
     <message>
         <source>Intransitive buddy</source>
-        <translation type="unfinished"></translation>
+        <translation>Intransitiver Partner</translation>
     </message>
     <message>
         <source>Buddy</source>
-        <translation type="unfinished"></translation>
+        <translation>Partner</translation>
     </message>
 </context>
 <context>
@@ -772,11 +772,11 @@ an Einträgen manipuliert werden.</translation>
     </message>
     <message>
         <source>Russian</source>
-        <translation type="unfinished"></translation>
+        <translation>Russisch</translation>
     </message>
     <message>
         <source>Spanish</source>
-        <translation type="unfinished"></translation>
+        <translation>Spanisch</translation>
     </message>
 </context>
 <context>
@@ -830,11 +830,11 @@ an Einträgen manipuliert werden.</translation>
     </message>
     <message>
         <source>(JLPT %1)</source>
-        <translation type="unfinished"></translation>
+        <translation>(JLPT %1)</translation>
     </message>
     <message>
         <source>Alternate writings:</source>
-        <translation type="unfinished"></translation>
+        <translation>Alternative Schreibweisen:</translation>
     </message>
     <message>
         <source>JLPT level</source>
@@ -842,11 +842,11 @@ an Einträgen manipuliert werden.</translation>
     </message>
     <message>
         <source>Kanji</source>
-        <translation type="unfinished">Kanji</translation>
+        <translation>Kanji</translation>
     </message>
     <message>
         <source>JLPT</source>
-        <translation type="unfinished">JLPT</translation>
+        <translation>JLPT</translation>
     </message>
 </context>
 <context>
@@ -917,15 +917,15 @@ an Einträgen manipuliert werden.</translation>
     </message>
     <message>
         <source>Include kana-only words</source>
-        <translation type="unfinished"></translation>
+        <translation>Berücksichtige Wörter nur mit Kana</translation>
     </message>
     <message>
         <source>, including kana words</source>
-        <translation type="unfinished"></translation>
+        <translation>, inklusive Kana-Wörtern</translation>
     </message>
     <message>
         <source> using kana only</source>
-        <translation type="unfinished"></translation>
+        <translation> nur mit Kana</translation>
     </message>
 </context>
 <context>
@@ -1403,7 +1403,7 @@ an Einträgen manipuliert werden.</translation>
     </message>
     <message>
         <source>gikun (meaning as reading)  or jukujikun (special kanji reading)</source>
-        <translation type="unfinished"></translation>
+        <translation>gikun (Bedeutung wie Lesung) oder  jukujikun (Spezielle Kanji-Lesung)</translation>
     </message>
 </context>
 <context>
@@ -1529,7 +1529,7 @@ an Einträgen manipuliert werden.</translation>
     </message>
     <message>
         <source>Homographs</source>
-        <translation type="unfinished"></translation>
+        <translation>Homographe</translation>
     </message>
 </context>
 <context>
@@ -1540,7 +1540,7 @@ an Einträgen manipuliert werden.</translation>
     </message>
     <message>
         <source>Show &amp;furigana</source>
-        <translation type="unfinished"></translation>
+        <translation>Zeige &amp;Furigana</translation>
     </message>
 </context>
 <context>
@@ -1554,23 +1554,23 @@ an Einträgen manipuliert werden.</translation>
     <name>KanjiPlayer</name>
     <message>
         <source>Play</source>
-        <translation type="unfinished"></translation>
+        <translation>Abspielen</translation>
     </message>
     <message>
         <source>Pause</source>
-        <translation type="unfinished"></translation>
+        <translation>Pause</translation>
     </message>
     <message>
         <source>Next stroke</source>
-        <translation type="unfinished"></translation>
+        <translation>Nächster Strich</translation>
     </message>
     <message>
         <source>Previous stroke</source>
-        <translation type="unfinished"></translation>
+        <translation>Vorheriger Strich</translation>
     </message>
     <message>
         <source>Stop</source>
-        <translation type="unfinished"></translation>
+        <translation>Stoppen</translation>
     </message>
 </context>
 <context>
@@ -1658,95 +1658,95 @@ an Einträgen manipuliert werden.</translation>
     <name>Kanjidic2EntryFormatter</name>
     <message>
         <source> (%1) </source>
-        <translation type="unfinished"></translation>
+        <translation> (%1) </translation>
     </message>
     <message>
         <source>&lt;b&gt;Strokes:&lt;/b&gt; %1</source>
-        <translation type="unfinished">&lt;b&gt;Strichzahl:&lt;/b&gt; %1</translation>
+        <translation>&lt;b&gt;Striche:&lt;/b&gt; %1</translation>
     </message>
     <message>
         <source>&lt;b&gt;Frequency:&lt;/b&gt; %1</source>
-        <translation type="unfinished">&lt;b&gt;Häufigkeit:&lt;/b&gt; %1</translation>
+        <translation>&lt;b&gt;Häufigkeit:&lt;/b&gt; %1</translation>
     </message>
     <message>
         <source>&lt;b&gt;Grade:&lt;/b&gt; %1</source>
-        <translation type="unfinished">&lt;b&gt;Klasse:&lt;/b&gt; %1</translation>
+        <translation>&lt;b&gt;Klasse:&lt;/b&gt; %1</translation>
     </message>
     <message>
         <source>&lt;b&gt;JLPT:&lt;/b&gt; %1</source>
-        <translation type="unfinished">&lt;b&gt;JLPT:&lt;/b&gt; %1</translation>
+        <translation>&lt;b&gt;JLPT:&lt;/b&gt; %1</translation>
     </message>
     <message>
         <source>&lt;b&gt;Unicode:&lt;/b&gt; 0x%1</source>
-        <translation type="unfinished">&lt;b&gt;Unicode:&lt;/b&gt; 0x%1</translation>
+        <translation>&lt;b&gt;Unicode:&lt;/b&gt; 0x%1</translation>
     </message>
     <message>
         <source>&lt;b&gt;SKIP:&lt;/b&gt; %1</source>
-        <translation type="unfinished">&lt;b&gt;SKIP:&lt;/b&gt; %1</translation>
+        <translation>&lt;b&gt;SKIP:&lt;/b&gt; %1</translation>
     </message>
     <message>
         <source>&lt;b&gt;4 corner:&lt;/b&gt; %1</source>
-        <translation type="unfinished">&lt;b&gt;4 Ecken:&lt;/b&gt; %1</translation>
+        <translation>&lt;b&gt;4 Ecken:&lt;/b&gt; %1</translation>
     </message>
     <message>
         <source>(JLPT %1)</source>
-        <translation type="unfinished"></translation>
+        <translation>(JLPT %1)</translation>
     </message>
     <message>
         <source>On</source>
-        <translation type="unfinished"></translation>
+        <translation>On</translation>
     </message>
     <message>
         <source>Kun</source>
-        <translation type="unfinished"></translation>
+        <translation>Kun</translation>
     </message>
     <message>
         <source>Nanori</source>
-        <translation type="unfinished">Nanori</translation>
+        <translation>Nanori</translation>
     </message>
     <message>
         <source>Strokes</source>
-        <translation type="unfinished"></translation>
+        <translation>Striche</translation>
     </message>
     <message>
         <source>Frequency</source>
-        <translation type="unfinished">Häufigkeit</translation>
+        <translation>Häufigkeit</translation>
     </message>
     <message>
         <source>Grade</source>
-        <translation type="unfinished">Klasse</translation>
+        <translation>Klasse</translation>
     </message>
     <message>
         <source>JLPT</source>
-        <translation type="unfinished">JLPT</translation>
+        <translation>JLPT</translation>
     </message>
     <message>
         <source>Variations</source>
-        <translation type="unfinished">Variationen</translation>
+        <translation>Variationen</translation>
     </message>
     <message>
         <source>Variation of</source>
-        <translation type="unfinished"></translation>
+        <translation>Variation von</translation>
     </message>
     <message>
         <source>Unicode</source>
-        <translation type="unfinished">Unicode</translation>
+        <translation>Unicode</translation>
     </message>
     <message>
         <source>SKIP</source>
-        <translation type="unfinished"></translation>
+        <translation>SKIP</translation>
     </message>
     <message>
         <source>4 corner</source>
-        <translation type="unfinished"></translation>
+        <translation>4-Ecken</translation>
     </message>
     <message>
         <source>Radicals</source>
-        <translation type="unfinished">Radikale</translation>
+        <translation>Radikale</translation>
     </message>
     <message>
         <source>Components</source>
-        <translation type="unfinished">Komponenten</translation>
+        <translation>Komponenten</translation>
     </message>
 </context>
 <context>
@@ -2127,19 +2127,19 @@ an Einträgen manipuliert werden.</translation>
     </message>
     <message>
         <source>Print grid</source>
-        <translation type="unfinished"></translation>
+        <translation>Gitter drucken</translation>
     </message>
     <message>
         <source>Show stroke numbers</source>
-        <translation type="unfinished"></translation>
+        <translation>Strichanzahl anzeigen</translation>
     </message>
     <message>
         <source>px</source>
-        <translation type="unfinished"></translation>
+        <translation>px</translation>
     </message>
     <message>
         <source>Show numbers</source>
-        <translation type="unfinished"></translation>
+        <translation>Zahlen anzeigen</translation>
     </message>
 </context>
 <context>
@@ -2337,33 +2337,35 @@ an Einträgen manipuliert werden.</translation>
     </message>
     <message>
         <source>S&amp;ets</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Mengen</translation>
     </message>
     <message>
         <source>P&amp;ractice</source>
-        <translation type="unfinished"></translation>
+        <translation>Ü&amp;bung</translation>
     </message>
     <message>
         <source>Lists</source>
-        <translation type="unfinished">Listen</translation>
+        <translation>Listen</translation>
     </message>
     <message>
         <source>Please consider supporting Tagaini Jisho</source>
-        <translation type="unfinished"></translation>
+        <translation>Bitte erwägen sie, Tagaini Jisho zu unterstützen</translation>
     </message>
     <message>
         <source>You have now been using Tagaini Jisho for a short while. If you like it, please show your support by making a donation that expresses your appreciation of this software. While Tagaini is free, its development has a cost and your support will have a positive influence on its future. You can donate via Paypal or credit card.
 
 This message is a one-time reminder and will not appear anymore - you can still donate later by choosing the corresponding option in the Help menu.</source>
-        <translation type="unfinished"></translation>
+        <translation>Sie haben Tagaini Jisho für eine Weile benutzt. Wenn Sie es mögen, zeigen Sie bitte Ihre Unterstützung durch eine Spende, die Ihre Wertschätzung der Software widerspiegelt. Obwohl Tagaini Jisho umsonst ist, verursacht die Entwicklung Kosten und Ihre Unterstützung wird einen positiven Einfluss auf deren Zukunft haben.
+
+Diese Nachricht ist eine einmalige Erinnerung und wird nicht weiter erscheinen – Sie können später immer noch spenden, indem sie die entsprechende Option im Hilfemenü auswählen.</translation>
     </message>
     <message>
         <source>Donate!</source>
-        <translation type="unfinished"></translation>
+        <translation>Spenden!</translation>
     </message>
     <message>
         <source>Nah</source>
-        <translation type="unfinished"></translation>
+        <translation>Nein</translation>
     </message>
 </context>
 <context>
@@ -2780,7 +2782,7 @@ This message is a one-time reminder and will not appear anymore - you can still 
     </message>
     <message>
         <source>Direct compounds</source>
-        <translation type="unfinished"></translation>
+        <translation>Direkte Komposita</translation>
     </message>
 </context>
 <context>
@@ -2807,7 +2809,7 @@ This message is a one-time reminder and will not appear anymore - you can still 
     </message>
     <message>
         <source>Seen in</source>
-        <translation type="unfinished"></translation>
+        <translation>Gesehen in</translation>
     </message>
 </context>
 <context>
