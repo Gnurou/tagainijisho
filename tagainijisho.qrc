@@ -1,62 +1,65 @@
 <RCC>
-  <qresource prefix="/">
-    <file>images/tagainijisho.png</file>
-    <file>images/search.gif</file>
-    <file>images/flags/de.png</file>
-    <file>images/flags/en.png</file>
-    <file>images/flags/es.png</file>
-    <file>images/flags/fr.png</file>
-    <file>images/flags/ru.png</file>
-    <file>images/icons/document-new.png</file>
-    <file>images/icons/application-exit.png</file>
-    <file>images/icons/arrow-down-double.png</file>
-    <file>images/icons/arrow-left.png</file>
-    <file>images/icons/arrow-right.png</file>
-    <file>images/icons/document-import.png</file>
-    <file>images/icons/document-export.png</file>
-    <file>images/icons/zoom-in.png</file>
-    <file>images/icons/flag-black.png</file>
-    <file>images/icons/flag-blue.png</file>
-    <file>images/icons/flag-green.png</file>
-    <file>images/icons/flag-red.png</file>
-    <file>images/icons/flag-yellow.png</file>
-    <file>images/icons/go-next.png</file>
-    <file>images/icons/go-previous.png</file>
-    <file>images/icons/go-up.png</file>
-    <file>images/icons/move.png</file>
-    <file>images/icons/good.png</file>
-    <file>images/icons/help-about.png</file>
-    <file>images/icons/help-contents.png</file>
-    <file>images/icons/help-hint.png</file>
-    <file>images/icons/ldap_lookup.png</file>
-    <file>images/icons/list-add.png</file>
-    <file>images/icons/notes.png</file>
-    <file>images/icons/list.png</file>
-    <file>images/icons/preferences-other.png</file>
-    <file>images/icons/print.png</file>
-    <file>images/icons/system-help.png</file>
-    <file>images/icons/tags-add.png</file>
-    <file>images/icons/tags.png</file>
-    <file>images/icons/tools-report-bug.png</file>
-    <file>images/icons/wrong.png</file>
-    <file>images/icons/reset-search.png</file>
-    <file>images/icons/eraser.png</file>
-    <file>images/icons/eraser-small.png</file>
-    <file>images/icons/delete.png</file>
-    <file>images/icons/folder.png</file>
-    <file>images/icons/control-ff.png</file>
-    <file>images/icons/control-fr.png</file>
-    <file>images/icons/control-pause.png</file>
-    <file>images/icons/control-play.png</file>
-    <file>images/icons/control-stop.png</file>
-    <file>images/icons/donate.png</file>
-    <file>images/icons/component-selector.png</file>
-    <file alias="export_template.html">src/gui/export_template.html</file>
-    <file alias="detailed_default.html">src/gui/detailed_default.html</file>
-    <file alias="detailed_default.css">src/gui/detailed_default.css</file>
-    <file alias="detailed_jmdict.html">src/gui/jmdict/detailed_jmdict.html</file>
-    <file alias="detailed_jmdict.css">src/gui/jmdict/detailed_jmdict.css</file>
-    <file alias="detailed_kanjidic2.html">src/gui/kanjidic2/detailed_kanjidic2.html</file>
-    <file alias="detailed_kanjidic2.css">src/gui/kanjidic2/detailed_kanjidic2.css</file>
-  </qresource>
+    <qresource prefix="/">
+        <file>images/tagainijisho.png</file>
+        <file>images/search.gif</file>
+        <file>images/flags/de.png</file>
+        <file>images/flags/en.png</file>
+        <file>images/flags/es.png</file>
+        <file>images/flags/fr.png</file>
+        <file>images/flags/ru.png</file>
+        <file>images/icons/document-new.png</file>
+        <file>images/icons/application-exit.png</file>
+        <file>images/icons/arrow-down-double.png</file>
+        <file>images/icons/arrow-left.png</file>
+        <file>images/icons/arrow-right.png</file>
+        <file>images/icons/document-import.png</file>
+        <file>images/icons/document-export.png</file>
+        <file>images/icons/zoom-in.png</file>
+        <file>images/icons/flag-black.png</file>
+        <file>images/icons/flag-blue.png</file>
+        <file>images/icons/flag-green.png</file>
+        <file>images/icons/flag-red.png</file>
+        <file>images/icons/flag-yellow.png</file>
+        <file>images/icons/go-next.png</file>
+        <file>images/icons/go-previous.png</file>
+        <file>images/icons/go-up.png</file>
+        <file>images/icons/move.png</file>
+        <file>images/icons/good.png</file>
+        <file>images/icons/help-about.png</file>
+        <file>images/icons/help-contents.png</file>
+        <file>images/icons/help-hint.png</file>
+        <file>images/icons/ldap_lookup.png</file>
+        <file>images/icons/list-add.png</file>
+        <file>images/icons/notes.png</file>
+        <file>images/icons/list.png</file>
+        <file>images/icons/preferences-other.png</file>
+        <file>images/icons/print.png</file>
+        <file>images/icons/system-help.png</file>
+        <file>images/icons/tags-add.png</file>
+        <file>images/icons/tags.png</file>
+        <file>images/icons/tools-report-bug.png</file>
+        <file>images/icons/wrong.png</file>
+        <file>images/icons/reset-search.png</file>
+        <file>images/icons/eraser.png</file>
+        <file>images/icons/eraser-small.png</file>
+        <file>images/icons/delete.png</file>
+        <file>images/icons/folder.png</file>
+        <file>images/icons/control-ff.png</file>
+        <file>images/icons/control-fr.png</file>
+        <file>images/icons/control-pause.png</file>
+        <file>images/icons/control-play.png</file>
+        <file>images/icons/control-stop.png</file>
+        <file>images/icons/donate.png</file>
+        <file>images/icons/component-selector.png</file>
+        <file>images/icons/hiragana.png</file>
+        <file>images/icons/clipboard-search.png</file>
+        <file>images/icons/focus-text-search.png</file>
+        <file alias="export_template.html">src/gui/export_template.html</file>
+        <file alias="detailed_default.html">src/gui/detailed_default.html</file>
+        <file alias="detailed_default.css">src/gui/detailed_default.css</file>
+        <file alias="detailed_jmdict.html">src/gui/jmdict/detailed_jmdict.html</file>
+        <file alias="detailed_jmdict.css">src/gui/jmdict/detailed_jmdict.css</file>
+        <file alias="detailed_kanjidic2.html">src/gui/kanjidic2/detailed_kanjidic2.html</file>
+        <file alias="detailed_kanjidic2.css">src/gui/kanjidic2/detailed_kanjidic2.css</file>
+    </qresource>
 </RCC>

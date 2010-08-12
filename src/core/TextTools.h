@@ -82,7 +82,7 @@ namespace TextTools {
 
 	const KanaInfo &kanaInfo(const QChar c);
 
-#define KANASTABLE_NBROWS 18
+#define KANASTABLE_NBROWS 17
 #define KANASTABLE_NBCOLS 5
 
 	extern QChar kanasTable[KANASTABLE_NBROWS][KANASTABLE_NBCOLS];

@@ -145,7 +145,6 @@ bool isRomaji(const QString & string)
 }
 
 QChar kanasTable[KANASTABLE_NBROWS][KANASTABLE_NBCOLS] = {
-	{ QChar(0x3041), QChar(0x3043), QChar(0x3045), QChar(0x3047), QChar(0x3049) }, // ぁ
 	{ QChar(0x3042), QChar(0x3044), QChar(0x3046), QChar(0x3048), QChar(0x304a) }, // あ
 	{ QChar(0x304b), QChar(0x304d), QChar(0x304f), QChar(0x3051), QChar(0x3053) }, // か
 	{ QChar(0x304c), QChar(0x304e), QChar(0x3050), QChar(0x3052), QChar(0x3054) }, // が
@@ -170,17 +169,17 @@ static QMap<QChar, KanaInfo> _kanaInfos;
 static void initKanaInfos()
 {
 	// Hiragana
-	_kanaInfos[kanasTable[0][0]] = KanaInfo("a", KanaInfo::Small);
-	_kanaInfos[kanasTable[0][1]] = KanaInfo("i", KanaInfo::Small);
-	_kanaInfos[kanasTable[0][2]] = KanaInfo("u", KanaInfo::Small);
-	_kanaInfos[kanasTable[0][3]] = KanaInfo("e", KanaInfo::Small);
-	_kanaInfos[kanasTable[0][4]] = KanaInfo("o", KanaInfo::Small);
+	_kanaInfos[QChar(0x3041)] = KanaInfo("a", KanaInfo::Small);
+	_kanaInfos[QChar(0x3043)] = KanaInfo("i", KanaInfo::Small);
+	_kanaInfos[QChar(0x3045)] = KanaInfo("u", KanaInfo::Small);
+	_kanaInfos[QChar(0x3047)] = KanaInfo("e", KanaInfo::Small);
+	_kanaInfos[QChar(0x3049)] = KanaInfo("o", KanaInfo::Small);
 
-	_kanaInfos[kanasTable[1][0]] = KanaInfo("a");
-	_kanaInfos[kanasTable[1][1]] = KanaInfo("i");
-	_kanaInfos[kanasTable[1][2]] = KanaInfo("u");
-	_kanaInfos[kanasTable[1][3]] = KanaInfo("e");
-	_kanaInfos[kanasTable[1][4]] = KanaInfo("o");
+	_kanaInfos[QChar(0x3042)] = KanaInfo("a");
+	_kanaInfos[QChar(0x3044)] = KanaInfo("i");
+	_kanaInfos[QChar(0x3046)] = KanaInfo("u");
+	_kanaInfos[QChar(0x3048)] = KanaInfo("e");
+	_kanaInfos[QChar(0x304a)] = KanaInfo("o");
 
 	_kanaInfos[QChar(0x3095)] = KanaInfo("ka", KanaInfo::Small);
 	_kanaInfos[QChar(0x304b)] = KanaInfo("ka");

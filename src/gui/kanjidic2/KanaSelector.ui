@@ -31,13 +31,6 @@
       </widget>
      </item>
      <item>
-      <widget class="QCheckBox" name="smallCheckBox">
-       <property name="text">
-        <string>Small</string>
-       </property>
-      </widget>
-     </item>
-     <item>
       <widget class="QCheckBox" name="obsoleteCheckBox">
        <property name="text">
         <string>Obsolete</string>
@@ -61,7 +54,6 @@
  <tabstops>
   <tabstop>_kanaView</tabstop>
   <tabstop>typeBox</tabstop>
-  <tabstop>smallCheckBox</tabstop>
   <tabstop>obsoleteCheckBox</tabstop>
  </tabstops>
  <resources/>

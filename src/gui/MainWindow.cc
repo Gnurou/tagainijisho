@@ -169,6 +169,7 @@ void MainWindow::setupSearchWidget()
 	// Toggle action
 	QAction *action = _searchDockWidget->toggleViewAction();
 	action->setShortcut(QKeySequence("F2"));
+	action->setIcon(QIcon(":/images/icons/ldap_lookup.png"));
 	_searchMenu->addAction(action);
 }
 
@@ -187,13 +188,14 @@ void MainWindow::setupListWidget()
 	// Toggle action
 	QAction *action = _listDockWidget->toggleViewAction();
 	action->setShortcut(QKeySequence("F3"));
+	action->setIcon(QIcon(":/images/icons/list.png"));
 	_searchMenu->addAction(action);
 }
 
 void MainWindow::setupClipboardSearchShortcut()
 {
 	// Auto-clipboard search action
-	QAction *_enableClipboardInputAction = new QAction(tr("Auto-search on clipboard content"), this);
+	QAction *_enableClipboardInputAction = new QAction(QIcon(":/images/icons/clipboard-search.png"), tr("Auto-search on clipboard content"), this);
 	_enableClipboardInputAction->setCheckable(true);
 	connect(_enableClipboardInputAction, SIGNAL(toggled(bool)), this, SLOT(enableClipboardInput(bool)));
 	_searchMenu->addAction(_enableClipboardInputAction);

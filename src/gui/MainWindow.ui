@@ -238,6 +238,10 @@
    </property>
   </action>
   <action name="actionFocus_text_search">
+   <property name="icon">
+    <iconset resource="../../tagainijisho.qrc">
+     <normaloff>:/images/icons/focus-text-search.png</normaloff>:/images/icons/focus-text-search.png</iconset>
+   </property>
    <property name="text">
     <string>Focus text search</string>
    </property>
