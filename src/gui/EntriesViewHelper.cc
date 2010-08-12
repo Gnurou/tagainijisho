@@ -283,7 +283,10 @@ QModelIndexList EntriesViewHelper::getEntriesToProcess(bool limitToSelection)
 	QModelIndexList selIndexes;
 	if (_workOnSelection || limitToSelection) selIndexes = client()->selectionModel()->selectedIndexes();
 	else for (int i = 0; i < client()->model()->rowCount(QModelIndex()); i++) {
-		selIndexes << client()->model()->index(i, 0, QModelIndex());
+		for (int j = 0; j < client()->model()->columnCount(QModelIndex()); j++) {
+			QModelIndex idx(client()->model()->index(i, j, QModelIndex()));
+			if (idx.isValid()) selIndexes << idx;
+		}
 	}
 	QModelIndexList entries(getAllIndexes(selIndexes));
 	return entries;
