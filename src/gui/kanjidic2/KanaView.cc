@@ -24,7 +24,7 @@
 
 #include <QHeaderView>
 
-KanaModel::KanaModel(QObject *parent) : QAbstractTableModel(parent)
+KanaModel::KanaModel(QObject *parent) : QAbstractTableModel(parent), _showObsolete(false), _mode(Hiragana)
 {
 	_font.setPointSize(_font.pointSize() * 2);
 }
@@ -39,6 +39,18 @@ int KanaModel::columnCount(const QModelIndex &parent) const
 	return KANASTABLE_NBCOLS;
 }
 
+void KanaModel::setShowObsolete(bool show)
+{
+	_showObsolete = show;
+	emit layoutChanged();
+}
+
+void KanaModel::setMode(Mode newMode)
+{
+	_mode = newMode;
+	emit layoutChanged();
+}
+
 QVariant KanaModel::data(const QModelIndex &index, int role) const
 {
 	if (!index.isValid()) return QVariant();
@@ -47,10 +59,12 @@ QVariant KanaModel::data(const QModelIndex &index, int role) const
 	if (index.column() >= columnCount()) return QVariant();
 
 	QChar c(TextTools::kanasTable[index.row()][index.column()]);
+	TextTools::KanaInfo info(TextTools::kanaInfo(c));
+	if (c.unicode() == 0 || (!showObsolete() && info.usage == TextTools::KanaInfo::Rare)) return QVariant();
+
 	switch (role) {
 	case Qt::DisplayRole:
-		if (c.unicode() != 0) return QString(c);
-		else return QVariant();
+		return QString(c);
 	case Qt::TextAlignmentRole:
 		return Qt::AlignCenter;
 	case Qt::FontRole:
@@ -101,7 +115,8 @@ QVariant KanaModel::headerData(int section, Qt::Orientation orientation, int rol
 Qt::ItemFlags KanaModel::flags(const QModelIndex &index) const
 {
 	QChar c(TextTools::kanasTable[index.row()][index.column()]);
-	if (c.unicode() == 0) return Qt::NoItemFlags;
+	TextTools::KanaInfo info(TextTools::kanaInfo(c));
+	if (c.unicode() == 0 || (!showObsolete() && info.usage == TextTools::KanaInfo::Rare)) return Qt::NoItemFlags;
 	else return QAbstractTableModel::flags(index);
 }
 
@@ -123,6 +138,8 @@ KanaView::KanaView(QWidget *parent) : QTableView(parent), _helper(this, 0, true,
 	connect(selectAllAction, SIGNAL(triggered()), this, SLOT(selectAll()));
 	QAction *firstAction = contextMenu->actions().isEmpty() ? 0 : contextMenu->actions()[0];
 	contextMenu->insertAction(firstAction, selectAllAction);
+
+	updateLayout();
 }
 
 void KanaView::selectionChanged(const QItemSelection &selected, const QItemSelection &deselected)
@@ -132,4 +149,31 @@ void KanaView::selectionChanged(const QItemSelection &selected, const QItemSelec
 	QModelIndex index(selected.indexes().last());
 	EntryPointer entry(qvariant_cast<EntryPointer>(model()->data(index, Entry::EntryRole)));
 	if (entry) emit entrySelected(entry);
+}
+
+void KanaView::updateLayout()
+{
+	for (int i = 0; i < model()->rowCount(); ++i) {
+		bool empty = true;
+		for (int j = 0; j < model()->columnCount(); ++j) {
+			QChar c = TextTools::kanasTable[i][j];
+			if (c.unicode() == 0) continue;
+			TextTools::KanaInfo info(TextTools::kanaInfo(c));
+			if (!showObsolete() && info.usage == TextTools::KanaInfo::Rare) continue;
+			empty = false;
+		}
+		setRowHidden(i, empty);
+	}
+}
+
+void KanaView::setShowObsolete(bool show)
+{
+	_model.setShowObsolete(show);
+	updateLayout();
+}
+
+void KanaView::setMode(int newMode)
+{
+	_model.setMode(static_cast<KanaModel::Mode>(newMode));
+	updateLayout();
 }
