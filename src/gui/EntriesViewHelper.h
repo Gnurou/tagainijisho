@@ -99,12 +99,26 @@ public:
 	 * Returns the entries option menu (export, print, ...)
 	 */
 	QMenu *entriesMenu() { return &_entriesMenu; }
-	void setPreferenceHandler(Preference pref, PreferenceRoot *ref);
-	EntryDelegateLayout *delegateLayout() { return _delegateLayout; }
+
 	/**
 	 * Returns the context menu (study, tags, notes, ...)
 	 */
 	QMenu *contextMenu() { return &_contextMenu; }
+
+	/**
+	 * Returns a QAction with the entries menu set. The receiver
+	 * becomes the owner of the action.
+	 */
+	QAction *entriesActions(QObject *parent = 0);
+
+	/**
+	 * Returns a toolbar with the entries actions already set.
+	 * The receiver becomes the owner of the toolbar.
+	 */
+	QToolBar *defaultToolBar(QWidget *parent = 0);
+
+	void setPreferenceHandler(Preference pref, PreferenceRoot *ref);
+	EntryDelegateLayout *delegateLayout() { return _delegateLayout; }
 
 	/**
 	 * Returns a list of the currently selected entries.
