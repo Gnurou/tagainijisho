@@ -30,6 +30,8 @@
 #include <QMessageBox>
 #include <QTreeView>
 #include <QContextMenuEvent>
+#include <QLayout>
+#include <QToolButton>
 
 EntriesViewHelper::EntriesViewHelper(QAbstractItemView* client, EntryDelegateLayout* delegateLayout, bool workOnSelection, bool viewOnly) : EntryMenu(client), _client(client), _entriesMenu(), _workOnSelection(workOnSelection), _actionPrint(QIcon(":/images/icons/print.png"), tr("&Print..."), 0), _actionPrintPreview(QIcon(":/images/icons/print.png"), tr("Print p&review..."), 0), _actionPrintBooklet(QIcon(":/images/icons/print.png"), tr("Print &booklet..."), 0), _actionPrintBookletPreview(QIcon(":/images/icons/print.png"), tr("Booklet p&review..."), 0), _actionExportTab(QIcon(":/images/icons/document-export.png"), tr("&Export as &TSV..."), 0), _actionExportJs(QIcon(":/images/icons/document-export.png"), tr("Export as &HTML..."), 0), prefRefs(MAX_PREF), _contextMenu()
 {
@@ -479,4 +481,27 @@ void EntriesViewHelper::updateConfig(const QVariant &value)
 	PreferenceRoot *from = qobject_cast<PreferenceRoot *>(sender());
 	if (!from) return;
 	client()->setProperty(from->name().toLatin1().constData(), value);
+}
+
+QAction *EntriesViewHelper::entriesActions(QObject *parent)
+{
+	QAction *entriesMenuAction = new QAction(QIcon(":/images/icons/list-add.png"), "", parent);
+	entriesMenuAction->setMenu(entriesMenu());
+	return entriesMenuAction;
+}
+
+QToolBar *EntriesViewHelper::defaultToolBar(QWidget *parent)
+{
+	QToolBar *toolBar = new QToolBar(parent);
+	toolBar->setAttribute(Qt::WA_MacMiniSize);
+	toolBar->layout()->setContentsMargins(0, 0, 0, 0);
+	toolBar->setStyleSheet("QToolBar { background: none; border-style: none; border-width: 0px; margin: 0px; padding: 0px; }");
+
+	QAction *_entriesActions = entriesActions(toolBar);
+	toolBar->addAction(_entriesActions);
+	// Fix the behavior of the entries button
+	QToolButton *tButton = qobject_cast<QToolButton *>(toolBar->widgetForAction(_entriesActions));
+	if (tButton) tButton->setPopupMode(QToolButton::InstantPopup);
+
+	return toolBar;
 }

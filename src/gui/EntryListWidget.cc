@@ -29,17 +29,7 @@ EntryListWidget::EntryListWidget(QWidget *parent) : SearchFilterWidget(parent)
 	titleFont.setBold(true);
 	_titleLabel->setFont(titleFont);
 	
-	QToolBar *_toolBar = new QToolBar(this);
-	_toolBar->setAttribute(Qt::WA_MacMiniSize);
-	_toolBar->layout()->setContentsMargins(0, 0, 0, 0);
-	_toolBar->setStyleSheet("QToolBar { background: none; border-style: none; border-width: 0px; margin: 0px; padding: 0px; }");	
-
-	QToolButton *menuButton = new QToolButton(this);
-	menuButton->setIcon(QIcon(":/images/icons/list-add.png"));
-	menuButton->setMenu(entryListView()->helper()->entriesMenu());
-	menuButton->setPopupMode(QToolButton::InstantPopup);
-	menuButton->setAutoRaise(true);
-	_toolBar->addWidget(menuButton);
+	QToolBar *_toolBar = entryListView()->helper()->defaultToolBar(this);
 
 	_toolBar->addAction(entryListView()->goUpAction());
 	_toolBar->addAction(entryListView()->newListAction());

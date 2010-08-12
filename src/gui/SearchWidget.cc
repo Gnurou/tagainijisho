@@ -53,18 +53,9 @@ SearchWidget::SearchWidget(QWidget *parent) : QWidget(parent), _history(historyS
 	// Search builder
 	connect(&_searchBuilder, SIGNAL(queryRequested(QString)), this, SLOT(search(QString)));
 	
-	_filtersToolBar = new QToolBar(this);
-	_filtersToolBar->setAttribute(Qt::WA_MacMiniSize);
-	_filtersToolBar->layout()->setContentsMargins(0, 0, 0, 0);
-	_filtersToolBar->setStyleSheet("QToolBar { background: none; border-style: none; border-width: 0px; margin: 0px; padding: 0px; }");
-	
-	QAction *entriesMenuAction = new QAction(QIcon(":/images/icons/list-add.png"), "", _filtersToolBar);
-	entriesMenuAction->setMenu(resultsView()->helper()->entriesMenu());
-	_filtersToolBar->addAction(entriesMenuAction);
+	_filtersToolBar = resultsView()->helper()->defaultToolBar(this);
 	_filtersToolBar->addAction(actionResetSearch);
-	// Fix the behavior of the entries button
-	QToolButton *tButton = qobject_cast<QToolButton *>(_filtersToolBar->widgetForAction(entriesMenuAction));
-	if (tButton) tButton->setPopupMode(QToolButton::InstantPopup);
+
 	
 	// Search filters
 	EntryTypeFilterWidget *typeFilter = new EntryTypeFilterWidget(this);
