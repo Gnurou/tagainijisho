@@ -40,7 +40,14 @@
     </layout>
    </item>
    <item>
-    <widget class="KanaView" name="_kanaView"/>
+    <widget class="KanaView" name="_kanaView">
+     <property name="dragEnabled">
+      <bool>true</bool>
+     </property>
+     <property name="dragDropMode">
+      <enum>QAbstractItemView::DragOnly</enum>
+     </property>
+    </widget>
    </item>
   </layout>
  </widget>
