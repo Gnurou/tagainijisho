@@ -32,7 +32,7 @@ EntryTypeFilterWidget::EntryTypeFilterWidget(QWidget *parent) : SearchFilterWidg
 #endif
 	_comboBox->addItem(tr("All"), 0);
 	_comboBox->addItem(tr("Vocabulary"), 1);
-	_comboBox->addItem(tr("Kanji"), 2);
+	_comboBox->addItem(tr("Characters"), 2);
 	connect(_comboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(onComboBoxChanged(int)));
 	_comboBox->setAttribute(Qt::WA_MacMiniSize);
 

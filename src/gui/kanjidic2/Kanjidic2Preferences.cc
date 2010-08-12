@@ -21,7 +21,7 @@
 #include "gui/kanjidic2/Kanjidic2Preferences.h"
 #include "gui/kanjidic2/Kanjidic2GUIPlugin.h"
 
-Kanjidic2Preferences::Kanjidic2Preferences(QWidget *parent) : PreferencesWindowCategory(tr("Kanji entries"), parent)
+Kanjidic2Preferences::Kanjidic2Preferences(QWidget *parent) : PreferencesWindowCategory(tr("Character entries"), parent)
 {
 	setupUi(this);
 
