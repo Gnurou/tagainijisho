@@ -129,7 +129,10 @@ public:
 	 * ignored.
 	 */
 	QList<EntryPointer> selectedEntries() const;
-	
+
+	bool workOnSelection() const { return _workOnSelection; }
+	void setWorkOnSelection(bool onSelection) { _workOnSelection = onSelection; }
+
 public slots:
 	void print();
 	void printPreview();
