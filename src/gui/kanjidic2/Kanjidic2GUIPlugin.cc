@@ -112,7 +112,7 @@ bool Kanjidic2GUIPlugin::onRegister()
 		mainWindow->addDockWidget(Qt::LeftDockWidgetArea, _kanaDockWidget);
 		_kanaDockWidget->setVisible(false);
 	}
-	connect(_kanaSelector, SIGNAL(entrySelected(EntryPointer)), mainWindow->detailedView(), SLOT(display(EntryPointer)));
+	connect(_kanaSelector->kanaView(), SIGNAL(entrySelected(EntryPointer)), mainWindow->detailedView(), SLOT(display(EntryPointer)));
 	// Toggle action
 	QAction *action = _kanaDockWidget->toggleViewAction();
 	action->setShortcut(QKeySequence("F8"));
