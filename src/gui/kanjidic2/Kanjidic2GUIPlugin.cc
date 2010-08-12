@@ -95,7 +95,30 @@ bool Kanjidic2GUIPlugin::onRegister()
 	connect(_flashMS, SIGNAL(triggered()), this, SLOT(trainingMeaningSet()));
 	_readingPractice = menu->addAction(tr("&Reading practice, whole study list"));
 	connect(_readingPractice, SIGNAL(triggered()), this, SLOT(readingPractice()));
-	
+
+	// Create and register the kana selector
+	_kanaDockWidget = new QDockWidget(mainWindow);
+	_kanaDockWidget->setObjectName("_kanaDockWidget");
+	_kanaDockWidget->setWindowTitle(tr("Kana"));
+	_kanaSelector = new KanaSelector(_kanaDockWidget);
+	_kanaDockWidget->setWidget(_kanaSelector);
+	// Steal the toolbar
+	QWidget *toolsBar = static_cast<QBoxLayout *>(_kanaSelector->layout())->takeAt(0)->widget();
+	DockTitleBar *dBar = new DockTitleBar(toolsBar, _kanaDockWidget);
+	dBar->setAttribute(Qt::WA_MacMiniSize);
+	_kanaDockWidget->setTitleBarWidget(dBar);
+	// By default the kana dock widget is not visible
+	if (!mainWindow->restoreDockWidget(_kanaDockWidget)) {
+		mainWindow->addDockWidget(Qt::LeftDockWidgetArea, _kanaDockWidget);
+		_kanaDockWidget->setVisible(false);
+	}
+	connect(_kanaSelector, SIGNAL(entrySelected(EntryPointer)), mainWindow->detailedView(), SLOT(display(EntryPointer)));
+	// Toggle action
+	QAction *action = _kanaDockWidget->toggleViewAction();
+	action->setShortcut(QKeySequence("F8"));
+	mainWindow->searchMenu()->addAction(action);
+
+
 	// Add the components searchers to the tool bar
 	_kAction = new KanjiInputPopupAction(new KanjiInputter(new RadicalKanjiSelector(), false, mainWindow), tr("Radical search input"), mainWindow);
 	_kAction->setShortcut(QKeySequence("Ctrl+k"));
@@ -117,30 +140,6 @@ bool Kanjidic2GUIPlugin::onRegister()
 	// Register the detailed view event filter
 	DetailedView::registerEventFilter(this);
 
-	// Create and register the kana selector
-	_kanaDockWidget = new QDockWidget(mainWindow);
-	_kanaDockWidget->setObjectName("_kanaDockWidget");
-	_kanaDockWidget->setWindowTitle(tr("Kana"));
-	_kanaSelector = new KanaSelector(_kanaDockWidget);
-	_kanaDockWidget->setWidget(_kanaSelector);
-	// Steal the toolbar
-	QWidget *toolsBar = static_cast<QBoxLayout *>(_kanaSelector->layout())->takeAt(0)->widget();
-	DockTitleBar *dBar = new DockTitleBar(toolsBar, _kanaDockWidget);
-	dBar->setAttribute(Qt::WA_MacMiniSize);
-	_kanaDockWidget->setTitleBarWidget(dBar);
-	// By default the kana dock widget is not visible
-	if (!mainWindow->restoreDockWidget(_kanaDockWidget)) {
-		mainWindow->addDockWidget(Qt::LeftDockWidgetArea, _kanaDockWidget);
-		_kanaDockWidget->setVisible(false);
-	}
-
-	connect(_kanaSelector, SIGNAL(entrySelected(EntryPointer)), mainWindow->detailedView(), SLOT(display(EntryPointer)));
-
-	// Toggle action
-	QAction *action = _kanaDockWidget->toggleViewAction();
-	action->setShortcut(QKeySequence("F8"));
-	mainWindow->searchMenu()->addAction(action);
-
 	// Register the preferences panel
 	PreferencesWindow::addPanel(&Kanjidic2Preferences::staticMetaObject);
 
@@ -151,8 +150,6 @@ bool Kanjidic2GUIPlugin::onUnregister()
 {
 	// Remove the preferences panel
 	PreferencesWindow::removePanel(&Kanjidic2Preferences::staticMetaObject);
-
-	delete _kanaDockWidget;
 
 	// Remove the detailed view event filter
 	DetailedView::removeEventFilter(this);
@@ -169,6 +166,10 @@ bool Kanjidic2GUIPlugin::onUnregister()
 	// Remove the components searchers
 	delete _cAction; _cAction = 0;
 	delete _kAction; _kAction = 0;
+
+	// Remove the kana dock widget
+	delete _kanaDockWidget;
+
 	// Remove the main window entries
 	delete _flashKL; _flashKL = 0;
 	delete _flashKS; _flashKS = 0;
