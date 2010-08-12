@@ -23,6 +23,8 @@
 #include "core/EntriesCache.h"
 
 #include <QHeaderView>
+#include <QDrag>
+#include <QMimeData>
 
 KanaModel::KanaModel(QObject *parent) : QAbstractTableModel(parent), _showObsolete(false), _mode(Hiragana)
 {
@@ -117,7 +119,25 @@ Qt::ItemFlags KanaModel::flags(const QModelIndex &index) const
 	QChar c(TextTools::kanasTable[index.row()][index.column()]);
 	TextTools::KanaInfo info(TextTools::kanaInfo(c));
 	if (c.unicode() == 0 || (!showObsolete() && info.usage == TextTools::KanaInfo::Rare)) return Qt::NoItemFlags;
-	else return QAbstractTableModel::flags(index);
+	else return QAbstractTableModel::flags(index) | Qt::ItemIsDragEnabled;
+}
+
+QMimeData *KanaModel::mimeData(const QModelIndexList &indexes) const
+{
+	QMimeData *mimeData = new QMimeData();
+	QByteArray encodedData;
+
+	QDataStream stream(&encodedData, QIODevice::WriteOnly);
+
+	foreach (QModelIndex index, indexes) {
+		if (index.isValid()) {
+			EntryPointer entry = data(index, Entry::EntryRole).value<EntryPointer>();
+			stream << EntryRef(entry);
+		}
+	}
+
+	mimeData->setData("tagainijisho/entry", encodedData);
+	return mimeData;
 }
 
 KanaView::KanaView(QWidget *parent) : QTableView(parent), _helper(this, 0, true, false)
@@ -176,4 +196,16 @@ void KanaView::setMode(int newMode)
 {
 	_model.setMode(static_cast<KanaModel::Mode>(newMode));
 	updateLayout();
+}
+
+void KanaView::startDrag(Qt::DropActions supportedActions)
+{
+	QModelIndexList indexes = selectedIndexes();
+	if (indexes.count() > 0) {
+		QMimeData *data(model()->mimeData(indexes));
+		if (!data) return;
+		QDrag *drag = new QDrag(this);
+		drag->setMimeData(data);
+		drag->exec(supportedActions, Qt::MoveAction);
+	}
 }

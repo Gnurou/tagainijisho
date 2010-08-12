@@ -115,7 +115,7 @@ bool Kanjidic2GUIPlugin::onRegister()
 	connect(_kanaSelector->kanaView(), SIGNAL(entrySelected(EntryPointer)), mainWindow->detailedView(), SLOT(display(EntryPointer)));
 	// Toggle action
 	QAction *action = _kanaDockWidget->toggleViewAction();
-	action->setShortcut(QKeySequence("F8"));
+	action->setShortcut(QKeySequence("F4"));
 	action->setIcon(QIcon(":/images/icons/hiragana.png"));
 	mainWindow->searchMenu()->addAction(action);
 

@@ -40,6 +40,7 @@ public:
 	QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
 	QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;
 	virtual Qt::ItemFlags flags(const QModelIndex &index) const;
+	virtual QMimeData *mimeData(const QModelIndexList &indexes) const;
 
 	bool showObsolete() const { return _showObsolete; }
 	void setShowObsolete(bool show);
@@ -55,6 +56,7 @@ private:
 
 protected:
 	virtual void selectionChanged(const QItemSelection &selected, const QItemSelection &deselected);
+	virtual void startDrag(Qt::DropActions supportedActions);
 	void updateLayout();
 
 public:
