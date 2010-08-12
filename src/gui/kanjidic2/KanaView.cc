@@ -39,6 +39,12 @@ int KanaModel::columnCount(const QModelIndex &parent) const
 	return KANASTABLE_NBCOLS;
 }
 
+QModelIndex KanaModel::index(int row, int column, const QModelIndex &parent) const
+{
+	if (TextTools::kanasTable[row][column] == 0) return QModelIndex();
+	else return QAbstractTableModel::index(row, column, parent);
+}
+
 QVariant KanaModel::data(const QModelIndex &index, int role) const
 {
 	if (!index.isValid()) return QVariant();
@@ -47,14 +53,7 @@ QVariant KanaModel::data(const QModelIndex &index, int role) const
 	if (index.column() >= columnCount()) return QVariant();
 
 	QChar c(TextTools::kanasTable[index.row()][index.column()]);
-	EntryPointer entry = EntryRef(KANJIDIC2ENTRY_GLOBALID, c.unicode()).get();
-
 	switch (role) {
-	case Qt::BackgroundRole:
-		if (!entry || !entry->trained()) return QVariant();
-		else return entry->scoreColor();
-	case Entry::EntryRole:
-		return QVariant::fromValue(entry);
 	case Qt::DisplayRole:
 		if (c.unicode() != 0) return QString(c);
 		else return QVariant();
@@ -62,6 +61,17 @@ QVariant KanaModel::data(const QModelIndex &index, int role) const
 		return Qt::AlignCenter;
 	case Qt::FontRole:
 		return _font;
+	default:
+		break;
+	}
+
+	EntryPointer entry = EntryRef(KANJIDIC2ENTRY_GLOBALID, c.unicode()).get();
+	switch (role) {
+	case Qt::BackgroundRole:
+		if (!entry || !entry->trained()) return QVariant();
+		else return entry->scoreColor();
+	case Entry::EntryRole:
+		return QVariant::fromValue(entry);
 	default:
 		return QVariant();
 	}
@@ -99,7 +109,7 @@ QVariant KanaModel::headerData(int section, Qt::Orientation orientation, int rol
 Qt::ItemFlags KanaModel::flags(const QModelIndex &index) const
 {
 	QChar c(TextTools::kanasTable[index.row()][index.column()]);
-	if (c.unicode() == 0) return 0;
+	if (c.unicode() == 0) return Qt::NoItemFlags;
 	else return QAbstractTableModel::flags(index);
 }
 
