@@ -143,7 +143,7 @@ QMimeData *KanaModel::mimeData(const QModelIndexList &indexes) const
 	return mimeData;
 }
 
-KanaView::KanaView(QWidget *parent) : QTableView(parent), _helper(this, 0, true, false)
+KanaView::KanaView(QWidget *parent, bool viewOnly) : QTableView(parent), _helper(this, 0, true, viewOnly)
 {
 	setModel(&_model);
 

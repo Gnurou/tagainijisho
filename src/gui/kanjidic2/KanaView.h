@@ -64,7 +64,7 @@ protected:
 	void updateLayout();
 
 public:
-	KanaView(QWidget *parent = 0);
+	KanaView(QWidget *parent = 0, bool viewOnly = false);
 	EntriesViewHelper *helper() { return &_helper; }
 
 	bool showObsolete() const { return _model.showObsolete(); }

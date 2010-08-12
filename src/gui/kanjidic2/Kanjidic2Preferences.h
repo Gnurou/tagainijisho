@@ -25,6 +25,8 @@
 
 #include <QPicture>
 
+class KanaView;
+
 class KanjiPlayer;
 class Kanjidic2Preferences : public PreferencesWindowCategory, private Ui::Kanjidic2Preferences
 {
@@ -33,6 +35,7 @@ private:
 	KanjiPlayer *_player;
 	QPicture previewPic;
 	ConstKanjidic2EntryPointer previewEntry;
+	KanaView *_kanaSelectorPreview;
 
 protected:
 	virtual bool eventFilter(QObject *obj, QEvent *event);

@@ -399,8 +399,8 @@
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>497</width>
-               <height>144</height>
+               <width>501</width>
+               <height>166</height>
               </rect>
              </property>
              <layout class="QVBoxLayout" name="verticalLayout_7">
@@ -764,6 +764,29 @@
           </size>
          </property>
         </spacer>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tab_2">
+      <attribute name="title">
+       <string>Kana selector</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_13">
+       <item>
+        <widget class="QGroupBox" name="kanaAppearanceBox">
+         <property name="title">
+          <string>Appearance</string>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_14"/>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="kanaPreviewBox">
+         <property name="title">
+          <string>Preview</string>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_12"/>
+        </widget>
        </item>
       </layout>
      </widget>
