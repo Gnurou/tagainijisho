@@ -134,6 +134,11 @@ QVariant EntryListModel::data(const QModelIndex &index, int role) const
 			if (!entry) return QVariant();
 			else return QVariant::fromValue(entry);
 		}
+		case Entry::EntryRefRole:
+		{
+			if (cEntry.isList()) return QVariant();
+			return QVariant::fromValue(cEntry.entryRef());
+		}
 		default:
 			return QVariant();
 	}

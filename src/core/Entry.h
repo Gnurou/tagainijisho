@@ -99,7 +99,7 @@ protected:
 
 public:
 	// Role used for models that allow accessing entries
-	enum { EntryRole = Qt::UserRole };
+	enum { EntryRole = Qt::UserRole, EntryRefRole };
 	
 	// Must be public or QSharedPointer won't work
 	virtual ~Entry();
