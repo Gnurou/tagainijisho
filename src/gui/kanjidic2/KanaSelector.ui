@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>KanaSelector</class>
+ <widget class="QWidget" name="KanaSelector">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>272</width>
+    <height>376</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QComboBox" name="typeBox">
+       <item>
+        <property name="text">
+         <string>Hiragana</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Katakana</string>
+        </property>
+       </item>
+      </widget>
+     </item>
+     <item>
+      <widget class="QCheckBox" name="smallCheckBox">
+       <property name="text">
+        <string>Small</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QCheckBox" name="obsoleteCheckBox">
+       <property name="text">
+        <string>Obsolete</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="KanaView" name="_kanaView"/>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>KanaView</class>
+   <extends>QTableView</extends>
+   <header>gui/kanjidic2/KanaView.h</header>
+  </customwidget>
+ </customwidgets>
+ <tabstops>
+  <tabstop>_kanaView</tabstop>
+  <tabstop>typeBox</tabstop>
+  <tabstop>smallCheckBox</tabstop>
+  <tabstop>obsoleteCheckBox</tabstop>
+ </tabstops>
+ <resources/>
+ <connections/>
+</ui>

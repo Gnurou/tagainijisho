@@ -15,8 +15,8 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef __GUI_KANATABLE_H
-#define __GUI_KANATABLE_H
+#ifndef __GUI_KANAVIEW_H
+#define __GUI_KANAVIEW_H
 
 #include "gui/EntriesViewHelper.h"
 
@@ -24,12 +24,12 @@
 #include <QTableView>
 #include <QFont>
 
-class KanaTableModel : public QAbstractTableModel {
+class KanaModel : public QAbstractTableModel {
 Q_OBJECT
 private:
 	QFont _font;
 public:
-	KanaTableModel(QObject *parent = 0);
+	KanaModel(QObject *parent = 0);
 	int rowCount(const QModelIndex &parent = QModelIndex()) const;
 	int columnCount(const QModelIndex &parent = QModelIndex()) const;
 	QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
@@ -37,17 +37,18 @@ public:
 	virtual Qt::ItemFlags flags(const QModelIndex &index) const;
 };
 
-class KanaTable : public QTableView {
+class KanaView : public QTableView {
 Q_OBJECT
 private:
-	KanaTableModel _model;
+	KanaModel _model;
 	EntriesViewHelper _helper;
 
 protected:
 	virtual void selectionChanged(const QItemSelection &selected, const QItemSelection &deselected);
 
 public:
-	KanaTable(QWidget *parent = 0);
+	KanaView(QWidget *parent = 0);
+	EntriesViewHelper *helper() { return &_helper; }
 
 signals:
 	void entrySelected(const EntryPointer &entry);

@@ -23,8 +23,10 @@
 #include "gui/EntryTypeFilterWidget.h"
 #include "gui/kanjidic2/Kanjidic2Preferences.h"
 #include "gui/kanjidic2/Kanjidic2GUIPlugin.h"
+#include "gui/kanjidic2/KanaSelector.h"
 // TODO BAD - dependency against JMdict!
 #include "gui/jmdict/JMdictGUIPlugin.h"
+
 
 #include <QVBoxLayout>
 #include <QFrame>
@@ -115,19 +117,24 @@ bool Kanjidic2GUIPlugin::onRegister()
 	// Register the detailed view event filter
 	DetailedView::registerEventFilter(this);
 
-	// Create and register the kana table
+	// Create and register the kana selector
 	_kanaDockWidget = new QDockWidget(mainWindow);
 	_kanaDockWidget->setObjectName("_kanaDockWidget");
 	_kanaDockWidget->setWindowTitle(tr("Kana"));
-	_kanaTable = new KanaTable(_kanaDockWidget);
-	_kanaDockWidget->setWidget(_kanaTable);
+	_kanaSelector = new KanaSelector(_kanaDockWidget);
+	_kanaDockWidget->setWidget(_kanaSelector);
+	// Steal the toolbar
+	QWidget *toolsBar = static_cast<QBoxLayout *>(_kanaSelector->layout())->takeAt(0)->widget();
+	DockTitleBar *dBar = new DockTitleBar(toolsBar, _kanaDockWidget);
+	dBar->setAttribute(Qt::WA_MacMiniSize);
+	_kanaDockWidget->setTitleBarWidget(dBar);
 	// By default the kana dock widget is not visible
 	if (!mainWindow->restoreDockWidget(_kanaDockWidget)) {
 		mainWindow->addDockWidget(Qt::LeftDockWidgetArea, _kanaDockWidget);
 		_kanaDockWidget->setVisible(false);
 	}
 
-	connect(_kanaTable, SIGNAL(entrySelected(EntryPointer)), mainWindow->detailedView(), SLOT(display(EntryPointer)));
+	connect(_kanaSelector, SIGNAL(entrySelected(EntryPointer)), mainWindow->detailedView(), SLOT(display(EntryPointer)));
 
 	// Toggle action
 	QAction *action = _kanaDockWidget->toggleViewAction();

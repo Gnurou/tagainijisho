@@ -17,29 +17,29 @@
 
 #include <QtDebug>
 
-#include "gui/kanjidic2/KanaTable.h"
+#include "gui/kanjidic2/KanaView.h"
 #include "core/TextTools.h"
 #include "core/kanjidic2/Kanjidic2Entry.h"
 #include "core/EntriesCache.h"
 
 #include <QHeaderView>
 
-KanaTableModel::KanaTableModel(QObject *parent) : QAbstractTableModel(parent)
+KanaModel::KanaModel(QObject *parent) : QAbstractTableModel(parent)
 {
 	_font.setPointSize(_font.pointSize() * 2);
 }
 
-int KanaTableModel::rowCount(const QModelIndex &parent) const
+int KanaModel::rowCount(const QModelIndex &parent) const
 {
 	return KANASTABLE_NBROWS;
 }
 
-int KanaTableModel::columnCount(const QModelIndex &parent) const
+int KanaModel::columnCount(const QModelIndex &parent) const
 {
 	return KANASTABLE_NBCOLS;
 }
 
-QVariant KanaTableModel::data(const QModelIndex &index, int role) const
+QVariant KanaModel::data(const QModelIndex &index, int role) const
 {
 	if (!index.isValid()) return QVariant();
 
@@ -71,7 +71,7 @@ static QStringList hLabels(QStringList() << "a" << "i" << "u" << "e" << "o");
 static QStringList vLabels(QStringList() << "" << "" << "k" << "g" << "s" << "z" << "t" << "d" << "n" << "h"
 					<< "b" << "p" << "m" << "y" << "r" << "w" << "v" << "n");
 
-QVariant KanaTableModel::headerData(int section, Qt::Orientation orientation, int role) const
+QVariant KanaModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
 	switch (role) {
 	case Qt::DisplayRole:
@@ -96,18 +96,18 @@ QVariant KanaTableModel::headerData(int section, Qt::Orientation orientation, in
 	}
 }
 
-Qt::ItemFlags KanaTableModel::flags(const QModelIndex &index) const
+Qt::ItemFlags KanaModel::flags(const QModelIndex &index) const
 {
 	QChar c(TextTools::kanasTable[index.row()][index.column()]);
 	if (c.unicode() == 0) return 0;
 	else return QAbstractTableModel::flags(index);
 }
 
-KanaTable::KanaTable(QWidget *parent) : QTableView(parent), _helper(this)
+KanaView::KanaView(QWidget *parent) : QTableView(parent), _helper(this)
 {
 	setModel(&_model);
 
-	horizontalHeader()->setResizeMode(QHeaderView::Fixed);
+	horizontalHeader()->setResizeMode(QHeaderView::Stretch);
 	verticalHeader()->setResizeMode(QHeaderView::Fixed);
 	setShowGrid(false);
 
@@ -115,7 +115,7 @@ KanaTable::KanaTable(QWidget *parent) : QTableView(parent), _helper(this)
 	resizeRowsToContents();
 }
 
-void KanaTable::selectionChanged(const QItemSelection &selected, const QItemSelection &deselected)
+void KanaView::selectionChanged(const QItemSelection &selected, const QItemSelection &deselected)
 {
 	QTableView::selectionChanged(selected, deselected);
 	if (selected.isEmpty()) return;
