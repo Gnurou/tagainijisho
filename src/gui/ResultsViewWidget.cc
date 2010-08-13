@@ -23,10 +23,9 @@ ResultsViewWidget::ResultsViewWidget(QWidget *parent) : QWidget(parent), _result
 	
 	// Search animation
 	int searchAnimSize = showAllResultsButton->height();
-	searchAnim = new QMovie(":/images/search.gif", "gif", this);
-	if (searchAnimSize < 35) searchAnim->setScaledSize(QSize(searchAnimSize, searchAnimSize));
-	searchAnim->jumpToFrame(0);
-	searchActiveAnimation->setMovie(searchAnim);
+	if (searchAnimSize > 40) searchAnimSize = 40;
+	searchActiveAnimation->setSize(QSize(searchAnimSize, searchAnimSize));
+	searchActiveAnimation->setBaseImage(":/images/tagainijisho.png");
 	
 	connect(nextPageButton, SIGNAL(clicked()), this, SLOT(nextPage()));
 	connect(previousPageButton, SIGNAL(clicked()), this, SLOT(previousPage()));
@@ -40,7 +39,7 @@ void ResultsViewWidget::setModel(ResultsList *rList)
 		disconnect(_results, SIGNAL(nbResults(unsigned int)), this, SLOT(showNbResults(unsigned int)));
 		disconnect(_results, SIGNAL(queryEnded()), this, SLOT(stopAndResetSearchAnim()));
 		disconnect(_results, SIGNAL(queryEnded()), this, SLOT(onSearchEnded()));
-		disconnect(_results, SIGNAL(queryStarted()), searchAnim, SLOT(start()));
+		disconnect(_results, SIGNAL(queryStarted()), searchActiveAnimation, SLOT(start()));
 		disconnect(_results, SIGNAL(queryStarted()), this, SLOT(onSearchStarted()));
 		disconnect(_results, SIGNAL(newSearch()), this, SLOT(onNewSearch()));
 		disconnect(_results, SIGNAL(rowsInserted(const QModelIndex &, int, int)), this, SLOT(updateNbResultsDisplay()));
@@ -50,7 +49,7 @@ void ResultsViewWidget::setModel(ResultsList *rList)
 		connect(_results, SIGNAL(rowsInserted(const QModelIndex &, int, int)), this, SLOT(updateNbResultsDisplay()));
 		connect(_results, SIGNAL(newSearch()), this, SLOT(onNewSearch()));
 		connect(_results, SIGNAL(queryStarted()), this, SLOT(onSearchStarted()));
-		connect(_results, SIGNAL(queryStarted()), searchAnim, SLOT(start()));
+		connect(_results, SIGNAL(queryStarted()), searchActiveAnimation, SLOT(start()));
 		connect(_results, SIGNAL(queryEnded()), this, SLOT(onSearchEnded()));
 		connect(_results, SIGNAL(queryEnded()), this, SLOT(stopAndResetSearchAnim()));
 		connect(_results, SIGNAL(nbResults(unsigned int)), this, SLOT(showNbResults(unsigned int)));
@@ -61,8 +60,8 @@ void ResultsViewWidget::setModel(ResultsList *rList)
 
 void ResultsViewWidget::stopAndResetSearchAnim()
 {
-	searchAnim->stop();
-	searchAnim->jumpToFrame(0);
+	searchActiveAnimation->stop();
+	searchActiveAnimation->jumpToFrame(0);
 }
 
 void ResultsViewWidget::onNewSearch()
