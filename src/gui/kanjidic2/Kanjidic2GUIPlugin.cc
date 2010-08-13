@@ -56,10 +56,13 @@ const QString Kanjidic2GUIPlugin::kanjiGrades[] = {
 	QT_TRANSLATE_NOOP("Kanjidic2GUIPlugin", "Used for names (2)"),
 };
 
+Kanjidic2GUIPlugin *Kanjidic2GUIPlugin::_instance = 0;
+
 PreferenceItem<bool> Kanjidic2GUIPlugin::kanjiTooltipEnabled("kanjidic", "kanjiTooltipEnabled", true);
 
 Kanjidic2GUIPlugin::Kanjidic2GUIPlugin() : Plugin("kanjidic2GUI"), _flashKL(0), _flashKS(0), _flashML(0), _flashMS(0), _readingPractice(0), _showKanjiPopup(0), _linkHandler(0), _wordsLinkHandler(0), _componentsLinkHandler(0), _filter(0), _trainer(0), _readingTrainer(0), _cAction(0), _kAction(0), _dragStarted(false), _dragEntryRef(0)
 {
+	_instance = this;
 }
 
 Kanjidic2GUIPlugin::~Kanjidic2GUIPlugin()

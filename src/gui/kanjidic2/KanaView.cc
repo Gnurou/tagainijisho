@@ -26,9 +26,11 @@
 #include <QDrag>
 #include <QMimeData>
 
+PreferenceItem<QString> KanaView::characterFont("kanjidic2/kanaSelector", "characterFont", QFont("Helvetica", 15).toString());
+
 KanaModel::KanaModel(QObject *parent) : QAbstractTableModel(parent), _showObsolete(false), _mode(Hiragana), _kanaTable(&TextTools::hiraganaTable)
 {
-	_font.setPointSize(_font.pointSize() * 2);
+	_font.fromString(KanaView::characterFont.value());
 }
 
 int KanaModel::rowCount(const QModelIndex &parent) const
@@ -211,4 +213,11 @@ void KanaView::startDrag(Qt::DropActions supportedActions)
 		drag->setMimeData(data);
 		drag->exec(supportedActions, Qt::MoveAction);
 	}
+}
+
+void KanaView::setCharacterFont(const QFont &font)
+{
+	_model.setFont(font);
+	resizeColumnsToContents();
+	resizeRowsToContents();
 }

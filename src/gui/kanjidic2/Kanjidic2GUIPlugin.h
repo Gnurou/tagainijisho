@@ -52,6 +52,8 @@ private:
 	QPoint _dragPos;
 	KanjiEntryRef _dragEntryRef;
 
+	static Kanjidic2GUIPlugin *_instance;
+
 	void training(YesNoTrainer::TrainingMode mode, const QString &queryString);
 
 private slots:
@@ -72,11 +74,15 @@ public:
 	virtual bool onRegister();
 	virtual bool onUnregister();
 
+	static Kanjidic2GUIPlugin *instance() { return _instance; }
+
 	/**
 	 * Used to filter the events of the detailed views and
 	 * handle mouse hover and clicks on kanjis.
 	 */
 	bool eventFilter(QObject *obj, QEvent *_event);
+
+	KanaSelector *kanaSelector() { return _kanaSelector; }
 
 	static const QString kanjiGrades[];
 

@@ -20,6 +20,7 @@
 
 #include "gui/EntriesViewHelper.h"
 #include "core/TextTools.h"
+#include "core/Preferences.h"
 
 #include <QAbstractTableModel>
 #include <QTableView>
@@ -50,6 +51,8 @@ public:
 	Mode mode() const { return _mode; }
 	void setMode(Mode newMode);
 	TextTools::KanaTable *kanaTable() const { return _kanaTable; }
+	const QFont &font() const { return _font; }
+	void setFont(const QFont &font) { _font = font; }
 };
 
 class KanaView : public QTableView {
@@ -70,9 +73,12 @@ public:
 	bool showObsolete() const { return _model.showObsolete(); }
 	KanaModel::Mode mode() const { return _model.mode(); }
 
+	static PreferenceItem<QString> characterFont;
+
 public slots:
 	void setShowObsolete(bool show);
 	void setMode(int newMode);
+	void setCharacterFont(const QFont &font);
 
 signals:
 	void entrySelected(const EntryPointer &entry);
