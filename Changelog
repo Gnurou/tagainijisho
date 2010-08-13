@@ -1,4 +1,4 @@
-0.2.6 released on
+0.2.6 released on 2010/08/14
 * Updated to SQLite 3.7.0.1
 * Added German translation (thanks Philipp Meyer!)
 * Kanji tooltip now disappear correctly when the pointed kanji loses focus
