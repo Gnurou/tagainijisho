@@ -276,123 +276,123 @@
 <context>
     <name>EntriesViewHelper</name>
     <message>
-        <location filename="../src/gui/EntriesViewHelper.cc" line="34"/>
+        <location filename="../src/gui/EntriesViewHelper.cc" line="37"/>
         <source>&amp;Print...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/EntriesViewHelper.cc" line="34"/>
+        <location filename="../src/gui/EntriesViewHelper.cc" line="37"/>
         <source>Print p&amp;review...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/EntriesViewHelper.cc" line="34"/>
+        <location filename="../src/gui/EntriesViewHelper.cc" line="37"/>
         <source>Print &amp;booklet...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/EntriesViewHelper.cc" line="34"/>
+        <location filename="../src/gui/EntriesViewHelper.cc" line="37"/>
         <source>Booklet p&amp;review...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/EntriesViewHelper.cc" line="34"/>
+        <location filename="../src/gui/EntriesViewHelper.cc" line="37"/>
         <source>&amp;Export as &amp;TSV...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/EntriesViewHelper.cc" line="34"/>
+        <location filename="../src/gui/EntriesViewHelper.cc" line="37"/>
         <source>Export as &amp;HTML...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/EntriesViewHelper.cc" line="101"/>
-        <location filename="../src/gui/EntriesViewHelper.cc" line="121"/>
-        <location filename="../src/gui/EntriesViewHelper.cc" line="141"/>
+        <location filename="../src/gui/EntriesViewHelper.cc" line="104"/>
+        <location filename="../src/gui/EntriesViewHelper.cc" line="124"/>
+        <location filename="../src/gui/EntriesViewHelper.cc" line="144"/>
         <source>Marking entries...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/EntriesViewHelper.cc" line="101"/>
-        <location filename="../src/gui/EntriesViewHelper.cc" line="121"/>
-        <location filename="../src/gui/EntriesViewHelper.cc" line="141"/>
-        <location filename="../src/gui/EntriesViewHelper.cc" line="162"/>
-        <location filename="../src/gui/EntriesViewHelper.cc" line="198"/>
+        <location filename="../src/gui/EntriesViewHelper.cc" line="104"/>
+        <location filename="../src/gui/EntriesViewHelper.cc" line="124"/>
+        <location filename="../src/gui/EntriesViewHelper.cc" line="144"/>
+        <location filename="../src/gui/EntriesViewHelper.cc" line="165"/>
+        <location filename="../src/gui/EntriesViewHelper.cc" line="201"/>
         <source>Abort</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/EntriesViewHelper.cc" line="103"/>
-        <location filename="../src/gui/EntriesViewHelper.cc" line="123"/>
-        <location filename="../src/gui/EntriesViewHelper.cc" line="143"/>
-        <location filename="../src/gui/EntriesViewHelper.cc" line="164"/>
-        <location filename="../src/gui/EntriesViewHelper.cc" line="200"/>
+        <location filename="../src/gui/EntriesViewHelper.cc" line="106"/>
+        <location filename="../src/gui/EntriesViewHelper.cc" line="126"/>
+        <location filename="../src/gui/EntriesViewHelper.cc" line="146"/>
+        <location filename="../src/gui/EntriesViewHelper.cc" line="167"/>
+        <location filename="../src/gui/EntriesViewHelper.cc" line="203"/>
         <source>Operation in progress...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/EntriesViewHelper.cc" line="162"/>
+        <location filename="../src/gui/EntriesViewHelper.cc" line="165"/>
         <source>Resetting entries...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/EntriesViewHelper.cc" line="198"/>
+        <location filename="../src/gui/EntriesViewHelper.cc" line="201"/>
         <source>Adding tags...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/EntriesViewHelper.cc" line="307"/>
+        <location filename="../src/gui/EntriesViewHelper.cc" line="313"/>
         <source>Booklet print</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/EntriesViewHelper.cc" line="319"/>
+        <location filename="../src/gui/EntriesViewHelper.cc" line="325"/>
         <source>Export to tab-separated file...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/EntriesViewHelper.cc" line="323"/>
-        <location filename="../src/gui/EntriesViewHelper.cc" line="370"/>
+        <location filename="../src/gui/EntriesViewHelper.cc" line="329"/>
+        <location filename="../src/gui/EntriesViewHelper.cc" line="376"/>
         <source>Cannot write file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/EntriesViewHelper.cc" line="323"/>
+        <location filename="../src/gui/EntriesViewHelper.cc" line="329"/>
         <source>Unable to write file %1.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/EntriesViewHelper.cc" line="350"/>
+        <location filename="../src/gui/EntriesViewHelper.cc" line="356"/>
         <source>Error writing file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/EntriesViewHelper.cc" line="350"/>
+        <location filename="../src/gui/EntriesViewHelper.cc" line="356"/>
         <source>Error while writing file %1.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/EntriesViewHelper.cc" line="366"/>
+        <location filename="../src/gui/EntriesViewHelper.cc" line="372"/>
         <source>Export to HTML flashcard file...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/EntriesViewHelper.cc" line="366"/>
+        <location filename="../src/gui/EntriesViewHelper.cc" line="372"/>
         <source>HTML files (*.html)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/EntriesViewHelper.cc" line="370"/>
+        <location filename="../src/gui/EntriesViewHelper.cc" line="376"/>
         <source>Unable to write file %1!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/EntriesViewHelper.cc" line="386"/>
+        <location filename="../src/gui/EntriesViewHelper.cc" line="392"/>
         <source>Cannot open template file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/EntriesViewHelper.cc" line="386"/>
+        <location filename="../src/gui/EntriesViewHelper.cc" line="392"/>
         <source>Unable to open template file!</source>
         <translation type="unfinished"></translation>
     </message>
@@ -489,7 +489,7 @@
 <context>
     <name>EntryListModel</name>
     <message>
-        <location filename="../src/core/EntryListModel.cc" line="201"/>
+        <location filename="../src/core/EntryListModel.cc" line="206"/>
         <source>New list</source>
         <translation type="unfinished"></translation>
     </message>
@@ -644,7 +644,7 @@
     </message>
     <message>
         <location filename="../src/gui/EntryTypeFilterWidget.cc" line="35"/>
-        <source>Kanji</source>
+        <source>Characters</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -656,7 +656,7 @@
 <context>
     <name>FindHomographsJob</name>
     <message>
-        <location filename="../src/gui/jmdict/JMdictEntryFormatter.cc" line="573"/>
+        <location filename="../src/gui/jmdict/JMdictEntryFormatter.cc" line="572"/>
         <source>Homographs</source>
         <translation type="unfinished"></translation>
     </message>
@@ -664,7 +664,7 @@
 <context>
     <name>FindHomophonesJob</name>
     <message>
-        <location filename="../src/gui/jmdict/JMdictEntryFormatter.cc" line="550"/>
+        <location filename="../src/gui/jmdict/JMdictEntryFormatter.cc" line="549"/>
         <source>Homophones</source>
         <translation type="unfinished"></translation>
     </message>
@@ -672,17 +672,17 @@
 <context>
     <name>FindVerbBuddyJob</name>
     <message>
-        <location filename="../src/gui/jmdict/JMdictEntryFormatter.cc" line="535"/>
+        <location filename="../src/gui/jmdict/JMdictEntryFormatter.cc" line="534"/>
         <source>Transitive buddy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/jmdict/JMdictEntryFormatter.cc" line="535"/>
+        <location filename="../src/gui/jmdict/JMdictEntryFormatter.cc" line="534"/>
         <source>Intransitive buddy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/jmdict/JMdictEntryFormatter.cc" line="535"/>
+        <location filename="../src/gui/jmdict/JMdictEntryFormatter.cc" line="534"/>
         <source>Buddy</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1036,559 +1036,6 @@ improve performance when manipulating a large number of entries.</source>
     </message>
 </context>
 <context>
-    <name>JMdictLongDescs</name>
-    <message>
-        <location filename="../3rdparty/JMdictDescs.cc" line="1"/>
-        <source>martial arts term</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../3rdparty/JMdictDescs.cc" line="2"/>
-        <source>rude or X-rated term (not displayed in educational software)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../3rdparty/JMdictDescs.cc" line="3"/>
-        <source>abbreviation</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../3rdparty/JMdictDescs.cc" line="4"/>
-        <source>adjective (keiyoushi)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../3rdparty/JMdictDescs.cc" line="5"/>
-        <source>adjectival nouns or quasi-adjectives (keiyodoshi)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../3rdparty/JMdictDescs.cc" line="6"/>
-        <source>nouns which may take the genitive case particle `no&apos;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../3rdparty/JMdictDescs.cc" line="7"/>
-        <source>pre-noun adjectival (rentaishi)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../3rdparty/JMdictDescs.cc" line="8"/>
-        <source>`taru&apos; adjective</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../3rdparty/JMdictDescs.cc" line="9"/>
-        <source>noun or verb acting prenominally</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../3rdparty/JMdictDescs.cc" line="10"/>
-        <source>former adjective classification (being removed)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../3rdparty/JMdictDescs.cc" line="11"/>
-        <source>adverb (fukushi)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../3rdparty/JMdictDescs.cc" line="12"/>
-        <source>adverb taking the `to&apos; particle</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../3rdparty/JMdictDescs.cc" line="13"/>
-        <source>archaism</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../3rdparty/JMdictDescs.cc" line="14"/>
-        <source>ateji (phonetic) reading</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../3rdparty/JMdictDescs.cc" line="15"/>
-        <source>auxiliary</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../3rdparty/JMdictDescs.cc" line="16"/>
-        <source>auxiliary verb</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../3rdparty/JMdictDescs.cc" line="17"/>
-        <source>auxiliary adjective</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../3rdparty/JMdictDescs.cc" line="18"/>
-        <source>Buddhist term</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../3rdparty/JMdictDescs.cc" line="19"/>
-        <source>chemistry term</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../3rdparty/JMdictDescs.cc" line="20"/>
-        <source>children&apos;s language</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../3rdparty/JMdictDescs.cc" line="21"/>
-        <source>colloquialism</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../3rdparty/JMdictDescs.cc" line="22"/>
-        <source>computer terminology</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../3rdparty/JMdictDescs.cc" line="23"/>
-        <source>conjunction</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../3rdparty/JMdictDescs.cc" line="24"/>
-        <source>counter</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../3rdparty/JMdictDescs.cc" line="25"/>
-        <source>derogatory</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../3rdparty/JMdictDescs.cc" line="26"/>
-        <source>exclusively kanji</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../3rdparty/JMdictDescs.cc" line="27"/>
-        <source>exclusively kana</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../3rdparty/JMdictDescs.cc" line="28"/>
-        <source>Expressions (phrases, clauses, etc.)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../3rdparty/JMdictDescs.cc" line="29"/>
-        <source>familiar language</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../3rdparty/JMdictDescs.cc" line="30"/>
-        <source>female term or language</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../3rdparty/JMdictDescs.cc" line="31"/>
-        <source>food term</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../3rdparty/JMdictDescs.cc" line="32"/>
-        <source>geometry term</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../3rdparty/JMdictDescs.cc" line="33"/>
-        <source>gikun (meaning as reading)  or jukujikun (special kanji reading)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../3rdparty/JMdictDescs.cc" line="34"/>
-        <source>honorific or respectful (sonkeigo) language</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../3rdparty/JMdictDescs.cc" line="35"/>
-        <source>humble (kenjougo) language</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../3rdparty/JMdictDescs.cc" line="36"/>
-        <source>word containing irregular kanji usage</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../3rdparty/JMdictDescs.cc" line="37"/>
-        <source>idiomatic expression</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../3rdparty/JMdictDescs.cc" line="38"/>
-        <source>word containing irregular kana usage</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../3rdparty/JMdictDescs.cc" line="39"/>
-        <source>interjection (kandoushi)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../3rdparty/JMdictDescs.cc" line="40"/>
-        <source>irregular okurigana usage</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../3rdparty/JMdictDescs.cc" line="41"/>
-        <source>irregular verb</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../3rdparty/JMdictDescs.cc" line="42"/>
-        <source>linguistics terminology</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../3rdparty/JMdictDescs.cc" line="43"/>
-        <source>manga slang</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../3rdparty/JMdictDescs.cc" line="44"/>
-        <source>male term or language</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../3rdparty/JMdictDescs.cc" line="45"/>
-        <source>male slang</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../3rdparty/JMdictDescs.cc" line="46"/>
-        <source>mathematics</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../3rdparty/JMdictDescs.cc" line="47"/>
-        <source>military</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../3rdparty/JMdictDescs.cc" line="48"/>
-        <source>noun (common) (futsuumeishi)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../3rdparty/JMdictDescs.cc" line="49"/>
-        <source>adverbial noun (fukushitekimeishi)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../3rdparty/JMdictDescs.cc" line="50"/>
-        <source>noun, used as a suffix</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../3rdparty/JMdictDescs.cc" line="51"/>
-        <source>noun, used as a prefix</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../3rdparty/JMdictDescs.cc" line="52"/>
-        <source>noun (temporal) (jisoumeishi)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../3rdparty/JMdictDescs.cc" line="53"/>
-        <source>numeric</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../3rdparty/JMdictDescs.cc" line="54"/>
-        <source>word containing out-dated kanji</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../3rdparty/JMdictDescs.cc" line="55"/>
-        <source>obsolete term</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../3rdparty/JMdictDescs.cc" line="56"/>
-        <source>obscure term</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../3rdparty/JMdictDescs.cc" line="57"/>
-        <source>out-dated or obsolete kana usage</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../3rdparty/JMdictDescs.cc" line="58"/>
-        <source>onomatopoeic or mimetic word</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../3rdparty/JMdictDescs.cc" line="59"/>
-        <source>pronoun</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../3rdparty/JMdictDescs.cc" line="60"/>
-        <source>poetical term</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../3rdparty/JMdictDescs.cc" line="61"/>
-        <source>polite (teineigo) language</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../3rdparty/JMdictDescs.cc" line="62"/>
-        <source>prefix</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../3rdparty/JMdictDescs.cc" line="63"/>
-        <source>particle</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../3rdparty/JMdictDescs.cc" line="64"/>
-        <source>physics terminology</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../3rdparty/JMdictDescs.cc" line="65"/>
-        <source>rare</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../3rdparty/JMdictDescs.cc" line="66"/>
-        <source>sensitive</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../3rdparty/JMdictDescs.cc" line="67"/>
-        <source>slang</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../3rdparty/JMdictDescs.cc" line="68"/>
-        <source>suffix</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../3rdparty/JMdictDescs.cc" line="69"/>
-        <source>word usually written using kanji alone</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../3rdparty/JMdictDescs.cc" line="70"/>
-        <source>word usually written using kana alone</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../3rdparty/JMdictDescs.cc" line="71"/>
-        <source>Ichidan verb</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../3rdparty/JMdictDescs.cc" line="72"/>
-        <source>Nidan verb with &apos;u&apos; ending (archaic)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../3rdparty/JMdictDescs.cc" line="73"/>
-        <source>Yondan verb with `hu/fu&apos; ending (archaic)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../3rdparty/JMdictDescs.cc" line="74"/>
-        <source>Yondan verb with `ru&apos; ending (archaic)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../3rdparty/JMdictDescs.cc" line="75"/>
-        <source>Godan verb (not completely classified)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../3rdparty/JMdictDescs.cc" line="76"/>
-        <source>Godan verb - -aru special class</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../3rdparty/JMdictDescs.cc" line="77"/>
-        <source>Godan verb with `bu&apos; ending</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../3rdparty/JMdictDescs.cc" line="78"/>
-        <source>Godan verb with `gu&apos; ending</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../3rdparty/JMdictDescs.cc" line="79"/>
-        <source>Godan verb with `ku&apos; ending</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../3rdparty/JMdictDescs.cc" line="80"/>
-        <source>Godan verb - Iku/Yuku special class</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../3rdparty/JMdictDescs.cc" line="81"/>
-        <source>Godan verb with `mu&apos; ending</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../3rdparty/JMdictDescs.cc" line="82"/>
-        <source>Godan verb with `nu&apos; ending</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../3rdparty/JMdictDescs.cc" line="83"/>
-        <source>Godan verb with `ru&apos; ending</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../3rdparty/JMdictDescs.cc" line="84"/>
-        <source>Godan verb with `ru&apos; ending (irregular verb)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../3rdparty/JMdictDescs.cc" line="85"/>
-        <source>Godan verb with `su&apos; ending</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../3rdparty/JMdictDescs.cc" line="86"/>
-        <source>Godan verb with `tsu&apos; ending</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../3rdparty/JMdictDescs.cc" line="87"/>
-        <source>Godan verb with `u&apos; ending</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../3rdparty/JMdictDescs.cc" line="88"/>
-        <source>Godan verb with `u&apos; ending (special class)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../3rdparty/JMdictDescs.cc" line="89"/>
-        <source>Godan verb - Uru old class verb (old form of Eru)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../3rdparty/JMdictDescs.cc" line="90"/>
-        <source>Godan verb with `zu&apos; ending</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../3rdparty/JMdictDescs.cc" line="91"/>
-        <source>Ichidan verb - zuru verb (alternative form of -jiru verbs)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../3rdparty/JMdictDescs.cc" line="92"/>
-        <source>intransitive verb</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../3rdparty/JMdictDescs.cc" line="93"/>
-        <source>Kuru verb - special class</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../3rdparty/JMdictDescs.cc" line="94"/>
-        <source>irregular nu verb</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../3rdparty/JMdictDescs.cc" line="95"/>
-        <source>irregular ru verb, plain form ends with -ri</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../3rdparty/JMdictDescs.cc" line="96"/>
-        <source>noun or participle which takes the aux. verb suru</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../3rdparty/JMdictDescs.cc" line="97"/>
-        <source>suru verb - special class</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../3rdparty/JMdictDescs.cc" line="98"/>
-        <source>suru verb - irregular</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../3rdparty/JMdictDescs.cc" line="99"/>
-        <source>Kyoto-ben</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../3rdparty/JMdictDescs.cc" line="100"/>
-        <source>Osaka-ben</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../3rdparty/JMdictDescs.cc" line="101"/>
-        <source>Kansai-ben</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../3rdparty/JMdictDescs.cc" line="102"/>
-        <source>Kantou-ben</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../3rdparty/JMdictDescs.cc" line="103"/>
-        <source>Tosa-ben</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../3rdparty/JMdictDescs.cc" line="104"/>
-        <source>Touhoku-ben</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../3rdparty/JMdictDescs.cc" line="105"/>
-        <source>Tsugaru-ben</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../3rdparty/JMdictDescs.cc" line="106"/>
-        <source>Kyuushuu-ben</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../3rdparty/JMdictDescs.cc" line="107"/>
-        <source>Ryuukyuu-ben</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../3rdparty/JMdictDescs.cc" line="108"/>
-        <source>Nagano-ben</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../3rdparty/JMdictDescs.cc" line="109"/>
-        <source>transitive verb</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../3rdparty/JMdictDescs.cc" line="110"/>
-        <source>vulgar expression or word</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>JMdictPlugin</name>
     <message>
         <location filename="../src/core/jmdict/JMdictPlugin.cc" line="299"/>
@@ -1752,6 +1199,37 @@ improve performance when manipulating a large number of entries.</source>
     <message>
         <location filename="../src/gui/jmdict/JMdictYesNoTrainer.cc" line="23"/>
         <source>Show &amp;furigana</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>KanaSelector</name>
+    <message>
+        <location filename="../src/gui/kanjidic2/KanaSelector.ui" line="14"/>
+        <source>Form</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/kanjidic2/KanaSelector.ui" line="23"/>
+        <source>Hiragana</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/kanjidic2/KanaSelector.ui" line="28"/>
+        <source>Katakana</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/kanjidic2/KanaSelector.ui" line="36"/>
+        <source>Obsolete</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>KanaView</name>
+    <message>
+        <location filename="../src/gui/kanjidic2/KanaView.cc" line="161"/>
+        <source>Select All</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1943,72 +1421,72 @@ improve performance when manipulating a large number of entries.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="421"/>
+        <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="430"/>
         <source>On</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="432"/>
+        <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="441"/>
         <source>Kun</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="443"/>
+        <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="452"/>
         <source>Nanori</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="453"/>
+        <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="462"/>
         <source>Strokes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="462"/>
+        <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="471"/>
         <source>Frequency</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="471"/>
+        <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="480"/>
         <source>Grade</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="480"/>
+        <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="489"/>
         <source>JLPT</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="500"/>
+        <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="509"/>
         <source>Variations</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="515"/>
+        <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="524"/>
         <source>Variation of</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="524"/>
+        <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="533"/>
         <source>Unicode</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="533"/>
+        <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="542"/>
         <source>SKIP</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="542"/>
+        <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="551"/>
         <source>4 corner</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="559"/>
+        <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="568"/>
         <source>Radicals</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="581"/>
+        <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="590"/>
         <source>Components</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2126,131 +1604,131 @@ improve performance when manipulating a large number of entries.</source>
 <context>
     <name>Kanjidic2GUIPlugin</name>
     <message>
-        <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="44"/>
-        <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="51"/>
+        <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="46"/>
+        <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="53"/>
         <source>Invalid</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="45"/>
+        <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="47"/>
         <source>Elementary 1st grade</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="46"/>
+        <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="48"/>
         <source>Elementary 2nd grade</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="47"/>
+        <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="49"/>
         <source>Elementary 3rd grade</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="48"/>
+        <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="50"/>
         <source>Elementary 4th grade</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="49"/>
+        <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="51"/>
         <source>Elementary 5th grade</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="50"/>
+        <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="52"/>
         <source>Elementary 6th grade</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="52"/>
+        <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="54"/>
         <source>Secondary school</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="53"/>
+        <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="55"/>
         <source>Used for names (1)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="54"/>
+        <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="56"/>
         <source>Used for names (2)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="84"/>
-        <source>Kanji flashcards</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="85"/>
-        <source>From &amp;kanji, whole study list</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="86"/>
-        <source>From &amp;kanji, current set</source>
+        <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="89"/>
+        <source>Character flashcards</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="90"/>
-        <source>From &amp;meaning, whole study list</source>
+        <source>From &amp;character, whole study list</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="91"/>
+        <source>From &amp;character, current set</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="95"/>
+        <source>From &amp;meaning, whole study list</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="96"/>
         <source>From &amp;meaning, current set</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="94"/>
+        <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="99"/>
         <source>&amp;Reading practice, whole study list</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="98"/>
+        <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="105"/>
+        <source>Kana</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="127"/>
         <source>Radical search input</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="101"/>
+        <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="130"/>
         <source>Component search input</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="105"/>
+        <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="134"/>
         <source>Show stroke popup for currently displayed kanji</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="195"/>
-        <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="213"/>
+        <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="228"/>
+        <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="246"/>
         <source>Nothing to train</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="195"/>
-        <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="213"/>
+        <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="228"/>
+        <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="246"/>
         <source>There are no kanji entries in this set to train on.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="399"/>
+        <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="432"/>
         <source>Open in detailed view...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="424"/>
+        <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="457"/>
         <source>Tracing for %1</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>Kanjidic2Preferences</name>
-    <message>
-        <location filename="../src/gui/kanjidic2/Kanjidic2Preferences.cc" line="24"/>
-        <source>Kanji entries</source>
-        <translation type="unfinished"></translation>
-    </message>
     <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2Preferences.ui" line="14"/>
         <source>Form</source>
@@ -2438,6 +1916,7 @@ improve performance when manipulating a large number of entries.</source>
     </message>
     <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2Preferences.ui" line="383"/>
+        <location filename="../src/gui/kanjidic2/Kanjidic2Preferences.ui" line="786"/>
         <source>Preview</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2459,6 +1938,16 @@ improve performance when manipulating a large number of entries.</source>
     <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2Preferences.ui" line="559"/>
         <source>Stroke animation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/kanjidic2/Kanjidic2Preferences.ui" line="772"/>
+        <source>Kana selector</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/kanjidic2/Kanjidic2Preferences.ui" line="778"/>
+        <source>Appearance</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2518,6 +2007,16 @@ improve performance when manipulating a large number of entries.</source>
         <source> seconds</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="../src/gui/kanjidic2/Kanjidic2Preferences.cc" line="27"/>
+        <source>Character entries</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/kanjidic2/Kanjidic2Preferences.cc" line="70"/>
+        <source>Character font</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ListsViewPreferences</name>
@@ -2556,13 +2055,13 @@ improve performance when manipulating a large number of entries.</source>
     </message>
     <message>
         <location filename="../src/gui/MainWindow.ui" line="127"/>
-        <location filename="../src/gui/MainWindow.cc" line="235"/>
+        <location filename="../src/gui/MainWindow.cc" line="240"/>
         <source>Export user data...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/MainWindow.ui" line="136"/>
-        <location filename="../src/gui/MainWindow.cc" line="244"/>
+        <location filename="../src/gui/MainWindow.cc" line="249"/>
         <source>Import user data...</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2662,131 +2161,131 @@ improve performance when manipulating a large number of entries.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.ui" line="242"/>
+        <location filename="../src/gui/MainWindow.ui" line="246"/>
         <source>Focus text search</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.ui" line="245"/>
+        <location filename="../src/gui/MainWindow.ui" line="249"/>
         <source>Ctrl+L</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="247"/>
+        <location filename="../src/gui/MainWindow.cc" line="252"/>
         <source>About to replace user data!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="247"/>
+        <location filename="../src/gui/MainWindow.cc" line="252"/>
         <source>&lt;b&gt;WARNING:&lt;/b&gt; All the user data (study list, tags, notes, training, ...) is going to be replaced by the selected user data file. Are you &lt;b&gt;sure&lt;/b&gt; you want to do this?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="254"/>
+        <location filename="../src/gui/MainWindow.cc" line="259"/>
         <source>Please restart Tagaini Jisho</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="254"/>
+        <location filename="../src/gui/MainWindow.cc" line="259"/>
         <source>The imported data will be available the next time you start Tagaini Jisho. All changes performed from now will be lost. Do you want to exit Tagaini Jisho now?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="193"/>
+        <location filename="../src/gui/MainWindow.cc" line="198"/>
         <source>Auto-search on clipboard content</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="216"/>
+        <location filename="../src/gui/MainWindow.cc" line="221"/>
         <source>Please consider supporting Tagaini Jisho</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="217"/>
+        <location filename="../src/gui/MainWindow.cc" line="222"/>
         <source>You have now been using Tagaini Jisho for a short while. If you like it, please show your support by making a donation that expresses your appreciation of this software. While Tagaini is free, its development has a cost and your support will have a positive influence on its future. You can donate via Paypal or credit card.
 
 This message is a one-time reminder and will not appear anymore - you can still donate later by choosing the corresponding option in the Help menu.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="219"/>
+        <location filename="../src/gui/MainWindow.cc" line="224"/>
         <source>Donate!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="222"/>
+        <location filename="../src/gui/MainWindow.cc" line="227"/>
         <source>Nah</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="354"/>
+        <location filename="../src/gui/MainWindow.cc" line="359"/>
         <source>An update is available!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="355"/>
+        <location filename="../src/gui/MainWindow.cc" line="360"/>
         <source>Version %1 of Tagaini Jisho is available. Do you want to download it now?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="357"/>
-        <location filename="../src/gui/MainWindow.cc" line="372"/>
+        <location filename="../src/gui/MainWindow.cc" line="362"/>
+        <location filename="../src/gui/MainWindow.cc" line="377"/>
         <source>Let&apos;s go!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="359"/>
-        <location filename="../src/gui/MainWindow.cc" line="374"/>
+        <location filename="../src/gui/MainWindow.cc" line="364"/>
+        <location filename="../src/gui/MainWindow.cc" line="379"/>
         <source>Maybe later</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="369"/>
+        <location filename="../src/gui/MainWindow.cc" line="374"/>
         <source>A development update is available!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="370"/>
+        <location filename="../src/gui/MainWindow.cc" line="375"/>
         <source>Development version %1 of Tagaini Jisho is available. Do you want to download it now?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="424"/>
+        <location filename="../src/gui/MainWindow.cc" line="429"/>
         <source>Create new set here...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="426"/>
+        <location filename="../src/gui/MainWindow.cc" line="431"/>
         <source>Create new folder here...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="438"/>
+        <location filename="../src/gui/MainWindow.cc" line="443"/>
         <source>New set</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="438"/>
+        <location filename="../src/gui/MainWindow.cc" line="443"/>
         <source>Please enter a name for this set:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="438"/>
+        <location filename="../src/gui/MainWindow.cc" line="443"/>
         <source>Unnamed set</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="460"/>
+        <location filename="../src/gui/MainWindow.cc" line="465"/>
         <source>New sets folder</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="460"/>
+        <location filename="../src/gui/MainWindow.cc" line="465"/>
         <source>Please enter a name for this folder</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="460"/>
+        <location filename="../src/gui/MainWindow.cc" line="465"/>
         <source>Unnamed folder</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3208,12 +2707,7 @@ This message is a one-time reminder and will not appear anymore - you can still 
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/ResultsViewWidget.ui" line="107"/>
-        <source>Click when a search is active to abort it</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/gui/ResultsViewWidget.cc" line="122"/>
+        <location filename="../src/gui/ResultsViewWidget.cc" line="121"/>
         <source>Results %1 - %2 of %3</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3270,17 +2764,17 @@ This message is a one-time reminder and will not appear anymore - you can still 
 <context>
     <name>ShowUsedInJob</name>
     <message>
-        <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="609"/>
+        <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="618"/>
         <source>Direct compounds</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="625"/>
+        <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="634"/>
         <source>All compounds</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="625"/>
+        <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="634"/>
         <source>(+)</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3288,17 +2782,17 @@ This message is a one-time reminder and will not appear anymore - you can still 
 <context>
     <name>ShowUsedInWordsJob</name>
     <message>
-        <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="635"/>
+        <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="644"/>
         <source>Seen in</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="651"/>
+        <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="660"/>
         <source>All words using this kanji</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="651"/>
+        <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="660"/>
         <source>(+)</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3613,22 +3107,22 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <name>YesNoTrainer</name>
     <message>
         <location filename="../src/gui/YesNoTrainer.cc" line="44"/>
-        <source>&amp;Answer</source>
+        <source>Answer (&amp;1)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/YesNoTrainer.cc" line="50"/>
-        <source>&amp;Correct!</source>
+        <source>Correct! (&amp;2)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/YesNoTrainer.cc" line="55"/>
-        <source>&amp;Wrong...</source>
+        <source>Wrong... (&amp;3)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/YesNoTrainer.cc" line="60"/>
-        <source>&amp;Skip</source>
+        <source>Skip (&amp;4)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
