@@ -20,7 +20,7 @@
 #include "gui/kanjidic2/KanjiPopup.h"
 #include "gui/kanjidic2/Kanjidic2Preferences.h"
 #include "gui/kanjidic2/Kanjidic2GUIPlugin.h"
-#include "gui/kanjidic2/KanaView.h"
+#include "gui/kanjidic2/KanaSelector.h"
 
 #include "gui/PreferencesWindow.h"
 
@@ -66,15 +66,17 @@ Kanjidic2Preferences::Kanjidic2Preferences(QWidget *parent) : PreferencesWindowC
 
 	QBoxLayout *bLayout = static_cast<QBoxLayout *>(kanaAppearanceBox->layout());
 	QFont f;
-	f.setPointSize(f.pointSize() * 2);
-	PreferencesFontChooser *kanaSelectorFont = new PreferencesFontChooser(tr("Character font"), f, this);
+	f.fromString(KanaView::characterFont.defaultValue());
+	_kanaSelectorFont = new PreferencesFontChooser(tr("Character font"), f, this);
 	QHBoxLayout *hLayout = new QHBoxLayout();
-	hLayout->addWidget(kanaSelectorFont);
+	hLayout->addWidget(_kanaSelectorFont);
 	bLayout->addLayout(hLayout);
 
 	_kanaSelectorPreview = new KanaView(this, true);
 	QLayout *layout = kanaPreviewBox->layout();
 	layout->addWidget(_kanaSelectorPreview);
+
+	connect(_kanaSelectorFont, SIGNAL(fontChanged(QFont)), _kanaSelectorPreview, SLOT(setCharacterFont(QFont)));
 }
 
 void Kanjidic2Preferences::refresh()
@@ -134,6 +136,11 @@ void Kanjidic2Preferences::refresh()
 	animationLoopDelay->setValue(KanjiPlayer::animationLoopDelay.value());
 
 	updatePrintPreview();
+
+	_kanaSelectorFont->setDefault(KanaView::characterFont.isDefault());
+	QFont font;
+	font.fromString(KanaView::characterFont.value());
+	_kanaSelectorFont->setFont(font);
 }
 
 void Kanjidic2Preferences::applySettings()
@@ -190,6 +197,12 @@ void Kanjidic2Preferences::applySettings()
 	KanjiPlayer::strokesNumbersSizePref.set(showStrokesNumbersSize->value());
 	KanjiPopup::autoStartAnim.set(autoStartAnim->isChecked());
 	KanjiPlayer::animationLoopDelay.set(animationLoopDelay->value());
+
+	const QFont &font = _kanaSelectorFont->font();
+	if (_kanaSelectorFont->isDefault()) KanaView::characterFont.reset();
+	else KanaView::characterFont.set(font.toString());
+
+	Kanjidic2GUIPlugin::instance()->kanaSelector()->kanaView()->setCharacterFont(font);
 }
 
 bool Kanjidic2Preferences::eventFilter(QObject *obj, QEvent *event)

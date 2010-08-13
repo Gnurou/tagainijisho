@@ -35,6 +35,7 @@ private:
 	KanjiPlayer *_player;
 	QPicture previewPic;
 	ConstKanjidic2EntryPointer previewEntry;
+	PreferencesFontChooser * _kanaSelectorFont;
 	KanaView *_kanaSelectorPreview;
 
 protected:
