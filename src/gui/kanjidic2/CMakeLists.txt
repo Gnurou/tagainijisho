@@ -1,35 +1,40 @@
-set(tagainijisho_gui_SRCS ${tagainijisho_gui_SRCS}
-kanjidic2/Kanjidic2EntryFormatter.cc
-kanjidic2/KanjiRenderer.cc
-kanjidic2/KanjiPopup.cc
-kanjidic2/KanjiPlayer.cc
-kanjidic2/KanjiResultsView.cc
-kanjidic2/KanjiSelector.cc
-kanjidic2/Kanjidic2Preferences.cc
-kanjidic2/Kanjidic2FilterWidget.cc
-kanjidic2/Kanjidic2GUIPlugin.cc
-kanjidic2/KanaView.cc
-kanjidic2/KanaSelector.cc
+# kanjidic2 GUI
+set(tagainijisho_gui_kanjidic2_SRCS
+Kanjidic2EntryFormatter.cc
+KanjiRenderer.cc
+KanjiPopup.cc
+KanjiPlayer.cc
+KanjiResultsView.cc
+KanjiSelector.cc
+Kanjidic2Preferences.cc
+Kanjidic2FilterWidget.cc
+Kanjidic2GUIPlugin.cc
+KanaView.cc
+KanaSelector.cc
 )
 
-set(tagainijisho_gui_MOCS ${tagainijisho_gui_MOCS}
-kanjidic2/Kanjidic2EntryFormatter.h
-kanjidic2/Kanjidic2GUIPlugin.h
-kanjidic2/Kanjidic2Preferences.h
-kanjidic2/KanjiPlayer.h
-kanjidic2/KanjiPopup.h
-kanjidic2/KanjiResultsView.h
-kanjidic2/Kanjidic2FilterWidget.h
-kanjidic2/KanjiSelector.h
-kanjidic2/KanaView.h
-kanjidic2/KanaSelector.h
+set(tagainijisho_gui_kanjidic2_MOCS
+Kanjidic2EntryFormatter.h
+Kanjidic2GUIPlugin.h
+Kanjidic2Preferences.h
+KanjiPlayer.h
+KanjiPopup.h
+KanjiResultsView.h
+Kanjidic2FilterWidget.h
+KanjiSelector.h
+KanaView.h
+KanaSelector.h
 )
 
-set(tagainijisho_gui_UIS ${tagainijisho_gui_UIS}
-kanjidic2/KanjiPopup.ui
-kanjidic2/KanjiSelector.ui
-kanjidic2/KanaSelector.ui
-#kanjidic2/ComponentSearchWidget.ui
-#kanjidic2/RadicalSearchWidget.ui
-kanjidic2/Kanjidic2Preferences.ui
+set(tagainijisho_gui_kanjidic2_UIS
+KanjiPopup.ui
+KanjiSelector.ui
+KanaSelector.ui
+#ComponentSearchWidget.ui
+#RadicalSearchWidget.ui
+Kanjidic2Preferences.ui
 )
+
+qt4_wrap_cpp(tagainijisho_gui_kanjidic2_MOC_SRCS ${tagainijisho_gui_kanjidic2_MOCS})
+qt4_wrap_ui(tagainijisho_gui_kanjidic2_UI_SRCS ${tagainijisho_gui_kanjidic2_UIS})
+add_library(tagaini_gui_kanjidic2 STATIC ${tagainijisho_gui_kanjidic2_SRCS} ${tagainijisho_gui_kanjidic2_MOC_SRCS} ${tagainijisho_gui_kanjidic2_UI_SRCS})

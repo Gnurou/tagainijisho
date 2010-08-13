@@ -41,11 +41,7 @@ Tag.h
 
 # Add rules for jmdict and kanjidic components
 add_subdirectory(jmdict)
-get_directory_property(tagainijisho_core_SRCS DIRECTORY "jmdict" DEFINITION tagainijisho_core_SRCS)
-get_directory_property(tagainijisho_core_MOCS DIRECTORY "jmdict" DEFINITION tagainijisho_core_MOCS)
 add_subdirectory(kanjidic2)
-get_directory_property(tagainijisho_core_SRCS DIRECTORY "kanjidic2" DEFINITION tagainijisho_core_SRCS)
-get_directory_property(tagainijisho_core_MOCS DIRECTORY "kanjidic2" DEFINITION tagainijisho_core_MOCS)
 
 qt4_wrap_cpp(tagainijisho_core_MOC_SRCS ${tagainijisho_core_MOCS})
 

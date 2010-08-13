@@ -1,26 +1,29 @@
-set(tagainijisho_core_SRCS ${tagainijisho_core_SRCS}
-kanjidic2/Kanjidic2Entry.cc
-kanjidic2/Kanjidic2EntrySearcher.cc
-kanjidic2/KanjiRadicals.cc
-kanjidic2/Kanjidic2Plugin.cc
-)
-
-set(tagainijisho_core_MOCS ${tagainijisho_core_MOCS}
-kanjidic2/Kanjidic2Entry.h
-kanjidic2/Kanjidic2EntrySearcher.h
-)
-
+# kanji core
 set(QT_USE_QTSQL TRUE)
-set(QT_USE_QTXML TRUE)
 set(QT_DONT_USE_QTGUI TRUE)
+set(tagainijisho_core_kanjidic2_SRCS
+Kanjidic2Entry.cc
+Kanjidic2EntrySearcher.cc
+KanjiRadicals.cc
+Kanjidic2Plugin.cc
+)
 
+set(tagainijisho_core_kanjidic2_MOCS
+Kanjidic2Entry.h
+Kanjidic2EntrySearcher.h
+)
+
+qt4_wrap_cpp(tagainijisho_core_kanjidic2_MOC_SRCS ${tagainijisho_core_kanjidic2_MOCS})
+add_library(tagaini_core_kanjidic2 STATIC ${tagainijisho_core_kanjidic2_SRCS} ${tagainijisho_core_kanjidic2_MOC_SRCS})
+
+# Database builder
+set(QT_USE_QTXML TRUE)
 set(build_kanji_db_SRCS
 Kanjidic2Parser.cc
 KanjiVGParser.cc
 BuildKanjiDB.cc
 )
 
-# Database builder
 include(${QT_USE_FILE})
 add_executable(build_kanji_db EXCLUDE_FROM_ALL ${build_kanji_db_SRCS})
 target_link_libraries(build_kanji_db tagaini_sqlite tagaini_core ${QT_LIBRARIES})
