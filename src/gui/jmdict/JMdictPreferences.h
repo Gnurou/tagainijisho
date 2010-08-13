@@ -20,7 +20,7 @@
 
 #include "core/jmdict/JMdictEntry.h"
 #include "gui/PreferencesWindow.h"
-#include "gui/ui_JMdictPreferences.h"
+#include "gui/jmdict/ui_JMdictPreferences.h"
 
 #include <QPicture>
 

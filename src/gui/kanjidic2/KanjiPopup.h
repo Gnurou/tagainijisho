@@ -50,7 +50,7 @@ public:
 	const ConstKanjidic2EntryPointer &kanji() const { return _kanji; }
 };
 
-#include "gui/ui_KanjiPopup.h"
+#include "gui/kanjidic2/ui_KanjiPopup.h"
 
 class KanjiPopup : public QFrame, public Ui::KanjiPopup {
 	Q_OBJECT

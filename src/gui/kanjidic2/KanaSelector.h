@@ -18,7 +18,7 @@
 #define __GUI_KANJIDIC2_KANASELECTOR_H
 
 #include <QWidget>
-#include "gui/ui_KanaSelector.h"
+#include "gui/kanjidic2/ui_KanaSelector.h"
 
 class KanaView;
 

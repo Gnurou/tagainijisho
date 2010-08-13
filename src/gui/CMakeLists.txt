@@ -112,13 +112,7 @@ MainWindow.ui
 
 # Add rules for jmdict and kanjidic components
 add_subdirectory(jmdict)
-get_directory_property(tagainijisho_gui_SRCS DIRECTORY "jmdict" DEFINITION tagainijisho_gui_SRCS)
-get_directory_property(tagainijisho_gui_MOCS DIRECTORY "jmdict" DEFINITION tagainijisho_gui_MOCS)
-get_directory_property(tagainijisho_gui_UIS DIRECTORY "jmdict" DEFINITION tagainijisho_gui_UIS)
 add_subdirectory(kanjidic2)
-get_directory_property(tagainijisho_gui_SRCS DIRECTORY "kanjidic2" DEFINITION tagainijisho_gui_SRCS)
-get_directory_property(tagainijisho_gui_MOCS DIRECTORY "kanjidic2" DEFINITION tagainijisho_gui_MOCS)
-get_directory_property(tagainijisho_gui_UIS DIRECTORY "kanjidic2" DEFINITION tagainijisho_gui_UIS)
 
 qt4_wrap_cpp(tagainijisho_gui_MOC_SRCS ${tagainijisho_gui_MOCS})
 qt4_wrap_ui(tagainijisho_gui_UI_SRCS ${tagainijisho_gui_UIS})
@@ -149,7 +143,7 @@ if (APPLE)
 endif()
 
 add_executable(${tagaini_binary} MACOSX_BUNDLE WIN32 ${tagainijisho_SRCS})
-target_link_libraries(${tagaini_binary} tagaini_gui tagaini_core tagaini_sqlite ${QT_LIBRARIES} ${extra_link_flags})
+target_link_libraries(${tagaini_binary} tagaini_gui_jmdict tagaini_gui_kanjidic2 tagaini_gui tagaini_core_jmdict tagaini_core_kanjidic2 tagaini_core tagaini_sqlite ${QT_LIBRARIES} ${extra_link_flags})
 install(TARGETS ${tagaini_binary} BUNDLE DESTINATION . COMPONENT Runtime RUNTIME DESTINATION bin COMPONENT Runtime)
 
 # If needed, add standard dependency to have identical build on all platforms

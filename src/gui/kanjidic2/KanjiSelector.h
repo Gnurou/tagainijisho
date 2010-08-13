@@ -48,7 +48,7 @@ public slots:
 	QListWidgetItem *setCurrentStrokeNbr(int strokeNbr);
 };
 
-#include "gui/ui_KanjiSelector.h"
+#include "gui/kanjidic2/ui_KanjiSelector.h"
 
 /**
  * A base class for building kanji selectors based on some of their components.

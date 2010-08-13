@@ -21,7 +21,7 @@
 #include "core/kanjidic2/Kanjidic2Entry.h"
 #include "core/EntriesCache.h"
 #include "gui/PreferencesWindow.h"
-#include "gui/ui_Kanjidic2Preferences.h"
+#include "gui/kanjidic2/ui_Kanjidic2Preferences.h"
 
 #include <QPicture>
 
