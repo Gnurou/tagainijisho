@@ -1,7 +1,6 @@
 <RCC>
     <qresource prefix="/">
         <file>images/tagainijisho.png</file>
-        <file>images/search.gif</file>
         <file>images/flags/de.png</file>
         <file>images/flags/en.png</file>
         <file>images/flags/es.png</file>

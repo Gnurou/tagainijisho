@@ -96,20 +96,7 @@
       </widget>
      </item>
      <item>
-      <widget class="ClickableLabel" name="searchActiveAnimation">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="toolTip">
-        <string>Click when a search is active to abort it</string>
-       </property>
-       <property name="text">
-        <string/>
-       </property>
-      </widget>
+      <widget class="ClickableAnimation" name="searchActiveAnimation" native="true"/>
      </item>
     </layout>
    </item>
@@ -141,9 +128,10 @@
    <header>gui/ResultsView.h</header>
   </customwidget>
   <customwidget>
-   <class>ClickableLabel</class>
-   <extends>QLabel</extends>
-   <header>gui/ClickableLabel.h</header>
+   <class>ClickableAnimation</class>
+   <extends>QWidget</extends>
+   <header>gui/ClickableAnimation.h</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <tabstops>

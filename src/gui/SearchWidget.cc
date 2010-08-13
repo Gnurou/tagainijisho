@@ -23,7 +23,7 @@
 #include "gui/NotesFilterWidget.h"
 #include "gui/StudyFilterWidget.h"
 #include "gui/JLPTFilterWidget.h"
-#include "gui/ClickableLabel.h"
+#include "gui/ClickableAnimation.h"
 
 #include <QMessageBox>
 #include <QScrollBar>

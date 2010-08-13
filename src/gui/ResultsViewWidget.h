@@ -22,13 +22,11 @@
 #include "gui/ui_ResultsViewWidget.h"
 
 #include <QWidget>
-#include <QMovie>
 
 class ResultsViewWidget : public QWidget, private Ui::ResultsViewWidget
 {
 	Q_OBJECT
 private:
-	QMovie *searchAnim;
 	ResultsList *_results;
 	
 	int totalResults;
