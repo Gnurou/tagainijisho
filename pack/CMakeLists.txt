@@ -59,13 +59,11 @@ if(UNIX)
 		set(APPS "\${CMAKE_INSTALL_PREFIX}/${tagaini_binary}.app")
 		set(DIRS ${QT_LIBRARY_DIRS})
 
-		install(DIRECTORY "${QT_PLUGINS_DIR}/imageformats" DESTINATION "${ROOT_DIR}/PlugIns" COMPONENT Runtime)
-		install(DIRECTORY "${QT_PLUGINS_DIR}/graphicssystems" DESTINATION "${ROOT_DIR}/PlugIns" COMPONENT Runtime)
-
 		foreach(LANG ${DICT_LANG})
 			install(FILES "${CMAKE_BINARY_DIR}/jmdict-${LANG}.db" DESTINATION ${EXE_DIR} COMPONENT Runtime)
 			install(FILES "${CMAKE_BINARY_DIR}/kanjidic2-${LANG}.db" DESTINATION ${EXE_DIR} COMPONENT Runtime)
 		endforeach(LANG ${LANG})
+		
 		install(FILES ${CMAKE_SOURCE_DIR}/src/gui/jmdict/detailed_jmdict.html ${CMAKE_SOURCE_DIR}/src/gui/jmdict/detailed_jmdict.css DESTINATION ${RESOURCES_DIR} COMPONENT Runtime)
 		install(FILES ${CMAKE_SOURCE_DIR}/src/gui/kanjidic2/detailed_kanjidic2.html ${CMAKE_SOURCE_DIR}/src/gui/kanjidic2/detailed_kanjidic2.css DESTINATION ${RESOURCES_DIR} COMPONENT Runtime)
 		install(FILES ${CMAKE_SOURCE_DIR}/src/gui/export_template.html DESTINATION ${RESOURCES_DIR} COMPONENT Runtime)
@@ -86,7 +84,7 @@ if(UNIX)
 		install(CODE "
 			file(GLOB_RECURSE QTPLUGINS \"\${CMAKE_INSTALL_PREFIX}/${EXE_DIR}/plugins/*${CMAKE_SHARED_LIBRARY_SUFFIX}\")
 		include(BundleUtilities)
-		fixup_bundle(\"${APPS}\" \"\${QTPLUGINS}\" \"${DIRS}\")" COMPONENT Runtime)
+		fixup_bundle(\"${APPS}\" \"${QTPLUGINS}\" \"${DIRS}\")" COMPONENT Runtime)
 		
 	else(APPLE)
 		set(CPACK_BINARY_DEB ON)
