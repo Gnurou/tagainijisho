@@ -614,7 +614,7 @@ Manche von ihnen sind eventuell noch vorhanden.</translation>
     </message>
     <message>
         <source>Characters</source>
-        <translation type="unfinished"></translation>
+        <translation>Schriftzeichen</translation>
     </message>
 </context>
 <context>
@@ -1551,26 +1551,26 @@ an Einträgen manipuliert werden.</translation>
     <name>KanaSelector</name>
     <message>
         <source>Form</source>
-        <translation type="unfinished">Formular</translation>
+        <translation>Formular</translation>
     </message>
     <message>
         <source>Hiragana</source>
-        <translation type="unfinished"></translation>
+        <translation>Hiragana</translation>
     </message>
     <message>
         <source>Katakana</source>
-        <translation type="unfinished"></translation>
+        <translation>Katakana</translation>
     </message>
     <message>
         <source>Obsolete</source>
-        <translation type="unfinished"></translation>
+        <translation>Veraltete</translation>
     </message>
 </context>
 <context>
     <name>KanaView</name>
     <message>
         <source>Select All</source>
-        <translation type="unfinished">Alle Auswählen</translation>
+        <translation>Alle Auswählen</translation>
     </message>
 </context>
 <context>
@@ -1962,19 +1962,19 @@ an Einträgen manipuliert werden.</translation>
     </message>
     <message>
         <source>Character flashcards</source>
-        <translation type="unfinished"></translation>
+        <translation>Lernkartei für Schriftzeichen</translation>
     </message>
     <message>
         <source>From &amp;character, whole study list</source>
-        <translation type="unfinished"></translation>
+        <translation>Aus den &amp;Schriftzeichen, gesamte Studienliste</translation>
     </message>
     <message>
         <source>From &amp;character, current set</source>
-        <translation type="unfinished"></translation>
+        <translation>Aus den &amp;Schriftzeichen, aktuelle Menge</translation>
     </message>
     <message>
         <source>Kana</source>
-        <translation type="unfinished">Kana</translation>
+        <translation>Kana</translation>
     </message>
 </context>
 <context>
@@ -2189,19 +2189,19 @@ an Einträgen manipuliert werden.</translation>
     </message>
     <message>
         <source>Kana selector</source>
-        <translation type="unfinished"></translation>
+        <translation>Kanaauswahl</translation>
     </message>
     <message>
         <source>Appearance</source>
-        <translation type="unfinished"></translation>
+        <translation>Aussehen</translation>
     </message>
     <message>
         <source>Character entries</source>
-        <translation type="unfinished"></translation>
+        <translation>Schriftzeichen</translation>
     </message>
     <message>
         <source>Character font</source>
-        <translation type="unfinished"></translation>
+        <translation>Schriftart für Schriftzeichen</translation>
     </message>
 </context>
 <context>
@@ -3149,19 +3149,19 @@ Diese Nachricht ist eine einmalige Erinnerung und wird nicht weiter erscheinen �
     </message>
     <message>
         <source>Answer (&amp;1)</source>
-        <translation type="unfinished"></translation>
+        <translation>Antwort (&amp;1)</translation>
     </message>
     <message>
         <source>Correct! (&amp;2)</source>
-        <translation type="unfinished"></translation>
+        <translation>Richtig! (&amp;2)</translation>
     </message>
     <message>
         <source>Wrong... (&amp;3)</source>
-        <translation type="unfinished"></translation>
+        <translation>Falsch... (&amp;3)</translation>
     </message>
     <message>
         <source>Skip (&amp;4)</source>
-        <translation type="unfinished"></translation>
+        <translation>Überspringen (&amp;4)</translation>
     </message>
 </context>
 <context>
