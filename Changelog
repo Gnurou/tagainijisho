@@ -1,4 +1,4 @@
-0.2.6 released on 2010/08/14
+0.2.6 released on 2010/08/16
 * Updated to SQLite 3.7.0.1
 * Added German translation (thanks Philipp Meyer!)
 * Kanji tooltip now disappear correctly when the pointed kanji loses focus
@@ -22,11 +22,13 @@
 * Fixed rendering bug that affected some kanji paths
 * Fixed ordering bug in kanji popup selector
 * Main writing changed to kana reading for dictionary entries which are
-  usually written in kana.
-* Added search filter for words written in kana.
-* Now uses the Fugue icon set by Yusuke Kamiyamane.
+  usually written in kana
+* Added search filter for words written in kana
+* Now uses the Fugue icon set by Yusuke Kamiyamane
 * Much improved build system, now Linux and Mac proof!
+* Ability to build rpm, deb and Mac packages directly from source using CPack
 * Ability to study hiragana and katakana with a kana table selector
+* Flashcards training shortcuts set to 1, 2, 3 and 4
 
 0.2.5 released on 2010/04/01
 * Updated to SQLite 3.6.23
