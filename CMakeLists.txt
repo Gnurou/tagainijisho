@@ -17,22 +17,8 @@ set(KANJIVG_SOURCE http://kanjivg.tagaini.net/upload/Main/kanjivg-latest.xml.gz)
 
 cmake_minimum_required(VERSION 2.8.1)
 
-find_program(MULTI_MARKDOWN NAMES mmd2XHTML.pl)
-find_program(GUNZIP NAMES gunzip)
 find_package(Qt4 4.5 REQUIRED)
-
-MACRO(GENERATE_DOCS _doc_files)
-  FOREACH (_current_FILE ${ARGN})
-    GET_FILENAME_COMPONENT(_abs_FILE ${_current_FILE} ABSOLUTE)
-    GET_FILENAME_COMPONENT(doc ${_abs_FILE} NAME_WE)
-    GET_SOURCE_FILE_PROPERTY(output_location ${_abs_FILE} OUTPUT_LOCATION)
-    SET(doc "${CMAKE_CURRENT_SOURCE_DIR}/doc/${doc}.html")
-    ADD_CUSTOM_COMMAND(OUTPUT ${doc}
-       COMMAND ${MULTI_MARKDOWN} ARGS ${_abs_FILE} DEPENDS ${_abs_FILE}
-    )
-    SET(${_doc_files} ${${_doc_files}} ${doc})
-  ENDFOREACH (_current_FILE)
-ENDMACRO(GENERATE_DOCS)
+find_program(GUNZIP NAMES gunzip)
 
 # Global GCC options
 if(CMAKE_COMPILER_IS_GNUCC)
@@ -58,7 +44,7 @@ if(NOT DICT_LANG)
 	set(DICT_LANG en)
 endif()
 # Set DICT_LANG to always appear in the cache
-set(DICT_LANG ${DICT_LANG} CACHE STRING "Languages to use for the dictionary data (space-separated 2-letter codes)")
+set(DICT_LANG ${DICT_LANG} CACHE STRING "Languages to use for the dictionary data (semicolon-separated 2-letter codes)")
 
 # Debug options
 option(DEBUG_ENTRIES_CACHE "Debug entries cache behavior" OFF)
@@ -69,12 +55,6 @@ option(DEBUG_QUERIES "Debug SQL queries" OFF)
 # Build tests suite?
 option(BUILD_TESTS "Build tests suite" OFF)
 
-# For config.h
-include_directories(${CMAKE_BINARY_DIR}/src)
-
-# For our own headers
-include_directories(${CMAKE_SOURCE_DIR}/src)
-
 # Databases helper targets
 add_custom_target(databases ALL)
 foreach(LANG ${DICT_LANG})
@@ -82,16 +62,17 @@ foreach(LANG ${DICT_LANG})
 	add_dependencies(databases databases-${LANG})
 endforeach(LANG ${DICT_LANG})
 
-# Source code location
+# Source code
 add_subdirectory(src)
 
 # i18n
 add_subdirectory(i18n)
 
+# Docs
+add_subdirectory(doc)
+
 # Packaging stuff
 add_subdirectory(pack)
-
-configure_file(${CMAKE_SOURCE_DIR}/src/tagaini_config.h.cmake ${CMAKE_BINARY_DIR}/src/tagaini_config.h)
 
 # External resources fetching and generation
 
@@ -118,21 +99,21 @@ else(${GUNZIP} MATCHES "GUNZIP-NOTFOUND")
 	if(NOT EXISTS ${CMAKE_SOURCE_DIR}/3rdparty/JMdict)
 		MESSAGE(STATUS "Downloading JMdict from ${JMDICT_SOURCE}")
 		FILE(DOWNLOAD ${JMDICT_SOURCE} ${CMAKE_SOURCE_DIR}/3rdparty/JMdict.gz)
-		execute_process(COMMAND gunzip ${CMAKE_SOURCE_DIR}/3rdparty/JMdict.gz WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/3rdparty)
+		execute_process(COMMAND ${GUNZIP} ${CMAKE_SOURCE_DIR}/3rdparty/JMdict.gz WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/3rdparty)
 	endif()
 
 	# Kanjidic2
 	if(NOT EXISTS ${CMAKE_SOURCE_DIR}/3rdparty/kanjidic2.xml)
 		MESSAGE(STATUS "Downloading Kanjidic2 ${KANJIDIC2_SOURCE}")
 		FILE(DOWNLOAD ${KANJIDIC2_SOURCE} ${CMAKE_SOURCE_DIR}/3rdparty/kanjidic2.xml.gz)
-		execute_process(COMMAND gunzip ${CMAKE_SOURCE_DIR}/3rdparty/kanjidic2.xml.gz WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/3rdparty)
+		execute_process(COMMAND ${GUNZIP} ${CMAKE_SOURCE_DIR}/3rdparty/kanjidic2.xml.gz WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/3rdparty)
 	endif()
 
 	# KanjiVG
 	if(NOT EXISTS ${CMAKE_SOURCE_DIR}/3rdparty/kanjivg.xml)
 		MESSAGE(STATUS "Downloading KanjiVG ${KANJIVG_SOURCE}")
 		FILE(DOWNLOAD ${KANJIVG_SOURCE} ${CMAKE_SOURCE_DIR}/3rdparty/kanjivg-latest.xml.gz)
-		execute_process(COMMAND gunzip ${CMAKE_SOURCE_DIR}/3rdparty/kanjivg-latest.xml.gz WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/3rdparty)
+		execute_process(COMMAND ${GUNZIP} ${CMAKE_SOURCE_DIR}/3rdparty/kanjivg-latest.xml.gz WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/3rdparty)
 		FILE(RENAME ${CMAKE_SOURCE_DIR}/3rdparty/kanjivg-latest.xml ${CMAKE_SOURCE_DIR}/3rdparty/kanjivg.xml)
 	endif()
 
@@ -146,15 +127,6 @@ else(${GUNZIP} MATCHES "GUNZIP-NOTFOUND")
 		endforeach(LINE ${LINES})
 	endif()
 endif(${GUNZIP} MATCHES "GUNZIP-NOTFOUND")
-
-# docs
-if(${MULTI_MARKDOWN} MATCHES "MULTI_MARKDOWN-NOTFOUND")
-	MESSAGE("MultiMarkdown not found, doc generation will not be available")
-else(${MULTI_MARKDOWN} MATCHES "MULTI_MARKDOWN-NOTFOUND")
-	FILE (GLOB DOCUMENTATION_FILES ${CMAKE_SOURCE_DIR}/doc/*.txt)
-	GENERATE_DOCS(DOC_FILES ${DOCUMENTATION_FILES})
-	add_custom_target (docs ALL DEPENDS ${DOC_FILES})
-endif(${MULTI_MARKDOWN} MATCHES "MULTI_MARKDOWN-NOTFOUND")
 
 # Uninstall
 configure_file("${CMAKE_CURRENT_SOURCE_DIR}/cmake_uninstall.cmake.in" "${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake" IMMEDIATE @ONLY)
