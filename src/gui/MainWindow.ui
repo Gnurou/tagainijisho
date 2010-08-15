@@ -60,15 +60,6 @@
     <addaction name="actionSupport_Tagaini_Jisho_Make_a_donation"/>
     <addaction name="action_About"/>
    </widget>
-   <widget class="QMenu" name="_setsMenu">
-    <property name="title">
-     <string>S&amp;ets</string>
-    </property>
-    <addaction name="action_New_set_from_current_search"/>
-    <addaction name="action_New_sets_folder"/>
-    <addaction name="action_Organize_sets"/>
-    <addaction name="separator"/>
-   </widget>
    <widget class="QMenu" name="_searchMenu">
     <property name="title">
      <string>&amp;Search</string>
@@ -80,6 +71,15 @@
      <string>P&amp;ractice</string>
     </property>
     <addaction name="actionWhole_study_list_train_settings"/>
+    <addaction name="separator"/>
+   </widget>
+   <widget class="QMenu" name="_setsMenu">
+    <property name="title">
+     <string>S&amp;ets</string>
+    </property>
+    <addaction name="action_New_set_from_current_search"/>
+    <addaction name="action_New_sets_folder"/>
+    <addaction name="action_Organize_sets"/>
     <addaction name="separator"/>
    </widget>
    <addaction name="_fileMenu"/>
@@ -162,7 +162,7 @@
   </action>
   <action name="action_New_set_from_current_search">
    <property name="text">
-    <string>&amp;New set from current search,,,</string>
+    <string>&amp;New set from current search...</string>
    </property>
   </action>
   <action name="action_New_sets_folder">
