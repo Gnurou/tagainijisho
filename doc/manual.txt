@@ -2,8 +2,8 @@ Title:	    Tagaini Jisho - User Manual
 Subtitle:   Usage Manual
 Web:	    tagaini.net
 Author:	    Neil Caldwell
-	    Alexandre Courbot
-Date:	    31 Mar 2010 - Sun 06 Jun 2010 
+            Alexandre Courbot
+Date:	    31 Mar 2010 - Sun 15 Aug 2010 
 Email:	    ncaldwell@alumnaie.net
 Copyright:  Creative Commons Attribution-Share Alike 3.0.
             http://creativecommons.org/licenses/by-sa/3.0/
@@ -42,6 +42,7 @@ entries.
 
 ### Study
 * Stroke order animations for more than 6000 kanji;
+* Kana panel that allows the study of hiragana and katakana;
 * Transparent connection of related entries, including transitive / 
   intransitive verb references, Homophones and Homographs. Tagaini maximises
   the logical connections between elements of the Japanese language in order
@@ -345,7 +346,8 @@ The first two text fields relate to the kanji found in vocab entries. The
 kanji. Next to it is a check-box labelled **Using studied kanji only**. It
 forces the search to use only kanji from the study list, and may be useful to
 find new words that you should be able to read, but are not necessarily
-studying.
+studying. If you also want to include words that are made of kana only in your
+search, check the **Include kana-only words** box.
 
 Kanji are made up of different sub-kanji, or components, so the **With
 components** field searches for kanji that include a component. This feature
@@ -704,6 +706,22 @@ Right clicking on the set will allow you to delete it and dragging them around
 will move them to the new position. This allows you to sort them amongst
 themselves as well as into new folders.
 
+The Kana Panel
+--------------
+Hiragana and Katakana are the first things any Japanese learner should study
+and remember. Tagaini offers a kana panel, accessible through the **F4**
+keyboard shortcut or through the **Search** menu.
+
+![Kana Panel](images/kana.png)
+
+It just displays the Hiragana or Kanakana character set, and let you choose
+whether you want to display obsolete characters or not. You can click on a
+character to display it in the detailed view, and then click on its title to
+display a stroke order animation. Kana characters can also been put into your
+study list, tagged, printed and so on - just make a selection of characters
+by pressing the ctrl or shift keys and clicking on them, and use the 
+right-click or top-left menu.
+
 Studying Entries
 ================
 
@@ -711,12 +729,12 @@ Practice
 --------
 
 The practise menu has four different options. Settings; vocab flash cards;
-kanji flash cards and reading practice. The flash card options are sub menus,
-each with **by set** and **entire study list** options for reading to
+character flash cards and reading practice. The flash card options are sub
+menus, each with **by set** and **entire study list** options for reading to
 translation and translation to reading.
 
 The settings window, brought up by clicking the **Whole study list train
-settings...** buttons, Which allows you to set what to include and exclude in
+settings...** buttons, allows you to set what to include and exclude in
 study exercises. The **date of last training** section specifies what to
 include based on the last time it was studied. It defaults to before
 yesterday, so it won't include anything that you have already studied in the
@@ -1139,18 +1157,6 @@ Inputting Japanese text is not handled by Tagaini, instead by what is called
 an Input Manager. You will need to install and use one of these to input
 Japanese text. For instructions on installing an IM, please see Tagaini's
 install guide.
-
-Tagaini won't compile from GIT
-------------------------------
-
-Tagaini depends on SQLite and various dictionaries sources, which are included
-into source releases but not into the Git repository. To compile from Git, you
-first have to get these external dependencies. This is the first command you
-need to run, from the install guides compiling from git section.
-
-     $ ./prepare-source.sh
-
-You may then proceed to the usual compilation process using CMake.
 
 Other Bugs
 ----------
