@@ -62,7 +62,7 @@ EntryListCache::EntryListCache()
 	getByParentPosQuery.prepare("select lists.rowid, parent, position, type, id, label from lists left join listsLabels on lists.rowid == listsLabels.rowid where lists.parent = ? and position = ?");
 //	getByParentPosRootQuery.prepare("select lists.rowid, parent, position, type, id, label from lists left join listsLabels on lists.rowid == listsLabels.rowid where lists.parent is null order by position limit 1 offset ?");
 	getByParentPosRootQuery.prepare("select lists.rowid, parent, position, type, id, label from lists left join listsLabels on lists.rowid == listsLabels.rowid where lists.parent is null and position = ?");
-	fixListPositionQuery.prepare("update lists set position = ? where rowid = ?");
+//	fixListPositionQuery.prepare("update lists set position = ? where rowid = ?");
 }
 
 EntryListCache &EntryListCache::instance()
@@ -95,13 +95,13 @@ const EntryListCachedEntry &EntryListCache::get(int parent, int pos)
 		query.exec();
 
 		EntryListCachedEntry nCache(query);
-		// Row inconsistency, try to fix!
+/*		// Row inconsistency, try to fix!
 		if (pos != nCache.position()) {
 			fixListPositionQuery.addBindValue(pos);
 			fixListPositionQuery.addBindValue(nCache.rowId());
 			fixListPositionQuery.exec();
 			nCache._position = pos;
-		}
+		}*/
 		rowIdCache[nCache.rowId()] = nCache;
 		rowParentCache[key] = nCache;
 	}

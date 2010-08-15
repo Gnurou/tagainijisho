@@ -96,7 +96,7 @@ private:
 	QSqlQuery getByIdQuery;
 	QSqlQuery getByParentPosQuery;
 	QSqlQuery getByParentPosRootQuery;
-	QSqlQuery fixListPositionQuery;
+//	QSqlQuery fixListPositionQuery;
 
 public:
 	/// Returns a reference to the unique instance of this class.
