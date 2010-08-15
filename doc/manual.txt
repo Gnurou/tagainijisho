@@ -735,7 +735,7 @@ different contents in the same window. It will either show the translation or
 reading first, from an entry that has been pulled either from the study list
 or the current set.
 
-![Vocab Training](images/tagaini_train_vocab.png)
+![Vocab Training](images/practice_flashcards.png)
 
 The flashcard window has four buttons up the top; **Answer** and **Skip**, as
 well as two initially greyed out options, **Correct** and **Wrong**.
