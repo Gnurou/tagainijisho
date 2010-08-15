@@ -93,6 +93,11 @@ private:
 	mutable QHash<QPair<int, int>, EntryListCachedEntry> rowParentCache;
 	QMutex _cacheLock;
 
+	QSqlQuery getByIdQuery;
+	QSqlQuery getByParentPosQuery;
+	QSqlQuery getByParentPosRootQuery;
+	QSqlQuery fixListPositionQuery;
+
 public:
 	/// Returns a reference to the unique instance of this class.
 	static EntryListCache &instance();

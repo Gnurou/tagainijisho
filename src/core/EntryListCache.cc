@@ -24,10 +24,9 @@ EntryListCachedEntry::EntryListCachedEntry()
 	_position = -1;
 	_type = -1;
 	_id = -1;
-	QSqlQuery query2;
-	query2.prepare("select count(*) from lists where parent is null");
-	query2.exec();
-	if (query2.next()) _count = query2.value(0).toInt();
+	QSqlQuery query;
+	query.exec("select count(*) from lists where parent is null");
+	if (query.next()) _count = query.value(0).toInt();
 	else _count = 0;
 }
 
@@ -58,6 +57,12 @@ EntryListCachedEntry::EntryListCachedEntry(QSqlQuery &query)
 
 EntryListCache::EntryListCache()
 {
+	getByIdQuery.prepare("select lists.rowid, parent, position, type, id, label from lists left join listsLabels on lists.rowid == listsLabels.rowid where lists.rowid = ?");
+//	getByParentPosQuery.prepare("select lists.rowid, parent, position, type, id, label from lists left join listsLabels on lists.rowid == listsLabels.rowid where lists.parent = ? order by position limit 1 offset ?");
+	getByParentPosQuery.prepare("select lists.rowid, parent, position, type, id, label from lists left join listsLabels on lists.rowid == listsLabels.rowid where lists.parent = ? and position = ?");
+//	getByParentPosRootQuery.prepare("select lists.rowid, parent, position, type, id, label from lists left join listsLabels on lists.rowid == listsLabels.rowid where lists.parent is null order by position limit 1 offset ?");
+	getByParentPosRootQuery.prepare("select lists.rowid, parent, position, type, id, label from lists left join listsLabels on lists.rowid == listsLabels.rowid where lists.parent is null and position = ?");
+	fixListPositionQuery.prepare("update lists set position = ? where rowid = ?");
 }
 
 EntryListCache &EntryListCache::instance()
@@ -70,11 +75,9 @@ const EntryListCachedEntry &EntryListCache::get(int rowId)
 {
 	QMutexLocker ml(&_cacheLock);
 	if (!rowIdCache.contains(rowId)) {
-		QSqlQuery query;
-		query.prepare("select lists.rowid, parent, position, type, id, label from lists left join listsLabels on lists.rowid == listsLabels.rowid where lists.rowid = ?");
-		query.addBindValue(rowId);
-		query.exec();
-		EntryListCachedEntry nCache(query);
+		getByIdQuery.addBindValue(rowId);
+		getByIdQuery.exec();
+		EntryListCachedEntry nCache(getByIdQuery);
 		rowIdCache[nCache.rowId()] = nCache;
 		rowParentCache[QPair<int, int>(nCache.parent(), nCache.position())] = nCache;
 	}
@@ -86,19 +89,17 @@ const EntryListCachedEntry &EntryListCache::get(int parent, int pos)
 	QMutexLocker ml(&_cacheLock);
 	QPair<int, int> key(parent, pos);
 	if (!rowParentCache.contains(key)) {
-		QSqlQuery query;
-		query.prepare(QString("select lists.rowid, parent, position, type, id, label from lists left join listsLabels on lists.rowid == listsLabels.rowid where lists.parent %1 order by position limit 1 offset ?").arg(parent == -1 ? "is null" : "= ?"));
+		QSqlQuery &query = parent == -1 ? getByParentPosRootQuery : getByParentPosQuery;
 		if (parent != -1) query.addBindValue(parent);
 		query.addBindValue(pos);
 		query.exec();
-		
+
 		EntryListCachedEntry nCache(query);
 		// Row inconsistency, try to fix!
 		if (pos != nCache.position()) {
-			query.prepare("update lists set position = ? where rowid = ?");
-			query.addBindValue(pos);
-			query.addBindValue(nCache.rowId());
-			query.exec();
+			fixListPositionQuery.addBindValue(pos);
+			fixListPositionQuery.addBindValue(nCache.rowId());
+			fixListPositionQuery.exec();
 			nCache._position = pos;
 		}
 		rowIdCache[nCache.rowId()] = nCache;
