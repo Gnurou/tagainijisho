@@ -2453,17 +2453,17 @@ improve performance when manipulating a large number of entries.</source>
         <translation>&amp;Programma</translation>
     </message>
     <message>
-        <location line="+21"/>
+        <location line="+34"/>
         <source>S&amp;ets</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+15"/>
+        <location line="-7"/>
         <source>P&amp;ractice</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+13"/>
+        <location line="+22"/>
         <source>Search</source>
         <translation type="unfinished">Zoeken</translation>
     </message>
@@ -2513,12 +2513,12 @@ improve performance when manipulating a large number of entries.</source>
         <translation type="obsolete">Volgende zoekopdracht</translation>
     </message>
     <message>
-        <location line="-172"/>
+        <location line="-181"/>
         <source>&amp;Search</source>
         <translation>&amp;Zoeken</translation>
     </message>
     <message>
-        <location line="-60"/>
+        <location line="-51"/>
         <source>Tagaini Jisho</source>
         <translation type="unfinished">Tagaini Jisho</translation>
     </message>
@@ -2583,11 +2583,12 @@ improve performance when manipulating a large number of entries.</source>
         <translation type="obsolete">&amp;Reeksen</translation>
     </message>
     <message>
+        <location line="+151"/>
         <source>&amp;New set from current search...</source>
-        <translation type="obsolete">&amp;Nieuwe reeks uit huidige zoekopdracht...</translation>
+        <translation type="unfinished">&amp;Nieuwe reeks uit huidige zoekopdracht...</translation>
     </message>
     <message>
-        <location line="+156"/>
+        <location line="+5"/>
         <source>&amp;New sets folder...</source>
         <translation>&amp;Nieuwe reeksenmap...</translation>
     </message>
@@ -2601,12 +2602,7 @@ improve performance when manipulating a large number of entries.</source>
         <translation type="obsolete">Oe&amp;fenen</translation>
     </message>
     <message>
-        <location line="-10"/>
-        <source>&amp;New set from current search,,,</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+15"/>
+        <location line="+5"/>
         <source>Whole study list train &amp;settings...</source>
         <translation>Oefeninstellingen voor de hele &amp;studielijst...</translation>
     </message>

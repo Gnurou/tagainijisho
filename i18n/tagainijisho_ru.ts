@@ -2081,12 +2081,12 @@ improve performance when manipulating a large number of entries.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-115"/>
+        <location line="-124"/>
         <source>&amp;Search</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-60"/>
+        <location line="-51"/>
         <source>Tagaini Jisho</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2101,12 +2101,7 @@ improve performance when manipulating a large number of entries.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-10"/>
-        <source>&amp;New set from current search,,,</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+15"/>
+        <location line="+5"/>
         <source>Whole study list train &amp;settings...</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2116,17 +2111,17 @@ improve performance when manipulating a large number of entries.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+24"/>
         <source>S&amp;ets</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+15"/>
+        <location line="-7"/>
         <source>P&amp;ractice</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+13"/>
+        <location line="+22"/>
         <source>Search</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2136,7 +2131,12 @@ improve performance when manipulating a large number of entries.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+90"/>
+        <location line="+57"/>
+        <source>&amp;New set from current search...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+33"/>
         <source>&amp;Report a bug...</source>
         <translation type="unfinished"></translation>
     </message>
