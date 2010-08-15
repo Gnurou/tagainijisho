@@ -2681,12 +2681,12 @@ an Einträgen manipuliert werden.</translation>
         <translation>&amp;Handbuch</translation>
     </message>
     <message>
-        <location line="-115"/>
+        <location line="-124"/>
         <source>&amp;Search</source>
         <translation>&amp;Suche</translation>
     </message>
     <message>
-        <location line="-60"/>
+        <location line="-51"/>
         <source>Tagaini Jisho</source>
         <translation>Tagaini Jisho</translation>
     </message>
@@ -2709,12 +2709,11 @@ an Einträgen manipuliert werden.</translation>
         <translation type="obsolete">&amp;Übung</translation>
     </message>
     <message>
-        <location line="-10"/>
         <source>&amp;New set from current search,,,</source>
-        <translation>&amp;Neue Menge aus aktueller Suche...</translation>
+        <translation type="obsolete">&amp;Neue Menge aus aktueller Suche...</translation>
     </message>
     <message>
-        <location line="+15"/>
+        <location line="+5"/>
         <source>Whole study list train &amp;settings...</source>
         <translation>&amp;Trainingseinstellungen der gesamten Studienliste...</translation>
     </message>
@@ -2729,7 +2728,12 @@ an Einträgen manipuliert werden.</translation>
         <translation>Suche</translation>
     </message>
     <message>
-        <location line="+105"/>
+        <location line="+72"/>
+        <source>&amp;New set from current search...</source>
+        <translation>&amp;Neue Menge aus aktueller Suche...</translation>
+    </message>
+    <message>
+        <location line="+33"/>
         <source>&amp;Report a bug...</source>
         <translation>&amp;Einen Bug melden...</translation>
     </message>
@@ -2861,17 +2865,17 @@ an Einträgen manipuliert werden.</translation>
         <translation>Unbenannter Ordner</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.ui" line="-184"/>
+        <location filename="../src/gui/MainWindow.ui" line="-171"/>
         <source>S&amp;ets</source>
         <translation>&amp;Mengen</translation>
     </message>
     <message>
-        <location line="+15"/>
+        <location line="-7"/>
         <source>P&amp;ractice</source>
         <translation>Ü&amp;bung</translation>
     </message>
     <message>
-        <location line="+28"/>
+        <location line="+37"/>
         <source>Lists</source>
         <translation>Listen</translation>
     </message>
