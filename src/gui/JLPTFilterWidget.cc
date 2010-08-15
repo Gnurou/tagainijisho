@@ -25,13 +25,13 @@ JLPTFilterWidget::JLPTFilterWidget(QWidget *parent) : SearchFilterWidget(parent)
 {
 	_propsToSave << "levels";
 
-	JLPT4CheckBox = new QCheckBox(tr("Level 4"), this);
+	JLPT4CheckBox = new QCheckBox(tr("Level N5"), this);
 	connect(JLPT4CheckBox, SIGNAL(toggled(bool)), this, SLOT(commandUpdate()));
-	JLPT3CheckBox = new QCheckBox(tr("Level 3"), this);
+	JLPT3CheckBox = new QCheckBox(tr("Level N4"), this);
 	connect(JLPT3CheckBox, SIGNAL(toggled(bool)), this, SLOT(commandUpdate()));
-	JLPT2CheckBox = new QCheckBox(tr("Level 2"), this);
+	JLPT2CheckBox = new QCheckBox(tr("Level N2"), this);
 	connect(JLPT2CheckBox, SIGNAL(toggled(bool)), this, SLOT(commandUpdate()));
-	JLPT1CheckBox = new QCheckBox(tr("Level 1"), this);
+	JLPT1CheckBox = new QCheckBox(tr("Level N1"), this);
 	connect(JLPT1CheckBox, SIGNAL(toggled(bool)), this, SLOT(commandUpdate()));
 
 	QHBoxLayout *hLayout = new QHBoxLayout(this);
