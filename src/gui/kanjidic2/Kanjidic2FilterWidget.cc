@@ -154,7 +154,7 @@ Kanjidic2FilterWidget::Kanjidic2FilterWidget(QWidget *parent) : SearchFilterWidg
 		actionGroup->setExclusive(false);
 		for (int i = 1 ; i <= 10; i++) {
 			if (i == 7) continue;
-			action = actionGroup->addAction(tr(Kanjidic2GUIPlugin::kanjiGrades[i].toLatin1()));
+			action = actionGroup->addAction(QCoreApplication::translate("Kanjidic2GUIPlugin", Kanjidic2GUIPlugin::kanjiGrades[i].toLatin1()));
 			action->setProperty("Agrade", i);
 			action->setCheckable(true);
 		}

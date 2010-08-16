@@ -328,7 +328,7 @@ void Kanjidic2EntryFormatter::showToolTip(const ConstKanjidic2EntryPointer entry
 		++tCpt;
 	}
 	if (entry->grade() != -1 && tooltipShowGrade.value()) {
-		QString body(tr("<b>Grade:</b> %1").arg(tr(Kanjidic2GUIPlugin::kanjiGrades[entry->grade()].toLatin1())));
+		QString body(tr("<b>Grade:</b> %1").arg(QCoreApplication::translate("Kanjidic2GUIPlugin", Kanjidic2GUIPlugin::kanjiGrades[entry->grade()].toLatin1())));
 		if (tCpt % 2) s += "<td>" + body + "</td></tr>";
 		else s += "<tr><td>" + body + "</td>";
 		++tCpt;
@@ -477,7 +477,7 @@ QString Kanjidic2EntryFormatter::formatGrade(const ConstEntryPointer &_entry) co
 {
 	ConstKanjidic2EntryPointer entry(_entry.staticCast<const Kanjidic2Entry>());
 	if (entry->grade() != -1 && showGrade.value()) {
-		return QString("<b>%1:</b> %2").arg(tr("Grade")).arg(Kanjidic2GUIPlugin::kanjiGrades[entry->grade()]);
+		return QString("<b>%1:</b> %2").arg(tr("Grade")).arg(QCoreApplication::translate("Kanjidic2GUIPlugin", Kanjidic2GUIPlugin::kanjiGrades[entry->grade()].toLatin1()));
 	}
 	return "";
 }
