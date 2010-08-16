@@ -23,7 +23,7 @@
 
 using namespace SQLite;
 
-Query::Query() : _stmt(0), _connection(0), _state(INVALID)
+Query::Query() : _stmt(0), _connection(0), _state(INVALID), _bindIndex(0)
 {
 }
 
@@ -44,6 +44,7 @@ void Query::useWith(Connection *connection)
 		_stmt = 0;
 	}
 	_connection = connection;
+	_bindIndex = 0;
 	if (connection) _state = BLANK;
 	else _state = INVALID;
 }
@@ -63,6 +64,7 @@ bool Query::prepare(const QString &statement)
 		return false;
 	}
 	_state = PREPARED;
+	_bindIndex = 0;
 	return true;
 }
 
@@ -70,6 +72,9 @@ bool Query::bindValue(const QVariant &val, int col)
 {
 	if (!_stmt) return false;
 	int ret;
+
+	if (col == 0) col = ++_bindIndex;
+	else _bindIndex = col;
 
 	if (val.isNull()) ret = sqlite3_bind_null(_stmt, col);
 	else switch(val.type()) {
@@ -96,7 +101,6 @@ bool Query::bindValue(const QVariant &val, int col)
 	}
 	if (ret != SQLITE_OK) {
 		_connection->getError();
-		qDebug() << _connection->lastError().message();
 		_state = ERROR;
 		return false;
 	}
@@ -108,6 +112,8 @@ void Query::reset()
 {
 	if (!_stmt) return;
 	sqlite3_reset(_stmt);
+	_state = PREPARED;
+	_bindIndex = 0;
 }
 
 bool Query::exec()
@@ -146,12 +152,18 @@ bool Query::next()
 	}
 }
 
+bool Query::exec(const QString &query)
+{
+	if (!prepare(query)) return false;
+	return exec();
+}
+
 bool Query::seek(int index, bool relative)
 {
 	return false;
 }
 
-qint64 Query::lastInsertedRowId() const
+qint64 Query::lastInsertId() const
 {
 	if (!_stmt) return 0;
 
@@ -176,5 +188,10 @@ QVariant Query::value(int column) const
 	default:
 		return QVariant();
 	}
+}
+
+const Error &Query::lastError() const
+{
+	return _connection->lastError();
 }
 

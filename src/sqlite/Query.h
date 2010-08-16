@@ -18,6 +18,8 @@
 #ifndef __SQLITE_QUERY_H
 #define __SQLITE_QUERY_H
 
+#include "sqlite/Error.h"
+
 #include <QObject>
 #include <QVariant>
 
@@ -38,6 +40,7 @@ private:
 	sqlite3_stmt *_stmt;
 	Connection *_connection;
 	enum { INVALID, BLANK, PREPARED, RUN, FIRSTRES, DONE, ERROR } _state;
+	quint8 _bindIndex;
 
 	/// Copy is forbidden
 	Query &operator =(const Query &query);
@@ -58,14 +61,17 @@ public:
 	void reset();
 	bool prepare(const QString &query);
 	bool exec();
-	bool bindValue(const QVariant &val, int col);
+	bool exec(const QString &query);
+	bool bindValue(const QVariant &val, int col = 0);
 	
 	bool next();
 	bool seek(int index, bool relative = false);
-	qint64 lastInsertedRowId() const;
+	qint64 lastInsertId() const;
 	QVariant value(int column) const;
 	
 	void clear();
+
+	const Error &lastError() const;
 };
 	
 }

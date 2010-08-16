@@ -21,7 +21,10 @@ set(tagainijisho_newsqlite_SRCS
 Error.cc
 Connection.cc
 Query.cc
-${CMAKE_SOURCE_DIR}/3rdparty/sqlite/sqlite3.c
+sqlite3all.c
+sqlite3ext.cc
+# TODO Lame!
+${CMAKE_SOURCE_DIR}/src/core/TextTools.cc
 )
 
 qt4_wrap_cpp(tagainijisho_newsqlite_MOC_SRCS
