@@ -2788,7 +2788,7 @@ améliorer les performances en cas de manipulation de nombreuses entrées.</tran
     <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2Preferences.cc" line="+27"/>
         <source>Character entries</source>
-        <translation>Entrée de caractères</translation>
+        <translation>Entrées de caractères</translation>
     </message>
     <message>
         <location line="+43"/>
@@ -3082,7 +3082,7 @@ Ce message de rappel n&apos;apparaîtra dorénavant plus - vous pouvez toujours 
     <message>
         <location line="+3"/>
         <source>Nah</source>
-        <translation>Nan...</translation>
+        <translation>Nan</translation>
     </message>
     <message>
         <location line="+25"/>
@@ -3778,7 +3778,7 @@ Ce message de rappel n&apos;apparaîtra dorénavant plus - vous pouvez toujours 
     <message>
         <location line="+9"/>
         <source>&amp;Reset search...</source>
-        <translation>&amp;Réinitialiser la recherche</translation>
+        <translation>&amp;Réinitialiser la recherche...</translation>
     </message>
     <message>
         <source>Show all results</source>
