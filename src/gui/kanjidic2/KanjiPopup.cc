@@ -196,7 +196,7 @@ void KanjiPopup::updateInfo()
 	if (entry->frequency() != -1)
 		str += tr("<b>Freq:</b> %1<br/>").arg(entry->frequency());
 	if (entry->jlpt() != -1)
-		str += tr("<b>Grade:</b> %1<br/>").arg(Kanjidic2GUIPlugin::kanjiGrades[entry->grade()]);
+		str += tr("<b>Grade:</b> %1<br/>").arg(QCoreApplication::translate("Kanjidic2GUIPlugin", Kanjidic2GUIPlugin::kanjiGrades[entry->grade()].toLatin1()));
 	if (entry->jlpt() != -1)
 		str += tr("<b>JLPT:</b> %1<br/>").arg(entry->jlpt());
 	if (entry->trained())
