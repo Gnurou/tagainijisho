@@ -62,15 +62,15 @@ Makefiles for your platform:
 $ cmake .
 
 Unix users: by default, the program will be installed into /usr/local. You can
-change this by setting the INSTALL_PREFIX variable when invoking CMake:
+change this by setting the CMAKE_INSTALL_PREFIX variable when invoking CMake:
 
-$ cmake INSTALL_PREFIX=/path/to/install/dir .
+$ cmake . -DCMAKE_INSTALL_PREFIX=/path/to/install/dir
 
 You can also specify which language should be preferred for the dictionaries
 by passing the -DDICT_LANG=<lang> option to CMake. If you want to build your
 dictionaries in French, you can invoke CMake this way:
 
-$ cmake -DDICT_LANG=fr .
+$ cmake . -DDICT_LANG=fr
 
 After CMake is run, compilation may be performed. On Unix systems, invoking 
 make will be enough:
