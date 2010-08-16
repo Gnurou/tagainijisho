@@ -88,6 +88,7 @@ if(UNIX)
 		
 	else(APPLE)
 		set(CPACK_BINARY_DEB ON)
+		set(CPACK_PACKAGE_NAME "tagainijisho")	
 		foreach(LANG ${DICT_LANG})
 			install(FILES ${CMAKE_BINARY_DIR}/jmdict-${LANG}.db DESTINATION share/tagainijisho PERMISSIONS OWNER_READ GROUP_READ WORLD_READ COMPONENT Runtime)
 			install(FILES ${CMAKE_BINARY_DIR}/kanjidic2-${LANG}.db DESTINATION share/tagainijisho PERMISSIONS OWNER_READ GROUP_READ WORLD_READ COMPONENT Runtime)
