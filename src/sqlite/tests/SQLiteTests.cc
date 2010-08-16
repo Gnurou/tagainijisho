@@ -17,17 +17,68 @@
 
 #include "SQLiteTests.h"
 
+#include <QtDebug>
+#include <QTemporaryFile>
 
 void SQLiteTests::initTestCase()
 {
+	QVERIFY(dbFile.open());
+	QVERIFY(attachedFile.open());
 }
 
 void SQLiteTests::cleanupTestCase()
 {
 }
 
-void SQLiteTests::connectDB()
+void SQLiteTests::connectionConnect()
 {
+	QTemporaryFile bogusFile;
+
+	// Initial state
+	QVERIFY(connection.connected() == false);
+	QVERIFY(connection.dbFileName() == "");
+	QVERIFY(connection.lastError().isError() == false);
+	// State after connection
+	QVERIFY(connection.connect(dbFile.fileName()) == true);
+	QVERIFY(connection.connected() == true);
+	QVERIFY(connection.dbFileName() == dbFile.fileName());
+	QVERIFY(connection.lastError().isError() == false);
+	// Shall not be able to connect twice
+	QVERIFY(connection.connect(bogusFile.fileName()) == false);
+	QVERIFY(connection.connected() == true);
+	QVERIFY(connection.dbFileName() == dbFile.fileName());
+	QVERIFY(connection.lastError().isError() == true);
+}
+
+void SQLiteTests::connectionAttach()
+{
+	QVERIFY(connection.attach(attachedFile.fileName(), "attacheddb") == true);
+}
+
+void SQLiteTests::connectionDetach()
+{
+	QVERIFY(connection.detach("attacheddb") == true);
+}
+
+void SQLiteTests::connectionClose()
+{
+	QVERIFY(connection.close() == true);
+	QVERIFY(connection.connected() == false);
+	QVERIFY(connection.dbFileName().isEmpty());
+	QVERIFY(connection.lastError().isError() == false);
+	// Cannot close twice
+	QVERIFY(connection.close() == false);
+	QVERIFY(connection.lastError().isError() == true);
+	// Can safely connect after closing
+	QVERIFY(connection.connect(dbFile.fileName()) == true);
+	QVERIFY(connection.connected() == true);
+	QVERIFY(connection.dbFileName() == dbFile.fileName());
+	QVERIFY(connection.lastError().isError() == false);
+	// Close and verify again
+	QVERIFY(connection.close() == true);
+	QVERIFY(connection.connected() == false);
+	QVERIFY(connection.dbFileName().isEmpty());
+	QVERIFY(connection.lastError().isError() == false);
 }
 
 QTEST_MAIN(SQLiteTests)
