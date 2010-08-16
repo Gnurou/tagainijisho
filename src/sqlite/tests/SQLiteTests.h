@@ -18,15 +18,27 @@
 #include <QObject>
 #include <QTest>
 
+#include <sqlite/Connection.h>
+
+#include <QTemporaryFile>
+
 /**
  * Test class that checks the database interface.
  */
 class SQLiteTests : public QObject
 {
 	Q_OBJECT
+private:
+	SQLite::Connection connection;
+	QTemporaryFile dbFile;
+	QTemporaryFile attachedFile;
+
 private slots:
 	void initTestCase();
 	void cleanupTestCase();
 
-	void connectDB();
+	void connectionConnect();
+	void connectionAttach();
+	void connectionDetach();
+	void connectionClose();
 };

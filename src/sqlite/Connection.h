@@ -22,12 +22,21 @@
 
 #include <QObject>
 
-namespace sqlite {
+struct sqlite3;
+namespace SQLite {
 
 class Connection : public QObject
 {
 Q_OBJECT
+friend class Error;
 private:
+	sqlite3 *_handler;
+	QString _dbFile;
+	mutable Error _lastError;
+
+	void getError() const;
+	void noError() const;
+
 public:
 	Connection(QObject *parent = 0);
 	~Connection();
@@ -37,15 +46,24 @@ public:
 	 * of success, false otherwise.
 	 */
 	bool connect(const QString &dbFile);
+
+	bool connected() const { return _handler != 0; }
+
+	const QString &dbFileName() const { return _dbFile; }
+
+	bool close();
+
 	/**
 	 * Attach the database file given as parameter to alias. Returns true
 	 * in case of success, false otherwise.
 	 */
 	bool attach(const QString &dbFile, const QString &alias);
+
 	/**
 	 * Detach the previously attached database alias.
 	 */
 	bool detach(const QString &alias);
+
 	/// Returns the last error that happened on this connection
 	Error lastError();
 };

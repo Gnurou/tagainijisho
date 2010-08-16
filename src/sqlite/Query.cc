@@ -17,9 +17,9 @@
 
 #include "sqlite/Query.h"
 
-using namespace sqlite;
+using namespace SQLite;
 
-Query::Query(QObject *parent) : QObject(parent)
+Query::Query()
 {
 }
 

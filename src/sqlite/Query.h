@@ -21,18 +21,20 @@
 #include <QObject>
 #include <QVariant>
 
-namespace sqlite {
+struct sqlite3_stmt;
+namespace SQLite {
 
 /**
  * A lightweight Qt/SQLite query wrapper class that provides an interface
  * similar to that of QSqlQuery but does not require QtSql.
  */
-class Query : public QObject
+class Query
 {
-	Q_OBJECT
 private:
+	sqlite3_stmt *_stmt;
+
 public:
-	Query(QObject *parent = 0);
+	Query();
 	~Query();
 	
 	bool prepare(const QString &query);
