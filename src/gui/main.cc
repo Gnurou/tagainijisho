@@ -220,9 +220,12 @@ int main(int argc, char *argv[])
 	// threads every time an Entry is deleted
 	EntriesCache::init();
 
+	QStringList args(app.arguments());
+
 	// Start database thread
 	// TODO check return value
-	Database::startThreaded();
+	bool temporaryDB = args.contains("--temp-db");
+	Database::startThreaded(temporaryDB);
 
 	// Initialize tags
 	Tag::init();
