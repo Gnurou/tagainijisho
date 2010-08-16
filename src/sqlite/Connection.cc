@@ -68,6 +68,7 @@ bool Connection::close()
 		return false;
 	}
 
+
 	int res = sqlite3_close(_handler);
 	if (res != SQLITE_OK) {
 		getError();
