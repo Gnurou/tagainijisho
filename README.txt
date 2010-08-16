@@ -98,6 +98,12 @@ Usage
 -----
 For a detailed user manual, please see http://www.tagaini.net/manual.
 
+In addition to Qt's standard arguments, Tagaini also supports the following
+command-line arguments:
+--temp-db	start the program on an empty, temporary database that will
+		be removed once the program exits. This is useful for testing
+		new things on a clean database.
+
 Known bugs
 ----------
 - Kanji stroke order may not always be accurate. Please report incorrect kanji

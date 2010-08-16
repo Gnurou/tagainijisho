@@ -272,18 +272,18 @@ Qt::ConnectionType Database::aSyncConnection() { return alwaysSync; }
 // thread is ready to work (i.e. slots are correctly connected).
 QSemaphore startSem(0);
 
-void Database::startThreaded()
+void Database::startThreaded(bool temporary)
 {
-	_instance = new Database();
+	_instance = new Database(temporary);
 	_instance->start();
 	// Block until the database thread is ready
 	startSem.acquire();
 }
 
-void Database::startUnthreaded()
+void Database::startUnthreaded(bool temporary)
 {
 	alwaysSync = Qt::AutoConnection;
-	_instance = new Database();
+	_instance = new Database(temporary);
 	_instance->run();
 }
 
@@ -352,7 +352,7 @@ static void load_extensions(sqlite3 *handler)
 	//register_all_tokenizers(handler);
 }
 
-Database::Database(QObject *parent) : QThread(parent), _tFile(0), sqliteHandler(0)
+Database::Database(bool temporary, QObject *parent) : QThread(parent), _tFile(0), sqliteHandler(0)
 {
 	sqlite3_auto_extension((void (*)())load_extensions);
 	
@@ -360,12 +360,13 @@ Database::Database(QObject *parent) : QThread(parent), _tFile(0), sqliteHandler(
 	QSQLiteDriver *driver = new QSQLiteDriver();
 
 	database = QSqlDatabase::addDatabase(driver);
-	// Cannot connect to user DB - try to switch to the temporary database
-	if (!connectUserDB()) {
+	// Temporary database explicitly required or cannot connect to user DB:
+	// Switch to the temporary database
+	if (temporary || !connectUserDB()) {
 		if (!connectToTemporaryDatabase()) {
 			dbWarning(tr("Temporary database fallback failed. The program will now exit."));
 			qFatal("All database fallbacks failed, exiting...");
-		} else {
+		} else if (!temporary) {
 			dbWarning(tr("Tagaini is working on a temporary database. This allows the program to work, but user data is unavailable and any change will be lost upon program exit. If you corrupted your database file, please recreate it from the preferences."));
 		}
 	}
