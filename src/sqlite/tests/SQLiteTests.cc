@@ -81,21 +81,22 @@ void SQLiteTests::queryPrepare()
 
 void SQLiteTests::queryBind()
 {
-	QVERIFY(query.bindValue((quint32)0xffffffff, 1));
-	QVERIFY(query.bindValue((qlonglong)0xffffffffffffffff, 2));
-	QVERIFY(query.bindValue(3.14157, 3));
-	QVERIFY(query.bindValue(QString::fromUtf8("あいうえお"), 4));
+	query.reset();
+	QVERIFY(query.bindValue((quint32)0xffffffff));
+	QVERIFY(query.bindValue((qlonglong)0xffffffffffffffff));
+	QVERIFY(query.bindValue(3.14157));
+	QVERIFY(query.bindValue(QString::fromUtf8("あいうえお")));
 	QByteArray bArray;
 	bArray.append("abcdefghifklmnop");
-	QVERIFY(query.bindValue(bArray, 5));
-	QVERIFY(query.bindValue(QVariant(QVariant::String), 6));
+	QVERIFY(query.bindValue(bArray));
+	QVERIFY(query.bindValue(QVariant(QVariant::String)));
 }
 
 void SQLiteTests::queryInsert()
 {
 	QVERIFY(query.exec());
 	QVERIFY(!query.next());
-	QCOMPARE(query.lastInsertedRowId(), (qint64)1);
+	QCOMPARE(query.lastInsertId(), (qint64)1);
 }
 
 void SQLiteTests::queryRetrieve()

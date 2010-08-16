@@ -70,7 +70,7 @@ public:
 	bool detach(const QString &alias);
 
 	/// Returns the last error that happened on this connection
-	Error lastError();
+	const Error &lastError() const;
 
 	sqlite3 *sqlite3Handler() { return _handler; }
 
@@ -79,6 +79,10 @@ public:
 	 * to execute non-queries like table creation or pragmas.
 	 */
 	bool exec(const QString &statement);
+
+	bool transaction();
+	bool commit();
+	bool rollback();
 };
 
 }

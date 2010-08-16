@@ -90,7 +90,7 @@ bool Connection::detach(const QString &alias)
 	return exec(QString("detach database %1").arg(alias));
 }
 
-Error Connection::lastError()
+const Error &Connection::lastError() const
 {
 	return _lastError;
 }
@@ -119,4 +119,19 @@ bool Connection::exec(const QString &statement)
 cleanError:
 	sqlite3_finalize(stmt);
 	return false;
+}
+
+bool Connection::transaction()
+{
+	return exec("begin");
+}
+
+bool Connection::commit()
+{
+	return exec("commit");
+}
+
+bool Connection::rollback()
+{
+	return exec("rollback");
 }
