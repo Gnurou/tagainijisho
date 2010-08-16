@@ -71,6 +71,14 @@ public:
 
 	/// Returns the last error that happened on this connection
 	Error lastError();
+
+	sqlite3 *sqlite3Handler() { return _handler; }
+
+	/**
+	 * Execute a single statement directly. Should only be used
+	 * to execute non-queries like table creation or pragmas.
+	 */
+	bool exec(const QString &statement);
 };
 
 }

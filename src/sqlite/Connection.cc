@@ -82,59 +82,41 @@ bool Connection::close()
 
 bool Connection::attach(const QString &dbFile, const QString &alias)
 {
-	sqlite3_stmt *stmt;
-	QString statement(QString("attach database '%1' as %2").arg(dbFile).arg(alias));
-	int res = sqlite3_prepare_v2(_handler, statement.toUtf8().data(), -1, &stmt, 0);
-	if (res != SQLITE_OK) {
-		getError();
-		return false;
-	}
-	res = sqlite3_step(stmt);
-	if (res != SQLITE_DONE) {
-		getError();
-		goto cleanError;
-	}
-	res = sqlite3_finalize(stmt);
-	if (res != SQLITE_OK) {
-		getError();
-		return false;
-	}
-	noError();
-	return true;
-
-cleanError:
-	sqlite3_finalize(stmt);
-	return false;
+	return exec(QString("attach database '%1' as %2").arg(dbFile).arg(alias));
 }
 
 bool Connection::detach(const QString &alias)
 {
-	sqlite3_stmt *stmt;
-	QString statement(QString("detach database %1").arg(alias));
-	int res = sqlite3_prepare_v2(_handler, statement.toUtf8().data(), -1, &stmt, 0);
-	if (res != SQLITE_OK) {
-		getError();
-		return false;
-	}
-	res = sqlite3_step(stmt);
-	if (res != SQLITE_DONE) {
-		getError();
-		goto cleanError;
-	}
-	res = sqlite3_finalize(stmt);
-	if (res != SQLITE_OK) {
-		getError();
-		return false;
-	}
-	noError();
-	return true;
-
-cleanError:
-	sqlite3_finalize(stmt);
-	return false;
+	return exec(QString("detach database %1").arg(alias));
 }
 
 Error Connection::lastError()
 {
 	return _lastError;
+}
+
+bool Connection::exec(const QString &statement)
+{
+	sqlite3_stmt *stmt;
+	int res = sqlite3_prepare_v2(_handler, statement.toUtf8().data(), -1, &stmt, 0);
+	if (res != SQLITE_OK) {
+		getError();
+		return false;
+	}
+	res = sqlite3_step(stmt);
+	if (res != SQLITE_DONE) {
+		getError();
+		goto cleanError;
+	}
+	res = sqlite3_finalize(stmt);
+	if (res != SQLITE_OK) {
+		getError();
+		return false;
+	}
+	noError();
+	return true;
+
+cleanError:
+	sqlite3_finalize(stmt);
+	return false;
 }
