@@ -19,8 +19,10 @@
 #define __SQLITE_CONNECTION_H
 
 #include "sqlite/Error.h"
+#include "sqlite/Query.h"
 
 #include <QObject>
+#include <QList>
 
 struct sqlite3;
 namespace SQLite {
@@ -29,10 +31,13 @@ class Connection : public QObject
 {
 Q_OBJECT
 friend class Error;
+friend class Query;
 private:
 	sqlite3 *_handler;
 	QString _dbFile;
 	mutable Error _lastError;
+
+	QList<Query> _queries;
 
 	void getError() const;
 	void noError() const;

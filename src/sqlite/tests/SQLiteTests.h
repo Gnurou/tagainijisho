@@ -19,6 +19,7 @@
 #include <QTest>
 
 #include <sqlite/Connection.h>
+#include <sqlite/Query.h>
 
 #include <QTemporaryFile>
 
@@ -30,6 +31,8 @@ class SQLiteTests : public QObject
 	Q_OBJECT
 private:
 	SQLite::Connection connection;
+	SQLite::Query query;
+
 	QTemporaryFile dbFile;
 	QTemporaryFile attachedFile;
 
@@ -39,6 +42,13 @@ private slots:
 
 	void connectionConnect();
 	void connectionAttach();
+	void queryBlank();
+	void queryCreate();
+	void queryPrepare();
+	void queryBind();
+	void queryInsert();
+	void queryRetrieve();
+	void queryClean();
 	void connectionDetach();
 	void connectionClose();
 };

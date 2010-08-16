@@ -22,7 +22,10 @@
 #include <QVariant>
 
 struct sqlite3_stmt;
+
 namespace SQLite {
+
+class Connection;
 
 /**
  * A lightweight Qt/SQLite query wrapper class that provides an interface
@@ -30,21 +33,37 @@ namespace SQLite {
  */
 class Query
 {
+friend class Connection;
 private:
 	sqlite3_stmt *_stmt;
+	Connection *_connection;
+	enum { INVALID, BLANK, PREPARED, RUN, FIRSTRES, DONE, ERROR } _state;
+
+	/// Copy is forbidden
+	Query &operator =(const Query &query);
 
 public:
+	/**
+	 * Makes an invalid query. Useful only as a placeholder.
+	 */
 	Query();
+	Query(Connection *connection);
 	~Query();
-	
+
+	void useWith(Connection *connection);
+
+	bool isValid() const { return _connection != 0; }
+	Connection *connection() { return _connection; }
+
+	void reset();
 	bool prepare(const QString &query);
-	void addBindValue(const QVariant &val);
-	bool exec(const QString &query);
 	bool exec();
+	bool bindValue(const QVariant &val, int col);
 	
 	bool next();
 	bool seek(int index, bool relative = false);
-	QVariant value(int index) const;
+	qint64 lastInsertedRowId() const;
+	QVariant value(int column) const;
 	
 	void clear();
 };

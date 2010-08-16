@@ -55,6 +55,76 @@ void SQLiteTests::connectionAttach()
 	QVERIFY(connection.attach(attachedFile.fileName(), "attacheddb") == true);
 }
 
+void SQLiteTests::queryBlank()
+{
+	QVERIFY(query.connection() == 0);
+	QVERIFY(query.isValid() == false);
+}
+
+void SQLiteTests::queryCreate()
+{
+	query.useWith(&connection);
+	QVERIFY(query.connection() == &connection);
+	QVERIFY(query.isValid() == true);
+	QVERIFY(query.next() == false);
+	QVERIFY(query.seek(0, false) == false);
+	QVERIFY(query.value(0).isValid() == false);
+	QVERIFY(query.prepare("create table test(col1 int, col2 bigint, col3 float, col4 text, col5 blob, col6 tinyint)"));
+	QVERIFY(query.exec());
+	QVERIFY(!query.next());
+}
+
+void SQLiteTests::queryPrepare()
+{
+	QVERIFY(query.prepare("insert into test values(?, ?, ?, ?, ?, ?)"));
+}
+
+void SQLiteTests::queryBind()
+{
+	QVERIFY(query.bindValue((quint32)0xffffffff, 1));
+	QVERIFY(query.bindValue((qlonglong)0xffffffffffffffff, 2));
+	QVERIFY(query.bindValue(3.14157, 3));
+	QVERIFY(query.bindValue(QString::fromUtf8("あいうえお"), 4));
+	QByteArray bArray;
+	bArray.append("abcdefghifklmnop");
+	QVERIFY(query.bindValue(bArray, 5));
+	QVERIFY(query.bindValue(QVariant(QVariant::String), 6));
+}
+
+void SQLiteTests::queryInsert()
+{
+	QVERIFY(query.exec());
+	QVERIFY(!query.next());
+	QCOMPARE(query.lastInsertedRowId(), (qint64)1);
+}
+
+void SQLiteTests::queryRetrieve()
+{
+	QVERIFY(query.prepare("select * from test"));
+	QVERIFY(query.exec());
+	QVERIFY(query.next());
+	QCOMPARE(query.value(0).type(), QVariant::LongLong);
+	QCOMPARE(query.value(0).toULongLong(), (quint64)0xffffffff);
+	QCOMPARE(query.value(1).type(), QVariant::LongLong);
+	QCOMPARE(query.value(1).toULongLong(), (quint64)0xffffffffffffffff);
+	QCOMPARE(query.value(2).type(), QVariant::Double);
+	QCOMPARE(query.value(2).toDouble(), 3.14157);
+	QCOMPARE(query.value(3).type(), QVariant::String);
+	QCOMPARE(query.value(3).toString(), QString::fromUtf8("あいうえお"));
+	QCOMPARE(query.value(4).type(), QVariant::ByteArray);
+	QByteArray bArray;
+	bArray.append("abcdefghifklmnop");
+	QCOMPARE(query.value(4).toByteArray(), bArray);
+	QVERIFY(query.value(5).isNull());
+}
+
+void SQLiteTests::queryClean()
+{
+	// Otherwise the connection will refuse to close
+	query.useWith(0);
+	QVERIFY(!query.isValid());
+}
+
 void SQLiteTests::connectionDetach()
 {
 	QVERIFY(connection.detach("attacheddb") == true);

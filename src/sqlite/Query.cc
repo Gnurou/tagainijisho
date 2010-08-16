@@ -16,13 +16,165 @@
  */
 
 #include "sqlite/Query.h"
+#include "sqlite/Connection.h"
+#include "sqlite3.h"
+
+#include <QtDebug>
 
 using namespace SQLite;
 
-Query::Query()
+Query::Query() : _stmt(0), _connection(0), _state(INVALID)
 {
+}
+
+Query::Query(Connection *connection) : _stmt(0)
+{
+	useWith(connection);
 }
 
 Query::~Query()
 {
+	useWith(0);
 }
+
+void Query::useWith(Connection *connection)
+{
+	if (_stmt) {
+		sqlite3_finalize(_stmt);
+		_stmt = 0;
+	}
+	_connection = connection;
+	if (connection) _state = BLANK;
+	else _state = INVALID;
+}
+
+bool Query::prepare(const QString &statement)
+{
+	if (!_connection) return false;
+	if (_stmt) {
+		sqlite3_finalize(_stmt);
+		_stmt = 0;
+	}
+
+	int res = sqlite3_prepare_v2(_connection->_handler, statement.toUtf8().data(), -1, &_stmt, 0);
+	if (res != SQLITE_OK) {
+		_connection->getError();
+		_state = ERROR;
+		return false;
+	}
+	_state = PREPARED;
+	return true;
+}
+
+bool Query::bindValue(const QVariant &val, int col)
+{
+	if (!_stmt) return false;
+	int ret;
+
+	if (val.isNull()) ret = sqlite3_bind_null(_stmt, col);
+	else switch(val.type()) {
+	case QVariant::Int:
+	case QVariant::UInt:
+	case QVariant::LongLong:
+	case QVariant::ULongLong:
+		ret = sqlite3_bind_int64(_stmt, col, val.toLongLong());
+		break;
+	case QVariant::Double:
+		ret = sqlite3_bind_double(_stmt, col, val.toDouble());
+		break;
+	case QVariant::String:
+		ret = sqlite3_bind_text(_stmt, col, val.toString().toUtf8().data(), -1, SQLITE_TRANSIENT);
+		break;
+	case QVariant::ByteArray:
+		ret = sqlite3_bind_blob(_stmt, col, val.toByteArray().data(), val.toByteArray().length(), SQLITE_TRANSIENT);
+		break;
+	case QVariant::Invalid:
+		ret = sqlite3_bind_null(_stmt, col);
+		break;
+	default:
+		return false;
+	}
+	if (ret != SQLITE_OK) {
+		_connection->getError();
+		qDebug() << _connection->lastError().message();
+		_state = ERROR;
+		return false;
+	}
+	else _connection->noError();
+	return true;
+}
+
+void Query::reset()
+{
+	if (!_stmt) return;
+	sqlite3_reset(_stmt);
+}
+
+bool Query::exec()
+{
+	if (_state != PREPARED) return false;
+	int res = sqlite3_step(_stmt);
+	if (res != SQLITE_ROW && res != SQLITE_DONE) {
+		_connection->getError();
+		_state = ERROR;
+		return false;
+	}
+	_state = res == SQLITE_ROW ? FIRSTRES : DONE;
+	return true;
+}
+
+bool Query::next()
+{
+	int res;
+	switch (_state) {
+	case FIRSTRES:
+		_state = RUN;
+		return true;
+	case RUN:
+		res = sqlite3_step(_stmt);
+		if (res != SQLITE_ROW && res != SQLITE_DONE) {
+			_connection->getError();
+			_state = ERROR;
+			return false;
+		}
+		_state = res == SQLITE_ROW ? RUN : DONE;
+		return true;
+	case DONE:
+		return false;
+	default:
+		return false;
+	}
+}
+
+bool Query::seek(int index, bool relative)
+{
+	return false;
+}
+
+qint64 Query::lastInsertedRowId() const
+{
+	if (!_stmt) return 0;
+
+	return sqlite3_last_insert_rowid(_connection->_handler);
+}
+
+QVariant Query::value(int column) const
+{
+	if (_state != RUN || column >= sqlite3_column_count(_stmt)) return QVariant();
+
+	switch (sqlite3_column_type(_stmt, column)) {
+	case SQLITE_INTEGER:
+		return QVariant((qint64)sqlite3_column_int64(_stmt, column));
+	case SQLITE_FLOAT:
+		return QVariant(sqlite3_column_double(_stmt, column));
+	case SQLITE_TEXT:
+		return QVariant(QString::fromUtf16((const ushort *)sqlite3_column_text16(_stmt, column)));
+	case SQLITE_BLOB:
+		return QVariant(QByteArray((const char *)sqlite3_column_blob(_stmt, column), sqlite3_column_bytes(_stmt, column)));
+	case SQLITE_NULL:
+		return QVariant(QVariant::Int);
+	default:
+		return QVariant();
+	}
+}
+
