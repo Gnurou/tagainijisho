@@ -1,3 +1,6 @@
+0.2.7 released on
+* Fixed bug of kana selector always appearing on startup
+
 0.2.6 released on 2010/08/16
 * Updated to SQLite 3.7.0.1
 * Added German translation (thanks Philipp Meyer!)

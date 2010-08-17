@@ -111,17 +111,13 @@ bool Kanjidic2GUIPlugin::onRegister()
 	dBar->setAttribute(Qt::WA_MacMiniSize);
 	_kanaDockWidget->setTitleBarWidget(dBar);
 	// By default the kana dock widget is not visible
-	if (!mainWindow->restoreDockWidget(_kanaDockWidget)) {
-		mainWindow->addDockWidget(Qt::LeftDockWidgetArea, _kanaDockWidget);
-		_kanaDockWidget->setVisible(false);
-	}
+	_kanaDockWidget->setVisible(false);
 	connect(_kanaSelector->kanaView(), SIGNAL(entrySelected(EntryPointer)), mainWindow->detailedView(), SLOT(display(EntryPointer)));
 	// Toggle action
 	QAction *action = _kanaDockWidget->toggleViewAction();
 	action->setShortcut(QKeySequence("F4"));
 	action->setIcon(QIcon(":/images/icons/hiragana.png"));
 	mainWindow->searchMenu()->addAction(action);
-
 
 	// Add the components searchers to the tool bar
 	_kAction = new KanjiInputPopupAction(new KanjiInputter(new RadicalKanjiSelector(), false, mainWindow), tr("Radical search input"), mainWindow);
