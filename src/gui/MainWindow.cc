@@ -117,10 +117,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), _clipboardEnabled
 	setupSearchWidget();
 	setupListWidget();
 	
-	// Geometry & state
-	restoreGeometry(windowGeometry.value());
-	restoreState(windowState.value(), MAINWINDOW_STATE_VERSION);
-
 	// Updates checker
 	_updateChecker = new UpdateChecker("/updates/latestversion.php", this);
 	_betaUpdateChecker = new UpdateChecker("/updates/latestbetaversion.php", this);
@@ -575,4 +571,11 @@ void MainWindow::fitToScreen(QWidget *widget)
 	if (screenRect.right() < popupRect.right()) popupRect.moveRight(screenRect.right());
 	if (screenRect.bottom() < popupRect.bottom()) popupRect.moveBottom(screenRect.bottom());
 	widget->setGeometry(popupRect);
+}
+
+void MainWindow::restoreWholeState()
+{
+	// Geometry & state
+	restoreGeometry(windowGeometry.value());
+	restoreState(windowState.value(), MAINWINDOW_STATE_VERSION);
 }
