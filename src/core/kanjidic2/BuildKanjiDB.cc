@@ -29,7 +29,7 @@
 
 static QMap<quint32, quint8> knownRadicals;
 
-SQLite::Connection connection;
+static SQLite::Connection connection;
 // All the SQL queries used to build the database
 // Having them here will allow us to prepare them once and for all
 // instead of doing it for every entry.
