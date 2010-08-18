@@ -22,7 +22,7 @@
 
 using namespace SQLite;
 
-Connection::Connection(QObject *parent) : QObject(parent), _handler(0)
+Connection::Connection() : _handler(0)
 {
 }
 

@@ -20,9 +20,6 @@
 
 #include "sqlite/Error.h"
 
-#include <QObject>
-#include <QVariant>
-
 struct sqlite3_stmt;
 
 namespace SQLite {

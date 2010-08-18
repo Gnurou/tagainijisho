@@ -21,15 +21,13 @@
 #include "sqlite/Error.h"
 #include "sqlite/Query.h"
 
-#include <QObject>
 #include <QList>
 
 struct sqlite3;
 namespace SQLite {
 
-class Connection : public QObject
+class Connection
 {
-Q_OBJECT
 friend class Error;
 friend class Query;
 private:
@@ -43,7 +41,7 @@ private:
 	void noError() const;
 
 public:
-	Connection(QObject *parent = 0);
+	Connection();
 	~Connection();
 
 	/**
