@@ -3,6 +3,8 @@
 * Fixed bug of school grades not being translated
 * Fixed bug in lists that sometimes prevented the final user database
   vacuum to take place
+* Languages in the preferences are not translated and instead written
+  in their native form
 
 0.2.6 released on 2010/08/16
 * Updated to SQLite 3.7.0.1
