@@ -28,7 +28,6 @@ ${CMAKE_SOURCE_DIR}/src/core/TextTools.cc
 )
 
 qt4_wrap_cpp(tagainijisho_newsqlite_MOC_SRCS
-Connection.h
 )
 
 add_library(tagaini_newsqlite STATIC ${tagainijisho_newsqlite_SRCS} ${tagainijisho_newsqlite_MOC_SRCS})
