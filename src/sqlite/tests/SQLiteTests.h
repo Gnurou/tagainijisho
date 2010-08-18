@@ -45,9 +45,12 @@ private slots:
 	void queryBlank();
 	void queryCreate();
 	void queryPrepare();
-	void queryBind();
+	void queryInsert_data();
 	void queryInsert();
+	void queryRetrieve_data();
 	void queryRetrieve();
+	void queryRetrieveAll();
+	void transaction();
 	void queryClean();
 	void connectionDetach();
 	void connectionClose();

@@ -56,6 +56,7 @@ public:
 	void useWith(Connection *connection);
 
 	bool isValid() const { return _connection != 0; }
+	bool active() const { return _state == RUN || _state == FIRSTRES; }
 	Connection *connection() { return _connection; }
 
 	void reset();
