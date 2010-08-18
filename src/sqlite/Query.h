@@ -29,6 +29,8 @@ namespace SQLite {
 
 class Connection;
 
+typedef enum { None, Null, Integer, Float, String, Blob } Type;
+
 /**
  * A lightweight Qt/SQLite query wrapper class that provides an interface
  * similar to that of QSqlQuery but does not require QtSql.
@@ -44,6 +46,9 @@ private:
 
 	/// Copy is forbidden
 	Query &operator =(const Query &query);
+
+	bool checkBind(int &col);
+	bool checkBindRes(const int res);
 
 public:
 	/**
@@ -63,13 +68,31 @@ public:
 	bool prepare(const QString &query);
 	bool exec();
 	bool exec(const QString &query);
-	bool bindValue(const QVariant &val, int col = 0);
+
+	bool bindValue(const qint32 val, int col = 0);
+	bool bindValue(const quint32 val, int col = 0);
+	bool bindValue(const qint64 val, int col = 0);
+	bool bindValue(const quint64 val, int col = 0);
+	bool bindValue(const double val, int col = 0);
+	bool bindValue(const QString &val, int col = 0);
+	bool bindValue(const QByteArray &val, int col = 0);
+	bool bindNullValue(int col = 0);
 	
 	bool next();
 	bool seek(int index, bool relative = false);
 	qint64 lastInsertId() const;
-	QVariant value(int column) const;
-	
+
+	bool valueAvailable(int column) const;
+	Type valueType(int column) const;
+	qint32 valueInt(int column) const;
+	quint32 valueUInt(int column) const;
+	qint64 valueInt64(int column) const;
+	quint64 valueUInt64(int column) const;
+	double valueDouble(int column) const;
+	QString valueString(int column) const;
+	QByteArray valueBlob(int column) const;
+	bool valueIsNull(int column) const;
+
 	void clear();
 
 	const Error &lastError() const;

@@ -44,7 +44,8 @@ static SQLite::Query insertJLPTQuery;
 static SQLite::Query insertDeletedEntryQuery;
 
 #define BIND(query, val) { if (!query.bindValue(val)) { qFatal(query.lastError().message().toUtf8().data()); return false; } }
-#define AUTO_BIND(query, val, nval) if (val == nval) BIND(query, QVariant::Int) else BIND(query, val)
+#define BINDNULL(query) { if (!query.bindNullValue()) { qFatal(query.lastError().message().toUtf8().data()); return false; } }
+#define AUTO_BIND(query, val, nval) if (val == nval) BINDNULL(query) else BIND(query, val)
 #define EXEC(query) if (!query.exec()) { qFatal(query.lastError().message().toUtf8().data()); return false; }
 #define EXEC_STMT(query, stmt) if (!query.exec(stmt)) { qFatal(query.lastError().message().toUtf8().data()); return false; }
 #define ASSERT(cond) if (!(cond)) return 1;
@@ -160,7 +161,8 @@ bool JMdictDBParser::onItemParsed(const JMdictItem &entry)
 bool JMdictDBParser::onDeletedItemParsed(const JMdictDeletedItem &entry)
 {
 	BIND(insertDeletedEntryQuery, entry.id);
-	BIND(insertDeletedEntryQuery, entry.replacedBy ? entry.replacedBy : QVariant(QVariant::Int));
+	if (entry.replacedBy) { BIND(insertDeletedEntryQuery, entry.replacedBy); }
+	else { BINDNULL(insertDeletedEntryQuery); }
 	EXEC(insertDeletedEntryQuery);
 	return true;
 }
