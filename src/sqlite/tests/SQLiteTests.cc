@@ -35,40 +35,40 @@ void SQLiteTests::connectionConnect()
 	QTemporaryFile bogusFile;
 
 	// Initial state
-	QVERIFY(connection.connected() == false);
-	QVERIFY(connection.dbFileName() == "");
-	QVERIFY(connection.lastError().isError() == false);
+	QVERIFY(!connection.connected());
+	QVERIFY(connection.dbFileName().isEmpty());
+	QVERIFY(!connection.lastError().isError());
 	// State after connection
-	QVERIFY(connection.connect(dbFile.fileName()) == true);
-	QVERIFY(connection.connected() == true);
-	QVERIFY(connection.dbFileName() == dbFile.fileName());
-	QVERIFY(connection.lastError().isError() == false);
+	QVERIFY(connection.connect(dbFile.fileName()));
+	QVERIFY(connection.connected());
+	QCOMPARE(connection.dbFileName(), dbFile.fileName());
+	QVERIFY(!connection.lastError().isError());
 	// Shall not be able to connect twice
-	QVERIFY(connection.connect(bogusFile.fileName()) == false);
-	QVERIFY(connection.connected() == true);
-	QVERIFY(connection.dbFileName() == dbFile.fileName());
-	QVERIFY(connection.lastError().isError() == true);
+	QVERIFY(!connection.connect(bogusFile.fileName()));
+	QVERIFY(connection.connected());
+	QCOMPARE(connection.dbFileName(), dbFile.fileName());
+	QVERIFY(connection.lastError().isError());
 }
 
 void SQLiteTests::connectionAttach()
 {
-	QVERIFY(connection.attach(attachedFile.fileName(), "attacheddb") == true);
+	QVERIFY(connection.attach(attachedFile.fileName(), "attacheddb"));
 }
 
 void SQLiteTests::queryBlank()
 {
 	QVERIFY(query.connection() == 0);
-	QVERIFY(query.isValid() == false);
+	QVERIFY(!query.isValid());
 }
 
 void SQLiteTests::queryCreate()
 {
 	query.useWith(&connection);
 	QVERIFY(query.connection() == &connection);
-	QVERIFY(query.isValid() == true);
-	QVERIFY(query.next() == false);
-	QVERIFY(query.seek(0, false) == false);
-	QVERIFY(query.value(0).isValid() == false);
+	QVERIFY(query.isValid());
+	QVERIFY(!query.next());
+	QVERIFY(!query.seek(0, false));
+	QVERIFY(!query.valueAvailable(0));
 	QVERIFY(query.prepare("create table test(col1 int, col2 bigint, col3 float, col4 text, col5 blob, col6 tinyint)"));
 	QVERIFY(query.exec());
 	QVERIFY(!query.next());
@@ -122,7 +122,7 @@ void SQLiteTests::queryInsert()
 	QVERIFY(query.bindValue(col3));
 	QVERIFY(query.bindValue(col4));
 	QVERIFY(query.bindValue(col5));
-	QVERIFY(query.bindValue(QVariant(QVariant::Invalid)));
+	QVERIFY(query.bindNullValue());
 	QVERIFY(query.exec());
 	QVERIFY(!query.next());
 	QCOMPARE(query.lastInsertId(), rowid);
@@ -146,18 +146,33 @@ void SQLiteTests::queryRetrieve()
 	QVERIFY(query.bindValue(rowid));
 	QVERIFY(query.exec());
 	QVERIFY(query.next());
-	QCOMPARE(query.value(0).type(), QVariant::LongLong);
-	QCOMPARE(query.value(0).toUInt(), col1);
-	QCOMPARE(query.value(1).type(), QVariant::LongLong);
-	QCOMPARE(query.value(1).toLongLong(), col2);
-	QCOMPARE(query.value(2).type(), QVariant::Double);
-	QCOMPARE(query.value(2).toDouble(), col3);
-	QCOMPARE(query.value(3).type(), QVariant::String);
-	QCOMPARE(query.value(3).toString(), col4);
-	QCOMPARE(query.value(4).type(), QVariant::ByteArray);
-	QCOMPARE(query.value(4).toByteArray(), col5);
-	QCOMPARE(query.value(5).type(), QVariant::Invalid);
-	QVERIFY(query.value(5).isNull());
+	QVERIFY(query.valueAvailable(0));
+	QCOMPARE(query.valueType(0), SQLite::Integer);
+	QCOMPARE(query.valueUInt(0), col1);
+
+	QVERIFY(query.valueAvailable(1));
+	QCOMPARE(query.valueType(1), SQLite::Integer);
+	QCOMPARE(query.valueInt64(1), col2);
+
+	QVERIFY(query.valueAvailable(2));
+	QCOMPARE(query.valueType(2), SQLite::Float);
+	QCOMPARE(query.valueDouble(2), col3);
+
+	QVERIFY(query.valueAvailable(3));
+	QCOMPARE(query.valueType(3), SQLite::String);
+	QCOMPARE(query.valueString(3), col4);
+
+	QVERIFY(query.valueAvailable(4));
+	QCOMPARE(query.valueType(4), SQLite::Blob);
+	QCOMPARE(query.valueBlob(4), col5);
+
+	QVERIFY(query.valueAvailable(5));
+	QCOMPARE(query.valueType(5), SQLite::Null);
+	QVERIFY(query.valueIsNull(5));
+
+	// No data in 7th column
+	QVERIFY(!query.valueAvailable(6));
+	QCOMPARE(query.valueType(6), SQLite::None);
 	// Only one line in the results set
 	QVERIFY(!query.next());
 }

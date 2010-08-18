@@ -52,7 +52,8 @@ static SQLite::Query addRadicalQuery;
 static SQLite::Query insertRadicalQuery;
 
 #define BIND(query, val) { if (!query.bindValue(val)) { qFatal(query.lastError().message().toUtf8().data()); return false; } }
-#define AUTO_BIND(query, val, nval) if (val == nval) BIND(query, QVariant::Int) else BIND(query, val)
+#define BINDNULL(query) { if (!query.bindNullValue()) { qFatal(query.lastError().message().toUtf8().data()); return false; } }
+#define AUTO_BIND(query, val, nval) if (val == nval) BINDNULL(query) else BIND(query, val)
 #define EXEC(query) if (!query.exec()) { qFatal(query.lastError().message().toUtf8().data()); return false; }
 #define EXEC_STMT(query, stmt) if (!query.exec(stmt)) { qFatal(query.lastError().message().toUtf8().data()); return false; }
 #define ASSERT(cond) if (!(cond)) return 1;
@@ -168,10 +169,10 @@ bool KanjiVGDBParser::onItemParsed(KanjiVGItem &kanji)
 	// First ensure the kanji is into the DB by attempting to
 	// insert a dummy entry
 	AUTO_BIND(insertOrIgnoreEntryQuery, kanji.id, 0);
-	BIND(insertOrIgnoreEntryQuery, QVariant(QVariant::Int));
-	BIND(insertOrIgnoreEntryQuery, QVariant(QVariant::Int));
-	BIND(insertOrIgnoreEntryQuery, QVariant(QVariant::Int));
-	BIND(insertOrIgnoreEntryQuery, QVariant(QVariant::Int));
+	BINDNULL(insertOrIgnoreEntryQuery);
+	BINDNULL(insertOrIgnoreEntryQuery);
+	BINDNULL(insertOrIgnoreEntryQuery);
+	BINDNULL(insertOrIgnoreEntryQuery);
 	EXEC(insertOrIgnoreEntryQuery);
 
 	// Insert groups
@@ -219,7 +220,8 @@ bool KanjiVGDBParser::onItemParsed(KanjiVGItem &kanji)
 		if (insertedRadicals.contains(rad)) continue;
 		BIND(insertRadicalQuery, radCode);
 		BIND(insertRadicalQuery, kanji.id);
-		BIND(insertRadicalQuery, group.radicalType != 0 ? group.radicalType : QVariant(QVariant::Int));
+		if (group.radicalType != 0) { BIND(insertRadicalQuery, group.radicalType); }
+		else { BINDNULL(insertRadicalQuery); }
 		EXEC(insertRadicalQuery);
 		insertedRadicals << rad;
 	}
@@ -250,7 +252,7 @@ bool createRootComponentsTable()
 	"and ks.kanji != ks.element "
 	"order by strokeCount")) return false;
 	while (query.next()) {
-		BIND(insertRootComponentQuery, query.value(0));
+		BIND(insertRootComponentQuery, query.valueUInt(0));
 		EXEC(insertRootComponentQuery);
 	}
 	return true;
