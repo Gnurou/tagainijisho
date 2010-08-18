@@ -949,7 +949,7 @@ an Einträgen manipuliert werden.</translation>
     <message>
         <location filename="../src/gui/JLPTFilterWidget.cc" line="+28"/>
         <source>Level N5</source>
-        <translation>Level n5</translation>
+        <translation>Level N5</translation>
     </message>
     <message>
         <location line="+2"/>
