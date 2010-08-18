@@ -60,7 +60,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="+482"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="+483"/>
         <source>User data</source>
         <translation type="unfinished"></translation>
     </message>
@@ -143,7 +143,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+126"/>
+        <location line="+127"/>
         <source>Temporary database fallback failed. The program will now exit.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -918,37 +918,7 @@ improve performance when manipulating a large number of entries.</source>
         <translation type="obsolete">Hoeveel onlangs ingevoerde ingangen in het geheugen bewaard worden. Hogere waarden kunnen de prestatie ten goede komen als zeer veel ingangen bewerkt worden.</translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="-156"/>
-        <source>English</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>German</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="-1"/>
-        <source>French</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="-1"/>
-        <source>Dutch</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Russian</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Spanish</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+2"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="-149"/>
         <source>General</source>
         <translation>Algemeen</translation>
     </message>
@@ -1655,7 +1625,7 @@ improve performance when manipulating a large number of entries.</source>
 <context>
     <name>Kanjidic2Entry</name>
     <message>
-        <location filename="../src/core/kanjidic2/Kanjidic2Entry.cc" line="+130"/>
+        <location filename="../src/core/kanjidic2/Kanjidic2Entry.cc" line="+126"/>
         <source>(var) </source>
         <translation type="unfinished"></translation>
     </message>
@@ -2022,7 +1992,7 @@ improve performance when manipulating a large number of entries.</source>
         <translation type="unfinished">Kana</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+18"/>
         <source>Radical search input</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2474,7 +2444,7 @@ improve performance when manipulating a large number of entries.</source>
     </message>
     <message>
         <location line="+19"/>
-        <location filename="../src/gui/MainWindow.cc" line="+240"/>
+        <location filename="../src/gui/MainWindow.cc" line="+236"/>
         <source>Export user data...</source>
         <translation>Gebruiksgegevens exporteren...</translation>
     </message>
@@ -3320,7 +3290,7 @@ This message is a one-time reminder and will not appear anymore - you can still 
         <translation type="unfinished">Toon alle resultaten</translation>
     </message>
     <message>
-        <location filename="../src/gui/ResultsViewWidget.cc" line="+121"/>
+        <location filename="../src/gui/ResultsViewWidget.cc" line="+124"/>
         <source>Results %1 - %2 of %3</source>
         <translation type="unfinished">Resultaten %1 – %2 van %3</translation>
     </message>

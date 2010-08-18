@@ -53,7 +53,7 @@
         <translation>Datei für Benutzerdatenbank:</translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="+482"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="+483"/>
         <source>User data</source>
         <translation>Benutzerdaten</translation>
     </message>
@@ -136,7 +136,7 @@
         <translation>Kann Datenbank nicht öffnen: %1</translation>
     </message>
     <message>
-        <location line="+126"/>
+        <location line="+127"/>
         <source>Temporary database fallback failed. The program will now exit.</source>
         <translation>Rückgriff auf temporäre Datenbank schlug fehl. Das Programm wird sich nun beenden.</translation>
     </message>
@@ -889,22 +889,19 @@ Hohe Werte können die Leistung verbessern wenn eine große Anzahl
 an Einträgen manipuliert werden.</translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="-156"/>
         <source>English</source>
-        <translation>Englisch</translation>
+        <translation type="obsolete">Englisch</translation>
     </message>
     <message>
-        <location line="+2"/>
         <source>French</source>
-        <translation>Französisch</translation>
+        <translation type="obsolete">Französisch</translation>
     </message>
     <message>
-        <location line="-1"/>
         <source>Dutch</source>
-        <translation>Niederländisch</translation>
+        <translation type="obsolete">Niederländisch</translation>
     </message>
     <message>
-        <location line="+6"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="-149"/>
         <source>General</source>
         <translation>Allgemein</translation>
     </message>
@@ -929,19 +926,16 @@ an Einträgen manipuliert werden.</translation>
         <translation>Nächste Überprüfung: %1</translation>
     </message>
     <message>
-        <location line="-70"/>
         <source>German</source>
-        <translation>Deutsch</translation>
+        <translation type="obsolete">Deutsch</translation>
     </message>
     <message>
-        <location line="+1"/>
         <source>Russian</source>
-        <translation>Russisch</translation>
+        <translation type="obsolete">Russisch</translation>
     </message>
     <message>
-        <location line="+1"/>
         <source>Spanish</source>
-        <translation>Spanisch</translation>
+        <translation type="obsolete">Spanisch</translation>
     </message>
 </context>
 <context>
@@ -949,7 +943,7 @@ an Einträgen manipuliert werden.</translation>
     <message>
         <location filename="../src/gui/JLPTFilterWidget.cc" line="+28"/>
         <source>Level N5</source>
-        <translation>Level n5</translation>
+        <translation>Level N5</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -1951,7 +1945,7 @@ an Einträgen manipuliert werden.</translation>
 <context>
     <name>Kanjidic2Entry</name>
     <message>
-        <location filename="../src/core/kanjidic2/Kanjidic2Entry.cc" line="+130"/>
+        <location filename="../src/core/kanjidic2/Kanjidic2Entry.cc" line="+126"/>
         <source>(var) </source>
         <translation>(var) </translation>
     </message>
@@ -2266,7 +2260,7 @@ an Einträgen manipuliert werden.</translation>
         <translation>&amp;Lesungsübung, gesamte Studienliste</translation>
     </message>
     <message>
-        <location line="+28"/>
+        <location line="+24"/>
         <source>Radical search input</source>
         <translation>Radikalsuche-Eingabe</translation>
     </message>
@@ -2303,7 +2297,7 @@ an Einträgen manipuliert werden.</translation>
         <translation>Spur für %1</translation>
     </message>
     <message>
-        <location line="-368"/>
+        <location line="-364"/>
         <source>Character flashcards</source>
         <translation>Lernkartei für Schriftzeichen</translation>
     </message>
@@ -2641,7 +2635,7 @@ an Einträgen manipuliert werden.</translation>
         <translation>Vorschau</translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="+263"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="+195"/>
         <source>Lists</source>
         <translation>Listen</translation>
     </message>
@@ -2655,7 +2649,7 @@ an Einträgen manipuliert werden.</translation>
     </message>
     <message>
         <location line="+83"/>
-        <location filename="../src/gui/MainWindow.cc" line="+240"/>
+        <location filename="../src/gui/MainWindow.cc" line="+236"/>
         <source>Export user data...</source>
         <translation>Benutzerdaten exportieren...</translation>
     </message>
@@ -3325,7 +3319,7 @@ Diese Nachricht ist eine einmalige Erinnerung und wird nicht weiter erscheinen �
         <translation type="obsolete">Hier klicken um eine aktive Suche abzubrechen</translation>
     </message>
     <message>
-        <location filename="../src/gui/ResultsViewWidget.cc" line="+121"/>
+        <location filename="../src/gui/ResultsViewWidget.cc" line="+124"/>
         <source>Results %1 - %2 of %3</source>
         <translation>Resultate %1 – %2 von %3</translation>
     </message>

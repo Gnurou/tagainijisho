@@ -153,6 +153,8 @@ public:
 	 * if it is out of bounds
 	 */
 	static void fitToScreen(QWidget *widget);
+
+	void restoreWholeState();
 };
 
 #endif

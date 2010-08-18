@@ -30,8 +30,13 @@ if not releaseVersion:
 	sys.exit(1)
 # Build the launchpad release name
 vers = releaseVersion.split('.')
-if len(vers) == 4: vers[2] = str(int(vers[2]) + 1)
-lpRelease = '.'.join(vers[0:3])
+# Handle dev versions
+if len(vers) == 4 and int(vers[3]) >= 70:
+	vers[2] = str(int(vers[2]) + 1)
+	lpRelease = '.'.join(vers[0:3])
+else:
+	lpRelease = '.'.join(vers)
+
 if len(vers) == 4:
 	if vers[3] == "80": lpRelease += "b1"
 	elif vers[3] == "85": lpRelease += "b2"
