@@ -190,7 +190,7 @@ QVariant Query::value(int column) const
 	case SQLITE_BLOB:
 		return QVariant(QByteArray((const char *)sqlite3_column_blob(_stmt, column), sqlite3_column_bytes(_stmt, column)));
 	case SQLITE_NULL:
-		return QVariant(QVariant::Int);
+		return QVariant(QVariant::Invalid);
 	default:
 		return QVariant();
 	}

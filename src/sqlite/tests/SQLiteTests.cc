@@ -79,44 +79,100 @@ void SQLiteTests::queryPrepare()
 	QVERIFY(query.prepare("insert into test values(?, ?, ?, ?, ?, ?)"));
 }
 
-void SQLiteTests::queryBind()
+void SQLiteTests::queryInsert_data()
 {
-	query.reset();
-	QVERIFY(query.bindValue((quint32)0xffffffff));
-	QVERIFY(query.bindValue((qlonglong)0xffffffffffffffff));
-	QVERIFY(query.bindValue(3.14157));
-	QVERIFY(query.bindValue(QString::fromUtf8("あいうえお")));
+	QTest::addColumn<quint32>("col1");
+	QTest::addColumn<qlonglong>("col2");
+	QTest::addColumn<double>("col3");
+	QTest::addColumn<QString>("col4");
+	QTest::addColumn<QByteArray>("col5");
+	QTest::addColumn<qint64>("rowid");
+
 	QByteArray bArray;
 	bArray.append("abcdefghifklmnop");
-	QVERIFY(query.bindValue(bArray));
-	QVERIFY(query.bindValue(QVariant(QVariant::String)));
+	QTest::newRow("first line")
+		<< (quint32)0xffffffff
+		<< (qlonglong)0xffffffffffffffff
+		<< 3.14157
+		<< QString::fromUtf8("あいうえお")
+		<< bArray
+		<< (qint64)1;
+	bArray = QByteArray();
+	QTest::newRow("second line")
+		<< (quint32)0
+		<< (qlonglong)0
+		<< 0.0
+		<< QString::fromUtf8("")
+		<< bArray
+		<< (qint64)2;
 }
 
 void SQLiteTests::queryInsert()
 {
+	QFETCH(quint32, col1);
+	QFETCH(qlonglong, col2);
+	QFETCH(double, col3);
+	QFETCH(QString, col4);
+	QFETCH(QByteArray, col5);
+	QFETCH(qint64, rowid);
+
+	query.reset();
+	QVERIFY(query.bindValue(col1));
+	QVERIFY(query.bindValue(col2));
+	QVERIFY(query.bindValue(col3));
+	QVERIFY(query.bindValue(col4));
+	QVERIFY(query.bindValue(col5));
+	QVERIFY(query.bindValue(QVariant(QVariant::String)));
 	QVERIFY(query.exec());
 	QVERIFY(!query.next());
-	QCOMPARE(query.lastInsertId(), (qint64)1);
+	QCOMPARE(query.lastInsertId(), rowid);
+}
+
+void SQLiteTests::queryRetrieve_data()
+{
+	queryInsert_data();
 }
 
 void SQLiteTests::queryRetrieve()
 {
-	QVERIFY(query.prepare("select * from test"));
+	QFETCH(quint32, col1);
+	QFETCH(qlonglong, col2);
+	QFETCH(double, col3);
+	QFETCH(QString, col4);
+	QFETCH(QByteArray, col5);
+	QFETCH(qint64, rowid);
+
+	QVERIFY(query.prepare("select * from test where rowid = ?"));
+	QVERIFY(query.bindValue(rowid));
 	QVERIFY(query.exec());
 	QVERIFY(query.next());
 	QCOMPARE(query.value(0).type(), QVariant::LongLong);
-	QCOMPARE(query.value(0).toULongLong(), (quint64)0xffffffff);
+	QCOMPARE(query.value(0).toUInt(), col1);
 	QCOMPARE(query.value(1).type(), QVariant::LongLong);
-	QCOMPARE(query.value(1).toULongLong(), (quint64)0xffffffffffffffff);
+	QCOMPARE(query.value(1).toLongLong(), col2);
 	QCOMPARE(query.value(2).type(), QVariant::Double);
-	QCOMPARE(query.value(2).toDouble(), 3.14157);
+	QCOMPARE(query.value(2).toDouble(), col3);
 	QCOMPARE(query.value(3).type(), QVariant::String);
-	QCOMPARE(query.value(3).toString(), QString::fromUtf8("あいうえお"));
-	QCOMPARE(query.value(4).type(), QVariant::ByteArray);
-	QByteArray bArray;
-	bArray.append("abcdefghifklmnop");
-	QCOMPARE(query.value(4).toByteArray(), bArray);
+	QCOMPARE(query.value(3).toString(), col4);
+	// As we insert an empty array (null) on the second data set, this test cannot stand
+	// QCOMPARE(query.value(3).type(), QVariant::ByteArray);
+	QCOMPARE(query.value(4).toByteArray(), col5);
+	QCOMPARE(query.value(5).type(), QVariant::Invalid);
 	QVERIFY(query.value(5).isNull());
+	// Only one line in the results set
+	QVERIFY(!query.next());
+}
+
+void SQLiteTests::queryRetrieveAll()
+{
+	QVERIFY(query.exec("select * from test"));
+	QVERIFY(query.next());
+	QVERIFY(query.next());
+	QVERIFY(!query.next());
+}
+
+void SQLiteTests::transaction()
+{
 }
 
 void SQLiteTests::queryClean()
