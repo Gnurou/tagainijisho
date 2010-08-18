@@ -53,7 +53,7 @@
         <translation>Datei für Benutzerdatenbank:</translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="+482"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="+483"/>
         <source>User data</source>
         <translation>Benutzerdaten</translation>
     </message>
@@ -889,22 +889,19 @@ Hohe Werte können die Leistung verbessern wenn eine große Anzahl
 an Einträgen manipuliert werden.</translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="-156"/>
         <source>English</source>
-        <translation>Englisch</translation>
+        <translation type="obsolete">Englisch</translation>
     </message>
     <message>
-        <location line="+2"/>
         <source>French</source>
-        <translation>Französisch</translation>
+        <translation type="obsolete">Französisch</translation>
     </message>
     <message>
-        <location line="-1"/>
         <source>Dutch</source>
-        <translation>Niederländisch</translation>
+        <translation type="obsolete">Niederländisch</translation>
     </message>
     <message>
-        <location line="+6"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="-149"/>
         <source>General</source>
         <translation>Allgemein</translation>
     </message>
@@ -929,19 +926,16 @@ an Einträgen manipuliert werden.</translation>
         <translation>Nächste Überprüfung: %1</translation>
     </message>
     <message>
-        <location line="-70"/>
         <source>German</source>
-        <translation>Deutsch</translation>
+        <translation type="obsolete">Deutsch</translation>
     </message>
     <message>
-        <location line="+1"/>
         <source>Russian</source>
-        <translation>Russisch</translation>
+        <translation type="obsolete">Russisch</translation>
     </message>
     <message>
-        <location line="+1"/>
         <source>Spanish</source>
-        <translation>Spanisch</translation>
+        <translation type="obsolete">Spanisch</translation>
     </message>
 </context>
 <context>
@@ -2641,7 +2635,7 @@ an Einträgen manipuliert werden.</translation>
         <translation>Vorschau</translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="+263"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="+195"/>
         <source>Lists</source>
         <translation>Listen</translation>
     </message>

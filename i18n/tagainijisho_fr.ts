@@ -53,7 +53,7 @@
         <translation>Fichier de base de données utilisateur:</translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="+482"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="+483"/>
         <source>User data</source>
         <translation>Données utilisateur</translation>
     </message>
@@ -816,37 +816,31 @@ Certains d&apos;entre eux peuvent toujours être présents.</translation>
 <context>
     <name>GeneralPreferences</name>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="-156"/>
         <source>English</source>
-        <translation>Anglais</translation>
+        <translation type="obsolete">Anglais</translation>
     </message>
     <message>
-        <location line="+3"/>
         <source>German</source>
-        <translation>Allemand</translation>
+        <translation type="obsolete">Allemand</translation>
     </message>
     <message>
-        <location line="-1"/>
         <source>French</source>
-        <translation>Français</translation>
+        <translation type="obsolete">Français</translation>
     </message>
     <message>
-        <location line="-1"/>
         <source>Dutch</source>
-        <translation>Hollandais</translation>
+        <translation type="obsolete">Hollandais</translation>
     </message>
     <message>
-        <location line="+3"/>
         <source>Russian</source>
-        <translation>Russe</translation>
+        <translation type="obsolete">Russe</translation>
     </message>
     <message>
-        <location line="+1"/>
         <source>Spanish</source>
-        <translation>Espagnol</translation>
+        <translation type="obsolete">Espagnol</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="-149"/>
         <source>General</source>
         <translation>Général</translation>
     </message>
