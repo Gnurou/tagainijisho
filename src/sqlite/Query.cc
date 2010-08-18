@@ -71,13 +71,12 @@ bool Query::prepare(const QString &statement)
 bool Query::bindValue(const QVariant &val, int col)
 {
 	if (!_stmt) return false;
-	int ret;
 
 	if (col == 0) col = ++_bindIndex;
 	else _bindIndex = col;
 
-	if (val.isNull()) ret = sqlite3_bind_null(_stmt, col);
-	else switch(val.type()) {
+	int ret;
+	switch(val.type()) {
 	case QVariant::Int:
 	case QVariant::UInt:
 	case QVariant::LongLong:
