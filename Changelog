@@ -1,5 +1,8 @@
-0.2.7 released on
+0.2.6.1 released on
 * Fixed bug of kana selector always appearing on startup
+* Fixed bug of school grades not being translated
+* Fixed bug in lists that sometimes prevented the final user database
+  vacuum to take place
 
 0.2.6 released on 2010/08/16
 * Updated to SQLite 3.7.0.1
