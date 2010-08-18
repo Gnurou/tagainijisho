@@ -78,6 +78,7 @@ const EntryListCachedEntry &EntryListCache::get(int rowId)
 		getByIdQuery.addBindValue(rowId);
 		getByIdQuery.exec();
 		EntryListCachedEntry nCache(getByIdQuery);
+		getByIdQuery.finish();
 		rowIdCache[nCache.rowId()] = nCache;
 		rowParentCache[QPair<int, int>(nCache.parent(), nCache.position())] = nCache;
 	}
@@ -95,6 +96,7 @@ const EntryListCachedEntry &EntryListCache::get(int parent, int pos)
 		query.exec();
 
 		EntryListCachedEntry nCache(query);
+		query.finish();
 /*		// Row inconsistency, try to fix!
 		if (pos != nCache.position()) {
 			fixListPositionQuery.addBindValue(pos);

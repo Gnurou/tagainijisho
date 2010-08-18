@@ -249,6 +249,8 @@ int main(int argc, char *argv[])
 	if (!Plugin::registerPlugin(kanjidic2GUIPlugin))
 		qFatal("Error registering kanjidic2 GUI plugin!");
 
+	mainWindow->restoreWholeState();
+
 	// Show the main window and run the program
 	mainWindow->show();
 	int ret = app.exec();

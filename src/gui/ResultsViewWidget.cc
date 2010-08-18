@@ -22,8 +22,11 @@ ResultsViewWidget::ResultsViewWidget(QWidget *parent) : QWidget(parent), _result
 	setupUi(this);
 	
 	// Search animation
-	int searchAnimSize = showAllResultsButton->height();
-	if (searchAnimSize > 40) searchAnimSize = 40;
+	static const int searchAnimMinSize = 10;
+	static const int searchAnimMaxSize = 40;
+	int searchAnimSize = showAllResultsButton->height() - 4;
+	searchAnimSize = qMin(searchAnimSize, searchAnimMaxSize);
+	searchAnimSize = qMax(searchAnimSize, searchAnimMinSize);
 	searchActiveAnimation->setSize(QSize(searchAnimSize, searchAnimSize));
 	searchActiveAnimation->setBaseImage(":/images/tagainijisho.png");
 	

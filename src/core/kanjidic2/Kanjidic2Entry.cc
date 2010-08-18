@@ -22,10 +22,6 @@
 
 #include <QtDebug>
 
-#include <QSqlQuery>
-#include <QSqlError>
-#include <QMap>
-
 KanjiComponent::KanjiComponent(const QString &element, const QString &original) : _element(element), _original(original)
 {
 }
