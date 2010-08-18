@@ -22,11 +22,12 @@ set(build_kanji_db_SRCS
 Kanjidic2Parser.cc
 KanjiVGParser.cc
 BuildKanjiDB.cc
+../XmlParserHelper.cc
 )
 
 include(${QT_USE_FILE})
 add_executable(build_kanji_db EXCLUDE_FROM_ALL ${build_kanji_db_SRCS})
-target_link_libraries(build_kanji_db tagaini_newsqlite tagaini_core ${QT_LIBRARIES})
+target_link_libraries(build_kanji_db tagaini_newsqlite ${QT_LIBRARIES})
 if (APPLE)
 	set(extra_link_flags "-bind_at_load")
 endif()
