@@ -136,7 +136,7 @@
         <translation>Kann Datenbank nicht öffnen: %1</translation>
     </message>
     <message>
-        <location line="+126"/>
+        <location line="+127"/>
         <source>Temporary database fallback failed. The program will now exit.</source>
         <translation>Rückgriff auf temporäre Datenbank schlug fehl. Das Programm wird sich nun beenden.</translation>
     </message>
@@ -1951,7 +1951,7 @@ an Einträgen manipuliert werden.</translation>
 <context>
     <name>Kanjidic2Entry</name>
     <message>
-        <location filename="../src/core/kanjidic2/Kanjidic2Entry.cc" line="+130"/>
+        <location filename="../src/core/kanjidic2/Kanjidic2Entry.cc" line="+126"/>
         <source>(var) </source>
         <translation>(var) </translation>
     </message>
@@ -2266,7 +2266,7 @@ an Einträgen manipuliert werden.</translation>
         <translation>&amp;Lesungsübung, gesamte Studienliste</translation>
     </message>
     <message>
-        <location line="+28"/>
+        <location line="+24"/>
         <source>Radical search input</source>
         <translation>Radikalsuche-Eingabe</translation>
     </message>
@@ -2303,7 +2303,7 @@ an Einträgen manipuliert werden.</translation>
         <translation>Spur für %1</translation>
     </message>
     <message>
-        <location line="-368"/>
+        <location line="-364"/>
         <source>Character flashcards</source>
         <translation>Lernkartei für Schriftzeichen</translation>
     </message>
@@ -2655,7 +2655,7 @@ an Einträgen manipuliert werden.</translation>
     </message>
     <message>
         <location line="+83"/>
-        <location filename="../src/gui/MainWindow.cc" line="+240"/>
+        <location filename="../src/gui/MainWindow.cc" line="+236"/>
         <source>Export user data...</source>
         <translation>Benutzerdaten exportieren...</translation>
     </message>
@@ -3325,7 +3325,7 @@ Diese Nachricht ist eine einmalige Erinnerung und wird nicht weiter erscheinen �
         <translation type="obsolete">Hier klicken um eine aktive Suche abzubrechen</translation>
     </message>
     <message>
-        <location filename="../src/gui/ResultsViewWidget.cc" line="+121"/>
+        <location filename="../src/gui/ResultsViewWidget.cc" line="+124"/>
         <source>Results %1 - %2 of %3</source>
         <translation>Resultate %1 – %2 von %3</translation>
     </message>
