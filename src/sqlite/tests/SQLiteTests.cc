@@ -122,7 +122,7 @@ void SQLiteTests::queryInsert()
 	QVERIFY(query.bindValue(col3));
 	QVERIFY(query.bindValue(col4));
 	QVERIFY(query.bindValue(col5));
-	QVERIFY(query.bindValue(QVariant(QVariant::String)));
+	QVERIFY(query.bindValue(QVariant(QVariant::Invalid)));
 	QVERIFY(query.exec());
 	QVERIFY(!query.next());
 	QCOMPARE(query.lastInsertId(), rowid);
@@ -154,8 +154,7 @@ void SQLiteTests::queryRetrieve()
 	QCOMPARE(query.value(2).toDouble(), col3);
 	QCOMPARE(query.value(3).type(), QVariant::String);
 	QCOMPARE(query.value(3).toString(), col4);
-	// As we insert an empty array (null) on the second data set, this test cannot stand
-	// QCOMPARE(query.value(3).type(), QVariant::ByteArray);
+	QCOMPARE(query.value(4).type(), QVariant::ByteArray);
 	QCOMPARE(query.value(4).toByteArray(), col5);
 	QCOMPARE(query.value(5).type(), QVariant::Invalid);
 	QVERIFY(query.value(5).isNull());
