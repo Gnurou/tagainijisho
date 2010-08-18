@@ -28,8 +28,8 @@
 #include "core/kanjidic2/Kanjidic2Entry.h"
 #include "core/EntriesCache.h"
 
-#define KANJI_AREA_WIDTH 109.0
-#define KANJI_AREA_HEIGHT 109.0
+static const float KANJI_AREA_WIDTH = 109.0;
+static const float KANJI_AREA_HEIGHT = 109.0;
 
 /**
  * A class that is able to render a kanji of part of if using a QPainter.
