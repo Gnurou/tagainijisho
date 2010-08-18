@@ -136,7 +136,7 @@
         <translation>Impossible d&apos;ouvrir la base de données: %1</translation>
     </message>
     <message>
-        <location line="+126"/>
+        <location line="+127"/>
         <source>Temporary database fallback failed. The program will now exit.</source>
         <translation>Échec du basculement vers la base de données temporaire. Le programme va maintenant quitter.</translation>
     </message>
@@ -2034,7 +2034,7 @@ améliorer les performances en cas de manipulation de nombreuses entrées.</tran
 <context>
     <name>Kanjidic2Entry</name>
     <message>
-        <location filename="../src/core/kanjidic2/Kanjidic2Entry.cc" line="+130"/>
+        <location filename="../src/core/kanjidic2/Kanjidic2Entry.cc" line="+126"/>
         <source>(var) </source>
         <translation>(var) </translation>
     </message>
@@ -2401,7 +2401,7 @@ améliorer les performances en cas de manipulation de nombreuses entrées.</tran
         <translation>Kana</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+18"/>
         <source>Radical search input</source>
         <translation>Entrée de caractère par radical</translation>
     </message>
@@ -2947,7 +2947,7 @@ améliorer les performances en cas de manipulation de nombreuses entrées.</tran
     </message>
     <message>
         <location line="-119"/>
-        <location filename="../src/gui/MainWindow.cc" line="+240"/>
+        <location filename="../src/gui/MainWindow.cc" line="+236"/>
         <source>Export user data...</source>
         <translation>Exporter les données utilisateur...</translation>
     </message>
@@ -3705,7 +3705,7 @@ Ce message de rappel n&apos;apparaîtra dorénavant plus - vous pouvez toujours 
         <translation>Montrer tous les résultats</translation>
     </message>
     <message>
-        <location filename="../src/gui/ResultsViewWidget.cc" line="+121"/>
+        <location filename="../src/gui/ResultsViewWidget.cc" line="+124"/>
         <source>Results %1 - %2 of %3</source>
         <translation>Résultats %1 - %2 sur %3</translation>
     </message>
