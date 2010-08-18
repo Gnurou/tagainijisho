@@ -63,11 +63,9 @@ bool JMdictDBParser::onItemParsed(const JMdictItem &entry)
 	int kanjiCount = 0;
 	quint8 idx = 0;
 	foreach (const JMdictKanjiWritingItem &kWriting, entry.kanji) {
-		insertKanjiTextQuery.reset();
 		BIND(insertKanjiTextQuery, kWriting.writing);
 		EXEC(insertKanjiTextQuery);
 		qint64 rowId = insertKanjiTextQuery.lastInsertId();
-		insertKanjiQuery.reset();
 		BIND(insertKanjiQuery, entry.id);
 		BIND(insertKanjiQuery, idx);
 		BIND(insertKanjiQuery, rowId);
@@ -80,7 +78,6 @@ bool JMdictDBParser::onItemParsed(const JMdictItem &entry)
 			if (code == 0) { ++i; continue; }
 			QString codeS(TextTools::unicodeToSingleChar(code));
 			if (TextTools::isKanjiChar(codeS)) {
-				insertKanjiCharQuery.reset();
 				BIND(insertKanjiCharQuery, code);
 				BIND(insertKanjiCharQuery, entry.id);
 				BIND(insertKanjiCharQuery, idx);
@@ -96,11 +93,9 @@ bool JMdictDBParser::onItemParsed(const JMdictItem &entry)
 	// Insert readings
 	idx = 0;
 	foreach (const JMdictKanaReadingItem &kReading, entry.kana) {
-		insertKanaTextQuery.reset();
 		BIND(insertKanaTextQuery, kReading.reading);
 		EXEC(insertKanaTextQuery);
 		qint64 rowId = insertKanaTextQuery.lastInsertId();
-		insertKanaQuery.reset();
 		BIND(insertKanaQuery, entry.id);
 		BIND(insertKanaQuery, idx);
 		BIND(insertKanaQuery, rowId);
@@ -127,7 +122,6 @@ bool JMdictDBParser::onItemParsed(const JMdictItem &entry)
 	foreach (const QString &lang, languages) if (senseByLang.contains(lang)) {
 		const QList<const JMdictSenseItem *> senses(senseByLang[lang]);
 		foreach (const JMdictSenseItem *sense, senses) {
-			insertSenseQuery.reset();
 			BIND(insertSenseQuery, entry.id);
 			BIND(insertSenseQuery, idx);
 			BIND(insertSenseQuery, sense->posBitField(*this));
@@ -143,11 +137,9 @@ bool JMdictDBParser::onItemParsed(const JMdictItem &entry)
 			EXEC(insertSenseQuery);
 			
 			// Insert the gloss of the selected language
-			insertGlossTextQuery.reset();
 			BIND(insertGlossTextQuery, sense->gloss[lang].join(", "));
 			EXEC(insertGlossTextQuery);
 			qint64 rowId = insertGlossTextQuery.lastInsertId();
-			insertGlossQuery.reset();
 			BIND(insertGlossQuery, entry.id);
 			BIND(insertGlossQuery, idx);
 			BIND(insertGlossQuery, lang);
@@ -158,7 +150,6 @@ bool JMdictDBParser::onItemParsed(const JMdictItem &entry)
 	}
 	
 	// Insert entry
-	insertEntryQuery.reset();
 	BIND(insertEntryQuery, entry.id);
 	AUTO_BIND(insertEntryQuery, entry.frequency, 0);
 	BIND(insertEntryQuery, kanjiCount);
@@ -168,7 +159,6 @@ bool JMdictDBParser::onItemParsed(const JMdictItem &entry)
 
 bool JMdictDBParser::onDeletedItemParsed(const JMdictDeletedItem &entry)
 {
-	insertDeletedEntryQuery.reset();
 	BIND(insertDeletedEntryQuery, entry.id);
 	BIND(insertDeletedEntryQuery, entry.replacedBy ? entry.replacedBy : QVariant(QVariant::Int));
 	EXEC(insertDeletedEntryQuery);
@@ -184,7 +174,6 @@ bool insertJLPTLevels(const QString &fName, int level)
 	while ((lineSize = file.readLine(line, 50)) != -1) {
 		if (lineSize == 0) continue;
 		if (line[lineSize - 1] == '\n') line[lineSize - 1] = 0;
-		insertJLPTQuery.reset();
 		BIND(insertJLPTQuery, QString(line).toInt());
 		BIND(insertJLPTQuery, level);
 		EXEC(insertJLPTQuery);
@@ -332,7 +321,6 @@ int main(int argc, char *argv[])
 		SQLite::Query entitiesQuery(&connection);
 		entitiesQuery.prepare("insert into posEntities values(?, ?, ?)");
 		foreach (const QString &name, JMParser.posBitFields.keys()) {
-			entitiesQuery.reset();
 			entitiesQuery.bindValue(JMParser.posBitFields[name]);
 			entitiesQuery.bindValue(name);
 			entitiesQuery.bindValue(JMParser.entities[name]);
@@ -340,7 +328,6 @@ int main(int argc, char *argv[])
 		}
 		entitiesQuery.prepare("insert into miscEntities values(?, ?, ?)");
 		foreach (const QString &name, JMParser.miscBitFields.keys()) {
-			entitiesQuery.reset();
 			entitiesQuery.bindValue(JMParser.miscBitFields[name]);
 			entitiesQuery.bindValue(name);
 			entitiesQuery.bindValue(JMParser.entities[name]);
@@ -348,7 +335,6 @@ int main(int argc, char *argv[])
 		}
 		entitiesQuery.prepare("insert into fieldEntities values(?, ?, ?)");
 		foreach (const QString &name, JMParser.fieldBitFields.keys()) {
-			entitiesQuery.reset();
 			entitiesQuery.bindValue(JMParser.fieldBitFields[name]);
 			entitiesQuery.bindValue(name);
 			entitiesQuery.bindValue(JMParser.entities[name]);
@@ -356,7 +342,6 @@ int main(int argc, char *argv[])
 		}
 		entitiesQuery.prepare("insert into dialectEntities values(?, ?, ?)");
 		foreach (const QString &name, JMParser.dialectBitFields.keys()) {
-			entitiesQuery.reset();
 			entitiesQuery.bindValue(JMParser.dialectBitFields[name]);
 			entitiesQuery.bindValue(name);
 			entitiesQuery.bindValue(JMParser.entities[name]);

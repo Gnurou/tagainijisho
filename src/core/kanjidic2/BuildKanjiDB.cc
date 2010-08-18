@@ -77,7 +77,6 @@ QSet<QPair<uint, quint8> > insertedRadicals;
 bool Kanjidic2DBParser::onItemParsed(Kanjidic2Item &kanji)
 {
 	// Entries table
-	insertEntryQuery.reset();
 	AUTO_BIND(insertEntryQuery, kanji.id, 0);
 	AUTO_BIND(insertEntryQuery, kanji.grade, 0);
 	AUTO_BIND(insertEntryQuery, kanji.stroke_count, 0);
@@ -89,10 +88,8 @@ bool Kanjidic2DBParser::onItemParsed(Kanjidic2Item &kanji)
 	foreach (const QString &readingType, kanji.readings.keys()) {
 		foreach (const QString &reading, kanji.readings[readingType]) {
 			// TODO factorize identical readings! Record the row id into a hash table
-			insertReadingTextQuery.reset();
 			BIND(insertReadingTextQuery, reading);
 			EXEC(insertReadingTextQuery);
-			insertReadingQuery.reset();
 			BIND(insertReadingQuery, insertReadingTextQuery.lastInsertId());
 			BIND(insertReadingQuery, kanji.id);
 			// TODO reading type should be a tinyInt, not a string!
@@ -105,10 +102,8 @@ bool Kanjidic2DBParser::onItemParsed(Kanjidic2Item &kanji)
 	foreach (const QString &lang, languages) if (kanji.meanings.contains(lang)) {
 		foreach (const QString &meaning, kanji.meanings[lang]) {
 			// TODO factorize identical meanings! Record the row id into a hash table
-			insertMeaningTextQuery.reset();
 			BIND(insertMeaningTextQuery, meaning);
 			EXEC(insertMeaningTextQuery);
-			insertMeaningQuery.reset();
 			BIND(insertMeaningQuery, insertMeaningTextQuery.lastInsertId());
 			BIND(insertMeaningQuery, kanji.id);
 			BIND(insertMeaningQuery, lang);
@@ -120,10 +115,8 @@ bool Kanjidic2DBParser::onItemParsed(Kanjidic2Item &kanji)
 	// Nanori
 	foreach (const QString &n, kanji.nanori) {
 		// TODO factorize identical nanoris! Record the row id into a hash table
-		insertNanoriTextQuery.reset();
 		BIND(insertNanoriTextQuery, n);
 		EXEC(insertNanoriTextQuery);
-		insertNanoriQuery.reset();
 		BIND(insertNanoriQuery, insertNanoriTextQuery.lastInsertId());
 		BIND(insertNanoriQuery, kanji.id);
 		EXEC(insertNanoriQuery);
@@ -133,7 +126,6 @@ bool Kanjidic2DBParser::onItemParsed(Kanjidic2Item &kanji)
 	if (!kanji.skip.isEmpty()) {
 		QStringList code(kanji.skip.split('-'));
 		if (code.size() == 3) {
-			insertSkipCodeQuery.reset();
 			BIND(insertSkipCodeQuery, kanji.id);
 			BIND(insertSkipCodeQuery, code[0].toInt());
 			BIND(insertSkipCodeQuery, code[1].toInt());
@@ -150,7 +142,6 @@ bool Kanjidic2DBParser::onItemParsed(Kanjidic2Item &kanji)
 		quint8 botRight(kanji.fourCorner[3].toAscii() - '0');
 		quint8 extra(kanji.fourCorner[5].toAscii() - '0');
 		
-		insertFourCornerQuery.reset();
 		BIND(insertFourCornerQuery, kanji.id);
 		BIND(insertFourCornerQuery, topLeft);
 		BIND(insertFourCornerQuery, topRight);
@@ -163,7 +154,6 @@ bool Kanjidic2DBParser::onItemParsed(Kanjidic2Item &kanji)
 	// Radicals
 	typedef QPair<quint8, Kanjidic2Item::RadicalType> KRadType;
 	foreach (const KRadType &rad, kanji.radicals) {
-		insertRadicalQuery.reset();
 		BIND(insertRadicalQuery, rad.first);
 		BIND(insertRadicalQuery, kanji.id);
 		BIND(insertRadicalQuery, rad.second);
@@ -177,7 +167,6 @@ bool KanjiVGDBParser::onItemParsed(KanjiVGItem &kanji)
 {
 	// First ensure the kanji is into the DB by attempting to
 	// insert a dummy entry
-	insertOrIgnoreEntryQuery.reset();
 	AUTO_BIND(insertOrIgnoreEntryQuery, kanji.id, 0);
 	BIND(insertOrIgnoreEntryQuery, QVariant(QVariant::Int));
 	BIND(insertOrIgnoreEntryQuery, QVariant(QVariant::Int));
@@ -190,7 +179,6 @@ bool KanjiVGDBParser::onItemParsed(KanjiVGItem &kanji)
 	foreach (const KanjiVGGroupItem &group, kanji.groups) {
 		// The first group is only used for radical information - we don't need it here
 		//if (!skipFirst) { skipFirst = true; continue; }
-		insertStrokeGroupQuery.reset();
 		BIND(insertStrokeGroupQuery, kanji.id);
 		AUTO_BIND(insertStrokeGroupQuery, group.element, 0);
 		AUTO_BIND(insertStrokeGroupQuery, group.original, 0);
@@ -208,7 +196,6 @@ bool KanjiVGDBParser::onItemParsed(KanjiVGItem &kanji)
 	}
 	QByteArray compressedPaths(paths.join("|").toAscii());
 	if (!paths.isEmpty()) {
-		updatePathsString.reset();
 		BIND(updatePathsString, paths.size());
 		BIND(updatePathsString, qCompress(compressedPaths, 9));
 		BIND(updatePathsString, kanji.id);
@@ -230,7 +217,6 @@ bool KanjiVGDBParser::onItemParsed(KanjiVGItem &kanji)
 		// Do not insert radicals already inserted from kanjidic2
 		QPair<uint, quint8> rad(kanji.id, radCode);
 		if (insertedRadicals.contains(rad)) continue;
-		insertRadicalQuery.reset();
 		BIND(insertRadicalQuery, radCode);
 		BIND(insertRadicalQuery, kanji.id);
 		BIND(insertRadicalQuery, group.radicalType != 0 ? group.radicalType : QVariant(QVariant::Int));
@@ -249,7 +235,6 @@ bool updateJLPTLevels(const QString &fName, int level)
 	while ((lineSize = file.readLine(line, 50)) != -1) {
 		if (lineSize == 0) continue;
 		if (line[lineSize - 1] == '\n') line[lineSize - 1] = 0;
-		updateJLPTLevelsQuery.reset();
 		BIND(updateJLPTLevelsQuery, level);
 		BIND(updateJLPTLevelsQuery, TextTools::singleCharToUnicode(QString::fromUtf8(line)));
 		EXEC(updateJLPTLevelsQuery);
@@ -265,7 +250,6 @@ bool createRootComponentsTable()
 	"and ks.kanji != ks.element "
 	"order by strokeCount")) return false;
 	while (query.next()) {
-		insertRootComponentQuery.reset();
 		BIND(insertRootComponentQuery, query.value(0));
 		EXEC(insertRootComponentQuery);
 	}
@@ -287,7 +271,6 @@ bool createRadicalsTable(const QString &fName)
 		for (int pos = 0; pos < kChr.size(); ) {
 			int code = TextTools::singleCharToUnicode(kChr, pos);
 			knownRadicals[code] = cpt;
-			addRadicalQuery.reset();
 			BIND(addRadicalQuery, code);
 			BIND(addRadicalQuery, cpt);
 			EXEC(addRadicalQuery);

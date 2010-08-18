@@ -119,14 +119,19 @@ void Query::reset()
 bool Query::exec()
 {
 	if (_state != PREPARED) return false;
-	int res = sqlite3_step(_stmt);
-	if (res != SQLITE_ROW && res != SQLITE_DONE) {
+	int res;
+	switch ((res = sqlite3_step(_stmt))) {
+	case SQLITE_ROW:
+		_state = FIRSTRES;
+		return true;
+	case SQLITE_DONE:
+		reset();
+		return true;
+	default:
 		_connection->getError();
 		_state = ERROR;
 		return false;
 	}
-	_state = res == SQLITE_ROW ? FIRSTRES : DONE;
-	return true;
 }
 
 bool Query::next()
@@ -137,16 +142,17 @@ bool Query::next()
 		_state = RUN;
 		return true;
 	case RUN:
-		res = sqlite3_step(_stmt);
-		if (res != SQLITE_ROW && res != SQLITE_DONE) {
+		switch ((res = sqlite3_step(_stmt))) {
+		case SQLITE_ROW:
+			return true;
+		case SQLITE_DONE:
+			reset();
+			return false;
+		default:
 			_connection->getError();
 			_state = ERROR;
 			return false;
 		}
-		_state = res == SQLITE_ROW ? RUN : DONE;
-		return true;
-	case DONE:
-		return false;
 	default:
 		return false;
 	}
