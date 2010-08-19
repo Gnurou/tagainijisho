@@ -97,11 +97,6 @@ public:
 	 */
 	void renderStrokeNumber(const KanjiStroke& stroke, QPainter* painter, qreal baseSize = 4);
 	/**
-	 * Render only a part of the stroke given as argument. The length
-	 * should be comprised between 0 and the value returned by strokeLength.
-	 */
-	void renderStrokePart(const KanjiStroke &stroke, qreal length, QPainter *painter);
-	/**
 	 * Render the kanji grid.
 	 */
 	void renderGrid(QPainter *painter);
