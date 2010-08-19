@@ -82,7 +82,7 @@ QModelIndex EntryListModel::parent(const QModelIndex &idx) const
 
 int EntryListModel::rowCount(const QModelIndex &parent) const
 {
-	const EntryListCachedEntry &cEntry = EntryListCache::instance().get(parent.isValid() ? parent.internalId() : rootId());
+	const EntryListCachedEntry &cEntry = EntryListCache::instance().get(parent.parent().internalId(), parent.row());
 	// Not a list? No child!
 	if (!cEntry.isList()) return 0;
 	return cEntry.count();
@@ -189,7 +189,7 @@ bool EntryListModel::insertRows(int row, int count, const QModelIndex & parent)
 {
 	const QModelIndex realParent(parent.isValid() ? parent : index(rootId()));
 	if (!TRANSACTION) return false;
-	beginInsertRows(parent, row, row + count -1);
+	beginInsertRows(parent, row, row + count - 1);
 	{
 		QSqlQuery query;
 		// First update the positions of items located after the new lists
