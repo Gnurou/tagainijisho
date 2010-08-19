@@ -1,2 +1,2 @@
 #!/bin/sh
-lupdate ../src -locations relative -ts *.ts
+lupdate ../src ../3rdparty -locations relative -ts *.ts
