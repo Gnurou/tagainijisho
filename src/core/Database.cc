@@ -77,7 +77,7 @@ bool Database::createUserDB()
 
 /// Changes the training table structure to store the date of last training
 /// and removes trainingLog
-bool update1to2(QSqlQuery &query) {
+static bool update1to2(QSqlQuery &query) {
 	// Drop training indexes
 	QUERY("DROP TRIGGER update_score");
 	QUERY("DROP INDEX idx_training_type_id");
@@ -104,7 +104,7 @@ bool update1to2(QSqlQuery &query) {
 }
 
 /// Add the sets table
-bool update2to3(QSqlQuery &query) {
+static bool update2to3(QSqlQuery &query) {
 	// Create the sets table
 	QUERY("CREATE TABLE sets(parent INT, position INT NOT NULL, label TEXT, state BLOB)");
 	QUERY("CREATE INDEX idx_sets_id ON sets(parent, position)");
@@ -113,14 +113,14 @@ bool update2to3(QSqlQuery &query) {
 }
 
 /// Remove the score trigger
-bool update3to4(QSqlQuery &query) {
+static bool update3to4(QSqlQuery &query) {
 	QUERY("DROP TRIGGER update_score");
 
 	return true;
 }
 
 /// Add the lists tables
-bool update4to5(QSqlQuery &query) {
+static bool update4to5(QSqlQuery &query) {
 	QUERY("CREATE TABLE lists(parent INTEGER REFERENCES lists, position INTEGER NOT NULL, type INTEGER, id INTEGER)");
 	QUERY("CREATE INDEX idx_lists_ref ON lists(parent, position)");
 	QUERY("CREATE INDEX idx_lists_entry ON lists(type, id)");
@@ -130,7 +130,7 @@ bool update4to5(QSqlQuery &query) {
 }
 
 /// Add the versions table, drop info
-bool update5to6(QSqlQuery &query) {
+static bool update5to6(QSqlQuery &query) {
 	QUERY("CREATE TABLE versions(id TEXT PRIMARY KEY, version INTEGER)");
 	QUERY("INSERT INTO versions VALUES(\"userDB\", 6)");
 	QUERY("DROP TABLE info");
@@ -140,7 +140,7 @@ bool update5to6(QSqlQuery &query) {
 
 /// Do nothing - this is because some users database version got inadvertedly
 /// upgraded one step too much during 0.2.5rc1
-bool update6to7(QSqlQuery &query) {
+static bool update6to7(QSqlQuery &query) {
 	return true;
 }
 
