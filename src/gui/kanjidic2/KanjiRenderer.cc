@@ -125,7 +125,7 @@ QPainterPath KanjiRenderer::Stroke::pathFromSVG(QString svgPath)
 	return retPath;
 }
 
-void KanjiRenderer::Stroke::render(QPainter *painter, qreal dLength) const
+void KanjiRenderer::Stroke::render(QPainter *painter, qreal dLength, qreal startFrom) const
 {
 	if (dLength < 0.0 or dLength >= length()) painter->drawPath(painterPath());
 	else {
@@ -134,7 +134,7 @@ void KanjiRenderer::Stroke::render(QPainter *painter, qreal dLength) const
 		// the dash painting works with pen units.
 		QPen pen(painter->pen());
 		QVector<qreal> dashes;
-		dashes << dLength / pen.width() << length();
+		dashes << 0.0 << startFrom << dLength / pen.width() << length();
 		pen.setDashPattern(dashes);
 		painter->setPen(pen);
 		painter->drawPath(painterPath());
