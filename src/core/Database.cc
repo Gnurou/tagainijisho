@@ -27,7 +27,7 @@
 #include <QSemaphore>
 #include <QMessageBox>
 
-#define USERDB_REVISION 7
+#define USERDB_REVISION 8
 
 #define QUERY(Q) if (!query.exec(Q)) return false
 
@@ -144,6 +144,34 @@ bool update6to7(QSqlQuery &query) {
 	return true;
 }
 
+/// Reorganize the lists into a more optimal structure
+static bool update7to8(QSqlQuery &query) {
+	QUERY("ALTER TABLE lists RENAME TO oldLists");
+	QUERY("CREATE TABLE lists(parent INTEGER REFERENCES lists, next INTEGER REFERENCES lists, type INTEGER, id INTEGER)");
+	QUERY("SELECT rowid, parent, type, id FROM oldLists ORDER BY parent ASC, position DESC");
+	QSqlQuery insertQuery;
+	insertQuery.prepare("INSERT INTO lists(rowid, parent, next, type, id) VALUES(?, ?, ?, ?, ?)");
+	quint64 curParent = 0;
+	while (query.next()) {
+		insertQuery.addBindValue(query.value(0).toULongLong());
+		quint64 parent = query.value(1).toULongLong();
+		insertQuery.addBindValue(parent);
+		if (parent != curParent) {
+			curParent = parent;
+			insertQuery.addBindValue(QVariant(QVariant::Int));
+		} else {
+			insertQuery.addBindValue(insertQuery.lastInsertId());
+		}
+		insertQuery.addBindValue(query.value(2));
+		insertQuery.addBindValue(query.value(3));
+		if (!insertQuery.exec()) return false;
+	}
+	QUERY("DROP TABLE oldLists");
+	QUERY("CREATE INDEX idx_lists_parent ON lists(parent)");
+	QUERY("CREATE INDEX idx_lists_entry ON lists(type, id)");
+	return true;
+}
+
 #undef QUERY
 
 bool (*dbUpdateFuncs[USERDB_REVISION - 1])(QSqlQuery &) = {
@@ -153,6 +181,7 @@ bool (*dbUpdateFuncs[USERDB_REVISION - 1])(QSqlQuery &) = {
 	&update4to5,
 	&update5to6,
 	&update6to7,
+	&update7to8,
 };
 
 void Database::dbWarning(const QString &message)
