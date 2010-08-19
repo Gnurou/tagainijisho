@@ -37,11 +37,11 @@ private:
 	bool _removeRows(int row, int count, const QModelIndex &parent);
 
 public:
-	EntryListModel(int rootId = -1, QObject *parent = 0) : QAbstractItemModel(parent), _rootId(rootId) {}
+	EntryListModel(int rootId = 0, QObject *parent = 0) : QAbstractItemModel(parent), _rootId(rootId) {}
 
-	/// Returns the rowid of the root list of this model (-1 if the model displays the root)
+	/// Returns the rowid of the root list of this model (0 if the model displays the root)
 	int rootId() const { return _rootId; }
-	/// Sets the root list to display. -1 displays the root of all lists.
+	/// Sets the root list to display. 0 displays the root of all lists.
 	void setRoot(int rootId);
 
 	virtual QModelIndex index(int row, int column, const QModelIndex &parent = QModelIndex()) const;

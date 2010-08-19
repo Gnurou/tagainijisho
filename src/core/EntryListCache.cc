@@ -17,6 +17,38 @@
 
 #include "EntryListCache.h"
 
+EntryListCachedList::EntryListCachedList(quint64 id)
+{
+	QSqlQuery query;
+	// TODO cache this
+	query.prepare("select lists.rowid, parent, next, type, id, label from lists left join listsLabels on lists.rowid == listsLabels.rowid where parent = ?");
+	query.addBindValue(id);
+	query.exec();
+
+	while (query.next()) {
+		EntryListCachedEntry cachedEntry(query);
+		_entries[cachedEntry.rowId()] = cachedEntry;
+	}
+
+	// Now link the entries together and build the ordered array
+	EntryListCachedEntry *tail;
+	int entryCpt(0);
+	foreach(const EntryListCachedEntry &entry, _entries.values()) {
+		++entryCpt;
+		EntryListCachedEntry *curEntry = &_entries[entry.rowId()];
+		if (entry._nextId != 0) {
+			curEntry->_next = &_entries[entry._nextId];
+			_entries[entry._nextId]._prev = curEntry;
+		}
+		else tail = curEntry;
+	}
+	_entriesArray.resize(entryCpt);
+	while (tail != 0) {
+		_entriesArray[--entryCpt] = tail;
+		tail = tail->_prev;
+	}
+}
+
 EntryListCachedEntry::EntryListCachedEntry()
 {
 	_rowId = -1;
@@ -30,29 +62,26 @@ EntryListCachedEntry::EntryListCachedEntry()
 	else _count = 0;
 }
 
-EntryListCachedEntry::EntryListCachedEntry(QSqlQuery &query)
+// TODO change root id to 0 as it is the value of the DB
+EntryListCachedEntry::EntryListCachedEntry(QSqlQuery &query) : _next(0), _prev(0)
 {
-	// Invalid model, return root list
-	if (!query.next()) {
-		*this = EntryListCachedEntry();
-	} else {
-		_rowId = query.value(0).toInt();
-		_parent = query.value(1).isNull() ? -1 : query.value(1).toInt();
-		_position = query.value(2).toInt();
-		_type = query.value(3).isNull() ? -1 : query.value(3).toInt();
-		_id = query.value(4).toInt();
-		_label = query.value(5).toString();
+	_rowId = query.value(0).toULongLong();
+	_parent = query.value(1).isNull() ? -1 : query.value(1).toULongLong();
+	_nextId = query.value(2).toULongLong();
+	_type = query.value(3).isNull() ? -1 : query.value(3).toInt();
+	_id = query.value(4).toInt();
+	_label = query.value(5).toString();
 
-		// If the type is a list, get its number of childs
-		if (_type == -1) {
-			QSqlQuery query2;
-			query2.prepare("select count(*) from lists where parent = ?");
-			query2.addBindValue(rowId());
-			query2.exec();
-			if (query2.next()) _count = query2.value(0).toInt();
-		}
-		else _count = 0;
+	// If the type is a list, get its number of childs
+	if (_type == -1) {
+		QSqlQuery query2;
+		// TODO cache this!
+		query2.prepare("select count(*) from lists where parent = ?");
+		query2.addBindValue(rowId());
+		query2.exec();
+		if (query2.next()) _count = query2.value(0).toInt();
 	}
+	else _count = 0;
 }
 
 EntryListCache::EntryListCache()
@@ -85,29 +114,21 @@ const EntryListCachedEntry &EntryListCache::get(int rowId)
 	return rowIdCache[rowId];
 }
 
+static EntryListCachedEntry invalidEntry;
+
 const EntryListCachedEntry &EntryListCache::get(int parent, int pos)
 {
 	QMutexLocker ml(&_cacheLock);
-	QPair<int, int> key(parent, pos);
-	if (!rowParentCache.contains(key)) {
-		QSqlQuery &query = parent == -1 ? getByParentPosRootQuery : getByParentPosQuery;
-		if (parent != -1) query.addBindValue(parent);
-		query.addBindValue(pos);
-		query.exec();
-
-		EntryListCachedEntry nCache(query);
-		query.finish();
-/*		// Row inconsistency, try to fix!
-		if (pos != nCache.position()) {
-			fixListPositionQuery.addBindValue(pos);
-			fixListPositionQuery.addBindValue(nCache.rowId());
-			fixListPositionQuery.exec();
-			nCache._position = pos;
-		}*/
-		rowIdCache[nCache.rowId()] = nCache;
-		rowParentCache[key] = nCache;
+	// First look for the parent list
+	if (!_cachedLists.contains(parent)) {
+		_cachedLists[parent] = EntryListCachedList(parent);
 	}
-	return rowParentCache[key];
+	const EntryListCachedList &parentList = _cachedLists[parent];
+	// If we required the root list, update its count
+	if (parent == 0) invalidEntry._count = parentList._entriesArray.size();
+	if (pos < 0) return invalidEntry;
+	if (pos >= parentList._entries.size()) return invalidEntry;
+	else return *(parentList._entriesArray[pos]);
 }
 
 void EntryListCache::invalidate(uint rowId)

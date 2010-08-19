@@ -21,6 +21,9 @@
 #include "core/EntriesCache.h"
 
 #include <QSqlQuery>
+#include <QMap>
+#include <QVector>
+#include <QHash>
 
 /**
  * Represents an item within the entries list. A list item
@@ -37,12 +40,15 @@
 class EntryListCachedEntry {
 private:
 	int _rowId;
-	int _parent;
+	quint64 _parent;
 	int _position;
 	int _count;
 	int _type;
-	int _id;
+	quint64 _id;
+	quint64 _nextId;
 	QString _label;
+
+	EntryListCachedEntry *_next, *_prev;
 	
 	/// Prepare the cached entry from the result row of the query
 	/// The query is advanced to the next row
@@ -76,6 +82,16 @@ public:
 	EntryRef entryRef() const { return EntryRef(type(), id()); }
 
 friend class EntryListCache;
+friend class EntryListCachedList;
+};
+
+class EntryListCachedList {
+public:
+	QMap<quint64, EntryListCachedEntry> _entries;
+	QVector<EntryListCachedEntry *> _entriesArray;
+
+	EntryListCachedList(quint64 id);
+	EntryListCachedList() {}
 };
 
 /**
@@ -88,6 +104,8 @@ friend class EntryListCache;
 class EntryListCache {
 private:
 	EntryListCache();
+
+	QMap<quint64, EntryListCachedList> _cachedLists;
 
 	mutable QHash<int, EntryListCachedEntry> rowIdCache;
 	mutable QHash<QPair<int, int>, EntryListCachedEntry> rowParentCache;
