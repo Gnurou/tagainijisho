@@ -58,7 +58,7 @@ public:
 		 * Render a part of the stroke (if length >= 0) or the complete
 		 * stroke (if length < 0).
 		 */
-		void render(QPainter *painter, qreal length = -1) const;
+		void render(QPainter *painter, qreal length = -1.0, qreal startFrom = 0.0) const;
 		
 		bool operator ==(const Stroke &s) { return this == &s; }
 
