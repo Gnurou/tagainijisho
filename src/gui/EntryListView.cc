@@ -177,7 +177,7 @@ void EntryListView::goUp()
 
 	QModelIndex idx(myModel->index(myModel->rootId()));
 	QModelIndex parent(myModel->realParent(idx));
-	int parentId = parent.isValid() ? parent.internalId() : -1;
+	int parentId = parent.isValid() ? parent.internalId() : 0;
 	
 	myModel->setRoot(parentId);
 }
@@ -185,6 +185,6 @@ void EntryListView::goUp()
 void EntryListView::onModelRootChanged(int rootId)
 {
 	_setAsRootAction.setEnabled(false);
-	_goUpAction.setEnabled(rootId != -1);
+	_goUpAction.setEnabled(rootId != 0);
 	emit rootHasChanged(rootId);
 }
