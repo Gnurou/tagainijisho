@@ -100,34 +100,50 @@ EntryListCache &EntryListCache::instance()
 	return _instance;
 }
 
-const EntryListCachedEntry &EntryListCache::get(int rowId)
+const EntryListCachedEntry &EntryListCache::rootEntry()
 {
-	QMutexLocker ml(&_cacheLock);
-	if (!rowIdCache.contains(rowId)) {
-		getByIdQuery.addBindValue(rowId);
-		getByIdQuery.exec();
-		EntryListCachedEntry nCache(getByIdQuery);
-		getByIdQuery.finish();
-		rowIdCache[nCache.rowId()] = nCache;
-		rowParentCache[QPair<int, int>(nCache.parent(), nCache.position())] = nCache;
-	}
-	return rowIdCache[rowId];
+	// Represents root list
+	static EntryListCachedEntry invalidEntry;
+	static const EntryListCachedList &rootList = getList(0);
+	invalidEntry._count = rootList._entriesArray.size();
+	return invalidEntry;
 }
 
-static EntryListCachedEntry invalidEntry;
+const EntryListCachedEntry &EntryListCache::get(int rowId)
+{
+	if (rowId == 0) return rootEntry();
+	// No entry for this item in the id cache, we must therefore load the list it belongs to
+	if (!rowIdCache.contains(rowId)) {
+		QSqlQuery query;
+		// TODO cache this
+		query.prepare("select parent from lists where rowid = ?");
+		query.addBindValue(rowId);
+		query.exec();
+		if (!query.next()) return rootEntry();
+		getList(query.value(0).toULongLong());
+	}
+	// Still no hit, we have a problem then
+	if (!rowIdCache.contains(rowId)) return rootEntry();
+	return *rowIdCache[rowId];
+}
+
+const EntryListCachedList &EntryListCache::getList(quint64 id)
+{
+	QMutexLocker ml(&_cacheLock);
+	if (!_cachedLists.contains(id))  {
+		_cachedLists[id] = EntryListCachedList(id);
+		// Add the entries to the global id cache
+		foreach (const EntryListCachedEntry *entry, _cachedLists[id]._entriesArray) {
+			rowIdCache[entry->rowId()] = entry;
+		}
+	}
+	return _cachedLists[id];
+}
 
 const EntryListCachedEntry &EntryListCache::get(int parent, int pos)
 {
-	QMutexLocker ml(&_cacheLock);
-	// First look for the parent list
-	if (!_cachedLists.contains(parent)) {
-		_cachedLists[parent] = EntryListCachedList(parent);
-	}
-	const EntryListCachedList &parentList = _cachedLists[parent];
-	// If we required the root list, update its count
-	if (parent == 0) invalidEntry._count = parentList._entriesArray.size();
-	if (pos < 0) return invalidEntry;
-	if (pos >= parentList._entries.size()) return invalidEntry;
+	const EntryListCachedList &parentList = getList(parent);
+	if (pos < 0 || pos >= parentList._entries.size()) return rootEntry();
 	else return *(parentList._entriesArray[pos]);
 }
 
@@ -135,14 +151,14 @@ void EntryListCache::invalidate(uint rowId)
 {
 	QMutexLocker ml(&_cacheLock);
 	if (!rowIdCache.contains(rowId)) return;
-	const EntryListCachedEntry &cEntry = rowIdCache[rowId];
-	rowParentCache.remove(QPair<int, int>(cEntry.parent(), cEntry.position()));
+//	const EntryListCachedEntry &cEntry = *rowIdCache[rowId];
+//	rowParentCache.remove(QPair<int, int>(cEntry.parent(), cEntry.position()));
 	rowIdCache.remove(rowId);
 }
 
 void EntryListCache::invalidateAll()
 {
 	QMutexLocker ml(&_cacheLock);
-	rowParentCache.clear();
+//	rowParentCache.clear();
 	rowIdCache.clear();
 }
