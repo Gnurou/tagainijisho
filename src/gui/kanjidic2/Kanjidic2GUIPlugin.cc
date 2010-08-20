@@ -110,6 +110,8 @@ bool Kanjidic2GUIPlugin::onRegister()
 	DockTitleBar *dBar = new DockTitleBar(toolsBar, _kanaDockWidget);
 	dBar->setAttribute(Qt::WA_MacMiniSize);
 	_kanaDockWidget->setTitleBarWidget(dBar);
+	_kanaDockWidget->setAllowedAreas(Qt::AllDockWidgetAreas);
+	mainWindow->addDockWidget(Qt::LeftDockWidgetArea, _kanaDockWidget);
 	// By default the kana dock widget is not visible
 	_kanaDockWidget->setVisible(false);
 	connect(_kanaSelector->kanaView(), SIGNAL(entrySelected(EntryPointer)), mainWindow->detailedView(), SLOT(display(EntryPointer)));
