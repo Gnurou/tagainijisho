@@ -71,6 +71,7 @@ KanjiPlayer::KanjiPlayer(QWidget *parent) : QWidget(parent), _timer(), _kanji(0)
 	
 	kanjiView = new QLabel(this);
 	kanjiView->setFrameStyle(QFrame::StyledPanel | QFrame::Sunken);
+	kanjiView->setFocusPolicy(Qt::NoFocus);
 	kanjiView->setPicture(_picture);
 	kanjiView->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 	kanjiView->setMouseTracking(true);
