@@ -16,9 +16,26 @@
  */
 
 #include "sqlite/Error.h"
+#include "sqlite/Connection.h"
+#include "sqlite3.h"
 
-using namespace sqlite;
+using namespace SQLite;
 
-Error::Error()
+Error::Error(const QString &message) : _isError(true), _message(message)
 {
+}
+
+Error::Error(const Connection &connection)
+{
+	int code = sqlite3_errcode(connection._handler);
+	switch (code) {
+	case SQLITE_OK:
+	case SQLITE_DONE:
+	case SQLITE_ROW:
+		_isError = false;
+	default:
+		_isError = true;
+	}
+
+	_message = sqlite3_errmsg(connection._handler);
 }

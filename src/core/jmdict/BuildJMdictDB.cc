@@ -15,9 +15,10 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "sqlite/Connection.h"
+#include "sqlite/Query.h"
 #include "core/Database.h"
 #include "core/TextTools.h"
-#include "sqlite/qsql_sqlite.h"
 #include "core/jmdict/JMdictParser.h"
 #include "core/jmdict/JMdictEntry.h"
 
@@ -26,25 +27,27 @@
 
 #include <QtDebug>
 
+static SQLite::Connection connection;
 // All the SQL queries used to build the database
 // Having them here will allow us to prepare them once and for all
 // instead of doing it for every entry.
-static QSqlQuery insertEntryQuery;
-static QSqlQuery insertKanjiTextQuery;
-static QSqlQuery insertKanjiQuery;
-static QSqlQuery insertKanjiCharQuery;
-static QSqlQuery insertKanaTextQuery;
-static QSqlQuery insertKanaQuery;
-static QSqlQuery insertSenseQuery;
-static QSqlQuery insertGlossTextQuery;
-static QSqlQuery insertGlossQuery;
-static QSqlQuery insertJLPTQuery;
-static QSqlQuery insertDeletedEntryQuery;
+static SQLite::Query insertEntryQuery;
+static SQLite::Query insertKanjiTextQuery;
+static SQLite::Query insertKanjiQuery;
+static SQLite::Query insertKanjiCharQuery;
+static SQLite::Query insertKanaTextQuery;
+static SQLite::Query insertKanaQuery;
+static SQLite::Query insertSenseQuery;
+static SQLite::Query insertGlossTextQuery;
+static SQLite::Query insertGlossQuery;
+static SQLite::Query insertJLPTQuery;
+static SQLite::Query insertDeletedEntryQuery;
 
-#define BIND(query, val) query.addBindValue(val)
-#define AUTO_BIND(query, val, nval) if (val == nval) BIND(query, QVariant::Int); else BIND(query, val)
-#define EXEC(query) if (!query.exec()) { qDebug() << query.lastError().text(); return false; }
-#define EXEC_STMT(query, stmt) if (!query.exec(stmt)) { qDebug() << query.lastError().text(); return false; } 
+#define BIND(query, val) { if (!query.bindValue(val)) { qFatal(query.lastError().message().toUtf8().data()); return false; } }
+#define BINDNULL(query) { if (!query.bindNullValue()) { qFatal(query.lastError().message().toUtf8().data()); return false; } }
+#define AUTO_BIND(query, val, nval) if (val == nval) BINDNULL(query) else BIND(query, val)
+#define EXEC(query) if (!query.exec()) { qFatal(query.lastError().message().toUtf8().data()); return false; }
+#define EXEC_STMT(query, stmt) if (!query.exec(stmt)) { qFatal(query.lastError().message().toUtf8().data()); return false; }
 #define ASSERT(cond) if (!(cond)) return 1;
 
 class JMdictDBParser : public JMdictParser
@@ -63,7 +66,7 @@ bool JMdictDBParser::onItemParsed(const JMdictItem &entry)
 	foreach (const JMdictKanjiWritingItem &kWriting, entry.kanji) {
 		BIND(insertKanjiTextQuery, kWriting.writing);
 		EXEC(insertKanjiTextQuery);
-		int rowId = insertKanjiTextQuery.lastInsertId().toInt();
+		qint64 rowId = insertKanjiTextQuery.lastInsertId();
 		BIND(insertKanjiQuery, entry.id);
 		BIND(insertKanjiQuery, idx);
 		BIND(insertKanjiQuery, rowId);
@@ -93,7 +96,7 @@ bool JMdictDBParser::onItemParsed(const JMdictItem &entry)
 	foreach (const JMdictKanaReadingItem &kReading, entry.kana) {
 		BIND(insertKanaTextQuery, kReading.reading);
 		EXEC(insertKanaTextQuery);
-		int rowId = insertKanaTextQuery.lastInsertId().toInt();
+		qint64 rowId = insertKanaTextQuery.lastInsertId();
 		BIND(insertKanaQuery, entry.id);
 		BIND(insertKanaQuery, idx);
 		BIND(insertKanaQuery, rowId);
@@ -137,7 +140,7 @@ bool JMdictDBParser::onItemParsed(const JMdictItem &entry)
 			// Insert the gloss of the selected language
 			BIND(insertGlossTextQuery, sense->gloss[lang].join(", "));
 			EXEC(insertGlossTextQuery);
-			int rowId = insertGlossTextQuery.lastInsertId().toInt();
+			qint64 rowId = insertGlossTextQuery.lastInsertId();
 			BIND(insertGlossQuery, entry.id);
 			BIND(insertGlossQuery, idx);
 			BIND(insertGlossQuery, lang);
@@ -158,7 +161,8 @@ bool JMdictDBParser::onItemParsed(const JMdictItem &entry)
 bool JMdictDBParser::onDeletedItemParsed(const JMdictDeletedItem &entry)
 {
 	BIND(insertDeletedEntryQuery, entry.id);
-	BIND(insertDeletedEntryQuery, entry.replacedBy ? entry.replacedBy : QVariant(QVariant::Int));
+	if (entry.replacedBy) { BIND(insertDeletedEntryQuery, entry.replacedBy); }
+	else { BINDNULL(insertDeletedEntryQuery); }
 	EXEC(insertDeletedEntryQuery);
 	return true;
 }
@@ -181,7 +185,7 @@ bool insertJLPTLevels(const QString &fName, int level)
 
 static bool create_tables()
 {
-	QSqlQuery query;
+	SQLite::Query query(&connection);
 	EXEC_STMT(query, "create table info(version INT, JMdictVersion TEXT)");
 	EXEC_STMT(query, "create table posEntities(bitShift INTEGER PRIMARY KEY, name TEXT, description TEXT)");
 	EXEC_STMT(query, "create table miscEntities(bitShift INTEGER PRIMARY KEY, name TEXT, description TEXT)");
@@ -203,7 +207,7 @@ static bool create_tables()
 
 static bool create_indexes()
 {
-	QSqlQuery query;
+	SQLite::Query query(&connection);
 	EXEC_STMT(query, "create index idx_entries_frequency on entries(frequency)");
 	EXEC_STMT(query, "create index idx_kanji on kanji(id)");
 	EXEC_STMT(query, "create index idx_kanji_docid on kanji(docid)");
@@ -250,31 +254,26 @@ int main(int argc, char *argv[])
 	}
 	
 	// Open the database to write to
-	QSQLiteDriver *driver = new QSQLiteDriver();
-	QSqlDatabase database(QSqlDatabase::addDatabase(driver));
-	database.setDatabaseName(dstFile);
-	if (!database.open()) {
-		qFatal("Cannot open database: %s", database.lastError().text().toLatin1().data());
+	if (!connection.connect(dstFile)) {
+		qFatal("Cannot open database: %s", connection.lastError().message().toLatin1().data());
 		return 1;
 	}
 	// Attach custom functions and tokenizers
-	QVariant handler = database.driver()->handle();
-	if (handler.isValid() && !qstrcmp(handler.typeName(), "sqlite3*")) {
-		sqlite3 *sqliteHandler = *static_cast<sqlite3 **>(handler.data());
-		// TODO Move into dedicated open function? Since it cannot use
-		// the sqlite3_auto_extension
-		register_all_tokenizers(sqliteHandler);
-	}
-	database.exec("pragma encoding = \"UTF-16le\"");
-	if (database.lastError().isValid()) {
-		qDebug() << database.lastError().text();
+	sqlite3 *sqliteHandler = connection.sqlite3Handler();
+	// TODO Move into dedicated open function? Since it cannot use
+	// the sqlite3_auto_extension
+	register_all_tokenizers(sqliteHandler);
+
+	connection.exec("pragma encoding = \"UTF-16le\"");
+	if (connection.lastError().isError()) {
+		qDebug() << connection.lastError().message();
 		return 1;
 	}
-	ASSERT(database.transaction());
+	ASSERT(connection.transaction());
 	ASSERT(create_tables());
 	
 	// Prepare the queries
-	#define PREPQUERY(query, text) query = QSqlQuery(database); query.prepare(text)
+	#define PREPQUERY(query, text) query.useWith(&connection); query.prepare(text)
 	PREPQUERY(insertEntryQuery, "insert into entries values(?, ?, ?)");
 	PREPQUERY(insertKanjiTextQuery, "insert into kanjiText values(?)");
 	PREPQUERY(insertKanjiQuery, "insert into kanji values(?, ?, ?, ?)");
@@ -296,17 +295,17 @@ int main(int argc, char *argv[])
 	if (!languages.contains("en")) languages << "en";
 	JMdictDBParser JMParser(languages);
 	if (!JMParser.parse(reader)) {
-		qDebug() << database.lastError().text();
+		qDebug() << connection.lastError().message();
 		return 1;
 	}
 	file.close();
 
 	// Fill in the info table
 	{
-		QSqlQuery query;
+		SQLite::Query query(&connection);
 		query.prepare("insert into info values(?, ?)");
-		query.addBindValue(JMDICTDB_REVISION);
-		query.addBindValue(JMParser.dictVersion());
+		query.bindValue(JMDICTDB_REVISION);
+		query.bindValue(JMParser.dictVersion());
 		ASSERT(query.exec());
 	}
 	
@@ -321,45 +320,45 @@ int main(int argc, char *argv[])
 	
 	// Populate the entities tables
 	{
-		QSqlQuery entitiesQuery(database);
+		SQLite::Query entitiesQuery(&connection);
 		entitiesQuery.prepare("insert into posEntities values(?, ?, ?)");
 		foreach (const QString &name, JMParser.posBitFields.keys()) {
-			entitiesQuery.addBindValue(JMParser.posBitFields[name]);
-			entitiesQuery.addBindValue(name);
-			entitiesQuery.addBindValue(JMParser.entities[name]);
+			entitiesQuery.bindValue(JMParser.posBitFields[name]);
+			entitiesQuery.bindValue(name);
+			entitiesQuery.bindValue(JMParser.entities[name]);
 			ASSERT(entitiesQuery.exec());
 		}
 		entitiesQuery.prepare("insert into miscEntities values(?, ?, ?)");
 		foreach (const QString &name, JMParser.miscBitFields.keys()) {
-			entitiesQuery.addBindValue(JMParser.miscBitFields[name]);
-			entitiesQuery.addBindValue(name);
-			entitiesQuery.addBindValue(JMParser.entities[name]);
+			entitiesQuery.bindValue(JMParser.miscBitFields[name]);
+			entitiesQuery.bindValue(name);
+			entitiesQuery.bindValue(JMParser.entities[name]);
 			ASSERT(entitiesQuery.exec());
 		}
 		entitiesQuery.prepare("insert into fieldEntities values(?, ?, ?)");
 		foreach (const QString &name, JMParser.fieldBitFields.keys()) {
-			entitiesQuery.addBindValue(JMParser.fieldBitFields[name]);
-			entitiesQuery.addBindValue(name);
-			entitiesQuery.addBindValue(JMParser.entities[name]);
+			entitiesQuery.bindValue(JMParser.fieldBitFields[name]);
+			entitiesQuery.bindValue(name);
+			entitiesQuery.bindValue(JMParser.entities[name]);
 			ASSERT(entitiesQuery.exec());
 		}
 		entitiesQuery.prepare("insert into dialectEntities values(?, ?, ?)");
 		foreach (const QString &name, JMParser.dialectBitFields.keys()) {
-			entitiesQuery.addBindValue(JMParser.dialectBitFields[name]);
-			entitiesQuery.addBindValue(name);
-			entitiesQuery.addBindValue(JMParser.entities[name]);
+			entitiesQuery.bindValue(JMParser.dialectBitFields[name]);
+			entitiesQuery.bindValue(name);
+			entitiesQuery.bindValue(JMParser.entities[name]);
 			ASSERT(entitiesQuery.exec());
 		}
 	}
 	
 	// Analyze for hopefully better performance
-	database.exec("analyze");
+	connection.exec("analyze");
 	
 	// Commit everything
-	ASSERT(database.commit());
+	ASSERT(connection.commit());
 	
 	// Close the database and set the file to read-only
-	database = QSqlDatabase();
+	connection.close();
 	QFile(dstFile).setPermissions(QFile::ReadOwner | QFile::ReadUser | QFile::ReadGroup | QFile::ReadOther);
 	
 	return 0;
