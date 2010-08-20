@@ -1,0 +1,28 @@
+This package was debianized by Alexandre Courbot <gnurou@gmail.com> on
+Sat, 27 Sep 2008 11:31:36 +0900.
+
+License:
+
+    Copyright (C) 2008 Alexandre Courbot
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or   
+    (at your option) any later version.                                 
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of 
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the  
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+The Debian packaging is (C) 2008, Alexandre Courbot <gnurou@gmail.com> and
+is licensed under the GPL, see `/usr/share/common-licenses/GPL'.
+
+The JMdict, kanjidic2 and kradfile are distributed under the Creative 
+Commons Attribution-Noncommercial-Share Alike Licence.
+
+The kanji stroke animation data is distributed under the Creative Commons
+Attribution-Noncommercial-No Derivative Licence.
