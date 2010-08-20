@@ -33,7 +33,7 @@ EntryListCachedEntry::EntryListCachedEntry()
 EntryListCachedEntry::EntryListCachedEntry(QSqlQuery &query) : _next(0), _prev(0)
 {
 	_rowId = query.value(0).toULongLong();
-	_parent = query.value(1).isNull() ? -1 : query.value(1).toULongLong();
+	_parent = query.value(1).toULongLong();
 	_nextId = query.value(2).toULongLong();
 	_type = query.value(3).isNull() ? -1 : query.value(3).toInt();
 	_id = query.value(4).toInt();

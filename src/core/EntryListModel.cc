@@ -77,7 +77,7 @@ QModelIndex EntryListModel::parent(const QModelIndex &idx) const
 	if (cEntry.isRoot() || cEntry.rowId() == rootId()) return QModelIndex();
 	else {
 		quint64 pIndex(cEntry.parent());
-		return index(pIndex == rootId() ? -1 : pIndex);
+		return index(pIndex == rootId() ? 0 : pIndex);
 	}
 }
 
