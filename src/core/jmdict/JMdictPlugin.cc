@@ -296,7 +296,7 @@ bool JMdictPlugin::onRegister()
 	if (query.next()) _dictVersion = query.value(0).toString();
 	
 	if (!checkForMovedEntries()) {
-		qCritical(QCoreApplication::translate("JMdictPlugin", "An error seems to have occured while updating the JMdict database records - the program might crash during usage. Please report this bug.").toUtf8().constData());
+		qCritical("%s", QCoreApplication::translate("JMdictPlugin", "An error seems to have occured while updating the JMdict database records - the program might crash during usage. Please report this bug.").toUtf8().constData());
 	}
 
 	// Populate the entities tables
