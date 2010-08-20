@@ -1,0 +1,63 @@
+Source: tagainijisho
+Section: misc
+Priority: optional
+Maintainer: Alexandre Courbot <gnurou@gmail.com>
+Build-Depends: debhelper (>= 5), libqt4-dev (>= 4.5), cmake (>= 2.6)
+Standards-Version: 3.7.2
+Homepage: http://www.tagaini.net
+
+Package: tagainijisho
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, tagainijisho-dic
+Description: A Japanese dictionary and learning assistant
+ Tagaini Jisho is a Japanese vocabulary and kanji dictionary that aims at
+ presenting you results in a way that makes it easy to create connections
+ in your mind and remember them. To allow this, it keeps track of all the
+ entries you already know and allows you to tag and add notes to them. It
+ also features kanji drawing animations for more than 6000 kanjis,
+ flashcard-like training, and production of paper material for studying.
+
+Package: tagainijisho-dic-en
+Architecture: all
+Depends: tagainijisho
+Provides: tagainijisho-dic
+Description: English dictionary files for Tagaini Jisho
+ Contains the English dictionary files for being used with the
+ tagainijisho package.
+
+Package: tagainijisho-dic-fr
+Architecture: all
+Depends: tagainijisho
+Provides: tagainijisho-dic
+Description: French dictionary files for Tagaini Jisho
+ Contains the French dictionary files for being used with the
+ tagainijisho package. Entries for which a translation is not
+ available are displayed in English.
+
+Package: tagainijisho-dic-de
+Architecture: all
+Depends: tagainijisho
+Provides: tagainijisho-dic
+Description: German dictionary files for Tagaini Jisho
+ Contains the German dictionary files for being used with the
+ tagainijisho package. Entries for which a translation is not
+ available are displayed in English.
+
+Package: tagainijisho-dic-es
+Architecture: all
+Depends: tagainijisho
+Provides: tagainijisho-dic
+Description: Spanish dictionary files for Tagaini Jisho
+ Contains the Spanish dictionary files for being used with the
+ tagainijisho package. Entries for which a translation is not
+ available are displayed in English.
+
+Package: tagainijisho-dic-ru
+Architecture: all
+Depends: tagainijisho
+Provides: tagainijisho-dic
+Description: Russian dictionary files for Tagaini Jisho
+ Contains the Russian dictionary files for being used with the
+ tagainijisho package. Entries for which a translation is not
+ available are displayed in English.
+
