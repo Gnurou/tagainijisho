@@ -26,7 +26,7 @@ class EntryListModel : public QAbstractItemModel
 {
 	Q_OBJECT
 private:
-	int _rootId;
+	quint64 _rootId;
 	
 	/**
 	 * Move all rows in parent with a position >= row by adding delta to their position.
@@ -40,9 +40,9 @@ public:
 	EntryListModel(int rootId = 0, QObject *parent = 0) : QAbstractItemModel(parent), _rootId(rootId) {}
 
 	/// Returns the rowid of the root list of this model (0 if the model displays the root)
-	int rootId() const { return _rootId; }
+	quint64 rootId() const { return _rootId; }
 	/// Sets the root list to display. 0 displays the root of all lists.
-	void setRoot(int rootId);
+	void setRoot(quint64 rootId);
 
 	virtual QModelIndex index(int row, int column, const QModelIndex &parent = QModelIndex()) const;
 	virtual QModelIndex index(int rowId) const;

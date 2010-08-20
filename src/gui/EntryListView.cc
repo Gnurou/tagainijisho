@@ -173,7 +173,7 @@ void EntryListView::setSelectedAsRoot()
 void EntryListView::goUp()
 {
 	EntryListModel *myModel = qobject_cast<EntryListModel *>(model());
-	if (!myModel || myModel->rootId() == -1) return;
+	if (!myModel || myModel->rootId() == 0) return;
 
 	QModelIndex idx(myModel->index(myModel->rootId()));
 	QModelIndex parent(myModel->realParent(idx));

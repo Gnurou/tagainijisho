@@ -17,13 +17,36 @@
 
 #include "ListsTests.h"
 #include "core/EntryListCache.h"
+#include "sqlite/Query.h"
 
 void ListsTests::initTestCase()
 {
+	QVERIFY(dbFile.open());
+	QVERIFY(connection.connect(dbFile.fileName()));
+	QVERIFY(connection.connected());
+	SQLite::Query query(&connection);
+	QVERIFY(query.exec("CREATE TABLE lists(parent INTEGER REFERENCES lists, next INTEGER REFERENCES lists, type INTEGER, id INTEGER)"));
+	QVERIFY(query.exec("CREATE INDEX idx_lists_parent ON lists(parent)"));
+	QVERIFY(query.exec("CREATE INDEX idx_lists_entry ON lists(type, id)"));
+	QVERIFY(query.exec("CREATE VIRTUAL TABLE listsLabels using fts3(label)"));
 }
 
 void ListsTests::cleanupTestCase()
 {
+	QVERIFY(connection.close());
+}
+
+void ListsTests::entryListCachedEntry_data()
+{
+	QTest::addColumn<quint64>("rowid");
+	QTest::addColumn<quint64>("parent");
+	QTest::addColumn<quint64>("next");
+	QTest::addColumn<int>("type");
+	QTest::addColumn<int>("id");
+
+	QTest::newRow("Root list 1") << (quint64)1 << (quint64)0 << (quint64)2 << 1 << 10;
+	QTest::newRow("Root list 2") << (quint64)2 << (quint64)0 << (quint64)0 << 1 << 20;
+
 }
 
 void ListsTests::entryListCachedEntry()

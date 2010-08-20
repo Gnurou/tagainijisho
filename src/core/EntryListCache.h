@@ -39,39 +39,54 @@
  */
 class EntryListCachedEntry {
 private:
-	int _rowId;
+	quint64 _rowId;
 	quint64 _parent;
 	int _position;
 	int _count;
 	int _type;
 	quint64 _id;
-	quint64 _nextId;
 	QString _label;
 
-	EntryListCachedEntry *_next, *_prev;
-	
-	/// Prepare the cached entry from the result row of the query
-	/// The query is advanced to the next row
+	union {
+		// Only used as a temporary
+		quint64 _nextId;
+		struct {
+			EntryListCachedEntry *_next, *_prev;
+		};
+	};
+
+	/**
+	 * Prepare the cached entry from the result row of the query
+	 * The query is advanced to the next row
+	 * It is the responsability of the caller to then set _position
+	 * correctly.
+	 */
 	EntryListCachedEntry(QSqlQuery &query);
-	
+
 public:
-	/// Root entry
+	/// For root entry
 	EntryListCachedEntry();
-	
-	bool isRoot() const { return _rowId == -1; }
+
+
+	quint64 rowId() const { return _rowId; }
+	quint64 parent() const { return _parent; }
+	int position() const { return _position; }
+	bool isRoot() const { return _rowId == 0; }
 	bool isList() const { return type() == -1; }
 	bool isEntry() const { return type() >= 0; }
-	int rowId() const { return _rowId; }
-	int parent() const { return _parent; }
-	int position() const { return _position; }
-	
+
+	const EntryListCachedEntry *next() const { return _next; }
+	const EntryListCachedEntry *prev() const { return _prev; }
+
+
 	/// For lists
 
 	/// Returns the label of the list
 	const QString &label() const { return _label; }
 	/// Returns the number of childs within the list
 	int count() const { return _count; }
-	
+
+
 	/// For entries
 	
 	/// Type of the entry
@@ -86,12 +101,24 @@ friend class EntryListCachedList;
 };
 
 class EntryListCachedList {
-public:
+private:
 	QMap<quint64, EntryListCachedEntry> _entries;
-	QVector<EntryListCachedEntry *> _entriesArray;
+	mutable QVector<const EntryListCachedEntry *> _entriesArray;
+	/// Used to know whether we should rebuild the entries ordered array
+	mutable bool _dirty;
+	/// Always points to the last entry of the list
+	EntryListCachedEntry *_tail;
 
 	EntryListCachedList(quint64 id);
+	void rebuildEntriesArray() const;
+
+public:
 	EntryListCachedList() {}
+
+	const QMap<quint64, EntryListCachedEntry> &entries() const { return _entries; }
+	const QVector<const EntryListCachedEntry *> &entriesArray() const;
+
+friend class EntryListCache;
 };
 
 /**
@@ -110,10 +137,6 @@ private:
 	mutable QHash<quint64, const EntryListCachedEntry *> rowIdCache;
 	QMutex _cacheLock;
 
-	QSqlQuery getByIdQuery;
-	QSqlQuery getByParentPosQuery;
-	QSqlQuery getByParentPosRootQuery;
-
 	const EntryListCachedList & getList(quint64 id);
 	const EntryListCachedEntry &rootEntry();
 
@@ -129,9 +152,9 @@ public:
 	const EntryListCachedEntry& get(int parent, int pos);
 	
 	/// Invalidate the entry which id is given as parameter
-	void invalidate(uint rowId);
+//	void invalidate(uint rowId);
 	/// Invalidate all entries
-	void invalidateAll();
+//	void invalidateAll();
 };
 
 #endif

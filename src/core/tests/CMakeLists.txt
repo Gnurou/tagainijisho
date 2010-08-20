@@ -12,4 +12,4 @@ ListsTests.h
 
 include_directories(${QT_INCLUDE_DIR})
 add_executable(liststests ${lists_tests_SRCS} ${lists_tests_MOC_SRCS})
-target_link_libraries(liststests tagaini_core ${QT_LIBRARIES})
+target_link_libraries(liststests tagaini_core tagaini_newsqlite ${QT_LIBRARIES})

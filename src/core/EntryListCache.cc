@@ -17,42 +17,10 @@
 
 #include "EntryListCache.h"
 
-EntryListCachedList::EntryListCachedList(quint64 id)
-{
-	QSqlQuery query;
-	// TODO cache this
-	query.prepare("select lists.rowid, parent, next, type, id, label from lists left join listsLabels on lists.rowid == listsLabels.rowid where parent = ?");
-	query.addBindValue(id);
-	query.exec();
-
-	while (query.next()) {
-		EntryListCachedEntry cachedEntry(query);
-		_entries[cachedEntry.rowId()] = cachedEntry;
-	}
-
-	// Now link the entries together and build the ordered array
-	EntryListCachedEntry *tail;
-	int entryCpt(0);
-	foreach(const EntryListCachedEntry &entry, _entries.values()) {
-		++entryCpt;
-		EntryListCachedEntry *curEntry = &_entries[entry.rowId()];
-		if (entry._nextId != 0) {
-			curEntry->_next = &_entries[entry._nextId];
-			_entries[entry._nextId]._prev = curEntry;
-		}
-		else tail = curEntry;
-	}
-	_entriesArray.resize(entryCpt);
-	while (tail != 0) {
-		_entriesArray[--entryCpt] = tail;
-		tail = tail->_prev;
-	}
-}
-
 EntryListCachedEntry::EntryListCachedEntry()
 {
-	_rowId = -1;
-	_parent = -1;
+	_rowId = 0;
+	_parent = 0;
 	_position = -1;
 	_type = -1;
 	_id = -1;
@@ -62,7 +30,6 @@ EntryListCachedEntry::EntryListCachedEntry()
 	else _count = 0;
 }
 
-// TODO change root id to 0 as it is the value of the DB
 EntryListCachedEntry::EntryListCachedEntry(QSqlQuery &query) : _next(0), _prev(0)
 {
 	_rowId = query.value(0).toULongLong();
@@ -84,14 +51,56 @@ EntryListCachedEntry::EntryListCachedEntry(QSqlQuery &query) : _next(0), _prev(0
 	else _count = 0;
 }
 
+EntryListCachedList::EntryListCachedList(quint64 id) : _dirty(true), _tail(0)
+{
+	QSqlQuery query;
+	// TODO cache this
+	query.prepare("select lists.rowid, parent, next, type, id, label from lists left join listsLabels on lists.rowid == listsLabels.rowid where parent = ?");
+	query.addBindValue(id);
+	query.exec();
+
+	while (query.next()) {
+		EntryListCachedEntry cachedEntry(query);
+		_entries[cachedEntry.rowId()] = cachedEntry;
+	}
+
+	// Now link the entries together
+	foreach(const EntryListCachedEntry &entry, _entries.values()) {
+		EntryListCachedEntry *curEntry = &_entries[entry.rowId()];
+		if (entry._nextId != 0) {
+			curEntry->_next = &_entries[entry._nextId];
+			_entries[entry._nextId]._prev = curEntry;
+		}
+		else _tail = curEntry;
+	}
+	// Necessary to give a position to all the items
+	rebuildEntriesArray();
+}
+
+const QVector<const EntryListCachedEntry *> &EntryListCachedList::entriesArray() const
+{
+	if (_dirty) rebuildEntriesArray();
+	return _entriesArray;
+}
+
+void EntryListCachedList::rebuildEntriesArray() const
+{
+	int entryCpt = _entries.size();
+	EntryListCachedEntry *tail(_tail);
+	_entriesArray.resize(entryCpt);
+	while (tail != 0) {
+		tail->_position = --entryCpt;
+		_entriesArray[entryCpt] = tail;
+		tail = tail->_prev;
+	}
+	_dirty = false;
+}
+
 EntryListCache::EntryListCache()
 {
-	getByIdQuery.prepare("select lists.rowid, parent, position, type, id, label from lists left join listsLabels on lists.rowid == listsLabels.rowid where lists.rowid = ?");
-//	getByParentPosQuery.prepare("select lists.rowid, parent, position, type, id, label from lists left join listsLabels on lists.rowid == listsLabels.rowid where lists.parent = ? order by position limit 1 offset ?");
-	getByParentPosQuery.prepare("select lists.rowid, parent, position, type, id, label from lists left join listsLabels on lists.rowid == listsLabels.rowid where lists.parent = ? and position = ?");
-//	getByParentPosRootQuery.prepare("select lists.rowid, parent, position, type, id, label from lists left join listsLabels on lists.rowid == listsLabels.rowid where lists.parent is null order by position limit 1 offset ?");
-	getByParentPosRootQuery.prepare("select lists.rowid, parent, position, type, id, label from lists left join listsLabels on lists.rowid == listsLabels.rowid where lists.parent is null and position = ?");
-//	fixListPositionQuery.prepare("update lists set position = ? where rowid = ?");
+//	getByIdQuery.prepare("select lists.rowid, parent, position, type, id, label from lists left join listsLabels on lists.rowid == listsLabels.rowid where lists.rowid = ?");
+//	getByParentPosQuery.prepare("select lists.rowid, parent, position, type, id, label from lists left join listsLabels on lists.rowid == listsLabels.rowid where lists.parent = ? and position = ?");
+//	getByParentPosRootQuery.prepare("select lists.rowid, parent, position, type, id, label from lists left join listsLabels on lists.rowid == listsLabels.rowid where lists.parent is null and position = ?");
 }
 
 EntryListCache &EntryListCache::instance()
@@ -105,7 +114,7 @@ const EntryListCachedEntry &EntryListCache::rootEntry()
 	// Represents root list
 	static EntryListCachedEntry invalidEntry;
 	static const EntryListCachedList &rootList = getList(0);
-	invalidEntry._count = rootList._entriesArray.size();
+	invalidEntry._count = rootList.entriesArray().size();
 	return invalidEntry;
 }
 
@@ -133,7 +142,7 @@ const EntryListCachedList &EntryListCache::getList(quint64 id)
 	if (!_cachedLists.contains(id))  {
 		_cachedLists[id] = EntryListCachedList(id);
 		// Add the entries to the global id cache
-		foreach (const EntryListCachedEntry *entry, _cachedLists[id]._entriesArray) {
+		foreach (const EntryListCachedEntry *entry, _cachedLists[id].entriesArray()) {
 			rowIdCache[entry->rowId()] = entry;
 		}
 	}
@@ -143,10 +152,10 @@ const EntryListCachedList &EntryListCache::getList(quint64 id)
 const EntryListCachedEntry &EntryListCache::get(int parent, int pos)
 {
 	const EntryListCachedList &parentList = getList(parent);
-	if (pos < 0 || pos >= parentList._entries.size()) return rootEntry();
-	else return *(parentList._entriesArray[pos]);
+	if (pos < 0 || pos >= parentList.entriesArray().size()) return rootEntry();
+	else return *(parentList.entriesArray()[pos]);
 }
-
+/*
 void EntryListCache::invalidate(uint rowId)
 {
 	QMutexLocker ml(&_cacheLock);
@@ -162,3 +171,4 @@ void EntryListCache::invalidateAll()
 //	rowParentCache.clear();
 	rowIdCache.clear();
 }
+*/
