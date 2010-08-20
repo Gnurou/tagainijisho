@@ -91,7 +91,7 @@ int EntryListModel::rowCount(const QModelIndex &parent) const
 QVariant EntryListModel::data(const QModelIndex &index, int role) const
 {
 	if (!index.isValid() || index.column() != 0) return QVariant();
-	const EntryListCachedEntry &cEntry = EntryListCache::instance().get(index.isValid() ? index.internalId() : -1);
+	const EntryListCachedEntry &cEntry = EntryListCache::instance().get(index.isValid() ? index.internalId() : rootId());
 	if (cEntry.isRoot()) return QVariant();
 	switch (role) {
 		case Qt::DisplayRole:

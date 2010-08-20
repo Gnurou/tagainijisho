@@ -107,14 +107,15 @@ private:
 
 	QMap<quint64, EntryListCachedList> _cachedLists;
 
-	mutable QHash<int, EntryListCachedEntry> rowIdCache;
-	mutable QHash<QPair<int, int>, EntryListCachedEntry> rowParentCache;
+	mutable QHash<quint64, const EntryListCachedEntry *> rowIdCache;
 	QMutex _cacheLock;
 
 	QSqlQuery getByIdQuery;
 	QSqlQuery getByParentPosQuery;
 	QSqlQuery getByParentPosRootQuery;
-//	QSqlQuery fixListPositionQuery;
+
+	const EntryListCachedList & getList(quint64 id);
+	const EntryListCachedEntry &rootEntry();
 
 public:
 	/// Returns a reference to the unique instance of this class.
