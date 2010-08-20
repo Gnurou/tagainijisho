@@ -32,7 +32,7 @@
 #define EXEC(q) if (!q.exec()) { qDebug() << __FILE__ << __LINE__ << "Cannot execute query:" << q.lastError().text(); return false; }
 #define EXEC_T(q) if (!q.exec()) { qDebug() << __FILE__ << __LINE__ << "Cannot execute query:" << q.lastError().text(); goto transactionFailed; }
 
-void EntryListModel::setRoot(int rootId)
+void EntryListModel::setRoot(quint64 rootId)
 {
 	// Nothing changes?
 	if (rootId == _rootId) return;
@@ -48,13 +48,14 @@ QModelIndex EntryListModel::index(int row, int column, const QModelIndex &parent
 	if (column > 0) return QModelIndex();
 	const EntryListCachedEntry &cEntry = EntryListCache::instance().get(parent.isValid() ? parent.internalId() : rootId(), row);
 	if (cEntry.isRoot()) return QModelIndex();
-	else return createIndex(row, column, cEntry.rowId());
+	// FIXME Qt is wrong here - internalId() returns a qin64, so this function should take a quint64 too!
+	else return createIndex(row, column, (quint32)cEntry.rowId());
 }
 	
 QModelIndex EntryListModel::index(int rowId) const
 {
 	// Invalid items have no parent
-	if (rowId == -1) return QModelIndex();
+	if (rowId == 0) return QModelIndex();
 	const EntryListCachedEntry &cEntry = EntryListCache::instance().get(rowId);
 	if (cEntry.isRoot()) return QModelIndex();
 	return createIndex(cEntry.position(), 0, rowId);
@@ -75,14 +76,14 @@ QModelIndex EntryListModel::parent(const QModelIndex &idx) const
 	const EntryListCachedEntry &cEntry = EntryListCache::instance().get(idx.isValid() ? idx.internalId() : rootId());
 	if (cEntry.isRoot() || cEntry.rowId() == rootId()) return QModelIndex();
 	else {
-		int pIndex(cEntry.parent());
+		quint64 pIndex(cEntry.parent());
 		return index(pIndex == rootId() ? -1 : pIndex);
 	}
 }
 
 int EntryListModel::rowCount(const QModelIndex &parent) const
 {
-	const EntryListCachedEntry &cEntry = EntryListCache::instance().get(parent.parent().internalId(), parent.row());
+	const EntryListCachedEntry &cEntry = EntryListCache::instance().get(parent.isValid() ? parent.internalId() : rootId());
 	// Not a list? No child!
 	if (!cEntry.isList()) return 0;
 	return cEntry.count();
@@ -146,6 +147,9 @@ QVariant EntryListModel::data(const QModelIndex &index, int role) const
 
 bool EntryListModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
+	return false;
+
+	/*
 	if (role == Qt::EditRole && index.isValid()) {
 		if (!TRANSACTION) return false;
 		{
@@ -169,11 +173,13 @@ bool EntryListModel::setData(const QModelIndex &index, const QVariant &value, in
 transactionFailed:
 	ROLLBACK;
 	EntryListCache::instance().invalidateAll();
-	return false;
+	return false; */
 }
 	
 bool EntryListModel::moveRows(int row, int delta, const QModelIndex &parent, QSqlQuery &query)
 {
+	return false;
+	/*
 	QString queryText("update lists set position = position + ? where parent %1 and position >= ?");
 	if (!parent.isValid()) query.prepare(queryText.arg("is null"));
 	else query.prepare(queryText.arg("= ?"));
@@ -181,12 +187,14 @@ bool EntryListModel::moveRows(int row, int delta, const QModelIndex &parent, QSq
 	if (parent.isValid()) query.addBindValue(parent.internalId());
 	query.addBindValue(row);
 	EXEC(query);
-	return true;
+	return true;*/
 }
 
 // TODO How to handle the beginInsertRows if the transaction failed and endInsertRows is not called?
 bool EntryListModel::insertRows(int row, int count, const QModelIndex & parent)
 {
+	return false;
+	/*
 	const QModelIndex realParent(parent.isValid() ? parent : index(rootId()));
 	if (!TRANSACTION) return false;
 	beginInsertRows(parent, row, row + count - 1);
@@ -214,11 +222,13 @@ bool EntryListModel::insertRows(int row, int count, const QModelIndex & parent)
 transactionFailed:
 	ROLLBACK;
 	EntryListCache::instance().invalidateAll();
-	return false;
+	return false;*/
 }
 
 bool EntryListModel::_removeRows(int row, int count, const QModelIndex &parent)
 {
+	return false;
+	/*
 	QSqlQuery query;
 	// Get the list of items to remove
 	QString queryString("select rowid, type, id from lists where parent %1 and position between ? and ?");
@@ -260,11 +270,13 @@ bool EntryListModel::_removeRows(int row, int count, const QModelIndex &parent)
 	EXEC(query);
 	// Update the positions of items that were after the ones we removed
 	if (!moveRows(row + count, -count, parent, query)) return false;
-	return true;
+	return true;*/
 }
 
 bool EntryListModel::removeRows(int row, int count, const QModelIndex &parent)
 {
+	return false;
+/*
 	const QModelIndex realParent(parent.isValid() ? parent : index(rootId()));
 	if (!TRANSACTION) return false;
 	beginRemoveRows(parent, row, row + count - 1);
@@ -276,7 +288,7 @@ bool EntryListModel::removeRows(int row, int count, const QModelIndex &parent)
 transactionFailed:
 	ROLLBACK;
 	EntryListCache::instance().invalidateAll();
-	return false;
+	return false;*/
 }
 
 Qt::ItemFlags EntryListModel::flags(const QModelIndex &index) const
@@ -295,14 +307,15 @@ Qt::ItemFlags EntryListModel::flags(const QModelIndex &index) const
 QStringList EntryListModel::mimeTypes() const
 {
 	QStringList ret;
-	ret << "tagainijisho/entry";
-	ret << "tagainijisho/listitem";
+//	ret << "tagainijisho/entry";
+//	ret << "tagainijisho/listitem";
 	return ret;
 }
 
 QMimeData *EntryListModel::mimeData(const QModelIndexList &indexes) const
 {
 	QMimeData *mimeData = new QMimeData();
+	/*
 	QByteArray entriesEncodedData;
 	QDataStream entriesStream(&entriesEncodedData, QIODevice::WriteOnly);
 	QByteArray itemsEncodedData;
@@ -319,12 +332,14 @@ QMimeData *EntryListModel::mimeData(const QModelIndexList &indexes) const
 		}
 	}
 	if (!entriesEncodedData.isEmpty()) mimeData->setData("tagainijisho/entry", entriesEncodedData);
-	if (!itemsEncodedData.isEmpty()) mimeData->setData("tagainijisho/listitem", itemsEncodedData);
+	if (!itemsEncodedData.isEmpty()) mimeData->setData("tagainijisho/listitem", itemsEncodedData);*/
 	return mimeData;
 }
 
 bool EntryListModel::dropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &_parent)
 {
+	return false;
+	/*
 	if (action == Qt::IgnoreAction) return true;
 	if (column == -1) column = 0;
 	if (column > 0) return false;
@@ -447,5 +462,5 @@ bool EntryListModel::dropMimeData(const QMimeData *data, Qt::DropAction action, 
 transactionFailed:
 	ROLLBACK;
 	EntryListCache::instance().invalidateAll();
-	return false;
+	return false;*/
 }

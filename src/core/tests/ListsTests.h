@@ -35,5 +35,6 @@ private slots:
 	void initTestCase();
 	void cleanupTestCase();
 
+	void entryListCachedEntry_data();
 	void entryListCachedEntry();
 };
