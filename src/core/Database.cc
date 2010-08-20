@@ -67,8 +67,10 @@ bool Database::createUserDB()
 	QUERY("CREATE INDEX idx_sets_id ON sets(parent, position)");
 	
 	// Lists tables
-	QUERY("CREATE TABLE lists(parent INTEGER REFERENCES lists, position INTEGER NOT NULL, type INTEGER, id INTEGER)");
-	QUERY("CREATE INDEX idx_lists_ref ON lists(parent, position)");
+//	QUERY("CREATE TABLE lists(parent INTEGER REFERENCES lists, position INTEGER NOT NULL, type INTEGER, id INTEGER)");
+//	QUERY("CREATE INDEX idx_lists_ref ON lists(parent, position)");
+	QUERY("CREATE TABLE lists(parent INTEGER REFERENCES lists, next INTEGER REFERENCES lists, type INTEGER, id INTEGER)");
+	QUERY("CREATE INDEX idx_lists_parent ON lists(parent)");
 	QUERY("CREATE INDEX idx_lists_entry ON lists(type, id)");
 	QUERY("CREATE VIRTUAL TABLE listsLabels using fts3(label)");
 	if (!database.commit()) return false;
