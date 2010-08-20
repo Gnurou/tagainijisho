@@ -35,7 +35,7 @@
 PreferenceItem<int> KanjiPlayer::animationSpeed("kanjidic", "animationSpeed", 30);
 PreferenceItem<int> KanjiPlayer::delayBetweenStrokes("kanjidic", "delayBetweenStrokes", 10);
 PreferenceItem<int> KanjiPlayer::animationLoopDelay("kanjidic", "animationLoopDelay", -1);
-PreferenceItem<bool> KanjiPlayer::showGridPref("kanjidic", "showStrokesGrid", false);
+PreferenceItem<bool> KanjiPlayer::showGridPref("kanjidic", "showStrokesGrid", true);
 PreferenceItem<bool> KanjiPlayer::showStrokesNumbersPref("kanjidic", "showStrokesNumbers", false);
 PreferenceItem<int> KanjiPlayer::strokesNumbersSizePref("kanjidic", "strokesNumbersSize", 4);
 
