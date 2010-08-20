@@ -20,7 +20,7 @@
    <item>
     <widget class="QLabel" name="_titleLabel">
      <property name="text">
-      <string>Test test</string>
+      <string/>
      </property>
     </widget>
    </item>
@@ -47,9 +47,6 @@
      <attribute name="headerVisible">
       <bool>false</bool>
      </attribute>
-     <attribute name="headerVisible">
-      <bool>false</bool>
-     </attribute>
     </widget>
    </item>
   </layout>
@@ -65,9 +62,7 @@
    </slots>
   </customwidget>
  </customwidgets>
- <resources>
-  <include location="../../tagainijisho.qrc"/>
- </resources>
+ <resources/>
  <connections/>
  <slots>
   <slot>printSelection()</slot>
