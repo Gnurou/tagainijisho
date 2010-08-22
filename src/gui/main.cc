@@ -223,9 +223,14 @@ int main(int argc, char *argv[])
 	QStringList args(app.arguments());
 
 	// Start database thread
+	bool temporaryDB = false;
+	QString userDBFile;
+	foreach (const QString &arg, args) {
+		if (arg == "--temp-db") temporaryDB = true;
+		else if (arg.startsWith("--user-db=")) userDBFile = arg.mid(10);
+	}
 	// TODO check return value
-	bool temporaryDB = args.contains("--temp-db");
-	Database::startThreaded(temporaryDB);
+	Database::startThreaded(userDBFile, temporaryDB);
 
 	// Initialize tags
 	Tag::init();

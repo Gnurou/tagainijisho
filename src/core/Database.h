@@ -50,7 +50,7 @@ private:
 
 	QSqlDatabase database;
 	sqlite3 *sqliteHandler;
-	Database(bool temporary = false, QObject *parent = 0);
+	Database(const QString &userDBFile = QString(), bool temporary = false, QObject *parent = 0);
 	~Database();
 
 	bool createUserDB();
@@ -68,8 +68,8 @@ protected:
 	void run();
 
 public:
-	static void startThreaded(bool temporary = false);
-	static void startUnthreaded(bool temporary = false);
+	static void startThreaded(const QString &userDBFile = QString(), bool temporary = false);
+	static void startUnthreaded(const QString &userDBFile = QString(), bool temporary = false);
 	static void stop();
 	static const QString &userDBFile() { return _userDBFile; }
 	static const QString defaultDBFile() { return QDir(userProfile()).absoluteFilePath("user.db"); }
