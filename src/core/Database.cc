@@ -272,18 +272,18 @@ Qt::ConnectionType Database::aSyncConnection() { return alwaysSync; }
 // thread is ready to work (i.e. slots are correctly connected).
 QSemaphore startSem(0);
 
-void Database::startThreaded(bool temporary)
+void Database::startThreaded(const QString &userDBFile, bool temporary)
 {
-	_instance = new Database(temporary);
+	_instance = new Database(userDBFile, temporary);
 	_instance->start();
 	// Block until the database thread is ready
 	startSem.acquire();
 }
 
-void Database::startUnthreaded(bool temporary)
+void Database::startUnthreaded(const QString &userDBFile, bool temporary)
 {
 	alwaysSync = Qt::AutoConnection;
-	_instance = new Database(temporary);
+	_instance = new Database(userDBFile, temporary);
 	_instance->run();
 }
 
@@ -352,7 +352,7 @@ static void load_extensions(sqlite3 *handler)
 	//register_all_tokenizers(handler);
 }
 
-Database::Database(bool temporary, QObject *parent) : QThread(parent), _tFile(0), sqliteHandler(0)
+Database::Database(const QString &userDBFile, bool temporary, QObject *parent) : QThread(parent), _tFile(0), sqliteHandler(0)
 {
 	sqlite3_auto_extension((void (*)())load_extensions);
 	
@@ -362,7 +362,7 @@ Database::Database(bool temporary, QObject *parent) : QThread(parent), _tFile(0)
 	database = QSqlDatabase::addDatabase(driver);
 	// Temporary database explicitly required or cannot connect to user DB:
 	// Switch to the temporary database
-	if (temporary || !connectUserDB()) {
+	if (temporary || !connectUserDB(userDBFile)) {
 		if (!connectToTemporaryDatabase()) {
 			dbWarning(tr("Temporary database fallback failed. The program will now exit."));
 			qFatal("All database fallbacks failed, exiting...");
