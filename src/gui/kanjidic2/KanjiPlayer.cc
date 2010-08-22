@@ -23,6 +23,7 @@
 #include <QVBoxLayout>
 #include <QMouseEvent>
 #include <QToolButton>
+#include <QPainterPathStroker>
 
 #define TIMER_INTERVAL 20
 
@@ -34,7 +35,7 @@
 PreferenceItem<int> KanjiPlayer::animationSpeed("kanjidic", "animationSpeed", 30);
 PreferenceItem<int> KanjiPlayer::delayBetweenStrokes("kanjidic", "delayBetweenStrokes", 10);
 PreferenceItem<int> KanjiPlayer::animationLoopDelay("kanjidic", "animationLoopDelay", -1);
-PreferenceItem<bool> KanjiPlayer::showGridPref("kanjidic", "showStrokesGrid", false);
+PreferenceItem<bool> KanjiPlayer::showGridPref("kanjidic", "showStrokesGrid", true);
 PreferenceItem<bool> KanjiPlayer::showStrokesNumbersPref("kanjidic", "showStrokesNumbers", false);
 PreferenceItem<int> KanjiPlayer::strokesNumbersSizePref("kanjidic", "strokesNumbersSize", 4);
 
@@ -70,6 +71,7 @@ KanjiPlayer::KanjiPlayer(QWidget *parent) : QWidget(parent), _timer(), _kanji(0)
 	
 	kanjiView = new QLabel(this);
 	kanjiView->setFrameStyle(QFrame::StyledPanel | QFrame::Sunken);
+	kanjiView->setFocusPolicy(Qt::NoFocus);
 	kanjiView->setPicture(_picture);
 	kanjiView->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 	kanjiView->setMouseTracking(true);
@@ -205,47 +207,46 @@ void KanjiPlayer::unHighlightComponent()
 
 void KanjiPlayer::renderCurrentState()
 {
-#define DEFAULT_PEN_WIDTH 4
-#define HIGHLIGHT_PEN_WIDTH (DEFAULT_PEN_WIDTH + 3)
-	QPen pen;
-	pen.setWidth(DEFAULT_PEN_WIDTH);
-	pen.setColor(palette().color(QPalette::Dark));
-	pen.setCapStyle(Qt::RoundCap);
-	//pen.setJoinStyle(Qt::BevelJoin);
-	QPen pen2;
-	pen2.setWidth(DEFAULT_PEN_WIDTH);
-	pen2.setCapStyle(Qt::RoundCap);
-	//pen2.setJoinStyle(Qt::MiterJoin);
-	
+	static const int strokes_size = 4;
+	static const int outline_size = strokes_size + 3;
+	static const Qt::PenCapStyle strokeCapStyle = Qt::RoundCap;
+
 	QPainter painter(&_picture);
 	painter.scale(pictureSize() / KANJI_AREA_WIDTH, pictureSize() / KANJI_AREA_HEIGHT);
 	painter.setRenderHint(QPainter::Antialiasing);
 
 	// Render the grid, if relevant
 	if (showGrid()) {
-		QPen pen3;
-		pen3.setWidth(DEFAULT_PEN_WIDTH / 2);
-		pen3.setColor(palette().color(QPalette::Mid));
-		painter.setPen(pen3);
+		QPen gridPen;
+		gridPen.setWidth(strokes_size / 2);
+		gridPen.setColor(palette().color(QPalette::Mid));
+		painter.setPen(gridPen);
 
 		renderer.renderGrid(&painter);
 	}
 	
 	// Render the outline
-	pen.setWidth(HIGHLIGHT_PEN_WIDTH);
-	painter.setPen(pen);
+	QPen outLinePen;
+	outLinePen.setColor(palette().color(QPalette::Dark));
+	outLinePen.setCapStyle(strokeCapStyle);
+	outLinePen.setWidth(outline_size);
+	painter.setPen(outLinePen);
 	renderer.renderStrokes(&painter);
 	if (highlightedComponent()) {
-		pen.setWidth(HIGHLIGHT_PEN_WIDTH + 3);
-		painter.setPen(pen);
+		outLinePen.setWidth(outline_size + 3);
+		painter.setPen(outLinePen);
 		renderer.renderComponentStrokes(*highlightedComponent(), &painter);
 	}
-	pen.setWidth(DEFAULT_PEN_WIDTH);
-	pen.setColor(palette().color(QPalette::Window));
-	painter.setPen(pen);
+	outLinePen.setWidth(strokes_size);
+	outLinePen.setColor(palette().color(QPalette::Window));
+	painter.setPen(outLinePen);
 	renderer.renderStrokes(&painter);
 
-	painter.setPen(pen2);
+	// Render the strokes
+	QPen strokesPen;
+	strokesPen.setWidth(strokes_size);
+	strokesPen.setCapStyle(strokeCapStyle);
+	painter.setPen(strokesPen);
 
 	const QList<const KanjiComponent *> &kComponents(_kanji->rootComponents());
 	const QList<KanjiStroke> &kStrokes(_kanji->strokes());
@@ -258,10 +259,10 @@ void KanjiPlayer::renderCurrentState()
 		const KanjiComponent *parent(0);
 		if (highlightedComponent() && highlightedComponent()->strokes().contains(&kStrokes[i])) { parent = highlightedComponent(); }
 		else foreach (const KanjiComponent *comp, kComponents) if (comp->strokes().contains(&kStrokes[i])) { parent = comp; break; }
-		if (!parent) pen2.setColor(colList[0]);
-		else pen2.setColor(colList[kComponents.indexOf(parent) + 1]);
-		if (highlightedComponent() && parent == highlightedComponent()) pen2.setColor(pen2.color().lighter(HIGHLIGHT_RATIO));
-		painter.setPen(pen2);
+		if (!parent) strokesPen.setColor(colList[0]);
+		else strokesPen.setColor(colList[kComponents.indexOf(parent) + 1]);
+		if (highlightedComponent() && parent == highlightedComponent()) strokesPen.setColor(strokesPen.color().lighter(HIGHLIGHT_RATIO));
+		painter.setPen(strokesPen);
 		renderer.strokes()[i].render(&painter);
 	}
 	// Render partial stroke
@@ -270,12 +271,13 @@ void KanjiPlayer::renderCurrentState()
 		const KanjiComponent *parent(0);
 		if (highlightedComponent() && highlightedComponent()->strokes().contains(currentStroke.stroke())) { parent = highlightedComponent(); }
 		else foreach (const KanjiComponent *comp, kComponents) if (comp->strokes().contains(currentStroke.stroke())) { parent = comp; break; }
-		if (!parent) pen2.setColor(colList[0]);
-		else pen2.setColor(colList[kComponents.indexOf(parent) + 1]);
-		if (highlightedComponent() && parent == highlightedComponent()) pen2.setColor(pen2.color().lighter(HIGHLIGHT_RATIO));
-		painter.setPen(pen2);
+		if (!parent) strokesPen.setColor(colList[0]);
+		else strokesPen.setColor(colList[kComponents.indexOf(parent) + 1]);
+		if (highlightedComponent() && parent == highlightedComponent()) strokesPen.setColor(strokesPen.color().lighter(HIGHLIGHT_RATIO));
+		painter.setPen(strokesPen);
 		currentStroke.render(&painter, _lengthCpt);
 	}
+
 	// Render stroke numbers
 	if (showStrokesNumbers()) {
 		int strokesMax = _strokesCpt + (_state == STATE_STROKE && _strokesCpt < renderer.strokes().size() ? 1 : 0);

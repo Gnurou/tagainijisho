@@ -1238,380 +1238,554 @@ améliorer les performances en cas de manipulation de nombreuses entrées.</tran
 <context>
     <name>JMdictLongDescs</name>
     <message>
+        <location filename="../3rdparty/JMdictDescs.cc" line="+1"/>
         <source>martial arts term</source>
-        <translation type="obsolete">terme d&apos;arts martiaux</translation>
+        <translation>terme d&apos;arts martiaux</translation>
     </message>
     <message>
+        <location line="+46"/>
         <source>military</source>
-        <translation type="obsolete">militaire</translation>
+        <translation>militaire</translation>
     </message>
     <message>
+        <location line="-16"/>
         <source>food term</source>
-        <translation type="obsolete">nourriture</translation>
+        <translation>nourriture</translation>
     </message>
     <message>
+        <location line="-9"/>
         <source>computer terminology</source>
-        <translation type="obsolete">terminologie informatique</translation>
+        <translation>terminologie informatique</translation>
     </message>
     <message>
+        <location line="-4"/>
         <source>Buddhist term</source>
-        <translation type="obsolete">terme Bouddhiste</translation>
+        <translation>terme Bouddhiste</translation>
     </message>
     <message>
+        <location line="+24"/>
         <source>linguistics terminology</source>
-        <translation type="obsolete">terminologie linguistique</translation>
+        <translation>terminologie linguistique</translation>
     </message>
     <message>
+        <location line="-10"/>
         <source>geometry term</source>
-        <translation type="obsolete">terme de géométrie</translation>
+        <translation>terme de géométrie</translation>
     </message>
     <message>
+        <location line="-13"/>
         <source>chemistry term</source>
-        <translation type="obsolete">terme de chimie</translation>
+        <translation>terme de chimie</translation>
     </message>
     <message>
+        <location line="+45"/>
         <source>physics terminology</source>
-        <translation type="obsolete">terme de physique</translation>
+        <translation>terme de physique</translation>
     </message>
     <message>
+        <location line="-18"/>
         <source>mathematics</source>
-        <translation type="obsolete">mathématiques</translation>
+        <translation>mathématiques</translation>
     </message>
     <message>
+        <location line="+62"/>
         <source>Nagano-ben</source>
-        <translation type="obsolete">Nagano-ben</translation>
+        <translation>Nagano-ben</translation>
     </message>
     <message>
+        <location line="-9"/>
         <source>Kyoto-ben</source>
-        <translation type="obsolete">Kyoto-ben</translation>
+        <translation>Kyoto-ben</translation>
     </message>
     <message>
+        <location line="+6"/>
         <source>Tsugaru-ben</source>
-        <translation type="obsolete">Tsugaru-ben</translation>
+        <translation>Tsugaru-ben</translation>
     </message>
     <message>
+        <location line="-2"/>
         <source>Tosa-ben</source>
-        <translation type="obsolete">Tosa-ben</translation>
+        <translation>Tosa-ben</translation>
     </message>
     <message>
+        <location line="+3"/>
         <source>Kyuushuu-ben</source>
-        <translation type="obsolete">Kyuushuu-ben</translation>
+        <translation>Kyuushuu-ben</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Ryuukyuu-ben</source>
-        <translation type="obsolete">Ryuukyuu-ben</translation>
+        <translation>Ryuukyuu-ben</translation>
     </message>
     <message>
+        <location line="-6"/>
         <source>Kansai-ben</source>
-        <translation type="obsolete">Kansai-ben</translation>
+        <translation>Kansai-ben</translation>
     </message>
     <message>
+        <location line="-1"/>
         <source>Osaka-ben</source>
-        <translation type="obsolete">Osaka-ben</translation>
+        <translation>Osaka-ben</translation>
     </message>
     <message>
+        <location line="+4"/>
         <source>Touhoku-ben</source>
-        <translation type="obsolete">Touhoku-ben</translation>
+        <translation>Touhoku-ben</translation>
     </message>
     <message>
+        <location line="-2"/>
         <source>Kantou-ben</source>
-        <translation type="obsolete">Kantou-ben</translation>
+        <translation>Kantou-ben</translation>
     </message>
     <message>
+        <location line="-59"/>
         <source>manga slang</source>
-        <translation type="obsolete">argot de manga</translation>
+        <translation>argot de manga</translation>
     </message>
     <message>
+        <location line="+18"/>
         <source>polite (teineigo) language</source>
-        <translation type="obsolete">langage poli (teineigo)</translation>
+        <translation>langage poli (teineigo)</translation>
     </message>
     <message>
+        <location line="+49"/>
         <source>vulgar expression or word</source>
-        <translation type="obsolete">mot ou expression vulgaire</translation>
+        <translation>mot ou expression vulgaire</translation>
     </message>
     <message>
+        <location line="-73"/>
         <source>idiomatic expression</source>
-        <translation type="obsolete">expression idiomatique</translation>
+        <translation>expression idiomatique</translation>
     </message>
     <message>
+        <location line="-3"/>
         <source>honorific or respectful (sonkeigo) language</source>
-        <translation type="obsolete">langage honorifique ou respecteux (sonkeigo)</translation>
+        <translation>langage honorifique ou respecteux (sonkeigo)</translation>
     </message>
     <message>
+        <location line="-4"/>
         <source>female term or language</source>
-        <translation type="obsolete">langage ou terme féminin</translation>
+        <translation>langage ou terme féminin</translation>
     </message>
     <message>
+        <location line="-20"/>
         <source>former adjective classification (being removed)</source>
-        <translation type="obsolete">anciennement qualifié comme adjectif (en cours de suppression)</translation>
+        <translation>anciennement qualifié comme adjectif (en cours de suppression)</translation>
     </message>
     <message>
+        <location line="+4"/>
+        <source>ateji (phonetic) reading</source>
+        <translation>lecture ateji (phonétique)</translation>
+    </message>
+    <message>
+        <location line="+6"/>
         <source>children&apos;s language</source>
-        <translation type="obsolete">langage enfantin</translation>
+        <translation>langage enfantin</translation>
     </message>
     <message>
+        <location line="+6"/>
+        <source>exclusively kanji</source>
+        <translation>exclusivement en kanji</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>exclusively kana</source>
+        <translation>exclusivement en kana</translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <source>gikun (meaning as reading)  or jukujikun (special kanji reading)</source>
+        <translation>gikun (sens selon la lecture) ou jukujukun (lecture spéciale de kanji)</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>word containing irregular kanji usage</source>
+        <translation>mot contenant un usage irrégulier de kanji</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>word containing irregular kana usage</source>
+        <translation>mot contenant un usage irrégulier de kana</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>irregular okurigana usage</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>irregular verb</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>male slang</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>word containing out-dated kanji</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>obscure term</source>
-        <translation type="obsolete">terme obscure</translation>
+        <translation>terme obscure</translation>
     </message>
     <message>
+        <location line="+1"/>
+        <source>out-dated or obsolete kana usage</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
         <source>onomatopoeic or mimetic word</source>
-        <translation type="obsolete">onomatopée ou mimétisme</translation>
+        <translation>onomatopée ou mimétisme</translation>
     </message>
     <message>
+        <location line="+2"/>
         <source>poetical term</source>
-        <translation type="obsolete">terme poétique</translation>
+        <translation>terme poétique</translation>
     </message>
     <message>
+        <location line="+5"/>
+        <source>rare</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
         <source>sensitive</source>
-        <translation type="obsolete">sensitif</translation>
+        <translation>sensitif</translation>
     </message>
     <message>
+        <location line="-31"/>
         <source>humble (kenjougo) language</source>
-        <translation type="obsolete">langage humble (kenjougo)</translation>
+        <translation>langage humble (kenjougo)</translation>
     </message>
     <message>
+        <location line="-32"/>
         <source>abbreviation</source>
-        <translation type="obsolete">abbréviation</translation>
+        <translation>abbréviation</translation>
     </message>
     <message>
+        <location line="+26"/>
         <source>familiar language</source>
-        <translation type="obsolete">langage familier</translation>
+        <translation>langage familier</translation>
     </message>
     <message>
+        <location line="-27"/>
         <source>rude or X-rated term (not displayed in educational software)</source>
-        <translation type="obsolete">terme brutal ou classé X (non-utilisé dans les logiciels éducatifs)</translation>
+        <translation>terme brutal ou classé X (non-utilisé dans les logiciels éducatifs)</translation>
     </message>
     <message>
+        <location line="+11"/>
         <source>archaism</source>
-        <translation type="obsolete">archaisme</translation>
+        <translation>archaisme</translation>
     </message>
     <message>
+        <location line="+12"/>
         <source>derogatory</source>
-        <translation type="obsolete">dérogatoire</translation>
+        <translation>dérogatoire</translation>
     </message>
     <message>
+        <location line="-4"/>
         <source>colloquialism</source>
-        <translation type="obsolete">colloquialisme</translation>
+        <translation>colloquialisme</translation>
     </message>
     <message>
+        <location line="+49"/>
         <source>word usually written using kana alone</source>
-        <translation type="obsolete">mot généralement écrit en kanas uniquement</translation>
+        <translation>mot généralement écrit en kana uniquement</translation>
     </message>
     <message>
+        <location line="-3"/>
         <source>slang</source>
-        <translation type="obsolete">argot</translation>
+        <translation>argot</translation>
     </message>
     <message>
+        <location line="-23"/>
         <source>male term or language</source>
-        <translation type="obsolete">langage ou terme masculin</translation>
+        <translation>langage ou terme masculin</translation>
     </message>
     <message>
+        <location line="+11"/>
         <source>obsolete term</source>
-        <translation type="obsolete">terme obsolete</translation>
+        <translation>terme obsolete</translation>
     </message>
     <message>
+        <location line="-43"/>
         <source>adverb taking the `to&apos; particle</source>
-        <translation type="obsolete">adverbe prenant la particule `to&apos;</translation>
+        <translation>adverbe prenant la particule `to&apos;</translation>
     </message>
     <message>
+        <location line="+40"/>
         <source>noun (temporal) (jisoumeishi)</source>
-        <translation type="obsolete">nom (temporel) (jisoumeishi)</translation>
+        <translation>nom (temporel) (jisoumeishi)</translation>
     </message>
     <message>
+        <location line="+10"/>
         <source>prefix</source>
-        <translation type="obsolete">préfixe</translation>
+        <translation>préfixe</translation>
     </message>
     <message>
+        <location line="-54"/>
         <source>`taru&apos; adjective</source>
-        <translation type="obsolete">adjectif `taru&apos;</translation>
+        <translation>adjectif `taru&apos;</translation>
     </message>
     <message>
+        <location line="+31"/>
         <source>interjection (kandoushi)</source>
-        <translation type="obsolete">interjection (kandoushi)</translation>
+        <translation>interjection (kandoushi)</translation>
     </message>
     <message>
+        <location line="+30"/>
+        <source>word usually written using kanji alone</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <source>Godan verb (not completely classified)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+14"/>
+        <source>Godan verb - Uru old class verb (old form of Eru)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Godan verb with `zu&apos; ending</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>intransitive verb</source>
-        <translation type="obsolete">verbe intransitif</translation>
+        <translation>verbe intransitif</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Kuru verb - special class</source>
-        <translation type="obsolete">verbe kuru - classe spéciale</translation>
+        <translation>verbe kuru - classe spéciale</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>irregular nu verb</source>
-        <translation type="obsolete">verbe nu irrégulier</translation>
+        <translation>verbe nu irrégulier</translation>
     </message>
     <message>
+        <location line="-31"/>
         <source>particle</source>
-        <translation type="obsolete">particule</translation>
+        <translation>particule</translation>
     </message>
     <message>
+        <location line="+32"/>
         <source>irregular ru verb, plain form ends with -ri</source>
-        <translation type="obsolete">verbe ru irrégulier, forme normale finissant en -ri</translation>
+        <translation>verbe ru irrégulier, forme normale finissant en -ri</translation>
     </message>
     <message>
+        <location line="-86"/>
         <source>noun or verb acting prenominally</source>
-        <translation type="obsolete">nom ou verbe prénomial</translation>
+        <translation>nom ou verbe prénomial</translation>
     </message>
     <message>
+        <location line="+100"/>
         <source>transitive verb</source>
-        <translation type="obsolete">verbe transitif</translation>
+        <translation>verbe transitif</translation>
     </message>
     <message>
+        <location line="-59"/>
         <source>noun, used as a suffix</source>
-        <translation type="obsolete">nom, utilisé comme suffixe</translation>
+        <translation>nom, utilisé comme suffixe</translation>
     </message>
     <message>
+        <location line="-27"/>
         <source>conjunction</source>
-        <translation type="obsolete">conjonction</translation>
+        <translation>conjonction</translation>
     </message>
     <message>
+        <location line="-19"/>
         <source>adjective (keiyoushi)</source>
-        <translation type="obsolete">adjectif (keiyoushi)</translation>
+        <translation>adjectif (keiyoushi)</translation>
     </message>
     <message>
+        <location line="+87"/>
         <source>Ichidan verb - zuru verb (alternative form of -jiru verbs)</source>
-        <translation type="obsolete">verbe Ichidan - verbe zuru (forme alternative des verbes -jiru)</translation>
+        <translation>verbe Ichidan - verbe zuru (forme alternative des verbes -jiru)</translation>
     </message>
     <message>
+        <location line="-80"/>
         <source>adverb (fukushi)</source>
-        <translation type="obsolete">adverbe (fukushi)</translation>
+        <translation>adverbe (fukushi)</translation>
     </message>
     <message>
+        <location line="+57"/>
         <source>suffix</source>
-        <translation type="obsolete">suffixe</translation>
+        <translation>suffixe</translation>
     </message>
     <message>
+        <location line="+9"/>
         <source>Godan verb with `bu&apos; ending</source>
-        <translation type="obsolete">verbe Godan avec terminaison en `bu&apos;</translation>
+        <translation>verbe Godan avec terminaison en `bu&apos;</translation>
     </message>
     <message>
+        <location line="+5"/>
         <source>Godan verb with `nu&apos; ending</source>
-        <translation type="obsolete">verbe Godan avec terminaison en `nu&apos;</translation>
+        <translation>verbe Godan avec terminaison en `nu&apos;</translation>
     </message>
     <message>
+        <location line="-6"/>
         <source>Godan verb - -aru special class</source>
-        <translation type="obsolete">verbe Godan - classe spéciale -aru</translation>
+        <translation>verbe Godan - classe spéciale -aru</translation>
     </message>
     <message>
+        <location line="+5"/>
         <source>Godan verb with `mu&apos; ending</source>
-        <translation type="obsolete">verbe Godan avec terminaison en `mu&apos;</translation>
+        <translation>verbe Godan avec terminaison en `mu&apos;</translation>
     </message>
     <message>
+        <location line="-2"/>
         <source>Godan verb with `ku&apos; ending</source>
-        <translation type="obsolete">verbe Godan avec terminaison en `ku&apos;</translation>
+        <translation>verbe Godan avec terminaison en `ku&apos;</translation>
     </message>
     <message>
+        <location line="+7"/>
         <source>Godan verb with `tsu&apos; ending</source>
-        <translation type="obsolete">verbe Godan avec terminaison en `tsu&apos;</translation>
+        <translation>verbe Godan avec terminaison en `tsu&apos;</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Godan verb with `u&apos; ending</source>
-        <translation type="obsolete">verbe Godan avec terminaison en `u&apos;</translation>
+        <translation>verbe Godan avec terminaison en `u&apos;</translation>
     </message>
     <message>
+        <location line="-4"/>
         <source>Godan verb with `ru&apos; ending</source>
-        <translation type="obsolete">verbe Godan avec terminaison en `ru&apos;</translation>
+        <translation>verbe Godan avec terminaison en `ru&apos;</translation>
     </message>
     <message>
+        <location line="+2"/>
         <source>Godan verb with `su&apos; ending</source>
-        <translation type="obsolete">verbe Godan avec terminaison en `su&apos;</translation>
+        <translation>verbe Godan avec terminaison en `su&apos;</translation>
     </message>
     <message>
+        <location line="-70"/>
         <source>auxiliary</source>
-        <translation type="obsolete">auxiliaire</translation>
+        <translation>auxiliaire</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>auxiliary verb</source>
-        <translation type="obsolete">verbe auxiliaire</translation>
+        <translation>verbe auxiliaire</translation>
     </message>
     <message>
+        <location line="-11"/>
         <source>adjectival nouns or quasi-adjectives (keiyodoshi)</source>
-        <translation type="obsolete">noms adjectivaux ou quasi-adjectifs (keiyodoshi)</translation>
+        <translation>noms adjectivaux ou quasi-adjectifs (keiyodoshi)</translation>
     </message>
     <message>
+        <location line="+75"/>
         <source>Godan verb - Iku/Yuku special class</source>
-        <translation type="obsolete">verbe Godan - classe spéciale Iku/Yuku</translation>
+        <translation>verbe Godan - classe spéciale Iku/Yuku</translation>
     </message>
     <message>
+        <location line="+8"/>
         <source>Godan verb with `u&apos; ending (special class)</source>
-        <translation type="obsolete">verbe Godan avec terminaison en `u&apos; (classe spéciale)</translation>
+        <translation>verbe Godan avec terminaison en `u&apos; (classe spéciale)</translation>
     </message>
     <message>
+        <location line="-10"/>
         <source>Godan verb with `gu&apos; ending</source>
-        <translation type="obsolete">verbe Godan avec terminaison en `gu&apos;</translation>
+        <translation>verbe Godan avec terminaison en `gu&apos;</translation>
     </message>
     <message>
+        <location line="-72"/>
         <source>nouns which may take the genitive case particle `no&apos;</source>
-        <translation type="obsolete">noms pouvant prendre la particule génitive `no&apos;</translation>
+        <translation>noms pouvant prendre la particule génitive `no&apos;</translation>
     </message>
     <message>
+        <location line="+65"/>
         <source>Ichidan verb</source>
-        <translation type="obsolete">verbe Ichidan</translation>
+        <translation>verbe Ichidan</translation>
     </message>
     <message>
+        <location line="-20"/>
         <source>noun, used as a prefix</source>
-        <translation type="obsolete">nom, utilisé comme préfixe</translation>
+        <translation>nom, utilisé comme préfixe</translation>
     </message>
     <message>
+        <location line="-34"/>
         <source>auxiliary adjective</source>
-        <translation type="obsolete">adjectif auxiliaire</translation>
+        <translation>adjectif auxiliaire</translation>
     </message>
     <message>
+        <location line="+57"/>
         <source>Yondan verb with `ru&apos; ending (archaic)</source>
-        <translation type="obsolete">verbe Yondan avec terminaison en `ru&apos; (archaique)</translation>
+        <translation>verbe Yondan avec terminaison en `ru&apos; (archaique)</translation>
     </message>
     <message>
+        <location line="-21"/>
         <source>numeric</source>
-        <translation type="obsolete">numérique</translation>
+        <translation>numérique</translation>
     </message>
     <message>
+        <location line="-29"/>
         <source>counter</source>
-        <translation type="obsolete">compteur</translation>
+        <translation>compteur</translation>
     </message>
     <message>
+        <location line="-17"/>
         <source>pre-noun adjectival (rentaishi)</source>
-        <translation type="obsolete">adjectif pré-nominal (rentaishi)</translation>
+        <translation>adjectif pré-nominal (rentaishi)</translation>
     </message>
     <message>
+        <location line="+66"/>
         <source>Yondan verb with `hu/fu&apos; ending (archaic)</source>
-        <translation type="obsolete">verbe Yondan avec terminaison en `hu/fu&apos; (archaique)</translation>
+        <translation>verbe Yondan avec terminaison en `hu/fu&apos; (archaique)</translation>
     </message>
     <message>
+        <location line="-1"/>
         <source>Nidan verb with &apos;u&apos; ending (archaic)</source>
-        <translation type="obsolete">verbe Nidan avec terminaison en `u&apos; (archaique)</translation>
+        <translation>verbe Nidan avec terminaison en `u&apos; (archaique)</translation>
     </message>
     <message>
+        <location line="+25"/>
         <source>suru verb - special class</source>
-        <translation type="obsolete">verbe suru - classe spéciale</translation>
+        <translation>verbe suru - classe spéciale</translation>
     </message>
     <message>
+        <location line="-49"/>
         <source>noun (common) (futsuumeishi)</source>
-        <translation type="obsolete">nom (commun) (futsuumeishi)</translation>
+        <translation>nom (commun) (futsuumeishi)</translation>
     </message>
     <message>
+        <location line="+48"/>
         <source>noun or participle which takes the aux. verb suru</source>
-        <translation type="obsolete">nom ou participe prenant le verbe auxilaire suru</translation>
+        <translation>nom ou participe prenant le verbe auxilaire suru</translation>
     </message>
     <message>
+        <location line="-68"/>
         <source>Expressions (phrases, clauses, etc.)</source>
-        <translation type="obsolete">Expressions (phrases, clauses, etc.)</translation>
+        <translation>Expressions (phrases, clauses, etc.)</translation>
     </message>
     <message>
+        <location line="+70"/>
         <source>suru verb - irregular</source>
-        <translation type="obsolete">verbe suru - irrégulier</translation>
+        <translation>verbe suru - irrégulier</translation>
     </message>
     <message>
+        <location line="-49"/>
         <source>adverbial noun (fukushitekimeishi)</source>
-        <translation type="obsolete">nom adverbial (fukushitekimeishi)</translation>
+        <translation>nom adverbial (fukushitekimeishi)</translation>
     </message>
     <message>
+        <location line="+35"/>
         <source>Godan verb with `ru&apos; ending (irregular verb)</source>
-        <translation type="obsolete">verbe Godan avec terminaison en `ru&apos; (verbe irrégulier)</translation>
+        <translation>verbe Godan avec terminaison en `ru&apos; (verbe irrégulier)</translation>
     </message>
     <message>
+        <location line="-25"/>
         <source>pronoun</source>
-        <translation type="obsolete">pronom</translation>
+        <translation>pronom</translation>
     </message>
 </context>
 <context>
@@ -1901,7 +2075,7 @@ améliorer les performances en cas de manipulation de nombreuses entrées.</tran
 <context>
     <name>KanjiPlayer</name>
     <message>
-        <location filename="../src/gui/kanjidic2/KanjiPlayer.cc" line="+49"/>
+        <location filename="../src/gui/kanjidic2/KanjiPlayer.cc" line="+50"/>
         <source>Play</source>
         <translation>Lecture</translation>
     </message>
