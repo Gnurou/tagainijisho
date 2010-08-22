@@ -1,0 +1,71 @@
+tagainijisho (0.2.6-1) lucid; urgency=low
+
+  * Update to 0.2.6.
+
+ -- Alexandre Courbot <gnurou@gmail.com>  Thu, 20 Aug 2010 12:24:33 +0900
+
+tagainijisho (0.2.5-2ubuntu2) jaunty; urgency=low
+
+  * Jaunty version
+
+ -- Alexandre Courbot <gnurou@gmail.com>  Thu, 01 Apr 2010 14:57:40 +0900
+
+tagainijisho (0.2.5-2) karmic; urgency=low
+
+  * Fixed compilation bug
+
+ -- Alexandre Courbot <gnurou@gmail.com>  Thu, 01 Apr 2010 14:18:21 +0900
+
+tagainijisho (0.2.5-1ubuntu3) lucid; urgency=low
+
+  * Updated to 0.2.5.
+
+ -- Alexandre Courbot <gnurou@gmail.com>  Thu, 01 Apr 2010 13:15:39 +0900
+
+tagainijisho (0.2.5-1ubuntu2) jaunty; urgency=low
+
+  * Updated to 0.2.5.
+
+ -- Alexandre Courbot <gnurou@gmail.com>  Thu, 01 Apr 2010 13:12:31 +0900
+
+tagainijisho (0.2.5-1) karmic; urgency=low
+
+  * Updated to 0.2.5.
+
+ -- Alexandre Courbot <gnurou@gmail.com>  Wed, 31 Mar 2010 16:34:17 +0900
+
+tagainijisho (0.2.4-1ubuntu1) jaunty; urgency=low
+
+  * Updated to 0.2.4 version.
+
+ -- Alexandre Courbot <gnurou@gmail.com>  Thu, 17 Dec 2009 10:00:01 +0900
+
+tagainijisho (0.2.396-1) karmic; urgency=low
+
+  * Updated to 0.2.396 beta version.
+
+ -- Alexandre Courbot <gnurou@gmail.com>  Thu, 03 Dec 2009 11:03:36 +0900
+
+tagainijisho (0.2.395-1) karmic; urgency=low
+
+  * Updated to latest development version.
+
+ -- Alexandre Courbot <gnurou@gmail.com>  Thu, 19 Nov 2009 16:10:01 +0900
+
+tagainijisho (0.2.3-jaunty3) jaunty; urgency=low
+
+  * Fixed package menu entry.
+
+ -- Alexandre Courbot <gnurou@gmail.com>  Mon, 27 Jul 2009 18:22:00 +0900
+
+tagainijisho (0.2.3-jaunty2) jaunty; urgency=low
+
+  * Fixed menu entry under Gnome.
+
+ -- Alexandre Courbot <gnurou@gmail.com>  Mon, 27 Jul 2009 17:58:00 +0900
+
+tagainijisho (0.2.3-jaunty1) jaunty; urgency=low
+
+  * Updated to 0.2.3.
+
+ -- Alexandre Courbot <gnurou@gmail.com>  Mon, 27 Jul 2009 15:53:00 +0900

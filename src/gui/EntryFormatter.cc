@@ -36,7 +36,7 @@ EntryFormatter::EntryFormatter(const QString& _cssFile, const QString& _htmlFile
 	QString htmlFile;
 	if (!_htmlFile.isEmpty()) htmlFile = lookForFile(_htmlFile);
 	if (htmlFile.isEmpty()) htmlFile = lookForFile("detailed_default.html");
-	if (htmlFile.isEmpty()) qCritical(tr("Cannot find detailed view HTML file!").toUtf8().constData());
+	if (htmlFile.isEmpty()) qCritical("%s", tr("Cannot find detailed view HTML file!").toUtf8().constData());
 	else {
 		QFile f(htmlFile);
 		f.open(QIODevice::ReadOnly);
@@ -44,7 +44,7 @@ EntryFormatter::EntryFormatter(const QString& _cssFile, const QString& _htmlFile
 	}
 	// Load default css file
 	QString cssFile(lookForFile("detailed_default.css"));
-	if (cssFile.isEmpty()) qCritical(tr("Cannot find detailed view CSS file!").toUtf8().constData());
+	if (cssFile.isEmpty()) qCritical("%s", tr("Cannot find detailed view CSS file!").toUtf8().constData());
 	else {
 		QFile f(cssFile);
 		f.open(QIODevice::ReadOnly);
