@@ -20,6 +20,7 @@
 #include "core/Paths.h"
 #include "core/TextTools.h"
 #include "core/Database.h"
+#include "core/ASyncQuery.h"
 
 #include <QtDebug>
 #include <QSemaphore>
@@ -424,16 +425,16 @@ errorDetach:
 	QUERY("detach database " + alias);
 #undef QUERY
 error:
-	qCritical() << QString("Failed query: %1: %2").arg(query.lastQuery()).arg(query.lastError().message());
+	qCritical() << QString("Failed to attach database: %1").arg(query.lastError().message());
 	qCritical() << QString("Attached dictionary file was %1").arg(file);
 	return false;
 }
 
 bool Database::detachDictionaryDB(const QString &alias)
 {
-	SQLite::Query query(&connection);
+	SQLite::Query query(&instance()->connection);
 	if (!query.exec("detach database " + alias)) {
-		qCritical() << QString("Failed query: %1: %2").arg(query.lastQuery()).arg(query.lastError().text());
+		qCritical() << QString("Failed to attach database: %2").arg(query.lastError().message());
 		return false;
 	}
 	_attachedDBs.remove(alias);
@@ -464,7 +465,7 @@ void Database::closeDB()
 
 	// VACUUM the database
 	if (!query.exec("vacuum")) qWarning("Final VACUUM failed %s", query.lastError().message().toLatin1().data());
-	// Call destructor for the database object
-	database = QSqlDatabase();
+	// Close the database
+	connection.close();
 }
 
