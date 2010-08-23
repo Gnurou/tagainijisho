@@ -48,17 +48,18 @@ QModelIndex EntryListModel::index(int row, int column, const QModelIndex &parent
 	if (column > 0) return QModelIndex();
 	const EntryListCachedEntry &cEntry = EntryListCache::instance().get(parent.isValid() ? parent.internalId() : rootId(), row);
 	if (cEntry.isRoot()) return QModelIndex();
-	// FIXME Qt is wrong here - internalId() returns a qin64, so this function should take a quint64 too!
+	// FIXME Qt is wrong here - internalId() returns a qint64, so this function should take a qint64 too!
 	else return createIndex(row, column, (quint32)cEntry.rowId());
 }
 	
-QModelIndex EntryListModel::index(int rowId) const
+QModelIndex EntryListModel::index(quint64 rowId) const
 {
 	// Invalid items have no parent
 	if (rowId == 0) return QModelIndex();
 	const EntryListCachedEntry &cEntry = EntryListCache::instance().get(rowId);
 	if (cEntry.isRoot()) return QModelIndex();
-	return createIndex(cEntry.position(), 0, rowId);
+	// FIXME Qt is wrong here - internalId() returns a qint64, so this function should take a qint64 too!
+	return createIndex(cEntry.position(), 0, (quint32)rowId);
 }
 
 QModelIndex EntryListModel::realParent(const QModelIndex &idx) const
@@ -145,6 +146,18 @@ QVariant EntryListModel::data(const QModelIndex &index, int role) const
 	}
 }
 
+Qt::ItemFlags EntryListModel::flags(const QModelIndex &index) const
+{
+	Qt::ItemFlags ret(Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsDragEnabled);
+
+	if (index.isValid()) {
+		const EntryListCachedEntry &cEntry = EntryListCache::instance().get(index.internalId());
+		if (cEntry.isRoot()) return Qt::ItemIsEnabled;
+		if (cEntry.isList()) ret |= Qt::ItemIsEditable | Qt::ItemIsDropEnabled;
+	}
+	else ret |= Qt::ItemIsDropEnabled;
+	return ret;
+}
 bool EntryListModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
 	return false;
@@ -291,31 +304,18 @@ transactionFailed:
 	return false;*/
 }
 
-Qt::ItemFlags EntryListModel::flags(const QModelIndex &index) const
-{
-	Qt::ItemFlags ret(Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsDragEnabled);
-	
-	if (index.isValid()) {
-		const EntryListCachedEntry &cEntry = EntryListCache::instance().get(index.internalId());
-		if (cEntry.isRoot()) return Qt::ItemIsEnabled;
-		if (cEntry.isList()) ret |= Qt::ItemIsEditable | Qt::ItemIsDropEnabled;
-	}
-	else ret |= Qt::ItemIsDropEnabled;
-	return ret;
-}
-
 QStringList EntryListModel::mimeTypes() const
 {
 	QStringList ret;
-//	ret << "tagainijisho/entry";
-//	ret << "tagainijisho/listitem";
+	ret << "tagainijisho/entry";
+	ret << "tagainijisho/listitem";
 	return ret;
 }
 
 QMimeData *EntryListModel::mimeData(const QModelIndexList &indexes) const
 {
 	QMimeData *mimeData = new QMimeData();
-	/*
+
 	QByteArray entriesEncodedData;
 	QDataStream entriesStream(&entriesEncodedData, QIODevice::WriteOnly);
 	QByteArray itemsEncodedData;
@@ -328,11 +328,11 @@ QMimeData *EntryListModel::mimeData(const QModelIndexList &indexes) const
 			
 			// If the item is an entry, add it
 			const EntryListCachedEntry &cEntry = EntryListCache::instance().get(index.internalId());
-			if (!cEntry.isRoot()) entriesStream << cEntry.entryRef();
+			if (!cEntry.isList()) entriesStream << cEntry.entryRef();
 		}
 	}
 	if (!entriesEncodedData.isEmpty()) mimeData->setData("tagainijisho/entry", entriesEncodedData);
-	if (!itemsEncodedData.isEmpty()) mimeData->setData("tagainijisho/listitem", itemsEncodedData);*/
+	if (!itemsEncodedData.isEmpty()) mimeData->setData("tagainijisho/listitem", itemsEncodedData);
 	return mimeData;
 }
 
