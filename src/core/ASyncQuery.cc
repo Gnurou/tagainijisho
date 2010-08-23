@@ -31,7 +31,7 @@ int ThreadedDatabaseConnection::_conCpt = 0;
 
 static QMutex _connCptMutex;
 
-ASyncQuery::ASyncQuery(DatabaseThread *dbThread) : _dbConn(dbThread->connection()), _query(_dbConn->_database), _active(false)
+ASyncQuery::ASyncQuery(DatabaseThread *dbThread) : _dbConn(dbThread->connection()), _query(_dbConn->_connection), _active(false)
 {
 	// Move to database thread
 	moveToThread(dbThread);
@@ -141,7 +141,7 @@ ThreadedDatabaseConnection::ThreadedDatabaseConnection() : _waitingQueue(), _wai
 	_connCptMutex.lock();
 	_connectionName = "sqlite" + _conCpt++;
 	_connCptMutex.unlock();
-	_database = QSqlDatabase::addDatabase(_driver, _connectionName);
+	_connection = QSqlDatabase::addDatabase(_driver, _connectionName);
 }
 
 ThreadedDatabaseConnection::~ThreadedDatabaseConnection()
@@ -156,15 +156,15 @@ ThreadedDatabaseConnection::~ThreadedDatabaseConnection()
 	QMutexLocker queryInProgressLock(&_queryInProgressMutex);
 
 	// Close the database and remove the connection
-	_database = QSqlDatabase();
+	_connection = QSqlDatabase();
 	QSqlDatabase::removeDatabase(_connectionName);
 }
 
 bool ThreadedDatabaseConnection::connect(const QString &dbFile)
 {
-	_database.setDatabaseName(dbFile);
-	if (!_database.open()) {
-		qWarning("Cannot open database: %s", _database.lastError().text().toLatin1().data());
+	_connection.setDatabaseName(dbFile);
+	if (!_connection.open()) {
+		qWarning("Cannot open database: %s", _connection.lastError().text().toLatin1().data());
 		return false;
 	}
 	QVariant handler = _driver->handle();
@@ -176,14 +176,14 @@ bool ThreadedDatabaseConnection::connect(const QString &dbFile)
 		qWarning("Cannot fetch sqlite3 handler - will most probably crash when a query is interrupted...");
 		_handler = 0;
 	}
-	_database.exec("pragma journal_mode=MEMORY");
-	_database.exec("pragma encoding=\"UTF-16le\"");
+	_connection.exec("pragma journal_mode=MEMORY");
+	_connection.exec("pragma encoding=\"UTF-16le\"");
 	return true;
 }
 
 bool ThreadedDatabaseConnection::attach(const QString &dbFile, const QString &alias)
 {
-	QSqlQuery query(_database);
+	QSqlQuery query(_connection);
 	if (!query.exec(QString("attach database '%1' as %2").arg(dbFile).arg(alias))) {
 		qWarning("Failed to attach dictionary file %s: %s", dbFile.toLatin1().data(), query.lastError().text().toLatin1().data());
 		return false;
@@ -193,7 +193,7 @@ bool ThreadedDatabaseConnection::attach(const QString &dbFile, const QString &al
 
 bool ThreadedDatabaseConnection::detach(const QString &alias)
 {
-	QSqlQuery query(_database);
+	QSqlQuery query(_connection);
 	if (!query.exec(QString("detach database %1").arg(alias))) {
 		qWarning("Failed to detach database %s: %s", alias.toLatin1().data(), query.lastError().text().toLatin1().data());
 		return false;
