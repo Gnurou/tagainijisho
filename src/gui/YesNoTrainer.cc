@@ -25,7 +25,6 @@
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QMessageBox>
-#include <QSqlError>
 #include <QMenu>
 #include <QDate>
 

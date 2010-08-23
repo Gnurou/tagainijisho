@@ -18,8 +18,6 @@
 #include "core/EntriesCache.h"
 #include "core/ASyncEntryLoader.h"
 
-#include <QSqlRecord>
-
 ASyncEntryLoader::ASyncEntryLoader(DatabaseThread *dbConn) : ASyncQuery(dbConn)
 {
 	connect(this, SIGNAL(result(const QSqlRecord &)), this, SLOT(_loadEntry(const QSqlRecord &)));

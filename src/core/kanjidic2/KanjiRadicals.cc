@@ -17,7 +17,7 @@
 
 #include "core/kanjidic2/KanjiRadicals.h"
 
-#include <QSqlQuery>
+#include "sqlite/Query.h"
 #include <QVariant>
 
 KanjiRadicals::KanjiRadicals()

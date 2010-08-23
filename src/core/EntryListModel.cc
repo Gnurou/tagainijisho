@@ -19,7 +19,6 @@
 #include "core/EntryListModel.h"
 #include "core/EntryListCache.h"
 
-#include <QSqlError>
 #include <QFont>
 #include <QFontMetrics>
 #include <QSize>

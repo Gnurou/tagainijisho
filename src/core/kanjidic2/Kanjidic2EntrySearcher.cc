@@ -21,8 +21,7 @@
 
 #include <QtDebug>
 
-#include <QSqlQuery>
-#include <QSqlRecord>
+#include "sqlite/Query.h"
 #include <QByteArray>
 
 Kanjidic2EntrySearcher::Kanjidic2EntrySearcher(QObject *parent) : EntrySearcher(parent)

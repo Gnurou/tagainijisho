@@ -18,17 +18,18 @@
 #ifndef __CORE_DATABASE_H_
 #define __CORE_DATABASE_H_
 
+#include "sqlite/Connection.h"
+
 #include "core/Paths.h"
 #include "core/Preferences.h"
 
 #include <QThread>
-#include <QtSql>
-
 #include <QString>
 #include <QRegExp>
 #include <QVector>
 #include <QMap>
 #include <QTemporaryFile>
+#include <QDir>
 
 struct sqlite3;
 
@@ -48,7 +49,7 @@ private:
 	static QMap<QString, QString> _attachedDBs;
 	static Database *_instance;
 
-	QSqlDatabase database;
+	SQLite::Connection connection;
 	sqlite3 *sqliteHandler;
 	Database(const QString &userDBFile = QString(), bool temporary = false, QObject *parent = 0);
 	~Database();
@@ -85,10 +86,10 @@ public:
 
 	// Begin immediate cannot work correctly here because it tries to get a lock on the attached databases, which are read-only
 	//static bool transaction() { bool r = instance->database.exec("BEGIN IMMEDIATE TRANSACTION").isValid(); qDebug() << "T" << r; if (!r) qDebug() << instance->database.lastError().text(); return r; }
-	static bool transaction() { return _instance->database.transaction(); }
-	static bool rollback() { return _instance->database.rollback(); }
-	static bool commit() { return _instance->database.commit(); }
-	static QSqlError lastError() { return _instance->database.lastError(); }
+	static bool transaction() { return _instance->connection.transaction(); }
+	static bool rollback() { return _instance->connection.rollback(); }
+	static bool commit() { return _instance->connection.commit(); }
+	static SQLite::Error lastError() { return _instance->connection.lastError(); }
 
 	/**
 	 * Interrupt the running query in the database thread. When this function returns,

@@ -19,7 +19,7 @@
 #define __CORE_ENTRYLISTMODEL_H
 
 #include <QAbstractItemModel>
-#include <QSqlQuery>
+#include "sqlite/Query.h"
 #include <QMimeData>
 
 class EntryListModel : public QAbstractItemModel

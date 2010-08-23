@@ -20,7 +20,7 @@
 
 #include "core/EntriesCache.h"
 
-#include <QSqlQuery>
+#include "sqlite/Query.h"
 
 /**
  * Represents an item within the entries list. A list item

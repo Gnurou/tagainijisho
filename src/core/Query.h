@@ -26,7 +26,7 @@
 #include <QHash>
 #include <QMutex>
 
-#include <QSqlQuery>
+#include "sqlite/Query.h"
 #include <QWaitCondition>
 
 /**

@@ -18,7 +18,7 @@
 #include "StudyFilterWidget.h"
 
 #include <QGridLayout>
-#include <QSqlQuery>
+#include "sqlite/Query.h"
 #include <QLabel>
 
 StudyFilterWidget::StudyFilterWidget(QWidget *parent) : SearchFilterWidget(parent)

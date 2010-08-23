@@ -42,8 +42,6 @@
 #include <QDesktopServices>
 #include <QTranslator>
 #include <QLocale>
-#include <QSqlRecord>
-#include <QSqlError>
 #include <QMessageBox>
 
 // The version must be defined by the compiler

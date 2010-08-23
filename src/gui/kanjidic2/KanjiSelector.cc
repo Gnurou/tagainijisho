@@ -23,11 +23,10 @@
 #include "gui/kanjidic2/KanjiSelector.h"
 #include <gui/MainWindow.h>
 
-#include <QSqlQuery>
+#include "sqlite/Query.h"
 #include <QComboBox>
 #include <QLineEdit>
 #include <QDesktopWidget>
-#include <QSqlError>
 
 ComplementsList::ComplementsList(QWidget *parent) : QListWidget(parent), baseFont(font()), labelFont(baseFont), _sscroll(verticalScrollBar())
 {
