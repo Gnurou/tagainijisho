@@ -1,5 +1,4 @@
 # kanji core
-set(QT_USE_QTSQL TRUE)
 set(QT_DONT_USE_QTGUI TRUE)
 set(tagainijisho_core_kanjidic2_SRCS
 Kanjidic2Entry.cc

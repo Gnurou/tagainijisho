@@ -15,15 +15,12 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "sqlite/qsql_sqlite.h"
-#include "sqlite3.h"
 #include "core/Paths.h"
 #include "core/ASyncQuery.h"
 #include "core/Database.h"
 
 #include <QtDebug>
 
-#include <QtSql>
 #include <QMutex>
 #include <QMutexLocker>
 

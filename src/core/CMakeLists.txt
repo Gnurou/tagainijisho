@@ -1,4 +1,3 @@
-set(QT_USE_QTSQL TRUE)
 include(${QT_USE_FILE})
 
 set(tagainijisho_core_SRCS
