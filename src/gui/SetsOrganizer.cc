@@ -17,7 +17,6 @@
 
 #include "gui/SetsOrganizer.h"
 
-#include <QtSql>
 #include <QMenu>
 #include <QPushButton>
 #include <QMessageBox>

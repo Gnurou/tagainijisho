@@ -19,7 +19,6 @@
 #include "core/Entry.h"
 
 #include <QDebug>
-#include <QtSql>
 
 Entry::Entry(quint8 type, quint32 id) : QObject(0), _type(type), _id(id), _dateAdded(), _dateLastTrain(), _dateLastMistake(), _nbTrained(0), _nbSuccess(0), _score(0), _frequency(-1)
 {
