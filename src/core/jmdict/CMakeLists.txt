@@ -26,7 +26,7 @@ BuildJMdictDB.cc
 
 include(${QT_USE_FILE})
 add_executable(build_jmdict_db EXCLUDE_FROM_ALL ${build_jmdict_db_SRCS})
-target_link_libraries(build_jmdict_db tagaini_newsqlite ${QT_LIBRARIES})
+target_link_libraries(build_jmdict_db tagaini_sqlite ${QT_LIBRARIES})
 if (APPLE)
 	set(extra_link_flags "-bind_at_load")
 endif()

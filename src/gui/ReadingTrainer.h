@@ -21,7 +21,7 @@
 #include "gui/ui_ReadingTrainer.h"
 
 #include <QFrame>
-#include <QSqlQuery>
+#include "sqlite/Query.h"
 #include <QCheckBox>
 
 class ReadingTrainer : public QFrame

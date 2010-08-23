@@ -23,7 +23,6 @@
 
 #include <QtDebug>
 #include <QtAlgorithms>
-#include <QSqlRecord>
 #include <QMutex>
 #include <QMutexLocker>
 

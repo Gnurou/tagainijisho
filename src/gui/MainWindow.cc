@@ -41,7 +41,7 @@
 #include <QApplication>
 #include <QInputDialog>
 #include <QDesktopServices>
-#include <QSqlQuery>
+#include "sqlite/Query.h"
 #include <QTextBrowser>
 #include <QTextEdit>
 #include <QVBoxLayout>

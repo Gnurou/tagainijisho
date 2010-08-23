@@ -19,9 +19,8 @@
 #define __CORE_ASYNCQUERY_H_
 
 #include <QThread>
-#include <QSqlDatabase>
-#include <QSqlError>
-#include <QSqlQuery>
+#include "sqlite/Error.h"
+#include "sqlite/Query.h"
 #include <QSemaphore>
 #include <QMutex>
 #include <QQueue>

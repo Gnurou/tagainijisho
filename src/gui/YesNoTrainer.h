@@ -22,7 +22,7 @@
 
 #include <QFrame>
 #include <QPushButton>
-#include <QSqlQuery>
+#include "sqlite/Query.h"
 #include <QLabel>
 
 class YesNoTrainer : public QWidget {
