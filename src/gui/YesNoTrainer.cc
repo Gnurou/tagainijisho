@@ -87,7 +87,7 @@ void YesNoTrainer::setQuery(QString queryString)
 {
 	// Run the query
 	_queryString = queryString;
-	if (!_query.exec(queryString)) qDebug() << "Error executing query:" << _query.lastError();
+	if (!_query.exec(queryString)) qDebug() << "Error executing query:" << _query.lastError().message();
 }
 
 void YesNoTrainer::clear()
@@ -104,7 +104,7 @@ void YesNoTrainer::_train()
 {
 	if (!_query.next()) hasResults(0);
 	else {
-		EntryPointer entry(EntryRef(_query.valueInt(0), _query.value(1).toInt()).get());
+		EntryPointer entry(EntryRef(_query.valueInt(0), _query.valueInt(1)).get());
 		train(entry);
 	}
 }

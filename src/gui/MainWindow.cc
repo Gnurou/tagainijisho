@@ -386,7 +386,7 @@ void MainWindow::populateMenu(QMenu *menu, int parentId)
 	query.exec(QString("SELECT label, state, rowid FROM sets WHERE parent %1 ORDER BY position").arg(parentId == 0 ? "is null" : QString("= %1").arg(parentId)));
 	while (query.next()) {
 		// A folder
-		if (query.value(1).isNull()) {
+		if (query.valueIsNull(1)) {
 			QMenu *subMenu = menu->addMenu(QIcon(":/images/icons/folder.png"), query.valueString(0));
 			connect(subMenu, SIGNAL(aboutToShow()), this, SLOT(populateSubMenu()));
 			subMenu->setProperty("T_rowid", query.valueInt(2));
@@ -395,7 +395,7 @@ void MainWindow::populateMenu(QMenu *menu, int parentId)
 		// A set
 		else {
 			QAction *action = menu->addAction(query.valueString(0), this, SLOT(onSetSelected()));
-			action->setProperty("T_state", query.valueByteArray(1));
+			action->setProperty("T_state", query.valueBlob(1));
 			if (!parentId) _rootActions << action;
 		}
 	}

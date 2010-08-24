@@ -16,7 +16,10 @@
  */
 
 #include "gui/SetsOrganizer.h"
+#include "sqlite/Query.h"
+#include "core/Database.h"
 
+#include <QtDebug>
 #include <QMenu>
 #include <QPushButton>
 #include <QMessageBox>
@@ -45,12 +48,12 @@ SetTreeItem::~SetTreeItem()
 void SetTreeItem::setData(int column, int role, const QVariant & value)
 {
 	if (column == 0 && role == Qt::EditRole) {
-		SQLite::Query query;
+		SQLite::Query query(Database::connection());
 		query.prepare("UPDATE sets SET label = ? WHERE rowid = ?");
-		query.bindValue(value);
+		query.bindValue(value.toString());
 		query.bindValue(setId());
 		if (!query.exec()) {
-			qDebug() << "Error executing query:" << query.lastError();
+			qDebug() << "Error executing query:" << query.lastError().message();
 			return;
 		}
 	}
@@ -105,8 +108,8 @@ bool SetsTreeWidget::dropMimeData(QTreeWidgetItem *parent, int index, const QMim
 
 		// Only update the layout if there is any change
 		if (!(prevParent == newParent && prevPosition == newPosition)) {
-			SQLite::Query query;
-#define QUERY(q) { if (!query.exec(q)) qDebug() << "Query failed" << query.lastError(); }
+			SQLite::Query query(Database::connection());
+#define QUERY(q) { if (!query.exec(q)) qDebug() << "Query failed" << query.lastError().message(); }
 			// Update the positions of the items after the one we removed
 			QUERY(QString("UPDATE sets SET position = position - 1 where parent %1 and position > %2").arg(!prevParentId ? "is null" : QString("= %1").arg(prevParentId)).arg(prevPosition));
 			QList<SetTreeItem *> siblings(childsOf(prevParent));
@@ -156,13 +159,13 @@ void SetsTreeWidget::deleteSet(SetTreeItem *item)
 	query.prepare("DELETE FROM sets where rowid = ?");
 	query.bindValue(item->setId());
 	if (!query.exec()) {
-		qDebug() << "Error executing query:" << query.lastError();
+		qDebug() << "Error executing query:" << query.lastError().message();
 		return;
 	}
 	// Decrease the position of sets after the deleted one
 	query.prepare(QString("UPDATE sets SET position = position - 1 where parent %1 and position > %2").arg(!parent ? "is null" : QString("= %1").arg(parent->setId())).arg(item->position()));
 	if (!query.exec()) {
-		qDebug() << "Error executing query:" << query.lastError();
+		qDebug() << "Error executing query:" << query.lastError().message();
 		return;
 	}
 	// Don't forget to update our model
@@ -196,7 +199,7 @@ void SetsTreeWidget::populateRoot()
 
 	query.exec("SELECT rowid, position, state IS NULL, label FROM sets WHERE parent IS NULL ORDER BY position");
 	while (query.next()) {
-		SetTreeItem *item = new SetTreeItem(query.valueInt(0), query.value(1).toInt(), query.value(2).toBool(), query.value(3).toString());
+		SetTreeItem *item = new SetTreeItem(query.valueInt(0), query.valueInt(1), query.valueBool(2), query.valueString(3));
 		if (item->isFolder()) {
 			item->setIcon(0, QIcon(":/images/icons/folder.png"));
 			populateFolder(item);
@@ -213,7 +216,7 @@ void SetsTreeWidget::populateFolder(SetTreeItem *parent) const
 	query.bindValue(parent->setId());
 	query.exec();
 	while (query.next()) {
-		SetTreeItem *item = new SetTreeItem(query.valueInt(0), query.value(1).toInt(), query.value(2).toBool(), query.value(3).toString());
+		SetTreeItem *item = new SetTreeItem(query.valueInt(0), query.valueInt(1), query.valueBool(2), query.valueString(3));
 		if (item->isFolder()) {
 			item->setIcon(0, QIcon(":/images/icons/folder.png"));
 			populateFolder(item);

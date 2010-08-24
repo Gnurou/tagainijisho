@@ -43,6 +43,7 @@
 #include <QTranslator>
 #include <QLocale>
 #include <QMessageBox>
+#include <QLibraryInfo>
 
 // The version must be defined by the compiler
 #ifndef VERSION
@@ -210,8 +211,6 @@ int main(int argc, char *argv[])
 	// Register meta-types
 	qRegisterMetaType<EntryPointer>("EntryPointer");
 	qRegisterMetaType<ConstEntryPointer>("ConstEntryPointer");
-	qRegisterMetaType<QSqlRecord>("QSqlRecord");
-	qRegisterMetaType<QSqlRecord>("QSqlError");
 	qRegisterMetaType<QVariant>("QVariant");
 
 	// Ensure the EntriesCache is instanciated in the main thread - that way we won't have to switch

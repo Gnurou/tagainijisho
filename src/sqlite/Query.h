@@ -86,7 +86,7 @@ public:
 	int columnsCount() const;
 	bool valueAvailable(int column) const;
 	Type valueType(int column) const;
-	qint32 valueBool(int column) const;
+	bool valueBool(int column) const;
 	qint32 valueInt(int column) const;
 	quint32 valueUInt(int column) const;
 	qint64 valueInt64(int column) const;
