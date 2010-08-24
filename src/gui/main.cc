@@ -21,6 +21,7 @@
 #include "core/Preferences.h"
 #include "core/Database.h"
 #include "core/Tag.h"
+#include "core/EntryListCache.h"
 #include "core/Entry.h"
 #include "core/EntriesCache.h"
 #include "core/Plugin.h"
@@ -277,6 +278,7 @@ int main(int argc, char *argv[])
 	delete kanjidic2Plugin;
 
 	Tag::cleanup();
+	EntryListCache::cleanup();
 
 	// Stop database thread cleanly
 	Database::stop();
