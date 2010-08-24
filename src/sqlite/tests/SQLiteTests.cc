@@ -70,7 +70,6 @@ void SQLiteTests::queryCreate()
 	QVERIFY(!connection.lastError().isError());
 	QCOMPARE(query.columnsCount(), 0);
 	QVERIFY(!query.next());
-	QVERIFY(!query.seek(0, false));
 	QVERIFY(!query.valueAvailable(0));
 	QVERIFY(query.prepare("create table test(col1 int, col2 bigint, col3 float, col4 text, col5 blob, col6 tinyint)"));
 	QVERIFY(!connection.lastError().isError());

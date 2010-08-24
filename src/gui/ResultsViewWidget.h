@@ -29,24 +29,9 @@ class ResultsViewWidget : public QWidget, private Ui::ResultsViewWidget
 private:
 	ResultsList *_results;
 	
-	int totalResults;
-	bool showAllResultsTriggered;
-	
 private slots:
 	void stopAndResetSearchAnim();
-	void onNewSearch();
-	void onSearchStarted();
-	void onSearchEnded();
 		
-protected slots:
-	/// Activate/deactivate the navigation buttons according
-	/// to the current position and total number of results
-	/// in the search
-	void updateNavigationButtons();
-	/// Update the label displaying results range and
-	/// total number of results
-	void updateNbResultsDisplay();
-	
 public:
 	ResultsViewWidget(QWidget *parent);
 	
@@ -56,11 +41,7 @@ public:
 	
 public slots:
 	/// Set the total number of results of a search.
-	void showNbResults(unsigned int nbResults);
-	
-	void nextPage();
-	void previousPage();
-	void scheduleShowAllResults();
+	void showNbResults(unsigned int nbResults);	
 };
 
 #endif

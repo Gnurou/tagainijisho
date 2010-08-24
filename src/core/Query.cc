@@ -35,8 +35,8 @@ Query::Query(QObject *parent) : QObject(parent), query(Database::connection()), 
 
 	// This signal makes the query switch into the DB
 	// thread to be executed
-	connect(this, SIGNAL(runInDBThread(int, int)),
-		this, SLOT(__fetch(int, int)));
+	connect(this, SIGNAL(runInDBThread()),
+		this, SLOT(__fetch()));
 }
 
 bool Query::isRunning() const
@@ -47,9 +47,9 @@ bool Query::isRunning() const
 	return res;
 }
 
-void Query::fetch(int min, int nb)
+void Query::fetch()
 {
-	emit runInDBThread(min, nb);
+	emit runInDBThread();
 }
 
 void Query::prepare(const QueryBuilder &builder)
@@ -61,7 +61,7 @@ void Query::prepare(const QueryBuilder &builder)
 }
 
 
-void Query::__fetch(int min, int nb)
+void Query::__fetch()
 {
 	_statusMutex.lock();
 	Q_ASSERT(_status == Idle);
@@ -69,7 +69,6 @@ void Query::__fetch(int min, int nb)
 
 	bool firstRun = false;
 
-	if (min == -1) nb = -1;
 	// Query not active? Let's run it then.
 	if (!query.active()) {
 		firstRun = true;
@@ -112,21 +111,11 @@ void Query::__fetch(int min, int nb)
 	_status = Emitting;
 	_statusMutex.unlock();
 
-	// Go to the first result
-	if (firstRun) {
-		// TODO BUG in QT? query.seek(min) returns false if there is only one result
-		// and and min == 0 unless query.next() is called first. This looks
-		// like a bug in Qt since it works if there is more than one result.
-		query.next();
-	}
-	if (min == -1) min = 0;
-	int resCpt = 0;
-	_currentPos = min;
-//	bool valid = query.seek(min);
-	bool valid = true;
+	_currentPos = 0;
 
 	emit firstResult();
-	while (valid && resCpt++ != nb) {
+	while (query.next()) {
+		_currentPos++;
 		// Stop emitting results if we are interrupted
 		QMutexLocker statusLocker(&_statusMutex);
 		bool shallAbort = checkAbort();
@@ -138,17 +127,9 @@ void Query::__fetch(int min, int nb)
 			return;
 		}
 		// Load and emit found entries
-		emit foundEntry(EntryRef(query.valueUInt(0), query.valueUInt(1)).get());
-		valid = query.next();
-		_currentPos++;
+		emit foundEntry(EntryRef(query.valueUInt(0), query.valueUInt(1)));
 	}
 
-	// Emit the number of results in this query
-	if (firstRun) {
-		// If we browsed everything already, things are simple
-		if (!valid) emit nbResults(resCpt);
-		else emitNbResults();
-	}
 	emit lastResult();
 	_statusMutex.lock();
 	_status = Idle;
@@ -159,19 +140,6 @@ void Query::__fetch(int min, int nb)
 void Query::finish()
 {
 	query.clear();
-}
-
-void Query::emitNbResults()
-{
-	SQLite::Query countQuery(Database::connection());
-
-	if (!countQuery.exec(_countStatement)) qCritical() << "Error executing query: " << _countStatement << countQuery.lastError().message();
-	unsigned int cpt = 0;
-	while (countQuery.next()) cpt += countQuery.valueInt(0);
-	if (_limit.active()) {
-		cpt = qMin(cpt, _limit.nbResults());
-	}
-	emit nbResults(cpt);
 }
 
 bool Query::checkAbort()

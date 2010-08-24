@@ -55,11 +55,6 @@ private:
 
 protected:
 	/**
-	 * Emit a signal with the number of results for the current query.
-	 */
-	void emitNbResults();
-
-	/**
 	 * Check whether the query has been interrupted - if it has,
 	 * clear the database state, emit aborted() signal, restore
 	 * status to Idle and return true. Otherwise, return false.
@@ -79,16 +74,16 @@ public slots:
 	void prepare(const QueryBuilder &builder);
 
 	/**
-	 * Fetch results corresponding to the range min..min+nb.
-	 * If min = -1, all the results are fetched. The foundResult
+	 * Fetch all results corresponding to the query.
+	 * The foundEntry
 	 * signal is emitted for each result found with the
-	 * corresponding row. After the last result is sent, the
+	 * corresponding entry. After the last result is sent, the
 	 * lastResult signal is emitted. If this is the first time
 	 * this query is used, the nbResults signal is emitted to
 	 * indicate the total number of results (without regard for
 	 * the selected range).
 	 */
-	void fetch(int min = -1, int nb = -1);
+	void fetch();
 
 	/**
 	 * Finish the current query, i.e. the next call to fetch
@@ -109,13 +104,11 @@ private slots:
 	 * thread after the switch triggered by emitting the runInDBThread
 	 * signal. Results are actually emitted from here.
 	 */
-	void __fetch(int min, int nb);
+	void __fetch();
 
 signals:
 	/// Emitted when a result is found
-	void foundEntry(EntryPointer entry);
-	/// Automatically emitted when we are able to figure out the number of results
-	void nbResults(unsigned int nbResults);
+	void foundEntry(EntryRef entry);
 	/// Emitted before the first result is sent
 	void firstResult();
 	/// Emitted after the last result has been sent
@@ -127,7 +120,7 @@ signals:
 
 	/// Private signal - emitted to switch to the DB thread
 	/// to execute a database query.
-	void runInDBThread(int min, int nb);
+	void runInDBThread();
 };
 
 #endif

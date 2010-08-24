@@ -19,30 +19,18 @@
 
 #include <QtDebug>
 
-PreferenceItem<int> ResultsList::resultsPerPagePref("mainWindow/resultsView", "resultsPerPage", 50);
-
-ResultsList::ResultsList(QObject *parent) : QAbstractListModel(parent), entries(), displayedUntil(0), query(), _pageNbr(0), totalResults(-1), showAllResultsRequested(false), _active(false)
+ResultsList::ResultsList(QObject *parent) : QAbstractListModel(parent), entries(), query(), displayedUntil(0)
 {
 	connect(&timer, SIGNAL(timeout()),
 		this, SLOT(updateViews()));
 	timer.setInterval(100);
 	
-	setResultsPerPage(resultsPerPagePref.value());
-	
 	// Results emitted by a query are added to us
-	connect(&query, SIGNAL(foundEntry(EntryPointer)), this, SLOT(addResult(EntryPointer)));
+	connect(&query, SIGNAL(foundEntry(EntryRef)), this, SLOT(addResult(EntryRef)));
 	connect(&query, SIGNAL(firstResult()), this, SLOT(startReceive()));
 	connect(&query, SIGNAL(lastResult()), this, SLOT(endReceive()));
 	connect(&query, SIGNAL(aborted()), this, SLOT(endReceive()));
-	connect(&query, SIGNAL(error()), this, SLOT(endReceive()));
-	
-	connect(&query, SIGNAL(nbResults(unsigned int)), this, SLOT(setNbResults(unsigned int)));
-
-	connect(&query, SIGNAL(aborted()), this, SLOT(queryError()));
-	connect(&query, SIGNAL(error()), this, SLOT(queryError()));
-	
-	// Update the number of items per page when the setting is changed
-	connect(&resultsPerPagePref, SIGNAL(valueChanged(QVariant)), this, SLOT(onPrefValueChanged(QVariant)));
+	connect(&query, SIGNAL(error()), this, SLOT(endReceive()));	
 }
 
 ResultsList::~ResultsList()
@@ -58,14 +46,14 @@ QVariant ResultsList::data(const QModelIndex &index, int role) const
 	if (index.row() >= entries.size()) return QVariant();
 
 	if (role == Qt::BackgroundRole) {
-		const EntryPointer &entry = entries.at(index.row());
+		const EntryPointer entry = entries.at(index.row()).get();
 		if (!entry->trained()) return QVariant();
 		else return entry->scoreColor();
 	}
 
-	if (role == Entry::EntryRole) return QVariant::fromValue(entries[index.row()]);
-	else if (role == Entry::EntryRefRole) return QVariant::fromValue(EntryRef(entries[index.row()]));
-	else if (role == Qt::DisplayRole) return entries[index.row()]->shortVersion();
+	if (role == Entry::EntryRole) return QVariant::fromValue(entries[index.row()].get());
+	else if (role == Entry::EntryRefRole) return QVariant::fromValue(entries[index.row()]);
+	else if (role == Qt::DisplayRole) return entries[index.row()].get()->shortVersion();
 
 	return QVariant();
 }
@@ -77,14 +65,14 @@ QVariant ResultsList::headerData(int section, Qt::Orientation orientation, int r
 	return QString("%1").arg(section);
 }
 
-void ResultsList::addResult(EntryPointer entry)
+void ResultsList::addResult(EntryRef entry)
 {
 	entries << entry;
 }
 
 void ResultsList::onEntryChanged(const EntryPointer &entry)
 {
-	int idx = entries.indexOf(entry);
+	int idx = entries.indexOf(EntryRef(entry));
 	QModelIndex itemIndex = createIndex(idx, 0);
 	emit dataChanged(itemIndex, itemIndex);
 }
@@ -109,14 +97,8 @@ void ResultsList::endReceive()
 {
 	timer.stop();
 	updateViews();
-	emit queryEnded();
-	
-	// If we were ordered to show all results while the query was not over,
-	// let's do it now.
-	if (showAllResultsRequested) {
-		showAllResultsRequested = false;
-		scheduleShowAllResults();
-	}
+	emit nbResults(entries.size());
+	emit queryEnded();	
 }
 
 void ResultsList::clear()
@@ -127,7 +109,7 @@ void ResultsList::clear()
 	beginRemoveRows(QModelIndex(), 0, entries.size() - 1);
 	// This is preferred to clear() because lists memory
 	// usage never shrinks
-	entries = QList<EntryPointer>();
+	entries = QList<EntryRef>();
 	endRemoveRows();
 	displayedUntil = 0;
 }
@@ -157,60 +139,6 @@ QMimeData *ResultsList::mimeData(const QModelIndexList &indexes) const
 	return mimeData;
 }
 
-void ResultsList::queryError()
-{
-	_active = false;
-	emit queryEnded();
-}
-
-void ResultsList::nextPage()
-{
-	if (totalResults < (pageNbr() + 1) * resultsPerPage()) return;
-	query.abort();
-	QCoreApplication::processEvents(QEventLoop::ExcludeUserInputEvents | QEventLoop::ExcludeSocketNotifiers);
-	clear();
-	_active = true;
-	query.fetch(++_pageNbr * resultsPerPage(), resultsPerPage());
-	emit queryStarted();
-}
-
-void ResultsList::previousPage()
-{
-	if (pageNbr() == 0) return;
-	query.abort();
-	QCoreApplication::processEvents(QEventLoop::ExcludeUserInputEvents | QEventLoop::ExcludeSocketNotifiers);
-	clear();
-	_active = true;
-	query.fetch(--_pageNbr * resultsPerPage(), resultsPerPage());
-	emit queryStarted();
-}
-
-void ResultsList::scheduleShowAllResults()
-{
-	// If the current query completed, no problem!
-	if (!query.isRunning()) {
-		// First check if all the results are not already displayed
-		if (pageNbr() == 0 && totalResults <= nbResults()) return;
-		
-		_active = true;
-		// If we are on the first page, we can just continue the query this way
-		if (pageNbr() == 0) {
-			query.fetch(nbResults(), -1);
-			emit queryStarted();
-		}
-		else {
-			// Otherwise do the search from start again
-			clear();
-			_pageNbr = 0;
-			totalResults = -1;
-			query.fetch(0, -1);
-			emit queryStarted();
-		}
-	}
-	// Otherwise let's call ourselves again once it is done...
-	else showAllResultsRequested = true;
-}
-
 void ResultsList::search(const QueryBuilder &qBuilder)
 {
 	// Stop the running query, if any
@@ -218,35 +146,19 @@ void ResultsList::search(const QueryBuilder &qBuilder)
 	
 	// Clear the current set of results
 	clear();
-	_pageNbr = 0;
-	totalResults = -1;
 	
 	// And start the query!
 	query.prepare(qBuilder);
-	_active = true;
-	emit newSearch();
 	emit queryStarted();
-	query.fetch(0, resultsPerPage());
+	query.fetch();
 }
 
 void ResultsList::abortSearch()
 {
-	_active = false;
 	query.abort();
 	// Flush all the entries the results list may be receiving
 	QCoreApplication::processEvents(QEventLoop::ExcludeUserInputEvents | QEventLoop::ExcludeSocketNotifiers);
 	// Clear the list of all received entries
 	query.clear();
 	emit queryEnded();
-}
-
-void ResultsList::onPrefValueChanged(QVariant newValue)
-{
-	setResultsPerPage(newValue.toInt());
-}
-
-void ResultsList::setNbResults(unsigned int nbRes)
-{
-	totalResults = nbRes;
-	emit nbResults(totalResults);
 }

@@ -36,18 +36,14 @@ class ResultsList : public QAbstractListModel
 {
 	Q_OBJECT
 private:
-	QList<EntryPointer> entries;
+	QList<EntryRef> entries;
 	QTimer timer;
-	int displayedUntil;
 	
-	int _resultsPerPage;
 	Query query;
-	int _pageNbr;
-	int totalResults;
-	bool showAllResultsRequested;
 	bool _active;
 
 	void startPreparedQuery();
+	int displayedUntil;
 	
 protected slots:
 	void updateViews();
@@ -59,24 +55,11 @@ public:
 
 	int rowCount(const QModelIndex &parent = QModelIndex()) const { return nbResults(); }
 	int nbResults() const { return entries.size(); }
-	ConstEntryPointer getEntry(int pos) const { return entries[pos]; }
 	QVariant data(const QModelIndex &index, int role) const;
 	QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
 
 	Qt::ItemFlags flags(const QModelIndex &index) const;
 	virtual QMimeData *mimeData(const QModelIndexList & indexes) const;
-
-	int pageNbr() const { return _pageNbr; }
-	int resultsPerPage() const { return _resultsPerPage; }
-	void setResultsPerPage(int nbr) { _resultsPerPage = nbr; }
-	bool queryActive() const { return _active; }
-
-	static PreferenceItem<int> resultsPerPagePref;
-	
-private slots:
-	void onPrefValueChanged(QVariant newValue);
-	void setNbResults(unsigned int nbRes);
-	void queryError();
 
 public slots:
 	void search(const QueryBuilder &qBuilder);
@@ -84,17 +67,10 @@ public slots:
 
 	void startReceive();
 	void endReceive();
-	void addResult(EntryPointer entry);
+	void addResult(EntryRef entry);
 	void clear();
-	
-	/// Display the next results page
-	void nextPage();
-	/// Display the previous results page
-	void previousPage();
-	void scheduleShowAllResults();
 
 signals:
-	void newSearch();
 	void queryStarted();
 	void nbResults(unsigned int);
 	void queryEnded();

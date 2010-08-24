@@ -78,7 +78,6 @@ public:
 	bool bindNullValue(int col = 0);
 	
 	bool next();
-	bool seek(int index, bool relative = false);
 	qint64 lastInsertId() const;
 
 	/// Returns the number of columns in a results row, or
