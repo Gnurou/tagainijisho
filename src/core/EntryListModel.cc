@@ -28,8 +28,8 @@
 #define ROLLBACK Database::rollback()
 #define COMMIT Database::commit()
 
-#define EXEC(q) if (!q.exec()) { qDebug() << __FILE__ << __LINE__ << "Cannot execute query:" << q.lastError().text(); return false; }
-#define EXEC_T(q) if (!q.exec()) { qDebug() << __FILE__ << __LINE__ << "Cannot execute query:" << q.lastError().text(); goto transactionFailed; }
+#define EXEC(q) if (!q.exec()) { qDebug() << __FILE__ << __LINE__ << "Cannot execute query:" << q.lastError().message(); return false; }
+#define EXEC_T(q) if (!q.exec()) { qDebug() << __FILE__ << __LINE__ << "Cannot execute query:" << q.lastError().message(); goto transactionFailed; }
 
 void EntryListModel::setRoot(int rootId)
 {
@@ -148,14 +148,14 @@ bool EntryListModel::setData(const QModelIndex &index, const QVariant &value, in
 	if (role == Qt::EditRole && index.isValid()) {
 		if (!TRANSACTION) return false;
 		{
-			QSqlQuery query;
+			SQLite::Query query;
 			query.prepare("select type from lists where rowid = ?");
-			query.addBindValue(index.internalId());
+			query.bindValue(index.internalId());
 			query.exec();
-			if (query.next() && query.value(0).isNull()) {
+			if (query.next() && query.valueIsNull(0)) {
 				query.prepare("update listsLabels set label = ? where rowid = ?");
-				query.addBindValue(value.toString());
-				query.addBindValue(index.internalId());
+				query.bindValue(value.toString());
+				query.bindValue(index.internalId());
 				EXEC_T(query);
 			}
 		}
@@ -171,14 +171,14 @@ transactionFailed:
 	return false;
 }
 	
-bool EntryListModel::moveRows(int row, int delta, const QModelIndex &parent, QSqlQuery &query)
+bool EntryListModel::moveRows(int row, int delta, const QModelIndex &parent, SQLite::Query &query)
 {
 	QString queryText("update lists set position = position + ? where parent %1 and position >= ?");
 	if (!parent.isValid()) query.prepare(queryText.arg("is null"));
 	else query.prepare(queryText.arg("= ?"));
-	query.addBindValue(delta);
-	if (parent.isValid()) query.addBindValue(parent.internalId());
-	query.addBindValue(row);
+	query.bindValue(delta);
+	if (parent.isValid()) query.bindValue(parent.internalId());
+	query.bindValue(row);
 	EXEC(query);
 	return true;
 }
@@ -190,19 +190,20 @@ bool EntryListModel::insertRows(int row, int count, const QModelIndex & parent)
 	if (!TRANSACTION) return false;
 	beginInsertRows(parent, row, row + count -1);
 	{
-		QSqlQuery query;
+		SQLite::Query query(Database::connection());
 		// First update the positions of items located after the new lists
 		if (!moveRows(row, count, realParent, query)) goto transactionFailed;
 		// Then insert the lists themselves with a default name
 		for (int i = 0; i < count; i++) {
 			query.prepare("insert into lists values(?, ?, NULL, NULL)");
-			query.addBindValue(realParent.isValid() ? realParent.internalId() : QVariant(QVariant::Int));
-			query.addBindValue(row + i);
+			if (realParent.isValid()) query.bindValue(realParent.internalId());
+			else query.bindNullValue();
+			query.bindValue(row + i);
 			EXEC_T(query);
-			int rowId = query.lastInsertId().toInt();
+			int rowId = query.lastInsertId();
 			query.prepare("insert into listsLabels(docid, label) values(?, ?)");
-			query.addBindValue(rowId);
-			query.addBindValue(tr("New list"));
+			query.bindValue(rowId);
+			query.bindValue(tr("New list"));
 			EXEC_T(query);
 		}
 	}
@@ -218,22 +219,22 @@ transactionFailed:
 
 bool EntryListModel::_removeRows(int row, int count, const QModelIndex &parent)
 {
-	QSqlQuery query;
+	SQLite::Query query;
 	// Get the list of items to remove
 	QString queryString("select rowid, type, id from lists where parent %1 and position between ? and ?");
 	if (!parent.isValid()) query.prepare(queryString.arg("is null"));
 	else {
 		query.prepare(queryString.arg("= ?"));
-		query.addBindValue(parent.internalId());
+		query.bindValue(parent.internalId());
 	}
-	query.addBindValue(row);
-	query.addBindValue(row + count - 1);
+	query.bindValue(row);
+	query.bindValue(row + count - 1);
 	EXEC(query);
 	QList<int> ids;
 	QList<EntryRef> entries;
 	while (query.next()) {
-		ids << query.value(0).toInt();
-		entries << EntryRef(query.value(1).toUInt(), query.value(2).toUInt());
+		ids << query.valueInt(0);
+		entries << EntryRef(query.valueUInt(1), query.valueUInt(2));
 	}
 	// Remove the list from the entries if they are loaded
 	int i = 0;
@@ -364,7 +365,7 @@ bool EntryListModel::dropMimeData(const QMimeData *data, Qt::DropAction action, 
 		if (!TRANSACTION) return false;
 		emit layoutAboutToBeChanged();
 		{
-			QSqlQuery query;
+			SQLite::Query query;
 			foreach (int rowid, rowIds) {
 				// First get the model index
 				QModelIndex idx(index(rowid));
@@ -382,9 +383,10 @@ bool EntryListModel::dropMimeData(const QMimeData *data, Qt::DropAction action, 
 				if (!moveRows(realRow + itemCpt, 1, parent, query)) goto transactionFailed;
 				// And do the move
 				query.prepare("update lists set parent = ?, position = ? where rowid = ?");
-				query.addBindValue(parent.isValid() ? parent.internalId() : QVariant(QVariant::Int));
-				query.addBindValue(realRow + itemCpt);
-				query.addBindValue(rowid);
+				if (parent.isValid()) query.bindValue(parent.internalId());
+				else query.bindNullValue();
+				query.bindValue(realRow + itemCpt);
+				query.bindValue(rowid);
 				EXEC_T(query);
 				EntryListCache::instance().invalidateAll();
 				// Don't forget to change any persistent index - views use them at least to keep track
@@ -415,18 +417,19 @@ bool EntryListModel::dropMimeData(const QMimeData *data, Qt::DropAction action, 
 		if (row == -1) row = rowCount(parent);
 		if (!TRANSACTION) return false;
 		{
-			QSqlQuery query;
+			SQLite::Query query;
 			// Start by moving the rows after the destination
 			if (!moveRows(row, entries.size(), parent, query)) goto transactionFailed;
 			// And insert the new rows at the right position
 			query.prepare("insert into lists values(?, ?, ?, ?)");
 			for (int i = 0; i < entries.size(); ++i) {
-				query.addBindValue(parent.isValid() ? parent.internalId() : QVariant(QVariant::Int));
-				query.addBindValue(row + i);
-				query.addBindValue(entries[i].type());
-				query.addBindValue(entries[i].id());
+				if (parent.isValid()) query.bindValue(parent.internalId());
+				else query.bindNullValue();
+				query.bindValue(row + i);
+				query.bindValue(entries[i].type());
+				query.bindValue(entries[i].id());
 				EXEC_T(query);
-				ids << query.lastInsertId().toUInt();
+				ids << query.lastInsertId();
 			}
 		}
 		// Insert rows must be done on what the view thinks is the parent

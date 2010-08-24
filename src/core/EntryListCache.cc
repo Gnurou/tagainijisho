@@ -16,6 +16,7 @@
  */
 
 #include "EntryListCache.h"
+#include "Database.h"
 
 EntryListCachedEntry::EntryListCachedEntry()
 {
@@ -24,32 +25,32 @@ EntryListCachedEntry::EntryListCachedEntry()
 	_position = -1;
 	_type = -1;
 	_id = -1;
-	QSqlQuery query;
+	SQLite::Query query;
 	query.exec("select count(*) from lists where parent is null");
-	if (query.next()) _count = query.value(0).toInt();
+	if (query.next()) _count = query.valueInt(0);
 	else _count = 0;
 }
 
-EntryListCachedEntry::EntryListCachedEntry(QSqlQuery &query)
+EntryListCachedEntry::EntryListCachedEntry(SQLite::Query &query)
 {
 	// Invalid model, return root list
 	if (!query.next()) {
 		*this = EntryListCachedEntry();
 	} else {
-		_rowId = query.value(0).toInt();
-		_parent = query.value(1).isNull() ? -1 : query.value(1).toInt();
-		_position = query.value(2).toInt();
-		_type = query.value(3).isNull() ? -1 : query.value(3).toInt();
-		_id = query.value(4).toInt();
-		_label = query.value(5).toString();
+		_rowId = query.valueInt(0);
+		_parent = query.valueIsNull(1) ? -1 : query.valueInt(1);
+		_position = query.valueInt(2);
+		_type = query.valueIsNull(3) ? -1 : query.valueInt(3);
+		_id = query.valueInt(4);
+		_label = query.valueString(5);
 
 		// If the type is a list, get its number of childs
 		if (_type == -1) {
-			QSqlQuery query2;
+			SQLite::Query query2;
 			query2.prepare("select count(*) from lists where parent = ?");
-			query2.addBindValue(rowId());
+			query2.bindValue(rowId());
 			query2.exec();
-			if (query2.next()) _count = query2.value(0).toInt();
+			if (query2.next()) _count = query2.valueInt(0);
 		}
 		else _count = 0;
 	}
@@ -57,10 +58,13 @@ EntryListCachedEntry::EntryListCachedEntry(QSqlQuery &query)
 
 EntryListCache::EntryListCache()
 {
+	getByIdQuery.useWith(Database::connection());
 	getByIdQuery.prepare("select lists.rowid, parent, position, type, id, label from lists left join listsLabels on lists.rowid == listsLabels.rowid where lists.rowid = ?");
 //	getByParentPosQuery.prepare("select lists.rowid, parent, position, type, id, label from lists left join listsLabels on lists.rowid == listsLabels.rowid where lists.parent = ? order by position limit 1 offset ?");
+	getByParentPosQuery.useWith(Database::connection());
 	getByParentPosQuery.prepare("select lists.rowid, parent, position, type, id, label from lists left join listsLabels on lists.rowid == listsLabels.rowid where lists.parent = ? and position = ?");
 //	getByParentPosRootQuery.prepare("select lists.rowid, parent, position, type, id, label from lists left join listsLabels on lists.rowid == listsLabels.rowid where lists.parent is null order by position limit 1 offset ?");
+	getByParentPosRootQuery.useWith(Database::connection());
 	getByParentPosRootQuery.prepare("select lists.rowid, parent, position, type, id, label from lists left join listsLabels on lists.rowid == listsLabels.rowid where lists.parent is null and position = ?");
 //	fixListPositionQuery.prepare("update lists set position = ? where rowid = ?");
 }
@@ -75,10 +79,10 @@ const EntryListCachedEntry &EntryListCache::get(int rowId)
 {
 	QMutexLocker ml(&_cacheLock);
 	if (!rowIdCache.contains(rowId)) {
-		getByIdQuery.addBindValue(rowId);
+		getByIdQuery.bindValue(rowId);
 		getByIdQuery.exec();
 		EntryListCachedEntry nCache(getByIdQuery);
-		getByIdQuery.finish();
+		getByIdQuery.reset();
 		rowIdCache[nCache.rowId()] = nCache;
 		rowParentCache[QPair<int, int>(nCache.parent(), nCache.position())] = nCache;
 	}
@@ -90,17 +94,17 @@ const EntryListCachedEntry &EntryListCache::get(int parent, int pos)
 	QMutexLocker ml(&_cacheLock);
 	QPair<int, int> key(parent, pos);
 	if (!rowParentCache.contains(key)) {
-		QSqlQuery &query = parent == -1 ? getByParentPosRootQuery : getByParentPosQuery;
-		if (parent != -1) query.addBindValue(parent);
-		query.addBindValue(pos);
+		SQLite::Query &query = parent == -1 ? getByParentPosRootQuery : getByParentPosQuery;
+		if (parent != -1) query.bindValue(parent);
+		query.bindValue(pos);
 		query.exec();
 
 		EntryListCachedEntry nCache(query);
-		query.finish();
+		query.reset();
 /*		// Row inconsistency, try to fix!
 		if (pos != nCache.position()) {
-			fixListPositionQuery.addBindValue(pos);
-			fixListPositionQuery.addBindValue(nCache.rowId());
+			fixListPositionQuery.bindValue(pos);
+			fixListPositionQuery.bindValue(nCache.rowId());
 			fixListPositionQuery.exec();
 			nCache._position = pos;
 		}*/

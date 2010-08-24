@@ -23,7 +23,7 @@
 KanjiRadicals::KanjiRadicals()
 {
 	// Get all the radical information!
-	QSqlQuery query;
+	SQLite::Query query;
 	query.exec("select kanji, number from kanjidic2.radicalsList order by rowid");
 	while (query.next()) {
 		uint kanji = query.value(0).toUInt();

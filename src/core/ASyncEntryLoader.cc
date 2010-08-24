@@ -20,12 +20,13 @@
 
 ASyncEntryLoader::ASyncEntryLoader(DatabaseThread *dbConn) : ASyncQuery(dbConn)
 {
-	connect(this, SIGNAL(result(const QSqlRecord &)), this, SLOT(_loadEntry(const QSqlRecord &)));
+	connect(this, SIGNAL(result(const QList<QVariant> &)), this, SLOT(_loadEntry(const QList<QVariant> &)));
 }
 
-void ASyncEntryLoader::_loadEntry(const QSqlRecord &record)
+void ASyncEntryLoader::_loadEntry(const QList<QVariant> &record)
 {
-	EntryPointer entry = EntryRef(record.value(0).toInt(), record.value(1).toInt()).get();
+	if (record.size() != 2) return;
+	EntryPointer entry = EntryRef(record[0].toUInt(), record[1].toUInt()).get();
 	emit result(entry);
 }
 

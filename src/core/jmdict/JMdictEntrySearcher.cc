@@ -406,7 +406,7 @@ Entry *JMdictEntrySearcher::loadEntry(int id)
 
 	// Now load readings
 	// Kanji readings
-	kanjiQuery.addBindValue(entry->id());
+	kanjiQuery.bindValue(entry->id());
 	kanjiQuery.exec();
 	while(kanjiQuery.next()) {
 		entry->kanjis << KanjiReading(kanjiQuery.value(0).toString(), 0, kanjiQuery.value(1).toUInt());
@@ -414,7 +414,7 @@ Entry *JMdictEntrySearcher::loadEntry(int id)
 	kanjiQuery.finish();
 
 	// Kana readings
-	kanaQuery.addBindValue(entry->id());
+	kanaQuery.bindValue(entry->id());
 	kanaQuery.exec();
 	while(kanaQuery.next())
 	{
@@ -434,7 +434,7 @@ Entry *JMdictEntrySearcher::loadEntry(int id)
 	kanaQuery.finish();
 
 	// Senses
-	sensesQuery.addBindValue(entry->id());
+	sensesQuery.bindValue(entry->id());
 	sensesQuery.exec();
 	while(sensesQuery.next()) {
 		Sense sense(sensesQuery.value(1).toULongLong(), sensesQuery.value(2).toULongLong(), sensesQuery.value(3).toULongLong(), sensesQuery.value(4).toULongLong());
@@ -444,8 +444,8 @@ Entry *JMdictEntrySearcher::loadEntry(int id)
 		restrictedTo = sensesQuery.value(6).toString().split(',', QString::SkipEmptyParts);
 		foreach (const QString &idx, restrictedTo) sense.addStagR(idx.toInt());
 
-		glossQuery.addBindValue(entry->id());
-		glossQuery.addBindValue(sensesQuery.value(0).toInt());
+		glossQuery.bindValue(entry->id());
+		glossQuery.bindValue(sensesQuery.value(0).toInt());
 		glossQuery.exec();
 		while(glossQuery.next())
 			sense.addGloss(Gloss(glossQuery.value(0).toString(), glossQuery.value(1).toString()));
@@ -455,7 +455,7 @@ Entry *JMdictEntrySearcher::loadEntry(int id)
 	sensesQuery.finish();
 
 	// JLPT level
-	jlptQuery.addBindValue(entry->id());
+	jlptQuery.bindValue(entry->id());
 	jlptQuery.exec();
 	if (jlptQuery.next()) {
 		entry->_jlpt = jlptQuery.value(0).toInt();

@@ -49,7 +49,7 @@ private:
 	static QMap<QString, QString> _attachedDBs;
 	static Database *_instance;
 
-	SQLite::Connection connection;
+	SQLite::Connection _connection;
 	sqlite3 *sqliteHandler;
 	Database(const QString &userDBFile = QString(), bool temporary = false, QObject *parent = 0);
 	~Database();
@@ -71,6 +71,8 @@ protected:
 public:
 	static void startThreaded(const QString &userDBFile = QString(), bool temporary = false);
 	static void startUnthreaded(const QString &userDBFile = QString(), bool temporary = false);
+	static SQLite::Connection *connection() { return _instance->connection(); }
+
 	static void stop();
 	static const QString &userDBFile() { return _userDBFile; }
 	static const QString defaultDBFile() { return QDir(userProfile()).absoluteFilePath("user.db"); }
@@ -86,10 +88,10 @@ public:
 
 	// Begin immediate cannot work correctly here because it tries to get a lock on the attached databases, which are read-only
 	//static bool transaction() { bool r = instance->database.exec("BEGIN IMMEDIATE TRANSACTION").isValid(); qDebug() << "T" << r; if (!r) qDebug() << instance->database.lastError().text(); return r; }
-	static bool transaction() { return _instance->connection.transaction(); }
-	static bool rollback() { return _instance->connection.rollback(); }
-	static bool commit() { return _instance->connection.commit(); }
-	static SQLite::Error lastError() { return _instance->connection.lastError(); }
+	static bool transaction() { return _instance->_connection.transaction(); }
+	static bool rollback() { return _instance->_connection.rollback(); }
+	static bool commit() { return _instance->_connection.commit(); }
+	static SQLite::Error lastError() { return _instance->_connection.lastError(); }
 
 	/**
 	 * Interrupt the running query in the database thread. When this function returns,

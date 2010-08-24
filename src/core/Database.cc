@@ -42,8 +42,8 @@ QMap<QString, QString> Database::_attachedDBs;
 
 bool Database::createUserDB()
 {
-	if (!connection.transaction()) return false;
-	SQLite::Query query(&connection);
+	if (!_connection.transaction()) return false;
+	SQLite::Query query(&_connection);
 	// Versions table
 	QUERY("CREATE TABLE versions(id TEXT PRIMARY KEY, version INTEGER)");
 	QUERY(QString("INSERT INTO versions VALUES(\"userDB\", %1)").arg(USERDB_REVISION));
@@ -70,7 +70,7 @@ bool Database::createUserDB()
 	QUERY("CREATE INDEX idx_lists_ref ON lists(parent, position)");
 	QUERY("CREATE INDEX idx_lists_entry ON lists(type, id)");
 	QUERY("CREATE VIRTUAL TABLE listsLabels using fts3(label)");
-	if (!connection.commit()) return false;
+	if (!_connection.commit()) return false;
 	return true;
 }
 
@@ -166,18 +166,18 @@ void Database::dbWarning(const QString &message)
 bool Database::updateUserDB(int currentVersion)
 {
 	// The database is older than our version of Tagaini - we have to update the database
-	if (!connection.transaction()) return false;
-	SQLite::Query query2(&connection);
+	if (!_connection.transaction()) return false;
+	SQLite::Query query2(&_connection);
 	for (; currentVersion < USERDB_REVISION; ++currentVersion) {
 		if (!dbUpdateFuncs[currentVersion - 1](query2)) goto failed;
 		query2.clear();
 	}
 	// Update version number
 	if (!query2.exec(QString("UPDATE versions SET version=%1 where id=\"userDB\"").arg(USERDB_REVISION))) goto failed;
-	if (!connection.commit()) goto failed;
+	if (!_connection.commit()) goto failed;
 	return true;
 failed:
-	connection.rollback();
+	_connection.rollback();
 	return false;
 }
 
@@ -190,7 +190,7 @@ failed:
 bool Database::checkUserDB()
 {
 	int currentVersion;
-	SQLite::Query query(&connection);
+	SQLite::Query query(&_connection);
 	query.exec("pragma journal_mode=MEMORY");
 	query.exec("pragma encoding=\"UTF-16le\"");
 	// Try to get the version from the versions table
@@ -208,7 +208,7 @@ bool Database::checkUserDB()
 		if (currentVersion < USERDB_REVISION) {
 			if (!updateUserDB(currentVersion)) {
 				// Big issue here - start with a temporary database
-				dbWarning(tr("Error while upgrading user database: %1").arg(connection.lastError().message().toLatin1().constData()));
+				dbWarning(tr("Error while upgrading user database: %1").arg(_connection.lastError().message().toLatin1().constData()));
 				return false;
 			}
 		}
@@ -220,9 +220,9 @@ bool Database::checkUserDB()
 	}
 	else {
 		if (!createUserDB()) {
-			connection.rollback();
+			_connection.rollback();
 			// Big issue here - start with a temporary database
-			dbWarning(tr("Cannot create user database: %1").arg(connection.lastError().message().toLatin1().constData()));
+			dbWarning(tr("Cannot create user database: %1").arg(_connection.lastError().message().toLatin1().constData()));
 			return false;
 		}
 	}
@@ -234,17 +234,17 @@ bool Database::connectUserDB(QString filename)
 	// Connect to the user DB
 	if (filename.isEmpty()) filename = defaultDBFile(); 
 
-	if (!connection.connect(filename)) {
-		dbWarning(tr("Cannot open database: %1").arg(connection.lastError().message().toLatin1().data()));
+	if (!_connection.connect(filename)) {
+		dbWarning(tr("Cannot open database: %1").arg(_connection.lastError().message().toLatin1().data()));
 		return false;
 	}
 
 	// Attach custom functions
-	sqliteHandler = connection.sqlite3Handler();
+	sqliteHandler = _connection.sqlite3Handler();
 	register_all_tokenizers(sqliteHandler);
 
 	if (!checkUserDB()) return false;
-	_userDBFile = connection.dbFileName();
+	_userDBFile = _connection.dbFileName();
 	return true;
 }
 
@@ -255,7 +255,7 @@ bool Database::connectToTemporaryDatabase()
 	_tFile->close();
 	
 	// Now reopen the DB using the temporary file and create a clear database
-	connection.close();
+	_connection.close();
 	return connectUserDB(_tFile->fileName());
 }
 
@@ -400,7 +400,7 @@ void Database::quit()
 bool Database::attachDictionaryDB(const QString &file, const QString &alias, int expectedVersion)
 {
 #define QUERY(Q) if (!query.exec(Q)) goto error
-	SQLite::Query query(&instance()->connection);
+	SQLite::Query query(&instance()->_connection);
 	// Try to attach the dictionary DB
 	QUERY("attach database '" + file + "' as " + alias);
 
@@ -432,7 +432,7 @@ error:
 
 bool Database::detachDictionaryDB(const QString &alias)
 {
-	SQLite::Query query(&instance()->connection);
+	SQLite::Query query(&instance()->_connection);
 	if (!query.exec("detach database " + alias)) {
 		qCritical() << QString("Failed to attach database: %2").arg(query.lastError().message());
 		return false;
@@ -458,7 +458,7 @@ void Database::abortQuery()
 
 void Database::closeDB()
 {
-	SQLite::Query query(&connection);
+	SQLite::Query query(&_connection);
 
 	// Remove unreferenced tags
 	if (!query.exec("delete from tags where docid not in (select tagId from taggedEntries)")) qWarning("Could not cleanup unused tags!");
@@ -466,6 +466,6 @@ void Database::closeDB()
 	// VACUUM the database
 	if (!query.exec("vacuum")) qWarning("Final VACUUM failed %s", query.lastError().message().toLatin1().data());
 	// Close the database
-	connection.close();
+	_connection.close();
 }
 

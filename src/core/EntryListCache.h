@@ -46,7 +46,7 @@ private:
 	
 	/// Prepare the cached entry from the result row of the query
 	/// The query is advanced to the next row
-	EntryListCachedEntry(QSqlQuery &query);
+	EntryListCachedEntry(SQLite::Query &query);
 	
 public:
 	/// Root entry
@@ -93,10 +93,10 @@ private:
 	mutable QHash<QPair<int, int>, EntryListCachedEntry> rowParentCache;
 	QMutex _cacheLock;
 
-	QSqlQuery getByIdQuery;
-	QSqlQuery getByParentPosQuery;
-	QSqlQuery getByParentPosRootQuery;
-//	QSqlQuery fixListPositionQuery;
+	SQLite::Query getByIdQuery;
+	SQLite::Query getByParentPosQuery;
+	SQLite::Query getByParentPosRootQuery;
+//	SQLite::Query fixListPositionQuery;
 
 public:
 	/// Returns a reference to the unique instance of this class.

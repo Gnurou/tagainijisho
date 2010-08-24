@@ -41,7 +41,7 @@
 class ASyncEntryLoader : public ASyncQuery {
 	Q_OBJECT
 protected slots:
-	void _loadEntry(const QSqlRecord &record);
+	void _loadEntry(const QList<QVariant> &record);
 
 public:
 	ASyncEntryLoader(DatabaseThread *dbConn);

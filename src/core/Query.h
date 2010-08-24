@@ -39,7 +39,7 @@ class Query : public QObject
 	Q_OBJECT
 
 private:
-	QSqlQuery query;
+	SQLite::Query query;
 	/// The query currently being executed
 	QString _statement;
 	/// The statement to obtain the results count of the current query
