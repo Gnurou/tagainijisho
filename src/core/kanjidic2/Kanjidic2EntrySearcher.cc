@@ -17,6 +17,7 @@
 
 #include "core/TextTools.h"
 #include "core/Database.h"
+#include "core/kanjidic2/Kanjidic2Plugin.h"
 #include "core/kanjidic2/Kanjidic2EntrySearcher.h"
 
 #include <QtDebug>
@@ -26,6 +27,10 @@
 
 Kanjidic2EntrySearcher::Kanjidic2EntrySearcher(QObject *parent) : EntrySearcher(parent)
 {
+	if (!connection.attach(Kanjidic2Plugin::instance()->dbFile(), "kanjidic2")) {
+		qFatal("JMdictEntrySearcher cannot attach JMdict databases!");
+	}
+
 	QueryBuilder::Join::addTablePriority("kanjidic2.entries", 10);
 	QueryBuilder::Join::addTablePriority("kanjidic2.strokeGroups", 20);
 	QueryBuilder::Join::addTablePriority("kanjidic2.strokes", 20);
@@ -298,7 +303,7 @@ QueryBuilder::Column Kanjidic2EntrySearcher::canSort(const QString &sort, const 
 QList<Kanjidic2Entry::KanjiMeaning> Kanjidic2EntrySearcher::getMeanings(int id)
 {
 	QList<Kanjidic2Entry::KanjiMeaning> ret;
-	SQLite::Query query(Database::connection());
+	SQLite::Query query(&connection);
 	query.prepare("select lang, reading from kanjidic2.meaning join kanjidic2.meaningText on kanjidic2.meaning.docid = kanjidic2.meaningText.docid where entry = ?");
 	query.bindValue(id);
 	query.exec();
@@ -325,7 +330,7 @@ Entry *Kanjidic2EntrySearcher::loadEntry(int id)
 {
 	QString character = TextTools::unicodeToSingleChar(id);
 
-	SQLite::Query query(Database::connection());
+	SQLite::Query query(&connection);
 	query.prepare("select grade, strokeCount, frequency, jlpt, paths from kanjidic2.entries where id = ?");
 	query.bindValue(id);
 	query.exec();

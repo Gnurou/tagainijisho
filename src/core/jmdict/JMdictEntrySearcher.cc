@@ -19,13 +19,18 @@
 #include "core/jmdict/JMdictEntry.h"
 #include "core/jmdict/JMdictEntrySearcher.h"
 #include "core/jmdict/JMdictPlugin.h"
+#include "core/Database.h"
 
 PreferenceItem<QString> JMdictEntrySearcher::miscPropertiesFilter("jmdict", "miscPropertiesFilter", "arch,obs");
 quint64 JMdictEntrySearcher::_miscFilterMask = 0;
 quint64 JMdictEntrySearcher::_explicitlyRequestedMiscs = 0;
 
-JMdictEntrySearcher::JMdictEntrySearcher(QObject *parent) : EntrySearcher(parent), kanjiQuery(Database::connection()), kanaQuery(Database::connection()), sensesQuery(Database::connection()), glossQuery(Database::connection()), jlptQuery(Database::connection())
+JMdictEntrySearcher::JMdictEntrySearcher(QObject *parent) : EntrySearcher(parent), kanjiQuery(&connection), kanaQuery(&connection), sensesQuery(&connection), glossQuery(&connection), jlptQuery(&connection)
 {
+	if (!connection.attach(JMdictPlugin::instance()->dbFile(), "jmdict")) {
+		qFatal("JMdictEntrySearcher cannot attach JMdict databases!");
+	}
+
 	connect(&JMdictEntrySearcher::miscPropertiesFilter, SIGNAL(valueChanged(QVariant)), this, SLOT(updateMiscFilterMask()));
 
 	QueryBuilder::Join::addTablePriority("jmdict.entries", 50);

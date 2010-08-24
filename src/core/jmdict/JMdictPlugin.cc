@@ -32,6 +32,8 @@
 #define dictFileConfigString "jmdict/database"
 #define dictFileConfigDefault "jmdict.db"
 
+JMdictPlugin *JMdictPlugin::_instance = 0;
+
 QVector<QPair<QString, QString> > JMdictPlugin::_posEntities;
 QVector<QPair<QString, QString> > JMdictPlugin::_miscEntities;
 QVector<QPair<QString, QString> > JMdictPlugin::_dialectEntities;
@@ -88,10 +90,12 @@ QList<const QPair<QString, QString> *> JMdictPlugin::fieldEntitiesList(quint64 m
 
 JMdictPlugin::JMdictPlugin() : Plugin("JMdict")
 {
+	_instance = this;
 }
 
 JMdictPlugin::~JMdictPlugin()
 {
+	_instance = 0;
 }
 
 QString JMdictPlugin::pluginInfo() const
@@ -289,6 +293,7 @@ bool JMdictPlugin::onRegister()
 		qFatal("JMdict plugin fatal error: failed to attach JMdict database!");
 		return false;
 	}
+	_dbFile = dbFile;
 	
 	SQLite::Query query(Database::connection());
 	// Get the dictionary version
@@ -345,6 +350,7 @@ bool JMdictPlugin::onUnregister()
 	
 	// Detach our database
 	if (!Database::detachDictionaryDB("jmdict")) return false;
+	_dbFile.clear();
 
 	return true;
 }

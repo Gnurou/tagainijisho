@@ -19,6 +19,7 @@
 #include "core/TextTools.h"
 #include "gui/kanjidic2/Kanjidic2EntryFormatter.h"
 
+#include "core/Database.h"
 #include "core/jmdict/JMdictEntry.h"
 #include "core/jmdict/JMdictEntrySearcher.h"
 #include "core/jmdict/JMdictPlugin.h"

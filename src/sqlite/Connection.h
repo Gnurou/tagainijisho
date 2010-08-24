@@ -50,11 +50,12 @@ public:
 	Connection();
 	~Connection();
 
+	typedef enum { None = 0, JournalInFile = (1 << 0), ReadOnly = (1 << 1) } OpenFlags;
 	/**
 	 * Connect to the database file given as parameter. Returns true in case
 	 * of success, false otherwise.
 	 */
-	bool connect(const QString &dbFile);
+	bool connect(const QString &dbFile, OpenFlags flags = None);
 
 	bool connected() const { return _handler != 0; }
 

@@ -176,12 +176,7 @@ bool ThreadedDatabaseConnection::connect(const QString &dbFile)
 	if (!_connection.connect(dbFile)) {
 		qWarning("Cannot open database: %s", _connection.lastError().message().toLatin1().data());
 		return false;
-	}
-	_handler = _connection.sqlite3Handler();
-	register_all_tokenizers(_handler);
-
-	_connection.exec("pragma journal_mode=MEMORY");
-	_connection.exec("pragma encoding=\"UTF-16le\"");
+	}	
 	return true;
 }
 
