@@ -17,8 +17,10 @@
 
 #include "StudyFilterWidget.h"
 
-#include <QGridLayout>
 #include "sqlite/Query.h"
+#include "core/Database.h"
+
+#include <QGridLayout>
 #include <QLabel>
 
 StudyFilterWidget::StudyFilterWidget(QWidget *parent) : SearchFilterWidget(parent)
@@ -69,7 +71,7 @@ StudyFilterWidget::StudyFilterWidget(QWidget *parent) : SearchFilterWidget(paren
 	connect(studyBox, SIGNAL(toggled(bool)), this, SLOT(commandUpdate()));
 	{
 		QDate infDate, supDate;
-		SQLite::Query query;
+		SQLite::Query query(Database::connection());
 		query.exec("select min(dateAdded) from training");
 		if (query.next()) {
 			infDate = QDateTime::fromTime_t(query.valueUInt(0)).date();
@@ -99,7 +101,7 @@ StudyFilterWidget::StudyFilterWidget(QWidget *parent) : SearchFilterWidget(paren
 	connect(trainBox, SIGNAL(toggled(bool)), this, SLOT(commandUpdate()));
 	{
 		QDate infDate, supDate;
-		SQLite::Query query;
+		SQLite::Query query(Database::connection());
 		query.exec("select min(dateAdded) from training");
 		if (query.next()) {
 			infDate = QDateTime::fromTime_t(query.valueUInt(0)).date();
@@ -129,7 +131,7 @@ StudyFilterWidget::StudyFilterWidget(QWidget *parent) : SearchFilterWidget(paren
 	connect(mistakeBox, SIGNAL(toggled(bool)), this, SLOT(commandUpdate()));
 	{
 		QDate infDate, supDate;
-		SQLite::Query query;
+		SQLite::Query query(Database::connection());
 		query.exec("select min(date) from trainingLog where result=0");
 		if (query.next()) {
 			infDate = QDateTime::fromTime_t(query.valueUInt(0)).date();

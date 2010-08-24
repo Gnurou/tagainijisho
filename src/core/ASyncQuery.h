@@ -50,7 +50,7 @@ public:
 	ASyncQuery(DatabaseThread *dbConn);
 	virtual ~ASyncQuery();
 	/// Returns the last error raised by this query
-	SQLite::Error lastError() { return _query.lastError(); }
+	const SQLite::Error &lastError() { return _query.lastError(); }
 
 	/**
 	 * Starts running the query given as argument. The ASyncQuery will emit
@@ -176,7 +176,7 @@ public:
 	bool attach(const QString &dbFile, const QString &alias);
 	bool detach(const QString &alias);
 	/// Returns the last error that happened on this connection
-	SQLite::Error lastError() { return _connection.lastError(); }
+	const SQLite::Error &lastError() { return _connection.lastError(); }
 
 public slots:
 	/**

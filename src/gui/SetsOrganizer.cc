@@ -154,7 +154,7 @@ void SetsTreeWidget::deleteSet(SetTreeItem *item)
 			deleteSet(child);
 		}
 	}
-	SQLite::Query query;
+	SQLite::Query query(Database::connection());
 	// Delete the row
 	query.prepare("DELETE FROM sets where rowid = ?");
 	query.bindValue(item->setId());
@@ -195,7 +195,7 @@ QList<SetTreeItem *> SetsTreeWidget::childsOf(SetTreeItem *parent)
 
 void SetsTreeWidget::populateRoot()
 {
-	SQLite::Query query;
+	SQLite::Query query(Database::connection());
 
 	query.exec("SELECT rowid, position, state IS NULL, label FROM sets WHERE parent IS NULL ORDER BY position");
 	while (query.next()) {
@@ -210,7 +210,7 @@ void SetsTreeWidget::populateRoot()
 
 void SetsTreeWidget::populateFolder(SetTreeItem *parent) const
 {
-	SQLite::Query query;
+	SQLite::Query query(Database::connection());
 
 	query.prepare("SELECT rowid, position, state IS NULL, label FROM sets WHERE parent = ? ORDER BY position");
 	query.bindValue(parent->setId());

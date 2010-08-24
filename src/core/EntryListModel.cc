@@ -148,7 +148,7 @@ bool EntryListModel::setData(const QModelIndex &index, const QVariant &value, in
 	if (role == Qt::EditRole && index.isValid()) {
 		if (!TRANSACTION) return false;
 		{
-			SQLite::Query query;
+			SQLite::Query query(Database::connection());
 			query.prepare("select type from lists where rowid = ?");
 			query.bindValue(index.internalId());
 			query.exec();
@@ -219,7 +219,7 @@ transactionFailed:
 
 bool EntryListModel::_removeRows(int row, int count, const QModelIndex &parent)
 {
-	SQLite::Query query;
+	SQLite::Query query(Database::connection());
 	// Get the list of items to remove
 	QString queryString("select rowid, type, id from lists where parent %1 and position between ? and ?");
 	if (!parent.isValid()) query.prepare(queryString.arg("is null"));
@@ -365,7 +365,7 @@ bool EntryListModel::dropMimeData(const QMimeData *data, Qt::DropAction action, 
 		if (!TRANSACTION) return false;
 		emit layoutAboutToBeChanged();
 		{
-			SQLite::Query query;
+			SQLite::Query query(Database::connection());
 			foreach (int rowid, rowIds) {
 				// First get the model index
 				QModelIndex idx(index(rowid));
@@ -417,7 +417,7 @@ bool EntryListModel::dropMimeData(const QMimeData *data, Qt::DropAction action, 
 		if (row == -1) row = rowCount(parent);
 		if (!TRANSACTION) return false;
 		{
-			SQLite::Query query;
+			SQLite::Query query(Database::connection());
 			// Start by moving the rows after the destination
 			if (!moveRows(row, entries.size(), parent, query)) goto transactionFailed;
 			// And insert the new rows at the right position

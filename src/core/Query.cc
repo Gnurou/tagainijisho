@@ -25,7 +25,7 @@
 #include <QMutex>
 #include <QMutexLocker>
 
-Query::Query(QObject *parent) : QObject(parent), _status(Idle), _statusMutex()
+Query::Query(QObject *parent) : QObject(parent), query(Database::connection()), _status(Idle), _statusMutex()
 {
 	// Events for this object should be handled
 	// by the database event handler
@@ -122,7 +122,8 @@ void Query::__fetch(int min, int nb)
 	if (min == -1) min = 0;
 	int resCpt = 0;
 	_currentPos = min;
-	bool valid = query.seek(min);
+//	bool valid = query.seek(min);
+	bool valid = true;
 
 	emit firstResult();
 	while (valid && resCpt++ != nb) {

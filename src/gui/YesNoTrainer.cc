@@ -16,6 +16,7 @@
  */
 
 #include "core/EntriesCache.h"
+#include "core/Database.h"
 #include "gui/EntryFormatter.h"
 #include "gui/YesNoTrainer.h"
 #include "gui/TemplateFiller.h"
@@ -30,7 +31,7 @@
 
 PreferenceItem<QByteArray> YesNoTrainer::windowGeometry("trainWindow", "geometry", "");
 
-YesNoTrainer::YesNoTrainer(QWidget *parent) : QWidget(parent), _trainingMode(Japanese), currentEntry(0)
+YesNoTrainer::YesNoTrainer(QWidget *parent) : QWidget(parent), _trainingMode(Japanese), currentEntry(0), _query(Database::connection())
 {
 	frontParts << "front";
 	backParts << "back";
