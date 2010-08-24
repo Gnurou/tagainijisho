@@ -180,7 +180,7 @@ QSet<uint> KanjiSelector::getCandidates(const QSet<uint> &selection)
 		SQLite::Query query;
 		if (!query.exec(resQuery)) qDebug() << query.lastError().text();
 		while (query.next()) {
-			int ch(query.value(0).toInt());
+			int ch(query.valueInt(0));
 			res << ch;
 			QString c(TextTools::unicodeToSingleChar(ch));
 			emit foundResult(c);
@@ -202,14 +202,14 @@ void KanjiSelector::updateComplementsList(const QSet<uint> &selection, const QSe
 		int curStrokes = 0;
 		uint curKanji = 0;
 		while (query.next()) {
-			uint kanji = query.value(0).toUInt();
+			uint kanji = query.valueUInt(0);
 			// Do not display the same kanji twice - useful for radical selector
 			if (curKanji == kanji) continue;
 			curKanji = kanji;
 			// Do not display kanji that are already in candidates, excepted if they
 			// are part of the current selection
 			if (candidates.contains(kanji) && !selection.contains(kanji)) continue;
-			int strokeNbr = query.value(1).toUInt();
+			int strokeNbr = query.valueUInt(1);
 			if (strokeNbr > curStrokes) {
 				_complementsList->setCurrentStrokeNbr(strokeNbr);
 				curStrokes = strokeNbr;

@@ -196,7 +196,7 @@ void SetsTreeWidget::populateRoot()
 
 	query.exec("SELECT rowid, position, state IS NULL, label FROM sets WHERE parent IS NULL ORDER BY position");
 	while (query.next()) {
-		SetTreeItem *item = new SetTreeItem(query.value(0).toInt(), query.value(1).toInt(), query.value(2).toBool(), query.value(3).toString());
+		SetTreeItem *item = new SetTreeItem(query.valueInt(0), query.value(1).toInt(), query.value(2).toBool(), query.value(3).toString());
 		if (item->isFolder()) {
 			item->setIcon(0, QIcon(":/images/icons/folder.png"));
 			populateFolder(item);
@@ -213,7 +213,7 @@ void SetsTreeWidget::populateFolder(SetTreeItem *parent) const
 	query.bindValue(parent->setId());
 	query.exec();
 	while (query.next()) {
-		SetTreeItem *item = new SetTreeItem(query.value(0).toInt(), query.value(1).toInt(), query.value(2).toBool(), query.value(3).toString());
+		SetTreeItem *item = new SetTreeItem(query.valueInt(0), query.value(1).toInt(), query.value(2).toBool(), query.value(3).toString());
 		if (item->isFolder()) {
 			item->setIcon(0, QIcon(":/images/icons/folder.png"));
 			populateFolder(item);

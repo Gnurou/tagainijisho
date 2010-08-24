@@ -275,7 +275,7 @@ void Kanjidic2EntryFormatter::drawCustom(const ConstKanjidic2EntryPointer& entry
 		query.exec(getQueryUsedInWordsSql(entry->id(), maxWordsToPrint, printOnlyStudiedVocab));
 		painter.setFont(textFont);
 		while (query.next()) {
-			ConstJMdictEntryPointer jmEntry(JMdictEntryRef(query.value(1).toInt()).get());
+			ConstJMdictEntryPointer jmEntry(JMdictEntryRef(query.valueInt(1)).get());
 
 			QString str = QFontMetrics(painter.font(), painter.device()).elidedText(jmEntry->shortVersion(Entry::TinyVersion), Qt::ElideRight, rightArea.width());
 			textBB = painter.boundingRect(rightArea, Qt::AlignLeft, str);
@@ -502,7 +502,7 @@ QString Kanjidic2EntryFormatter::formatVariations(const ConstEntryPointer &_entr
 		QList<EntryPointer> entries;
 		QStringList formats;
 		while (query.next()) {
-			ConstKanjidic2EntryPointer kEntry(KanjiEntryRef(query.value(0).toUInt()).get());
+			ConstKanjidic2EntryPointer kEntry(KanjiEntryRef(query.valueUInt(0)).get());
 			formats << entryTitle(kEntry);
 		}
 		if (!formats.isEmpty()) {

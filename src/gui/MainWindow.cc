@@ -387,15 +387,15 @@ void MainWindow::populateMenu(QMenu *menu, int parentId)
 	while (query.next()) {
 		// A folder
 		if (query.value(1).isNull()) {
-			QMenu *subMenu = menu->addMenu(QIcon(":/images/icons/folder.png"), query.value(0).toString());
+			QMenu *subMenu = menu->addMenu(QIcon(":/images/icons/folder.png"), query.valueString(0));
 			connect(subMenu, SIGNAL(aboutToShow()), this, SLOT(populateSubMenu()));
-			subMenu->setProperty("T_rowid", query.value(2).toInt());
+			subMenu->setProperty("T_rowid", query.valueInt(2));
 			if (!parentId) _rootMenus << subMenu;
 		}
 		// A set
 		else {
-			QAction *action = menu->addAction(query.value(0).toString(), this, SLOT(onSetSelected()));
-			action->setProperty("T_state", query.value(1).toByteArray());
+			QAction *action = menu->addAction(query.valueString(0), this, SLOT(onSetSelected()));
+			action->setProperty("T_state", query.valueByteArray(1));
 			if (!parentId) _rootActions << action;
 		}
 	}
