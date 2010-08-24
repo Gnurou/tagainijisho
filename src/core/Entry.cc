@@ -17,6 +17,7 @@
 
 #include "core/Tag.h"
 #include "core/Entry.h"
+#include "core/Database.h"
 #include "sqlite/Query.h"
 
 #include <QDebug>
@@ -44,7 +45,7 @@ static QString dateToString(const QDateTime &date)
 
 void Entry::updateTrainingData()
 {
-	SQLite::Query query;
+	SQLite::Query query(Database::connection());
 
 	QString qString;
 	if (!trained()) removeFromTraining();
@@ -112,7 +113,7 @@ void Entry::removeFromTraining()
 	_score = 0;
 	// And delete the entry row from the training table
 	QString qString = QString("delete from training where type = %1 and id = %2").arg(type()).arg(id());
-	SQLite::Query query;
+	SQLite::Query query(Database::connection());
 	if (!query.exec(qString)) qCritical() << "Error executing query: " << query.lastError().message();
 	emit entryChanged(this);
 }
@@ -164,7 +165,7 @@ void Entry::Note::update(const QString &newNote)
 
 void Entry::Note::writeToDB(const Entry *entry)
 {
-	SQLite::Query query;
+	SQLite::Query query(Database::connection());
 	QString qString;
 
 	// Insert the notes properties
@@ -193,7 +194,7 @@ void Entry::Note::writeToDB(const Entry *entry)
 
 void Entry::Note::deleteFromDB(const Entry *entry)
 {
-	SQLite::Query query;
+	SQLite::Query query(Database::connection());
 	query.prepare("delete from notes where noteId = ?");
 	query.bindValue(_id);
 	if (!query.exec()) qCritical() << "Error executing query: " << query.lastError().message();
@@ -204,7 +205,7 @@ void Entry::Note::deleteFromDB(const Entry *entry)
 
 void Entry::setTags(const QStringList &tags)
 {
-	SQLite::Query query;
+	SQLite::Query query(Database::connection());
 	if (!query.exec(QString("delete from taggedEntries where type = %1 and id = %2").arg(type()).arg(id()))) qCritical() << "Error executing query: " << query.lastError().message();
 	_tags.clear();
 	addTags(tags);
@@ -212,7 +213,7 @@ void Entry::setTags(const QStringList &tags)
 
 void Entry::addTags(const QStringList &tags)
 {
-	SQLite::Query query;
+	SQLite::Query query(Database::connection());
 	query.prepare(QString("insert into taggedEntries values(%1, %2, ?, %3)").arg(type()).arg(id()).arg(QDateTime::currentDateTime().toTime_t()));
 	foreach(const QString &tag, tags) {
 		Tag t = Tag::getOrCreateTag(tag);

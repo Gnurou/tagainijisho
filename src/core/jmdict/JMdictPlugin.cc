@@ -105,7 +105,7 @@ bool JMdictPlugin::checkForMovedEntries()
 	// Turn the version into an integer and check whether we should look for deleted/moved entries in the user data
 	unsigned int curVersion =  QString(_dictVersion.mid(0, 4) + _dictVersion.mid(5, 2) + _dictVersion.mid(8, 2)).toInt();
 	unsigned int lastVersion = 0;
-	SQLite::Query query;
+	SQLite::Query query(Database::connection());
 	CHECK(query.exec("select version from versions where id=\"JMdictDB\""));
 	if (query.next()) lastVersion = query.valueInt(0);
 	// Our version is more recent - make sure that there is no orphan entries!
@@ -114,7 +114,7 @@ bool JMdictPlugin::checkForMovedEntries()
 		CHECK(query.exec(QString("select training.id, score, dateAdded, dateLastTrain, nbTrained, nbSuccess, dateLastMistake from training left join jmdict.entries on training.type = %1 and training.id = entries.id where training.type = %1 and entries.id is null").arg(JMDICTENTRY_GLOBALID)));
 		while (query.next()) {
 			int entryId = query.valueInt(0);
-			SQLite::Query query2;
+			SQLite::Query query2(Database::connection());
 			query2.prepare("select movedTo from jmdict.deletedEntries where id = ?");
 			query2.bindValue(entryId);
 			CHECK(query2.exec());
@@ -172,7 +172,7 @@ bool JMdictPlugin::checkForMovedEntries()
 			int entryId = query.valueInt(0);
 			int tagId = query.valueInt(1);
 			int rowId = query.valueInt(2);
-			SQLite::Query query2;
+			SQLite::Query query2(Database::connection());
 			query2.prepare("select movedTo from jmdict.deletedEntries where id = ?");
 			query2.bindValue(entryId);
 			CHECK(query2.exec());
@@ -209,7 +209,7 @@ bool JMdictPlugin::checkForMovedEntries()
 		while (query.next()) {
 			int entryId = query.valueInt(0);
 			int noteId = query.valueInt(1);
-			SQLite::Query query2;
+			SQLite::Query query2(Database::connection());
 			query2.prepare("select movedTo from jmdict.deletedEntries where id = ?");
 			query2.bindValue(entryId);
 			CHECK(query2.exec());
@@ -235,7 +235,7 @@ bool JMdictPlugin::checkForMovedEntries()
 			int position = query.valueInt(1);
 			int parent = query.valueInt(2);
 			int rowId = query.valueInt(3);
-			SQLite::Query query2;
+			SQLite::Query query2(Database::connection());
 			query2.prepare("select movedTo from jmdict.deletedEntries where id = ?");
 			query2.bindValue(entryId);
 			CHECK(query2.exec());
@@ -290,7 +290,7 @@ bool JMdictPlugin::onRegister()
 		return false;
 	}
 	
-	SQLite::Query query;
+	SQLite::Query query(Database::connection());
 	// Get the dictionary version
 	query.exec("select JMdictVersion from jmdict.info");
 	if (query.next()) _dictVersion = query.valueString(0);

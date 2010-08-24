@@ -71,7 +71,7 @@ protected:
 public:
 	static void startThreaded(const QString &userDBFile = QString(), bool temporary = false);
 	static void startUnthreaded(const QString &userDBFile = QString(), bool temporary = false);
-	static SQLite::Connection *connection() { return _instance->connection(); }
+	static SQLite::Connection *connection() { return &_instance->_connection; }
 
 	static void stop();
 	static const QString &userDBFile() { return _userDBFile; }
@@ -91,7 +91,7 @@ public:
 	static bool transaction() { return _instance->_connection.transaction(); }
 	static bool rollback() { return _instance->_connection.rollback(); }
 	static bool commit() { return _instance->_connection.commit(); }
-	static SQLite::Error lastError() { return _instance->_connection.lastError(); }
+	static const SQLite::Error &lastError() { return _instance->_connection.lastError(); }
 
 	/**
 	 * Interrupt the running query in the database thread. When this function returns,

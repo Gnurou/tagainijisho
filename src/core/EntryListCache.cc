@@ -25,7 +25,7 @@ EntryListCachedEntry::EntryListCachedEntry()
 	_position = -1;
 	_type = -1;
 	_id = -1;
-	SQLite::Query query;
+	SQLite::Query query(Database::connection());
 	query.exec("select count(*) from lists where parent is null");
 	if (query.next()) _count = query.valueInt(0);
 	else _count = 0;
@@ -46,7 +46,7 @@ EntryListCachedEntry::EntryListCachedEntry(SQLite::Query &query)
 
 		// If the type is a list, get its number of childs
 		if (_type == -1) {
-			SQLite::Query query2;
+			SQLite::Query query2(Database::connection());
 			query2.prepare("select count(*) from lists where parent = ?");
 			query2.bindValue(rowId());
 			query2.exec();

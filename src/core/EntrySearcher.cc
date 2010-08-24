@@ -16,6 +16,7 @@
  */
 
 #include "core/Tag.h"
+#include "core/Database.h"
 #include "core/RelativeDate.h"
 #include "core/EntrySearcher.h"
 
@@ -174,7 +175,7 @@ static QDateTime variantToDate(const SQLite::Query &query, int col)
 
 void EntrySearcher::loadMiscData(Entry *entry)
 {
-	SQLite::Query query;
+	SQLite::Query query(Database::connection());
 
 	// Load training data
 	query.prepare("select dateAdded, dateLastTrain, nbTrained, nbSuccess, dateLastMistake, score from training where type = ? and id = ?");

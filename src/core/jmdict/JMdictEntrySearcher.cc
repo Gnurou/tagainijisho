@@ -24,7 +24,7 @@ PreferenceItem<QString> JMdictEntrySearcher::miscPropertiesFilter("jmdict", "mis
 quint64 JMdictEntrySearcher::_miscFilterMask = 0;
 quint64 JMdictEntrySearcher::_explicitlyRequestedMiscs = 0;
 
-JMdictEntrySearcher::JMdictEntrySearcher(QObject *parent) : EntrySearcher(parent)
+JMdictEntrySearcher::JMdictEntrySearcher(QObject *parent) : EntrySearcher(parent), kanjiQuery(Database::connection()), kanaQuery(Database::connection()), sensesQuery(Database::connection()), glossQuery(Database::connection()), jlptQuery(Database::connection())
 {
 	connect(&JMdictEntrySearcher::miscPropertiesFilter, SIGNAL(valueChanged(QVariant)), this, SLOT(updateMiscFilterMask()));
 
