@@ -35,28 +35,36 @@ void ResultsViewWidget::setModel(ResultsList *rList)
 {
 	if (_results) {
 		disconnect(searchActiveAnimation, SIGNAL(clicked()), _results, SLOT(abortSearch()));
-		disconnect(_results, SIGNAL(nbResults(unsigned int)), this, SLOT(showNbResults(unsigned int)));
-		disconnect(_results, SIGNAL(queryEnded()), this, SLOT(stopAndResetSearchAnim()));
-		disconnect(_results, SIGNAL(queryStarted()), searchActiveAnimation, SLOT(start()));
+		disconnect(_results, SIGNAL(rowsRemoved(QModelIndex, int, int)), this, SLOT(updateResultsCount()));
+		disconnect(_results, SIGNAL(queryEnded()), this, SLOT(onSearchFinished()));
+		disconnect(_results, SIGNAL(queryStarted()), this, SLOT(onSearchStarted()));
 	}
 	_results = rList;
 	if (_results) {
-		connect(_results, SIGNAL(queryStarted()), searchActiveAnimation, SLOT(start()));
-		connect(_results, SIGNAL(queryEnded()), this, SLOT(stopAndResetSearchAnim()));
-		connect(_results, SIGNAL(nbResults(unsigned int)), this, SLOT(showNbResults(unsigned int)));
+		connect(_results, SIGNAL(queryStarted()), this, SLOT(onSearchStarted()));
+		connect(_results, SIGNAL(queryEnded()), this, SLOT(onSearchFinished()));
+		connect(_results, SIGNAL(rowsRemoved(QModelIndex, int, int)), this, SLOT(updateResultsCount()));
 		connect(searchActiveAnimation, SIGNAL(clicked()), _results, SLOT(abortSearch()));
 	}
 	_resultsView->setModel(rList);
 }
 
-void ResultsViewWidget::stopAndResetSearchAnim()
+void ResultsViewWidget::onSearchStarted()
+{
+	searchActiveAnimation->start();
+	updateResultsCount();
+}
+
+void ResultsViewWidget::onSearchFinished()
 {
 	searchActiveAnimation->stop();
 	searchActiveAnimation->jumpToFrame(0);
+	updateResultsCount();
 }
 
-void ResultsViewWidget::showNbResults(unsigned int nbResults)
+void ResultsViewWidget::updateResultsCount()
 {
+	int nbResults = _resultsView->model()->rowCount();
 	if (nbResults == 0) nbResultsLabel->clear();
 	else nbResultsLabel->setText(QString(tr("%1 Results")).arg(nbResults));
 }
