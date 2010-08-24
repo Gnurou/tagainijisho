@@ -385,7 +385,7 @@ bool Database::isThreaded()
 void Database::quit()
 {
 	// Stop the on ongoing query, if any
-	abortQuery();
+	_connection.interrupt();
 	closeDB();
 	// The database being closed, we can exit the thread
 	QThread::quit();
@@ -448,12 +448,6 @@ void tagaini_sqlite3_fix_activevdbecnt(sqlite3 *db);
 void Database::sqliteFix()
 {
 	tagaini_sqlite3_fix_activevdbecnt(_instance->sqliteHandler);
-}
-
-void Database::abortQuery()
-{
-	sqlite3_interrupt(_instance->sqliteHandler);
-	sqliteFix();
 }
 
 void Database::closeDB()

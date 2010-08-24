@@ -159,7 +159,7 @@ void Query::abort()
 	// Database query running, must abort query
 	if (_status == Running) {
 		_status = Interrupted;
-		Database::abortQuery();
+		query.connection()->interrupt();
 		// Wait for the database thread to REALLY have interrupted the query
 		_dbTaskInterrupted.wait(&_statusMutex);
 	}
