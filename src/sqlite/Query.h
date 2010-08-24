@@ -67,6 +67,7 @@ public:
 	bool exec();
 	bool exec(const QString &query);
 
+	bool bindValue(const bool val, int col = 0);
 	bool bindValue(const qint32 val, int col = 0);
 	bool bindValue(const quint32 val, int col = 0);
 	bool bindValue(const qint64 val, int col = 0);
@@ -85,6 +86,7 @@ public:
 	int columnsCount() const;
 	bool valueAvailable(int column) const;
 	Type valueType(int column) const;
+	qint32 valueBool(int column) const;
 	qint32 valueInt(int column) const;
 	quint32 valueUInt(int column) const;
 	qint64 valueInt64(int column) const;

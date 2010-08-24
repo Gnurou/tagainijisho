@@ -141,12 +141,12 @@ bool JMdictPlugin::checkForMovedEntries()
 					CHECK(query2.exec());
 				} else {
 					// Destination exists, have to merge the training data
-					int nScore = (query.valueInt(1) + query2.value(1).toInt()) / 2;
-					int nDateAdded = qMin(query.valueInt(2), query.value(2).toInt());
-					int nDateLastTrain = qMax(query.valueInt(3), query.value(3).toInt());
-					int nNbTrained = query.valueInt(4) + query2.value(4).toInt();
-					int nNbSuccess = query.valueInt(5) + query2.value(5).toInt();
-					int nDateLastMistake = qMax(query.valueInt(6), query.value(6).toInt());
+					int nScore = (query.valueInt(1) + query2.valueInt(1)) / 2;
+					int nDateAdded = qMin(query.valueInt(2), query.valueInt(2));
+					int nDateLastTrain = qMax(query.valueInt(3), query.valueInt(3));
+					int nNbTrained = query.valueInt(4) + query2.valueInt(4);
+					int nNbSuccess = query.valueInt(5) + query2.valueInt(5);
+					int nDateLastMistake = qMax(query.valueInt(6), query.valueInt(6));
 					// Delete the moved entry
 					query2.prepare("delete from training where type = ? and id = ?");
 					query2.bindValue(JMDICTENTRY_GLOBALID);

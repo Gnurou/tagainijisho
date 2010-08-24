@@ -91,6 +91,11 @@ bool Query::bindValue(const quint32 val, int col)
 	return bindValue((qint32)val, col);
 }
 
+bool Query::bindValue(const bool val, int col)
+{
+	return bindValue((qint32)val, col);
+}
+
 bool Query::bindValue(const qint64 val, int col)
 {
 	if (!checkBind(col)) return false;
@@ -230,6 +235,11 @@ Type Query::valueType(int column) const
 	default:
 		return None;
 	}
+}
+
+bool Query::valueBool(int column) const
+{
+	return (bool)valueInt(column);
 }
 
 qint32 Query::valueInt(int column) const

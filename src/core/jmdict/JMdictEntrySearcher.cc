@@ -409,7 +409,7 @@ Entry *JMdictEntrySearcher::loadEntry(int id)
 	kanjiQuery.bindValue(entry->id());
 	kanjiQuery.exec();
 	while(kanjiQuery.next()) {
-		entry->kanjis << KanjiReading(kanjiQuery.valueString(0), 0, kanjiQuery.value(1).toUInt());
+		entry->kanjis << KanjiReading(kanjiQuery.valueString(0), 0, kanjiQuery.valueUInt(1));
 	}
 	kanjiQuery.reset();
 
@@ -437,7 +437,7 @@ Entry *JMdictEntrySearcher::loadEntry(int id)
 	sensesQuery.bindValue(entry->id());
 	sensesQuery.exec();
 	while(sensesQuery.next()) {
-		Sense sense(sensesQuery.valueULongLong(1), sensesQuery.value(2).toULongLong(), sensesQuery.value(3).toULongLong(), sensesQuery.value(4).toULongLong());
+		Sense sense(sensesQuery.valueUInt64(1), sensesQuery.valueUInt64(2), sensesQuery.valueUInt64(3), sensesQuery.valueUInt64(4));
 		// Get restricted readings/writing
 		QStringList restrictedTo(sensesQuery.valueString(5).split(',', QString::SkipEmptyParts));
 		foreach (const QString &idx, restrictedTo) sense.addStagK(idx.toInt());
@@ -448,7 +448,7 @@ Entry *JMdictEntrySearcher::loadEntry(int id)
 		glossQuery.bindValue(sensesQuery.valueInt(0));
 		glossQuery.exec();
 		while(glossQuery.next())
-			sense.addGloss(Gloss(glossQuery.valueString(0), glossQuery.value(1).toString()));
+			sense.addGloss(Gloss(glossQuery.valueString(0), glossQuery.valueString(1)));
 		entry->senses << sense;
 	}
 	glossQuery.reset();
