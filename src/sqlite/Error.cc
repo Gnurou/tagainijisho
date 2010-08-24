@@ -21,21 +21,35 @@
 
 using namespace SQLite;
 
-Error::Error(const QString &message) : _isError(true), _message(message)
+Error::Error(int code, const QString &message) : _code(code), _message(message)
 {
 }
 
 Error::Error(const Connection &connection)
 {
-	int code = sqlite3_errcode(connection._handler);
-	switch (code) {
+	_code = sqlite3_errcode(connection._handler);
+	_message = sqlite3_errmsg(connection._handler);
+}
+
+bool Error::isError() const
+{
+	switch (_code) {
 	case SQLITE_OK:
 	case SQLITE_DONE:
 	case SQLITE_ROW:
-		_isError = false;
+		return false;
 	default:
-		_isError = true;
+		return true;
 	}
+}
 
-	_message = sqlite3_errmsg(connection._handler);
+bool Error::isInterrupted() const
+{
+	switch (_code) {
+	case SQLITE_INTERRUPT:
+	case SQLITE_ABORT:
+		return true;
+	default:
+		return false;
+	}
 }

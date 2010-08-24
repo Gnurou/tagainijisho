@@ -38,6 +38,7 @@ friend class Connection;
 private:
 	sqlite3_stmt *_stmt;
 	Connection *_connection;
+	Error _lastError;
 	enum { INVALID, BLANK, PREPARED, RUN, FIRSTRES, DONE, ERROR } _state;
 	quint8 _bindIndex;
 
@@ -45,7 +46,7 @@ private:
 	Query &operator =(const Query &query);
 
 	bool checkBind(int &col);
-	bool checkBindRes(const int res);
+	bool checkBindRes();
 
 public:
 	/**
@@ -79,6 +80,9 @@ public:
 	bool seek(int index, bool relative = false);
 	qint64 lastInsertId() const;
 
+	/// Returns the number of columns in a results row, or
+	/// 0 if the statement does not yield any result.
+	int columnsCount() const;
 	bool valueAvailable(int column) const;
 	Type valueType(int column) const;
 	qint32 valueInt(int column) const;
@@ -92,7 +96,7 @@ public:
 
 	void clear();
 
-	const Error &lastError() const;
+	const Error &lastError() const { return _lastError; }
 };
 	
 }

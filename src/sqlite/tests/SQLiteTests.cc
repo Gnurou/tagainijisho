@@ -59,6 +59,7 @@ void SQLiteTests::queryBlank()
 {
 	QVERIFY(query.connection() == 0);
 	QVERIFY(!query.isValid());
+	QCOMPARE(query.columnsCount(), 0);
 }
 
 void SQLiteTests::queryCreate()
@@ -66,12 +67,17 @@ void SQLiteTests::queryCreate()
 	query.useWith(&connection);
 	QVERIFY(query.connection() == &connection);
 	QVERIFY(query.isValid());
+	QVERIFY(!connection.lastError().isError());
+	QCOMPARE(query.columnsCount(), 0);
 	QVERIFY(!query.next());
 	QVERIFY(!query.seek(0, false));
 	QVERIFY(!query.valueAvailable(0));
 	QVERIFY(query.prepare("create table test(col1 int, col2 bigint, col3 float, col4 text, col5 blob, col6 tinyint)"));
+	QVERIFY(!connection.lastError().isError());
 	QVERIFY(query.exec());
+	QVERIFY(!connection.lastError().isError());
 	QVERIFY(!query.next());
+	QVERIFY(!connection.lastError().isError());
 }
 
 void SQLiteTests::queryPrepare()
@@ -125,6 +131,7 @@ void SQLiteTests::queryInsert()
 	QVERIFY(query.bindNullValue());
 	QVERIFY(query.exec());
 	QVERIFY(!query.next());
+	QCOMPARE(query.columnsCount(), 0);
 	QCOMPARE(query.lastInsertId(), rowid);
 }
 
@@ -145,7 +152,10 @@ void SQLiteTests::queryRetrieve()
 	QVERIFY(query.prepare("select * from test where rowid = ?"));
 	QVERIFY(query.bindValue(rowid));
 	QVERIFY(query.exec());
+	QCOMPARE(query.columnsCount(), 6);
 	QVERIFY(query.next());
+	QCOMPARE(query.columnsCount(), 6);
+
 	QVERIFY(query.valueAvailable(0));
 	QCOMPARE(query.valueType(0), SQLite::Integer);
 	QCOMPARE(query.valueUInt(0), col1);
