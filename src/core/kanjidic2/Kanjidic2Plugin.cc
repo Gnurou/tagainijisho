@@ -70,7 +70,7 @@ bool Kanjidic2Plugin::onRegister()
 	}
 
 	// Get the versions used
-	QSqlQuery query;
+	SQLite::Query query;
 	query.exec("select kanjidic2Version, kanjiVGVersion from kanjidic2.info");
 	if (query.next()) {
 		_kanjidic2Version = query.value(0).toString();

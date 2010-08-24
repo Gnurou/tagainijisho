@@ -24,11 +24,7 @@
 #include <QMutex>
 #include <QMutexLocker>
 
-int ThreadedDatabaseConnection::_conCpt = 0;
-
-static QMutex _connCptMutex;
-
-ASyncQuery::ASyncQuery(DatabaseThread *dbThread) : _dbConn(dbThread->connection()), _query(_dbConn->_connection), _active(false)
+ASyncQuery::ASyncQuery(DatabaseThread *dbThread) : _dbConn(dbThread->connection()), _query(&_dbConn->_connection), _active(false)
 {
 	// Move to database thread
 	moveToThread(dbThread);
@@ -75,14 +71,14 @@ void ASyncQuery::process()
 	// Run the query
 	if (!_query.exec(_currentQuery)) {
 		// Got error code - check if it was a real error or if we were just interrupted
-		if (_dbConn->_abortCurrentQuery || _query.lastError().number() == SQLITE_INTERRUPT) {
+		if (_dbConn->_abortCurrentQuery || _query.lastError().isInterrupted()) {
 /*			if (!_dbConn->_abortCurrentQuery && _query.lastError().number() == SQLITE_INTERRUPT)
 				qDebug() << "WARNING: query interrupted but _abortCurrentQuery not set!";*/
 			goto process_abort;
 		}
 		else {
 			_active = false;
-			emit error(_query.lastError().text());
+			emit error(_query.lastError().message());
 			goto process_end;
 		}
 	}
@@ -90,7 +86,31 @@ void ASyncQuery::process()
 		if (_dbConn->_abortCurrentQuery) goto process_abort;
 		emit firstResult();
 		do {
-			emit result(_query.record());
+			// Wrap the results into a list of QVariants
+			QList<QVariant> record;
+			int colCount = _query.columnsCount();
+			for (int i = 0; i < colCount; ++i) {
+				QVariant value;
+				switch (_query.valueType(i)) {
+				case SQLite::Integer:
+					value = _query.valueInt64(i);
+					break;
+				case SQLite::Float:
+					value = _query.valueDouble(i);
+					break;
+				case SQLite::String:
+					value = _query.valueString(i);
+					break;
+				case SQLite::Blob:
+					value = _query.valueBlob(i);
+					break;
+				default:
+					break;
+				}
+
+				record << value;
+			}
+			emit result(record);
 			// Have we been interrupted while emiting of
 			// results?
 			if (_dbConn->_abortCurrentQuery) {
@@ -104,10 +124,12 @@ void ASyncQuery::process()
 
 process_abort:
 	_active = false;
+	_query.clear();
 	emit aborted();
+	return;
 
 process_end:
-	_query.finish();
+	_query.clear();
 }
 
 bool ASyncQuery::abort()
@@ -121,7 +143,7 @@ bool ASyncQuery::abort()
 	_dbConn->_abortRunningQuery(this);
 	// Here we are sure we are not running
 	Q_ASSERT(_dbConn->_activeQuery != this);
-	_query.finish();
+	_query.clear();
 	_active = false;
 	return true;
 }
@@ -133,12 +155,6 @@ bool ASyncQuery::active()
 
 ThreadedDatabaseConnection::ThreadedDatabaseConnection() : _waitingQueue(), _waitingQueueMutex(), _activeQuery(0), _queryInProgressMutex(), _abortCurrentQuery(false)
 {
-	// Create a new database connection and add it
-	_driver = new QSQLiteDriver();
-	_connCptMutex.lock();
-	_connectionName = "sqlite" + _conCpt++;
-	_connCptMutex.unlock();
-	_connection = QSqlDatabase::addDatabase(_driver, _connectionName);
 }
 
 ThreadedDatabaseConnection::~ThreadedDatabaseConnection()
@@ -152,27 +168,18 @@ ThreadedDatabaseConnection::~ThreadedDatabaseConnection()
 	// And make really sure by locking _queryInProgress
 	QMutexLocker queryInProgressLock(&_queryInProgressMutex);
 
-	// Close the database and remove the connection
-	_connection = QSqlDatabase();
-	QSqlDatabase::removeDatabase(_connectionName);
+	_connection.close();
 }
 
 bool ThreadedDatabaseConnection::connect(const QString &dbFile)
 {
-	_connection.setDatabaseName(dbFile);
-	if (!_connection.open()) {
-		qWarning("Cannot open database: %s", _connection.lastError().text().toLatin1().data());
+	if (!_connection.connect(dbFile)) {
+		qWarning("Cannot open database: %s", _connection.lastError().message().toLatin1().data());
 		return false;
 	}
-	QVariant handler = _driver->handle();
-	if (handler.isValid() && !qstrcmp(handler.typeName(), "sqlite3*")) {
-		_handler = *static_cast<sqlite3 **>(handler.data());
-		register_all_tokenizers(_handler);
-	}
-	else {
-		qWarning("Cannot fetch sqlite3 handler - will most probably crash when a query is interrupted...");
-		_handler = 0;
-	}
+	_handler = _connection.sqlite3Handler();
+	register_all_tokenizers(_handler);
+
 	_connection.exec("pragma journal_mode=MEMORY");
 	_connection.exec("pragma encoding=\"UTF-16le\"");
 	return true;
@@ -180,9 +187,8 @@ bool ThreadedDatabaseConnection::connect(const QString &dbFile)
 
 bool ThreadedDatabaseConnection::attach(const QString &dbFile, const QString &alias)
 {
-	QSqlQuery query(_connection);
-	if (!query.exec(QString("attach database '%1' as %2").arg(dbFile).arg(alias))) {
-		qWarning("Failed to attach dictionary file %s: %s", dbFile.toLatin1().data(), query.lastError().text().toLatin1().data());
+	if (!_connection.attach(dbFile, alias)) {
+		qWarning("Failed to attach dictionary file %s: %s", dbFile.toLatin1().data(), _connection.lastError().message().toLatin1().data());
 		return false;
 	}
 	return true;
@@ -190,9 +196,8 @@ bool ThreadedDatabaseConnection::attach(const QString &dbFile, const QString &al
 
 bool ThreadedDatabaseConnection::detach(const QString &alias)
 {
-	QSqlQuery query(_connection);
-	if (!query.exec(QString("detach database %1").arg(alias))) {
-		qWarning("Failed to detach database %s: %s", alias.toLatin1().data(), query.lastError().text().toLatin1().data());
+	if (!_connection.detach(alias)) {
+		qWarning("Failed to detach database %s: %s", alias.toLatin1().data(), _connection.lastError().message().toLatin1().data());
 		return false;
 	}
 	return true;
@@ -240,7 +245,7 @@ void ThreadedDatabaseConnection::_abortRunningQuery(ASyncQuery *query)
 		// DB process is actually within sqlite3_exec(), for the case we called abort()
 		// before that happens.
 		while (!_queryInProgressMutex.tryLock(2))
-			sqlite3_interrupt(_handler);
+			_connection.interrupt();
 	}
 	// The current query is now stopped
 	_abortCurrentQuery = false;

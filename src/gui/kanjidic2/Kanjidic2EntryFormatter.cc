@@ -271,7 +271,7 @@ void Kanjidic2EntryFormatter::drawCustom(const ConstKanjidic2EntryPointer& entry
 
 	// Now display words using this kanji
 	if (maxWordsToPrint) {
-		QSqlQuery query;
+		SQLite::Query query;
 		query.exec(getQueryUsedInWordsSql(entry->id(), maxWordsToPrint, printOnlyStudiedVocab));
 		painter.setFont(textFont);
 		while (query.next()) {
@@ -495,9 +495,9 @@ QString Kanjidic2EntryFormatter::formatVariations(const ConstEntryPointer &_entr
 {
 	if (showVariations.value()) {
 		ConstKanjidic2EntryPointer entry(_entry.staticCast<const Kanjidic2Entry>());
-		QSqlQuery query;
+		SQLite::Query query;
 		query.prepare("select distinct element from kanjidic2.strokeGroups where original = ?");
-		query.addBindValue(entry->id());
+		query.bindValue(entry->id());
 		query.exec();
 		QList<EntryPointer> entries;
 		QStringList formats;

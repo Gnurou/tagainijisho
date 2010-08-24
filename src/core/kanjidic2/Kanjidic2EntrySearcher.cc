@@ -298,9 +298,9 @@ QueryBuilder::Column Kanjidic2EntrySearcher::canSort(const QString &sort, const 
 QList<Kanjidic2Entry::KanjiMeaning> Kanjidic2EntrySearcher::getMeanings(int id)
 {
 	QList<Kanjidic2Entry::KanjiMeaning> ret;
-	QSqlQuery query;
+	SQLite::Query query;
 	query.prepare("select lang, reading from kanjidic2.meaning join kanjidic2.meaningText on kanjidic2.meaning.docid = kanjidic2.meaningText.docid where entry = ?");
-	query.addBindValue(id);
+	query.bindValue(id);
 	query.exec();
 	while(query.next()) {
 		ret << Kanjidic2Entry::KanjiMeaning(query.value(0).toString(), query.value(1).toString());
@@ -325,9 +325,9 @@ Entry *Kanjidic2EntrySearcher::loadEntry(int id)
 {
 	QString character = TextTools::unicodeToSingleChar(id);
 
-	QSqlQuery query;
+	SQLite::Query query;
 	query.prepare("select grade, strokeCount, frequency, jlpt, paths from kanjidic2.entries where id = ?");
-	query.addBindValue(id);
+	query.bindValue(id);
 	query.exec();
 	Kanjidic2Entry *entry;
 	QStringList paths;
@@ -351,7 +351,7 @@ Entry *Kanjidic2EntrySearcher::loadEntry(int id)
 	
 	// Find the kanjis this one is a variation of
 	query.prepare("select distinct original from strokeGroups where element = ? and original not null");
-	query.addBindValue(id);
+	query.bindValue(id);
 	query.exec();
 	while (query.next()) {
 		entry->_variationOf << query.value(0).toInt();
@@ -360,7 +360,7 @@ Entry *Kanjidic2EntrySearcher::loadEntry(int id)
 	// Now load readings, meanings and nanoris
 	// Readings
 	query.prepare("select type, reading from kanjidic2.reading join kanjidic2.readingText on kanjidic2.reading.docid = kanjidic2.readingText.docid where entry = ? order by type");
-	query.addBindValue(id);
+	query.bindValue(id);
 	query.exec();
 	while (query.next()) {
 		entry->_readings << Kanjidic2Entry::KanjiReading(query.value(0).toString(), query.value(1).toString());
@@ -381,7 +381,7 @@ Entry *Kanjidic2EntrySearcher::loadEntry(int id)
 
 	// Nanori
 	query.prepare("select reading from kanjidic2.nanori join kanjidic2.nanoriText on kanjidic2.nanori.docid = kanjidic2.nanoriText.docid where entry = ?");
-	query.addBindValue(id);
+	query.bindValue(id);
 	query.exec();
 	while(query.next()) {
 		entry->_nanoris << query.value(0).toString();
@@ -392,7 +392,7 @@ Entry *Kanjidic2EntrySearcher::loadEntry(int id)
 
 	// Load components
 	query.prepare("select element, original, isRoot, pathsRefs from strokeGroups where kanji = ? order by rowid");
-	query.addBindValue(id);
+	query.bindValue(id);
 	query.exec();
 	while(query.next()) {
 		QString element(TextTools::unicodeToSingleChar(query.value(0).toUInt()));
@@ -409,7 +409,7 @@ Entry *Kanjidic2EntrySearcher::loadEntry(int id)
 	
 	// Load radicals
 	query.prepare("select rl.number, rl.kanji from kanjidic2.radicals as r join kanjidic2.radicalsList as rl on r.number = rl.number where r.kanji = ? and r.type is not null order by rl.number, rl.rowid");
-	query.addBindValue(id);
+	query.bindValue(id);
 	query.exec();
 	// We take the first radical character corresponding to the number,
 	// as it is the one that represents the radical the best
@@ -423,7 +423,7 @@ Entry *Kanjidic2EntrySearcher::loadEntry(int id)
 	}
 	// Load skip code
 	query.prepare("select type, c1, c2 from skip where entry = ? limit 1");
-	query.addBindValue(id);
+	query.bindValue(id);
 	query.exec();
 	if (query.next()) {
 		entry->_skip = QString("%1-%2-%3").arg(query.value(0).toInt()).arg(query.value(1).toInt()).arg(query.value(2).toInt());
@@ -431,7 +431,7 @@ Entry *Kanjidic2EntrySearcher::loadEntry(int id)
 
 	// Load four corner code
 	query.prepare("select topLeft, topRight, botLeft, botRight, extra from fourCorner where entry = ? limit 1");
-	query.addBindValue(id);
+	query.bindValue(id);
 	query.exec();
 	if (query.next()) {
 		entry->_fourCorner = QString("%1%2%3%4.%5").arg(query.value(0).toInt()).arg(query.value(1).toInt()).arg(query.value(2).toInt()).arg(query.value(3).toInt()).arg(query.value(4).toInt());

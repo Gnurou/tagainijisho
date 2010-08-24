@@ -69,7 +69,7 @@ StudyFilterWidget::StudyFilterWidget(QWidget *parent) : SearchFilterWidget(paren
 	connect(studyBox, SIGNAL(toggled(bool)), this, SLOT(commandUpdate()));
 	{
 		QDate infDate, supDate;
-		QSqlQuery query;
+		SQLite::Query query;
 		query.exec("select min(dateAdded) from training");
 		if (query.next()) {
 			infDate = QDateTime::fromTime_t(query.value(0).toUInt()).date();
@@ -99,7 +99,7 @@ StudyFilterWidget::StudyFilterWidget(QWidget *parent) : SearchFilterWidget(paren
 	connect(trainBox, SIGNAL(toggled(bool)), this, SLOT(commandUpdate()));
 	{
 		QDate infDate, supDate;
-		QSqlQuery query;
+		SQLite::Query query;
 		query.exec("select min(dateAdded) from training");
 		if (query.next()) {
 			infDate = QDateTime::fromTime_t(query.value(0).toUInt()).date();
@@ -129,7 +129,7 @@ StudyFilterWidget::StudyFilterWidget(QWidget *parent) : SearchFilterWidget(paren
 	connect(mistakeBox, SIGNAL(toggled(bool)), this, SLOT(commandUpdate()));
 	{
 		QDate infDate, supDate;
-		QSqlQuery query;
+		SQLite::Query query;
 		query.exec("select min(date) from trainingLog where result=0");
 		if (query.next()) {
 			infDate = QDateTime::fromTime_t(query.value(0).toUInt()).date();

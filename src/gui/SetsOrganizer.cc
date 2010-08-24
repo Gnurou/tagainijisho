@@ -45,10 +45,10 @@ SetTreeItem::~SetTreeItem()
 void SetTreeItem::setData(int column, int role, const QVariant & value)
 {
 	if (column == 0 && role == Qt::EditRole) {
-		QSqlQuery query;
+		SQLite::Query query;
 		query.prepare("UPDATE sets SET label = ? WHERE rowid = ?");
-		query.addBindValue(value);
-		query.addBindValue(setId());
+		query.bindValue(value);
+		query.bindValue(setId());
 		if (!query.exec()) {
 			qDebug() << "Error executing query:" << query.lastError();
 			return;
@@ -105,7 +105,7 @@ bool SetsTreeWidget::dropMimeData(QTreeWidgetItem *parent, int index, const QMim
 
 		// Only update the layout if there is any change
 		if (!(prevParent == newParent && prevPosition == newPosition)) {
-			QSqlQuery query;
+			SQLite::Query query;
 #define QUERY(q) { if (!query.exec(q)) qDebug() << "Query failed" << query.lastError(); }
 			// Update the positions of the items after the one we removed
 			QUERY(QString("UPDATE sets SET position = position - 1 where parent %1 and position > %2").arg(!prevParentId ? "is null" : QString("= %1").arg(prevParentId)).arg(prevPosition));
@@ -151,10 +151,10 @@ void SetsTreeWidget::deleteSet(SetTreeItem *item)
 			deleteSet(child);
 		}
 	}
-	QSqlQuery query;
+	SQLite::Query query;
 	// Delete the row
 	query.prepare("DELETE FROM sets where rowid = ?");
-	query.addBindValue(item->setId());
+	query.bindValue(item->setId());
 	if (!query.exec()) {
 		qDebug() << "Error executing query:" << query.lastError();
 		return;
@@ -192,7 +192,7 @@ QList<SetTreeItem *> SetsTreeWidget::childsOf(SetTreeItem *parent)
 
 void SetsTreeWidget::populateRoot()
 {
-	QSqlQuery query;
+	SQLite::Query query;
 
 	query.exec("SELECT rowid, position, state IS NULL, label FROM sets WHERE parent IS NULL ORDER BY position");
 	while (query.next()) {
@@ -207,10 +207,10 @@ void SetsTreeWidget::populateRoot()
 
 void SetsTreeWidget::populateFolder(SetTreeItem *parent) const
 {
-	QSqlQuery query;
+	SQLite::Query query;
 
 	query.prepare("SELECT rowid, position, state IS NULL, label FROM sets WHERE parent = ? ORDER BY position");
-	query.addBindValue(parent->setId());
+	query.bindValue(parent->setId());
 	query.exec();
 	while (query.next()) {
 		SetTreeItem *item = new SetTreeItem(query.value(0).toInt(), query.value(1).toInt(), query.value(2).toBool(), query.value(3).toString());

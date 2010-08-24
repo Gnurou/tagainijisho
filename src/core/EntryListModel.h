@@ -32,7 +32,7 @@ private:
 	 * Move all rows in parent with a position >= row by adding delta to their position.
 	 * Returns true upon success.
 	 */
-	bool moveRows(int row, int delta, const QModelIndex &parent, QSqlQuery &query);
+	bool moveRows(int row, int delta, const QModelIndex &parent, SQLite::Query &query);
 	/// Private version of removeRows that do not start a transaction
 	bool _removeRows(int row, int count, const QModelIndex &parent);
 

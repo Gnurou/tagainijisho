@@ -31,7 +31,7 @@ private:
 	static PreferenceItem<QByteArray> windowGeometry;
 
 	Ui::ReadingTrainer ui;
-	QSqlQuery query;
+	SQLite::Query query;
 	EntryPointer entry;
 	unsigned int _goodCount, _wrongCount, _totalCount;
 	QCheckBox *_showMeaning;

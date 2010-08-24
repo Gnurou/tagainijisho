@@ -39,10 +39,10 @@ QVariant TagsListModel::data(const QModelIndex &index, int role) const
 
 void Tag::init()
 {
-	QSqlQuery query;
+	SQLite::Query query;
 	query.exec("select tag from tags");
 	while (query.next()) {
-		knownTags << query.value(0).toString();
+		knownTags << query.valueString(0);
 	}
 }
 
@@ -52,20 +52,20 @@ void Tag::cleanup()
 
 Tag Tag::getTag(const QString &tagString)
 {
-	QSqlQuery query;
+	SQLite::Query query;
 
 	query.exec(QString("select docid, tag from tags where tag match '%1'").arg(tagString));
 	if (!query.next()) return _invalid;
-	return Tag(query.value(0).toInt(), query.value(1).toString());
+	return Tag(query.valueInt(0), query.valueString(1));
 }
 
 Tag Tag::getTag(quint32 id)
 {
-	QSqlQuery query;
+	SQLite::Query query;
 
 	query.exec(QString("select docid, tag from tags where docid = %1").arg(id));
 	if (!query.next()) return _invalid;
-	return Tag(query.value(0).toInt(), query.value(1).toString());
+	return Tag(query.valueInt(0), query.valueString(1));
 }
 
 Tag Tag::getOrCreateTag(const QString &tagString)
@@ -73,17 +73,17 @@ Tag Tag::getOrCreateTag(const QString &tagString)
 	Tag tag(getTag(tagString));
 	if (tag.isValid()) return tag;
 
-	QSqlQuery query;
+	SQLite::Query query;
 	if (!query.exec(QString("insert into tags values('%1')").arg(tagString))) {
-		qCritical() << "Error executing query: " << query.lastQuery() << query.lastError().text();
+		qCritical() << "Error executing query: " << query.lastError().message();
 		return _invalid;
 	}
 	if (!query.exec(QString("select docid from tags where tag match '%1'").arg(tagString))) {
-		qCritical() << "Error executing query: " << query.lastQuery() << query.lastError().text();
+		qCritical() << "Error executing query: " << query.lastError().message();
 		return _invalid;
 	}
 	query.next();
-	int id = query.value(0).toInt();
+	int id = query.valueInt(0);
 	knownTags << tagString;
 	return Tag(id, tagString);
 }

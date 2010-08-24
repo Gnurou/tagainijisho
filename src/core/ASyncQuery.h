@@ -129,9 +129,6 @@ class ThreadedDatabaseConnection : public QObject
 friend class ASyncQuery;
 friend class DatabaseThread;
 private:
-	/// Used to give unique names to database connections
-	static int _conCpt;
-	QString _connectionName;
 	SQLite::Connection _connection;
 	sqlite3 *_handler;
 

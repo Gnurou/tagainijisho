@@ -30,7 +30,7 @@ typedef enum { None, Null, Integer, Float, String, Blob } Type;
 
 /**
  * A lightweight Qt/SQLite query wrapper class that provides an interface
- * similar to that of QSqlQuery but does not require QtSql.
+ * similar to that of SQLite::Query but does not require QtSql.
  */
 class Query
 {

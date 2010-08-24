@@ -15,7 +15,6 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "sqlite3.h"
 #include "tagaini_config.h"
 #include "core/Database.h"
 #include "core/Query.h"
@@ -72,7 +71,7 @@ void Query::__fetch(int min, int nb)
 
 	if (min == -1) nb = -1;
 	// Query not active? Let's run it then.
-	if (!query.isActive()) {
+	if (!query.active()) {
 		firstRun = true;
 		_statusMutex.lock();
 		_status = Running;
@@ -93,7 +92,7 @@ void Query::__fetch(int min, int nb)
 			//qDebug() << "Error executing query:" << err << __FILE__ << __LINE__;
 			finish();
 			_status = Idle;
-			qDebug("Error executing query %s: %s", _statement.toLatin1().data(), query.lastError().text().toLatin1().data());
+			qDebug("Error executing query %s: %s", _statement.toLatin1().data(), query.lastError().message().toLatin1().data());
 			emit error();
 		}
 
@@ -104,7 +103,7 @@ void Query::__fetch(int min, int nb)
 
 		// If we were interrupted or we had an error, no need to continue
 		if (shallAbort || !success)  {
-			query.finish();
+			query.clear();
 			Database::sqliteFix();
 			return;
 		}
@@ -132,13 +131,13 @@ void Query::__fetch(int min, int nb)
 		bool shallAbort = checkAbort();
 		statusLocker.unlock();
 		if (shallAbort) {
-			query.finish();
+			query.clear();
 			Database::sqliteFix();
 			_dbTaskInterrupted.wakeAll();
 			return;
 		}
 		// Load and emit found entries
-		emit foundEntry(EntryRef(query.value(0).toInt(), query.value(1).toInt()).get());
+		emit foundEntry(EntryRef(query.valueUInt(0), query.valueUInt(1)).get());
 		valid = query.next();
 		_currentPos++;
 	}
@@ -158,16 +157,16 @@ void Query::__fetch(int min, int nb)
 
 void Query::finish()
 {
-	query.finish();
+	query.clear();
 }
 
 void Query::emitNbResults()
 {
-	QSqlQuery countQuery;
+	SQLite::Query countQuery(Database::connection());
 
-	if (!countQuery.exec(_countStatement)) qCritical() << "Error executing query: " << countQuery.lastQuery() << countQuery.lastError().text();
+	if (!countQuery.exec(_countStatement)) qCritical() << "Error executing query: " << _countStatement << countQuery.lastError().message();
 	unsigned int cpt = 0;
-	while (countQuery.next()) cpt += countQuery.value(0).toInt();
+	while (countQuery.next()) cpt += countQuery.valueInt(0);
 	if (_limit.active()) {
 		cpt = qMin(cpt, _limit.nbResults());
 	}

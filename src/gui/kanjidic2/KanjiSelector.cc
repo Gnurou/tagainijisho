@@ -177,7 +177,7 @@ QSet<uint> KanjiSelector::getCandidates(const QSet<uint> &selection)
 	foreach (uint kanji, selection) realSel << complementCode(TextTools::unicodeToSingleChar(kanji));
 	QString resQuery(getCandidatesQuery(realSel));
 	if (!resQuery.isEmpty()) {
-		QSqlQuery query;
+		SQLite::Query query;
 		if (!query.exec(resQuery)) qDebug() << query.lastError().text();
 		while (query.next()) {
 			int ch(query.value(0).toInt());
@@ -197,7 +197,7 @@ void KanjiSelector::updateComplementsList(const QSet<uint> &selection, const QSe
 	_currentComplements = QSet<QPair<uint, QString> >();
 	QString compQuery(getComplementsQuery(selection, candidates));
 	if (!compQuery.isEmpty()) {
-		QSqlQuery query;
+		SQLite::Query query;
 		if (!query.exec(compQuery)) qDebug() << query.lastError().text();
 		int curStrokes = 0;
 		uint curKanji = 0;
