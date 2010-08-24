@@ -27,6 +27,10 @@
 
 EntrySearcher::EntrySearcher(QObject *parent) : QObject(parent), commandMatch(SearchCommand::commandMatch().pattern())
 {
+	if (!connection.connect(Database::userDBFile())) {
+		qFatal("EntrySearcher cannot connect to user database!");
+	}
+
 	QueryBuilder::Join::addTablePriority("training", -100);
 	QueryBuilder::Join::addTablePriority("notes", -40);
 	QueryBuilder::Join::addTablePriority("notesText", -45);
@@ -175,7 +179,7 @@ static QDateTime variantToDate(const SQLite::Query &query, int col)
 
 void EntrySearcher::loadMiscData(Entry *entry)
 {
-	SQLite::Query query(Database::connection());
+	SQLite::Query query(&connection);
 
 	// Load training data
 	query.prepare("select dateAdded, dateLastTrain, nbTrained, nbSuccess, dateLastMistake, score from training where type = ? and id = ?");

@@ -254,19 +254,8 @@ int main(int argc, char *argv[])
 	}
 	
 	// Open the database to write to
-	if (!connection.connect(dstFile)) {
+	if (!connection.connect(dstFile, SQLite::Connection::JournalInFile)) {
 		qFatal("Cannot open database: %s", connection.lastError().message().toLatin1().data());
-		return 1;
-	}
-	// Attach custom functions and tokenizers
-	sqlite3 *sqliteHandler = connection.sqlite3Handler();
-	// TODO Move into dedicated open function? Since it cannot use
-	// the sqlite3_auto_extension
-	register_all_tokenizers(sqliteHandler);
-
-	connection.exec("pragma encoding = \"UTF-16le\"");
-	if (connection.lastError().isError()) {
-		qDebug() << connection.lastError().message();
 		return 1;
 	}
 	ASSERT(connection.transaction());

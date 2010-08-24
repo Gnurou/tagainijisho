@@ -45,17 +45,22 @@ QVariant ResultsList::data(const QModelIndex &index, int role) const
 
 	if (index.row() >= entries.size()) return QVariant();
 
-	if (role == Qt::BackgroundRole) {
-		const EntryPointer entry = entries.at(index.row()).get();
-		if (!entry->trained()) return QVariant();
+	if (role == Entry::EntryRefRole) return QVariant::fromValue(entries[index.row()]);
+	EntryPointer entry(entries[index.row()].get());
+//	EntryPointer entry(0);
+
+	switch (role) {
+	case Qt::BackgroundRole:
+		if (!entry.data() || !entry->trained()) return QVariant();
 		else return entry->scoreColor();
+	case Entry::EntryRole:
+		return QVariant::fromValue(entry);
+	case Qt::DisplayRole:
+		if (entry.data()) return entry->shortVersion();
+		else return "";
+	default:
+		return QVariant();
 	}
-
-	if (role == Entry::EntryRole) return QVariant::fromValue(entries[index.row()].get());
-	else if (role == Entry::EntryRefRole) return QVariant::fromValue(entries[index.row()]);
-	else if (role == Qt::DisplayRole) return entries[index.row()].get()->shortVersion();
-
-	return QVariant();
 }
 
 QVariant ResultsList::headerData(int section, Qt::Orientation orientation, int role) const

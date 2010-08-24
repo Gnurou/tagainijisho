@@ -21,7 +21,6 @@
 #include <QVector>
 #include <QMap>
 
-#include "core/Database.h"
 #include "core/EntrySearcher.h"
 #include "core/jmdict/JMdictEntry.h"
 

@@ -18,6 +18,7 @@
 #ifndef __CORE__ENTRY_SEARCHER_H_
 #define __CORE__ENTRY_SEARCHER_H_
 
+#include "sqlite/Connection.h"
 #include "core/Entry.h"
 #include "core/Query.h"
 #include "core/SearchCommand.h"
@@ -37,6 +38,12 @@ private:
 	QRegExp commandMatch;
 
 protected:
+	/**
+	 * Connection to the user db file (and possibly other dbs)
+	 * that is used to load the entries.
+	 */
+	SQLite::Connection connection;
+
 	/**
 	 * List of all valid commands for this searcher. Should
 	 * be completed at construction time.

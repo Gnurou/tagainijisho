@@ -191,8 +191,6 @@ bool Database::checkUserDB()
 {
 	int currentVersion;
 	SQLite::Query query(&_connection);
-	query.exec("pragma journal_mode=MEMORY");
-	query.exec("pragma encoding=\"UTF-16le\"");
 	// Try to get the version from the versions table
 	query.exec("SELECT version FROM versions where id=\"userDB\"");
 	if (query.next()) currentVersion = query.valueInt(0);
@@ -238,10 +236,7 @@ bool Database::connectUserDB(QString filename)
 		dbWarning(tr("Cannot open database: %1").arg(_connection.lastError().message().toLatin1().data()));
 		return false;
 	}
-
-	// Attach custom functions
 	sqliteHandler = _connection.sqlite3Handler();
-	register_all_tokenizers(sqliteHandler);
 
 	if (!checkUserDB()) return false;
 	_userDBFile = _connection.dbFileName();

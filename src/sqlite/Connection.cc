@@ -38,7 +38,11 @@ const Error &Connection::updateError() const
 	return _lastError;
 }
 
-bool Connection::connect(const QString &dbFile)
+extern "C" {
+	void register_all_tokenizers(sqlite3 *handler);
+}
+
+bool Connection::connect(const QString &dbFile, OpenFlags flags)
 {
 	if (connected()) {
 		_lastError = Error(-1, "Already connected to a database");
@@ -48,6 +52,12 @@ bool Connection::connect(const QString &dbFile)
 	int res = sqlite3_open_v2(dbFile.toUtf8().data(), &_handler, SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE, 0);
 	updateError();
 	if (res != SQLITE_OK) goto err;
+	// Register our special stuff
+	register_all_tokenizers(_handler);
+	// Configure the connection
+	exec("pragma encoding=\"UTF-16le\"");
+	if (!flags & JournalInFile) exec("pragma journal_mode=MEMORY");
+
 	_dbFile = dbFile;
 	return true;
 
