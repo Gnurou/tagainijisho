@@ -93,11 +93,6 @@ public:
 	static bool commit() { return _instance->_connection.commit(); }
 	static const SQLite::Error &lastError() { return _instance->_connection.lastError(); }
 
-	/**
-	 * Interrupt the running query in the database thread. When this function returns,
-	 * the query is completely stopped.
-	 */
-	static void abortQuery();
 	static void sqliteFix();
 };
 
