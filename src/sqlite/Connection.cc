@@ -29,6 +29,7 @@ Connection::Connection() : _handler(0)
 
 Connection::~Connection()
 {
+	if (connected()) close();
 }
 
 const Error &Connection::updateError() const
