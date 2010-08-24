@@ -195,11 +195,6 @@ bool Query::exec(const QString &query)
 	return exec();
 }
 
-bool Query::seek(int index, bool relative)
-{
-	return false;
-}
-
 qint64 Query::lastInsertId() const
 {
 	if (!_stmt) return 0;
@@ -291,4 +286,10 @@ void Query::clear()
 	}
 	_state = INVALID;
 	_bindIndex = 0;
+}
+
+QString Query::queryText() const
+{
+	if (_state >= PREPARED) return sqlite3_sql(_stmt);
+	else return QString();
 }
