@@ -26,6 +26,13 @@
 struct sqlite3;
 namespace SQLite {
 
+/**
+ * THIS CLASS IS NOT THREAD-SAFE!
+ * It is perfectly fine to use many queries on the same connection, however it is
+ * the responsability of the user to make sure all operations involving them happen
+ * in the same thread. Only interrupt() may be called from another thread to termine
+ * a running query.
+ */
 class Connection
 {
 friend class Error;
@@ -37,8 +44,7 @@ private:
 
 	QList<Query> _queries;
 
-	void getError() const;
-	void noError() const;
+	const Error &updateError() const;
 
 public:
 	Connection();
@@ -81,6 +87,12 @@ public:
 	bool transaction();
 	bool commit();
 	bool rollback();
+
+	/**
+	 * Interrupts all queries being executed on this connection.
+	 * Interrupted queries will return SQLITE_INTERRUPT.
+	 */
+	void interrupt();
 };
 
 }
