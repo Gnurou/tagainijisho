@@ -39,7 +39,7 @@ private:
 	sqlite3_stmt *_stmt;
 	Connection *_connection;
 	Error _lastError;
-	enum { INVALID, BLANK, PREPARED, RUN, FIRSTRES, DONE, ERROR } _state;
+	enum { INVALID, ERROR, BLANK, PREPARED, RUN, FIRSTRES } _state;
 	quint8 _bindIndex;
 
 	/// Copy is forbidden
@@ -99,8 +99,9 @@ public:
 	void clear();
 
 	const Error &lastError() const { return _lastError; }
+	QString queryText() const;
 };
-	
+
 }
 
 #endif
