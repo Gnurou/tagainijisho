@@ -97,7 +97,6 @@ void ResultsList::endReceive()
 {
 	timer.stop();
 	updateViews();
-	emit nbResults(entries.size());
 	emit queryEnded();	
 }
 

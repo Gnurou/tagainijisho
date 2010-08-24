@@ -29,19 +29,17 @@ class ResultsViewWidget : public QWidget, private Ui::ResultsViewWidget
 private:
 	ResultsList *_results;
 	
-private slots:
-	void stopAndResetSearchAnim();
-		
+protected slots:
+	void onSearchStarted();
+	void onSearchFinished();
+	void updateResultsCount();
+
 public:
 	ResultsViewWidget(QWidget *parent);
 	
 	void setModel(ResultsList *rList);
 	ResultsView *resultsView() { return _resultsView; }
 	QHBoxLayout *buttonsLayout() { return _buttonsLayout; }
-	
-public slots:
-	/// Set the total number of results of a search.
-	void showNbResults(unsigned int nbResults);	
 };
 
 #endif

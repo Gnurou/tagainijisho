@@ -72,7 +72,6 @@ public slots:
 
 signals:
 	void queryStarted();
-	void nbResults(unsigned int);
 	void queryEnded();
 };
 
