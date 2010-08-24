@@ -1,6 +1,7 @@
 include(${QT_USE_FILE})
 
 set(tagainijisho_sqlite_SRCS
+SQLite.cc
 Error.cc
 Connection.cc
 Query.cc
@@ -21,4 +22,3 @@ add_library(tagaini_sqlite STATIC ${tagainijisho_sqlite_SRCS} ${tagainijisho_sql
 if (BUILD_TESTS)
 add_subdirectory(tests)
 endif()
-
