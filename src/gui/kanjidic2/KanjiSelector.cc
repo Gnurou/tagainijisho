@@ -178,7 +178,7 @@ QSet<uint> KanjiSelector::getCandidates(const QSet<uint> &selection)
 	QString resQuery(getCandidatesQuery(realSel));
 	if (!resQuery.isEmpty()) {
 		SQLite::Query query;
-		if (!query.exec(resQuery)) qDebug() << query.lastError().text();
+		if (!query.exec(resQuery)) qDebug() << query.lastError().message();
 		while (query.next()) {
 			int ch(query.valueInt(0));
 			res << ch;
@@ -198,7 +198,7 @@ void KanjiSelector::updateComplementsList(const QSet<uint> &selection, const QSe
 	QString compQuery(getComplementsQuery(selection, candidates));
 	if (!compQuery.isEmpty()) {
 		SQLite::Query query;
-		if (!query.exec(compQuery)) qDebug() << query.lastError().text();
+		if (!query.exec(compQuery)) qDebug() << query.lastError().message();
 		int curStrokes = 0;
 		uint curKanji = 0;
 		while (query.next()) {
