@@ -56,6 +56,8 @@ EntryListCachedEntry::EntryListCachedEntry(SQLite::Query &query)
 	}
 }
 
+EntryListCache *EntryListCache::_instance = 0;
+
 EntryListCache::EntryListCache()
 {
 	getByIdQuery.useWith(Database::connection());
@@ -71,8 +73,14 @@ EntryListCache::EntryListCache()
 
 EntryListCache &EntryListCache::instance()
 {
-	static EntryListCache _instance;
-	return _instance;
+	if (!_instance) _instance = new EntryListCache();
+	return *_instance;
+}
+
+void EntryListCache::cleanup()
+{
+	delete _instance;
+	_instance = 0;
 }
 
 const EntryListCachedEntry &EntryListCache::get(int rowId)
