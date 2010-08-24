@@ -109,7 +109,7 @@ void ReadingTrainer::train()
 	}
 
 	if (query.next()) {
-		entry = JMdictEntryRef(query.value(0).toInt()).get();
+		entry = JMdictEntryRef(query.valueInt(0)).get();
 		ui.writingLabel->setText(entry->writings()[0]);
 		if (_showMeaning->isChecked()) {
 			ui.detailedView->detailedView()->setKanjiClickable(false);

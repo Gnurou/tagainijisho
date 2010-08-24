@@ -104,7 +104,7 @@ void YesNoTrainer::_train()
 {
 	if (!_query.next()) hasResults(0);
 	else {
-		EntryPointer entry(EntryRef(_query.value(0).toInt(), _query.value(1).toInt()).get());
+		EntryPointer entry(EntryRef(_query.valueInt(0), _query.value(1).toInt()).get());
 		train(entry);
 	}
 }

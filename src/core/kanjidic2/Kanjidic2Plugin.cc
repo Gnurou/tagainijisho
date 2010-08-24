@@ -73,8 +73,8 @@ bool Kanjidic2Plugin::onRegister()
 	SQLite::Query query;
 	query.exec("select kanjidic2Version, kanjiVGVersion from kanjidic2.info");
 	if (query.next()) {
-		_kanjidic2Version = query.value(0).toString();
-		_kanjiVGVersion = query.value(1).toString();
+		_kanjidic2Version = query.valueString(0);
+		_kanjiVGVersion = query.valueString(1);
 	}
 
 	// Register our entry searcher
