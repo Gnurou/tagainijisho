@@ -303,7 +303,7 @@ QList<Kanjidic2Entry::KanjiMeaning> Kanjidic2EntrySearcher::getMeanings(int id)
 	query.bindValue(id);
 	query.exec();
 	while(query.next()) {
-		ret << Kanjidic2Entry::KanjiMeaning(query.valueString(0), query.value(1).toString());
+		ret << Kanjidic2Entry::KanjiMeaning(query.valueString(0), query.valueString(1));
 	}
 	// Here we probably have a kana or roman character that we can build up
 	if (ret.isEmpty()) {
@@ -336,12 +336,12 @@ Entry *Kanjidic2EntrySearcher::loadEntry(int id)
 		entry = new Kanjidic2Entry(character, false);
 	} else {
 		// Else load the kanji
-		int grade = query.value(0).isNull() ? -1 : query.valueInt(0);
-		int strokeCount = query.value(1).isNull() ? -1 : query.valueInt(1);
-		qint32 frequency = query.value(2).isNull() ? -1 : query.valueInt(2);
-		int jlpt = query.value(3).isNull() ? -1 : query.valueInt(3);
+		int grade = query.valueIsNull(0) ? -1 : query.valueInt(0);
+		int strokeCount = query.valueIsNull(1) ? -1 : query.valueInt(1);
+		qint32 frequency = query.valueIsNull(2) ? -1 : query.valueInt(2);
+		int jlpt = query.valueIsNull(3) ? -1 : query.valueInt(3);
 		// Get the strokes paths for later processing
-		QByteArray pathsBA(query.valueByteArray(4));
+		QByteArray pathsBA(query.valueBlob(4));
 		if (!pathsBA.isEmpty()) paths = QString(qUncompress(pathsBA)).split('|');
 
 		entry = new Kanjidic2Entry(character, true, grade, strokeCount, frequency, jlpt);
@@ -363,7 +363,7 @@ Entry *Kanjidic2EntrySearcher::loadEntry(int id)
 	query.bindValue(id);
 	query.exec();
 	while (query.next()) {
-		entry->_readings << Kanjidic2Entry::KanjiReading(query.valueString(0), query.value(1).toString());
+		entry->_readings << Kanjidic2Entry::KanjiReading(query.valueString(0), query.valueString(1));
 	}
 
 	// Meanings
@@ -400,7 +400,7 @@ Entry *Kanjidic2EntrySearcher::loadEntry(int id)
 		
 		KanjiComponent *comp(entry->addComponent(element, original, query.valueBool(2)));
 		// Add references to the strokes belonging to this component
-		QByteArray pathsRefs(query.valueByteArray(3));
+		QByteArray pathsRefs(query.valueBlob(3));
 		for (int i = 0; i < pathsRefs.size(); i++) {
 			quint8 idx(static_cast<quint8>(pathsRefs[i]));
 			comp->addStroke(&entry->_strokes[idx]);
@@ -426,7 +426,7 @@ Entry *Kanjidic2EntrySearcher::loadEntry(int id)
 	query.bindValue(id);
 	query.exec();
 	if (query.next()) {
-		entry->_skip = QString("%1-%2-%3").arg(query.valueInt(0)).arg(query.value(1).toInt()).arg(query.value(2).toInt());
+		entry->_skip = QString("%1-%2-%3").arg(query.valueInt(0)).arg(query.valueInt(1)).arg(query.valueInt(2));
 	}
 
 	// Load four corner code
@@ -434,7 +434,7 @@ Entry *Kanjidic2EntrySearcher::loadEntry(int id)
 	query.bindValue(id);
 	query.exec();
 	if (query.next()) {
-		entry->_fourCorner = QString("%1%2%3%4.%5").arg(query.valueInt(0)).arg(query.value(1).toInt()).arg(query.value(2).toInt()).arg(query.value(3).toInt()).arg(query.value(4).toInt());
+		entry->_fourCorner = QString("%1%2%3%4.%5").arg(query.valueInt(0)).arg(query.valueInt(1)).arg(query.valueInt(2)).arg(query.valueInt(3)).arg(query.valueInt(4));
 	}
 	
 	// Try to add a description for characters that have nothing
