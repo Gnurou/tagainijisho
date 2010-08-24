@@ -80,7 +80,7 @@ void messageHandler(QtMsgType type, const char *msg)
  * to update configuration options that have changed or to remove obsolete
  * ones.
  */
-#define CONFIG_VERSION 2
+#define CONFIG_VERSION 3
 PreferenceItem<int> configVersion("", "configVersion", 0);
 
 void migrateOldData()
@@ -131,6 +131,8 @@ void checkConfigurationVersion()
 			settings.remove("autoCheckUpdates");
 			settings.remove("autoCheckBetaUpdates");
 			settings.remove("updateCheckInterval");
+		case 3:
+			settings.remove("mainWindow/resultsView/resultsPerPage");
 		default:
 			// If we arrive here, this means we are running an pre-tracking version - do nothing in that case
 			break;
@@ -209,6 +211,7 @@ int main(int argc, char *argv[])
 	if (qtTranslator.load(QDir(QLibraryInfo::location(QLibraryInfo::TranslationsPath)).absoluteFilePath(QString("qt_%1").arg(locale))) || qtTranslator.load(lookForFile(QString("i18n/qt_%1.qm").arg(locale)))) app.installTranslator(&qtTranslator);
 
 	// Register meta-types
+	qRegisterMetaType<EntryRef>("EntryRef");
 	qRegisterMetaType<EntryPointer>("EntryPointer");
 	qRegisterMetaType<ConstEntryPointer>("ConstEntryPointer");
 	qRegisterMetaType<QVariant>("QVariant");
