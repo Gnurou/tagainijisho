@@ -43,7 +43,7 @@ private:
 	int _type;
 	int _id;
 	QString _label;
-	
+
 	/// Prepare the cached entry from the result row of the query
 	/// The query is advanced to the next row
 	EntryListCachedEntry(SQLite::Query &query);
@@ -87,6 +87,8 @@ friend class EntryListCache;
  */
 class EntryListCache {
 private:
+	static EntryListCache *_instance;
+
 	EntryListCache();
 
 	mutable QHash<int, EntryListCachedEntry> rowIdCache;
@@ -101,7 +103,10 @@ private:
 public:
 	/// Returns a reference to the unique instance of this class.
 	static EntryListCache &instance();
-	
+	/// Clears all resources used by the cache. instance() can be called
+	/// again in order to allocate a new one.
+	static void cleanup();
+
 	/// Returns the entry with the corresponding rowid, or the root
 	/// entry if it does not exist.
 	const EntryListCachedEntry& get(int rowId);
