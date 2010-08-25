@@ -130,7 +130,6 @@ friend class ASyncQuery;
 friend class DatabaseThread;
 private:
 	SQLite::Connection _connection;
-	sqlite3 *_handler;
 
 	/// Queue of queries waiting to be executed
 	QQueue<ASyncQuery *> _waitingQueue;
