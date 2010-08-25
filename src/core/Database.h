@@ -88,8 +88,6 @@ public:
 	static bool rollback() { return _instance->_connection.rollback(); }
 	static bool commit() { return _instance->_connection.commit(); }
 	static const SQLite::Error &lastError() { return _instance->_connection.lastError(); }
-
-	static void sqliteFix();
 };
 
 #endif

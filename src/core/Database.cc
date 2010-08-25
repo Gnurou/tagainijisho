@@ -436,15 +436,6 @@ bool Database::detachDictionaryDB(const QString &alias)
 	return true;
 }
 
-extern "C" {
-void tagaini_sqlite3_fix_activevdbecnt(sqlite3 *db);
-}
-
-void Database::sqliteFix()
-{
-	tagaini_sqlite3_fix_activevdbecnt(_instance->sqliteHandler);
-}
-
 void Database::closeDB()
 {
 	SQLite::Query query(&_connection);

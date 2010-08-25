@@ -213,20 +213,6 @@ void ThreadedDatabaseConnection::processQueries()
 	_activeQuery = 0;
 }
 
-/*
- * The code for fixing the SQLITE_INTERRUPT bug is here. The commented function should be
- * put at the end of sqlite3.c.
- */
-extern "C" {
-void tagaini_sqlite3_fix_activevdbecnt(sqlite3 *db);
-}
-/*
-SQLITE_API void tagaini_sqlite3_fix_activevdbecnt(sqlite3 *db)
-{
-    db->activeVdbeCnt = 0;
-}
-*/
-
 void ThreadedDatabaseConnection::_abortRunningQuery(ASyncQuery *query)
 {
 	// Block any new incoming queries from being executed while we stop the current one
@@ -244,8 +230,6 @@ void ThreadedDatabaseConnection::_abortRunningQuery(ASyncQuery *query)
 	}
 	// The current query is now stopped
 	_abortCurrentQuery = false;
-	// Try to workaround what appears to be a sqlite bug... :(
-	tagaini_sqlite3_fix_activevdbecnt(_handler);
 	// At this point the DB thread is done and we should be back to ready.
 	Q_ASSERT(_activeQuery == 0);
 	_queryInProgressMutex.unlock();
