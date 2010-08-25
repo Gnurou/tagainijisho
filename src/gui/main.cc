@@ -231,7 +231,7 @@ int main(int argc, char *argv[])
 		else if (arg.startsWith("--user-db=")) userDBFile = arg.mid(10);
 	}
 	// TODO check return value
-	Database::startThreaded(userDBFile, temporaryDB);
+	Database::init(userDBFile, temporaryDB);
 
 	// Initialize tags
 	Tag::init();
@@ -283,7 +283,7 @@ int main(int argc, char *argv[])
 	Tag::cleanup();
 	EntryListCache::cleanup();
 
-	// Stop database thread cleanly
+	// Free database resources
 	Database::stop();
 
 	// Clean the entries cache

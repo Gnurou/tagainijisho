@@ -24,9 +24,9 @@
 #include <QSize>
 #include <QPalette>
 
-#define TRANSACTION Database::transaction()
-#define ROLLBACK Database::rollback()
-#define COMMIT Database::commit()
+#define TRANSACTION Database::connection()->transaction()
+#define ROLLBACK Database::connection()->rollback()
+#define COMMIT Database::connection()->commit()
 
 #define EXEC(q) if (!q.exec()) { qDebug() << __FILE__ << __LINE__ << "Cannot execute query:" << q.lastError().message(); return false; }
 #define EXEC_T(q) if (!q.exec()) { qDebug() << __FILE__ << __LINE__ << "Cannot execute query:" << q.lastError().message(); goto transactionFailed; }

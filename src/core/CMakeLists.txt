@@ -27,7 +27,6 @@ set(tagainijisho_core_MOCS
 ASyncQuery.h
 ASyncEntryFinder.h
 ASyncEntryLoader.h
-Database.h
 EntriesCache.h
 Entry.h
 EntrySearcher.h
