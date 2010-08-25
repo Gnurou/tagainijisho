@@ -19,6 +19,7 @@
 
 #include "core/TextTools.h"
 #include "core/kanjidic2/KanjiRadicals.h"
+#include "core/Database.h"
 #include "gui/KanjiValidator.h"
 #include "gui/kanjidic2/KanjiSelector.h"
 #include <gui/MainWindow.h>
@@ -177,7 +178,7 @@ QSet<uint> KanjiSelector::getCandidates(const QSet<uint> &selection)
 	foreach (uint kanji, selection) realSel << complementCode(TextTools::unicodeToSingleChar(kanji));
 	QString resQuery(getCandidatesQuery(realSel));
 	if (!resQuery.isEmpty()) {
-		SQLite::Query query;
+		SQLite::Query query(Database::connection());
 		if (!query.exec(resQuery)) qDebug() << query.lastError().message();
 		while (query.next()) {
 			int ch(query.valueInt(0));
@@ -197,7 +198,7 @@ void KanjiSelector::updateComplementsList(const QSet<uint> &selection, const QSe
 	_currentComplements = QSet<QPair<uint, QString> >();
 	QString compQuery(getComplementsQuery(selection, candidates));
 	if (!compQuery.isEmpty()) {
-		SQLite::Query query;
+		SQLite::Query query(Database::connection());
 		if (!query.exec(compQuery)) qDebug() << query.lastError().message();
 		int curStrokes = 0;
 		uint curKanji = 0;
