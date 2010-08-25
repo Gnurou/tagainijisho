@@ -30,9 +30,8 @@
 
 #define QUERY(Q) if (!query.exec(Q)) return false
 
-static Qt::ConnectionType alwaysSync = Qt::BlockingQueuedConnection;
 QString Database::_userDBFile;
-Database *Database::_instance = NULL;
+Database *Database::_instance = 0;
 QMap<QString, QString> Database::_attachedDBs;
 
 /**
@@ -236,8 +235,6 @@ bool Database::connectUserDB(QString filename)
 		dbWarning(tr("Cannot open database: %1").arg(_connection.lastError().message().toLatin1().data()));
 		return false;
 	}
-	sqliteHandler = _connection.sqlite3Handler();
-
 	if (!checkUserDB()) return false;
 	_userDBFile = _connection.dbFileName();
 	return true;
@@ -254,31 +251,26 @@ bool Database::connectToTemporaryDatabase()
 	return connectUserDB(_tFile->fileName());
 }
 
-Qt::ConnectionType Database::aSyncConnection() { return alwaysSync; }
-
-// This semaphore is used to block the startThreaded() function until the database
-// thread is ready to work (i.e. slots are correctly connected).
-QSemaphore startSem(0);
-
-void Database::startThreaded(const QString &userDBFile, bool temporary)
+void Database::init(const QString &userDBFile, bool temporary)
 {
 	_instance = new Database(userDBFile, temporary);
-	_instance->start();
-	// Block until the database thread is ready
-	startSem.acquire();
-}
-
-void Database::startUnthreaded(const QString &userDBFile, bool temporary)
-{
-	alwaysSync = Qt::AutoConnection;
-	_instance = new Database(userDBFile, temporary);
-	_instance->run();
 }
 
 void Database::stop()
 {
-	_instance->quit();
+	if (!_instance) return;
+
+	SQLite::Query query(&_instance->_connection);
+
+	// Remove unreferenced tags
+	if (!query.exec("delete from tags where docid not in (select tagId from taggedEntries)")) qWarning("Could not cleanup unused tags!");
+
+	// VACUUM the database
+	if (!query.exec("vacuum")) qWarning("Final VACUUM failed %s", query.lastError().message().toLatin1().data());
+	// Close the database
+	_instance->_connection.close();
 	delete _instance;
+	_instance = 0;
 }
 
 static void regexpFunc(sqlite3_context *context, int argc, sqlite3_value **argv)
@@ -340,7 +332,7 @@ static void load_extensions(sqlite3 *handler)
 	//register_all_tokenizers(handler);
 }
 
-Database::Database(const QString &userDBFile, bool temporary, QObject *parent) : QThread(parent), _tFile(0), sqliteHandler(0)
+Database::Database(const QString &userDBFile, bool temporary) : _tFile(0)
 {
 	sqlite3_auto_extension((void (*)())load_extensions);
 	
@@ -362,30 +354,6 @@ Database::~Database()
 }
 
 QVector<QRegExp> Database::staticRegExps;
-
-void Database::run()
-{
-	// We can let the GUI thread go!
-	startSem.release();
-
-	// Are we running in threaded mode?
-	if (isRunning()) exec();
-}
-
-bool Database::isThreaded()
-{
-	return (alwaysSync == Qt::BlockingQueuedConnection);
-}
-
-void Database::quit()
-{
-	// Stop the on ongoing query, if any
-	_connection.interrupt();
-	closeDB();
-	// The database being closed, we can exit the thread
-	QThread::quit();
-	QThread::wait();
-}
 
 /**
  * Attach the dictionary DB to the opened user database.
@@ -435,17 +403,3 @@ bool Database::detachDictionaryDB(const QString &alias)
 	_attachedDBs.remove(alias);
 	return true;
 }
-
-void Database::closeDB()
-{
-	SQLite::Query query(&_connection);
-
-	// Remove unreferenced tags
-	if (!query.exec("delete from tags where docid not in (select tagId from taggedEntries)")) qWarning("Could not cleanup unused tags!");
-
-	// VACUUM the database
-	if (!query.exec("vacuum")) qWarning("Final VACUUM failed %s", query.lastError().message().toLatin1().data());
-	// Close the database
-	_connection.close();
-}
-
