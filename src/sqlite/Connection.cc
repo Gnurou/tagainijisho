@@ -105,14 +105,17 @@ const Error &Connection::lastError() const
 bool Connection::exec(const QString &statement)
 {
 	sqlite3_stmt *stmt;
+	sqlite3_mutex_enter(sqlite3_db_mutex(_handler));
 	int res = sqlite3_prepare_v2(_handler, statement.toUtf8().data(), -1, &stmt, 0);
 	if (res != SQLITE_OK) {
 		updateError();
+		sqlite3_mutex_leave(sqlite3_db_mutex(_handler));
 		return false;
 	}
 	res = sqlite3_step(stmt);
 	updateError();
 	sqlite3_finalize(stmt);
+	sqlite3_mutex_leave(sqlite3_db_mutex(_handler));
 	return !_lastError.isError();
 }
 

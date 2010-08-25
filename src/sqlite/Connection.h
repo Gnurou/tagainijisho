@@ -26,13 +26,6 @@
 struct sqlite3;
 namespace SQLite {
 
-/**
- * THIS CLASS IS NOT THREAD-SAFE!
- * It is perfectly fine to use many queries on the same connection, however it is
- * the responsability of the user to make sure all operations involving them happen
- * in the same thread. Only interrupt() may be called from another thread to termine
- * a running query.
- */
 class Connection
 {
 friend class Error;
