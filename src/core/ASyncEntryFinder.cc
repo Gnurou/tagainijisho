@@ -16,18 +16,19 @@
  */
 
 #include "core/EntriesCache.h"
-#include "core/ASyncEntryLoader.h"
+#include "core/ASyncEntryFinder.h"
 
-ASyncEntryLoader::ASyncEntryLoader(DatabaseThread *dbConn) : ASyncEntryFinder(dbConn)
+ASyncEntryFinder::ASyncEntryFinder(DatabaseThread *dbConn) : ASyncQuery(dbConn)
 {
-	connect(this, SIGNAL(result(EntryRef)), this, SLOT(_loadEntry(EntryRef)));
+	connect(this, SIGNAL(result(const QList<QVariant> &)), this, SLOT(_loadEntry(const QList<QVariant> &)));
 }
 
-void ASyncEntryLoader::_loadEntry(const EntryRef &ref)
+ASyncEntryFinder::~ASyncEntryFinder()
 {
-	emit result(ref.get());
 }
 
-ASyncEntryLoader::~ASyncEntryLoader()
+void ASyncEntryFinder::_loadEntry(const QList<QVariant> &record)
 {
+	if (record.size() < 2) return;
+	emit result(EntryRef(record[0].toUInt(), record[1].toUInt()));
 }

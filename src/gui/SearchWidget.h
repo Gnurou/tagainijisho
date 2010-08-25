@@ -20,7 +20,6 @@
 #define __GUI_SEARCH_WIDGET_H
 
 #include "core/QueryBuilder.h"
-#include "core/Query.h"
 #include "core/ResultsList.h"
 #include "gui/ResultsView.h"
 #include "gui/SearchFilterWidget.h"

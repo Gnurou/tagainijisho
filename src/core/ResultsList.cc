@@ -19,18 +19,18 @@
 
 #include <QtDebug>
 
-ResultsList::ResultsList(QObject *parent) : QAbstractListModel(parent), entries(), query(), displayedUntil(0)
+ResultsList::ResultsList(QObject *parent) : QAbstractListModel(parent), entries(), displayedUntil(0), dbThread(), query(&dbThread)
 {
 	connect(&timer, SIGNAL(timeout()),
 		this, SLOT(updateViews()));
 	timer.setInterval(100);
 	
 	// Results emitted by a query are added to us
-	connect(&query, SIGNAL(foundEntry(EntryRef)), this, SLOT(addResult(EntryRef)));
+	connect(&query, SIGNAL(result(EntryRef)), this, SLOT(addResult(EntryRef)));
 	connect(&query, SIGNAL(firstResult()), this, SLOT(startReceive()));
-	connect(&query, SIGNAL(lastResult()), this, SLOT(endReceive()));
+	connect(&query, SIGNAL(completed()), this, SLOT(endReceive()));
 	connect(&query, SIGNAL(aborted()), this, SLOT(endReceive()));
-	connect(&query, SIGNAL(error()), this, SLOT(endReceive()));	
+	connect(&query, SIGNAL(error(QString)), this, SLOT(endReceive()));
 }
 
 ResultsList::~ResultsList()
@@ -152,9 +152,8 @@ void ResultsList::search(const QueryBuilder &qBuilder)
 	clear();
 	
 	// And start the query!
-	query.prepare(qBuilder);
+	query.exec(qBuilder.buildSqlStatement());
 	emit queryStarted();
-	query.fetch();
 }
 
 void ResultsList::abortSearch()
@@ -162,7 +161,5 @@ void ResultsList::abortSearch()
 	query.abort();
 	// Flush all the entries the results list may be receiving
 	QCoreApplication::processEvents(QEventLoop::ExcludeUserInputEvents | QEventLoop::ExcludeSocketNotifiers);
-	// Clear the list of all received entries
-	query.clear();
 	emit queryEnded();
 }

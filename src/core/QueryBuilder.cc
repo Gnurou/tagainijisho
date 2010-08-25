@@ -213,22 +213,6 @@ QString QueryBuilder::Statement::buildSqlStatement() const
 	return res;
 }
 
-QString QueryBuilder::Statement::buildCountSqlStatement() const
-{
-	QString res = "select count(";
-
-	if (distinct()) res += "distinct ";
-
-	res += _columns[1].toString();
-
-	res += ")";
-
-	res += sqlStatementRightPart();
-	QString lC = leftColumn().toString();
-	res.replace("{{leftcolumn}}", lC);
-	return res;
-}
-
 void QueryBuilder::Statement::autoJoin()
 {
 	foreach (const Column &column, columns()) {
@@ -278,20 +262,6 @@ QString QueryBuilder::buildSqlStatement(bool order) const
 			res += _orders[i].toString();
 		}
 	}
-
-	if (_limit.active()) res += " " + _limit.toString();
-
-	return res;
-}
-
-QString QueryBuilder::buildCountSqlStatement() const
-{
-	if (statements().size() == 0) return "";
-	QStringList statementsList;
-	foreach(const Statement &statement, statements())
-		statementsList << statement.buildCountSqlStatement();
-
-	QString res = statementsList.join(" UNION ALL ");
 
 	if (_limit.active()) res += " " + _limit.toString();
 

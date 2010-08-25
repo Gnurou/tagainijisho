@@ -21,7 +21,7 @@
 #include "core/Entry.h"
 #include "core/EntriesCache.h"
 #include "core/QueryBuilder.h"
-#include "core/Query.h"
+#include "core/ASyncEntryFinder.h"
 
 #include <QAbstractListModel>
 #include <QList>
@@ -38,12 +38,12 @@ class ResultsList : public QAbstractListModel
 private:
 	QList<EntryRef> entries;
 	QTimer timer;
-	
-	Query query;
-	bool _active;
+	int displayedUntil;
+
+	DatabaseThread dbThread;
+	ASyncEntryFinder query;
 
 	void startPreparedQuery();
-	int displayedUntil;
 	
 protected slots:
 	void updateViews();
