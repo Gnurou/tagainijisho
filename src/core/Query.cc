@@ -103,7 +103,6 @@ void Query::__fetch()
 		// If we were interrupted or we had an error, no need to continue
 		if (shallAbort || !success)  {
 			query.clear();
-			Database::sqliteFix();
 			return;
 		}
 	}
@@ -122,7 +121,6 @@ void Query::__fetch()
 		statusLocker.unlock();
 		if (shallAbort) {
 			query.clear();
-			Database::sqliteFix();
 			_dbTaskInterrupted.wakeAll();
 			return;
 		}
@@ -168,7 +166,6 @@ void Query::abort()
 		_status = Interrupted;
 		_dbTaskInterrupted.wait(&_statusMutex);
 	}
-	Database::sqliteFix();
 	_statusMutex.unlock();
 }
 
