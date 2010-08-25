@@ -37,9 +37,15 @@ void EntryListModel::setRoot(int rootId)
 	// Nothing changes?
 	if (rootId == _rootId) return;
 
+#if QT_VERSION >= 0x040600
 	beginResetModel();
+#endif
 	_rootId = rootId;
+#if QT_VERSION >= 0x040600
 	endResetModel();
+#else
+	reset();
+#endif
 	emit rootHasChanged(rootId);
 }
 
