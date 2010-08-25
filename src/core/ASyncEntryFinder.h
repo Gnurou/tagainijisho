@@ -16,38 +16,35 @@
  */
 
 
-#ifndef __CORE_ASYNCENTRYLOADER_H_
-#define __CORE_ASYNCENTRYLOADER_H_
+#ifndef __CORE_ASYNCENTRYFINDER_H_
+#define __CORE_ASYNCENTRYFINDER_H_
 
 #include <QtDebug>
 
-#include "core/ASyncEntryFinder.h"
+#include "core/ASyncQuery.h"
+#include "core/EntriesCache.h"
 
 /**
- * An ASynchronous entry loader.
+ * An ASynchronous entry finder.
  *
  * Instances of this class work just like ASyncQuery in that they execute
  * SQL queries and emit signals when results are found. The difference
  * is that the result of queries passed to ASyncEntryLoader MUST be two
- * integers that represent the type and identifier of entries, to be passed
- * to EntriesCache::get(). In addition to the signals emitted by ASyncQuery,
- * this class also emits a result(EntryPointer<Entry>) signal,
- * that passes all the entries matching the SQL query.
+ * integers that represent the type and identifier of entries, used to
+ * construct an EntryRef.
  *
- * It is possible that the entries emitted are actually null pointers - it is
- * up to the receiver to check the validity of the entries.
  */
-class ASyncEntryLoader : public ASyncEntryFinder {
+class ASyncEntryFinder : public ASyncQuery {
 	Q_OBJECT
 protected slots:
-	void _loadEntry(const EntryRef &ref);
+	void _loadEntry(const QList<QVariant> &record);
 
 public:
-	ASyncEntryLoader(DatabaseThread *dbConn);
-	virtual ~ASyncEntryLoader();
+	ASyncEntryFinder(DatabaseThread *dbConn);
+	virtual ~ASyncEntryFinder();
 
 signals:
-	void result(EntryPointer result);
+	void result(const EntryRef &result);
 };
 
 #endif /* ASYNCENTRYLOADER_H_ */

@@ -20,8 +20,8 @@
 
 #include "sqlite/Connection.h"
 #include "core/Entry.h"
-#include "core/Query.h"
 #include "core/SearchCommand.h"
+#include "core/QueryBuilder.h"
 
 #include <QObject>
 #include <QList>

@@ -5,8 +5,8 @@ TextTools.cc
 Paths.cc
 Database.cc
 QueryBuilder.cc
-Query.cc
 ASyncQuery.cc
+ASyncEntryFinder.cc
 ASyncEntryLoader.cc
 Preferences.cc
 Tag.cc
@@ -24,8 +24,9 @@ XmlParserHelper.cc
 )
 
 set(tagainijisho_core_MOCS
-ASyncEntryLoader.h
 ASyncQuery.h
+ASyncEntryFinder.h
+ASyncEntryLoader.h
 Database.h
 EntriesCache.h
 Entry.h
@@ -34,7 +35,6 @@ EntrySearcherManager.h
 ResultsList.h
 EntryListModel.h
 Preferences.h
-Query.h
 Tag.h
 )
 
