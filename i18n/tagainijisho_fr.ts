@@ -53,7 +53,7 @@
         <translation>Fichier de base de données utilisateur:</translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="+483"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="+486"/>
         <source>User data</source>
         <translation>Données utilisateur</translation>
     </message>
@@ -565,7 +565,7 @@
 <context>
     <name>EntryListModel</name>
     <message>
-        <location filename="../src/core/EntryListModel.cc" line="+206"/>
+        <location filename="../src/core/EntryListModel.cc" line="+212"/>
         <source>New list</source>
         <translation>Nouvelle liste</translation>
     </message>
@@ -639,9 +639,8 @@ Certains d&apos;entre eux peuvent toujours être présents.</translation>
         <translation>Form</translation>
     </message>
     <message>
-        <location line="+9"/>
         <source>Test test</source>
-        <translation>Test test</translation>
+        <translation type="obsolete">Test test</translation>
     </message>
     <message>
         <source>...</source>
@@ -816,31 +815,42 @@ Certains d&apos;entre eux peuvent toujours être présents.</translation>
 <context>
     <name>GeneralPreferences</name>
     <message>
+        <location filename="../src/gui/PreferencesWindow.cc" line="-158"/>
         <source>English</source>
-        <translation type="obsolete">Anglais</translation>
+        <translation>Anglais</translation>
     </message>
     <message>
+        <location line="+2"/>
         <source>German</source>
-        <translation type="obsolete">Allemand</translation>
+        <translation>Allemand</translation>
     </message>
     <message>
+        <location line="-1"/>
         <source>French</source>
-        <translation type="obsolete">Français</translation>
+        <translation>Français</translation>
     </message>
     <message>
+        <location line="-3"/>
+        <source>Czech</source>
+        <translation>Tchèque</translation>
+    </message>
+    <message>
+        <location line="+1"/>
         <source>Dutch</source>
-        <translation type="obsolete">Hollandais</translation>
+        <translation>Hollandais</translation>
     </message>
     <message>
+        <location line="+4"/>
         <source>Russian</source>
-        <translation type="obsolete">Russe</translation>
+        <translation>Russe</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Spanish</source>
-        <translation type="obsolete">Espagnol</translation>
+        <translation>Espagnol</translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="-149"/>
+        <location line="+3"/>
         <source>General</source>
         <translation>Général</translation>
     </message>
@@ -850,7 +860,7 @@ Certains d&apos;entre eux peuvent toujours être présents.</translation>
         <translation>Police par défaut de l&apos;application</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+10"/>
         <source>Monday</source>
         <translation>Lundi</translation>
     </message>
@@ -2569,7 +2579,7 @@ améliorer les performances en cas de manipulation de nombreuses entrées.</tran
         <translation>Kana</translation>
     </message>
     <message>
-        <location line="+18"/>
+        <location line="+20"/>
         <source>Radical search input</source>
         <translation>Entrée de caractère par radical</translation>
     </message>
@@ -4122,9 +4132,13 @@ Ce message de rappel n&apos;apparaîtra dorénavant plus - vous pouvez toujours 
         <translation>Dernière erreur</translation>
     </message>
     <message>
-        <location line="+34"/>
         <source>None</source>
-        <translation>Aucun</translation>
+        <translation type="obsolete">Aucun</translation>
+    </message>
+    <message>
+        <location line="+34"/>
+        <source>Any</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+3"/>
