@@ -53,7 +53,7 @@
         <translation>Datei für Benutzerdatenbank:</translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="+483"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="+486"/>
         <source>User data</source>
         <translation>Benutzerdaten</translation>
     </message>
@@ -573,7 +573,7 @@
 <context>
     <name>EntryListModel</name>
     <message>
-        <location filename="../src/core/EntryListModel.cc" line="+206"/>
+        <location filename="../src/core/EntryListModel.cc" line="+212"/>
         <source>New list</source>
         <translation>Neue Liste</translation>
     </message>
@@ -652,9 +652,8 @@ Manche von ihnen sind eventuell noch vorhanden.</translation>
         <translation>Listen</translation>
     </message>
     <message>
-        <location filename="../src/gui/EntryListWidget.ui" line="+9"/>
         <source>Test test</source>
-        <translation>Test test</translation>
+        <translation type="obsolete">Test test</translation>
     </message>
 </context>
 <context>
@@ -889,19 +888,27 @@ Hohe Werte können die Leistung verbessern wenn eine große Anzahl
 an Einträgen manipuliert werden.</translation>
     </message>
     <message>
+        <location filename="../src/gui/PreferencesWindow.cc" line="-158"/>
         <source>English</source>
-        <translation type="obsolete">Englisch</translation>
+        <translation type="unfinished">Englisch</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>French</source>
-        <translation type="obsolete">Französisch</translation>
+        <translation type="unfinished">Französisch</translation>
     </message>
     <message>
+        <location line="-2"/>
         <source>Dutch</source>
-        <translation type="obsolete">Niederländisch</translation>
+        <translation type="unfinished">Niederländisch</translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="-149"/>
+        <location line="-1"/>
+        <source>Czech</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+9"/>
         <source>General</source>
         <translation>Allgemein</translation>
     </message>
@@ -911,7 +918,7 @@ an Einträgen manipuliert werden.</translation>
         <translation>Standardschriftart für gesamte Anwendung</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+10"/>
         <source>Monday</source>
         <translation>Montag</translation>
     </message>
@@ -926,16 +933,19 @@ an Einträgen manipuliert werden.</translation>
         <translation>Nächste Überprüfung: %1</translation>
     </message>
     <message>
+        <location line="-73"/>
         <source>German</source>
-        <translation type="obsolete">Deutsch</translation>
+        <translation type="unfinished">Deutsch</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Russian</source>
-        <translation type="obsolete">Russisch</translation>
+        <translation type="unfinished">Russisch</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Spanish</source>
-        <translation type="obsolete">Spanisch</translation>
+        <translation type="unfinished">Spanisch</translation>
     </message>
 </context>
 <context>
@@ -2370,7 +2380,7 @@ an Einträgen manipuliert werden.</translation>
         <translation>&amp;Lesungsübung, gesamte Studienliste</translation>
     </message>
     <message>
-        <location line="+24"/>
+        <location line="+26"/>
         <source>Radical search input</source>
         <translation>Radikalsuche-Eingabe</translation>
     </message>
@@ -2407,7 +2417,7 @@ an Einträgen manipuliert werden.</translation>
         <translation>Spur für %1</translation>
     </message>
     <message>
-        <location line="-364"/>
+        <location line="-366"/>
         <source>Character flashcards</source>
         <translation>Lernkartei für Schriftzeichen</translation>
     </message>
@@ -2745,7 +2755,7 @@ an Einträgen manipuliert werden.</translation>
         <translation>Vorschau</translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="+195"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="+266"/>
         <source>Lists</source>
         <translation>Listen</translation>
     </message>
@@ -3590,9 +3600,13 @@ Diese Nachricht ist eine einmalige Erinnerung und wird nicht weiter erscheinen �
         <translation>Letzter Irrtum</translation>
     </message>
     <message>
-        <location line="+34"/>
         <source>None</source>
-        <translation>Keiner</translation>
+        <translation type="obsolete">Keiner</translation>
+    </message>
+    <message>
+        <location line="+34"/>
+        <source>Any</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+3"/>

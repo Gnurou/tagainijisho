@@ -87,7 +87,7 @@ void PreferencesWindow::applySettings() {
 }
 
 const QList<QPair<QString, QString> > GeneralPreferences::langs = (QList<QPair<QString, QString> >() <<
-	QPair<QString, QString>(QT_TRANSLATE_NOOP("GeneralPreferences", "Czech"), "es") <<
+	QPair<QString, QString>(QT_TRANSLATE_NOOP("GeneralPreferences", "Czech"), "cs") <<
 	QPair<QString, QString>(QT_TRANSLATE_NOOP("GeneralPreferences", "Dutch"), "nl") <<
 	QPair<QString, QString>(QT_TRANSLATE_NOOP("GeneralPreferences", "English"), "en") <<
 	QPair<QString, QString>(QT_TRANSLATE_NOOP("GeneralPreferences", "French"), "fr") <<

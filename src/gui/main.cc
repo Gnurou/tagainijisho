@@ -209,6 +209,7 @@ int main(int argc, char *argv[])
 	// Load the translations for Qt
 	if (qtTranslator.load(QDir(QLibraryInfo::location(QLibraryInfo::TranslationsPath)).absoluteFilePath(QString("qt_%1").arg(locale))) || qtTranslator.load(lookForFile(QString("i18n/qt_%1.qm").arg(locale)))) app.installTranslator(&qtTranslator);
 
+	qDebug() << locale << lookForFile("i18n/tagainijisho_" + locale + ".qm");
 	// Register meta-types
 	qRegisterMetaType<EntryPointer>("EntryPointer");
 	qRegisterMetaType<ConstEntryPointer>("ConstEntryPointer");
