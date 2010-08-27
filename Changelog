@@ -1,5 +1,6 @@
-0.2.x.x released on
-* JMdict entities translated again
+0.2.6.2 released on 2010/08/30
+* Really fixed bug of kana selector always appearing on startup
+* JMdict entities were not translated
 * Added Czech translation (thanks Pavel Fric!)
 
 0.2.6.1 released on 2010/08/19
