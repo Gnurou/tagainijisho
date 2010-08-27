@@ -1420,22 +1420,22 @@ améliorer les performances en cas de manipulation de nombreuses entrées.</tran
     <message>
         <location line="+2"/>
         <source>irregular okurigana usage</source>
-        <translation type="unfinished"></translation>
+        <translation>utilisation irrégulière d&apos;okurigana</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>irregular verb</source>
-        <translation type="unfinished"></translation>
+        <translation>verbe irrégulier</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>male slang</source>
-        <translation type="unfinished"></translation>
+        <translation>argot masculin</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>word containing out-dated kanji</source>
-        <translation type="unfinished"></translation>
+        <translation>mot contenant un kanji obsolète</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -1445,7 +1445,7 @@ améliorer les performances en cas de manipulation de nombreuses entrées.</tran
     <message>
         <location line="+1"/>
         <source>out-dated or obsolete kana usage</source>
-        <translation type="unfinished"></translation>
+        <translation>utilisation obsolète de kana</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -1460,7 +1460,7 @@ améliorer les performances en cas de manipulation de nombreuses entrées.</tran
     <message>
         <location line="+5"/>
         <source>rare</source>
-        <translation type="unfinished"></translation>
+        <translation>rare</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -1550,22 +1550,22 @@ améliorer les performances en cas de manipulation de nombreuses entrées.</tran
     <message>
         <location line="+30"/>
         <source>word usually written using kanji alone</source>
-        <translation type="unfinished"></translation>
+        <translation>mot usuellement écrit avec des kanji uniquement</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Godan verb (not completely classified)</source>
-        <translation type="unfinished"></translation>
+        <translation>verbe Godan (non classifié)</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Godan verb - Uru old class verb (old form of Eru)</source>
-        <translation type="unfinished"></translation>
+        <translation>verbe Godan - ancienne classe Uru (ancienne classe de Eru)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Godan verb with `zu&apos; ending</source>
-        <translation type="unfinished"></translation>
+        <translation>verbe Godan avec terminaison en `zu&apos;</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -4138,7 +4138,7 @@ Ce message de rappel n&apos;apparaîtra dorénavant plus - vous pouvez toujours 
     <message>
         <location line="+34"/>
         <source>Any</source>
-        <translation type="unfinished"></translation>
+        <translation>Tout</translation>
     </message>
     <message>
         <location line="+3"/>
