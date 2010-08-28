@@ -890,22 +890,22 @@ an Einträgen manipuliert werden.</translation>
     <message>
         <location filename="../src/gui/PreferencesWindow.cc" line="-158"/>
         <source>English</source>
-        <translation type="unfinished">Englisch</translation>
+        <translation>Englisch</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>French</source>
-        <translation type="unfinished">Französisch</translation>
+        <translation>Französisch</translation>
     </message>
     <message>
         <location line="-2"/>
         <source>Dutch</source>
-        <translation type="unfinished">Niederländisch</translation>
+        <translation>Niederländisch</translation>
     </message>
     <message>
         <location line="-1"/>
         <source>Czech</source>
-        <translation type="unfinished"></translation>
+        <translation>Tschechisch</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -935,17 +935,17 @@ an Einträgen manipuliert werden.</translation>
     <message>
         <location line="-73"/>
         <source>German</source>
-        <translation type="unfinished">Deutsch</translation>
+        <translation>Deutsch</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Russian</source>
-        <translation type="unfinished">Russisch</translation>
+        <translation>Russisch</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Spanish</source>
-        <translation type="unfinished">Spanisch</translation>
+        <translation>Spanisch</translation>
     </message>
 </context>
 <context>
@@ -3606,7 +3606,7 @@ Diese Nachricht ist eine einmalige Erinnerung und wird nicht weiter erscheinen �
     <message>
         <location line="+34"/>
         <source>Any</source>
-        <translation type="unfinished"></translation>
+        <translation>Beliebig</translation>
     </message>
     <message>
         <location line="+3"/>
