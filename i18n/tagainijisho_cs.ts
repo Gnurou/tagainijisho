@@ -889,22 +889,22 @@ Vysoké hodnoty mohou zlepšit výkon, když se zachází s velkým počtem záz
     <message>
         <location filename="../src/gui/PreferencesWindow.cc" line="-158"/>
         <source>English</source>
-        <translation></translation>
+        <translation>Anglický</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>French</source>
-        <translation>Französisch</translation>
+        <translation>Francouzský</translation>
     </message>
     <message>
         <location line="-2"/>
         <source>Dutch</source>
-        <translation></translation>
+        <translation>Nizozemský</translation>
     </message>
     <message>
         <location line="-1"/>
         <source>Czech</source>
-        <translation type="unfinished"></translation>
+        <translation>Český</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -1176,162 +1176,162 @@ Vysoké hodnoty mohou zlepšit výkon, když se zachází s velkým počtem záz
     <message>
         <location filename="../3rdparty/JMdictDescs.cc" line="+1"/>
         <source>martial arts term</source>
-        <translation type="unfinished">Kampfkunst-Fachausdruck</translation>
+        <translation>Odborný výraz bojového umění</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>rude or X-rated term (not displayed in educational software)</source>
-        <translation type="unfinished">grober oder nicht jugendfreier Ausdruck (wird in pädagogischer Software nicht angezeigt)</translation>
+        <translation>Hrubý nebo mládeži nepřístupný výraz (v pedagogickém programu se nezobrazuje)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>abbreviation</source>
-        <translation type="unfinished">Abkürzung</translation>
+        <translation>Zkratka</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>adjective (keiyoushi)</source>
-        <translation type="unfinished">Adjektiv (keiyoushi)</translation>
+        <translation>Přídavné jméno (keiyoushi)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>adjectival nouns or quasi-adjectives (keiyodoshi)</source>
-        <translation type="unfinished">adjektivisches Nomen oder Quasi-Adjektiv (keiyj­odoshi)</translation>
+        <translation>Adjektivní podstatná jména nebo jakoby přídavná jména (keiyj­odoshi)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>nouns which may take the genitive case particle `no&apos;</source>
-        <translation type="unfinished">Nomen das den Genitivfall-Partikel &apos;no&apos; nehmen kann</translation>
+        <translation>Podstatná jména, která mohou přijmout částici druhého pádu &apos;no&apos;</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>pre-noun adjectival (rentaishi)</source>
-        <translation type="unfinished">attributiv stehendes Wort (rentaishi)</translation>
+        <translation>Přívlastkově stojící slovo (rentaishi)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>`taru&apos; adjective</source>
-        <translation type="unfinished">&apos;taru&apos;-Adjektiv</translation>
+        <translation>Přídavné jméno `taru&apos;</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>noun or verb acting prenominally</source>
-        <translation type="unfinished">Nomen oder pränominales wirkendes Verb</translation>
+        <translation>Podstatné jméno nebo zájmenně působící sloveso</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>former adjective classification (being removed)</source>
-        <translation type="unfinished">ehemals als Adjektiv klassifiziert (werden entfernt)</translation>
+        <translation>dříve tříděno jako přídavné jméno (odstraněno)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>adverb (fukushi)</source>
-        <translation type="unfinished">Adverb (fukushi)</translation>
+        <translation>Příslovce (fukushi)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>adverb taking the `to&apos; particle</source>
-        <translation type="unfinished">Adverb das den &apos;to&apos;-Partikel nimmt</translation>
+        <translation>Příslovce přijímající částici &apos;to&apos;</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>archaism</source>
-        <translation type="unfinished">Archaismus</translation>
+        <translation>Zastaralé slovo</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>ateji (phonetic) reading</source>
-        <translation type="unfinished">ateji (phonetische) Lesung</translation>
+        <translation>Čtení ateji (fonetické)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>auxiliary</source>
-        <translation type="unfinished">Hilfswort</translation>
+        <translation>Pomocné slovo</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>auxiliary verb</source>
-        <translation type="unfinished">Hilfsverb</translation>
+        <translation>Pomocné sloveso</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>auxiliary adjective</source>
-        <translation type="unfinished">Hilfsadjektiv</translation>
+        <translation>Pomocné přídavné jméno</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Buddhist term</source>
-        <translation type="unfinished">Buddhistischer Fachausdruck</translation>
+        <translation>Buddhistický odborný výraz</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>chemistry term</source>
-        <translation type="unfinished">Chemischer Fachausdruck</translation>
+        <translation>Chemický odborný výraz</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>children&apos;s language</source>
-        <translation type="unfinished">Kindersprache</translation>
+        <translation>Dětská řeč</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>colloquialism</source>
-        <translation type="unfinished">umgangssprachlicher Ausdruck</translation>
+        <translation>Hovorový výraz</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>computer terminology</source>
-        <translation type="unfinished">Computer-Fachausdruck</translation>
+        <translation>Počítačové odborné názvosloví</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>conjunction</source>
-        <translation type="unfinished">Konjunktion</translation>
+        <translation>Spojka</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>counter</source>
-        <translation type="unfinished">Zahlwort</translation>
+        <translation>Číslovka</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>derogatory</source>
-        <translation type="unfinished">herabwürdigend</translation>
+        <translation>Hanlivý výraz</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>exclusively kanji</source>
-        <translation type="unfinished">exklusiv in Kanji</translation>
+        <translation>Výlučně v kandži</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>exclusively kana</source>
-        <translation type="unfinished">exklusiv in Kana</translation>
+        <translation>Výlučně v kana</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Expressions (phrases, clauses, etc.)</source>
-        <translation type="unfinished">Ausdruck (Phrase, Redensart, etc.)</translation>
+        <translation>Výraz (úsloví, rčení, atd.)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>familiar language</source>
-        <translation type="unfinished">Vetrauliche Sprache</translation>
+        <translation>Důvěrný jazyk</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>female term or language</source>
-        <translation type="unfinished">weiblicher Ausdruck oder Sprache</translation>
+        <translation>Ženský výraz nebo jazyk</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>food term</source>
-        <translation type="unfinished">Essen-Fachausdruck</translation>
+        <translation>Jídelní odborný výraz</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>geometry term</source>
-        <translation type="unfinished">Geometrie-Fachausdruck</translation>
+        <translation>Geometrický odborný výraz</translation>
     </message>
     <message>
         <source>gikun (meaning) reading</source>
@@ -1340,392 +1340,392 @@ Vysoké hodnoty mohou zlepšit výkon, když se zachází s velkým počtem záz
     <message>
         <location line="+2"/>
         <source>honorific or respectful (sonkeigo) language</source>
-        <translation type="unfinished">ehrende oder respektvolle (sonkeigo) Sprache</translation>
+        <translation>Zdvořilostní nebo uctivý jazyk (sonkeigo)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>humble (kenjougo) language</source>
-        <translation type="unfinished">bescheidene (kenjougo) Sprache</translation>
+        <translation>Prostý jazyk (kenjougo)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>word containing irregular kanji usage</source>
-        <translation type="unfinished">Wort mit unregelmäßiger Kanji-Nutzung</translation>
+        <translation>Slovo s nepravidelným používáním kandži</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>idiomatic expression</source>
-        <translation type="unfinished">idiomatischer Ausdruck</translation>
+        <translation>Nářeční výraz</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>word containing irregular kana usage</source>
-        <translation type="unfinished">Wort mit unregelmäßiger Kana-Nutzung</translation>
+        <translation>Slovo s nepravidelným používáním kana</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>interjection (kandoushi)</source>
-        <translation type="unfinished">Interjektion (kandoushi)</translation>
+        <translation>Citoslovce (kandoushi)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>irregular okurigana usage</source>
-        <translation type="unfinished">unregelmäßige Okurigana-Nutzung</translation>
+        <translation>Nepravidelné používání okurigana</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>irregular verb</source>
-        <translation type="unfinished">unregelmäßiges Verb</translation>
+        <translation>Nepravidelné sloveso</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>linguistics terminology</source>
-        <translation type="unfinished">linguistischer Ausdruck</translation>
+        <translation>Jazykovědný výraz</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>manga slang</source>
-        <translation type="unfinished">Manga-Slang</translation>
+        <translation>Silně hovorový výraz manga</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>male term or language</source>
-        <translation type="unfinished">männlicher Ausdruck oder Sprache</translation>
+        <translation>Mužský výraz nebo jazyk</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>male slang</source>
-        <translation type="unfinished">männlicher Slang</translation>
+        <translation>Mužský jazyk</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>mathematics</source>
-        <translation type="unfinished">Mathematik</translation>
+        <translation>Matematika</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>military</source>
-        <translation type="unfinished">Militär</translation>
+        <translation>Vojsko</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>noun (common) (futsuumeishi)</source>
-        <translation type="unfinished">Nomen (gewöhnliches) (futsuumeishi)</translation>
+        <translation>Podstatné jméno (běžné) (futsuumeishi)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>adverbial noun (fukushitekimeishi)</source>
-        <translation type="unfinished">adverbiales Nomen (fukushitekimeishi)</translation>
+        <translation>Příslovečné podstatné jméno (fukushitekimeishi)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>noun, used as a suffix</source>
-        <translation type="unfinished">Nomen, als Suffix verwendet</translation>
+        <translation>Podstatné jméno, používáno jako přípona</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>noun, used as a prefix</source>
-        <translation type="unfinished">Nomen, als Präfix verwendet</translation>
+        <translation>Podstatné jméno, používáno jako předpona</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>noun (temporal) (jisoumeishi)</source>
-        <translation type="unfinished">Nomen (temporales) (jisoumeishi)</translation>
+        <translation>Podstatné jméno (časové) (jisoumeishi)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>numeric</source>
-        <translation type="unfinished">Zahl</translation>
+        <translation>Číslo</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>word containing out-dated kanji</source>
-        <translation type="unfinished">Wort mit veralteten Kanji</translation>
+        <translation>Slovo se zastaralým kandži</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>obsolete term</source>
-        <translation type="unfinished">überholter Ausdruck</translation>
+        <translation>Zastaralý výraz</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>obscure term</source>
-        <translation type="unfinished">obskurer Ausdruck</translation>
+        <translation>Obtížně srozumitelný výraz</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>out-dated or obsolete kana usage</source>
-        <translation type="unfinished">veraltete oder überholte Kana-Nutzung</translation>
+        <translation>Zastaralé nebo překonané používání kana</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>onomatopoeic or mimetic word</source>
-        <translation type="unfinished">lautmalerisches oder mimetisches Wort</translation>
+        <translation>Zvukomalebné nebo napodobovací slovo</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>pronoun</source>
-        <translation type="unfinished">Pronomen</translation>
+        <translation>Zájmeno</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>poetical term</source>
-        <translation type="unfinished">poetischer Ausdruck</translation>
+        <translation>Básnický výraz</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>polite (teineigo) language</source>
-        <translation type="unfinished">höfliche (teineigo) Sprache</translation>
+        <translation>Zdvořilý jazyk (teineigo)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>prefix</source>
-        <translation type="unfinished">Präfix</translation>
+        <translation>Předpona</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>particle</source>
-        <translation type="unfinished">Partikel</translation>
+        <translation>Částice</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>physics terminology</source>
-        <translation type="unfinished">physikalischer Fachausdruck</translation>
+        <translation>Fyzikální odborný výraz</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>rare</source>
-        <translation type="unfinished">selten</translation>
+        <translation>vzácný</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>sensitive</source>
-        <translation type="unfinished">empfindlich</translation>
+        <translation>citlivý</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>slang</source>
-        <translation type="unfinished">Slang</translation>
+        <translation>Silně hovorový výraz</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>suffix</source>
-        <translation type="unfinished">Suffix</translation>
+        <translation>Přípona</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>word usually written using kanji alone</source>
-        <translation type="unfinished">Wort gewöhnlich nur mit Kanji geschrieben</translation>
+        <translation>Slovo obvykle psané jen s kandži</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>word usually written using kana alone</source>
-        <translation type="unfinished">Wort gewöhnlich nur mit Kana geschrieben</translation>
+        <translation>Slovo obvykle psané jen s kana</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Ichidan verb</source>
-        <translation type="unfinished">Ichidan-Verb</translation>
+        <translation>Sloveso ichidan</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Nidan verb with &apos;u&apos; ending (archaic)</source>
-        <translation type="unfinished">Nidan-Verb mit &apos;u&apos;-Endung (archaisch)</translation>
+        <translation>Sloveso nidan s koncovkou &apos;u&apos; (starobylá)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Yondan verb with `hu/fu&apos; ending (archaic)</source>
-        <translation type="unfinished">Yondan-Verb mit &apos;hu/fu&apos;-Endung (archaisch)</translation>
+        <translation>Sloveso yondan s koncovkou &apos;hu/fu&apos; (starobylá)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Yondan verb with `ru&apos; ending (archaic)</source>
-        <translation type="unfinished">Yondan-Verb mit &apos;hu/fu&apos;-Endung (archaisch)</translation>
+        <translation>Sloveso yondan s koncovkou &apos;ru&apos; (starobylá)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Godan verb (not completely classified)</source>
-        <translation type="unfinished">Godan-Verb (nicht vollständig eingestuft)</translation>
+        <translation>Sloveso godan (není úplně zařazeno)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Godan verb - -aru special class</source>
-        <translation type="unfinished">Godan-Verb – -aru-Spezialklasse</translation>
+        <translation>Sloveso godan – zvláštní třída -aru</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Godan verb with `bu&apos; ending</source>
-        <translation type="unfinished">Godan-Verb mit &apos;bu&apos;-Endung</translation>
+        <translation>Sloveso godan s koncovkou &apos;bu&apos;</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Godan verb with `gu&apos; ending</source>
-        <translation type="unfinished">Godan-Verb mit &apos;gu&apos;-Endung</translation>
+        <translation>Sloveso godan s koncovkou &apos;gu&apos;</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Godan verb with `ku&apos; ending</source>
-        <translation type="unfinished">Godan-Verb mit &apos;ku&apos;-Endung</translation>
+        <translation>Sloveso godan s koncovkou &apos;ku&apos;</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Godan verb - Iku/Yuku special class</source>
-        <translation type="unfinished">Godan-Verb – Iku/Yuku-Spezialklasse</translation>
+        <translation>Sloveso godan – zvláštní třída Iku/Yuku</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Godan verb with `mu&apos; ending</source>
-        <translation type="unfinished">Godan-Verb mit &apos;mu&apos;-Endung</translation>
+        <translation>Sloveso godan s koncovkou &apos;mu&apos;</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Godan verb with `nu&apos; ending</source>
-        <translation type="unfinished">Godan-Verb mit &apos;nu&apos;-Endung</translation>
+        <translation>Sloveso godan s koncovkou &apos;nu&apos;</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Godan verb with `ru&apos; ending</source>
-        <translation type="unfinished">Godan-Verb mit &apos;ru&apos;-Endung</translation>
+        <translation>Sloveso godan s koncovkou &apos;ru&apos;</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Godan verb with `ru&apos; ending (irregular verb)</source>
-        <translation type="unfinished">Godan-Verb mit &apos;ru&apos;-Endung (unregelmäßiges Verb)</translation>
+        <translation>Sloveso godan s koncovkou &apos;ru&apos; (nepravidelné sloveso)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Godan verb with `su&apos; ending</source>
-        <translation type="unfinished">Godan-Verb mit &apos;su&apos;-Endung</translation>
+        <translation>Sloveso godan s koncovkou &apos;su&apos;</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Godan verb with `tsu&apos; ending</source>
-        <translation type="unfinished">Godan-Verb mit &apos;tsu&apos;-Endung</translation>
+        <translation>Sloveso godan s koncovkou &apos;tsu&apos;</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Godan verb with `u&apos; ending</source>
-        <translation type="unfinished">Godan-Verb mit &apos;u&apos;-Endung</translation>
+        <translation>Sloveso godan s koncovkou &apos;u&apos;</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Godan verb with `u&apos; ending (special class)</source>
-        <translation type="unfinished">Godan-Verb mit &apos;u&apos;-Endung (Spezialklasse)</translation>
+        <translation>Sloveso godan s koncovkou &apos;u&apos; (zvláštní třída)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Godan verb - Uru old class verb (old form of Eru)</source>
-        <translation type="unfinished">Godan-Verb – alte Uru-Klasse (alte Form von Eru)</translation>
+        <translation>Sloveso godan – stará třída Uru (starý tvar Eru)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Godan verb with `zu&apos; ending</source>
-        <translation type="unfinished">Godan-Verb mit &apos;zu&apos;-Endung</translation>
+        <translation>Sloveso godan s koncovkou &apos;zu&apos;</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Ichidan verb - zuru verb (alternative form of -jiru verbs)</source>
-        <translation type="unfinished">Ichidan-Verb – zuru-Verb (alternative Form von -jiru-Verben)</translation>
+        <translation>Sloveso ichidan – sloveso zuru (náhradní tvar sloves -jiru)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>intransitive verb</source>
-        <translation type="unfinished">intransitives Verb</translation>
+        <translation>Nepřechodné sloveso</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Kuru verb - special class</source>
-        <translation type="unfinished">Kuru-Verb – Spezialklasse</translation>
+        <translation>Sloveso kuru – zvláštní třída</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>irregular nu verb</source>
-        <translation type="unfinished">unregelmäßiges nu-Verb</translation>
+        <translation>Nepravidelné sloveso nu</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>irregular ru verb, plain form ends with -ri</source>
-        <translation type="unfinished">unregelmäßiges ru-Verb, Grundform endet mit -ri</translation>
+        <translation>Nepravidelné sloveso ru, základní tvar končí na -ri</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>noun or participle which takes the aux. verb suru</source>
-        <translation type="unfinished">Nomen oder Partizip welches das Hilfsverb suru nimmt</translation>
+        <translation>Podstatné jméno nebo příčestí, které přijímá pomocné sloveso suru</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>suru verb - special class</source>
-        <translation type="unfinished">suru-verb – Spezialklasse</translation>
+        <translation>Sloveso suru – zvláštní třída</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>suru verb - irregular</source>
-        <translation type="unfinished">suru-verb – unregelmäßig</translation>
+        <translation>Sloveso suru – nepravidelné</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Kyoto-ben</source>
-        <translation type="unfinished">Kyoto-ben</translation>
+        <translation>Kyoto-ben</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Osaka-ben</source>
-        <translation type="unfinished">Osaka-ben</translation>
+        <translation>Osaka-ben</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Kansai-ben</source>
-        <translation type="unfinished">Kansai-ben</translation>
+        <translation>Kansai-ben</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Kantou-ben</source>
-        <translation type="unfinished">Kantou-ben</translation>
+        <translation>Kantou-ben</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Tosa-ben</source>
-        <translation type="unfinished">Tosa-ben</translation>
+        <translation>Tosa-ben</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Touhoku-ben</source>
-        <translation type="unfinished">Touhoku-ben</translation>
+        <translation>Touhoku-ben</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Tsugaru-ben</source>
-        <translation type="unfinished">Tsugaru-ben</translation>
+        <translation>Tsugaru-ben</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Kyuushuu-ben</source>
-        <translation type="unfinished">Kyuushuu-ben</translation>
+        <translation>Kyuushuu-ben</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Ryuukyuu-ben</source>
-        <translation type="unfinished">Ryuukyuu-ben</translation>
+        <translation>Ryuukyuu-ben</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Nagano-ben</source>
-        <translation type="unfinished">Nagano-ben</translation>
+        <translation>Nagano-ben</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>transitive verb</source>
-        <translation type="unfinished">transitives Verb</translation>
+        <translation>Přechodné sloveso</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>vulgar expression or word</source>
-        <translation type="unfinished">vulgärer Ausdruck oder Wort</translation>
+        <translation>Sprostý výraz nebo slovo</translation>
     </message>
     <message>
         <location line="-77"/>
         <source>gikun (meaning as reading)  or jukujikun (special kanji reading)</source>
-        <translation type="unfinished">gikun (Bedeutung wie Lesung) oder  jukujikun (Spezielle Kanji-Lesung)</translation>
+        <translation>gikun (význam stejně jako čtení) nebo  jukujikun (zvláštní čtení kandži)</translation>
     </message>
 </context>
 <context>
@@ -3605,7 +3605,7 @@ Tato zpráva je jednorázovým připomenutím a už se vícekrát neobjeví – 
     <message>
         <location line="+34"/>
         <source>Any</source>
-        <translation type="unfinished"></translation>
+        <translation>Jakýkoli</translation>
     </message>
     <message>
         <location line="+3"/>
