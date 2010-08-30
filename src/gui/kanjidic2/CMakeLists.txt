@@ -38,4 +38,4 @@ Kanjidic2Preferences.ui
 qt4_wrap_cpp(tagainijisho_gui_kanjidic2_MOC_SRCS ${tagainijisho_gui_kanjidic2_MOCS})
 qt4_wrap_ui(tagainijisho_gui_kanjidic2_UI_SRCS ${tagainijisho_gui_kanjidic2_UIS})
 add_library(tagaini_gui_kanjidic2 STATIC ${tagainijisho_gui_kanjidic2_UI_SRCS} ${tagainijisho_gui_kanjidic2_MOC_SRCS} ${tagainijisho_gui_kanjidic2_SRCS})
-
+add_dependencies(tagaini_gui_kanjidic2 tagaini_gui)
