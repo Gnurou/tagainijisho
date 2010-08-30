@@ -2,7 +2,7 @@ Source: tagainijisho
 Section: misc
 Priority: optional
 Maintainer: Alexandre Courbot <gnurou@gmail.com>
-Build-Depends: debhelper (>= 5), libqt4-dev (>= 4.5), cmake (>= 2.6)
+Build-Depends: debhelper (>= 5), libqt4-dev (>= 4.5), cmake (>= 2.8)
 Standards-Version: 3.7.2
 Homepage: http://www.tagaini.net
 

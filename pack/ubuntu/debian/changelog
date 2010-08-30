@@ -1,3 +1,9 @@
+tagainijisho (0.2.6.2-1ubuntu1) lucid; urgency=low
+
+  * Update to 0.2.6.2.
+
+ -- Alexandre Courbot <gnurou@gmail.com>  Mon, 30 Aug 2010 10:51:34 +0900
+
 tagainijisho (0.2.6-1) lucid; urgency=low
 
   * Update to 0.2.6.
