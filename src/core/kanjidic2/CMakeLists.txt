@@ -13,7 +13,8 @@ Kanjidic2EntrySearcher.h
 )
 
 qt4_wrap_cpp(tagainijisho_core_kanjidic2_MOC_SRCS ${tagainijisho_core_kanjidic2_MOCS})
-add_library(tagaini_core_kanjidic2 STATIC ${tagainijisho_core_kanjidic2_SRCS} ${tagainijisho_core_kanjidic2_MOC_SRCS})
+add_library(tagaini_core_kanjidic2 STATIC ${tagainijisho_core_kanjidic2_MOC_SRCS} ${tagainijisho_core_kanjidic2_SRCS})
+add_dependencies(tagaini_core_kanjidic2 tagaini_core)
 
 # Database builder
 set(QT_USE_QTXML TRUE)

@@ -159,7 +159,7 @@ StudyFilterWidget::StudyFilterWidget(QWidget *parent) : SearchFilterWidget(paren
 //	QGroupBox *entriesBox = new QGroupBox(tr("Study filter"), this);
 	QWidget *entriesBox = new QWidget(this);
 	{
-		allEntriesButton = new QRadioButton(tr("None"), entriesBox);
+		allEntriesButton = new QRadioButton(tr("Any"), entriesBox);
 		allEntriesButton->setChecked(true);
 		connect(allEntriesButton, SIGNAL(toggled(bool)), this, SLOT(onRadioButtonToggled(bool)));
 		studiedEntriesButton = new QRadioButton(tr("Studied"), entriesBox);

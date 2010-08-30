@@ -87,12 +87,13 @@ void PreferencesWindow::applySettings() {
 }
 
 const QList<QPair<QString, QString> > GeneralPreferences::langs = (QList<QPair<QString, QString> >() <<
-	QPair<QString, QString>(QString::fromUtf8("English"), "en") <<
-	QPair<QString, QString>(QString::fromUtf8("Français (French)"), "fr") <<
-	QPair<QString, QString>(QString::fromUtf8("Deutsch (German)"), "de") <<
-	QPair<QString, QString>(QString::fromUtf8("Nederlands (Dutch)"), "nl") <<
-	QPair<QString, QString>(QString::fromUtf8("Русский (Russian)"), "ru") <<
-	QPair<QString, QString>(QString::fromUtf8("Español (Spanish)"), "es")
+	QPair<QString, QString>(QT_TRANSLATE_NOOP("GeneralPreferences", "Czech"), "cs") <<
+	QPair<QString, QString>(QT_TRANSLATE_NOOP("GeneralPreferences", "Dutch"), "nl") <<
+	QPair<QString, QString>(QT_TRANSLATE_NOOP("GeneralPreferences", "English"), "en") <<
+	QPair<QString, QString>(QT_TRANSLATE_NOOP("GeneralPreferences", "French"), "fr") <<
+	QPair<QString, QString>(QT_TRANSLATE_NOOP("GeneralPreferences", "German"), "de") <<
+	QPair<QString, QString>(QT_TRANSLATE_NOOP("GeneralPreferences", "Russian"), "ru") <<
+	QPair<QString, QString>(QT_TRANSLATE_NOOP("GeneralPreferences", "Spanish"), "es")
 	);
 
 GeneralPreferences::GeneralPreferences(QWidget *parent) : PreferencesWindowCategory(tr("General"), parent)
@@ -103,7 +104,9 @@ GeneralPreferences::GeneralPreferences(QWidget *parent) : PreferencesWindowCateg
 	static_cast<QBoxLayout*>(generalGroupBox->layout())->insertWidget(0, fontChooser);
 
 	for (int i = 0; i < langs.size(); i++) {
-		guiLanguage->addItem(QCoreApplication::translate("GeneralPreferences", langs[i].first.toLatin1().constData()));
+		QString transLanguage(QCoreApplication::translate("GeneralPreferences", langs[i].first.toUtf8().constData()));
+		if (transLanguage != langs[i].first) transLanguage += QString(" (%1)").arg(langs[i].first);
+		guiLanguage->addItem(transLanguage);
 		guiLanguage->setItemData(guiLanguage->count() - 1, langs[i].second);
 	}
 
