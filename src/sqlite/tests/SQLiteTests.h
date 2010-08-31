@@ -18,8 +18,8 @@
 #include <QObject>
 #include <QTest>
 
-#include <sqlite/Connection.h>
-#include <sqlite/Query.h>
+#include "sqlite/Connection.h"
+#include "sqlite/Query.h"
 
 #include <QTemporaryFile>
 

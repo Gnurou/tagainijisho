@@ -15,41 +15,12 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "sqlite/Error.h"
-#include "sqlite/Connection.h"
+#include "sqlite/SQLite.h"
 #include "sqlite3.h"
 
 using namespace SQLite;
 
-Error::Error(int code, const QString &message) : _code(code), _message(message)
+const char *version()
 {
-}
-
-Error::Error(const Connection &connection)
-{
-	_code = sqlite3_errcode(connection._handler);
-	_message = sqlite3_errmsg(connection._handler);
-}
-
-bool Error::isError() const
-{
-	switch (_code) {
-	case SQLITE_OK:
-	case SQLITE_DONE:
-	case SQLITE_ROW:
-		return false;
-	default:
-		return true;
-	}
-}
-
-bool Error::isInterrupted() const
-{
-	switch (_code) {
-	case SQLITE_INTERRUPT:
-	case SQLITE_ABORT:
-		return true;
-	default:
-		return false;
-	}
+	return SQLITE_VERSION;
 }

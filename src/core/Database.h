@@ -18,27 +18,24 @@
 #ifndef __CORE_DATABASE_H_
 #define __CORE_DATABASE_H_
 
+#include "sqlite/Connection.h"
+
 #include "core/Paths.h"
 #include "core/Preferences.h"
-
-#include <QThread>
-#include <QtSql>
 
 #include <QString>
 #include <QRegExp>
 #include <QVector>
 #include <QMap>
 #include <QTemporaryFile>
+#include <QDir>
+#include <QCoreApplication>
 
 struct sqlite3;
 
-extern "C" {
-	void register_all_tokenizers(sqlite3 *handler);
-}
-
-class Database : public QThread
+class Database
 {
-	Q_OBJECT
+Q_DECLARE_TR_FUNCTIONS(Database)
 private:
 	static void dbWarning(const QString &message);
 	/// Set to the name of the current user DB file
@@ -48,9 +45,8 @@ private:
 	static QMap<QString, QString> _attachedDBs;
 	static Database *_instance;
 
-	QSqlDatabase database;
-	sqlite3 *sqliteHandler;
-	Database(const QString &userDBFile = QString(), bool temporary = false, QObject *parent = 0);
+	SQLite::Connection _connection;
+	Database(const QString &userDBFile = QString(), bool temporary = false);
 	~Database();
 
 	bool createUserDB();
@@ -60,42 +56,22 @@ private:
 	bool connectToTemporaryDatabase();
 	void closeDB();
 
-private slots:
-	// Synchronous
-	void quit();
-
-protected:
-	void run();
-
 public:
-	static void startThreaded(const QString &userDBFile = QString(), bool temporary = false);
-	static void startUnthreaded(const QString &userDBFile = QString(), bool temporary = false);
+	static void init(const QString &userDBFile = QString(), bool temporary = false);
 	static void stop();
+	static Database *instance() { return _instance; }
+	static SQLite::Connection *connection() { return &_instance->_connection; }
+
 	static const QString &userDBFile() { return _userDBFile; }
 	static const QString defaultDBFile() { return QDir(userProfile()).absoluteFilePath("user.db"); }
 
 	static bool attachDictionaryDB(const QString &file, const QString &alias, int expectedVersion);
 	static bool detachDictionaryDB(const QString &alias);
 	static const QMap<QString, QString> &attachedDBs() { return _attachedDBs; }
-	static Database *instance() { return _instance; }
-	static bool isThreaded();
-	static Qt::ConnectionType aSyncConnection();
 
 	static QVector<QRegExp> staticRegExps;
 
-	// Begin immediate cannot work correctly here because it tries to get a lock on the attached databases, which are read-only
-	//static bool transaction() { bool r = instance->database.exec("BEGIN IMMEDIATE TRANSACTION").isValid(); qDebug() << "T" << r; if (!r) qDebug() << instance->database.lastError().text(); return r; }
-	static bool transaction() { return _instance->database.transaction(); }
-	static bool rollback() { return _instance->database.rollback(); }
-	static bool commit() { return _instance->database.commit(); }
-	static QSqlError lastError() { return _instance->database.lastError(); }
-
-	/**
-	 * Interrupt the running query in the database thread. When this function returns,
-	 * the query is completely stopped.
-	 */
-	static void abortQuery();
-	static void sqliteFix();
+	static const SQLite::Error &lastError() { return _instance->_connection.lastError(); }
 };
 
 #endif

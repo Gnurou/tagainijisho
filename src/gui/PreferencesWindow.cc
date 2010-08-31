@@ -87,12 +87,13 @@ void PreferencesWindow::applySettings() {
 }
 
 const QList<QPair<QString, QString> > GeneralPreferences::langs = (QList<QPair<QString, QString> >() <<
-	QPair<QString, QString>(QString::fromUtf8("English"), "en") <<
-	QPair<QString, QString>(QString::fromUtf8("Français (French)"), "fr") <<
-	QPair<QString, QString>(QString::fromUtf8("Deutsch (German)"), "de") <<
-	QPair<QString, QString>(QString::fromUtf8("Nederlands (Dutch)"), "nl") <<
-	QPair<QString, QString>(QString::fromUtf8("Русский (Russian)"), "ru") <<
-	QPair<QString, QString>(QString::fromUtf8("Español (Spanish)"), "es")
+	QPair<QString, QString>(QT_TRANSLATE_NOOP("GeneralPreferences", "Czech"), "cs") <<
+	QPair<QString, QString>(QT_TRANSLATE_NOOP("GeneralPreferences", "Dutch"), "nl") <<
+	QPair<QString, QString>(QT_TRANSLATE_NOOP("GeneralPreferences", "English"), "en") <<
+	QPair<QString, QString>(QT_TRANSLATE_NOOP("GeneralPreferences", "French"), "fr") <<
+	QPair<QString, QString>(QT_TRANSLATE_NOOP("GeneralPreferences", "German"), "de") <<
+	QPair<QString, QString>(QT_TRANSLATE_NOOP("GeneralPreferences", "Russian"), "ru") <<
+	QPair<QString, QString>(QT_TRANSLATE_NOOP("GeneralPreferences", "Spanish"), "es")
 	);
 
 GeneralPreferences::GeneralPreferences(QWidget *parent) : PreferencesWindowCategory(tr("General"), parent)
@@ -103,7 +104,9 @@ GeneralPreferences::GeneralPreferences(QWidget *parent) : PreferencesWindowCateg
 	static_cast<QBoxLayout*>(generalGroupBox->layout())->insertWidget(0, fontChooser);
 
 	for (int i = 0; i < langs.size(); i++) {
-		guiLanguage->addItem(QCoreApplication::translate("GeneralPreferences", langs[i].first.toLatin1().constData()));
+		QString transLanguage(QCoreApplication::translate("GeneralPreferences", langs[i].first.toUtf8().constData()));
+		if (transLanguage != langs[i].first) transLanguage += QString(" (%1)").arg(langs[i].first);
+		guiLanguage->addItem(transLanguage);
 		guiLanguage->setItemData(guiLanguage->count() - 1, langs[i].second);
 	}
 
@@ -331,7 +334,7 @@ ResultsViewPreferences::ResultsViewPreferences(QWidget *parent) : PreferencesWin
 	_view->setModel(_list);
 	_view->setSelectionMode(QAbstractItemView::ExtendedSelection);
 	EntryPointer ePtr(new ResultsViewPrefsDummyEntry());
-	for (int i = 0; i < 20; i++) _list->addResult(ePtr);
+//	for (int i = 0; i < 20; i++) _list->addResult(ePtr);
 	QVBoxLayout *vLayout = new QVBoxLayout(previewBox);
 	vLayout->addWidget(_view);
 	
@@ -340,7 +343,6 @@ ResultsViewPreferences::ResultsViewPreferences(QWidget *parent) : PreferencesWin
 
 void ResultsViewPreferences::refresh()
 {
-	nbResults->setValue(ResultsList::resultsPerPagePref.value());
 	resultsOrder->setCurrentIndex(EntrySearcherManager::studiedEntriesFirst.value());
 	smoothScrolling->setChecked(ResultsView::smoothScrollingSetting.value());
 
@@ -349,7 +351,6 @@ void ResultsViewPreferences::refresh()
 
 void ResultsViewPreferences::applySettings()
 {
-	ResultsList::resultsPerPagePref.set(nbResults->value());
 	ResultsView::smoothScrollingSetting.set(smoothScrolling->isChecked());
 	EntrySearcherManager::studiedEntriesFirst.set(resultsOrder->currentIndex());
 	
@@ -369,7 +370,7 @@ ListsViewPreferences::ListsViewPreferences(QWidget *parent) : PreferencesWindowC
 	_view->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 	_view->setModel(_list);
 	EntryPointer ePtr(new ResultsViewPrefsDummyEntry());
-	for (int i = 0; i < 20; i++) _list->addResult(ePtr);
+//	for (int i = 0; i < 20; i++) _list->addResult(ePtr);
 	QVBoxLayout *vLayout = new QVBoxLayout(previewBox);
 	vLayout->addWidget(_view);
 

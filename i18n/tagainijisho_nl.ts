@@ -60,7 +60,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="+483"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="+486"/>
         <source>User data</source>
         <translation type="unfinished"></translation>
     </message>
@@ -572,7 +572,7 @@
 <context>
     <name>EntryListModel</name>
     <message>
-        <location filename="../src/core/EntryListModel.cc" line="+206"/>
+        <location filename="../src/core/EntryListModel.cc" line="+212"/>
         <source>New list</source>
         <translation type="unfinished"></translation>
     </message>
@@ -640,11 +640,6 @@
         <location filename="../src/gui/EntryListWidget.ui" line="+14"/>
         <source>Form</source>
         <translation type="unfinished">Formulier</translation>
-    </message>
-    <message>
-        <location line="+9"/>
-        <source>Test test</source>
-        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>...</source>
@@ -918,7 +913,42 @@ improve performance when manipulating a large number of entries.</source>
         <translation type="obsolete">Hoeveel onlangs ingevoerde ingangen in het geheugen bewaard worden. Hogere waarden kunnen de prestatie ten goede komen als zeer veel ingangen bewerkt worden.</translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="-149"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="-160"/>
+        <source>Czech</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Dutch</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>English</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>French</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>German</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Russian</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Spanish</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>General</source>
         <translation>Algemeen</translation>
     </message>
@@ -928,7 +958,7 @@ improve performance when manipulating a large number of entries.</source>
         <translation>Applicatiebreed standaard lettertype</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+10"/>
         <source>Monday</source>
         <translation>Maandag</translation>
     </message>
@@ -2545,7 +2575,7 @@ improve performance when manipulating a large number of entries.</source>
         <translation type="unfinished">Kana</translation>
     </message>
     <message>
-        <location line="+18"/>
+        <location line="+20"/>
         <source>Radical search input</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4096,9 +4126,13 @@ This message is a one-time reminder and will not appear anymore - you can still 
         <translation type="unfinished">Laatst onjuist</translation>
     </message>
     <message>
-        <location line="+34"/>
         <source>None</source>
-        <translation type="unfinished">Geen</translation>
+        <translation type="obsolete">Geen</translation>
+    </message>
+    <message>
+        <location line="+34"/>
+        <source>Any</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+3"/>

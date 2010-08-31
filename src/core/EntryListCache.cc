@@ -16,6 +16,7 @@
  */
 
 #include "EntryListCache.h"
+#include "Database.h"
 
 EntryListCachedEntry::EntryListCachedEntry()
 {
@@ -24,39 +25,39 @@ EntryListCachedEntry::EntryListCachedEntry()
 	_position = -1;
 	_type = -1;
 	_id = -1;
-	QSqlQuery query;
+	SQLite::Query query(Database::connection());
 	query.exec("select count(*) from lists where parent is null");
-	if (query.next()) _count = query.value(0).toInt();
+	if (query.next()) _count = query.valueInt(0);
 	else _count = 0;
 }
 
-EntryListCachedEntry::EntryListCachedEntry(QSqlQuery &query) : _next(0), _prev(0)
+EntryListCachedEntry::EntryListCachedEntry(SQLite::Query &query) : _next(0), _prev(0)
 {
-	_rowId = query.value(0).toULongLong();
-	_parent = query.value(1).toULongLong();
-	_nextId = query.value(2).toULongLong();
-	_type = query.value(3).isNull() ? -1 : query.value(3).toInt();
-	_id = query.value(4).toInt();
-	_label = query.value(5).toString();
+	_rowId = query.valueUInt64(0);
+	_parent = query.valueUInt64(1);
+	_nextId = query.valueUInt64(2);
+	_type = query.valueIsNull(3) ? -1 : query.valueInt(3);
+	_id = query.valueInt(4);
+	_label = query.valueString(5);
 
 	// If the type is a list, get its number of childs
 	if (_type == -1) {
-		QSqlQuery query2;
+		SQLite::Query query2(Database::connection());
 		// TODO cache this!
 		query2.prepare("select count(*) from lists where parent = ?");
-		query2.addBindValue(rowId());
+		query2.bindValue(rowId());
 		query2.exec();
-		if (query2.next()) _count = query2.value(0).toInt();
+		if (query2.next()) _count = query2.valueInt(0);
 	}
 	else _count = 0;
 }
 
 EntryListCachedList::EntryListCachedList(quint64 id) : _dirty(true), _tail(0)
 {
-	QSqlQuery query;
+	SQLite::Query query(Database::connection());
 	// TODO cache this
 	query.prepare("select lists.rowid, parent, next, type, id, label from lists left join listsLabels on lists.rowid == listsLabels.rowid where parent = ?");
-	query.addBindValue(id);
+	query.bindValue(id);
 	query.exec();
 
 	while (query.next()) {
@@ -96,17 +97,28 @@ void EntryListCachedList::rebuildEntriesArray() const
 	_dirty = false;
 }
 
+EntryListCache *EntryListCache::_instance = 0;
+
 EntryListCache::EntryListCache()
 {
-//	getByIdQuery.prepare("select lists.rowid, parent, position, type, id, label from lists left join listsLabels on lists.rowid == listsLabels.rowid where lists.rowid = ?");
-//	getByParentPosQuery.prepare("select lists.rowid, parent, position, type, id, label from lists left join listsLabels on lists.rowid == listsLabels.rowid where lists.parent = ? and position = ?");
-//	getByParentPosRootQuery.prepare("select lists.rowid, parent, position, type, id, label from lists left join listsLabels on lists.rowid == listsLabels.rowid where lists.parent is null and position = ?");
+	//getByIdQuery.useWith(Database::connection());
+	//getByIdQuery.prepare("select lists.rowid, parent, position, type, id, label from lists left join listsLabels on lists.rowid == listsLabels.rowid where lists.rowid = ?");
+	//getByParentPosQuery.useWith(Database::connection());
+	//getByParentPosQuery.prepare("select lists.rowid, parent, position, type, id, label from lists left join listsLabels on lists.rowid == listsLabels.rowid where lists.parent = ? and position = ?");
+	//getByParentPosRootQuery.useWith(Database::connection());
+	//getByParentPosRootQuery.prepare("select lists.rowid, parent, position, type, id, label from lists left join listsLabels on lists.rowid == listsLabels.rowid where lists.parent is null and position = ?");
 }
 
 EntryListCache &EntryListCache::instance()
 {
-	static EntryListCache _instance;
-	return _instance;
+	if (!_instance) _instance = new EntryListCache();
+	return *_instance;
+}
+
+void EntryListCache::cleanup()
+{
+	delete _instance;
+	_instance = 0;
 }
 
 const EntryListCachedEntry &EntryListCache::rootEntry()
@@ -123,13 +135,13 @@ const EntryListCachedEntry &EntryListCache::get(int rowId)
 	if (rowId == 0) return rootEntry();
 	// No entry for this item in the id cache, we must therefore load the list it belongs to
 	if (!rowIdCache.contains(rowId)) {
-		QSqlQuery query;
+		SQLite::Query query(Database::connection());
 		// TODO cache this
 		query.prepare("select parent from lists where rowid = ?");
-		query.addBindValue(rowId);
+		query.bindValue(rowId);
 		query.exec();
 		if (!query.next()) return rootEntry();
-		getList(query.value(0).toULongLong());
+		getList(query.valueUInt64(0));
 	}
 	// Still no hit, we have a problem then
 	if (!rowIdCache.contains(rowId)) return rootEntry();

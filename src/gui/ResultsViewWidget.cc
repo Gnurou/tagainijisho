@@ -17,109 +17,54 @@
 
 #include "gui/ResultsViewWidget.h"
 
-ResultsViewWidget::ResultsViewWidget(QWidget *parent) : QWidget(parent), _results(0), totalResults(-1), showAllResultsTriggered(false)
+ResultsViewWidget::ResultsViewWidget(QWidget *parent) : QWidget(parent), _results(0)
 {
 	setupUi(this);
 	
 	// Search animation
 	static const int searchAnimMinSize = 10;
 	static const int searchAnimMaxSize = 40;
-	int searchAnimSize = showAllResultsButton->height() - 4;
+	int searchAnimSize = nbResultsLabel->size().height() - 4;
 	searchAnimSize = qMin(searchAnimSize, searchAnimMaxSize);
 	searchAnimSize = qMax(searchAnimSize, searchAnimMinSize);
 	searchActiveAnimation->setSize(QSize(searchAnimSize, searchAnimSize));
 	searchActiveAnimation->setBaseImage(":/images/tagainijisho.png");
-	
-	connect(nextPageButton, SIGNAL(clicked()), this, SLOT(nextPage()));
-	connect(previousPageButton, SIGNAL(clicked()), this, SLOT(previousPage()));
-	connect(showAllResultsButton, SIGNAL(clicked()), this, SLOT(scheduleShowAllResults()));
 }
 
 void ResultsViewWidget::setModel(ResultsList *rList)
 {
 	if (_results) {
 		disconnect(searchActiveAnimation, SIGNAL(clicked()), _results, SLOT(abortSearch()));
-		disconnect(_results, SIGNAL(nbResults(unsigned int)), this, SLOT(showNbResults(unsigned int)));
-		disconnect(_results, SIGNAL(queryEnded()), this, SLOT(stopAndResetSearchAnim()));
-		disconnect(_results, SIGNAL(queryEnded()), this, SLOT(onSearchEnded()));
-		disconnect(_results, SIGNAL(queryStarted()), searchActiveAnimation, SLOT(start()));
+		disconnect(_results, SIGNAL(rowsRemoved(QModelIndex, int, int)), this, SLOT(updateResultsCount()));
+		disconnect(_results, SIGNAL(queryEnded()), this, SLOT(onSearchFinished()));
 		disconnect(_results, SIGNAL(queryStarted()), this, SLOT(onSearchStarted()));
-		disconnect(_results, SIGNAL(newSearch()), this, SLOT(onNewSearch()));
-		disconnect(_results, SIGNAL(rowsInserted(const QModelIndex &, int, int)), this, SLOT(updateNbResultsDisplay()));
 	}
 	_results = rList;
 	if (_results) {
-		connect(_results, SIGNAL(rowsInserted(const QModelIndex &, int, int)), this, SLOT(updateNbResultsDisplay()));
-		connect(_results, SIGNAL(newSearch()), this, SLOT(onNewSearch()));
 		connect(_results, SIGNAL(queryStarted()), this, SLOT(onSearchStarted()));
-		connect(_results, SIGNAL(queryStarted()), searchActiveAnimation, SLOT(start()));
-		connect(_results, SIGNAL(queryEnded()), this, SLOT(onSearchEnded()));
-		connect(_results, SIGNAL(queryEnded()), this, SLOT(stopAndResetSearchAnim()));
-		connect(_results, SIGNAL(nbResults(unsigned int)), this, SLOT(showNbResults(unsigned int)));
+		connect(_results, SIGNAL(queryEnded()), this, SLOT(onSearchFinished()));
+		connect(_results, SIGNAL(rowsRemoved(QModelIndex, int, int)), this, SLOT(updateResultsCount()));
 		connect(searchActiveAnimation, SIGNAL(clicked()), _results, SLOT(abortSearch()));
 	}
 	_resultsView->setModel(rList);
 }
 
-void ResultsViewWidget::stopAndResetSearchAnim()
+void ResultsViewWidget::onSearchStarted()
+{
+	searchActiveAnimation->start();
+	updateResultsCount();
+}
+
+void ResultsViewWidget::onSearchFinished()
 {
 	searchActiveAnimation->stop();
 	searchActiveAnimation->jumpToFrame(0);
+	updateResultsCount();
 }
 
-void ResultsViewWidget::onNewSearch()
+void ResultsViewWidget::updateResultsCount()
 {
-	totalResults = -1;
-	showAllResultsTriggered = false;
-}
-
-void ResultsViewWidget::onSearchStarted()
-{
-	updateNbResultsDisplay();
-	updateNavigationButtons();
-}
-
-void ResultsViewWidget::onSearchEnded()
-{
-	updateNavigationButtons();
-}
-
-void ResultsViewWidget::nextPage()
-{
-	_results->nextPage();
-}
-
-void ResultsViewWidget::previousPage()
-{
-	_results->previousPage();
-}
-
-void ResultsViewWidget::scheduleShowAllResults()
-{
-	showAllResultsTriggered = true;
-	showAllResultsButton->setEnabled(false);
-	nextPageButton->setEnabled(false);
-	previousPageButton->setEnabled(false);
-	_results->scheduleShowAllResults();
-}
-
-void ResultsViewWidget::showNbResults(unsigned int nbResults)
-{
-	totalResults = nbResults;
-	updateNbResultsDisplay();
-	updateNavigationButtons();
-}
-
-void ResultsViewWidget::updateNavigationButtons()
-{
-	nextPageButton->setEnabled(_results->queryActive() && !showAllResultsTriggered && (totalResults > (_results->pageNbr() * _results->resultsPerPage()) + _results->nbResults()));
-	previousPageButton->setEnabled(_results->queryActive() && !showAllResultsTriggered && _results->pageNbr() > 0);
-	showAllResultsButton->setEnabled(_results->queryActive() && !showAllResultsTriggered && (totalResults == -1 || totalResults > _results->nbResults()));
-}
-
-
-void ResultsViewWidget::updateNbResultsDisplay()
-{
-	if (_results->nbResults() == 0) nbResultsLabel->clear();
-	else nbResultsLabel->setText(QString(tr("Results %1 - %2 of %3")).arg(_results->nbResults() > 0 || _results->pageNbr() > 0 ? QString::number(_results->pageNbr() * _results->resultsPerPage() + 1) : "0").arg(QString::number(_results->pageNbr() * _results->resultsPerPage() + _results->nbResults())).arg(totalResults > -1 ? QString::number(totalResults) : QString("??")));
+	int nbResults = _resultsView->model()->rowCount();
+	if (nbResults == 0) nbResultsLabel->clear();
+	else nbResultsLabel->setText(QString(tr("%1 Results")).arg(nbResults));
 }

@@ -18,17 +18,14 @@
 #include "core/EntriesCache.h"
 #include "core/ASyncEntryLoader.h"
 
-#include <QSqlRecord>
-
-ASyncEntryLoader::ASyncEntryLoader(DatabaseThread *dbConn) : ASyncQuery(dbConn)
+ASyncEntryLoader::ASyncEntryLoader(DatabaseThread *dbConn) : ASyncEntryFinder(dbConn)
 {
-	connect(this, SIGNAL(result(const QSqlRecord &)), this, SLOT(_loadEntry(const QSqlRecord &)));
+	connect(this, SIGNAL(result(EntryRef)), this, SLOT(_loadEntry(EntryRef)));
 }
 
-void ASyncEntryLoader::_loadEntry(const QSqlRecord &record)
+void ASyncEntryLoader::_loadEntry(const EntryRef &ref)
 {
-	EntryPointer entry = EntryRef(record.value(0).toInt(), record.value(1).toInt()).get();
-	emit result(entry);
+	emit result(ref.get());
 }
 
 ASyncEntryLoader::~ASyncEntryLoader()

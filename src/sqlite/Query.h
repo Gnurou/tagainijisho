@@ -30,7 +30,7 @@ typedef enum { None, Null, Integer, Float, String, Blob } Type;
 
 /**
  * A lightweight Qt/SQLite query wrapper class that provides an interface
- * similar to that of QSqlQuery but does not require QtSql.
+ * similar to that of SQLite::Query but does not require QtSql.
  */
 class Query
 {
@@ -38,14 +38,15 @@ friend class Connection;
 private:
 	sqlite3_stmt *_stmt;
 	Connection *_connection;
-	enum { INVALID, BLANK, PREPARED, RUN, FIRSTRES, DONE, ERROR } _state;
+	Error _lastError;
+	enum { INVALID, ERROR, BLANK, PREPARED, RUN, FIRSTRES } _state;
 	quint8 _bindIndex;
 
 	/// Copy is forbidden
 	Query &operator =(const Query &query);
 
 	bool checkBind(int &col);
-	bool checkBindRes(const int res);
+	bool checkBindRes();
 
 public:
 	/**
@@ -66,6 +67,7 @@ public:
 	bool exec();
 	bool exec(const QString &query);
 
+	bool bindValue(const bool val, int col = 0);
 	bool bindValue(const qint32 val, int col = 0);
 	bool bindValue(const quint32 val, int col = 0);
 	bool bindValue(const qint64 val, int col = 0);
@@ -76,11 +78,14 @@ public:
 	bool bindNullValue(int col = 0);
 	
 	bool next();
-	bool seek(int index, bool relative = false);
 	qint64 lastInsertId() const;
 
+	/// Returns the number of columns in a results row, or
+	/// 0 if the statement does not yield any result.
+	int columnsCount() const;
 	bool valueAvailable(int column) const;
 	Type valueType(int column) const;
+	bool valueBool(int column) const;
 	qint32 valueInt(int column) const;
 	quint32 valueUInt(int column) const;
 	qint64 valueInt64(int column) const;
@@ -92,9 +97,10 @@ public:
 
 	void clear();
 
-	const Error &lastError() const;
+	const Error &lastError() const { return _lastError; }
+	QString queryText() const;
 };
-	
+
 }
 
 #endif

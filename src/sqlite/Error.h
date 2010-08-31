@@ -27,19 +27,22 @@ class Connection;
 class Error
 {
 friend class Connection;
+friend class Query;
 private:
-	bool _isError;
+	int _code;
+
 	QString _message;
 
-	Error() : _isError(false) {}
-	Error(const QString &message);
+	Error() : _code(0) {}
+	Error(int code, const QString &message);
 	Error(const Connection &connection);
 public:
+	int code() const { return _code; }
 	const QString &message() const { return _message; }
-	bool isError() const { return _isError; }
+	bool isError() const;
+	bool isInterrupted() const;
 };
 
 }
 
 #endif
-

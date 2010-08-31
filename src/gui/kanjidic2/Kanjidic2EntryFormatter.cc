@@ -19,6 +19,7 @@
 #include "core/TextTools.h"
 #include "gui/kanjidic2/Kanjidic2EntryFormatter.h"
 
+#include "core/Database.h"
 #include "core/jmdict/JMdictEntry.h"
 #include "core/jmdict/JMdictEntrySearcher.h"
 #include "core/jmdict/JMdictPlugin.h"
@@ -271,11 +272,11 @@ void Kanjidic2EntryFormatter::drawCustom(const ConstKanjidic2EntryPointer& entry
 
 	// Now display words using this kanji
 	if (maxWordsToPrint) {
-		QSqlQuery query;
+		SQLite::Query query(Database::connection());
 		query.exec(getQueryUsedInWordsSql(entry->id(), maxWordsToPrint, printOnlyStudiedVocab));
 		painter.setFont(textFont);
 		while (query.next()) {
-			ConstJMdictEntryPointer jmEntry(JMdictEntryRef(query.value(1).toInt()).get());
+			ConstJMdictEntryPointer jmEntry(JMdictEntryRef(query.valueInt(1)).get());
 
 			QString str = QFontMetrics(painter.font(), painter.device()).elidedText(jmEntry->shortVersion(Entry::TinyVersion), Qt::ElideRight, rightArea.width());
 			textBB = painter.boundingRect(rightArea, Qt::AlignLeft, str);
@@ -495,14 +496,14 @@ QString Kanjidic2EntryFormatter::formatVariations(const ConstEntryPointer &_entr
 {
 	if (showVariations.value()) {
 		ConstKanjidic2EntryPointer entry(_entry.staticCast<const Kanjidic2Entry>());
-		QSqlQuery query;
+		SQLite::Query query(Database::connection());
 		query.prepare("select distinct element from kanjidic2.strokeGroups where original = ?");
-		query.addBindValue(entry->id());
+		query.bindValue(entry->id());
 		query.exec();
 		QList<EntryPointer> entries;
 		QStringList formats;
 		while (query.next()) {
-			ConstKanjidic2EntryPointer kEntry(KanjiEntryRef(query.value(0).toUInt()).get());
+			ConstKanjidic2EntryPointer kEntry(KanjiEntryRef(query.valueUInt(0)).get());
 			formats << entryTitle(kEntry);
 		}
 		if (!formats.isEmpty()) {

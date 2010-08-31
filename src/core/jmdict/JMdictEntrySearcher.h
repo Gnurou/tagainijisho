@@ -21,7 +21,6 @@
 #include <QVector>
 #include <QMap>
 
-#include "core/Database.h"
 #include "core/EntrySearcher.h"
 #include "core/jmdict/JMdictEntry.h"
 
@@ -33,7 +32,7 @@ private:
 	static quint64 _explicitlyRequestedMiscs;
 
 protected:
-	QSqlQuery kanjiQuery, kanaQuery, sensesQuery, glossQuery, jlptQuery;
+	SQLite::Query kanjiQuery, kanaQuery, sensesQuery, glossQuery, jlptQuery;
 
 protected slots:
 	void updateMiscFilterMask();

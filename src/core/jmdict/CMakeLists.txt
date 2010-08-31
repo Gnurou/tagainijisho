@@ -1,5 +1,4 @@
 # JMdict core
-set(QT_USE_QTSQL TRUE)
 set(QT_DONT_USE_QTGUI TRUE)
 
 set(tagainijisho_core_jmdict_SRCS
@@ -14,7 +13,8 @@ JMdictEntrySearcher.h
 )
 
 qt4_wrap_cpp(tagainijisho_core_jmdict_MOC_SRCS ${tagainijisho_core_jmdict_MOCS})
-add_library(tagaini_core_jmdict STATIC ${tagainijisho_core_jmdict_SRCS} ${tagainijisho_core_jmdict_MOC_SRCS})
+add_library(tagaini_core_jmdict STATIC ${tagainijisho_core_jmdict_MOC_SRCS} ${tagainijisho_core_jmdict_SRCS})
+add_dependencies(tagaini_core_jmdict tagaini_core)
 
 # Database builder
 set(QT_USE_QTXML TRUE)
@@ -26,7 +26,7 @@ BuildJMdictDB.cc
 
 include(${QT_USE_FILE})
 add_executable(build_jmdict_db EXCLUDE_FROM_ALL ${build_jmdict_db_SRCS})
-target_link_libraries(build_jmdict_db tagaini_newsqlite ${QT_LIBRARIES})
+target_link_libraries(build_jmdict_db tagaini_sqlite ${QT_LIBRARIES})
 if (APPLE)
 	set(extra_link_flags "-bind_at_load")
 endif()
