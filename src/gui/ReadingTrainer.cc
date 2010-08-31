@@ -16,6 +16,7 @@
  */
 
 #include "core/TextTools.h"
+#include "core/Database.h"
 #include "core/RelativeDate.h"
 #include "core/Entry.h"
 #include "core/EntriesCache.h"
@@ -33,7 +34,7 @@
 PreferenceItem<QByteArray> ReadingTrainer::windowGeometry("readingTrainWindow", "geometry", "");
 PreferenceItem<bool> ReadingTrainer::showMeaning("readingTrainWindow", "showMeaning", true);
 
-ReadingTrainer::ReadingTrainer(QWidget *parent) : QFrame(parent), _goodCount(0), _wrongCount(0), _totalCount(0)
+ReadingTrainer::ReadingTrainer(QWidget *parent) : QFrame(parent), _goodCount(0), _wrongCount(0), _totalCount(0), query(Database::connection())
 {
 	ui.setupUi(this);
 	setWindowTitle(tr("Reading practice"));
@@ -109,7 +110,7 @@ void ReadingTrainer::train()
 	}
 
 	if (query.next()) {
-		entry = JMdictEntryRef(query.value(0).toInt()).get();
+		entry = JMdictEntryRef(query.valueInt(0)).get();
 		ui.writingLabel->setText(entry->writings()[0]);
 		if (_showMeaning->isChecked()) {
 			ui.detailedView->detailedView()->setKanjiClickable(false);

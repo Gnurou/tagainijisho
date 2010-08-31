@@ -20,10 +20,7 @@
 
 #include "core/EntriesCache.h"
 
-#include <QSqlQuery>
-#include <QMap>
-#include <QVector>
-#include <QHash>
+#include "sqlite/Query.h"
 
 /**
  * Represents an item within the entries list. A list item
@@ -61,7 +58,7 @@ private:
 	 * It is the responsability of the caller to then set _position
 	 * correctly.
 	 */
-	EntryListCachedEntry(QSqlQuery &query);
+	EntryListCachedEntry(SQLite::Query &query);
 
 public:
 	/// For root entry
@@ -130,6 +127,8 @@ friend class EntryListCache;
  */
 class EntryListCache {
 private:
+	static EntryListCache *_instance;
+
 	EntryListCache();
 
 	QMap<quint64, EntryListCachedList> _cachedLists;
@@ -140,10 +139,17 @@ private:
 	const EntryListCachedList & getList(quint64 id);
 	const EntryListCachedEntry &rootEntry();
 
+	SQLite::Query getByIdQuery;
+	SQLite::Query getByParentPosQuery;
+	SQLite::Query getByParentPosRootQuery;
+
 public:
 	/// Returns a reference to the unique instance of this class.
 	static EntryListCache &instance();
-	
+	/// Clears all resources used by the cache. instance() can be called
+	/// again in order to allocate a new one.
+	static void cleanup();
+
 	/// Returns the entry with the corresponding rowid, or the root
 	/// entry if it does not exist.
 	const EntryListCachedEntry& get(int rowId);

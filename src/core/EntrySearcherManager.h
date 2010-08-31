@@ -18,6 +18,7 @@
 #ifndef __CORE_ENTRY_SEARCHER_MANAGER_H_
 #define __CORE_ENTRY_SEARCHER_MANAGER_H_
 
+#include "core/Preferences.h"
 #include "core/EntrySearcher.h"
 #include "core/QueryBuilder.h"
 

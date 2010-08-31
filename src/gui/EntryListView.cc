@@ -156,7 +156,7 @@ void EntryListView::deleteSelectedItems()
 		if (!index.isValid()) continue;
 		if (!model()->removeRow(index.row(), index.parent())) success = false;
 	}
-	if (!success) QMessageBox::information(this, tr("Removal failed"), tr("A database error has occured while trying to remove the selected items:\n\n%1\n\n Some of them may be remaining.").arg(Database::lastError().text()));
+	if (!success) QMessageBox::information(this, tr("Removal failed"), tr("A database error has occured while trying to remove the selected items:\n\n%1\n\n Some of them may be remaining.").arg(Database::lastError().message()));
 }
 
 void EntryListView::setSelectedAsRoot()

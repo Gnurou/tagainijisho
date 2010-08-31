@@ -161,6 +161,7 @@ void KanjiRenderer::setKanji(ConstKanjidic2EntryPointer kanji)
 		_strokesMap.insert(&stroke, &_strokes.last());
 	}
 	// Center the character horizontally if we are treating a kana
+#if QT_VERSION >= 0x040600
 	if (TextTools::isKana(kanji->kanji())) {
 		QRectF bbox;
 		foreach (const Stroke &stroke, _strokes) {
@@ -172,6 +173,7 @@ void KanjiRenderer::setKanji(ConstKanjidic2EntryPointer kanji)
 			stroke->_painterPath.translate(translatePoint.x(), 0);
 		}
 	}
+#endif
 }
 
 void KanjiRenderer::renderStrokes(QPainter *painter)

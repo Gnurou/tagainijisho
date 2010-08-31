@@ -17,8 +17,10 @@
 
 #include "StudyFilterWidget.h"
 
+#include "sqlite/Query.h"
+#include "core/Database.h"
+
 #include <QGridLayout>
-#include <QSqlQuery>
 #include <QLabel>
 
 StudyFilterWidget::StudyFilterWidget(QWidget *parent) : SearchFilterWidget(parent)
@@ -69,14 +71,14 @@ StudyFilterWidget::StudyFilterWidget(QWidget *parent) : SearchFilterWidget(paren
 	connect(studyBox, SIGNAL(toggled(bool)), this, SLOT(commandUpdate()));
 	{
 		QDate infDate, supDate;
-		QSqlQuery query;
+		SQLite::Query query(Database::connection());
 		query.exec("select min(dateAdded) from training");
 		if (query.next()) {
-			infDate = QDateTime::fromTime_t(query.value(0).toUInt()).date();
+			infDate = QDateTime::fromTime_t(query.valueUInt(0)).date();
 		}
 		query.exec("select max(dateAdded) from training");
 		if (query.next()) {
-			supDate = QDateTime::fromTime_t(query.value(0).toUInt()).date();
+			supDate = QDateTime::fromTime_t(query.valueUInt(0)).date();
 		}
 
 		_studyMinDate = new RelativeDateEdit(studyBox);
@@ -99,14 +101,14 @@ StudyFilterWidget::StudyFilterWidget(QWidget *parent) : SearchFilterWidget(paren
 	connect(trainBox, SIGNAL(toggled(bool)), this, SLOT(commandUpdate()));
 	{
 		QDate infDate, supDate;
-		QSqlQuery query;
+		SQLite::Query query(Database::connection());
 		query.exec("select min(dateAdded) from training");
 		if (query.next()) {
-			infDate = QDateTime::fromTime_t(query.value(0).toUInt()).date();
+			infDate = QDateTime::fromTime_t(query.valueUInt(0)).date();
 		}
 		query.exec("select max(dateAdded) from training");
 		if (query.next()) {
-			supDate = QDateTime::fromTime_t(query.value(0).toUInt()).date();
+			supDate = QDateTime::fromTime_t(query.valueUInt(0)).date();
 		}
 
 		_trainMinDate = new RelativeDateEdit(trainBox);
@@ -129,14 +131,14 @@ StudyFilterWidget::StudyFilterWidget(QWidget *parent) : SearchFilterWidget(paren
 	connect(mistakeBox, SIGNAL(toggled(bool)), this, SLOT(commandUpdate()));
 	{
 		QDate infDate, supDate;
-		QSqlQuery query;
+		SQLite::Query query(Database::connection());
 		query.exec("select min(date) from trainingLog where result=0");
 		if (query.next()) {
-			infDate = QDateTime::fromTime_t(query.value(0).toUInt()).date();
+			infDate = QDateTime::fromTime_t(query.valueUInt(0)).date();
 		}
 		query.exec("select max(date) from trainingLog where result=0");
 		if (query.next()) {
-			supDate = QDateTime::fromTime_t(query.value(0).toUInt()).date();
+			supDate = QDateTime::fromTime_t(query.valueUInt(0)).date();
 		}
 
 		_mistakenMinDate = new RelativeDateEdit(mistakeBox);
@@ -157,7 +159,7 @@ StudyFilterWidget::StudyFilterWidget(QWidget *parent) : SearchFilterWidget(paren
 //	QGroupBox *entriesBox = new QGroupBox(tr("Study filter"), this);
 	QWidget *entriesBox = new QWidget(this);
 	{
-		allEntriesButton = new QRadioButton(tr("None"), entriesBox);
+		allEntriesButton = new QRadioButton(tr("Any"), entriesBox);
 		allEntriesButton->setChecked(true);
 		connect(allEntriesButton, SIGNAL(toggled(bool)), this, SLOT(onRadioButtonToggled(bool)));
 		studiedEntriesButton = new QRadioButton(tr("Studied"), entriesBox);

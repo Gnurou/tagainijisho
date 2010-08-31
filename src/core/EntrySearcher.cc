@@ -16,6 +16,7 @@
  */
 
 #include "core/Tag.h"
+#include "core/Database.h"
 #include "core/RelativeDate.h"
 #include "core/EntrySearcher.h"
 
@@ -26,6 +27,10 @@
 
 EntrySearcher::EntrySearcher(QObject *parent) : QObject(parent), commandMatch(SearchCommand::commandMatch().pattern())
 {
+	if (!connection.connect(Database::userDBFile())) {
+		qFatal("EntrySearcher cannot connect to user database!");
+	}
+
 	QueryBuilder::Join::addTablePriority("training", -100);
 	QueryBuilder::Join::addTablePriority("notes", -40);
 	QueryBuilder::Join::addTablePriority("notesText", -45);
@@ -165,55 +170,56 @@ bool EntrySearcher::searchToCommands(const QStringList &searches, QList<SearchCo
 	return true;
 }
 
-static QDateTime variantToDate(const QVariant &variant)
+static QDateTime variantToDate(const SQLite::Query &query, int col)
 {
-	if (variant.isNull()) return QDateTime();
-	else return QDateTime::fromTime_t(variant.toUInt());
+	if (query.valueType(col) == SQLite::Integer)
+		return QDateTime::fromTime_t(query.valueUInt64(col));
+	else return QDateTime();
 }
 
 void EntrySearcher::loadMiscData(Entry *entry)
 {
-	QSqlQuery query;
+	SQLite::Query query(&connection);
 
 	// Load training data
 	query.prepare("select dateAdded, dateLastTrain, nbTrained, nbSuccess, dateLastMistake, score from training where type = ? and id = ?");
-	query.addBindValue(entry->type());
-	query.addBindValue(entry->id());
+	query.bindValue(entry->type());
+	query.bindValue(entry->id());
 	query.exec();
 	// The entry is registered, so lets load its data
 	if (query.next()) {
-		entry->setDateAdded(variantToDate(query.value(0)));
-		entry->setDateLastTrained(variantToDate(query.value(1)));
-		entry->setNbTrained(query.value(2).toInt());
-		entry->setNbSuccess(query.value(3).toInt());
-		entry->setDateLastMistake(variantToDate(query.value(4)));
-		entry->_score = query.value(5).toInt();
+		entry->setDateAdded(variantToDate(query, 0));
+		entry->setDateLastTrained(variantToDate(query, 1));
+		entry->setNbTrained(query.valueInt(2));
+		entry->setNbSuccess(query.valueInt(3));
+		entry->setDateLastMistake(variantToDate(query, 4));
+		entry->_score = query.valueInt(5);
 	}
 
 	// Tags data
 	query.prepare("select tagId from taggedEntries where type = ? and id = ? order by date");
-	query.addBindValue(entry->type());
-	query.addBindValue(entry->id());
+	query.bindValue(entry->type());
+	query.bindValue(entry->id());
 	query.exec();
 	while (query.next())
-		entry->_tags << Tag::getTag(query.value(0).toUInt());
+		entry->_tags << Tag::getTag(query.valueUInt(0));
 
 	// Notes data
 	query.prepare("select noteId, dateAdded, dateLastChange, note from notes join notesText on notes.noteId == notesText.docid where type = ? and id = ? order by dateAdded ASC, noteId ASC");
-	query.addBindValue(entry->type());
-	query.addBindValue(entry->id());
+	query.bindValue(entry->type());
+	query.bindValue(entry->id());
 	query.exec();
 	while (query.next()) {
-		entry->_notes << Entry::Note(query.value(0).toInt(), QDateTime::fromTime_t(query.value(1).toInt()), QDateTime::fromTime_t(query.value(2).toInt()), query.value(3).toString());
+		entry->_notes << Entry::Note(query.valueInt(0), QDateTime::fromTime_t(query.valueInt(1)), QDateTime::fromTime_t(query.valueInt(2)), query.valueString(3));
 	}
 	
 	// Lists data
 	query.prepare("select lists.rowid, listsLabels.label from lists join listsLabels on lists.parent = listsLabels.rowid where lists.type = ? and lists.id = ?");
-	query.addBindValue(entry->type());
-	query.addBindValue(entry->id());
+	query.bindValue(entry->type());
+	query.bindValue(entry->id());
 	query.exec();
 	while (query.next()) {
-		entry->_lists << query.value(0).toUInt();
+		entry->_lists << query.valueUInt(0);
 	}
 }
 

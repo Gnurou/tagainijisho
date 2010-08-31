@@ -39,32 +39,25 @@ Query::~Query()
 
 void Query::useWith(Connection *connection)
 {
-	if (_stmt) {
-		sqlite3_finalize(_stmt);
-		_stmt = 0;
-	}
+	clear();
 	_connection = connection;
-	_bindIndex = 0;
 	if (connection) _state = BLANK;
-	else _state = INVALID;
 }
 
 bool Query::prepare(const QString &statement)
 {
 	if (!_connection) return false;
-	if (_stmt) {
-		sqlite3_finalize(_stmt);
-		_stmt = 0;
-	}
+	clear();
 
+	sqlite3_mutex_enter(sqlite3_db_mutex(_connection->_handler));
 	int res = sqlite3_prepare_v2(_connection->_handler, statement.toUtf8().data(), -1, &_stmt, 0);
+	_lastError = _connection->updateError();
+	sqlite3_mutex_leave(sqlite3_db_mutex(_connection->_handler));
 	if (res != SQLITE_OK) {
-		_connection->getError();
 		_state = ERROR;
 		return false;
 	}
 	_state = PREPARED;
-	_bindIndex = 0;
 	return true;
 }
 
@@ -75,25 +68,27 @@ bool Query::checkBind(int &col)
 	if (col == 0) col = ++_bindIndex;
 	else _bindIndex = col;
 
+	sqlite3_mutex_enter(sqlite3_db_mutex(_connection->_handler));
 	return true;
 }
 
-bool Query::checkBindRes(const int ret)
+bool Query::checkBindRes()
 {
-	if (ret != SQLITE_OK) {
-		_connection->getError();
+	 _lastError = _connection->updateError();
+	if (_lastError.code() != SQLITE_OK) {
 		_state = ERROR;
+		sqlite3_mutex_leave(sqlite3_db_mutex(_connection->_handler));
 		return false;
 	}
-	else _connection->noError();
+	sqlite3_mutex_leave(sqlite3_db_mutex(_connection->_handler));
 	return true;
 }
 
 bool Query::bindValue(const qint32 val, int col)
 {
 	if (!checkBind(col)) return false;
-	int ret = sqlite3_bind_int(_stmt, col, val);
-	return checkBindRes(ret);
+	sqlite3_bind_int(_stmt, col, val);
+	return checkBindRes();
 }
 
 bool Query::bindValue(const quint32 val, int col)
@@ -101,11 +96,16 @@ bool Query::bindValue(const quint32 val, int col)
 	return bindValue((qint32)val, col);
 }
 
+bool Query::bindValue(const bool val, int col)
+{
+	return bindValue((qint32)val, col);
+}
+
 bool Query::bindValue(const qint64 val, int col)
 {
 	if (!checkBind(col)) return false;
-	int ret = sqlite3_bind_int64(_stmt, col, val);
-	return checkBindRes(ret);
+	sqlite3_bind_int64(_stmt, col, val);
+	return checkBindRes();
 }
 
 bool Query::bindValue(const quint64 val, int col)
@@ -116,46 +116,52 @@ bool Query::bindValue(const quint64 val, int col)
 bool Query::bindValue(const double val, int col)
 {
 	if (!checkBind(col)) return false;
-	int ret = sqlite3_bind_double(_stmt, col, val);
-	return checkBindRes(ret);
+	sqlite3_bind_double(_stmt, col, val);
+	return checkBindRes();
 }
 
 bool Query::bindValue(const QString &val, int col)
 {
 	if (!checkBind(col)) return false;
-	int ret = sqlite3_bind_text(_stmt, col,
+	sqlite3_bind_text(_stmt, col,
 		val.toUtf8().data(), -1, SQLITE_TRANSIENT);
-	return checkBindRes(ret);
+	return checkBindRes();
 }
 
 bool Query::bindValue(const QByteArray &val, int col)
 {
 	if (!checkBind(col)) return false;
-	int ret = sqlite3_bind_blob(_stmt, col,
+	sqlite3_bind_blob(_stmt, col,
 		val.data(), val.length(), SQLITE_TRANSIENT);
-	return checkBindRes(ret);
+	return checkBindRes();
 }
 
 bool Query::bindNullValue(int col)
 {
 	if (!checkBind(col)) return false;
-	int ret = sqlite3_bind_null(_stmt, col);
-	return checkBindRes(ret);
+	sqlite3_bind_null(_stmt, col);
+	return checkBindRes();
 }
 
 void Query::reset()
 {
-	if (!_stmt) return;
-	sqlite3_reset(_stmt);
-	_state = PREPARED;
 	_bindIndex = 0;
+	if (!_stmt) return;
+	sqlite3_mutex_enter(sqlite3_db_mutex(_connection->_handler));
+	sqlite3_reset(_stmt);
+	_lastError = _connection->updateError();
+	sqlite3_mutex_leave(sqlite3_db_mutex(_connection->_handler));
+	_state = PREPARED;
 }
 
 bool Query::exec()
 {
 	if (_state != PREPARED) return false;
-	int res;
-	switch ((res = sqlite3_step(_stmt))) {
+	sqlite3_mutex_enter(sqlite3_db_mutex(_connection->_handler));
+	sqlite3_step(_stmt);
+	_lastError = _connection->updateError();
+	sqlite3_mutex_leave(sqlite3_db_mutex(_connection->_handler));
+	switch (_lastError.code()) {
 	case SQLITE_ROW:
 		_state = FIRSTRES;
 		return true;
@@ -163,7 +169,6 @@ bool Query::exec()
 		reset();
 		return true;
 	default:
-		_connection->getError();
 		_state = ERROR;
 		return false;
 	}
@@ -171,20 +176,22 @@ bool Query::exec()
 
 bool Query::next()
 {
-	int res;
 	switch (_state) {
 	case FIRSTRES:
 		_state = RUN;
 		return true;
 	case RUN:
-		switch ((res = sqlite3_step(_stmt))) {
+		sqlite3_mutex_enter(sqlite3_db_mutex(_connection->_handler));
+		sqlite3_step(_stmt);
+		_lastError = _connection->updateError();
+		sqlite3_mutex_leave(sqlite3_db_mutex(_connection->_handler));
+		switch (_lastError.code()) {
 		case SQLITE_ROW:
 			return true;
 		case SQLITE_DONE:
 			reset();
 			return false;
 		default:
-			_connection->getError();
 			_state = ERROR;
 			return false;
 		}
@@ -199,11 +206,6 @@ bool Query::exec(const QString &query)
 	return exec();
 }
 
-bool Query::seek(int index, bool relative)
-{
-	return false;
-}
-
 qint64 Query::lastInsertId() const
 {
 	if (!_stmt) return 0;
@@ -213,7 +215,12 @@ qint64 Query::lastInsertId() const
 
 bool Query::valueAvailable(int column) const
 {
-	return (_state == RUN && column < sqlite3_column_count(_stmt));
+	return (_state == RUN && column < columnsCount());
+}
+
+int Query::columnsCount() const
+{
+	return sqlite3_column_count(_stmt);
 }
 
 Type Query::valueType(int column) const
@@ -234,6 +241,11 @@ Type Query::valueType(int column) const
 	default:
 		return None;
 	}
+}
+
+bool Query::valueBool(int column) const
+{
+	return (bool)valueInt(column);
 }
 
 qint32 Query::valueInt(int column) const
@@ -276,8 +288,21 @@ bool Query::valueIsNull(int column) const
 	return valueType(column) == Null;
 }
 
-const Error &Query::lastError() const
+void Query::clear()
 {
-	return _connection->lastError();
+	if (_stmt) {
+		sqlite3_mutex_enter(sqlite3_db_mutex(_connection->_handler));
+		sqlite3_finalize(_stmt);
+		_lastError = _connection->updateError();
+		sqlite3_mutex_leave(sqlite3_db_mutex(_connection->_handler));
+		_stmt = 0;
+	}
+	_state = INVALID;
+	_bindIndex = 0;
 }
 
+QString Query::queryText() const
+{
+	if (_state >= PREPARED) return sqlite3_sql(_stmt);
+	else return QString();
+}

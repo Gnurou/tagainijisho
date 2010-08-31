@@ -1,5 +1,14 @@
-0.2.x.x released on
+0. released on
 * JMdict entities translated again
+* Custom SQLite backend, removes dependency on QtSql
+* Entries of the results view now loaded on-demand, resulting in much
+  faster searches
+* Results view not paged anymore
+
+0.2.6.2 released on 2010/08/30
+* Really fixed bug of kana selector always appearing on startup
+* JMdict entities were not translated
+* Added Czech translation (thanks Pavel Fric!)
 
 0.2.6.1 released on 2010/08/19
 * Fixed bug of kana selector always appearing on startup

@@ -1,5 +1,5 @@
 /*
- *  Copyright (C) 2010  Alexandre Courbot
+ *  Copyright (C) 2008  Alexandre Courbot
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -15,41 +15,20 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "sqlite/Error.h"
-#include "sqlite/Connection.h"
-#include "sqlite3.h"
+#include "core/EntriesCache.h"
+#include "core/ASyncEntryFinder.h"
 
-using namespace SQLite;
+ASyncEntryFinder::ASyncEntryFinder(DatabaseThread *dbConn) : ASyncQuery(dbConn)
+{
+	connect(this, SIGNAL(result(const QList<QVariant> &)), this, SLOT(_loadEntry(const QList<QVariant> &)));
+}
 
-Error::Error(int code, const QString &message) : _code(code), _message(message)
+ASyncEntryFinder::~ASyncEntryFinder()
 {
 }
 
-Error::Error(const Connection &connection)
+void ASyncEntryFinder::_loadEntry(const QList<QVariant> &record)
 {
-	_code = sqlite3_errcode(connection._handler);
-	_message = sqlite3_errmsg(connection._handler);
-}
-
-bool Error::isError() const
-{
-	switch (_code) {
-	case SQLITE_OK:
-	case SQLITE_DONE:
-	case SQLITE_ROW:
-		return false;
-	default:
-		return true;
-	}
-}
-
-bool Error::isInterrupted() const
-{
-	switch (_code) {
-	case SQLITE_INTERRUPT:
-	case SQLITE_ABORT:
-		return true;
-	default:
-		return false;
-	}
+	if (record.size() < 2) return;
+	emit result(EntryRef(record[0].toUInt(), record[1].toUInt()));
 }

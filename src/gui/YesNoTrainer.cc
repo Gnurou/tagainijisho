@@ -16,6 +16,7 @@
  */
 
 #include "core/EntriesCache.h"
+#include "core/Database.h"
 #include "gui/EntryFormatter.h"
 #include "gui/YesNoTrainer.h"
 #include "gui/TemplateFiller.h"
@@ -25,13 +26,12 @@
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QMessageBox>
-#include <QSqlError>
 #include <QMenu>
 #include <QDate>
 
 PreferenceItem<QByteArray> YesNoTrainer::windowGeometry("trainWindow", "geometry", "");
 
-YesNoTrainer::YesNoTrainer(QWidget *parent) : QWidget(parent), _trainingMode(Japanese), currentEntry(0)
+YesNoTrainer::YesNoTrainer(QWidget *parent) : QWidget(parent), _trainingMode(Japanese), currentEntry(0), _query(Database::connection())
 {
 	frontParts << "front";
 	backParts << "back";
@@ -88,7 +88,7 @@ void YesNoTrainer::setQuery(QString queryString)
 {
 	// Run the query
 	_queryString = queryString;
-	if (!_query.exec(queryString)) qDebug() << "Error executing query:" << _query.lastError();
+	if (!_query.exec(queryString)) qDebug() << "Error executing query:" << _query.lastError().message();
 }
 
 void YesNoTrainer::clear()
@@ -105,7 +105,7 @@ void YesNoTrainer::_train()
 {
 	if (!_query.next()) hasResults(0);
 	else {
-		EntryPointer entry(EntryRef(_query.value(0).toInt(), _query.value(1).toInt()).get());
+		EntryPointer entry(EntryRef(_query.valueInt(0), _query.valueInt(1)).get());
 		train(entry);
 	}
 }

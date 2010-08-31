@@ -19,6 +19,7 @@
 #include "sqlite3.h"
 
 #include <QtDebug>
+#include <QMutexLocker>
 
 using namespace SQLite;
 
@@ -28,32 +29,36 @@ Connection::Connection() : _handler(0)
 
 Connection::~Connection()
 {
+	if (connected()) close();
 }
 
-void Connection::getError() const
+const Error &Connection::updateError() const
 {
 	_lastError = Error(*this);
+	return _lastError;
 }
 
-void Connection::noError() const
-{
-	_lastError = Error();
+extern "C" {
+	void register_all_tokenizers(sqlite3 *handler);
 }
 
-bool Connection::connect(const QString &dbFile)
+bool Connection::connect(const QString &dbFile, OpenFlags flags)
 {
 	if (connected()) {
-		_lastError = Error("Already connected to a database");
+		_lastError = Error(-1, "Already connected to a database");
 		return false;
 	}
 
 	int res = sqlite3_open_v2(dbFile.toUtf8().data(), &_handler, SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE, 0);
-	if (res != SQLITE_OK) {
-		getError();
-		goto err;
-	}
+	updateError();
+	if (res != SQLITE_OK) goto err;
+	// Register our special stuff
+	register_all_tokenizers(_handler);
+	// Configure the connection
+	exec("pragma encoding=\"UTF-16le\"");
+	if (!flags & JournalInFile) exec("pragma journal_mode=MEMORY");
+
 	_dbFile = dbFile;
-	noError();
 	return true;
 
 err:
@@ -64,19 +69,21 @@ err:
 bool Connection::close()
 {
 	if (!connected()) {
-		getError();
+		// Will put the appropriate error (library routine called out of sequence)
+		// because the handler is null
+		updateError();
 		return false;
 	}
-
 
 	int res = sqlite3_close(_handler);
 	if (res != SQLITE_OK) {
-		getError();
+		updateError();
 		return false;
 	}
+	// Handle is invalid, so we cannot use updateError to get the error
+	_lastError = Error();
 	_handler = 0;
 	_dbFile.clear();
-	noError();
 	return true;
 }
 
@@ -98,27 +105,18 @@ const Error &Connection::lastError() const
 bool Connection::exec(const QString &statement)
 {
 	sqlite3_stmt *stmt;
+	sqlite3_mutex_enter(sqlite3_db_mutex(_handler));
 	int res = sqlite3_prepare_v2(_handler, statement.toUtf8().data(), -1, &stmt, 0);
 	if (res != SQLITE_OK) {
-		getError();
+		updateError();
+		sqlite3_mutex_leave(sqlite3_db_mutex(_handler));
 		return false;
 	}
 	res = sqlite3_step(stmt);
-	if (res != SQLITE_DONE) {
-		getError();
-		goto cleanError;
-	}
-	res = sqlite3_finalize(stmt);
-	if (res != SQLITE_OK) {
-		getError();
-		return false;
-	}
-	noError();
-	return true;
-
-cleanError:
+	updateError();
 	sqlite3_finalize(stmt);
-	return false;
+	sqlite3_mutex_leave(sqlite3_db_mutex(_handler));
+	return !_lastError.isError();
 }
 
 bool Connection::transaction()
@@ -134,4 +132,9 @@ bool Connection::commit()
 bool Connection::rollback()
 {
 	return exec("rollback");
+}
+
+void Connection::interrupt()
+{
+	sqlite3_interrupt(_handler);
 }

@@ -26,6 +26,8 @@ class Kanjidic2EntrySearcher;
 class Kanjidic2Plugin : public Plugin
 {
 private:
+	static Kanjidic2Plugin *_instance;
+	QString _dbFile;
 	QString _kanjidic2Version;
 	QString _kanjiVGVersion;
 	Kanjidic2EntrySearcher *searcher;
@@ -33,6 +35,8 @@ private:
 public:
 	Kanjidic2Plugin();
 	virtual ~Kanjidic2Plugin();
+	static Kanjidic2Plugin *instance() { return _instance; }
+	const QString &dbFile() const { return _dbFile; }
 	virtual QString pluginInfo() const;
 	const QString &kanjidic2Version() const { return _kanjidic2Version; }
 	const QString &kanjiVGVersion() const { return _kanjiVGVersion; }

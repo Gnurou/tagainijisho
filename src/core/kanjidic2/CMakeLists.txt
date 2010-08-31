@@ -1,5 +1,4 @@
 # kanji core
-set(QT_USE_QTSQL TRUE)
 set(QT_DONT_USE_QTGUI TRUE)
 set(tagainijisho_core_kanjidic2_SRCS
 Kanjidic2Entry.cc
@@ -14,7 +13,8 @@ Kanjidic2EntrySearcher.h
 )
 
 qt4_wrap_cpp(tagainijisho_core_kanjidic2_MOC_SRCS ${tagainijisho_core_kanjidic2_MOCS})
-add_library(tagaini_core_kanjidic2 STATIC ${tagainijisho_core_kanjidic2_SRCS} ${tagainijisho_core_kanjidic2_MOC_SRCS})
+add_library(tagaini_core_kanjidic2 STATIC ${tagainijisho_core_kanjidic2_MOC_SRCS} ${tagainijisho_core_kanjidic2_SRCS})
+add_dependencies(tagaini_core_kanjidic2 tagaini_core)
 
 # Database builder
 set(QT_USE_QTXML TRUE)
@@ -27,7 +27,7 @@ BuildKanjiDB.cc
 
 include(${QT_USE_FILE})
 add_executable(build_kanji_db EXCLUDE_FROM_ALL ${build_kanji_db_SRCS})
-target_link_libraries(build_kanji_db tagaini_newsqlite ${QT_LIBRARIES})
+target_link_libraries(build_kanji_db tagaini_sqlite ${QT_LIBRARIES})
 if (APPLE)
 	set(extra_link_flags "-bind_at_load")
 endif()
