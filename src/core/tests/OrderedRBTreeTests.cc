@@ -17,6 +17,8 @@
 
 #include "OrderedRBTreeTests.h"
 
+#include <QtDebug>
+
 void OrderedRBTreeTests::initTestCase()
 {
 }
@@ -30,10 +32,17 @@ void OrderedRBTreeTests::treeTests()
 {
 	OrderedRBTree<QString> tree;
 	QCOMPARE(tree.size(), 0);
+	QVERIFY(treeValid(tree));
 
-	tree.insert("String at position 0", 0);
-	QCOMPARE(tree.size(), 1);
-	QCOMPARE(tree[0], QString("String at position 0"));
+	// Mass-insert from end
+	for (int i = 0; i < 3000; i++) {
+		tree.insert(QString("String at position %1").arg(i), i);
+		QCOMPARE(tree.size(), i + 1);
+		QVERIFY(treeValid(tree));
+	}
+	for (int i = 0; i < 3000; i++) {
+		QCOMPARE(tree[i], QString("String at position %1").arg(i));
+	}
 }
 
 QTEST_MAIN(OrderedRBTreeTests)
