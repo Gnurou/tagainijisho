@@ -26,7 +26,7 @@
 #include <QSemaphore>
 #include <QMessageBox>
 
-#define USERDB_REVISION 8
+#define USERDB_REVISION 7
 
 #define QUERY(Q) if (!query.exec(Q)) return false
 
@@ -65,10 +65,8 @@ bool Database::createUserDB()
 	QUERY("CREATE INDEX idx_sets_id ON sets(parent, position)");
 	
 	// Lists tables
-//	QUERY("CREATE TABLE lists(parent INTEGER REFERENCES lists, position INTEGER NOT NULL, type INTEGER, id INTEGER)");
-//	QUERY("CREATE INDEX idx_lists_ref ON lists(parent, position)");
-	QUERY("CREATE TABLE lists(parent INTEGER REFERENCES lists, next INTEGER REFERENCES lists, type INTEGER, id INTEGER)");
-	QUERY("CREATE INDEX idx_lists_parent ON lists(parent)");
+	QUERY("CREATE TABLE lists(parent INTEGER REFERENCES lists, position INTEGER NOT NULL, type INTEGER, id INTEGER)");
+	QUERY("CREATE INDEX idx_lists_ref ON lists(parent, position)");
 	QUERY("CREATE INDEX idx_lists_entry ON lists(type, id)");
 	QUERY("CREATE VIRTUAL TABLE listsLabels using fts3(label)");
 	if (!_connection.commit()) return false;
@@ -181,7 +179,7 @@ bool (*dbUpdateFuncs[USERDB_REVISION - 1])(SQLite::Query &) = {
 	&update4to5,
 	&update5to6,
 	&update6to7,
-	&update7to8,
+//	&update7to8,
 };
 
 void Database::dbWarning(const QString &message)
