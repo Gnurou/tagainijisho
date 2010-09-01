@@ -43,7 +43,7 @@ private:
 		const OrderedRBNode<T> *current = this;
 		while (current) {
 			ret += leftSize + 1;
-			current = right;
+			current = current->right;
 		}
 		return ret;
 	}
@@ -77,6 +77,7 @@ private:
 
 
 friend class OrderedRBTree<T>;
+friend class OrderedRBTreeTests;
 };
 
 template <class T>
@@ -84,6 +85,91 @@ class OrderedRBTree
 {
 private:
 	OrderedRBNode<T> *root;
+
+	void insertCase1(OrderedRBNode<T> *inserted)
+	{
+		// Added a root node?
+		if (!inserted->parent)
+			inserted->color = OrderedRBNode<T>::BLACK;
+		else insertCase2(inserted);
+	}
+
+	void insertCase2(OrderedRBNode<T> *inserted)
+	{
+		// Parent black? Tree still valid
+		if (inserted->parent->color == OrderedRBNode<T>::BLACK) return;
+		else insertCase3(inserted);
+	}
+
+	void insertCase3(OrderedRBNode<T> *inserted)
+	{
+		OrderedRBNode<T> *uncle = inserted->uncle();
+		// Parent and uncle red? Recolor them.
+		if (uncle != 0 && uncle->color == OrderedRBNode<T>::RED) {
+			inserted->parent->color = OrderedRBNode<T>::BLACK;
+			uncle->color = OrderedRBNode<T>::BLACK;
+			OrderedRBNode<T> *grandParent = inserted->grandParent();
+			grandParent->color = OrderedRBNode<T>::RED;
+			insertCase1(grandParent);
+		} else insertCase4(inserted);
+	}
+
+	void insertCase4(OrderedRBNode<T> *inserted)
+	{
+		OrderedRBNode<T> *grandParent = inserted->grandParent();
+		// Parent red, uncle black, inserted node and parent on
+		// opposite sides from their parent
+		if (inserted == inserted->parent->right && inserted->parent == grandParent->right) {
+			rotateLeft(inserted->parent);
+			inserted = inserted->left;
+		} else if (inserted == inserted->parent->left && inserted->parent == grandParent->left) {
+			rotateRight(inserted->parent);
+			inserted = inserted->right;
+		}
+		insertCase5(inserted);
+	}
+
+	void insertCase5(OrderedRBNode<T> *inserted)
+	{
+		// Parent red, uncle black, inserted node and parent on
+		// same side from their parent
+		OrderedRBNode<T> *grandParent = inserted->grandParent();
+		inserted->parent->color = OrderedRBNode<T>::BLACK;
+		grandParent->color = OrderedRBNode<T>::RED;
+		if (inserted == inserted->parent->left && inserted->parent == grandParent->left) {
+			rotateRight(grandParent);
+		} else {
+			rotateLeft(grandParent);
+		}
+	}
+
+	void rotateLeft(OrderedRBNode<T> *node)
+	{
+		OrderedRBNode<T> **parentLink = node->parent ?
+			node == node->parent->left ? &node->parent->left : &node->parent->right :
+			&root;
+		// Move right child to node's place
+		*parentLink = node->right;
+		node->right->parent = node->parent;
+		// Move node as the left child of its right child
+		node->parent = *parentLink;
+		node->right = (*parentLink)->left;
+		(*parentLink)->left = node;
+	}
+
+	void rotateRight(OrderedRBNode<T> *node)
+	{
+		OrderedRBNode<T> **parentLink = node->parent ?
+			node == node->parent->left ? &node->parent->left : &node->parent->right :
+			&root;
+		// Move left child to node's place
+		*parentLink = node->left;
+		node->left->parent = node->parent;
+		// Move node as the right child of its left child
+		node->parent = *parentLink;
+		node->left = (*parentLink)->right;
+		(*parentLink)->right = node;
+	}
 
 public:
 	OrderedRBTree() : root(0)
@@ -112,42 +198,41 @@ public:
 		else return root->size();
 	}
 
+	/**
+	 * Insert the value val at index.
+	 */
 	void insert(const T &val, int index)
 	{
-		OrderedRBNode<T> *&current = root;
+		OrderedRBNode<T> **current = &root;
 		OrderedRBNode<T> *parent = 0;
 		unsigned int baseIdx = 0;
 
 		// First find the leaf where to add our node
-		while (current) {
-			int curPos = baseIdx + current->leftSize;
+		while (*current) {
+			parent = *current;
+			int curPos = baseIdx + (*current)->leftSize;
 			// We add on the left, so leftSize must be updated
 			if (index <= curPos) {
-				++current->leftSize;
-				current = current->left;
+				++(*current)->leftSize;
+				current = &(*current)->left;
 			}
 			// We add on the right, update the base position index
 			else {
-				baseIdx += current->leftSize + 1;
-				current = current->right;
+				baseIdx += (*current)->leftSize + 1;
+				current = &(*current)->right;
 			}
-			parent = root->parent;
 		}
 		// Add the new leaf
-		current = new OrderedRBNode<T>(val);
-		current->parent = parent;
+		*current = new OrderedRBNode<T>(val);
+		(*current)->parent = parent;
 
-		// Now perform balancing
-		// Added a root node?
-		if (!current->parent) {
-			current->color = OrderedRBNode<T>::BLACK;
-		}
-		// Ensure that all red nodes have black children
-		else if (current->parent->color == OrderedRBNode<T>::RED) {
-
-		}
+		// Perform balancing
+		insertCase1(*current);
 	}
 
+	/**
+	 * Returns the value at index. Will crash if access is made out of bounds.
+	 */
 	const T& operator[](int index) const
 	{
 		const OrderedRBNode<T> *current = root;
@@ -165,6 +250,8 @@ public:
 		// Will crash if access is out of bounds because current would then be 0
 		return current->value;
 	}
+
+friend class OrderedRBTreeTests;
 };
 
 #endif

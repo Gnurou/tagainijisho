@@ -24,6 +24,40 @@ class OrderedRBTreeTests : public QObject
 {
 Q_OBJECT
 private:
+	// Property 1 (all nodes are either red or black) is implicitly enforced.
+	template <class T>
+	bool isBlack(const OrderedRBNode<T> *const node)
+	{
+		// Property 3: all leaves are black
+		return !node || node->color == OrderedRBNode<T>::BLACK;
+	}
+
+	template <class T>
+	bool _treeValid(const OrderedRBNode<T> *const node, int depth, int &maxdepth)
+	{
+		// Property 5: every path from a node to any of its descendants contains the same number of black nodes
+		if (isBlack(node)) ++depth;
+		if (!node) {
+			if (maxdepth == -1) {
+				maxdepth = depth;
+				return true;
+			}
+			else return depth == maxdepth;
+		}
+		// Property 2: root is black
+		if (!node->parent && node->color != OrderedRBNode<T>::BLACK) return false;
+		// Property 4: both children of every red node are black
+		if (!isBlack(node) && !(isBlack(node->left) && isBlack(node->right))) return false;
+
+		return _treeValid(node->left, depth, maxdepth) && _treeValid(node->right, depth, maxdepth);
+	}
+
+	template <class T>
+	bool treeValid(const OrderedRBTree<T> &tree)
+	{
+		int maxdepth = -1;
+		return _treeValid(tree.root, 0, maxdepth);
+	}
 
 private slots:
 	void initTestCase();
