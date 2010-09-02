@@ -42,7 +42,7 @@ private:
 		int ret = 0;
 		const OrderedRBNode<T> *current = this;
 		while (current) {
-			ret += leftSize + 1;
+			ret += current->leftSize + 1;
 			current = current->right;
 		}
 		return ret;
@@ -130,10 +130,10 @@ private:
 		OrderedRBNode<T> *grandParent = inserted->grandParent();
 		// Parent red, uncle black, inserted node and parent on
 		// opposite sides from their parent
-		if (inserted == inserted->parent->right && inserted->parent == grandParent->right) {
+		if (inserted == inserted->parent->right && inserted->parent == grandParent->left) {
 			rotateLeft(inserted->parent);
 			inserted = inserted->left;
-		} else if (inserted == inserted->parent->left && inserted->parent == grandParent->left) {
+		} else if (inserted == inserted->parent->left && inserted->parent == grandParent->right) {
 			rotateRight(inserted->parent);
 			inserted = inserted->right;
 		}

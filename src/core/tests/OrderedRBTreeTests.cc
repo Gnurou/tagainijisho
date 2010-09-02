@@ -38,8 +38,8 @@ void OrderedRBTreeTests::treeTests()
 	for (int i = 0; i < 3000; i++) {
 		tree.insert(QString("String at position %1").arg(i), i);
 		QCOMPARE(tree.size(), i + 1);
-		treeValid(tree);
 	}
+	treeValid(tree);
 	for (int i = 0; i < 3000; i++) {
 		QCOMPARE(tree[i], QString("String at position %1").arg(i));
 	}
