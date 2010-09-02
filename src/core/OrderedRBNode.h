@@ -260,7 +260,7 @@ public:
 		while (current) {
 			int curPos = baseIdx + current->leftSize;
 			if (curPos == index) break;
-			else if (curPos < index) current = current->left;
+			else if (index < curPos) current = current->left;
 			else {
 				baseIdx += current->leftSize + 1;
 				current = current->right;
