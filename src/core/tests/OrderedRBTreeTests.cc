@@ -32,13 +32,13 @@ void OrderedRBTreeTests::treeTests()
 {
 	OrderedRBTree<QString> tree;
 	QCOMPARE(tree.size(), 0);
-	QVERIFY(treeValid(tree));
+	treeValid(tree);
 
 	// Mass-insert from end
 	for (int i = 0; i < 3000; i++) {
 		tree.insert(QString("String at position %1").arg(i), i);
 		QCOMPARE(tree.size(), i + 1);
-		QVERIFY(treeValid(tree));
+		treeValid(tree);
 	}
 	for (int i = 0; i < 3000; i++) {
 		QCOMPARE(tree[i], QString("String at position %1").arg(i));

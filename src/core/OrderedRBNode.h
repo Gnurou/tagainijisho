@@ -75,6 +75,17 @@ private:
 		else return gp->left;
 	}
 
+	int calculateLeftSize()
+	{
+		int size = 0;
+		OrderedRBNode<T> *current = left;
+		while (current) {
+			size += current->leftSize + 1;
+			current = current->right;
+		}
+		return size;
+	}
+
 
 friend class OrderedRBTree<T>;
 friend class OrderedRBTreeTests;
@@ -152,9 +163,13 @@ private:
 		*parentLink = node->right;
 		node->right->parent = node->parent;
 		// Move node as the left child of its right child
-		node->parent = *parentLink;
 		node->right = (*parentLink)->left;
+		if (node->right) node->right->parent = node;
+		// Move node to new parent's left
 		(*parentLink)->left = node;
+		node->parent = *parentLink;
+		// Update left weight of rotated node
+		(*parentLink)->leftSize = (*parentLink)->calculateLeftSize();
 	}
 
 	void rotateRight(OrderedRBNode<T> *node)
@@ -166,9 +181,13 @@ private:
 		*parentLink = node->left;
 		node->left->parent = node->parent;
 		// Move node as the right child of its left child
-		node->parent = *parentLink;
 		node->left = (*parentLink)->right;
+		if (node->left) node->left->parent = node;
+		// Move node to new parent's right
 		(*parentLink)->right = node;
+		node->parent = *parentLink;
+		// Update left weight of rotated node
+		node->leftSize = node->calculateLeftSize();
 	}
 
 public:
