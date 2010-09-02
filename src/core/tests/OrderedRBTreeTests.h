@@ -66,9 +66,13 @@ private:
 		_treeValid(tree.root, 0, maxdepth);
 	}
 
+	OrderedRBTree<QString> tree;
+
 private slots:
 	void initTestCase();
 	void cleanupTestCase();
 
-	void treeTests();
+	void massInsertEnd();
+	void massInsertBegin();
+	void deepCheckValidity();
 };
