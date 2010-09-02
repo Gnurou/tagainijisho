@@ -47,6 +47,16 @@ void OrderedRBTreeTests::treeTests()
 	// Clear
 	tree.clear();
 	QCOMPARE(tree.size(), 0);
+
+	// Mass-insert at from beginning
+	for (int i = 0; i < 3000; i++) {
+		tree.insert(QString("String at position %1").arg(3000 - (i + 1)), 0);
+		QCOMPARE(tree.size(), i + 1);
+	}
+	treeValid(tree);
+	for (int i = 0; i < 3000; i++) {
+		QCOMPARE(tree[i], QString("String at position %1").arg(i));
+	}
 }
 
 QTEST_MAIN(OrderedRBTreeTests)
