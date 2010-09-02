@@ -727,7 +727,7 @@ Některé z nich možná ještě zůstaly.</translation>
     <message>
         <location line="+1"/>
         <source>Vocabulary</source>
-        <translation>Slovní zásoba</translation>
+        <translation>Slovíčka</translation>
     </message>
     <message>
         <source>Kanji</source>
@@ -832,7 +832,7 @@ Některé z nich možná ještě zůstaly.</translation>
     <message>
         <location line="+6"/>
         <source>Weeks start on</source>
-        <translation>Týden začína</translation>
+        <translation>Týden začíná</translation>
     </message>
     <message>
         <location line="+13"/>
@@ -857,7 +857,7 @@ Některé z nich možná ještě zůstaly.</translation>
     <message>
         <location line="+3"/>
         <source>every </source>
-        <translation>každých </translation>
+        <translation>každé(ých) </translation>
     </message>
     <message>
         <location line="+15"/>
@@ -1093,7 +1093,7 @@ Vysoké hodnoty mohou zlepšit výkon, když se zachází s velkým počtem záz
         <location line="+21"/>
         <location line="+1"/>
         <source>Vocabulary</source>
-        <translation>Slovní zásoba</translation>
+        <translation>Slovíčka</translation>
     </message>
     <message>
         <location line="+14"/>
@@ -1741,7 +1741,7 @@ Vysoké hodnoty mohou zlepšit výkon, když se zachází s velkým počtem záz
     <message>
         <location filename="../src/gui/jmdict/JMdictPreferences.cc" line="+24"/>
         <source>Vocabulary entries</source>
-        <translation>Slovníkové záznamy</translation>
+        <translation>Záznamy slovíček</translation>
     </message>
     <message>
         <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="+14"/>
@@ -1884,7 +1884,7 @@ Vysoké hodnoty mohou zlepšit výkon, když se zachází s velkým počtem záz
     <message>
         <location line="-294"/>
         <source>Homographs</source>
-        <translation>Homofony (stejně znějící slova, ne však nutně stejně psaná)</translation>
+        <translation>Homografy (slova se stejným pravopisem, ale rozdáílnou výslovností, významem ap.)</translation>
     </message>
 </context>
 <context>
@@ -2708,7 +2708,7 @@ Vysoké hodnoty mohou zlepšit výkon, když se zachází s velkým počtem záz
     <message>
         <location line="-10"/>
         <source>Show numbers</source>
-        <translation>Ukázat počty</translation>
+        <translation>Ukázat čísla</translation>
     </message>
     <message>
         <location line="+122"/>
