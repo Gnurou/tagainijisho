@@ -197,18 +197,7 @@ public:
 
 	~OrderedRBTree()
 	{
-		OrderedRBNode<T> *current = root;
-		while (current) {
-			if (current->left) current = current->left;
-			else if (current->right) current = current->right;
-			else {
-				OrderedRBNode<T> *parent = current->parent;
-				OrderedRBNode<T> *&toClear = parent ? (current == parent->left) ? parent->left : parent->right : current;
-				delete toClear;
-				toClear = 0;
-				current = parent;
-			}
-		}
+		clear();
 	}
 
 	int size() const
@@ -267,7 +256,24 @@ public:
 			}
 		}
 		// Will crash if access is out of bounds because current would then be 0
+		if (!current) qFatal("Error: accessing RBTree out of bounds");
 		return current->value;
+	}
+
+	void clear()
+	{
+		OrderedRBNode<T> *current = root;
+		while (current) {
+			if (current->left) current = current->left;
+			else if (current->right) current = current->right;
+			else {
+				OrderedRBNode<T> *parent = current->parent;
+				OrderedRBNode<T> **toClear = parent ? (current == parent->left) ? &parent->left : &parent->right : &root;
+				delete *toClear;
+				*toClear = 0;
+				current = parent;
+			}
+		}
 	}
 
 friend class OrderedRBTreeTests;

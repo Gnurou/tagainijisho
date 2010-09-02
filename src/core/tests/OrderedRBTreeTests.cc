@@ -43,6 +43,10 @@ void OrderedRBTreeTests::treeTests()
 	for (int i = 0; i < 3000; i++) {
 		QCOMPARE(tree[i], QString("String at position %1").arg(i));
 	}
+
+	// Clear
+	tree.clear();
+	QCOMPARE(tree.size(), 0);
 }
 
 QTEST_MAIN(OrderedRBTreeTests)
