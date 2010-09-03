@@ -29,6 +29,33 @@ void OrderedRBTreeTests::cleanupTestCase()
 {
 }
 
+void OrderedRBTreeTests::testNode()
+{
+	OrderedRBNode<int> node(5), left(-1), right(10), grandChild(0);
+	left.setColor(OrderedRBNode<int>::BLACK);
+	right.setColor(OrderedRBNode<int>::BLACK);
+	QCOMPARE(node.color(), OrderedRBNode<int>::RED);
+	QCOMPARE(left.color(), OrderedRBNode<int>::BLACK);
+	QCOMPARE(right.color(), OrderedRBNode<int>::BLACK);
+	QCOMPARE(node.value(), 5);
+	QCOMPARE(left.value(), -1);
+	QCOMPARE(right.value(), 10);
+	QCOMPARE(grandChild.value(), 0);
+
+	QVERIFY(!node.parent());
+	QVERIFY(!node.left());
+	QVERIFY(!node.right());
+	node.setLeft(&left);
+	node.setRight(&right);
+	QVERIFY(node.left() == &left);
+	QVERIFY(left.parent() == &node);
+	QVERIFY(node.right() == &right);
+	QVERIFY(right.parent() == &node);
+
+	right.detach();
+	QVERIFY(!right.parent());
+}
+
 void OrderedRBTreeTests::massInsertEnd()
 {
 	QCOMPARE(tree.size(), 0);
@@ -100,6 +127,7 @@ void OrderedRBTreeTests::deepCheckValidity()
 
 	for (int i = 0; i < 300; i++) {
 		int pos = qrand() % 300;
+		qDebug() << i;
 		tree.insert(QString("String at position %1").arg(pos), pos);
 		QCOMPARE(tree.size(), i + 1);
 		treeValid(tree);

@@ -18,6 +18,7 @@
 #ifndef __CORE_ORDEREDRBNode_H
 #define __CORE_ORDEREDRBNode_H
 
+#include <QtDebug>
 #include <QtGlobal>
 
 template <template<class NT> class Node, class T>
@@ -123,11 +124,30 @@ public:
 	}
 
 	virtual OrderedRBNode<T> *left() const { return _left; }
-	virtual void setLeft(OrderedRBNode<T> *nl) { _left = nl; }
+	virtual void setLeft(OrderedRBNode<T> *nl)
+	{
+		if (_left) _left->detach();
+		_left = nl;
+		if (nl) nl->_parent = this;
+	}
+
 	virtual OrderedRBNode<T> *right() const { return _right; }
-	virtual void setRight(OrderedRBNode<T> *nr) { _right = nr; }
+	virtual void setRight(OrderedRBNode<T> *nr)
+	{
+		if (_right) _right->detach();
+		_right = nr;
+		if (nr) nr->_parent = this;
+	}
+
 	virtual OrderedRBNode<T> *parent() const { return _parent; }
-	virtual void setParent(OrderedRBNode<T> *np) { _parent = np; }
+	virtual void detach()
+	{
+		if (_parent) {
+			if (_parent->_left == this) _parent->_left = 0;
+			else if (_parent->_right == this) _parent->_right = 0;
+			_parent = 0;
+		}
+	}
 };
 
 template <template<class NT> class Node, class T> class OrderedRBTree
@@ -201,6 +221,7 @@ private:
 		switch (parentSide) {
 		case ROOT:
 			root = newParent;
+			newParent->detach();
 			break;
 		case LEFT:
 			pivot->parent()->setLeft(newParent);
@@ -209,13 +230,10 @@ private:
 			pivot->parent()->setRight(newParent);
 			break;
 		}
-		newParent->setParent(pivot->parent());
 		// Move node as the left child of its right child
 		pivot->setRight(newParent->left());
-		if (pivot->right()) pivot->right()->setParent(pivot);
 		// Move node to new parent's left
 		newParent->setLeft(pivot);
-		pivot->setParent(newParent);
 		// Update left weight of rotated node
 		newParent->calculateLeftSize();
 	}
@@ -229,6 +247,7 @@ private:
 		switch (parentSide) {
 		case ROOT:
 			root = newParent;
+			newParent->detach();
 			break;
 		case LEFT:
 			pivot->parent()->setLeft(newParent);
@@ -237,13 +256,10 @@ private:
 			pivot->parent()->setRight(newParent);
 			break;
 		}
-		newParent->setParent(pivot->parent());
 		// Move node as the right child of its left child
 		pivot->setLeft(newParent->right());
-		if (pivot->left()) pivot->left()->setParent(pivot);
 		// Move node to new parent's right
 		newParent->setRight(pivot);
-		pivot->setParent(newParent);
 		// Update left weight of rotated node
 		pivot->calculateLeftSize();
 	}
@@ -276,9 +292,7 @@ public:
 		// Insert into root
 		if (!current) {
 			root = newNode;
-			return;
 		}
-
 		// Otherwise find the leaf where to add our node
 		else while (1) {
 			int curPos = baseIdx + current->leftSize();
@@ -287,7 +301,6 @@ public:
 				++current->_leftSize;
 				if (!current->left()) {
 					current->setLeft(newNode);
-					newNode->setParent(current);
 					break;
 				}
 				else current = current->left();
@@ -297,14 +310,13 @@ public:
 				baseIdx += current->leftSize() + 1;
 				if (!current->right()) {
 					current->setRight(newNode);
-					newNode->setParent(current);
 					break;
 				}
 				else current = current->right();
 			}
 		}
 		// Perform balancing
-		insertCase1(current);
+		insertCase1(newNode);
 	}
 
 	/**
