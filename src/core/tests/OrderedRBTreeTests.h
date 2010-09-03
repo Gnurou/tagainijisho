@@ -29,7 +29,7 @@ private:
 	bool isBlack(const Node *const node)
 	{
 		// Property 3: all leaves are black
-		return !node || node->color == Node::BLACK;
+		return !node || node->color() == Node::BLACK;
 	}
 
 	template <class Node>
@@ -48,15 +48,15 @@ private:
 			}
 		}
 		// Property 2: root is black
-		QVERIFY(node->parent || node->color == Node::BLACK);
+		QVERIFY(node->parent() || node->color() == Node::BLACK);
 		// Property 4: both children of every red node are black
-		QVERIFY(isBlack(node) || ((isBlack(node->left) && isBlack(node->right))));
+		QVERIFY(isBlack(node) || ((isBlack(node->left()) && isBlack(node->right()))));
 
-		QVERIFY(!node->left || node->left->parent == node);
-		QVERIFY(!node->right || node->right->parent == node);
+		QVERIFY(!node->left() || node->left()->parent() == node);
+		QVERIFY(!node->right() || node->right()->parent() == node);
 
-		_treeValid(node->left, depth, maxdepth);
-		_treeValid(node->right, depth, maxdepth);
+		_treeValid(node->left(), depth, maxdepth);
+		_treeValid(node->right(), depth, maxdepth);
 	}
 
 	template <template<class NT> class Node, class T>

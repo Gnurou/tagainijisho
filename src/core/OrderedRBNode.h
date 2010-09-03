@@ -23,78 +23,114 @@
 template <template<class NT> class Node, class T>
 class OrderedRBTree;
 
-template <class T>
-class OrderedRBNode {
-private:
-	typedef OrderedRBNode<T> Node;
+template <class T> class OrderedRBNodeBase
+{
+public:
+	typedef enum { BLACK, RED } Color;
+protected:
+	quint32 _leftSize;
+	Color _color;
+	T _value;
 
-	Node *left, *right;
-	Node *parent;
-
-	quint32 leftSize;
-	enum { BLACK, RED } color;
-	T value;
-
-	OrderedRBNode(const T &va) : left(0), right(0), parent(0), leftSize(0), color(RED), value(va)
+public:
+	OrderedRBNodeBase(const T &va) : _leftSize(0), _color(RED), _value(va)
 	{
+	}
+
+	virtual ~OrderedRBNodeBase()
+	{
+	}
+
+	Color color() const { return _color; }
+	void setColor(Color col) { _color = col; }
+	quint32 leftSize() const { return _leftSize; }
+
+	virtual OrderedRBNodeBase<T> *left() const = 0;
+	virtual OrderedRBNodeBase<T> *right() const = 0;
+	virtual OrderedRBNodeBase<T> *parent() const = 0;
+
+	const T &value() const { return _value; }
+	virtual void setValue(const T &nv)
+	{
+		_value = nv;
+	}
+
+	OrderedRBNodeBase<T> *grandParent()
+	{
+		OrderedRBNodeBase<T> *p = parent();
+		if (p != 0) return p->parent();
+		else return 0;
+	}
+
+	OrderedRBNodeBase<T> *uncle()
+	{
+		OrderedRBNodeBase<T> *gp = grandParent();
+		if (!gp) return 0;
+		if (parent() == gp->left()) return gp->right();
+		else return gp->left();
+	}
+
+	void calculateLeftSize()
+	{
+		if (!left()) _leftSize = 0;
+		else _leftSize = left()->size();
 	}
 
 	int size() const
 	{
 		int ret = 0;
-		const Node *current = this;
+		const OrderedRBNodeBase<T> *current = this;
 		while (current) {
-			ret += current->leftSize + 1;
-			current = current->right;
+			ret += current->_leftSize + 1;
+			current = current->right();
 		}
 		return ret;
 	}
 
 	int position() const
 	{
-		const Node *current = this;
-		const Node *curParent = this->parent;
-		int ret = this->leftSize;
+		const OrderedRBNodeBase<T> *current = this;
+		const OrderedRBNodeBase<T> *curParent = this->parent();
+		int ret = this->_leftSize;
 		while (curParent) {
-			if (current = curParent->right) ret += curParent->leftSize + 1;
+			if (current = curParent->right()) ret += curParent->_leftSize + 1;
 			current = curParent;
-			curParent = curParent->parent;
+			curParent = curParent->parent();
 		}
 		return ret;
 	}
 
-	Node *grandParent()
-	{
-		if (parent != 0) return parent->parent;
-		else return 0;
-	}
+};
 
-	Node *uncle()
-	{
-		Node *gp = grandParent();
-		if (!gp) return 0;
-		if (parent == gp->left) return gp->right;
-		else return gp->left;
-	}
+template <class T> class OrderedRBNode : public OrderedRBNodeBase<T>
+{
+private:
+	typedef OrderedRBNode<T> Node;
 
-	int calculateLeftSize()
-	{
-		int size = 0;
-		Node *current = left;
-		while (current) {
-			size += current->leftSize + 1;
-			current = current->right;
-		}
-		return size;
-	}
-
+	Node *_left, *_right;
+	Node *_parent;
 
 friend class OrderedRBTree<OrderedRBNode, T>;
 friend class OrderedRBTreeTests;
+
+public:
+	OrderedRBNode(const T &va) : OrderedRBNodeBase<T>(va), _left(0), _right(0), _parent(0)
+	{
+	}
+
+	~OrderedRBNode()
+	{
+	}
+
+	virtual OrderedRBNode<T> *left() const { return _left; }
+	virtual void setLeft(OrderedRBNode<T> *nl) { _left = nl; }
+	virtual OrderedRBNode<T> *right() const { return _right; }
+	virtual void setRight(OrderedRBNode<T> *nr) { _right = nr; }
+	virtual OrderedRBNode<T> *parent() const { return _parent; }
+	virtual void setParent(OrderedRBNode<T> *np) { _parent = np; }
 };
 
-template <template<class NT> class Node, class T>
-class OrderedRBTree
+template <template<class NT> class Node, class T> class OrderedRBTree
 {
 private:
 	Node<T> *root;
@@ -102,42 +138,42 @@ private:
 	void insertCase1(Node<T> *inserted)
 	{
 		// Added a root Node<T>?
-		if (!inserted->parent)
-			inserted->color = Node<T>::BLACK;
+		if (!inserted->parent())
+			inserted->_color = Node<T>::BLACK;
 		else insertCase2(inserted);
 	}
 
 	void insertCase2(Node<T> *inserted)
 	{
 		// Parent black? Tree still valid
-		if (inserted->parent->color == Node<T>::BLACK) return;
+		if (inserted->parent()->color() == Node<T>::BLACK) return;
 		else insertCase3(inserted);
 	}
 
 	void insertCase3(Node<T> *inserted)
 	{
-		Node<T> *uncle = inserted->uncle();
+		Node<T> *uncle = static_cast<Node<T> *>(inserted->uncle());
 		// Parent and uncle red? Recolor them.
-		if (uncle != 0 && uncle->color == Node<T>::RED) {
-			inserted->parent->color = Node<T>::BLACK;
-			uncle->color = Node<T>::BLACK;
-			Node<T> *grandParent = inserted->grandParent();
-			grandParent->color = Node<T>::RED;
+		if (uncle != 0 && uncle->color() == Node<T>::RED) {
+			inserted->parent()->setColor(Node<T>::BLACK);
+			uncle->setColor(Node<T>::BLACK);
+			Node<T> *grandParent = static_cast<Node<T> *>(inserted->grandParent());
+			grandParent->setColor(Node<T>::RED);
 			insertCase1(grandParent);
 		} else insertCase4(inserted);
 	}
 
 	void insertCase4(Node<T> *inserted)
 	{
-		Node<T> *grandParent = inserted->grandParent();
+		Node<T> *grandParent = static_cast<Node<T> *>(inserted->grandParent());
 		// Parent red, uncle black, inserted node and parent on
 		// opposite sides from their parent
-		if (inserted == inserted->parent->right && inserted->parent == grandParent->left) {
-			rotateLeft(inserted->parent);
-			inserted = inserted->left;
-		} else if (inserted == inserted->parent->left && inserted->parent == grandParent->right) {
-			rotateRight(inserted->parent);
-			inserted = inserted->right;
+		if (inserted == inserted->parent()->right() && inserted->parent() == grandParent->left()) {
+			rotateLeft(inserted->parent());
+			inserted = inserted->left();
+		} else if (inserted == inserted->parent()->left() && inserted->parent() == grandParent->right()) {
+			rotateRight(inserted->parent());
+			inserted = inserted->right();
 		}
 		insertCase5(inserted);
 	}
@@ -146,50 +182,70 @@ private:
 	{
 		// Parent red, uncle black, inserted Node<T> and parent on
 		// same side from their parent
-		Node<T> *grandParent = inserted->grandParent();
-		inserted->parent->color = Node<T>::BLACK;
-		grandParent->color = Node<T>::RED;
-		if (inserted == inserted->parent->left && inserted->parent == grandParent->left) {
+		Node<T> *grandParent = static_cast<Node<T> *>(inserted->grandParent());
+		inserted->parent()->setColor(Node<T>::BLACK);
+		grandParent->setColor(Node<T>::RED);
+		if (inserted == inserted->parent()->left() && inserted->parent() == grandParent->left()) {
 			rotateRight(grandParent);
 		} else {
 			rotateLeft(grandParent);
 		}
 	}
 
-	void rotateLeft(Node<T> *node)
+	void rotateLeft(Node<T> *pivot)
 	{
-		Node<T> **parentLink = node->parent ?
-			node == node->parent->left ? &node->parent->left : &node->parent->right :
-			&root;
+		enum { ROOT, LEFT, RIGHT } parentSide = pivot->parent() ?
+			pivot == pivot->parent()->left() ? LEFT : RIGHT : ROOT;
+		Node<T> *newParent = pivot->right();
 		// Move right child to node's place
-		*parentLink = node->right;
-		node->right->parent = node->parent;
+		switch (parentSide) {
+		case ROOT:
+			root = newParent;
+			break;
+		case LEFT:
+			pivot->parent()->setLeft(newParent);
+			break;
+		case RIGHT:
+			pivot->parent()->setRight(newParent);
+			break;
+		}
+		newParent->setParent(pivot->parent());
 		// Move node as the left child of its right child
-		node->right = (*parentLink)->left;
-		if (node->right) node->right->parent = node;
+		pivot->setRight(newParent->left());
+		if (pivot->right()) pivot->right()->setParent(pivot);
 		// Move node to new parent's left
-		(*parentLink)->left = node;
-		node->parent = *parentLink;
+		newParent->setLeft(pivot);
+		pivot->setParent(newParent);
 		// Update left weight of rotated node
-		(*parentLink)->leftSize = (*parentLink)->calculateLeftSize();
+		newParent->calculateLeftSize();
 	}
 
-	void rotateRight(Node<T> *node)
+	void rotateRight(Node<T> *pivot)
 	{
-		Node<T> **parentLink = node->parent ?
-			node == node->parent->left ? &node->parent->left : &node->parent->right :
-			&root;
+		enum { ROOT, LEFT, RIGHT } parentSide = pivot->parent() ?
+			pivot == pivot->parent()->left() ? LEFT : RIGHT : ROOT;
+		Node<T> *newParent = pivot->left();
 		// Move left child to node's place
-		*parentLink = node->left;
-		node->left->parent = node->parent;
+		switch (parentSide) {
+		case ROOT:
+			root = newParent;
+			break;
+		case LEFT:
+			pivot->parent()->setLeft(newParent);
+			break;
+		case RIGHT:
+			pivot->parent()->setRight(newParent);
+			break;
+		}
+		newParent->setParent(pivot->parent());
 		// Move node as the right child of its left child
-		node->left = (*parentLink)->right;
-		if (node->left) node->left->parent = node;
+		pivot->setLeft(newParent->right());
+		if (pivot->left()) pivot->left()->setParent(pivot);
 		// Move node to new parent's right
-		(*parentLink)->right = node;
-		node->parent = *parentLink;
+		newParent->setRight(pivot);
+		pivot->setParent(newParent);
 		// Update left weight of rotated node
-		node->leftSize = node->calculateLeftSize();
+		pivot->calculateLeftSize();
 	}
 
 public:
@@ -213,31 +269,42 @@ public:
 	 */
 	void insert(const T &val, int index)
 	{
-		Node<T> **current = &root;
-		Node<T> *parent = 0;
+		Node<T> *current = root;
 		unsigned int baseIdx = 0;
+		Node<T> *newNode = new Node<T>(val);
 
-		// First find the leaf where to add our node
-		while (*current) {
-			parent = *current;
-			int curPos = baseIdx + (*current)->leftSize;
+		// Insert into root
+		if (!current) {
+			root = newNode;
+			return;
+		}
+
+		// Otherwise find the leaf where to add our node
+		else while (1) {
+			int curPos = baseIdx + current->leftSize();
 			// We add on the left, so leftSize must be updated
 			if (index <= curPos) {
-				++(*current)->leftSize;
-				current = &(*current)->left;
+				++current->_leftSize;
+				if (!current->left()) {
+					current->setLeft(newNode);
+					newNode->setParent(current);
+					break;
+				}
+				else current = current->left();
 			}
 			// We add on the right, update the base position index
 			else {
-				baseIdx += (*current)->leftSize + 1;
-				current = &(*current)->right;
+				baseIdx += current->leftSize() + 1;
+				if (!current->right()) {
+					current->setRight(newNode);
+					newNode->setParent(current);
+					break;
+				}
+				else current = current->right();
 			}
 		}
-		// Add the new leaf
-		*current = new Node<T>(val);
-		(*current)->parent = parent;
-
 		// Perform balancing
-		insertCase1(*current);
+		insertCase1(current);
 	}
 
 	/**
@@ -249,30 +316,44 @@ public:
 		unsigned int baseIdx = 0;
 
 		while (current) {
-			int curPos = baseIdx + current->leftSize;
+			int curPos = baseIdx + current->leftSize();
 			if (curPos == index) break;
-			else if (index < curPos) current = current->left;
+			else if (index < curPos) current = current->left();
 			else {
-				baseIdx += current->leftSize + 1;
-				current = current->right;
+				baseIdx += current->leftSize() + 1;
+				current = current->right();
 			}
 		}
 		// Will crash if access is out of bounds because current would then be 0
 		if (!current) qFatal("Error: accessing RBTree out of bounds");
-		return current->value;
+		return current->value();
 	}
 
 	void clear()
 	{
 		Node<T> *current = root;
 		while (current) {
-			if (current->left) current = current->left;
-			else if (current->right) current = current->right;
+			if (current->left()) current = current->left();
+			else if (current->right()) current = current->right();
 			else {
-				Node<T> *parent = current->parent;
-				Node<T> **toClear = parent ? (current == parent->left) ? &parent->left : &parent->right : &root;
-				delete *toClear;
-				*toClear = 0;
+				Node<T> *parent = current->parent();
+				enum { ROOT, LEFT, RIGHT } sideToClear = parent ?
+					current == parent->left() ? LEFT : RIGHT : ROOT;
+
+				switch (sideToClear) {
+				case ROOT:
+					delete root;
+					root = 0;
+					break;
+				case LEFT:
+					delete parent->left();
+					parent->setLeft(0);
+					break;
+				case RIGHT:
+					delete parent->right();
+					parent->setRight(0);
+					break;
+				}
 				current = parent;
 			}
 		}
