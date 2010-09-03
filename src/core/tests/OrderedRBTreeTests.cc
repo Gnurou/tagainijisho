@@ -19,6 +19,8 @@
 
 #include <QtDebug>
 
+#define TEST_SIZE 10000
+
 void OrderedRBTreeTests::initTestCase()
 {
 }
@@ -33,12 +35,12 @@ void OrderedRBTreeTests::massInsertEnd()
 	treeValid(tree);
 
 	// Mass-insert from end
-	for (int i = 0; i < 3000; i++) {
+	for (int i = 0; i < TEST_SIZE; i++) {
 		tree.insert(QString("String at position %1").arg(i), i);
 		QCOMPARE(tree.size(), i + 1);
 	}
 	treeValid(tree);
-	for (int i = 0; i < 3000; i++) {
+	for (int i = 0; i < TEST_SIZE; i++) {
 		QCOMPARE(tree[i], QString("String at position %1").arg(i));
 	}
 
@@ -53,13 +55,36 @@ void OrderedRBTreeTests::massInsertBegin()
 	QCOMPARE(tree.size(), 0);
 	treeValid(tree);
 
-	for (int i = 0; i < 3000; i++) {
-		tree.insert(QString("String at position %1").arg(3000 - (i + 1)), 0);
+	for (int i = 0; i < TEST_SIZE; i++) {
+		tree.insert(QString("String at position %1").arg(TEST_SIZE - (i + 1)), 0);
+		QCOMPARE(tree.size(), i + 1);
+	}
+	treeValid(tree);
+	for (int i = 0; i < TEST_SIZE; i++) {
+		QCOMPARE(tree[i], QString("String at position %1").arg(i));
+	}
+
+	// Clear
+	tree.clear();
+	QCOMPARE(tree.size(), 0);
+	treeValid(tree);
+}
+
+void OrderedRBTreeTests::massInsertRandom()
+{
+	QCOMPARE(tree.size(), 0);
+	treeValid(tree);
+	QList<int> insertPos;
+
+	for (int i = 0; i < TEST_SIZE; i++) {
+		int pos = qrand() % (tree.size() + 1);
+		tree.insert(QString("String at position %1").arg(i), pos);
+		insertPos.insert(pos, i);
 		QCOMPARE(tree.size(), i + 1);
 	}
 	treeValid(tree);
 	for (int i = 0; i < 3000; i++) {
-		QCOMPARE(tree[i], QString("String at position %1").arg(i));
+		QCOMPARE(tree[i], QString("String at position %1").arg(insertPos[i]));
 	}
 
 	// Clear
