@@ -71,21 +71,22 @@ public:
 		else return gp->left();
 	}
 
-	void calculateLeftSize()
-	{
-		if (!left()) _leftSize = 0;
-		else _leftSize = left()->size();
-	}
-
 	int size() const
 	{
 		int ret = 0;
 		const OrderedRBNodeBase<T> *current = this;
 		while (current) {
-			ret += current->_leftSize + 1;
+//			qDebug() << current << current->value() << "leftSize:" << current->leftSize() << current->left() << current->right();
+			ret += current->leftSize() + 1;
 			current = current->right();
 		}
 		return ret;
+	}
+
+	void calculateLeftSize()
+	{
+		if (!left()) _leftSize = 0;
+		else _leftSize = left()->size();
 	}
 
 	int position() const
@@ -106,10 +107,7 @@ public:
 template <class T> class OrderedRBNode : public OrderedRBNodeBase<T>
 {
 private:
-	typedef OrderedRBNode<T> Node;
-
-	Node *_left, *_right;
-	Node *_parent;
+	OrderedRBNode<T> *_left, *_right, *_parent;
 
 friend class OrderedRBTree<OrderedRBNode, T>;
 friend class OrderedRBTreeTests;
@@ -126,7 +124,7 @@ public:
 	virtual OrderedRBNode<T> *left() const { return _left; }
 	virtual void setLeft(OrderedRBNode<T> *nl)
 	{
-		if (_left) _left->detach();
+//		if (_left) _left->detach();
 		_left = nl;
 		if (nl) nl->_parent = this;
 	}
@@ -134,7 +132,7 @@ public:
 	virtual OrderedRBNode<T> *right() const { return _right; }
 	virtual void setRight(OrderedRBNode<T> *nr)
 	{
-		if (_right) _right->detach();
+//		if (_right) _right->detach();
 		_right = nr;
 		if (nr) nr->_parent = this;
 	}
@@ -220,8 +218,8 @@ private:
 		// Move right child to node's place
 		switch (parentSide) {
 		case ROOT:
-			root = newParent;
 			newParent->detach();
+			root = newParent;
 			break;
 		case LEFT:
 			pivot->parent()->setLeft(newParent);
@@ -246,8 +244,8 @@ private:
 		// Move left child to node's place
 		switch (parentSide) {
 		case ROOT:
-			root = newParent;
 			newParent->detach();
+			root = newParent;
 			break;
 		case LEFT:
 			pivot->parent()->setLeft(newParent);
@@ -294,7 +292,7 @@ public:
 			root = newNode;
 		}
 		// Otherwise find the leaf where to add our node
-		else while (1) {
+		else while (true) {
 			int curPos = baseIdx + current->leftSize();
 			// We add on the left, so leftSize must be updated
 			if (index <= curPos) {
