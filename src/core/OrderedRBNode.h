@@ -15,19 +15,21 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef __CORE_ORDEREDRBNODE_H
-#define __CORE_ORDEREDRBNODE_H
+#ifndef __CORE_ORDEREDRBNode_H
+#define __CORE_ORDEREDRBNode_H
 
 #include <QtGlobal>
 
-template <class T>
+template <template<class NT> class Node, class T>
 class OrderedRBTree;
 
 template <class T>
 class OrderedRBNode {
 private:
-	OrderedRBNode<T> *left, *right;
-	OrderedRBNode<T> *parent;
+	typedef OrderedRBNode<T> Node;
+
+	Node *left, *right;
+	Node *parent;
 
 	quint32 leftSize;
 	enum { BLACK, RED } color;
@@ -40,7 +42,7 @@ private:
 	int size() const
 	{
 		int ret = 0;
-		const OrderedRBNode<T> *current = this;
+		const Node *current = this;
 		while (current) {
 			ret += current->leftSize + 1;
 			current = current->right;
@@ -50,8 +52,8 @@ private:
 
 	int position() const
 	{
-		const OrderedRBNode<T> *current = this;
-		const OrderedRBNode<T> *curParent = this->parent;
+		const Node *current = this;
+		const Node *curParent = this->parent;
 		int ret = this->leftSize;
 		while (curParent) {
 			if (current = curParent->right) ret += curParent->leftSize + 1;
@@ -61,15 +63,15 @@ private:
 		return ret;
 	}
 
-	OrderedRBNode<T> *grandParent()
+	Node *grandParent()
 	{
 		if (parent != 0) return parent->parent;
 		else return 0;
 	}
 
-	OrderedRBNode<T> *uncle()
+	Node *uncle()
 	{
-		OrderedRBNode<T> *gp = grandParent();
+		Node *gp = grandParent();
 		if (!gp) return 0;
 		if (parent == gp->left) return gp->right;
 		else return gp->left;
@@ -78,7 +80,7 @@ private:
 	int calculateLeftSize()
 	{
 		int size = 0;
-		OrderedRBNode<T> *current = left;
+		Node *current = left;
 		while (current) {
 			size += current->leftSize + 1;
 			current = current->right;
@@ -87,47 +89,47 @@ private:
 	}
 
 
-friend class OrderedRBTree<T>;
+friend class OrderedRBTree<OrderedRBNode, T>;
 friend class OrderedRBTreeTests;
 };
 
-template <class T>
+template <template<class NT> class Node, class T>
 class OrderedRBTree
 {
 private:
-	OrderedRBNode<T> *root;
+	Node<T> *root;
 
-	void insertCase1(OrderedRBNode<T> *inserted)
+	void insertCase1(Node<T> *inserted)
 	{
-		// Added a root node?
+		// Added a root Node<T>?
 		if (!inserted->parent)
-			inserted->color = OrderedRBNode<T>::BLACK;
+			inserted->color = Node<T>::BLACK;
 		else insertCase2(inserted);
 	}
 
-	void insertCase2(OrderedRBNode<T> *inserted)
+	void insertCase2(Node<T> *inserted)
 	{
 		// Parent black? Tree still valid
-		if (inserted->parent->color == OrderedRBNode<T>::BLACK) return;
+		if (inserted->parent->color == Node<T>::BLACK) return;
 		else insertCase3(inserted);
 	}
 
-	void insertCase3(OrderedRBNode<T> *inserted)
+	void insertCase3(Node<T> *inserted)
 	{
-		OrderedRBNode<T> *uncle = inserted->uncle();
+		Node<T> *uncle = inserted->uncle();
 		// Parent and uncle red? Recolor them.
-		if (uncle != 0 && uncle->color == OrderedRBNode<T>::RED) {
-			inserted->parent->color = OrderedRBNode<T>::BLACK;
-			uncle->color = OrderedRBNode<T>::BLACK;
-			OrderedRBNode<T> *grandParent = inserted->grandParent();
-			grandParent->color = OrderedRBNode<T>::RED;
+		if (uncle != 0 && uncle->color == Node<T>::RED) {
+			inserted->parent->color = Node<T>::BLACK;
+			uncle->color = Node<T>::BLACK;
+			Node<T> *grandParent = inserted->grandParent();
+			grandParent->color = Node<T>::RED;
 			insertCase1(grandParent);
 		} else insertCase4(inserted);
 	}
 
-	void insertCase4(OrderedRBNode<T> *inserted)
+	void insertCase4(Node<T> *inserted)
 	{
-		OrderedRBNode<T> *grandParent = inserted->grandParent();
+		Node<T> *grandParent = inserted->grandParent();
 		// Parent red, uncle black, inserted node and parent on
 		// opposite sides from their parent
 		if (inserted == inserted->parent->right && inserted->parent == grandParent->left) {
@@ -140,13 +142,13 @@ private:
 		insertCase5(inserted);
 	}
 
-	void insertCase5(OrderedRBNode<T> *inserted)
+	void insertCase5(Node<T> *inserted)
 	{
-		// Parent red, uncle black, inserted node and parent on
+		// Parent red, uncle black, inserted Node<T> and parent on
 		// same side from their parent
-		OrderedRBNode<T> *grandParent = inserted->grandParent();
-		inserted->parent->color = OrderedRBNode<T>::BLACK;
-		grandParent->color = OrderedRBNode<T>::RED;
+		Node<T> *grandParent = inserted->grandParent();
+		inserted->parent->color = Node<T>::BLACK;
+		grandParent->color = Node<T>::RED;
 		if (inserted == inserted->parent->left && inserted->parent == grandParent->left) {
 			rotateRight(grandParent);
 		} else {
@@ -154,9 +156,9 @@ private:
 		}
 	}
 
-	void rotateLeft(OrderedRBNode<T> *node)
+	void rotateLeft(Node<T> *node)
 	{
-		OrderedRBNode<T> **parentLink = node->parent ?
+		Node<T> **parentLink = node->parent ?
 			node == node->parent->left ? &node->parent->left : &node->parent->right :
 			&root;
 		// Move right child to node's place
@@ -172,9 +174,9 @@ private:
 		(*parentLink)->leftSize = (*parentLink)->calculateLeftSize();
 	}
 
-	void rotateRight(OrderedRBNode<T> *node)
+	void rotateRight(Node<T> *node)
 	{
-		OrderedRBNode<T> **parentLink = node->parent ?
+		Node<T> **parentLink = node->parent ?
 			node == node->parent->left ? &node->parent->left : &node->parent->right :
 			&root;
 		// Move left child to node's place
@@ -211,8 +213,8 @@ public:
 	 */
 	void insert(const T &val, int index)
 	{
-		OrderedRBNode<T> **current = &root;
-		OrderedRBNode<T> *parent = 0;
+		Node<T> **current = &root;
+		Node<T> *parent = 0;
 		unsigned int baseIdx = 0;
 
 		// First find the leaf where to add our node
@@ -231,7 +233,7 @@ public:
 			}
 		}
 		// Add the new leaf
-		*current = new OrderedRBNode<T>(val);
+		*current = new Node<T>(val);
 		(*current)->parent = parent;
 
 		// Perform balancing
@@ -243,7 +245,7 @@ public:
 	 */
 	const T& operator[](int index) const
 	{
-		const OrderedRBNode<T> *current = root;
+		const Node<T> *current = root;
 		unsigned int baseIdx = 0;
 
 		while (current) {
@@ -262,13 +264,13 @@ public:
 
 	void clear()
 	{
-		OrderedRBNode<T> *current = root;
+		Node<T> *current = root;
 		while (current) {
 			if (current->left) current = current->left;
 			else if (current->right) current = current->right;
 			else {
-				OrderedRBNode<T> *parent = current->parent;
-				OrderedRBNode<T> **toClear = parent ? (current == parent->left) ? &parent->left : &parent->right : &root;
+				Node<T> *parent = current->parent;
+				Node<T> **toClear = parent ? (current == parent->left) ? &parent->left : &parent->right : &root;
 				delete *toClear;
 				*toClear = 0;
 				current = parent;
