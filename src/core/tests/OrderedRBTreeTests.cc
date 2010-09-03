@@ -19,7 +19,7 @@
 
 #include <QtDebug>
 
-#define TEST_SIZE 10000
+#define TEST_SIZE 3000
 
 void OrderedRBTreeTests::initTestCase()
 {
