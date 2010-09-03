@@ -74,5 +74,6 @@ private slots:
 
 	void massInsertEnd();
 	void massInsertBegin();
+	void massInsertRandom();
 	void deepCheckValidity();
 };
