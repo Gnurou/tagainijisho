@@ -72,6 +72,7 @@ private slots:
 	void initTestCase();
 	void cleanupTestCase();
 
+	void testNode();
 	void massInsertEnd();
 	void massInsertBegin();
 	void massInsertRandom();
