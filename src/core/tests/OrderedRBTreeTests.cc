@@ -46,11 +46,25 @@ void OrderedRBTreeTests::testNode()
 	QVERIFY(!node.left());
 	QVERIFY(!node.right());
 	node.setLeft(&left);
+	left.setRight(&grandChild);
 	node.setRight(&right);
 	QVERIFY(node.left() == &left);
 	QVERIFY(left.parent() == &node);
 	QVERIFY(node.right() == &right);
 	QVERIFY(right.parent() == &node);
+	QVERIFY(left.right() == &grandChild);
+	QVERIFY(grandChild.parent() == &left);
+	QVERIFY(grandChild.grandParent() == &node);
+	QVERIFY(grandChild.uncle() == &right);
+
+	grandChild.calculateLeftSize();
+	left.calculateLeftSize();
+	right.calculateLeftSize();
+	node.calculateLeftSize();
+	QCOMPARE(right.size(), 1);
+	QCOMPARE(grandChild.size(), 1);
+	QCOMPARE(left.size(), 2);
+	QCOMPARE(node.size(), 4);
 
 	right.detach();
 	QVERIFY(!right.parent());
@@ -58,6 +72,7 @@ void OrderedRBTreeTests::testNode()
 
 void OrderedRBTreeTests::massInsertEnd()
 {
+	tree.clear();
 	QCOMPARE(tree.size(), 0);
 	treeValid(tree);
 
@@ -70,15 +85,11 @@ void OrderedRBTreeTests::massInsertEnd()
 	for (int i = 0; i < TEST_SIZE; i++) {
 		QCOMPARE(tree[i], QString("String at position %1").arg(i));
 	}
-
-	// Clear
-	tree.clear();
-	QCOMPARE(tree.size(), 0);
-
 }
 
 void OrderedRBTreeTests::massInsertBegin()
 {
+	tree.clear();
 	QCOMPARE(tree.size(), 0);
 	treeValid(tree);
 
@@ -90,15 +101,11 @@ void OrderedRBTreeTests::massInsertBegin()
 	for (int i = 0; i < TEST_SIZE; i++) {
 		QCOMPARE(tree[i], QString("String at position %1").arg(i));
 	}
-
-	// Clear
-	tree.clear();
-	QCOMPARE(tree.size(), 0);
-	treeValid(tree);
 }
 
 void OrderedRBTreeTests::massInsertRandom()
 {
+	tree.clear();
 	QCOMPARE(tree.size(), 0);
 	treeValid(tree);
 	QList<int> insertPos;
@@ -113,29 +120,20 @@ void OrderedRBTreeTests::massInsertRandom()
 	for (int i = 0; i < 3000; i++) {
 		QCOMPARE(tree[i], QString("String at position %1").arg(insertPos[i]));
 	}
-
-	// Clear
-	tree.clear();
-	QCOMPARE(tree.size(), 0);
-	treeValid(tree);
 }
 
 void OrderedRBTreeTests::deepCheckValidity()
 {
+	tree.clear();
 	QCOMPARE(tree.size(), 0);
 	treeValid(tree);
 
 	for (int i = 0; i < 300; i++) {
 		int pos = qrand() % 300;
-		qDebug() << i;
 		tree.insert(QString("String at position %1").arg(pos), pos);
 		QCOMPARE(tree.size(), i + 1);
 		treeValid(tree);
 	}
-	// Clear
-	tree.clear();
-	QCOMPARE(tree.size(), 0);
-	treeValid(tree);
 }
 
 QTEST_MAIN(OrderedRBTreeTests)
