@@ -80,22 +80,22 @@ QString JLPTFilterWidget::currentTitle() const
 	if (JLPT4CheckBox->isChecked()) {
 		if (first) first = false;
 		else ret += ",";
-		ret += "4";
+		ret += "N5";
 	}
 	if (JLPT3CheckBox->isChecked()) {
 		if (first) first = false;
 		else ret += ",";
-		ret += "3";
+		ret += "N4";
 	}
 	if (JLPT2CheckBox->isChecked()) {
 		if (first) first = false;
 		else ret += ",";
-		ret += "2";
+		ret += "N2";
 	}
 	if (JLPT1CheckBox->isChecked()) {
 		if (first) first = false;
 		else ret += ",";
-		ret += "1";
+		ret += "N1";
 	}
 	if (!ret.isEmpty()) return tr("JLPT:") + ret;
 	else return tr("JLPT");
