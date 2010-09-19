@@ -453,12 +453,5 @@ Entry *Kanjidic2EntrySearcher::loadEntry(int id)
 	}
 	fourCornerQuery.reset();
 	
-	// Try to add a description for characters that have nothing
-	if (entry->meanings().size() == 0) {
-		if (TextTools::isKatakana(character)) entry->_meanings << Kanjidic2Entry::KanjiMeaning("en", QString("Katakana %1").arg(character));
-		if (TextTools::isHiragana(character)) entry->_meanings << Kanjidic2Entry::KanjiMeaning("en", QString("Hiragana %1").arg(character));
-		if (TextTools::isRomaji(character)) entry->_meanings << Kanjidic2Entry::KanjiMeaning("en", QString("Roman letter %1").arg(character));
-	}
-
 	return entry;
 }
