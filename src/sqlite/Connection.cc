@@ -17,6 +17,7 @@
 
 #include "sqlite/Connection.h"
 #include "sqlite3.h"
+#include "tagaini_config.h"
 
 #include <QtDebug>
 #include <QMutexLocker>
@@ -35,6 +36,11 @@ Connection::~Connection()
 const Error &Connection::updateError() const
 {
 	_lastError = Error(*this);
+#ifdef DEBUG_QUERIES
+	if (_lastError.isError()) {
+		qDebug("Query error: %s", _lastError.message().toUtf8().constData());
+	}
+#endif
 	return _lastError;
 }
 
@@ -109,6 +115,10 @@ bool Connection::exec(const QString &statement)
 	int res = sqlite3_prepare_v2(_handler, statement.toUtf8().data(), -1, &stmt, 0);
 	if (res != SQLITE_OK) {
 		updateError();
+#ifdef DEBUG_QUERIES
+	       if (_lastError.isError())
+			qDebug("On query: %s", statement.toUtf8().constData());
+#endif
 		sqlite3_mutex_leave(sqlite3_db_mutex(_handler));
 		return false;
 	}

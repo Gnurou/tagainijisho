@@ -37,6 +37,8 @@ bool Error::isError() const
 	case SQLITE_OK:
 	case SQLITE_DONE:
 	case SQLITE_ROW:
+	case SQLITE_INTERRUPT:
+	case SQLITE_ABORT:
 		return false;
 	default:
 		return true;
