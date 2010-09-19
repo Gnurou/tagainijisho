@@ -130,17 +130,6 @@ StudyFilterWidget::StudyFilterWidget(QWidget *parent) : SearchFilterWidget(paren
 	mistakeBox->setVisible(false);
 	connect(mistakeBox, SIGNAL(toggled(bool)), this, SLOT(commandUpdate()));
 	{
-		QDate infDate, supDate;
-		SQLite::Query query(Database::connection());
-		query.exec("select min(date) from trainingLog where result=0");
-		if (query.next()) {
-			infDate = QDateTime::fromTime_t(query.valueUInt(0)).date();
-		}
-		query.exec("select max(date) from trainingLog where result=0");
-		if (query.next()) {
-			supDate = QDateTime::fromTime_t(query.valueUInt(0)).date();
-		}
-
 		_mistakenMinDate = new RelativeDateEdit(mistakeBox);
 		connect(_mistakenMinDate, SIGNAL(dateSelected(const RelativeDate &)), this, SLOT(commandUpdate()));
 		connect(_mistakenMinDate, SIGNAL(dateChanged(const RelativeDate &)), this, SLOT(delayedCommandUpdate()));
