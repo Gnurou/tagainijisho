@@ -289,13 +289,17 @@ void Database::stop()
 {
 	if (!_instance) return;
 
-	SQLite::Query query(&_instance->_connection);
+	// The query must not live until the end of the method, as the connection is uses
+	// will be deleted before.
+	{
+		SQLite::Query query(&_instance->_connection);
 
-	// Remove unreferenced tags
-	if (!query.exec("delete from tags where docid not in (select tagId from taggedEntries)")) qWarning("Could not cleanup unused tags!");
+		// Remove unreferenced tags
+		if (!query.exec("delete from tags where docid not in (select tagId from taggedEntries)")) qWarning("Could not cleanup unused tags!");
 
-	// VACUUM the database
-	if (!query.exec("vacuum")) qWarning("Final VACUUM failed %s", query.lastError().message().toLatin1().data());
+		// VACUUM the database
+		if (!query.exec("vacuum")) qWarning("Final VACUUM failed %s", query.lastError().message().toLatin1().data());
+	}
 	// Close the database
 	_instance->_connection.close();
 	delete _instance;

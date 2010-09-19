@@ -36,6 +36,7 @@ class EntrySearcher : public QObject
 	Q_OBJECT
 private:
 	QRegExp commandMatch;
+	SQLite::Query trainQuery, tagsQuery, notesQuery, listsQuery;
 
 protected:
 	/**
@@ -60,7 +61,7 @@ protected:
 
 public:
 	EntrySearcher(QObject *parent = 0);
-	virtual ~EntrySearcher() {}
+	virtual ~EntrySearcher();
 
 	/**
 	 * Returns the entry type that this searcher can load. It is

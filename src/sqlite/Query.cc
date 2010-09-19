@@ -15,9 +15,10 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "sqlite3.h"
 #include "sqlite/Query.h"
 #include "sqlite/Connection.h"
-#include "sqlite3.h"
+#include "tagaini_config.h"
 
 #include <QtDebug>
 
@@ -44,6 +45,14 @@ void Query::useWith(Connection *connection)
 	if (connection) _state = BLANK;
 }
 
+#ifdef DEBUG_QUERIES
+void checkQueryError(const Query &query, const QString &statement)
+{
+	if (query.lastError().isError())
+		qDebug("On query: %s", statement.toUtf8().constData());
+}
+#endif
+
 bool Query::prepare(const QString &statement)
 {
 	if (!_connection) return false;
@@ -52,6 +61,9 @@ bool Query::prepare(const QString &statement)
 	sqlite3_mutex_enter(sqlite3_db_mutex(_connection->_handler));
 	int res = sqlite3_prepare_v2(_connection->_handler, statement.toUtf8().data(), -1, &_stmt, 0);
 	_lastError = _connection->updateError();
+#ifdef DEBUG_QUERIES
+	checkQueryError(*this, statement);
+#endif
 	sqlite3_mutex_leave(sqlite3_db_mutex(_connection->_handler));
 	if (res != SQLITE_OK) {
 		_state = ERROR;
@@ -74,7 +86,10 @@ bool Query::checkBind(int &col)
 
 bool Query::checkBindRes()
 {
-	 _lastError = _connection->updateError();
+	_lastError = _connection->updateError();
+#ifdef DEBUG_QUERIES
+	checkQueryError(*this, queryText());
+#endif
 	if (_lastError.code() != SQLITE_OK) {
 		_state = ERROR;
 		sqlite3_mutex_leave(sqlite3_db_mutex(_connection->_handler));
@@ -150,6 +165,9 @@ void Query::reset()
 	sqlite3_mutex_enter(sqlite3_db_mutex(_connection->_handler));
 	sqlite3_reset(_stmt);
 	_lastError = _connection->updateError();
+#ifdef DEBUG_QUERIES
+	checkQueryError(*this, queryText());
+#endif
 	sqlite3_mutex_leave(sqlite3_db_mutex(_connection->_handler));
 	_state = PREPARED;
 }
@@ -160,6 +178,9 @@ bool Query::exec()
 	sqlite3_mutex_enter(sqlite3_db_mutex(_connection->_handler));
 	sqlite3_step(_stmt);
 	_lastError = _connection->updateError();
+#ifdef DEBUG_QUERIES
+	checkQueryError(*this, queryText());
+#endif
 	sqlite3_mutex_leave(sqlite3_db_mutex(_connection->_handler));
 	switch (_lastError.code()) {
 	case SQLITE_ROW:
@@ -184,6 +205,9 @@ bool Query::next()
 		sqlite3_mutex_enter(sqlite3_db_mutex(_connection->_handler));
 		sqlite3_step(_stmt);
 		_lastError = _connection->updateError();
+#ifdef DEBUG_QUERIES
+		checkQueryError(*this, queryText());
+#endif
 		sqlite3_mutex_leave(sqlite3_db_mutex(_connection->_handler));
 		switch (_lastError.code()) {
 		case SQLITE_ROW:
@@ -294,6 +318,9 @@ void Query::clear()
 		sqlite3_mutex_enter(sqlite3_db_mutex(_connection->_handler));
 		sqlite3_finalize(_stmt);
 		_lastError = _connection->updateError();
+#ifdef DEBUG_QUERIES
+		checkQueryError(*this, queryText());
+#endif
 		sqlite3_mutex_leave(sqlite3_db_mutex(_connection->_handler));
 		_stmt = 0;
 	}
