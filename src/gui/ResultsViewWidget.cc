@@ -51,12 +51,13 @@ void ResultsViewWidget::setModel(ResultsList *rList)
 
 void ResultsViewWidget::onSearchStarted()
 {
+	nbResultsLabel->setText(tr("Searching..."));
 	searchActiveAnimation->start();
-	updateResultsCount();
 }
 
 void ResultsViewWidget::onSearchFinished()
 {
+	nbResultsLabel->clear();
 	searchActiveAnimation->stop();
 	searchActiveAnimation->jumpToFrame(0);
 	updateResultsCount();
