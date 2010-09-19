@@ -25,7 +25,7 @@
 #include "sqlite/Query.h"
 #include <QByteArray>
 
-Kanjidic2EntrySearcher::Kanjidic2EntrySearcher(QObject *parent) : EntrySearcher(parent)
+Kanjidic2EntrySearcher::Kanjidic2EntrySearcher(QObject *parent) : EntrySearcher(parent), kanjiQuery(&connection), variationsQuery(&connection), readingsQuery(&connection), nanoriQuery(&connection), componentsQuery(&connection), radicalsQuery(&connection), skipQuery(&connection), fourCornerQuery(&connection), meaningsQuery(&connection)
 {
 	if (!connection.attach(Kanjidic2Plugin::instance()->dbFile(), "kanjidic2")) {
 		qFatal("JMdictEntrySearcher cannot attach JMdict databases!");
@@ -38,6 +38,17 @@ Kanjidic2EntrySearcher::Kanjidic2EntrySearcher(QObject *parent) : EntrySearcher(
 	QueryBuilder::Order::orderingWay["freq"] = QueryBuilder::Order::DESC;
 
 	validCommands << "kanji" << "kana" << "mean" << "jlpt" << "grade" << "stroke" << "radical" << "component" << "unicode" << "skip" << "fourcorner" << "kanjidic";
+
+	// Prepare loading queries for faster execution
+	kanjiQuery.prepare("select grade, strokeCount, frequency, jlpt, paths from kanjidic2.entries where id = ?");
+	variationsQuery.prepare("select distinct original from strokeGroups where element = ? and original not null");
+	readingsQuery.prepare("select type, reading from kanjidic2.reading join kanjidic2.readingText on kanjidic2.reading.docid = kanjidic2.readingText.docid where entry = ? order by type");
+	nanoriQuery.prepare("select reading from kanjidic2.nanori join kanjidic2.nanoriText on kanjidic2.nanori.docid = kanjidic2.nanoriText.docid where entry = ?");
+	componentsQuery.prepare("select element, original, isRoot, pathsRefs from strokeGroups where kanji = ? order by rowid");
+	radicalsQuery.prepare("select rl.number, rl.kanji from kanjidic2.radicals as r join kanjidic2.radicalsList as rl on r.number = rl.number where r.kanji = ? and r.type is not null order by rl.number, rl.rowid");
+	skipQuery.prepare("select type, c1, c2 from skip where entry = ? limit 1");
+	fourCornerQuery.prepare("select topLeft, topRight, botLeft, botRight, extra from fourCorner where entry = ? limit 1");
+	meaningsQuery.prepare("select lang, reading from kanjidic2.meaning join kanjidic2.meaningText on kanjidic2.meaning.docid = kanjidic2.meaningText.docid where entry = ?");
 }
 
 SearchCommand Kanjidic2EntrySearcher::commandFromWord(const QString &word) const
@@ -303,12 +314,10 @@ QueryBuilder::Column Kanjidic2EntrySearcher::canSort(const QString &sort, const 
 QList<Kanjidic2Entry::KanjiMeaning> Kanjidic2EntrySearcher::getMeanings(int id)
 {
 	QList<Kanjidic2Entry::KanjiMeaning> ret;
-	SQLite::Query query(&connection);
-	query.prepare("select lang, reading from kanjidic2.meaning join kanjidic2.meaningText on kanjidic2.meaning.docid = kanjidic2.meaningText.docid where entry = ?");
-	query.bindValue(id);
-	query.exec();
-	while(query.next()) {
-		ret << Kanjidic2Entry::KanjiMeaning(query.valueString(0), query.valueString(1));
+	meaningsQuery.bindValue(id);
+	meaningsQuery.exec();
+	while(meaningsQuery.next()) {
+		ret << Kanjidic2Entry::KanjiMeaning(meaningsQuery.valueString(0), meaningsQuery.valueString(1));
 	}
 	// Here we probably have a kana or roman character that we can build up
 	if (ret.isEmpty()) {
@@ -323,6 +332,7 @@ QList<Kanjidic2Entry::KanjiMeaning> Kanjidic2EntrySearcher::getMeanings(int id)
 		else if (TextTools::isKatakana(character)) ret << Kanjidic2Entry::KanjiMeaning("en", QString("katakana \"%1\"%2").arg(reading).arg(info));
 		else ret << Kanjidic2Entry::KanjiMeaning("en", QString("unknown character \"%1\"").arg(reading));
 	}
+	meaningsQuery.reset();
 	return ret;
 }
 
@@ -330,46 +340,45 @@ Entry *Kanjidic2EntrySearcher::loadEntry(int id)
 {
 	QString character = TextTools::unicodeToSingleChar(id);
 
-	SQLite::Query query(&connection);
-	query.prepare("select grade, strokeCount, frequency, jlpt, paths from kanjidic2.entries where id = ?");
-	query.bindValue(id);
-	query.exec();
+	kanjiQuery.bindValue(id);
+	kanjiQuery.exec();
 	Kanjidic2Entry *entry;
 	QStringList paths;
 	// We have no information about this kanji! This is probably an unknown radical
-	if (!query.next()) {
+	if (!kanjiQuery.next()) {
 		entry = new Kanjidic2Entry(character, false);
 	} else {
 		// Else load the kanji
-		int grade = query.valueIsNull(0) ? -1 : query.valueInt(0);
-		int strokeCount = query.valueIsNull(1) ? -1 : query.valueInt(1);
-		qint32 frequency = query.valueIsNull(2) ? -1 : query.valueInt(2);
-		int jlpt = query.valueIsNull(3) ? -1 : query.valueInt(3);
+		int grade = kanjiQuery.valueIsNull(0) ? -1 : kanjiQuery.valueInt(0);
+		int strokeCount = kanjiQuery.valueIsNull(1) ? -1 :kanjiQuery.valueInt(1);
+		qint32 frequency = kanjiQuery.valueIsNull(2) ? -1 : kanjiQuery.valueInt(2);
+		int jlpt = kanjiQuery.valueIsNull(3) ? -1 : kanjiQuery.valueInt(3);
 		// Get the strokes paths for later processing
-		QByteArray pathsBA(query.valueBlob(4));
+		QByteArray pathsBA(kanjiQuery.valueBlob(4));
 		if (!pathsBA.isEmpty()) paths = QString(qUncompress(pathsBA)).split('|');
 
 		entry = new Kanjidic2Entry(character, true, grade, strokeCount, frequency, jlpt);
 	}
+	kanjiQuery.reset();
 	
 	loadMiscData(entry);
 	
 	// Find the kanjis this one is a variation of
-	query.prepare("select distinct original from strokeGroups where element = ? and original not null");
-	query.bindValue(id);
-	query.exec();
-	while (query.next()) {
-		entry->_variationOf << query.valueInt(0);
+	variationsQuery.bindValue(id);
+	variationsQuery.exec();
+	while (variationsQuery.next()) {
+		entry->_variationOf << variationsQuery.valueInt(0);
 	}
+	variationsQuery.reset();
 
 	// Now load readings, meanings and nanoris
 	// Readings
-	query.prepare("select type, reading from kanjidic2.reading join kanjidic2.readingText on kanjidic2.reading.docid = kanjidic2.readingText.docid where entry = ? order by type");
-	query.bindValue(id);
-	query.exec();
-	while (query.next()) {
-		entry->_readings << Kanjidic2Entry::KanjiReading(query.valueString(0), query.valueString(1));
+	readingsQuery.bindValue(id);
+	readingsQuery.exec();
+	while (readingsQuery.next()) {
+		entry->_readings << Kanjidic2Entry::KanjiReading(readingsQuery.valueString(0), readingsQuery.valueString(1));
 	}
+	readingsQuery.reset();
 
 	// Meanings
 	entry->_meanings = getMeanings(id);
@@ -383,64 +392,66 @@ Entry *Kanjidic2EntrySearcher::loadEntry(int id)
 			}
 		}
 	}
+	meaningsQuery.reset();
 
 	// Nanori
-	query.prepare("select reading from kanjidic2.nanori join kanjidic2.nanoriText on kanjidic2.nanori.docid = kanjidic2.nanoriText.docid where entry = ?");
-	query.bindValue(id);
-	query.exec();
-	while(query.next()) {
-		entry->_nanoris << query.valueString(0);
+	nanoriQuery.bindValue(id);
+	nanoriQuery.exec();
+	while(nanoriQuery.next()) {
+		entry->_nanoris << nanoriQuery.valueString(0);
 	}
+	nanoriQuery.reset();
 
 	// Insert the strokes
 	foreach (const QString &path, paths) entry->addStroke(0, path);
 
 	// Load components
-	query.prepare("select element, original, isRoot, pathsRefs from strokeGroups where kanji = ? order by rowid");
-	query.bindValue(id);
-	query.exec();
-	while(query.next()) {
-		QString element(TextTools::unicodeToSingleChar(query.valueUInt(0)));
-		QString original(TextTools::unicodeToSingleChar(query.valueUInt(1)));;
+	componentsQuery.bindValue(id);
+	componentsQuery.exec();
+	while(componentsQuery.next()) {
+		QString element(TextTools::unicodeToSingleChar(componentsQuery.valueUInt(0)));
+		QString original(TextTools::unicodeToSingleChar(componentsQuery.valueUInt(1)));;
 		
-		KanjiComponent *comp(entry->addComponent(element, original, query.valueBool(2)));
+		KanjiComponent *comp(entry->addComponent(element, original, componentsQuery.valueBool(2)));
 		// Add references to the strokes belonging to this component
-		QByteArray pathsRefs(query.valueBlob(3));
+		QByteArray pathsRefs(componentsQuery.valueBlob(3));
 		for (int i = 0; i < pathsRefs.size(); i++) {
 			quint8 idx(static_cast<quint8>(pathsRefs[i]));
 			comp->addStroke(&entry->_strokes[idx]);
 		}
 	}
+	componentsQuery.reset();
 	
 	// Load radicals
-	query.prepare("select rl.number, rl.kanji from kanjidic2.radicals as r join kanjidic2.radicalsList as rl on r.number = rl.number where r.kanji = ? and r.type is not null order by rl.number, rl.rowid");
-	query.bindValue(id);
-	query.exec();
+	radicalsQuery.bindValue(id);
+	radicalsQuery.exec();
 	// We take the first radical character corresponding to the number,
 	// as it is the one that represents the radical the best
 	int curNbr = -1;
-	while (query.next()) {
-		quint8 nbr = query.valueUInt(0);
-		uint kanji = query.valueUInt(1);
+	while (radicalsQuery.next()) {
+		quint8 nbr = radicalsQuery.valueUInt(0);
+		uint kanji = radicalsQuery.valueUInt(1);
 		if (curNbr == nbr) continue;
 		curNbr = nbr;
 		entry->_radicals << QPair<uint, quint8>(kanji, nbr);
 	}
+	radicalsQuery.reset();
+
 	// Load skip code
-	query.prepare("select type, c1, c2 from skip where entry = ? limit 1");
-	query.bindValue(id);
-	query.exec();
-	if (query.next()) {
-		entry->_skip = QString("%1-%2-%3").arg(query.valueInt(0)).arg(query.valueInt(1)).arg(query.valueInt(2));
+	skipQuery.bindValue(id);
+	skipQuery.exec();
+	if (skipQuery.next()) {
+		entry->_skip = QString("%1-%2-%3").arg(skipQuery.valueInt(0)).arg(skipQuery.valueInt(1)).arg(skipQuery.valueInt(2));
 	}
+	skipQuery.reset();
 
 	// Load four corner code
-	query.prepare("select topLeft, topRight, botLeft, botRight, extra from fourCorner where entry = ? limit 1");
-	query.bindValue(id);
-	query.exec();
-	if (query.next()) {
-		entry->_fourCorner = QString("%1%2%3%4.%5").arg(query.valueInt(0)).arg(query.valueInt(1)).arg(query.valueInt(2)).arg(query.valueInt(3)).arg(query.valueInt(4));
+	fourCornerQuery.bindValue(id);
+	fourCornerQuery.exec();
+	if (fourCornerQuery.next()) {
+		entry->_fourCorner = QString("%1%2%3%4.%5").arg(fourCornerQuery.valueInt(0)).arg(fourCornerQuery.valueInt(1)).arg(fourCornerQuery.valueInt(2)).arg(fourCornerQuery.valueInt(3)).arg(fourCornerQuery.valueInt(4));
 	}
+	fourCornerQuery.reset();
 	
 	// Try to add a description for characters that have nothing
 	if (entry->meanings().size() == 0) {
@@ -451,4 +462,3 @@ Entry *Kanjidic2EntrySearcher::loadEntry(int id)
 
 	return entry;
 }
-
