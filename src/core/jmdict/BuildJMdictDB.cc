@@ -346,7 +346,18 @@ int main(int argc, char *argv[])
 	// Commit everything
 	ASSERT(connection.commit());
 	
-	// Close the database and set the file to read-only
+	// Clear queries, close the database and set the file to read-only
+	insertEntryQuery.clear();
+	insertKanjiTextQuery.clear();
+	insertKanjiQuery.clear();
+	insertKanjiCharQuery.clear();
+	insertKanaTextQuery.clear();
+	insertKanaQuery.clear();
+	insertSenseQuery.clear();
+	insertGlossTextQuery.clear();
+	insertGlossQuery.clear();
+	insertJLPTQuery.clear();
+	insertDeletedEntryQuery.clear();
 	connection.close();
 	QFile(dstFile).setPermissions(QFile::ReadOwner | QFile::ReadUser | QFile::ReadGroup | QFile::ReadOther);
 	
