@@ -24,6 +24,9 @@
 template <template<class NT> class Node, class T>
 class OrderedRBTree;
 
+/**
+ * Base node type lacking the logic to access parent or child nodes.
+ */
 template <class T> class OrderedRBNodeBase
 {
 public:
@@ -71,12 +74,19 @@ public:
 		else return gp->left();
 	}
 
+	OrderedRBNodeBase<T> *sibling()
+	{
+		OrderedRBNodeBase<T> *p = parent();
+		if (!p) return 0;
+		if (p->left() == this) return p->right();
+		else return p->left();
+	}
+
 	int size() const
 	{
 		int ret = 0;
 		const OrderedRBNodeBase<T> *current = this;
 		while (current) {
-//			qDebug() << current << current->value() << "leftSize:" << current->leftSize() << current->left() << current->right();
 			ret += current->leftSize() + 1;
 			current = current->right();
 		}
@@ -101,9 +111,12 @@ public:
 		}
 		return ret;
 	}
-
 };
 
+/**
+ * A node type that implements hierarchy through simple pointers. This class is final and
+ * do not need any virtual functions.
+ */
 template <class T> class OrderedRBNode : public OrderedRBNodeBase<T>
 {
 private:
@@ -121,28 +134,27 @@ public:
 	{
 	}
 
-	virtual OrderedRBNode<T> *left() const { return _left; }
-	virtual void setLeft(OrderedRBNode<T> *nl)
+	OrderedRBNode<T> *left() const { return _left; }
+	OrderedRBNode<T> *right() const { return _right; }
+	OrderedRBNode<T> *parent() const { return _parent; }
+	void setLeft(OrderedRBNode<T> *nl)
 	{
-//		if (_left) _left->detach();
 		_left = nl;
 		if (nl) nl->_parent = this;
 	}
 
-	virtual OrderedRBNode<T> *right() const { return _right; }
-	virtual void setRight(OrderedRBNode<T> *nr)
+	void setRight(OrderedRBNode<T> *nr)
 	{
-//		if (_right) _right->detach();
 		_right = nr;
 		if (nr) nr->_parent = this;
 	}
 
-	virtual OrderedRBNode<T> *parent() const { return _parent; }
-	virtual void detach()
+	/// Detach the node from the current parent
+	void detach()
 	{
 		if (_parent) {
-			if (_parent->_left == this) _parent->_left = 0;
-			else if (_parent->_right == this) _parent->_right = 0;
+			if (_parent->left() == this) _parent->_left = 0;
+			else if (_parent->right() == this) _parent->_right = 0;
 			_parent = 0;
 		}
 	}
@@ -272,6 +284,9 @@ public:
 		clear();
 	}
 
+	/**
+	 * Complexity: O(log n)
+	 */
 	int size() const
 	{
 		if (!root) return 0;
@@ -279,7 +294,32 @@ public:
 	}
 
 	/**
+	 * Returns the value at index. Will crash if access is made out of bounds.
+	 * Complexity: O(log n)
+	 */
+	const T& operator[](int index) const
+	{
+		const Node<T> *current = root;
+		unsigned int baseIdx = 0;
+
+		while (current) {
+			int curPos = baseIdx + current->leftSize();
+			if (curPos == index) break;
+			else if (index < curPos) current = current->left();
+			else {
+				baseIdx += current->leftSize() + 1;
+				current = current->right();
+			}
+		}
+		// Will crash if access is out of bounds because current would then be 0
+		if (!current) qFatal("Error: accessing RBTree out of bounds");
+		return current->value();
+	}
+
+	/**
 	 * Insert the value val at index.
+	 * Complexity: O(log n)
+	 * TODO No test to check whether we are inserting out of bounds! (both inferior and superior)
 	 */
 	void insert(const T &val, int index)
 	{
@@ -318,13 +358,17 @@ public:
 	}
 
 	/**
-	 * Returns the value at index. Will crash if access is made out of bounds.
+	 * Remove the value at position index. Returns true on success, false otherwise.
+	 * Complexity: O(log n)
 	 */
-	const T& operator[](int index) const
+	bool remove(int index)
 	{
-		const Node<T> *current = root;
+		if (index < 0) return false;
+
+		Node<T> *current = root;
 		unsigned int baseIdx = 0;
 
+		// First find the node to remove
 		while (current) {
 			int curPos = baseIdx + current->leftSize();
 			if (curPos == index) break;
@@ -334,9 +378,46 @@ public:
 				current = current->right();
 			}
 		}
-		// Will crash if access is out of bounds because current would then be 0
-		if (!current) qFatal("Error: accessing RBTree out of bounds");
-		return current->value();
+
+		// Index to remove not found
+		if (!current) return false;
+
+		// Node has two childs, replace its value with the leftmost value at its
+		// right side and replace that latter node with its right child before deleting it.
+		if (current->left() && current->right()) {
+			Node<T> *successor = current->right();
+			while (successor->left()) successor = successor->left();
+			current->setValue(successor->value());
+			Node<T> *successorParent = successor->parent();
+			if (successorParent->left() == successor) successorParent->setLeft(successor->right);
+			else successorParent->setRight(successor->right());
+			delete successor;
+			// TODO update leftSizes!
+			return true;
+
+		}
+		// Node has only one child, replace it by the child before deleting
+		else if (current->left() || current->right()) {
+			Node<T> *parent = current->parent();
+			Node<T> *child = current->left() ? current->left() : current->right();
+			// Is it root?
+			if (!parent) root = child;
+			else if (parent->left() == current) parent->setLeft(child);
+			else parent->setRight(child);
+			delete current;
+			// TODO update leftSizes!
+			return true;
+		}
+		// We are removing a leaf
+		else {
+			// Is it root?
+			if (current == root) root = 0;
+			else current->detach();
+			delete current;
+			// TODO update leftSizes!
+			return true;
+		}
+		return false;
 	}
 
 	void clear()
