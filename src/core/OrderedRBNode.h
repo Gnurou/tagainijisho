@@ -388,36 +388,133 @@ public:
 			Node<T> *successor = current->right();
 			while (successor->left()) successor = successor->left();
 			current->setValue(successor->value());
-			Node<T> *successorParent = successor->parent();
-			if (successorParent->left() == successor) successorParent->setLeft(successor->right);
-			else successorParent->setRight(successor->right());
-			delete successor;
-			// TODO update leftSizes!
+			deleteOneChildNode(successor);
 			return true;
-
 		}
 		// Node has only one child, replace it by the child before deleting
 		else if (current->left() || current->right()) {
-			Node<T> *parent = current->parent();
-			Node<T> *child = current->left() ? current->left() : current->right();
-			// Is it root?
-			if (!parent) root = child;
-			else if (parent->left() == current) parent->setLeft(child);
-			else parent->setRight(child);
-			delete current;
-			// TODO update leftSizes!
+			deleteOneChildNode(current);
 			return true;
 		}
 		// We are removing a leaf
 		else {
-			// Is it root?
-			if (current == root) root = 0;
-			else current->detach();
-			delete current;
-			// TODO update leftSizes!
+			deleteOneChildNode(current);
 			return true;
 		}
 		return false;
+	}
+
+	/**
+	 * Delete a node which has at most one child.
+	 * Pre: node must have at most one child.
+	 */
+	void deleteOneChildNode(Node<T> *node)
+	{
+		// Update leftSizes
+		for (Node<T> *n = node; ; ) {
+			Node<T> *p = n->parent();
+			if (p == 0) break;
+			if (n == p->left()) p->_leftSize--;
+			n = p;
+		}
+		Node<T> *parent = node->parent();
+		Node<T> *child = node->left() ? node->left() : node->right();
+		// Are we deleting the root?
+		if (!parent) root = child;
+		else if (parent->left() == node) parent->setLeft(child);
+		else parent->setRight(child);
+
+		// Perform balancing if there is a child to balance with
+		if (child && node->color() == Node<T>::BLACK) {
+			// Black node replaced with red one: recolor into black
+			if (child->color() == Node<T>::RED) child->setColor(Node<T>::BLACK);
+			// Black node replaced by black: black count in path changed, needs
+			// rebalancing
+			else removeCase1(child);
+		}
+		delete node;
+	}
+
+	void removeCase1(Node<T> *node)
+	{
+		// If the removed node was the root, the number of black nodes did
+		// not change for every path
+		if (node->parent()) removeCase2(node);
+	}
+
+	void removeCase2(Node<T> *node)
+	{
+		Node<T> *sibling = node->sibling();
+		if (sibling->color() == Node<T>::RED) {
+			node->parent->setColor(Node<T>::RED);
+			sibling->setColor(Node<T>::BLACK);
+			if (node == node->parent()->left()) rotateLeft(node->parent());
+			else rotateRight(node->parent());
+		}
+		removeCase3(node);
+	}
+
+	void removeCase3(Node<T> *node)
+	{
+		Node<T> *sibling = node->sibling();
+		if (node->parent->color() == Node<T>::BLACK &&
+		    sibling->color() == Node<T>::BLACK &&
+		    (!sibling->left() || sibling->left()->color() == Node<T>::BLACK) &&
+		    (!sibling->right() || sibling->right()->color() == Node<T>::BLACK)) {
+			sibling->setColor(Node<T>::RED);
+			removeCase1(node->parent());
+		}
+		else removeCase4(node);
+
+	}
+
+	void removeCase4(Node<T> *node)
+	{
+		Node<T> *sibling = node->sibling();
+		if (node->parent()->color() == Node<T>::RED &&
+		    sibling->color() == Node<T>::BLACK &&
+		    (!sibling->left() || sibling->left()->color() == Node<T>::BLACK) &&
+		    (!sibling->right() || sibling->right()->color() == Node<T>::BLACK)) {
+			sibling->setColor(Node<T>::RED);
+			node->parent()->setColor(Node<T>::BLACK);
+		}
+		else removeCase5(node);
+
+	}
+
+	void removeCase5(Node<T> *node)
+	{
+		Node<T> *sibling = node->sibling();
+		if (sibling->color == Node<T>::BLACK) {
+			if (node == node->parent()->left() &&
+			    (!sibling->right() || sibling->right()->color() == Node<T>::BLACK) &&
+			    (sibling->left() && sibling->left()->color() == Node<T>::RED)) {
+				sibling->setColor(Node<T>::RED);
+				sibling->left()->setColor(Node<T>::BLACK);
+				rotateRight(sibling);
+			} else if (node == node->parent()->right() &&
+			    (!sibling->left() || sibling->left()->color() == Node<T>::BLACK) &&
+			    (sibling->right() && sibling->right()->color() == Node<T>::RED)) {
+				sibling->setColor(Node<T>::RED);
+				sibling->right()->setColor(Node<T>::BLACK);
+				rotateLeft(sibling);
+			}
+		}
+	}
+
+	void removeCase6(Node<T> *node)
+	{
+		Node<T> *sibling = node->sibling();
+		sibling->color = node->parent()->color();
+		node->parent()->setColor(Node<T>::BLACK);
+
+		if (node == node->parent()->left()) {
+			if (sibling->right()) sibling->right()->setColor(Node<T>::BLACK);
+			rotateLeft(node->parent());
+		} else {
+			if (sibling->left()) sibling->left()->setColor(Node<T>::BLACK);
+			rotateRight(node->parent());
+		}
 	}
 
 	void clear()
