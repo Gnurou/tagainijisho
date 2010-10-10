@@ -128,6 +128,7 @@ void OrderedRBTreeTests::massRemoveEnd()
 	for (int i = TEST_SIZE - 1; i >= 0; i--) {
 		treeEnd.remove(i);
 		QCOMPARE(treeEnd.size(), i);
+		treeValid(treeEnd);
 		// Every 16 times, check that the tree's order is respected and that it is valid
 		if ((i & 0xf) == 0) for (int j = 0; j < treeEnd.size(); j++) {
 			//treeValid(treeEnd);

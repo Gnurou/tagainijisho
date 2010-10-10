@@ -33,7 +33,7 @@ private:
 	}
 
 	template <class Node>
-	void _treeValid(const Node *const node, int depth, int &maxdepth)
+	void inline _treeValid(const Node *const node, int depth, int &maxdepth)
 	{
 		// Property 5: every path from a node to any of its descendants contains the same number of black nodes
 		if (isBlack(node)) ++depth;
@@ -43,7 +43,7 @@ private:
 				return;
 			}
 			else {
-				QVERIFY(depth == maxdepth);
+				Q_ASSERT(depth == maxdepth);
 				return;
 			}
 		}
@@ -60,7 +60,7 @@ private:
 	}
 
 	template <template<class NT> class Node, class T>
-	void treeValid(const OrderedRBTree<Node, T> &tree)
+	void inline treeValid(const OrderedRBTree<Node, T> &tree)
 	{
 		int maxdepth = -1;
 		_treeValid(tree.root, 0, maxdepth);
