@@ -222,37 +222,6 @@ private:
 		pivot->calculateLeftSize();
 	}
 
-	/**
-	 * Delete a node which has at most one child.
-	 * Precondition: node must have at most one child.
-	 */
-	void deleteOneChildNode(Node<T> *node)
-	{
-		// Update leftSizes
-		for (Node<T> *n = node; ; ) {
-			Node<T> *p = n->parent();
-			if (p == 0) break;
-			if (n == p->left()) p->_leftSize--;
-			n = p;
-		}
-		Node<T> *parent = node->parent();
-		Node<T> *child = node->left() ? node->left() : node->right();
-		// Are we deleting the root?
-		if (!parent) setRoot(child);
-		else if (parent->left() == node) parent->setLeft(child);
-		else parent->setRight(child);
-
-		// Perform balancing if there is a child to balance with
-		if (child && node->color() == Node<T>::BLACK) {
-			// Black node replaced with red one: recolor into black
-			if (child->color() == Node<T>::RED) child->setColor(Node<T>::BLACK);
-			// Black node replaced by black: black count in path changed, needs
-			// rebalancing
-			else removeCase1(child);
-		}
-		delete node;
-	}
-
 	void insertCase1(Node<T> *inserted)
 	{
 		// Added a root Node<T>?
@@ -308,6 +277,40 @@ private:
 		} else {
 			rotateLeft(grandParent);
 		}
+	}
+
+	/**
+	 * Delete a node which has at most one child.
+	 * Precondition: node must have at most one child.
+	 */
+	void deleteOneChildNode(Node<T> *node)
+	{
+		// Update leftSizes
+		for (Node<T> *n = node; ; ) {
+			Node<T> *p = n->parent();
+			if (p == 0) break;
+			if (n == p->left()) p->_leftSize--;
+			n = p;
+		}
+		Node<T> *parent = node->parent();
+		Node<T> *child = node->left() ? node->left() : node->right();
+		// Are we deleting the root?
+		if (!parent) setRoot(child);
+		else if (parent->left() == node) parent->setLeft(child);
+		else parent->setRight(child);
+
+		// child will only be null if both childs of node are leaves. In that case
+		// child can have no sibling!
+
+		// Perform balancing if there is a child to balance with
+		if (child && node->color() == Node<T>::BLACK) {
+			// Black node replaced with red one: recolor into black
+			if (child->color() == Node<T>::RED) child->setColor(Node<T>::BLACK);
+			// Black node replaced by black: black count in path changed, needs
+			// rebalancing
+			else removeCase1(child);
+		}
+		delete node;
 	}
 
 	void removeCase1(Node<T> *node)
@@ -373,12 +376,13 @@ private:
 				rotateLeft(sibling);
 			}
 		}
+		removeCase6(node);
 	}
 
 	void removeCase6(Node<T> *node)
 	{
 		Node<T> *sibling = static_cast<Node<T> *>(node->sibling());
-		sibling->color = node->parent()->color();
+		sibling->setColor(node->parent()->color());
 		node->parent()->setColor(Node<T>::BLACK);
 
 		if (node == node->parent()->left()) {
