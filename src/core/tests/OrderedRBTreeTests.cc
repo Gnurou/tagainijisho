@@ -141,9 +141,9 @@ void OrderedRBTreeTests::massRemoveEnd()
 
 	for (int i = TEST_SIZE - 1; i >= 0; i--) {
 		treeEnd.remove(i);
-		qDebug() << i;
 		QCOMPARE(treeEnd.size(), i);
 	}
+	treeValid(treeEnd);
 }
 
 void OrderedRBTreeTests::massRemoveBegin()

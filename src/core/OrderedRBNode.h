@@ -165,6 +165,13 @@ template <template<class NT> class Node, class T> class OrderedRBTree
 private:
 	Node<T> *root;
 
+	/// Sets node to be the root of this tree
+	void setRoot(Node<T> *node)
+	{
+		if (node) node->detach();
+		root = node;
+	}
+
 	void rotateLeft(Node<T> *pivot)
 	{
 		enum { ROOT, LEFT, RIGHT } parentSide = pivot->parent() ?
@@ -173,8 +180,7 @@ private:
 		// Move right child to node's place
 		switch (parentSide) {
 		case ROOT:
-			newParent->detach();
-			root = newParent;
+			setRoot(newParent);
 			break;
 		case LEFT:
 			pivot->parent()->setLeft(newParent);
@@ -199,8 +205,7 @@ private:
 		// Move left child to node's place
 		switch (parentSide) {
 		case ROOT:
-			newParent->detach();
-			root = newParent;
+			setRoot(newParent);
 			break;
 		case LEFT:
 			pivot->parent()->setLeft(newParent);
@@ -233,7 +238,7 @@ private:
 		Node<T> *parent = node->parent();
 		Node<T> *child = node->left() ? node->left() : node->right();
 		// Are we deleting the root?
-		if (!parent) root = child;
+		if (!parent) setRoot(child);
 		else if (parent->left() == node) parent->setLeft(child);
 		else parent->setRight(child);
 
@@ -439,9 +444,7 @@ public:
 		Node<T> *newNode = new Node<T>(val);
 
 		// Insert into root
-		if (!current) {
-			root = newNode;
-		}
+		if (!current) setRoot(newNode);
 		// Otherwise find the leaf where to add our node
 		else while (true) {
 			int curPos = baseIdx + current->leftSize();
