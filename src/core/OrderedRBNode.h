@@ -302,24 +302,30 @@ private:
 		// child will only be null if both childs of node are leaves. In that case
 		// child can have no sibling!
 
-		// Perform balancing if there is a child to balance with
-		if (child && node->color() == Node<T>::BLACK) {
+		// Perform balancing
+		if (node->color() == Node<T>::BLACK) {
 			// Black node replaced with red one: recolor into black
-			if (child->color() == Node<T>::RED) child->setColor(Node<T>::BLACK);
+			if (child && child->color() == Node<T>::RED) child->setColor(Node<T>::BLACK);
 			// Black node replaced by black: black count in path changed, needs
 			// rebalancing
+			// This can only happen if node only had two leaf children, that is, if
+			// child is null. Therefore passing the parent and maybe a left/right indicator
+			// to removeCaseX sounds like a good idea!
 			else removeCase1(child);
 		}
 		delete node;
 	}
 
+	// If the removed node was the root, the number of black nodes did
+	// not change for every path (because it only had one child)
 	void removeCase1(Node<T> *node)
 	{
-		// If the removed node was the root, the number of black nodes did
-		// not change for every path
 		if (node->parent()) removeCase2(node);
 	}
 
+	// If the sibling is red, set the parent (which was necessarily black)
+	// to be red, let the sibling become black, and rotate before continuing
+	// balancing
 	void removeCase2(Node<T> *node)
 	{
 		Node<T> *sibling = static_cast<Node<T> *>(node->sibling());
@@ -332,6 +338,8 @@ private:
 		removeCase3(node);
 	}
 
+	// Parent is black, as well as sibling and its children - just repaint sibling
+	// red.
 	void removeCase3(Node<T> *node)
 	{
 		Node<T> *sibling = static_cast<Node<T> *>(node->sibling());
@@ -345,6 +353,8 @@ private:
 		else removeCase4(node);
 	}
 
+	// Parent is red and sibling and its childs are black. Exchange the color of parent
+	// and sibling.
 	void removeCase4(Node<T> *node)
 	{
 		Node<T> *sibling = static_cast<Node<T> *>(node->sibling());
