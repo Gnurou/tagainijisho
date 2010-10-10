@@ -151,8 +151,11 @@ void OrderedRBTreeTests::massRemoveBegin()
 	QCOMPARE(treeBegin.size(), TEST_SIZE);
 	treeValid(treeBegin);
 
-	for (int i = TEST_SIZE - 1; i >= 0; i++) {
+	for (int i = TEST_SIZE - 1; i >= 0; i--) {
+		treeBegin.remove(0);
+		QCOMPARE(treeBegin.size(), i);
 	}
+	treeValid(treeBegin);
 }
 
 void OrderedRBTreeTests::massRemoveRandom()
@@ -160,7 +163,7 @@ void OrderedRBTreeTests::massRemoveRandom()
 	QCOMPARE(treeRandom.size(), TEST_SIZE);
 	treeValid(treeRandom);
 
-	for (int i = TEST_SIZE - 1; i >= 0; i++) {
+	for (int i = TEST_SIZE - 1; i >= 0; i--) {
 	}
 }
 
