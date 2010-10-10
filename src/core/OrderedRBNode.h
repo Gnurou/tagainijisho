@@ -361,7 +361,7 @@ private:
 		    (!sibling->left() || sibling->left()->color() == Node<T>::BLACK) &&
 		    (!sibling->right() || sibling->right()->color() == Node<T>::BLACK)) {
 			sibling->setColor(Node<T>::RED);
-			removeCase1(parent->parent(), side);
+			removeCase1(parent->parent(), parent->parent() && parent == parent->parent()->left() ? Left : Right);
 		}
 		else removeCase4(parent, side);
 	}
