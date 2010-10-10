@@ -15,6 +15,11 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/**
+ * Red-Black tree inspired by the Wikipedia definition:
+ * http://en.wikipedia.org/wiki/Red-black_tree
+ */
+
 #ifndef __CORE_ORDEREDRBNode_H
 #define __CORE_ORDEREDRBNode_H
 
@@ -279,6 +284,8 @@ private:
 		}
 	}
 
+	typedef enum { Left, Right } Side;
+
 	/**
 	 * Delete a node which has at most one child.
 	 * Precondition: node must have at most one child.
@@ -294,10 +301,17 @@ private:
 		}
 		Node<T> *parent = node->parent();
 		Node<T> *child = node->left() ? node->left() : node->right();
+		Side side = Right;
 		// Are we deleting the root?
 		if (!parent) setRoot(child);
-		else if (parent->left() == node) parent->setLeft(child);
-		else parent->setRight(child);
+		else if (parent->left() == node) {
+			parent->setLeft(child);
+			side = Left;
+		}
+		else {
+			parent->setRight(child);
+			side = Right;
+		}
 
 		// child will only be null if both childs of node are leaves. In that case
 		// child can have no sibling!
@@ -309,76 +323,75 @@ private:
 			// Black node replaced by black: black count in path changed, needs
 			// rebalancing
 			// This can only happen if node only had two leaf children, that is, if
-			// child is null. Therefore passing the parent and maybe a left/right indicator
-			// to removeCaseX sounds like a good idea!
-			else removeCase1(child);
+			// child is null.
+			else removeCase1(parent, side);
 		}
 		delete node;
 	}
 
 	// If the removed node was the root, the number of black nodes did
 	// not change for every path (because it only had one child)
-	void removeCase1(Node<T> *node)
+	void removeCase1(Node<T> *parent, Side side)
 	{
-		if (node->parent()) removeCase2(node);
+		if (parent) removeCase2(parent, side);
 	}
 
 	// If the sibling is red, set the parent (which was necessarily black)
 	// to be red, let the sibling become black, and rotate before continuing
 	// balancing
-	void removeCase2(Node<T> *node)
+	void removeCase2(Node<T> *parent, Side side)
 	{
-		Node<T> *sibling = static_cast<Node<T> *>(node->sibling());
+		Node<T> *sibling = static_cast<Node<T> *>(side == Left ? parent->right() : parent->left());
 		if (sibling->color() == Node<T>::RED) {
-			node->parent()->setColor(Node<T>::RED);
+			parent->setColor(Node<T>::RED);
 			sibling->setColor(Node<T>::BLACK);
-			if (node == node->parent()->left()) rotateLeft(node->parent());
-			else rotateRight(node->parent());
+			if (sibling == parent->left()) rotateRight(parent);
+			else rotateLeft(parent);
 		}
-		removeCase3(node);
+		removeCase3(parent, side);
 	}
 
 	// Parent is black, as well as sibling and its children - just repaint sibling
 	// red.
-	void removeCase3(Node<T> *node)
+	void removeCase3(Node<T> *parent, Side side)
 	{
-		Node<T> *sibling = static_cast<Node<T> *>(node->sibling());
-		if (node->parent()->color() == Node<T>::BLACK &&
+		Node<T> *sibling = static_cast<Node<T> *>(side == Left ? parent->right() : parent->left());
+		if (parent->color() == Node<T>::BLACK &&
 		    sibling->color() == Node<T>::BLACK &&
 		    (!sibling->left() || sibling->left()->color() == Node<T>::BLACK) &&
 		    (!sibling->right() || sibling->right()->color() == Node<T>::BLACK)) {
 			sibling->setColor(Node<T>::RED);
-			removeCase1(node->parent());
+			removeCase1(parent->parent(), side);
 		}
-		else removeCase4(node);
+		else removeCase4(parent, side);
 	}
 
 	// Parent is red and sibling and its childs are black. Exchange the color of parent
 	// and sibling.
-	void removeCase4(Node<T> *node)
+	void removeCase4(Node<T> *parent, Side side)
 	{
-		Node<T> *sibling = static_cast<Node<T> *>(node->sibling());
-		if (node->parent()->color() == Node<T>::RED &&
+		Node<T> *sibling = static_cast<Node<T> *>(side == Left ? parent->right() : parent->left());
+		if (parent->color() == Node<T>::RED &&
 		    sibling->color() == Node<T>::BLACK &&
 		    (!sibling->left() || sibling->left()->color() == Node<T>::BLACK) &&
 		    (!sibling->right() || sibling->right()->color() == Node<T>::BLACK)) {
 			sibling->setColor(Node<T>::RED);
-			node->parent()->setColor(Node<T>::BLACK);
+			parent->setColor(Node<T>::BLACK);
 		}
-		else removeCase5(node);
+		else removeCase5(parent, side);
 	}
 
-	void removeCase5(Node<T> *node)
+	void removeCase5(Node<T> *parent, Side side)
 	{
-		Node<T> *sibling = static_cast<Node<T> *>(node->sibling());
+		Node<T> *sibling = static_cast<Node<T> *>(side == Left ? parent->right() : parent->left());
 		if (sibling->color() == Node<T>::BLACK) {
-			if (node == node->parent()->left() &&
+			if (sibling == parent->right() &&
 			    (!sibling->right() || sibling->right()->color() == Node<T>::BLACK) &&
 			    (sibling->left() && sibling->left()->color() == Node<T>::RED)) {
 				sibling->setColor(Node<T>::RED);
 				sibling->left()->setColor(Node<T>::BLACK);
 				rotateRight(sibling);
-			} else if (node == node->parent()->right() &&
+			} else if (sibling == parent->left() &&
 			    (!sibling->left() || sibling->left()->color() == Node<T>::BLACK) &&
 			    (sibling->right() && sibling->right()->color() == Node<T>::RED)) {
 				sibling->setColor(Node<T>::RED);
@@ -386,21 +399,21 @@ private:
 				rotateLeft(sibling);
 			}
 		}
-		removeCase6(node);
+		removeCase6(parent, side);
 	}
 
-	void removeCase6(Node<T> *node)
+	void removeCase6(Node<T> *parent, Side side)
 	{
-		Node<T> *sibling = static_cast<Node<T> *>(node->sibling());
-		sibling->setColor(node->parent()->color());
-		node->parent()->setColor(Node<T>::BLACK);
+		Node<T> *sibling = static_cast<Node<T> *>(side == Left ? parent->right() : parent->left());
+		sibling->setColor(parent->color());
+		parent->setColor(Node<T>::BLACK);
 
-		if (node == node->parent()->left()) {
+		if (sibling == parent->right()) {
 			if (sibling->right()) sibling->right()->setColor(Node<T>::BLACK);
-			rotateLeft(node->parent());
+			rotateLeft(parent);
 		} else {
 			if (sibling->left()) sibling->left()->setColor(Node<T>::BLACK);
-			rotateRight(node->parent());
+			rotateRight(parent);
 		}
 	}
 
