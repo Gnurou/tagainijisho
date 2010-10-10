@@ -72,53 +72,51 @@ void OrderedRBTreeTests::testNode()
 
 void OrderedRBTreeTests::massInsertEnd()
 {
-	tree.clear();
-	QCOMPARE(tree.size(), 0);
-	treeValid(tree);
+	QCOMPARE(treeEnd.size(), 0);
+	treeValid(treeEnd);
 
 	// Mass-insert from end
 	for (int i = 0; i < TEST_SIZE; i++) {
-		tree.insert(QString("String at position %1").arg(i), i);
-		QCOMPARE(tree.size(), i + 1);
+		treeEnd.insert(QString("String at position %1").arg(i), i);
+		QCOMPARE(treeEnd.size(), i + 1);
 	}
-	treeValid(tree);
+	treeValid(treeEnd);
 	for (int i = 0; i < TEST_SIZE; i++) {
-		QCOMPARE(tree[i], QString("String at position %1").arg(i));
+		QCOMPARE(treeEnd[i], QString("String at position %1").arg(i));
 	}
 }
 
 void OrderedRBTreeTests::massInsertBegin()
 {
-	tree.clear();
-	QCOMPARE(tree.size(), 0);
-	treeValid(tree);
+	QCOMPARE(treeBegin.size(), 0);
+	treeValid(treeBegin);
 
 	for (int i = 0; i < TEST_SIZE; i++) {
-		tree.insert(QString("String at position %1").arg(TEST_SIZE - (i + 1)), 0);
-		QCOMPARE(tree.size(), i + 1);
+		treeBegin.insert(QString("String at position %1").arg(TEST_SIZE - (i + 1)), 0);
+		QCOMPARE(treeBegin.size(), i + 1);
 	}
-	treeValid(tree);
+	treeValid(treeBegin);
 	for (int i = 0; i < TEST_SIZE; i++) {
-		QCOMPARE(tree[i], QString("String at position %1").arg(i));
+		QCOMPARE(treeBegin[i], QString("String at position %1").arg(i));
 	}
 }
 
 void OrderedRBTreeTests::massInsertRandom()
 {
-	tree.clear();
-	QCOMPARE(tree.size(), 0);
-	treeValid(tree);
+	treeRandom.clear();
+	QCOMPARE(treeRandom.size(), 0);
+	treeValid(treeRandom);
 	QList<int> insertPos;
 
 	for (int i = 0; i < TEST_SIZE; i++) {
-		int pos = qrand() % (tree.size() + 1);
-		tree.insert(QString("String at position %1").arg(i), pos);
+		int pos = qrand() % (treeRandom.size() + 1);
+		treeRandom.insert(QString("String at position %1").arg(i), pos);
 		insertPos.insert(pos, i);
-		QCOMPARE(tree.size(), i + 1);
+		QCOMPARE(treeRandom.size(), i + 1);
 	}
-	treeValid(tree);
+	treeValid(treeRandom);
 	for (int i = 0; i < 3000; i++) {
-		QCOMPARE(tree[i], QString("String at position %1").arg(insertPos[i]));
+		QCOMPARE(treeRandom[i], QString("String at position %1").arg(insertPos[i]));
 	}
 }
 
@@ -133,6 +131,36 @@ void OrderedRBTreeTests::deepCheckValidity()
 		tree.insert(QString("String at position %1").arg(pos), pos);
 		QCOMPARE(tree.size(), i + 1);
 		treeValid(tree);
+	}
+}
+
+void OrderedRBTreeTests::massRemoveEnd()
+{
+	QCOMPARE(treeEnd.size(), TEST_SIZE);
+	treeValid(treeEnd);
+
+	for (int i = TEST_SIZE - 1; i >= 0; i--) {
+		treeEnd.remove(i);
+		qDebug() << i;
+		QCOMPARE(treeEnd.size(), i);
+	}
+}
+
+void OrderedRBTreeTests::massRemoveBegin()
+{
+	QCOMPARE(treeBegin.size(), TEST_SIZE);
+	treeValid(treeBegin);
+
+	for (int i = TEST_SIZE - 1; i >= 0; i++) {
+	}
+}
+
+void OrderedRBTreeTests::massRemoveRandom()
+{
+	QCOMPARE(treeRandom.size(), TEST_SIZE);
+	treeValid(treeRandom);
+
+	for (int i = TEST_SIZE - 1; i >= 0; i++) {
 	}
 }
 

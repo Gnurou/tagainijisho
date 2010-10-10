@@ -66,7 +66,7 @@ private:
 		_treeValid(tree.root, 0, maxdepth);
 	}
 
-	OrderedRBTree<OrderedRBNode, QString> tree;
+	OrderedRBTree<OrderedRBNode, QString> tree, treeBegin, treeEnd, treeRandom;
 
 private slots:
 	void initTestCase();
@@ -77,4 +77,8 @@ private slots:
 	void massInsertBegin();
 	void massInsertRandom();
 	void deepCheckValidity();
+
+	void massRemoveEnd();
+	void massRemoveBegin();
+	void massRemoveRandom();
 };
