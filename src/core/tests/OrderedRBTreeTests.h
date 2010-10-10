@@ -67,6 +67,7 @@ private:
 	}
 
 	OrderedRBTree<OrderedRBNode, QString> tree, treeBegin, treeEnd, treeRandom;
+	QList<int> treeRandomPos;
 
 private slots:
 	void initTestCase();
@@ -76,9 +77,10 @@ private slots:
 	void massInsertEnd();
 	void massInsertBegin();
 	void massInsertRandom();
-	void deepCheckValidity();
 
 	void massRemoveEnd();
 	void massRemoveBegin();
 	void massRemoveRandom();
+
+	void deepCheckValidity();
 };
