@@ -18,7 +18,6 @@
 #include "SQLiteTests.h"
 
 #include <QtDebug>
-#include <QTemporaryFile>
 
 void SQLiteTests::initTestCase()
 {
