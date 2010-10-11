@@ -15,6 +15,9 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#ifndef ORDEREDRBTREETESTS_H
+#define ORDEREDRBTREETESTS_H
+
 #include <QObject>
 #include <QTest>
 
@@ -84,3 +87,5 @@ private slots:
 
 	void deepCheckValidity();
 };
+
+#endif

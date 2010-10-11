@@ -16,7 +16,7 @@
  */
 
 /**
- * Red-Black tree inspired by the Wikipedia definition:
+ * Red-Black tree inspired by the Wikipedia example:
  * http://en.wikipedia.org/wiki/Red-black_tree
  */
 
