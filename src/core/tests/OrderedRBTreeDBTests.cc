@@ -31,23 +31,46 @@ void OrderedRBTreeDBTests::cleanupTestCase()
 
 void OrderedRBTreeDBTests::createTableTest()
 {
-	QVERIFY(connection.exec(listDB.createTableStatement()));
-	listDB.prepareForConnection(&connection);
+	QVERIFY(listDB.createTables(&connection));
+	QVERIFY(listDB.prepareForConnection(&connection));
 }
 
 void OrderedRBTreeDBTests::insertDataTest_data()
 {
 	QTest::addColumn<quint32>("rowid");
-	QTest::addColumn<quint8>("type");
-	QTest::addColumn<quint32>("id");
-	QTest::addColumn<QString>("name");
+	QTest::addColumn<quint32>("leftSize");
+	QTest::addColumn<bool>("red");
 	QTest::addColumn<quint32>("parent");
 	QTest::addColumn<quint32>("left");
 	QTest::addColumn<quint32>("right");
+	QTest::addColumn<quint32>("listid");
+	QTest::addColumn<quint8>("type");
+	QTest::addColumn<quint32>("id");
+
+	QTest::newRow("first row") << (quint32)1 << (quint32)1 << false
+		<< (quint32)0 << (quint32)2 << (quint32)3
+		<< (quint32)5 << (quint8)1 << (quint32)28;
+	QTest::newRow("second row") << (quint32)2 << (quint32)0 << true
+		<< (quint32)1 << (quint32)0 << (quint32)0
+		<< (quint32)5 << (quint8)1 << (quint32)29;
+	QTest::newRow("third row") << (quint32)3 << (quint32)0 << false
+		<< (quint32)1 << (quint32)0 << (quint32)0
+		<< (quint32)5 << (quint8)2 << (quint32)44;
 }
 
 void OrderedRBTreeDBTests::insertDataTest()
 {
+	QFETCH(quint32, rowid);
+	QFETCH(quint32, leftSize);
+	QFETCH(bool, red);
+	QFETCH(quint32, parent);
+	QFETCH(quint32, left);
+	QFETCH(quint32, right);
+	QFETCH(quint32, listid);
+	QFETCH(quint8, type);
+	QFETCH(quint32, id);
+
+	QCOMPARE(listDB.insertEntry(leftSize, red, parent, left, right, listid, type, id), rowid);
 }
 
 void OrderedRBTreeDBTests::retrieveDataTest_data()
@@ -57,6 +80,27 @@ void OrderedRBTreeDBTests::retrieveDataTest_data()
 
 void OrderedRBTreeDBTests::retrieveDataTest()
 {
+	QFETCH(quint32, rowid);
+	QFETCH(quint32, leftSize);
+	QFETCH(bool, red);
+	QFETCH(quint32, parent);
+	QFETCH(quint32, left);
+	QFETCH(quint32, right);
+	QFETCH(quint32, listid);
+	QFETCH(quint8, type);
+	QFETCH(quint32, id);
+
+	EntryList res = listDB.getEntry(rowid);
+	QVERIFY(res.rowId != 0);
+	QCOMPARE(res.rowId, rowid);
+	QCOMPARE(res.leftSize, leftSize);
+	QCOMPARE(res.red, red);
+	QCOMPARE(res.parent, parent);
+	QCOMPARE(res.left, left);
+	QCOMPARE(res.right, right);
+	QCOMPARE(res.listId, listid);
+	QCOMPARE(res.type, type);
+	QCOMPARE(res.id, id);
 }
 
 void OrderedRBTreeDBTests::updateDataTest()
