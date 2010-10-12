@@ -26,13 +26,17 @@
 struct EntryList
 {
 	quint32 rowId;
+	quint32 leftSize;
+	bool red;
+	quint32 parent;
+	quint32 left;
+	quint32 right;
+
+	quint32 listId;
 	// 0: list, > 0: entry type
 	quint8 type;
 	quint32 id;
 	QString name;
-	quint32 parent;
-	quint32 left;
-	quint32 right;
 };
 
 /**
@@ -59,19 +63,16 @@ public:
 	 * Prepare all the cached statements to be used with the given connection.
 	 * Must be called before any use of the functions below is done.
 	 */
-	void prepareForConnection(SQLite::Connection *connection);
+	bool prepareForConnection(SQLite::Connection *connection);
 
 
-	QString createTableStatement() {
-		return QString("create table %1(rowid INTEGER PRIMARY KEY, listId INTEGER, type TINYINT, id INTEGER, parent INTEGER, left INTEGER, right INTEGER)").arg(_tableName);
-
-	}
+	bool createTables(SQLite::Connection *connection);
 	/// Returns the entry list corresponding to the given row id
 	EntryList getEntry(quint32 rowid);
 	/// Inserts the given entry into a list, returns the rowid
-	quint32 insertEntry(quint32 listId, quint8 type, quint32 id, quint32 parent, quint32 left, quint32 right);
+	quint32 insertEntry(quint32 leftSize, bool red, quint32 parent, quint32 left, quint32 right, quint32 listId, quint8 type, quint32 id);
 	/// Inserts the given list, returns the rowid
-	quint32 insertList(quint32 listId, const QString &name, quint32 parent, quint32 left, quint32 right);
+	quint32 insertList(quint32 leftSize, bool red, quint32 parent, quint32 left, quint32 right, quint32 listId, const QString &name);
 	/// Removes the given entry from a list
 	bool removeEntry(quint32 rowid);
 	/// Update the parent member of an entry
