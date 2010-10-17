@@ -32,17 +32,16 @@ class OrderedRBTree;
 /**
  * Base node type lacking the logic to access parent or child nodes.
  */
-template <class T> class OrderedRBNodeBase
+class OrderedRBNodeBase
 {
 public:
 	typedef enum { BLACK, RED } Color;
 protected:
 	quint32 _leftSize;
 	Color _color;
-	T _value;
 
 public:
-	OrderedRBNodeBase(const T &va) : _leftSize(0), _color(RED), _value(va)
+	OrderedRBNodeBase() : _leftSize(0), _color(RED)
 	{
 	}
 
@@ -53,63 +52,14 @@ public:
 	Color color() const { return _color; }
 	void setColor(Color col) { _color = col; }
 	quint32 leftSize() const { return _leftSize; }
-
-	virtual OrderedRBNodeBase<T> *left() const = 0;
-	virtual OrderedRBNodeBase<T> *right() const = 0;
-	virtual OrderedRBNodeBase<T> *parent() const = 0;
-
-	const T &value() const { return _value; }
-	virtual void setValue(const T &nv)
-	{
-		_value = nv;
-	}
-
-	OrderedRBNodeBase<T> *grandParent()
-	{
-		OrderedRBNodeBase<T> *p = parent();
-		if (p != 0) return p->parent();
-		else return 0;
-	}
-
-	OrderedRBNodeBase<T> *uncle()
-	{
-		OrderedRBNodeBase<T> *gp = grandParent();
-		if (!gp) return 0;
-		if (parent() == gp->left()) return gp->right();
-		else return gp->left();
-	}
-
-	OrderedRBNodeBase<T> *sibling()
-	{
-		OrderedRBNodeBase<T> *p = parent();
-		if (!p) return 0;
-		if (p->left() == this) return p->right();
-		else return p->left();
-	}
-
-	int size() const
-	{
-		int ret = 0;
-		const OrderedRBNodeBase<T> *current = this;
-		while (current) {
-			ret += current->leftSize() + 1;
-			current = current->right();
-		}
-		return ret;
-	}
-
-	void calculateLeftSize()
-	{
-		if (!left()) _leftSize = 0;
-		else _leftSize = left()->size();
-	}
+	void setLeftSize(quint32 lSize) { _leftSize = lSize; }
 };
 
 /**
  * A node type that implements hierarchy through simple pointers. This class is final and
  * do not need any virtual functions.
  */
-template <class T> class OrderedRBNode : public OrderedRBNodeBase<T>
+template <class T> class OrderedRBNode : public OrderedRBNodeBase
 {
 private:
 	OrderedRBNode<T> *_left, *_right, *_parent;
@@ -117,13 +67,22 @@ private:
 friend class OrderedRBTree<OrderedRBNode, T>;
 friend class OrderedRBTreeTests;
 
+protected:
+	T _value;
+
 public:
-	OrderedRBNode(const T &va) : OrderedRBNodeBase<T>(va), _left(0), _right(0), _parent(0)
+	OrderedRBNode(const T &va) : _left(0), _right(0), _parent(0), _value(va)
 	{
 	}
 
 	~OrderedRBNode()
 	{
+	}
+
+	const T &value() const { return _value; }
+	virtual void setValue(const T &nv)
+	{
+		_value = nv;
 	}
 
 	OrderedRBNode<T> *left() const { return _left; }
@@ -134,36 +93,71 @@ public:
 		_left = nl;
 		if (nl) nl->_parent = this;
 	}
-
 	void setRight(OrderedRBNode<T> *nr)
 	{
 		_right = nr;
 		if (nr) nr->_parent = this;
 	}
-
-	/// Detach the node from the current parent
-	void detach()
+	void setParent(OrderedRBNode<T> *np)
 	{
-		if (_parent) {
-			if (_parent->left() == this) _parent->_left = 0;
-			else if (_parent->right() == this) _parent->_right = 0;
-			_parent = 0;
-		}
+		_parent = np;
 	}
 };
 
 template <template<class NT> class Node, class T> class OrderedRBTree
 {
+friend class OrderedRBTreeTests;
 private:
 	Node<T> *root;
 
 	/// Sets node to be the root of this tree
 	void setRoot(Node<T> *node)
 	{
-		if (node) node->detach();
+		if (node) detach(node);
 		root = node;
 	}
 
+	static Node<T> *grandParent(const Node<T> *node)
+	{
+		Node<T> *p = node->parent();
+		if (p != 0) return p->parent();
+		else return 0;
+	}
+
+	static Node<T> *uncle(const Node<T> *node)
+	{
+		Node<T> *gp = grandParent(node);
+		if (!gp) return 0;
+		if (node->parent() == gp->left()) return gp->right();
+		else return gp->left();
+	}
+
+	static int size(const Node<T> *node)
+	{
+		int ret = 0;
+		const Node<T> *current = node;
+		while (current) {
+			ret += current->leftSize() + 1;
+			current = current->right();
+		}
+		return ret;
+	}
+
+	static void calculateLeftSize(Node<T> *node)
+	{
+		if (!node->left()) node->setLeftSize(0);
+		else node->setLeftSize(size(node->left()));
+	}
+	
+	/// Detach a node from its current parent
+	static void detach(Node<T> *node)
+	{
+		if (node->parent()) {
+			if (node->parent()->left() == node) node->parent()->setLeft(0);
+			else if (node->parent()->right() == node) node->parent()->setRight(0);
+			node->setParent(0);
+		}
+	}
 	void rotateLeft(Node<T> *pivot)
 	{
 		enum { ROOT, LEFT, RIGHT } parentSide = pivot->parent() ?
@@ -186,7 +180,7 @@ private:
 		// Move node to new parent's left
 		newParent->setLeft(pivot);
 		// Update left weight of rotated node
-		newParent->calculateLeftSize();
+		calculateLeftSize(newParent);
 	}
 
 	void rotateRight(Node<T> *pivot)
@@ -211,7 +205,7 @@ private:
 		// Move node to new parent's right
 		newParent->setRight(pivot);
 		// Update left weight of rotated node
-		pivot->calculateLeftSize();
+		calculateLeftSize(pivot);
 	}
 
 	void insertCase1(Node<T> *inserted)
@@ -231,26 +225,26 @@ private:
 
 	void insertCase3(Node<T> *inserted)
 	{
-		Node<T> *uncle = static_cast<Node<T> *>(inserted->uncle());
+		Node<T> *_uncle = static_cast<Node<T> *>(uncle(inserted));
 		// Parent and uncle red? Recolor them.
-		if (uncle != 0 && uncle->color() == Node<T>::RED) {
+		if (_uncle != 0 && _uncle->color() == Node<T>::RED) {
 			inserted->parent()->setColor(Node<T>::BLACK);
-			uncle->setColor(Node<T>::BLACK);
-			Node<T> *grandParent = static_cast<Node<T> *>(inserted->grandParent());
-			grandParent->setColor(Node<T>::RED);
-			insertCase1(grandParent);
+			_uncle->setColor(Node<T>::BLACK);
+			Node<T> *_grandParent = static_cast<Node<T> *>(grandParent(inserted));
+			_grandParent->setColor(Node<T>::RED);
+			insertCase1(_grandParent);
 		} else insertCase4(inserted);
 	}
 
 	void insertCase4(Node<T> *inserted)
 	{
-		Node<T> *grandParent = static_cast<Node<T> *>(inserted->grandParent());
+		Node<T> *_grandParent = static_cast<Node<T> *>(grandParent(inserted));
 		// Parent red, uncle black, inserted node and parent on
 		// opposite sides from their parent
-		if (inserted == inserted->parent()->right() && inserted->parent() == grandParent->left()) {
+		if (inserted == inserted->parent()->right() && inserted->parent() == _grandParent->left()) {
 			rotateLeft(inserted->parent());
 			inserted = inserted->left();
-		} else if (inserted == inserted->parent()->left() && inserted->parent() == grandParent->right()) {
+		} else if (inserted == inserted->parent()->left() && inserted->parent() == _grandParent->right()) {
 			rotateRight(inserted->parent());
 			inserted = inserted->right();
 		}
@@ -261,13 +255,13 @@ private:
 	{
 		// Parent red, uncle black, inserted Node<T> and parent on
 		// same side from their parent
-		Node<T> *grandParent = static_cast<Node<T> *>(inserted->grandParent());
+		Node<T> *_grandParent = static_cast<Node<T> *>(grandParent(inserted));
 		inserted->parent()->setColor(Node<T>::BLACK);
-		grandParent->setColor(Node<T>::RED);
-		if (inserted == inserted->parent()->left() && inserted->parent() == grandParent->left()) {
-			rotateRight(grandParent);
+		_grandParent->setColor(Node<T>::RED);
+		if (inserted == inserted->parent()->left() && inserted->parent() == _grandParent->left()) {
+			rotateRight(_grandParent);
 		} else {
-			rotateLeft(grandParent);
+			rotateLeft(_grandParent);
 		}
 	}
 
@@ -283,7 +277,7 @@ private:
 		for (Node<T> *n = node; ; ) {
 			Node<T> *p = n->parent();
 			if (p == 0) break;
-			if (n == p->left()) p->_leftSize--;
+			if (n == p->left()) p->setLeftSize(p->leftSize() - 1);
 			n = p;
 		}
 		Node<T> *parent = node->parent();
@@ -420,7 +414,7 @@ public:
 	int size() const
 	{
 		if (!root) return 0;
-		else return root->size();
+		else return size(root);
 	}
 
 	/**
@@ -464,7 +458,7 @@ public:
 			int curPos = baseIdx + current->leftSize();
 			// We add on the left, so leftSize must be updated
 			if (index <= curPos) {
-				++current->_leftSize;
+				current->setLeftSize(current->leftSize() + 1);
 				if (!current->left()) {
 					current->setLeft(newNode);
 					break;
