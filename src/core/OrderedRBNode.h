@@ -103,19 +103,6 @@ public:
 		if (!left()) _leftSize = 0;
 		else _leftSize = left()->size();
 	}
-
-	int position() const
-	{
-		const OrderedRBNodeBase<T> *current = this;
-		const OrderedRBNodeBase<T> *curParent = this->parent();
-		int ret = this->_leftSize;
-		while (curParent) {
-			if (current = curParent->right()) ret += curParent->_leftSize + 1;
-			current = curParent;
-			curParent = curParent->parent();
-		}
-		return ret;
-	}
 };
 
 /**
