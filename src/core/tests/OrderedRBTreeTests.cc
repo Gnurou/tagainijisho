@@ -55,19 +55,21 @@ void OrderedRBTreeTests::testNode()
 	QVERIFY(right.parent() == &node);
 	QVERIFY(left.right() == &grandChild);
 	QVERIFY(grandChild.parent() == &left);
-	QVERIFY(grandChild.grandParent() == &node);
-	QVERIFY(grandChild.uncle() == &right);
 
-	grandChild.calculateLeftSize();
-	left.calculateLeftSize();
-	right.calculateLeftSize();
-	node.calculateLeftSize();
-	QCOMPARE(right.size(), 1);
-	QCOMPARE(grandChild.size(), 1);
-	QCOMPARE(left.size(), 2);
-	QCOMPARE(node.size(), 4);
+	typedef OrderedRBTree<OrderedRBNode, int> treeType;
+	QVERIFY(treeType::grandParent(&grandChild) == &node);
+	QVERIFY(treeType::uncle(&grandChild) == &right);
 
-	right.detach();
+	treeType::calculateLeftSize(&grandChild);
+	treeType::calculateLeftSize(&left);
+	treeType::calculateLeftSize(&right);
+	treeType::calculateLeftSize(&node);
+	QCOMPARE(treeType::size(&right), 1);
+	QCOMPARE(treeType::size(&grandChild), 1);
+	QCOMPARE(treeType::size(&left), 2);
+	QCOMPARE(treeType::size(&node), 4);
+
+	treeType::detach(&right);
 	QVERIFY(!right.parent());
 }
 
