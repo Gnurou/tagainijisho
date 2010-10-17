@@ -63,13 +63,13 @@ private:
 	}
 
 	template <template<class NT> class Node, class T>
-	void inline treeValid(const OrderedRBTree<Node, T> &tree)
+	void inline treeValid(const OrderedRBTree<OrderedRBTreeBase<Node, T > > &tree)
 	{
 		int maxdepth = -1;
-		_treeValid(tree.root, 0, maxdepth);
+		_treeValid(tree.tree.root(), 0, maxdepth);
 	}
 
-	OrderedRBTree<OrderedRBNode, QString> tree, treeBegin, treeEnd, treeRandom;
+	OrderedRBTree<OrderedRBTreeBase<OrderedRBNode, QString > > tree, treeBegin, treeEnd, treeRandom;
 	QList<int> treeRandomPos;
 
 private slots:

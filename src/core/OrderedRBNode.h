@@ -26,13 +26,10 @@
 #include <QtDebug>
 #include <QtGlobal>
 
-template <template<class NT> class Node, class T>
-class OrderedRBTree;
-
 /**
  * Base node type lacking the logic to access parent or child nodes.
  */
-class OrderedRBNodeBase
+template <class T> class OrderedRBNodeBase
 {
 public:
 	typedef enum { BLACK, RED } Color;
@@ -41,6 +38,7 @@ protected:
 	Color _color;
 
 public:
+	typedef T ValueType;
 	OrderedRBNodeBase() : _leftSize(0), _color(RED)
 	{
 	}
@@ -59,12 +57,11 @@ public:
  * A node type that implements hierarchy through simple pointers. This class is final and
  * do not need any virtual functions.
  */
-template <class T> class OrderedRBNode : public OrderedRBNodeBase
+template <class T> class OrderedRBNode : public OrderedRBNodeBase<T>
 {
 private:
 	OrderedRBNode<T> *_left, *_right, *_parent;
 
-friend class OrderedRBTree<OrderedRBNode, T>;
 friend class OrderedRBTreeTests;
 
 protected:
@@ -104,38 +101,54 @@ public:
 	}
 };
 
-template <template<class NT> class Node, class T> class OrderedRBTree
+template <template<class NT> class NodeType, class T> class OrderedRBTreeBase
+{
+public:
+	typedef NodeType<T> Node;
+
+private:
+	Node *_root;
+
+public:
+	OrderedRBTreeBase() : _root(0)
+	{
+	}
+
+	Node *root() const { return _root; }
+	void setRoot(Node *node) { _root = node; }
+};
+
+template <class TreeBase> class OrderedRBTree
 {
 friend class OrderedRBTreeTests;
 private:
-	Node<T> *root;
+	TreeBase tree;
 
-	/// Sets node to be the root of this tree
-	void setRoot(Node<T> *node)
+	void setRoot(typename TreeBase::Node *node)
 	{
 		if (node) detach(node);
-		root = node;
+		tree.setRoot(node);
 	}
 
-	static Node<T> *grandParent(const Node<T> *node)
+	static typename TreeBase::Node *grandParent(const typename TreeBase::Node *node)
 	{
-		Node<T> *p = node->parent();
+		typename TreeBase::Node *p = node->parent();
 		if (p != 0) return p->parent();
 		else return 0;
 	}
 
-	static Node<T> *uncle(const Node<T> *node)
+	static typename TreeBase::Node *uncle(const typename TreeBase::Node *node)
 	{
-		Node<T> *gp = grandParent(node);
+		typename TreeBase::Node *gp = grandParent(node);
 		if (!gp) return 0;
 		if (node->parent() == gp->left()) return gp->right();
 		else return gp->left();
 	}
 
-	static int size(const Node<T> *node)
+	static int size(const typename TreeBase::Node *node)
 	{
 		int ret = 0;
-		const Node<T> *current = node;
+		const typename TreeBase::Node *current = node;
 		while (current) {
 			ret += current->leftSize() + 1;
 			current = current->right();
@@ -143,14 +156,14 @@ private:
 		return ret;
 	}
 
-	static void calculateLeftSize(Node<T> *node)
+	static void calculateLeftSize(typename TreeBase::Node *node)
 	{
 		if (!node->left()) node->setLeftSize(0);
 		else node->setLeftSize(size(node->left()));
 	}
 	
 	/// Detach a node from its current parent
-	static void detach(Node<T> *node)
+	static void detach(typename TreeBase::Node *node)
 	{
 		if (node->parent()) {
 			if (node->parent()->left() == node) node->parent()->setLeft(0);
@@ -158,11 +171,11 @@ private:
 			node->setParent(0);
 		}
 	}
-	void rotateLeft(Node<T> *pivot)
+	void rotateLeft(typename TreeBase::Node *pivot)
 	{
 		enum { ROOT, LEFT, RIGHT } parentSide = pivot->parent() ?
 			pivot == pivot->parent()->left() ? LEFT : RIGHT : ROOT;
-		Node<T> *newParent = pivot->right();
+		typename TreeBase::Node *newParent = pivot->right();
 		// Move right child to node's place
 		switch (parentSide) {
 		case ROOT:
@@ -183,11 +196,11 @@ private:
 		calculateLeftSize(newParent);
 	}
 
-	void rotateRight(Node<T> *pivot)
+	void rotateRight(typename TreeBase::Node *pivot)
 	{
 		enum { ROOT, LEFT, RIGHT } parentSide = pivot->parent() ?
 			pivot == pivot->parent()->left() ? LEFT : RIGHT : ROOT;
-		Node<T> *newParent = pivot->left();
+		typename TreeBase::Node *newParent = pivot->left();
 		// Move left child to node's place
 		switch (parentSide) {
 		case ROOT:
@@ -208,37 +221,37 @@ private:
 		calculateLeftSize(pivot);
 	}
 
-	void insertCase1(Node<T> *inserted)
+	void insertCase1(typename TreeBase::Node *inserted)
 	{
 		// Added a root Node<T>?
 		if (!inserted->parent())
-			inserted->_color = Node<T>::BLACK;
+			inserted->setColor(TreeBase::Node::BLACK);
 		else insertCase2(inserted);
 	}
 
-	void insertCase2(Node<T> *inserted)
+	void insertCase2(typename TreeBase::Node *inserted)
 	{
 		// Parent black? Tree still valid
-		if (inserted->parent()->color() == Node<T>::BLACK) return;
+		if (inserted->parent()->color() == TreeBase::Node::BLACK) return;
 		else insertCase3(inserted);
 	}
 
-	void insertCase3(Node<T> *inserted)
+	void insertCase3(typename TreeBase::Node *inserted)
 	{
-		Node<T> *_uncle = static_cast<Node<T> *>(uncle(inserted));
+		typename TreeBase::Node *_uncle = uncle(inserted);
 		// Parent and uncle red? Recolor them.
-		if (_uncle != 0 && _uncle->color() == Node<T>::RED) {
-			inserted->parent()->setColor(Node<T>::BLACK);
-			_uncle->setColor(Node<T>::BLACK);
-			Node<T> *_grandParent = static_cast<Node<T> *>(grandParent(inserted));
-			_grandParent->setColor(Node<T>::RED);
+		if (_uncle != 0 && _uncle->color() == TreeBase::Node::RED) {
+			inserted->parent()->setColor(TreeBase::Node::BLACK);
+			_uncle->setColor(TreeBase::Node::BLACK);
+			typename TreeBase::Node *_grandParent = grandParent(inserted);
+			_grandParent->setColor(TreeBase::Node::RED);
 			insertCase1(_grandParent);
 		} else insertCase4(inserted);
 	}
 
-	void insertCase4(Node<T> *inserted)
+	void insertCase4(typename TreeBase::Node *inserted)
 	{
-		Node<T> *_grandParent = static_cast<Node<T> *>(grandParent(inserted));
+		typename TreeBase::Node *_grandParent = grandParent(inserted);
 		// Parent red, uncle black, inserted node and parent on
 		// opposite sides from their parent
 		if (inserted == inserted->parent()->right() && inserted->parent() == _grandParent->left()) {
@@ -251,13 +264,13 @@ private:
 		insertCase5(inserted);
 	}
 
-	void insertCase5(Node<T> *inserted)
+	void insertCase5(typename TreeBase::Node *inserted)
 	{
 		// Parent red, uncle black, inserted Node<T> and parent on
 		// same side from their parent
-		Node<T> *_grandParent = static_cast<Node<T> *>(grandParent(inserted));
-		inserted->parent()->setColor(Node<T>::BLACK);
-		_grandParent->setColor(Node<T>::RED);
+		typename TreeBase::Node *_grandParent = grandParent(inserted);
+		inserted->parent()->setColor(TreeBase::Node::BLACK);
+		_grandParent->setColor(TreeBase::Node::RED);
 		if (inserted == inserted->parent()->left() && inserted->parent() == _grandParent->left()) {
 			rotateRight(_grandParent);
 		} else {
@@ -271,17 +284,17 @@ private:
 	 * Delete a node which has at most one child.
 	 * Precondition: node must have at most one child.
 	 */
-	void deleteOneChildNode(Node<T> *node)
+	void deleteOneChildNode(typename TreeBase::Node *node)
 	{
 		// Update leftSizes
-		for (Node<T> *n = node; ; ) {
-			Node<T> *p = n->parent();
+		for (typename TreeBase::Node *n = node; ; ) {
+			typename TreeBase::Node *p = n->parent();
 			if (p == 0) break;
 			if (n == p->left()) p->setLeftSize(p->leftSize() - 1);
 			n = p;
 		}
-		Node<T> *parent = node->parent();
-		Node<T> *child = node->left() ? node->left() : node->right();
+		typename TreeBase::Node *parent = node->parent();
+		typename TreeBase::Node *child = node->left() ? node->left() : node->right();
 		Side side = Right;
 		// Are we deleting the root?
 		if (!parent) setRoot(child);
@@ -298,9 +311,9 @@ private:
 		// child can have no sibling!
 
 		// Perform balancing
-		if (node->color() == Node<T>::BLACK) {
+		if (node->color() == TreeBase::Node::BLACK) {
 			// Black node replaced with red one: recolor into black
-			if (child && child->color() == Node<T>::RED) child->setColor(Node<T>::BLACK);
+			if (child && child->color() == TreeBase::Node::RED) child->setColor(TreeBase::Node::BLACK);
 			// Black node replaced by black: black count in path changed, needs
 			// rebalancing
 			// This can only happen if node only had two leaf children, that is, if
@@ -312,7 +325,7 @@ private:
 
 	// If the removed node was the root, the number of black nodes did
 	// not change for every path (because it only had one child)
-	void removeCase1(Node<T> *parent, Side side)
+	void removeCase1(typename TreeBase::Node *parent, Side side)
 	{
 		if (parent) removeCase2(parent, side);
 	}
@@ -320,12 +333,12 @@ private:
 	// If the sibling is red, set the parent (which was necessarily black)
 	// to be red, let the sibling become black, and rotate before continuing
 	// balancing
-	void removeCase2(Node<T> *parent, Side side)
+	void removeCase2(typename TreeBase::Node *parent, Side side)
 	{
-		Node<T> *sibling = static_cast<Node<T> *>(side == Left ? parent->right() : parent->left());
-		if (sibling->color() == Node<T>::RED) {
-			parent->setColor(Node<T>::RED);
-			sibling->setColor(Node<T>::BLACK);
+		typename TreeBase::Node *sibling = side == Left ? parent->right() : parent->left();
+		if (sibling->color() == TreeBase::Node::RED) {
+			parent->setColor(TreeBase::Node::RED);
+			sibling->setColor(TreeBase::Node::BLACK);
 			if (sibling == parent->left()) rotateRight(parent);
 			else rotateLeft(parent);
 		}
@@ -334,14 +347,14 @@ private:
 
 	// Parent is black, as well as sibling and its children - just repaint sibling
 	// red.
-	void removeCase3(Node<T> *parent, Side side)
+	void removeCase3(typename TreeBase::Node *parent, Side side)
 	{
-		Node<T> *sibling = static_cast<Node<T> *>(side == Left ? parent->right() : parent->left());
-		if (parent->color() == Node<T>::BLACK &&
-		    sibling->color() == Node<T>::BLACK &&
-		    (!sibling->left() || sibling->left()->color() == Node<T>::BLACK) &&
-		    (!sibling->right() || sibling->right()->color() == Node<T>::BLACK)) {
-			sibling->setColor(Node<T>::RED);
+		typename TreeBase::Node *sibling = side == Left ? parent->right() : parent->left();
+		if (parent->color() == TreeBase::Node::BLACK &&
+		    sibling->color() == TreeBase::Node::BLACK &&
+		    (!sibling->left() || sibling->left()->color() == TreeBase::Node::BLACK) &&
+		    (!sibling->right() || sibling->right()->color() == TreeBase::Node::BLACK)) {
+			sibling->setColor(TreeBase::Node::RED);
 			removeCase1(parent->parent(), parent->parent() && parent == parent->parent()->left() ? Left : Right);
 		}
 		else removeCase4(parent, side);
@@ -349,57 +362,57 @@ private:
 
 	// Parent is red and sibling and its childs are black. Exchange the color of parent
 	// and sibling.
-	void removeCase4(Node<T> *parent, Side side)
+	void removeCase4(typename TreeBase::Node *parent, Side side)
 	{
-		Node<T> *sibling = static_cast<Node<T> *>(side == Left ? parent->right() : parent->left());
-		if (parent->color() == Node<T>::RED &&
-		    sibling->color() == Node<T>::BLACK &&
-		    (!sibling->left() || sibling->left()->color() == Node<T>::BLACK) &&
-		    (!sibling->right() || sibling->right()->color() == Node<T>::BLACK)) {
-			sibling->setColor(Node<T>::RED);
-			parent->setColor(Node<T>::BLACK);
+		typename TreeBase::Node *sibling = side == Left ? parent->right() : parent->left();
+		if (parent->color() == TreeBase::Node::RED &&
+		    sibling->color() == TreeBase::Node::BLACK &&
+		    (!sibling->left() || sibling->left()->color() == TreeBase::Node::BLACK) &&
+		    (!sibling->right() || sibling->right()->color() == TreeBase::Node::BLACK)) {
+			sibling->setColor(TreeBase::Node::RED);
+			parent->setColor(TreeBase::Node::BLACK);
 		}
 		else removeCase5(parent, side);
 	}
 
-	void removeCase5(Node<T> *parent, Side side)
+	void removeCase5(typename TreeBase::Node *parent, Side side)
 	{
-		Node<T> *sibling = static_cast<Node<T> *>(side == Left ? parent->right() : parent->left());
-		if (sibling->color() == Node<T>::BLACK) {
+		typename TreeBase::Node *sibling = side == Left ? parent->right() : parent->left();
+		if (sibling->color() == TreeBase::Node::BLACK) {
 			if (sibling == parent->right() &&
-			    (!sibling->right() || sibling->right()->color() == Node<T>::BLACK) &&
-			    (sibling->left() && sibling->left()->color() == Node<T>::RED)) {
-				sibling->setColor(Node<T>::RED);
-				sibling->left()->setColor(Node<T>::BLACK);
+			    (!sibling->right() || sibling->right()->color() == TreeBase::Node::BLACK) &&
+			    (sibling->left() && sibling->left()->color() == TreeBase::Node::RED)) {
+				sibling->setColor(TreeBase::Node::RED);
+				sibling->left()->setColor(TreeBase::Node::BLACK);
 				rotateRight(sibling);
 			} else if (sibling == parent->left() &&
-			    (!sibling->left() || sibling->left()->color() == Node<T>::BLACK) &&
-			    (sibling->right() && sibling->right()->color() == Node<T>::RED)) {
-				sibling->setColor(Node<T>::RED);
-				sibling->right()->setColor(Node<T>::BLACK);
+			    (!sibling->left() || sibling->left()->color() == TreeBase::Node::BLACK) &&
+			    (sibling->right() && sibling->right()->color() == TreeBase::Node::RED)) {
+				sibling->setColor(TreeBase::Node::RED);
+				sibling->right()->setColor(TreeBase::Node::BLACK);
 				rotateLeft(sibling);
 			}
 		}
 		removeCase6(parent, side);
 	}
 
-	void removeCase6(Node<T> *parent, Side side)
+	void removeCase6(typename TreeBase::Node *parent, Side side)
 	{
-		Node<T> *sibling = static_cast<Node<T> *>(side == Left ? parent->right() : parent->left());
+		typename TreeBase::Node *sibling = side == Left ? parent->right() : parent->left();
 		sibling->setColor(parent->color());
-		parent->setColor(Node<T>::BLACK);
+		parent->setColor(TreeBase::Node::BLACK);
 
 		if (sibling == parent->right()) {
-			if (sibling->right()) sibling->right()->setColor(Node<T>::BLACK);
+			if (sibling->right()) sibling->right()->setColor(TreeBase::Node::BLACK);
 			rotateLeft(parent);
 		} else {
-			if (sibling->left()) sibling->left()->setColor(Node<T>::BLACK);
+			if (sibling->left()) sibling->left()->setColor(TreeBase::Node::BLACK);
 			rotateRight(parent);
 		}
 	}
 
 public:
-	OrderedRBTree() : root(0)
+	OrderedRBTree()
 	{
 	}
 
@@ -413,17 +426,17 @@ public:
 	 */
 	int size() const
 	{
-		if (!root) return 0;
-		else return size(root);
+		if (!tree.root()) return 0;
+		else return size(tree.root());
 	}
 
 	/**
 	 * Returns the value at index. Will crash if access is made out of bounds.
 	 * Complexity: O(log n)
 	 */
-	const T& operator[](int index) const
+	const typename TreeBase::Node::ValueType & operator[](int index) const
 	{
-		const Node<T> *current = root;
+		const typename TreeBase::Node *current = tree.root();
 		unsigned int baseIdx = 0;
 
 		while (current) {
@@ -445,11 +458,11 @@ public:
 	 * Complexity: O(log n)
 	 * TODO No test to check whether we are inserting out of bounds! (both inferior and superior)
 	 */
-	void insert(const T &val, int index)
+	void insert(const typename TreeBase::Node::ValueType &val, int index)
 	{
-		Node<T> *current = root;
+		typename TreeBase::Node *current = tree.root();
 		unsigned int baseIdx = 0;
-		Node<T> *newNode = new Node<T>(val);
+		typename TreeBase::Node *newNode = new typename TreeBase::Node(val);
 
 		// Insert into root
 		if (!current) setRoot(newNode);
@@ -487,7 +500,7 @@ public:
 	{
 		if (index < 0) return false;
 
-		Node<T> *current = root;
+		typename TreeBase::Node *current = tree.root();
 		unsigned int baseIdx = 0;
 
 		// First find the node to remove
@@ -507,7 +520,7 @@ public:
 		// Node has two childs, replace its value with the leftmost value at its
 		// right side and replace that latter node with its right child before deleting it.
 		if (current->left() && current->right()) {
-			Node<T> *successor = current->right();
+			typename TreeBase::Node *successor = current->right();
 			while (successor->left()) successor = successor->left();
 			current->setValue(successor->value());
 			deleteOneChildNode(successor);
@@ -528,19 +541,19 @@ public:
 
 	void clear()
 	{
-		Node<T> *current = root;
+		typename TreeBase::Node *current = tree.root();
 		while (current) {
 			if (current->left()) current = current->left();
 			else if (current->right()) current = current->right();
 			else {
-				Node<T> *parent = current->parent();
+				typename TreeBase::Node *parent = current->parent();
 				enum { ROOT, LEFT, RIGHT } sideToClear = parent ?
 					current == parent->left() ? LEFT : RIGHT : ROOT;
 
 				switch (sideToClear) {
 				case ROOT:
-					delete root;
-					root = 0;
+					delete tree.root();
+					setRoot(0);
 					break;
 				case LEFT:
 					delete parent->left();
