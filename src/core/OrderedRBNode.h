@@ -20,8 +20,8 @@
  * http://en.wikipedia.org/wiki/Red-black_tree
  */
 
-#ifndef __CORE_ORDEREDRBNode_H
-#define __CORE_ORDEREDRBNode_H
+#ifndef __CORE_ORDEREDRBNODE_H
+#define __CORE_ORDEREDRBNODE_H
 
 #include <QtDebug>
 #include <QtGlobal>
@@ -59,12 +59,9 @@ public:
  */
 template <class T> class OrderedRBNode : public OrderedRBNodeBase<T>
 {
+friend class OrderedRBTreeTests;
 private:
 	OrderedRBNode<T> *_left, *_right, *_parent;
-
-friend class OrderedRBTreeTests;
-
-protected:
 	T _value;
 
 public:
