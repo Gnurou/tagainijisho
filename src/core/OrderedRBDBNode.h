@@ -67,32 +67,32 @@ public:
 		_value = nv;
 	}
 
-	OrderedRBNode<T> *left() const
+	OrderedRBDBNode<T> *left() const
 	{
 		// If the node is already loaded, return it - otherwise load it.
 		return _left;
 	}
-	OrderedRBNode<T> *right() const
+	OrderedRBDBNode<T> *right() const
 	{
 		// If the node is already loaded, return it - otherwise load it.
 		return _right;
 	}
-	OrderedRBNode<T> *parent() const
+	OrderedRBDBNode<T> *parent() const
 	{
 		// If the node is already loaded, return it - otherwise load it.
 		return _parent;
 	}
-	void setLeft(OrderedRBNode<T> *nl)
+	void setLeft(OrderedRBDBNode<T> *nl)
 	{
 		_left = nl;
 		if (nl) nl->_parent = this;
 	}
-	void setRight(OrderedRBNode<T> *nr)
+	void setRight(OrderedRBDBNode<T> *nr)
 	{
 		_right = nr;
 		if (nr) nr->_parent = this;
 	}
-	void setParent(OrderedRBNode<T> *np)
+	void setParent(OrderedRBDBNode<T> *np)
 	{
 		_parent = np;
 	}

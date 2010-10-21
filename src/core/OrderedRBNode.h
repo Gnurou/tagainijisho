@@ -117,7 +117,6 @@ public:
 
 template <class TreeBase> class OrderedRBTree
 {
-friend class OrderedRBTreeTests;
 private:
 	TreeBase tree;
 

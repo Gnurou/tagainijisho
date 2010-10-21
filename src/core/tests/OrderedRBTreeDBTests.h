@@ -35,6 +35,7 @@ private:
 	SQLite::Connection connection;
 	QTemporaryFile dbFile;
 	EntryListDB listDB;
+        OrderedRBTree<OrderedRBTreeBase<OrderedRBDBNode, QString> > tree;
 
 private slots:
 	void initTestCase();
