@@ -98,21 +98,26 @@ public:
 	}
 };
 
-template <template<class NT> class NodeType, class T> class OrderedRBTreeBase
+template <class T> class OrderedRBMemTree
 {
 public:
-	typedef NodeType<T> Node;
+	typedef OrderedRBNode<T> Node;
 
 private:
 	Node *_root;
 
 public:
-	OrderedRBTreeBase() : _root(0)
+	OrderedRBMemTree() : _root(0)
 	{
 	}
 
 	Node *root() const { return _root; }
 	void setRoot(Node *node) { _root = node; }
+
+        bool aboutToChange() { return true; }
+        void changeNode(Node *n) {}
+        bool changed() { return true; }
+	void abortChanges() {}
 };
 
 template <class TreeBase> class OrderedRBTree

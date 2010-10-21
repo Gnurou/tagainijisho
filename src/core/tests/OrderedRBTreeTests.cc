@@ -56,7 +56,7 @@ void OrderedRBTreeTests::testNode()
 	QVERIFY(left.right() == &grandChild);
 	QVERIFY(grandChild.parent() == &left);
 
-	typedef OrderedRBTree<OrderedRBTreeBase<OrderedRBNode, int> > treeType;
+	typedef OrderedRBTree<OrderedRBMemTree<int> > treeType;
 	QVERIFY(treeType::grandParent(&grandChild) == &node);
 	QVERIFY(treeType::uncle(&grandChild) == &right);
 
