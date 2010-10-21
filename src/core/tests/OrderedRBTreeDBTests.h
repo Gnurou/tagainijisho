@@ -24,6 +24,7 @@
 #include "core/EntryListDB.h"
 #include "sqlite/Connection.h"
 #include "sqlite/Query.h"
+#include "core/OrderedRBDBNode.h"
 
 #include <QTemporaryFile>
 
@@ -45,6 +46,10 @@ private slots:
 	void retrieveDataTest_data();
 	void retrieveDataTest();
 	void updateDataTest();
+
+        void createTreeTest();
+        void massInsertTest();
+        void massRemoveTest();
 
 public:
 	OrderedRBTreeDBTests() : listDB("testList") {}

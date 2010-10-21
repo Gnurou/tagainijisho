@@ -44,20 +44,20 @@ private:
 	};
 	T _value;
 
-	OrderedRBNoce(EntryListDB &ldb, quint32 rowid) : _rowid(rowid), _left(0), _right(0), _parent(0), _value(va)
+	OrderedRBDBNode(EntryListDB &ldb, quint32 rowid) : _rowid(rowid)
 	{
 		// The new node is expected to exist in the DB with the given ID - just load it.
-		EntryList entry(ldb.getEntry(rowid);
+		EntryList entry(ldb.getEntry(rowid));
 	}
 
 public:
-	OrderedRBNode(const T &va) : _rowid(0), _leftId(0), _rightId(0), _parentId(0), _left(0), _right(0), _parent(0), _value(va)
+	OrderedRBDBNode(const T &va) : _rowid(0), _leftId(0), _rightId(0), _parentId(0), _left(0), _right(0), _parent(0), _value(va)
 	{
 		// Here a new node is to be inserted in the tree - we need to insert it into the DB in order
 		// to get its ID.
 	}
 
-	~OrderedRBNode()
+	~OrderedRBDBNode()
 	{
 	}
 
