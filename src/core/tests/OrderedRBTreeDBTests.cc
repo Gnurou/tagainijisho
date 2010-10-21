@@ -107,4 +107,16 @@ void OrderedRBTreeDBTests::updateDataTest()
 {
 }
 
+void OrderedRBTreeDBTests::createTreeTest()
+{
+}
+
+void OrderedRBTreeDBTests::massInsertTest()
+{
+}
+
+void OrderedRBTreeDBTests::massRemoveTest()
+{
+}
+
 QTEST_MAIN(OrderedRBTreeDBTests)
