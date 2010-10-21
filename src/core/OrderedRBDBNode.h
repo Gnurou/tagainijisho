@@ -51,7 +51,7 @@ private:
 	}
 
 public:
-	OrderedRBDBNode(const T &va) : _rowid(0), _leftId(0), _rightId(0), _parentId(0), _left(0), _right(0), _parent(0), _value(va)
+	OrderedRBDBNode(const T &va) : _rowid(0), _leftId(0), _rightId(0), _parentId(0), _value(va)
 	{
 		// Here a new node is to be inserted in the tree - we need to insert it into the DB in order
 		// to get its ID.
@@ -96,6 +96,29 @@ public:
 	{
 		_parent = np;
 	}
+};
+
+template <class T> class OrderedRBDBTree
+{
+public:
+	typedef OrderedRBDBNode<T> Node;
+
+private:
+	Node *_root;
+
+public:
+	OrderedRBDBTree() : _root(0)
+	{
+	}
+
+	Node *root() const { return _root; }
+	void setRoot(Node *node) { _root = node; }
+
+
+        bool aboutToChange() { return true; }
+        void changeNode(Node *n) {}
+        bool changed() { return true; }
+	void abortChanges() {}
 };
 
 #endif

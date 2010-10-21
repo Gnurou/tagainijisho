@@ -109,6 +109,13 @@ void OrderedRBTreeDBTests::updateDataTest()
 
 void OrderedRBTreeDBTests::createTreeTest()
 {
+	QCOMPARE(tree.size(), 0);
+
+	tree.insert(QString("Test"), 0);
+	tree.insert(QString("Test2"), 1);
+	QCOMPARE(tree.size(), 2);
+	QCOMPARE(tree[0], QString("Test"));
+	QCOMPARE(tree[1], QString("Test2"));
 }
 
 void OrderedRBTreeDBTests::massInsertTest()
