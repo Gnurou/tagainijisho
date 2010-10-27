@@ -20,6 +20,8 @@
 #include "core/OrderedRBNode.h"
 #include "core/EntryListDB.h"
 
+#include <QSet>
+
 /**
  * Implements database storage for RB tree nodes.
  * When a node is created, all its data is loaded and cached.
@@ -29,29 +31,18 @@
 template <class T> class OrderedRBDBNode : public OrderedRBNodeBase<T>
 {
 private:
-	quint32 _rowid;
-	union {
-		quint32 _leftId;
-		OrderedRBDBNode<T> * _left;
-	};
-	union {
-		quint32 _rightId;
-		OrderedRBDBNode<T> * _right;
-	};
-	union {
-		quint32 _parentId;
-		OrderedRBDBNode<T> * _parent;
-	};
-	T _value;
+	EntryList<T> e;
+	OrderedRBDBNode<T> * _left;
+	OrderedRBDBNode<T> * _right;
+	OrderedRBDBNode<T> * _parent;
 
-	OrderedRBDBNode(EntryListDB &ldb, quint32 rowid) : _rowid(rowid)
+	OrderedRBDBNode(EntryListDB<T> &ldb, quint32 rowid) : _left(0), _right(0), _parent(0)
 	{
 		// The new node is expected to exist in the DB with the given ID - just load it.
-		EntryList entry(ldb.getEntry(rowid));
 	}
 
 public:
-	OrderedRBDBNode(const T &va) : _rowid(0), _leftId(0), _rightId(0), _parentId(0), _value(va)
+	OrderedRBDBNode(const T &va) : _left(0), _right(0), _parent(0)
 	{
 		// Here a new node is to be inserted in the tree - we need to insert it into the DB in order
 		// to get its ID.
@@ -61,10 +52,9 @@ public:
 	{
 	}
 
-	const T &value() const { return _value; }
-	virtual void setValue(const T &nv)
+	const T &value() const { return 0; }
+	void setValue(const T &nv)
 	{
-		_value = nv;
 	}
 
 	OrderedRBDBNode<T> *left() const
@@ -96,6 +86,10 @@ public:
 	{
 		_parent = np;
 	}
+
+	void updateDB()
+	{
+	}
 };
 
 template <class T> class OrderedRBDBTree
@@ -105,6 +99,7 @@ public:
 
 private:
 	Node *_root;
+	QSet<Node *> _changedNodes;
 
 public:
 	OrderedRBDBTree() : _root(0)
@@ -115,10 +110,30 @@ public:
 	void setRoot(Node *node) { _root = node; }
 
 
-        bool aboutToChange() { return true; }
-        void changeNode(Node *n) {}
-        bool changed() { return true; }
-	void abortChanges() {}
+        bool aboutToChange()
+	{
+		_changedNodes.clear();
+		// TODO start transaction
+		return true;
+	}
+        void changeNode(Node *n)
+	{
+		_changedNodes << n;
+	}
+        bool changed()
+	{
+		foreach (Node *n, _changedNodes) {
+			n->updateDB();
+		}
+		_changedNodes.clear();
+		// TODO Commit transaction
+		return true;
+	}
+	void abortChanges()
+	{
+		_changedNodes.clear();
+		// TODO Abort transaction
+	}
 };
 
 #endif

@@ -16,7 +16,6 @@ SearchCommand.cc
 EntrySearcher.cc
 EntrySearcherManager.cc
 ResultsList.cc
-EntryListDB.cc
 EntryListCache.cc
 EntryListModel.cc
 EntriesCache.cc
