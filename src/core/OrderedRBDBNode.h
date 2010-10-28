@@ -39,13 +39,15 @@ private:
 	OrderedRBDBNode(DBList<T> &ldb, quint32 rowid) : _left(0), _right(0), _parent(0)
 	{
 		// The new node is expected to exist in the DB with the given ID - just load it.
+		e = ldb.getEntry(rowid);
 	}
 
 public:
 	OrderedRBDBNode(const T &va) : _left(0), _right(0), _parent(0)
 	{
-		// Here a new node is to be inserted in the tree - we need to insert it into the DB in order
-		// to get its ID.
+		// Here a new node is to be inserted in the tree - we need to insert it into
+		// the DB in order to get its ID.
+		setValue(va);
 	}
 
 	~OrderedRBDBNode()
@@ -55,6 +57,7 @@ public:
 	const T &value() const { return e.data; }
 	void setValue(const T &nv)
 	{
+		e.data = nv;
 	}
 
 	OrderedRBDBNode<T> *left() const
@@ -87,8 +90,9 @@ public:
 		_parent = np;
 	}
 
-	void updateDB()
+	void updateDB(DBList<T> &ldb)
 	{
+		ldb.insertEntry(e);
 	}
 };
 
