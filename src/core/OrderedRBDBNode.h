@@ -31,12 +31,12 @@
 template <class T> class OrderedRBDBNode : public OrderedRBNodeBase<T>
 {
 private:
-	EntryList<T> e;
+	DBListEntry<T> e;
 	OrderedRBDBNode<T> * _left;
 	OrderedRBDBNode<T> * _right;
 	OrderedRBDBNode<T> * _parent;
 
-	OrderedRBDBNode(EntryListDB<T> &ldb, quint32 rowid) : _left(0), _right(0), _parent(0)
+	OrderedRBDBNode(DBList<T> &ldb, quint32 rowid) : _left(0), _right(0), _parent(0)
 	{
 		// The new node is expected to exist in the DB with the given ID - just load it.
 	}
@@ -52,7 +52,7 @@ public:
 	{
 	}
 
-	const T &value() const { return 0; }
+	const T &value() const { return e.data; }
 	void setValue(const T &nv)
 	{
 	}

@@ -70,7 +70,19 @@ void OrderedRBTreeDBTests::insertDataTest()
 	QFETCH(quint8, type);
 	QFETCH(quint32, id);
 
-	QCOMPARE(listDB.insertEntry(leftSize, red, parent, left, right, listid, type, id), rowid);
+	EntryListEntry entry;
+	entry.rowId = rowid;
+	entry.leftSize = leftSize;
+	entry.red = red;
+	entry.parent = parent;
+	entry.left = left;
+	entry.right = right;
+
+	entry.data.listId = listid;
+	entry.data.type = type;
+	entry.data.id = id;
+
+	QCOMPARE(listDB.insertEntry(entry), rowid);
 }
 
 void OrderedRBTreeDBTests::retrieveDataTest_data()
@@ -90,7 +102,7 @@ void OrderedRBTreeDBTests::retrieveDataTest()
 	QFETCH(quint8, type);
 	QFETCH(quint32, id);
 
-	EntryList res = listDB.getEntry(rowid);
+	EntryListEntry res = listDB.getEntry(rowid);
 	QVERIFY(res.rowId != 0);
 	QCOMPARE(res.rowId, rowid);
 	QCOMPARE(res.leftSize, leftSize);
@@ -98,9 +110,10 @@ void OrderedRBTreeDBTests::retrieveDataTest()
 	QCOMPARE(res.parent, parent);
 	QCOMPARE(res.left, left);
 	QCOMPARE(res.right, right);
-	QCOMPARE(res.listId, listid);
-	QCOMPARE(res.type, type);
-	QCOMPARE(res.id, id);
+
+	QCOMPARE(res.data.listId, listid);
+	QCOMPARE(res.data.type, type);
+	QCOMPARE(res.data.id, id);
 }
 
 void OrderedRBTreeDBTests::updateDataTest()
@@ -127,3 +140,4 @@ void OrderedRBTreeDBTests::massRemoveTest()
 }
 
 QTEST_MAIN(OrderedRBTreeDBTests)
+

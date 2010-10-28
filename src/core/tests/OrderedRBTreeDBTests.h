@@ -34,7 +34,7 @@ Q_OBJECT
 private:
 	SQLite::Connection connection;
 	QTemporaryFile dbFile;
-	EntryListDB<QString> listDB;
+	EntryList listDB;
         OrderedRBTree<OrderedRBDBTree<QString> > tree;
 
 private slots:
