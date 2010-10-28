@@ -15,25 +15,26 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef CORE_ENTRYLISTDB_H
-#define CORE_ENTRYLISTDB_H
+#include "core/EntryListDB.h"
 
-#include "core/DBList.h"
+template <> QString DBListEntry<EntryListData>::tableDataMembers()
+{
+	return "listId INTEGER, type TINYINT, id INTEGER";
+}
 
+template <> void DBListEntry<EntryListData>::bindDataValues(SQLite::Query &query) const
+{
+	query.bindValue(data.listId);
+	query.bindValue(data.type);
+	if (data.type == 0) query.bindValue(data.name);
+	else query.bindValue(data.id);
+}
 
-struct EntryListData {
-	quint32 listId;
-	quint8 type;
-	quint32 id;
-	QString name;
-};
-
-// Specializations for EntryListData
-template <> void DBListEntry<EntryListData>::bindDataValues(SQLite::Query &query) const;
-template <> void DBListEntry<EntryListData>::readDataValues(SQLite::Query &query, int start);
-
-typedef DBListEntry<EntryListData> EntryListEntry;
-typedef DBList<EntryListData> EntryList;
-
-#endif
+template <> void DBListEntry<EntryListData>::readDataValues(SQLite::Query &query, int start)
+{
+	data.listId = query.valueUInt(start++);
+	data.type = query.valueUInt(start++);
+	if (data.type != 0) data.id = query.valueUInt(start++);
+	else { data.id = 0; data.name = query.valueString(start++); }
+}
 
