@@ -32,9 +32,15 @@ class OrderedRBTreeDBTests : public QObject
 {
 Q_OBJECT
 private:
+	// For entry-related tests
 	SQLite::Connection connection;
 	QTemporaryFile dbFile;
 	EntryList listDB;
+
+	// For tree-related tests
+	SQLite::Connection stringConnection;
+	QTemporaryFile stringDBFile;
+	DBList<QString> stringListDB;
         OrderedRBTree<OrderedRBDBTree<QString> > tree;
 
 private slots:
@@ -47,13 +53,14 @@ private slots:
 	void retrieveDataTest_data();
 	void retrieveDataTest();
 	void updateDataTest();
+	void removeDataTest();
 
         void createTreeTest();
         void massInsertTest();
         void massRemoveTest();
 
 public:
-	OrderedRBTreeDBTests() : listDB("testList") {}
+	OrderedRBTreeDBTests() : listDB("testList"), stringListDB("stringList"), tree() {}
 };
 
 #endif // ORDEREDRBTREEDBTESTS_H
