@@ -79,18 +79,30 @@ public:
 		_value = nv;
 	}
 
-	OrderedRBNode<T> *left() const { return _left; }
-	OrderedRBNode<T> *right() const { return _right; }
-	OrderedRBNode<T> *parent() const { return _parent; }
+	OrderedRBNode<T> *left() const
+	{
+		// TODO create if needed
+		return _left;
+	}
+	OrderedRBNode<T> *right() const
+	{
+		// TODO create if needed
+		return _right;
+	}
+	OrderedRBNode<T> *parent() const
+	{
+		// TODO create if needed
+		return _parent;
+	}
 	void setLeft(OrderedRBNode<T> *nl)
 	{
 		_left = nl;
-		if (nl) nl->_parent = this;
+		if (nl) nl->setParent(this);
 	}
 	void setRight(OrderedRBNode<T> *nr)
 	{
 		_right = nr;
-		if (nr) nr->_parent = this;
+		if (nr) nr->setParent(this);
 	}
 	void setParent(OrderedRBNode<T> *np)
 	{
@@ -114,9 +126,9 @@ public:
 	Node *root() const { return _root; }
 	void setRoot(Node *node) { _root = node; }
 
-        bool aboutToChange() { return true; }
-        void changeNode(Node *n) {}
-        bool changed() { return true; }
+	bool aboutToChange() { return true; }
+	void changeNode(Node *n) {}
+	bool changed() { return true; }
 	void abortChanges() {}
 };
 

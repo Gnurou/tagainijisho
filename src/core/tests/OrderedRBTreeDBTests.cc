@@ -17,6 +17,8 @@
 
 #include "OrderedRBTreeDBTests.h"
 
+static EntryListEntry entries[3];
+
 void OrderedRBTreeDBTests::initTestCase()
 {
 	QVERIFY(dbFile.open());
@@ -40,6 +42,7 @@ void OrderedRBTreeDBTests::createTableTest()
 
 	QVERIFY(stringListDB.createTables(&stringConnection));
 	QVERIFY(stringListDB.prepareForConnection(&stringConnection));
+	tree.tree()->setDBAccess(&stringListDB);
 }
 
 void OrderedRBTreeDBTests::insertDataTest_data()
@@ -89,7 +92,8 @@ void OrderedRBTreeDBTests::insertDataTest()
 	entry.data.type = type;
 	entry.data.id = id;
 
-	QCOMPARE(listDB.insertEntry(entry), rowid);
+	QCOMPARE(listDB.insertEntry(), rowid);
+	entryListEntry[rowid - 1] = entry;
 }
 
 void OrderedRBTreeDBTests::retrieveDataTest_data()
@@ -148,7 +152,6 @@ template <> void DBListEntry<QString>::readDataValues(SQLite::Query &query, int 
 
 void OrderedRBTreeDBTests::createTreeTest()
 {
-	tree.tree()->setDBAccess(&stringListDB);
 	QCOMPARE(tree.size(), 0);
 
 	tree.insert(QString("Test"), 0);

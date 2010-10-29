@@ -112,7 +112,7 @@ template <class T> bool DBList<T>::prepareForConnection(SQLite::Connection *conn
 
 	if (connection) {
 		if (!getEntryQuery.prepare(QString("select * from %1 where rowid = ?").arg(_tableName))) return false;
-		if (!insertEntryQuery.prepare(QString("insert into %1 values(NULL, ?, ?, ?, ?, ?, %2)").arg(_tableName).arg(dataHolders))) return false;
+		if (!insertEntryQuery.prepare(QString("insert or replace into %1 values(?, ?, ?, ?, ?, ?, %2)").arg(_tableName).arg(dataHolders))) return false;
 		if (!removeEntryQuery.prepare(QString("delete from %1 where rowid == ?").arg(_tableName))) return false;
 	}
 	return true;
@@ -142,6 +142,8 @@ template <class T> DBListEntry<T> DBList<T>::getEntry(quint32 rowid)
 
 template <class T> quint32 DBList<T>::insertEntry(const DBListEntry<T> &entry)
 {
+	if (entry.rowId == 0) insertEntryQuery.bindNullValue();
+	else insertEntryQuery.bindValue(entry.rowId);
 	insertEntryQuery.bindValue(entry.leftSize);
 	insertEntryQuery.bindValue(entry.red);
 	insertEntryQuery.bindValue(entry.parent);
