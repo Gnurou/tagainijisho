@@ -123,12 +123,12 @@ public:
 template <class TreeBase> class OrderedRBTree
 {
 private:
-	TreeBase tree;
+	TreeBase _tree;
 
 	void setRoot(typename TreeBase::Node *node)
 	{
 		if (node) detach(node);
-		tree.setRoot(node);
+		_tree.setRoot(node);
 	}
 
 	static typename TreeBase::Node *grandParent(const typename TreeBase::Node *node)
@@ -427,8 +427,8 @@ public:
 	 */
 	int size() const
 	{
-		if (!tree.root()) return 0;
-		else return size(tree.root());
+		if (!_tree.root()) return 0;
+		else return size(_tree.root());
 	}
 
 	/**
@@ -437,7 +437,7 @@ public:
 	 */
 	const typename TreeBase::Node::ValueType & operator[](int index) const
 	{
-		const typename TreeBase::Node *current = tree.root();
+		const typename TreeBase::Node *current = _tree.root();
 		unsigned int baseIdx = 0;
 
 		while (current) {
@@ -461,7 +461,7 @@ public:
 	 */
 	void insert(const typename TreeBase::Node::ValueType &val, int index)
 	{
-		typename TreeBase::Node *current = tree.root();
+		typename TreeBase::Node *current = _tree.root();
 		unsigned int baseIdx = 0;
 		typename TreeBase::Node *newNode = new typename TreeBase::Node(val);
 
@@ -501,7 +501,7 @@ public:
 	{
 		if (index < 0) return false;
 
-		typename TreeBase::Node *current = tree.root();
+		typename TreeBase::Node *current = _tree.root();
 		unsigned int baseIdx = 0;
 
 		// First find the node to remove
@@ -542,7 +542,7 @@ public:
 
 	void clear()
 	{
-		typename TreeBase::Node *current = tree.root();
+		typename TreeBase::Node *current = _tree.root();
 		while (current) {
 			if (current->left()) current = current->left();
 			else if (current->right()) current = current->right();
@@ -553,7 +553,7 @@ public:
 
 				switch (sideToClear) {
 				case ROOT:
-					delete tree.root();
+					delete _tree.root();
 					setRoot(0);
 					break;
 				case LEFT:
@@ -570,7 +570,10 @@ public:
 		}
 	}
 
+	TreeBase *tree() { return &_tree; }
+
 friend class OrderedRBTreeTests;
 };
 
 #endif
+

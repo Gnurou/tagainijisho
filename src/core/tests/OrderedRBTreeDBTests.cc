@@ -21,10 +21,14 @@ void OrderedRBTreeDBTests::initTestCase()
 {
 	QVERIFY(dbFile.open());
 	QVERIFY(connection.connect(dbFile.fileName()));
+	QVERIFY(stringDBFile.open());
+	QVERIFY(stringConnection.connect(stringDBFile.fileName()));
 }
 
 void OrderedRBTreeDBTests::cleanupTestCase()
 {
+	stringListDB.prepareForConnection(0);
+	QVERIFY(stringConnection.close());
 	listDB.prepareForConnection(0);
 	QVERIFY(connection.close());
 }
@@ -33,6 +37,9 @@ void OrderedRBTreeDBTests::createTableTest()
 {
 	QVERIFY(listDB.createTables(&connection));
 	QVERIFY(listDB.prepareForConnection(&connection));
+
+	QVERIFY(stringListDB.createTables(&stringConnection));
+	QVERIFY(stringListDB.prepareForConnection(&stringConnection));
 }
 
 void OrderedRBTreeDBTests::insertDataTest_data()
@@ -120,8 +127,28 @@ void OrderedRBTreeDBTests::updateDataTest()
 {
 }
 
+void OrderedRBTreeDBTests::removeDataTest()
+{
+}
+
+template <> QString DBListEntry<QString>::tableDataMembers()
+{
+	return "str VARCHAR";
+}
+
+template <> void DBListEntry<QString>::bindDataValues(SQLite::Query &query) const
+{
+	query.bindValue(data);
+}
+
+template <> void DBListEntry<QString>::readDataValues(SQLite::Query &query, int start)
+{
+	data = query.valueString(start);
+}
+
 void OrderedRBTreeDBTests::createTreeTest()
 {
+	tree.tree()->setDBAccess(&stringListDB);
 	QCOMPARE(tree.size(), 0);
 
 	tree.insert(QString("Test"), 0);

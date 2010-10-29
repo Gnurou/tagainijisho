@@ -104,9 +104,10 @@ public:
 private:
 	Node *_root;
 	QSet<Node *> _changedNodes;
+	DBList<T> *_ldb;
 
 public:
-	OrderedRBDBTree() : _root(0)
+	OrderedRBDBTree() : _root(0), _ldb(0)
 	{
 	}
 
@@ -127,7 +128,7 @@ public:
         bool changed()
 	{
 		foreach (Node *n, _changedNodes) {
-			n->updateDB();
+			n->updateDB(_ldb);
 		}
 		_changedNodes.clear();
 		// TODO Commit transaction
@@ -137,6 +138,11 @@ public:
 	{
 		_changedNodes.clear();
 		// TODO Abort transaction
+	}
+
+	void setDBAccess(DBList<T> *ldb)
+	{
+		_ldb = ldb;
 	}
 };
 

@@ -111,8 +111,8 @@ template <class T> bool DBList<T>::prepareForConnection(SQLite::Connection *conn
 	QString dataHolders(dataHoldersList.join(", "));
 
 	if (connection) {
-		if (!getEntryQuery.prepare(QString("select leftSize, red, parent, left, right, listId, type, id from %1 where rowid = ?").arg(_tableName))) return false;
-		if (!insertEntryQuery.prepare(QString("insert or replace into %1 values(NULL, ?, ?, ?, ?, ?, %2)").arg(_tableName).arg(dataHolders))) return false;
+		if (!getEntryQuery.prepare(QString("select * from %1 where rowid = ?").arg(_tableName))) return false;
+		if (!insertEntryQuery.prepare(QString("insert into %1 values(NULL, ?, ?, ?, ?, ?, %2)").arg(_tableName).arg(dataHolders))) return false;
 		if (!removeEntryQuery.prepare(QString("delete from %1 where rowid == ?").arg(_tableName))) return false;
 	}
 	return true;
@@ -129,13 +129,13 @@ template <class T> DBListEntry<T> DBList<T>::getEntry(quint32 rowid)
 	}
 	getEntryQuery.next();
 	ret.rowId = rowid;
-	ret.leftSize = getEntryQuery.valueUInt(0);
-	ret.red = getEntryQuery.valueBool(1);
-	ret.parent = getEntryQuery.valueUInt(2);
-	ret.left = getEntryQuery.valueUInt(3);
-	ret.right = getEntryQuery.valueUInt(4);
+	ret.leftSize = getEntryQuery.valueUInt(1);
+	ret.red = getEntryQuery.valueBool(2);
+	ret.parent = getEntryQuery.valueUInt(3);
+	ret.left = getEntryQuery.valueUInt(4);
+	ret.right = getEntryQuery.valueUInt(5);
 
-	ret.readDataValues(getEntryQuery, 5);
+	ret.readDataValues(getEntryQuery, 6);
 	getEntryQuery.reset();
 	return ret;
 }
