@@ -70,6 +70,7 @@ private:
 
 public:
 	DBList(const QString &tableName, SQLite::Connection *connection = 0);
+	const QString &tableName() const { return _tableName; }
 
 	/**
 	 * Prepare all the cached statements to be used with the given connection.
@@ -155,6 +156,16 @@ template <class T> quint32 DBList<T>::insertEntry(const DBListEntry<T> &entry)
 		insertEntryQuery.reset();
 		return 0;
 	} else return insertEntryQuery.lastInsertId();
+}
+
+template <class T> bool DBList<T>::removeEntry(quint32 rowid)
+{
+	if (rowid == 0) return false;
+	removeEntryQuery.bindValue(rowid);
+	if (!removeEntryQuery.exec()) {
+		removeEntryQuery.reset();
+		return false;
+	} else return true;
 }
 
 #endif

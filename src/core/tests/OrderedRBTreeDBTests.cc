@@ -17,20 +17,23 @@
 
 #include "OrderedRBTreeDBTests.h"
 
-static EntryListEntry entries[3];
+static const unsigned int nbEntries = 3;
+static EntryListEntry entries[nbEntries] =
+{
+	{ 0, 1, false, 0, 2, 3, { 5, 1, 28 } },
+	{ 0, 0, true,  1, 0, 0, { 5, 1, 29 } },
+	{ 0, 0, false, 1, 0, 0, { 5, 2, 44 } }
+};
 
 void OrderedRBTreeDBTests::initTestCase()
 {
 	QVERIFY(dbFile.open());
 	QVERIFY(connection.connect(dbFile.fileName()));
-	QVERIFY(stringDBFile.open());
-	QVERIFY(stringConnection.connect(stringDBFile.fileName()));
 }
 
 void OrderedRBTreeDBTests::cleanupTestCase()
 {
 	stringListDB.prepareForConnection(0);
-	QVERIFY(stringConnection.close());
 	listDB.prepareForConnection(0);
 	QVERIFY(connection.close());
 }
@@ -40,99 +43,92 @@ void OrderedRBTreeDBTests::createTableTest()
 	QVERIFY(listDB.createTables(&connection));
 	QVERIFY(listDB.prepareForConnection(&connection));
 
-	QVERIFY(stringListDB.createTables(&stringConnection));
-	QVERIFY(stringListDB.prepareForConnection(&stringConnection));
+	QVERIFY(stringListDB.createTables(&connection));
+	QVERIFY(stringListDB.prepareForConnection(&connection));
 	tree.tree()->setDBAccess(&stringListDB);
-}
-
-void OrderedRBTreeDBTests::insertDataTest_data()
-{
-	QTest::addColumn<quint32>("rowid");
-	QTest::addColumn<quint32>("leftSize");
-	QTest::addColumn<bool>("red");
-	QTest::addColumn<quint32>("parent");
-	QTest::addColumn<quint32>("left");
-	QTest::addColumn<quint32>("right");
-	QTest::addColumn<quint32>("listid");
-	QTest::addColumn<quint8>("type");
-	QTest::addColumn<quint32>("id");
-
-	QTest::newRow("first row") << (quint32)1 << (quint32)1 << false
-		<< (quint32)0 << (quint32)2 << (quint32)3
-		<< (quint32)5 << (quint8)1 << (quint32)28;
-	QTest::newRow("second row") << (quint32)2 << (quint32)0 << true
-		<< (quint32)1 << (quint32)0 << (quint32)0
-		<< (quint32)5 << (quint8)1 << (quint32)29;
-	QTest::newRow("third row") << (quint32)3 << (quint32)0 << false
-		<< (quint32)1 << (quint32)0 << (quint32)0
-		<< (quint32)5 << (quint8)2 << (quint32)44;
 }
 
 void OrderedRBTreeDBTests::insertDataTest()
 {
-	QFETCH(quint32, rowid);
-	QFETCH(quint32, leftSize);
-	QFETCH(bool, red);
-	QFETCH(quint32, parent);
-	QFETCH(quint32, left);
-	QFETCH(quint32, right);
-	QFETCH(quint32, listid);
-	QFETCH(quint8, type);
-	QFETCH(quint32, id);
+	SQLite::Query q;
+	q.useWith(&connection);
+	QVERIFY(q.prepare(QString("select count(*) from %1").arg(listDB.tableName())));
+	for (unsigned int i = 0; i < nbEntries; i++) {
+		QCOMPARE(listDB.insertEntry(entries[i]), i + 1);
+		entries[i].rowId = i + 1;
+	
+		// Check the number of DB rows is consistent
+		QVERIFY(q.exec());
+		QVERIFY(q.next());
+		QCOMPARE(q.valueUInt(0), i + 1);
+		q.reset();
+	}
 
-	EntryListEntry entry;
-	entry.rowId = rowid;
-	entry.leftSize = leftSize;
-	entry.red = red;
-	entry.parent = parent;
-	entry.left = left;
-	entry.right = right;
-
-	entry.data.listId = listid;
-	entry.data.type = type;
-	entry.data.id = id;
-
-	QCOMPARE(listDB.insertEntry(), rowid);
-	entryListEntry[rowid - 1] = entry;
-}
-
-void OrderedRBTreeDBTests::retrieveDataTest_data()
-{
-	insertDataTest_data();
 }
 
 void OrderedRBTreeDBTests::retrieveDataTest()
 {
-	QFETCH(quint32, rowid);
-	QFETCH(quint32, leftSize);
-	QFETCH(bool, red);
-	QFETCH(quint32, parent);
-	QFETCH(quint32, left);
-	QFETCH(quint32, right);
-	QFETCH(quint32, listid);
-	QFETCH(quint8, type);
-	QFETCH(quint32, id);
+	for (unsigned int i = 0; i < nbEntries; i++) {
+		EntryListEntry res = listDB.getEntry(i + 1);
+		QCOMPARE(res.rowId, entries[i].rowId);
+		QCOMPARE(res.leftSize, entries[i].leftSize);
+		QCOMPARE(res.red, entries[i].red);
+		QCOMPARE(res.parent, entries[i].parent);
+		QCOMPARE(res.left, entries[i].left);
+		QCOMPARE(res.right, entries[i].right);
 
-	EntryListEntry res = listDB.getEntry(rowid);
-	QVERIFY(res.rowId != 0);
-	QCOMPARE(res.rowId, rowid);
-	QCOMPARE(res.leftSize, leftSize);
-	QCOMPARE(res.red, red);
-	QCOMPARE(res.parent, parent);
-	QCOMPARE(res.left, left);
-	QCOMPARE(res.right, right);
-
-	QCOMPARE(res.data.listId, listid);
-	QCOMPARE(res.data.type, type);
-	QCOMPARE(res.data.id, id);
+		QCOMPARE(res.data.listId, entries[i].data.listId);
+		QCOMPARE(res.data.type, entries[i].data.type);
+		QCOMPARE(res.data.id, entries[i].data.id);
+	}
 }
 
 void OrderedRBTreeDBTests::updateDataTest()
 {
+	// Change values in DB
+	for (unsigned int i = 0; i < nbEntries; i++) {
+		entries[i].rowId = nbEntries - i;
+		QVERIFY(listDB.insertEntry(entries[i]));
+	}
+
+	// Ensure the number of rows did not change
+	SQLite::Query q;
+	q.useWith(&connection);
+	QVERIFY(q.exec(QString("select count(*) from %1").arg(listDB.tableName())));
+	QVERIFY(q.next());
+	QCOMPARE(q.valueUInt(0), nbEntries);
+	
+	// Ensure the data is consistent
+	for (unsigned int i = 0; i < nbEntries; i++) {
+		EntryListEntry res = listDB.getEntry(i + 1);
+		unsigned int idx = nbEntries - (i + 1);
+		QCOMPARE(res.rowId, entries[idx].rowId);
+		QCOMPARE(res.leftSize, entries[idx].leftSize);
+		QCOMPARE(res.red, entries[idx].red);
+		QCOMPARE(res.parent, entries[idx].parent);
+		QCOMPARE(res.left, entries[idx].left);
+		QCOMPARE(res.right, entries[idx].right);
+
+		QCOMPARE(res.data.listId, entries[idx].data.listId);
+		QCOMPARE(res.data.type, entries[idx].data.type);
+		QCOMPARE(res.data.id, entries[idx].data.id);
+	}
+	
 }
 
 void OrderedRBTreeDBTests::removeDataTest()
 {
+	SQLite::Query q;
+	q.useWith(&connection);
+	QVERIFY(q.prepare(QString("select count(*), min(rowid), max(rowid) from %1").arg(listDB.tableName())));
+	for (unsigned int i = 0; i < nbEntries; i++) {
+		listDB.removeEntry(i + 1);
+		// Check the number of DB rows is consistent
+		QVERIFY(q.exec());
+		QVERIFY(q.next());
+		QCOMPARE(q.valueUInt(0), nbEntries - (i + 1));
+		q.reset();
+	}
 }
 
 template <> QString DBListEntry<QString>::tableDataMembers()
