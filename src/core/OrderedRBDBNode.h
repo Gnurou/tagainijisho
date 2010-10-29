@@ -111,8 +111,15 @@ public:
 	{
 	}
 
-	Node *root() const { return _root; }
-	void setRoot(Node *node) { _root = node; }
+	Node *root() const
+	{
+		// TODO load root if NULL
+		return _root;
+	}
+	void setRoot(Node *node)
+	{
+		_root = node;
+	}
 
 
         bool aboutToChange()
@@ -121,10 +128,12 @@ public:
 		// TODO start transaction
 		return true;
 	}
+
         void changeNode(Node *n)
 	{
 		_changedNodes << n;
 	}
+
         bool changed()
 	{
 		foreach (Node *n, _changedNodes) {
@@ -134,6 +143,7 @@ public:
 		// TODO Commit transaction
 		return true;
 	}
+
 	void abortChanges()
 	{
 		_changedNodes.clear();
