@@ -42,9 +42,10 @@ include_directories(${QT_INCLUDE_DIR})
 # TODO remove once the SQLite stuff is entirely moved into the sqlite module
 include_directories(${CMAKE_SOURCE_DIR}/3rdparty/sqlite)
 
-# Add rules for jmdict and kanjidic components
+# Add rules for sub-components
 add_subdirectory(jmdict)
 add_subdirectory(kanjidic2)
+add_subdirectory(tatoeba)
 
 if (BUILD_TESTS)
 add_subdirectory(tests)
