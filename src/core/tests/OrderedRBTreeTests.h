@@ -66,7 +66,7 @@ private:
 	void inline treeValid(const OrderedRBTree<TreeBase> &tree)
 	{
 		int maxdepth = -1;
-		_treeValid(tree.tree.root(), 0, maxdepth);
+		_treeValid(tree._tree.root(), 0, maxdepth);
 	}
 
 	OrderedRBTree<OrderedRBMemTree<QString > > tree, treeBegin, treeEnd, treeRandom;
