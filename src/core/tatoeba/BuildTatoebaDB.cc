@@ -27,12 +27,15 @@
 #include <QtDebug>
 
 static SQLite::Connection connection;
+static SQLite::Connection jmdictConnection;
 // All the SQL queries used to build the database
 // Having them here will allow us to prepare them once and for all
 // instead of doing it for every entry.
 static SQLite::Query insertSentenceQuery;
 static SQLite::Query insertKanjiTextQuery;
 static SQLite::Query insertKanjiQuery;
+
+static SQLite::Query jmdictLookupQuery;
 #define BIND(query, val) { if (!query.bindValue(val)) { qFatal(query.lastError().message().toUtf8().data()); return false; } }
 #define BINDNULL(query) { if (!query.bindNullValue()) { qFatal(query.lastError().message().toUtf8().data()); return false; } }
 #define AUTO_BIND(query, val, nval) if (val == nval) BINDNULL(query) else BIND(query, val)
@@ -87,6 +90,13 @@ static bool parse_sentences(const QString &sfile)
 			QString reading(wordRegExp.cap(2));
 			unsigned int meaning(wordRegExp.cap(3).toUInt());
 			QString original(wordRegExp.cap(4));
+
+			jmdictLookupQuery.bindValue(writing);
+			jmdictLookupQuery.exec();
+			if (jmdictLookupQuery.next()) {
+				//qDebug() << jmdictLookupQuery.valueUInt(0);
+			}
+			jmdictLookupQuery.reset();
 		}
 	}
 
@@ -129,12 +139,21 @@ int main(int argc, char *argv[])
 		qFatal("Cannot open database: %s", connection.lastError().message().toLatin1().data());
 		return 1;
 	}
+	if (!jmdictConnection.connect("jmdict-en.db")) {
+		qFatal("Cannot connect to JMdict database: %s", jmdictConnection.lastError().message().toLatin1().data());
+		return 1;
+	}
 	ASSERT(connection.transaction());
 	ASSERT(create_tables());
 	
 	// Prepare the queries
 	#define PREPQUERY(query, text) query.useWith(&connection); query.prepare(text)
 	//PREPQUERY(insertEntryQuery, "insert into entries values(?, ?, ?)");
+	#undef PREPQUERY
+
+	#define PREPQUERY(query, text) query.useWith(&jmdictConnection); query.prepare(text)
+	PREPQUERY(jmdictLookupQuery, "select id from kanji join kanjiText on kanji.docid = kanjiText.rowid where kanjiText.reading match ?");
+	#undef PREPQUERY
 
 	// Parse the files
 	ASSERT(parse_sentences(QDir(srcDir).absoluteFilePath("3rdparty/tatoeba/jpn_indices.csv")));
