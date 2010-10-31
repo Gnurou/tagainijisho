@@ -95,9 +95,9 @@ public:
 		_parent = np;
 	}
 
-	void updateDB(DBList<T> &ldb)
+	void updateDB()
 	{
-		e.rowId = ldb.insertEntry(e);
+		e.rowId = _tree->dbAccess()->insertEntry(e);
 	}
 friend class OrderedRBDBTree<T>;
 };
@@ -177,7 +177,7 @@ public:
         bool changed()
 	{
 		foreach (Node *n, _changedNodes) {
-			n->updateDB(_ldb);
+			n->updateDB();
 		}
 		_changedNodes.clear();
 		// TODO Commit transaction
