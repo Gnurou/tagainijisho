@@ -53,6 +53,8 @@ public:
 	void setLeftSize(quint32 lSize) { _leftSize = lSize; }
 };
 
+template <class T> class OrderedRBMemTree;
+
 /**
  * A node type that implements hierarchy through simple pointers. This class is final and
  * do not need any virtual functions.
@@ -65,7 +67,7 @@ private:
 	T _value;
 
 public:
-	OrderedRBNode(const T &va) : _left(0), _right(0), _parent(0), _value(va)
+	OrderedRBNode(OrderedRBMemTree<T> *tree, const T &va) : _left(0), _right(0), _parent(0), _value(va)
 	{
 	}
 
@@ -121,6 +123,31 @@ private:
 public:
 	OrderedRBMemTree() : _root(0)
 	{
+	}
+
+	~OrderedRBMemTree()
+	{
+		Node *current = _root;
+		while (current) {
+			if (current->left()) current = current->left();
+			else if (current->right()) current = current->right();
+			else {
+				Node *parent = current->parent();
+				if (current == _root) {
+					delete _root;
+					_root = 0;
+				}
+				else if (current == current->parent()->left()) {
+					delete current->parent()->left();
+					current->parent()->setLeft(0);
+				}
+				else {
+					delete current->parent()->right();
+					current->parent()->setRight(0);
+				}
+				current = parent;
+			}
+		}
 	}
 
 	Node *root() const { return _root; }
@@ -182,7 +209,6 @@ public:
 
 	~OrderedRBTree()
 	{
-		clear();
 	}
 
 	/**
@@ -545,7 +571,7 @@ void OrderedRBTree<TreeBase>::insert(const typename TreeBase::Node::ValueType &v
 {
 	typename TreeBase::Node *current = _tree.root();
 	unsigned int baseIdx = 0;
-	typename TreeBase::Node *newNode = new typename TreeBase::Node(val);
+	typename TreeBase::Node *newNode = new typename TreeBase::Node(&_tree, val);
 
 	// Insert into root
 	if (!current) setRoot(newNode);

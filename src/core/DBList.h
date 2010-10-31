@@ -63,10 +63,10 @@ private:
 	const QString _tableName;
 	SQLite::Connection *_connection;
 
+	SQLite::Query getRootQuery;
 	SQLite::Query getEntryQuery;
 	SQLite::Query insertEntryQuery;
 	SQLite::Query removeEntryQuery;
-
 
 public:
 	DBList(const QString &tableName, SQLite::Connection *connection = 0);
@@ -78,8 +78,8 @@ public:
 	 */
 	bool prepareForConnection(SQLite::Connection *connection);
 
-
 	bool createTables(SQLite::Connection *connection);
+	DBListEntry<T> getRoot();
 	/// Returns the entry list corresponding to the given row id
 	DBListEntry<T> getEntry(quint32 rowid);
 	/// Inserts the given entry into a list, returns the rowid
@@ -103,6 +103,7 @@ template <class T> bool DBList<T>::createTables(SQLite::Connection *connection)
 template <class T> bool DBList<T>::prepareForConnection(SQLite::Connection *connection)
 {
 	_connection = connection;
+	getRootQuery.useWith(_connection);
 	getEntryQuery.useWith(_connection);
 	insertEntryQuery.useWith(_connection);
 	removeEntryQuery.useWith(_connection);
@@ -113,6 +114,7 @@ template <class T> bool DBList<T>::prepareForConnection(SQLite::Connection *conn
 	QString dataHolders(dataHoldersList.join(", "));
 
 	if (connection) {
+		if (!getRootQuery.prepare(QString("select * from %1 where not parent").arg(_tableName))) return false;
 		if (!getEntryQuery.prepare(QString("select * from %1 where rowid = ?").arg(_tableName))) return false;
 		if (!insertEntryQuery.prepare(QString("insert or replace into %1 values(?, ?, ?, ?, ?, ?, %2)").arg(_tableName).arg(dataHolders))) return false;
 		if (!removeEntryQuery.prepare(QString("delete from %1 where rowid == ?").arg(_tableName))) return false;
@@ -120,17 +122,36 @@ template <class T> bool DBList<T>::prepareForConnection(SQLite::Connection *conn
 	return true;
 }
 
+template <class T> DBListEntry<T> DBList<T>::getRoot()
+{
+	DBListEntry<T> ret;
+	if (!getRootQuery.exec() || !getRootQuery.next()) {
+		getRootQuery.reset();
+		ret.rowId = 0;
+		return ret;
+	}
+	ret.rowId = getRootQuery.valueUInt(0);
+	ret.leftSize = getRootQuery.valueUInt(1);
+	ret.red = getRootQuery.valueBool(2);
+	ret.parent = getRootQuery.valueUInt(3);
+	ret.left = getRootQuery.valueUInt(4);
+	ret.right = getRootQuery.valueUInt(5);
+
+	ret.readDataValues(getRootQuery, 6);
+	getRootQuery.reset();
+	return ret;
+}
+
 template <class T> DBListEntry<T> DBList<T>::getEntry(quint32 rowid)
 {
 	DBListEntry<T> ret;
 	getEntryQuery.bindValue(rowid);
-	if (!getEntryQuery.exec()) {
+	if (!getEntryQuery.exec() || !getEntryQuery.next()) {
 		getEntryQuery.reset();
 		ret.rowId = 0;
 		return ret;
 	}
-	getEntryQuery.next();
-	ret.rowId = rowid;
+	ret.rowId = getEntryQuery.valueUInt(0);
 	ret.leftSize = getEntryQuery.valueUInt(1);
 	ret.red = getEntryQuery.valueBool(2);
 	ret.parent = getEntryQuery.valueUInt(3);
