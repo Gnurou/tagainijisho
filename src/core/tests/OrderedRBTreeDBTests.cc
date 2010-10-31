@@ -81,6 +81,8 @@ void OrderedRBTreeDBTests::retrieveDataTest()
 		QCOMPARE(res.data.type, entries[i].data.type);
 		QCOMPARE(res.data.id, entries[i].data.id);
 	}
+	EntryListEntry root = listDB.getRoot();
+	QCOMPARE(root.rowId, (unsigned int)1);
 }
 
 void OrderedRBTreeDBTests::updateDataTest()
@@ -113,7 +115,6 @@ void OrderedRBTreeDBTests::updateDataTest()
 		QCOMPARE(res.data.type, entries[idx].data.type);
 		QCOMPARE(res.data.id, entries[idx].data.id);
 	}
-	
 }
 
 void OrderedRBTreeDBTests::removeDataTest()
@@ -151,6 +152,7 @@ void OrderedRBTreeDBTests::createTreeTest()
 	QCOMPARE(tree.size(), 0);
 
 	tree.insert(QString("Test"), 0);
+	QCOMPARE(tree.size(), 1);
 	tree.insert(QString("Test2"), 1);
 	QCOMPARE(tree.size(), 2);
 	QCOMPARE(tree[0], QString("Test"));

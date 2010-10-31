@@ -32,7 +32,7 @@ void OrderedRBTreeTests::cleanupTestCase()
 
 void OrderedRBTreeTests::testNode()
 {
-	OrderedRBNode<int> node(5), left(-1), right(10), grandChild(0);
+	OrderedRBNode<int> node(0, 5), left(0, -1), right(0, 10), grandChild(0, 0);
 	left.setColor(OrderedRBNode<int>::BLACK);
 	right.setColor(OrderedRBNode<int>::BLACK);
 	QCOMPARE(node.color(), OrderedRBNode<int>::RED);
