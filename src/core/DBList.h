@@ -83,6 +83,7 @@ public:
 	/// Returns the entry list corresponding to the given row id
 	DBListEntry<T> getEntry(quint32 rowid);
 	/// Inserts the given entry into a list, returns the rowid
+	/// If the entry already exists, replaces it.
 	quint32 insertEntry(const DBListEntry<T> &entry);
 	/// Removes the given entry from a list
 	bool removeEntry(quint32 rowid);
