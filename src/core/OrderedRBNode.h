@@ -106,6 +106,7 @@ public:
 	{
 		_parent = np;
 	}
+friend class OrderedRBMemTree<T>;
 };
 
 template <class T> class OrderedRBMemTree
