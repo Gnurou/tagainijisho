@@ -121,25 +121,26 @@ public:
 	{
 	}
 
+	/// Remove all the in-memory structures, without side-effect
 	~OrderedRBMemTree()
 	{
 		Node *current = _root;
 		while (current) {
-			if (current->left()) current = current->left();
-			else if (current->right()) current = current->right();
+			if (current->_left) current = current->_left;
+			else if (current->_right) current = current->_right;
 			else {
-				Node *parent = current->parent();
+				Node *parent = current->_parent;
 				if (current == _root) {
 					delete _root;
 					_root = 0;
 				}
-				else if (current == current->parent()->left()) {
-					delete current->parent()->left();
-					current->parent()->setLeft(0);
+				else if (current == parent->_left) {
+					delete parent->_left;
+					parent->_left = 0;
 				}
 				else {
-					delete current->parent()->right();
-					current->parent()->setRight(0);
+					delete parent->_right;
+					parent->_right = 0;
 				}
 				current = parent;
 			}
@@ -151,6 +152,7 @@ public:
 
 	bool aboutToChange() { return true; }
 	bool commitChanges() { return true; }
+	void removeNode(Node *node) { delete node; }
 	void abortChanges() {}
 };
 
@@ -436,7 +438,7 @@ void OrderedRBTree<TreeBase>::deleteOneChildNode(typename TreeBase::Node *node)
 		// child is null.
 		else removeCase1(parent, side);
 	}
-	delete node;
+	_tree.removeNode(node);
 }
 
 // If the removed node was the root, the number of black nodes did
@@ -652,15 +654,15 @@ bool OrderedRBTree<TreeBase>::clear()
 
 			switch (sideToClear) {
 			case ROOT:
-				delete _tree.root();
+				_tree.removeNode(_tree.root());
 				setRoot(0);
 				break;
 			case LEFT:
-				delete parent->left();
+				_tree.removeNode(parent->left());
 				parent->setLeft(0);
 				break;
 			case RIGHT:
-				delete parent->right();
+				_tree.removeNode(parent->right());
 				parent->setRight(0);
 				break;
 			}
