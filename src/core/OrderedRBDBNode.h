@@ -194,7 +194,7 @@ public:
 		_changedNodes << n;
 	}
 
-        bool changed()
+        bool commitChanges()
 	{
 		foreach (Node *n, _changedNodes) {
 			n->updateDB();
