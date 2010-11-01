@@ -45,7 +45,6 @@ void OrderedRBTreeDBTests::createTableTest()
 
 	QVERIFY(stringListDB.createTables(&connection));
 	QVERIFY(stringListDB.prepareForConnection(&connection));
-	tree.tree()->setDBAccess(&stringListDB);
 }
 
 void OrderedRBTreeDBTests::insertDataTest()
@@ -149,22 +148,60 @@ template <> void DBListEntry<QString>::readDataValues(SQLite::Query &query, int 
 
 void OrderedRBTreeDBTests::createTreeTest()
 {
+        OrderedRBTree<OrderedRBDBTree<QString> > tree;
+	tree.tree()->setDBAccess(&stringListDB);
+
 	QCOMPARE(tree.size(), 0);
 
 	tree.insert(QString("Test"), 0);
 	QCOMPARE(tree.size(), 1);
 	tree.insert(QString("Test2"), 1);
 	QCOMPARE(tree.size(), 2);
-	QCOMPARE(tree[0], QString("Test"));
-	QCOMPARE(tree[1], QString("Test2"));
+	tree.insert(QString("Test3"), 0);
+	QCOMPARE(tree.size(), 3);
+	QCOMPARE(tree[0], QString("Test3"));
+	QCOMPARE(tree[1], QString("Test"));
+	QCOMPARE(tree[2], QString("Test2"));
+
+	SQLite::Query q;
+	q.useWith(&connection);
+	QVERIFY(q.exec(QString("select * from %1 order by rowid").arg(stringListDB.tableName())));
+	QVERIFY(q.next());
+	QCOMPARE(q.valueInt(0), 1);
+	QCOMPARE(q.valueInt(1), 1);
+	QCOMPARE(q.valueBool(2), false);
+	QCOMPARE(q.valueInt(3), 0);
+	QCOMPARE(q.valueInt(4), 3);
+	QCOMPARE(q.valueInt(5), 2);
+	QCOMPARE(q.valueString(6), QString("Test"));
+	QVERIFY(q.next());
+	QCOMPARE(q.valueInt(0), 2);
+	QCOMPARE(q.valueInt(1), 0);
+	QCOMPARE(q.valueBool(2), false);
+	QCOMPARE(q.valueInt(3), 1);
+	QCOMPARE(q.valueInt(4), 0);
+	QCOMPARE(q.valueInt(5), 0);
+	QCOMPARE(q.valueString(6), QString("Test2"));
+	QVERIFY(q.next());
+	QCOMPARE(q.valueInt(0), 3);
+	QCOMPARE(q.valueInt(1), 0);
+	QCOMPARE(q.valueBool(2), false);
+	QCOMPARE(q.valueInt(3), 1);
+	QCOMPARE(q.valueInt(4), 0);
+	QCOMPARE(q.valueInt(5), 0);
+	QCOMPARE(q.valueString(6), QString("Test3"));
+	QVERIFY(!q.next());
 }
 
-void OrderedRBTreeDBTests::massInsertTest()
+void OrderedRBTreeDBTests::retrieveTreeTest()
 {
-}
+        OrderedRBTree<OrderedRBDBTree<QString> > tree;
+	tree.tree()->setDBAccess(&stringListDB);
 
-void OrderedRBTreeDBTests::massRemoveTest()
-{
+	QCOMPARE(tree.size(), 3);
+	QCOMPARE(tree[0], QString("Test3"));
+	QCOMPARE(tree[1], QString("Test"));
+	QCOMPARE(tree[2], QString("Test2"));
 }
 
 QTEST_MAIN(OrderedRBTreeDBTests)
