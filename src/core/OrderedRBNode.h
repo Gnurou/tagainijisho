@@ -56,8 +56,7 @@ public:
 template <class T> class OrderedRBMemTree;
 
 /**
- * A node type that implements hierarchy through simple pointers. This class is final and
- * do not need any virtual functions.
+ * A node type that implements hierarchy through simple pointers.
  */
 template <class T> class OrderedRBNode : public OrderedRBNodeBase<T>
 {
@@ -83,17 +82,14 @@ public:
 
 	OrderedRBNode<T> *left() const
 	{
-		// TODO create if needed
 		return _left;
 	}
 	OrderedRBNode<T> *right() const
 	{
-		// TODO create if needed
 		return _right;
 	}
 	OrderedRBNode<T> *parent() const
 	{
-		// TODO create if needed
 		return _parent;
 	}
 	void setLeft(OrderedRBNode<T> *nl)
@@ -154,7 +150,7 @@ public:
 	void setRoot(Node *node) { _root = node; }
 
 	bool aboutToChange() { return true; }
-	bool changed() { return true; }
+	bool commitChanges() { return true; }
 	void abortChanges() {}
 };
 
@@ -224,13 +220,13 @@ public:
 	 * Complexity: O(log n)
 	 * TODO No test to check whether we are inserting out of bounds! (both inferior and superior)
 	 */
-	void insert(const typename TreeBase::Node::ValueType &val, int index);
+	bool insert(const typename TreeBase::Node::ValueType &val, int index);
 	/**
 	 * Remove the value at position index. Returns true on success, false otherwise.
 	 * Complexity: O(log n)
 	 */
 	bool remove(int index);
-	void clear();
+	bool clear();
 
 	const TreeBase *tree() const { return &_tree; }
 	TreeBase *tree() { return &_tree; }
@@ -440,7 +436,6 @@ void OrderedRBTree<TreeBase>::deleteOneChildNode(typename TreeBase::Node *node)
 		// child is null.
 		else removeCase1(parent, side);
 	}
-	// TODO How to remove the node from the DB?
 	delete node;
 }
 
@@ -566,8 +561,10 @@ const typename TreeBase::Node::ValueType & OrderedRBTree<TreeBase>::operator[](i
 }
 
 template <class TreeBase>
-void OrderedRBTree<TreeBase>::insert(const typename TreeBase::Node::ValueType &val, int index)
+bool OrderedRBTree<TreeBase>::insert(const typename TreeBase::Node::ValueType &val, int index)
 {
+	if (!_tree.aboutToChange()) return false;
+
 	typename TreeBase::Node *current = _tree.root();
 	unsigned int baseIdx = 0;
 	typename TreeBase::Node *newNode = new typename TreeBase::Node(&_tree, val);
@@ -598,6 +595,9 @@ void OrderedRBTree<TreeBase>::insert(const typename TreeBase::Node::ValueType &v
 	}
 	// Perform balancing
 	insertCase1(newNode);
+
+	if (!_tree.commitChanges()) return false;
+	return true;
 }
 
 template <class TreeBase>
@@ -622,6 +622,7 @@ bool OrderedRBTree<TreeBase>::remove(int index)
 	// Index to remove not found
 	if (!current) return false;
 
+	if (!_tree.aboutToChange()) return false;
 	// Node has two childs, replace its value with the leftmost value at its
 	// right side and replace that latter node with its right child before deleting it.
 	if (current->left() && current->right()) {
@@ -629,24 +630,17 @@ bool OrderedRBTree<TreeBase>::remove(int index)
 		while (successor->left()) successor = successor->left();
 		current->setValue(successor->value());
 		deleteOneChildNode(successor);
-		return true;
 	}
-	// Node has only one child, replace it by the child before deleting
-	else if (current->left() || current->right()) {
-		deleteOneChildNode(current);
-		return true;
-	}
-	// We are removing a leaf
-	else {
-		deleteOneChildNode(current);
-		return true;
-	}
-	return false;
+	// Node has only one child or no child, replace it by the child (or nothing) before deleting
+	else deleteOneChildNode(current);
+	if (!_tree.commitChanges()) return false;
+	return true;
 }
 
 template <class TreeBase>
-void OrderedRBTree<TreeBase>::clear()
+bool OrderedRBTree<TreeBase>::clear()
 {
+	if (!_tree.aboutToChange()) return false;
 	typename TreeBase::Node *current = _tree.root();
 	while (current) {
 		if (current->left()) current = current->left();
@@ -673,6 +667,8 @@ void OrderedRBTree<TreeBase>::clear()
 			current = parent;
 		}
 	}
+	if (!_tree.commitChanges()) return false;
+	return true;
 }
 
 #endif
