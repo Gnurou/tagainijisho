@@ -166,13 +166,13 @@ public:
 					delete _root;
 					_root = 0;
 				}
-				else if (current == current->_parent->_left) {
-					delete current->_parent->_left;
-					current->_parent->_left = 0;
+				else if (current == parent->_left) {
+					delete parent->_left;
+					parent->_left = 0;
 				}
 				else {
-					delete current->_parent->_right;
-					current->_parent->_right = 0;
+					delete parent->_right;
+					parent->_right = 0;
 				}
 				current = parent;
 			}
