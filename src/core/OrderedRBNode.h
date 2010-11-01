@@ -154,7 +154,6 @@ public:
 	void setRoot(Node *node) { _root = node; }
 
 	bool aboutToChange() { return true; }
-	void changeNode(Node *n) {}
 	bool changed() { return true; }
 	void abortChanges() {}
 };
@@ -244,7 +243,6 @@ void OrderedRBTree<TreeBase>::setRoot(typename TreeBase::Node *node)
 {
 	if (node) detach(node);
 	_tree.setRoot(node);
-	_tree.changeNode(node);
 }
 
 template <class TreeBase>
@@ -280,7 +278,6 @@ void OrderedRBTree<TreeBase>::calculateLeftSize(typename TreeBase::Node *node)
 {
 	if (!node->left()) node->setLeftSize(0);
 	else node->setLeftSize(size(node->left()));
-	_tree.changeNode(node);
 }
 	
 template <class TreeBase>
@@ -289,9 +286,7 @@ void OrderedRBTree<TreeBase>::detach(typename TreeBase::Node *node)
 	if (node->parent()) {
 		if (node->parent()->left() == node) node->parent()->setLeft(0);
 		else if (node->parent()->right() == node) node->parent()->setRight(0);
-		_tree.changeNode(node->parent());
 		node->setParent(0);
-		_tree.changeNode(node);
 	}
 }
 
@@ -307,16 +302,12 @@ void OrderedRBTree<TreeBase>::rotateLeft(typename TreeBase::Node *pivot)
 		setRoot(newParent);
 		break;
 	case LEFT:
-		_tree.changeNode(pivot->parent());
 		pivot->parent()->setLeft(newParent);
 		break;
 	case RIGHT:
-		_tree.changeNode(pivot->parent());
 		pivot->parent()->setRight(newParent);
 		break;
 	}
-	_tree.changeNode(pivot);
-	_tree.changeNode(newParent->left());
 	// Move node as the left child of its right child
 	pivot->setRight(newParent->left());
 	// Move node to new parent's left
@@ -337,16 +328,12 @@ void OrderedRBTree<TreeBase>::rotateRight(typename TreeBase::Node *pivot)
 		setRoot(newParent);
 		break;
 	case LEFT:
-		_tree.changeNode(pivot->parent());
 		pivot->parent()->setLeft(newParent);
 		break;
 	case RIGHT:
-		_tree.changeNode(pivot->parent());
 		pivot->parent()->setRight(newParent);
 		break;
 	}
-	_tree.changeNode(pivot);
-	_tree.changeNode(newParent->left());
 	// Move node as the right child of its left child
 	pivot->setLeft(newParent->right());
 	// Move node to new parent's right
@@ -359,10 +346,7 @@ template <class TreeBase>
 void OrderedRBTree<TreeBase>::insertCase1(typename TreeBase::Node *inserted)
 {
 	// Added a root Node<T>?
-	if (!inserted->parent()) {
-		inserted->setColor(TreeBase::Node::BLACK);
-		_tree.changeNode(inserted);
-	}
+	if (!inserted->parent()) inserted->setColor(TreeBase::Node::BLACK);
 	else insertCase2(inserted);
 }
 
@@ -381,9 +365,6 @@ void OrderedRBTree<TreeBase>::insertCase3(typename TreeBase::Node *inserted)
 	// Parent and uncle red? Recolor them.
 	if (_uncle != 0 && _uncle->color() == TreeBase::Node::RED) {
 		typename TreeBase::Node *_grandParent = grandParent(inserted);
-		_tree.changeNode(inserted->parent());
-		_tree.changeNode(_uncle);
-		_tree.changeNode(_grandParent);
 		inserted->parent()->setColor(TreeBase::Node::BLACK);
 		_uncle->setColor(TreeBase::Node::BLACK);
 		_grandParent->setColor(TreeBase::Node::RED);
@@ -413,8 +394,6 @@ void OrderedRBTree<TreeBase>::insertCase5(typename TreeBase::Node *inserted)
 	// Parent red, uncle black, inserted Node<T> and parent on
 	// same side from their parent
 	typename TreeBase::Node *_grandParent = grandParent(inserted);
-	_tree.changeNode(inserted->parent());
-	_tree.changeNode(_grandParent);
 	inserted->parent()->setColor(TreeBase::Node::BLACK);
 	_grandParent->setColor(TreeBase::Node::RED);
 	if (inserted == inserted->parent()->left() && inserted->parent() == _grandParent->left()) {
@@ -432,7 +411,6 @@ void OrderedRBTree<TreeBase>::deleteOneChildNode(typename TreeBase::Node *node)
 		typename TreeBase::Node *p = n->parent();
 		if (p == 0) break;
 		if (n == p->left()) p->setLeftSize(p->leftSize() - 1);
-		_tree.changeNode(p);
 		n = p;
 	}
 	typename TreeBase::Node *parent = node->parent();
@@ -442,12 +420,10 @@ void OrderedRBTree<TreeBase>::deleteOneChildNode(typename TreeBase::Node *node)
 	if (!parent) setRoot(child);
 	else if (parent->left() == node) {
 		parent->setLeft(child);
-		_tree.changeNode(parent);
 		side = Left;
 	}
 	else {
 		parent->setRight(child);
-		_tree.changeNode(parent);
 		side = Right;
 	}
 
@@ -457,10 +433,7 @@ void OrderedRBTree<TreeBase>::deleteOneChildNode(typename TreeBase::Node *node)
 	// Perform balancing
 	if (node->color() == TreeBase::Node::BLACK) {
 		// Black node replaced with red one: recolor into black
-		if (child && child->color() == TreeBase::Node::RED) {
-			child->setColor(TreeBase::Node::BLACK);
-			_tree.changeNode(child);
-		}
+		if (child && child->color() == TreeBase::Node::RED) child->setColor(TreeBase::Node::BLACK);
 		// Black node replaced by black: black count in path changed, needs
 		// rebalancing
 		// This can only happen if node only had two leaf children, that is, if

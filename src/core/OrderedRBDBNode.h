@@ -55,12 +55,26 @@ public:
 
 	~OrderedRBDBNode()
 	{
+		// TODO Register oneself for deletion in the tree
+	}
+
+	void setColor(typename OrderedRBNodeBase<T>::Color col)
+	{
+		OrderedRBNodeBase<T>::setColor(col);
+		_tree->nodeChanged(this);
+	}
+
+	void setLeftSize(quint32 lSize)
+	{
+		OrderedRBNodeBase<T>::setLeftSize(lSize);
+		_tree->nodeChanged(this);
 	}
 
 	const T &value() const { return e.data; }
 	void setValue(const T &nv)
 	{
 		e.data = nv;
+		_tree->nodeChanged(this);
 	}
 
 	OrderedRBDBNode<T> *left() const
@@ -83,18 +97,24 @@ public:
 	void setLeft(OrderedRBDBNode<T> *nl)
 	{
 		_left = nl;
+		_tree->nodeChanged(this);
 		if (nl) nl->setParent(this);
 	}
 	void setRight(OrderedRBDBNode<T> *nr)
 	{
 		_right = nr;
+		_tree->nodeChanged(this);
 		if (nr) nr->setParent(this);
 	}
 	void setParent(OrderedRBDBNode<T> *np)
 	{
 		_parent = np;
+		_tree->nodeChanged(this);
 	}
 
+	/**
+	 * Called by OrderedRBDBTree for every node that has been marked as being changed.
+	 */
 	void updateDB()
 	{
 		e.rowId = _tree->dbAccess()->insertEntry(e);
@@ -169,7 +189,7 @@ public:
 		return true;
 	}
 
-        void changeNode(Node *n)
+        void nodeChanged(Node *n)
 	{
 		_changedNodes << n;
 	}
