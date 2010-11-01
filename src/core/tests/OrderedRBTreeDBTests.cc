@@ -153,11 +153,11 @@ void OrderedRBTreeDBTests::createTreeTest()
 
 	QCOMPARE(tree.size(), 0);
 
-	tree.insert(QString("Test"), 0);
+	QVERIFY(tree.insert(QString("Test"), 0));
 	QCOMPARE(tree.size(), 1);
-	tree.insert(QString("Test2"), 1);
+	QVERIFY(tree.insert(QString("Test2"), 1));
 	QCOMPARE(tree.size(), 2);
-	tree.insert(QString("Test3"), 0);
+	QVERIFY(tree.insert(QString("Test3"), 0));
 	QCOMPARE(tree.size(), 3);
 	QCOMPARE(tree[0], QString("Test3"));
 	QCOMPARE(tree[1], QString("Test"));
@@ -202,6 +202,24 @@ void OrderedRBTreeDBTests::retrieveTreeTest()
 	QCOMPARE(tree[0], QString("Test3"));
 	QCOMPARE(tree[1], QString("Test"));
 	QCOMPARE(tree[2], QString("Test2"));
+}
+
+void OrderedRBTreeDBTests::removeTreeTest() {
+	SQLite::Query q;
+	q.useWith(&connection);
+	QVERIFY(q.prepare(QString("select count(*) from %1").arg(stringListDB.tableName())));
+
+        OrderedRBTree<OrderedRBDBTree<QString> > tree;
+	tree.tree()->setDBAccess(&stringListDB);
+
+	for (int i = 0; i < 3; i++) {
+		QVERIFY(tree.remove(0));
+		QVERIFY(q.exec());
+		QVERIFY(q.next());
+		QCOMPARE(q.valueInt(0), 3 - (i + 1));
+		QCOMPARE(tree.size(), 3 - (i + 1));
+		q.reset();
+	}
 }
 
 QTEST_MAIN(OrderedRBTreeDBTests)

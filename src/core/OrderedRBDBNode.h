@@ -58,7 +58,6 @@ public:
 
 	~OrderedRBDBNode()
 	{
-		// TODO Register oneself for deletion in the tree
 	}
 
 	void setColor(typename OrderedRBNodeBase<T>::Color col)
@@ -148,6 +147,8 @@ private:
 	QSet<Node *> _changedNodes;
 	DBList<T> *_ldb;
 
+	void clearMemCache();
+
 public:
 	OrderedRBDBTree() : _root(0), _rootId(0), _ldb(0)
 	{
@@ -156,27 +157,7 @@ public:
 	/// Remove all the in-memory structures, leaving the database unchanged
 	~OrderedRBDBTree()
 	{
-		Node *current = _root;
-		while (current) {
-			if (current->_left) current = current->_left;
-			else if (current->_right) current = current->_right;
-			else {
-				Node *parent = current->_parent;
-				if (current == _root) {
-					delete _root;
-					_root = 0;
-				}
-				else if (current == parent->_left) {
-					delete parent->_left;
-					parent->_left = 0;
-				}
-				else {
-					delete parent->_right;
-					parent->_right = 0;
-				}
-				current = parent;
-			}
-		}
+		clearMemCache();
 	}
 
 	Node *root() const
@@ -195,6 +176,8 @@ public:
 	void setRoot(Node *node)
 	{
 		_root = node;
+		if (node) _rootId = node->e.rowId;
+		else _rootId = 0;
 	}
 
         bool aboutToChange()
@@ -207,6 +190,15 @@ public:
         void nodeChanged(Node *n)
 	{
 		_changedNodes << n;
+	}
+
+	bool removeNode(Node *node)
+	{
+		if (!_ldb->removeEntry(node->e.rowId)) return false;
+		// Make sure deleted nodes do not get updated
+		_changedNodes.remove(node);
+		delete node;
+		return true;
 	}
 
         bool commitChanges()
@@ -242,6 +234,33 @@ public:
 	}
 
 	DBList<T> *dbAccess() { return _ldb; }
+
 };
+
+template <class T>
+void OrderedRBDBTree<T>::clearMemCache()
+{
+	Node *current = _root;
+	while (current) {
+		if (current->_left) current = current->_left;
+		else if (current->_right) current = current->_right;
+		else {
+			Node *parent = current->_parent;
+			if (current == _root) {
+				delete _root;
+				_root = 0;
+			}
+			else if (current == parent->_left) {
+				delete parent->_left;
+				parent->_left = 0;
+			}
+			else {
+				delete parent->_right;
+				parent->_right = 0;
+			}
+			current = parent;
+		}
+	}
+}
 
 #endif
