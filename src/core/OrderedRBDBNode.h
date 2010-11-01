@@ -42,15 +42,18 @@ private:
 public:
 	OrderedRBDBNode(OrderedRBDBTree<T> *tree, const T &va) : _tree(tree), _left(0), _right(0), _parent(0), e()
 	{
-		// Here a new node is to be inserted in the tree - we need to insert it into
+		// Here a new node is to be inserted in the tree - we need to insert it right now into
 		// the DB in order to get its ID.
 		setValue(va);
+		updateDB();
 	}
 
 	OrderedRBDBNode(OrderedRBDBTree<T> *tree, quint32 rowid) : _tree(tree), _left(0), _right(0), _parent(0), e()
 	{
 		// The new node is expected to exist in the DB with the given ID - just load it.
 		e = _tree->dbAccess()->getEntry(rowid);
+		OrderedRBNodeBase<T>::setColor(e.red ?  OrderedRBNodeBase<T>::RED : OrderedRBNodeBase<T>::BLACK);
+		OrderedRBNodeBase<T>::setLeftSize(e.leftSize);
 	}
 
 	~OrderedRBDBNode()
@@ -61,12 +64,14 @@ public:
 	void setColor(typename OrderedRBNodeBase<T>::Color col)
 	{
 		OrderedRBNodeBase<T>::setColor(col);
+		e.red = (col == OrderedRBNodeBase<T>::RED);
 		_tree->nodeChanged(this);
 	}
 
 	void setLeftSize(quint32 lSize)
 	{
 		OrderedRBNodeBase<T>::setLeftSize(lSize);
+		e.leftSize = lSize;
 		_tree->nodeChanged(this);
 	}
 
@@ -80,13 +85,19 @@ public:
 	OrderedRBDBNode<T> *left() const
 	{
 		// Load the node if not already done and return it
-		if (!_left && e.left) _left = new OrderedRBDBNode<T>(_tree, e.left);
+		if (!_left && e.left) {
+			_left = new OrderedRBDBNode<T>(_tree, e.left);
+			_left->_parent = const_cast<OrderedRBDBNode<T> *>(this);
+		}
 		return _left;
 	}
 	OrderedRBDBNode<T> *right() const
 	{
 		// Load the node if not already done and return it
-		if (!_right && e.right) _right = new OrderedRBDBNode<T>(_tree, e.right);
+		if (!_right && e.right) {
+			_right = new OrderedRBDBNode<T>(_tree, e.right);
+			_right->_parent = const_cast<OrderedRBDBNode<T> *>(this);
+		}
 		return _right;
 	}
 	OrderedRBDBNode<T> *parent() const
@@ -97,27 +108,31 @@ public:
 	void setLeft(OrderedRBDBNode<T> *nl)
 	{
 		_left = nl;
+		e.left = nl ? nl->e.rowId : 0;
 		_tree->nodeChanged(this);
 		if (nl) nl->setParent(this);
 	}
 	void setRight(OrderedRBDBNode<T> *nr)
 	{
 		_right = nr;
+		e.right = nr ? nr->e.rowId : 0;
 		_tree->nodeChanged(this);
 		if (nr) nr->setParent(this);
 	}
 	void setParent(OrderedRBDBNode<T> *np)
 	{
 		_parent = np;
+		e.parent = np ? np->e.rowId : 0;
 		_tree->nodeChanged(this);
 	}
 
 	/**
 	 * Called by OrderedRBDBTree for every node that has been marked as being changed.
 	 */
-	void updateDB()
+	bool updateDB()
 	{
 		e.rowId = _tree->dbAccess()->insertEntry(e);
+		return e.rowId != 0;
 	}
 friend class OrderedRBDBTree<T>;
 };
@@ -138,7 +153,7 @@ public:
 	{
 	}
 
-	/// Remove all the in-memory structures
+	/// Remove all the in-memory structures, leaving the database unchanged
 	~OrderedRBDBTree()
 	{
 		Node *current = _root;
@@ -151,7 +166,7 @@ public:
 					delete _root;
 					_root = 0;
 				}
-				else if (current == current->parent()->left()) {
+				else if (current == current->_parent->_left) {
 					delete current->_parent->_left;
 					current->_parent->_left = 0;
 				}
@@ -197,7 +212,10 @@ public:
         bool commitChanges()
 	{
 		foreach (Node *n, _changedNodes) {
-			n->updateDB();
+			if (!n->updateDB()) {
+				// TODO Abort transaction
+				return false;
+			}
 		}
 		_changedNodes.clear();
 		// TODO Commit transaction

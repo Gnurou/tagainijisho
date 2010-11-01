@@ -39,7 +39,6 @@ private:
 
 	// For tree-related tests
 	DBList<QString> stringListDB;
-        OrderedRBTree<OrderedRBDBTree<QString> > tree;
 
 private slots:
 	void initTestCase();
@@ -52,11 +51,10 @@ private slots:
 	void removeDataTest();
 
         void createTreeTest();
-        void massInsertTest();
-        void massRemoveTest();
+        void retrieveTreeTest();
 
 public:
-	OrderedRBTreeDBTests() : listDB("testList"), stringListDB("stringList"), tree() {}
+	OrderedRBTreeDBTests() : listDB("testList"), stringListDB("stringList") {}
 };
 
 #endif // ORDEREDRBTREEDBTESTS_H
