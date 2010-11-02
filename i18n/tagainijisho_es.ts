@@ -53,7 +53,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="+486"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="+484"/>
         <source>User data</source>
         <translation type="unfinished"></translation>
     </message>
@@ -111,12 +111,12 @@
 <context>
     <name>Database</name>
     <message>
-        <location filename="../src/core/Database.cc" line="+160"/>
+        <location filename="../src/core/Database.cc" line="+187"/>
         <source>Tagaini Jisho warning</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+52"/>
+        <location line="+50"/>
         <source>Error while upgrading user database: %1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -131,12 +131,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="+13"/>
         <source>Cannot open database: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+127"/>
+        <location line="+112"/>
         <source>Temporary database fallback failed. The program will now exit.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -425,7 +425,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="-198"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="-196"/>
         <source>Main writing</source>
         <translation type="unfinished"></translation>
     </message>
@@ -483,14 +483,6 @@
     <message>
         <location line="+2"/>
         <source>Last mistaken on %1.</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>EntryListModel</name>
-    <message>
-        <location filename="../src/core/EntryListModel.cc" line="+212"/>
-        <source>New list</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1349,6 +1341,11 @@ improve performance when manipulating a large number of entries.</source>
     </message>
     <message>
         <location line="+1"/>
+        <source>proverb</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
         <source>particle</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1519,6 +1516,11 @@ improve performance when manipulating a large number of entries.</source>
     </message>
     <message>
         <location line="+1"/>
+        <source>su verb - precursor to the modern suru</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
         <source>suru verb - special class</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1591,7 +1593,7 @@ improve performance when manipulating a large number of entries.</source>
 <context>
     <name>JMdictPlugin</name>
     <message>
-        <location filename="../src/core/jmdict/JMdictPlugin.cc" line="+299"/>
+        <location filename="../src/core/jmdict/JMdictPlugin.cc" line="+304"/>
         <source>An error seems to have occured while updating the JMdict database records - the program might crash during usage. Please report this bug.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1928,7 +1930,7 @@ improve performance when manipulating a large number of entries.</source>
 <context>
     <name>Kanjidic2EntryFormatter</name>
     <message>
-        <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="+207"/>
+        <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="+208"/>
         <source> (%1) </source>
         <translation type="unfinished"></translation>
     </message>
@@ -2594,7 +2596,7 @@ improve performance when manipulating a large number of entries.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="+195"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="+193"/>
         <source>Lists</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2755,7 +2757,7 @@ improve performance when manipulating a large number of entries.</source>
     </message>
     <message>
         <location line="+1"/>
-        <source>You have now been using Tagaini Jisho for a short while. If you like it, please show your support by making a donation that expresses your appreciation of this software. While Tagaini is free, its development has a cost and your support will have a positive influence on its future. You can donate via Paypal or credit card.
+        <source>You have now been using Tagaini Jisho for a short while. If you like it, please show your support by making a donation that expresses your appreciation of this software. While Tagaini is free, its development has a cost and your support will have a positive influence on its future. You can donate via Paypal or credit card, or use &lt;a href=&quot;https://flattr.com/thing/74296/Tagaini-Jisho&quot;&gt;Flattr&lt;/a&gt; to support this project.
 
 This message is a one-time reminder and will not appear anymore - you can still donate later by choosing the corresponding option in the Help menu.</source>
         <translation type="unfinished"></translation>
@@ -2915,69 +2917,6 @@ This message is a one-time reminder and will not appear anymore - you can still 
     </message>
 </context>
 <context>
-    <name>QSQLiteDriver</name>
-    <message>
-        <location filename="../src/sqlite/qsql_sqlite.cc" line="+507"/>
-        <source>Error opening database</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+11"/>
-        <source>Error closing database</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+20"/>
-        <source>Unable to begin transaction</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+15"/>
-        <source>Unable to commit transaction</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+14"/>
-        <source>Unable to rollback transaction</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>QSQLiteResult</name>
-    <message>
-        <location line="-377"/>
-        <location line="+50"/>
-        <location line="+8"/>
-        <source>Unable to fetch row</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="-57"/>
-        <source>No query</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+114"/>
-        <source>Unable to execute statement</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+20"/>
-        <source>Unable to reset statement</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+45"/>
-        <source>Unable to bind parameters</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+7"/>
-        <source>Parameter count mismatch</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>RadicalSearchWidget</name>
     <message>
         <location filename="../src/gui/kanjidic2/RadicalSearchWidget.ui" line="+14"/>
@@ -2989,7 +2928,7 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <name>ReadingTrainer</name>
     <message>
         <location filename="../src/gui/ReadingTrainer.ui" line="+14"/>
-        <location filename="../src/gui/ReadingTrainer.cc" line="+39"/>
+        <location filename="../src/gui/ReadingTrainer.cc" line="+40"/>
         <source>Reading practice</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3200,11 +3139,6 @@ This message is a one-time reminder and will not appear anymore - you can still 
     </message>
     <message>
         <location line="+9"/>
-        <source>Number of results per page:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+38"/>
         <source>Results sorting:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3224,7 +3158,7 @@ This message is a one-time reminder and will not appear anymore - you can still 
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="-194"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="-192"/>
         <source>Results view</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3245,23 +3179,13 @@ This message is a one-time reminder and will not appear anymore - you can still 
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+27"/>
-        <source>Previous page</source>
+        <location filename="../src/gui/ResultsViewWidget.cc" line="+54"/>
+        <source>Searching...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+23"/>
-        <source>Next page</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+23"/>
-        <source>Show all results</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/gui/ResultsViewWidget.cc" line="+124"/>
-        <source>Results %1 - %2 of %3</source>
+        <location line="+16"/>
+        <source>%1 Results</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3299,7 +3223,7 @@ This message is a one-time reminder and will not appear anymore - you can still 
 <context>
     <name>SetsTreeWidget</name>
     <message>
-        <location filename="../src/gui/SetsOrganizer.cc" line="+141"/>
+        <location filename="../src/gui/SetsOrganizer.cc" line="+143"/>
         <source>Delete</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3353,7 +3277,7 @@ This message is a one-time reminder and will not appear anymore - you can still 
 <context>
     <name>StudyFilterWidget</name>
     <message>
-        <location filename="../src/gui/StudyFilterWidget.cc" line="+28"/>
+        <location filename="../src/gui/StudyFilterWidget.cc" line="+30"/>
         <source>Score</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3375,19 +3299,19 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location line="+24"/>
         <location line="+30"/>
-        <location line="+31"/>
+        <location line="+20"/>
         <source>since</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-60"/>
+        <location line="-49"/>
         <location line="+30"/>
-        <location line="+31"/>
+        <location line="+20"/>
         <source>until</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-56"/>
+        <location line="-45"/>
         <source>Last trained</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3397,7 +3321,7 @@ This message is a one-time reminder and will not appear anymore - you can still 
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+34"/>
+        <location line="+23"/>
         <source>Any</source>
         <translation type="unfinished"></translation>
     </message>
