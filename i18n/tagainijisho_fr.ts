@@ -53,7 +53,7 @@
         <translation>Fichier de base de données utilisateur:</translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="+486"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="+484"/>
         <source>User data</source>
         <translation>Données utilisateur</translation>
     </message>
@@ -111,12 +111,12 @@
 <context>
     <name>Database</name>
     <message>
-        <location filename="../src/core/Database.cc" line="+160"/>
+        <location filename="../src/core/Database.cc" line="+187"/>
         <source>Tagaini Jisho warning</source>
         <translation>Avertissement Tagaini Jisho</translation>
     </message>
     <message>
-        <location line="+52"/>
+        <location line="+50"/>
         <source>Error while upgrading user database: %1</source>
         <translation>Erreur lors de la mise à jour de la base de données utilisateur: %1</translation>
     </message>
@@ -131,12 +131,12 @@
         <translation>Impossible de créer la base de données utilisateur: %1</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="+13"/>
         <source>Cannot open database: %1</source>
         <translation>Impossible d&apos;ouvrir la base de données: %1</translation>
     </message>
     <message>
-        <location line="+127"/>
+        <location line="+112"/>
         <source>Temporary database fallback failed. The program will now exit.</source>
         <translation>Échec du basculement vers la base de données temporaire. Le programme va maintenant quitter.</translation>
     </message>
@@ -429,7 +429,7 @@
         <translation>Deux lignes</translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="-198"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="-196"/>
         <source>Main writing</source>
         <translation>Écriture principale</translation>
     </message>
@@ -565,9 +565,8 @@
 <context>
     <name>EntryListModel</name>
     <message>
-        <location filename="../src/core/EntryListModel.cc" line="+212"/>
         <source>New list</source>
-        <translation>Nouvelle liste</translation>
+        <translation type="obsolete">Nouvelle liste</translation>
     </message>
 </context>
 <context>
@@ -1288,17 +1287,17 @@ améliorer les performances en cas de manipulation de nombreuses entrées.</tran
         <translation>terme de chimie</translation>
     </message>
     <message>
-        <location line="+45"/>
+        <location line="+46"/>
         <source>physics terminology</source>
         <translation>terme de physique</translation>
     </message>
     <message>
-        <location line="-18"/>
+        <location line="-19"/>
         <source>mathematics</source>
         <translation>mathématiques</translation>
     </message>
     <message>
-        <location line="+62"/>
+        <location line="+64"/>
         <source>Nagano-ben</source>
         <translation>Nagano-ben</translation>
     </message>
@@ -1348,7 +1347,7 @@ améliorer les performances en cas de manipulation de nombreuses entrées.</tran
         <translation>Kantou-ben</translation>
     </message>
     <message>
-        <location line="-59"/>
+        <location line="-61"/>
         <source>manga slang</source>
         <translation>argot de manga</translation>
     </message>
@@ -1358,12 +1357,17 @@ améliorer les performances en cas de manipulation de nombreuses entrées.</tran
         <translation>langage poli (teineigo)</translation>
     </message>
     <message>
-        <location line="+49"/>
+        <location line="+37"/>
+        <source>su verb - precursor to the modern suru</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+14"/>
         <source>vulgar expression or word</source>
         <translation>mot ou expression vulgaire</translation>
     </message>
     <message>
-        <location line="-73"/>
+        <location line="-75"/>
         <source>idiomatic expression</source>
         <translation>expression idiomatique</translation>
     </message>
@@ -1458,7 +1462,12 @@ améliorer les performances en cas de manipulation de nombreuses entrées.</tran
         <translation>terme poétique</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+3"/>
+        <source>proverb</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>rare</source>
         <translation>rare</translation>
     </message>
@@ -1468,7 +1477,7 @@ améliorer les performances en cas de manipulation de nombreuses entrées.</tran
         <translation>sensitif</translation>
     </message>
     <message>
-        <location line="-31"/>
+        <location line="-32"/>
         <source>humble (kenjougo) language</source>
         <translation>langage humble (kenjougo)</translation>
     </message>
@@ -1503,7 +1512,7 @@ améliorer les performances en cas de manipulation de nombreuses entrées.</tran
         <translation>colloquialisme</translation>
     </message>
     <message>
-        <location line="+49"/>
+        <location line="+50"/>
         <source>word usually written using kana alone</source>
         <translation>mot généralement écrit en kana uniquement</translation>
     </message>
@@ -1513,7 +1522,7 @@ améliorer les performances en cas de manipulation de nombreuses entrées.</tran
         <translation>argot</translation>
     </message>
     <message>
-        <location line="-23"/>
+        <location line="-24"/>
         <source>male term or language</source>
         <translation>langage ou terme masculin</translation>
     </message>
@@ -1548,7 +1557,7 @@ améliorer les performances en cas de manipulation de nombreuses entrées.</tran
         <translation>interjection (kandoushi)</translation>
     </message>
     <message>
-        <location line="+30"/>
+        <location line="+31"/>
         <source>word usually written using kanji alone</source>
         <translation>mot usuellement écrit avec des kanji uniquement</translation>
     </message>
@@ -1593,17 +1602,17 @@ améliorer les performances en cas de manipulation de nombreuses entrées.</tran
         <translation>verbe ru irrégulier, forme normale finissant en -ri</translation>
     </message>
     <message>
-        <location line="-86"/>
+        <location line="-87"/>
         <source>noun or verb acting prenominally</source>
         <translation>nom ou verbe prénomial</translation>
     </message>
     <message>
-        <location line="+100"/>
+        <location line="+102"/>
         <source>transitive verb</source>
         <translation>verbe transitif</translation>
     </message>
     <message>
-        <location line="-59"/>
+        <location line="-61"/>
         <source>noun, used as a suffix</source>
         <translation>nom, utilisé comme suffixe</translation>
     </message>
@@ -1618,17 +1627,17 @@ améliorer les performances en cas de manipulation de nombreuses entrées.</tran
         <translation>adjectif (keiyoushi)</translation>
     </message>
     <message>
-        <location line="+87"/>
+        <location line="+88"/>
         <source>Ichidan verb - zuru verb (alternative form of -jiru verbs)</source>
         <translation>verbe Ichidan - verbe zuru (forme alternative des verbes -jiru)</translation>
     </message>
     <message>
-        <location line="-80"/>
+        <location line="-81"/>
         <source>adverb (fukushi)</source>
         <translation>adverbe (fukushi)</translation>
     </message>
     <message>
-        <location line="+57"/>
+        <location line="+58"/>
         <source>suffix</source>
         <translation>suffixe</translation>
     </message>
@@ -1678,7 +1687,7 @@ améliorer les performances en cas de manipulation de nombreuses entrées.</tran
         <translation>verbe Godan avec terminaison en `su&apos;</translation>
     </message>
     <message>
-        <location line="-70"/>
+        <location line="-71"/>
         <source>auxiliary</source>
         <translation>auxiliaire</translation>
     </message>
@@ -1693,7 +1702,7 @@ améliorer les performances en cas de manipulation de nombreuses entrées.</tran
         <translation>noms adjectivaux ou quasi-adjectifs (keiyodoshi)</translation>
     </message>
     <message>
-        <location line="+75"/>
+        <location line="+76"/>
         <source>Godan verb - Iku/Yuku special class</source>
         <translation>verbe Godan - classe spéciale Iku/Yuku</translation>
     </message>
@@ -1708,17 +1717,17 @@ améliorer les performances en cas de manipulation de nombreuses entrées.</tran
         <translation>verbe Godan avec terminaison en `gu&apos;</translation>
     </message>
     <message>
-        <location line="-72"/>
+        <location line="-73"/>
         <source>nouns which may take the genitive case particle `no&apos;</source>
         <translation>noms pouvant prendre la particule génitive `no&apos;</translation>
     </message>
     <message>
-        <location line="+65"/>
+        <location line="+66"/>
         <source>Ichidan verb</source>
         <translation>verbe Ichidan</translation>
     </message>
     <message>
-        <location line="-20"/>
+        <location line="-21"/>
         <source>noun, used as a prefix</source>
         <translation>nom, utilisé comme préfixe</translation>
     </message>
@@ -1728,12 +1737,12 @@ améliorer les performances en cas de manipulation de nombreuses entrées.</tran
         <translation>adjectif auxiliaire</translation>
     </message>
     <message>
-        <location line="+57"/>
+        <location line="+58"/>
         <source>Yondan verb with `ru&apos; ending (archaic)</source>
         <translation>verbe Yondan avec terminaison en `ru&apos; (archaique)</translation>
     </message>
     <message>
-        <location line="-21"/>
+        <location line="-22"/>
         <source>numeric</source>
         <translation>numérique</translation>
     </message>
@@ -1748,7 +1757,7 @@ améliorer les performances en cas de manipulation de nombreuses entrées.</tran
         <translation>adjectif pré-nominal (rentaishi)</translation>
     </message>
     <message>
-        <location line="+66"/>
+        <location line="+67"/>
         <source>Yondan verb with `hu/fu&apos; ending (archaic)</source>
         <translation>verbe Yondan avec terminaison en `hu/fu&apos; (archaique)</translation>
     </message>
@@ -1758,42 +1767,42 @@ améliorer les performances en cas de manipulation de nombreuses entrées.</tran
         <translation>verbe Nidan avec terminaison en `u&apos; (archaique)</translation>
     </message>
     <message>
-        <location line="+25"/>
+        <location line="+26"/>
         <source>suru verb - special class</source>
         <translation>verbe suru - classe spéciale</translation>
     </message>
     <message>
-        <location line="-49"/>
+        <location line="-51"/>
         <source>noun (common) (futsuumeishi)</source>
         <translation>nom (commun) (futsuumeishi)</translation>
     </message>
     <message>
-        <location line="+48"/>
+        <location line="+49"/>
         <source>noun or participle which takes the aux. verb suru</source>
         <translation>nom ou participe prenant le verbe auxilaire suru</translation>
     </message>
     <message>
-        <location line="-68"/>
+        <location line="-69"/>
         <source>Expressions (phrases, clauses, etc.)</source>
         <translation>Expressions (phrases, clauses, etc.)</translation>
     </message>
     <message>
-        <location line="+70"/>
+        <location line="+72"/>
         <source>suru verb - irregular</source>
         <translation>verbe suru - irrégulier</translation>
     </message>
     <message>
-        <location line="-49"/>
+        <location line="-51"/>
         <source>adverbial noun (fukushitekimeishi)</source>
         <translation>nom adverbial (fukushitekimeishi)</translation>
     </message>
     <message>
-        <location line="+35"/>
+        <location line="+36"/>
         <source>Godan verb with `ru&apos; ending (irregular verb)</source>
         <translation>verbe Godan avec terminaison en `ru&apos; (verbe irrégulier)</translation>
     </message>
     <message>
-        <location line="-25"/>
+        <location line="-26"/>
         <source>pronoun</source>
         <translation>pronom</translation>
     </message>
@@ -1868,7 +1877,7 @@ améliorer les performances en cas de manipulation de nombreuses entrées.</tran
 <context>
     <name>JMdictPlugin</name>
     <message>
-        <location filename="../src/core/jmdict/JMdictPlugin.cc" line="+299"/>
+        <location filename="../src/core/jmdict/JMdictPlugin.cc" line="+304"/>
         <source>An error seems to have occured while updating the JMdict database records - the program might crash during usage. Please report this bug.</source>
         <translation>Une erreur semble être survenue lors de la mise à jour des enregistrements du JMdict - il se peut que le programme plante pendant son utilisation. Merci de rapporter ce bug.</translation>
     </message>
@@ -2232,7 +2241,7 @@ améliorer les performances en cas de manipulation de nombreuses entrées.</tran
         <translation type="obsolete">Nanori:</translation>
     </message>
     <message>
-        <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="+207"/>
+        <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="+208"/>
         <source> (%1) </source>
         <translation> (%1) </translation>
     </message>
@@ -2997,7 +3006,7 @@ améliorer les performances en cas de manipulation de nombreuses entrées.</tran
         <translation>Prévisualisation</translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="+195"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="+193"/>
         <source>Lists</source>
         <translation>Listes</translation>
     </message>
@@ -3244,13 +3253,19 @@ améliorer les performances en cas de manipulation de nombreuses entrées.</tran
         <translation>Merci de penser à aider Tagaini Jisho</translation>
     </message>
     <message>
-        <location line="+1"/>
         <source>You have now been using Tagaini Jisho for a short while. If you like it, please show your support by making a donation that expresses your appreciation of this software. While Tagaini is free, its development has a cost and your support will have a positive influence on its future. You can donate via Paypal or credit card.
 
 This message is a one-time reminder and will not appear anymore - you can still donate later by choosing the corresponding option in the Help menu.</source>
-        <translation>Cela fait maintenant un petit bout de temps que vous utilisez Tagaini Jisho. Si vous l&apos;appréciez, vous pouvez concrétiser cette appréciation en faisant une donation qui exprime votre satisfaction envers ce logiciel. Bien que Tagaini Jisho soit libre et gratuit, son développement a un coût et votre support aura une influence positive sur son futur. Vous pouvez donner par Paypal ou carte de crédit.
+        <translation type="obsolete">Cela fait maintenant un petit bout de temps que vous utilisez Tagaini Jisho. Si vous l&apos;appréciez, vous pouvez concrétiser cette appréciation en faisant une donation qui exprime votre satisfaction envers ce logiciel. Bien que Tagaini Jisho soit libre et gratuit, son développement a un coût et votre support aura une influence positive sur son futur. Vous pouvez donner par Paypal ou carte de crédit.
 
 Ce message de rappel n&apos;apparaîtra dorénavant plus - vous pouvez toujours donner plus tard en choisissant l&apos;option correspondante dans le menu d&apos;Aide.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>You have now been using Tagaini Jisho for a short while. If you like it, please show your support by making a donation that expresses your appreciation of this software. While Tagaini is free, its development has a cost and your support will have a positive influence on its future. You can donate via Paypal or credit card, or use &lt;a href=&quot;https://flattr.com/thing/74296/Tagaini-Jisho&quot;&gt;Flattr&lt;/a&gt; to support this project.
+
+This message is a one-time reminder and will not appear anymore - you can still donate later by choosing the corresponding option in the Help menu.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+2"/>
@@ -3488,64 +3503,51 @@ Ce message de rappel n&apos;apparaîtra dorénavant plus - vous pouvez toujours 
 <context>
     <name>QSQLiteDriver</name>
     <message>
-        <location filename="../src/sqlite/qsql_sqlite.cc" line="+507"/>
         <source>Error opening database</source>
-        <translation>Erreur lors de l&apos;ouverture de la base de données</translation>
+        <translation type="obsolete">Erreur lors de l&apos;ouverture de la base de données</translation>
     </message>
     <message>
-        <location line="+11"/>
         <source>Error closing database</source>
-        <translation>Erreur lors de la fermeture de la base de données</translation>
+        <translation type="obsolete">Erreur lors de la fermeture de la base de données</translation>
     </message>
     <message>
-        <location line="+20"/>
         <source>Unable to begin transaction</source>
-        <translation>Impossible de commencer la transaction</translation>
+        <translation type="obsolete">Impossible de commencer la transaction</translation>
     </message>
     <message>
-        <location line="+15"/>
         <source>Unable to commit transaction</source>
-        <translation>Impossible de valider la transaction</translation>
+        <translation type="obsolete">Impossible de valider la transaction</translation>
     </message>
     <message>
-        <location line="+14"/>
         <source>Unable to rollback transaction</source>
-        <translation>Impossible de replier la transaction</translation>
+        <translation type="obsolete">Impossible de replier la transaction</translation>
     </message>
 </context>
 <context>
     <name>QSQLiteResult</name>
     <message>
-        <location line="-377"/>
-        <location line="+50"/>
-        <location line="+8"/>
         <source>Unable to fetch row</source>
-        <translation>Impossible d&apos;atteindre la ligne</translation>
+        <translation type="obsolete">Impossible d&apos;atteindre la ligne</translation>
     </message>
     <message>
-        <location line="-57"/>
         <source>No query</source>
-        <translation>Aucune requête</translation>
+        <translation type="obsolete">Aucune requête</translation>
     </message>
     <message>
-        <location line="+114"/>
         <source>Unable to execute statement</source>
-        <translation>Impossible d&apos;exécuter la commande</translation>
+        <translation type="obsolete">Impossible d&apos;exécuter la commande</translation>
     </message>
     <message>
-        <location line="+20"/>
         <source>Unable to reset statement</source>
-        <translation>Impossible de réinitialiser la commande</translation>
+        <translation type="obsolete">Impossible de réinitialiser la commande</translation>
     </message>
     <message>
-        <location line="+45"/>
         <source>Unable to bind parameters</source>
-        <translation>Impossible de lier les paramètres</translation>
+        <translation type="obsolete">Impossible de lier les paramètres</translation>
     </message>
     <message>
-        <location line="+7"/>
         <source>Parameter count mismatch</source>
-        <translation>Nombre de paramètres incorrect</translation>
+        <translation type="obsolete">Nombre de paramètres incorrect</translation>
     </message>
 </context>
 <context>
@@ -3560,7 +3562,7 @@ Ce message de rappel n&apos;apparaîtra dorénavant plus - vous pouvez toujours 
     <name>ReadingTrainer</name>
     <message>
         <location filename="../src/gui/ReadingTrainer.ui" line="+14"/>
-        <location filename="../src/gui/ReadingTrainer.cc" line="+39"/>
+        <location filename="../src/gui/ReadingTrainer.cc" line="+40"/>
         <source>Reading practice</source>
         <translation>Entraînement à la lecture</translation>
     </message>
@@ -3818,12 +3820,11 @@ Ce message de rappel n&apos;apparaîtra dorénavant plus - vous pouvez toujours 
         <translation>Défilement fluide</translation>
     </message>
     <message>
-        <location line="+9"/>
         <source>Number of results per page:</source>
-        <translation>Nombre d&apos;entrées par page:</translation>
+        <translation type="obsolete">Nombre d&apos;entrées par page:</translation>
     </message>
     <message>
-        <location line="+38"/>
+        <location line="+9"/>
         <source>Results sorting:</source>
         <translation>Classement des résultats:</translation>
     </message>
@@ -3847,7 +3848,7 @@ Ce message de rappel n&apos;apparaîtra dorénavant plus - vous pouvez toujours 
         <translation>Prévisualisation</translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="-191"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="-189"/>
         <source>Results view</source>
         <translation>Liste des résultats</translation>
     </message>
@@ -3868,24 +3869,30 @@ Ce message de rappel n&apos;apparaîtra dorénavant plus - vous pouvez toujours 
         <translation>Form</translation>
     </message>
     <message>
-        <location line="+27"/>
         <source>Previous page</source>
-        <translation>Page précédente</translation>
+        <translation type="obsolete">Page précédente</translation>
     </message>
     <message>
-        <location line="+23"/>
         <source>Next page</source>
-        <translation>Page suivante</translation>
+        <translation type="obsolete">Page suivante</translation>
     </message>
     <message>
-        <location line="+23"/>
         <source>Show all results</source>
-        <translation>Montrer tous les résultats</translation>
+        <translation type="obsolete">Montrer tous les résultats</translation>
     </message>
     <message>
-        <location filename="../src/gui/ResultsViewWidget.cc" line="+124"/>
         <source>Results %1 - %2 of %3</source>
-        <translation>Résultats %1 - %2 sur %3</translation>
+        <translation type="obsolete">Résultats %1 - %2 sur %3</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/ResultsViewWidget.cc" line="+54"/>
+        <source>Searching...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+16"/>
+        <source>%1 Results</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -4007,7 +4014,7 @@ Ce message de rappel n&apos;apparaîtra dorénavant plus - vous pouvez toujours 
 <context>
     <name>SetsTreeWidget</name>
     <message>
-        <location filename="../src/gui/SetsOrganizer.cc" line="+141"/>
+        <location filename="../src/gui/SetsOrganizer.cc" line="+143"/>
         <source>Delete</source>
         <translation>Supprimer</translation>
     </message>
@@ -4088,7 +4095,7 @@ Ce message de rappel n&apos;apparaîtra dorénavant plus - vous pouvez toujours 
 <context>
     <name>StudyFilterWidget</name>
     <message>
-        <location filename="../src/gui/StudyFilterWidget.cc" line="+28"/>
+        <location filename="../src/gui/StudyFilterWidget.cc" line="+30"/>
         <source>Score</source>
         <translation>Score</translation>
     </message>
@@ -4110,19 +4117,19 @@ Ce message de rappel n&apos;apparaîtra dorénavant plus - vous pouvez toujours 
     <message>
         <location line="+24"/>
         <location line="+30"/>
-        <location line="+31"/>
+        <location line="+20"/>
         <source>since</source>
         <translation>depuis</translation>
     </message>
     <message>
-        <location line="-60"/>
+        <location line="-49"/>
         <location line="+30"/>
-        <location line="+31"/>
+        <location line="+20"/>
         <source>until</source>
         <translation>jusque</translation>
     </message>
     <message>
-        <location line="-56"/>
+        <location line="-45"/>
         <source>Last trained</source>
         <translation>Dernier entraînement</translation>
     </message>
@@ -4136,7 +4143,7 @@ Ce message de rappel n&apos;apparaîtra dorénavant plus - vous pouvez toujours 
         <translation type="obsolete">Aucun</translation>
     </message>
     <message>
-        <location line="+34"/>
+        <location line="+23"/>
         <source>Any</source>
         <translation>Tout</translation>
     </message>
