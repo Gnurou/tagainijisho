@@ -1359,7 +1359,7 @@ améliorer les performances en cas de manipulation de nombreuses entrées.</tran
     <message>
         <location line="+37"/>
         <source>su verb - precursor to the modern suru</source>
-        <translation type="unfinished"></translation>
+        <translation>verbe su - précurseur du &apos;suru&apos; moderne</translation>
     </message>
     <message>
         <location line="+14"/>
@@ -1464,7 +1464,7 @@ améliorer les performances en cas de manipulation de nombreuses entrées.</tran
     <message>
         <location line="+3"/>
         <source>proverb</source>
-        <translation type="unfinished"></translation>
+        <translation>proverbe</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -3265,7 +3265,9 @@ Ce message de rappel n&apos;apparaîtra dorénavant plus - vous pouvez toujours 
         <source>You have now been using Tagaini Jisho for a short while. If you like it, please show your support by making a donation that expresses your appreciation of this software. While Tagaini is free, its development has a cost and your support will have a positive influence on its future. You can donate via Paypal or credit card, or use &lt;a href=&quot;https://flattr.com/thing/74296/Tagaini-Jisho&quot;&gt;Flattr&lt;/a&gt; to support this project.
 
 This message is a one-time reminder and will not appear anymore - you can still donate later by choosing the corresponding option in the Help menu.</source>
-        <translation type="unfinished"></translation>
+        <translation>Cela fait maintenant un petit bout de temps que vous utilisez Tagaini Jisho. Si vous l&apos;appréciez, vous pouvez concrétiser cette appréciation en faisant une donation qui exprime votre satisfaction envers ce logiciel. Bien que Tagaini soit libre et gratuit, son développement a un coût et votre support aura une influence positive sur son futur. Vous pouvez donner par Paypal ou carte de crédit, ou utiliser &lt;a href=&quot;https://flattr.com/thing/74296/Tagaini-Jisho&quot;&gt;Flattr&lt;/a&gt; afin de supporter ce projet.
+
+Ce message de rappel n&apos;apparaîtra dorénavant plus - vous pouvez toujours donner plus tard en choisissant l&apos;option correspondante dans le menu d&apos;Aide.</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -3887,12 +3889,12 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location filename="../src/gui/ResultsViewWidget.cc" line="+54"/>
         <source>Searching...</source>
-        <translation type="unfinished"></translation>
+        <translation>Recherche en cours...</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>%1 Results</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 résultats</translation>
     </message>
 </context>
 <context>
