@@ -183,8 +183,7 @@ public:
         bool aboutToChange()
 	{
 		_changedNodes.clear();
-		// TODO start transaction
-		return true;
+		return _ldb->connection()->transaction();
 	}
 
         void nodeChanged(Node *n)
@@ -205,19 +204,22 @@ public:
 	{
 		foreach (Node *n, _changedNodes) {
 			if (!n->updateDB()) {
-				// TODO Abort transaction
+				_ldb->connection()->rollback();
 				return false;
 			}
 		}
 		_changedNodes.clear();
-		// TODO Commit transaction
+		if (!_ldb->connection()->commit()) {
+			_ldb->connection()->rollback();
+			return false;
+		}
 		return true;
 	}
 
 	void abortChanges()
 	{
 		_changedNodes.clear();
-		// TODO Abort transaction
+		_ldb->connection()->rollback();
 	}
 
 	void setDBAccess(DBList<T> *ldb)
@@ -235,7 +237,6 @@ public:
 	}
 
 	DBList<T> *dbAccess() { return _ldb; }
-
 };
 
 template <class T>
