@@ -147,8 +147,6 @@ private:
 	QSet<Node *> _changedNodes;
 	DBList<T> *_ldb;
 
-	void clearMemCache();
-
 public:
 	OrderedRBDBTree() : _root(0), _rootId(0), _ldb(0)
 	{
@@ -237,6 +235,8 @@ public:
 	}
 
 	DBList<T> *dbAccess() { return _ldb; }
+
+	void clearMemCache();
 };
 
 template <class T>
