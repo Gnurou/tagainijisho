@@ -231,6 +231,7 @@ public:
 	void setRootId(quint32 id)
 	{
 		_rootId = id;
+		clearMemCache();
 	}
 
 	DBList<T> *dbAccess() { return _ldb; }
