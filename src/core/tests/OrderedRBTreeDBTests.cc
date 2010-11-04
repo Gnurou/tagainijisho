@@ -234,7 +234,8 @@ void OrderedRBTreeDBTests::removeTreeTest() {
 
 void OrderedRBTreeDBTests::subTreeTest()
 {
-        OrderedRBTree<OrderedRBDBTree<EntryListData> > tree, subTree;
+        EntryList tree, subTree;
+
 	// First create the root tree
 	tree.tree()->setDBAccess(&listDB);
 	tree.tree()->setRootId(0);

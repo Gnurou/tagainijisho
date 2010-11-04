@@ -133,6 +133,11 @@ public:
 		e.rowId = _tree->dbAccess()->insertEntry(e);
 		return e.rowId != 0;
 	}
+
+	quint32 rowId() const
+	{
+		return e.rowId;
+	}
 friend class OrderedRBDBTree<T>;
 };
 
@@ -145,6 +150,8 @@ private:
 	mutable Node *_root;
 	mutable quint32 _rootId;
 	QSet<Node *> _changedNodes;
+
+protected:
 	DBList<T> *_ldb;
 
 public:
@@ -220,11 +227,6 @@ public:
 		_ldb->connection()->rollback();
 	}
 
-	void setDBAccess(DBList<T> *ldb)
-	{
-		_ldb = ldb;
-	}
-
 	/// Sets the rowid of the root node for this list.
 	/// This allows to implement nested lists using our
 	/// flat model.
@@ -232,6 +234,11 @@ public:
 	{
 		_rootId = id;
 		clearMemCache();
+	}
+
+	void setDBAccess(DBList<T> *ldb)
+	{
+		_ldb = ldb;
 	}
 
 	DBList<T> *dbAccess() { return _ldb; }
