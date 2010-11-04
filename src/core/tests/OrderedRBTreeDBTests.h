@@ -35,7 +35,7 @@ private:
 	SQLite::Connection connection;
 	QTemporaryFile dbFile;
 	// For entry-related tests
-	EntryList listDB;
+	EntryListDBAccess listDB;
 
 	// For tree-related tests
 	DBList<QString> stringListDB;
