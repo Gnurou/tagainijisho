@@ -19,12 +19,13 @@
 
 template <> QString DBListEntry<EntryListData>::tableDataMembers()
 {
+	//return "listId INTEGER, type TINYINT, id INTEGER";
 	return "listId INTEGER, type TINYINT, id INTEGER";
 }
 
 template <> void DBListEntry<EntryListData>::bindDataValues(SQLite::Query &query) const
 {
-	query.bindValue(data.listId);
+	//query.bindValue(data.listId);
 	query.bindValue(data.type);
 	if (data.type == 0) query.bindValue(data.name);
 	else query.bindValue(data.id);
@@ -32,7 +33,7 @@ template <> void DBListEntry<EntryListData>::bindDataValues(SQLite::Query &query
 
 template <> void DBListEntry<EntryListData>::readDataValues(SQLite::Query &query, int start)
 {
-	data.listId = query.valueUInt(start++);
+	//data.listId = query.valueUInt(start++);
 	data.type = query.valueUInt(start++);
 	if (data.type != 0) data.id = query.valueUInt(start++);
 	else { data.id = 0; data.name = query.valueString(start++); }

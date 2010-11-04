@@ -54,6 +54,7 @@ private slots:
         void retrieveTreeTest();
         void removeTreeTest();
 
+	void subTreeTest();
 public:
 	OrderedRBTreeDBTests() : listDB("testList"), stringListDB("stringList") {}
 };

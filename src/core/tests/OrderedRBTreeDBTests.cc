@@ -20,9 +20,19 @@
 static const unsigned int nbEntries = 3;
 static EntryListEntry entries[nbEntries] =
 {
-	{ 0, 1, false, 0, 2, 3, { 5, 1, 28 } },
-	{ 0, 0, true,  1, 0, 0, { 5, 1, 29 } },
-	{ 0, 0, false, 1, 0, 0, { 5, 2, 44 } }
+	{ 0, 1, false, 0, 2, 3, { 1, 28 } },
+	{ 0, 0, true,  1, 0, 0, { 1, 29 } },
+	{ 0, 0, false, 1, 0, 0, { 2, 44 } }
+};
+
+static EntryListData listData[nbEntries] =
+{
+	{ 1, 10 }, { 0, 0, "SubList"}, { 1, 30 }
+};
+
+static EntryListData subListData[nbEntries] =
+{
+	{ 1, 20 }, { 1, 25 }, { 1, 29 }
 };
 
 void OrderedRBTreeDBTests::initTestCase()
@@ -76,7 +86,7 @@ void OrderedRBTreeDBTests::retrieveDataTest()
 		QCOMPARE(res.left, entries[i].left);
 		QCOMPARE(res.right, entries[i].right);
 
-		QCOMPARE(res.data.listId, entries[i].data.listId);
+		//QCOMPARE(res.data.listId, entries[i].data.listId);
 		QCOMPARE(res.data.type, entries[i].data.type);
 		QCOMPARE(res.data.id, entries[i].data.id);
 	}
@@ -110,7 +120,7 @@ void OrderedRBTreeDBTests::updateDataTest()
 		QCOMPARE(res.left, entries[idx].left);
 		QCOMPARE(res.right, entries[idx].right);
 
-		QCOMPARE(res.data.listId, entries[idx].data.listId);
+		//QCOMPARE(res.data.listId, entries[idx].data.listId);
 		QCOMPARE(res.data.type, entries[idx].data.type);
 		QCOMPARE(res.data.id, entries[idx].data.id);
 	}
@@ -220,6 +230,24 @@ void OrderedRBTreeDBTests::removeTreeTest() {
 		QCOMPARE(tree.size(), 3 - (i + 1));
 		q.reset();
 	}
+}
+
+void OrderedRBTreeDBTests::subTreeTest()
+{
+        OrderedRBTree<OrderedRBDBTree<EntryListData> > tree, subTree;
+	// First create the root tree
+	tree.tree()->setDBAccess(&listDB);
+	tree.tree()->setRootId(0);
+	for (unsigned int i = 0; i < nbEntries; i++) {
+		QVERIFY(tree.insert(listData[i], i));
+	}
+	// Clear it
+	tree.tree()->clearMemCache();
+	// Quickly check the data is valid
+	QCOMPARE(tree[1].id, listData[1].id);
+	QCOMPARE(tree[2].id, listData[2].id);
+	QCOMPARE(tree[0].id, listData[0].id);
+	// Insert sub-tree
 }
 
 QTEST_MAIN(OrderedRBTreeDBTests)
