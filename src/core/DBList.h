@@ -87,6 +87,8 @@ public:
 	quint32 insertEntry(const DBListEntry<T> &entry);
 	/// Removes the given entry from a list
 	bool removeEntry(quint32 rowid);
+
+	SQLite::Connection *connection() { return _connection; }
 };
 
 template <class T> DBList<T>::DBList(const QString &tableName, SQLite::Connection *connection) : _tableName(tableName)
