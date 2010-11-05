@@ -53,9 +53,22 @@ template <class T> struct DBListEntry
 	void readDataValues(SQLite::Query &query, int start);
 };
 
+/**
+ * Represents list roots recordings
+ */
+struct DBListInfo
+{
+	quint32 listId;
+	quint32 rootId;
+	QString label;
+};
 
 /**
- * Low-level database manipulation for RB trees. Avoid direct use!
+ * Low-level database layer for persistent RB trees. Trees are stored in two tables, one that stores all
+ * the nodes of the lists, another that associates the list id to the index of its root node.
+ *
+ * The naming of tables is configurable at construction time, so it is possible to store different kind
+ * of lists within different tables.
  */
 template <class T> class DBList
 {
@@ -63,10 +76,12 @@ private:
 	const QString _tableName;
 	SQLite::Connection *_connection;
 
-	SQLite::Query getRootQuery;
 	SQLite::Query getEntryQuery;
 	SQLite::Query insertEntryQuery;
 	SQLite::Query removeEntryQuery;
+	SQLite::Query getListQuery;
+	SQLite::Query insertListQuery;
+	SQLite::Query removeListQuery;
 
 public:
 	DBList(const QString &tableName, SQLite::Connection *connection = 0);
@@ -79,7 +94,6 @@ public:
 	bool prepareForConnection(SQLite::Connection *connection);
 
 	bool createTables(SQLite::Connection *connection);
-	DBListEntry<T> getRoot();
 	/// Returns the entry list corresponding to the given row id
 	DBListEntry<T> getEntry(quint32 rowid);
 	/// Inserts the given entry into a list, returns the rowid
@@ -87,6 +101,13 @@ public:
 	quint32 insertEntry(const DBListEntry<T> &entry);
 	/// Removes the given entry from a list
 	bool removeEntry(quint32 rowid);
+
+	/// Get the root node id for a given list
+	DBListInfo getList(quint32 listId);
+	/// Inserts or updates the root id and label for a given list
+	bool insertList(const DBListInfo &info);
+	/// Remove a given list. All nodes of the list should be deleted before calling this method!
+	bool removeList(quint32 listId);
 
 	SQLite::Connection *connection() { return _connection; }
 };
@@ -99,16 +120,21 @@ template <class T> DBList<T>::DBList(const QString &tableName, SQLite::Connectio
 template <class T> bool DBList<T>::createTables(SQLite::Connection *connection)
 {
 	if (!connection->exec(QString("create table %1(rowid INTEGER PRIMARY KEY, leftSize INTEGER, red TINYINT, parent INTEGER, left INTEGER, right INTEGER, %2)").arg(_tableName).arg(DBListEntry<T>::tableDataMembers()))) return false;
+	if (!connection->exec(QString("create table %1Roots(listId INTEGER PRIMARY KEY, rootId INTEGER, label TEXT)").arg(DBList<T>::tableName()))) return false;
+	// Entry for root list (rowid = 0)
+	//if (!connection->exec(QString("insert into %1Root values(0, 0, \"\")").arg(DBList<T>::tableName()))) return false;
 	return true;
 }
 
 template <class T> bool DBList<T>::prepareForConnection(SQLite::Connection *connection)
 {
 	_connection = connection;
-	getRootQuery.useWith(_connection);
 	getEntryQuery.useWith(_connection);
 	insertEntryQuery.useWith(_connection);
 	removeEntryQuery.useWith(_connection);
+	getListQuery.useWith(_connection);
+	insertListQuery.useWith(connection);
+	removeListQuery.useWith(connection);
 
 	int nbDataMembers = DBListEntry<T>::tableDataMembers().count(',') + 1;
 	QStringList dataHoldersList;
@@ -116,32 +142,14 @@ template <class T> bool DBList<T>::prepareForConnection(SQLite::Connection *conn
 	QString dataHolders(dataHoldersList.join(", "));
 
 	if (connection) {
-		if (!getRootQuery.prepare(QString("select * from %1 where not parent").arg(_tableName))) return false;
 		if (!getEntryQuery.prepare(QString("select * from %1 where rowid = ?").arg(_tableName))) return false;
 		if (!insertEntryQuery.prepare(QString("insert or replace into %1 values(?, ?, ?, ?, ?, ?, %2)").arg(_tableName).arg(dataHolders))) return false;
 		if (!removeEntryQuery.prepare(QString("delete from %1 where rowid == ?").arg(_tableName))) return false;
+		if (!getListQuery.prepare(QString("select * from %1Roots where listId = ?").arg(_tableName))) return false;
+		if (!insertListQuery.prepare(QString("insert or replace into %1Roots values(?, ?, ?)").arg(DBList<T>::tableName()))) return false;
+		if (!removeListQuery.prepare(QString("delete from %1Roots where listId = ?").arg(DBList<T>::tableName()))) return false;
 	}
 	return true;
-}
-
-template <class T> DBListEntry<T> DBList<T>::getRoot()
-{
-	DBListEntry<T> ret;
-	if (!getRootQuery.exec() || !getRootQuery.next()) {
-		getRootQuery.reset();
-		ret.rowId = 0;
-		return ret;
-	}
-	ret.rowId = getRootQuery.valueUInt(0);
-	ret.leftSize = getRootQuery.valueUInt(1);
-	ret.red = getRootQuery.valueBool(2);
-	ret.parent = getRootQuery.valueUInt(3);
-	ret.left = getRootQuery.valueUInt(4);
-	ret.right = getRootQuery.valueUInt(5);
-
-	ret.readDataValues(getRootQuery, 6);
-	getRootQuery.reset();
-	return ret;
 }
 
 template <class T> DBListEntry<T> DBList<T>::getEntry(quint32 rowid)
@@ -188,6 +196,43 @@ template <class T> bool DBList<T>::removeEntry(quint32 rowid)
 	removeEntryQuery.bindValue(rowid);
 	if (!removeEntryQuery.exec()) {
 		removeEntryQuery.reset();
+		return false;
+	} else return true;
+}
+
+template <class T> DBListInfo DBList<T>::getList(quint32 listId)
+{
+	DBListInfo ret = { 0 };
+	getListQuery.bindValue(listId);
+
+	if (!getListQuery.exec() || !getListQuery.next()) {
+		getListQuery.reset();
+		return ret;
+	}
+	ret.listId = getListQuery.valueUInt(0);
+	ret.rootId = getListQuery.valueUInt(1);
+	ret.label = getListQuery.valueString(2);
+
+	getListQuery.reset();
+	return ret;
+}
+
+template <class T> bool DBList<T>::insertList(const DBListInfo &info)
+{
+	insertListQuery.bindValue(info.listId);
+	insertListQuery.bindValue(info.rootId);
+	insertListQuery.bindValue(info.label);
+	if (!insertListQuery.exec()) {
+		insertListQuery.reset();
+		return false;
+	} else return true;
+}
+
+template <class T> bool DBList<T>::removeList(quint32 listId)
+{
+	removeListQuery.bindValue(listId);
+	if (!removeListQuery.exec()) {
+		removeListQuery.reset();
 		return false;
 	} else return true;
 }

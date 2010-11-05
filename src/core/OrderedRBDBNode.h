@@ -141,21 +141,29 @@ public:
 friend class OrderedRBDBTree<T>;
 };
 
+/**
+ * Persistent Ordered RB tree backed up by a database.
+ *
+ * Instances of this class need to be connected to a suitable DBList instance in order to fetch and store their data.
+ * They also need to be affected a list identifier, from which the root of the tree can be fetched. The documentation
+ * of DBList contains details about the DB implementation.
+ */
 template <class T> class OrderedRBDBTree
 {
 public:
 	typedef OrderedRBDBNode<T> Node;
 
 private:
+	DBListInfo _listInfo;
 	mutable Node *_root;
-	mutable quint32 _rootId;
+	bool mustUpdateRootTable;
 	QSet<Node *> _changedNodes;
 
 protected:
 	DBList<T> *_ldb;
 
 public:
-	OrderedRBDBTree() : _root(0), _rootId(0), _ldb(0)
+	OrderedRBDBTree() : _listInfo(), _root(0), mustUpdateRootTable(false), _ldb(0) 
 	{
 	}
 
@@ -165,24 +173,14 @@ public:
 		clearMemCache();
 	}
 
-	Node *root() const
-	{
-		// Load the root node from the DB if necessary
-		if (!_root) {
-			if (_rootId == 0) {
-				DBListEntry<T> e = _ldb->getRoot();
-				_rootId = e.rowId;
-			}
-			if (_rootId != 0) _root = new Node(const_cast<OrderedRBDBTree<T> *>(this), _rootId);
-		}
-		return _root;
-	}
+	Node *root() const { return _root; }
 
 	void setRoot(Node *node)
 	{
 		_root = node;
-		if (node) _rootId = node->e.rowId;
-		else _rootId = 0;
+		if (node) _listInfo.rootId = node->e.rowId;
+		else _listInfo.rootId = 0;
+		mustUpdateRootTable = true;
 	}
 
         bool aboutToChange()
@@ -218,6 +216,10 @@ public:
 			_ldb->connection()->rollback();
 			return false;
 		}
+		if (mustUpdateRootTable) {
+			_ldb->insertList(_listInfo);
+			mustUpdateRootTable = false;
+		}
 		return true;
 	}
 
@@ -227,13 +229,25 @@ public:
 		_ldb->connection()->rollback();
 	}
 
-	/// Sets the rowid of the root node for this list.
-	/// This allows to implement nested lists using our
-	/// flat model.
-	void setRootId(quint32 id)
+	quint32 listId() const
 	{
-		_rootId = id;
-		clearMemCache();
+		return _listInfo.listId;
+	}
+
+	void setListId(quint32 id)
+	{
+		_listInfo =_ldb->getList(id);
+		// Overwrite the id in case the list was not recorded yet
+		_listInfo.listId = id;
+		OrderedRBDBTree<T>::clearMemCache();
+	}
+
+	const QString &label() const { return _listInfo.label; }
+
+	void setLabel(const QString &l)
+	{
+		_listInfo.label = l;
+		_ldb->insertList(_listInfo);
 	}
 
 	void setDBAccess(DBList<T> *ldb)
@@ -242,6 +256,13 @@ public:
 	}
 
 	DBList<T> *dbAccess() { return _ldb; }
+
+	bool removeList()
+	{
+		if (!_ldb->removeList(_listInfo.listId)) return false;
+		_listInfo = DBListInfo();
+		return true;
+	}
 
 	void clearMemCache();
 };
@@ -270,6 +291,8 @@ void OrderedRBDBTree<T>::clearMemCache()
 			current = parent;
 		}
 	}
+	// Restore the root node, otherwise the tree will not work anymore
+	if (_listInfo.rootId != 0) _root = new Node(const_cast<OrderedRBDBTree<T> *>(this), _listInfo.rootId);
 }
 
 #endif
