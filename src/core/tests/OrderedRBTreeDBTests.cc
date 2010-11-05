@@ -90,8 +90,6 @@ void OrderedRBTreeDBTests::retrieveDataTest()
 		QCOMPARE(res.data.type, entries[i].data.type);
 		QCOMPARE(res.data.id, entries[i].data.id);
 	}
-	EntryListEntry root = listDB.getRoot();
-	QCOMPARE(root.rowId, (unsigned int)1);
 }
 
 void OrderedRBTreeDBTests::updateDataTest()
@@ -160,6 +158,8 @@ void OrderedRBTreeDBTests::createTreeTest()
 {
         OrderedRBTree<OrderedRBDBTree<QString> > tree;
 	tree.tree()->setDBAccess(&stringListDB);
+	tree.tree()->setListId(1);
+	tree.tree()->setLabel("Test list");
 
 	QCOMPARE(tree.size(), 0);
 
@@ -201,13 +201,24 @@ void OrderedRBTreeDBTests::createTreeTest()
 	QCOMPARE(q.valueInt(5), 0);
 	QCOMPARE(q.valueString(6), QString("Test3"));
 	QVERIFY(!q.next());
+
+	QCOMPARE(tree.tree()->listId(), (quint32) 1);
+	QVERIFY(q.exec(QString("select * from %1Roots").arg(stringListDB.tableName())));
+	QVERIFY(q.next());
+	QCOMPARE(q.valueInt(0), 1);
+	QCOMPARE(q.valueInt(1), 1);
+	QCOMPARE(q.valueString(2), QString("Test list"));
+	QVERIFY(!q.next());
 }
 
 void OrderedRBTreeDBTests::retrieveTreeTest()
 {
-        OrderedRBTree<OrderedRBDBTree<QString> > tree;
+	OrderedRBTree<OrderedRBDBTree<QString> > tree;
 	tree.tree()->setDBAccess(&stringListDB);
+	tree.tree()->setListId(1);
 
+	QCOMPARE(tree.tree()->listId(), (quint32)1);
+	QCOMPARE(tree.tree()->label(), QString("Test list"));
 	QCOMPARE(tree.size(), 3);
 	QCOMPARE(tree[0], QString("Test3"));
 	QCOMPARE(tree[1], QString("Test"));
@@ -221,6 +232,7 @@ void OrderedRBTreeDBTests::removeTreeTest() {
 
         OrderedRBTree<OrderedRBDBTree<QString> > tree;
 	tree.tree()->setDBAccess(&stringListDB);
+	tree.tree()->setListId(1);
 
 	for (int i = 0; i < 3; i++) {
 		QVERIFY(tree.remove(0));
@@ -230,6 +242,9 @@ void OrderedRBTreeDBTests::removeTreeTest() {
 		QCOMPARE(tree.size(), 3 - (i + 1));
 		q.reset();
 	}
+	tree.tree()->removeList();
+	QVERIFY(q.exec(QString("select * from %1Roots").arg(stringListDB.tableName())));
+	QVERIFY(!q.next());
 }
 
 void OrderedRBTreeDBTests::subTreeTest()
@@ -238,7 +253,7 @@ void OrderedRBTreeDBTests::subTreeTest()
 
 	// First create the root tree
 	tree.tree()->setDBAccess(&listDB);
-	tree.tree()->setRootId(0);
+	tree.tree()->setListId(1);
 	for (unsigned int i = 0; i < nbEntries; i++) {
 		QVERIFY(tree.insert(listData[i], i));
 	}
