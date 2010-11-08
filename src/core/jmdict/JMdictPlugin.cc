@@ -184,7 +184,7 @@ bool JMdictPlugin::checkForMovedEntries()
 			if (query2.next()) movedTo = query2.valueInt(0);
 			if (!movedTo) {
 				// Just remove the tag on the deleted entry
-				query2.prepare("delete from taggedEntry where rowid = ?");
+				query2.prepare("delete from taggedEntries where rowid = ?");
 				query2.bindValue(rowId);
 				CHECK(query2.exec());
 			} else {
@@ -202,7 +202,7 @@ bool JMdictPlugin::checkForMovedEntries()
 					CHECK(query2.exec());
 				} else {
 					// Already tagged, just drop the tag on the deleted entry
-					query2.prepare("delete from taggedEntry where rowid = ?");
+					query2.prepare("delete from taggedEntries where rowid = ?");
 					query2.bindValue(rowId);
 					CHECK(query2.exec());
 				}
