@@ -79,6 +79,8 @@ private:
 	SQLite::Query getEntryQuery;
 	SQLite::Query insertEntryQuery;
 	SQLite::Query removeEntryQuery;
+
+	SQLite::Query newListQuery;
 	SQLite::Query getListQuery;
 	SQLite::Query insertListQuery;
 	SQLite::Query removeListQuery;
@@ -102,6 +104,8 @@ public:
 	/// Removes the given entry from a list
 	bool removeEntry(quint32 rowid);
 
+	/// Insert a new list and return it
+	DBListInfo newList();
 	/// Get the root node id for a given list
 	DBListInfo getList(quint32 listId);
 	/// Inserts or updates the root id and label for a given list
@@ -132,6 +136,7 @@ template <class T> bool DBList<T>::prepareForConnection(SQLite::Connection *conn
 	getEntryQuery.useWith(_connection);
 	insertEntryQuery.useWith(_connection);
 	removeEntryQuery.useWith(_connection);
+	newListQuery.useWith(_connection);
 	getListQuery.useWith(_connection);
 	insertListQuery.useWith(connection);
 	removeListQuery.useWith(connection);
@@ -145,6 +150,8 @@ template <class T> bool DBList<T>::prepareForConnection(SQLite::Connection *conn
 		if (!getEntryQuery.prepare(QString("select * from %1 where rowid = ?").arg(_tableName))) return false;
 		if (!insertEntryQuery.prepare(QString("insert or replace into %1 values(?, ?, ?, ?, ?, ?, %2)").arg(_tableName).arg(dataHolders))) return false;
 		if (!removeEntryQuery.prepare(QString("delete from %1 where rowid == ?").arg(_tableName))) return false;
+
+		if (!newListQuery.prepare(QString("insert into %1Roots values(NULL, 0, \"\")").arg(_tableName))) return false;
 		if (!getListQuery.prepare(QString("select * from %1Roots where listId = ?").arg(_tableName))) return false;
 		if (!insertListQuery.prepare(QString("insert or replace into %1Roots values(?, ?, ?)").arg(DBList<T>::tableName()))) return false;
 		if (!removeListQuery.prepare(QString("delete from %1Roots where listId = ?").arg(DBList<T>::tableName()))) return false;
@@ -198,6 +205,19 @@ template <class T> bool DBList<T>::removeEntry(quint32 rowid)
 		removeEntryQuery.reset();
 		return false;
 	} else return true;
+}
+
+template <class T> DBListInfo DBList<T>::newList()
+{
+	DBListInfo ret = { 0 };
+
+	if (!newListQuery.exec()) {
+		newListQuery.reset();
+		return ret;
+	}
+
+	ret.listId = newListQuery.lastInsertId();
+	return ret;
 }
 
 template <class T> DBListInfo DBList<T>::getList(quint32 listId)

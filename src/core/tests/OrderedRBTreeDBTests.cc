@@ -247,23 +247,45 @@ void OrderedRBTreeDBTests::removeTreeTest() {
 	QVERIFY(!q.next());
 }
 
-void OrderedRBTreeDBTests::subTreeTest()
+void OrderedRBTreeDBTests::newTreeTest()
 {
-        EntryList tree, subTree;
-
-	// First create the root tree
+	SQLite::Query q;
+	q.useWith(&connection);
+	QVERIFY(q.prepare(QString("select count(*) from %1Roots").arg(listDB.tableName())));
+        EntryList tree, tree2;
 	tree.tree()->setDBAccess(&listDB);
-	tree.tree()->setListId(1);
-	for (unsigned int i = 0; i < nbEntries; i++) {
-		QVERIFY(tree.insert(listData[i], i));
-	}
-	// Clear it
-	tree.tree()->clearMemCache();
-	// Quickly check the data is valid
-	QCOMPARE(tree[1].id, listData[1].id);
-	QCOMPARE(tree[2].id, listData[2].id);
-	QCOMPARE(tree[0].id, listData[0].id);
-	// Insert sub-tree
+	tree2.tree()->setDBAccess(&listDB);
+
+	QVERIFY(q.exec());
+	QVERIFY(q.next());
+	QCOMPARE(q.valueInt(0), 0);
+	q.reset();
+
+	QVERIFY(tree.tree()->newList());
+	QCOMPARE(tree.tree()->listId(), (quint32)1);
+	QVERIFY(q.exec());
+	QVERIFY(q.next());
+	QCOMPARE(q.valueInt(0), 1);
+	q.reset();
+
+	QVERIFY(tree2.tree()->newList());
+	QCOMPARE(tree2.tree()->listId(), (quint32)2);
+	QVERIFY(q.exec());
+	QVERIFY(q.next());
+	QCOMPARE(q.valueInt(0), 2);
+	q.reset();
+
+	tree.tree()->removeList();
+	QVERIFY(q.exec());
+	QVERIFY(q.next());
+	QCOMPARE(q.valueInt(0), 1);
+	q.reset();
+
+	tree2.tree()->removeList();
+	QVERIFY(q.exec());
+	QVERIFY(q.next());
+	QCOMPARE(q.valueInt(0), 0);
+	q.reset();
 }
 
 QTEST_MAIN(OrderedRBTreeDBTests)

@@ -239,7 +239,7 @@ public:
 		_listInfo =_ldb->getList(id);
 		// Overwrite the id in case the list was not recorded yet
 		_listInfo.listId = id;
-		OrderedRBDBTree<T>::clearMemCache();
+		clearMemCache();
 	}
 
 	const QString &label() const { return _listInfo.label; }
@@ -257,11 +257,28 @@ public:
 
 	DBList<T> *dbAccess() { return _ldb; }
 
+	/**
+	 * Remove the list record for this list from the DB. This does
+	 * not remove the list nodes, so the list MUST be empty before this
+	 * method is called!
+	 */
 	bool removeList()
 	{
 		if (!_ldb->removeList(_listInfo.listId)) return false;
 		_listInfo = DBListInfo();
 		return true;
+	}
+
+	/**
+	 * Create a new empty list in the DB layer and associate this tree
+	 * to it.
+	 */
+	bool newList()
+	{
+		clearMemCache();
+		_listInfo = _ldb->newList();
+		if (!_listInfo.listId) return false;
+		else return true;
 	}
 
 	void clearMemCache();
