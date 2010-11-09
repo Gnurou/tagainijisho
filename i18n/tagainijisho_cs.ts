@@ -40,7 +40,7 @@
     <message>
         <location line="+6"/>
         <source>Pushing this button will completely erase all your user data. This includes study list, tags, notes, scores, basically everything you did. After pushing this button, Tagaini Jisho will exit. Upon restart, you will be back to a fresh, blank database.</source>
-        <translation>Stisknutí tohoto tlačítka povede k úplnému smazání všech vašich uživatelských dat. Zahrnuje toe studijní seznam, značky, poznámkyn, v základě všechno, co jste vytvořil. Po stisknutí tohoto tlačítka bude Tagaini Jisho ukončen. Po opětovném spuštění budete mít opět novou prázdnou databázi.</translation>
+        <translation>Stisknutí tohoto tlačítka povede k úplnému smazání všech vašich uživatelských dat. Zahrnuje to studijní seznam, značky, poznámky, v základě všechno, co jste vytvořil. Po stisknutí tohoto tlačítka bude Tagaini Jisho ukončen. Po opětovném spuštění budete mít opět novou prázdnou databázi.</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -53,7 +53,7 @@
         <translation>Soubor s uživatelovou databází:</translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="+484"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="+486"/>
         <source>User data</source>
         <translation>Uživatelova data</translation>
     </message>
@@ -111,12 +111,12 @@
 <context>
     <name>Database</name>
     <message>
-        <location filename="../src/core/Database.cc" line="+187"/>
+        <location filename="../src/core/Database.cc" line="+160"/>
         <source>Tagaini Jisho warning</source>
         <translation>Varování Tagaini Jisho</translation>
     </message>
     <message>
-        <location line="+50"/>
+        <location line="+52"/>
         <source>Error while upgrading user database: %1</source>
         <translation>Chyba při obnově uživatelovy databáze: %1</translation>
     </message>
@@ -131,12 +131,12 @@
         <translation>Nelze vytvořit uživatelovu databázi: %1</translation>
     </message>
     <message>
-        <location line="+13"/>
+        <location line="+14"/>
         <source>Cannot open database: %1</source>
         <translation>Nelze otevřít databázi: %1</translation>
     </message>
     <message>
-        <location line="+112"/>
+        <location line="+127"/>
         <source>Temporary database fallback failed. The program will now exit.</source>
         <translation>Návrta k dočasné databázi se nezdařil. Program se nyní ukončí.</translation>
     </message>
@@ -429,7 +429,7 @@
         <translation>Dva řádky</translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="-196"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="-198"/>
         <source>Main writing</source>
         <translation>Hlavní způsob psaní</translation>
     </message>
@@ -573,8 +573,9 @@
 <context>
     <name>EntryListModel</name>
     <message>
+        <location filename="../src/core/EntryListModel.cc" line="+212"/>
         <source>New list</source>
-        <translation type="obsolete">Nový seznam</translation>
+        <translation>Nový seznam</translation>
     </message>
 </context>
 <context>
@@ -726,7 +727,7 @@ Některé z nich možná ještě zůstaly.</translation>
     <message>
         <location line="+1"/>
         <source>Vocabulary</source>
-        <translation>Slovní zásoba</translation>
+        <translation>Slovíčka</translation>
     </message>
     <message>
         <source>Kanji</source>
@@ -831,7 +832,7 @@ Některé z nich možná ještě zůstaly.</translation>
     <message>
         <location line="+6"/>
         <source>Weeks start on</source>
-        <translation>Týden začína</translation>
+        <translation>Týden začíná</translation>
     </message>
     <message>
         <location line="+13"/>
@@ -856,7 +857,7 @@ Některé z nich možná ještě zůstaly.</translation>
     <message>
         <location line="+3"/>
         <source>every </source>
-        <translation>každých </translation>
+        <translation>každé(ých) </translation>
     </message>
     <message>
         <location line="+15"/>
@@ -1092,7 +1093,7 @@ Vysoké hodnoty mohou zlepšit výkon, když se zachází s velkým počtem záz
         <location line="+21"/>
         <location line="+1"/>
         <source>Vocabulary</source>
-        <translation>Slovní zásoba</translation>
+        <translation>Slovíčka</translation>
     </message>
     <message>
         <location line="+14"/>
@@ -1483,11 +1484,6 @@ Vysoké hodnoty mohou zlepšit výkon, když se zachází s velkým počtem záz
     </message>
     <message>
         <location line="+1"/>
-        <source>proverb</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+1"/>
         <source>particle</source>
         <translation>Částice</translation>
     </message>
@@ -1658,11 +1654,6 @@ Vysoké hodnoty mohou zlepšit výkon, když se zachází s velkým počtem záz
     </message>
     <message>
         <location line="+1"/>
-        <source>su verb - precursor to the modern suru</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+1"/>
         <source>suru verb - special class</source>
         <translation>Sloveso suru – zvláštní třída</translation>
     </message>
@@ -1732,7 +1723,7 @@ Vysoké hodnoty mohou zlepšit výkon, když se zachází s velkým počtem záz
         <translation>Sprostý výraz nebo slovo</translation>
     </message>
     <message>
-        <location line="-79"/>
+        <location line="-77"/>
         <source>gikun (meaning as reading)  or jukujikun (special kanji reading)</source>
         <translation>gikun (význam stejně jako čtení) nebo  jukujikun (zvláštní čtení kandži)</translation>
     </message>
@@ -1740,7 +1731,7 @@ Vysoké hodnoty mohou zlepšit výkon, když se zachází s velkým počtem záz
 <context>
     <name>JMdictPlugin</name>
     <message>
-        <location filename="../src/core/jmdict/JMdictPlugin.cc" line="+304"/>
+        <location filename="../src/core/jmdict/JMdictPlugin.cc" line="+299"/>
         <source>An error seems to have occured while updating the JMdict database records - the program might crash during usage. Please report this bug.</source>
         <translation>Zdá se, že se při obnově záznamů databáze JMdict vyskytla chyba – Program by během používání mohl spadnout. Nahlašte, prosím, tuto chybu.</translation>
     </message>
@@ -1750,7 +1741,7 @@ Vysoké hodnoty mohou zlepšit výkon, když se zachází s velkým počtem záz
     <message>
         <location filename="../src/gui/jmdict/JMdictPreferences.cc" line="+24"/>
         <source>Vocabulary entries</source>
-        <translation>Slovníkové záznamy</translation>
+        <translation>Záznamy slovíček</translation>
     </message>
     <message>
         <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="+14"/>
@@ -1893,7 +1884,7 @@ Vysoké hodnoty mohou zlepšit výkon, když se zachází s velkým počtem záz
     <message>
         <location line="-294"/>
         <source>Homographs</source>
-        <translation>Homofony (stejně znějící slova, ne však nutně stejně psaná)</translation>
+        <translation>Homografy (slova se stejným pravopisem, ale rozdáílnou výslovností, významem ap.)</translation>
     </message>
 </context>
 <context>
@@ -2081,7 +2072,7 @@ Vysoké hodnoty mohou zlepšit výkon, když se zachází s velkým počtem záz
 <context>
     <name>Kanjidic2EntryFormatter</name>
     <message>
-        <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="+208"/>
+        <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="+207"/>
         <source> (%1) </source>
         <translation> (%1) </translation>
     </message>
@@ -2717,7 +2708,7 @@ Vysoké hodnoty mohou zlepšit výkon, když se zachází s velkým počtem záz
     <message>
         <location line="-10"/>
         <source>Show numbers</source>
-        <translation>Ukázat počty</translation>
+        <translation>Ukázat čísla</translation>
     </message>
     <message>
         <location line="+122"/>
@@ -2763,7 +2754,7 @@ Vysoké hodnoty mohou zlepšit výkon, když se zachází s velkým počtem záz
         <translation>Náhled</translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="+264"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="+266"/>
         <source>Lists</source>
         <translation>Seznamy</translation>
     </message>
@@ -2915,14 +2906,7 @@ Vysoké hodnoty mohou zlepšit výkon, když se zachází s velkým počtem záz
         <translation>Automatické hledání v obsahu schránky</translation>
     </message>
     <message>
-        <location line="+24"/>
-        <source>You have now been using Tagaini Jisho for a short while. If you like it, please show your support by making a donation that expresses your appreciation of this software. While Tagaini is free, its development has a cost and your support will have a positive influence on its future. You can donate via Paypal or credit card, or use &lt;a href=&quot;https://flattr.com/thing/74296/Tagaini-Jisho&quot;&gt;Flattr&lt;/a&gt; to support this project.
-
-This message is a one-time reminder and will not appear anymore - you can still donate later by choosing the corresponding option in the Help menu.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+137"/>
+        <location line="+161"/>
         <source>An update is available!</source>
         <translation>Je dostupná aktualizace!</translation>
     </message>
@@ -3014,15 +2998,16 @@ This message is a one-time reminder and will not appear anymore - you can still 
         <translation>Zvažte, prosím, svou podporu pro Tagaini Jisho</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>You have now been using Tagaini Jisho for a short while. If you like it, please show your support by making a donation that expresses your appreciation of this software. While Tagaini is free, its development has a cost and your support will have a positive influence on its future. You can donate via Paypal or credit card.
 
 This message is a one-time reminder and will not appear anymore - you can still donate later by choosing the corresponding option in the Help menu.</source>
-        <translation type="obsolete">Používáte Tagaini Jisho krátce. Wenn Pokud se vám líbí, ukažte, prosím, svou podporu darem, který by odrážel vaše ocenění programu. I když je Tagaini Jisho zdarma, jeho vývoj s sebou nese určité náklady a vaše podpora bude mít z toho důvodu kladný vliv pro jeho budocnost. Svůj dar můžete poslat pomocí služby Paypal nebo kreditní karty.
+        <translation>Používáte Tagaini Jisho krátce. Wenn Pokud se vám líbí, ukažte, prosím, svou podporu darem, který by odrážel vaše ocenění programu. I když je Tagaini Jisho zdarma, jeho vývoj s sebou nese určité náklady a vaše podpora bude mít z toho důvodu kladný vliv pro jeho budocnost. Svůj dar můžete poslat pomocí služby Paypal nebo kreditní karty.
 
 Tato zpráva je jednorázovým připomenutím a už se vícekrát neobjeví – Svůj dar můžete poskytnout i později tím, že vyberete odpovídající volbu v nabídce s nápovědou.</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+2"/>
         <source>Donate!</source>
         <translation>Věnovat dar!</translation>
     </message>
@@ -3106,51 +3091,64 @@ Tato zpráva je jednorázovým připomenutím a už se vícekrát neobjeví – 
 <context>
     <name>QSQLiteDriver</name>
     <message>
+        <location filename="../src/sqlite/qsql_sqlite.cc" line="+507"/>
         <source>Error opening database</source>
-        <translation type="obsolete">Nepodařilo se otevřít spojení s databází</translation>
+        <translation>Nepodařilo se otevřít spojení s databází</translation>
     </message>
     <message>
+        <location line="+11"/>
         <source>Error closing database</source>
-        <translation type="obsolete">Nepodařilo se uzavřít spojení s datatabází</translation>
+        <translation>Nepodařilo se uzavřít spojení s datatabází</translation>
     </message>
     <message>
+        <location line="+20"/>
         <source>Unable to begin transaction</source>
-        <translation type="obsolete">Transakci se nepodařilo spustit</translation>
+        <translation>Transakci se nepodařilo spustit</translation>
     </message>
     <message>
+        <location line="+15"/>
         <source>Unable to commit transaction</source>
-        <translation type="obsolete">Transakci se nepodařilo provést (operace &apos;commit&apos;, odeslání, se nezdařila)</translation>
+        <translation>Transakci se nepodařilo provést (operace &apos;commit&apos;, odeslání, se nezdařila)</translation>
     </message>
     <message>
+        <location line="+14"/>
         <source>Unable to rollback transaction</source>
-        <translation type="obsolete">Transakci se nepodařilo zvrátit (operace &apos;rollback&apos;, zvrácení, se nezdařila)</translation>
+        <translation>Transakci se nepodařilo zvrátit (operace &apos;rollback&apos;, zvrácení, se nezdařila)</translation>
     </message>
 </context>
 <context>
     <name>QSQLiteResult</name>
     <message>
+        <location line="-377"/>
+        <location line="+50"/>
+        <location line="+8"/>
         <source>Unable to fetch row</source>
-        <translation type="obsolete">Řádek se nepodařilo natáhnout</translation>
+        <translation>Řádek se nepodařilo natáhnout</translation>
     </message>
     <message>
+        <location line="-57"/>
         <source>No query</source>
-        <translation type="obsolete">Žádný požadavek</translation>
+        <translation>Žádný požadavek</translation>
     </message>
     <message>
+        <location line="+114"/>
         <source>Unable to execute statement</source>
-        <translation type="obsolete">Příkaz se nepodařilo provést</translation>
+        <translation>Příkaz se nepodařilo provést</translation>
     </message>
     <message>
+        <location line="+20"/>
         <source>Unable to reset statement</source>
-        <translation type="obsolete">Příkaz se nepodařilo znovu nastavit</translation>
+        <translation>Příkaz se nepodařilo znovu nastavit</translation>
     </message>
     <message>
+        <location line="+45"/>
         <source>Unable to bind parameters</source>
-        <translation type="obsolete">Parametry se nepodařilo spojit</translation>
+        <translation>Parametry se nepodařilo spojit</translation>
     </message>
     <message>
+        <location line="+7"/>
         <source>Parameter count mismatch</source>
-        <translation type="obsolete">Počet parametrů není správný</translation>
+        <translation>Počet parametrů není správný</translation>
     </message>
 </context>
 <context>
@@ -3165,7 +3163,7 @@ Tato zpráva je jednorázovým připomenutím a už se vícekrát neobjeví – 
     <name>ReadingTrainer</name>
     <message>
         <location filename="../src/gui/ReadingTrainer.ui" line="+14"/>
-        <location filename="../src/gui/ReadingTrainer.cc" line="+40"/>
+        <location filename="../src/gui/ReadingTrainer.cc" line="+39"/>
         <source>Reading practice</source>
         <translation>Cvičení čtení</translation>
     </message>
@@ -3375,11 +3373,12 @@ Tato zpráva je jednorázovým připomenutím a už se vícekrát neobjeví – 
         <translation>Plynulý posun obrazu</translation>
     </message>
     <message>
+        <location line="+9"/>
         <source>Number of results per page:</source>
-        <translation type="obsolete">Počet výsledků na stranu:</translation>
+        <translation>Počet výsledků na stranu:</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+38"/>
         <source>Results sorting:</source>
         <translation>Třídění výsledků:</translation>
     </message>
@@ -3399,7 +3398,7 @@ Tato zpráva je jednorázovým připomenutím a už se vícekrát neobjeví – 
         <translation>Náhled</translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="-192"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="-194"/>
         <source>Results view</source>
         <translation>Pohled s výsledky</translation>
     </message>
@@ -3420,34 +3419,28 @@ Tato zpráva je jednorázovým připomenutím a už se vícekrát neobjeví – 
         <translation>Formulář</translation>
     </message>
     <message>
+        <location line="+27"/>
         <source>Previous page</source>
-        <translation type="obsolete">Předchozí strana</translation>
+        <translation>Předchozí strana</translation>
     </message>
     <message>
+        <location line="+23"/>
         <source>Next page</source>
-        <translation type="obsolete">Další strana</translation>
+        <translation>Další strana</translation>
     </message>
     <message>
+        <location line="+23"/>
         <source>Show all results</source>
-        <translation type="obsolete">Ukázat všechny výsledky</translation>
+        <translation>Ukázat všechny výsledky</translation>
     </message>
     <message>
         <source>Click when a search is active to abort it</source>
         <translation type="obsolete">Hier klicken um eine aktive Suche abzubrechen</translation>
     </message>
     <message>
+        <location filename="../src/gui/ResultsViewWidget.cc" line="+124"/>
         <source>Results %1 - %2 of %3</source>
-        <translation type="obsolete">Výsledky %1 – %2 z %3</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/ResultsViewWidget.cc" line="+54"/>
-        <source>Searching...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+16"/>
-        <source>%1 Results</source>
-        <translation type="unfinished"></translation>
+        <translation>Výsledky %1 – %2 z %3</translation>
     </message>
 </context>
 <context>
@@ -3484,7 +3477,7 @@ Tato zpráva je jednorázovým připomenutím a už se vícekrát neobjeví – 
 <context>
     <name>SetsTreeWidget</name>
     <message>
-        <location filename="../src/gui/SetsOrganizer.cc" line="+143"/>
+        <location filename="../src/gui/SetsOrganizer.cc" line="+141"/>
         <source>Delete</source>
         <translation>Smazat</translation>
     </message>
@@ -3562,7 +3555,7 @@ Tato zpráva je jednorázovým připomenutím a už se vícekrát neobjeví – 
 <context>
     <name>StudyFilterWidget</name>
     <message>
-        <location filename="../src/gui/StudyFilterWidget.cc" line="+30"/>
+        <location filename="../src/gui/StudyFilterWidget.cc" line="+28"/>
         <source>Score</source>
         <translation>Počet bodů</translation>
     </message>
@@ -3584,19 +3577,19 @@ Tato zpráva je jednorázovým připomenutím a už se vícekrát neobjeví – 
     <message>
         <location line="+24"/>
         <location line="+30"/>
-        <location line="+20"/>
+        <location line="+31"/>
         <source>since</source>
         <translation>od</translation>
     </message>
     <message>
-        <location line="-49"/>
+        <location line="-60"/>
         <location line="+30"/>
-        <location line="+20"/>
+        <location line="+31"/>
         <source>until</source>
         <translation>do</translation>
     </message>
     <message>
-        <location line="-45"/>
+        <location line="-56"/>
         <source>Last trained</source>
         <translation>Poslední cvičení</translation>
     </message>
@@ -3610,7 +3603,7 @@ Tato zpráva je jednorázovým připomenutím a už se vícekrát neobjeví – 
         <translation type="obsolete">Žádný</translation>
     </message>
     <message>
-        <location line="+23"/>
+        <location line="+34"/>
         <source>Any</source>
         <translation>Jakýkoli</translation>
     </message>
