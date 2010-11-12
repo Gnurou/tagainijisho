@@ -242,9 +242,7 @@ void OrderedRBTreeDBTests::newTreeTest()
 	SQLite::Query q;
 	q.useWith(&connection);
 	QVERIFY(q.prepare(QString("select count(*) from %1Roots").arg(listDB.tableName())));
-        EntryList tree, tree2;
-	tree.tree()->setDBAccess(&listDB);
-	tree2.tree()->setDBAccess(&listDB);
+        EntryList tree(&listDB, 0), tree2(&listDB, 0);
 
 	QVERIFY(q.exec());
 	QVERIFY(q.next());

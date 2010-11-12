@@ -24,12 +24,13 @@
 #include <QSize>
 #include <QPalette>
 
-#define TRANSACTION Database::connection()->transaction()
+/*#define TRANSACTION Database::connection()->transaction()
 #define ROLLBACK Database::connection()->rollback()
 #define COMMIT Database::connection()->commit()
 
 #define EXEC(q) if (!q.exec()) { qDebug() << __FILE__ << __LINE__ << "Cannot execute query:" << q.lastError().message(); return false; }
 #define EXEC_T(q) if (!q.exec()) { qDebug() << __FILE__ << __LINE__ << "Cannot execute query:" << q.lastError().message(); goto transactionFailed; }
+*/
 
 void EntryListModel::setRoot(quint64 rootId)
 {
@@ -48,63 +49,49 @@ void EntryListModel::setRoot(quint64 rootId)
 	emit rootHasChanged(rootId);
 }
 
+#define LISTFORINDEX(list, index) const EntryList &list = EntryListCache::instance().get(index.isValid() ? index.internalId() : 0)
+
 QModelIndex EntryListModel::index(int row, int column, const QModelIndex &parent) const
 {
 	if (column > 0) return QModelIndex();
-	const EntryListCachedEntry &cEntry = EntryListCache::instance().get(parent.isValid() ? parent.internalId() : rootId(), row);
-	if (cEntry.isRoot()) return QModelIndex();
+
+	LISTFORINDEX(list, parent);
+	if (row >= list.size()) return QModelIndex();
+
 	// FIXME Qt is wrong here - internalId() returns a qint64, so this function should take a qint64 too!
-	else return createIndex(row, column, (quint32)cEntry.rowId());
+	return createIndex(row, column, (quint32)list.listId());
 }
 	
-QModelIndex EntryListModel::index(quint64 rowId) const
-{
-	// Invalid items have no parent
-	if (rowId == 0) return QModelIndex();
-	const EntryListCachedEntry &cEntry = EntryListCache::instance().get(rowId);
-	if (cEntry.isRoot()) return QModelIndex();
-	// FIXME Qt is wrong here - internalId() returns a qint64, so this function should take a qint64 too!
-	return createIndex(cEntry.position(), 0, (quint32)rowId);
-}
-
-QModelIndex EntryListModel::realParent(const QModelIndex &idx) const
-{
-	const EntryListCachedEntry &cEntry = EntryListCache::instance().get(idx.isValid() ? idx.internalId() : rootId());
-	if (cEntry.isRoot()) return QModelIndex();
-	else {
-		int pIndex(cEntry.parent());
-		return index(pIndex);
-	}
-}
-
 QModelIndex EntryListModel::parent(const QModelIndex &idx) const
 {
-	const EntryListCachedEntry &cEntry = EntryListCache::instance().get(idx.isValid() ? idx.internalId() : rootId());
-	if (cEntry.isRoot() || cEntry.rowId() == rootId()) return QModelIndex();
+	LISTFORINDEX(list, idx);
+	if (list.listId() == 0) return QModelIndex();
 	else {
-		quint64 pIndex(cEntry.parent());
-		return index(pIndex == rootId() ? 0 : pIndex);
+		// TODO implement parent fetching in the lists cache!
+		return QModelIndex();
 	}
 }
 
-int EntryListModel::rowCount(const QModelIndex &parent) const
+int EntryListModel::rowCount(const QModelIndex &index) const
 {
-	const EntryListCachedEntry &cEntry = EntryListCache::instance().get(parent.isValid() ? parent.internalId() : rootId());
+	LISTFORINDEX(list, index);
 	// Not a list? No child!
-	if (!cEntry.isList()) return 0;
-	return cEntry.count();
+	return list.size();
 }
 
 QVariant EntryListModel::data(const QModelIndex &index, int role) const
 {
 	if (!index.isValid() || index.column() != 0) return QVariant();
-	const EntryListCachedEntry &cEntry = EntryListCache::instance().get(index.isValid() ? index.internalId() : rootId());
-	if (cEntry.isRoot()) return QVariant();
+
+	LISTFORINDEX(list, index);
+	EntryListData cEntry(list[index.row()]);
+
 	switch (role) {
 		case Qt::DisplayRole:
 		case Qt::EditRole:
 		{
-			if (cEntry.isList()) return cEntry.label();
+			if (cEntry.isList()) return EntryListCache::instance().get(cEntry.id).label();
+
 			EntryPointer entry(cEntry.entryRef().get());
 			if (!entry) return QVariant();
 			else return entry->shortVersion(Entry::TinyVersion);
@@ -156,8 +143,8 @@ Qt::ItemFlags EntryListModel::flags(const QModelIndex &index) const
 	Qt::ItemFlags ret(Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsDragEnabled);
 
 	if (index.isValid()) {
-		const EntryListCachedEntry &cEntry = EntryListCache::instance().get(index.internalId());
-		if (cEntry.isRoot()) return Qt::ItemIsEnabled;
+		LISTFORINDEX(list, index);
+		EntryListData cEntry(list[index.row()]);
 		if (cEntry.isList()) ret |= Qt::ItemIsEditable | Qt::ItemIsDropEnabled;
 	}
 	else ret |= Qt::ItemIsDropEnabled;
@@ -322,6 +309,7 @@ QMimeData *EntryListModel::mimeData(const QModelIndexList &indexes) const
 {
 	QMimeData *mimeData = new QMimeData();
 
+	/*
 	QByteArray entriesEncodedData;
 	QDataStream entriesStream(&entriesEncodedData, QIODevice::WriteOnly);
 	QByteArray itemsEncodedData;
@@ -339,6 +327,7 @@ QMimeData *EntryListModel::mimeData(const QModelIndexList &indexes) const
 	}
 	if (!entriesEncodedData.isEmpty()) mimeData->setData("tagainijisho/entry", entriesEncodedData);
 	if (!itemsEncodedData.isEmpty()) mimeData->setData("tagainijisho/listitem", itemsEncodedData);
+	*/
 	return mimeData;
 }
 

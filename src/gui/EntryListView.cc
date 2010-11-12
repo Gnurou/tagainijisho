@@ -175,11 +175,11 @@ void EntryListView::goUp()
 	EntryListModel *myModel = qobject_cast<EntryListModel *>(model());
 	if (!myModel || myModel->rootId() == 0) return;
 
-	QModelIndex idx(myModel->index(myModel->rootId()));
-	QModelIndex parent(myModel->realParent(idx));
-	int parentId = parent.isValid() ? parent.internalId() : 0;
+	//QModelIndex idx(myModel->index(myModel->rootId()));
+	//QModelIndex parent(myModel->realParent(idx));
+	//int parentId = parent.isValid() ? parent.internalId() : 0;
 	
-	myModel->setRoot(parentId);
+	//myModel->setRoot(parentId);
 }
 
 void EntryListView::onModelRootChanged(int rootId)

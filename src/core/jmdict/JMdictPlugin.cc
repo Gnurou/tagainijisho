@@ -233,6 +233,7 @@ bool JMdictPlugin::checkForMovedEntries()
 			}
 		}
 		// Check the lists table
+		/*
 		CHECK(query.exec(QString("select lists.id, lists.position, lists.parent, lists.rowid from lists left join jmdict.entries on lists.type = %1 and lists.id = entries.id where lists.type = %1 and entries.id is null").arg(JMDICTENTRY_GLOBALID)));
 		while (query.next()) {
 			int entryId = query.valueInt(0);
@@ -258,6 +259,7 @@ bool JMdictPlugin::checkForMovedEntries()
 				CHECK(query2.exec());
 			}
 		}
+		*/
 		// Finally set out new version number 
 		CHECK(query.exec(QString("insert or replace into versions values(\"JMdictDB\", %1)").arg(curVersion)));
 	}

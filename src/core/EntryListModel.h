@@ -18,10 +18,11 @@
 #ifndef __CORE_ENTRYLISTMODEL_H
 #define __CORE_ENTRYLISTMODEL_H
 
-#include <QAbstractItemModel>
-#include "sqlite/Query.h"
-#include <QMimeData>
 
+#include "sqlite/Query.h"
+
+#include <QAbstractItemModel>
+#include <QMimeData>
 class EntryListModel : public QAbstractItemModel
 {
 	Q_OBJECT
@@ -45,12 +46,9 @@ public:
 	void setRoot(quint64 rootId);
 
 	virtual QModelIndex index(int row, int column, const QModelIndex &parent = QModelIndex()) const;
-	virtual QModelIndex index(quint64 rowId) const;
 	/// Returns the parent as the views will see it, i.e. if the root it set it will really
 	/// behave as a root
 	virtual QModelIndex parent(const QModelIndex &index) const;
-	/// Works like parent, but do not take care of the root element that has manually been set
-	virtual QModelIndex realParent(const QModelIndex &index) const;
 	virtual int rowCount(const QModelIndex &parent = QModelIndex()) const;
 	virtual int columnCount(const QModelIndex &parent = QModelIndex()) const { return 1; }
 	virtual Qt::ItemFlags flags(const QModelIndex &index) const;
