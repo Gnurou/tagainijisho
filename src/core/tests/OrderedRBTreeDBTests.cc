@@ -25,16 +25,6 @@ static EntryListEntry entries[nbEntries] =
 	{ 0, 0, false, 1, 0, 0, { 2, 44 } }
 };
 
-static EntryListData listData[nbEntries] =
-{
-	{ 1, 10 }, { 0, 0, "SubList"}, { 1, 30 }
-};
-
-static EntryListData subListData[nbEntries] =
-{
-	{ 1, 20 }, { 1, 25 }, { 1, 29 }
-};
-
 void OrderedRBTreeDBTests::initTestCase()
 {
 	QVERIFY(dbFile.open());

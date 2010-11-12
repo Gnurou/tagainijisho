@@ -35,7 +35,6 @@ struct EntryListData {
 	//quint32 listId;
 	quint8 type;
 	quint32 id;
-	QString name;
 };
 
 // Specializations for EntryListData
