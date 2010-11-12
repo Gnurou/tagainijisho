@@ -21,13 +21,16 @@
 #include "core/TextTools.h"
 #include "core/Database.h"
 #include "core/ASyncQuery.h"
+#include "core/EntryListDB.h"
 
 #include <QtDebug>
 #include <QSemaphore>
 #include <QMessageBox>
+#include <QQueue>
 
-#define USERDB_REVISION 7
+#define USERDB_REVISION 8
 
+#define ASSERT(Q) if (!(Q)) return false
 #define QUERY(Q) if (!query.exec(Q)) return false
 
 QString Database::_userDBFile;
@@ -142,14 +145,45 @@ static bool update6to7(SQLite::Query &query) {
 	return true;
 }
 
-/// Reorganize the lists into a more optimal structure
+/// Reorganize the lists into the new structure
 static bool update7to8(SQLite::Query &query) {
+
 	QUERY("ALTER TABLE lists RENAME TO oldLists");
-	QUERY("CREATE TABLE lists(parent INTEGER REFERENCES lists, next INTEGER REFERENCES lists, type INTEGER, id INTEGER)");
-	QUERY("SELECT rowid, parent, type, id FROM oldLists ORDER BY parent ASC, position DESC");
-	SQLite::Query insertQuery(query.connection());
-	insertQuery.prepare("INSERT INTO lists(rowid, parent, next, type, id) VALUES(?, ?, ?, ?, ?)");
-	quint64 curParent = 0;
+
+	EntryListDBAccess dbAccess("lists");
+	ASSERT(dbAccess.createTables(query.connection()));
+	ASSERT(dbAccess.prepareForConnection(query.connection()));
+
+	EntryList list;
+	list.tree()->setDBAccess(&dbAccess);
+
+	QQueue<quint64> nextLists;
+	SQLite::Query getListQuery(query.connection());
+	// Prepare for the root list
+	list.tree()->setListId(0);
+	ASSERT(getListQuery.prepare("SELECT oldLists.rowid, type, id, label FROM oldLists JOIN listsLabels ON oldLists.rowid = listsLabels.rowid WHERE parent is null ORDER BY position ASC"));
+	ASSERT(getListQuery.exec());
+	while (getListQuery.next()) {
+		quint64 rowId = getListQuery.valueUInt64(0);
+
+		EntryListData entryData;
+		entryData.type = getListQuery.valueUInt(1);
+		entryData.id = getListQuery.valueUInt64(2);
+		//entryData.name = getListQuery.valueString(3);
+
+		// FAULT HERE
+		ASSERT(list.insert(entryData, list.size()));
+
+		// If type is zero, this means we have a sub-list - create it and schedule it for migration
+		if (entryData.type == 0) {
+			EntryList subList;
+			subList.tree()->setDBAccess(&dbAccess);
+			ASSERT(subList.tree()->newList());
+			subList.tree()->setLabel(getListQuery.valueString(3));
+			nextLists << subList.tree()->listId();
+		}
+	}
+	/*quint64 curParent = 0;
 	while (query.next()) {
 		insertQuery.bindValue(query.valueInt64(0));
 		quint64 parent = query.valueInt64(1);
@@ -163,10 +197,12 @@ static bool update7to8(SQLite::Query &query) {
 		insertQuery.bindValue(query.valueInt(2));
 		insertQuery.bindValue(query.valueInt(3));
 		if (!insertQuery.exec()) return false;
-	}
-	QUERY("DROP TABLE oldLists");
-	QUERY("CREATE INDEX idx_lists_parent ON lists(parent)");
-	QUERY("CREATE INDEX idx_lists_entry ON lists(type, id)");
+	}*/
+
+	//QUERY("DROP TABLE oldLists");
+	// Also drop listsLabels!
+	//QUERY("CREATE INDEX idx_lists_parent ON lists(parent)");
+	//QUERY("CREATE INDEX idx_lists_entry ON lists(type, id)");
 	return true;
 }
 
@@ -179,7 +215,7 @@ bool (*dbUpdateFuncs[USERDB_REVISION - 1])(SQLite::Query &) = {
 	&update4to5,
 	&update5to6,
 	&update6to7,
-//	&update7to8,
+	&update7to8,
 };
 
 void Database::dbWarning(const QString &message)
