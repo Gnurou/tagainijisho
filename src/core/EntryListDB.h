@@ -29,12 +29,17 @@
 #include "core/DBList.h"
 #include "core/OrderedRBNode.h"
 #include "core/OrderedRBDBNode.h"
+#include "core/EntriesCache.h"
 
+#define LISTS_DB_TABLES_PREFIX "lists"
 
 struct EntryListData {
 	//quint32 listId;
 	quint8 type;
 	quint32 id;
+
+	bool isList() const { return type == 0; }
+	EntryRef entryRef() { return EntryRef(type, id); }
 };
 
 // Specializations for EntryListData
@@ -44,7 +49,33 @@ template <> void DBListEntry<EntryListData>::readDataValues(SQLite::Query &query
 // Hide the complexity of template classes behind simple names...
 typedef DBListEntry<EntryListData> EntryListEntry;
 typedef DBList<EntryListData> EntryListDBAccess;
-typedef OrderedRBTree<OrderedRBDBTree<EntryListData> > EntryList;
+
+class EntryList : public OrderedRBTree<OrderedRBDBTree<EntryListData> >
+{
+private:
+	EntryList() : OrderedRBTree<OrderedRBDBTree<EntryListData> >() { qCritical("Warning: initializing an EntryList from its default constructor (this should never happen)"); }
+
+public:
+	EntryList(EntryListDBAccess *dbAccess, quint64 listId) : OrderedRBTree<OrderedRBDBTree<EntryListData> >()
+	{
+		tree()->setDBAccess(dbAccess);
+		tree()->setListId(listId);
+	}
+
+	const QString &label() const { return tree()->label(); }
+	void setLabel(const QString &label) { tree()->setLabel(label); }
+	int listId() const { return tree()->listId(); }
+
+	static EntryList newList(EntryListDBAccess *dbAccess)
+	{
+		EntryList ret;
+		ret.tree()->setDBAccess(dbAccess);
+		ret.tree()->newList();
+		return ret;
+	}
+// Needed because EntryListModel uses a QMap - but never called, actually.
+friend class QMap<quint64, EntryList>;
+};
 
 #endif
 

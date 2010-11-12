@@ -231,8 +231,8 @@ public:
 	bool remove(int index);
 	bool clear();
 
-	const TreeBase *tree() const { return &_tree; }
 	TreeBase *tree() { return &_tree; }
+	const TreeBase *tree() const { return &_tree; }
 
 friend class OrderedRBTreeTests;
 };

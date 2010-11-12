@@ -150,25 +150,20 @@ static bool update7to8(SQLite::Query &query) {
 
 	QUERY("ALTER TABLE lists RENAME TO oldLists");
 
-	EntryListDBAccess dbAccess("lists");
+	EntryListDBAccess dbAccess(LISTS_DB_TABLES_PREFIX);
 	ASSERT(dbAccess.createTables(query.connection()));
 	ASSERT(dbAccess.prepareForConnection(query.connection()));
 
-	EntryList list;
-	list.tree()->setDBAccess(&dbAccess);
-
-	QQueue<quint64> nextLists;
-	SQLite::Query getListQuery(query.connection());
 	// Prepare for the root list
-	list.tree()->setListId(0);
-	ASSERT(getListQuery.prepare("SELECT oldLists.rowid, type, id, label FROM oldLists JOIN listsLabels ON oldLists.rowid = listsLabels.rowid WHERE parent is null ORDER BY position ASC"));
-	ASSERT(getListQuery.exec());
-	while (getListQuery.next()) {
-		quint64 rowId = getListQuery.valueUInt64(0);
+	EntryList list(&dbAccess, 0);
+	QQueue<quint64> nextLists;
+	QUERY("SELECT oldLists.rowid, type, id, label FROM oldLists JOIN listsLabels ON oldLists.rowid = listsLabels.rowid WHERE parent is null ORDER BY position ASC");
+	while (query.next()) {
+		quint64 rowId = query.valueUInt64(0);
 
 		EntryListData entryData;
-		entryData.type = getListQuery.valueUInt(1);
-		entryData.id = getListQuery.valueUInt64(2);
+		entryData.type = query.valueUInt(1);
+		entryData.id = query.valueUInt64(2);
 		//entryData.name = getListQuery.valueString(3);
 
 		// FAULT HERE
@@ -176,11 +171,9 @@ static bool update7to8(SQLite::Query &query) {
 
 		// If type is zero, this means we have a sub-list - create it and schedule it for migration
 		if (entryData.type == 0) {
-			EntryList subList;
-			subList.tree()->setDBAccess(&dbAccess);
-			ASSERT(subList.tree()->newList());
-			subList.tree()->setLabel(getListQuery.valueString(3));
-			nextLists << subList.tree()->listId();
+			EntryList subList(EntryList::newList(&dbAccess));
+			subList.setLabel(query.valueString(3));
+			nextLists << subList.listId();
 		}
 	}
 	/*quint64 curParent = 0;
