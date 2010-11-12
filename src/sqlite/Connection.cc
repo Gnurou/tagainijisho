@@ -131,17 +131,18 @@ bool Connection::exec(const QString &statement)
 
 bool Connection::transaction()
 {
-	return exec("begin");
+	return exec("savepoint spoint");
 }
 
 bool Connection::commit()
 {
-	return exec("commit");
+	return exec("release spoint");
 }
 
 bool Connection::rollback()
 {
-	return exec("rollback");
+	if (!exec("rollback to spoint;")) return false;
+	return commit();
 }
 
 void Connection::interrupt()
