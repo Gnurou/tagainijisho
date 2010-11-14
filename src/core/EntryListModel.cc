@@ -73,13 +73,18 @@ QModelIndex EntryListModel::index(int row, int column, const QModelIndex &parent
 	
 QModelIndex EntryListModel::parent(const QModelIndex &idx) const
 {
+	// Invalid index has no parent
+	if (!idx.isValid()) return QModelIndex();
 	LISTFORINDEX(list, idx);
+	// Root list has no parent
 	if (list.listId() == 0) return QModelIndex();
+	// We need to construct an index by determining the parent list of idx and the position of idx within it
 	else {
 		// We have the id of the list - all we need to do is find
 		// which list contains it.
+		QPair<const EntryList *, quint32> container = EntryListCache::getOwner(list.listId());
 		// TODO implement parent fetching in the lists cache!
-		return QModelIndex();
+		return createIndex(container.second, 0, container.first ? container.first->listId() : 0);
 	}
 }
 

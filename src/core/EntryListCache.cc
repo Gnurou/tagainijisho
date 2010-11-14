@@ -59,8 +59,42 @@ const EntryList *EntryListCache::_get(quint64 id)
 	return _cachedLists[id];
 }
 
-const EntryList *EntryListCache::_getOwner(quint64 id)
+QPair<const EntryList *, quint32> EntryListCache::_getOwner(quint64 id)
 {
-	return 0;
+	SQLite::Query ownerQuery(_dbAccess.connection());
+	ownerQuery.prepare(QString("select rowid, leftSize from %1 where type = 0 and id = ?").arg(_dbAccess.tableName()));
+	ownerQuery.bindValue(id);
+	ownerQuery.exec();
+	if (!ownerQuery.next()) QPair<const EntryList *, quint32>();
+	quint64 rowid = ownerQuery.valueUInt64(0);
+	quint32 pos = ownerQuery.valueUInt(1);
+	ownerQuery.reset();
+
+	// Now go back to the root of the list, and calculate the position of the item
+	SQLite::Query goUpQuery(_dbAccess.connection());
+	goUpQuery.prepare(QString("select parent, leftSize from %1 where rowid = ?").arg(_dbAccess.tableName()));
+	do {
+		goUpQuery.bindValue(rowid);
+		goUpQuery.exec();
+		quint64 parent = goUpQuery.valueUInt64(0);
+		goUpQuery.reset();
+		if (parent == 0) break;
+		else {
+			pos += goUpQuery.valueUInt(1);
+			rowid = parent;
+		}
+	} while (1);
+
+	// rowid now contains the root of the containing list, we can look its id up
+	SQLite::Query listFromRootQuery(_dbAccess.connection());
+	listFromRootQuery.prepare(QString("select listId from %1Roots where rootId = ?").arg(_dbAccess.tableName()));
+	listFromRootQuery.bindValue(rowid);
+	listFromRootQuery.exec();
+	if (!listFromRootQuery.next()) return QPair<const EntryList *, quint32>();
+	else {
+		const EntryList *ret = get(listFromRootQuery.valueUInt64(0));
+		listFromRootQuery.reset();
+		return QPair<const EntryList *, quint32>(ret, pos);
+	}
 }
 
