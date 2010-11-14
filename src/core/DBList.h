@@ -136,6 +136,7 @@ template <class T> bool DBList<T>::prepareForConnection(SQLite::Connection *conn
 	getEntryQuery.useWith(_connection);
 	insertEntryQuery.useWith(_connection);
 	removeEntryQuery.useWith(_connection);
+
 	newListQuery.useWith(_connection);
 	getListQuery.useWith(_connection);
 	insertListQuery.useWith(connection);
