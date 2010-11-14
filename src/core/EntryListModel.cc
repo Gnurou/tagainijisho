@@ -49,17 +49,26 @@ void EntryListModel::setRoot(quint64 rootId)
 	emit rootHasChanged(rootId);
 }
 
-#define LISTFORINDEX(list, index) const EntryList &list = *EntryListCache::instance().get(index.isValid() ? index.internalId() : 0)
+#define LISTFORINDEX(list, index) const EntryList &list = *EntryListCache::get(index.isValid() ? index.internalId() : 0)
 
 QModelIndex EntryListModel::index(int row, int column, const QModelIndex &parent) const
 {
 	if (column > 0) return QModelIndex();
 
 	LISTFORINDEX(list, parent);
-	if (row >= list.size()) return QModelIndex();
+	const EntryList *listOfIndex;
+	// If the parent is valid, then fetch its real list
+	if (parent.isValid()) {
+		EntryListData cEntry(list[parent.row()]);
+		// Parent will always be a list
+		Q_ASSERT(cEntry.isList());
+		listOfIndex = EntryListCache::get(cEntry.id);
+	} else listOfIndex = &list;
 
+
+	if (row >= listOfIndex->size()) return QModelIndex();
 	// FIXME Qt is wrong here - internalId() returns a qint64, so this function should take a qint64 too!
-	return createIndex(row, column, (quint32)list.listId());
+	return createIndex(row, column, (quint32)listOfIndex->listId());
 }
 	
 QModelIndex EntryListModel::parent(const QModelIndex &idx) const
@@ -67,6 +76,8 @@ QModelIndex EntryListModel::parent(const QModelIndex &idx) const
 	LISTFORINDEX(list, idx);
 	if (list.listId() == 0) return QModelIndex();
 	else {
+		// We have the id of the list - all we need to do is find
+		// which list contains it.
 		// TODO implement parent fetching in the lists cache!
 		return QModelIndex();
 	}
@@ -90,8 +101,7 @@ QVariant EntryListModel::data(const QModelIndex &index, int role) const
 		case Qt::DisplayRole:
 		case Qt::EditRole:
 		{
-			qDebug() << cEntry.id << index.row();
-			if (cEntry.isList()) return EntryListCache::instance().get(cEntry.id)->label();
+			if (cEntry.isList()) return EntryListCache::get(cEntry.id)->label();
 			EntryPointer entry(cEntry.entryRef().get());
 			if (!entry) return QVariant();
 			else return entry->shortVersion(Entry::TinyVersion);

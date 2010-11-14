@@ -39,6 +39,8 @@ private:
 	EntryListCache();
 	~EntryListCache();
 
+	const EntryList *_get(quint64 id);
+
 public:
 	/// Returns a reference to the unique instance of this class.
 	static EntryListCache &instance();
@@ -46,7 +48,7 @@ public:
 	/// again in order to allocate a new one.
 	static void cleanup();
 
-	const EntryList *get(quint64 id);
+	static const EntryList *get(quint64 id) { return instance()._get(id); }
 };
 
 #endif

@@ -48,7 +48,7 @@ void EntryListCache::cleanup()
 	_instance = 0;
 }
 
-const EntryList *EntryListCache::get(quint64 id)
+const EntryList *EntryListCache::_get(quint64 id)
 {
 	QMutexLocker ml(&_cacheLock);
 	if (!_cachedLists.contains(id))  {
