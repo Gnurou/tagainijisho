@@ -155,40 +155,35 @@ static bool update7to8(SQLite::Query &query) {
 	ASSERT(dbAccess.prepareForConnection(query.connection()));
 
 	// Prepare for the root list
-	EntryList list(&dbAccess, 0);
-	QQueue<quint64> nextLists;
+	QQueue<QPair<quint64, quint64> > nextLists;
 	QUERY("SELECT oldLists.rowid, type, id, label FROM oldLists JOIN listsLabels ON oldLists.rowid = listsLabels.rowid WHERE parent is null ORDER BY position ASC");
-	while (query.next()) {
-		quint64 rowId = query.valueUInt64(0);
-
-		EntryListData entryData;
-		entryData.type = query.valueUInt(1);
-		entryData.id = query.valueUInt64(2);
-		// If type is zero, this means we have a sub-list - create it and schedule it for migration
-		if (entryData.type == 0) {
-			EntryList subList(&dbAccess, 0);
-			subList.newList();
-			subList.setLabel(query.valueString(3));
-			entryData.id = subList.listId();
-			nextLists << subList.listId();
+	int listId = 0;
+	do {
+		EntryList list(&dbAccess, listId);
+		while (query.next()) {
+			quint64 rowid = query.valueUInt64(0);
+	
+			EntryListData entryData;
+			entryData.type = query.valueUInt(1);
+			if (entryData.type != 0) entryData.id = query.valueUInt64(2);
+			// If type is zero, this means we have a sub-list - create it and schedule it for migration
+			else {
+				EntryList subList(&dbAccess, 0);
+				subList.newList();
+				subList.setLabel(query.valueString(3));
+				entryData.id = subList.listId();
+				// Associate the old parent id to the new list id
+				qDebug() << rowid;
+				nextLists << QPair<quint64, quint64>(rowid, subList.listId());
+			}
+			ASSERT(list.insert(entryData, list.size()));
 		}
-		ASSERT(list.insert(entryData, list.size()));
-	}
-	/*quint64 curParent = 0;
-	while (query.next()) {
-		insertQuery.bindValue(query.valueInt64(0));
-		quint64 parent = query.valueInt64(1);
-		insertQuery.bindValue(parent);
-		if (parent != curParent) {
-			curParent = parent;
-			insertQuery.bindNullValue();
-		} else {
-			insertQuery.bindValue(insertQuery.lastInsertId());
-		}
-		insertQuery.bindValue(query.valueInt(2));
-		insertQuery.bindValue(query.valueInt(3));
-		if (!insertQuery.exec()) return false;
-	}*/
+		// Go on to the next list, if any
+		if (nextLists.isEmpty()) break;
+		QPair<quint64, quint64> next(nextLists.dequeue());
+		QUERY(QString("SELECT oldLists.rowid, type, id, label FROM oldLists LEFT JOIN listsLabels ON oldLists.rowid = listsLabels.rowid WHERE parent = %1 ORDER BY position ASC").arg(next.first));
+		listId = next.second;
+	} while (true);
 
 	//QUERY("DROP TABLE oldLists");
 	// Also drop listsLabels!

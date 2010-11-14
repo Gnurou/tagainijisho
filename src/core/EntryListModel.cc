@@ -90,9 +90,15 @@ QModelIndex EntryListModel::parent(const QModelIndex &idx) const
 
 int EntryListModel::rowCount(const QModelIndex &index) const
 {
-	LISTFORINDEX(list, index);
-	// Not a list? No child!
-	return list.size();
+	// Asking for size of root?
+	if (!index.isValid()) return EntryListCache::get(0)->size();
+	else {
+		LISTFORINDEX(list, index);
+		EntryListData cEntry(list[index.row()]);
+		// Not a list? No child!
+		if (!cEntry.isList()) return 0;
+		else return EntryListCache::get(cEntry.id)->size();
+	}
 }
 
 QVariant EntryListModel::data(const QModelIndex &index, int role) const
