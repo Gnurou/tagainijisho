@@ -26,7 +26,6 @@ EntryListCache::EntryListCache() : _dbAccess(LISTS_DB_TABLES_PREFIX)
 		qFatal("EntryListCache cannot connect to user database!");
 	}
 	_dbAccess.prepareForConnection(&_connection);
-	qDebug() << "list cache initialized";
 }
 
 EntryListCache::~EntryListCache()
@@ -58,5 +57,10 @@ const EntryList *EntryListCache::_get(quint64 id)
 	}
 	// Will always git (see above)
 	return _cachedLists[id];
+}
+
+const EntryList *EntryListCache::_getOwner(quint64 id)
+{
+	return 0;
 }
 

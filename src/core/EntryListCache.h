@@ -40,6 +40,7 @@ private:
 	~EntryListCache();
 
 	const EntryList *_get(quint64 id);
+	static const EntryList *_getOwner(quint64 id);
 
 public:
 	/// Returns a reference to the unique instance of this class.
@@ -49,6 +50,8 @@ public:
 	static void cleanup();
 
 	static const EntryList *get(quint64 id) { return instance()._get(id); }
+	/// Returns the list that contains the list which id is given in parameter.
+	static const EntryList *getOwner(quint64 id) { return instance()._getOwner(id); }
 };
 
 #endif
