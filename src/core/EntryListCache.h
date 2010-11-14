@@ -33,10 +33,11 @@ private:
 	static EntryListCache *_instance;
 	SQLite::Connection _connection;
 	EntryListDBAccess _dbAccess;
-	QMap<quint64, EntryList> _cachedLists;
+	QMap<quint64, EntryList *> _cachedLists;
 	QMutex _cacheLock;
 
 	EntryListCache();
+	~EntryListCache();
 
 public:
 	/// Returns a reference to the unique instance of this class.
@@ -45,7 +46,7 @@ public:
 	/// again in order to allocate a new one.
 	static void cleanup();
 
-	const EntryList &get(quint64 id);
+	const EntryList *get(quint64 id);
 };
 
 #endif

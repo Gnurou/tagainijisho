@@ -29,6 +29,13 @@ EntryListCache::EntryListCache() : _dbAccess(LISTS_DB_TABLES_PREFIX)
 	qDebug() << "list cache initialized";
 }
 
+EntryListCache::~EntryListCache()
+{
+	foreach (EntryList *list, _cachedLists) {
+		delete list;
+	}
+}
+
 EntryListCache &EntryListCache::instance()
 {
 	if (!_instance) _instance = new EntryListCache();
@@ -41,13 +48,13 @@ void EntryListCache::cleanup()
 	_instance = 0;
 }
 
-const EntryList &EntryListCache::get(quint64 id)
+const EntryList *EntryListCache::get(quint64 id)
 {
 	QMutexLocker ml(&_cacheLock);
 	if (!_cachedLists.contains(id))  {
 		// We know we can only be called with list Ids that actually exist in the DB,
 		// so no need to bother about non-existing entries
-		_cachedLists.insert(id, EntryList(&_dbAccess, id));
+		_cachedLists.insert(id, new EntryList(&_dbAccess, id));
 	}
 	// Will always git (see above)
 	return _cachedLists[id];

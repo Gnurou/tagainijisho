@@ -35,8 +35,7 @@ template <> void DBListEntry<EntryListData>::readDataValues(SQLite::Query &query
 {
 	//data.listId = query.valueUInt(start++);
 	data.type = query.valueUInt(start++);
-	if (data.type != 0) data.id = query.valueUInt(start++);
-	else data.id = 0;
+	data.id = query.valueUInt(start++);
 	//else { data.id = 0; data.name = query.valueString(start++); }
 }
 

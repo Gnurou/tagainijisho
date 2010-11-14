@@ -66,12 +66,9 @@ public:
 	void setLabel(const QString &label) { tree()->setLabel(label); }
 	int listId() const { return tree()->listId(); }
 
-	static EntryList newList(EntryListDBAccess *dbAccess)
+	void newList()
 	{
-		EntryList ret;
-		ret.tree()->setDBAccess(dbAccess);
-		ret.tree()->newList();
-		return ret;
+		tree()->newList();
 	}
 // Needed because EntryListModel uses a QMap - but never called, actually.
 friend class QMap<quint64, EntryList>;

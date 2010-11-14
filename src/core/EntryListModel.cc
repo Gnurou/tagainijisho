@@ -49,7 +49,7 @@ void EntryListModel::setRoot(quint64 rootId)
 	emit rootHasChanged(rootId);
 }
 
-#define LISTFORINDEX(list, index) const EntryList &list = EntryListCache::instance().get(index.isValid() ? index.internalId() : 0)
+#define LISTFORINDEX(list, index) const EntryList &list = *EntryListCache::instance().get(index.isValid() ? index.internalId() : 0)
 
 QModelIndex EntryListModel::index(int row, int column, const QModelIndex &parent) const
 {
@@ -90,8 +90,8 @@ QVariant EntryListModel::data(const QModelIndex &index, int role) const
 		case Qt::DisplayRole:
 		case Qt::EditRole:
 		{
-			if (cEntry.isList()) return EntryListCache::instance().get(cEntry.id).label();
-
+			qDebug() << cEntry.id << index.row();
+			if (cEntry.isList()) return EntryListCache::instance().get(cEntry.id)->label();
 			EntryPointer entry(cEntry.entryRef().get());
 			if (!entry) return QVariant();
 			else return entry->shortVersion(Entry::TinyVersion);
