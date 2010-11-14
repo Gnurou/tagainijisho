@@ -21,6 +21,8 @@
 #include "core/EntriesCache.h"
 #include "core/EntryListDB.h"
 
+#include <QPair>
+
 /**
  * A cache class that is responsible for providing information about the
  * lists. Whenever an entry is changed in the DB, it has to be invalidated
@@ -40,7 +42,7 @@ private:
 	~EntryListCache();
 
 	const EntryList *_get(quint64 id);
-	static const EntryList *_getOwner(quint64 id);
+	QPair <const EntryList *, quint32> _getOwner(quint64 id);
 
 public:
 	/// Returns a reference to the unique instance of this class.
@@ -51,7 +53,7 @@ public:
 
 	static const EntryList *get(quint64 id) { return instance()._get(id); }
 	/// Returns the list that contains the list which id is given in parameter.
-	static const EntryList *getOwner(quint64 id) { return instance()._getOwner(id); }
+	static QPair<const EntryList *, quint32> getOwner(quint64 id) { return instance()._getOwner(id); }
 };
 
 #endif
