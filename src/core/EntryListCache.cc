@@ -65,7 +65,7 @@ QPair<const EntryList *, quint32> EntryListCache::_getOwner(quint64 id)
 	ownerQuery.prepare(QString("select rowid, leftSize from %1 where type = 0 and id = ?").arg(_dbAccess.tableName()));
 	ownerQuery.bindValue(id);
 	ownerQuery.exec();
-	if (!ownerQuery.next()) QPair<const EntryList *, quint32>();
+	if (!ownerQuery.next()) return QPair<const EntryList *, quint32>();
 	quint64 rowid = ownerQuery.valueUInt64(0);
 	quint32 pos = ownerQuery.valueUInt(1);
 	ownerQuery.reset();
@@ -79,6 +79,7 @@ QPair<const EntryList *, quint32> EntryListCache::_getOwner(quint64 id)
 		quint64 parent = goUpQuery.valueUInt64(0);
 		goUpQuery.reset();
 		if (parent == 0) break;
+		// Position depends if the child comes from the left or right of the DB
 		else {
 			pos += goUpQuery.valueUInt(1);
 			rowid = parent;
@@ -94,6 +95,7 @@ QPair<const EntryList *, quint32> EntryListCache::_getOwner(quint64 id)
 	else {
 		const EntryList *ret = get(listFromRootQuery.valueUInt64(0));
 		listFromRootQuery.reset();
+		qDebug() << "owner" << id << ret->listId() << pos;
 		return QPair<const EntryList *, quint32>(ret, pos);
 	}
 }
