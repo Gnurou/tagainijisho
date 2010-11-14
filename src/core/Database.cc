@@ -164,17 +164,15 @@ static bool update7to8(SQLite::Query &query) {
 		EntryListData entryData;
 		entryData.type = query.valueUInt(1);
 		entryData.id = query.valueUInt64(2);
-		//entryData.name = getListQuery.valueString(3);
-
-		// FAULT HERE
-		ASSERT(list.insert(entryData, list.size()));
-
 		// If type is zero, this means we have a sub-list - create it and schedule it for migration
 		if (entryData.type == 0) {
-			EntryList subList(EntryList::newList(&dbAccess));
+			EntryList subList(&dbAccess, 0);
+			subList.newList();
 			subList.setLabel(query.valueString(3));
+			entryData.id = subList.listId();
 			nextLists << subList.listId();
 		}
+		ASSERT(list.insert(entryData, list.size()));
 	}
 	/*quint64 curParent = 0;
 	while (query.next()) {

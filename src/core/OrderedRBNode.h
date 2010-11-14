@@ -160,6 +160,9 @@ public:
 template <class TreeBase> class OrderedRBTree
 {
 private:
+	OrderedRBTree(const OrderedRBTree &);
+	OrderedRBTree &operator =(const OrderedRBTree &);
+
 	TreeBase _tree;
 
 	void setRoot(typename TreeBase::Node *node);
