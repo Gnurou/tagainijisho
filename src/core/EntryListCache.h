@@ -37,6 +37,7 @@ private:
 	SQLite::Query ownerQuery, goUpQuery, listFromRootQuery;
 	EntryListDBAccess _dbAccess;
 	QMap<quint64, EntryList *> _cachedLists;
+	QMap<quint64, QPair<const EntryList *, quint32> > _cachedParents;
 	QMutex _cacheLock;
 
 	EntryListCache();

@@ -67,39 +67,43 @@ const EntryList *EntryListCache::_get(quint64 id)
 
 QPair<const EntryList *, quint32> EntryListCache::_getOwner(quint64 id)
 {
-	ownerQuery.bindValue(id);
-	ownerQuery.exec();
-	if (!ownerQuery.next()) return QPair<const EntryList *, quint32>();
-	quint64 rowid = ownerQuery.valueUInt64(0);
-	quint64 parent = ownerQuery.valueUInt64(1);
-	quint32 pos = ownerQuery.valueUInt(2);
-	ownerQuery.reset();
+	if (!_cachedParents.contains(id)) {
+		ownerQuery.bindValue(id);
+		ownerQuery.exec();
+		if (!ownerQuery.next()) return QPair<const EntryList *, quint32>();
+		quint64 rowid = ownerQuery.valueUInt64(0);
+		quint64 parent = ownerQuery.valueUInt64(1);
+		quint32 pos = ownerQuery.valueUInt(2);
+		ownerQuery.reset();
 
-	// Now go back to the root of the list, and calculate the position of the item
-	while (parent != 0) {
-		goUpQuery.bindValue(parent);
-		goUpQuery.exec();
-		if (!goUpQuery.next()) {
-			qCritical("List inconsistency!");
-			break;
+		// Now go back to the root of the list, and calculate the position of the item
+		while (parent != 0) {
+			goUpQuery.bindValue(parent);
+			goUpQuery.exec();
+			if (!goUpQuery.next()) {
+				qCritical("List inconsistency!");
+				break;
+			}
+			quint64 newParent = goUpQuery.valueUInt64(0);
+			quint32 leftSize = goUpQuery.valueUInt(1);
+			quint64 right = goUpQuery.valueUInt64(2);
+			if (rowid == right) pos += leftSize + 1;
+			goUpQuery.reset();
+			rowid = parent;
+			parent = newParent;
 		}
-		quint64 newParent = goUpQuery.valueUInt64(0);
-		quint32 leftSize = goUpQuery.valueUInt(1);
-		quint64 right = goUpQuery.valueUInt64(2);
-		if (rowid == right) pos += leftSize + 1;
-		goUpQuery.reset();
-		rowid = parent;
-		parent = newParent;
-	}
 
-	// rowid now contains the root of the containing list, we can look its id up
-	listFromRootQuery.bindValue(rowid);
-	listFromRootQuery.exec();
-	if (!listFromRootQuery.next()) return QPair<const EntryList *, quint32>();
-	else {
-		const EntryList *ret = get(listFromRootQuery.valueUInt64(0));
-		listFromRootQuery.reset();
-		return QPair<const EntryList *, quint32>(ret, pos);
+		// rowid now contains the root of the containing list, we can look its id up
+		listFromRootQuery.bindValue(rowid);
+		listFromRootQuery.exec();
+		if (!listFromRootQuery.next()) return QPair<const EntryList *, quint32>();
+		else {
+			const EntryList *ret = get(listFromRootQuery.valueUInt64(0));
+			listFromRootQuery.reset();
+			_cachedParents[id] = QPair<const EntryList *, quint32>(ret, pos);
+			//return QPair<const EntryList *, quint32>(ret, pos);
+		}
 	}
+	return _cachedParents[id];
 }
 
