@@ -34,6 +34,7 @@ class EntryListCache {
 private:
 	static EntryListCache *_instance;
 	SQLite::Connection _connection;
+	SQLite::Query ownerQuery, goUpQuery, listFromRootQuery;
 	EntryListDBAccess _dbAccess;
 	QMap<quint64, EntryList *> _cachedLists;
 	QMutex _cacheLock;

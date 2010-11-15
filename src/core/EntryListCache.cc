@@ -26,6 +26,12 @@ EntryListCache::EntryListCache() : _dbAccess(LISTS_DB_TABLES_PREFIX)
 		qFatal("EntryListCache cannot connect to user database!");
 	}
 	_dbAccess.prepareForConnection(&_connection);
+	ownerQuery.useWith(&_connection);
+	goUpQuery.useWith(&_connection);
+	listFromRootQuery.useWith(&_connection);
+	ownerQuery.prepare(QString("select rowid, parent, leftSize from %1 where type = 0 and id = ?").arg(_dbAccess.tableName()));
+	goUpQuery.prepare(QString("select parent, leftSize, right from %1 where rowid = ?").arg(_dbAccess.tableName()));
+	listFromRootQuery.prepare(QString("select listId from %1Roots where rootId = ?").arg(_dbAccess.tableName()));
 }
 
 EntryListCache::~EntryListCache()
@@ -61,8 +67,6 @@ const EntryList *EntryListCache::_get(quint64 id)
 
 QPair<const EntryList *, quint32> EntryListCache::_getOwner(quint64 id)
 {
-	SQLite::Query ownerQuery(_dbAccess.connection());
-	ownerQuery.prepare(QString("select rowid, parent, leftSize from %1 where type = 0 and id = ?").arg(_dbAccess.tableName()));
 	ownerQuery.bindValue(id);
 	ownerQuery.exec();
 	if (!ownerQuery.next()) return QPair<const EntryList *, quint32>();
@@ -72,8 +76,6 @@ QPair<const EntryList *, quint32> EntryListCache::_getOwner(quint64 id)
 	ownerQuery.reset();
 
 	// Now go back to the root of the list, and calculate the position of the item
-	SQLite::Query goUpQuery(_dbAccess.connection());
-	goUpQuery.prepare(QString("select parent, leftSize, right from %1 where rowid = ?").arg(_dbAccess.tableName()));
 	while (parent != 0) {
 		goUpQuery.bindValue(parent);
 		goUpQuery.exec();
@@ -91,8 +93,6 @@ QPair<const EntryList *, quint32> EntryListCache::_getOwner(quint64 id)
 	}
 
 	// rowid now contains the root of the containing list, we can look its id up
-	SQLite::Query listFromRootQuery(_dbAccess.connection());
-	listFromRootQuery.prepare(QString("select listId from %1Roots where rootId = ?").arg(_dbAccess.tableName()));
 	listFromRootQuery.bindValue(rowid);
 	listFromRootQuery.exec();
 	if (!listFromRootQuery.next()) return QPair<const EntryList *, quint32>();
