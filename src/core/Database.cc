@@ -173,7 +173,6 @@ static bool update7to8(SQLite::Query &query) {
 				subList.setLabel(query.valueString(3));
 				entryData.id = subList.listId();
 				// Associate the old parent id to the new list id
-				qDebug() << rowid;
 				nextLists << QPair<quint64, quint64>(rowid, subList.listId());
 			}
 			ASSERT(list.insert(entryData, list.size()));
