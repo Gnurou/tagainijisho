@@ -53,7 +53,7 @@ void EntryListCache::cleanup()
 	_instance = 0;
 }
 
-const EntryList *EntryListCache::_get(quint64 id)
+EntryList *EntryListCache::_get(quint64 id)
 {
 	QMutexLocker ml(&_cacheLock);
 	if (!_cachedLists.contains(id))  {
@@ -107,3 +107,7 @@ QPair<const EntryList *, quint32> EntryListCache::_getOwner(quint64 id)
 	return _cachedParents[id];
 }
 
+void EntryListCache::_clearOwnerCache(quint64 id)
+{
+	_cachedParents.remove(id);		
+}
