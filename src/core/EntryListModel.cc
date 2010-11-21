@@ -201,20 +201,6 @@ transactionFailed:
 	return false; */
 }
 	
-bool EntryListModel::moveRows(int row, int delta, const QModelIndex &parent, SQLite::Query &query)
-{
-	return false;
-	/*
-	QString queryText("update lists set position = position + ? where parent %1 and position >= ?");
-	if (!parent.isValid()) query.prepare(queryText.arg("is null"));
-	else query.prepare(queryText.arg("= ?"));
-	query.bindValue(delta);
-	if (parent.isValid()) query.bindValue(parent.internalId());
-	query.bindValue(row);
-	EXEC(query);
-	return true;*/
-}
-
 // TODO How to handle the beginInsertRows if the transaction failed and endInsertRows is not called?
 bool EntryListModel::insertRows(int row, int count, const QModelIndex & parent)
 {
@@ -249,54 +235,6 @@ transactionFailed:
 	ROLLBACK;
 	EntryListCache::instance().invalidateAll();
 	return false;*/
-}
-
-bool EntryListModel::_removeRows(int row, int count, const QModelIndex &parent)
-{
-	return false;
-	/*
-	SQLite::Query query(Database::connection());
-	// Get the list of items to remove
-	QString queryString("select rowid, type, id from lists where parent %1 and position between ? and ?");
-	if (!parent.isValid()) query.prepare(queryString.arg("is null"));
-	else {
-		query.prepare(queryString.arg("= ?"));
-		query.bindValue(parent.internalId());
-	}
-	query.bindValue(row);
-	query.bindValue(row + count - 1);
-	EXEC(query);
-	QList<int> ids;
-	QList<EntryRef> entries;
-	while (query.next()) {
-		ids << query.valueInt(0);
-		entries << EntryRef(query.valueUInt(1), query.valueUInt(2));
-	}
-	// Remove the list from the entries if they are loaded
-	int i = 0;
-	foreach (EntryRef ref, entries) {
-		if (ref.isLoaded()) ref.get()->lists().remove(ids[i]);
-		++i;
-	}
-	// Recursively remove any child the items may have
-	foreach (int id, ids) {
-		QModelIndex idx(index(id));
-		if (!idx.isValid()) continue;
-		int childsNbr(rowCount(idx));
-		if (childsNbr > 0 && !_removeRows(0, childsNbr, idx)) return false;
-	}
-	// Remove the listsLabels entries
-	QStringList strIds;
-	foreach (int id, ids) strIds << QString::number(id);
-	
-	query.prepare(QString("delete from listsLabels where rowid in (%1)").arg(strIds.join(", ")));
-	EXEC(query);
-	// Remove the lists entries
-	query.prepare(QString("delete from lists where rowid in (%1)").arg(strIds.join(", ")));
-	EXEC(query);
-	// Update the positions of items that were after the ones we removed
-	if (!moveRows(row + count, -count, parent, query)) return false;
-	return true;*/
 }
 
 bool EntryListModel::removeRows(int row, int count, const QModelIndex &parent)
