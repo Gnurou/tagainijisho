@@ -45,6 +45,8 @@ public:
 		// Here a new node is to be inserted in the tree - we need to insert it right now into
 		// the DB in order to get its ID.
 		setValue(va);
+		// Propage the color information up to the DB layer (e.red is false at construction time) 
+		setColor(OrderedRBDBNode<T>::RED);
 		updateDB();
 	}
 
