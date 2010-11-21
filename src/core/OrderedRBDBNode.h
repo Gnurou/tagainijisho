@@ -40,7 +40,7 @@ private:
 	DBListEntry<T> e;
 
 public:
-	OrderedRBDBNode(OrderedRBDBTree<T> *tree, const T &va) : _tree(tree), _left(0), _right(0), _parent(0), e()
+	OrderedRBDBNode(OrderedRBDBTree<T> *tree, const T &va) : OrderedRBNodeBase<T>(), _tree(tree), _left(0), _right(0), _parent(0), e()
 	{
 		// Here a new node is to be inserted in the tree - we need to insert it right now into
 		// the DB in order to get its ID.
@@ -48,12 +48,12 @@ public:
 		updateDB();
 	}
 
-	OrderedRBDBNode(OrderedRBDBTree<T> *tree, quint32 rowid) : _tree(tree), _left(0), _right(0), _parent(0), e()
+	OrderedRBDBNode(OrderedRBDBTree<T> *tree, quint32 rowid) : OrderedRBNodeBase<T>(), _tree(tree), _left(0), _right(0), _parent(0), e()
 	{
 		// The new node is expected to exist in the DB with the given ID - just load it.
 		e = _tree->dbAccess()->getEntry(rowid);
-		OrderedRBNodeBase<T>::setColor(e.red ?  OrderedRBNodeBase<T>::RED : OrderedRBNodeBase<T>::BLACK);
-		OrderedRBNodeBase<T>::setLeftSize(e.leftSize);
+		setColor(e.red ?  OrderedRBNodeBase<T>::RED : OrderedRBNodeBase<T>::BLACK);
+		setLeftSize(e.leftSize);
 	}
 
 	~OrderedRBDBNode()

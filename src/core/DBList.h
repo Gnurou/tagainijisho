@@ -37,6 +37,9 @@ template <class T> struct DBListEntry
 
 	T data;
 
+	// Red must be initialized to true here to match OrderedRBNode's constructor
+	DBListEntry() : rowId(0), leftSize(0), red(true), parent(0), left(0), right(0) {}
+
 	// The following methods must be specialized by instances of this template.
 	
 	/**
