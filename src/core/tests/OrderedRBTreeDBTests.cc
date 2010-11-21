@@ -216,6 +216,22 @@ void OrderedRBTreeDBTests::retrieveTreeTest()
 	QCOMPARE(tree[1], QString("Test"));
 	QCOMPARE(tree[2], QString("Test2"));
 
+	OrderedRBDBTree<QString>::Node *rootNode = tree.tree()->root(),
+		*leftNode = rootNode->left(), *rightNode = rootNode->right();
+	QCOMPARE(rootNode->color(), OrderedRBNodeBase<QString>::BLACK);
+	QCOMPARE(leftNode->color(), OrderedRBNodeBase<QString>::RED);
+	QCOMPARE(rightNode->color(), OrderedRBNodeBase<QString>::RED);
+	QCOMPARE(rootNode->left(), leftNode);
+	QCOMPARE(rootNode->right(), rightNode);
+	QCOMPARE(leftNode->parent(), rootNode);
+	QCOMPARE(rightNode->parent(), rootNode);
+	QCOMPARE(rootNode->leftSize(), (unsigned int)1);
+	QCOMPARE(leftNode->leftSize(), (unsigned int)0);
+	QCOMPARE(rightNode->leftSize(), (unsigned int)0);
+	QCOMPARE(rootNode->value(), QString("Test"));
+	QCOMPARE(leftNode->value(), QString("Test3"));
+	QCOMPARE(rightNode->value(), QString("Test2"));
+
 	tree.checkValid();
 }
 
