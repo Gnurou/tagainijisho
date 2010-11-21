@@ -177,6 +177,8 @@ static bool update7to8(SQLite::Query &query) {
 			}
 			ASSERT(list.insert(entryData, list.size()));
 		}
+		// Check that the list is valid
+		list.checkValid();
 		// Go on to the next list, if any
 		if (nextLists.isEmpty()) break;
 		QPair<quint64, quint64> next(nextLists.dequeue());
