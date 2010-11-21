@@ -20,9 +20,9 @@
 static const unsigned int nbEntries = 3;
 static EntryListEntry entries[nbEntries] =
 {
-	{ 0, 1, false, 0, 2, 3, { 1, 28 } },
-	{ 0, 0, true,  1, 0, 0, { 1, 29 } },
-	{ 0, 0, false, 1, 0, 0, { 2, 44 } }
+	{ 0, 1, false, 0, 2, 3, { 0, 1, 28 } },
+	{ 0, 0, true,  1, 0, 0, { 0, 1, 29 } },
+	{ 0, 0, false, 1, 0, 0, { 0, 2, 44 } }
 };
 
 void OrderedRBTreeDBTests::initTestCase()
@@ -76,7 +76,7 @@ void OrderedRBTreeDBTests::retrieveDataTest()
 		QCOMPARE(res.left, entries[i].left);
 		QCOMPARE(res.right, entries[i].right);
 
-		//QCOMPARE(res.data.listId, entries[i].data.listId);
+		QCOMPARE(res.data.rowId, entries[i].rowId);
 		QCOMPARE(res.data.type, entries[i].data.type);
 		QCOMPARE(res.data.id, entries[i].data.id);
 	}
@@ -163,6 +163,8 @@ void OrderedRBTreeDBTests::createTreeTest()
 	QCOMPARE(tree[1], QString("Test"));
 	QCOMPARE(tree[2], QString("Test2"));
 
+	tree.checkValid();
+
 	SQLite::Query q;
 	q.useWith(&connection);
 	QVERIFY(q.exec(QString("select * from %1 order by rowid").arg(stringListDB.tableName())));
@@ -177,7 +179,7 @@ void OrderedRBTreeDBTests::createTreeTest()
 	QVERIFY(q.next());
 	QCOMPARE(q.valueInt(0), 2);
 	QCOMPARE(q.valueInt(1), 0);
-	QCOMPARE(q.valueBool(2), false);
+	QCOMPARE(q.valueBool(2), true);
 	QCOMPARE(q.valueInt(3), 1);
 	QCOMPARE(q.valueInt(4), 0);
 	QCOMPARE(q.valueInt(5), 0);
@@ -185,7 +187,7 @@ void OrderedRBTreeDBTests::createTreeTest()
 	QVERIFY(q.next());
 	QCOMPARE(q.valueInt(0), 3);
 	QCOMPARE(q.valueInt(1), 0);
-	QCOMPARE(q.valueBool(2), false);
+	QCOMPARE(q.valueBool(2), true);
 	QCOMPARE(q.valueInt(3), 1);
 	QCOMPARE(q.valueInt(4), 0);
 	QCOMPARE(q.valueInt(5), 0);
