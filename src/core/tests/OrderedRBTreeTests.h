@@ -27,23 +27,6 @@ class OrderedRBTreeTests : public QObject
 {
 Q_OBJECT
 private:
-	// Property 1 (all nodes are either red or black) is implicitly enforced.
-	template <class Node>
-	bool isBlack(const Node *const node)
-	{
-		// Property 3: all leaves are black
-		return !node || node->color() == Node::BLACK;
-	}
-
-	template <class Node>
-	void _treeValid(const Node *const node, int depth, int &maxdepth);
-
-	template <class TreeBase>
-	void inline treeValid(const OrderedRBTree<TreeBase> &tree)
-	{
-		int maxdepth = -1;
-		_treeValid(tree.tree()->root(), 0, maxdepth);
-	}
 
 	OrderedRBTree<OrderedRBMemTree<QString > > tree, treeBegin, treeEnd, treeRandom;
 	QList<int> treeRandomPos;
@@ -63,33 +46,6 @@ private slots:
 
 	void deepCheckValidity();
 };
-
-template <class Node>
-void OrderedRBTreeTests::_treeValid(const Node *const node, int depth, int &maxdepth)
-{
-	// Property 5: every path from a node to any of its descendants contains the same number of black nodes
-	if (isBlack(node)) ++depth;
-	if (!node) {
-		if (maxdepth == -1) {
-			maxdepth = depth;
-			return;
-		}
-		else {
-			Q_ASSERT(depth == maxdepth);
-			return;
-		}
-	}
-	// Property 2: root is black
-	QVERIFY(node->parent() || node->color() == Node::BLACK);
-	// Property 4: both children of every red node are black
-	QVERIFY(isBlack(node) || ((isBlack(node->left()) && isBlack(node->right()))));
-
-	QVERIFY(!node->left() || node->left()->parent() == node);
-	QVERIFY(!node->right() || node->right()->parent() == node);
-
-	_treeValid(node->left(), depth, maxdepth);
-	_treeValid(node->right(), depth, maxdepth);
-}
 
 #endif
 

@@ -213,6 +213,8 @@ void OrderedRBTreeDBTests::retrieveTreeTest()
 	QCOMPARE(tree[0], QString("Test3"));
 	QCOMPARE(tree[1], QString("Test"));
 	QCOMPARE(tree[2], QString("Test2"));
+
+	tree.checkValid();
 }
 
 void OrderedRBTreeDBTests::removeTreeTest() {
@@ -277,4 +279,3 @@ void OrderedRBTreeDBTests::newTreeTest()
 }
 
 QTEST_MAIN(OrderedRBTreeDBTests)
-
