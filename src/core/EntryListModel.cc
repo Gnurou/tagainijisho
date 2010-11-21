@@ -65,7 +65,6 @@ QModelIndex EntryListModel::index(int row, int column, const QModelIndex &parent
 		listOfIndex = EntryListCache::get(cEntry.id);
 	} else listOfIndex = &list;
 
-
 	if (row >= listOfIndex->size()) return QModelIndex();
 	// FIXME Qt is wrong here - internalId() returns a qint64, so this function should take a qint64 too!
 	return createIndex(row, column, (quint32)listOfIndex->listId());
@@ -302,20 +301,18 @@ bool EntryListModel::_removeRows(int row, int count, const QModelIndex &parent)
 
 bool EntryListModel::removeRows(int row, int count, const QModelIndex &parent)
 {
-	return false;
-/*
-	const QModelIndex realParent(parent.isValid() ? parent : index(rootId()));
-	if (!TRANSACTION) return false;
+	// TODO use global transaction
+	// TODO remove lists recursively if a list is removed
+	LISTFORINDEX(parentList, parent);
+	EntryListData cEntry(parentList[parent.row()]);
+	// The list from which we are actually removing
+	EntryList &list = *EntryListCache::get(cEntry.id);
 	beginRemoveRows(parent, row, row + count - 1);
-	if (!_removeRows(row, count, realParent)) goto transactionFailed;
-	if (!COMMIT) goto transactionFailed;
-	EntryListCache::instance().invalidateAll();
+	while (count--) {
+		list.remove(row);
+	}
 	endRemoveRows();
 	return true;
-transactionFailed:
-	ROLLBACK;
-	EntryListCache::instance().invalidateAll();
-	return false;*/
 }
 
 QStringList EntryListModel::mimeTypes() const
