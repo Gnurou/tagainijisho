@@ -66,7 +66,7 @@ private:
 	T _value;
 
 public:
-	OrderedRBNode(OrderedRBMemTree<T> *tree, const T &va) : _left(0), _right(0), _parent(0), _value(va)
+	OrderedRBNode(OrderedRBMemTree<T> *tree, const T &va) : OrderedRBNodeBase<T>(), _left(0), _right(0), _parent(0), _value(va)
 	{
 	}
 
@@ -166,8 +166,8 @@ private:
 	TreeBase _tree;
 
 	void setRoot(typename TreeBase::Node *node);
-	static typename TreeBase::Node *grandParent(const typename TreeBase::Node *node);
-	static typename TreeBase::Node *uncle(const typename TreeBase::Node *node);
+	static typename TreeBase::Node *grandParent(const typename TreeBase::Node *const node);
+	static typename TreeBase::Node *uncle(const typename TreeBase::Node *const node);
 	static int size(const typename TreeBase::Node *node);
 	void calculateLeftSize(typename TreeBase::Node *node);
 	void detach(typename TreeBase::Node *node);
@@ -203,6 +203,18 @@ private:
 	void removeCase5(typename TreeBase::Node *parent, Side side);
 	void removeCase6(typename TreeBase::Node *parent, Side side);
 
+
+
+	bool _isBlack(const typename TreeBase::Node *const node) const
+	{
+		// Property 1 (all nodes are either red or black) is implicitly enforced.
+		// Property 3: all leaves are black
+		return !node || node->color() == TreeBase::Node::BLACK;
+	}
+
+	void _treeValid(const typename TreeBase::Node *const node, int depth, int &maxdepth) const;
+
+
 public:
 	OrderedRBTree()
 	{
@@ -237,6 +249,14 @@ public:
 	TreeBase *tree() { return &_tree; }
 	const TreeBase *tree() const { return &_tree; }
 
+	/**
+	 * Checks whether the tree is valid - causes a fatal error if it is not.
+	 */
+	void inline checkValid() const
+	{
+		int maxdepth = -1;
+		_treeValid(tree()->root(), 0, maxdepth);
+	}
 friend class OrderedRBTreeTests;
 };
 
@@ -248,14 +268,14 @@ void OrderedRBTree<TreeBase>::setRoot(typename TreeBase::Node *node)
 }
 
 template <class TreeBase>
-typename TreeBase::Node *OrderedRBTree<TreeBase>::grandParent(const typename TreeBase::Node *node)
+typename TreeBase::Node *OrderedRBTree<TreeBase>::grandParent(const typename TreeBase::Node *const node)
 {
 	typename TreeBase::Node *p = node->parent();
 	if (p != 0) return p->parent();
 	else return 0;
 }
 template <class TreeBase>
-typename TreeBase::Node *OrderedRBTree<TreeBase>::uncle(const typename TreeBase::Node *node)
+typename TreeBase::Node *OrderedRBTree<TreeBase>::uncle(const typename TreeBase::Node *const node)
 {
 	typename TreeBase::Node *gp = grandParent(node);
 	if (!gp) return 0;
@@ -675,6 +695,34 @@ bool OrderedRBTree<TreeBase>::clear()
 	}
 	if (!_tree.commitChanges()) return false;
 	return true;
+}
+
+template <class TreeBase>
+void OrderedRBTree<TreeBase>::_treeValid(const typename TreeBase::Node *const node, int depth, int &maxdepth) const
+{
+	// Property 5: every path from a node to any of its descendant contains the same number of black nodes
+	if (_isBlack(node)) ++depth;
+	if (!node) {
+		if (maxdepth == -1) {
+			maxdepth = depth;
+			return;
+		}
+		else {
+			Q_ASSERT(depth == maxdepth);
+			return;
+		}
+	}
+	// Property 2: root is black
+	Q_ASSERT(node->parent() || node->color() == TreeBase::Node::BLACK);
+	// Property 4: both children of every red node are black
+	Q_ASSERT(_isBlack(node) || ((_isBlack(node->left()) && _isBlack(node->right()))));
+
+	// Check that the tree can be parsed two-ways
+	Q_ASSERT(!node->left() || node->left()->parent() == node);
+	Q_ASSERT(!node->right() || node->right()->parent() == node);
+
+	_treeValid(node->left(), depth, maxdepth);
+	_treeValid(node->right(), depth, maxdepth);
 }
 
 #endif
