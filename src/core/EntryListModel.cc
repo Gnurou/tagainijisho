@@ -354,15 +354,20 @@ QMimeData *EntryListModel::mimeData(const QModelIndexList &indexes) const
 
 bool EntryListModel::dropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &_parent)
 {
-	return false;
-	/*
+	// TODO Handle transactions!
+	
 	if (action == Qt::IgnoreAction) return true;
 	if (column == -1) column = 0;
 	if (column > 0) return false;
 
-	// If dropped on the root, update the parent to the real one
-	// Direct affectation of model indexes does not seem to copy the internal id
-	const QModelIndex parent(_parent.isValid() ? _parent : index(rootId()));
+	LISTFORINDEX(parentList, _parent);
+	EntryListData cEntry(parentList[_parent.row()]);
+	EntryList &list = *EntryListCache::get(cEntry.id);
+
+	// If dropped on a list, append the entries
+	if (row == -1) row = rowCount(_parent);
+
+	emit layoutAboutToBeChanged();
 
 	// If we have list items, we must move the items instead of inserting them
 	if (data->hasFormat("tagainijisho/listitem")) {
@@ -377,8 +382,45 @@ bool EntryListModel::dropMimeData(const QMimeData *data, Qt::DropAction action, 
 			ds >> rowId;
 			rowIds << rowId;
 		}
-		// If dropped on a list, append the entries
-		if (row == -1) row = rowCount(parent);
+
+	}
+	// No list data, we probably dropped from the results view or something -
+	// add the entries to the list
+	else if (data->hasFormat("tagainijisho/entry")) {
+		QByteArray ba = data->data("tagainijisho/entry");
+		QDataStream ds(&ba, QIODevice::ReadOnly);
+		QList<EntryRef> entries;
+		int cpt = 0;
+
+		while (!ds.atEnd()) {
+			EntryRef entryRef;
+			ds >> entryRef;
+			entries << entryRef;
+		}
+
+		// Insert rows must be done on what the view thinks is the parent
+		beginInsertRows(_parent, row, row + entries.size() - 1);
+		foreach (const EntryRef &entry, entries) {
+			EntryListData eData;
+			eData.type = entry.type();
+			eData.id = entry.id();
+			list.insert(eData, row + cpt++);
+
+			// Now add the list to the entry if it is loaded
+			//if (entry.isLoaded()) entry.get()->lists() << list.listId();
+		}
+		endInsertRows();
+	}
+	return true;
+
+	/*
+
+	// If dropped on the root, update the parent to the real one
+	// Direct affectation of model indexes does not seem to copy the internal id
+	const QModelIndex parent(_parent.isValid() ? _parent : index(rootId()));
+
+	// If we have list items, we must move the items instead of inserting them
+	if (data->hasFormat("tagainijisho/listitem")) {
 		int realRow(row);
 
 		// First check if we are not dropping a parent into one of its children
@@ -434,18 +476,7 @@ bool EntryListModel::dropMimeData(const QMimeData *data, Qt::DropAction action, 
 	// No list data, we probably dropped from the results view or something -
 	// add the entries to the list
 	else if (data->hasFormat("tagainijisho/entry")) {
-		//if (!parent.isValid()) return false;
-		QByteArray ba = data->data("tagainijisho/entry");
-		QDataStream ds(&ba, QIODevice::ReadOnly);
-		QList<EntryRef> entries;
-		QList<quint32> ids;
-		while (!ds.atEnd()) {
-			EntryRef entryRef;
-			ds >> entryRef;
-			entries << entryRef;
-		}
-		// If dropped on a list, append the entries
-		if (row == -1) row = rowCount(parent);
+	
 		if (!TRANSACTION) return false;
 		{
 			SQLite::Query query(Database::connection());

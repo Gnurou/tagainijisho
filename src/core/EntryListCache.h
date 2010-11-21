@@ -43,8 +43,9 @@ private:
 	EntryListCache();
 	~EntryListCache();
 
-	const EntryList *_get(quint64 id);
+	EntryList *_get(quint64 id);
 	QPair <const EntryList *, quint32> _getOwner(quint64 id);
+	void _clearOwnerCache(quint64 id);
 
 public:
 	/// Returns a reference to the unique instance of this class.
@@ -53,9 +54,10 @@ public:
 	/// again in order to allocate a new one.
 	static void cleanup();
 
-	static const EntryList *get(quint64 id) { return instance()._get(id); }
+	static EntryList *get(quint64 id) { return instance()._get(id); }
 	/// Returns the list that contains the list which id is given in parameter.
 	static QPair<const EntryList *, quint32> getOwner(quint64 id) { return instance()._getOwner(id); }
+	static void clearOwnerCache(quint64 id) { instance()._clearOwnerCache(id); }
 };
 
 #endif
