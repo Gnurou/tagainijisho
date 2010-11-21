@@ -353,6 +353,7 @@ bool EntryListModel::dropMimeData(const QMimeData *data, Qt::DropAction action, 
 {
 	// TODO Handle transactions!
 	
+	if (!_parent.isValid()) return false;
 	if (action == Qt::IgnoreAction) return true;
 	if (column == -1) column = 0;
 	if (column > 0) return false;
