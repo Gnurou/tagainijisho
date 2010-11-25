@@ -227,7 +227,7 @@ public:
 	/**
 	 * Complexity: O(log n)
 	 */
-	int size() const;
+	unsigned int size() const;
 	/**
 	 * Returns the value at index. Will crash if access is made out of bounds.
 	 * Complexity: O(log n)
@@ -560,7 +560,7 @@ void OrderedRBTree<TreeBase>::removeCase6(typename TreeBase::Node *parent, Side 
 }
 
 template <class TreeBase>
-int OrderedRBTree<TreeBase>::size() const
+unsigned int OrderedRBTree<TreeBase>::size() const
 {
 	if (!_tree.root()) return 0;
 	else return size(_tree.root());

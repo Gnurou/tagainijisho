@@ -38,6 +38,7 @@ public:
 	void setRoot(quint64 rootId);
 
 	virtual QModelIndex index(int row, int column, const QModelIndex &parent = QModelIndex()) const;
+	QModelIndex indexFromList(quint64 listId, quint64 position) const;
 	/// Returns the parent as the views will see it, i.e. if the root it set it will really
 	/// behave as a root
 	virtual QModelIndex parent(const QModelIndex &index) const;

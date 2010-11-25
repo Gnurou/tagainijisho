@@ -56,18 +56,25 @@ QModelIndex EntryListModel::index(int row, int column, const QModelIndex &parent
 	if (column > 0) return QModelIndex();
 
 	LISTFORINDEX(list, parent);
-	const EntryList *listOfIndex;
+	quint64 listId;
 	// If the parent is valid, then fetch its real list
 	if (parent.isValid()) {
 		EntryListData cEntry(list[parent.row()]);
 		// Parent will always be a list
 		Q_ASSERT(cEntry.isList());
-		listOfIndex = EntryListCache::get(cEntry.id);
-	} else listOfIndex = &list;
+		listId = cEntry.id;
+	} else listId = 0;
 
-	if (row >= listOfIndex->size()) return QModelIndex();
+	return indexFromList(listId, row);
+}
+
+QModelIndex EntryListModel::indexFromList(quint64 listId, quint64 position) const
+{
+	const EntryList *list = EntryListCache::get(listId);
+	if (!list || position > list->size()) return QModelIndex();
+
 	// FIXME Qt is wrong here - internalId() returns a qint64, so this function should take a qint64 too!
-	return createIndex(row, column, (quint32)listOfIndex->listId());
+	return createIndex(position, 0, (quint32)list->listId());
 }
 	
 QModelIndex EntryListModel::parent(const QModelIndex &idx) const
@@ -265,7 +272,6 @@ QMimeData *EntryListModel::mimeData(const QModelIndexList &indexes) const
 {
 	QMimeData *mimeData = new QMimeData();
 
-	/*
 	QByteArray entriesEncodedData;
 	QDataStream entriesStream(&entriesEncodedData, QIODevice::WriteOnly);
 	QByteArray itemsEncodedData;
@@ -274,16 +280,18 @@ QMimeData *EntryListModel::mimeData(const QModelIndexList &indexes) const
 	foreach (const QModelIndex &index, indexes) {
 		if (index.isValid()) {
 			// Add the item
-			itemsStream << (int)index.internalId();
+			itemsStream << (quint64)index.internalId() << (quint64)index.row();
 			
 			// If the item is an entry, add it
-			const EntryListCachedEntry &cEntry = EntryListCache::instance().get(index.internalId());
+			LISTFORINDEX(list, index);
+			EntryListData cEntry(list[index.row()]);
 			if (!cEntry.isList()) entriesStream << cEntry.entryRef();
+			// TODO in case of a list, add all the items the list contains
 		}
 	}
 	if (!entriesEncodedData.isEmpty()) mimeData->setData("tagainijisho/entry", entriesEncodedData);
 	if (!itemsEncodedData.isEmpty()) mimeData->setData("tagainijisho/listitem", itemsEncodedData);
-	*/
+
 	return mimeData;
 }
 
@@ -307,17 +315,44 @@ bool EntryListModel::dropMimeData(const QMimeData *data, Qt::DropAction action, 
 
 	// If we have list items, we must move the items instead of inserting them
 	if (data->hasFormat("tagainijisho/listitem")) {
-		// Row ids of the items we move
-		QList<int> rowIds;
+		// ids of the items we move
+		QList<QPair<quint64, quint64> > ids;
 		// Fetch the ids of the rows that moved from
 		// the stream
 		QByteArray ba = data->data("tagainijisho/listitem");
 		QDataStream ds(&ba, QIODevice::ReadOnly);
 		while (!ds.atEnd()) {
-			int rowId;
-			ds >> rowId;
-			rowIds << rowId;
+			quint64 listId, pos;
+			ds >> listId;
+			ds >> pos;
+			ids << QPair<quint64, quint64>(listId, pos);
 		}
+		emit layoutAboutToBeChanged();
+		int cpt = 0;
+		typedef QPair<quint64, quint64> qpp;
+		// TODO Take the destination list size change into account!
+		// TODO Also, the positions within source lists may not be valid anymore
+		// as the items move.
+		// TODO Instead of deleting/creating new nodes and making ids turn, why not
+		// change their properties directly? Need support from the lists layer
+		foreach (const qpp &id, ids) {
+			// Needed to update persistent indexes
+			QModelIndex srcIndex(indexFromList(id.first, id.second));
+			// Get the data from the source and remove it from the tree
+			EntryList &srcList = *EntryListCache::get(id.first);
+			EntryListData eData = srcList[id.second];
+			srcList.remove(id.second);
+
+			// Insert the data into the destination
+			list.insert(eData, row + cpt);
+
+			// Don't forget to change any persistent index - views use them at least to keep track
+			// of the current selection
+			changePersistentIndex(srcIndex, indexFromList(list.listId(), row + cpt));
+
+			cpt++;
+		}
+		emit layoutChanged();
 
 	}
 	// No list data, we probably dropped from the results view or something -
@@ -326,7 +361,6 @@ bool EntryListModel::dropMimeData(const QMimeData *data, Qt::DropAction action, 
 		QByteArray ba = data->data("tagainijisho/entry");
 		QDataStream ds(&ba, QIODevice::ReadOnly);
 		QList<EntryRef> entries;
-		int cpt = 0;
 
 		while (!ds.atEnd()) {
 			EntryRef entryRef;
@@ -336,6 +370,7 @@ bool EntryListModel::dropMimeData(const QMimeData *data, Qt::DropAction action, 
 
 		// Insert rows must be done on what the view thinks is the parent
 		beginInsertRows(_parent, row, row + entries.size() - 1);
+		int cpt = 0;
 		foreach (const EntryRef &entry, entries) {
 			EntryListData eData;
 			eData.type = entry.type();
