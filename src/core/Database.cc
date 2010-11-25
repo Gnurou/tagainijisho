@@ -186,10 +186,12 @@ static bool update7to8(SQLite::Query &query) {
 		listId = next.second;
 	} while (true);
 
-	//QUERY("DROP TABLE oldLists");
-	// Also drop listsLabels!
-	//QUERY("CREATE INDEX idx_lists_parent ON lists(parent)");
-	//QUERY("CREATE INDEX idx_lists_entry ON lists(type, id)");
+	// Create the list index
+	QUERY("CREATE INDEX lists_idx on lists(type,id)");
+
+	// Drop the old tables
+	QUERY("DROP TABLE oldLists");
+	QUERY("DROP TABLE listsLabels");
 	return true;
 }
 
