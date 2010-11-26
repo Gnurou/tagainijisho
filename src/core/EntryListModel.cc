@@ -327,7 +327,6 @@ bool EntryListModel::dropMimeData(const QMimeData *data, Qt::DropAction action, 
 			ds >> pos;
 			ids << QPair<quint64, quint64>(listId, pos);
 		}
-		emit layoutAboutToBeChanged();
 		int cpt = 0;
 		typedef QPair<quint64, quint64> qpp;
 		// TODO Take the destination list size change into account!
@@ -340,11 +339,9 @@ bool EntryListModel::dropMimeData(const QMimeData *data, Qt::DropAction action, 
 			QModelIndex srcIndex(indexFromList(id.first, id.second));
 			// Get the data from the source and remove it from the tree
 			EntryList &srcList = *EntryListCache::get(id.first);
-			EntryListData eData = srcList[id.second];
-			srcList.remove(id.second);
-
-			// Insert the data into the destination
-			list.insert(eData, row + cpt);
+			EntryList::TreeType::Node *node = srcList.getNode(id.second);
+			srcList.removeNode(node);
+			list.insertNode(node, row + cpt);
 
 			// Don't forget to change any persistent index - views use them at least to keep track
 			// of the current selection
@@ -352,8 +349,6 @@ bool EntryListModel::dropMimeData(const QMimeData *data, Qt::DropAction action, 
 
 			cpt++;
 		}
-		emit layoutChanged();
-
 	}
 	// No list data, we probably dropped from the results view or something -
 	// add the entries to the list
@@ -382,6 +377,8 @@ bool EntryListModel::dropMimeData(const QMimeData *data, Qt::DropAction action, 
 		}
 		endInsertRows();
 	}
+
+	emit layoutChanged();
 	return true;
 
 	/*
