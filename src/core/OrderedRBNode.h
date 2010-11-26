@@ -26,6 +26,14 @@
 #include <QtDebug>
 #include <QtGlobal>
 
+#include "tagaini_config.h"
+
+#ifdef DEBUG_LISTS
+#define CHECK_VALID checkValid();
+#else
+#define CHECK_VALID
+#endif
+
 /**
  * Base node type lacking the logic to access parent or child nodes.
  */
@@ -649,10 +657,12 @@ bool OrderedRBTree<TreeBase>::insertNode(typename TreeBase::Node *node, int inde
 	insertCase1(node);
 
 	if (!_tree.commitChanges()) goto failure;
+	CHECK_VALID
 	return true;
 
 failure:
 	_tree.abortChanges();
+	CHECK_VALID
 	return false;
 }
 
@@ -679,9 +689,11 @@ typename TreeBase::Node *OrderedRBTree<TreeBase>::removeNode(typename TreeBase::
 
 	if (!_tree.commitChanges()) {
 		_tree.abortChanges();
+		CHECK_VALID
 		return 0;
 	}
 
+	CHECK_VALID
 	// Return the node that has been taken out of the tree and contains the value of the node parameter
 	return node;
 }
@@ -754,6 +766,7 @@ bool OrderedRBTree<TreeBase>::clear()
 		}
 	}
 	if (!_tree.commitChanges()) return false;
+	CHECK_VALID
 	return true;
 }
 

@@ -101,7 +101,6 @@ QPair<const EntryList *, quint32> EntryListCache::_getOwner(quint64 id)
 			const EntryList *ret = get(listFromRootQuery.valueUInt64(0));
 			listFromRootQuery.reset();
 			_cachedParents[id] = QPair<const EntryList *, quint32>(ret, pos);
-			//return QPair<const EntryList *, quint32>(ret, pos);
 		}
 	}
 	return _cachedParents[id];
