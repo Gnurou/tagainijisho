@@ -216,7 +216,7 @@ private:
 		return !node || node->color() == TreeBase::Node::BLACK;
 	}
 
-	void _treeValid(const typename TreeBase::Node *const node, int depth, int &maxdepth) const;
+	unsigned int _treeValid(const typename TreeBase::Node *const node, int depth, int &maxdepth) const;
 
 
 public:
@@ -283,7 +283,9 @@ public:
 	void inline checkValid() const
 	{
 		int maxdepth = -1;
-		_treeValid(tree()->root(), 0, maxdepth);
+		// Property 2: root is black
+		Q_ASSERT(!tree()->root() || tree()->root()->color() == TreeBase::Node::BLACK);
+		Q_ASSERT(_treeValid(tree()->root(), 0, maxdepth) == size());
 	}
 friend class OrderedRBTreeTests;
 };
@@ -653,6 +655,8 @@ bool OrderedRBTree<TreeBase>::insertNode(typename TreeBase::Node *node, int inde
 		current = current->parent();
 	}
 
+	// The balancer expects the node to have color red initially
+	node->setColor(TreeBase::Node::RED);
 	// Perform balancing
 	insertCase1(node);
 
@@ -771,22 +775,21 @@ bool OrderedRBTree<TreeBase>::clear()
 }
 
 template <class TreeBase>
-void OrderedRBTree<TreeBase>::_treeValid(const typename TreeBase::Node *const node, int depth, int &maxdepth) const
+unsigned int OrderedRBTree<TreeBase>::_treeValid(const typename TreeBase::Node *const node, int depth, int &maxdepth) const
 {
 	// Property 5: every path from a node to any of its descendant contains the same number of black nodes
 	if (_isBlack(node)) ++depth;
 	if (!node) {
 		if (maxdepth == -1) {
 			maxdepth = depth;
-			return;
+			return 0;
 		}
 		else {
 			Q_ASSERT(depth == maxdepth);
-			return;
+			return 0;
 		}
 	}
-	// Property 2: root is black
-	Q_ASSERT(node->parent() || node->color() == TreeBase::Node::BLACK);
+
 	// Property 4: both children of every red node are black
 	Q_ASSERT(_isBlack(node) || ((_isBlack(node->left()) && _isBlack(node->right()))));
 
@@ -794,8 +797,11 @@ void OrderedRBTree<TreeBase>::_treeValid(const typename TreeBase::Node *const no
 	Q_ASSERT(!node->left() || node->left()->parent() == node);
 	Q_ASSERT(!node->right() || node->right()->parent() == node);
 
-	_treeValid(node->left(), depth, maxdepth);
-	_treeValid(node->right(), depth, maxdepth);
+	unsigned int leftSize = _treeValid(node->left(), depth, maxdepth);
+	unsigned int rightSize =_treeValid(node->right(), depth, maxdepth);
+	// Check that the leftSize of the node is valid
+	Q_ASSERT(leftSize == node->leftSize());
+	return leftSize + rightSize + 1;
 }
 
 #endif
