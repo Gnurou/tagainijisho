@@ -151,14 +151,14 @@ void OrderedRBTreeDBTests::createTreeTest()
 	tree.tree()->setListId(1);
 	tree.tree()->setLabel("Test list");
 
-	QCOMPARE(tree.size(), 0);
+	QCOMPARE(tree.size(), (unsigned int)0);
 
 	QVERIFY(tree.insert(QString("Test"), 0));
-	QCOMPARE(tree.size(), 1);
+	QCOMPARE(tree.size(), (unsigned int)1);
 	QVERIFY(tree.insert(QString("Test2"), 1));
-	QCOMPARE(tree.size(), 2);
+	QCOMPARE(tree.size(), (unsigned int)2);
 	QVERIFY(tree.insert(QString("Test3"), 0));
-	QCOMPARE(tree.size(), 3);
+	QCOMPARE(tree.size(), (unsigned int)3);
 	QCOMPARE(tree[0], QString("Test3"));
 	QCOMPARE(tree[1], QString("Test"));
 	QCOMPARE(tree[2], QString("Test2"));
@@ -211,7 +211,7 @@ void OrderedRBTreeDBTests::retrieveTreeTest()
 
 	QCOMPARE(tree.tree()->listId(), (quint32)1);
 	QCOMPARE(tree.tree()->label(), QString("Test list"));
-	QCOMPARE(tree.size(), 3);
+	QCOMPARE(tree.size(), (unsigned int)3);
 	QCOMPARE(tree[0], QString("Test3"));
 	QCOMPARE(tree[1], QString("Test"));
 	QCOMPARE(tree[2], QString("Test2"));
@@ -249,7 +249,7 @@ void OrderedRBTreeDBTests::removeTreeTest() {
 		QVERIFY(q.exec());
 		QVERIFY(q.next());
 		QCOMPARE(q.valueInt(0), 3 - (i + 1));
-		QCOMPARE(tree.size(), 3 - (i + 1));
+		QCOMPARE(tree.size(), (unsigned int)3 - (i + 1));
 		q.reset();
 	}
 	tree.tree()->removeList();
