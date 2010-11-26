@@ -212,6 +212,8 @@ private:
 
 
 public:
+	typedef TreeBase TreeType;
+
 	OrderedRBTree()
 	{
 	}
