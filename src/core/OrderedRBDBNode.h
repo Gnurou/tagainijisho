@@ -60,6 +60,8 @@ public:
 
 	~OrderedRBDBNode()
 	{
+		// This destructor should not remove the node from the database as it would break data persistency.
+		// In order to permanently remove nodes, removeNode() should be used instead.
 	}
 
 	void setColor(typename OrderedRBNodeBase<T>::Color col)
@@ -196,13 +198,14 @@ public:
 		_changedNodes << n;
 	}
 
-	bool removeNode(Node *node)
+	void removeNode(Node *node)
 	{
-		if (!_ldb->removeEntry(node->e.rowId)) return false;
 		// Make sure deleted nodes do not get updated
 		_changedNodes.remove(node);
+		if (!_ldb->removeEntry(node->e.rowId)) {
+			qDebug("OrderedRBDBTree: cannot remove entry from database!\n");
+		}
 		delete node;
-		return true;
 	}
 
         bool commitChanges()
