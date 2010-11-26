@@ -246,6 +246,25 @@ public:
 	bool remove(int index);
 	bool clear();
 
+	/**
+	 * Returns a pointer to the node at index, null if out-of-bounds.
+	 * @warning Low-level API!
+	 */
+	const typename TreeBase::Node *getNode(int index) const;
+	typename TreeBase::Node *getNode(int index) { return const_cast<typename TreeBase::Node *>(((const OrderedRBTree<TreeBase> *)this)->getNode(index)); }
+
+	/**
+	 * Inserts node at index, returns true on success, false in case of out-of-bounds insertion attempt or storage error.
+	 * @warning Low-level API!
+	 */
+	bool insertNode(typename TreeBase::Node *node, int index);
+
+	/**
+	 * Remove given node from tree and delete it. Return false if out-of-bounds or storage error.
+	 * @warning Low-level API!
+	 */
+	bool removeNode(typename TreeBase::Node *node);
+
 	TreeBase *tree() { return &_tree; }
 	const TreeBase *tree() const { return &_tree; }
 
@@ -560,14 +579,7 @@ void OrderedRBTree<TreeBase>::removeCase6(typename TreeBase::Node *parent, Side 
 }
 
 template <class TreeBase>
-unsigned int OrderedRBTree<TreeBase>::size() const
-{
-	if (!_tree.root()) return 0;
-	else return size(_tree.root());
-}
-
-template <class TreeBase>
-const typename TreeBase::Node::ValueType & OrderedRBTree<TreeBase>::operator[](int index) const
+const typename TreeBase::Node *OrderedRBTree<TreeBase>::getNode(int index) const
 {
 	const typename TreeBase::Node *current = _tree.root();
 	unsigned int baseIdx = 0;
@@ -581,30 +593,30 @@ const typename TreeBase::Node::ValueType & OrderedRBTree<TreeBase>::operator[](i
 			current = current->right();
 		}
 	}
-	// Will crash if access is out of bounds because current would then be 0
-	if (!current) qFatal("Error: accessing RBTree out of bounds");
-	return current->value();
+	return current;
 }
 
 template <class TreeBase>
-bool OrderedRBTree<TreeBase>::insert(const typename TreeBase::Node::ValueType &val, int index)
+bool OrderedRBTree<TreeBase>::insertNode(typename TreeBase::Node *node, int index)
 {
 	if (!_tree.aboutToChange()) return false;
 
 	typename TreeBase::Node *current = _tree.root();
 	unsigned int baseIdx = 0;
-	typename TreeBase::Node *newNode = new typename TreeBase::Node(&_tree, val);
-
-	// Insert into root
-	if (!current) setRoot(newNode);
+	// Insert into root, only if index is zero because this means the tree is empty
+	if (!current) {
+		if (index != 0) goto failure;
+		setRoot(node);
+	}
 	// Otherwise find the leaf where to add our node
 	else while (true) {
 		int curPos = baseIdx + current->leftSize();
-		// We add on the left, so leftSize must be updated
+		// Add to the left, just follow the link
 		if (index <= curPos) {
-			current->setLeftSize(current->leftSize() + 1);
 			if (!current->left()) {
-				current->setLeft(newNode);
+				// Overflow check
+				if (index != curPos) goto failure;
+				current->setLeft(node);
 				break;
 			}
 			else current = current->left();
@@ -613,54 +625,90 @@ bool OrderedRBTree<TreeBase>::insert(const typename TreeBase::Node::ValueType &v
 		else {
 			baseIdx += current->leftSize() + 1;
 			if (!current->right()) {
-				current->setRight(newNode);
+				// Overflow check
+				if (index != curPos + 1) goto failure;
+				current->setRight(node);
 				break;
 			}
 			else current = current->right();
 		}
 	}
-	// Perform balancing
-	insertCase1(newNode);
+	// Update the leftSizes
+	current = node;
+	while (current) {
+		if (current->parent() && current == current->parent()->left())
+			current->parent()->setLeftSize(current->parent()->leftSize() + 1);
+		current = current->parent();
+	}
 
-	if (!_tree.commitChanges()) return false;
+	// Perform balancing
+	insertCase1(node);
+
+	if (!_tree.commitChanges()) goto failure;
+	return true;
+
+failure:
+	_tree.abortChanges();
+	return false;
+}
+
+template <class TreeBase>
+bool OrderedRBTree<TreeBase>::removeNode(typename TreeBase::Node *node)
+{
+	if (!node) return false;
+
+	if (!_tree.aboutToChange()) return false;
+	// Node has two childs, replace its value with the leftmost value at its
+	// right side and replace that latter node with its right child before deleting it.
+	if (node->left() && node->right()) {
+		typename TreeBase::Node *successor = node->right();
+		while (successor->left()) successor = successor->left();
+		node->setValue(successor->value());
+		deleteOneChildNode(successor);
+	}
+	// Node has only one child or no child, replace it by the child (or nothing) before deleting
+	else deleteOneChildNode(node);
+
+	if (!_tree.commitChanges()) {
+		_tree.abortChanges();
+		return false;
+	}
+	return true;
+}
+
+template <class TreeBase>
+unsigned int OrderedRBTree<TreeBase>::size() const
+{
+	if (!_tree.root()) return 0;
+	else return size(_tree.root());
+}
+
+template <class TreeBase>
+const typename TreeBase::Node::ValueType & OrderedRBTree<TreeBase>::operator[](int index) const
+{
+	const typename TreeBase::Node *node = getNode(index);
+
+	// Will crash if access is out of bounds because current would then be 0
+	if (!node) qFatal("Error: accessing RBTree out of bounds");
+	return node->value();
+}
+
+template <class TreeBase>
+bool OrderedRBTree<TreeBase>::insert(const typename TreeBase::Node::ValueType &val, int index)
+{
+	typename TreeBase::Node *newNode = new typename TreeBase::Node(&_tree, val);
+
+	if (!insertNode(newNode, index)) {
+		delete newNode;
+		return false;
+	}
 	return true;
 }
 
 template <class TreeBase>
 bool OrderedRBTree<TreeBase>::remove(int index)
 {
-	if (index < 0) return false;
-
-	typename TreeBase::Node *current = _tree.root();
-	unsigned int baseIdx = 0;
-
-	// First find the node to remove
-	while (current) {
-		int curPos = baseIdx + current->leftSize();
-		if (curPos == index) break;
-		else if (index < curPos) current = current->left();
-		else {
-			baseIdx += current->leftSize() + 1;
-			current = current->right();
-		}
-	}
-
-	// Index to remove not found
-	if (!current) return false;
-
-	if (!_tree.aboutToChange()) return false;
-	// Node has two childs, replace its value with the leftmost value at its
-	// right side and replace that latter node with its right child before deleting it.
-	if (current->left() && current->right()) {
-		typename TreeBase::Node *successor = current->right();
-		while (successor->left()) successor = successor->left();
-		current->setValue(successor->value());
-		deleteOneChildNode(successor);
-	}
-	// Node has only one child or no child, replace it by the child (or nothing) before deleting
-	else deleteOneChildNode(current);
-	if (!_tree.commitChanges()) return false;
-	return true;
+	return removeNode(getNode(index));
 }
 
 template <class TreeBase>
