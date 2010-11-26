@@ -338,7 +338,8 @@ bool EntryListModel::dropMimeData(const QMimeData *data, Qt::DropAction action, 
 			// Get the data from the source and remove it from the tree
 			EntryList &srcList = *EntryListCache::get(id.first);
 			EntryList::TreeType::Node *node = srcList.getNode(id.second);
-			if (!srcList.removeNode(node)) {
+			node = srcList.removeNode(node);
+			if (!node) {
 				qDebug("Error removing node from list!\n");
 				continue;
 			}
