@@ -7,4 +7,6 @@
 #cmakedefine DEBUG_PATHS ${DEBUG_PATHS}
 #cmakedefine DEBUG_DETAILED_VIEW ${DEBUG_DETAILED_VIEW}
 #cmakedefine DEBUG_QUERIES ${DEBUG_QUERIES}
+#cmakedefine DEBUG_LISTS ${DEBUG_LISTS}
+
 #endif

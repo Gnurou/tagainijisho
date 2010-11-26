@@ -332,16 +332,20 @@ bool EntryListModel::dropMimeData(const QMimeData *data, Qt::DropAction action, 
 		// TODO Take the destination list size change into account!
 		// TODO Also, the positions within source lists may not be valid anymore
 		// as the items move.
-		// TODO Instead of deleting/creating new nodes and making ids turn, why not
-		// change their properties directly? Need support from the lists layer
 		foreach (const qpp &id, ids) {
 			// Needed to update persistent indexes
 			QModelIndex srcIndex(indexFromList(id.first, id.second));
 			// Get the data from the source and remove it from the tree
 			EntryList &srcList = *EntryListCache::get(id.first);
 			EntryList::TreeType::Node *node = srcList.getNode(id.second);
-			srcList.removeNode(node);
-			list.insertNode(node, row + cpt);
+			if (!srcList.removeNode(node)) {
+				qDebug("Error removing node from list!\n");
+				continue;
+			}
+			if (!list.insertNode(node, row + cpt)) {
+				qDebug("Error inserting node into list!\n");
+				continue;
+			}
 
 			// Don't forget to change any persistent index - views use them at least to keep track
 			// of the current selection
