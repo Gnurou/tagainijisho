@@ -478,11 +478,6 @@ void OrderedRBTree<TreeBase>::removeOneChildNode(typename TreeBase::Node *node)
 		parent->setRight(child);
 		side = Right;
 	}
-	// The node is now out of the tree
-	node->setParent(0);
-	node->setLeft(0);
-	node->setRight(0);
-
 	// child will only be null if both childs of node are leaves. In that case
 	// child can have no sibling!
 
@@ -496,6 +491,13 @@ void OrderedRBTree<TreeBase>::removeOneChildNode(typename TreeBase::Node *node)
 		// child is null.
 		else removeCase1(parent, side);
 	}
+
+	// The node is now out of the tree, so reset it
+	detach(node);
+	node->setLeft(0);
+	node->setRight(0);
+	node->setColor(TreeBase::Node::RED);
+	node->setLeftSize(0);
 }
 
 // If the removed node was the root, the number of black nodes did
@@ -655,8 +657,6 @@ bool OrderedRBTree<TreeBase>::insertNode(typename TreeBase::Node *node, int inde
 		current = current->parent();
 	}
 
-	// The balancer expects the node to have color red initially
-	node->setColor(TreeBase::Node::RED);
 	// Perform balancing
 	insertCase1(node);
 
@@ -666,7 +666,6 @@ bool OrderedRBTree<TreeBase>::insertNode(typename TreeBase::Node *node, int inde
 
 failure:
 	_tree.abortChanges();
-	CHECK_VALID
 	return false;
 }
 
@@ -693,7 +692,6 @@ typename TreeBase::Node *OrderedRBTree<TreeBase>::removeNode(typename TreeBase::
 
 	if (!_tree.commitChanges()) {
 		_tree.abortChanges();
-		CHECK_VALID
 		return 0;
 	}
 
