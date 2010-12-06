@@ -20,9 +20,9 @@
 static const unsigned int nbEntries = 3;
 static EntryListEntry entries[nbEntries] =
 {
-	{ 0, 1, false, 0, 2, 3, { 0, 1, 28 } },
-	{ 0, 0, true,  1, 0, 0, { 0, 1, 29 } },
-	{ 0, 0, false, 1, 0, 0, { 0, 2, 44 } }
+	{ 0, 1, false, 0, 2, 3, { 1, 28 } },
+	{ 0, 0, true,  1, 0, 0, { 1, 29 } },
+	{ 0, 0, false, 1, 0, 0, { 2, 44 } }
 };
 
 void OrderedRBTreeDBTests::initTestCase()
@@ -76,7 +76,6 @@ void OrderedRBTreeDBTests::retrieveDataTest()
 		QCOMPARE(res.left, entries[i].left);
 		QCOMPARE(res.right, entries[i].right);
 
-		QCOMPARE(res.data.rowId, entries[i].rowId);
 		QCOMPARE(res.data.type, entries[i].data.type);
 		QCOMPARE(res.data.id, entries[i].data.id);
 	}
