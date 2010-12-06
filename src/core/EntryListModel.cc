@@ -327,34 +327,47 @@ bool EntryListModel::dropMimeData(const QMimeData *data, Qt::DropAction action, 
 			ds >> pos;
 			ids << QPair<quint64, quint64>(listId, pos);
 		}
-		int cpt = 0;
 		typedef QPair<quint64, quint64> qpp;
-		// TODO Take the destination list size change into account!
-		// TODO Also, the positions within source lists may not be valid anymore
-		// as the items move.
+
+		// First, record all the list/node pairs to move into a list
+		typedef QPair<EntryList *, EntryList::TreeType::Node *> EntryListRef;
+		QList<EntryListRef> elRefs;
+		QList<QModelIndex> srcIdxs;
 		foreach (const qpp &id, ids) {
-			// Needed to update persistent indexes
-			QModelIndex srcIndex(indexFromList(id.first, id.second));
-			// Get the data from the source and remove it from the tree
-			EntryList &srcList = *EntryListCache::get(id.first);
-			EntryList::TreeType::Node *node = srcList.getNode(id.second);
-			node = srcList.removeNode(node);
-			if (!node) {
+			// Store the index in order to notify persistant indexes of the change
+			srcIdxs << indexFromList(id.first, id.second);
+			EntryList *srcList = EntryListCache::get(id.first);
+			EntryList::TreeType::Node *node = srcList->getNode(id.second);
+			elRefs << EntryListRef(srcList, node);
+			// Decrease the destination index if we are removing an item in the destination
+			// list with an index inferior to that of the drop
+			if (srcList == &list && id.second < (unsigned int)row) --row;
+		}
+		// Second, remove all nodes from their source list
+		for (int i = 0; i < elRefs.size(); i++) {
+			EntryListRef &elr = elRefs[i];
+			// The returned node may differ from the one we remove
+			// because of the way trees work
+			elr.second = elr.first->removeNode(elr.second);
+			if (!elr.second) {
 				qDebug("Error removing node from list!\n");
 				continue;
 			}
-			if (!list.insertNode(node, row + cpt)) {
+		}
+		// Finally, insert all the nodes into the destination list
+		for (int i = 0; i < elRefs.size(); i++) {
+			const EntryListRef &elr = elRefs[i];
+			if (!elr.second) continue;
+			if (!list.insertNode(elr.second, row + i)) {
 				qDebug("Error inserting node into list!\n");
 				continue;
 			}
-
-			// Don't forget to change any persistent index - views use them at least to keep track
-			// of the current selection
-			changePersistentIndex(srcIndex, indexFromList(list.listId(), row + cpt));
-
-			cpt++;
+			// Update the persistent indexes (needed to correctly keep track of the current selection
+			const QModelIndex &idx = srcIdxs[i];
+			changePersistentIndex(idx, indexFromList(list.listId(), row + i));
 		}
 	}
+
 	// No list data, we probably dropped from the results view or something -
 	// add the entries to the list
 	else if (data->hasFormat("tagainijisho/entry")) {
