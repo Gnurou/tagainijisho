@@ -34,8 +34,6 @@
 #define LISTS_DB_TABLES_PREFIX "lists"
 
 struct EntryListData {
-	//quint32 listId;
-	quint32 rowId;
 	quint8 type;
 	quint32 id;
 

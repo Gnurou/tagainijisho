@@ -33,8 +33,6 @@ template <> void DBListEntry<EntryListData>::bindDataValues(SQLite::Query &query
 
 template <> void DBListEntry<EntryListData>::readDataValues(SQLite::Query &query, int start)
 {
-	//data.listId = query.valueUInt(start++);
-	data.rowId = query.valueUInt(0);
 	data.type = query.valueUInt(start++);
 	data.id = query.valueUInt(start++);
 }
