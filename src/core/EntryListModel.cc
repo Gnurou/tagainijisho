@@ -346,10 +346,7 @@ bool EntryListModel::dropMimeData(const QMimeData *data, Qt::DropAction action, 
 		// Second, remove all nodes from their source list
 		for (int i = 0; i < elRefs.size(); i++) {
 			EntryListRef &elr = elRefs[i];
-			// The returned node may differ from the one we remove
-			// because of the way trees work
-			elr.second = elr.first->removeNode(elr.second);
-			if (!elr.second) {
+			if (!elr.first->removeNode(elr.second)) {
 				qDebug("Error removing node from list!\n");
 				continue;
 			}

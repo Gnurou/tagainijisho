@@ -195,6 +195,10 @@ private:
 	 * Precondition: node must have at most one child.
 	 */
 	void removeOneChildNode(typename TreeBase::Node *node);
+	/**
+	 * Exchange the position of a and b in the tree.
+	 */
+	void exchangeNodes(typename TreeBase::Node *a, typename TreeBase::Node *b);
 	// If the removed node was the root, the number of black nodes did
 	// not change for every path (because it only had one child)
 	void removeCase1(typename TreeBase::Node *parent, Side side);
@@ -270,13 +274,10 @@ public:
 	bool insertNode(typename TreeBase::Node *node, int index);
 
 	/**
-	 * Remove given node from tree. Returns a pointer to the node that has been taken out of the tree, or 0 if the operation failed.
-	 * Node that the returned value is not necessarily the same as the passed node parameter, because the remove procedure can
-	 * exchange node contents for faster operation. It is guaranteed however that the returned node has the same value as
-	 * the parameter.
+	 * Remove given node from tree. 
 	 * @warning Low-level API!
 	 */
-	typename TreeBase::Node *removeNode(typename TreeBase::Node *node);
+	bool removeNode(typename TreeBase::Node *node);
 
 	TreeBase *tree() { return &_tree; }
 	const TreeBase *tree() const { return &_tree; }
@@ -504,6 +505,42 @@ void OrderedRBTree<TreeBase>::removeOneChildNode(typename TreeBase::Node *node)
 	node->setLeftSize(0);
 }
 
+template <class TreeBase>
+void OrderedRBTree<TreeBase>::exchangeNodes(typename TreeBase::Node *a, typename TreeBase::Node *b)
+{
+	// Update the links
+	typename TreeBase::Node *aleft = a->left(), *aright = a->right(), *aparent = a->parent();
+	bool awasleft = aparent ? aparent->left() == a : false;
+	typename TreeBase::Node *bleft = b->left(), *bright = b->right(), *bparent = b->parent();
+	bool bwasleft = bparent ? bparent->left() == b : false;
+	// Fix cross-references
+	if (aleft == b) aleft = a;
+	if (aright == b) aright = a;
+	if (bleft == a) bleft = b;
+	if (bright == a) bright = b;
+
+	if (bparent) {
+		if (bwasleft) bparent->setLeft(a);
+		else bparent->setRight(a);
+	} else setRoot(a);
+	a->setLeft(bleft);
+	a->setRight(bright);
+
+	if (aparent) {
+		if (awasleft) aparent->setLeft(b);
+		else aparent->setRight(b);
+	} else setRoot(b);
+	b->setLeft(aleft);
+	b->setRight(aright);
+	// Update color & left count
+	typename TreeBase::Node::Color acol = a->color();
+	quint32 aleftSize = a->leftSize();
+	a->setColor(b->color());
+	a->setLeftSize(b->leftSize());
+	b->setColor(acol);
+	b->setLeftSize(aleftSize);
+}
+
 // If the removed node was the root, the number of black nodes did
 // not change for every path (because it only had one child)
 template <class TreeBase>
@@ -676,34 +713,35 @@ failure:
 }
 
 template <class TreeBase>
-typename TreeBase::Node *OrderedRBTree<TreeBase>::removeNode(typename TreeBase::Node *node)
+bool OrderedRBTree<TreeBase>::removeNode(typename TreeBase::Node *node)
 {
-	if (!node) return 0;
+	if (!node) return false;
 
-	if (!_tree.aboutToChange()) return 0;
+	if (!_tree.aboutToChange()) return false;
 	// Node has two childs, replace its value with the leftmost value at its
 	// right side and replace that latter node with its right child before deleting it.
 	if (node->left() && node->right()) {
 		typename TreeBase::Node *successor = node->right();
 		while (successor->left()) successor = successor->left();
-		// Exchange the values of node and successor
-		typename TreeBase::Node::ValueType nodeValue(node->value());
-		node->setValue(successor->value());
-		successor->setValue(nodeValue);
+
+		// Exchange node and successor
+		exchangeNodes(node, successor);
+		//typename TreeBase::Node::ValueType nodeValue(node->value());
+		//node->setValue(successor->value());
+		//successor->setValue(nodeValue);
 		// The successor now becomes the node to remove
-		node = successor;
+		//node = successor;
 	}
 	// Node has only one child or no child, replace it by the child (or nothing) before deleting
 	removeOneChildNode(node);
 
 	if (!_tree.commitChanges()) {
 		_tree.abortChanges();
-		return 0;
+		return false;
 	}
 
 	CHECK_VALID
-	// Return the node that has been taken out of the tree and contains the value of the node parameter
-	return node;
+	return true;
 }
 
 template <class TreeBase>
@@ -738,9 +776,10 @@ bool OrderedRBTree<TreeBase>::insert(const typename TreeBase::Node::ValueType &v
 template <class TreeBase>
 bool OrderedRBTree<TreeBase>::remove(int index)
 {
-	typename TreeBase::Node *node = removeNode(getNode(index));
-	if (node) _tree.removeNode(node);
-	return node != 0;
+	typename TreeBase::Node *node = getNode(index);
+	bool ret = removeNode(node);
+	_tree.removeNode(node);
+	return ret;
 }
 
 template <class TreeBase>
@@ -800,6 +839,9 @@ unsigned int OrderedRBTree<TreeBase>::_treeValid(const typename TreeBase::Node *
 	// Check that the tree can be parsed two-ways
 	Q_ASSERT(!node->left() || node->left()->parent() == node);
 	Q_ASSERT(!node->right() || node->right()->parent() == node);
+
+	// Check that we are not looping on ourselves
+	Q_ASSERT(node->parent() != node);
 
 	unsigned int leftSize = _treeValid(node->left(), depth, maxdepth);
 	unsigned int rightSize =_treeValid(node->right(), depth, maxdepth);
