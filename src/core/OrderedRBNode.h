@@ -110,6 +110,10 @@ public:
 	{
 		_parent = np;
 	}
+	void attachToTree(OrderedRBMemTree<T> *tree)
+	{
+	}
+
 friend class OrderedRBMemTree<T>;
 };
 
@@ -649,6 +653,8 @@ bool OrderedRBTree<TreeBase>::insertNode(typename TreeBase::Node *node, int inde
 			else current = current->right();
 		}
 	}
+	// Take ownership of the node
+	node->attachToTree(&_tree);
 	// Update the leftSizes
 	current = node;
 	while (current) {

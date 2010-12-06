@@ -128,6 +128,14 @@ public:
 		e.parent = np ? np->e.rowId : 0;
 		_tree->nodeChanged(this);
 	}
+	void attachToTree(OrderedRBDBTree<T> *tree)
+	{
+		if (_tree == tree) return;
+		if (_tree) _tree->forgetNode(this);
+		_tree = tree;
+		_tree->nodeChanged(this);
+	}
+	OrderedRBDBTree<T> *tree() { return _tree; }
 
 	/**
 	 * Called by OrderedRBDBTree for every node that has been marked as being changed.
@@ -198,10 +206,15 @@ public:
 		_changedNodes << n;
 	}
 
+	void forgetNode(Node *node)
+	{
+		_changedNodes.remove(node);
+	}
+
 	void removeNode(Node *node)
 	{
 		// Make sure deleted nodes do not get updated
-		_changedNodes.remove(node);
+		forgetNode(node);
 		if (!_ldb->removeEntry(node->e.rowId)) {
 			qDebug("OrderedRBDBTree: cannot remove entry from database!\n");
 		}
