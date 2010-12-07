@@ -296,8 +296,8 @@ public:
 	 */
 	bool newList()
 	{
-		clearMemCache();
 		_listInfo = _ldb->newList();
+		clearMemCache();
 		if (!_listInfo.listId) return false;
 		else return true;
 	}
