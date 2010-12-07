@@ -322,6 +322,8 @@ bool EntryListModel::dropMimeData(const QMimeData *data, Qt::DropAction action, 
 			EntryList *srcList = EntryListCache::get(id.first);
 			EntryList::TreeType::Node *node = srcList->getNode(id.second);
 			elRefs << EntryListRef(srcList, node);
+			// Clear the owner cache if the owner is going to change
+			if (srcList != &list) EntryListCache::clearOwnerCache(node->rowId());
 			// Decrease the destination index if we are removing an item in the destination
 			// list with an index inferior to that of the drop
 			if (srcList == &list && id.second < origRow) --row;
