@@ -65,6 +65,15 @@ EntryList *EntryListCache::_get(quint64 id)
 	return _cachedLists[id];
 }
 
+EntryList *EntryListCache::_newList()
+{
+	EntryList *ret = new EntryList(&_dbAccess, 0);
+	ret->newList();
+	QMutexLocker ml(&_cacheLock);
+	_cachedLists.insert(ret->listId(), ret);
+	return ret;
+}
+
 void EntryListCache::_clearListCache(quint64 id)
 {
 	_cachedLists.remove(id);
