@@ -777,6 +777,7 @@ template <class TreeBase>
 bool OrderedRBTree<TreeBase>::remove(int index)
 {
 	typename TreeBase::Node *node = getNode(index);
+	if (!node) return false;
 	bool ret = removeNode(node);
 	_tree.removeNode(node);
 	return ret;

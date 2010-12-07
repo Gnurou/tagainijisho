@@ -65,6 +65,11 @@ EntryList *EntryListCache::_get(quint64 id)
 	return _cachedLists[id];
 }
 
+void EntryListCache::_clearListCache(quint64 id)
+{
+	_cachedLists.remove(id);
+}
+
 QPair<const EntryList *, quint32> EntryListCache::_getOwner(quint64 id)
 {
 	if (!_cachedParents.contains(id)) {

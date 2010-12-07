@@ -41,7 +41,7 @@ void EntryListModel::setRoot(quint64 rootId)
 	emit rootHasChanged(rootId);
 }
 
-#define LISTFORINDEX(list, index) const EntryList &list = *EntryListCache::get(index.isValid() ? index.internalId() : 0)
+#define LISTFORINDEX(list, index) EntryList &list = *EntryListCache::get(index.isValid() ? index.internalId() : 0)
 
 QModelIndex EntryListModel::index(int row, int column, const QModelIndex &parent) const
 {
@@ -224,12 +224,10 @@ bool EntryListModel::removeRows(int row, int count, const QModelIndex &parent)
 	if (!EntryListCache::connection()->transaction()) goto failure_1;
 	{
 		LISTFORINDEX(parentList, parent);
-		EntryListData cEntry(parentList[parent.row()]);
 		// The list from which we are actually removing
-		EntryList &list = *EntryListCache::get(cEntry.id);
+		EntryList &list = parent.isValid() ? *EntryListCache::get(parentList[parent.row()].id) : parentList;
 		beginRemoveRows(parent, row, row + count - 1);
 		while (count--) {
-			// TODO recursive removal of lists!
 			if (!list.remove(row)) goto failure_2;
 		}
 		endRemoveRows();
