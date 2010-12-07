@@ -51,6 +51,7 @@ option(DEBUG_ENTRIES_CACHE "Debug entries cache behavior" OFF)
 option(DEBUG_PATHS "Debug files lookup" OFF)
 option(DEBUG_DETAILED_VIEW "Debug detailed view output" OFF)
 option(DEBUG_QUERIES "Debug SQL queries" OFF)
+option(DEBUG_TRANSACTIONS "Debug database transactions" OFF)
 option(DEBUG_LISTS "Debug lists (very slow)" OFF)
 
 # Build tests suite?
