@@ -238,18 +238,25 @@ transactionFailed:
 
 bool EntryListModel::removeRows(int row, int count, const QModelIndex &parent)
 {
-	// TODO use global transaction
-	// TODO remove lists recursively if a list is removed
-	LISTFORINDEX(parentList, parent);
-	EntryListData cEntry(parentList[parent.row()]);
-	// The list from which we are actually removing
-	EntryList &list = *EntryListCache::get(cEntry.id);
-	beginRemoveRows(parent, row, row + count - 1);
-	while (count--) {
-		list.remove(row);
+	if (!EntryListCache::connection()->transaction()) goto failure_1;
+	{
+		LISTFORINDEX(parentList, parent);
+		EntryListData cEntry(parentList[parent.row()]);
+		// The list from which we are actually removing
+		EntryList &list = *EntryListCache::get(cEntry.id);
+		beginRemoveRows(parent, row, row + count - 1);
+		while (count--) {
+			if (!list.remove(row)) goto failure_2;
+		}
+		endRemoveRows();
 	}
-	endRemoveRows();
+	if (!EntryListCache::connection()->commit()) goto failure_2;
 	return true;
+
+failure_2:
+	EntryListCache::connection()->rollback();
+failure_1:
+	return false;
 }
 
 QStringList EntryListModel::mimeTypes() const
@@ -339,8 +346,8 @@ bool EntryListModel::dropMimeData(const QMimeData *data, Qt::DropAction action, 
 		for (int i = 0; i < elRefs.size(); i++) {
 			EntryListRef &elr = elRefs[i];
 			if (!elr.first->removeNode(elr.second)) {
-				qDebug("Error removing node from list!\n");
-				continue;
+				qDebug("Error removing node from list, aborting.");
+				goto failure_2;
 			}
 		}
 		// Finally, insert all the nodes into the destination list
@@ -348,8 +355,8 @@ bool EntryListModel::dropMimeData(const QMimeData *data, Qt::DropAction action, 
 			const EntryListRef &elr = elRefs[i];
 			if (!elr.second) continue;
 			if (!list.insertNode(elr.second, row + i)) {
-				qDebug("Error inserting node into list!\n");
-				continue;
+				qDebug("Error inserting node into list, aborting");
+				goto failure_2;
 			}
 			// Update the persistent indexes (needed to correctly keep track of the current selection
 			const QModelIndex &idx = srcIdxs[i];
@@ -377,7 +384,10 @@ bool EntryListModel::dropMimeData(const QMimeData *data, Qt::DropAction action, 
 			EntryListData eData;
 			eData.type = entry.type();
 			eData.id = entry.id();
-			list.insert(eData, row + cpt++);
+			if (!list.insert(eData, row + cpt++)) {
+				qDebug("Error inserting list item, aborting.");
+				goto failure_2;
+			}
 
 			// Now add the list to the entry if it is loaded
 			//if (entry.isLoaded()) entry.get()->lists() << list.listId();
