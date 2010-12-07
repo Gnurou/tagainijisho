@@ -31,6 +31,7 @@ private:
 	
 public:
 	EntryListModel(int rootId = 0, QObject *parent = 0) : QAbstractItemModel(parent), _rootId(rootId) {}
+	virtual ~EntryListModel() {}
 
 	/// Returns the rowid of the root list of this model (0 if the model displays the root)
 	quint64 rootId() const { return _rootId; }

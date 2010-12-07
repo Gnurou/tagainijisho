@@ -37,6 +37,7 @@ private:
 
 public:
 	TagsListModel(QObject *parent = 0) : QAbstractListModel(parent) {}
+	virtual ~TagsListModel() {}
 	int rowCount(const QModelIndex &parent = QModelIndex()) const { return _data.size(); }
 	QVariant data(const QModelIndex &index, int role) const;
 	bool contains(const QString &str) const { return _data.contains(str, Qt::CaseInsensitive); }
