@@ -62,7 +62,7 @@ public:
 	}
 
 	const QString &label() const { return tree()->label(); }
-	void setLabel(const QString &label) { tree()->setLabel(label); }
+	bool setLabel(const QString &label) { return tree()->setLabel(label); }
 	int listId() const { return tree()->listId(); }
 
 	void newList()

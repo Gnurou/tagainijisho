@@ -169,35 +169,18 @@ Qt::ItemFlags EntryListModel::flags(const QModelIndex &index) const
 	else ret |= Qt::ItemIsDropEnabled;
 	return ret;
 }
+
 bool EntryListModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
-	return false;
-
-	/*
 	if (role == Qt::EditRole && index.isValid()) {
-		if (!TRANSACTION) return false;
-		{
-			SQLite::Query query(Database::connection());
-			query.prepare("select type from lists where rowid = ?");
-			query.bindValue(index.internalId());
-			query.exec();
-			if (query.next() && query.valueIsNull(0)) {
-				query.prepare("update listsLabels set label = ? where rowid = ?");
-				query.bindValue(value.toString());
-				query.bindValue(index.internalId());
-				EXEC_T(query);
-			}
+		LISTFORINDEX(parentList, index);
+		EntryListData cEntry(parentList[index.row()]);
+		if (cEntry.isList()) {
+			EntryList &list = *EntryListCache::get(cEntry.id);
+			if (list.setLabel(value.toString())) return true;
 		}
-		if (!COMMIT) goto transactionFailed;
-		// Invalidate the cache entry
-		EntryListCache::instance().invalidate(index.internalId());
-		return true;
 	}
 	return false;
-transactionFailed:
-	ROLLBACK;
-	EntryListCache::instance().invalidateAll();
-	return false; */
 }
 	
 // TODO How to handle the beginInsertRows if the transaction failed and endInsertRows is not called?
@@ -246,6 +229,7 @@ bool EntryListModel::removeRows(int row, int count, const QModelIndex &parent)
 		EntryList &list = *EntryListCache::get(cEntry.id);
 		beginRemoveRows(parent, row, row + count - 1);
 		while (count--) {
+			// TODO recursive removal of lists!
 			if (!list.remove(row)) goto failure_2;
 		}
 		endRemoveRows();
