@@ -19,6 +19,7 @@
 
 #include "core/Database.h"
 #include "core/EntryListModel.h"
+#include "core/EntryListCache.h"
 #include "gui/EntryListView.h"
 
 #include <QInputDialog>
@@ -151,12 +152,19 @@ void EntryListView::deleteSelectedItems()
 	foreach (const QModelIndex &idx, selection) {
 		perList << QPersistentModelIndex(idx);
 	}
-	bool success = true;
+	// TODO progress bar
+	if (!EntryListCache::connection()->transaction()) goto failure_1;
 	foreach (const QPersistentModelIndex &index, perList) {
 		if (!index.isValid()) continue;
-		if (!model()->removeRow(index.row(), index.parent())) success = false;
+		if (!model()->removeRow(index.row(), index.parent())) goto failure_2;
 	}
-	if (!success) QMessageBox::information(this, tr("Removal failed"), tr("A database error has occured while trying to remove the selected items:\n\n%1\n\n Some of them may be remaining.").arg(Database::lastError().message()));
+	if (!EntryListCache::connection()->commit()) goto failure_2;
+
+	return;
+failure_2:
+	EntryListCache::connection()->rollback();
+failure_1:
+	QMessageBox::information(this, tr("Removal failed"), tr("A database error has occured while trying to remove the selected items:\n\n%1\n\n Some of them may be remaining.").arg(Database::lastError().message()));
 }
 
 void EntryListView::setSelectedAsRoot()
