@@ -58,6 +58,8 @@ public:
 	/// Returns the list that contains the list which id is given in parameter.
 	static QPair<const EntryList *, quint32> getOwner(quint64 id) { return instance()._getOwner(id); }
 	static void clearOwnerCache(quint64 id) { instance()._clearOwnerCache(id); }
+	/// Returns the database connection used by the entry list system
+	static SQLite::Connection *connection() { return &instance()._connection; }
 };
 
 #endif
