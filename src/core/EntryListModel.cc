@@ -221,18 +221,18 @@ transactionFailed:
 
 bool EntryListModel::removeRows(int row, int count, const QModelIndex &parent)
 {
+	beginRemoveRows(parent, row, row + count - 1);
 	if (!EntryListCache::connection()->transaction()) goto failure_1;
 	{
 		LISTFORINDEX(parentList, parent);
 		// The list from which we are actually removing
 		EntryList &list = parent.isValid() ? *EntryListCache::get(parentList[parent.row()].id) : parentList;
-		beginRemoveRows(parent, row, row + count - 1);
 		while (count--) {
 			if (!list.remove(row)) goto failure_2;
 		}
-		endRemoveRows();
 	}
 	if (!EntryListCache::connection()->commit()) goto failure_2;
+	endRemoveRows();
 	return true;
 
 failure_2:
@@ -290,9 +290,6 @@ bool EntryListModel::dropMimeData(const QMimeData *data, Qt::DropAction action, 
 	// If dropped on a list, append the entries
 	if (row == -1) row = rowCount(_parent);
 
-	emit layoutAboutToBeChanged();
-	if (!EntryListCache::connection()->transaction()) goto failure_1;
-
 	// If we have list items, we must move the items instead of inserting them
 	if (data->hasFormat("tagainijisho/listitem")) {
 		// ids of the items we move
@@ -309,13 +306,16 @@ bool EntryListModel::dropMimeData(const QMimeData *data, Qt::DropAction action, 
 		}
 		typedef QPair<quint64, quint64> qpp;
 
+		emit layoutAboutToBeChanged();
+		if (!EntryListCache::connection()->transaction()) goto failure_1;
 		// First, record all the list/node pairs to move into a list
 		typedef QPair<EntryList *, EntryList::TreeType::Node *> EntryListRef;
 		QList<EntryListRef> elRefs;
 		QList<QModelIndex> srcIdxs;
 		unsigned int origRow = (unsigned int)row;
+
 		foreach (const qpp &id, ids) {
-			// Store the index in order to notify persistant indexes of the change
+			// Store the index in order to notify persistent indexes of the change
 			srcIdxs << indexFromList(id.first, id.second);
 			EntryList *srcList = EntryListCache::get(id.first);
 			EntryList::TreeType::Node *node = srcList->getNode(id.second);
@@ -346,6 +346,8 @@ bool EntryListModel::dropMimeData(const QMimeData *data, Qt::DropAction action, 
 			const QModelIndex &idx = srcIdxs[i];
 			changePersistentIndex(idx, indexFromList(list.listId(), row + i));
 		}
+		if (!EntryListCache::connection()->commit()) goto failure_2;
+		emit layoutChanged();
 	}
 
 	// No list data, we probably dropped from the results view or something -
@@ -361,8 +363,9 @@ bool EntryListModel::dropMimeData(const QMimeData *data, Qt::DropAction action, 
 			entries << entryRef;
 		}
 
-		// Insert rows must be done on what the view thinks is the parent
 		beginInsertRows(_parent, row, row + entries.size() - 1);
+		if (!EntryListCache::connection()->transaction()) goto failure_1;
+		// Insert rows must be done on what the view thinks is the parent
 		int cpt = 0;
 		foreach (const EntryRef &entry, entries) {
 			EntryListData eData;
@@ -376,10 +379,10 @@ bool EntryListModel::dropMimeData(const QMimeData *data, Qt::DropAction action, 
 			// Now add the list to the entry if it is loaded
 			//if (entry.isLoaded()) entry.get()->lists() << list.listId();
 		}
+		if (!EntryListCache::connection()->commit()) goto failure_2;
 		endInsertRows();
 	}
 
-	if (!EntryListCache::connection()->commit()) goto failure_2;
 	emit layoutChanged();
 	return true;
 
@@ -388,104 +391,4 @@ failure_2:
 failure_1:
 	emit layoutChanged();
 	return false;
-
-	/*
-
-	// If dropped on the root, update the parent to the real one
-	// Direct affectation of model indexes does not seem to copy the internal id
-	const QModelIndex parent(_parent.isValid() ? _parent : index(rootId()));
-
-	// If we have list items, we must move the items instead of inserting them
-	if (data->hasFormat("tagainijisho/listitem")) {
-		int realRow(row);
-
-		// First check if we are not dropping a parent into one of its children
-		foreach (int rowid, rowIds) {
-			QModelIndex idx(index(rowid));
-			QModelIndex p(parent);
-			while (p.isValid()) {
-				if (p == idx) return false;
-				p = p.parent();
-			}
-		}
-	
-		// Do the move
-		int itemCpt = 0;
-		if (!TRANSACTION) return false;
-		emit layoutAboutToBeChanged();
-		{
-			SQLite::Query query(Database::connection());
-			foreach (int rowid, rowIds) {
-				// First get the model index
-				QModelIndex idx(index(rowid));
-				// and its parent
-				QModelIndex idxParent(realParent(idx));
-				// If the destination parent is the same as the source and the destination row superior, we must decrement
-				// the latter because the source has not been moved yet.
-				if (idxParent == parent && row > idx.row() && realRow > 0) --realRow;
-				// Do not bother if the position did not change
-				if (idxParent == parent && realRow == idx.row()) continue;
-				
-				// Update rows position after the one we move
-				if (!moveRows(idx.row() + 1, -1, idxParent, query)) goto transactionFailed;
-				// Update rows position after the one we insert
-				if (!moveRows(realRow + itemCpt, 1, parent, query)) goto transactionFailed;
-				// And do the move
-				query.prepare("update lists set parent = ?, position = ? where rowid = ?");
-				if (parent.isValid()) query.bindValue(parent.internalId());
-				else query.bindNullValue();
-				query.bindValue(realRow + itemCpt);
-				query.bindValue(rowid);
-				EXEC_T(query);
-				EntryListCache::instance().invalidateAll();
-				// Don't forget to change any persistent index - views use them at least to keep track
-				// of the current selection
-				changePersistentIndex(idx, index(rowid));
-				++itemCpt;
-			}
-		}
-		if (!COMMIT) goto transactionFailed;
-		EntryListCache::instance().invalidateAll();
-		emit layoutChanged();
-		return true;
-	}
-	// No list data, we probably dropped from the results view or something -
-	// add the entries to the list
-	else if (data->hasFormat("tagainijisho/entry")) {
-	
-		if (!TRANSACTION) return false;
-		{
-			SQLite::Query query(Database::connection());
-			// Start by moving the rows after the destination
-			if (!moveRows(row, entries.size(), parent, query)) goto transactionFailed;
-			// And insert the new rows at the right position
-			query.prepare("insert into lists values(?, ?, ?, ?)");
-			for (int i = 0; i < entries.size(); ++i) {
-				if (parent.isValid()) query.bindValue(parent.internalId());
-				else query.bindNullValue();
-				query.bindValue(row + i);
-				query.bindValue(entries[i].type());
-				query.bindValue(entries[i].id());
-				EXEC_T(query);
-				ids << query.lastInsertId();
-			}
-		}
-		// Insert rows must be done on what the view thinks is the parent
-		beginInsertRows(_parent, row, row + entries.size() - 1);
-		if (!COMMIT) goto transactionFailed;
-		EntryListCache::instance().invalidateAll();
-		endInsertRows();
-		// Now add the list to the entries, if necessary
-		int i = 0;
-		foreach (EntryRef ref, entries) {
-			if (ref.isLoaded()) ref.get()->lists() << ids[i];
-			++i;
-		}
-		return true;
-	}
-	else return false;
-transactionFailed:
-	ROLLBACK;
-	EntryListCache::instance().invalidateAll();
-	return false;*/
 }
