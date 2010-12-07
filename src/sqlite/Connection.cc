@@ -78,7 +78,7 @@ err:
 bool Connection::close()
 {
 #ifdef DEBUG_TRANSACTIONS
-	qDebug("Closing connection %p with #%d remaining transactions\n", this, _tr_count);
+	qDebug("Closing connection %p with #%d remaining transactions", this, _tr_count);
 #endif
 	if (!connected()) {
 		// Will put the appropriate error (library routine called out of sequence)
@@ -139,8 +139,8 @@ bool Connection::transaction()
 {
 	bool res = exec("savepoint spoint");
 #ifdef DEBUG_TRANSACTIONS
-	if (res) qDebug("Transaction #%d started on connection %p\n", _tr_count++, this);
-	else qDebug("Failed to start transaction #%d on connection %p\n", _tr_count, this);
+	if (res) qDebug("Transaction #%d started on connection %p", _tr_count++, this);
+	else qDebug("Failed to start transaction #%d on connection %p", _tr_count, this);
 #endif
 	return res;
 }
@@ -149,8 +149,8 @@ bool Connection::commit()
 {
 	bool res = exec("release spoint");
 #ifdef DEBUG_TRANSACTIONS
-	if (res) qDebug("Transaction #%d commited on connection %p\n", --_tr_count, this);
-	else qDebug("Failed to commit transaction #%d on connection %p\n", _tr_count - 1, this);
+	if (res) qDebug("Transaction #%d commited on connection %p", --_tr_count, this);
+	else qDebug("Failed to commit transaction #%d on connection %p", _tr_count - 1, this);
 #endif
 	return res;
 }
@@ -159,8 +159,8 @@ bool Connection::rollback()
 {
 	bool res = exec("rollback to spoint;");
 #ifdef DEBUG_TRANSACTIONS
-	if (res) qDebug("Rollbacking transaction #%d on connection %p (commit will follow)\n", _tr_count - 1, this);
-	else qDebug("Failed to rollback transaction #%d on connection %p\n", _tr_count - 1, this);
+	if (res) qDebug("Rollbacking transaction #%d on connection %p (commit will follow)", _tr_count - 1, this);
+	else qDebug("Failed to rollback transaction #%d on connection %p", _tr_count - 1, this);
 #endif
 	if (!res) return false;
 	res = commit();
