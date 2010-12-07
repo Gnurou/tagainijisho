@@ -186,6 +186,30 @@ bool EntryListModel::setData(const QModelIndex &index, const QVariant &value, in
 // TODO How to handle the beginInsertRows if the transaction failed and endInsertRows is not called?
 bool EntryListModel::insertRows(int row, int count, const QModelIndex & parent)
 {
+	// First fetch the list in which we will insert
+	EntryList *parentList;
+	if (!parent.isValid()) parentList = EntryListCache::get(0);
+	else {
+		LISTFORINDEX(pList, parent);
+		const EntryListData &cEntry = pList[parent.row()];
+		Q_ASSERT(cEntry.isList());
+		parentList = EntryListCache::get(cEntry.id);
+	}
+	beginInsertRows(parent, row, row + count - 1);
+	if (!EntryListCache::connection()->transaction()) goto failure_1;
+	for (int i = 0; i < count; i++)
+	{
+		EntryList *newList = EntryListCache::newList();
+		EntryListData data = { 0, newList->listId() };
+		parentList->insert(data, row + i);
+	}
+	if (!EntryListCache::connection()->commit()) goto failure_2;
+	endInsertRows();
+	return true;
+
+failure_2:
+	EntryListCache::connection()->rollback();
+failure_1:
 	return false;
 	/*
 	const QModelIndex realParent(parent.isValid() ? parent : index(rootId()));
