@@ -262,10 +262,13 @@ public:
 
 	const QString &label() const { return _listInfo.label; }
 
-	void setLabel(const QString &l)
+	bool setLabel(const QString &l)
 	{
+		QString oldLabel = _listInfo.label;
 		_listInfo.label = l;
-		_ldb->insertList(_listInfo);
+		bool ret = _ldb->insertList(_listInfo);
+		if (!ret) _listInfo.label = oldLabel;
+		return ret;
 	}
 
 	void setDBAccess(DBList<T> *ldb)
