@@ -16,6 +16,7 @@
  */
 
 #include "core/EntryListDB.h"
+#include "core/EntryListCache.h"
 
 template <> QString DBListEntry<EntryListData>::tableDataMembers()
 {
@@ -37,3 +38,24 @@ template <> void DBListEntry<EntryListData>::readDataValues(SQLite::Query &query
 	data.id = query.valueUInt(start++);
 }
 
+
+bool EntryList::remove(int index)
+{
+	typename TreeType::Node *node = getNode(index);
+	if (!node) return false;
+	const EntryListData &data = node->value();
+	// We have to recursively erase the child list
+	if (data.isList()) {
+		EntryList *list = EntryListCache::get(data.id);
+		while(1) {
+			int ls = list->size();
+			if (ls == 0) break;
+			while (ls--) if (!list->remove(0)) return false;
+		}
+		// Invalidate the cache for the removed list
+		EntryListCache::clearListCache(data.id);
+		// Finally, delete the list
+		list->tree()->removeList();
+	}
+	return OrderedRBTree<OrderedRBDBTree<EntryListData> >::remove(index);
+}

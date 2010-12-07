@@ -69,6 +69,13 @@ public:
 	{
 		tree()->newList();
 	}
+
+	/**
+	 * Specialization of the remove method that ensures lists are removed recursively.
+	 * No transaction is performed here, so it is a good idea to have a transaction started
+	 * before calling this method.
+	 */
+	bool remove(int index);
 // Needed because EntryListModel uses a QMap - but never called, actually.
 friend class QMap<quint64, EntryList>;
 };
