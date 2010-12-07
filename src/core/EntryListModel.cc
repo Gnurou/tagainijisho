@@ -324,6 +324,7 @@ bool EntryListModel::dropMimeData(const QMimeData *data, Qt::DropAction action, 
 		typedef QPair<EntryList *, EntryList::TreeType::Node *> EntryListRef;
 		QList<EntryListRef> elRefs;
 		QList<QModelIndex> srcIdxs;
+		unsigned int origRow = (unsigned int)row;
 		foreach (const qpp &id, ids) {
 			// Store the index in order to notify persistant indexes of the change
 			srcIdxs << indexFromList(id.first, id.second);
@@ -332,7 +333,7 @@ bool EntryListModel::dropMimeData(const QMimeData *data, Qt::DropAction action, 
 			elRefs << EntryListRef(srcList, node);
 			// Decrease the destination index if we are removing an item in the destination
 			// list with an index inferior to that of the drop
-			if (srcList == &list && id.second < (unsigned int)row) --row;
+			if (srcList == &list && id.second < origRow) --row;
 		}
 		// Second, remove all nodes from their source list
 		for (int i = 0; i < elRefs.size(); i++) {
