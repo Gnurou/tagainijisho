@@ -26,6 +26,9 @@ using namespace SQLite;
 
 Connection::Connection() : _handler(0)
 {
+#ifdef DEBUG_TRANSACTIONS
+	_tr_count = 0;
+#endif
 }
 
 Connection::~Connection()
@@ -74,6 +77,9 @@ err:
 
 bool Connection::close()
 {
+#ifdef DEBUG_TRANSACTIONS
+	qDebug("Closing connection %p with #%d remaining transactions\n", this, _tr_count);
+#endif
 	if (!connected()) {
 		// Will put the appropriate error (library routine called out of sequence)
 		// because the handler is null
@@ -131,18 +137,34 @@ bool Connection::exec(const QString &statement)
 
 bool Connection::transaction()
 {
-	return exec("savepoint spoint");
+	bool res = exec("savepoint spoint");
+#ifdef DEBUG_TRANSACTIONS
+	if (res) qDebug("Transaction #%d started on connection %p\n", _tr_count++, this);
+	else qDebug("Failed to start transaction #%d on connection %p\n", _tr_count, this);
+#endif
+	return res;
 }
 
 bool Connection::commit()
 {
-	return exec("release spoint");
+	bool res = exec("release spoint");
+#ifdef DEBUG_TRANSACTIONS
+	if (res) qDebug("Transaction #%d commited on connection %p\n", --_tr_count, this);
+	else qDebug("Failed to commit transaction #%d on connection %p\n", _tr_count - 1, this);
+#endif
+	return res;
 }
 
 bool Connection::rollback()
 {
-	if (!exec("rollback to spoint;")) return false;
-	return commit();
+	bool res = exec("rollback to spoint;");
+#ifdef DEBUG_TRANSACTIONS
+	if (res) qDebug("Rollbacking transaction #%d on connection %p (commit will follow)\n", _tr_count - 1, this);
+	else qDebug("Failed to rollback transaction #%d on connection %p\n", _tr_count - 1, this);
+#endif
+	if (!res) return false;
+	res = commit();
+	return res;
 }
 
 void Connection::interrupt()

@@ -21,6 +21,8 @@
 #include "sqlite/Error.h"
 #include "sqlite/Query.h"
 
+#include "tagaini_config.h"
+
 #include <QList>
 
 struct sqlite3;
@@ -39,6 +41,10 @@ private:
 
 	const Error &updateError() const;
 
+#ifdef DEBUG_TRANSACTIONS
+	int _tr_count;
+#endif
+	
 public:
 	Connection();
 	~Connection();
