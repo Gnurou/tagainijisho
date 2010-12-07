@@ -24,14 +24,6 @@
 #include <QSize>
 #include <QPalette>
 
-/*#define TRANSACTION Database::connection()->transaction()
-#define ROLLBACK Database::connection()->rollback()
-#define COMMIT Database::connection()->commit()
-
-#define EXEC(q) if (!q.exec()) { qDebug() << __FILE__ << __LINE__ << "Cannot execute query:" << q.lastError().message(); return false; }
-#define EXEC_T(q) if (!q.exec()) { qDebug() << __FILE__ << __LINE__ << "Cannot execute query:" << q.lastError().message(); goto transactionFailed; }
-*/
-
 void EntryListModel::setRoot(quint64 rootId)
 {
 	// Nothing changes?
@@ -297,8 +289,6 @@ QMimeData *EntryListModel::mimeData(const QModelIndexList &indexes) const
 
 bool EntryListModel::dropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &_parent)
 {
-	// TODO Handle transactions!
-	
 	if (!_parent.isValid()) return false;
 	if (action == Qt::IgnoreAction) return true;
 	if (column == -1) column = 0;
@@ -312,6 +302,7 @@ bool EntryListModel::dropMimeData(const QMimeData *data, Qt::DropAction action, 
 	if (row == -1) row = rowCount(_parent);
 
 	emit layoutAboutToBeChanged();
+	if (!EntryListCache::connection()->transaction()) goto failure_1;
 
 	// If we have list items, we must move the items instead of inserting them
 	if (data->hasFormat("tagainijisho/listitem")) {
@@ -393,8 +384,15 @@ bool EntryListModel::dropMimeData(const QMimeData *data, Qt::DropAction action, 
 		endInsertRows();
 	}
 
+	if (!EntryListCache::connection()->commit()) goto failure_2;
 	emit layoutChanged();
 	return true;
+
+failure_2:
+	EntryListCache::connection()->rollback();
+failure_1:
+	emit layoutChanged();
+	return false;
 
 	/*
 
