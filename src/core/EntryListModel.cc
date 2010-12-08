@@ -294,13 +294,12 @@ QMimeData *EntryListModel::mimeData(const QModelIndexList &indexes) const
 
 bool EntryListModel::dropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &_parent)
 {
-	if (!_parent.isValid()) return false;
 	if (action == Qt::IgnoreAction) return true;
 	if (column == -1) column = 0;
 	if (column > 0) return false;
 
-	const EntryListData &cEntry = INDEXDATA(_parent);
-	EntryList &list = *EntryListCache::get(cEntry.id);
+	// Destination list
+	EntryList &list = *EntryListCache::get(_parent.isValid() ? INDEXDATA(_parent).id : 0);
 
 	// If dropped on a list, append the entries
 	if (row == -1) row = rowCount(_parent);
