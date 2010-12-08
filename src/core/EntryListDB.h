@@ -38,7 +38,7 @@ struct EntryListData {
 	quint32 id;
 
 	bool isList() const { return type == 0; }
-	EntryRef entryRef() { return EntryRef(type, id); }
+	EntryRef entryRef() const { return EntryRef(type, id); }
 };
 
 // Specializations for EntryListData

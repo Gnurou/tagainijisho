@@ -41,17 +41,17 @@ void EntryListModel::setRoot(quint64 rootId)
 	emit rootHasChanged(rootId);
 }
 
-#define LISTFORINDEX(list, index) EntryList &list = *EntryListCache::get(index.isValid() ? index.internalId() : 0)
+#define LISTFORINDEX(index) (*EntryListCache::get(index.isValid() ? index.internalId() : 0))
+#define INDEXDATA(index) LISTFORINDEX(index)[index.row()]
 
 QModelIndex EntryListModel::index(int row, int column, const QModelIndex &parent) const
 {
 	if (column > 0) return QModelIndex();
 
-	LISTFORINDEX(list, parent);
 	quint64 listId;
 	// If the parent is valid, then fetch its real list
 	if (parent.isValid()) {
-		EntryListData cEntry(list[parent.row()]);
+		const EntryListData &cEntry = INDEXDATA(parent);
 		// Parent will always be a list
 		Q_ASSERT(cEntry.isList());
 		listId = cEntry.id;
@@ -73,7 +73,7 @@ QModelIndex EntryListModel::parent(const QModelIndex &idx) const
 {
 	// Invalid index has no parent
 	if (!idx.isValid()) return QModelIndex();
-	LISTFORINDEX(list, idx);
+	EntryList &list = LISTFORINDEX(idx);
 	// Root list has no parent
 	if (list.listId() == 0) return QModelIndex();
 	// We need to construct an index by determining the parent list of idx and the position of idx within it
@@ -81,7 +81,6 @@ QModelIndex EntryListModel::parent(const QModelIndex &idx) const
 		// We have the id of the list - all we need to do is find
 		// which list contains it.
 		QPair<const EntryList *, quint32> container = EntryListCache::getOwner(list.listId());
-		// TODO implement parent fetching in the lists cache!
 		return createIndex(container.second, 0, container.first ? container.first->listId() : 0);
 	}
 }
@@ -91,8 +90,7 @@ int EntryListModel::rowCount(const QModelIndex &index) const
 	// Asking for size of root?
 	if (!index.isValid()) return EntryListCache::get(0)->size();
 	else {
-		LISTFORINDEX(list, index);
-		EntryListData cEntry(list[index.row()]);
+		const EntryListData &cEntry = INDEXDATA(index);
 		// Not a list? No child!
 		if (!cEntry.isList()) return 0;
 		else return EntryListCache::get(cEntry.id)->size();
@@ -103,8 +101,7 @@ QVariant EntryListModel::data(const QModelIndex &index, int role) const
 {
 	if (!index.isValid() || index.column() != 0) return QVariant();
 
-	LISTFORINDEX(list, index);
-	EntryListData cEntry(list[index.row()]);
+	const EntryListData &cEntry = INDEXDATA(index);
 
 	switch (role) {
 		case Qt::DisplayRole:
@@ -162,8 +159,7 @@ Qt::ItemFlags EntryListModel::flags(const QModelIndex &index) const
 	Qt::ItemFlags ret(Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsDragEnabled);
 
 	if (index.isValid()) {
-		LISTFORINDEX(list, index);
-		EntryListData cEntry(list[index.row()]);
+		const EntryListData &cEntry = INDEXDATA(index);
 		if (cEntry.isList()) ret |= Qt::ItemIsEditable | Qt::ItemIsDropEnabled;
 	}
 	else ret |= Qt::ItemIsDropEnabled;
@@ -173,8 +169,7 @@ Qt::ItemFlags EntryListModel::flags(const QModelIndex &index) const
 bool EntryListModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
 	if (role == Qt::EditRole && index.isValid()) {
-		LISTFORINDEX(parentList, index);
-		EntryListData cEntry(parentList[index.row()]);
+		const EntryListData &cEntry = INDEXDATA(index);
 		if (cEntry.isList()) {
 			EntryList &list = *EntryListCache::get(cEntry.id);
 			if (list.setLabel(value.toString())) return true;
@@ -190,8 +185,7 @@ bool EntryListModel::insertRows(int row, int count, const QModelIndex & parent)
 	EntryList *parentList;
 	if (!parent.isValid()) parentList = EntryListCache::get(0);
 	else {
-		LISTFORINDEX(pList, parent);
-		const EntryListData &cEntry = pList[parent.row()];
+		const EntryListData &cEntry = INDEXDATA(parent);
 		Q_ASSERT(cEntry.isList());
 		parentList = EntryListCache::get(cEntry.id);
 	}
@@ -248,11 +242,10 @@ bool EntryListModel::removeRows(int row, int count, const QModelIndex &parent)
 	beginRemoveRows(parent, row, row + count - 1);
 	if (!EntryListCache::connection()->transaction()) goto failure_1;
 	{
-		LISTFORINDEX(parentList, parent);
 		// The list from which we are actually removing
-		EntryList &list = parent.isValid() ? *EntryListCache::get(parentList[parent.row()].id) : parentList;
+		EntryList *list = EntryListCache::get(parent.isValid() ? INDEXDATA(parent).id : 0); 
 		while (count--) {
-			if (!list.remove(row)) goto failure_2;
+			if (!list->remove(row)) goto failure_2;
 		}
 	}
 	if (!EntryListCache::connection()->commit()) goto failure_2;
@@ -288,8 +281,7 @@ QMimeData *EntryListModel::mimeData(const QModelIndexList &indexes) const
 			itemsStream << (quint64)index.internalId() << (quint64)index.row();
 			
 			// If the item is an entry, add it
-			LISTFORINDEX(list, index);
-			EntryListData cEntry(list[index.row()]);
+			const EntryListData &cEntry = INDEXDATA(index);
 			if (!cEntry.isList()) entriesStream << cEntry.entryRef();
 			// TODO in case of a list, add all the items the list contains
 		}
@@ -307,8 +299,7 @@ bool EntryListModel::dropMimeData(const QMimeData *data, Qt::DropAction action, 
 	if (column == -1) column = 0;
 	if (column > 0) return false;
 
-	LISTFORINDEX(parentList, _parent);
-	EntryListData cEntry(parentList[_parent.row()]);
+	const EntryListData &cEntry = INDEXDATA(_parent);
 	EntryList &list = *EntryListCache::get(cEntry.id);
 
 	// If dropped on a list, append the entries
