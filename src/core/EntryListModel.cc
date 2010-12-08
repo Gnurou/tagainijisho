@@ -205,36 +205,6 @@ failure_2:
 	EntryListCache::connection()->rollback();
 failure_1:
 	return false;
-	/*
-	const QModelIndex realParent(parent.isValid() ? parent : index(rootId()));
-	if (!TRANSACTION) return false;
-	beginInsertRows(parent, row, row + count - 1);
-	{
-		SQLite::Query query(Database::connection());
-		// First update the positions of items located after the new lists
-		if (!moveRows(row, count, realParent, query)) goto transactionFailed;
-		// Then insert the lists themselves with a default name
-		for (int i = 0; i < count; i++) {
-			query.prepare("insert into lists values(?, ?, NULL, NULL)");
-			if (realParent.isValid()) query.bindValue(realParent.internalId());
-			else query.bindNullValue();
-			query.bindValue(row + i);
-			EXEC_T(query);
-			int rowId = query.lastInsertId();
-			query.prepare("insert into listsLabels(docid, label) values(?, ?)");
-			query.bindValue(rowId);
-			query.bindValue(tr("New list"));
-			EXEC_T(query);
-		}
-	}
-	if (!COMMIT) goto transactionFailed;
-	EntryListCache::instance().invalidateAll();
-	endInsertRows();
-	return true;
-transactionFailed:
-	ROLLBACK;
-	EntryListCache::instance().invalidateAll();
-	return false;*/
 }
 
 bool EntryListModel::removeRows(int row, int count, const QModelIndex &parent)
