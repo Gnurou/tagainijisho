@@ -367,12 +367,10 @@ bool EntryListModel::dropMimeData(const QMimeData *data, Qt::DropAction action, 
 		endInsertRows();
 	}
 
-	emit layoutChanged();
 	return true;
 
 failure_2:
 	EntryListCache::connection()->rollback();
 failure_1:
-	emit layoutChanged();
 	return false;
 }
