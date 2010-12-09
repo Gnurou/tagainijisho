@@ -19,64 +19,9 @@
 #define __CORE_ENTRYLISTCACHE_H
 
 #include "core/EntriesCache.h"
+#include "core/EntryListDB.h"
 
-#include <QSqlQuery>
-
-/**
- * Represents an item within the entries list. A list item
- * is uniquely identified by its rowid ; it has a parent which rowid
- * can be retrieved through the parent() method (root elements will
- * return -1 here), and a position relative to its parent. List
- * items can either be lists or references to entries. Lists have a label
- * and childs, whereas entries have no child, but can provide an entry
- * reference.
- *
- * Instances of this class are never created manually - instead, constant
- * references are obtained through the EntryListCache singleton.
- */
-class EntryListCachedEntry {
-private:
-	int _rowId;
-	int _parent;
-	int _position;
-	int _count;
-	int _type;
-	int _id;
-	QString _label;
-	
-	/// Prepare the cached entry from the result row of the query
-	/// The query is advanced to the next row
-	EntryListCachedEntry(QSqlQuery &query);
-	
-public:
-	/// Root entry
-	EntryListCachedEntry();
-	
-	bool isRoot() const { return _rowId == -1; }
-	bool isList() const { return type() == -1; }
-	bool isEntry() const { return type() >= 0; }
-	int rowId() const { return _rowId; }
-	int parent() const { return _parent; }
-	int position() const { return _position; }
-	
-	/// For lists
-
-	/// Returns the label of the list
-	const QString &label() const { return _label; }
-	/// Returns the number of childs within the list
-	int count() const { return _count; }
-	
-	/// For entries
-	
-	/// Type of the entry
-	int type() const { return _type; }
-	/// Id of the entry
-	int id() const { return _id; }
-	/// Reference to the entry
-	EntryRef entryRef() const { return EntryRef(type(), id()); }
-
-friend class EntryListCache;
-};
+#include <QPair>
 
 /**
  * A cache class that is responsible for providing information about the
@@ -87,32 +32,40 @@ friend class EntryListCache;
  */
 class EntryListCache {
 private:
-	EntryListCache();
-
-	mutable QHash<int, EntryListCachedEntry> rowIdCache;
-	mutable QHash<QPair<int, int>, EntryListCachedEntry> rowParentCache;
+	static EntryListCache *_instance;
+	SQLite::Connection _connection;
+	SQLite::Query ownerQuery, goUpQuery, listFromRootQuery;
+	EntryListDBAccess _dbAccess;
+	QMap<quint64, EntryList *> _cachedLists;
+	QMap<quint64, QPair<const EntryList *, quint32> > _cachedParents;
 	QMutex _cacheLock;
 
-	QSqlQuery getByIdQuery;
-	QSqlQuery getByParentPosQuery;
-	QSqlQuery getByParentPosRootQuery;
-//	QSqlQuery fixListPositionQuery;
+	EntryListCache();
+	~EntryListCache();
+
+	EntryList *_get(quint64 id);
+	EntryList *_newList();
+	void _clearListCache(quint64 id);
+	QPair <const EntryList *, quint32> _getOwner(quint64 id);
+	void _clearOwnerCache(quint64 id);
+	void _clearOwnerCache();
 
 public:
 	/// Returns a reference to the unique instance of this class.
 	static EntryListCache &instance();
-	
-	/// Returns the entry with the corresponding rowid, or the root
-	/// entry if it does not exist.
-	const EntryListCachedEntry& get(int rowId);
-	/// Returns the entry at the given position, or the root
-	/// if it does not exist.
-	const EntryListCachedEntry& get(int parent, int pos);
-	
-	/// Invalidate the entry which id is given as parameter
-	void invalidate(uint rowId);
-	/// Invalidate all entries
-	void invalidateAll();
+	/// Clears all resources used by the cache. instance() can be called
+	/// again in order to allocate a new one.
+	static void cleanup();
+
+	static EntryList *get(quint64 id) { return instance()._get(id); }
+	static EntryList *newList() { return instance()._newList(); }
+	static void clearListCache(quint64 id) { return instance()._clearListCache(id); }
+	/// Returns the list that contains the list which id is given in parameter.
+	static QPair<const EntryList *, quint32> getOwner(quint64 id) { return instance()._getOwner(id); }
+	static void clearOwnerCache(quint64 id) { instance()._clearOwnerCache(id); }
+	static void clearOwnerCache() { instance()._clearOwnerCache(); }
+	/// Returns the database connection used by the entry list system
+	static SQLite::Connection *connection() { return &instance()._connection; }
 };
 
 #endif

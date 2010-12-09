@@ -77,8 +77,10 @@ bool JMdictParser::parse(QXmlStreamReader &reader)
 	DOCUMENT_BEGIN(reader)
 		if (reader.tokenType() == QXmlStreamReader::DTD) {
 			foreach(const QXmlStreamEntityDeclaration &decl, reader.entityDeclarations()) {
-				entities[decl.name().toString()] = decl.value().toString();
-				reversedEntities[decl.value().toString()] = decl.name().toString();
+				const QString vString = decl.value().toString();
+				const QString nString = decl.name().toString();
+				entities[nString] = vString;
+				reversedEntities[vString] = nString;
 			}
 		}
 		TAG(JMdict)

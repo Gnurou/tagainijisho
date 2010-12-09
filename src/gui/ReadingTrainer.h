@@ -21,7 +21,7 @@
 #include "gui/ui_ReadingTrainer.h"
 
 #include <QFrame>
-#include <QSqlQuery>
+#include "sqlite/Query.h"
 #include <QCheckBox>
 
 class ReadingTrainer : public QFrame
@@ -31,9 +31,9 @@ private:
 	static PreferenceItem<QByteArray> windowGeometry;
 
 	Ui::ReadingTrainer ui;
-	QSqlQuery query;
 	EntryPointer entry;
 	unsigned int _goodCount, _wrongCount, _totalCount;
+	SQLite::Query query;
 	QCheckBox *_showMeaning;
 	QAction *_showMeaningAction;
 

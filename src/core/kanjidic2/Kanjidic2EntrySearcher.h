@@ -24,6 +24,10 @@
 class Kanjidic2EntrySearcher : public EntrySearcher
 {
 	Q_OBJECT
+private:
+	SQLite::Query kanjiQuery, variationsQuery, readingsQuery, nanoriQuery,
+		componentsQuery, radicalsQuery, skipQuery, fourCornerQuery, meaningsQuery;
+
 protected:
 	QList<Kanjidic2Entry::KanjiMeaning> getMeanings(int id);
 

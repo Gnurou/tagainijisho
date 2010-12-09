@@ -19,6 +19,7 @@
 
 #include "core/Database.h"
 #include "core/EntryListModel.h"
+#include "core/EntryListCache.h"
 #include "gui/EntryListView.h"
 
 #include <QInputDialog>
@@ -31,7 +32,7 @@ PreferenceItem<QString> EntryListView::kanaFontSetting("mainWindow/lists", "kana
 PreferenceItem<QString> EntryListView::kanjiFontSetting("mainWindow/lists", "kanjiFont", QFont("Helvetica", 12).toString());
 PreferenceItem<int> EntryListView::displayModeSetting("mainWindow/lists", "displayMode", EntryDelegateLayout::OneLine);
 
-EntryListView::EntryListView(QWidget *parent, EntryDelegateLayout* delegateLayout, bool viewOnly) : QTreeView(parent), _helper(this, delegateLayout, true, viewOnly), _setAsRootAction(tr("Set as root"), 0), _newListAction(QIcon(":/images/icons/document-new.png"), tr("New list..."), 0), _rightClickNewListAction(_newListAction.icon(), _newListAction.text(), 0), _deleteSelectionAction(QIcon(":/images/icons/delete.png"), tr("Delete"), 0), _goUpAction(QIcon(":/images/icons/go-up.png"), tr("Go up"), 0)
+EntryListView::EntryListView(QWidget *parent, EntryDelegateLayout* delegateLayout, bool viewOnly) : QTreeView(parent), _filter(), _helper(this, delegateLayout, true, viewOnly), _setAsRootAction(tr("Set as root"), 0), _newListAction(QIcon(":/images/icons/document-new.png"), tr("New list..."), 0), _rightClickNewListAction(_newListAction.icon(), _newListAction.text(), 0), _deleteSelectionAction(QIcon(":/images/icons/delete.png"), tr("Delete"), 0), _goUpAction(QIcon(":/images/icons/go-up.png"), tr("Go up"), 0)
 {
 	setHeaderHidden(true);
 	EntryDelegate *delegate = new EntryDelegate(helper()->delegateLayout(), this);
@@ -68,13 +69,15 @@ EntryListView::EntryListView(QWidget *parent, EntryDelegateLayout* delegateLayou
 	setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
 	setSmoothScrolling(smoothScrollingSetting.value());
 	connect(&smoothScrollingSetting, SIGNAL(valueChanged(QVariant)), &_helper, SLOT(updateConfig(QVariant)));
+
+	QTreeView::setModel(&_filter);
 }
 
 void EntryListView::setModel(QAbstractItemModel *newModel)
 {
-	QAbstractItemModel *oldModel = model();
+	QAbstractItemModel *oldModel = _filter.sourceModel();
 	if (oldModel && oldModel->metaObject()->indexOfSignal(QMetaObject::normalizedSignature(SIGNAL(rootHasChanged(int))).constData() + 1) != -1) disconnect(oldModel, SIGNAL(rootHasChanged(int)), this, SLOT(onModelRootChanged(int)));
-	QTreeView::setModel(newModel);
+	_filter.setSourceModel(newModel);
 	_setAsRootAction.setEnabled(false);
 	_goUpAction.setEnabled(false);
 	if (newModel && newModel->metaObject()->indexOfSignal(QMetaObject::normalizedSignature(SIGNAL(rootHasChanged(int))).constData() + 1) != -1) connect(newModel, SIGNAL(rootHasChanged(int)), this, SLOT(onModelRootChanged(int)));
@@ -151,12 +154,19 @@ void EntryListView::deleteSelectedItems()
 	foreach (const QModelIndex &idx, selection) {
 		perList << QPersistentModelIndex(idx);
 	}
-	bool success = true;
+	// TODO progress bar
+	if (!EntryListCache::connection()->transaction()) goto failure_1;
 	foreach (const QPersistentModelIndex &index, perList) {
 		if (!index.isValid()) continue;
-		if (!model()->removeRow(index.row(), index.parent())) success = false;
+		if (!model()->removeRow(index.row(), index.parent())) goto failure_2;
 	}
-	if (!success) QMessageBox::information(this, tr("Removal failed"), tr("A database error has occured while trying to remove the selected items:\n\n%1\n\n Some of them may be remaining.").arg(Database::lastError().text()));
+	if (!EntryListCache::connection()->commit()) goto failure_2;
+
+	return;
+failure_2:
+	EntryListCache::connection()->rollback();
+failure_1:
+	QMessageBox::information(this, tr("Removal failed"), tr("A database error has occured while trying to remove the selected items:\n\n%1\n\n Some of them may be remaining.").arg(Database::lastError().message()));
 }
 
 void EntryListView::setSelectedAsRoot()
@@ -173,18 +183,18 @@ void EntryListView::setSelectedAsRoot()
 void EntryListView::goUp()
 {
 	EntryListModel *myModel = qobject_cast<EntryListModel *>(model());
-	if (!myModel || myModel->rootId() == -1) return;
+	if (!myModel || myModel->rootId() == 0) return;
 
-	QModelIndex idx(myModel->index(myModel->rootId()));
-	QModelIndex parent(myModel->realParent(idx));
-	int parentId = parent.isValid() ? parent.internalId() : -1;
+	//QModelIndex idx(myModel->index(myModel->rootId()));
+	//QModelIndex parent(myModel->realParent(idx));
+	//int parentId = parent.isValid() ? parent.internalId() : 0;
 	
-	myModel->setRoot(parentId);
+	//myModel->setRoot(parentId);
 }
 
 void EntryListView::onModelRootChanged(int rootId)
 {
 	_setAsRootAction.setEnabled(false);
-	_goUpAction.setEnabled(rootId != -1);
+	_goUpAction.setEnabled(rootId != 0);
 	emit rootHasChanged(rootId);
 }

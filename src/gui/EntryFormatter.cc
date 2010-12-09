@@ -202,12 +202,12 @@ QString EntryFormatter::formatLists(const ConstEntryPointer &entry) const
 		QStringList ret;
 		ret << "<img src=\"listicon\">   ";
 		foreach (quint32 id, entry->lists()) {
-			QModelIndex idx(listModel.index(id));
-			QString label(listModel.data(idx.parent(), Qt::DisplayRole).toString());
-			if (label.isEmpty()) label = tr("<Root>");
-			QUrl url("list://");
-			url.addQueryItem("rowid", QString::number(id));
-			ret << QString("<a href=\"%1\">%2</a>").arg(QString(url.toEncoded())).arg(autoFormat(label));
+			//QModelIndex idx(listModel.index(id));
+			//QString label(listModel.data(idx.parent(), Qt::DisplayRole).toString());
+			//if (label.isEmpty()) label = tr("<Root>");
+			//QUrl url("list://");
+			//url.addQueryItem("rowid", QString::number(id));
+			//ret << QString("<a href=\"%1\">%2</a>").arg(QString(url.toEncoded())).arg(autoFormat(label));
 		}
 		return ret.join(" ");
 	}

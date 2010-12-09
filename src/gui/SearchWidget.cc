@@ -89,7 +89,6 @@ void SearchWidget::search(const QString &commands)
 		_history.add(_searchBuilder.getState(), true);
 		_results->abortSearch();
 		_results->clear();
-		_resultsView->showNbResults(0);
 		actionPreviousSearch->setEnabled(_history.hasPrevious());
 		actionNextSearch->setEnabled(_history.hasNext());
 	}

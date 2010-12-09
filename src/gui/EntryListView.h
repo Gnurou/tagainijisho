@@ -19,6 +19,7 @@
 #define __GUI_ENTRYLISTVIEW_H
 
 #include "core/EntriesCache.h"
+#include "core/EntryListModelFilter.h"
 #include "gui/ScrollBarSmoothScroller.h"
 #include "gui/EntryDelegate.h"
 #include "gui/EntriesViewHelper.h"
@@ -34,6 +35,7 @@ class EntryListView : public QTreeView
 	Q_OBJECT
 private:
 	ScrollBarSmoothScroller scroller;
+	EntryListModelFilter _filter;
 	EntriesViewHelper _helper;
 	QAction _setAsRootAction, _newListAction, _rightClickNewListAction, _deleteSelectionAction, _goUpAction;
 	

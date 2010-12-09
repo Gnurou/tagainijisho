@@ -21,8 +21,7 @@
 
 #include <QtDebug>
 
-#include "core/ASyncQuery.h"
-#include "core/EntriesCache.h"
+#include "core/ASyncEntryFinder.h"
 
 /**
  * An ASynchronous entry loader.
@@ -38,10 +37,10 @@
  * It is possible that the entries emitted are actually null pointers - it is
  * up to the receiver to check the validity of the entries.
  */
-class ASyncEntryLoader : public ASyncQuery {
+class ASyncEntryLoader : public ASyncEntryFinder {
 	Q_OBJECT
 protected slots:
-	void _loadEntry(const QSqlRecord &record);
+	void _loadEntry(const EntryRef &ref);
 
 public:
 	ASyncEntryLoader(DatabaseThread *dbConn);

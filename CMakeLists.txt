@@ -8,8 +8,8 @@ endif(APPLE)
 # Set the program name to be the same as the project
 set(tagaini_binary ${CMAKE_PROJECT_NAME})
 
-set(VERSION 0.2.6.2)
-set(SQLITE_VERSION 3.7.2)
+set(VERSION 0.9.0)
+set(SQLITE_VERSION 3.7.3)
 set(SQLITE_SOURCE http://www.sqlite.org/sqlite-amalgamation-${SQLITE_VERSION}.tar.gz)
 set(JMDICT_SOURCE ftp://ftp.monash.edu.au/pub/nihongo/JMdict.gz)
 set(KANJIDIC2_SOURCE http://www.csse.monash.edu.au/~jwb/kanjidic2/kanjidic2.xml.gz)
@@ -51,6 +51,8 @@ option(DEBUG_ENTRIES_CACHE "Debug entries cache behavior" OFF)
 option(DEBUG_PATHS "Debug files lookup" OFF)
 option(DEBUG_DETAILED_VIEW "Debug detailed view output" OFF)
 option(DEBUG_QUERIES "Debug SQL queries" OFF)
+option(DEBUG_TRANSACTIONS "Debug database transactions" OFF)
+option(DEBUG_LISTS "Debug lists (very slow)" OFF)
 
 # Build tests suite?
 option(BUILD_TESTS "Build tests suite" OFF)

@@ -47,8 +47,8 @@ void EntryListWidget::onModelRootChanged(int rootId)
 		_titleLabel->setVisible(false);
 	} else {
 		EntryListModel *model = static_cast<EntryListModel *>(entryListView()->model());
-		QModelIndex idx(model->index(rootId));
-		_titleLabel->setText(idx.data(Qt::DisplayRole).toString());
+		//QModelIndex idx(model->index(rootId));
+		//_titleLabel->setText(idx.data(Qt::DisplayRole).toString());
 		_titleLabel->setVisible(true);
 	}
 }

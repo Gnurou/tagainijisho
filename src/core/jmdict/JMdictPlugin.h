@@ -28,7 +28,10 @@ class JMdictEntrySearcher;
 class JMdictPlugin : public Plugin
 {
 private:
+	static JMdictPlugin *_instance;
 	QString _dictVersion;
+	QString _dbFile;
+
 	JMdictEntrySearcher *searcher;
 	// Associates entities shift with their short and long descriptions
 	static QVector<QPair<QString, QString> > _posEntities;
@@ -52,10 +55,12 @@ private:
 public:
 	JMdictPlugin();
 	virtual ~JMdictPlugin();
+	static JMdictPlugin *instance() { return _instance; }
 	virtual bool onRegister();
 	virtual bool onUnregister();
 	const QString &dictVersion() const { return _dictVersion; }
 	virtual QString pluginInfo() const;
+	const QString &dbFile() const { return _dbFile; }
 	
 	static QList<const QPair<QString, QString> *> posEntitiesList(quint64 mask);
 	static QList<const QPair<QString, QString> *> miscEntitiesList(quint64 mask);

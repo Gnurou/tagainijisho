@@ -1,9 +1,12 @@
 *~
+*.swp
 *.os
 *.o
 moc_*
 .sconsign.dblite
 qrc_*
+tags
+*.session
 tagainijisho_resource.rc
 install.exe
 Makefile

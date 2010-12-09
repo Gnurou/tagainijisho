@@ -32,6 +32,8 @@
 #define dictFileConfigString "jmdict/database"
 #define dictFileConfigDefault "jmdict.db"
 
+JMdictPlugin *JMdictPlugin::_instance = 0;
+
 QVector<QPair<QString, QString> > JMdictPlugin::_posEntities;
 QVector<QPair<QString, QString> > JMdictPlugin::_miscEntities;
 QVector<QPair<QString, QString> > JMdictPlugin::_dialectEntities;
@@ -88,10 +90,12 @@ QList<const QPair<QString, QString> *> JMdictPlugin::fieldEntitiesList(quint64 m
 
 JMdictPlugin::JMdictPlugin() : Plugin("JMdict")
 {
+	_instance = this;
 }
 
 JMdictPlugin::~JMdictPlugin()
 {
+	_instance = 0;
 }
 
 QString JMdictPlugin::pluginInfo() const
@@ -105,63 +109,63 @@ bool JMdictPlugin::checkForMovedEntries()
 	// Turn the version into an integer and check whether we should look for deleted/moved entries in the user data
 	unsigned int curVersion =  QString(_dictVersion.mid(0, 4) + _dictVersion.mid(5, 2) + _dictVersion.mid(8, 2)).toInt();
 	unsigned int lastVersion = 0;
-	QSqlQuery query;
+	SQLite::Query query(Database::connection());
 	CHECK(query.exec("select version from versions where id=\"JMdictDB\""));
-	if (query.next()) lastVersion = query.value(0).toInt();
+	if (query.next()) lastVersion = query.valueInt(0);
 	// Our version is more recent - make sure that there is no orphan entries!
 	if (curVersion > lastVersion) {
 		// Check the study table
 		CHECK(query.exec(QString("select training.id, score, dateAdded, dateLastTrain, nbTrained, nbSuccess, dateLastMistake from training left join jmdict.entries on training.type = %1 and training.id = entries.id where training.type = %1 and entries.id is null").arg(JMDICTENTRY_GLOBALID)));
 		while (query.next()) {
-			int entryId = query.value(0).toInt();
-			QSqlQuery query2;
+			int entryId = query.valueInt(0);
+			SQLite::Query query2(Database::connection());
 			query2.prepare("select movedTo from jmdict.deletedEntries where id = ?");
-			query2.addBindValue(entryId);
+			query2.bindValue(entryId);
 			CHECK(query2.exec());
 			int movedTo = 0;
-			if (query2.next()) movedTo = query2.value(0).toInt();
+			if (query2.next()) movedTo = query2.valueInt(0);
 			if (!movedTo) {
 				// The entry has been removed and not replaced, there is nothing to do but delete it...
 				query2.prepare("delete from training where type = ? and id = ?");
-				query2.addBindValue(JMDICTENTRY_GLOBALID);
-				query2.addBindValue(entryId);
+				query2.bindValue(JMDICTENTRY_GLOBALID);
+				query2.bindValue(entryId);
 				CHECK(query2.exec());
 			} else {
 				// We can update the entry - but being careful to treat training data accordingly
 				query2.prepare("select id, score, dateAdded, dateLastTrain, nbTrained, nbSuccess, dateLastMistake from training where type = ? and id = ?");
-				query2.addBindValue(JMDICTENTRY_GLOBALID);
-				query2.addBindValue(movedTo);
+				query2.bindValue(JMDICTENTRY_GLOBALID);
+				query2.bindValue(movedTo);
 				CHECK(query2.exec());
 				if (!query2.next()) {
 					// Destination does not exist, we just have to change the id of the row
 					query2.prepare("update training set id = ? where type = ? and id = ?");
-					query2.addBindValue(movedTo);
-					query2.addBindValue(JMDICTENTRY_GLOBALID);
-					query2.addBindValue(entryId);
+					query2.bindValue(movedTo);
+					query2.bindValue(JMDICTENTRY_GLOBALID);
+					query2.bindValue(entryId);
 					CHECK(query2.exec());
 				} else {
 					// Destination exists, have to merge the training data
-					int nScore = (query.value(1).toInt() + query2.value(1).toInt()) / 2;
-					int nDateAdded = qMin(query.value(2).toInt(), query.value(2).toInt());
-					int nDateLastTrain = qMax(query.value(3).toInt(), query.value(3).toInt());
-					int nNbTrained = query.value(4).toInt() + query2.value(4).toInt();
-					int nNbSuccess = query.value(5).toInt() + query2.value(5).toInt();
-					int nDateLastMistake = qMax(query.value(6).toInt(), query.value(6).toInt());
+					int nScore = (query.valueInt(1) + query2.valueInt(1)) / 2;
+					int nDateAdded = qMin(query.valueInt(2), query.valueInt(2));
+					int nDateLastTrain = qMax(query.valueInt(3), query.valueInt(3));
+					int nNbTrained = query.valueInt(4) + query2.valueInt(4);
+					int nNbSuccess = query.valueInt(5) + query2.valueInt(5);
+					int nDateLastMistake = qMax(query.valueInt(6), query.valueInt(6));
 					// Delete the moved entry
 					query2.prepare("delete from training where type = ? and id = ?");
-					query2.addBindValue(JMDICTENTRY_GLOBALID);
-					query2.addBindValue(entryId);
+					query2.bindValue(JMDICTENTRY_GLOBALID);
+					query2.bindValue(entryId);
 					CHECK(query2.exec());
 					// Update the remaining entry with its new values
 					query2.prepare("update training set score = ?, dateAdded = ?, dateLastTrain = ?, nbTrained = ?, nbSuccess = ?, dateLastMistake = ? where type = ? and id = ?");
-					query2.addBindValue(nScore);
-					query2.addBindValue(nDateAdded);
-					query2.addBindValue(nDateLastTrain);
-					query2.addBindValue(nNbTrained);
-					query2.addBindValue(nNbSuccess);
-					query2.addBindValue(nDateLastMistake);
-					query2.addBindValue(JMDICTENTRY_GLOBALID);
-					query2.addBindValue(movedTo);
+					query2.bindValue(nScore);
+					query2.bindValue(nDateAdded);
+					query2.bindValue(nDateLastTrain);
+					query2.bindValue(nNbTrained);
+					query2.bindValue(nNbSuccess);
+					query2.bindValue(nDateLastMistake);
+					query2.bindValue(JMDICTENTRY_GLOBALID);
+					query2.bindValue(movedTo);
 					CHECK(query2.exec());
 				}
 			}
@@ -169,37 +173,37 @@ bool JMdictPlugin::checkForMovedEntries()
 		// Check the tags table - move existing tags to merged entry
 		CHECK(query.exec(QString("select taggedEntries.id, tagId, taggedEntries.rowid from taggedEntries left join jmdict.entries on taggedEntries.type = %1 and taggedEntries.id = entries.id where taggedEntries.type = %1 and entries.id is null").arg(JMDICTENTRY_GLOBALID)));
 		while (query.next()) {
-			int entryId = query.value(0).toInt();
-			int tagId = query.value(1).toInt();
-			int rowId = query.value(2).toInt();
-			QSqlQuery query2;
+			int entryId = query.valueInt(0);
+			int tagId = query.valueInt(1);
+			int rowId = query.valueInt(2);
+			SQLite::Query query2(Database::connection());
 			query2.prepare("select movedTo from jmdict.deletedEntries where id = ?");
-			query2.addBindValue(entryId);
+			query2.bindValue(entryId);
 			CHECK(query2.exec());
 			int movedTo = 0;
-			if (query2.next()) movedTo = query2.value(0).toInt();
+			if (query2.next()) movedTo = query2.valueInt(0);
 			if (!movedTo) {
 				// Just remove the tag on the deleted entry
-				query2.prepare("delete from taggedEntry where rowid = ?");
-				query2.addBindValue(rowId);
+				query2.prepare("delete from taggedEntries where rowid = ?");
+				query2.bindValue(rowId);
 				CHECK(query2.exec());
 			} else {
 				// Move the tag to the destination entry, if not already tagged
 				query2.prepare("select rowid from taggedEntries where type = ? and id = ? and tagId = ?");
-				query2.addBindValue(JMDICTENTRY_GLOBALID);
-				query2.addBindValue(movedTo);
-				query2.addBindValue(tagId);
+				query2.bindValue(JMDICTENTRY_GLOBALID);
+				query2.bindValue(movedTo);
+				query2.bindValue(tagId);
 				CHECK(query2.exec());
 				// Not tagged, just change the id!
 				if (!query2.next()) {
 					query2.prepare("update taggedEntries set id = ? where rowid = ?");
-					query2.addBindValue(movedTo);
-					query2.addBindValue(rowId);
+					query2.bindValue(movedTo);
+					query2.bindValue(rowId);
 					CHECK(query2.exec());
 				} else {
 					// Already tagged, just drop the tag on the deleted entry
-					query2.prepare("delete from taggedEntry where rowid = ?");
-					query2.addBindValue(rowId);
+					query2.prepare("delete from taggedEntries where rowid = ?");
+					query2.bindValue(rowId);
 					CHECK(query2.exec());
 				}
 			}
@@ -207,40 +211,41 @@ bool JMdictPlugin::checkForMovedEntries()
 		// Check the notes table
 		CHECK(query.exec(QString("select notes.id, noteId from notes left join jmdict.entries on notes.type = %1 and notes.id = entries.id where notes.type = %1 and entries.id is null").arg(JMDICTENTRY_GLOBALID)));
 		while (query.next()) {
-			int entryId = query.value(0).toInt();
-			int noteId = query.value(1).toInt();
-			QSqlQuery query2;
+			int entryId = query.valueInt(0);
+			int noteId = query.valueInt(1);
+			SQLite::Query query2(Database::connection());
 			query2.prepare("select movedTo from jmdict.deletedEntries where id = ?");
-			query2.addBindValue(entryId);
+			query2.bindValue(entryId);
 			CHECK(query2.exec());
 			int movedTo = 0;
-			if (query2.next()) movedTo = query2.value(0).toInt();
+			if (query2.next()) movedTo = query2.valueInt(0);
 			if (!movedTo) {
 				// No destination, drop the note :(
 				query2.prepare("delete from notes where noteId = ?");
-				query2.addBindValue(noteId);
+				query2.bindValue(noteId);
 				CHECK(query2.exec());
 			} else {
 				// Move the note to its destination
 				query2.prepare("update notes set id = ? where noteId = ?");
-				query2.addBindValue(movedTo);
-				query2.addBindValue(noteId);
+				query2.bindValue(movedTo);
+				query2.bindValue(noteId);
 				CHECK(query2.exec());
 			}
 		}
 		// Check the lists table
+		/*
 		CHECK(query.exec(QString("select lists.id, lists.position, lists.parent, lists.rowid from lists left join jmdict.entries on lists.type = %1 and lists.id = entries.id where lists.type = %1 and entries.id is null").arg(JMDICTENTRY_GLOBALID)));
 		while (query.next()) {
-			int entryId = query.value(0).toInt();
-			int position = query.value(1).toInt();
-			int parent = query.value(2).toInt();
-			int rowId = query.value(3).toInt();
-			QSqlQuery query2;
+			int entryId = query.valueInt(0);
+			int position = query.valueInt(1);
+			int parent = query.valueInt(2);
+			int rowId = query.valueInt(3);
+			SQLite::Query query2(Database::connection());
 			query2.prepare("select movedTo from jmdict.deletedEntries where id = ?");
-			query2.addBindValue(entryId);
+			query2.bindValue(entryId);
 			CHECK(query2.exec());
 			int movedTo = 0;
-			if (query2.next()) movedTo = query2.value(0).toInt();
+			if (query2.next()) movedTo = query2.valueInt(0);
 			if (!movedTo) {
 				// No destination, remove from list
 				EntryListModel listModel;
@@ -249,11 +254,12 @@ bool JMdictPlugin::checkForMovedEntries()
 			} else {
 				// Otherwise set the entry id to the new one
 				query2.prepare("update lists set id = ? where rowid = ?");
-				query2.addBindValue(movedTo);
-				query2.addBindValue(rowId);
+				query2.bindValue(movedTo);
+				query2.bindValue(rowId);
 				CHECK(query2.exec());
 			}
 		}
+		*/
 		// Finally set out new version number 
 		CHECK(query.exec(QString("insert or replace into versions values(\"JMdictDB\", %1)").arg(curVersion)));
 	}
@@ -289,11 +295,12 @@ bool JMdictPlugin::onRegister()
 		qFatal("JMdict plugin fatal error: failed to attach JMdict database!");
 		return false;
 	}
+	_dbFile = dbFile;
 	
-	QSqlQuery query;
+	SQLite::Query query(Database::connection());
 	// Get the dictionary version
 	query.exec("select JMdictVersion from jmdict.info");
-	if (query.next()) _dictVersion = query.value(0).toString();
+	if (query.next()) _dictVersion = query.valueString(0);
 	
 	if (!checkForMovedEntries()) {
 		qCritical("%s", QCoreApplication::translate("JMdictPlugin", "An error seems to have occured while updating the JMdict database records - the program might crash during usage. Please report this bug.").toUtf8().constData());
@@ -302,27 +309,27 @@ bool JMdictPlugin::onRegister()
 	// Populate the entities tables
 	query.exec("select bitShift, name, description from jmdict.posEntities order by bitShift");
 	while (query.next()) {
-		QString name(query.value(1).toString());
-		_posEntities << QPair<QString, QString>(name, query.value(2).toString());
-		_posBitShift[name] = query.value(0).toInt();
+		QString name(query.valueString(1));
+		_posEntities << QPair<QString, QString>(name, query.valueString(2));
+		_posBitShift[name] = query.valueInt(0);
 	}
 	query.exec("select bitShift, name, description from jmdict.miscEntities order by bitShift");
 	while (query.next()) {
-		QString name(query.value(1).toString());
-		_miscEntities << QPair<QString, QString>(name, query.value(2).toString());
-		_miscBitShift[name] = query.value(0).toInt();
+		QString name(query.valueString(1));
+		_miscEntities << QPair<QString, QString>(name, query.valueString(2));
+		_miscBitShift[name] = query.valueInt(0);
 	}
 	query.exec("select bitShift, name, description from jmdict.dialectEntities order by bitShift");
 	while (query.next()) {
-		QString name(query.value(1).toString());
-		_dialectEntities << QPair<QString, QString>(name, query.value(2).toString());
-		_dialectBitShift[name] = query.value(0).toInt();
+		QString name(query.valueString(1));
+		_dialectEntities << QPair<QString, QString>(name, query.valueString(2));
+		_dialectBitShift[name] = query.valueInt(0);
 	}
 	query.exec("select bitShift, name, description from jmdict.fieldEntities order by bitShift");
 	while (query.next()) {
-		QString name(query.value(1).toString());
-		_fieldEntities << QPair<QString, QString>(name, query.value(2).toString());
-		_fieldBitShift[name] = query.value(0).toInt();
+		QString name(query.valueString(1));
+		_fieldEntities << QPair<QString, QString>(name, query.valueString(2));
+		_fieldBitShift[name] = query.valueInt(0);
 	}
 	
 	// Register our entry searcher
@@ -345,6 +352,7 @@ bool JMdictPlugin::onUnregister()
 	
 	// Detach our database
 	if (!Database::detachDictionaryDB("jmdict")) return false;
+	_dbFile.clear();
 
 	return true;
 }

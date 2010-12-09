@@ -18,15 +18,40 @@
 #include <QObject>
 #include <QTest>
 
+#include "sqlite/Connection.h"
+#include "sqlite/Query.h"
+
+#include <QTemporaryFile>
+
 /**
  * Test class that checks the database interface.
  */
 class SQLiteTests : public QObject
 {
 	Q_OBJECT
+private:
+	SQLite::Connection connection;
+	SQLite::Query query;
+
+	QTemporaryFile dbFile;
+	QTemporaryFile attachedFile;
+
 private slots:
 	void initTestCase();
 	void cleanupTestCase();
 
-	void connectDB();
+	void connectionConnect();
+	void connectionAttach();
+	void queryBlank();
+	void queryCreate();
+	void queryPrepare();
+	void queryInsert_data();
+	void queryInsert();
+	void queryRetrieve_data();
+	void queryRetrieve();
+	void queryRetrieveAll();
+	void transaction();
+	void queryClean();
+	void connectionDetach();
+	void connectionClose();
 };

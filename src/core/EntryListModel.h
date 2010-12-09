@@ -18,39 +18,31 @@
 #ifndef __CORE_ENTRYLISTMODEL_H
 #define __CORE_ENTRYLISTMODEL_H
 
-#include <QAbstractItemModel>
-#include <QSqlQuery>
-#include <QMimeData>
 
+#include "sqlite/Query.h"
+
+#include <QAbstractItemModel>
+#include <QMimeData>
 class EntryListModel : public QAbstractItemModel
 {
 	Q_OBJECT
 private:
-	int _rootId;
+	quint64 _rootId;
 	
-	/**
-	 * Move all rows in parent with a position >= row by adding delta to their position.
-	 * Returns true upon success.
-	 */
-	bool moveRows(int row, int delta, const QModelIndex &parent, QSqlQuery &query);
-	/// Private version of removeRows that do not start a transaction
-	bool _removeRows(int row, int count, const QModelIndex &parent);
-
 public:
-	EntryListModel(int rootId = -1, QObject *parent = 0) : QAbstractItemModel(parent), _rootId(rootId) {}
+	EntryListModel(int rootId = 0, QObject *parent = 0) : QAbstractItemModel(parent), _rootId(rootId) {}
+	virtual ~EntryListModel() {}
 
-	/// Returns the rowid of the root list of this model (-1 if the model displays the root)
-	int rootId() const { return _rootId; }
-	/// Sets the root list to display. -1 displays the root of all lists.
-	void setRoot(int rootId);
+	/// Returns the rowid of the root list of this model (0 if the model displays the root)
+	quint64 rootId() const { return _rootId; }
+	/// Sets the root list to display. 0 displays the root of all lists.
+	void setRoot(quint64 rootId);
 
 	virtual QModelIndex index(int row, int column, const QModelIndex &parent = QModelIndex()) const;
-	virtual QModelIndex index(int rowId) const;
+	QModelIndex indexFromList(quint64 listId, quint64 position) const;
 	/// Returns the parent as the views will see it, i.e. if the root it set it will really
 	/// behave as a root
 	virtual QModelIndex parent(const QModelIndex &index) const;
-	/// Works like parent, but do not take care of the root element that has manually been set
-	virtual QModelIndex realParent(const QModelIndex &index) const;
 	virtual int rowCount(const QModelIndex &parent = QModelIndex()) const;
 	virtual int columnCount(const QModelIndex &parent = QModelIndex()) const { return 1; }
 	virtual Qt::ItemFlags flags(const QModelIndex &index) const;

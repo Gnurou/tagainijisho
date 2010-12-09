@@ -21,12 +21,9 @@
 #include "core/jmdict/JMdictEntry.h"
 #include "core/jmdict/JMdictEntrySearcher.h"
 #include "core/jmdict/JMdictPlugin.h"
+#include "sqlite/Query.h"
 
 #include <QtDebug>
-#include <QSqlQuery>
-
-#include <QSqlQuery>
-#include <QSqlError>
 
 KanjiReading::KanjiReading(const QString &reading, quint32 info, quint8 frequency) : reading(reading), info(info), _frequency(frequency)
 {

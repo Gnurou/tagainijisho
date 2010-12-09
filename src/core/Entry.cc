@@ -17,9 +17,10 @@
 
 #include "core/Tag.h"
 #include "core/Entry.h"
+#include "core/Database.h"
+#include "sqlite/Query.h"
 
 #include <QDebug>
-#include <QtSql>
 
 Entry::Entry(quint8 type, quint32 id) : QObject(0), _type(type), _id(id), _dateAdded(), _dateLastTrain(), _dateLastMistake(), _nbTrained(0), _nbSuccess(0), _score(0), _frequency(-1)
 {
@@ -44,12 +45,13 @@ static QString dateToString(const QDateTime &date)
 
 void Entry::updateTrainingData()
 {
-	QSqlQuery query;
+	SQLite::Query query(Database::connection());
+
 	QString qString;
 	if (!trained()) removeFromTraining();
 	else {
 		qString = "insert or replace into training values(" + QString::number(type()) + ", " + QString::number(id()) + ", " + QString::number(score()) + ", " + dateToString(dateAdded()) + ", " + dateToString(dateLastTrain()) + ", " + QString::number(nbTrained()) + ", " + QString::number(nbSuccess()) + ", " + dateToString(dateLastMistake()) + ")";
-		if (!query.exec(qString)) qCritical() << "Error executing query: " << query.lastError().text();
+		if (!query.exec(qString)) qCritical() << "Error executing query: " << query.lastError().message();
 		emit entryChanged(this);
 	}
 }
@@ -111,8 +113,8 @@ void Entry::removeFromTraining()
 	_score = 0;
 	// And delete the entry row from the training table
 	QString qString = QString("delete from training where type = %1 and id = %2").arg(type()).arg(id());
-	QSqlQuery query;
-	if (!query.exec(qString)) qCritical() << "Error executing query: " << query.lastError().text();
+	SQLite::Query query(Database::connection());
+	if (!query.exec(qString)) qCritical() << "Error executing query: " << query.lastError().message();
 	emit entryChanged(this);
 }
 
@@ -163,55 +165,55 @@ void Entry::Note::update(const QString &newNote)
 
 void Entry::Note::writeToDB(const Entry *entry)
 {
-	QSqlQuery query;
+	SQLite::Query query(Database::connection());
 	QString qString;
 
 	// Insert the notes properties
 	qString = QString("insert or replace into notes values(%1, ?, ?, ?, ?)").arg(_id == -1 ? "null" : "?");
 	query.prepare(qString);
-	if (_id != -1) query.addBindValue(_id);
-	query.addBindValue(entry->type());
-	query.addBindValue(entry->id());
-	query.addBindValue(QString::number(dateAdded().toTime_t()));
-	query.addBindValue(QString::number(dateLastChange().toTime_t()));
+	if (_id != -1) query.bindValue(_id);
+	query.bindValue(entry->type());
+	query.bindValue(entry->id());
+	query.bindValue(QString::number(dateAdded().toTime_t()));
+	query.bindValue(QString::number(dateLastChange().toTime_t()));
 	if (!query.exec()) {
-		qCritical() << "Error executing query: " << query.lastError().text();
+		qCritical() << "Error executing query: " << query.lastError().message();
 		return;
 	}
 
 	if (_id == -1) {
-		_id = query.lastInsertId().toInt();
+		_id = query.lastInsertId();
 		qString = QString("insert or replace into notesText(docid, note) values(%1, ?)").arg(_id);
 	}
 	else qString = QString("update notesText set note = ? where docid = %1").arg(_id);
 	// Now insert the note text
 	query.prepare(qString);
-	query.addBindValue(note());
-	if (!query.exec()) qCritical() << "Error executing query: " << query.lastError().text();
+	query.bindValue(note());
+	if (!query.exec()) qCritical() << "Error executing query: " << query.lastError().message();
 }
 
 void Entry::Note::deleteFromDB(const Entry *entry)
 {
-	QSqlQuery query;
+	SQLite::Query query(Database::connection());
 	query.prepare("delete from notes where noteId = ?");
-	query.addBindValue(_id);
-	if (!query.exec()) qCritical() << "Error executing query: " << query.lastError().text();
+	query.bindValue(_id);
+	if (!query.exec()) qCritical() << "Error executing query: " << query.lastError().message();
 	query.prepare("delete from notesText where docid = ?");
-	query.addBindValue(_id);
-	if (!query.exec()) qCritical() << "Error executing query: " << query.lastError().text();
+	query.bindValue(_id);
+	if (!query.exec()) qCritical() << "Error executing query: " << query.lastError().message();
 }
 
 void Entry::setTags(const QStringList &tags)
 {
-	QSqlQuery query;
-	if (!query.exec(QString("delete from taggedEntries where type = %1 and id = %2").arg(type()).arg(id()))) qCritical() << "Error executing query: " << query.lastError().text();
+	SQLite::Query query(Database::connection());
+	if (!query.exec(QString("delete from taggedEntries where type = %1 and id = %2").arg(type()).arg(id()))) qCritical() << "Error executing query: " << query.lastError().message();
 	_tags.clear();
 	addTags(tags);
 }
 
 void Entry::addTags(const QStringList &tags)
 {
-	QSqlQuery query;
+	SQLite::Query query(Database::connection());
 	query.prepare(QString("insert into taggedEntries values(%1, %2, ?, %3)").arg(type()).arg(id()).arg(QDateTime::currentDateTime().toTime_t()));
 	foreach(const QString &tag, tags) {
 		Tag t = Tag::getOrCreateTag(tag);
@@ -221,8 +223,8 @@ void Entry::addTags(const QStringList &tags)
 		}
 		// Do not add tags that we already have
 		if (_tags.contains(t)) continue;
-		query.addBindValue(t.id());
-		if (!query.exec()) qCritical() << "Error executing query: " << query.lastError().text();
+		query.bindValue(t.id());
+		if (!query.exec()) qCritical() << "Error executing query: " << query.lastError().message();
 		_tags << t;
 	}
 	emit entryChanged(this);

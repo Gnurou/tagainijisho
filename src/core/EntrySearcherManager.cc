@@ -56,11 +56,6 @@ EntrySearcherManager &EntrySearcherManager::instance()
 void EntrySearcherManager::addInstance(EntrySearcher *searcher)
 {
 	if (!_instances.contains(searcher)) _instances << searcher;
-	// Events for the searcher should be handled
-	// by the database event handler
-	if (Database::isThreaded()) {
-		searcher->moveToThread(Database::instance());
-	}
 }
 
 bool EntrySearcherManager::removeInstance(EntrySearcher *searcher)
