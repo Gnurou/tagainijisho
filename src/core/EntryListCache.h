@@ -48,6 +48,7 @@ private:
 	void _clearListCache(quint64 id);
 	QPair <const EntryList *, quint32> _getOwner(quint64 id);
 	void _clearOwnerCache(quint64 id);
+	void _clearOwnerCache();
 
 public:
 	/// Returns a reference to the unique instance of this class.
@@ -62,6 +63,7 @@ public:
 	/// Returns the list that contains the list which id is given in parameter.
 	static QPair<const EntryList *, quint32> getOwner(quint64 id) { return instance()._getOwner(id); }
 	static void clearOwnerCache(quint64 id) { instance()._clearOwnerCache(id); }
+	static void clearOwnerCache() { instance()._clearOwnerCache(); }
 	/// Returns the database connection used by the entry list system
 	static SQLite::Connection *connection() { return &instance()._connection; }
 };
