@@ -198,6 +198,7 @@ bool EntryListModel::insertRows(int row, int count, const QModelIndex & parent)
 		parentList->insert(data, row + i);
 	}
 	if (!EntryListCache::connection()->commit()) goto failure_2;
+	EntryListCache::clearOwnerCache();
 	endInsertRows();
 	return true;
 
@@ -219,6 +220,7 @@ bool EntryListModel::removeRows(int row, int count, const QModelIndex &parent)
 		}
 	}
 	if (!EntryListCache::connection()->commit()) goto failure_2;
+	EntryListCache::clearOwnerCache();
 	endRemoveRows();
 	return true;
 
@@ -302,8 +304,6 @@ bool EntryListModel::dropMimeData(const QMimeData *data, Qt::DropAction action, 
 			iRef.node = iRef.list->getNode(iRef.row);
 			iRefs << iRef;
 
-			// Clear the owner cache if the owner is going to change
-			if (iRef.list != &list) EntryListCache::clearOwnerCache(iRef.node->rowId());
 			// Decrease the destination index if we are removing an item in the destination
 			// list with an index inferior to that of the drop
 			if (iRef.list == &list && iRef.row < origRow) --row;
@@ -360,6 +360,7 @@ bool EntryListModel::dropMimeData(const QMimeData *data, Qt::DropAction action, 
 			}
 		}
 		if (!EntryListCache::connection()->commit()) goto failure_2;
+		EntryListCache::clearOwnerCache();
 		emit layoutChanged();
 	}
 
@@ -393,6 +394,7 @@ bool EntryListModel::dropMimeData(const QMimeData *data, Qt::DropAction action, 
 			//if (entry.isLoaded()) entry.get()->lists() << list.listId();
 		}
 		if (!EntryListCache::connection()->commit()) goto failure_2;
+		EntryListCache::clearOwnerCache();
 		endInsertRows();
 	}
 

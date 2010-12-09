@@ -122,5 +122,10 @@ QPair<const EntryList *, quint32> EntryListCache::_getOwner(quint64 id)
 
 void EntryListCache::_clearOwnerCache(quint64 id)
 {
-	_cachedParents.remove(id);		
+	_cachedParents.remove(id);
+}
+
+void EntryListCache::_clearOwnerCache()
+{
+	_cachedParents.clear();
 }
