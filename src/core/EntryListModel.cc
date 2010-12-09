@@ -262,6 +262,15 @@ QMimeData *EntryListModel::mimeData(const QModelIndexList &indexes) const
 	return mimeData;
 }
 
+// Used to record the items to move in a drag'n drop operation
+struct ListItemPos {
+	qint64 listId;
+	qint64 row;
+};
+struct ListItemRef : public ListItemPos {
+	EntryList *list;
+	EntryList::TreeType::Node *node;
+};
 bool EntryListModel::dropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &_parent)
 {
 	if (action == Qt::IgnoreAction) return true;
@@ -276,59 +285,79 @@ bool EntryListModel::dropMimeData(const QMimeData *data, Qt::DropAction action, 
 
 	// If we have list items, we must move the items instead of inserting them
 	if (data->hasFormat("tagainijisho/listitem")) {
-		// ids of the items we move
-		QList<QPair<quint64, quint64> > ids;
-		// Fetch the ids of the rows that moved from
-		// the stream
+		if (!EntryListCache::connection()->transaction()) goto failure_1;
+		emit layoutAboutToBeChanged();
+		int origRow = row;
+		QModelIndexList pIdxs(persistentIndexList());
+
+		// First record all our items
 		QByteArray ba = data->data("tagainijisho/listitem");
 		QDataStream ds(&ba, QIODevice::ReadOnly);
+		QList<struct ListItemRef> iRefs;
 		while (!ds.atEnd()) {
-			quint64 listId, pos;
-			ds >> listId;
-			ds >> pos;
-			ids << QPair<quint64, quint64>(listId, pos);
-		}
-		typedef QPair<quint64, quint64> qpp;
+			struct ListItemRef iRef;
+			ds >> iRef.listId;
+			ds >> iRef.row;
+			iRef.list = EntryListCache::get(iRef.listId);
+			iRef.node = iRef.list->getNode(iRef.row);
+			iRefs << iRef;
 
-		emit layoutAboutToBeChanged();
-		if (!EntryListCache::connection()->transaction()) goto failure_1;
-		// First, record all the list/node pairs to move into a list
-		typedef QPair<EntryList *, EntryList::TreeType::Node *> EntryListRef;
-		QList<EntryListRef> elRefs;
-		QList<QModelIndex> srcIdxs;
-		unsigned int origRow = (unsigned int)row;
-
-		foreach (const qpp &id, ids) {
-			// Store the index in order to notify persistent indexes of the change
-			srcIdxs << indexFromList(id.first, id.second);
-			EntryList *srcList = EntryListCache::get(id.first);
-			EntryList::TreeType::Node *node = srcList->getNode(id.second);
-			elRefs << EntryListRef(srcList, node);
 			// Clear the owner cache if the owner is going to change
-			if (srcList != &list) EntryListCache::clearOwnerCache(node->rowId());
+			if (iRef.list != &list) EntryListCache::clearOwnerCache(iRef.node->rowId());
 			// Decrease the destination index if we are removing an item in the destination
 			// list with an index inferior to that of the drop
-			if (srcList == &list && id.second < origRow) --row;
+			if (iRef.list == &list && iRef.row < origRow) --row;
 		}
-		// Second, remove all nodes from their source list
-		for (int i = 0; i < elRefs.size(); i++) {
-			EntryListRef &elr = elRefs[i];
-			if (!elr.first->removeNode(elr.second)) {
-				qDebug("Error removing node from list, aborting.");
+
+
+		// Remove all nodes from their source list
+		foreach (const struct ListItemRef &iRef, iRefs) {
+			if (!iRef.list->removeNode(iRef.node)) {
+				qWarning("Error removing node from list, aborting.");
 				goto failure_2;
 			}
 		}
-		// Finally, insert all the nodes into the destination list
-		for (int i = 0; i < elRefs.size(); i++) {
-			const EntryListRef &elr = elRefs[i];
-			if (!elr.second) continue;
-			if (!list.insertNode(elr.second, row + i)) {
-				qDebug("Error inserting node into list, aborting");
+
+		QMap<QModelIndex, ListItemPos> updatedPIndexes;
+		foreach (const QModelIndex &idx, pIdxs) {
+			ListItemPos pos = { idx.internalId(), idx.row() };
+			updatedPIndexes[idx] = pos;
+		}
+		// Insert all the nodes into the destination list and prepare persistent indexes for update
+		for (int i = 0; i < iRefs.size(); i++) {
+			struct ListItemRef &iRef = iRefs[i];
+			if (!iRef.node) continue;
+			if (!list.insertNode(iRef.node, row + i)) {
+				qWarning("Error inserting node into list, aborting");
 				goto failure_2;
 			}
-			// Update the persistent indexes (needed to correctly keep track of the current selection
-			const QModelIndex &idx = srcIdxs[i];
-			changePersistentIndex(idx, indexFromList(list.listId(), row + i));
+
+			QMutableListIterator<QModelIndex> it(pIdxs);
+			while (it.hasNext()) {
+				const QModelIndex &idx = it.next();
+				if (idx.internalId() == iRef.listId) {
+					// Persistent index after moved item, decrement its row
+					if (idx.row() > iRef.row) updatedPIndexes[idx].row--;
+					// Persistent index same as moved item, set new position and
+					// stop iterating on it
+					else if (idx.row() == iRef.row) {
+						ListItemPos &pos = updatedPIndexes[idx];
+						pos.listId = list.listId();
+						pos.row = row + i;
+						it.remove();
+						continue;
+					}
+				}
+				// Persistent index after destination, increment its row
+				if (idx.internalId() == list.listId() && idx.row() >= origRow) updatedPIndexes[idx].row++;
+			}
+		}
+		// Update the persistent indexes that need to be
+		foreach (const QModelIndex &idx, updatedPIndexes.keys()) {
+			const ListItemPos &pos = updatedPIndexes[idx];
+			if (pos.listId != idx.internalId() || pos.row != idx.row()) {
+				changePersistentIndex(idx, indexFromList(pos.listId, pos.row));
+			}
 		}
 		if (!EntryListCache::connection()->commit()) goto failure_2;
 		emit layoutChanged();
@@ -356,7 +385,7 @@ bool EntryListModel::dropMimeData(const QMimeData *data, Qt::DropAction action, 
 			eData.type = entry.type();
 			eData.id = entry.id();
 			if (!list.insert(eData, row + cpt++)) {
-				qDebug("Error inserting list item, aborting.");
+				qWarning("Error inserting list item, aborting.");
 				goto failure_2;
 			}
 
