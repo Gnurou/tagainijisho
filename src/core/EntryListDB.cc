@@ -44,7 +44,8 @@ EntryListDBAccess::EntryListDBAccess(const QString &tableName, SQLite::Connectio
 
 bool EntryListDBAccess::createDataIndexes(SQLite::Connection *connection)
 {
-	if (!connection->exec(QString("CREATE INDEX %1_idx on %1(type,id)").arg(tableName()))) return false;
+	if (!connection->exec(QString("CREATE INDEX idx_%1_type_id on %1(type,id)").arg(tableName()))) return false;
+	if (!connection->exec(QString("CREATE INDEX idx_%1Roots_rootId on %1Roots(rootId)").arg(tableName()))) return false;
 	return true;
 }
 
