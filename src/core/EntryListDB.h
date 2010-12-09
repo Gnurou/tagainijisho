@@ -47,7 +47,15 @@ template <> void DBListEntry<EntryListData>::readDataValues(SQLite::Query &query
 
 // Hide the complexity of template classes behind simple names...
 typedef DBListEntry<EntryListData> EntryListEntry;
-typedef DBList<EntryListData> EntryListDBAccess;
+class EntryListDBAccess : public DBList<EntryListData>
+{
+public:
+	EntryListDBAccess(const QString &tableName, SQLite::Connection *connection = 0);
+	/**
+	 * Create the database index that makes looking from data fast.
+	 */
+	bool createDataIndexes(SQLite::Connection *connection);
+};
 
 class EntryList : public OrderedRBTree<OrderedRBDBTree<EntryListData> >
 {

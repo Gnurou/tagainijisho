@@ -41,7 +41,6 @@ QMap<QString, QString> Database::_attachedDBs;
  * Creates the user database. The database file on which
  * this takes place *must* be cleared.
  */
-
 bool Database::createUserDB()
 {
 	if (!_connection.transaction()) return false;
@@ -68,10 +67,12 @@ bool Database::createUserDB()
 	QUERY("CREATE INDEX idx_sets_id ON sets(parent, position)");
 	
 	// Lists tables
-	QUERY("CREATE TABLE lists(parent INTEGER REFERENCES lists, position INTEGER NOT NULL, type INTEGER, id INTEGER)");
-	QUERY("CREATE INDEX idx_lists_ref ON lists(parent, position)");
-	QUERY("CREATE INDEX idx_lists_entry ON lists(type, id)");
-	QUERY("CREATE VIRTUAL TABLE listsLabels using fts3(label)");
+	EntryListDBAccess dbAccess(LISTS_DB_TABLES_PREFIX);
+	ASSERT(dbAccess.createTables(query.connection()));
+	ASSERT(dbAccess.prepareForConnection(query.connection()));
+	ASSERT(dbAccess.createDataIndexes(query.connection()));
+
+	// Done!
 	if (!_connection.commit()) return false;
 	return true;
 }
@@ -187,7 +188,7 @@ static bool update7to8(SQLite::Query &query) {
 	} while (true);
 
 	// Create the list index
-	QUERY("CREATE INDEX lists_idx on lists(type,id)");
+	ASSERT(dbAccess.createDataIndexes(query.connection()));
 
 	// Drop the old tables
 	QUERY("DROP TABLE oldLists");

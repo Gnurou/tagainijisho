@@ -38,6 +38,15 @@ template <> void DBListEntry<EntryListData>::readDataValues(SQLite::Query &query
 	data.id = query.valueUInt(start++);
 }
 
+EntryListDBAccess::EntryListDBAccess(const QString &tableName, SQLite::Connection *connection) : DBList<EntryListData>(tableName, connection)
+{
+}
+
+bool EntryListDBAccess::createDataIndexes(SQLite::Connection *connection)
+{
+	if (!connection->exec(QString("CREATE INDEX %1_idx on %1(type,id)").arg(tableName()))) return false;
+	return true;
+}
 
 bool EntryList::remove(int index)
 {
