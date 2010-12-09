@@ -19,15 +19,15 @@
 
 #include "core/TextTools.h"
 #include "core/kanjidic2/KanjiRadicals.h"
+#include "core/Database.h"
 #include "gui/KanjiValidator.h"
 #include "gui/kanjidic2/KanjiSelector.h"
 #include <gui/MainWindow.h>
 
-#include <QSqlQuery>
+#include "sqlite/Query.h"
 #include <QComboBox>
 #include <QLineEdit>
 #include <QDesktopWidget>
-#include <QSqlError>
 
 ComplementsList::ComplementsList(QWidget *parent) : QListWidget(parent), baseFont(font()), labelFont(baseFont), _sscroll(verticalScrollBar())
 {
@@ -178,10 +178,10 @@ QSet<uint> KanjiSelector::getCandidates(const QSet<uint> &selection)
 	foreach (uint kanji, selection) realSel << complementCode(TextTools::unicodeToSingleChar(kanji));
 	QString resQuery(getCandidatesQuery(realSel));
 	if (!resQuery.isEmpty()) {
-		QSqlQuery query;
-		if (!query.exec(resQuery)) qDebug() << query.lastError().text();
+		SQLite::Query query(Database::connection());
+		if (!query.exec(resQuery)) qDebug() << query.lastError().message();
 		while (query.next()) {
-			int ch(query.value(0).toInt());
+			int ch(query.valueInt(0));
 			res << ch;
 			QString c(TextTools::unicodeToSingleChar(ch));
 			emit foundResult(c);
@@ -198,19 +198,19 @@ void KanjiSelector::updateComplementsList(const QSet<uint> &selection, const QSe
 	_currentComplements = QSet<QPair<uint, QString> >();
 	QString compQuery(getComplementsQuery(selection, candidates));
 	if (!compQuery.isEmpty()) {
-		QSqlQuery query;
-		if (!query.exec(compQuery)) qDebug() << query.lastError().text();
+		SQLite::Query query(Database::connection());
+		if (!query.exec(compQuery)) qDebug() << query.lastError().message();
 		int curStrokes = 0;
 		uint curKanji = 0;
 		while (query.next()) {
-			uint kanji = query.value(0).toUInt();
+			uint kanji = query.valueUInt(0);
 			// Do not display the same kanji twice - useful for radical selector
 			if (curKanji == kanji) continue;
 			curKanji = kanji;
 			// Do not display kanji that are already in candidates, excepted if they
 			// are part of the current selection
 			if (candidates.contains(kanji) && !selection.contains(kanji)) continue;
-			int strokeNbr = query.value(1).toUInt();
+			int strokeNbr = query.valueUInt(1);
 			if (strokeNbr > curStrokes) {
 				_complementsList->setCurrentStrokeNbr(strokeNbr);
 				curStrokes = strokeNbr;

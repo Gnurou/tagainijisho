@@ -30,12 +30,16 @@
 #define dictFileConfigString "kanjidic/database"
 #define dictFileConfigDefault "kanjidic2.db"
 
+Kanjidic2Plugin *Kanjidic2Plugin::_instance = 0;
+
 Kanjidic2Plugin::Kanjidic2Plugin() : Plugin("kanjidic2")
 {
+	_instance = this;
 }
 
 Kanjidic2Plugin::~Kanjidic2Plugin()
 {
+	_instance = 0;
 }
 
 QString Kanjidic2Plugin::pluginInfo() const
@@ -68,13 +72,14 @@ bool Kanjidic2Plugin::onRegister()
 		qFatal("kanjidic2 plugin fatal error: failed to attach Kanjidic2 database!");
 		return false;
 	}
+	_dbFile = dbFile;
 
 	// Get the versions used
-	QSqlQuery query;
+	SQLite::Query query(Database::connection());
 	query.exec("select kanjidic2Version, kanjiVGVersion from kanjidic2.info");
 	if (query.next()) {
-		_kanjidic2Version = query.value(0).toString();
-		_kanjiVGVersion = query.value(1).toString();
+		_kanjidic2Version = query.valueString(0);
+		_kanjiVGVersion = query.valueString(1);
 	}
 
 	// Register our entry searcher
@@ -91,6 +96,7 @@ bool Kanjidic2Plugin::onUnregister()
 
 	// Detach the database
 	if (!Database::detachDictionaryDB("kanjidic2")) return false;
+	_dbFile.clear();
 
 	return true;
 }

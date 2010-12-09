@@ -18,15 +18,31 @@
 #ifndef __SQLITE_ERROR_H
 #define __SQLITE_ERROR_H
 
-namespace sqlite {
+#include <QString>
+
+namespace SQLite {
+
+class Connection;
 
 class Error
 {
+friend class Connection;
+friend class Query;
+private:
+	int _code;
+
+	QString _message;
+
+	Error() : _code(0) {}
+	Error(int code, const QString &message);
+	Error(const Connection &connection);
 public:
-	Error();
+	int code() const { return _code; }
+	const QString &message() const { return _message; }
+	bool isError() const;
+	bool isInterrupted() const;
 };
 
 }
 
 #endif
-

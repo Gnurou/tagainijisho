@@ -19,35 +19,80 @@
 #define __SQLITE_CONNECTION_H
 
 #include "sqlite/Error.h"
+#include "sqlite/Query.h"
 
-#include <QObject>
+#include "tagaini_config.h"
 
-namespace sqlite {
+#include <QList>
 
-class Connection : public QObject
+struct sqlite3;
+namespace SQLite {
+
+class Connection
 {
-Q_OBJECT
+friend class Error;
+friend class Query;
 private:
+	sqlite3 *_handler;
+	QString _dbFile;
+	mutable Error _lastError;
+
+	QList<Query> _queries;
+
+	const Error &updateError() const;
+
+#ifdef DEBUG_TRANSACTIONS
+	int _tr_count;
+#endif
+	
 public:
-	Connection(QObject *parent = 0);
+	Connection();
 	~Connection();
 
+	typedef enum { None = 0, JournalInFile = (1 << 0), ReadOnly = (1 << 1) } OpenFlags;
 	/**
 	 * Connect to the database file given as parameter. Returns true in case
 	 * of success, false otherwise.
 	 */
-	bool connect(const QString &dbFile);
+	bool connect(const QString &dbFile, OpenFlags flags = None);
+
+	bool connected() const { return _handler != 0; }
+
+	const QString &dbFileName() const { return _dbFile; }
+
+	bool close();
+
 	/**
 	 * Attach the database file given as parameter to alias. Returns true
 	 * in case of success, false otherwise.
 	 */
 	bool attach(const QString &dbFile, const QString &alias);
+
 	/**
 	 * Detach the previously attached database alias.
 	 */
 	bool detach(const QString &alias);
+
 	/// Returns the last error that happened on this connection
-	Error lastError();
+	const Error &lastError() const;
+
+	sqlite3 *sqlite3Handler() { return _handler; }
+
+	/**
+	 * Execute a single statement directly. Should only be used
+	 * to execute non-queries like table creation or pragmas.
+	 */
+	bool exec(const QString &statement);
+
+	bool transaction();
+	bool commit();
+	bool rollback();
+
+	/**
+	 * Interrupts all queries being executed on this connection.
+	 * Interrupted queries will return SQLITE_INTERRUPT.
+	 */
+	void interrupt();
 };
 
 }

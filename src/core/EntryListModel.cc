@@ -19,20 +19,12 @@
 #include "core/EntryListModel.h"
 #include "core/EntryListCache.h"
 
-#include <QSqlError>
 #include <QFont>
 #include <QFontMetrics>
 #include <QSize>
 #include <QPalette>
 
-#define TRANSACTION Database::transaction()
-#define ROLLBACK Database::rollback()
-#define COMMIT Database::commit()
-
-#define EXEC(q) if (!q.exec()) { qDebug() << __FILE__ << __LINE__ << "Cannot execute query:" << q.lastError().text(); return false; }
-#define EXEC_T(q) if (!q.exec()) { qDebug() << __FILE__ << __LINE__ << "Cannot execute query:" << q.lastError().text(); goto transactionFailed; }
-
-void EntryListModel::setRoot(int rootId)
+void EntryListModel::setRoot(quint64 rootId)
 {
 	// Nothing changes?
 	if (rootId == _rootId) return;
@@ -49,61 +41,73 @@ void EntryListModel::setRoot(int rootId)
 	emit rootHasChanged(rootId);
 }
 
+#define LISTFORINDEX(index) (*EntryListCache::get(index.isValid() ? index.internalId() : 0))
+#define INDEXDATA(index) LISTFORINDEX(index)[index.row()]
+
 QModelIndex EntryListModel::index(int row, int column, const QModelIndex &parent) const
 {
 	if (column > 0) return QModelIndex();
-	const EntryListCachedEntry &cEntry = EntryListCache::instance().get(parent.isValid() ? parent.internalId() : rootId(), row);
-	if (cEntry.isRoot()) return QModelIndex();
-	else return createIndex(row, column, cEntry.rowId());
+
+	quint64 listId;
+	// If the parent is valid, then fetch its real list
+	if (parent.isValid()) {
+		const EntryListData &cEntry = INDEXDATA(parent);
+		// Parent will always be a list
+		Q_ASSERT(cEntry.isList());
+		listId = cEntry.id;
+	} else listId = 0;
+
+	return indexFromList(listId, row);
+}
+
+QModelIndex EntryListModel::indexFromList(quint64 listId, quint64 position) const
+{
+	const EntryList *list = EntryListCache::get(listId);
+	if (!list || position > list->size()) return QModelIndex();
+
+	// FIXME Qt is wrong here - internalId() returns a qint64, so this function should take a qint64 too!
+	return createIndex(position, 0, (quint32)list->listId());
 }
 	
-QModelIndex EntryListModel::index(int rowId) const
-{
-	// Invalid items have no parent
-	if (rowId == -1) return QModelIndex();
-	const EntryListCachedEntry &cEntry = EntryListCache::instance().get(rowId);
-	if (cEntry.isRoot()) return QModelIndex();
-	return createIndex(cEntry.position(), 0, rowId);
-}
-
-QModelIndex EntryListModel::realParent(const QModelIndex &idx) const
-{
-	const EntryListCachedEntry &cEntry = EntryListCache::instance().get(idx.isValid() ? idx.internalId() : rootId());
-	if (cEntry.isRoot()) return QModelIndex();
-	else {
-		int pIndex(cEntry.parent());
-		return index(pIndex);
-	}
-}
-
 QModelIndex EntryListModel::parent(const QModelIndex &idx) const
 {
-	const EntryListCachedEntry &cEntry = EntryListCache::instance().get(idx.isValid() ? idx.internalId() : rootId());
-	if (cEntry.isRoot() || cEntry.rowId() == rootId()) return QModelIndex();
+	// Invalid index has no parent
+	if (!idx.isValid()) return QModelIndex();
+	EntryList &list = LISTFORINDEX(idx);
+	// Root list has no parent
+	if (list.listId() == 0) return QModelIndex();
+	// We need to construct an index by determining the parent list of idx and the position of idx within it
 	else {
-		int pIndex(cEntry.parent());
-		return index(pIndex == rootId() ? -1 : pIndex);
+		// We have the id of the list - all we need to do is find
+		// which list contains it.
+		QPair<const EntryList *, quint32> container = EntryListCache::getOwner(list.listId());
+		return createIndex(container.second, 0, container.first ? container.first->listId() : 0);
 	}
 }
 
-int EntryListModel::rowCount(const QModelIndex &parent) const
+int EntryListModel::rowCount(const QModelIndex &index) const
 {
-	const EntryListCachedEntry &cEntry = EntryListCache::instance().get(parent.isValid() ? parent.internalId() : rootId());
-	// Not a list? No child!
-	if (!cEntry.isList()) return 0;
-	return cEntry.count();
+	// Asking for size of root?
+	if (!index.isValid()) return EntryListCache::get(0)->size();
+	else {
+		const EntryListData &cEntry = INDEXDATA(index);
+		// Not a list? No child!
+		if (!cEntry.isList()) return 0;
+		else return EntryListCache::get(cEntry.id)->size();
+	}
 }
 
 QVariant EntryListModel::data(const QModelIndex &index, int role) const
 {
 	if (!index.isValid() || index.column() != 0) return QVariant();
-	const EntryListCachedEntry &cEntry = EntryListCache::instance().get(index.isValid() ? index.internalId() : -1);
-	if (cEntry.isRoot()) return QVariant();
+
+	const EntryListData &cEntry = INDEXDATA(index);
+
 	switch (role) {
 		case Qt::DisplayRole:
 		case Qt::EditRole:
 		{
-			if (cEntry.isList()) return cEntry.label();
+			if (cEntry.isList()) return EntryListCache::get(cEntry.id)->label();
 			EntryPointer entry(cEntry.entryRef().get());
 			if (!entry) return QVariant();
 			else return entry->shortVersion(Entry::TinyVersion);
@@ -150,152 +154,80 @@ QVariant EntryListModel::data(const QModelIndex &index, int role) const
 	}
 }
 
-bool EntryListModel::setData(const QModelIndex &index, const QVariant &value, int role)
-{
-	if (role == Qt::EditRole && index.isValid()) {
-		if (!TRANSACTION) return false;
-		{
-			QSqlQuery query;
-			query.prepare("select type from lists where rowid = ?");
-			query.addBindValue(index.internalId());
-			query.exec();
-			if (query.next() && query.value(0).isNull()) {
-				query.prepare("update listsLabels set label = ? where rowid = ?");
-				query.addBindValue(value.toString());
-				query.addBindValue(index.internalId());
-				EXEC_T(query);
-			}
-		}
-		if (!COMMIT) goto transactionFailed;
-		// Invalidate the cache entry
-		EntryListCache::instance().invalidate(index.internalId());
-		return true;
-	}
-	return false;
-transactionFailed:
-	ROLLBACK;
-	EntryListCache::instance().invalidateAll();
-	return false;
-}
-	
-bool EntryListModel::moveRows(int row, int delta, const QModelIndex &parent, QSqlQuery &query)
-{
-	QString queryText("update lists set position = position + ? where parent %1 and position >= ?");
-	if (!parent.isValid()) query.prepare(queryText.arg("is null"));
-	else query.prepare(queryText.arg("= ?"));
-	query.addBindValue(delta);
-	if (parent.isValid()) query.addBindValue(parent.internalId());
-	query.addBindValue(row);
-	EXEC(query);
-	return true;
-}
-
-// TODO How to handle the beginInsertRows if the transaction failed and endInsertRows is not called?
-bool EntryListModel::insertRows(int row, int count, const QModelIndex & parent)
-{
-	const QModelIndex realParent(parent.isValid() ? parent : index(rootId()));
-	if (!TRANSACTION) return false;
-	beginInsertRows(parent, row, row + count -1);
-	{
-		QSqlQuery query;
-		// First update the positions of items located after the new lists
-		if (!moveRows(row, count, realParent, query)) goto transactionFailed;
-		// Then insert the lists themselves with a default name
-		for (int i = 0; i < count; i++) {
-			query.prepare("insert into lists values(?, ?, NULL, NULL)");
-			query.addBindValue(realParent.isValid() ? realParent.internalId() : QVariant(QVariant::Int));
-			query.addBindValue(row + i);
-			EXEC_T(query);
-			int rowId = query.lastInsertId().toInt();
-			query.prepare("insert into listsLabels(docid, label) values(?, ?)");
-			query.addBindValue(rowId);
-			query.addBindValue(tr("New list"));
-			EXEC_T(query);
-		}
-	}
-	if (!COMMIT) goto transactionFailed;
-	EntryListCache::instance().invalidateAll();
-	endInsertRows();
-	return true;
-transactionFailed:
-	ROLLBACK;
-	EntryListCache::instance().invalidateAll();
-	return false;
-}
-
-bool EntryListModel::_removeRows(int row, int count, const QModelIndex &parent)
-{
-	QSqlQuery query;
-	// Get the list of items to remove
-	QString queryString("select rowid, type, id from lists where parent %1 and position between ? and ?");
-	if (!parent.isValid()) query.prepare(queryString.arg("is null"));
-	else {
-		query.prepare(queryString.arg("= ?"));
-		query.addBindValue(parent.internalId());
-	}
-	query.addBindValue(row);
-	query.addBindValue(row + count - 1);
-	EXEC(query);
-	QList<int> ids;
-	QList<EntryRef> entries;
-	while (query.next()) {
-		ids << query.value(0).toInt();
-		entries << EntryRef(query.value(1).toUInt(), query.value(2).toUInt());
-	}
-	// Remove the list from the entries if they are loaded
-	int i = 0;
-	foreach (EntryRef ref, entries) {
-		if (ref.isLoaded()) ref.get()->lists().remove(ids[i]);
-		++i;
-	}
-	// Recursively remove any child the items may have
-	foreach (int id, ids) {
-		QModelIndex idx(index(id));
-		if (!idx.isValid()) continue;
-		int childsNbr(rowCount(idx));
-		if (childsNbr > 0 && !_removeRows(0, childsNbr, idx)) return false;
-	}
-	// Remove the listsLabels entries
-	QStringList strIds;
-	foreach (int id, ids) strIds << QString::number(id);
-	
-	query.prepare(QString("delete from listsLabels where rowid in (%1)").arg(strIds.join(", ")));
-	EXEC(query);
-	// Remove the lists entries
-	query.prepare(QString("delete from lists where rowid in (%1)").arg(strIds.join(", ")));
-	EXEC(query);
-	// Update the positions of items that were after the ones we removed
-	if (!moveRows(row + count, -count, parent, query)) return false;
-	return true;
-}
-
-bool EntryListModel::removeRows(int row, int count, const QModelIndex &parent)
-{
-	const QModelIndex realParent(parent.isValid() ? parent : index(rootId()));
-	if (!TRANSACTION) return false;
-	beginRemoveRows(parent, row, row + count - 1);
-	if (!_removeRows(row, count, realParent)) goto transactionFailed;
-	if (!COMMIT) goto transactionFailed;
-	EntryListCache::instance().invalidateAll();
-	endRemoveRows();
-	return true;
-transactionFailed:
-	ROLLBACK;
-	EntryListCache::instance().invalidateAll();
-	return false;
-}
-
 Qt::ItemFlags EntryListModel::flags(const QModelIndex &index) const
 {
 	Qt::ItemFlags ret(Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsDragEnabled);
-	
+
 	if (index.isValid()) {
-		const EntryListCachedEntry &cEntry = EntryListCache::instance().get(index.internalId());
-		if (cEntry.isRoot()) return Qt::ItemIsEnabled;
+		const EntryListData &cEntry = INDEXDATA(index);
 		if (cEntry.isList()) ret |= Qt::ItemIsEditable | Qt::ItemIsDropEnabled;
 	}
 	else ret |= Qt::ItemIsDropEnabled;
 	return ret;
+}
+
+bool EntryListModel::setData(const QModelIndex &index, const QVariant &value, int role)
+{
+	if (role == Qt::EditRole && index.isValid()) {
+		const EntryListData &cEntry = INDEXDATA(index);
+		if (cEntry.isList()) {
+			EntryList &list = *EntryListCache::get(cEntry.id);
+			if (list.setLabel(value.toString())) return true;
+		}
+	}
+	return false;
+}
+	
+// TODO How to handle the beginInsertRows if the transaction failed and endInsertRows is not called?
+bool EntryListModel::insertRows(int row, int count, const QModelIndex & parent)
+{
+	// First fetch the list in which we will insert
+	EntryList *parentList;
+	if (!parent.isValid()) parentList = EntryListCache::get(0);
+	else {
+		const EntryListData &cEntry = INDEXDATA(parent);
+		Q_ASSERT(cEntry.isList());
+		parentList = EntryListCache::get(cEntry.id);
+	}
+	beginInsertRows(parent, row, row + count - 1);
+	if (!EntryListCache::connection()->transaction()) goto failure_1;
+	for (int i = 0; i < count; i++)
+	{
+		EntryList *newList = EntryListCache::newList();
+		EntryListData data = { 0, newList->listId() };
+		parentList->insert(data, row + i);
+	}
+	if (!EntryListCache::connection()->commit()) goto failure_2;
+	EntryListCache::clearOwnerCache();
+	endInsertRows();
+	return true;
+
+failure_2:
+	EntryListCache::connection()->rollback();
+failure_1:
+	return false;
+}
+
+bool EntryListModel::removeRows(int row, int count, const QModelIndex &parent)
+{
+	beginRemoveRows(parent, row, row + count - 1);
+	if (!EntryListCache::connection()->transaction()) goto failure_1;
+	{
+		// The list from which we are actually removing
+		EntryList *list = EntryListCache::get(parent.isValid() ? INDEXDATA(parent).id : 0); 
+		while (count--) {
+			if (!list->remove(row)) goto failure_2;
+		}
+	}
+	if (!EntryListCache::connection()->commit()) goto failure_2;
+	EntryListCache::clearOwnerCache();
+	endRemoveRows();
+	return true;
+
+failure_2:
+	EntryListCache::connection()->rollback();
+failure_1:
+	return false;
 }
 
 QStringList EntryListModel::mimeTypes() const
@@ -309,6 +241,7 @@ QStringList EntryListModel::mimeTypes() const
 QMimeData *EntryListModel::mimeData(const QModelIndexList &indexes) const
 {
 	QMimeData *mimeData = new QMimeData();
+
 	QByteArray entriesEncodedData;
 	QDataStream entriesStream(&entriesEncodedData, QIODevice::WriteOnly);
 	QByteArray itemsEncodedData;
@@ -317,141 +250,158 @@ QMimeData *EntryListModel::mimeData(const QModelIndexList &indexes) const
 	foreach (const QModelIndex &index, indexes) {
 		if (index.isValid()) {
 			// Add the item
-			itemsStream << (int)index.internalId();
+			itemsStream << (quint64)index.internalId() << (quint64)index.row();
 			
 			// If the item is an entry, add it
-			const EntryListCachedEntry &cEntry = EntryListCache::instance().get(index.internalId());
-			if (!cEntry.isRoot()) entriesStream << cEntry.entryRef();
+			const EntryListData &cEntry = INDEXDATA(index);
+			if (!cEntry.isList()) entriesStream << cEntry.entryRef();
+			// TODO in case of a list, add all the items the list contains
 		}
 	}
 	if (!entriesEncodedData.isEmpty()) mimeData->setData("tagainijisho/entry", entriesEncodedData);
 	if (!itemsEncodedData.isEmpty()) mimeData->setData("tagainijisho/listitem", itemsEncodedData);
+
 	return mimeData;
 }
 
+// Used to record the items to move in a drag'n drop operation
+struct ListItemPos {
+	qint64 listId;
+	qint64 row;
+};
+struct ListItemRef : public ListItemPos {
+	EntryList *list;
+	EntryList::TreeType::Node *node;
+};
 bool EntryListModel::dropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &_parent)
 {
 	if (action == Qt::IgnoreAction) return true;
 	if (column == -1) column = 0;
 	if (column > 0) return false;
 
-	// If dropped on the root, update the parent to the real one
-	// Direct affectation of model indexes does not seem to copy the internal id
-	const QModelIndex parent(_parent.isValid() ? _parent : index(rootId()));
+	// Destination list
+	EntryList &list = *EntryListCache::get(_parent.isValid() ? INDEXDATA(_parent).id : 0);
+
+	// If dropped on a list, append the entries
+	if (row == -1) row = rowCount(_parent);
 
 	// If we have list items, we must move the items instead of inserting them
 	if (data->hasFormat("tagainijisho/listitem")) {
-		// Row ids of the items we move
-		QList<int> rowIds;
-		// Fetch the ids of the rows that moved from
-		// the stream
+		if (!EntryListCache::connection()->transaction()) goto failure_1;
+		emit layoutAboutToBeChanged();
+		int origRow = row;
+		QModelIndexList pIdxs(persistentIndexList());
+
+		// First record all our items
 		QByteArray ba = data->data("tagainijisho/listitem");
 		QDataStream ds(&ba, QIODevice::ReadOnly);
+		QList<struct ListItemRef> iRefs;
 		while (!ds.atEnd()) {
-			int rowId;
-			ds >> rowId;
-			rowIds << rowId;
-		}
-		// If dropped on a list, append the entries
-		if (row == -1) row = rowCount(parent);
-		int realRow(row);
+			struct ListItemRef iRef;
+			ds >> iRef.listId;
+			ds >> iRef.row;
+			iRef.list = EntryListCache::get(iRef.listId);
+			iRef.node = iRef.list->getNode(iRef.row);
+			iRefs << iRef;
 
-		// First check if we are not dropping a parent into one of its children
-		foreach (int rowid, rowIds) {
-			QModelIndex idx(index(rowid));
-			QModelIndex p(parent);
-			while (p.isValid()) {
-				if (p == idx) return false;
-				p = p.parent();
+			// Decrease the destination index if we are removing an item in the destination
+			// list with an index inferior to that of the drop
+			if (iRef.list == &list && iRef.row < origRow) --row;
+		}
+
+
+		// Remove all nodes from their source list
+		foreach (const struct ListItemRef &iRef, iRefs) {
+			if (!iRef.list->removeNode(iRef.node)) {
+				qWarning("Error removing node from list, aborting.");
+				goto failure_2;
 			}
 		}
-	
-		// Do the move
-		int itemCpt = 0;
-		if (!TRANSACTION) return false;
-		emit layoutAboutToBeChanged();
-		{
-			QSqlQuery query;
-			foreach (int rowid, rowIds) {
-				// First get the model index
-				QModelIndex idx(index(rowid));
-				// and its parent
-				QModelIndex idxParent(realParent(idx));
-				// If the destination parent is the same as the source and the destination row superior, we must decrement
-				// the latter because the source has not been moved yet.
-				if (idxParent == parent && row > idx.row() && realRow > 0) --realRow;
-				// Do not bother if the position did not change
-				if (idxParent == parent && realRow == idx.row()) continue;
-				
-				// Update rows position after the one we move
-				if (!moveRows(idx.row() + 1, -1, idxParent, query)) goto transactionFailed;
-				// Update rows position after the one we insert
-				if (!moveRows(realRow + itemCpt, 1, parent, query)) goto transactionFailed;
-				// And do the move
-				query.prepare("update lists set parent = ?, position = ? where rowid = ?");
-				query.addBindValue(parent.isValid() ? parent.internalId() : QVariant(QVariant::Int));
-				query.addBindValue(realRow + itemCpt);
-				query.addBindValue(rowid);
-				EXEC_T(query);
-				EntryListCache::instance().invalidateAll();
-				// Don't forget to change any persistent index - views use them at least to keep track
-				// of the current selection
-				changePersistentIndex(idx, index(rowid));
-				++itemCpt;
+
+		QMap<QModelIndex, ListItemPos> updatedPIndexes;
+		foreach (const QModelIndex &idx, pIdxs) {
+			ListItemPos pos = { idx.internalId(), idx.row() };
+			updatedPIndexes[idx] = pos;
+		}
+		// Insert all the nodes into the destination list and prepare persistent indexes for update
+		for (int i = 0; i < iRefs.size(); i++) {
+			struct ListItemRef &iRef = iRefs[i];
+			if (!iRef.node) continue;
+			if (!list.insertNode(iRef.node, row + i)) {
+				qWarning("Error inserting node into list, aborting");
+				goto failure_2;
+			}
+
+			QMutableListIterator<QModelIndex> it(pIdxs);
+			while (it.hasNext()) {
+				const QModelIndex &idx = it.next();
+				if (idx.internalId() == iRef.listId) {
+					// Persistent index after moved item, decrement its row
+					if (idx.row() > iRef.row) updatedPIndexes[idx].row--;
+					// Persistent index same as moved item, set new position and
+					// stop iterating on it
+					else if (idx.row() == iRef.row) {
+						ListItemPos &pos = updatedPIndexes[idx];
+						pos.listId = list.listId();
+						pos.row = row + i;
+						it.remove();
+						continue;
+					}
+				}
+				// Persistent index after destination, increment its row
+				if (idx.internalId() == list.listId() && idx.row() >= origRow) updatedPIndexes[idx].row++;
 			}
 		}
-		if (!COMMIT) goto transactionFailed;
-		EntryListCache::instance().invalidateAll();
+		// Update the persistent indexes that need to be
+		foreach (const QModelIndex &idx, updatedPIndexes.keys()) {
+			const ListItemPos &pos = updatedPIndexes[idx];
+			if (pos.listId != idx.internalId() || pos.row != idx.row()) {
+				changePersistentIndex(idx, indexFromList(pos.listId, pos.row));
+			}
+		}
+		if (!EntryListCache::connection()->commit()) goto failure_2;
+		EntryListCache::clearOwnerCache();
 		emit layoutChanged();
-		return true;
 	}
+
 	// No list data, we probably dropped from the results view or something -
 	// add the entries to the list
 	else if (data->hasFormat("tagainijisho/entry")) {
-		//if (!parent.isValid()) return false;
 		QByteArray ba = data->data("tagainijisho/entry");
 		QDataStream ds(&ba, QIODevice::ReadOnly);
 		QList<EntryRef> entries;
-		QList<quint32> ids;
+
 		while (!ds.atEnd()) {
 			EntryRef entryRef;
 			ds >> entryRef;
 			entries << entryRef;
 		}
-		// If dropped on a list, append the entries
-		if (row == -1) row = rowCount(parent);
-		if (!TRANSACTION) return false;
-		{
-			QSqlQuery query;
-			// Start by moving the rows after the destination
-			if (!moveRows(row, entries.size(), parent, query)) goto transactionFailed;
-			// And insert the new rows at the right position
-			query.prepare("insert into lists values(?, ?, ?, ?)");
-			for (int i = 0; i < entries.size(); ++i) {
-				query.addBindValue(parent.isValid() ? parent.internalId() : QVariant(QVariant::Int));
-				query.addBindValue(row + i);
-				query.addBindValue(entries[i].type());
-				query.addBindValue(entries[i].id());
-				EXEC_T(query);
-				ids << query.lastInsertId().toUInt();
-			}
-		}
-		// Insert rows must be done on what the view thinks is the parent
+
 		beginInsertRows(_parent, row, row + entries.size() - 1);
-		if (!COMMIT) goto transactionFailed;
-		EntryListCache::instance().invalidateAll();
-		endInsertRows();
-		// Now add the list to the entries, if necessary
-		int i = 0;
-		foreach (EntryRef ref, entries) {
-			if (ref.isLoaded()) ref.get()->lists() << ids[i];
-			++i;
+		if (!EntryListCache::connection()->transaction()) goto failure_1;
+		// Insert rows must be done on what the view thinks is the parent
+		int cpt = 0;
+		foreach (const EntryRef &entry, entries) {
+			EntryListData eData;
+			eData.type = entry.type();
+			eData.id = entry.id();
+			if (!list.insert(eData, row + cpt++)) {
+				qWarning("Error inserting list item, aborting.");
+				goto failure_2;
+			}
+
+			// Now add the list to the entry if it is loaded
+			//if (entry.isLoaded()) entry.get()->lists() << list.listId();
 		}
-		return true;
+		if (!EntryListCache::connection()->commit()) goto failure_2;
+		EntryListCache::clearOwnerCache();
+		endInsertRows();
 	}
-	else return false;
-transactionFailed:
-	ROLLBACK;
-	EntryListCache::instance().invalidateAll();
+
+	return true;
+
+failure_2:
+	EntryListCache::connection()->rollback();
+failure_1:
 	return false;
 }

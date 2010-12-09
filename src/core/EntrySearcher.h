@@ -18,9 +18,10 @@
 #ifndef __CORE__ENTRY_SEARCHER_H_
 #define __CORE__ENTRY_SEARCHER_H_
 
+#include "sqlite/Connection.h"
 #include "core/Entry.h"
-#include "core/Query.h"
 #include "core/SearchCommand.h"
+#include "core/QueryBuilder.h"
 
 #include <QObject>
 #include <QList>
@@ -35,8 +36,15 @@ class EntrySearcher : public QObject
 	Q_OBJECT
 private:
 	QRegExp commandMatch;
+	SQLite::Query trainQuery, tagsQuery, notesQuery, listsQuery;
 
 protected:
+	/**
+	 * Connection to the user db file (and possibly other dbs)
+	 * that is used to load the entries.
+	 */
+	SQLite::Connection connection;
+
 	/**
 	 * List of all valid commands for this searcher. Should
 	 * be completed at construction time.
@@ -53,7 +61,7 @@ protected:
 
 public:
 	EntrySearcher(QObject *parent = 0);
-	virtual ~EntrySearcher() {}
+	virtual ~EntrySearcher();
 
 	/**
 	 * Returns the entry type that this searcher can load. It is

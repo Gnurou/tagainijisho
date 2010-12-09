@@ -41,7 +41,7 @@
 #include <QApplication>
 #include <QInputDialog>
 #include <QDesktopServices>
-#include <QSqlQuery>
+#include "sqlite/Query.h"
 #include <QTextBrowser>
 #include <QTextEdit>
 #include <QVBoxLayout>
@@ -215,7 +215,7 @@ void MainWindow::donationReminderCheck()
 		// Display the reminder if two weeks passed since the first usage
 		if (QDateTime::currentDateTime() > firstRunTime.value().addDays(14)) {
 			QMessageBox messageBox(QMessageBox::Information, tr("Please consider supporting Tagaini Jisho"),
-					tr("You have now been using Tagaini Jisho for a short while. If you like it, please show your support by making a donation that expresses your appreciation of this software. While Tagaini is free, its development has a cost and your support will have a positive influence on its future. You can donate via Paypal or credit card.\n\nThis message is a one-time reminder and will not appear anymore - you can still donate later by choosing the corresponding option in the Help menu."),
+					tr("You have now been using Tagaini Jisho for a short while. If you like it, please show your support by making a donation that expresses your appreciation of this software. While Tagaini is free, its development has a cost and your support will have a positive influence on its future. You can donate via Paypal or credit card, or use <a href=\"https://flattr.com/thing/74296/Tagaini-Jisho\">Flattr</a> to support this project.\n\nThis message is a one-time reminder and will not appear anymore - you can still donate later by choosing the corresponding option in the Help menu."),
 					QMessageBox::NoButton, this);
 			QPushButton donateButton(tr("Donate!"));
 			donateButton.setIcon(QIcon(QPixmap(":/images/icons/donate.png")));
@@ -383,20 +383,20 @@ void MainWindow::betaUpdateAvailable(const QString &version)
 
 void MainWindow::populateMenu(QMenu *menu, int parentId)
 {
-	QSqlQuery query;
+	SQLite::Query query(Database::connection());
 	query.exec(QString("SELECT label, state, rowid FROM sets WHERE parent %1 ORDER BY position").arg(parentId == 0 ? "is null" : QString("= %1").arg(parentId)));
 	while (query.next()) {
 		// A folder
-		if (query.value(1).isNull()) {
-			QMenu *subMenu = menu->addMenu(QIcon(":/images/icons/folder.png"), query.value(0).toString());
+		if (query.valueIsNull(1)) {
+			QMenu *subMenu = menu->addMenu(QIcon(":/images/icons/folder.png"), query.valueString(0));
 			connect(subMenu, SIGNAL(aboutToShow()), this, SLOT(populateSubMenu()));
-			subMenu->setProperty("T_rowid", query.value(2).toInt());
+			subMenu->setProperty("T_rowid", query.valueInt(2));
 			if (!parentId) _rootMenus << subMenu;
 		}
 		// A set
 		else {
-			QAction *action = menu->addAction(query.value(0).toString(), this, SLOT(onSetSelected()));
-			action->setProperty("T_state", query.value(1).toByteArray());
+			QAction *action = menu->addAction(query.valueString(0), this, SLOT(onSetSelected()));
+			action->setProperty("T_state", query.valueBlob(1));
 			if (!parentId) _rootActions << action;
 		}
 	}
@@ -443,10 +443,10 @@ void MainWindow::newSet()
 	QByteArray curState;
 	QDataStream ds(&curState, QIODevice::WriteOnly);
 	ds << QVariant(searchWidget()->searchBuilder()->getState());
-	QSqlQuery query;
+	SQLite::Query query(Database::connection());
 	query.prepare(QString("INSERT INTO sets VALUES(%2, ifnull((SELECT max(position) + 1 FROM sets WHERE parent %1), 0), ?, ?)").arg(!parentId ? "is null" : QString("= %1").arg(parentId)).arg(!parentId ? "null" : QString::number(parentId)));
-	query.addBindValue(setName);
-	query.addBindValue(curState);
+	query.bindValue(setName);
+	query.bindValue(curState);
 	// TODO error handling
 	query.exec();
 }
@@ -462,9 +462,9 @@ void MainWindow::newSetsFolder()
 	QString setName(QInputDialog::getText(this, tr("New sets folder"), tr("Please enter a name for this folder"), QLineEdit::Normal, tr("Unnamed folder"), &ok));
 	if (!ok) return;
 
-	QSqlQuery query;
+	SQLite::Query query(Database::connection());
 	query.prepare(QString("INSERT INTO sets VALUES(%2, ifnull((SELECT max(position) + 1 FROM sets WHERE parent %1), 0), ?, null)").arg(!parentId ? "is null" : QString("= %1").arg(parentId)).arg(!parentId ? "null" : QString::number(parentId)));
-	query.addBindValue(setName);
+	query.bindValue(setName);
 	// TODO error handling
 	query.exec();
 }

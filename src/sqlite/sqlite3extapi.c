@@ -22,12 +22,6 @@
 int isToIgnore(const char *token);
 const char *hiraganasToKatakanas(const char *src);
 
-/// This is to fix what seems to be a bug in SQLite (?) 
-SQLITE_API void tagaini_sqlite3_fix_activevdbecnt(sqlite3 *db)
-{
-    db->activeVdbeCnt = 0;
-}
-
 // Function to register a tokenizer
 int register_tokenizer(sqlite3 *db, char *zName, const sqlite3_tokenizer_module *p)
 {

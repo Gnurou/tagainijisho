@@ -16,112 +16,116 @@
  */
 
 #include "EntryListCache.h"
+#include "Database.h"
 
-EntryListCachedEntry::EntryListCachedEntry()
+EntryListCache *EntryListCache::_instance = 0;
+
+EntryListCache::EntryListCache() : _dbAccess(LISTS_DB_TABLES_PREFIX)
 {
-	_rowId = -1;
-	_parent = -1;
-	_position = -1;
-	_type = -1;
-	_id = -1;
-	QSqlQuery query;
-	query.exec("select count(*) from lists where parent is null");
-	if (query.next()) _count = query.value(0).toInt();
-	else _count = 0;
-}
-
-EntryListCachedEntry::EntryListCachedEntry(QSqlQuery &query)
-{
-	// Invalid model, return root list
-	if (!query.next()) {
-		*this = EntryListCachedEntry();
-	} else {
-		_rowId = query.value(0).toInt();
-		_parent = query.value(1).isNull() ? -1 : query.value(1).toInt();
-		_position = query.value(2).toInt();
-		_type = query.value(3).isNull() ? -1 : query.value(3).toInt();
-		_id = query.value(4).toInt();
-		_label = query.value(5).toString();
-
-		// If the type is a list, get its number of childs
-		if (_type == -1) {
-			QSqlQuery query2;
-			query2.prepare("select count(*) from lists where parent = ?");
-			query2.addBindValue(rowId());
-			query2.exec();
-			if (query2.next()) _count = query2.value(0).toInt();
-		}
-		else _count = 0;
+	if (!_connection.connect(Database::userDBFile())) {
+		qFatal("EntryListCache cannot connect to user database!");
 	}
+	_dbAccess.prepareForConnection(&_connection);
+	ownerQuery.useWith(&_connection);
+	goUpQuery.useWith(&_connection);
+	listFromRootQuery.useWith(&_connection);
+	ownerQuery.prepare(QString("select rowid, parent, leftSize from %1 where type = 0 and id = ?").arg(_dbAccess.tableName()));
+	goUpQuery.prepare(QString("select parent, leftSize, right from %1 where rowid = ?").arg(_dbAccess.tableName()));
+	listFromRootQuery.prepare(QString("select listId from %1Roots where rootId = ?").arg(_dbAccess.tableName()));
 }
 
-EntryListCache::EntryListCache()
+EntryListCache::~EntryListCache()
 {
-	getByIdQuery.prepare("select lists.rowid, parent, position, type, id, label from lists left join listsLabels on lists.rowid == listsLabels.rowid where lists.rowid = ?");
-//	getByParentPosQuery.prepare("select lists.rowid, parent, position, type, id, label from lists left join listsLabels on lists.rowid == listsLabels.rowid where lists.parent = ? order by position limit 1 offset ?");
-	getByParentPosQuery.prepare("select lists.rowid, parent, position, type, id, label from lists left join listsLabels on lists.rowid == listsLabels.rowid where lists.parent = ? and position = ?");
-//	getByParentPosRootQuery.prepare("select lists.rowid, parent, position, type, id, label from lists left join listsLabels on lists.rowid == listsLabels.rowid where lists.parent is null order by position limit 1 offset ?");
-	getByParentPosRootQuery.prepare("select lists.rowid, parent, position, type, id, label from lists left join listsLabels on lists.rowid == listsLabels.rowid where lists.parent is null and position = ?");
-//	fixListPositionQuery.prepare("update lists set position = ? where rowid = ?");
+	foreach (EntryList *list, _cachedLists) {
+		delete list;
+	}
 }
 
 EntryListCache &EntryListCache::instance()
 {
-	static EntryListCache _instance;
-	return _instance;
+	if (!_instance) _instance = new EntryListCache();
+	return *_instance;
 }
 
-const EntryListCachedEntry &EntryListCache::get(int rowId)
+void EntryListCache::cleanup()
+{
+	delete _instance;
+	_instance = 0;
+}
+
+EntryList *EntryListCache::_get(quint64 id)
 {
 	QMutexLocker ml(&_cacheLock);
-	if (!rowIdCache.contains(rowId)) {
-		getByIdQuery.addBindValue(rowId);
-		getByIdQuery.exec();
-		EntryListCachedEntry nCache(getByIdQuery);
-		getByIdQuery.finish();
-		rowIdCache[nCache.rowId()] = nCache;
-		rowParentCache[QPair<int, int>(nCache.parent(), nCache.position())] = nCache;
+	if (!_cachedLists.contains(id))  {
+		// We know we can only be called with list Ids that actually exist in the DB,
+		// so no need to bother about non-existing entries
+		_cachedLists.insert(id, new EntryList(&_dbAccess, id));
 	}
-	return rowIdCache[rowId];
+	// Will always git (see above)
+	return _cachedLists[id];
 }
 
-const EntryListCachedEntry &EntryListCache::get(int parent, int pos)
+EntryList *EntryListCache::_newList()
 {
+	EntryList *ret = new EntryList(&_dbAccess, 0);
+	ret->newList();
 	QMutexLocker ml(&_cacheLock);
-	QPair<int, int> key(parent, pos);
-	if (!rowParentCache.contains(key)) {
-		QSqlQuery &query = parent == -1 ? getByParentPosRootQuery : getByParentPosQuery;
-		if (parent != -1) query.addBindValue(parent);
-		query.addBindValue(pos);
-		query.exec();
+	_cachedLists.insert(ret->listId(), ret);
+	return ret;
+}
 
-		EntryListCachedEntry nCache(query);
-		query.finish();
-/*		// Row inconsistency, try to fix!
-		if (pos != nCache.position()) {
-			fixListPositionQuery.addBindValue(pos);
-			fixListPositionQuery.addBindValue(nCache.rowId());
-			fixListPositionQuery.exec();
-			nCache._position = pos;
-		}*/
-		rowIdCache[nCache.rowId()] = nCache;
-		rowParentCache[key] = nCache;
+void EntryListCache::_clearListCache(quint64 id)
+{
+	_cachedLists.remove(id);
+}
+
+QPair<const EntryList *, quint32> EntryListCache::_getOwner(quint64 id)
+{
+	if (!_cachedParents.contains(id)) {
+		ownerQuery.bindValue(id);
+		ownerQuery.exec();
+		if (!ownerQuery.next()) return QPair<const EntryList *, quint32>();
+		quint64 rowid = ownerQuery.valueUInt64(0);
+		quint64 parent = ownerQuery.valueUInt64(1);
+		quint32 pos = ownerQuery.valueUInt(2);
+		ownerQuery.reset();
+
+		// Now go back to the root of the list, and calculate the position of the item
+		while (parent != 0) {
+			goUpQuery.bindValue(parent);
+			goUpQuery.exec();
+			if (!goUpQuery.next()) {
+				qCritical("List inconsistency!");
+				break;
+			}
+			quint64 newParent = goUpQuery.valueUInt64(0);
+			quint32 leftSize = goUpQuery.valueUInt(1);
+			quint64 right = goUpQuery.valueUInt64(2);
+			if (rowid == right) pos += leftSize + 1;
+			goUpQuery.reset();
+			rowid = parent;
+			parent = newParent;
+		}
+
+		// rowid now contains the root of the containing list, we can look its id up
+		listFromRootQuery.bindValue(rowid);
+		listFromRootQuery.exec();
+		if (!listFromRootQuery.next()) return QPair<const EntryList *, quint32>();
+		else {
+			const EntryList *ret = get(listFromRootQuery.valueUInt64(0));
+			listFromRootQuery.reset();
+			_cachedParents[id] = QPair<const EntryList *, quint32>(ret, pos);
+		}
 	}
-	return rowParentCache[key];
+	return _cachedParents[id];
 }
 
-void EntryListCache::invalidate(uint rowId)
+void EntryListCache::_clearOwnerCache(quint64 id)
 {
-	QMutexLocker ml(&_cacheLock);
-	if (!rowIdCache.contains(rowId)) return;
-	const EntryListCachedEntry &cEntry = rowIdCache[rowId];
-	rowParentCache.remove(QPair<int, int>(cEntry.parent(), cEntry.position()));
-	rowIdCache.remove(rowId);
+	_cachedParents.remove(id);
 }
 
-void EntryListCache::invalidateAll()
+void EntryListCache::_clearOwnerCache()
 {
-	QMutexLocker ml(&_cacheLock);
-	rowParentCache.clear();
-	rowIdCache.clear();
+	_cachedParents.clear();
 }

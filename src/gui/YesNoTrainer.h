@@ -22,7 +22,7 @@
 
 #include <QFrame>
 #include <QPushButton>
-#include <QSqlQuery>
+#include "sqlite/Query.h"
 #include <QLabel>
 
 class YesNoTrainer : public QWidget {
@@ -43,7 +43,7 @@ protected:
 	// List of parts to display for front and back of the card
 	QStringList frontParts, backParts;
 	EntryPointer currentEntry;
-	QSqlQuery _query;
+	SQLite::Query _query;
 	ToolBarDetailedView *_detailedView;
 
 	QPushButton *showAnswerButton;

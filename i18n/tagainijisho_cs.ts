@@ -40,7 +40,7 @@
     <message>
         <location line="+6"/>
         <source>Pushing this button will completely erase all your user data. This includes study list, tags, notes, scores, basically everything you did. After pushing this button, Tagaini Jisho will exit. Upon restart, you will be back to a fresh, blank database.</source>
-        <translation>Stisknutí tohoto tlačítka povede k úplnému smazání všech vašich uživatelských dat. Zahrnuje toe studijní seznam, značky, poznámkyn, v základě všechno, co jste vytvořil. Po stisknutí tohoto tlačítka bude Tagaini Jisho ukončen. Po opětovném spuštění budete mít opět novou prázdnou databázi.</translation>
+        <translation>Stisknutí tohoto tlačítka povede k úplnému smazání všech vašich uživatelských dat. Zahrnuje to studijní seznam, značky, poznámky, v základě všechno, co jste vytvořil. Po stisknutí tohoto tlačítka bude Tagaini Jisho ukončen. Po opětovném spuštění budete mít opět novou prázdnou databázi.</translation>
     </message>
     <message>
         <location line="+10"/>

@@ -18,17 +18,16 @@
 #ifndef __CORE_ASYNCQUERY_H_
 #define __CORE_ASYNCQUERY_H_
 
+#include "sqlite/Error.h"
+#include "sqlite/Query.h"
+#include "sqlite/Connection.h"
+
 #include <QThread>
-#include <QSqlDatabase>
-#include <QSqlError>
-#include <QSqlQuery>
 #include <QSemaphore>
 #include <QMutex>
 #include <QQueue>
 #include <QSet>
 
-class QSQLiteDriver;
-class QSqlRecord;
 class DatabaseThread;
 class ThreadedDatabaseConnection;
 struct sqlite3;
@@ -42,7 +41,7 @@ class ASyncQuery : public QObject
 	Q_OBJECT
 private:
 	ThreadedDatabaseConnection *_dbConn;
-	QSqlQuery _query;
+	SQLite::Query _query;
 	/// Whether the query is executing or has a pending execution
 	bool _active;
 	QString _currentQuery;
@@ -51,7 +50,7 @@ public:
 	ASyncQuery(DatabaseThread *dbConn);
 	virtual ~ASyncQuery();
 	/// Returns the last error raised by this query
-	QSqlError lastError() { return _query.lastError(); }
+	const SQLite::Error &lastError() { return _query.lastError(); }
 
 	/**
 	 * Starts running the query given as argument. The ASyncQuery will emit
@@ -99,7 +98,7 @@ signals:
 	/// Emitted right before the first result of the query
 	void firstResult();
 	/// Emits one of the results of the query
-	void result(const QSqlRecord &result);
+	void result(const QList<QVariant> &result);
 	/// Emitted after the last result of the query
 	void completed();
 	/// Emitted if the query has been aborted
@@ -130,12 +129,7 @@ class ThreadedDatabaseConnection : public QObject
 friend class ASyncQuery;
 friend class DatabaseThread;
 private:
-	/// Used to give unique names to database connections
-	static int _conCpt;
-	QString _connectionName;
-	QSQLiteDriver *_driver;
-	QSqlDatabase _database;
-	sqlite3 *_handler;
+	SQLite::Connection _connection;
 
 	/// Queue of queries waiting to be executed
 	QQueue<ASyncQuery *> _waitingQueue;
@@ -181,7 +175,7 @@ public:
 	bool attach(const QString &dbFile, const QString &alias);
 	bool detach(const QString &alias);
 	/// Returns the last error that happened on this connection
-	QSqlError lastError() { return _database.lastError(); }
+	const SQLite::Error &lastError() { return _connection.lastError(); }
 
 public slots:
 	/**

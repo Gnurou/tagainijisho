@@ -218,9 +218,9 @@ QString JMdictEntryFormatter::formatHead(const ConstEntryPointer &_entry) const
 	ConstJMdictEntryPointer entry(_entry.staticCast<const JMdictEntry>());
 	const QList<KanjiReading> &kanjis = entry->getKanjiReadings();
 	const QList<KanaReading> &kanas = entry->getKanaReadings();
-	const KanaReading &kanaReading(kanas[0]);
 	if (!kanjis.isEmpty() && !entry->writtenInKana()) return kanjis[0].getReading();
-	else return kanaReading.getReading();
+	else if (!kanas.isEmpty()) return kanas[0].getReading();
+	else return "";
 }
 
 QString JMdictEntryFormatter::formatAltReadings(const ConstEntryPointer &_entry) const

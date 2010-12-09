@@ -334,7 +334,7 @@ ResultsViewPreferences::ResultsViewPreferences(QWidget *parent) : PreferencesWin
 	_view->setModel(_list);
 	_view->setSelectionMode(QAbstractItemView::ExtendedSelection);
 	EntryPointer ePtr(new ResultsViewPrefsDummyEntry());
-	for (int i = 0; i < 20; i++) _list->addResult(ePtr);
+//	for (int i = 0; i < 20; i++) _list->addResult(ePtr);
 	QVBoxLayout *vLayout = new QVBoxLayout(previewBox);
 	vLayout->addWidget(_view);
 	
@@ -343,7 +343,6 @@ ResultsViewPreferences::ResultsViewPreferences(QWidget *parent) : PreferencesWin
 
 void ResultsViewPreferences::refresh()
 {
-	nbResults->setValue(ResultsList::resultsPerPagePref.value());
 	resultsOrder->setCurrentIndex(EntrySearcherManager::studiedEntriesFirst.value());
 	smoothScrolling->setChecked(ResultsView::smoothScrollingSetting.value());
 
@@ -352,7 +351,6 @@ void ResultsViewPreferences::refresh()
 
 void ResultsViewPreferences::applySettings()
 {
-	ResultsList::resultsPerPagePref.set(nbResults->value());
 	ResultsView::smoothScrollingSetting.set(smoothScrolling->isChecked());
 	EntrySearcherManager::studiedEntriesFirst.set(resultsOrder->currentIndex());
 	
@@ -372,7 +370,7 @@ ListsViewPreferences::ListsViewPreferences(QWidget *parent) : PreferencesWindowC
 	_view->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 	_view->setModel(_list);
 	EntryPointer ePtr(new ResultsViewPrefsDummyEntry());
-	for (int i = 0; i < 20; i++) _list->addResult(ePtr);
+//	for (int i = 0; i < 20; i++) _list->addResult(ePtr);
 	QVBoxLayout *vLayout = new QVBoxLayout(previewBox);
 	vLayout->addWidget(_view);
 

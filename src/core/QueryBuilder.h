@@ -235,7 +235,6 @@ public:
 		const QList<Where> &wheres() const { return _wheres; }
 
 		QString buildSqlStatement() const;
-		QString buildCountSqlStatement() const;
 
 		/// Return the left-most column in the query's join
 		Column leftColumn() const;
@@ -270,11 +269,6 @@ public:
 	 * Builds the SQL statement corresponding to the query.
 	 */
 	QString buildSqlStatement(bool order = true) const;
-	/**
-	 * Builds the SQL statement corresponding to the number
-	 * of results of this query.
-	 */
-	QString buildCountSqlStatement() const;
 
 	/// Add an union
 	void addStatement(const Statement &statement, int pos = -1);

@@ -1,5 +1,4 @@
 # JMdict core
-set(QT_USE_QTSQL TRUE)
 set(QT_DONT_USE_QTGUI TRUE)
 
 set(tagainijisho_core_jmdict_SRCS
@@ -22,11 +21,12 @@ set(QT_USE_QTXML TRUE)
 set(build_jmdict_db_SRCS
 JMdictParser.cc
 BuildJMdictDB.cc
+../XmlParserHelper.cc
 )
 
 include(${QT_USE_FILE})
 add_executable(build_jmdict_db EXCLUDE_FROM_ALL ${build_jmdict_db_SRCS})
-target_link_libraries(build_jmdict_db tagaini_sqlite tagaini_core ${QT_LIBRARIES})
+target_link_libraries(build_jmdict_db tagaini_sqlite ${QT_LIBRARIES})
 if (APPLE)
 	set(extra_link_flags "-bind_at_load")
 endif()

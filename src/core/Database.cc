@@ -15,36 +15,36 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "sqlite/qsql_sqlite.h"
 #include "sqlite3.h"
 
 #include "core/Paths.h"
 #include "core/TextTools.h"
 #include "core/Database.h"
 #include "core/ASyncQuery.h"
+#include "core/EntryListDB.h"
 
 #include <QtDebug>
 #include <QSemaphore>
 #include <QMessageBox>
+#include <QQueue>
 
-#define USERDB_REVISION 7
+#define USERDB_REVISION 8
 
+#define ASSERT(Q) if (!(Q)) return false
 #define QUERY(Q) if (!query.exec(Q)) return false
 
-static Qt::ConnectionType alwaysSync = Qt::BlockingQueuedConnection;
 QString Database::_userDBFile;
-Database *Database::_instance = NULL;
+Database *Database::_instance = 0;
 QMap<QString, QString> Database::_attachedDBs;
 
 /**
  * Creates the user database. The database file on which
  * this takes place *must* be cleared.
  */
-
 bool Database::createUserDB()
 {
-	if (!database.transaction()) return false;
-	QSqlQuery query;
+	if (!_connection.transaction()) return false;
+	SQLite::Query query(&_connection);
 	// Versions table
 	QUERY("CREATE TABLE versions(id TEXT PRIMARY KEY, version INTEGER)");
 	QUERY(QString("INSERT INTO versions VALUES(\"userDB\", %1)").arg(USERDB_REVISION));
@@ -67,17 +67,19 @@ bool Database::createUserDB()
 	QUERY("CREATE INDEX idx_sets_id ON sets(parent, position)");
 	
 	// Lists tables
-	QUERY("CREATE TABLE lists(parent INTEGER REFERENCES lists, position INTEGER NOT NULL, type INTEGER, id INTEGER)");
-	QUERY("CREATE INDEX idx_lists_ref ON lists(parent, position)");
-	QUERY("CREATE INDEX idx_lists_entry ON lists(type, id)");
-	QUERY("CREATE VIRTUAL TABLE listsLabels using fts3(label)");
-	if (!database.commit()) return false;
+	EntryListDBAccess dbAccess(LISTS_DB_TABLES_PREFIX);
+	ASSERT(dbAccess.createTables(query.connection()));
+	ASSERT(dbAccess.prepareForConnection(query.connection()));
+	ASSERT(dbAccess.createDataIndexes(query.connection()));
+
+	// Done!
+	if (!_connection.commit()) return false;
 	return true;
 }
 
 /// Changes the training table structure to store the date of last training
 /// and removes trainingLog
-static bool update1to2(QSqlQuery &query) {
+static bool update1to2(SQLite::Query &query) {
 	// Drop training indexes
 	QUERY("DROP TRIGGER update_score");
 	QUERY("DROP INDEX idx_training_type_id");
@@ -104,7 +106,7 @@ static bool update1to2(QSqlQuery &query) {
 }
 
 /// Add the sets table
-static bool update2to3(QSqlQuery &query) {
+static bool update2to3(SQLite::Query &query) {
 	// Create the sets table
 	QUERY("CREATE TABLE sets(parent INT, position INT NOT NULL, label TEXT, state BLOB)");
 	QUERY("CREATE INDEX idx_sets_id ON sets(parent, position)");
@@ -113,14 +115,14 @@ static bool update2to3(QSqlQuery &query) {
 }
 
 /// Remove the score trigger
-static bool update3to4(QSqlQuery &query) {
+static bool update3to4(SQLite::Query &query) {
 	QUERY("DROP TRIGGER update_score");
 
 	return true;
 }
 
 /// Add the lists tables
-static bool update4to5(QSqlQuery &query) {
+static bool update4to5(SQLite::Query &query) {
 	QUERY("CREATE TABLE lists(parent INTEGER REFERENCES lists, position INTEGER NOT NULL, type INTEGER, id INTEGER)");
 	QUERY("CREATE INDEX idx_lists_ref ON lists(parent, position)");
 	QUERY("CREATE INDEX idx_lists_entry ON lists(type, id)");
@@ -130,7 +132,7 @@ static bool update4to5(QSqlQuery &query) {
 }
 
 /// Add the versions table, drop info
-static bool update5to6(QSqlQuery &query) {
+static bool update5to6(SQLite::Query &query) {
 	QUERY("CREATE TABLE versions(id TEXT PRIMARY KEY, version INTEGER)");
 	QUERY("INSERT INTO versions VALUES(\"userDB\", 6)");
 	QUERY("DROP TABLE info");
@@ -140,19 +142,70 @@ static bool update5to6(QSqlQuery &query) {
 
 /// Do nothing - this is because some users database version got inadvertedly
 /// upgraded one step too much during 0.2.5rc1
-static bool update6to7(QSqlQuery &query) {
+static bool update6to7(SQLite::Query &query) {
+	return true;
+}
+
+/// Reorganize the lists into the new structure
+static bool update7to8(SQLite::Query &query) {
+
+	QUERY("ALTER TABLE lists RENAME TO oldLists");
+
+	EntryListDBAccess dbAccess(LISTS_DB_TABLES_PREFIX);
+	ASSERT(dbAccess.createTables(query.connection()));
+	ASSERT(dbAccess.prepareForConnection(query.connection()));
+
+	// Prepare for the root list
+	QQueue<QPair<quint64, quint64> > nextLists;
+	QUERY("SELECT oldLists.rowid, type, id, label FROM oldLists JOIN listsLabels ON oldLists.rowid = listsLabels.rowid WHERE parent is null ORDER BY position ASC");
+	int listId = 0;
+	do {
+		EntryList list(&dbAccess, listId);
+		while (query.next()) {
+			quint64 rowid = query.valueUInt64(0);
+	
+			EntryListData entryData;
+			entryData.type = query.valueUInt(1);
+			if (entryData.type != 0) entryData.id = query.valueUInt64(2);
+			// If type is zero, this means we have a sub-list - create it and schedule it for migration
+			else {
+				EntryList subList(&dbAccess, 0);
+				subList.newList();
+				subList.setLabel(query.valueString(3));
+				entryData.id = subList.listId();
+				// Associate the old parent id to the new list id
+				nextLists << QPair<quint64, quint64>(rowid, subList.listId());
+			}
+			ASSERT(list.insert(entryData, list.size()));
+		}
+		// Check that the list is valid
+		list.checkValid();
+		// Go on to the next list, if any
+		if (nextLists.isEmpty()) break;
+		QPair<quint64, quint64> next(nextLists.dequeue());
+		QUERY(QString("SELECT oldLists.rowid, type, id, label FROM oldLists LEFT JOIN listsLabels ON oldLists.rowid = listsLabels.rowid WHERE parent = %1 ORDER BY position ASC").arg(next.first));
+		listId = next.second;
+	} while (true);
+
+	// Create the list index
+	ASSERT(dbAccess.createDataIndexes(query.connection()));
+
+	// Drop the old tables
+	QUERY("DROP TABLE oldLists");
+	QUERY("DROP TABLE listsLabels");
 	return true;
 }
 
 #undef QUERY
 
-bool (*dbUpdateFuncs[USERDB_REVISION - 1])(QSqlQuery &) = {
+bool (*dbUpdateFuncs[USERDB_REVISION - 1])(SQLite::Query &) = {
 	&update1to2,
 	&update2to3,
 	&update3to4,
 	&update4to5,
 	&update5to6,
 	&update6to7,
+	&update7to8,
 };
 
 void Database::dbWarning(const QString &message)
@@ -167,18 +220,18 @@ void Database::dbWarning(const QString &message)
 bool Database::updateUserDB(int currentVersion)
 {
 	// The database is older than our version of Tagaini - we have to update the database
-	if (!database.transaction()) return false;
-	QSqlQuery query2;
+	if (!_connection.transaction()) return false;
+	SQLite::Query query2(&_connection);
 	for (; currentVersion < USERDB_REVISION; ++currentVersion) {
 		if (!dbUpdateFuncs[currentVersion - 1](query2)) goto failed;
 		query2.clear();
 	}
 	// Update version number
 	if (!query2.exec(QString("UPDATE versions SET version=%1 where id=\"userDB\"").arg(USERDB_REVISION))) goto failed;
-	if (!database.commit()) goto failed;
+	if (!_connection.commit()) goto failed;
 	return true;
 failed:
-	database.rollback();
+	_connection.rollback();
 	return false;
 }
 
@@ -191,16 +244,14 @@ failed:
 bool Database::checkUserDB()
 {
 	int currentVersion;
-	QSqlQuery query;
-	query.exec("pragma journal_mode=MEMORY");
-	query.exec("pragma encoding=\"UTF-16le\"");
+	SQLite::Query query(&_connection);
 	// Try to get the version from the versions table
 	query.exec("SELECT version FROM versions where id=\"userDB\"");
-	if (query.next()) currentVersion = query.value(0).toInt();
+	if (query.next()) currentVersion = query.valueInt(0);
 	else {
 		// No versions table, we have an older version!
 		query.exec("SELECT version FROM info");
-		if (query.next()) currentVersion = query.value(0).toInt();
+		if (query.next()) currentVersion = query.valueInt(0);
 		else currentVersion = -1;
 	}
 	query.clear();
@@ -209,7 +260,7 @@ bool Database::checkUserDB()
 		if (currentVersion < USERDB_REVISION) {
 			if (!updateUserDB(currentVersion)) {
 				// Big issue here - start with a temporary database
-				dbWarning(tr("Error while upgrading user database: %1").arg(database.lastError().text().toLatin1().constData()));
+				dbWarning(tr("Error while upgrading user database: %1").arg(_connection.lastError().message().toLatin1().constData()));
 				return false;
 			}
 		}
@@ -221,9 +272,9 @@ bool Database::checkUserDB()
 	}
 	else {
 		if (!createUserDB()) {
-			database.rollback();
+			_connection.rollback();
 			// Big issue here - start with a temporary database
-			dbWarning(tr("Cannot create user database: %1").arg(database.lastError().text().toLatin1().constData()));
+			dbWarning(tr("Cannot create user database: %1").arg(_connection.lastError().message().toLatin1().constData()));
 			return false;
 		}
 	}
@@ -235,23 +286,12 @@ bool Database::connectUserDB(QString filename)
 	// Connect to the user DB
 	if (filename.isEmpty()) filename = defaultDBFile(); 
 
-	database.setDatabaseName(filename);
-	if (!database.open()) {
-		dbWarning(tr("Cannot open database: %1").arg(database.lastError().text().toLatin1().data()));
+	if (!_connection.connect(filename)) {
+		dbWarning(tr("Cannot open database: %1").arg(_connection.lastError().message().toLatin1().data()));
 		return false;
 	}
-
-	// Attach custom functions
-	QVariant handler = database.driver()->handle();
-	if (handler.isValid() && !qstrcmp(handler.typeName(), "sqlite3*")) {
-		sqliteHandler = *static_cast<sqlite3 **>(handler.data());
-		// TODO Move into dedicated open function? Since it cannot be used
-		// the sqlite3_auto_extension
-		register_all_tokenizers(sqliteHandler);
-	}
-
 	if (!checkUserDB()) return false;
-	_userDBFile = database.databaseName();
+	_userDBFile = _connection.dbFileName();
 	return true;
 }
 
@@ -262,35 +302,34 @@ bool Database::connectToTemporaryDatabase()
 	_tFile->close();
 	
 	// Now reopen the DB using the temporary file and create a clear database
-	database.close();
+	_connection.close();
 	return connectUserDB(_tFile->fileName());
 }
 
-Qt::ConnectionType Database::aSyncConnection() { return alwaysSync; }
-
-// This semaphore is used to block the startThreaded() function until the database
-// thread is ready to work (i.e. slots are correctly connected).
-QSemaphore startSem(0);
-
-void Database::startThreaded(const QString &userDBFile, bool temporary)
+void Database::init(const QString &userDBFile, bool temporary)
 {
 	_instance = new Database(userDBFile, temporary);
-	_instance->start();
-	// Block until the database thread is ready
-	startSem.acquire();
-}
-
-void Database::startUnthreaded(const QString &userDBFile, bool temporary)
-{
-	alwaysSync = Qt::AutoConnection;
-	_instance = new Database(userDBFile, temporary);
-	_instance->run();
 }
 
 void Database::stop()
 {
-	_instance->quit();
+	if (!_instance) return;
+
+	// The query must not live until the end of the method, as the connection is uses
+	// will be deleted before.
+	{
+		SQLite::Query query(&_instance->_connection);
+
+		// Remove unreferenced tags
+		if (!query.exec("delete from tags where docid not in (select tagId from taggedEntries)")) qWarning("Could not cleanup unused tags!");
+
+		// VACUUM the database
+		if (!query.exec("vacuum")) qWarning("Final VACUUM failed %s", query.lastError().message().toLatin1().data());
+	}
+	// Close the database
+	_instance->_connection.close();
 	delete _instance;
+	_instance = 0;
 }
 
 static void regexpFunc(sqlite3_context *context, int argc, sqlite3_value **argv)
@@ -352,14 +391,10 @@ static void load_extensions(sqlite3 *handler)
 	//register_all_tokenizers(handler);
 }
 
-Database::Database(const QString &userDBFile, bool temporary, QObject *parent) : QThread(parent), _tFile(0), sqliteHandler(0)
+Database::Database(const QString &userDBFile, bool temporary) : _tFile(0)
 {
 	sqlite3_auto_extension((void (*)())load_extensions);
 	
-	// Instanciate our custom driver
-	QSQLiteDriver *driver = new QSQLiteDriver();
-
-	database = QSqlDatabase::addDatabase(driver);
 	// Temporary database explicitly required or cannot connect to user DB:
 	// Switch to the temporary database
 	if (temporary || !connectUserDB(userDBFile)) {
@@ -379,30 +414,6 @@ Database::~Database()
 
 QVector<QRegExp> Database::staticRegExps;
 
-void Database::run()
-{
-	// We can let the GUI thread go!
-	startSem.release();
-
-	// Are we running in threaded mode?
-	if (isRunning()) exec();
-}
-
-bool Database::isThreaded()
-{
-	return (alwaysSync == Qt::BlockingQueuedConnection);
-}
-
-void Database::quit()
-{
-	// Stop the on ongoing query, if any
-	abortQuery();
-	closeDB();
-	// The database being closed, we can exit the thread
-	QThread::quit();
-	QThread::wait();
-}
-
 /**
  * Attach the dictionary DB to the opened user database.
  * @return true if the dictionary DB has successfully been attached; false
@@ -411,7 +422,7 @@ void Database::quit()
 bool Database::attachDictionaryDB(const QString &file, const QString &alias, int expectedVersion)
 {
 #define QUERY(Q) if (!query.exec(Q)) goto error
-	QSqlQuery query;
+	SQLite::Query query(&instance()->_connection);
 	// Try to attach the dictionary DB
 	QUERY("attach database '" + file + "' as " + alias);
 
@@ -419,7 +430,7 @@ bool Database::attachDictionaryDB(const QString &file, const QString &alias, int
 	QUERY("select version from " + alias + ".info");
 	// No result, not good
 	if (!query.next()) goto error;
-	if (query.value(0).toInt() != expectedVersion) goto errorDetach;
+	if (query.valueInt(0) != expectedVersion) goto errorDetach;
 	// More than one result, not good
 	if (query.next()) goto errorDetach;
 	_attachedDBs[alias] = file;
@@ -436,47 +447,18 @@ errorDetach:
 	QUERY("detach database " + alias);
 #undef QUERY
 error:
-	qCritical() << QString("Failed query: %1: %2").arg(query.lastQuery()).arg(query.lastError().text());
+	qCritical() << QString("Failed to attach database: %1").arg(query.lastError().message());
 	qCritical() << QString("Attached dictionary file was %1").arg(file);
 	return false;
 }
 
 bool Database::detachDictionaryDB(const QString &alias)
 {
-	QSqlQuery query;
+	SQLite::Query query(&instance()->_connection);
 	if (!query.exec("detach database " + alias)) {
-		qCritical() << QString("Failed query: %1: %2").arg(query.lastQuery()).arg(query.lastError().text());
+		qCritical() << QString("Failed to attach database: %2").arg(query.lastError().message());
 		return false;
 	}
 	_attachedDBs.remove(alias);
 	return true;
 }
-
-extern "C" {
-void tagaini_sqlite3_fix_activevdbecnt(sqlite3 *db);
-}
-
-void Database::sqliteFix()
-{
-	tagaini_sqlite3_fix_activevdbecnt(_instance->sqliteHandler);
-}
-
-void Database::abortQuery()
-{
-	sqlite3_interrupt(_instance->sqliteHandler);
-	sqliteFix();
-}
-
-void Database::closeDB()
-{
-	QSqlQuery query;
-
-	// Remove unreferenced tags
-	if (!query.exec("delete from tags where docid not in (select tagId from taggedEntries)")) qWarning("Could not cleanup unused tags!");
-
-	// VACUUM the database
-	if (!query.exec("vacuum")) qWarning("Final VACUUM failed %s", query.lastError().text().toLatin1().data());
-	// Call destructor for the database object
-	database = QSqlDatabase();
-}
-

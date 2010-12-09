@@ -17,17 +17,18 @@
 
 #include "core/kanjidic2/KanjiRadicals.h"
 
-#include <QSqlQuery>
+#include "sqlite/Query.h"
+#include "core/Database.h"
 #include <QVariant>
 
 KanjiRadicals::KanjiRadicals()
 {
 	// Get all the radical information!
-	QSqlQuery query;
+	SQLite::Query query(Database::connection());
 	query.exec("select kanji, number from kanjidic2.radicalsList order by rowid");
 	while (query.next()) {
-		uint kanji = query.value(0).toUInt();
-		quint8 rad = query.value(1).toUInt();
+		uint kanji = query.valueUInt(0);
+		quint8 rad = query.valueUInt(1);
 		kanji2rad[kanji] = rad;
 		QList<uint> &l = rad2kanji[rad];
 		l << kanji;
