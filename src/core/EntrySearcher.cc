@@ -236,7 +236,6 @@ void EntrySearcher::loadMiscData(Entry *entry)
 	listsQuery.bindValue(entry->id());
 	listsQuery.exec();
 	while (listsQuery.next()) {
-		qDebug() << listsQuery.valueUInt64(0);
 		entry->_lists << listsQuery.valueUInt64(0);
 	}
 	listsQuery.reset();

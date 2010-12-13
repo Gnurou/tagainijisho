@@ -546,12 +546,13 @@ void ListLinkHandler::handleUrl(const QUrl &url, DetailedView *view)
 	int rowId = url.queryItemValue("rowid").toInt();
 
 	QAbstractItemView *aView = MainWindow::instance()->entryListWidget()->entryListView();
-	EntryListModel *model = qobject_cast<EntryListModel *>(aView->model());
+	QAbstractProxyModel *proxyModel = qobject_cast<QAbstractProxyModel *>(aView->model());
+	EntryListModel *model = qobject_cast<EntryListModel *>(proxyModel->sourceModel());
 	if (!model) return;
-	//QModelIndex idx(model->index(rowId));
+	QModelIndex idx(proxyModel->mapFromSource(model->index(rowId)));
 	MainWindow::instance()->listDockWidget()->setVisible(true);
-	//aView->selectionModel()->select(idx, QItemSelectionModel::ClearAndSelect);
-	//aView->scrollTo(idx);
+	aView->selectionModel()->select(idx, QItemSelectionModel::ClearAndSelect);
+	aView->scrollTo(idx);
 }
 
 TagsLinkHandler::TagsLinkHandler() : DetailedViewLinkHandler("tag")

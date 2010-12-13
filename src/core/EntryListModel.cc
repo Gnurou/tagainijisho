@@ -69,7 +69,7 @@ QModelIndex EntryListModel::indexFromList(quint64 listId, quint64 position) cons
 	return createIndex(position, 0, (quint32)list->listId());
 }
 
-QModelIndex EntryListModel::indexFromRowId(quint64 rowid) const
+QModelIndex EntryListModel::index(quint64 rowid) const
 {
 	QPair<const EntryList *, quint32> p(EntryListCache::getIndexFromRowId(rowid));
 	if (!p.first) return QModelIndex();
