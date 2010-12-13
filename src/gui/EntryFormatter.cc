@@ -202,7 +202,7 @@ QString EntryFormatter::formatLists(const ConstEntryPointer &entry) const
 		QStringList ret;
 		ret << "<img src=\"listicon\">   ";
 		foreach (quint64 rowid, entry->lists()) {
-			QModelIndex idx(listModel.indexFromRowId(rowid));
+			QModelIndex idx(listModel.index(rowid));
 			if (!idx.isValid()) continue;
 			QString label(listModel.data(idx.parent(), Qt::DisplayRole).toString());
 			if (label.isEmpty()) label = tr("<Root>");
