@@ -29,7 +29,7 @@ EntryListCache::EntryListCache() : _dbAccess(LISTS_DB_TABLES_PREFIX)
 	ownerQuery.useWith(&_connection);
 	goUpQuery.useWith(&_connection);
 	listFromRootQuery.useWith(&_connection);
-	ownerQuery.prepare(QString("select rowid, parent, leftSize from %1 where type = 0 and id = ?").arg(_dbAccess.tableName()));
+	ownerQuery.prepare(QString("select rowid from %1 where type = 0 and id = ?").arg(_dbAccess.tableName()));
 	goUpQuery.prepare(QString("select parent, leftSize, right from %1 where rowid = ?").arg(_dbAccess.tableName()));
 	listFromRootQuery.prepare(QString("select listId from %1Roots where rootId = ?").arg(_dbAccess.tableName()));
 }
@@ -86,38 +86,49 @@ QPair<const EntryList *, quint32> EntryListCache::_getOwner(quint64 id)
 		ownerQuery.exec();
 		if (!ownerQuery.next()) return QPair<const EntryList *, quint32>();
 		quint64 rowid = ownerQuery.valueUInt64(0);
-		quint64 parent = ownerQuery.valueUInt64(1);
-		quint32 pos = ownerQuery.valueUInt(2);
 		ownerQuery.reset();
 
-		// Now go back to the root of the list, and calculate the position of the item
-		while (parent != 0) {
-			goUpQuery.bindValue(parent);
-			goUpQuery.exec();
-			if (!goUpQuery.next()) {
-				qCritical("List inconsistency!");
-				break;
-			}
-			quint64 newParent = goUpQuery.valueUInt64(0);
-			quint32 leftSize = goUpQuery.valueUInt(1);
-			quint64 right = goUpQuery.valueUInt64(2);
-			if (rowid == right) pos += leftSize + 1;
-			goUpQuery.reset();
-			rowid = parent;
-			parent = newParent;
-		}
-
-		// rowid now contains the root of the containing list, we can look its id up
-		listFromRootQuery.bindValue(rowid);
-		listFromRootQuery.exec();
-		if (!listFromRootQuery.next()) return QPair<const EntryList *, quint32>();
-		else {
-			const EntryList *ret = get(listFromRootQuery.valueUInt64(0));
-			listFromRootQuery.reset();
-			_cachedParents[id] = QPair<const EntryList *, quint32>(ret, pos);
-		}
+		_cachedParents[id] = _getIndexFromRowId(rowid);
 	}
 	return _cachedParents[id];
+}
+
+QPair<const EntryList *, quint32> EntryListCache::_getIndexFromRowId(quint64 rowid)
+{
+	// Get the initial info about the list
+	goUpQuery.bindValue(rowid);
+	if (!goUpQuery.exec() || !goUpQuery.next()) {
+		qCritical("List inconsistency!");
+	}
+	quint64 parent = goUpQuery.valueInt(0);
+	quint32 pos = goUpQuery.valueInt(1);
+	goUpQuery.reset();
+
+	// Go back to the root of the list, and calculate the position of the item
+	while (parent != 0) {
+		goUpQuery.bindValue(parent);
+		if (!goUpQuery.exec() || !goUpQuery.next()) {
+			qCritical("List inconsistency!");
+			break;
+		}
+		quint64 newParent = goUpQuery.valueUInt64(0);
+		quint32 leftSize = goUpQuery.valueUInt(1);
+		quint64 right = goUpQuery.valueUInt64(2);
+		if (rowid == right) pos += leftSize + 1;
+		goUpQuery.reset();
+		rowid = parent;
+		parent = newParent;
+	}
+
+	// rowid now contains the root of the containing list, we can look its id up
+	listFromRootQuery.bindValue(rowid);
+	listFromRootQuery.exec();
+	if (!listFromRootQuery.next()) return QPair<const EntryList *, quint32>();
+	else {
+		const EntryList *ret = get(listFromRootQuery.valueUInt64(0));
+		listFromRootQuery.reset();
+		return QPair<const EntryList *, quint32>(ret, pos);
+	}
 }
 
 void EntryListCache::_clearOwnerCache(quint64 id)

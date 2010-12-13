@@ -26,22 +26,13 @@
 class EntryListModel : public QAbstractItemModel
 {
 	Q_OBJECT
-private:
-	quint64 _rootId;
-	
 public:
-	EntryListModel(int rootId = 0, QObject *parent = 0) : QAbstractItemModel(parent), _rootId(rootId) {}
+	EntryListModel(QObject *parent = 0) : QAbstractItemModel(parent) {}
 	virtual ~EntryListModel() {}
-
-	/// Returns the rowid of the root list of this model (0 if the model displays the root)
-	quint64 rootId() const { return _rootId; }
-	/// Sets the root list to display. 0 displays the root of all lists.
-	void setRoot(quint64 rootId);
 
 	virtual QModelIndex index(int row, int column, const QModelIndex &parent = QModelIndex()) const;
 	QModelIndex indexFromList(quint64 listId, quint64 position) const;
-	/// Returns the parent as the views will see it, i.e. if the root it set it will really
-	/// behave as a root
+	QModelIndex indexFromRowId(quint64 rowid) const;
 	virtual QModelIndex parent(const QModelIndex &index) const;
 	virtual int rowCount(const QModelIndex &parent = QModelIndex()) const;
 	virtual int columnCount(const QModelIndex &parent = QModelIndex()) const { return 1; }
@@ -55,10 +46,6 @@ public:
 	virtual QMimeData *mimeData(const QModelIndexList &indexes) const;
 	virtual Qt::DropActions supportedDropActions() const { return Qt::CopyAction | Qt::MoveAction; }
 	virtual bool dropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &parent);
-	
-signals:
-	/// Emitted when the root index has changed
-	void rootHasChanged(int rowIndex);
 };
 
 #endif

@@ -201,13 +201,14 @@ QString EntryFormatter::formatLists(const ConstEntryPointer &entry) const
 		EntryListModel listModel;
 		QStringList ret;
 		ret << "<img src=\"listicon\">   ";
-		foreach (quint32 id, entry->lists()) {
-			//QModelIndex idx(listModel.index(id));
-			//QString label(listModel.data(idx.parent(), Qt::DisplayRole).toString());
-			//if (label.isEmpty()) label = tr("<Root>");
-			//QUrl url("list://");
-			//url.addQueryItem("rowid", QString::number(id));
-			//ret << QString("<a href=\"%1\">%2</a>").arg(QString(url.toEncoded())).arg(autoFormat(label));
+		foreach (quint64 rowid, entry->lists()) {
+			QModelIndex idx(listModel.indexFromRowId(rowid));
+			if (!idx.isValid()) continue;
+			QString label(listModel.data(idx.parent(), Qt::DisplayRole).toString());
+			if (label.isEmpty()) label = tr("<Root>");
+			QUrl url("list://");
+			url.addQueryItem("rowid", QString("%1").arg(rowid));
+			ret << QString("<a href=\"%1\">%2</a>").arg(QString(url.toEncoded())).arg(autoFormat(label));
 		}
 		return ret.join(" ");
 	}

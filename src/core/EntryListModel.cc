@@ -24,22 +24,22 @@
 #include <QSize>
 #include <QPalette>
 
-void EntryListModel::setRoot(quint64 rootId)
-{
-	// Nothing changes?
-	if (rootId == _rootId) return;
+// void EntryListModel::setRoot(quint64 rootId)
+// {
+// 	// Nothing changes?
+// 	if (rootId == _rootId) return;
 
-#if QT_VERSION >= 0x040600
-	beginResetModel();
-#endif
-	_rootId = rootId;
-#if QT_VERSION >= 0x040600
-	endResetModel();
-#else
-	reset();
-#endif
-	emit rootHasChanged(rootId);
-}
+// #if QT_VERSION >= 0x040600
+// 	beginResetModel();
+// #endif
+// 	_rootId = rootId;
+// #if QT_VERSION >= 0x040600
+// 	endResetModel();
+// #else
+// 	reset();
+// #endif
+// 	emit rootHasChanged(rootId);
+// }
 
 #define LISTFORINDEX(index) (*EntryListCache::get(index.isValid() ? index.internalId() : 0))
 #define INDEXDATA(index) LISTFORINDEX(index)[index.row()]
@@ -67,6 +67,13 @@ QModelIndex EntryListModel::indexFromList(quint64 listId, quint64 position) cons
 
 	// FIXME Qt is wrong here - internalId() returns a qint64, so this function should take a qint64 too!
 	return createIndex(position, 0, (quint32)list->listId());
+}
+
+QModelIndex EntryListModel::indexFromRowId(quint64 rowid) const
+{
+	QPair<const EntryList *, quint32> p(EntryListCache::getIndexFromRowId(rowid));
+	if (!p.first) return QModelIndex();
+	return createIndex(p.second, 0, p.first->listId());
 }
 	
 QModelIndex EntryListModel::parent(const QModelIndex &idx) const
@@ -385,13 +392,14 @@ bool EntryListModel::dropMimeData(const QMimeData *data, Qt::DropAction action, 
 			EntryListData eData;
 			eData.type = entry.type();
 			eData.id = entry.id();
-			if (!list.insert(eData, row + cpt++)) {
+			if (!list.insert(eData, row + cpt)) {
 				qWarning("Error inserting list item, aborting.");
 				goto failure_2;
 			}
 
 			// Now add the list to the entry if it is loaded
-			//if (entry.isLoaded()) entry.get()->lists() << list.listId();
+			//if (entry.isLoaded()) entry.get()->lists() << Entry::EntryListRef(list.listId(), row + cpt);
+			cpt++;
 		}
 		if (!EntryListCache::connection()->commit()) goto failure_2;
 		EntryListCache::clearOwnerCache();

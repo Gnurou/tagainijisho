@@ -175,15 +175,15 @@ void EntryListView::setSelectedAsRoot()
 	if (!selection.isEmpty() && selection.size() == 1) {
 		EntryListModel *myModel = qobject_cast<EntryListModel *>(model());
 		if (!myModel) return;
-		int id = selection[0].internalId();
-		myModel->setRoot(id);
+		//int id = selection[0].internalId();
+		//myModel->setRoot(id);
 	}
 }
 
 void EntryListView::goUp()
 {
-	EntryListModel *myModel = qobject_cast<EntryListModel *>(model());
-	if (!myModel || myModel->rootId() == 0) return;
+	//EntryListModel *myModel = qobject_cast<EntryListModel *>(model());
+	//if (!myModel || myModel->rootId() == 0) return;
 
 	//QModelIndex idx(myModel->index(myModel->rootId()));
 	//QModelIndex parent(myModel->realParent(idx));

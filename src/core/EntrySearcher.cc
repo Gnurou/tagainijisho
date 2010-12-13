@@ -19,6 +19,7 @@
 #include "core/Database.h"
 #include "core/RelativeDate.h"
 #include "core/EntrySearcher.h"
+#include "core/EntryListCache.h"
 
 #include <QtDebug>
 
@@ -46,7 +47,7 @@ EntrySearcher::EntrySearcher(QObject *parent) : QObject(parent), commandMatch(Se
 	trainQuery.prepare("select dateAdded, dateLastTrain, nbTrained, nbSuccess, dateLastMistake, score from training where type = ? and id = ?");
 	tagsQuery.prepare("select tagId from taggedEntries where type = ? and id = ? order by date");
 	notesQuery.prepare("select noteId, dateAdded, dateLastChange, note from notes join notesText on notes.noteId == notesText.docid where type = ? and id = ? order by dateAdded ASC, noteId ASC");
-	listsQuery.prepare("select lists.rowid, listsLabels.label from lists join listsLabels on lists.parent = listsLabels.rowid where lists.type = ? and lists.id = ?");
+	listsQuery.prepare("select rowid from lists where type = ? and id = ?");
 }
 
 EntrySearcher::~EntrySearcher()
@@ -235,7 +236,8 @@ void EntrySearcher::loadMiscData(Entry *entry)
 	listsQuery.bindValue(entry->id());
 	listsQuery.exec();
 	while (listsQuery.next()) {
-		entry->_lists << listsQuery.valueUInt(0);
+		qDebug() << listsQuery.valueUInt64(0);
+		entry->_lists << listsQuery.valueUInt64(0);
 	}
 	listsQuery.reset();
 }
