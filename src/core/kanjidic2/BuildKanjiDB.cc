@@ -288,11 +288,11 @@ static bool create_tables()
 	EXEC_STMT(query, "create table info(version INT, kanjidic2Version TEXT, kanjiVGVersion TEXT)");
 	EXEC_STMT(query, "create table entries(id INTEGER PRIMARY KEY, grade TINYINT, strokeCount TINYINT, frequency SMALLINT, jlpt TINYINT, paths BLOB)");
 	EXEC_STMT(query, "create table reading(docid INTEGER PRIMARY KEY, entry INTEGER SECONDARY KEY REFERENCES entries, type TEXT)");
-	EXEC_STMT(query, "create virtual table readingText using fts3(reading, TOKENIZE katakana)");
+	EXEC_STMT(query, "create virtual table readingText using fts4(reading, TOKENIZE katakana)");
 	EXEC_STMT(query, "create table meaning(docid INTEGER PRIMARY KEY, entry INTEGER SECONDARY KEY REFERENCES entries, lang TEXT)");
-	EXEC_STMT(query, "create virtual table meaningText using fts3(reading)");
+	EXEC_STMT(query, "create virtual table meaningText using fts4(reading)");
 	EXEC_STMT(query, "create table nanori(docid INTEGER PRIMARY KEY, entry INTEGER SECONDARY KEY REFERENCES entries)");
-	EXEC_STMT(query, "create virtual table nanoriText using fts3(reading, TOKENIZE katakana)");
+	EXEC_STMT(query, "create virtual table nanoriText using fts4(reading, TOKENIZE katakana)");
 	EXEC_STMT(query, "create table strokeGroups(kanji INTEGER, element INTEGER, original INTEGER, isRoot BOOLEAN, pathsRefs BLOB)");
 	EXEC_STMT(query, "create table rootComponents(kanji INTEGER PRIMARY KEY)");
 	EXEC_STMT(query, "create table skip(entry INTEGER, type TINYINT, c1 TINYINT, c2 TINYINT)");
