@@ -18,7 +18,6 @@ EntryMenu.cc
 EditEntryNotesDialog.cc
 SetsOrganizer.cc
 UpdateChecker.cc
-ClickableAnimation.cc
 SingleEntryView.cc
 SearchFilterWidget.cc
 EntryTypeFilterWidget.cc
@@ -50,7 +49,6 @@ MainWindow.cc
 
 set(tagainijisho_gui_MOCS
 BetterSpinBox.h
-ClickableAnimation.h
 EntryFormatter.h
 DetailedView.h
 EditEntryNotesDialog.h

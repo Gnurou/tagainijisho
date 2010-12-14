@@ -23,10 +23,10 @@
 #include "gui/NotesFilterWidget.h"
 #include "gui/StudyFilterWidget.h"
 #include "gui/JLPTFilterWidget.h"
-#include "gui/ClickableAnimation.h"
 
 #include <QMessageBox>
 #include <QScrollBar>
+#include <QResizeEvent>
 
 PreferenceItem<int> SearchWidget::historySize("mainWindow/resultsView", "historySize", 100);
 
