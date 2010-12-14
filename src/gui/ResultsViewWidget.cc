@@ -20,21 +20,11 @@
 ResultsViewWidget::ResultsViewWidget(QWidget *parent) : QWidget(parent), _results(0)
 {
 	setupUi(this);
-	
-	// Search animation
-	static const int searchAnimMinSize = 10;
-	static const int searchAnimMaxSize = 40;
-	int searchAnimSize = nbResultsLabel->size().height() - 4;
-	searchAnimSize = qMin(searchAnimSize, searchAnimMaxSize);
-	searchAnimSize = qMax(searchAnimSize, searchAnimMinSize);
-	searchActiveAnimation->setSize(QSize(searchAnimSize, searchAnimSize));
-	searchActiveAnimation->setBaseImage(":/images/tagainijisho.png");
 }
 
 void ResultsViewWidget::setModel(ResultsList *rList)
 {
 	if (_results) {
-		disconnect(searchActiveAnimation, SIGNAL(clicked()), _results, SLOT(abortSearch()));
 		disconnect(_results, SIGNAL(rowsRemoved(QModelIndex, int, int)), this, SLOT(updateResultsCount()));
 		disconnect(_results, SIGNAL(queryEnded()), this, SLOT(onSearchFinished()));
 		disconnect(_results, SIGNAL(queryStarted()), this, SLOT(onSearchStarted()));
@@ -44,7 +34,6 @@ void ResultsViewWidget::setModel(ResultsList *rList)
 		connect(_results, SIGNAL(queryStarted()), this, SLOT(onSearchStarted()));
 		connect(_results, SIGNAL(queryEnded()), this, SLOT(onSearchFinished()));
 		connect(_results, SIGNAL(rowsRemoved(QModelIndex, int, int)), this, SLOT(updateResultsCount()));
-		connect(searchActiveAnimation, SIGNAL(clicked()), _results, SLOT(abortSearch()));
 	}
 	_resultsView->setModel(rList);
 }
@@ -52,14 +41,11 @@ void ResultsViewWidget::setModel(ResultsList *rList)
 void ResultsViewWidget::onSearchStarted()
 {
 	nbResultsLabel->setText(tr("Searching..."));
-	searchActiveAnimation->start();
 }
 
 void ResultsViewWidget::onSearchFinished()
 {
 	nbResultsLabel->clear();
-	searchActiveAnimation->stop();
-	searchActiveAnimation->jumpToFrame(0);
 	updateResultsCount();
 }
 
