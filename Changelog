@@ -1,9 +1,11 @@
-0. released on
+0.9 released on
 * JMdict entities translated again
 * Custom SQLite backend, removes dependency on QtSql
 * Entries of the results view now loaded on-demand, resulting in much
   faster searches
 * Results view not paged anymore
+* Lists system totally rewritten, now much faster and safer to use
+* Updated to SQLite 3.7.4
 
 0.2.6.2 released on 2010/08/30
 * Really fixed bug of kana selector always appearing on startup
