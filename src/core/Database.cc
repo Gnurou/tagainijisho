@@ -28,7 +28,7 @@
 #include <QMessageBox>
 #include <QQueue>
 
-#define USERDB_REVISION 8
+#define USERDB_REVISION 9
 
 #define ASSERT(Q) if (!(Q)) return false
 #define QUERY(Q) if (!query.exec(Q)) return false
@@ -55,12 +55,12 @@ bool Database::createUserDB()
 	QUERY("CREATE INDEX idx_training_score ON training(score)");
 
 	// Tags tables
-	QUERY("CREATE VIRTUAL TABLE tags USING fts3(tag)");
+	QUERY("CREATE VIRTUAL TABLE tags USING fts4(tag)");
 	QUERY("CREATE TABLE taggedEntries(type INT, id INTEGER SECONDARY KEY, tagId INTEGER SECONDARY KEY REFERENCES tags, date UNSIGNED INT)");
 
 	// Notes tables
 	QUERY("CREATE TABLE notes(noteId INTEGER PRIMARY KEY, type INT, id INTEGER SECONDARY KEY, dateAdded UNSIGNED INT, dateLastChange UNSIGNED INT)");
-	QUERY("CREATE VIRTUAL TABLE notesText using fts3(note)");
+	QUERY("CREATE VIRTUAL TABLE notesText using fts4(note)");
 
 	// Sets table
 	QUERY("CREATE TABLE sets(parent INT, position INT NOT NULL, label TEXT, state BLOB)");
@@ -196,6 +196,27 @@ static bool update7to8(SQLite::Query &query) {
 	return true;
 }
 
+/**
+ * Update FTS tables to FTS4
+ */
+static bool update8to9(SQLite::Query &query)
+{
+	QUERY("CREATE VIRTUAL TABLE newtags USING fts4(tag)");
+	QUERY("CREATE VIRTUAL TABLE newnotesText USING fts4(note)");
+	QUERY("INSERT INTO newtags(docid, tag) SELECT docid, tag FROM tags");
+	QUERY("INSERT INTO newnotesText(docid, note) SELECT docid, note FROM notesText");
+	QUERY("DROP TABLE tags");
+	QUERY("DROP TABLE notesText");
+	QUERY("CREATE VIRTUAL TABLE tags USING fts4(tag)");
+	QUERY("CREATE VIRTUAL TABLE notesText USING fts4(note)");
+	QUERY("INSERT INTO tags(docid, tag) SELECT docid, tag FROM newtags");
+	QUERY("INSERT INTO notesText(docid, note) SELECT docid, note FROM newnotesText");
+	QUERY("DROP TABLE newtags");
+	QUERY("DROP TABLE newnotesText");
+
+	return true;
+}
+
 #undef QUERY
 
 bool (*dbUpdateFuncs[USERDB_REVISION - 1])(SQLite::Query &) = {
@@ -206,6 +227,7 @@ bool (*dbUpdateFuncs[USERDB_REVISION - 1])(SQLite::Query &) = {
 	&update5to6,
 	&update6to7,
 	&update7to8,
+	&update8to9,
 };
 
 void Database::dbWarning(const QString &message)
