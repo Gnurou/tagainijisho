@@ -106,14 +106,14 @@ else(${GUNZIP} MATCHES "GUNZIP-NOTFOUND")
 
 	# Kanjidic2
 	if(NOT EXISTS ${CMAKE_SOURCE_DIR}/3rdparty/kanjidic2.xml)
-		MESSAGE(STATUS "Downloading Kanjidic2 ${KANJIDIC2_SOURCE}")
+		MESSAGE(STATUS "Downloading Kanjidic2 from ${KANJIDIC2_SOURCE}")
 		FILE(DOWNLOAD ${KANJIDIC2_SOURCE} ${CMAKE_SOURCE_DIR}/3rdparty/kanjidic2.xml.gz)
 		execute_process(COMMAND ${GUNZIP} ${CMAKE_SOURCE_DIR}/3rdparty/kanjidic2.xml.gz WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/3rdparty)
 	endif()
 
 	# KanjiVG
 	if(NOT EXISTS ${CMAKE_SOURCE_DIR}/3rdparty/kanjivg.xml)
-		MESSAGE(STATUS "Downloading KanjiVG ${KANJIVG_SOURCE}")
+		MESSAGE(STATUS "Downloading KanjiVG from ${KANJIVG_SOURCE}")
 		FILE(DOWNLOAD ${KANJIVG_SOURCE} ${CMAKE_SOURCE_DIR}/3rdparty/kanjivg-latest.xml.gz)
 		execute_process(COMMAND ${GUNZIP} ${CMAKE_SOURCE_DIR}/3rdparty/kanjivg-latest.xml.gz WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/3rdparty)
 		FILE(RENAME ${CMAKE_SOURCE_DIR}/3rdparty/kanjivg-latest.xml ${CMAKE_SOURCE_DIR}/3rdparty/kanjivg.xml)
