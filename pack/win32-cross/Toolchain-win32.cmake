@@ -1,7 +1,7 @@
 set(CMAKE_SYSTEM_NAME Windows)
 set(CMAKE_C_COMPILER i486-mingw32-gcc)
 set(CMAKE_CXX_COMPILER i486-mingw32-g++)
-set(QT_ROOT /home/gnurou/.wine/drive_c/Qt/4.6.3)
+set(QT_ROOT /home/gnurou/.wine/drive_c/Qt/latest)
 set(CMAKE_FIND_ROOT_PATH /usr/i486-mingw32/i ${QT_ROOT})
 set(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER)
 set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY)
