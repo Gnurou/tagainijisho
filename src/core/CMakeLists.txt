@@ -19,7 +19,6 @@ ResultsList.cc
 EntryListDB.cc
 EntryListCache.cc
 EntryListModel.cc
-EntryListModelFilter.cc
 EntriesCache.cc
 Plugin.cc
 XmlParserHelper.cc
@@ -35,7 +34,6 @@ EntrySearcher.h
 EntrySearcherManager.h
 ResultsList.h
 EntryListModel.h
-EntryListModelFilter.h
 Preferences.h
 Tag.h
 )

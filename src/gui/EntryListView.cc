@@ -32,7 +32,7 @@ PreferenceItem<QString> EntryListView::kanaFontSetting("mainWindow/lists", "kana
 PreferenceItem<QString> EntryListView::kanjiFontSetting("mainWindow/lists", "kanjiFont", QFont("Helvetica", 12).toString());
 PreferenceItem<int> EntryListView::displayModeSetting("mainWindow/lists", "displayMode", EntryDelegateLayout::OneLine);
 
-EntryListView::EntryListView(QWidget *parent, EntryDelegateLayout* delegateLayout, bool viewOnly) : QTreeView(parent), _filter(), _helper(this, delegateLayout, true, viewOnly), _setAsRootAction(tr("Set as root"), 0), _newListAction(QIcon(":/images/icons/document-new.png"), tr("New list..."), 0), _rightClickNewListAction(_newListAction.icon(), _newListAction.text(), 0), _deleteSelectionAction(QIcon(":/images/icons/delete.png"), tr("Delete"), 0), _goUpAction(QIcon(":/images/icons/go-up.png"), tr("Go up"), 0)
+EntryListView::EntryListView(QWidget *parent, EntryDelegateLayout* delegateLayout, bool viewOnly) : QTreeView(parent), _helper(this, delegateLayout, true, viewOnly), _setAsRootAction(tr("Set as root"), 0), _newListAction(QIcon(":/images/icons/document-new.png"), tr("New list..."), 0), _rightClickNewListAction(_newListAction.icon(), _newListAction.text(), 0), _deleteSelectionAction(QIcon(":/images/icons/delete.png"), tr("Delete"), 0), _goUpAction(QIcon(":/images/icons/go-up.png"), tr("Go up"), 0)
 {
 	setHeaderHidden(true);
 	EntryDelegate *delegate = new EntryDelegate(helper()->delegateLayout(), this);
@@ -69,15 +69,13 @@ EntryListView::EntryListView(QWidget *parent, EntryDelegateLayout* delegateLayou
 	setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
 	setSmoothScrolling(smoothScrollingSetting.value());
 	connect(&smoothScrollingSetting, SIGNAL(valueChanged(QVariant)), &_helper, SLOT(updateConfig(QVariant)));
-
-	QTreeView::setModel(&_filter);
 }
 
 void EntryListView::setModel(QAbstractItemModel *newModel)
 {
-	QAbstractItemModel *oldModel = _filter.sourceModel();
+	QAbstractItemModel *oldModel = model();
 	if (oldModel && oldModel->metaObject()->indexOfSignal(QMetaObject::normalizedSignature(SIGNAL(rootHasChanged(int))).constData() + 1) != -1) disconnect(oldModel, SIGNAL(rootHasChanged(int)), this, SLOT(onModelRootChanged(int)));
-	_filter.setSourceModel(newModel);
+	QTreeView::setModel(newModel);
 	_setAsRootAction.setEnabled(false);
 	_goUpAction.setEnabled(false);
 	if (newModel && newModel->metaObject()->indexOfSignal(QMetaObject::normalizedSignature(SIGNAL(rootHasChanged(int))).constData() + 1) != -1) connect(newModel, SIGNAL(rootHasChanged(int)), this, SLOT(onModelRootChanged(int)));
