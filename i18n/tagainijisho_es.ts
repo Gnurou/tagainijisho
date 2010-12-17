@@ -62,7 +62,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="+484"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="+462"/>
         <source>User data</source>
         <translation type="unfinished"></translation>
     </message>
@@ -120,7 +120,7 @@
 <context>
     <name>Database</name>
     <message>
-        <location filename="../src/core/Database.cc" line="+235"/>
+        <location filename="../src/core/Database.cc" line="+249"/>
         <source>Tagaini Jisho warning</source>
         <translation type="unfinished"></translation>
     </message>
@@ -528,7 +528,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+96"/>
+        <location line="+94"/>
         <source>Unable to create list</source>
         <translation type="unfinished"></translation>
     </message>
@@ -800,7 +800,7 @@ improve performance when manipulating a large number of entries.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="-160"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="-138"/>
         <source>Czech</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2750,7 +2750,7 @@ improve performance when manipulating a large number of entries.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="+193"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="+172"/>
         <source>Lists</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3072,7 +3072,7 @@ This message is a one-time reminder and will not appear anymore - you can still 
 <context>
     <name>PreferencesFontChooser</name>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="+152"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="+151"/>
         <source>%1:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3349,16 +3349,8 @@ This message is a one-time reminder and will not appear anymore - you can still 
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="-192"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="-190"/>
         <source>Results view</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>ResultsViewPrefsDummyEntry</name>
-    <message>
-        <location line="-99"/>
-        <source>Romaji text</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

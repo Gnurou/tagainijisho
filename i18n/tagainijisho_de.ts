@@ -62,7 +62,7 @@
         <translation>Datei f√ºr Benutzerdatenbank:</translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="+484"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="+462"/>
         <source>User data</source>
         <translation>Benutzerdaten</translation>
     </message>
@@ -120,7 +120,7 @@
 <context>
     <name>Database</name>
     <message>
-        <location filename="../src/core/Database.cc" line="+235"/>
+        <location filename="../src/core/Database.cc" line="+249"/>
         <source>Tagaini Jisho warning</source>
         <translation>Tagaini Jisho Warnung</translation>
     </message>
@@ -609,7 +609,7 @@
         <translation>Neue Liste...</translation>
     </message>
     <message>
-        <location line="+96"/>
+        <location line="+94"/>
         <source>Unable to create list</source>
         <translation>Kann neue Liste nicht erstellen</translation>
     </message>
@@ -647,7 +647,7 @@
 Manche von ihnen sind eventuell noch vorhanden.</translation>
     </message>
     <message>
-        <location line="-134"/>
+        <location line="-132"/>
         <source>Set as root</source>
         <translation>Als Wurzel setzen</translation>
     </message>
@@ -924,7 +924,7 @@ Hohe Werte k√∂nnen die Leistung verbessern wenn eine gro√üe Anzahl
 an Eintr√§gen manipuliert werden.</translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="-158"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="-136"/>
         <source>English</source>
         <translation>Englisch</translation>
     </message>
@@ -2930,7 +2930,7 @@ an Eintr√§gen manipuliert werden.</translation>
         <translation>Vorschau</translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="+264"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="+243"/>
         <source>Lists</source>
         <translation>Listen</translation>
     </message>
@@ -3272,7 +3272,7 @@ Diese Nachricht ist eine einmalige Erinnerung und wird nicht weiter erscheinen ‚
 <context>
     <name>PreferencesFontChooser</name>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="+152"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="+151"/>
         <source>%1:</source>
         <translation>%1:</translation>
     </message>
@@ -3603,7 +3603,7 @@ Diese Nachricht ist eine einmalige Erinnerung und wird nicht weiter erscheinen ‚
         <translation>Vorschau</translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="-192"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="-190"/>
         <source>Results view</source>
         <translation>Resultatansicht</translation>
     </message>
@@ -3611,9 +3611,8 @@ Diese Nachricht ist eine einmalige Erinnerung und wird nicht weiter erscheinen ‚
 <context>
     <name>ResultsViewPrefsDummyEntry</name>
     <message>
-        <location line="-99"/>
         <source>Romaji text</source>
-        <translation>Romaji-Text</translation>
+        <translation type="obsolete">Romaji-Text</translation>
     </message>
 </context>
 <context>
