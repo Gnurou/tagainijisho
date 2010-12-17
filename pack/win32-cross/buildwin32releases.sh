@@ -10,7 +10,7 @@ NSIFILE=$BASEDIR/tagainijisho.nsi
 MINGWDLLPATH=${MINGWDLLPATH-/usr/i486-mingw32/lib}
 
 mkdir -p $BUILDDIR/i18n
-for lang in fr de es ru nl;
+for lang in fr de es ru nl cs;
 do
 	touch $BUILDDIR/i18n/qt_$lang.qm
 	lrelease $QTPATH/translations/qt_$lang.ts -qm $BUILDDIR/i18n/qt_$lang.qm
@@ -24,7 +24,7 @@ cmake -DCMAKE_BUILD_TYPE=Release -DDICT_LANG="en;fr;de;es;ru" $SRCDIR
 make i18n databases -j5
 
 cd $BASEDIR
-for lang in en fr de es ru;
+for lang in en fr de es ru cs;
 do
 	makensis -DLANG=$lang -DVERSION=$VERSION -DBUILDDIR=$BUILDDIR -DSRCDIR=$SRCDIR -DQTPATH=$QTPATH -DMINGWDLLPATH=$MINGWDLLPATH $NSIFILE
 	mv install.exe tagainijisho-$VERSION-$lang.exe
