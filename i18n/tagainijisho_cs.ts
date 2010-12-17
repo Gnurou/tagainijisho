@@ -62,7 +62,7 @@
         <translation>Soubor s uživatelovou databází:</translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="+484"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="+462"/>
         <source>User data</source>
         <translation>Uživatelova data</translation>
     </message>
@@ -120,7 +120,7 @@
 <context>
     <name>Database</name>
     <message>
-        <location filename="../src/core/Database.cc" line="+235"/>
+        <location filename="../src/core/Database.cc" line="+249"/>
         <source>Tagaini Jisho warning</source>
         <translation>Varování Tagaini Jisho</translation>
     </message>
@@ -609,7 +609,7 @@
         <translation>Nový seznam...</translation>
     </message>
     <message>
-        <location line="+96"/>
+        <location line="+94"/>
         <source>Unable to create list</source>
         <translation>Nelze vytvořit seznam</translation>
     </message>
@@ -647,7 +647,7 @@
 Některé z nich možná ještě zůstaly.</translation>
     </message>
     <message>
-        <location line="-134"/>
+        <location line="-132"/>
         <source>Set as root</source>
         <translation>Nastavit jako superuživatel</translation>
     </message>
@@ -923,7 +923,7 @@ improve performance when manipulating a large number of entries.</source>
 Vysoké hodnoty mohou zlepšit výkon, když se zachází s velkým počtem záznamů.</translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="-158"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="-136"/>
         <source>English</source>
         <translation>Anglický</translation>
     </message>
@@ -2929,7 +2929,7 @@ Vysoké hodnoty mohou zlepšit výkon, když se zachází s velkým počtem záz
         <translation>Náhled</translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="+264"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="+243"/>
         <source>Lists</source>
         <translation>Seznamy</translation>
     </message>
@@ -3271,7 +3271,7 @@ Tato zpráva je jednorázovým připomenutím a už se vícekrát neobjeví – 
 <context>
     <name>PreferencesFontChooser</name>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="+152"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="+151"/>
         <source>%1:</source>
         <translation>%1:</translation>
     </message>
@@ -3602,7 +3602,7 @@ Tato zpráva je jednorázovým připomenutím a už se vícekrát neobjeví – 
         <translation>Náhled</translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="-192"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="-190"/>
         <source>Results view</source>
         <translation>Pohled s výsledky</translation>
     </message>
@@ -3610,9 +3610,8 @@ Tato zpráva je jednorázovým připomenutím a už se vícekrát neobjeví – 
 <context>
     <name>ResultsViewPrefsDummyEntry</name>
     <message>
-        <location line="-99"/>
         <source>Romaji text</source>
-        <translation>Text romadži</translation>
+        <translation type="obsolete">Text romadži</translation>
     </message>
 </context>
 <context>

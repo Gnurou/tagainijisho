@@ -62,7 +62,7 @@
         <translation>Fichier de base de données utilisateur:</translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="+484"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="+462"/>
         <source>User data</source>
         <translation>Données utilisateur</translation>
     </message>
@@ -120,7 +120,7 @@
 <context>
     <name>Database</name>
     <message>
-        <location filename="../src/core/Database.cc" line="+235"/>
+        <location filename="../src/core/Database.cc" line="+249"/>
         <source>Tagaini Jisho warning</source>
         <translation>Avertissement Tagaini Jisho</translation>
     </message>
@@ -611,7 +611,7 @@
         <translation>Remonter</translation>
     </message>
     <message>
-        <location line="+96"/>
+        <location line="+94"/>
         <source>Unable to create list</source>
         <translation>Impossible de créer la liste</translation>
     </message>
@@ -834,7 +834,7 @@ Certains d&apos;entre eux peuvent toujours être présents.</translation>
 <context>
     <name>GeneralPreferences</name>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="-158"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="-136"/>
         <source>English</source>
         <translation>Anglais</translation>
     </message>
@@ -3172,7 +3172,7 @@ améliorer les performances en cas de manipulation de nombreuses entrées.</tran
         <translation>Prévisualisation</translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="+193"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="+172"/>
         <source>Lists</source>
         <translation>Listes</translation>
     </message>
@@ -3676,7 +3676,7 @@ This message is a one-time reminder and will not appear anymore - you can still 
 <context>
     <name>PreferencesFontChooser</name>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="+157"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="+156"/>
         <source>Change...</source>
         <translation>Changer...</translation>
     </message>
@@ -4059,7 +4059,7 @@ This message is a one-time reminder and will not appear anymore - you can still 
         <translation>Prévisualisation</translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="-189"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="-187"/>
         <source>Results view</source>
         <translation>Liste des résultats</translation>
     </message>
@@ -4067,9 +4067,8 @@ This message is a one-time reminder and will not appear anymore - you can still 
 <context>
     <name>ResultsViewPrefsDummyEntry</name>
     <message>
-        <location line="-99"/>
         <source>Romaji text</source>
-        <translation>Texte en romaji</translation>
+        <translation type="obsolete">Texte en romaji</translation>
     </message>
 </context>
 <context>

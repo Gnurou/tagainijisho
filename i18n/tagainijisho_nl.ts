@@ -69,7 +69,7 @@
         <translation>Gebruikersdatabasebestand:</translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="+484"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="+462"/>
         <source>User data</source>
         <translation>Gebruikersgegevens</translation>
     </message>
@@ -127,7 +127,7 @@
 <context>
     <name>Database</name>
     <message>
-        <location filename="../src/core/Database.cc" line="+235"/>
+        <location filename="../src/core/Database.cc" line="+249"/>
         <source>Tagaini Jisho warning</source>
         <translation>Tagaini Jisho waarschuwing</translation>
     </message>
@@ -618,7 +618,7 @@
         <translation>Omhoog</translation>
     </message>
     <message>
-        <location line="+96"/>
+        <location line="+94"/>
         <source>Unable to create list</source>
         <translation>Kan lijst niet aanmaken</translation>
     </message>
@@ -957,7 +957,7 @@ improve performance when manipulating a large number of entries.</source>
         <translation type="obsolete">Hoeveel onlangs ingevoerde ingangen in het geheugen bewaard worden. Hogere waarden kunnen de prestatie ten goede komen als zeer veel ingangen bewerkt worden.</translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="-158"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="-136"/>
         <source>English</source>
         <translation>Engels</translation>
     </message>
@@ -3176,7 +3176,7 @@ improve performance when manipulating a large number of entries.</source>
         <translation>Voorproefje</translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="+193"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="+172"/>
         <source>Lists</source>
         <translation>Lijsten</translation>
     </message>
@@ -3664,7 +3664,7 @@ This message is a one-time reminder and will not appear anymore - you can still 
 <context>
     <name>PreferencesFontChooser</name>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="+152"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="+151"/>
         <source>%1:</source>
         <translation>%1:</translation>
     </message>
@@ -4047,7 +4047,7 @@ This message is a one-time reminder and will not appear anymore - you can still 
         <translation>Voorproefje</translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="-192"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="-190"/>
         <source>Results view</source>
         <translation>Resultaatweergave</translation>
     </message>
@@ -4055,9 +4055,8 @@ This message is a one-time reminder and will not appear anymore - you can still 
 <context>
     <name>ResultsViewPrefsDummyEntry</name>
     <message>
-        <location line="-99"/>
         <source>Romaji text</source>
-        <translation>Rōmaji tekst</translation>
+        <translation type="obsolete">Rōmaji tekst</translation>
     </message>
 </context>
 <context>
