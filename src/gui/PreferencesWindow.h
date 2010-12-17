@@ -97,20 +97,6 @@ public:
 	GeneralPreferences(QWidget *parent = 0);
 };
 
-class ResultsViewPrefsDummyEntry : public Entry
-{
-	Q_OBJECT
-protected:
-	void _detailedVersion(QTextCursor &cursor, DetailedView *view) const {}
-
-public:
-	ResultsViewPrefsDummyEntry() : Entry(0, 0) {}
-	void writeShortDesc(QTextCursor &cursor) const {}
-	virtual QStringList writings() const;
-	virtual QStringList readings() const;
-	virtual QStringList meanings() const;
-};
-
 class EntryDelegatePreferences : public QWidget, private Ui::EntryDelegatePreferences
 {
 	Q_OBJECT
