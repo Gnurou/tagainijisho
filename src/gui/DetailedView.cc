@@ -546,10 +546,9 @@ void ListLinkHandler::handleUrl(const QUrl &url, DetailedView *view)
 	int rowId = url.queryItemValue("rowid").toInt();
 
 	QAbstractItemView *aView = MainWindow::instance()->entryListWidget()->entryListView();
-	QAbstractProxyModel *proxyModel = qobject_cast<QAbstractProxyModel *>(aView->model());
-	EntryListModel *model = qobject_cast<EntryListModel *>(proxyModel->sourceModel());
+	EntryListModel *model = qobject_cast<EntryListModel *>(aView->model());
 	if (!model) return;
-	QModelIndex idx(proxyModel->mapFromSource(model->index(rowId)));
+	QModelIndex idx(model->index(rowId));
 	MainWindow::instance()->listDockWidget()->setVisible(true);
 	aView->selectionModel()->select(idx, QItemSelectionModel::ClearAndSelect);
 	aView->scrollTo(idx);
