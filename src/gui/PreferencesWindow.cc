@@ -205,28 +205,6 @@ void GeneralPreferences::applySettings()
 	else EntriesCache::cacheSize.set(cacheSize->value());
 }
 
-QStringList ResultsViewPrefsDummyEntry::writings() const
-{
-	QStringList res;
-	res << QString::fromUtf8("漢字");
-	res << QString::fromUtf8("漢字");
-	return res;
-}
-
-QStringList ResultsViewPrefsDummyEntry::readings() const
-{
-	QStringList res;
-	res << QString::fromUtf8("ひらがなカタカナ");
-	return res;
-}
-
-QStringList ResultsViewPrefsDummyEntry::meanings() const
-{
-	QStringList res;
-	res << tr("Romaji text");
-	return res;
-}
-
 EntryDelegatePreferences::EntryDelegatePreferences(QWidget *parent) : QWidget(parent)
 {
 	setupUi(this);
@@ -322,6 +300,8 @@ void EntryDelegatePreferences::applySettings()
 	applyFontSetting(kanjifontChooser, _kanjiFontPref, EntryDelegateLayout::Kanji);
 }
 
+// BUG direct dependency to JMdict!
+static EntryRef tagainiRef(1, 1268780);
 ResultsViewPreferences::ResultsViewPreferences(QWidget *parent) : PreferencesWindowCategory(tr("Results view"), parent)
 {
 	setupUi(this);
@@ -333,8 +313,7 @@ ResultsViewPreferences::ResultsViewPreferences(QWidget *parent) : PreferencesWin
 	_view = new ResultsView(this, entryDelegatePrefs->delegateLayout(), true);
 	_view->setModel(_list);
 	_view->setSelectionMode(QAbstractItemView::ExtendedSelection);
-	EntryPointer ePtr(new ResultsViewPrefsDummyEntry());
-//	for (int i = 0; i < 20; i++) _list->addResult(ePtr);
+	for (int i = 0; i < 20; i++) _list->addResult(tagainiRef);
 	QVBoxLayout *vLayout = new QVBoxLayout(previewBox);
 	vLayout->addWidget(_view);
 	
@@ -369,8 +348,7 @@ ListsViewPreferences::ListsViewPreferences(QWidget *parent) : PreferencesWindowC
 	// Otherwise scrollbar appears when the display mode changes
 	_view->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 	_view->setModel(_list);
-	EntryPointer ePtr(new ResultsViewPrefsDummyEntry());
-//	for (int i = 0; i < 20; i++) _list->addResult(ePtr);
+	for (int i = 0; i < 20; i++) _list->addResult(tagainiRef);
 	QVBoxLayout *vLayout = new QVBoxLayout(previewBox);
 	vLayout->addWidget(_view);
 
