@@ -28,7 +28,7 @@
 #include <QMessageBox>
 #include <QQueue>
 
-#define USERDB_REVISION 9
+#define USERDB_REVISION 10
 
 #define ASSERT(Q) if (!(Q)) return false
 #define QUERY(Q) if (!query.exec(Q)) return false
@@ -63,7 +63,7 @@ bool Database::createUserDB()
 	QUERY("CREATE VIRTUAL TABLE notesText using fts4(note)");
 
 	// Sets table
-	QUERY("CREATE TABLE sets(parent INT, position INT NOT NULL, label TEXT, state BLOB)");
+	QUERY("CREATE TABLE sets(rowid INTEGER PRIMARY KEY, parent INT, position INT NOT NULL, label TEXT, state BLOB)");
 	QUERY("CREATE INDEX idx_sets_id ON sets(parent, position)");
 	
 	// Lists tables
@@ -217,6 +217,19 @@ static bool update8to9(SQLite::Query &query)
 	return true;
 }
 
+/**
+ * Make ROWID explicit on all tables that use it.
+ */
+static bool update9to10(SQLite::Query &query)
+{
+	QUERY("ALTER TABLE sets RENAME TO oldSets");
+	QUERY("CREATE TABLE sets(rowid INTEGER PRIMARY KEY, parent INT, position INT NOT NULL, label TEXT, state BLOB)");
+	QUERY("INSERT INTO sets SELECT rowid, * FROM oldSets");
+	QUERY("DROP TABLE oldSets");
+
+	return true;
+}
+
 #undef QUERY
 
 bool (*dbUpdateFuncs[USERDB_REVISION - 1])(SQLite::Query &) = {
@@ -228,6 +241,7 @@ bool (*dbUpdateFuncs[USERDB_REVISION - 1])(SQLite::Query &) = {
 	&update6to7,
 	&update7to8,
 	&update8to9,
+	&update9to10,
 };
 
 void Database::dbWarning(const QString &message)
