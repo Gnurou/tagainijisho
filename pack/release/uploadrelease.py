@@ -1,8 +1,8 @@
-#!/usr/bin/python
+#!/usr/bin/python2
 # -*- coding: utf-8 -*-
 import sys, os, launchpadlib, subprocess, codecs, re, os.path, getpass
 from optparse import OptionParser
-from launchpadlib.launchpad import Launchpad, STAGING_SERVICE_ROOT, EDGE_SERVICE_ROOT, LPNET_SERVICE_ROOT
+from launchpadlib.launchpad import Launchpad, STAGING_SERVICE_ROOT, EDGE_SERVICE_ROOT
 from launchpadlib.credentials import Credentials
 import lazr.restfulclient.errors
 
@@ -14,8 +14,7 @@ parser.add_option("--no-mac", dest="uploadmac", action="store_false", default=Tr
 (options, args) = parser.parse_args()
 
 #serviceRoot = STAGING_SERVICE_ROOT
-#serviceRoot = EDGE_SERVICE_ROOT
-serviceRoot = LPNET_SERVICE_ROOT
+serviceRoot = EDGE_SERVICE_ROOT
 projectName = 'tagaini-jisho'
 cachedir = "/tmp/tagainiuploader/cache/"
 credentialsfile = "credentials.txt"
