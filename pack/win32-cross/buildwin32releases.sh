@@ -24,7 +24,7 @@ cmake -DCMAKE_BUILD_TYPE=Release -DDICT_LANG="en;fr;de;es;ru" $SRCDIR
 make i18n databases -j5
 
 cd $BASEDIR
-for lang in en fr de es ru cs;
+for lang in en fr de es ru;
 do
 	makensis -DLANG=$lang -DVERSION=$VERSION -DBUILDDIR=$BUILDDIR -DSRCDIR=$SRCDIR -DQTPATH=$QTPATH -DMINGWDLLPATH=$MINGWDLLPATH $NSIFILE
 	mv install.exe tagainijisho-$VERSION-$lang.exe
