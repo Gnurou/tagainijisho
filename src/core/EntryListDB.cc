@@ -51,7 +51,7 @@ bool EntryListDBAccess::createDataIndexes(SQLite::Connection *connection)
 
 bool EntryList::remove(int index)
 {
-	typename TreeType::Node *node = getNode(index);
+	TreeType::Node *node = getNode(index);
 	if (!node) return false;
 	const EntryListData &data = node->value();
 	// We have to recursively erase the child list
