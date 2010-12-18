@@ -72,8 +72,17 @@ dictionaries in French, you can invoke CMake this way:
 
 $ cmake . -DDICT_LANG=fr
 
-After CMake is run, compilation may be performed. On Unix systems, invoking 
-make will be enough:
+Finally, you may want to produce a debug build, especially if you are trying
+a development version and want to be able to reports problems. Adding the
+'-DCMAKE_BUILD_TYPE=Debug' option to CMake's command line will produce a binary
+with debug symbols built-in.
+
+You can also use 'ccmake .' after having run CMake to change these options.
+It also features a couple of further debugging options that you can enable
+in case you run into troubles.
+
+After your build directory is configured, compilation may be performed. On
+Unix systems, invoking make will be enough:
 
 $ make
 
