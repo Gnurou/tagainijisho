@@ -157,7 +157,7 @@ static bool update7to8(SQLite::Query &query) {
 
 	// Prepare for the root list
 	QQueue<QPair<quint64, quint64> > nextLists;
-	QUERY("SELECT oldLists.rowid, type, id, label FROM oldLists JOIN listsLabels ON oldLists.rowid = listsLabels.rowid WHERE parent is null ORDER BY position ASC");
+	QUERY("SELECT oldLists.rowid, type, id, label FROM oldLists LEFT JOIN listsLabels ON oldLists.rowid = listsLabels.rowid WHERE parent is null ORDER BY position ASC");
 	int listId = 0;
 	do {
 		EntryList list(&dbAccess, listId);
