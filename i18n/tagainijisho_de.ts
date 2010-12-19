@@ -609,7 +609,12 @@
         <translation>Neue Liste...</translation>
     </message>
     <message>
-        <location line="+94"/>
+        <location line="+0"/>
+        <source>Rename list...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+90"/>
         <source>Unable to create list</source>
         <translation>Kann neue Liste nicht erstellen</translation>
     </message>
@@ -647,12 +652,11 @@
 Manche von ihnen sind eventuell noch vorhanden.</translation>
     </message>
     <message>
-        <location line="-132"/>
         <source>Set as root</source>
-        <translation>Als Wurzel setzen</translation>
+        <translation type="obsolete">Als Wurzel setzen</translation>
     </message>
     <message>
-        <location line="+0"/>
+        <location line="-128"/>
         <source>Go up</source>
         <translation>Hochgehen</translation>
     </message>

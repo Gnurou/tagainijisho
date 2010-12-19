@@ -601,9 +601,8 @@
         <translation>Nouvelle liste...</translation>
     </message>
     <message>
-        <location line="+0"/>
         <source>Set as root</source>
-        <translation>Mettre en tant que racine</translation>
+        <translation type="obsolete">Mettre en tant que racine</translation>
     </message>
     <message>
         <location line="+0"/>
@@ -611,7 +610,12 @@
         <translation>Remonter</translation>
     </message>
     <message>
-        <location line="+94"/>
+        <location line="+0"/>
+        <source>Rename list...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+90"/>
         <source>Unable to create list</source>
         <translation>Impossible de créer la liste</translation>
     </message>

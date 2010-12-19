@@ -609,7 +609,12 @@
         <translation>Nový seznam...</translation>
     </message>
     <message>
-        <location line="+94"/>
+        <location line="+0"/>
+        <source>Rename list...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+90"/>
         <source>Unable to create list</source>
         <translation>Nelze vytvořit seznam</translation>
     </message>
@@ -647,12 +652,11 @@
 Některé z nich možná ještě zůstaly.</translation>
     </message>
     <message>
-        <location line="-132"/>
         <source>Set as root</source>
-        <translation>Nastavit jako superuživatel</translation>
+        <translation type="obsolete">Nastavit jako superuživatel</translation>
     </message>
     <message>
-        <location line="+0"/>
+        <location line="-128"/>
         <source>Go up</source>
         <translation>Jít nahoru</translation>
     </message>
