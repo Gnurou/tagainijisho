@@ -21,7 +21,7 @@ cmake -DCMAKE_TOOLCHAIN_FILE=$TOOLCHAIN -DCMAKE_BUILD_TYPE=Release $SRCDIR
 make tagainijisho -j5
 rm -f CMakeCache.txt
 cmake -DCMAKE_BUILD_TYPE=Release -DDICT_LANG="en;fr;de;es;ru" $SRCDIR
-make i18n databases -j5
+make i18n databases docs -j5
 
 cd $BASEDIR
 for lang in en fr de es ru;
