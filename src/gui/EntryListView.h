@@ -69,13 +69,12 @@ public slots:
 	void newList(const QModelIndex &parent = QModelIndex());
 	void deleteSelectedItems();
 	void goUp();
-	void onModelRootChanged(int rootId);
 	
 signals:
 	void selectionHasChanged(const QItemSelection &selected, const QItemSelection &deselected);
 	void entrySelected(const EntryPointer &entry);
 	/// Propagates the same signal from the model
-	void rootHasChanged(int rowIndex);
+	void rootHasChanged(const QModelIndex &newRoot);
 };
 
 #endif
