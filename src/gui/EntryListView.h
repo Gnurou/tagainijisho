@@ -35,7 +35,7 @@ class EntryListView : public QTreeView
 private:
 	ScrollBarSmoothScroller scroller;
 	EntriesViewHelper _helper;
-	QAction _setAsRootAction, _newListAction, _rightClickNewListAction, _deleteSelectionAction, _goUpAction;
+	QAction _newListAction, _rightClickNewListAction, _deleteSelectionAction, _renameListAction, _goUpAction;
 	
 private slots:
 	void rightClickNewList();
@@ -65,10 +65,11 @@ public:
 	static PreferenceItem<int> displayModeSetting;
 
 public slots:
-	void setSelectedAsRoot();
 	void newList(const QModelIndex &parent = QModelIndex());
+	void editSelectedList();
 	void deleteSelectedItems();
 	void goUp();
+	void setRootIndex(const QModelIndex &idx);
 	
 signals:
 	void selectionHasChanged(const QItemSelection &selected, const QItemSelection &deselected);
