@@ -73,12 +73,9 @@ EntryListView::EntryListView(QWidget *parent, EntryDelegateLayout* delegateLayou
 
 void EntryListView::setModel(QAbstractItemModel *newModel)
 {
-	QAbstractItemModel *oldModel = model();
-	if (oldModel && oldModel->metaObject()->indexOfSignal(QMetaObject::normalizedSignature(SIGNAL(rootHasChanged(int))).constData() + 1) != -1) disconnect(oldModel, SIGNAL(rootHasChanged(int)), this, SLOT(onModelRootChanged(int)));
 	QTreeView::setModel(newModel);
 	_setAsRootAction.setEnabled(false);
 	_goUpAction.setEnabled(false);
-	if (newModel && newModel->metaObject()->indexOfSignal(QMetaObject::normalizedSignature(SIGNAL(rootHasChanged(int))).constData() + 1) != -1) connect(newModel, SIGNAL(rootHasChanged(int)), this, SLOT(onModelRootChanged(int)));
 }
 
 void EntryListView::setSmoothScrolling(bool value)
@@ -171,28 +168,17 @@ void EntryListView::setSelectedAsRoot()
 {
 	QModelIndexList selection(selectionModel()->selectedIndexes());
 	if (!selection.isEmpty() && selection.size() == 1) {
-		EntryListModel *myModel = qobject_cast<EntryListModel *>(model());
-		if (!myModel) return;
-		//int id = selection[0].internalId();
-		//myModel->setRoot(id);
+		QModelIndex idx(selection[0]);
+		setRootIndex(idx);
+		_goUpAction.setEnabled(idx.isValid());
+		emit rootHasChanged(idx);
 	}
 }
 
 void EntryListView::goUp()
 {
-	//EntryListModel *myModel = qobject_cast<EntryListModel *>(model());
-	//if (!myModel || myModel->rootId() == 0) return;
-
-	//QModelIndex idx(myModel->index(myModel->rootId()));
-	//QModelIndex parent(myModel->realParent(idx));
-	//int parentId = parent.isValid() ? parent.internalId() : 0;
-	
-	//myModel->setRoot(parentId);
-}
-
-void EntryListView::onModelRootChanged(int rootId)
-{
-	_setAsRootAction.setEnabled(false);
-	_goUpAction.setEnabled(rootId != 0);
-	emit rootHasChanged(rootId);
+	QModelIndex idx(rootIndex().parent());
+	setRootIndex(idx);
+	_goUpAction.setEnabled(idx.isValid());
+	emit rootHasChanged(idx);
 }

@@ -37,18 +37,16 @@ EntryListWidget::EntryListWidget(QWidget *parent) : SearchFilterWidget(parent)
 	
 	vLayout->insertWidget(0, _toolBar);
 	
-	connect(entryListView(), SIGNAL(rootHasChanged(int)), this, SLOT(onModelRootChanged(int)));
+	connect(entryListView(), SIGNAL(rootHasChanged(QModelIndex)), this, SLOT(onModelRootChanged(QModelIndex)));
 }
 
-void EntryListWidget::onModelRootChanged(int rootId)
+void EntryListWidget::onModelRootChanged(const QModelIndex &idx)
 {
-	if (rootId == -1) {
+	if (!idx.isValid()) {
 		_titleLabel->setText("");
 		_titleLabel->setVisible(false);
 	} else {
-		EntryListModel *model = static_cast<EntryListModel *>(entryListView()->model());
-		//QModelIndex idx(model->index(rootId));
-		//_titleLabel->setText(idx.data(Qt::DisplayRole).toString());
+		_titleLabel->setText(idx.data(Qt::DisplayRole).toString());
 		_titleLabel->setVisible(true);
 	}
 }

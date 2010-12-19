@@ -35,7 +35,7 @@ public:
 	EntryListView *entryListView() const { return _lists; }
 
 public slots:
-	void onModelRootChanged(int rootId);
+	void onModelRootChanged(const QModelIndex &idx);
 };
 
 #endif
