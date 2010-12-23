@@ -16,7 +16,7 @@ FlowLayout.cc
 MultiStackedWidget.cc
 EntryMenu.cc
 EditEntryNotesDialog.cc
-SetsOrganizer.cc
+SavedSearchesOrganizer.cc
 UpdateChecker.cc
 SingleEntryView.cc
 SearchFilterWidget.cc
@@ -76,7 +76,7 @@ JLPTFilterWidget.h
 TagsFilterWidget.h
 NotesFilterWidget.h
 SearchBuilder.h
-SetsOrganizer.h
+SavedSearchesOrganizer.h
 SingleEntryView.h
 SmoothScroller.h
 ScrollBarSmoothScroller.h
@@ -90,7 +90,7 @@ ManualBrowser.h
 
 set(tagainijisho_gui_UIS
 ReadingTrainer.ui
-SetsOrganizer.ui
+SavedSearchesOrganizer.ui
 PreferencesWindow.ui
 TrainSettings.ui
 AboutDialog.ui

@@ -36,7 +36,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>19</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="_fileMenu">
@@ -75,7 +75,7 @@
    </widget>
    <widget class="QMenu" name="_setsMenu">
     <property name="title">
-     <string>S&amp;ets</string>
+     <string>S&amp;aved searches</string>
     </property>
     <addaction name="action_New_set_from_current_search"/>
     <addaction name="action_New_sets_folder"/>
@@ -162,17 +162,17 @@
   </action>
   <action name="action_New_set_from_current_search">
    <property name="text">
-    <string>&amp;New set from current search...</string>
+    <string>&amp;Save current search...</string>
    </property>
   </action>
   <action name="action_New_sets_folder">
    <property name="text">
-    <string>&amp;New sets folder...</string>
+    <string>&amp;New folder...</string>
    </property>
   </action>
   <action name="action_Organize_sets">
    <property name="text">
-    <string>&amp;Organize sets...</string>
+    <string>&amp;Organize saved searches...</string>
    </property>
   </action>
   <action name="actionWhole_study_list_train_settings">
@@ -344,7 +344,7 @@
    <sender>action_New_set_from_current_search</sender>
    <signal>triggered()</signal>
    <receiver>MainWindow</receiver>
-   <slot>newSet()</slot>
+   <slot>newSavedSearch()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>-1</x>
@@ -360,7 +360,7 @@
    <sender>action_New_sets_folder</sender>
    <signal>triggered()</signal>
    <receiver>MainWindow</receiver>
-   <slot>newSetsFolder()</slot>
+   <slot>newSavedSearchesFolder()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>-1</x>
@@ -376,7 +376,7 @@
    <sender>action_Organize_sets</sender>
    <signal>triggered()</signal>
    <receiver>MainWindow</receiver>
-   <slot>organizeSets()</slot>
+   <slot>organizeSavedSearches()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>-1</x>
@@ -528,10 +528,10 @@
   <slot>exportUserData()</slot>
   <slot>importUserData()</slot>
   <slot>preferences()</slot>
-  <slot>newSet()</slot>
-  <slot>newSetsFolder()</slot>
-  <slot>organizeSets()</slot>
-  <slot>populateSetsMenu()</slot>
+  <slot>newSavedSearch()</slot>
+  <slot>newSavedSearchesFolder()</slot>
+  <slot>organizeSavedSearches()</slot>
+  <slot>populateSavedSearchesMenu()</slot>
   <slot>trainSettings()</slot>
   <slot>manual()</slot>
   <slot>bugReport()</slot>

@@ -15,7 +15,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "gui/SetsOrganizer.h"
+#include "gui/SavedSearchesOrganizer.h"
 #include "sqlite/Query.h"
 #include "core/Database.h"
 
@@ -24,7 +24,7 @@
 #include <QPushButton>
 #include <QMessageBox>
 
-SetTreeItem::SetTreeItem(int setId, int position, bool isFolder, const QString &label) : QTreeWidgetItem(isFolder ? FolderType : SetType), _setId(setId), _position(position), _parentCopy(0)
+SavedSearchTreeItem::SavedSearchTreeItem(int setId, int position, bool isFolder, const QString &label) : QTreeWidgetItem(isFolder ? FolderType : SavedSearchType), _setId(setId), _position(position), _parentCopy(0)
 {
 	setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsEditable | Qt::ItemIsDragEnabled);
 	if (type() == FolderType) {
@@ -35,17 +35,17 @@ SetTreeItem::SetTreeItem(int setId, int position, bool isFolder, const QString &
 	setText(0, label);
 }
 
-SetTreeItem::SetTreeItem(const SetTreeItem &other) : QTreeWidgetItem(other.type())
+SavedSearchTreeItem::SavedSearchTreeItem(const SavedSearchTreeItem &other) : QTreeWidgetItem(other.type())
 {
 	*this = other;
 	_parentCopy = other.parent();
 }
 
-SetTreeItem::~SetTreeItem()
+SavedSearchTreeItem::~SavedSearchTreeItem()
 {
 }
 
-void SetTreeItem::setData(int column, int role, const QVariant & value)
+void SavedSearchTreeItem::setData(int column, int role, const QVariant & value)
 {
 	if (column == 0 && role == Qt::EditRole) {
 		SQLite::Query query(Database::connection());
@@ -60,22 +60,22 @@ void SetTreeItem::setData(int column, int role, const QVariant & value)
 	QTreeWidgetItem::setData(column, role, value);
 }
 
-SetsTreeWidget::SetsTreeWidget(QWidget *parent) : QTreeWidget(parent)
+SavedSearchesTreeWidget::SavedSearchesTreeWidget(QWidget *parent) : QTreeWidget(parent)
 {
 	_mimeTypes << "tagaini/settreeitem";
 }
 
-void SetsTreeWidget::dropEvent(QDropEvent *event)
+void SavedSearchesTreeWidget::dropEvent(QDropEvent *event)
 {
 	QAbstractItemView::dropEvent(event);
 }
 
-QMimeData *SetsTreeWidget::mimeData(const QList<QTreeWidgetItem *> items) const
+QMimeData *SavedSearchesTreeWidget::mimeData(const QList<QTreeWidgetItem *> items) const
 {
 	QByteArray ba;
 	QDataStream ds(&ba, QIODevice::WriteOnly);
 	foreach (QTreeWidgetItem *item, items) {
-		SetTreeItem *clone = new SetTreeItem(*static_cast<SetTreeItem *>(item));
+		SavedSearchTreeItem *clone = new SavedSearchTreeItem(*static_cast<SavedSearchTreeItem *>(item));
 		populateFolder(clone);
 		// This is sooo bad... >_<;
 		ds << (quint64)clone;
@@ -85,10 +85,10 @@ QMimeData *SetsTreeWidget::mimeData(const QList<QTreeWidgetItem *> items) const
 	return md;
 }
 
-bool SetsTreeWidget::dropMimeData(QTreeWidgetItem *parent, int index, const QMimeData *data, Qt::DropAction action)
+bool SavedSearchesTreeWidget::dropMimeData(QTreeWidgetItem *parent, int index, const QMimeData *data, Qt::DropAction action)
 {
-	SetTreeItem *movedItem;
-	SetTreeItem *prevParent, *newParent(static_cast<SetTreeItem *>(parent));
+	SavedSearchTreeItem *movedItem;
+	SavedSearchTreeItem *prevParent, *newParent(static_cast<SavedSearchTreeItem *>(parent));
 	int prevParentId, newParentId(newParent ? newParent->setId() : 0);
 	QByteArray ba = data->data("tagaini/settreeitem");
 	QDataStream ds(&ba, QIODevice::ReadOnly);
@@ -96,9 +96,9 @@ bool SetsTreeWidget::dropMimeData(QTreeWidgetItem *parent, int index, const QMim
 		int prevPosition, newPosition(index);
 		// This is bad... >_<;
 		quint64 tmp;
-		ds >> tmp; movedItem = (SetTreeItem *)tmp;
+		ds >> tmp; movedItem = (SavedSearchTreeItem *)tmp;
 		prevPosition = movedItem->position();
-		prevParent = static_cast<SetTreeItem *>(movedItem->parentCopy());
+		prevParent = static_cast<SavedSearchTreeItem *>(movedItem->parentCopy());
 		prevParentId = prevParent ? prevParent->setId() : 0;
 		// Fix the new position with respect to the real database
 		if (index > 0 && (prevParent == newParent && index > prevPosition)) newPosition--;
@@ -112,15 +112,15 @@ bool SetsTreeWidget::dropMimeData(QTreeWidgetItem *parent, int index, const QMim
 #define QUERY(q) { if (!query.exec(q)) qDebug() << "Query failed" << query.lastError().message(); }
 			// Update the positions of the items after the one we removed
 			QUERY(QString("UPDATE sets SET position = position - 1 where parent %1 and position > %2").arg(!prevParentId ? "is null" : QString("= %1").arg(prevParentId)).arg(prevPosition));
-			QList<SetTreeItem *> siblings(childsOf(prevParent));
-			foreach (SetTreeItem *sibling, siblings) {
+			QList<SavedSearchTreeItem *> siblings(childsOf(prevParent));
+			foreach (SavedSearchTreeItem *sibling, siblings) {
 				int sibPos = sibling->position();
 				if (sibPos > prevPosition) sibling->setPosition(sibPos - 1);
 			}
 			// Update the positions of the items after the one we add
 			QUERY(QString("UPDATE sets SET position = position + 1 where parent %1 and position >= %2").arg(!newParentId ? "is null" : QString("= %1").arg(newParentId)).arg(newPosition));
 			siblings = childsOf(newParent);
-			foreach (SetTreeItem *sibling, siblings) {
+			foreach (SavedSearchTreeItem *sibling, siblings) {
 				// Do not update the item
 				if (sibling == movedItem) continue;
 				int sibPos = sibling->position();
@@ -137,21 +137,21 @@ bool SetsTreeWidget::dropMimeData(QTreeWidgetItem *parent, int index, const QMim
 	return true;
 }
 
-void SetsTreeWidget::contextMenuEvent(QContextMenuEvent *event)
+void SavedSearchesTreeWidget::contextMenuEvent(QContextMenuEvent *event)
 {
 	QMenu menu(this);
 	menu.addAction(QIcon(":/images/icons/delete.png"), tr("Delete"), this, SLOT(deleteSelection()));
 	menu.exec(event->globalPos());
 }
 
-void SetsTreeWidget::deleteSet(SetTreeItem *item)
+void SavedSearchesTreeWidget::deleteSavedSearch(SavedSearchTreeItem *item)
 {
-	SetTreeItem *parent = static_cast<SetTreeItem *>(item->parent());
+	SavedSearchTreeItem *parent = static_cast<SavedSearchTreeItem *>(item->parent());
 	// If the row is a folder, delete recursively
 	if (item->isFolder()) {
 		while (item->childCount()) {
-			SetTreeItem *child(static_cast<SetTreeItem *>(item->child(0)));
-			deleteSet(child);
+			SavedSearchTreeItem *child(static_cast<SavedSearchTreeItem *>(item->child(0)));
+			deleteSavedSearch(child);
 		}
 	}
 	SQLite::Query query(Database::connection());
@@ -169,37 +169,37 @@ void SetsTreeWidget::deleteSet(SetTreeItem *item)
 		return;
 	}
 	// Don't forget to update our model
-	QList<SetTreeItem *> siblings(childsOf(parent));
-	foreach (SetTreeItem *sibling, siblings) if (sibling->position() > item->position()) sibling->setPosition(sibling->position() - 1);
+	QList<SavedSearchTreeItem *> siblings(childsOf(parent));
+	foreach (SavedSearchTreeItem *sibling, siblings) if (sibling->position() > item->position()) sibling->setPosition(sibling->position() - 1);
 	delete item;
 }
 
-void SetsTreeWidget::deleteSelection()
+void SavedSearchesTreeWidget::deleteSelection()
 {
-	if (QMessageBox::question(this, tr("Confirm deletion"), tr("Are you sure you want to delete the selected sets/folders?"), QMessageBox::Yes | QMessageBox::No) == QMessageBox::No) return;
+	if (QMessageBox::question(this, tr("Confirm deletion"), tr("Are you sure you want to delete the selected searches/folders?"), QMessageBox::Yes | QMessageBox::No) == QMessageBox::No) return;
 
 	QList<QTreeWidgetItem *> selected = selectedItems();
 	foreach (QTreeWidgetItem *rItem, selected) {
-		SetTreeItem *item(static_cast<SetTreeItem *>(rItem));
-		deleteSet(item);
+		SavedSearchTreeItem *item(static_cast<SavedSearchTreeItem *>(rItem));
+		deleteSavedSearch(item);
 	}
 }
 
-QList<SetTreeItem *> SetsTreeWidget::childsOf(SetTreeItem *parent)
+QList<SavedSearchTreeItem *> SavedSearchesTreeWidget::childsOf(SavedSearchTreeItem *parent)
 {
-		QList<SetTreeItem *> siblings;
-		if (!parent) for (int i = 0; i < topLevelItemCount(); i++) siblings << static_cast<SetTreeItem *>(topLevelItem(i));
-		else for (int i = 0; i < parent->childCount(); i++) siblings << static_cast<SetTreeItem *>(parent->child(i));
+		QList<SavedSearchTreeItem *> siblings;
+		if (!parent) for (int i = 0; i < topLevelItemCount(); i++) siblings << static_cast<SavedSearchTreeItem *>(topLevelItem(i));
+		else for (int i = 0; i < parent->childCount(); i++) siblings << static_cast<SavedSearchTreeItem *>(parent->child(i));
 		return siblings;
 }
 
-void SetsTreeWidget::populateRoot()
+void SavedSearchesTreeWidget::populateRoot()
 {
 	SQLite::Query query(Database::connection());
 
 	query.exec("SELECT rowid, position, state IS NULL, label FROM sets WHERE parent IS NULL ORDER BY position");
 	while (query.next()) {
-		SetTreeItem *item = new SetTreeItem(query.valueInt(0), query.valueInt(1), query.valueBool(2), query.valueString(3));
+		SavedSearchTreeItem *item = new SavedSearchTreeItem(query.valueInt(0), query.valueInt(1), query.valueBool(2), query.valueString(3));
 		if (item->isFolder()) {
 			item->setIcon(0, QIcon(":/images/icons/folder.png"));
 			populateFolder(item);
@@ -208,7 +208,7 @@ void SetsTreeWidget::populateRoot()
 	}
 }
 
-void SetsTreeWidget::populateFolder(SetTreeItem *parent) const
+void SavedSearchesTreeWidget::populateFolder(SavedSearchTreeItem *parent) const
 {
 	SQLite::Query query(Database::connection());
 
@@ -216,7 +216,7 @@ void SetsTreeWidget::populateFolder(SetTreeItem *parent) const
 	query.bindValue(parent->setId());
 	query.exec();
 	while (query.next()) {
-		SetTreeItem *item = new SetTreeItem(query.valueInt(0), query.valueInt(1), query.valueBool(2), query.valueString(3));
+		SavedSearchTreeItem *item = new SavedSearchTreeItem(query.valueInt(0), query.valueInt(1), query.valueBool(2), query.valueString(3));
 		if (item->isFolder()) {
 			item->setIcon(0, QIcon(":/images/icons/folder.png"));
 			populateFolder(item);
@@ -225,7 +225,7 @@ void SetsTreeWidget::populateFolder(SetTreeItem *parent) const
 	}
 }
 
-SetsOrganizer::SetsOrganizer(QWidget *parent) : QDialog(parent)
+SavedSearchesOrganizer::SavedSearchesOrganizer(QWidget *parent) : QDialog(parent)
 {
 	setupUi(this);
 	treeWidget->populateRoot();

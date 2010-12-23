@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>SetsOrganizer</class>
- <widget class="QDialog" name="SetsOrganizer">
+ <class>SavedSearchesOrganizer</class>
+ <widget class="QDialog" name="SavedSearchesOrganizer">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -11,13 +11,13 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Organize sets</string>
+   <string>Organize saved searches</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
     <widget class="QLabel" name="label">
      <property name="text">
-      <string>You can organize your sets here. Double-click to change the set's label, drag and drop to move them or right-click for other options, including deletion.</string>
+      <string>You can organize your saved searches here. Double-click to change the search's label, drag and drop to move or right-click for other options, including deletion.</string>
      </property>
      <property name="wordWrap">
       <bool>true</bool>
@@ -25,7 +25,7 @@
     </widget>
    </item>
    <item>
-    <widget class="SetsTreeWidget" name="treeWidget">
+    <widget class="SavedSearchesTreeWidget" name="treeWidget">
      <property name="dragEnabled">
       <bool>false</bool>
      </property>
@@ -56,9 +56,9 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>SetsTreeWidget</class>
+   <class>SavedSearchesTreeWidget</class>
    <extends>QTreeWidget</extends>
-   <header>gui/SetsOrganizer.h</header>
+   <header>gui/SavedSearchesOrganizer.h</header>
   </customwidget>
  </customwidgets>
  <resources/>
@@ -66,7 +66,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>accepted()</signal>
-   <receiver>SetsOrganizer</receiver>
+   <receiver>SavedSearchesOrganizer</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -82,7 +82,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>rejected()</signal>
-   <receiver>SetsOrganizer</receiver>
+   <receiver>SavedSearchesOrganizer</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">

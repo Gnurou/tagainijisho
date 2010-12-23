@@ -23,7 +23,7 @@
 #include "core/Plugin.h"
 #include "core/EntrySearcherManager.h"
 #include "gui/UpdateChecker.h"
-#include "gui/SetsOrganizer.h"
+#include "gui/SavedSearchesOrganizer.h"
 #include "gui/TrainSettings.h"
 #include "gui/PreferencesWindow.h"
 #include "gui/YesNoTrainer.h"
@@ -107,7 +107,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), _clipboardEnabled
 	setCorner(Qt::BottomRightCorner, Qt::RightDockWidgetArea);
 	
 	// Strangely this is not done properly by Qt designer...
-	connect(_setsMenu, SIGNAL(aboutToShow()), this, SLOT(populateSetsMenu()));
+	connect(_setsMenu, SIGNAL(aboutToShow()), this, SLOT(populateSavedSearchesMenu()));
 	
 	// Reset search action
 	_searchWidget->resetSearchAction()->setShortcut(QKeySequence("Ctrl+R"));
@@ -395,14 +395,14 @@ void MainWindow::populateMenu(QMenu *menu, int parentId)
 		}
 		// A set
 		else {
-			QAction *action = menu->addAction(query.valueString(0), this, SLOT(onSetSelected()));
+			QAction *action = menu->addAction(query.valueString(0), this, SLOT(onSavedSearchSelected()));
 			action->setProperty("T_state", query.valueBlob(1));
 			if (!parentId) _rootActions << action;
 		}
 	}
 }
 
-void MainWindow::populateSetsMenu()
+void MainWindow::populateSavedSearchesMenu()
 {
 	// First clear previous actions and menus
 	foreach (QAction *action, _rootActions) delete action;
@@ -423,13 +423,13 @@ void MainWindow::populateSubMenu()
 
 	populateMenu(menu, rowId);
 	menu->addSeparator();
-	QAction *action = menu->addAction(tr("Create new set here..."), this, SLOT(newSet()));
+	QAction *action = menu->addAction(tr("Save current search here..."), this, SLOT(newSavedSearch()));
 	action->setProperty("T_rowid", rowId);
-	action = menu->addAction(tr("Create new folder here..."), this, SLOT(newSetsFolder()));
+	action = menu->addAction(tr("Create new folder here..."), this, SLOT(newSavedSearchesFolder()));
 	action->setProperty("T_rowid", rowId);
 }
 
-void MainWindow::newSet()
+void MainWindow::newSavedSearch()
 {
 	QAction *action(qobject_cast<QAction *>(sender()));
 	// Should never happen
@@ -437,7 +437,7 @@ void MainWindow::newSet()
 	int parentId(action->property("T_rowid").toInt());
 
 	bool ok;
-	QString setName(QInputDialog::getText(this, tr("New set"), tr("Please enter a name for this set:"), QLineEdit::Normal, tr("Unnamed set"), &ok));
+	QString setName(QInputDialog::getText(this, tr("Save current search"), tr("Please enter a name for this search:"), QLineEdit::Normal, tr("Unnamed"), &ok));
 	if (!ok) return;
 
 	QByteArray curState;
@@ -451,7 +451,7 @@ void MainWindow::newSet()
 	query.exec();
 }
 
-void MainWindow::newSetsFolder()
+void MainWindow::newSavedSearchesFolder()
 {
 	QAction *action(qobject_cast<QAction *>(sender()));
 	// Should never happen
@@ -459,7 +459,7 @@ void MainWindow::newSetsFolder()
 	int parentId(action->property("T_rowid").toInt());
 
 	bool ok;
-	QString setName(QInputDialog::getText(this, tr("New sets folder"), tr("Please enter a name for this folder"), QLineEdit::Normal, tr("Unnamed folder"), &ok));
+	QString setName(QInputDialog::getText(this, tr("New folder"), tr("Please enter a name for this folder"), QLineEdit::Normal, tr("Unnamed folder"), &ok));
 	if (!ok) return;
 
 	SQLite::Query query(Database::connection());
@@ -469,7 +469,7 @@ void MainWindow::newSetsFolder()
 	query.exec();
 }
 
-void MainWindow::onSetSelected()
+void MainWindow::onSavedSearchSelected()
 {
 	QAction *action = qobject_cast<QAction *>(sender());
 	//  Should never happen, but hey.
@@ -482,9 +482,9 @@ void MainWindow::onSetSelected()
 	if (_searchDockWidget->isHidden()) _searchDockWidget->setHidden(false);
 }
 
-void MainWindow::organizeSets()
+void MainWindow::organizeSavedSearches()
 {
-	SetsOrganizer organizer;
+	SavedSearchesOrganizer organizer;
 	organizer.exec();
 }
 
