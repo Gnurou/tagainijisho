@@ -24,23 +24,6 @@
 #include <QSize>
 #include <QPalette>
 
-// void EntryListModel::setRoot(quint64 rootId)
-// {
-// 	// Nothing changes?
-// 	if (rootId == _rootId) return;
-
-// #if QT_VERSION >= 0x040600
-// 	beginResetModel();
-// #endif
-// 	_rootId = rootId;
-// #if QT_VERSION >= 0x040600
-// 	endResetModel();
-// #else
-// 	reset();
-// #endif
-// 	emit rootHasChanged(rootId);
-// }
-
 #define LISTFORINDEX(index) (*EntryListCache::get(index.isValid() ? index.internalId() : 0))
 #define INDEXDATA(index) LISTFORINDEX(index)[index.row()]
 
