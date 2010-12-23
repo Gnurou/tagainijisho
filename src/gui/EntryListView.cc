@@ -170,6 +170,8 @@ void EntryListView::goUp()
 
 void EntryListView::setRootIndex(const QModelIndex &idx)
 {
+	// Entries can not become roots
+	if (idx.data(Entry::EntryRefRole).isValid()) return;
 	QTreeView::setRootIndex(idx);
 	_goUpAction.setEnabled(idx.isValid());
 	emit rootHasChanged(idx);
