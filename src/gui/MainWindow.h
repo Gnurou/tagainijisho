@@ -97,7 +97,7 @@ protected slots:
 
 	void preferences();
 
-	void organizeSets();
+	void organizeSavedSearches();
 
 	void about();
 	void donate();
@@ -110,11 +110,11 @@ protected slots:
 	void updateCheck();
 	void donationReminderCheck();
 
-	void populateSetsMenu();
+	void populateSavedSearchesMenu();
 	void populateSubMenu();
-	void newSet();
-	void newSetsFolder();
-	void onSetSelected();
+	void newSavedSearch();
+	void newSavedSearchesFolder();
+	void onSavedSearchSelected();
 
 	void trainSettings();
 

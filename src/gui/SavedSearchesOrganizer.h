@@ -22,10 +22,10 @@
 #include <QDragEnterEvent>
 #include <QDragMoveEvent>
 
-class SetTreeItem : public QTreeWidgetItem
+class SavedSearchTreeItem : public QTreeWidgetItem
 {
 private:
-	enum { SetType = (QTreeWidgetItem::UserType), FolderType = (QTreeWidgetItem::UserType + 1) };
+	enum { SavedSearchType = (QTreeWidgetItem::UserType), FolderType = (QTreeWidgetItem::UserType + 1) };
 	int _setId;
 	int _position;
 	/**
@@ -39,9 +39,9 @@ private:
 	QTreeWidgetItem *_parentCopy;
 
 public:
-	SetTreeItem(int setId, int position, bool isFolder, const QString &label);
-	SetTreeItem(const SetTreeItem &other);
-	virtual ~SetTreeItem();
+	SavedSearchTreeItem(int setId, int position, bool isFolder, const QString &label);
+	SavedSearchTreeItem(const SavedSearchTreeItem &other);
+	virtual ~SavedSearchTreeItem();
 	void setData(int column, int role, const QVariant & value);
 	int setId() const { return _setId; }
 	int position() const { return _position; }
@@ -50,24 +50,24 @@ public:
 	QTreeWidgetItem *parentCopy() const { return _parentCopy; }
 };
 
-class SetsTreeWidget : public QTreeWidget
+class SavedSearchesTreeWidget : public QTreeWidget
 {
 	Q_OBJECT
 private:
 	QStringList _mimeTypes;
 	/// Return all the childs of the given parent item correctly typed. Returns top-level items if parent is null
-	QList<SetTreeItem *> childsOf(SetTreeItem *parent);
+	QList<SavedSearchTreeItem *> childsOf(SavedSearchTreeItem *parent);
 
 public:
-	SetsTreeWidget(QWidget *parent = 0);
+	SavedSearchesTreeWidget(QWidget *parent = 0);
 protected:
 	virtual void dropEvent(QDropEvent *event);
 	virtual QStringList mimeTypes () const { return _mimeTypes; }
 	virtual bool dropMimeData(QTreeWidgetItem *parent, int index, const QMimeData *data, Qt::DropAction action);
 	virtual QMimeData *mimeData(const QList<QTreeWidgetItem *> items) const;
 	virtual void contextMenuEvent(QContextMenuEvent *event);
-	void deleteSet(SetTreeItem *item);
-	void populateFolder(SetTreeItem *parent) const;
+	void deleteSavedSearch(SavedSearchTreeItem *item);
+	void populateFolder(SavedSearchTreeItem *parent) const;
 
 protected slots:
 	void deleteSelection();
@@ -76,13 +76,13 @@ public slots:
 	void populateRoot();
 };
 
-#include "gui/ui_SetsOrganizer.h"
+#include "gui/ui_SavedSearchesOrganizer.h"
 
-class SetsOrganizer : public QDialog, private Ui::SetsOrganizer
+class SavedSearchesOrganizer : public QDialog, private Ui::SavedSearchesOrganizer
 {
     Q_OBJECT
 public:
-	SetsOrganizer(QWidget *parent = 0);
+	SavedSearchesOrganizer(QWidget *parent = 0);
 };
 
 #endif
