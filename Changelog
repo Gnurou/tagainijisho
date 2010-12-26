@@ -7,6 +7,8 @@
 * Lists system totally rewritten, now much faster and safer to use
 * Updated to SQLite 3.7.4
 * Added Spanish GUI translation (thanks Daniel Halens!)
+* Removed search button in text search widget and trigger search
+  automatically
 
 0.2.6.2 released on 2010/08/30
 * Really fixed bug of kana selector always appearing on startup
