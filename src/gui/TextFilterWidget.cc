@@ -26,18 +26,13 @@ TextFilterWidget::TextFilterWidget(QWidget *parent) : SearchFilterWidget(parent)
 {
 	_propsToSave << "text";
 
-	searchButton = new QPushButton(tr("Search"), this);
-	searchButton->setIcon(QIcon(":/images/icons/ldap_lookup.png"));
-	searchButton->setShortcut(QKeySequence("Ctrl+Return"));
-	connect(searchButton, SIGNAL(clicked()), this, SLOT(searchButtonClicked()));
-	
 	_searchField = new QComboBox(this);
 	_searchField->setMinimumWidth(150);
 	_searchField->setEditable(true);
 	_searchField->setMaxCount(textSearchHistorySize.value());
 	_searchField->setSizePolicy(QSizePolicy::Expanding, _searchField->sizePolicy().verticalPolicy());
 	_searchField->setInsertPolicy(QComboBox::NoInsert);
-	connect(_searchField->lineEdit(), SIGNAL(returnPressed()), searchButton, SLOT(click()));
+	connect(_searchField->lineEdit(), SIGNAL(returnPressed()), this, SLOT(runSearch()));
 	connect(_searchField->lineEdit(), SIGNAL(textChanged(QString)), this, SLOT(onSearchTextChanged(QString)));
 	connect(_searchField, SIGNAL(activated(int)), this, SLOT(onItemSelected(int)));
 
@@ -52,10 +47,7 @@ TextFilterWidget::TextFilterWidget(QWidget *parent) : SearchFilterWidget(parent)
 	hLayout->setSpacing(5);
 	hLayout->addWidget(resetText);
 	hLayout->addWidget(_searchField);
-	hLayout->addWidget(searchButton);
 	
-	setTabOrder(_searchField, searchButton);
-	setTabOrder(searchButton, resetText);
 	setFocusProxy(_searchField);	
 }
 
@@ -77,11 +69,11 @@ void TextFilterWidget::onItemSelected(int item)
 		QString itemString(_searchField->itemText(item));
 		_searchField->removeItem(item);
 		setText(itemString);
-		searchButtonClicked();
+		runSearch();
 	}
 }
 
-void TextFilterWidget::searchButtonClicked()
+void TextFilterWidget::runSearch()
 {
 	QString input(_searchField->lineEdit()->text().trimmed());
 	if (!input.isEmpty() && (_reseted || _searchField->itemText(0) != input)) {
@@ -95,6 +87,7 @@ void TextFilterWidget::searchButtonClicked()
 void TextFilterWidget::onSearchTextChanged(const QString &text)
 {
 	resetText->setEnabled(!text.isEmpty());
+	delayedCommandUpdate();
 }
 
 void TextFilterWidget::resetSearchText()

@@ -33,11 +33,10 @@ class TextFilterWidget : public SearchFilterWidget
 private:
 	QComboBox *_searchField;
 	QToolButton *resetText;
-	QPushButton *searchButton;	
 	bool _reseted;
 	
 private slots:
-	void searchButtonClicked();
+	void runSearch();
 	void onItemSelected(int item);
 	void resetSearchText();
 	void onSearchTextChanged(const QString &text);
