@@ -176,6 +176,7 @@ void EntryListView::setRootIndex(const QModelIndex &idx)
 	// requests the size of row 0, resulting in a bug if we are opening
 	// an empty list while the view is scrolled down.
 	scrollToTop();
+	clearSelection();
 	QTreeView::setRootIndex(idx);
 	_goUpAction.setEnabled(idx.isValid());
 	emit rootHasChanged(idx);
