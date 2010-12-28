@@ -172,6 +172,10 @@ void EntryListView::setRootIndex(const QModelIndex &idx)
 {
 	// Entries can not become roots
 	if (idx.data(Entry::EntryRefRole).isValid()) return;
+	// Necessary to avoid a Qt bug in QTreeView::scrollContentsBy that
+	// requests the size of row 0, resulting in a bug if we are opening
+	// an empty list while the view is scrolled down.
+	scrollToTop();
 	QTreeView::setRootIndex(idx);
 	_goUpAction.setEnabled(idx.isValid());
 	emit rootHasChanged(idx);
