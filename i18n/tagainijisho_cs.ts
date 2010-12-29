@@ -611,7 +611,7 @@
     <message>
         <location line="+0"/>
         <source>Rename list...</source>
-        <translation type="unfinished"></translation>
+        <translation>Přejmenovat seznam...</translation>
     </message>
     <message>
         <location line="+90"/>
@@ -1025,7 +1025,7 @@ Vysoké hodnoty mohou zlepšit výkon, když se zachází s velkým počtem záz
     <message>
         <location filename="../src/gui/jmdict/JMdictEntryFormatter.cc" line="-338"/>
         <source>(JLPT N%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>(JLPT N%1)</translation>
     </message>
     <message>
         <location line="+38"/>
@@ -1529,7 +1529,7 @@ Vysoké hodnoty mohou zlepšit výkon, když se zachází s velkým počtem záz
     <message>
         <location line="+1"/>
         <source>proverb</source>
-        <translation type="unfinished"></translation>
+        <translation>Přísloví</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -1704,7 +1704,7 @@ Vysoké hodnoty mohou zlepšit výkon, když se zachází s velkým počtem záz
     <message>
         <location line="+1"/>
         <source>su verb - precursor to the modern suru</source>
-        <translation type="unfinished"></translation>
+        <translation>Sloveso su - předchůdce novodobého suru</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -2219,12 +2219,12 @@ Vysoké hodnoty mohou zlepšit výkon, když se zachází s velkým počtem záz
     <message>
         <location line="-18"/>
         <source>&lt;b&gt;JLPT:&lt;/b&gt; N%1</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;b&gt;JLPT:&lt;/b&gt; N%1</translation>
     </message>
     <message>
         <location line="+59"/>
         <source>(JLPT N%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>(JLPT N%1)</translation>
     </message>
     <message>
         <location line="+34"/>
@@ -3110,7 +3110,9 @@ Vysoké hodnoty mohou zlepšit výkon, když se zachází s velkým počtem záz
         <source>You have now been using Tagaini Jisho for a short while. If you like it, please show your support by making a donation that expresses your appreciation of this software. While Tagaini is free, its development has a cost and your support will have a positive influence on its future. You can donate via Paypal or credit card, or use Flattr to support this project.
 
 This message is a one-time reminder and will not appear anymore - you can still donate later by choosing the corresponding option in the Help menu.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nyní používáte Tagaini Jisho krátkou dobu. Pokud se vám líbí, ukažte, prosím, svou podporu tím, že poskytnete dar, kterým vyjádříte své ocenění tohoto programu. Zatímco Tagaini Jisho je zdarma, jeho vývoj něco stojí a vaše podpora bude mít kladný vliv na jeho budoucnost. Darovat můžete pomocí Paypalu nebo kreditní karty, nebo můžete pro podporu tohoto projektu použít Flattr.
+
+Tento vzkaz se vám přípomíná jen jednou a už se vícekrát neobjeví - darovat můžete i pozdějí tak, že vyberete odpovídající možnost v nabídce s nápovědou.</translation>
     </message>
     <message>
         <location line="+138"/>
@@ -3649,12 +3651,12 @@ Tato zpráva je jednorázovým připomenutím a už se vícekrát neobjeví – 
     <message>
         <location filename="../src/gui/ResultsViewWidget.cc" line="+43"/>
         <source>Searching...</source>
-        <translation type="unfinished"></translation>
+        <translation>Hledá se...</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>%1 Results</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 výsledků</translation>
     </message>
 </context>
 <context>
