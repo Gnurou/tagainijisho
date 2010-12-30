@@ -22,9 +22,8 @@
 
 class Kanjidic2EntrySearcher : public EntrySearcher
 {
-	Q_OBJECT
 public:
-	Kanjidic2EntrySearcher(QObject *parent = 0);
+	Kanjidic2EntrySearcher();
 	virtual ~Kanjidic2EntrySearcher() {}
 
 	virtual QueryBuilder::Column entryId() const { return QueryBuilder::Column("kanjidic2.entries", "id"); }

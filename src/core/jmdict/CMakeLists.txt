@@ -10,8 +10,8 @@ JMdictPlugin.cc
 
 set(tagainijisho_core_jmdict_MOCS
 JMdictEntry.h
-JMdictEntrySearcher.h
 JMdictEntryLoader.h
+JMdictEntrySearcher.h
 )
 
 qt4_wrap_cpp(tagainijisho_core_jmdict_MOC_SRCS ${tagainijisho_core_jmdict_MOCS})

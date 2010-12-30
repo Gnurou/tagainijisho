@@ -24,7 +24,9 @@
 #include "core/EntrySearcher.h"
 #include "core/Preferences.h"
 
-class JMdictEntrySearcher : public EntrySearcher
+#include <QObject>
+
+class JMdictEntrySearcher : public QObject, public EntrySearcher
 {
 	Q_OBJECT
 private:
@@ -38,7 +40,7 @@ public:
 	static quint64 miscFilterMask() { return _miscFilterMask; }
 	static quint64 explicitlyRequestedMiscs() { return _explicitlyRequestedMiscs; }
 
-	JMdictEntrySearcher(QObject *parent = 0);
+	JMdictEntrySearcher();
 	virtual ~JMdictEntrySearcher() {}
 
 	virtual QueryBuilder::Column entryId() const { return QueryBuilder::Column("jmdict.entries", "id"); }

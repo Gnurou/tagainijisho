@@ -15,7 +15,6 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "core/Tag.h"
 #include "core/RelativeDate.h"
 #include "core/EntrySearcher.h"
 #include "core/EntryListCache.h"
@@ -25,7 +24,7 @@
 #include <QRegExp>
 #include <QStringList>
 
-EntrySearcher::EntrySearcher(EntryType entryType, QObject *parent) : QObject(parent), commandMatch(SearchCommand::commandMatch().pattern()), _entryType(entryType)
+EntrySearcher::EntrySearcher(EntryType entryType) :commandMatch(SearchCommand::commandMatch().pattern()), _entryType(entryType)
 {
 	QueryBuilder::Join::addTablePriority("training", -100);
 	QueryBuilder::Join::addTablePriority("notes", -40);
