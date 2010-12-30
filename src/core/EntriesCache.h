@@ -66,7 +66,7 @@ private:
 
 	friend class Entry;
 
-	EntryPointer _get(int type, int id);
+	EntryPointer _get(EntryType type, EntryId id);
 	EntriesCache(QObject *parent = 0);
 	~EntriesCache();
 
@@ -75,7 +75,7 @@ private:
 	 * loading it from the database if necessary. Returns null
 	 * if the entry could not be loaded.
 	 */
-	static EntryPointer get(int type, int id) {
+	static EntryPointer get(EntryType type, EntryId id) {
 		return _instance->_get(type, id);
 	}
 
@@ -97,16 +97,16 @@ friend class EntryRef;
  * a QVariant, making it the preferred solution to keep track of an entry
  * we do not need to be loaded now but might need later.
  */
-class EntryRef : protected QPair<quint8, quint32>
+class EntryRef : protected QPair<EntryType, EntryId>
 {
 public:
 	/// Constructs an invalid reference
-	EntryRef() : QPair<quint8, quint32>(0, 0) {}
+	EntryRef() : QPair<EntryType, EntryId>(0, 0) {}
 	EntryRef(const ConstEntryPointer &entry) : QPair<quint8, quint32>(entry->type(), entry->id()) {}
-	EntryRef(quint8 type, quint32 id) : QPair<quint8, quint32>(type, id) {}
+	EntryRef(EntryType type, EntryId id) : QPair<quint8, quint32>(type, id) {}
 	bool isValid() const { return first != 0; }
-	quint8 type() const { return first; }
-	quint32 id() const { return second; }
+	EntryType type() const { return first; }
+	EntryId id() const { return second; }
 
 	/**
 	 * Returns true if the entry accessible through this reference is already loaded

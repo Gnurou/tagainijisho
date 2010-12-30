@@ -27,6 +27,9 @@
 
 #include "core/Tag.h"
 
+typedef quint8 EntryType;
+typedef quint32 EntryId;
+
 class Entry : public QObject, public QSharedData
 {
 	Q_OBJECT
@@ -65,8 +68,8 @@ public:
 	};
 
 private:
-	quint8 _type;
-	quint32 _id;
+	EntryType _type;
+	EntryId _id;
 	QDateTime _dateAdded;
 	QDateTime _dateLastTrain;
 	QDateTime _dateLastMistake;
@@ -95,7 +98,7 @@ private:
 
 protected:
 	qint32 _frequency;
-	Entry(quint8 type, quint32 id);
+	Entry(EntryType type, EntryId id);
 
 public:
 	// Role used for models that allow accessing entries
@@ -104,8 +107,8 @@ public:
 	// Must be public or QSharedPointer won't work
 	virtual ~Entry();
 
-	quint8 type() const { return _type; }
-	quint32 id() const { return _id; }
+	EntryType type() const { return _type; }
+	EntryId id() const { return _id; }
 	QDateTime dateAdded() const { return _dateAdded; }
 	QDateTime dateLastTrain() const { return _dateLastTrain; }
 	QDateTime dateLastMistake() const { return _dateLastMistake; }

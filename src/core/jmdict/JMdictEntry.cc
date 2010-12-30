@@ -67,7 +67,7 @@ QString Sense::senseText() const
 }
 
 
-JMdictEntry::JMdictEntry(int id) : Entry(JMDICTENTRY_GLOBALID, id), _jlpt(-1)
+JMdictEntry::JMdictEntry(EntryId id) : Entry(JMDICTENTRY_GLOBALID, id), _jlpt(-1)
 {
 }
 
