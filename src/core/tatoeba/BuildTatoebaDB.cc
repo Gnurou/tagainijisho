@@ -23,6 +23,7 @@
 #include <QString>
 #include <QRegExp>
 #include <QFile>
+#include <QHash>
 
 #include <QtDebug>
 
@@ -32,10 +33,12 @@ static SQLite::Connection jmdictConnection;
 // Having them here will allow us to prepare them once and for all
 // instead of doing it for every entry.
 static SQLite::Query insertSentenceQuery;
-static SQLite::Query insertKanjiTextQuery;
-static SQLite::Query insertKanjiQuery;
+static SQLite::Query insertWordToSentenceQuery;
 
-static SQLite::Query jmdictLookupQuery;
+static SQLite::Query jmdictLookupWRQuery;
+static SQLite::Query jmdictLookupWQuery;
+static SQLite::Query jmdictLookupRQuery;
+
 #define BIND(query, val) { if (!query.bindValue(val)) { qFatal(query.lastError().message().toUtf8().data()); return false; } }
 #define BINDNULL(query) { if (!query.bindNullValue()) { qFatal(query.lastError().message().toUtf8().data()); return false; } }
 #define AUTO_BIND(query, val, nval) if (val == nval) BINDNULL(query) else BIND(query, val)
@@ -43,10 +46,16 @@ static SQLite::Query jmdictLookupQuery;
 #define EXEC_STMT(query, stmt) if (!query.exec(stmt)) { qFatal(query.lastError().message().toUtf8().data()); return false; }
 #define ASSERT(cond) if (!(cond)) return 1;
 
+// Where all sentences that should be recorded into the database are stored
+static QHash<int, QString> sentencesToRecord;
+
 #define TATOEBA_DB_DEBUG
 
 static bool create_tables()
 {
+	SQLite::Query query(&connection);
+	EXEC_STMT(query, "create table entries(id INTEGER PRIMARY KEY, sentence BLOB)");
+	EXEC_STMT(query, "create table words(jmdictId INTEGER, sentenceId INTEGER SECONDARY KEY REFERENCES sentences, position tinyInt)");
 	return true;
 }
 
@@ -79,7 +88,9 @@ static bool parse_sentences(const QString &sfile)
 
 		// Break the sentence
 		QStringList words(sentenceBits.split(' ', QString::SkipEmptyParts));
-		foreach (const QString &word, words) {
+		for (int wordPos = 0; wordPos < words.size(); wordPos++) {
+			const QString &word = words[wordPos];
+
 			if (!wordRegExp.exactMatch(word)) {
 #ifdef TATOEBA_DB_DEBUG
 				qDebug("Cannot match word %s at line %d", word.toUtf8().data(), lineCpt);
@@ -88,16 +99,42 @@ static bool parse_sentences(const QString &sfile)
 			}
 			QString writing(wordRegExp.cap(1));
 			QString reading(wordRegExp.cap(2));
-			unsigned int meaning(wordRegExp.cap(3).toUInt());
-			QString original(wordRegExp.cap(4));
-
-			jmdictLookupQuery.bindValue(writing);
-			jmdictLookupQuery.exec();
-			if (jmdictLookupQuery.next()) {
-				//qDebug() << jmdictLookupQuery.valueUInt(0);
+			//unsigned int meaning(wordRegExp.cap(3).toUInt());
+			//QString original(wordRegExp.cap(4));
+			bool checked = word.contains('~');
+			if (writing.isEmpty() && reading.isEmpty()) continue;
+			if (!checked) continue;
+			if (reading.isEmpty() && TextTools::isKana(writing)) {
+				reading = writing;
+				writing.clear();
 			}
+
+			SQLite::Query &jmdictLookupQuery = reading.isEmpty() ? jmdictLookupWQuery : writing.isEmpty() ? jmdictLookupRQuery : jmdictLookupWRQuery;
+			if (!writing.isEmpty()) jmdictLookupQuery.bindValue(writing);
+			if (!reading.isEmpty()) jmdictLookupQuery.bindValue(reading);
+
+			jmdictLookupQuery.exec();
+			if (!jmdictLookupQuery.next()) {
+				qDebug("Cannot find word %s in database", writing.toUtf8().data());
+				continue;
+			}
+
+			// We must record that sentence in the DB
+			sentencesToRecord[jNbr] = sentenceBits;
+
+			// Insert the association between word and sentence
+			insertWordToSentenceQuery.bindValue(jmdictLookupQuery.valueUInt(0));
+			insertWordToSentenceQuery.bindValue(jNbr);
+			insertWordToSentenceQuery.bindValue(wordPos);
+			insertWordToSentenceQuery.exec();
+
 			jmdictLookupQuery.reset();
 		}
+	}
+	foreach (quint32 id, sentencesToRecord.keys()) {
+		insertSentenceQuery.bindValue(id);
+		insertSentenceQuery.bindValue(sentencesToRecord[id]);
+		insertSentenceQuery.exec();
 	}
 
 	return true;
@@ -148,11 +185,14 @@ int main(int argc, char *argv[])
 	
 	// Prepare the queries
 	#define PREPQUERY(query, text) query.useWith(&connection); query.prepare(text)
-	//PREPQUERY(insertEntryQuery, "insert into entries values(?, ?, ?)");
+	PREPQUERY(insertSentenceQuery, "insert into entries values(?, ?)");
+	PREPQUERY(insertWordToSentenceQuery, "insert into words values(?, ?, ?)");
 	#undef PREPQUERY
 
 	#define PREPQUERY(query, text) query.useWith(&jmdictConnection); query.prepare(text)
-	PREPQUERY(jmdictLookupQuery, "select id from kanji join kanjiText on kanji.docid = kanjiText.rowid where kanjiText.reading match ?");
+	PREPQUERY(jmdictLookupWRQuery, "select entries.id from entries join kanji on kanji.id = entries.id join kanjiText on kanjiText.docid == kanji.docid join kana on kana.id == entries.id join kanaText on kanaText.docid == kana.docid where kanjiText.reading match ? and kanaText.reading match ?");
+	PREPQUERY(jmdictLookupWQuery, "select entries.id from entries join kanji on kanji.id = entries.id join kanjiText on kanjiText.docid == kanji.docid where kanjiText.reading match ?");
+	PREPQUERY(jmdictLookupRQuery, "select entries.id from entries join kana on kana.id == entries.id join kanaText on kanaText.docid == kana.docid where kanaText.reading match ?");
 	#undef PREPQUERY
 
 	// Parse the files
@@ -165,7 +205,9 @@ int main(int argc, char *argv[])
 	ASSERT(connection.commit());
 	
 	// Clear queries, close the database and set the file to read-only
-	//insertEntryQuery.clear();
+	insertSentenceQuery.clear();
+	insertWordToSentenceQuery.clear();
+	ASSERT(connection.close());
 	QFile(dstFile).setPermissions(QFile::ReadOwner | QFile::ReadUser | QFile::ReadGroup | QFile::ReadOther);
 
 	return 0;
