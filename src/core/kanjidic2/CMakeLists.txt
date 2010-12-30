@@ -3,6 +3,7 @@ set(QT_DONT_USE_QTGUI TRUE)
 set(tagainijisho_core_kanjidic2_SRCS
 Kanjidic2Entry.cc
 Kanjidic2EntrySearcher.cc
+Kanjidic2EntryLoader.cc
 KanjiRadicals.cc
 Kanjidic2Plugin.cc
 )
@@ -10,6 +11,7 @@ Kanjidic2Plugin.cc
 set(tagainijisho_core_kanjidic2_MOCS
 Kanjidic2Entry.h
 Kanjidic2EntrySearcher.h
+Kanjidic2EntryLoader.h
 )
 
 qt4_wrap_cpp(tagainijisho_core_kanjidic2_MOC_SRCS ${tagainijisho_core_kanjidic2_MOCS})

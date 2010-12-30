@@ -183,7 +183,7 @@ public:
 	QStringList onyomiReadings() const;
 	QStringList kunyomiReadings() const;
 
-	friend class Kanjidic2EntrySearcher;
+	friend class Kanjidic2EntryLoader;
 };
 
 typedef QSharedPointer<Kanjidic2Entry> Kanjidic2EntryPointer;

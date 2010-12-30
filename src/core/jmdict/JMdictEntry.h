@@ -160,7 +160,7 @@ public:
 	 */
 	bool writtenInKana() const;
 
-	friend class JMdictEntrySearcher;
+	friend class JMdictEntryLoader;
 };
 
 typedef QSharedPointer<JMdictEntry> JMdictEntryPointer;

@@ -22,7 +22,7 @@
 #include <QMap>
 
 #include "core/EntrySearcher.h"
-#include "core/jmdict/JMdictEntry.h"
+#include "core/Preferences.h"
 
 class JMdictEntrySearcher : public EntrySearcher
 {
@@ -30,9 +30,6 @@ class JMdictEntrySearcher : public EntrySearcher
 private:
 	static quint64 _miscFilterMask;
 	static quint64 _explicitlyRequestedMiscs;
-
-protected:
-	SQLite::Query kanjiQuery, kanaQuery, sensesQuery, glossQuery, jlptQuery;
 
 protected slots:
 	void updateMiscFilterMask();
@@ -44,15 +41,12 @@ public:
 	JMdictEntrySearcher(QObject *parent = 0);
 	virtual ~JMdictEntrySearcher() {}
 
-	virtual int entryType() const { return JMDICTENTRY_GLOBALID; }
 	virtual QueryBuilder::Column entryId() const { return QueryBuilder::Column("jmdict.entries", "id"); }
 
 	virtual SearchCommand commandFromWord(const QString &word) const;
 
 	virtual void buildStatement(QList<SearchCommand> &commands, QueryBuilder::Statement &statement);
 	virtual QueryBuilder::Column canSort(const QString &sort, const QueryBuilder::Statement &statement);
-
-	virtual Entry *loadEntry(int id);
 
 	static PreferenceItem<QString> miscPropertiesFilter;
 };

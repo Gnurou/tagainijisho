@@ -19,6 +19,7 @@
 #define __CORE_KANJIDIC2_PLUGIN_H
 
 #include "core/kanjidic2/Kanjidic2EntrySearcher.h"
+#include "core/kanjidic2/Kanjidic2EntryLoader.h"
 #include "core/Plugin.h"
 
 class Kanjidic2EntrySearcher;
@@ -31,6 +32,7 @@ private:
 	QString _kanjidic2Version;
 	QString _kanjiVGVersion;
 	Kanjidic2EntrySearcher *searcher;
+	Kanjidic2EntryLoader *loader;
 
 public:
 	Kanjidic2Plugin();

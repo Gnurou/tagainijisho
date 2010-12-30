@@ -64,7 +64,7 @@ public:
 		bool operator==(const Note &note);
 
 	friend class Entry;
-	friend class EntrySearcher;
+	friend class EntryLoader;
 	};
 
 private:
@@ -181,10 +181,10 @@ signals:
 	void entryChanged(Entry *);
 
 /**
- * EntrySearcher needs to access our private methods in order to completely
+ * EntryLoader needs to access our private methods in order to completely
  * load the entry.
  */
-friend class EntrySearcher;
+friend class EntryLoader;
 };
 
 // TODO try to remove this, needed by the notes edit dialog

@@ -24,6 +24,7 @@
 #include <QPair>
 
 class JMdictEntrySearcher;
+class JMdictEntryLoader;
 
 class JMdictPlugin : public Plugin
 {
@@ -33,6 +34,8 @@ private:
 	QString _dbFile;
 
 	JMdictEntrySearcher *searcher;
+	JMdictEntryLoader *loader;
+
 	// Associates entities shift with their short and long descriptions
 	static QVector<QPair<QString, QString> > _posEntities;
 	static QVector<QPair<QString, QString> > _miscEntities;
