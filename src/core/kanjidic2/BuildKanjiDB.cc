@@ -282,7 +282,7 @@ bool createRadicalsTable(const QString &fName)
 	return true;
 }
 
-static bool create_tables()
+static bool createTables()
 {
 	SQLite::Query query(&connection);
 	EXEC_STMT(query, "create table info(version INT, kanjidic2Version TEXT, kanjiVGVersion TEXT)");
@@ -302,7 +302,7 @@ static bool create_tables()
 	return true;
 }
 
-static bool create_indexes()
+static bool createIndexes()
 {
 	SQLite::Query query(&connection);
 	EXEC_STMT(query, "create index idx_entries_frequency on entries(frequency)");
@@ -359,7 +359,7 @@ int main(int argc, char *argv[])
 		return 1;
 	}
 	ASSERT(connection.transaction());
-	ASSERT(create_tables());
+	ASSERT(createTables());
 
 	// Prepare the queries
 	#define PREPQUERY(query, text) query.useWith(&connection); query.prepare(text)
@@ -428,7 +428,7 @@ int main(int argc, char *argv[])
 	ASSERT(updateJLPTLevels(QDir(srcDir).absoluteFilePath("src/core/kanjidic2/jlpt-level4.txt"), 4));
 	
 	// Create indexes
-	ASSERT(create_indexes());
+	ASSERT(createIndexes());
 	
 	// Analyze for hopefully better performance
 	connection.exec("analyze");
