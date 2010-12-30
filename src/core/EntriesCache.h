@@ -20,6 +20,7 @@
 
 #include "core/Preferences.h"
 #include "core/Entry.h"
+#include "core/EntryLoader.h"
 
 #include <QHash>
 #include <QPair>
@@ -48,6 +49,7 @@ class EntriesCache : public QObject
 private:
 	static EntriesCache * _instance;
 
+	QMap<EntryType, EntryLoader *> _loaders;
 	QHash<EntryRef, QWeakPointer<Entry> > _loadedEntries;
 	QMutex _loadedEntriesMutex;
 
@@ -82,6 +84,12 @@ private:
 public:
 	static void init();
 	static void cleanup();
+
+	static EntriesCache &instance() { return *_instance; }
+
+	bool addLoader(EntryType type, EntryLoader *loader);
+	bool removeLoader(EntryType type);
+	EntryLoader *loaderFor(EntryType type);
 
 	/**
 	 * The size of the cache can be modified in real-time through this value.

@@ -14,6 +14,7 @@ Entry.cc
 RelativeDate.cc
 SearchCommand.cc
 EntrySearcher.cc
+EntryLoader.cc
 EntrySearcherManager.cc
 ResultsList.cc
 EntryListDB.cc
@@ -31,6 +32,7 @@ ASyncEntryLoader.h
 EntriesCache.h
 Entry.h
 EntrySearcher.h
+EntryLoader.h
 EntrySearcherManager.h
 ResultsList.h
 EntryListModel.h

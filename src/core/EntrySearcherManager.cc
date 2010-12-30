@@ -74,13 +74,6 @@ static void replaceJapaneseWildCards(QString &str)
 	str.replace(QString::fromUtf8("　"), " ");
 }
 
-Entry *EntrySearcherManager::loadEntry(int type, int id)
-{
-	EntrySearcher *searcher = getEntrySearcher(type);
-	if (!searcher) return 0;
-	return searcher->loadEntry(id);
-}
-
 bool EntrySearcherManager::buildQuery(const QString &search, QueryBuilder &query)
 {
 	// Clear previous static regexps - this is bad, but no better solution for now
@@ -134,10 +127,9 @@ bool EntrySearcherManager::buildQuery(const QString &search, QueryBuilder &query
 	return true;
 }
 
-EntrySearcher *EntrySearcherManager::getEntrySearcher(int entryType)
+EntrySearcher *EntrySearcherManager::getEntrySearcher(EntryType entryType)
 {
 	foreach(EntrySearcher *searcher, _instances)
 		if (searcher->entryType() == entryType) return searcher;
 	return 0;
 }
-

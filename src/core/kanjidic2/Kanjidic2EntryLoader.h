@@ -1,5 +1,5 @@
 /*
- *  Copyright (C) 2008  Alexandre Courbot
+ *  Copyright (C) 2008/2009/2010  Alexandre Courbot
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -15,24 +15,27 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef __CORE_KANJIDIC2_ENTRYSEARCHER
-#define __CORE_KANJIDIC2_ENTRYSEARCHER
+#ifndef __CORE_KANJIDIC2_ENTRY_LOADER
+#define __CORE_KANJIDIC2_ENTRY_LOADER
 
-#include "core/EntrySearcher.h"
+#include "core/EntryLoader.h"
+#include "core/kanjidic2/Kanjidic2Entry.h"
 
-class Kanjidic2EntrySearcher : public EntrySearcher
+class Kanjidic2EntryLoader : public EntryLoader
 {
 	Q_OBJECT
+private:
+	SQLite::Query kanjiQuery, variationsQuery, readingsQuery, nanoriQuery,
+		componentsQuery, radicalsQuery, skipQuery, fourCornerQuery, meaningsQuery;
+protected:
+	QList<Kanjidic2Entry::KanjiMeaning> getMeanings(int id);
+
 public:
-	Kanjidic2EntrySearcher(QObject *parent = 0);
-	virtual ~Kanjidic2EntrySearcher() {}
+	Kanjidic2EntryLoader(QObject *parent = 0);
+	virtual ~Kanjidic2EntryLoader() {}
 
-	virtual QueryBuilder::Column entryId() const { return QueryBuilder::Column("kanjidic2.entries", "id"); }
-
-	virtual SearchCommand commandFromWord(const QString &word) const;
-
-	virtual void buildStatement(QList<SearchCommand> &commands, QueryBuilder::Statement &statement);
-	virtual QueryBuilder::Column canSort(const QString &sort, const QueryBuilder::Statement &statement);
+	virtual Entry *loadEntry(EntryId id);
 };
 
 #endif
+

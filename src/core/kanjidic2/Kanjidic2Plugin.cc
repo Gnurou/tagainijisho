@@ -22,6 +22,7 @@
 #include "core/EntrySearcherManager.h"
 #include "core/kanjidic2/Kanjidic2EntrySearcher.h"
 #include "core/kanjidic2/Kanjidic2Plugin.h"
+#include "core/kanjidic2/Kanjidic2Entry.h"
 
 #include <QtDebug>
 #include <QFile>
@@ -85,11 +86,20 @@ bool Kanjidic2Plugin::onRegister()
 	// Register our entry searcher
 	searcher = new Kanjidic2EntrySearcher();
 	EntrySearcherManager::instance().addInstance(searcher);
+
+	// Register our entry loader
+	loader = new Kanjidic2EntryLoader();
+	if (!EntriesCache::instance().addLoader(KANJIDIC2ENTRY_GLOBALID, loader)) return false;
+
 	return true;
 }
 
 bool Kanjidic2Plugin::onUnregister()
 {
+	// Remove the entry loader
+	EntriesCache::instance().removeLoader(KANJIDIC2ENTRY_GLOBALID);
+	delete loader;
+
 	// Unregister the entry searcher
 	EntrySearcherManager::instance().removeInstance(searcher);
 	delete searcher;

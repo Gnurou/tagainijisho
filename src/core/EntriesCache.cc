@@ -17,7 +17,6 @@
 
 #include "tagaini_config.h"
 #include "core/EntriesCache.h"
-#include "core/EntrySearcherManager.h"
 
 #include <QtDebug>
 #include <QCoreApplication>
@@ -50,13 +49,34 @@ EntriesCache::~EntriesCache()
 }
 
 void EntriesCache::init()
-{int
+{
 	if (!_instance) _instance = new EntriesCache();
 }
 
 void EntriesCache::cleanup()
 {
 	delete _instance;
+	_instance = 0;
+}
+
+bool EntriesCache::addLoader(EntryType type, EntryLoader *loader)
+{
+	if (_loaders.contains(type)) return false;
+	_loaders.insert(type, loader);
+	return true;
+}
+
+bool EntriesCache::removeLoader(EntryType type)
+{
+	if (!_loaders.contains(type)) return false;
+	_loaders.remove(type);
+	return true;
+}
+
+EntryLoader *EntriesCache::loaderFor(EntryType type)
+{
+	if (!_loaders.contains(type)) return 0;
+	return _loaders[type];
 }
 
 EntryPointer EntriesCache::_get(EntryType type, EntryId id)
@@ -72,12 +92,11 @@ EntryPointer EntriesCache::_get(EntryType type, EntryId id)
 	}
 
 	// Nope, we must load it from the database
-	Entry *entry = EntrySearcherManager::instance().loadEntry(type, id);
+	EntryLoader *loader = loaderFor(type);
+	Entry *entry = loader ? loader->loadEntry(id) : 0;
 	// If the entry is not found, do not add anything to the cache and return
 	// a null pointer
-	if (!entry) {
-		return EntryPointer();
-	}
+	if (!entry) { return EntryPointer(); }
 	// All the signal processing of the entry must take place in the main thread
 	entry->moveToThread(QCoreApplication::instance()->thread());
 

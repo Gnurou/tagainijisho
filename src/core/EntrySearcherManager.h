@@ -54,14 +54,12 @@ public:
 	 */
 	bool buildQuery(const QString &search, QueryBuilder &query);
 
-	Entry *loadEntry(int type, int id);
-
 	/**
 	 * Returns a pointer to the entry searcher capable of handling
 	 * entries of type entryType. Returns null if no such entry
 	 * searcher has been registered.
 	 */
-	EntrySearcher *getEntrySearcher(int entryType);
+	EntrySearcher *getEntrySearcher(EntryType entryType);
 
 	static PreferenceItem<bool> studiedEntriesFirst;
 };

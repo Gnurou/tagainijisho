@@ -4,12 +4,14 @@ set(QT_DONT_USE_QTGUI TRUE)
 set(tagainijisho_core_jmdict_SRCS
 JMdictEntry.cc
 JMdictEntrySearcher.cc
+JMdictEntryLoader.cc
 JMdictPlugin.cc
 )
 
 set(tagainijisho_core_jmdict_MOCS
 JMdictEntry.h
 JMdictEntrySearcher.h
+JMdictEntryLoader.h
 )
 
 qt4_wrap_cpp(tagainijisho_core_jmdict_MOC_SRCS ${tagainijisho_core_jmdict_MOCS})

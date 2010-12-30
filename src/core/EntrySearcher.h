@@ -36,39 +36,23 @@ class EntrySearcher : public QObject
 	Q_OBJECT
 private:
 	QRegExp commandMatch;
-	SQLite::Query trainQuery, tagsQuery, notesQuery, listsQuery;
+	EntryType _entryType;
 
 protected:
-	/**
-	 * Connection to the user db file (and possibly other dbs)
-	 * that is used to load the entries.
-	 */
-	SQLite::Connection connection;
-
 	/**
 	 * List of all valid commands for this searcher. Should
 	 * be completed at construction time.
 	 */
 	QStringList validCommands;
 
-	/**
-	 * Loads misc data about this entry. This includes user tags,
-	 * training information, and notes. This function should always
-	 * be called as soon as the loadEntry() method of an entry searcher
-	 * has created the right instance for its entry.
-	 */
-	void loadMiscData(Entry *entry);
-
 public:
-	EntrySearcher(QObject *parent = 0);
+	EntrySearcher(EntryType entryType, QObject *parent = 0);
 	virtual ~EntrySearcher();
 
 	/**
-	 * Returns the entry type that this searcher can load. It is
-	 * the number that is returned by Entry::type() on entries loaded
-	 * by this searcher.
+	 * Returns the type of entry that this searcher can search
 	 */
-	virtual int entryType() const = 0;
+	EntryType entryType() const { return _entryType; }
 
 	/**
 	 * Returns the column that is used to get entries id for this
@@ -103,13 +87,6 @@ public:
 	 * empty column is returned.
 	 */
 	virtual QueryBuilder::Column canSort(const QString &sort, const QueryBuilder::Statement &statement);
-
-	/**
-	 * Being given a reference to a result, load it
-	 * from the database and return it. Returns null in
-	 * case of problem, for instance if there is no other result.
-	 */
-	virtual Entry *loadEntry(int id) = 0;
 
 	/**
 	 * Converts a list of string commands and words into a list of commands,

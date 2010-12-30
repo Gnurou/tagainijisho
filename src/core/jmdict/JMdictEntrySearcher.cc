@@ -25,12 +25,8 @@ PreferenceItem<QString> JMdictEntrySearcher::miscPropertiesFilter("jmdict", "mis
 quint64 JMdictEntrySearcher::_miscFilterMask = 0;
 quint64 JMdictEntrySearcher::_explicitlyRequestedMiscs = 0;
 
-JMdictEntrySearcher::JMdictEntrySearcher(QObject *parent) : EntrySearcher(parent), kanjiQuery(&connection), kanaQuery(&connection), sensesQuery(&connection), glossQuery(&connection), jlptQuery(&connection)
+JMdictEntrySearcher::JMdictEntrySearcher(QObject *parent) : EntrySearcher(JMDICTENTRY_GLOBALID, parent)
 {
-	if (!connection.attach(JMdictPlugin::instance()->dbFile(), "jmdict")) {
-		qFatal("JMdictEntrySearcher cannot attach JMdict databases!");
-	}
-
 	connect(&JMdictEntrySearcher::miscPropertiesFilter, SIGNAL(valueChanged(QVariant)), this, SLOT(updateMiscFilterMask()));
 
 	QueryBuilder::Join::addTablePriority("jmdict.entries", 50);
@@ -50,13 +46,6 @@ JMdictEntrySearcher::JMdictEntrySearcher(QObject *parent) : EntrySearcher(parent
 	validCommands << "mean" << "kana" << "kanji" << "jmdict" << "haskanji" << "jlpt" << "withstudiedkanjis" << "hascomponent" << "withkanaonly";
 	// Also register commands that are sense properties
 	validCommands << "pos" << "misc" << "dial" << "field";
-
-	// Prepare queries so that we just have to bind and execute them
-	kanjiQuery.prepare("select reading, frequency from jmdict.kanji join jmdict.kanjiText on kanji.docid == kanjiText.docid where id=? order by priority");
-	kanaQuery.prepare("select reading, nokanji, frequency, restrictedTo from jmdict.kana join jmdict.kanaText on kana.docid == kanaText.docid where id=? order by priority");
-	sensesQuery.prepare("select priority, pos, misc, dial, field, restrictedToKanji, restrictedToKana from jmdict.senses where id=? order by priority asc");
-	glossQuery.prepare("select gloss.lang, glossText.reading from jmdict.gloss join jmdict.glossText on gloss.docid == glossText.docid where gloss.id=? and gloss.sensePriority=?");
-	jlptQuery.prepare("select jlpt.level from jmdict.jlpt where jlpt.id=?");
 }
 
 SearchCommand JMdictEntrySearcher::commandFromWord(const QString &word) const
@@ -401,70 +390,4 @@ QueryBuilder::Column JMdictEntrySearcher::canSort(const QString &sort, const Que
 	else if (sort == "freq") return QueryBuilder::Column("jmdict.entries", "frequency");
 	else if (sort == "jlpt") return QueryBuilder::Column("jmdict.jlpt", "level");
 	return res;
-}
-
-Entry *JMdictEntrySearcher::loadEntry(int id)
-{
-	JMdictEntry *entry = new JMdictEntry(id);
-
-	EntrySearcher::loadMiscData(entry);
-
-	// Now load readings
-	// Kanji readings
-	kanjiQuery.bindValue(entry->id());
-	kanjiQuery.exec();
-	while(kanjiQuery.next()) {
-		entry->kanjis << KanjiReading(kanjiQuery.valueString(0), 0, kanjiQuery.valueUInt(1));
-	}
-	kanjiQuery.reset();
-
-	// Kana readings
-	kanaQuery.bindValue(entry->id());
-	kanaQuery.exec();
-	while(kanaQuery.next())
-	{
-		KanaReading kana(kanaQuery.valueString(0), 0, kanaQuery.valueUInt(2));
-		// Get kana readings
-		if (kanaQuery.valueBool(1) == false) {
-			QStringList restrictedTo(kanaQuery.valueString(3).split(',', QString::SkipEmptyParts));
-			if (restrictedTo.isEmpty()) for (int i = 0; i < entry->getKanjiReadings().size(); i++) {
-				kana.addKanjiReading(i);
-			}
-			else for (int i = 0; i < restrictedTo.size(); i++) {
-				kana.addKanjiReading(restrictedTo[i].toInt());
-			}
-		}
-		entry->addKanaReading(kana);
-	}
-	kanaQuery.reset();
-
-	// Senses
-	sensesQuery.bindValue(entry->id());
-	sensesQuery.exec();
-	while(sensesQuery.next()) {
-		Sense sense(sensesQuery.valueUInt64(1), sensesQuery.valueUInt64(2), sensesQuery.valueUInt64(3), sensesQuery.valueUInt64(4));
-		// Get restricted readings/writing
-		QStringList restrictedTo(sensesQuery.valueString(5).split(',', QString::SkipEmptyParts));
-		foreach (const QString &idx, restrictedTo) sense.addStagK(idx.toInt());
-		restrictedTo = sensesQuery.valueString(6).split(',', QString::SkipEmptyParts);
-		foreach (const QString &idx, restrictedTo) sense.addStagR(idx.toInt());
-
-		glossQuery.bindValue(entry->id());
-		glossQuery.bindValue(sensesQuery.valueInt(0));
-		glossQuery.exec();
-		while(glossQuery.next())
-			sense.addGloss(Gloss(glossQuery.valueString(0), glossQuery.valueString(1)));
-		entry->senses << sense;
-	}
-	glossQuery.reset();
-	sensesQuery.reset();
-
-	// JLPT level
-	jlptQuery.bindValue(entry->id());
-	jlptQuery.exec();
-	if (jlptQuery.next()) {
-		entry->_jlpt = jlptQuery.valueInt(0);
-	}
-	jlptQuery.reset();
-	return entry;
 }

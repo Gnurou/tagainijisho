@@ -22,7 +22,9 @@
 #include "core/EntrySearcherManager.h"
 #include "core/EntryListModel.h"
 #include "core/jmdict/JMdictPlugin.h"
+#include "core/jmdict/JMdictEntry.h"
 #include "core/jmdict/JMdictEntrySearcher.h"
+#include "core/jmdict/JMdictEntryLoader.h"
 
 #include <QtDebug>
 #include <QFile>
@@ -335,11 +337,20 @@ bool JMdictPlugin::onRegister()
 	// Register our entry searcher
 	searcher = new JMdictEntrySearcher();
 	EntrySearcherManager::instance().addInstance(searcher);
+
+	// Register our entry loader
+	loader = new JMdictEntryLoader();
+	if (!EntriesCache::instance().addLoader(JMDICTENTRY_GLOBALID, loader)) return false;
+
 	return true;
 }
 
 bool JMdictPlugin::onUnregister()
 {
+	// Remove the entry loader
+	EntriesCache::instance().removeLoader(JMDICTENTRY_GLOBALID);
+	delete loader;
+
 	// Remove our entry searcher and delete it
 	EntrySearcherManager::instance().removeInstance(searcher);
 	delete searcher;
