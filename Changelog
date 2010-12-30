@@ -9,6 +9,7 @@
 * Added Spanish GUI translation (thanks Daniel Halens!)
 * Removed search button in text search widget and trigger search
   automatically
+* Add exemple sentences from the Tatoeba project
 
 0.2.6.2 released on 2010/08/30
 * Really fixed bug of kana selector always appearing on startup
