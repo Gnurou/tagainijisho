@@ -235,13 +235,10 @@ bool JMdictPlugin::checkForMovedEntries()
 			}
 		}
 		// Check the lists table
-		/*
-		CHECK(query.exec(QString("select lists.id, lists.position, lists.parent, lists.rowid from lists left join jmdict.entries on lists.type = %1 and lists.id = entries.id where lists.type = %1 and entries.id is null").arg(JMDICTENTRY_GLOBALID)));
+		CHECK(query.exec(QString("select lists.rowid, lists.id from lists left join jmdict.entries on lists.type = %1 and lists.id = entries.id where lists.type = %1 and entries.id is null").arg(JMDICTENTRY_GLOBALID)));
 		while (query.next()) {
-			int entryId = query.valueInt(0);
-			int position = query.valueInt(1);
-			int parent = query.valueInt(2);
-			int rowId = query.valueInt(3);
+			int rowId = query.valueInt(0);
+			int entryId = query.valueInt(1);
 			SQLite::Query query2(Database::connection());
 			query2.prepare("select movedTo from jmdict.deletedEntries where id = ?");
 			query2.bindValue(entryId);
@@ -251,8 +248,8 @@ bool JMdictPlugin::checkForMovedEntries()
 			if (!movedTo) {
 				// No destination, remove from list
 				EntryListModel listModel;
-				QModelIndex parentIdx(listModel.index(parent));
-				CHECK(listModel.removeRow(position, parentIdx));
+				QModelIndex toRemoveIdx(listModel.index(rowId));
+				CHECK(listModel.removeRow(toRemoveIdx.row(), listModel.parent(toRemoveIdx)));
 			} else {
 				// Otherwise set the entry id to the new one
 				query2.prepare("update lists set id = ? where rowid = ?");
@@ -261,7 +258,6 @@ bool JMdictPlugin::checkForMovedEntries()
 				CHECK(query2.exec());
 			}
 		}
-		*/
 		// Finally set out new version number 
 		CHECK(query.exec(QString("insert or replace into versions values(\"JMdictDB\", %1)").arg(curVersion)));
 	}
