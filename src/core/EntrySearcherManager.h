@@ -24,9 +24,8 @@
 
 #include <QRegExp>
 
-class EntrySearcherManager : public QObject
+class EntrySearcherManager
 {
-	Q_OBJECT
 private:
 	static EntrySearcherManager *_instance;
 	QList<EntrySearcher *> _instances;

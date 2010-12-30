@@ -29,10 +29,7 @@ set(tagainijisho_core_MOCS
 ASyncQuery.h
 ASyncEntryFinder.h
 ASyncEntryLoader.h
-EntriesCache.h
 Entry.h
-EntryLoader.h
-EntrySearcherManager.h
 ResultsList.h
 EntryListModel.h
 Preferences.h

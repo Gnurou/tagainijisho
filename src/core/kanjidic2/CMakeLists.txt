@@ -10,7 +10,6 @@ Kanjidic2Plugin.cc
 
 set(tagainijisho_core_kanjidic2_MOCS
 Kanjidic2Entry.h
-Kanjidic2EntryLoader.h
 )
 
 qt4_wrap_cpp(tagainijisho_core_kanjidic2_MOC_SRCS ${tagainijisho_core_kanjidic2_MOCS})

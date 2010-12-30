@@ -18,7 +18,7 @@
 #include "core/EntryLoader.h"
 #include "core/Database.h"
 
-EntryLoader::EntryLoader(QObject *parent) : QObject(parent)
+EntryLoader::EntryLoader()
 {
 	if (!connection.connect(Database::userDBFile())) {
 		qFatal("EntrySearcher cannot connect to user database!");

@@ -18,7 +18,7 @@
 #include "core/jmdict/JMdictEntryLoader.h"
 #include "core/jmdict/JMdictPlugin.h"
 
-JMdictEntryLoader::JMdictEntryLoader(QObject *parent) : EntryLoader(parent), kanjiQuery(&connection), kanaQuery(&connection), sensesQuery(&connection), glossQuery(&connection), jlptQuery(&connection)
+JMdictEntryLoader::JMdictEntryLoader() : EntryLoader(), kanjiQuery(&connection), kanaQuery(&connection), sensesQuery(&connection), glossQuery(&connection), jlptQuery(&connection)
 {
 	if (!connection.attach(JMdictPlugin::instance()->dbFile(), "jmdict")) {
 		qFatal("JMdictEntrySearcher cannot attach JMdict databases!");

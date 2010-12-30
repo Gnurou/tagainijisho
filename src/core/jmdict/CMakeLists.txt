@@ -10,7 +10,6 @@ JMdictPlugin.cc
 
 set(tagainijisho_core_jmdict_MOCS
 JMdictEntry.h
-JMdictEntryLoader.h
 JMdictEntrySearcher.h
 )
 

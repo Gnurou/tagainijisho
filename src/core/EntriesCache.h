@@ -43,9 +43,8 @@ class EntryRef;
  * is the only one allowed to access the Entry loaders. Respecting this rule
  * ensures data consistency and safety, and greatly simplify the UI design.
  */
-class EntriesCache : public QObject
+class EntriesCache
 {
-    Q_OBJECT
 private:
 	static EntriesCache * _instance;
 
@@ -69,7 +68,7 @@ private:
 	friend class Entry;
 
 	EntryPointer _get(EntryType type, EntryId id);
-	EntriesCache(QObject *parent = 0);
+	EntriesCache();
 	~EntriesCache();
 
 	/**

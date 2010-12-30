@@ -38,7 +38,7 @@ QDataStream &operator>>(QDataStream &in, EntryRef &ref)
 	return in;
 }
 
-EntriesCache::EntriesCache(QObject *parent) : QObject(parent), _loadedEntriesMutex(QMutex::Recursive), _cacheMutex(QMutex::Recursive)
+EntriesCache::EntriesCache() : _loadedEntriesMutex(QMutex::Recursive), _cacheMutex(QMutex::Recursive)
 {
 }
 
