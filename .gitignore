@@ -33,8 +33,7 @@ CMakeFiles/
 CPackConfig.cmake
 CPackSourceConfig.cmake
 cmake_uninstall.cmake
-jmdict-en.db
-kanjidic2-en.db
+*.db
 cmake_install.cmake
 src/CMakeFiles/
 src/cmake_install.cmake
