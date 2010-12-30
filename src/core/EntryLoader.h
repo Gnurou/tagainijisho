@@ -22,14 +22,11 @@
 #include "sqlite/Query.h"
 #include "core/Entry.h"
 
-#include <QObject>
-
 /**
  * Base class for loading entries of a given type.
  */
-class EntryLoader : public QObject
+class EntryLoader
 {
-	Q_OBJECT
 private:
 	SQLite::Query trainQuery, tagsQuery, notesQuery, listsQuery;
 
@@ -49,7 +46,7 @@ protected:
 	void loadMiscData(Entry *entry);
 
 public:
-	EntryLoader(QObject *parent = 0);
+	EntryLoader();
 	virtual ~EntryLoader();
 
 	/**

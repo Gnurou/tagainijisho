@@ -23,13 +23,12 @@
 
 class JMdictEntryLoader : public EntryLoader
 {
-	Q_OBJECT
 private:
 
 protected:
 	SQLite::Query kanjiQuery, kanaQuery, sensesQuery, glossQuery, jlptQuery;
 public:
-	JMdictEntryLoader(QObject *parent = 0);
+	JMdictEntryLoader();
 	virtual ~JMdictEntryLoader();
 
 	virtual Entry *loadEntry(EntryId id);

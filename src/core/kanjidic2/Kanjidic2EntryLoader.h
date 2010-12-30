@@ -23,15 +23,13 @@
 
 class Kanjidic2EntryLoader : public EntryLoader
 {
-	Q_OBJECT
 private:
 	SQLite::Query kanjiQuery, variationsQuery, readingsQuery, nanoriQuery,
 		componentsQuery, radicalsQuery, skipQuery, fourCornerQuery, meaningsQuery;
 protected:
 	QList<Kanjidic2Entry::KanjiMeaning> getMeanings(int id);
-
 public:
-	Kanjidic2EntryLoader(QObject *parent = 0);
+	Kanjidic2EntryLoader();
 	virtual ~Kanjidic2EntryLoader() {}
 
 	virtual Entry *loadEntry(EntryId id);

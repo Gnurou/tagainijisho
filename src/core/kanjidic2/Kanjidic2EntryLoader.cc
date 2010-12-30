@@ -19,7 +19,7 @@
 #include "core/kanjidic2/Kanjidic2Entry.h"
 #include "core/kanjidic2/Kanjidic2Plugin.h"
 
-Kanjidic2EntryLoader::Kanjidic2EntryLoader(QObject *parent) : EntryLoader(parent), kanjiQuery(&connection), variationsQuery(&connection), readingsQuery(&connection), nanoriQuery(&connection), componentsQuery(&connection), radicalsQuery(&connection), skipQuery(&connection), fourCornerQuery(&connection), meaningsQuery(&connection)
+Kanjidic2EntryLoader::Kanjidic2EntryLoader() : EntryLoader(), kanjiQuery(&connection), variationsQuery(&connection), readingsQuery(&connection), nanoriQuery(&connection), componentsQuery(&connection), radicalsQuery(&connection), skipQuery(&connection), fourCornerQuery(&connection), meaningsQuery(&connection)
 {
 	if (!connection.attach(Kanjidic2Plugin::instance()->dbFile(), "kanjidic2")) {
 		qFatal("JMdictEntrySearcher cannot attach JMdict databases!");
