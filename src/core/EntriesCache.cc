@@ -50,7 +50,7 @@ EntriesCache::~EntriesCache()
 }
 
 void EntriesCache::init()
-{
+{int
 	if (!_instance) _instance = new EntriesCache();
 }
 
@@ -59,7 +59,7 @@ void EntriesCache::cleanup()
 	delete _instance;
 }
 
-EntryPointer EntriesCache::_get(int type, int id)
+EntryPointer EntriesCache::_get(EntryType type, EntryId id)
 {
 	EntryRef key(type, id);
 	// First look if the entry is already loaded

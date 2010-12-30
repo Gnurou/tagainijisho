@@ -129,7 +129,7 @@ private:
 	JMdictEntry operator=(const JMdictEntry &);
 
 protected:
-	JMdictEntry(int id);
+	JMdictEntry(EntryId id);
 
 public:
 	virtual ~JMdictEntry();
