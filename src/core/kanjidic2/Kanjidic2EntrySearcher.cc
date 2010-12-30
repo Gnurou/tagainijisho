@@ -25,7 +25,7 @@
 
 #include <QByteArray>
 
-Kanjidic2EntrySearcher::Kanjidic2EntrySearcher(QObject *parent) : EntrySearcher(KANJIDIC2ENTRY_GLOBALID, parent)
+Kanjidic2EntrySearcher::Kanjidic2EntrySearcher() : EntrySearcher(KANJIDIC2ENTRY_GLOBALID)
 {
 	QueryBuilder::Join::addTablePriority("kanjidic2.entries", 10);
 	QueryBuilder::Join::addTablePriority("kanjidic2.strokeGroups", 20);

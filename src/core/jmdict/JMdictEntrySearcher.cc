@@ -16,8 +16,8 @@
  */
 
 #include "core/TextTools.h"
-#include "core/jmdict/JMdictEntry.h"
 #include "core/jmdict/JMdictEntrySearcher.h"
+#include "core/jmdict/JMdictEntry.h"
 #include "core/jmdict/JMdictPlugin.h"
 #include "core/Database.h"
 
@@ -25,7 +25,7 @@ PreferenceItem<QString> JMdictEntrySearcher::miscPropertiesFilter("jmdict", "mis
 quint64 JMdictEntrySearcher::_miscFilterMask = 0;
 quint64 JMdictEntrySearcher::_explicitlyRequestedMiscs = 0;
 
-JMdictEntrySearcher::JMdictEntrySearcher(QObject *parent) : EntrySearcher(JMDICTENTRY_GLOBALID, parent)
+JMdictEntrySearcher::JMdictEntrySearcher() : EntrySearcher(JMDICTENTRY_GLOBALID)
 {
 	connect(&JMdictEntrySearcher::miscPropertiesFilter, SIGNAL(valueChanged(QVariant)), this, SLOT(updateMiscFilterMask()));
 

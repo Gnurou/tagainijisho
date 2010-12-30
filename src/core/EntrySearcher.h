@@ -18,12 +18,10 @@
 #ifndef __CORE__ENTRY_SEARCHER_H_
 #define __CORE__ENTRY_SEARCHER_H_
 
-#include "sqlite/Connection.h"
-#include "core/Entry.h"
 #include "core/SearchCommand.h"
 #include "core/QueryBuilder.h"
+#include "core/Entry.h"
 
-#include <QObject>
 #include <QList>
 #include <QStringList>
 
@@ -31,9 +29,8 @@
  * A class that is able to search for and load entries from an entry source
  * (typically dictionary)
  */
-class EntrySearcher : public QObject
+class EntrySearcher
 {
-	Q_OBJECT
 private:
 	QRegExp commandMatch;
 	EntryType _entryType;
@@ -46,7 +43,7 @@ protected:
 	QStringList validCommands;
 
 public:
-	EntrySearcher(EntryType entryType, QObject *parent = 0);
+	EntrySearcher(EntryType entryType);
 	virtual ~EntrySearcher();
 
 	/**

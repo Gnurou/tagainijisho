@@ -10,7 +10,6 @@ Kanjidic2Plugin.cc
 
 set(tagainijisho_core_kanjidic2_MOCS
 Kanjidic2Entry.h
-Kanjidic2EntrySearcher.h
 Kanjidic2EntryLoader.h
 )
 

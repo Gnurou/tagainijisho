@@ -31,7 +31,6 @@ ASyncEntryFinder.h
 ASyncEntryLoader.h
 EntriesCache.h
 Entry.h
-EntrySearcher.h
 EntryLoader.h
 EntrySearcherManager.h
 ResultsList.h
