@@ -183,7 +183,7 @@ bool insertJLPTLevels(const QString &fName, int level)
 	return true;
 }
 
-static bool create_tables()
+static bool createTables()
 {
 	SQLite::Query query(&connection);
 	EXEC_STMT(query, "create table info(version INT, JMdictVersion TEXT)");
@@ -205,7 +205,7 @@ static bool create_tables()
 	return true;
 }
 
-static bool create_indexes()
+static bool createIndexes()
 {
 	SQLite::Query query(&connection);
 	EXEC_STMT(query, "create index idx_entries_frequency on entries(frequency)");
@@ -259,7 +259,7 @@ int main(int argc, char *argv[])
 		return 1;
 	}
 	ASSERT(connection.transaction());
-	ASSERT(create_tables());
+	ASSERT(createTables());
 	
 	// Prepare the queries
 	#define PREPQUERY(query, text) query.useWith(&connection); query.prepare(text)
@@ -299,7 +299,7 @@ int main(int argc, char *argv[])
 	}
 	
 	// Create indexes
-	ASSERT(create_indexes());
+	ASSERT(createIndexes());
 	
 	// Insert JLPT levels
 	ASSERT(insertJLPTLevels(QDir(srcDir).absoluteFilePath("src/core/jmdict/jlpt-level4.txt"), 4));
