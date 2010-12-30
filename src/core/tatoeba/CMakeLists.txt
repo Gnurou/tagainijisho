@@ -1,15 +1,17 @@
 # Tatoeba core
 set(QT_DONT_USE_QTGUI TRUE)
 
-#set(tagainijisho_core_tatoeba_SRCS
-#)
+set(tagainijisho_core_tatoeba_SRCS
+TatoebaEntry.cc
+)
 
-#set(tagainijisho_core_tatoeba_MOCS
-#)
+set(tagainijisho_core_tatoeba_MOCS
+TatoebaEntry.h
+)
 
-#qt4_wrap_cpp(tagainijisho_core_tatoeba_MOC_SRCS ${tagainijisho_core_tatoeba_MOCS})
-#add_library(tagaini_core_tatoeba STATIC ${tagainijisho_core_tatoeba_MOC_SRCS} ${tagainijisho_core_tatoeba_SRCS})
-#add_dependencies(tagaini_core_tatoeba tagaini_core)
+qt4_wrap_cpp(tagainijisho_core_tatoeba_MOC_SRCS ${tagainijisho_core_tatoeba_MOCS})
+add_library(tagaini_core_tatoeba STATIC ${tagainijisho_core_tatoeba_MOC_SRCS} ${tagainijisho_core_tatoeba_SRCS})
+add_dependencies(tagaini_core_tatoeba tagaini_core)
 
 # Database builder
 set(QT_USE_QTXML TRUE)
