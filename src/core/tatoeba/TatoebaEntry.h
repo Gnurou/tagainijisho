@@ -35,7 +35,7 @@ public:
 typedef QSharedPointer<TatoebaEntry> TatoebaEntryPointer;
 Q_DECLARE_METATYPE(TatoebaEntryPointer)
 typedef QSharedPointer<const TatoebaEntry> ConstTatoebaEntryPointer;
-Q_DECLARE_METATYPE(ConstJMdictEntryPointer)
+Q_DECLARE_METATYPE(ConstTatoebaEntryPointer)
 
 class TatoebaEntryRef : public EntryRef
 {
