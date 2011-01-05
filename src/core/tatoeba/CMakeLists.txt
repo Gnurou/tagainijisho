@@ -3,6 +3,8 @@ set(QT_DONT_USE_QTGUI TRUE)
 
 set(tagainijisho_core_tatoeba_SRCS
 TatoebaEntry.cc
+TatoebaEntryLoader.cc
+TatoebaPlugin.cc
 )
 
 set(tagainijisho_core_tatoeba_MOCS
@@ -27,10 +29,12 @@ if (APPLE)
 endif()
 
 # Database targets for selected languages
-#foreach(LANG ${DICT_LANG})
-#add_custom_command(OUTPUT ${CMAKE_BINARY_DIR}/tatoeba-${LANG}.db
-#COMMAND build_tatoeba_db -l${LANG} ${CMAKE_SOURCE_DIR} ${CMAKE_BINARY_DIR}/tatoeba-${LANG}.db
-#DEPENDS build_tatoeba_db ${CMAKE_SOURCE_DIR}/3rdparty/tatoeba)
-#add_custom_target(tatoeba-${LANG} DEPENDS ${CMAKE_BINARY_DIR}/tatoeba-${LANG}.db)
-#add_dependencies(databases-${LANG} tatoeba-${LANG})
-#endforeach(LANG ${LANG})
+set(ALL_LANGS "")
+foreach(LANG ${DICT_LANG})
+	set(ALL_LANGS "${ALL_LANGS},${LANG}")
+endforeach()
+add_custom_command(OUTPUT ${CMAKE_BINARY_DIR}/tatoeba.db
+	COMMAND build_tatoeba_db -l${ALL_LANGS} ${CMAKE_SOURCE_DIR} ${CMAKE_BINARY_DIR}
+	DEPENDS build_tatoeba_db ${CMAKE_SOURCE_DIR}/3rdparty/tatoeba/sentences.csv ${CMAKE_SOURCE_DIR}/3rdparty/tatoeba/links.csv ${CMAKE_SOURCE_DIR}/3rdparty/tatoeba/jpn_indices.csv ${CMAKE_BINARY_DIR}/jmdict-en.db)
+add_custom_target(tatoeba-db DEPENDS ${CMAKE_BINARY_DIR}/tatoeba.db)
+add_dependencies(databases tatoeba-db)

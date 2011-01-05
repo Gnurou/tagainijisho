@@ -19,6 +19,7 @@
 #include "sqlite/Query.h"
 #include "core/Database.h"
 #include "core/TextTools.h"
+#include "core/tatoeba/TatoebaEntry.h"
 
 #include <QString>
 #include <QRegExp>
@@ -46,6 +47,7 @@ static SQLite::Query jmdictLookupRQuery;
 
 // Languages to parse
 static QSet<QString> languages;
+static QMap<QString, QString> languagesCodes;
 
 // Sentence id
 typedef unsigned int sid;
@@ -64,6 +66,8 @@ static QHash<sid, sid> links;
 static bool createTables(SQLite::Connection &connection, const QString &lang)
 {
 	SQLite::Query query(&connection);
+	EXEC_STMT(query, "create table info(version INT)");
+	EXEC_STMT(query, QString("insert into info values(%1)").arg(TATOEBADB_REVISION));
 	EXEC_STMT(query, "create table entries(id INTEGER PRIMARY KEY, sentence BLOB)");
 	if (lang == "jpn") EXEC_STMT(query, "create table words(jmdictId INTEGER, sentenceId INTEGER SECONDARY KEY REFERENCES sentences, position tinyInt)");
 	return true;
@@ -211,6 +215,13 @@ static void printUsage(char *argv[])
 
 int main(int argc, char *argv[])
 {
+	languagesCodes["jpn"] = "jp";
+	languagesCodes["eng"] = "en";
+	languagesCodes["fra"] = "fr";
+	languagesCodes["deu"] = "de";
+	languagesCodes["spa"] = "es";
+	languagesCodes["rus"] = "ru";
+
 	QCoreApplication app(argc, argv);
 	
 	if (argc < 3) { printUsage(argv); return 1; }
@@ -220,7 +231,14 @@ int main(int argc, char *argv[])
 		QString param(argv[argCpt]);
 		if (!param.startsWith("-l")) { printUsage(argv); return 1; }
 		QStringList langs(param.mid(2).split(',', QString::SkipEmptyParts));
-		foreach (const QString &lang, langs) if (!languages.contains(lang)) languages << lang;
+		QStringList allowedLangs(languagesCodes.values());
+		foreach (const QString &lang, langs) {
+			if (!allowedLangs.contains(lang)) {
+				qWarning("Language %s not supported!", lang.toAscii().constData());
+				continue;
+			}
+			languages << languagesCodes.key(lang);
+		}
 		++argCpt;
 	}
 	if (argCpt > argc - 2) { printUsage(argv); return -1; }
@@ -231,7 +249,7 @@ int main(int argc, char *argv[])
 	languages << "jpn";
 	// Create databases and prepare queries for every language
 	foreach (const QString &lang, languages) {
-		QString dbFile = QDir(dstDir).absoluteFilePath(QString("tatoeba-%1.db").arg(lang));
+		QString dbFile = QDir(dstDir).absoluteFilePath(lang == "jpn" ? QString("tatoeba.db") : QString("tatoeba-%1.db").arg(languagesCodes[lang]));
 		QFile dst(dbFile);
 		if (dst.exists() && !dst.remove()) {
 			qCritical("Error - cannot remove existing destination file!");
@@ -252,7 +270,7 @@ int main(int argc, char *argv[])
 	}
 			
 	// Connection to the JMdict database
-	if (!jmdictConnection.connect("jmdict-en.db")) {
+	if (!jmdictConnection.connect(QDir(srcDir).absoluteFilePath("jmdict-en.db"))) {
 		qFatal("Cannot connect to JMdict database: %s", jmdictConnection.lastError().message().toLatin1().data());
 		return 1;
 	}
