@@ -21,6 +21,7 @@
 #include "core/EntriesCache.h"
 
 #define TATOEBAENTRY_GLOBALID 3
+#define TATOEBADB_REVISION 1
 
 class TatoebaEntry : public Entry
 {

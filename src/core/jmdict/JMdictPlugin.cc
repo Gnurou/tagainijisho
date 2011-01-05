@@ -287,6 +287,7 @@ bool JMdictPlugin::onRegister()
 	// No DB file, we have a big trouble here.
 	if (dbFile.isEmpty()) {
 		qFatal("JMdict plugin fatal error: cannot find any dictionary file!");
+		return false;
 	}
 	if (!Database::attachDictionaryDB(dbFile, "jmdict", JMDICTDB_REVISION)) {
 		qFatal("JMdict plugin fatal error: failed to attach JMdict database!");

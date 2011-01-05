@@ -67,6 +67,7 @@ bool Kanjidic2Plugin::onRegister()
 	// No DB file, we have a big trouble here.
 	if (dbFile.isEmpty()) {
 		qFatal("kanjidic2 plugin fatal error: cannot find any dictionary file!");
+		return false;
 	}
 	if (!Database::attachDictionaryDB(dbFile, "kanjidic2", KANJIDIC2DB_REVISION)) {
 		qFatal("kanjidic2 plugin fatal error: failed to attach Kanjidic2 database!");

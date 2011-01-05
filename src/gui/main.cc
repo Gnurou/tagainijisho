@@ -27,6 +27,7 @@
 #include "core/Plugin.h"
 #include "core/jmdict/JMdictPlugin.h"
 #include "core/kanjidic2/Kanjidic2Plugin.h"
+#include "core/tatoeba/TatoebaPlugin.h"
 #include "gui/PreferencesWindow.h"
 #include "gui/MainWindow.h"
 
@@ -239,10 +240,13 @@ int main(int argc, char *argv[])
 	// Register core plugins
 	Plugin *kanjidic2Plugin = new Kanjidic2Plugin();
 	Plugin *jmdictPlugin = new JMdictPlugin();
+	Plugin *tatoebaPlugin = new TatoebaPlugin();
 	if (!Plugin::registerPlugin(kanjidic2Plugin))
 		qFatal("Error registering kanjidic2 plugin!");
 	if (!Plugin::registerPlugin(jmdictPlugin))
 		qFatal("Error registering JMdict plugin!");
+	if (!Plugin::registerPlugin(tatoebaPlugin))
+		qFatal("Error registering Tatoeba plugin!");
 
 	// Create the main window
 	MainWindow *mainWindow = new MainWindow();
@@ -262,16 +266,17 @@ int main(int argc, char *argv[])
 	int ret = app.exec();
 
 	// Remove GUI plugins
-	Plugin::removePlugin("JMdictGUI");
 	Plugin::removePlugin("kanjidic2GUI");
+	Plugin::removePlugin("JMdictGUI");
 
 	// Deleting the main window ensures there is no other DB query running in the
 	// GUI thread
 	delete mainWindow;
 
 	// Remove core plugins
-	Plugin::removePlugin("kanjidic2");
+	Plugin::removePlugin("Tatoeba");
 	Plugin::removePlugin("JMdict");
+	Plugin::removePlugin("kanjidic2");
 
 	// Plugins must be deleted after the main window in case the latter still uses them
 	// in a background thread
