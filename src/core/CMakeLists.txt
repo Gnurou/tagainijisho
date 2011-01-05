@@ -3,6 +3,7 @@ include(${QT_USE_FILE})
 set(tagainijisho_core_SRCS
 TextTools.cc
 Paths.cc
+Lang.cc
 Database.cc
 QueryBuilder.cc
 ASyncQuery.cc

@@ -18,6 +18,7 @@
 #include "tagaini_config.h"
 
 #include "core/Paths.h"
+#include "core/Lang.h"
 #include "core/Database.h"
 #include "core/EntrySearcherManager.h"
 #include "core/EntryListModel.h"
@@ -272,16 +273,14 @@ bool JMdictPlugin::onRegister()
 {
 	// First attach our database
 	QLocale locale;
-	QStringList supportedLanguages;
-	supportedLanguages << "en" << "fr" << "de" << "es" << "ru";
 	QString localeCode(locale.name().left(2));
-	supportedLanguages.removeAll(localeCode);
 	QString dbFile;
 
 	// First look for the dictionary corresponding to the current locale
-	dbFile = lookForFile(QString("jmdict-%1.db").arg(localeCode));
+	if (supportedLanguages().contains(localeCode))
+		dbFile = lookForFile(QString("jmdict-%1.db").arg(localeCode));
 	// Cannot be found? Look for the other available version
-	if (dbFile.isEmpty()) foreach (const QString &lang, supportedLanguages) {
+	if (dbFile.isEmpty()) foreach (const QString &lang, supportedLanguages()) {
 		dbFile = lookForFile(QString("jmdict-%1.db").arg(lang));
 		if (!dbFile.isEmpty()) break;
 	}
