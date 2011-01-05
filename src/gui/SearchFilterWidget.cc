@@ -36,6 +36,7 @@ void SearchFilterWidget::updateVisualState()
 
 void SearchFilterWidget::commandUpdate()
 {
+	if (_timer.isActive()) _timer.stop();
 	updateVisualState();
 	if (autoUpdateQuery()) emit commandUpdated();
 }
