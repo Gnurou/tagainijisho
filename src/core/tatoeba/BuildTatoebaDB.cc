@@ -270,7 +270,7 @@ int main(int argc, char *argv[])
 	}
 			
 	// Connection to the JMdict database
-	if (!jmdictConnection.connect(QDir(srcDir).absoluteFilePath("jmdict-en.db"))) {
+	if (!jmdictConnection.connect(QDir(srcDir).absoluteFilePath("jmdict.db"))) {
 		qFatal("Cannot connect to JMdict database: %s", jmdictConnection.lastError().message().toLatin1().data());
 		return 1;
 	}
@@ -287,7 +287,6 @@ int main(int argc, char *argv[])
 	ASSERT(parseLinks(QDir(srcDir).absoluteFilePath("3rdparty/tatoeba/links.csv")));
 	ASSERT(parseSentences(QDir(srcDir).absoluteFilePath("3rdparty/tatoeba/sentences.csv")));
 	ASSERT(recordSentences());
-
 	
 	foreach (const QString &lang, languages) {
 		SQLite::Connection &curConnection = connection[lang];

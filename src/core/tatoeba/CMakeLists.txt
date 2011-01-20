@@ -28,13 +28,13 @@ if (APPLE)
 	set(extra_link_flags "-bind_at_load")
 endif()
 
-# Database targets for selected languages
+# Database target
 set(ALL_LANGS "")
 foreach(LANG ${DICT_LANG})
 	set(ALL_LANGS "${ALL_LANGS},${LANG}")
 endforeach()
 add_custom_command(OUTPUT ${CMAKE_BINARY_DIR}/tatoeba.db
 	COMMAND build_tatoeba_db -l${ALL_LANGS} ${CMAKE_SOURCE_DIR} ${CMAKE_BINARY_DIR}
-	DEPENDS build_tatoeba_db ${CMAKE_SOURCE_DIR}/3rdparty/tatoeba/sentences.csv ${CMAKE_SOURCE_DIR}/3rdparty/tatoeba/links.csv ${CMAKE_SOURCE_DIR}/3rdparty/tatoeba/jpn_indices.csv ${CMAKE_BINARY_DIR}/jmdict-en.db)
+	DEPENDS build_tatoeba_db ${CMAKE_SOURCE_DIR}/3rdparty/tatoeba/sentences.csv ${CMAKE_SOURCE_DIR}/3rdparty/tatoeba/links.csv ${CMAKE_SOURCE_DIR}/3rdparty/tatoeba/jpn_indices.csv ${CMAKE_BINARY_DIR}/jmdict.db)
 add_custom_target(tatoeba-db DEPENDS ${CMAKE_BINARY_DIR}/tatoeba.db)
 add_dependencies(databases tatoeba-db)

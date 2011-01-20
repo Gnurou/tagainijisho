@@ -27,7 +27,10 @@
 
 #include <QtDebug>
 
-static SQLite::Connection connection;
+// Languages to parse
+static QSet<QString> languages;
+
+static QMap<QString, SQLite::Connection> connection;
 // All the SQL queries used to build the database
 // Having them here will allow us to prepare them once and for all
 // instead of doing it for every entry.
@@ -38,8 +41,8 @@ static SQLite::Query insertKanjiCharQuery;
 static SQLite::Query insertKanaTextQuery;
 static SQLite::Query insertKanaQuery;
 static SQLite::Query insertSenseQuery;
-static SQLite::Query insertGlossTextQuery;
-static SQLite::Query insertGlossQuery;
+static QMap<QString, SQLite::Query> insertGlossTextQuery;
+static QMap<QString, SQLite::Query> insertGlossQuery;
 static SQLite::Query insertJLPTQuery;
 static SQLite::Query insertDeletedEntryQuery;
 
@@ -53,7 +56,7 @@ static SQLite::Query insertDeletedEntryQuery;
 class JMdictDBParser : public JMdictParser
 {
 public:
-	JMdictDBParser(const QStringList &languages) : JMdictParser(languages) {}
+	JMdictDBParser(const QSet<QString> &languages) : JMdictParser(languages) {}
 	virtual bool onItemParsed(const JMdictItem &entry);
 	virtual bool onDeletedItemParsed(const JMdictDeletedItem &entry);
 };
@@ -109,45 +112,36 @@ bool JMdictDBParser::onItemParsed(const JMdictItem &entry)
 		++idx;
 	}
 	
-	// Insert senses
-	// Holds the senses mapped to the language in which they will be displayed
-	QMap<QString, QList<const JMdictSenseItem *> > senseByLang;
-	foreach (const JMdictSenseItem &sense, entry.senses) {
-		foreach (const QString &lang, languages) if (sense.gloss.contains(lang)) {
-			senseByLang[lang] << &sense;
-			break;
-		}
-	}
-	// Now map all the senses ordered by language
+	// Insert senses and glosses
 	idx = 0;
-	foreach (const QString &lang, languages) if (senseByLang.contains(lang)) {
-		const QList<const JMdictSenseItem *> senses(senseByLang[lang]);
-		foreach (const JMdictSenseItem *sense, senses) {
-			BIND(insertSenseQuery, entry.id);
-			BIND(insertSenseQuery, idx);
-			BIND(insertSenseQuery, sense->posBitField(*this));
-			BIND(insertSenseQuery, sense->miscBitField(*this));
-			BIND(insertSenseQuery, sense->dialectBitField(*this));
-			BIND(insertSenseQuery, sense->fieldBitField(*this));
-			QStringList restrictedToList;
-			foreach (quint8 res, sense->restrictedToKanji) restrictedToList << QString::number(res);
-			AUTO_BIND(insertSenseQuery, restrictedToList.join(","), "");
-			restrictedToList.clear();
-			foreach (quint8 res, sense->restrictedToKana) restrictedToList << QString::number(res);
-			AUTO_BIND(insertSenseQuery, restrictedToList.join(","), "");
-			EXEC(insertSenseQuery);
-			
-			// Insert the gloss of the selected language
-			BIND(insertGlossTextQuery, sense->gloss[lang].join(", "));
-			EXEC(insertGlossTextQuery);
-			qint64 rowId = insertGlossTextQuery.lastInsertId();
-			BIND(insertGlossQuery, entry.id);
-			BIND(insertGlossQuery, idx);
-			BIND(insertGlossQuery, lang);
-			BIND(insertGlossQuery, rowId);
-			EXEC(insertGlossQuery);
-			++idx;
+	foreach (const JMdictSenseItem &sense, entry.senses) {
+		BIND(insertSenseQuery, entry.id);
+		BIND(insertSenseQuery, idx);
+		BIND(insertSenseQuery, sense.posBitField(*this));
+		BIND(insertSenseQuery, sense.miscBitField(*this));
+		BIND(insertSenseQuery, sense.dialectBitField(*this));
+		BIND(insertSenseQuery, sense.fieldBitField(*this));
+		QStringList restrictedToList;
+		foreach (quint8 res, sense.restrictedToKanji) restrictedToList << QString::number(res);
+		AUTO_BIND(insertSenseQuery, restrictedToList.join(","), "");
+		restrictedToList.clear();
+		foreach (quint8 res, sense.restrictedToKana) restrictedToList << QString::number(res);
+		AUTO_BIND(insertSenseQuery, restrictedToList.join(","), "");
+		EXEC(insertSenseQuery);
+
+		// Insert the gloss for all languages
+		foreach (const QString &lang, languages) {
+			if (!sense.gloss.contains(lang)) continue;
+			BIND(insertGlossTextQuery[lang], sense.gloss[lang].join(", "));
+			EXEC(insertGlossTextQuery[lang]);
+			qint64 rowId = insertGlossTextQuery[lang].lastInsertId();
+			BIND(insertGlossQuery[lang], entry.id);
+			BIND(insertGlossQuery[lang], idx);
+			BIND(insertGlossQuery[lang], lang);
+			BIND(insertGlossQuery[lang], rowId);
+			EXEC(insertGlossQuery[lang]);
 		}
+		++idx;
 	}
 	
 	// Insert entry
@@ -185,7 +179,7 @@ bool insertJLPTLevels(const QString &fName, int level)
 
 static bool createTables()
 {
-	SQLite::Query query(&connection);
+	SQLite::Query query(&connection[""]);
 	EXEC_STMT(query, "create table info(version INT, JMdictVersion TEXT)");
 	EXEC_STMT(query, "create table posEntities(bitShift INTEGER PRIMARY KEY, name TEXT, description TEXT)");
 	EXEC_STMT(query, "create table miscEntities(bitShift INTEGER PRIMARY KEY, name TEXT, description TEXT)");
@@ -197,34 +191,42 @@ static bool createTables()
 	EXEC_STMT(query, "create table kana(id INTEGER SECONDARY KEY REFERENCES entries, priority TINYINT, docid INT, nokanji BOOLEAN, frequency TINYINT, restrictedTo TEXT)");
 	EXEC_STMT(query, "create virtual table kanaText using fts4(reading, TOKENIZE katakana)");
 	EXEC_STMT(query, "create table senses(id INTEGER SECONDARY KEY REFERENCES entries, priority TINYINT, pos INT, misc INT, dial INT, field INT, restrictedToKanji TEXT, restrictedToKana TEXT)");
-	EXEC_STMT(query, "create table gloss(id INTEGER SECONDARY KEY REFERENCES entries, sensePriority INT, lang CHAR(3), docid INTEGER SECONDARY KEY NOT NULL)");
-	EXEC_STMT(query, "create virtual table glossText using fts4(reading)");
 	EXEC_STMT(query, "create table kanjiChar(kanji INTEGER, id INTEGER SECONDARY KEY REFERENCES entries, priority INT)");
 	EXEC_STMT(query, "create table jlpt(id INTEGER PRIMARY KEY, level TINYINT)");
 	EXEC_STMT(query, "create table deletedEntries(id INTEGER PRIMARY KEY, movedTo INTEGER REFERENCES entries)");
+
+	foreach (const QString &lang, languages) {
+		query.useWith(&connection[lang]);
+		EXEC_STMT(query, "create table gloss(id INTEGER SECONDARY KEY REFERENCES entries, sensePriority INT, lang CHAR(3), docid INTEGER SECONDARY KEY NOT NULL)");
+		EXEC_STMT(query, "create virtual table glossText using fts4(reading)");
+	}
 	return true;
 }
 
 static bool createIndexes()
 {
-	SQLite::Query query(&connection);
+	SQLite::Query query(&connection[""]);
 	EXEC_STMT(query, "create index idx_entries_frequency on entries(frequency)");
 	EXEC_STMT(query, "create index idx_kanji on kanji(id)");
 	EXEC_STMT(query, "create index idx_kanji_docid on kanji(docid)");
 	EXEC_STMT(query, "create index idx_kana on kana(id)");
 	EXEC_STMT(query, "create index idx_kana_docid on kana(docid)");
 	EXEC_STMT(query, "create index idx_senses on senses(id)");
-	EXEC_STMT(query, "create index idx_gloss on gloss(id)");
-	EXEC_STMT(query, "create index idx_gloss_docid on gloss(docid)");
 	EXEC_STMT(query, "create index idx_kanjichar on kanjiChar(kanji)");
 	EXEC_STMT(query, "create index idx_kanjichar_id on kanjiChar(id)");
 	EXEC_STMT(query, "create index idx_jlpt on jlpt(level)");
+
+	foreach (const QString &lang, languages) {
+		query.useWith(&connection[lang]);
+		EXEC_STMT(query, "create index idx_gloss on gloss(id)");
+		EXEC_STMT(query, "create index idx_gloss_docid on gloss(docid)");
+	}
 	return true;
 }
 
 void printUsage(char *argv[])
 {
-	qCritical("Usage: %s [-l<lang>] source_dir dest_file\nWhere <lang> is a two-letters language code (en, fr, de, es or ru)", argv[0]);
+	qCritical("Usage: %s [-l<lang>] source_dir dest_dir\nWhere <lang> is a two-letters language code (en, fr, de, es or ru)", argv[0]);
 }
 
 int main(int argc, char *argv[])
@@ -234,35 +236,40 @@ int main(int argc, char *argv[])
 	if (argc < 3) { printUsage(argv); return 1; }
 
 	int argCpt = 1;
-	QStringList languages;
 	while (argCpt < argc && argv[argCpt][0] == '-') {
 		QString param(argv[argCpt]);
 		if (!param.startsWith("-l")) { printUsage(argv); return 1; }
 		QStringList langs(param.mid(2).split(',', QString::SkipEmptyParts));
-		foreach (const QString &lang, langs) if (!languages.contains(lang)) languages << lang;
+		foreach (const QString &lang, langs) languages << lang;
 		++argCpt;
 	}
 	if (argCpt > argc - 2) { printUsage(argv); return -1; }
 
 	QString srcDir(argv[argCpt]);
-	QString dstFile(argv[argCpt + 1]);
+	QString dstDir(argv[argCpt + 1]);
 	
-	QFile dst(dstFile);
-	if (dst.exists() && !dst.remove()) {
-		qCritical("Error - cannot remove existing destination file!");
-		return 1;
+	QSet<QString> allLangs(languages);
+	allLangs << "";
+	// Create the databases
+	foreach (const QString &lang, allLangs) {
+		QString dbFile = QDir(dstDir).absoluteFilePath(lang == "" ? "jmdict.db" : QString("jmdict-%1.db").arg(lang));
+		QFile dst(dbFile);
+		if (dst.exists() && !dst.remove()) {
+			qCritical("Error - cannot remove existing destination file!");
+			return 1;
+		}
+		SQLite::Connection &con = connection[lang];
+		if (!con.connect(dbFile, SQLite::Connection::JournalInFile)) {
+			qFatal("Cannot open database: %s", con.lastError().message().toLatin1().data());
+			return 1;
+		}
+		ASSERT(con.transaction());
 	}
-	
-	// Open the database to write to
-	if (!connection.connect(dstFile, SQLite::Connection::JournalInFile)) {
-		qFatal("Cannot open database: %s", connection.lastError().message().toLatin1().data());
-		return 1;
-	}
-	ASSERT(connection.transaction());
+
 	ASSERT(createTables());
 	
 	// Prepare the queries
-	#define PREPQUERY(query, text) query.useWith(&connection); query.prepare(text)
+#define PREPQUERY(query, text) query.useWith(&connection[""]); ASSERT(query.prepare(text))
 	PREPQUERY(insertEntryQuery, "insert into entries values(?, ?, ?)");
 	PREPQUERY(insertKanjiTextQuery, "insert into kanjiText values(?)");
 	PREPQUERY(insertKanjiQuery, "insert into kanji values(?, ?, ?, ?)");
@@ -270,11 +277,16 @@ int main(int argc, char *argv[])
 	PREPQUERY(insertKanaTextQuery, "insert into kanaText values(?)");
 	PREPQUERY(insertKanaQuery, "insert into kana values(?, ?, ?, ?, ?, ?)");
 	PREPQUERY(insertSenseQuery, "insert into senses values(?, ?, ?, ?, ?, ?, ?, ?)");
-	PREPQUERY(insertGlossTextQuery, "insert into glossText values(?)");
-	PREPQUERY(insertGlossQuery, "insert into gloss values(?, ?, ?, ?)");
 	PREPQUERY(insertJLPTQuery, "insert or ignore into jlpt values(?, ?)");
 	PREPQUERY(insertDeletedEntryQuery, "insert into deletedEntries values(?, ?)");
-	#undef PREPQUERY
+#undef PREPQUERY
+
+	foreach (const QString &lang, languages) {
+#define PREPQUERY(query, text) query.useWith(&connection[lang]); ASSERT(query.prepare(text))
+		PREPQUERY(insertGlossTextQuery[lang], "insert into glossText values(?)");
+		PREPQUERY(insertGlossQuery[lang], "insert into gloss values(?, ?, ?, ?)");
+#undef PREPQUERY
+	}
 
 	// Parse and insert JMdict
 	QFile file(QDir(srcDir).absoluteFilePath("3rdparty/JMdict"));
@@ -284,14 +296,17 @@ int main(int argc, char *argv[])
 	if (!languages.contains("en")) languages << "en";
 	JMdictDBParser JMParser(languages);
 	if (!JMParser.parse(reader)) {
-		qDebug() << connection.lastError().message();
+		foreach (const QString &lang, allLangs) {
+			if (connection[lang].lastError().isError())
+				qDebug() << connection[lang].lastError().message();
+		}
 		return 1;
 	}
 	file.close();
 
 	// Fill in the info table
 	{
-		SQLite::Query query(&connection);
+		SQLite::Query query(&connection[""]);
 		query.prepare("insert into info values(?, ?)");
 		query.bindValue(JMDICTDB_REVISION);
 		query.bindValue(JMParser.dictVersion());
@@ -309,7 +324,7 @@ int main(int argc, char *argv[])
 	
 	// Populate the entities tables
 	{
-		SQLite::Query entitiesQuery(&connection);
+		SQLite::Query entitiesQuery(&connection[""]);
 		entitiesQuery.prepare("insert into posEntities values(?, ?, ?)");
 		foreach (const QString &name, JMParser.posBitFields.keys()) {
 			entitiesQuery.bindValue(JMParser.posBitFields[name]);
@@ -340,26 +355,30 @@ int main(int argc, char *argv[])
 		}
 	}
 	
-	// Analyze for hopefully better performance
-	connection.exec("analyze");
-	
-	// Commit everything
-	ASSERT(connection.commit());
-	
-	// Clear queries, close the database and set the file to read-only
-	insertEntryQuery.clear();
-	insertKanjiTextQuery.clear();
-	insertKanjiQuery.clear();
-	insertKanjiCharQuery.clear();
-	insertKanaTextQuery.clear();
-	insertKanaQuery.clear();
-	insertSenseQuery.clear();
-	insertGlossTextQuery.clear();
-	insertGlossQuery.clear();
-	insertJLPTQuery.clear();
-	insertDeletedEntryQuery.clear();
-	connection.close();
-	QFile(dstFile).setPermissions(QFile::ReadOwner | QFile::ReadUser | QFile::ReadGroup | QFile::ReadOther);
+	foreach (const QString &lang, allLangs) {
+		// Analyze for hopefully better performance
+		connection[lang].exec("analyze");
+		// Commit everything
+		ASSERT(connection[lang].commit());
+		// Clear queries, close the database and set the file to read-only
+		if (lang == "") {
+			insertEntryQuery.clear();
+			insertKanjiTextQuery.clear();
+			insertKanjiQuery.clear();
+			insertKanjiCharQuery.clear();
+			insertKanaTextQuery.clear();
+			insertKanaQuery.clear();
+			insertSenseQuery.clear();
+			insertJLPTQuery.clear();
+			insertDeletedEntryQuery.clear();
+		} else {
+			insertGlossTextQuery[lang].clear();
+			insertGlossQuery[lang].clear();
+		}
+
+		QFile(connection[lang].dbFileName()).setPermissions(QFile::ReadOwner | QFile::ReadUser | QFile::ReadGroup | QFile::ReadOther);
+		ASSERT(connection[lang].close());
+	}
 	
 	return 0;
 }
