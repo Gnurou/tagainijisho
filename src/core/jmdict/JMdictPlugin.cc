@@ -30,7 +30,6 @@
 #include <QtDebug>
 #include <QFile>
 #include <QDir>
-#include <QLocale>
 
 #define dictFileConfigString "jmdict/database"
 #define dictFileConfigDefault "jmdict.db"
@@ -269,32 +268,55 @@ errorOccured:
 	return false;
 }
 
-bool JMdictPlugin::onRegister()
+bool JMdictPlugin::attachAllDatabases()
 {
-	// First attach our database
-	QLocale locale;
-	QString localeCode(locale.name().left(2));
 	QString dbFile;
 
-	// First look for the dictionary corresponding to the current locale
-	if (supportedLanguages().contains(localeCode))
-		dbFile = lookForFile(QString("jmdict-%1.db").arg(localeCode));
-	// Cannot be found? Look for the other available version
-	if (dbFile.isEmpty()) foreach (const QString &lang, supportedLanguages()) {
-		dbFile = lookForFile(QString("jmdict-%1.db").arg(lang));
-		if (!dbFile.isEmpty()) break;
-	}
-	// No DB file, we have a big trouble here.
+	// First attach the main db
+	dbFile = lookForFile("jmdict.db");
 	if (dbFile.isEmpty()) {
-		qFatal("JMdict plugin fatal error: cannot find any dictionary file!");
+		qFatal("JMdict plugin fatal error: cannot find main database file!");
 		return false;
 	}
 	if (!Database::attachDictionaryDB(dbFile, "jmdict", JMDICTDB_REVISION)) {
-		qFatal("JMdict plugin fatal error: failed to attach JMdict database!");
+		qFatal("JMdict plugin fatal error: failed to attach main database!");
 		return false;
 	}
-	_dbFile = dbFile;
+
+	_attachedDBs[""] = dbFile;
 	
+	// Then look for language databases
+	foreach (const QString &lang, supportedLanguages()) {
+		dbFile = lookForFile(QString("jmdict-%1.db").arg(lang));
+		if (dbFile.isEmpty()) continue;
+		if (!Database::attachDictionaryDB(dbFile, QString("jmdict_%1").arg(lang), JMDICTDB_REVISION)) continue;
+		_attachedDBs[lang] = dbFile;
+	}
+	if (_attachedDBs.size() == 1) {
+		qFatal("JMdict plugin fatal error: no language database present!");
+		return false;
+	}
+	
+	return true;
+}
+
+void JMdictPlugin::detachAllDatabases()
+{
+	QString dbAlias;
+	foreach (const QString &lang, _attachedDBs.keys()) {
+		dbAlias = lang.isEmpty() ? "jmdict" : "jmdict_" + lang;
+		if (!Database::detachDictionaryDB(dbAlias))
+			qWarning("JMdict plugin warning: Cannot detach database %s", dbAlias.toUtf8().constData());
+	}
+	_attachedDBs.clear();
+}
+
+bool JMdictPlugin::onRegister()
+{
+	if (!attachAllDatabases()) {
+		return false;
+	}
+
 	SQLite::Query query(Database::connection());
 	// Get the dictionary version
 	query.exec("select JMdictVersion from jmdict.info");
@@ -338,7 +360,7 @@ bool JMdictPlugin::onRegister()
 	loader = new JMdictEntryLoader();
 	if (!EntriesCache::instance().addLoader(JMDICTENTRY_GLOBALID, loader)) return false;
 
-	return true;
+	return true;	
 }
 
 bool JMdictPlugin::onUnregister()
@@ -357,9 +379,8 @@ bool JMdictPlugin::onUnregister()
 	_dialectEntities.clear();
 	_fieldEntities.clear();
 	
-	// Detach our database
-	if (!Database::detachDictionaryDB("jmdict")) return false;
-	_dbFile.clear();
+	// Detach our databases
+	detachAllDatabases();
 
 	return true;
 }
