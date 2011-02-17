@@ -186,9 +186,9 @@ static bool createTables()
 	EXEC_STMT(query, "create table fieldEntities(bitShift INTEGER PRIMARY KEY, name TEXT, description TEXT)");
 	EXEC_STMT(query, "create table dialectEntities(bitShift INTEGER PRIMARY KEY, name TEXT, description TEXT)");
 	EXEC_STMT(query, "create table entries(id INTEGER PRIMARY KEY, frequency SMALLINT, kanjiCount TINYINT)");
-	EXEC_STMT(query, "create table kanji(id INTEGER SECONDARY KEY REFERENCES entries, priority TINYINT, docid INT, frequency TINYINT)");
+	EXEC_STMT(query, "create table kanji(id INTEGER SECONDARY KEY REFERENCES entries, priority TINYINT, docid INTEGER PRIMARY KEY, frequency TINYINT)");
 	EXEC_STMT(query, "create virtual table kanjiText using fts4(reading)");
-	EXEC_STMT(query, "create table kana(id INTEGER SECONDARY KEY REFERENCES entries, priority TINYINT, docid INT, nokanji BOOLEAN, frequency TINYINT, restrictedTo TEXT)");
+	EXEC_STMT(query, "create table kana(id INTEGER SECONDARY KEY REFERENCES entries, priority TINYINT, docid INTEGER PRIMARY KEY, nokanji BOOLEAN, frequency TINYINT, restrictedTo TEXT)");
 	EXEC_STMT(query, "create virtual table kanaText using fts4(reading, TOKENIZE katakana)");
 	EXEC_STMT(query, "create table senses(id INTEGER SECONDARY KEY REFERENCES entries, priority TINYINT, pos INT, misc INT, dial INT, field INT, restrictedToKanji TEXT, restrictedToKana TEXT)");
 	EXEC_STMT(query, "create table kanjiChar(kanji INTEGER, id INTEGER SECONDARY KEY REFERENCES entries, priority INT)");
@@ -197,7 +197,8 @@ static bool createTables()
 
 	foreach (const QString &lang, languages) {
 		query.useWith(&connection[lang]);
-		EXEC_STMT(query, "create table gloss(id INTEGER SECONDARY KEY REFERENCES entries, sensePriority INT, lang CHAR(3), docid INTEGER SECONDARY KEY NOT NULL)");
+		EXEC_STMT(query, "create table info(version INT, JMdictVersion TEXT)");
+		EXEC_STMT(query, "create table gloss(id INTEGER SECONDARY KEY REFERENCES entries, sensePriority INT, lang CHAR(3), docid INTEGER PRIMARY KEY)");
 		EXEC_STMT(query, "create virtual table glossText using fts4(reading)");
 	}
 	return true;
@@ -304,13 +305,20 @@ int main(int argc, char *argv[])
 	}
 	file.close();
 
-	// Fill in the info table
+	// Fill in the info tables
 	{
 		SQLite::Query query(&connection[""]);
 		query.prepare("insert into info values(?, ?)");
 		query.bindValue(JMDICTDB_REVISION);
 		query.bindValue(JMParser.dictVersion());
 		ASSERT(query.exec());
+		foreach (const QString &lang, languages) {
+			query.useWith(&connection[lang]);
+			query.prepare("insert into info values(?, ?)");
+			query.bindValue(JMDICTDB_REVISION);
+			query.bindValue(JMParser.dictVersion());
+			ASSERT(query.exec());
+		}
 	}
 	
 	// Create indexes
