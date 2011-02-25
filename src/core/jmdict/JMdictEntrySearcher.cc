@@ -35,8 +35,9 @@ JMdictEntrySearcher::JMdictEntrySearcher() : EntrySearcher(JMDICTENTRY_GLOBALID)
 	QueryBuilder::Join::addTablePriority("jmdict.kanjiText", 35);
 	QueryBuilder::Join::addTablePriority("jmdict.kana", 30);
 	QueryBuilder::Join::addTablePriority("jmdict.kanaText", 25);
-	foreach (const QString &lang, JMdictPlugin::instance()->attachedDBs()) {
+	foreach (const QString &lang, JMdictPlugin::instance()->attachedDBs().keys()) {
 		if (lang.isEmpty()) continue;
+		qDebug() << "jmdict_" + lang + ".gloss";
 		QueryBuilder::Join::addTablePriority("jmdict_" + lang + ".gloss", 20);
 		QueryBuilder::Join::addTablePriority("jmdict_" + lang + ".glossText", 15);
 	}
