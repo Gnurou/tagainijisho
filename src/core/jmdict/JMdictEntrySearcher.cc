@@ -31,12 +31,12 @@ JMdictEntrySearcher::JMdictEntrySearcher() : EntrySearcher(JMDICTENTRY_GLOBALID)
 
 	QueryBuilder::Join::addTablePriority("jmdict.entries", 50);
 	QueryBuilder::Join::addTablePriority("jmdict.kanjiChar", 45);
+	QueryBuilder::Join::addTablePriority("jmdict.kanji", 40);
+	QueryBuilder::Join::addTablePriority("jmdict.kanjiText", 35);
+	QueryBuilder::Join::addTablePriority("jmdict.kana", 30);
+	QueryBuilder::Join::addTablePriority("jmdict.kanaText", 25);
 	foreach (const QString &lang, JMdictPlugin::instance()->attachedDBs()) {
 		if (lang.isEmpty()) continue;
-		QueryBuilder::Join::addTablePriority("jmdict_" + lang + ".kanji", 40);
-		QueryBuilder::Join::addTablePriority("jmdict_" + lang + ".kanjiText", 35);
-		QueryBuilder::Join::addTablePriority("jmdict_" + lang + ".kana", 30);
-		QueryBuilder::Join::addTablePriority("jmdict_" + lang + ".kanaText", 25);
 		QueryBuilder::Join::addTablePriority("jmdict_" + lang + ".gloss", 20);
 		QueryBuilder::Join::addTablePriority("jmdict_" + lang + ".glossText", 15);
 	}
@@ -87,9 +87,9 @@ static QString escapeForRegexp(const QString &string)
 static QString buildTextSearchCondition(const QStringList &words, const QString &table)
 {
 	static QRegExp regExpChars = QRegExp("[\\?\\*]");
-	static QString ftsMatch("jmdict_%3.%2Text.reading match '%1'");
-	static QString regexpMatch("jmdict_%3.%2Text.reading regexp %1");
-	static QString globalMatch("jmdict_%3.%2.docid in (select docid from jmdict_%3.%2Text where %1)");
+	static QString ftsMatch("jmdict%3.%2Text.reading match '%1'");
+	static QString regexpMatch("jmdict%3.%2Text.reading regexp %1");
+	static QString globalMatch("jmdict%3.%2.docid in (select docid from jmdict%3.%2Text where %1)");
 	
 	QStringList globalMatches;
 	QStringList langs(JMdictPlugin::instance()->attachedDBs().keys());
@@ -114,7 +114,7 @@ static QString buildTextSearchCondition(const QStringList &words, const QString 
 			} else fts << "\"" + w + "\"";
 		}
 		if (!fts.isEmpty()) conds.insert(0, ftsMatch.arg(fts.join(" ")));
-		globalMatches << globalMatch.arg(conds.join(" AND ")).arg(table).arg(lang);
+		globalMatches << globalMatch.arg(conds.join(" AND ")).arg(table).arg(table == "gloss" ? "_" + lang : "");
 	}
 	return globalMatches.join(" OR ");
 }
