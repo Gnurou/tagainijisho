@@ -37,7 +37,6 @@ JMdictEntrySearcher::JMdictEntrySearcher() : EntrySearcher(JMDICTENTRY_GLOBALID)
 	QueryBuilder::Join::addTablePriority("jmdict.kanaText", 25);
 	foreach (const QString &lang, JMdictPlugin::instance()->attachedDBs().keys()) {
 		if (lang.isEmpty()) continue;
-		qDebug() << "jmdict_" + lang + ".gloss";
 		QueryBuilder::Join::addTablePriority("jmdict_" + lang + ".gloss", 20);
 		QueryBuilder::Join::addTablePriority("jmdict_" + lang + ".glossText", 15);
 	}
@@ -397,7 +396,8 @@ QueryBuilder::Column JMdictEntrySearcher::canSort(const QString &sort, const Que
 		foreach(const QueryBuilder::Join &join, statement.joins()) {
 			const QString &t1 = join.column1().table();
 			const QString &t2 = join.column2().table();
-			if (t1 == "jmdict.gloss" || t2 == "jmdict.gloss") return QueryBuilder::Column("jmdict.gloss", "sensePriority", "min");
+			// TODO Update matching pattern, replace by sense.priority?
+			//if (t1 == "jmdict.gloss" || t2 == "jmdict.gloss") return QueryBuilder::Column("jmdict.gloss", "sensePriority", "min");
 			if (t1 == "jmdict.kana" || t2 == "jmdict.kana") return QueryBuilder::Column("jmdict.kana", "priority", "min");
 			if (t1 == "jmdict.kanji" || t2 == "jmdict.kanji") return QueryBuilder::Column("jmdict.kanji", "priority", "min");
 		}
