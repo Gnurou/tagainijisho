@@ -2,8 +2,9 @@ set(QT_USE_QTNETWORK TRUE)
 include(${QT_USE_FILE})
 
 set(tagainijisho_gui_SRCS
-EntryFormatter.cc
 TJSpinBox.cc
+TJLineEdit.cc
+EntryFormatter.cc
 RelativeDateEdit.cc
 ProxyPaintEngine.cc
 BookletPrintEngine.cc
@@ -48,6 +49,7 @@ MainWindow.cc
 
 set(tagainijisho_gui_MOCS
 TJSpinBox.h
+TJLineEdit.h
 EntryFormatter.h
 DetailedView.h
 EditEntryNotesDialog.h
