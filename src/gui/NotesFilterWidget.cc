@@ -16,6 +16,7 @@
  */
 
 #include "gui/NotesFilterWidget.h"
+#include "gui/TJLineEdit.h"
 
 #include <QGroupBox>
 #include <QHBoxLayout>
@@ -25,7 +26,7 @@ NotesFilterWidget::NotesFilterWidget(QWidget *parent) : SearchFilterWidget(paren
 {
 	_propsToSave << "notes";
 
-	words = new QLineEdit(this);
+	words = new TJLineEdit(this);
 	connect(words, SIGNAL(textChanged(QString)), this, SLOT(onTextChanged(QString)));
 	connect(words, SIGNAL(returnPressed()), this, SLOT(commandUpdate()));
 	
