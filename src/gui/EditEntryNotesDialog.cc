@@ -114,6 +114,8 @@ EditEntryNotesDialog::EditEntryNotesDialog(Entry &entry, QWidget *parent) : QDia
 	layout->addWidget(view, 1);
 	layout->addWidget(textEdit, 2);
 	layout->addWidget(buttonBox);
+
+	if (model->rowCount() >= 1) view->setCurrentIndex(model->index(0, 0));
 }
 
 EditEntryNotesDialog::~EditEntryNotesDialog()

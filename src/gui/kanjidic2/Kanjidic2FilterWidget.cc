@@ -102,21 +102,18 @@ Kanjidic2FilterWidget::Kanjidic2FilterWidget(QWidget *parent) : SearchFilterWidg
 	QGroupBox *skipGroupBox = new QGroupBox(tr("SKIP code"), this);
 	{
 		QHBoxLayout *hLayout = new QHBoxLayout(skipGroupBox);
-		_skip1 = new QSpinBox(unicodeGroupBox);
+		_skip1 = new BetterSpinBox(unicodeGroupBox);
 		_skip1->setRange(0, 4);
-		_skip1->setSpecialValueText(" ");
 		_skip1->setCorrectionMode(QAbstractSpinBox::CorrectToNearestValue);
 		hLayout->addWidget(_skip1);
 		connect(_skip1, SIGNAL(valueChanged(int)), this, SLOT(delayedCommandUpdate()));
-		_skip2 = new QSpinBox(unicodeGroupBox);
+		_skip2 = new BetterSpinBox(unicodeGroupBox);
 		_skip2->setRange(0, 30);
-		_skip2->setSpecialValueText(" ");
 		_skip2->setCorrectionMode(QAbstractSpinBox::CorrectToNearestValue);
 		hLayout->addWidget(_skip2);
 		connect(_skip2, SIGNAL(valueChanged(int)), this, SLOT(delayedCommandUpdate()));
-		_skip3 = new QSpinBox(unicodeGroupBox);
+		_skip3 = new BetterSpinBox(unicodeGroupBox);
 		_skip3->setRange(0, 30);
-		_skip3->setSpecialValueText(" ");
 		_skip3->setCorrectionMode(QAbstractSpinBox::CorrectToNearestValue);
 		hLayout->addWidget(_skip3);
 		connect(_skip3, SIGNAL(valueChanged(int)), this, SLOT(delayedCommandUpdate()));
