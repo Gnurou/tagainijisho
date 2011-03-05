@@ -31,7 +31,7 @@
 
 QQueue<QStringList> TagsDialogs::lastAddedTags;
 
-TagsLineInput::TagsLineInput(QWidget *parent) : QLineEdit(parent)
+TagsLineInput::TagsLineInput(QWidget *parent) : TJLineEdit(parent)
 {
 	tagsCompleter = new QCompleter(this);
 	tagsCompleter->setModel(Tag::knownTagsModel());
