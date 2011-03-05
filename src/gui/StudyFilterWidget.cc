@@ -246,7 +246,7 @@ QString StudyFilterWidget::currentTitle() const
 			newTitle += tr(" until %1").arg(maxStudyDateString);
 		}
 		if (minSpinBox->value() != 0 || maxSpinBox->value() != 100) {
-			newTitle += tr(", score:[%1,%2]").arg(minSpinBox->value()).arg(maxSpinBox->value());
+			newTitle += tr(", score:[%1-%2]").arg(minSpinBox->value()).arg(maxSpinBox->value());
 		}
 
 		QString minTrainDateString = _trainMinDate->translatedDateString();
