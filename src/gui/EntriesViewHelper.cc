@@ -34,7 +34,7 @@
 #include <QLayout>
 #include <QToolButton>
 
-EntriesViewHelper::EntriesViewHelper(QAbstractItemView* client, EntryDelegateLayout* delegateLayout, bool workOnSelection, bool viewOnly) : EntryMenu(client), _client(client), _entriesMenu(), _workOnSelection(workOnSelection), _actionPrint(QIcon(":/images/icons/print.png"), tr("&Print..."), 0), _actionPrintPreview(QIcon(":/images/icons/print.png"), tr("Print p&review..."), 0), _actionPrintBooklet(QIcon(":/images/icons/print.png"), tr("Print &booklet..."), 0), _actionPrintBookletPreview(QIcon(":/images/icons/print.png"), tr("Booklet p&review..."), 0), _actionExportTab(QIcon(":/images/icons/document-export.png"), tr("&Export as &TSV..."), 0), _actionExportJs(QIcon(":/images/icons/document-export.png"), tr("Export as &HTML..."), 0), prefRefs(MAX_PREF), _contextMenu()
+EntriesViewHelper::EntriesViewHelper(QAbstractItemView* client, EntryDelegateLayout* delegateLayout, bool workOnSelection, bool viewOnly) : EntryMenu(client), _client(client), _entriesMenu(), _workOnSelection(workOnSelection), _actionPrint(QIcon(":/images/icons/print.png"), tr("&Print..."), 0), _actionPrintPreview(QIcon(":/images/icons/print.png"), tr("Print p&review..."), 0), _actionPrintBooklet(QIcon(":/images/icons/print.png"), tr("Print &booklet..."), 0), _actionPrintBookletPreview(QIcon(":/images/icons/print.png"), tr("Booklet p&review..."), 0), _actionExportTab(QIcon(":/images/icons/document-export.png"), tr("Export as &TSV..."), 0), _actionExportJs(QIcon(":/images/icons/document-export.png"), tr("Export as &HTML..."), 0), prefRefs(MAX_PREF), _contextMenu()
 {
 	client->installEventFilter(this);
 	client->viewport()->installEventFilter(this);
