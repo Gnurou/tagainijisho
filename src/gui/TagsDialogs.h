@@ -21,14 +21,14 @@
 #include "core/Tag.h"
 #include "core/EntriesCache.h"
 
-#include <QLineEdit>
+#include "gui/TJLineEdit.h"
 #include <QDialog>
 #include <QQueue>
 
 /**
  * A line edit that provides auto-completion on tags.
  */
-class TagsLineInput : public QLineEdit
+class TagsLineInput : public TJLineEdit
 {
 	Q_OBJECT
 private:
