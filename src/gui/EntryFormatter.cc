@@ -147,7 +147,7 @@ QString EntryFormatter::autoFormat(const QString &str) const
 	if (written < str.size()) {
 		ret += formatString(str.right(str.size() - written), curChar);
 	}
-	return ret;
+	return ret.replace("\n", "<br/>");
 }
 
 QString EntryFormatter::entryTitle(const ConstEntryPointer& entry) const
