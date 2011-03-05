@@ -16,6 +16,7 @@
  */
 
 #include "gui/TJSpinBox.h"
+#include "gui/TJLineEdit.h"
 #include "gui/KanjiValidator.h"
 #include "gui/MainWindow.h"
 #include "gui/kanjidic2/Kanjidic2FilterWidget.h"
@@ -72,7 +73,7 @@ Kanjidic2FilterWidget::Kanjidic2FilterWidget(QWidget *parent) : SearchFilterWidg
 		label = new QLabel(tr("Radicals"), componentsGroupBox);
 		label->setAlignment(Qt::AlignHCenter);
 		vLayout->addWidget(label);
-		_radicals = new QLineEdit(componentsGroupBox);
+		_radicals = new TJLineEdit(componentsGroupBox);
 		connect(_radicals, SIGNAL(textChanged(const QString &)), this, SLOT(commandUpdate()));
 		// _radKSelector will be allocated the first time it is used
 		_radKSelector = 0;
@@ -81,7 +82,7 @@ Kanjidic2FilterWidget::Kanjidic2FilterWidget(QWidget *parent) : SearchFilterWidg
 		label = new QLabel(tr("Components"), componentsGroupBox);
 		label->setAlignment(Qt::AlignHCenter);
 		vLayout->addWidget(label);
-		_components = new QLineEdit(componentsGroupBox);
+		_components = new TJLineEdit(componentsGroupBox);
 		KanjiValidator *kanjiValidator = new KanjiValidator(_components);
 		_components->setValidator(kanjiValidator);
 		connect(_components, SIGNAL(textChanged(const QString &)), this, SLOT(commandUpdate()));
