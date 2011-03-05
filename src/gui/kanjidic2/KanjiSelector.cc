@@ -20,13 +20,13 @@
 #include "core/TextTools.h"
 #include "core/kanjidic2/KanjiRadicals.h"
 #include "core/Database.h"
+#include "sqlite/Query.h"
 #include "gui/KanjiValidator.h"
 #include "gui/kanjidic2/KanjiSelector.h"
-#include <gui/MainWindow.h>
+#include "gui/MainWindow.h"
+#include "gui/TJLineEdit.h"
 
-#include "sqlite/Query.h"
 #include <QComboBox>
-#include <QLineEdit>
 #include <QDesktopWidget>
 
 ComplementsList::ComplementsList(QWidget *parent) : QListWidget(parent), baseFont(font()), labelFont(baseFont), _sscroll(verticalScrollBar())
@@ -354,7 +354,7 @@ KanjiInputter::KanjiInputter(KanjiSelector *selector, bool useLineEdit, QWidget 
 {
 	QVBoxLayout *layout = new QVBoxLayout(this);
 	if (useLineEdit) {
-		QLineEdit *associate = new QLineEdit(this);
+		QLineEdit *associate = new TJLineEdit(this);
 		KanjiValidator *validator = new KanjiValidator(associate);
 		associate->setValidator(validator);
 		layout->addWidget(associate);
