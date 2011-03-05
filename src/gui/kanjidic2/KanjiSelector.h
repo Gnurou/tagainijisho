@@ -50,6 +50,7 @@ public slots:
 
 #include "gui/kanjidic2/ui_KanjiSelector.h"
 
+class QLineEdit;
 /**
  * A base class for building kanji selectors based on some of their components.
  */
