@@ -297,14 +297,15 @@ QModelIndexList EntriesViewHelper::getEntriesToProcess(bool limitToSelection)
 void EntriesViewHelper::print()
 {
 	QPrinter printer;
-	if (!askForPrintOptions(printer)) return;
+	if (!askForPrintOptions(printer, tr("Print"))) return;
 	EntriesPrinter(client()).print(getEntriesToProcess(printer.printRange() & QPrinter::Selection), &printer);
 }
 
 void EntriesViewHelper::printPreview()
 {
 	QPrinter printer;
-	EntriesPrinter(client()).printPreview(getEntriesToProcess(), &printer);
+	if (!workOnSelection() && !askForPrintOptions(printer, tr("Print preview"))) return;
+	EntriesPrinter(client()).printPreview(getEntriesToProcess(printer.printRange() & QPrinter::Selection), &printer);
 }
 
 void EntriesViewHelper::printBooklet()
@@ -317,7 +318,8 @@ void EntriesViewHelper::printBooklet()
 void EntriesViewHelper::printBookletPreview()
 {
 	QPrinter printer;
-	EntriesPrinter(client()).printBookletPreview(getEntriesToProcess(), &printer);
+	if (!workOnSelection() && !askForPrintOptions(printer, tr("Booklet print preview"))) return;
+	EntriesPrinter(client()).printBookletPreview(getEntriesToProcess(printer.printRange() & QPrinter::Selection), &printer);
 }
 
 void EntriesViewHelper::tabExport()
