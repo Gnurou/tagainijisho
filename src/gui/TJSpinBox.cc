@@ -14,31 +14,32 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+#include "gui/TJSpinBox.h"
 
-#include "gui/BetterSpinBox.h"
-
-BetterSpinBox::BetterSpinBox(QWidget *parent) : QSpinBox(parent)
+TJSpinBox::TJSpinBox(QWidget *parent, const QString &validRegExp, unsigned int base) : QSpinBox(parent), _base(base)
 {
-	_validator = new QRegExpValidator(QRegExp("[0-9a-fA-f]{0,6}"), this);
+	_validator = new QRegExpValidator(QRegExp(validRegExp), this);
 }
 
-QValidator::State BetterSpinBox::validate(QString &input, int &pos) const
+QValidator::State TJSpinBox::validate(QString &input, int &pos) const
 {
-	QValidator::State valid = _validator->validate(input, pos);
+	QString cleanInput(input);
+	if (input.startsWith(prefix())) cleanInput.remove(0, prefix().size());
+	QValidator::State valid = _validator->validate(cleanInput, pos);
 	if (valid == QValidator::Invalid) return QValidator::Invalid;
-	int value = input.toInt();
+	int value = cleanInput.toInt(0, base());
 	if (value < minimum() || value > maximum()) return QValidator::Invalid;
 	return valid;
 }
 
-int BetterSpinBox::valueFromText(const QString &text) const
+int TJSpinBox::valueFromText(const QString &text) const
 {
 	if (text.isEmpty()) return 0;
-	return text.toInt();
+	return text.toInt(0, base());
 }
 
-QString BetterSpinBox::textFromValue(int val) const
+QString TJSpinBox::textFromValue(int val) const
 {
 	if (val == 0) return "";
-	return QString::number(val, 10);
+	return QString::number(val, base());
 }

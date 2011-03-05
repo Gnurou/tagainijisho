@@ -14,17 +14,18 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef __GUI_BETTERSPINBOX_H
-#define __GUI_BETTERSPINBOX_H
+#ifndef __GUI_TJSPINBOX_H
+#define __GUI_TJSPINBOX_H
 
 #include <QSpinBox>
 #include <QRegExpValidator>
 
-class BetterSpinBox : public QSpinBox
+class TJSpinBox : public QSpinBox
 {
 	Q_OBJECT
 private:
 	QRegExpValidator *_validator;
+	unsigned int _base;
 
 protected:
 	virtual QValidator::State validate(QString &input, int &pos) const;
@@ -32,7 +33,8 @@ protected:
 	virtual QString textFromValue(int val) const;
 
 public:
-	BetterSpinBox(QWidget *parent = 0);
+	TJSpinBox(QWidget *parent = 0, const QString &validRegExp = "[0-9]*", unsigned int base = 10);
+	unsigned int base() const { return _base; }
 };
 
 #endif

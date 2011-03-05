@@ -18,7 +18,6 @@
 #ifndef __GUI_KANJIDIC2FILTERWIDGET_H
 #define __GUI_KANJIDIC2FILTERWIDGET_H
 
-#include "gui/HexSpinBox.h"
 #include "gui/SearchWidget.h"
 #include "gui/kanjidic2/KanjiSelector.h"
 
@@ -42,7 +41,7 @@ private:
 	RadicalKanjiSelector *_radKSelector;
 	QLineEdit *_components;
 	ComponentKanjiSelector *_compKSelector;
-	HexSpinBox *_unicode;
+	QSpinBox *_unicode;
 	QSpinBox *_skip1, *_skip2, *_skip3;
 	QComboBox *_fcTopLeft, *_fcTopRight, *_fcBotLeft, *_fcBotRight, *_fcExtra;
 	/// Actiongroup used to store the kanjis grades options

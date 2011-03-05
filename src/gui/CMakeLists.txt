@@ -3,8 +3,7 @@ include(${QT_USE_FILE})
 
 set(tagainijisho_gui_SRCS
 EntryFormatter.cc
-BetterSpinBox.cc
-HexSpinBox.cc
+TJSpinBox.cc
 RelativeDateEdit.cc
 ProxyPaintEngine.cc
 BookletPrintEngine.cc
@@ -48,12 +47,11 @@ MainWindow.cc
 )
 
 set(tagainijisho_gui_MOCS
-BetterSpinBox.h
+TJSpinBox.h
 EntryFormatter.h
 DetailedView.h
 EditEntryNotesDialog.h
 EntryMenu.h
-HexSpinBox.h
 EntriesPrinter.h
 KanjiValidator.h
 MainWindow.h

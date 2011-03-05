@@ -15,7 +15,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "gui/BetterSpinBox.h"
+#include "gui/TJSpinBox.h"
 #include "gui/KanjiValidator.h"
 #include "gui/MainWindow.h"
 #include "gui/kanjidic2/Kanjidic2FilterWidget.h"
@@ -48,12 +48,12 @@ Kanjidic2FilterWidget::Kanjidic2FilterWidget(QWidget *parent) : SearchFilterWidg
 		QVBoxLayout *vLayout = new QVBoxLayout(_strokeCountGroupBox);
 		QHBoxLayout *hLayout = new QHBoxLayout();
 		hLayout->setContentsMargins(0, 0, 0, 0);
-		_strokeCountSpinBox = new BetterSpinBox(this);
+		_strokeCountSpinBox = new TJSpinBox(this);
 		_strokeCountSpinBox->setSpecialValueText("");
 		_strokeCountSpinBox->setRange(0, 34);
 		hLayout->addWidget(_strokeCountSpinBox);
 		connect(_strokeCountSpinBox, SIGNAL(valueChanged(QString)), this, SLOT(onStrokeRangeChanged()));
-		_maxStrokeCountSpinBox = new BetterSpinBox(this);
+		_maxStrokeCountSpinBox = new TJSpinBox(this);
 		_maxStrokeCountSpinBox->setSpecialValueText("");
 		_maxStrokeCountSpinBox->setRange(0, 34);
 		_maxStrokeCountSpinBox->setVisible(false);
@@ -93,7 +93,7 @@ Kanjidic2FilterWidget::Kanjidic2FilterWidget(QWidget *parent) : SearchFilterWidg
 	QGroupBox *unicodeGroupBox = new QGroupBox(tr("Unicode"), this);
 	{
 		QHBoxLayout *hLayout = new QHBoxLayout(unicodeGroupBox);
-		_unicode = new HexSpinBox(unicodeGroupBox);
+		_unicode = new TJSpinBox(unicodeGroupBox, "[0-9a-fA-f]{0,6}", 16);
 		_unicode->setRange(0, 0x2A6DF);
 		_unicode->setPrefix("0x");
 		connect(_unicode, SIGNAL(valueChanged(int)), this, SLOT(delayedCommandUpdate()));
@@ -102,17 +102,17 @@ Kanjidic2FilterWidget::Kanjidic2FilterWidget(QWidget *parent) : SearchFilterWidg
 	QGroupBox *skipGroupBox = new QGroupBox(tr("SKIP code"), this);
 	{
 		QHBoxLayout *hLayout = new QHBoxLayout(skipGroupBox);
-		_skip1 = new BetterSpinBox(unicodeGroupBox);
+		_skip1 = new TJSpinBox(unicodeGroupBox);
 		_skip1->setRange(0, 4);
 		_skip1->setCorrectionMode(QAbstractSpinBox::CorrectToNearestValue);
 		hLayout->addWidget(_skip1);
 		connect(_skip1, SIGNAL(valueChanged(int)), this, SLOT(delayedCommandUpdate()));
-		_skip2 = new BetterSpinBox(unicodeGroupBox);
+		_skip2 = new TJSpinBox(unicodeGroupBox);
 		_skip2->setRange(0, 30);
 		_skip2->setCorrectionMode(QAbstractSpinBox::CorrectToNearestValue);
 		hLayout->addWidget(_skip2);
 		connect(_skip2, SIGNAL(valueChanged(int)), this, SLOT(delayedCommandUpdate()));
-		_skip3 = new BetterSpinBox(unicodeGroupBox);
+		_skip3 = new TJSpinBox(unicodeGroupBox);
 		_skip3->setRange(0, 30);
 		_skip3->setCorrectionMode(QAbstractSpinBox::CorrectToNearestValue);
 		hLayout->addWidget(_skip3);
