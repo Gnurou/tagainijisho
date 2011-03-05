@@ -32,7 +32,7 @@ TJLineEdit::TJLineEdit(QWidget *parent) : QLineEdit(parent)
 	connect(this, SIGNAL(textChanged(const QString&)), this, SLOT(updateResetButton(const QString&)));
 	
 	int frameWidth = style()->pixelMetric(QStyle::PM_DefaultFrameWidth);
-	setStyleSheet(QString("QLineEdit { padding-right: %1px; } ").arg(_resetButton->sizeHint().width() + frameWidth * 2 + 1));
+	setStyleSheet(QString("QLineEdit { padding-right: %1px; } ").arg(_resetButton->sizeHint().width() + frameWidth + 1));
 }
 
 void TJLineEdit::resizeEvent(QResizeEvent *event)
