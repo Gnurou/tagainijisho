@@ -176,7 +176,7 @@ void SavedSearchesTreeWidget::deleteSavedSearch(SavedSearchTreeItem *item)
 
 void SavedSearchesTreeWidget::deleteSelection()
 {
-	if (QMessageBox::question(this, tr("Confirm deletion"), tr("Are you sure you want to delete the selected searches/folders?"), QMessageBox::Yes | QMessageBox::No) == QMessageBox::No) return;
+	if (QMessageBox::question(this, tr("Confirm deletion"), tr("Are you sure you want to delete the selected search/folder?"), QMessageBox::Yes | QMessageBox::No) == QMessageBox::No) return;
 
 	QList<QTreeWidgetItem *> selected = selectedItems();
 	foreach (QTreeWidgetItem *rItem, selected) {
