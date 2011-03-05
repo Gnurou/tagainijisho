@@ -209,9 +209,7 @@ static bool createIndexes()
 	SQLite::Query query(&connection[""]);
 	EXEC_STMT(query, "create index idx_entries_frequency on entries(frequency)");
 	EXEC_STMT(query, "create index idx_kanji on kanji(id)");
-	EXEC_STMT(query, "create index idx_kanji_docid on kanji(docid)");
 	EXEC_STMT(query, "create index idx_kana on kana(id)");
-	EXEC_STMT(query, "create index idx_kana_docid on kana(docid)");
 	EXEC_STMT(query, "create index idx_senses on senses(id)");
 	EXEC_STMT(query, "create index idx_kanjichar on kanjiChar(kanji)");
 	EXEC_STMT(query, "create index idx_kanjichar_id on kanjiChar(id)");
@@ -220,7 +218,6 @@ static bool createIndexes()
 	foreach (const QString &lang, languages) {
 		query.useWith(&connection[lang]);
 		EXEC_STMT(query, "create index idx_gloss on gloss(id)");
-		EXEC_STMT(query, "create index idx_gloss_docid on gloss(docid)");
 	}
 	return true;
 }
