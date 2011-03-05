@@ -32,7 +32,6 @@ class TextFilterWidget : public SearchFilterWidget
 	Q_OBJECT
 private:
 	QComboBox *_searchField;
-	QToolButton *resetText;
 	bool _reseted;
 	
 private slots:
