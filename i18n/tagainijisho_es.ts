@@ -35,77 +35,77 @@
     <message>
         <location line="+6"/>
         <source>Erase user data</source>
-        <translation type="unfinished">Eliminar datos del usuario</translation>
+        <translation>Eliminar datos del usuario</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Pushing this button will completely erase all your user data. This includes study list, tags, notes, scores, basically everything you did. After pushing this button, Tagaini Jisho will exit. Upon restart, you will be back to a fresh, blank database.</source>
-        <translation type="unfinished">Pulsar este botón eliminará todos los datos del usuario. Esto incluye listas de estudio, etiquetas, notas, puntuaciones, ... Básicamente, todo lo que el usuario ha hecho. Tras pulsar este botón, Tagaini Jisho se cerrará. Al reiniciarse, volverá a tener una base de datos vacía.</translation>
+        <translation>Pulsar este botón eliminará todos los datos del usuario. Esto incluye listas de estudio, etiquetas, notas, puntuaciones, ... Básicamente, todo lo que el usuario ha hecho. Tras pulsar este botón, Tagaini Jisho se cerrará. Al reiniciarse, volverá a tener una base de datos vacía.</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Reset user data</source>
-        <translation type="unfinished">Eliminar datos del usuario</translation>
+        <translation>Eliminar datos del usuario</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>User database file:</source>
-        <translation type="unfinished">Archivo de la base de datos del usuario:</translation>
+        <translation>Archivo de la base de datos del usuario:</translation>
     </message>
     <message>
         <location filename="../src/gui/PreferencesWindow.cc" line="+462"/>
         <source>User data</source>
-        <translation type="unfinished">Datos de usuario</translation>
+        <translation>Datos de usuario</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Really erase user data?</source>
-        <translation type="unfinished"></translation>
+        <translation>¿Eliminar realmente los datos del usuario?</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>This will erase all your user data. Are you sure you want to do this?</source>
-        <translation type="unfinished"></translation>
+        <translation>Esto eliminará todos sus datos de usuario. ¿Está seguro de querer hacer esto?</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>REALLY erase it?</source>
-        <translation type="unfinished"></translation>
+        <translation>¿REALMENTE desea eliminarlos?</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Are you absolutely, positively, definitely sure?</source>
-        <translation type="unfinished">¿Estás total y absolutamente seguro?</translation>
+        <translation>¿Está total y absolutamente seguro?</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>No user database file</source>
-        <translation type="unfinished">La base de datos del usuario no existe</translation>
+        <translation>La base de datos del usuario no existe</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>The user database file has already been erased before.</source>
-        <translation type="unfinished">La base de datos del usuario ya ha sido eliminada previamente.</translation>
+        <translation>La base de datos del usuario ha sido eliminada previamente.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Cannot erase user database</source>
-        <translation type="unfinished">No se pudo eliminar la base de datos del usuario</translation>
+        <translation>No es posible eliminar la base de datos del usuario</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Unable to erase user database. Please see what is wrong and try to do it manually.</source>
-        <translation type="unfinished"></translation>
+        <translation>No es posible eliminar la base de datos del usuario. Por favor, fijese que es incorrecto y trate de hacerlo manualmente.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>User data erased</source>
-        <translation type="unfinished"></translation>
+        <translation>Datos del usuario eliminados</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>User data has been erased. Tagaini Jisho will now exit. You will be back to a blank database when it is restarted.</source>
-        <translation type="unfinished"></translation>
+        <translation>Los datos del usuario han sido eliminados. Tagaini Jisho se cerrará. Se regresará a una base de datos vacia luego de reiniciar.</translation>
     </message>
 </context>
 <context>
@@ -113,37 +113,37 @@
     <message>
         <location filename="../src/core/Database.cc" line="+249"/>
         <source>Tagaini Jisho warning</source>
-        <translation type="unfinished"></translation>
+        <translation>Alerta de Tagaini Jisho</translation>
     </message>
     <message>
         <location line="+50"/>
         <source>Error while upgrading user database: %1</source>
-        <translation type="unfinished">Error al actualizar la base de datos del usuario: %1</translation>
+        <translation>Error al actualizar la base de datos del usuario: %1</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Wrong user database version: expected %1, got %2.</source>
-        <translation type="unfinished">La versión de la base de datos del usuario es incorrecta: se esperaba %1, pero se obtuvo %2.</translation>
+        <translation>La versión de la base de datos del usuario es incorrecta: se esperaba %1, pero se obtuvo %2.</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Cannot create user database: %1</source>
-        <translation type="unfinished">No se pudo crear la base de datos del usuario: %1</translation>
+        <translation>No se puede crear la base de datos del usuario: %1</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Cannot open database: %1</source>
-        <translation type="unfinished">No se pudo abrir la base de datos: %1</translation>
+        <translation>No se puede abrir la base de datos: %1</translation>
     </message>
     <message>
         <location line="+112"/>
         <source>Temporary database fallback failed. The program will now exit.</source>
-        <translation type="unfinished"></translation>
+        <translation>La base de datos de reserva temporal ha fallado. El programa se cerrará ahora.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Tagaini is working on a temporary database. This allows the program to work, but user data is unavailable and any change will be lost upon program exit. If you corrupted your database file, please recreate it from the preferences.</source>
-        <translation type="unfinished"></translation>
+        <translation>Tagaini esta trabajando sobre una base de datos temporal. Esto permit.e que el programa funcione, pero los datos de usuario no estarán disponibles y cualquier cambio se perderá al salir del programa. Si ha dañado su archivo de base de datos, por favor, intente recrearlo a partir de las preferencias.</translation>
     </message>
 </context>
 <context>
@@ -310,7 +310,7 @@
         <location line="+20"/>
         <location line="+20"/>
         <source>Marking entries...</source>
-        <translation type="unfinished"></translation>
+        <translation>Marcando entradas...</translation>
     </message>
     <message>
         <location line="-40"/>
@@ -328,17 +328,17 @@
         <location line="+21"/>
         <location line="+36"/>
         <source>Operation in progress...</source>
-        <translation type="unfinished"></translation>
+        <translation>Operación en progreso...</translation>
     </message>
     <message>
         <location line="-38"/>
         <source>Resetting entries...</source>
-        <translation type="unfinished"></translation>
+        <translation>Reseteando entradas...</translation>
     </message>
     <message>
         <location line="+36"/>
         <source>Adding tags...</source>
-        <translation type="unfinished"></translation>
+        <translation>Añadiendo etiquetas...</translation>
     </message>
     <message>
         <location line="+112"/>
@@ -354,22 +354,22 @@
         <location line="+4"/>
         <location line="+47"/>
         <source>Cannot write file</source>
-        <translation type="unfinished"></translation>
+        <translation>No es posible escribir el archivo</translation>
     </message>
     <message>
         <location line="-47"/>
         <source>Unable to write file %1.</source>
-        <translation type="unfinished"></translation>
+        <translation>No es posible escribir el archivo %1.</translation>
     </message>
     <message>
         <location line="+27"/>
         <source>Error writing file</source>
-        <translation type="unfinished"></translation>
+        <translation>Error al escribir el archivo</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Error while writing file %1.</source>
-        <translation type="unfinished"></translation>
+        <translation>Error mientras se escribía el archivo %1.</translation>
     </message>
     <message>
         <location line="+16"/>
@@ -379,27 +379,27 @@
     <message>
         <location line="+0"/>
         <source>HTML files (*.html)</source>
-        <translation type="unfinished"></translation>
+        <translation>Archivos HTML (*.html)</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Unable to write file %1!</source>
-        <translation type="unfinished"></translation>
+        <translation>No es posible escribir el archivo %1!</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Cannot open template file</source>
-        <translation type="unfinished"></translation>
+        <translation>No es posible abrir el archivo de plantilla</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Unable to open template file!</source>
-        <translation type="unfinished"></translation>
+        <translation>No es posible abrir el archivo de plantilla!</translation>
     </message>
     <message>
         <location filename="../src/gui/EntriesViewHelper.h" line="+82"/>
         <source>Print</source>
-        <translation type="unfinished">Imprimir</translation>
+        <translation>Imprimir</translation>
     </message>
 </context>
 <context>
@@ -463,7 +463,7 @@
     <message>
         <location line="+161"/>
         <source>&lt;Root&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;Raíz&gt;</translation>
     </message>
     <message>
         <location line="+48"/>
@@ -501,7 +501,7 @@
     <message>
         <location line="+0"/>
         <source>Go up</source>
-        <translation type="unfinished">Subir</translation>
+        <translation>Subir</translation>
     </message>
     <message>
         <location line="+0"/>
@@ -567,12 +567,12 @@ Algunos pueden seguir existiendo.</translation>
     <message>
         <location filename="../src/gui/EntryMenu.cc" line="+28"/>
         <source>Add to &amp;study list</source>
-        <translation type="unfinished"></translation>
+        <translation>Agregar a la lista de e&amp;studio</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Remove from &amp;study list</source>
-        <translation type="unfinished"></translation>
+        <translation>Remover de la lista de e&amp;studio</translation>
     </message>
     <message>
         <location line="+0"/>
@@ -582,7 +582,7 @@ Algunos pueden seguir existiendo.</translation>
     <message>
         <location line="+0"/>
         <source>&amp;Reset score</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Resetear puntuación</translation>
     </message>
     <message>
         <location line="+0"/>
@@ -615,12 +615,12 @@ Algunos pueden seguir existiendo.</translation>
     <message>
         <location filename="../src/gui/EditEntryNotesDialog.cc" line="-65"/>
         <source>Notes</source>
-        <translation type="unfinished">Notas</translation>
+        <translation>Notas</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>&lt;New note&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;Nueva nota&gt;</translation>
     </message>
 </context>
 <context>
@@ -643,7 +643,7 @@ Algunos pueden seguir existiendo.</translation>
     <message>
         <location filename="../src/gui/EntryTypeFilterWidget.h" line="+43"/>
         <source>Entry type filter</source>
-        <translation type="unfinished">Filtro de tipo de entrada</translation>
+        <translation>Filtro de tipo de entrada</translation>
     </message>
 </context>
 <context>
@@ -651,7 +651,7 @@ Algunos pueden seguir existiendo.</translation>
     <message>
         <location filename="../src/gui/jmdict/JMdictEntryFormatter.cc" line="+573"/>
         <source>Homographs</source>
-        <translation type="unfinished">Homografías</translation>
+        <translation>Homografías</translation>
     </message>
 </context>
 <context>
@@ -659,7 +659,7 @@ Algunos pueden seguir existiendo.</translation>
     <message>
         <location line="-23"/>
         <source>Homophones</source>
-        <translation type="unfinished">Homofonías</translation>
+        <translation>Homofonías</translation>
     </message>
 </context>
 <context>
@@ -872,27 +872,27 @@ Valores altos pueden mejorar el rendimiento cuando se manipulan muchas entradas.
     <message>
         <location filename="../src/gui/jmdict/JMdictEntryFormatter.cc" line="-338"/>
         <source>(JLPT N%1)</source>
-        <translation type="unfinished">(JLPT N%1)</translation>
+        <translation>(JLPT N%1)</translation>
     </message>
     <message>
         <location line="+38"/>
         <source>Alternate readings: </source>
-        <translation type="unfinished">Lecturas alternativas:</translation>
+        <translation>Lecturas alternativas:</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Alternate writings:</source>
-        <translation type="unfinished">Escrituras alternativas:</translation>
+        <translation>Escrituras alternativas:</translation>
     </message>
     <message>
         <location line="+117"/>
         <source>JLPT</source>
-        <translation type="unfinished">JLPT</translation>
+        <translation>JLPT</translation>
     </message>
     <message>
         <location line="+24"/>
         <source>Kanji</source>
-        <translation type="unfinished">Kanji</translation>
+        <translation>Kanji</translation>
     </message>
 </context>
 <context>
@@ -910,7 +910,7 @@ Valores altos pueden mejorar el rendimiento cuando se manipulan muchas entradas.
     <message>
         <location line="+5"/>
         <source>With components:</source>
-        <translation type="unfinished"></translation>
+        <translation>Contiene los componentes:</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -933,13 +933,13 @@ Valores altos pueden mejorar el rendimiento cuando se manipulan muchas entradas.
         <location line="-120"/>
         <location line="+135"/>
         <source>Field</source>
-        <translation type="unfinished">Campo</translation>
+        <translation>Campo</translation>
     </message>
     <message>
         <location line="-129"/>
         <location line="+144"/>
         <source>Misc</source>
-        <translation type="unfinished">Otros</translation>
+        <translation>Otros</translation>
     </message>
     <message>
         <location line="-91"/>
@@ -990,12 +990,12 @@ Valores altos pueden mejorar el rendimiento cuando se manipulan muchas entradas.
     <message>
         <location line="+15"/>
         <source>Field:</source>
-        <translation type="unfinished"></translation>
+        <translation>Campo:</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>Misc:</source>
-        <translation type="unfinished"></translation>
+        <translation>Otros:</translation>
     </message>
 </context>
 <context>
@@ -1035,7 +1035,7 @@ Valores altos pueden mejorar el rendimiento cuando se manipulan muchas entradas.
         <location line="-20"/>
         <location line="+20"/>
         <source>There are no vocabulary entries in this set to train on.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">No hay entradas de vocabulario en este set para entrenar.</translation>
     </message>
 </context>
 <context>
@@ -1639,7 +1639,7 @@ Valores altos pueden mejorar el rendimiento cuando se manipulan muchas entradas.
     <message>
         <location line="+7"/>
         <source>Kanji used in main reading</source>
-        <translation type="unfinished">Kanjis usados en la lectura principal</translation>
+        <translation>Kanjis usados en la lectura principal</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -1804,7 +1804,7 @@ Valores altos pueden mejorar el rendimiento cuando se manipulan muchas entradas.
     <message>
         <location filename="../src/gui/kanjidic2/KanjiSelector.cc" line="+385"/>
         <source>Triggers the kanji input panel</source>
-        <translation type="unfinished">Activa el panel de entrada de kanjis</translation>
+        <translation>Activa el panel de entrada de kanjis</translation>
     </message>
 </context>
 <context>
@@ -1870,7 +1870,7 @@ Valores altos pueden mejorar el rendimiento cuando se manipulan muchas entradas.
     <message>
         <location line="+2"/>
         <source>&lt;b&gt;Score:&lt;/b&gt; %1&lt;br/&gt;</source>
-        <translation type="unfinished">&lt;b&gt;Puntuación:&lt;/b&gt; %1&lt;br/&gt;</translation>
+        <translation>&lt;b&gt;Puntuación:&lt;/b&gt; %1&lt;br/&gt;</translation>
     </message>
     <message>
         <location line="+19"/>
@@ -1890,7 +1890,7 @@ Valores altos pueden mejorar el rendimiento cuando se manipulan muchas entradas.
     <message>
         <location line="+11"/>
         <source>Previous entry</source>
-        <translation type="unfinished">Entrada anterior</translation>
+        <translation>Entrada anterior</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -1904,7 +1904,7 @@ Valores altos pueden mejorar el rendimiento cuando se manipulan muchas entradas.
     <message>
         <location line="-76"/>
         <source>Next entry</source>
-        <translation type="unfinished">Siguiente entrada</translation>
+        <translation>Entrada siguiente</translation>
     </message>
     <message>
         <location line="+30"/>
@@ -1914,7 +1914,7 @@ Valores altos pueden mejorar el rendimiento cuando se manipulan muchas entradas.
     <message>
         <location line="+20"/>
         <source>Entry options menu</source>
-        <translation type="unfinished">Menú de opciones de la entrada</translation>
+        <translation>Menú de opciones de entrada</translation>
     </message>
     <message>
         <location line="+23"/>
@@ -1927,7 +1927,7 @@ Valores altos pueden mejorar el rendimiento cuando se manipulan muchas entradas.
     <message>
         <location filename="../src/gui/kanjidic2/KanjiSelector.ui" line="+6"/>
         <source>Radical search</source>
-        <translation type="unfinished">Búsqueda de radicales</translation>
+        <translation>Búsqueda de radicales</translation>
     </message>
 </context>
 <context>
@@ -1954,12 +1954,12 @@ Valores altos pueden mejorar el rendimiento cuando se manipulan muchas entradas.
     <message>
         <location line="+3"/>
         <source>&lt;b&gt;Frequency:&lt;/b&gt; %1</source>
-        <translation type="unfinished">&lt;b&gt;Frecuencia:&lt;/b&gt; %1</translation>
+        <translation>&lt;b&gt;Frecuencia:&lt;/b&gt; %1</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>&lt;b&gt;Grade:&lt;/b&gt; %1</source>
-        <translation type="unfinished">&lt;b&gt;Grado:&lt;/b&gt; %1</translation>
+        <translation>&lt;b&gt;Grado:&lt;/b&gt; %1</translation>
     </message>
     <message>
         <location line="+12"/>
@@ -1974,7 +1974,7 @@ Valores altos pueden mejorar el rendimiento cuando se manipulan muchas entradas.
     <message>
         <location line="+6"/>
         <source>&lt;b&gt;4 corner:&lt;/b&gt; %1</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;b&gt;4 esquinas:&lt;/b&gt; %1</translation>
     </message>
     <message>
         <location line="-18"/>
@@ -1999,7 +1999,7 @@ Valores altos pueden mejorar el rendimiento cuando se manipulan muchas entradas.
     <message>
         <location line="+11"/>
         <source>Nanori</source>
-        <translation type="unfinished">Nanori</translation>
+        <translation>Nanori</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -2009,12 +2009,12 @@ Valores altos pueden mejorar el rendimiento cuando se manipulan muchas entradas.
     <message>
         <location line="+9"/>
         <source>Frequency</source>
-        <translation type="unfinished">Frecuencia</translation>
+        <translation>Frecuencia</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Grade</source>
-        <translation type="unfinished">Grado</translation>
+        <translation>Grado</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -2024,12 +2024,12 @@ Valores altos pueden mejorar el rendimiento cuando se manipulan muchas entradas.
     <message>
         <location line="+20"/>
         <source>Variations</source>
-        <translation type="unfinished">Variaciones</translation>
+        <translation>Variaciones</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>Variation of</source>
-        <translation type="unfinished">Variación de</translation>
+        <translation>Variación de</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -2039,12 +2039,12 @@ Valores altos pueden mejorar el rendimiento cuando se manipulan muchas entradas.
     <message>
         <location line="+9"/>
         <source>SKIP</source>
-        <translation type="unfinished">SKIP</translation>
+        <translation>SKIP</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>4 corner</source>
-        <translation type="unfinished"></translation>
+        <translation>4 esquinas</translation>
     </message>
     <message>
         <location line="+17"/>
@@ -2054,7 +2054,7 @@ Valores altos pueden mejorar el rendimiento cuando se manipulan muchas entradas.
     <message>
         <location line="+22"/>
         <source>Components</source>
-        <translation type="unfinished">Componentes</translation>
+        <translation>Componentes</translation>
     </message>
 </context>
 <context>
@@ -2087,17 +2087,17 @@ Valores altos pueden mejorar el rendimiento cuando se manipulan muchas entradas.
     <message>
         <location line="+9"/>
         <source>SKIP code</source>
-        <translation type="unfinished">Código SKIP</translation>
+        <translation>Código SKIP</translation>
     </message>
     <message>
         <location line="+19"/>
         <source>Four corner</source>
-        <translation></translation>
+        <translation>Cuatro esquinas</translation>
     </message>
     <message>
         <location line="+26"/>
         <source>School grade</source>
-        <translation type="unfinished">Grado escolar</translation>
+        <translation>Grado escolar</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -2123,17 +2123,17 @@ Valores altos pueden mejorar el rendimiento cuando se manipulan muchas entradas.
     <message>
         <location line="+2"/>
         <source>, strokes&lt;=%1</source>
-        <translation type="unfinished">, trazos&lt;=%1</translation>
+        <translation>, trazos&lt;=%1</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>, strokes&gt;=%1</source>
-        <translation type="unfinished">, trazos&gt;=%1</translation>
+        <translation>, trazos&gt;=%1</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>, %1-%2 strokes</source>
-        <translation type="unfinished">, entre %1 y %2 trazos</translation>
+        <translation>, entre %1 y %2 trazos</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -2143,12 +2143,12 @@ Valores altos pueden mejorar el rendimiento cuando se manipulan muchas entradas.
     <message>
         <location line="+1"/>
         <source>, skip: %1</source>
-        <translation type="unfinished">, skip: %1</translation>
+        <translation>, skip: %1</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>, 4c: %1</source>
-        <translation type="unfinished">, 4c: %1</translation>
+        <translation>, 4e: %1</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -2173,42 +2173,42 @@ Valores altos pueden mejorar el rendimiento cuando se manipulan muchas entradas.
         <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="+46"/>
         <location line="+7"/>
         <source>Invalid</source>
-        <translation type="unfinished">Inválido</translation>
+        <translation>Inválido</translation>
     </message>
     <message>
         <location line="-6"/>
         <source>Elementary 1st grade</source>
-        <translation type="unfinished">1er grado elemental</translation>
+        <translation>1er grado elemental</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Elementary 2nd grade</source>
-        <translation type="unfinished">2do grado elemental</translation>
+        <translation>2do grado elemental</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Elementary 3rd grade</source>
-        <translation type="unfinished">3er grado elemental</translation>
+        <translation>3er grado elemental</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Elementary 4th grade</source>
-        <translation type="unfinished">4º grado elemental</translation>
+        <translation>4º grado elemental</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Elementary 5th grade</source>
-        <translation type="unfinished">5º grado elemental</translation>
+        <translation>5º grado elemental</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Elementary 6th grade</source>
-        <translation type="unfinished">6º grado elemental</translation>
+        <translation>6º grado elemental</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Secondary school</source>
-        <translation type="unfinished">Escuela secundaria</translation>
+        <translation>Escuela secundaria</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -2258,12 +2258,12 @@ Valores altos pueden mejorar el rendimiento cuando se manipulan muchas entradas.
     <message>
         <location line="+20"/>
         <source>Radical search input</source>
-        <translation type="unfinished"></translation>
+        <translation>Entrada de búsqueda de radicales</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Component search input</source>
-        <translation type="unfinished"></translation>
+        <translation>Entrada de búsqueda de componentes</translation>
     </message>
     <message>
         <location line="+4"/>
@@ -2274,18 +2274,18 @@ Valores altos pueden mejorar el rendimiento cuando se manipulan muchas entradas.
         <location line="+94"/>
         <location line="+18"/>
         <source>Nothing to train</source>
-        <translation type="unfinished">Nada para entrenar</translation>
+        <translation>Nada para entrenar</translation>
     </message>
     <message>
         <location line="-18"/>
         <location line="+18"/>
         <source>There are no kanji entries in this set to train on.</source>
-        <translation type="unfinished"></translation>
+        <translation>No hay entradas de kanji en este set para entrenar.</translation>
     </message>
     <message>
         <location line="+186"/>
         <source>Open in detailed view...</source>
-        <translation type="unfinished">Abrir en la vista detallada...</translation>
+        <translation>Abrir en la vista detallada...</translation>
     </message>
     <message>
         <location line="+25"/>
@@ -2324,18 +2324,18 @@ Valores altos pueden mejorar el rendimiento cuando se manipulan muchas entradas.
     <message>
         <location line="-429"/>
         <source>Variations</source>
-        <translation type="unfinished">Variaciones</translation>
+        <translation>Variaciones</translation>
     </message>
     <message>
         <location line="-7"/>
         <source>Original</source>
-        <translation type="unfinished">Original</translation>
+        <translation>Original</translation>
     </message>
     <message>
         <location line="-21"/>
         <location line="+436"/>
         <source>SKIP code</source>
-        <translation type="unfinished">Código SKIP</translation>
+        <translation>Código SKIP</translation>
     </message>
     <message>
         <location line="-401"/>
@@ -2347,7 +2347,7 @@ Valores altos pueden mejorar el rendimiento cuando se manipulan muchas entradas.
         <location line="-408"/>
         <location line="+415"/>
         <source>School grade</source>
-        <translation type="unfinished">Nivel escolar</translation>
+        <translation>Nivel escolar</translation>
     </message>
     <message>
         <location line="-422"/>
@@ -2370,13 +2370,13 @@ Valores altos pueden mejorar el rendimiento cuando se manipulan muchas entradas.
     <message>
         <location line="-436"/>
         <source>Nanori</source>
-        <translation type="unfinished">Nanori</translation>
+        <translation>Nanori</translation>
     </message>
     <message>
         <location line="+28"/>
         <location line="+443"/>
         <source>Four corner code</source>
-        <translation type="unfinished"></translation>
+        <translation>Código de 4 esquinas</translation>
     </message>
     <message>
         <location line="-419"/>
@@ -2386,19 +2386,19 @@ Valores altos pueden mejorar el rendimiento cuando se manipulan muchas entradas.
     <message>
         <location line="+8"/>
         <source>Radicals</source>
-        <translation type="unfinished">Radicales</translation>
+        <translation>Radicales</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Compounds:</source>
-        <translation type="unfinished"></translation>
+        <translation>Compuestos:</translation>
     </message>
     <message>
         <location line="+14"/>
         <location line="+25"/>
         <source>Studied only</source>
         <translatorcomment>second one needs a different translation in spanish</translatorcomment>
-        <translation type="unfinished">Sólo los estudiados</translation>
+        <translation>Sólo los estudiados</translation>
     </message>
     <message>
         <location line="-14"/>
@@ -2500,7 +2500,7 @@ Valores altos pueden mejorar el rendimiento cuando se manipulan muchas entradas.
     <message>
         <location line="+16"/>
         <source>Score</source>
-        <translation type="unfinished">Puntuación</translation>
+        <translation>Puntuación</translation>
     </message>
     <message>
         <location line="+66"/>
@@ -2741,12 +2741,12 @@ Valores altos pueden mejorar el rendimiento cuando se manipulan muchas entradas.
     <message>
         <location filename="../src/gui/MainWindow.cc" line="+3"/>
         <source>About to replace user data!</source>
-        <translation type="unfinished"></translation>
+        <translation>A punto de reemplazar los datos del usuario!</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>&lt;b&gt;WARNING:&lt;/b&gt; All the user data (study list, tags, notes, training, ...) is going to be replaced by the selected user data file. Are you &lt;b&gt;sure&lt;/b&gt; you want to do this?</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;b&gt;ALERTA:&lt;/b&gt; Todos los datos de usuario (listas de estudio, etiquetas, notas, entrenamiento, ...) van a ser reemplazados por el archivo de datos de usuario seleccionado. ¿Está &lt;b&gt;seguro&lt;/b&gt; de querer hacer esto?</translation>
     </message>
     <message>
         <location line="+7"/>
@@ -2756,7 +2756,7 @@ Valores altos pueden mejorar el rendimiento cuando se manipulan muchas entradas.
     <message>
         <location line="+0"/>
         <source>The imported data will be available the next time you start Tagaini Jisho. All changes performed from now will be lost. Do you want to exit Tagaini Jisho now?</source>
-        <translation type="unfinished"></translation>
+        <translation>Los datos importados estarán disponibles la próxima vez que inicie Tagaini jisho. Todos los cambios realizados a partir de ahora se perderán. ¿Quiere salir Tagaini jisho ahora?</translation>
     </message>
     <message>
         <location line="-61"/>
@@ -2822,7 +2822,7 @@ Este mensaje es un recordatorio que no volverá a aparecer, pero puedes donar ma
     <message>
         <location line="+54"/>
         <source>Save current search here...</source>
-        <translation type="unfinished"></translation>
+        <translation>Guardar la búsqueda actual aquí...</translation>
     </message>
     <message>
         <location line="+14"/>
@@ -2832,7 +2832,7 @@ Este mensaje es un recordatorio que no volverá a aparecer, pero puedes donar ma
     <message>
         <location line="+0"/>
         <source>Please enter a name for this search:</source>
-        <translation type="unfinished"></translation>
+        <translation>Por favor ingrese un nombre para esta búsqueda:</translation>
     </message>
     <message>
         <location line="+0"/>
@@ -2842,17 +2842,17 @@ Este mensaje es un recordatorio que no volverá a aparecer, pero puedes donar ma
     <message>
         <location line="+22"/>
         <source>New folder</source>
-        <translation type="unfinished"></translation>
+        <translation>Nueva carpeta</translation>
     </message>
     <message>
         <location line="-34"/>
         <source>Create new folder here...</source>
-        <translation type="unfinished"></translation>
+        <translation>Crear una nueva carpeta aquí...</translation>
     </message>
     <message>
         <location line="+34"/>
         <source>Please enter a name for this folder</source>
-        <translation type="unfinished"></translation>
+        <translation>Por favor ingrese un nombre para esta carpeta</translation>
     </message>
     <message>
         <location line="+0"/>
@@ -2937,7 +2937,7 @@ Este mensaje es un recordatorio que no volverá a aparecer, pero puedes donar ma
     <message>
         <location filename="../src/gui/kanjidic2/RadicalSearchWidget.ui" line="+14"/>
         <source>Radical search</source>
-        <translation type="unfinished">Búsqueda de radicales</translation>
+        <translation>Búsqueda de radicales</translation>
     </message>
 </context>
 <context>
@@ -2946,7 +2946,7 @@ Este mensaje es un recordatorio que no volverá a aparecer, pero puedes donar ma
         <location filename="../src/gui/ReadingTrainer.ui" line="+14"/>
         <location filename="../src/gui/ReadingTrainer.cc" line="+40"/>
         <source>Reading practice</source>
-        <translation type="unfinished"></translation>
+        <translation>Práctica de lectura</translation>
     </message>
     <message>
         <location filename="../src/gui/ReadingTrainer.cc" line="+5"/>
@@ -2956,12 +2956,12 @@ Este mensaje es un recordatorio que no volverá a aparecer, pero puedes donar ma
     <message>
         <location line="+18"/>
         <source>Preparing training session</source>
-        <translation type="unfinished"></translation>
+        <translation>Preparando sesión de entrenamiento</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Preparing training session, please wait...</source>
-        <translation type="unfinished"></translation>
+        <translation>Preparando sesión de entrenamiento, por favor espere...</translation>
     </message>
     <message>
         <location line="+57"/>
@@ -2976,12 +2976,12 @@ Este mensaje es un recordatorio que no volverá a aparecer, pero puedes donar ma
     <message>
         <location line="+1"/>
         <source>No more entries to train</source>
-        <translation type="unfinished"></translation>
+        <translation>No hay más entradas a entrenar</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>There are no more entries to train for the current train settings.</source>
-        <translation type="unfinished"></translation>
+        <translation>No hay más entradas a entrenar para la configuración actual.</translation>
     </message>
     <message>
         <location line="+17"/>
@@ -2996,7 +2996,7 @@ Este mensaje es un recordatorio que no volverá a aparecer, pero puedes donar ma
     <message>
         <location line="+37"/>
         <source>Correct: %1, Wrong: %2, Total: %3</source>
-        <translation type="unfinished">Correcto: %1, Incorrecto: %2, Total: %3</translation>
+        <translation>Correcto: %1, Incorrecto: %2, Total: %3</translation>
     </message>
     <message>
         <location filename="../src/gui/ReadingTrainer.ui" line="+9"/>
@@ -3019,62 +3019,62 @@ Este mensaje es un recordatorio que no volverá a aparecer, pero puedes donar ma
     <message>
         <location filename="../src/core/RelativeDate.cc" line="+99"/>
         <source>today</source>
-        <translation type="unfinished">hoy</translation>
+        <translation>hoy</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>yesterday</source>
-        <translation type="unfinished">ayer</translation>
+        <translation>ayer</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>%1 days ago</source>
-        <translation type="unfinished">hace %1 días</translation>
+        <translation>hace %1 días</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>this week</source>
-        <translation type="unfinished">esta semana</translation>
+        <translation>esta semana</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>last week</source>
-        <translation type="unfinished">la semana pasada</translation>
+        <translation>la semana pasada</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>%1 weeks ago</source>
-        <translation type="unfinished">hace %1 semanas</translation>
+        <translation>hace %1 semanas</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>this month</source>
-        <translation type="unfinished">este mes</translation>
+        <translation>este mes</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>last month</source>
-        <translation type="unfinished">el mes pasado</translation>
+        <translation>el mes pasado</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>%1 months ago</source>
-        <translation type="unfinished">hace %1 meses</translation>
+        <translation>hace %1 meses</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>this year</source>
-        <translation type="unfinished">este año</translation>
+        <translation>este año</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>last year</source>
-        <translation type="unfinished">el año pasado</translation>
+        <translation>el año pasado</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>%1 years ago</source>
-        <translation type="unfinished">hace %1 años</translation>
+        <translation>hace %1 años</translation>
     </message>
 </context>
 <context>
@@ -3090,37 +3090,37 @@ Este mensaje es un recordatorio que no volverá a aparecer, pero puedes donar ma
     <message>
         <location line="-130"/>
         <source>Not set</source>
-        <translation type="unfinished">No definida</translation>
+        <translation>No definida</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>days ago</source>
-        <translation type="unfinished">días atrás</translation>
+        <translation>días atrás</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>weeks ago</source>
-        <translation type="unfinished">semanas atrás</translation>
+        <translation>semanas atrás</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>months ago</source>
-        <translation type="unfinished">meses atrás</translation>
+        <translation>meses atrás</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>years ago</source>
-        <translation type="unfinished">años atrás</translation>
+        <translation>años atrás</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Ok</source>
-        <translation type="unfinished">Aceptar</translation>
+        <translation>Aceptar</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Relative date:</source>
-        <translation type="unfinished">Fecha relativa:</translation>
+        <translation>Fecha relativa:</translation>
     </message>
     <message>
         <location line="+5"/>
@@ -3146,7 +3146,7 @@ Este mensaje es un recordatorio que no volverá a aparecer, pero puedes donar ma
     <message>
         <location line="+6"/>
         <source>Results display</source>
-        <translation type="unfinished">Mostrar resultados</translation>
+        <translation>Mostrar resultados</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -3176,7 +3176,7 @@ Este mensaje es un recordatorio que no volverá a aparecer, pero puedes donar ma
     <message>
         <location filename="../src/gui/PreferencesWindow.cc" line="-190"/>
         <source>Results view</source>
-        <translation type="unfinished">Vista de resultados</translation>
+        <translation>Vista de resultados</translation>
     </message>
 </context>
 <context>
@@ -3220,12 +3220,12 @@ Este mensaje es un recordatorio que no volverá a aparecer, pero puedes donar ma
     <message>
         <location line="+36"/>
         <source>Confirm deletion</source>
-        <translation type="unfinished">Confirmar eliminación</translation>
+        <translation>Confirmar eliminación</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Are you sure you want to delete the selected searches/folders?</source>
-        <translation type="unfinished">¿Estás seguro de eliminar las búsquedas/carpetas seleccionadas?</translation>
+        <translation>¿Estás seguro de eliminar las búsquedas/carpetas seleccionadas?</translation>
     </message>
 </context>
 <context>
@@ -3266,12 +3266,12 @@ Este mensaje es un recordatorio que no volverá a aparecer, pero puedes donar ma
     <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="+28"/>
         <source>Direct compounds</source>
-        <translation type="unfinished">Componentes directos</translation>
+        <translation>Componentes directos</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>All compounds</source>
-        <translation type="unfinished">Todos los componentes</translation>
+        <translation>Todos los componentes</translation>
     </message>
     <message>
         <location line="+0"/>
@@ -3336,12 +3336,12 @@ Este mensaje es un recordatorio que no volverá a aparecer, pero puedes donar ma
     <message>
         <location line="-45"/>
         <source>Last trained</source>
-        <translation type="unfinished">Última vez entrenado</translation>
+        <translation>Última vez entrenado</translation>
     </message>
     <message>
         <location line="+30"/>
         <source>Last mistaken</source>
-        <translation type="unfinished">Última vez fallido</translation>
+        <translation>Última vez fallido</translation>
     </message>
     <message>
         <location line="+23"/>
@@ -3363,7 +3363,7 @@ Este mensaje es un recordatorio que no volverá a aparecer, pero puedes donar ma
     <message>
         <location line="-112"/>
         <source>Study status:</source>
-        <translation type="unfinished"></translation>
+        <translation>Estado de estudio:</translation>
     </message>
     <message>
         <location line="+82"/>
@@ -3385,27 +3385,27 @@ Este mensaje es un recordatorio que no volverá a aparecer, pero puedes donar ma
     <message>
         <location line="+5"/>
         <source>, trained since %1</source>
-        <translation type="unfinished">, entrenado desde el %1</translation>
+        <translation>, entrenado desde el %1</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>, trained until %1</source>
-        <translation type="unfinished">, entrenado hasta el %1</translation>
+        <translation>, entrenado hasta el %1</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>, mistaken since %1</source>
-        <translation type="unfinished">, fallido desde el %1</translation>
+        <translation>, fallido desde el %1</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>, mistaken until %1</source>
-        <translation type="unfinished">, fallido hasta el %1</translation>
+        <translation>, fallido hasta el %1</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Study</source>
-        <translation type="unfinished">Estudiar</translation>
+        <translation>Estudiado</translation>
     </message>
 </context>
 <context>
@@ -3441,36 +3441,36 @@ Este mensaje es un recordatorio que no volverá a aparecer, pero puedes donar ma
         <location line="-29"/>
         <location line="+34"/>
         <source>Invalid tags</source>
-        <translation type="unfinished">Etiquetas inválidas</translation>
+        <translation>Etiquetas inválidas</translation>
     </message>
     <message>
         <location line="-34"/>
         <location line="+34"/>
         <source>&lt;p&gt;These tags have invalid characters: </source>
-        <translation type="unfinished">&lt;p&gt;Estas etiquetas contienen caracteres inválidos: </translation>
+        <translation>&lt;p&gt;Estas etiquetas contienen caracteres inválidos: </translation>
     </message>
     <message>
         <location line="-34"/>
         <location line="+34"/>
         <source>&lt;/p&gt;&lt;p&gt;Accepted characters are letters, digits and non-quoting punctuation.&lt;/p&gt;</source>
-        <translation type="unfinished">&lt;/p&gt;&lt;p&gt;Los caracteres aceptados son letras, números y signos de puntuación excepto citas.&lt;/p&gt;</translation>
+        <translation>&lt;/p&gt;&lt;p&gt;Los caracteres aceptados son letras, números y signos de puntuación excepto citas.&lt;/p&gt;</translation>
     </message>
     <message>
         <location line="-29"/>
         <source>Setting tags...</source>
-        <translation type="unfinished">Añadiendo etiquetas...</translation>
+        <translation>Añadiendo etiquetas...</translation>
     </message>
     <message>
         <location line="+0"/>
         <location line="+34"/>
         <source>Abort</source>
-        <translation type="unfinished">Cancelar</translation>
+        <translation>Abortar</translation>
     </message>
     <message>
         <location line="-32"/>
         <location line="+34"/>
         <source>Operation in progress...</source>
-        <translation type="unfinished">Operación en progreso...</translation>
+        <translation>Operación en progreso...</translation>
     </message>
     <message>
         <location line="-14"/>
@@ -3490,7 +3490,7 @@ Este mensaje es un recordatorio que no volverá a aparecer, pero puedes donar ma
     <message>
         <location line="+10"/>
         <source>Adding tags...</source>
-        <translation type="unfinished">Añadiendo etiquetas...</translation>
+        <translation>Añadiendo etiquetas...</translation>
     </message>
 </context>
 <context>
@@ -3533,32 +3533,32 @@ Este mensaje es un recordatorio que no volverá a aparecer, pero puedes donar ma
     <message>
         <location filename="../src/gui/TrainSettings.cc" line="+66"/>
         <source>Entries appear totally randomly.</source>
-        <translation type="unfinished"></translation>
+        <translation>Las entradas aparecen al azar.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Entries with a low score are likely to appear first.</source>
-        <translation type="unfinished">Entradas con una baja puntuación tienden a aparecer primero.</translation>
+        <translation>Las entradas con una baja puntuación tienden a aparecer primero.</translation>
     </message>
     <message>
         <location filename="../src/gui/TrainSettings.ui" line="+14"/>
         <source>Train settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Configuración de entrenamiento</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Date of last training</source>
-        <translation type="unfinished">Fecha del último entrenamiento</translation>
+        <translation>Fecha del último entrenamiento</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Before</source>
-        <translation type="unfinished">Antes</translation>
+        <translation>Antes</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>After</source>
-        <translation type="unfinished">Después</translation>
+        <translation>Después</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -3569,7 +3569,7 @@ Este mensaje es un recordatorio que no volverá a aparecer, pero puedes donar ma
     <message>
         <location line="+10"/>
         <source>Score</source>
-        <translation type="unfinished">Puntuación</translation>
+        <translation>Puntuación</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -3599,7 +3599,7 @@ Este mensaje es un recordatorio que no volverá a aparecer, pero puedes donar ma
     <message>
         <location line="+5"/>
         <source>By score</source>
-        <translation type="unfinished">Por puntuación</translation>
+        <translation>Por puntuación</translation>
     </message>
 </context>
 <context>
@@ -3632,22 +3632,22 @@ Este mensaje es un recordatorio que no volverá a aparecer, pero puedes donar ma
     <message>
         <location line="+46"/>
         <source>No entries to train</source>
-        <translation type="unfinished">No hay entradas para entrenar</translation>
+        <translation>No hay entradas para entrenar</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>There are no entries that match the requested settings.</source>
-        <translation type="unfinished">No hay entradas que coincidan con lo seleccionado.</translation>
+        <translation>No hay entradas que coincidan con lo seleccionado.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>No more entries to train</source>
-        <translation type="unfinished">No hay mas entradas para entrenar</translation>
+        <translation>No hay mas entradas para entrenar</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>All the requested entries have been trained.</source>
-        <translation type="unfinished">Ya se ha entrenado con todas las entradas elegidas.</translation>
+        <translation>Ya se ha entrenado con todas las entradas elegidas.</translation>
     </message>
 </context>
 <context>
@@ -3655,12 +3655,12 @@ Este mensaje es un recordatorio que no volverá a aparecer, pero puedes donar ma
     <message>
         <location filename="../src/gui/main.cc" line="+105"/>
         <source>User data migrated</source>
-        <translation type="unfinished">Datos de usuario migrados</translation>
+        <translation>Datos de usuario migrados</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Your user data and settings have successfully been migrated. Tagaini Jisho needs to be restarted and will now exit.</source>
-        <translation type="unfinished">Tus datos de usuario y preferencias se han migrado correctamente. Tagaini Jisho debe reiniciarse y se cerrará ahora.</translation>
+        <translation>Tus datos de usuario y preferencias se han migrado correctamente. Tagaini Jisho necesita reiniciarse y se cerrará ahora.</translation>
     </message>
 </context>
 </TS>
