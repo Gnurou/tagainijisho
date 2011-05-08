@@ -22,21 +22,23 @@
 
 bool skipTag(QXmlStreamReader& reader, const QStringRef &tag);
 
-#define HAS_ATTR(x) reader.attributes().hasAttribute(x)
-#define ATTR(x) reader.attributes().value(x).toString()
+#define HAS_ATTR(attr) reader.attributes().hasAttribute(attr)
+#define ATTR(attr) reader.attributes().value(attr).toString()
 
 // Open the parsing loop, and check whether we reached the end of the tag already
 #define __TAG_BEGIN(tag) \
-	while (!reader.atEnd()) {     \
+	while (!reader.atEnd()) { \
 		reader.readNext(); \
 		if (reader.tokenType() == QXmlStreamReader::EndElement && reader.name() == tag) break;
 
-#define TAG_BEGIN(tag) __TAG_BEGIN(#tag)
+#define _TAG_BEGIN(tag) __TAG_BEGIN(#tag)
+#define TAG_BEGIN(tag) _TAG_BEGIN(tag)
 
 // Skip all tags and characters that we did not treat, return an error if an unexpected token type is met
 #define TAG_POST if (reader.tokenType() == QXmlStreamReader::Comment || reader.tokenType() == QXmlStreamReader::DTD) continue; \
 	if (reader.tokenType() == QXmlStreamReader::StartElement) { if (!skipTag(reader, reader.name())) return false; continue; } \
 	if (reader.tokenType() == QXmlStreamReader::Characters) continue; \
+	qDebug("Parser error (%d): %s", reader.tokenType(), reader.errorString().toUtf8().constData()); \
 	return false; \
 	}
 
@@ -55,10 +57,12 @@ bool skipTag(QXmlStreamReader& reader, const QStringRef &tag);
 #define TEXT reader.text().toString()
 #define DONE continue; }
 
-#define TAG_PRE(n) if (reader.tokenType() == QXmlStreamReader::StartElement && reader.name() == #n) {
+#define __TAG_PRE(tag) if (reader.tokenType() == QXmlStreamReader::StartElement && reader.name() == tag) {
+#define _TAG_PRE(tag) __TAG_PRE(#tag)
+#define TAG_PRE(tag) _TAG_PRE(tag)
 
-#define TAG(n) TAG_PRE(n) \
-	TAG_BEGIN(n)
+#define TAG(tag) TAG_PRE(tag) \
+	TAG_BEGIN(tag)
 	
 #define ENDTAG TAG_POST \
 	DONE

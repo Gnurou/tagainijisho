@@ -22,19 +22,32 @@
 
 QRegExp KanjiVGParser::versionRegExp("This file has been generated on (\\d\\d\\d\\d\\-\\d\\d\\-\\d\\d)");
 
+#define TAG_KANJIVG     kanjivg
+#define TAG_KANJI       kanji
+#define ATTR_ID        "id"
+#define TAG_GROUP       g
+#define ATTR_ELEMENT   "kanjivg:element"
+#define ATTR_ORIGINAL  "kanjivg:original"
+#define ATTR_RADICAL   "kanjivg:radical"
+#define ATTR_PART      "kanjivg:part"
+#define ATTR_NUMBER    "kanjivg:number"
+#define TAG_PATH        path
+#define ATTR_D         "d"
+
+
 // Used to support the recursivity of the strokegr tag
 bool KanjiVGParser::parse_strokegr(QXmlStreamReader &reader, KanjiVGItem &kanji, QStack<KanjiVGGroupItem *> gStack, quint8 &strokeCounter)
 {
-	TAG_BEGIN(strokegr)
-		TAG_PRE(strokegr)
+	TAG_BEGIN(TAG_GROUP)
+		TAG_PRE(TAG_GROUP)
 			// For now we do not consider groups without any element
-			bool hasElement(HAS_ATTR("element"));
+			bool hasElement(HAS_ATTR(ATTR_ELEMENT));
 			bool alreadyInStack(false);
 			if (hasElement) {
-				int element(TextTools::singleCharToUnicode(ATTR("element")));
-				int original(TextTools::singleCharToUnicode(ATTR("original")));
-				int part(ATTR("part").toInt());
-				int number(ATTR("number").toInt());
+				int element(TextTools::singleCharToUnicode(ATTR(ATTR_ELEMENT)));
+				int original(TextTools::singleCharToUnicode(ATTR(ATTR_ORIGINAL)));
+				int part(ATTR(ATTR_PART).toInt());
+				int number(ATTR(ATTR_NUMBER).toInt());
 				KanjiVGGroupItem *group = 0;
 				// Part > 1, we must find a
 				// group for which element and number match
@@ -62,8 +75,8 @@ bool KanjiVGParser::parse_strokegr(QXmlStreamReader &reader, KanjiVGItem &kanji,
 					group->element = element;
 					group->original = original;
 					group->number = number;
-					if (HAS_ATTR("radical")) {
-						QString rad(ATTR("radical"));
+					if (HAS_ATTR(ATTR_RADICAL)) {
+						QString rad(ATTR(ATTR_RADICAL));
 						if (rad == "general") group->radicalType = KanjiVGGroupItem::GENERAL;
 						else if (rad == "tradit") group->radicalType = KanjiVGGroupItem::TRADIT;
 						else if (rad == "nelson") group->radicalType = KanjiVGGroupItem::NELSON;
@@ -78,14 +91,14 @@ bool KanjiVGParser::parse_strokegr(QXmlStreamReader &reader, KanjiVGItem &kanji,
 			if (!parse_strokegr(reader, kanji, gStack, strokeCounter)) return false;
 			if (hasElement && !alreadyInStack) gStack.pop();
 		DONE
-		TAG_PRE(stroke)
-			QString path(ATTR("path"));
+		TAG_PRE(TAG_PATH)
+			QString path(ATTR(ATTR_D));
 			kanji.strokes << KanjiVGStrokeItem();
 			KanjiVGStrokeItem &stroke = kanji.strokes.last();
 			stroke.path = path;
 			foreach (KanjiVGGroupItem *group, gStack) group->pathsIndexes << strokeCounter;
 			++strokeCounter;
-		TAG_BEGIN(stroke)
+		TAG_BEGIN(TAG_PATH)
 		ENDTAG
 	TAG_POST
 	return true;
@@ -93,39 +106,42 @@ bool KanjiVGParser::parse_strokegr(QXmlStreamReader &reader, KanjiVGItem &kanji,
 
 bool KanjiVGParser::parse(QXmlStreamReader &reader)
 {
+	reader.setNamespaceProcessing(false);
 	DOCUMENT_BEGIN(reader)
-		TAG(kanjis)
-			TAG_PRE(kanji)
-				int midashi(TextTools::singleCharToUnicode(ATTR("midashi")));
-				bool shallInsert(TextTools::isJapaneseChar(TextTools::unicodeToSingleChar(midashi)));
+		TAG(TAG_KANJIVG)
+			TAG_PRE(TAG_KANJI)
 				KanjiVGItem kanji;
-				kanji.id = midashi;
 				quint8 strokeCounter(0);
-			TAG_BEGIN(kanji)
+				int id(ATTR(ATTR_ID).toInt(0, 16));
+				bool shallInsert(TextTools::isJapaneseChar(TextTools::unicodeToSingleChar(id)));
+				kanji.id = id;
+			TAG_BEGIN(TAG_KANJI)
 				if (shallInsert) {
-					TAG_PRE(strokegr)
-						int element(TextTools::singleCharToUnicode(ATTR("element")));
-						int original(TextTools::singleCharToUnicode(ATTR("original")));	QStack<KanjiVGGroupItem *> gStack;
+					TAG_PRE(TAG_GROUP)
+						int element(TextTools::singleCharToUnicode(ATTR(ATTR_ELEMENT)));
+						int original(TextTools::singleCharToUnicode(ATTR(ATTR_ORIGINAL)));
+						QStack<KanjiVGGroupItem *> gStack;
+
 						kanji.groups << KanjiVGGroupItem();
 						KanjiVGGroupItem *group = &kanji.groups.last();
 						group->element = element;
 						group->original = original;
-						if (HAS_ATTR("radical")) {
-							QString rad(ATTR("radical"));
+						if (HAS_ATTR(ATTR_RADICAL)) {
+							QString rad(ATTR(ATTR_RADICAL));
 							if (rad == "general") group->radicalType = KanjiVGGroupItem::GENERAL;
 							else if (rad == "tradit") group->radicalType = KanjiVGGroupItem::TRADIT;
 							else if (rad == "nelson") group->radicalType = KanjiVGGroupItem::NELSON;
 							else qDebug("Unknown radical type: %s", rad.toLatin1().constData());
 						}
-						KanjiVGParser::parse_strokegr(reader, kanji, gStack, strokeCounter);
+						if (!parse_strokegr(reader, kanji, gStack, strokeCounter)) return false;
 					DONE
-					TAG_PRE(stroke)
-						QString path(ATTR("path"));
+					TAG_PRE(TAG_PATH)
+						QString path(ATTR(ATTR_D));
 						kanji.strokes << KanjiVGStrokeItem();
 						KanjiVGStrokeItem &stroke = kanji.strokes.last();
 						stroke.path = path;
 						++strokeCounter;
-					TAG_BEGIN(stroke)
+					TAG_BEGIN(TAG_PATH)
 					ENDTAG
 				}
 			TAG_POST
