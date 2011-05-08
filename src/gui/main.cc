@@ -27,7 +27,7 @@
 #include "core/Plugin.h"
 #include "core/jmdict/JMdictPlugin.h"
 #include "core/kanjidic2/Kanjidic2Plugin.h"
-#include "core/tatoeba/TatoebaPlugin.h"
+//#include "core/tatoeba/TatoebaPlugin.h"
 #include "gui/PreferencesWindow.h"
 #include "gui/MainWindow.h"
 
@@ -240,13 +240,13 @@ int main(int argc, char *argv[])
 	// Register core plugins
 	Plugin *kanjidic2Plugin = new Kanjidic2Plugin();
 	Plugin *jmdictPlugin = new JMdictPlugin();
-	Plugin *tatoebaPlugin = new TatoebaPlugin();
+	//Plugin *tatoebaPlugin = new TatoebaPlugin();
 	if (!Plugin::registerPlugin(kanjidic2Plugin))
 		qFatal("Error registering kanjidic2 plugin!");
 	if (!Plugin::registerPlugin(jmdictPlugin))
 		qFatal("Error registering JMdict plugin!");
-	if (!Plugin::registerPlugin(tatoebaPlugin))
-		qFatal("Error registering Tatoeba plugin!");
+	//if (!Plugin::registerPlugin(tatoebaPlugin))
+		//qFatal("Error registering Tatoeba plugin!");
 
 	// Create the main window
 	MainWindow *mainWindow = new MainWindow();
@@ -274,7 +274,7 @@ int main(int argc, char *argv[])
 	delete mainWindow;
 
 	// Remove core plugins
-	Plugin::removePlugin("Tatoeba");
+	//Plugin::removePlugin("Tatoeba");
 	Plugin::removePlugin("JMdict");
 	Plugin::removePlugin("kanjidic2");
 

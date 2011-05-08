@@ -140,7 +140,7 @@ if (APPLE)
 endif()
 
 add_executable(${tagaini_binary} MACOSX_BUNDLE WIN32 ${tagainijisho_SRCS})
-target_link_libraries(${tagaini_binary} tagaini_gui_jmdict tagaini_gui_kanjidic2 tagaini_gui tagaini_core_jmdict tagaini_core_kanjidic2 tagaini_core_tatoeba tagaini_core tagaini_sqlite ${QT_LIBRARIES} ${extra_link_flags})
+target_link_libraries(${tagaini_binary} tagaini_gui_jmdict tagaini_gui_kanjidic2 tagaini_gui tagaini_core_jmdict tagaini_core_kanjidic2 tagaini_core tagaini_sqlite ${QT_LIBRARIES} ${extra_link_flags})
 install(TARGETS ${tagaini_binary} BUNDLE DESTINATION . COMPONENT Runtime RUNTIME DESTINATION bin COMPONENT Runtime)
 
 # If needed, add standard dependency to have identical build on all platforms

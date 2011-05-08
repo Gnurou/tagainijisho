@@ -46,7 +46,7 @@ include_directories(${CMAKE_SOURCE_DIR}/3rdparty/sqlite)
 # Add rules for sub-components
 add_subdirectory(jmdict)
 add_subdirectory(kanjidic2)
-add_subdirectory(tatoeba)
+#add_subdirectory(tatoeba)
 
 if (BUILD_TESTS)
 add_subdirectory(tests)
