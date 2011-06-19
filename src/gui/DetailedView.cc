@@ -527,6 +527,20 @@ QString DetailedViewFonts::_CSS(FontRole role) const
 	return ret;
 }
 
+QString DetailedViewFonts::_HTML(FontRole role) const
+{
+	const QFont &font = _font[role];
+	QString ret("<span style=\"");
+	if (!font.family().isEmpty()) ret += QString(" font-family: %1;").arg(font.family());
+	if (color(role) != QApplication::palette().color(QPalette::Text))
+		ret += QString(" color: %1;").arg(EntryFormatter::colorTriplet(color(role)));
+	ret += QString(" font-style: %1;").arg(font.italic() ? "italic" : "normal");
+	ret += QString(" font-weight: %1;").arg(font.bold() ? "bold" : "normal");
+	ret += QString(" font-size: %1pt;").arg(font.pointSize());
+
+	return ret + "\">";
+}
+
 EntryMenuHandler::EntryMenuHandler() : DetailedViewLinkHandler("entry")
 {
 }

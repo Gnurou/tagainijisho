@@ -44,6 +44,9 @@ protected:
 	EntryFormatter(const QString& _cssFile = "", const QString& _htmlFile = "", QObject* parent = 0);
 	virtual ~EntryFormatter() {}
 
+	typedef enum { Romaji, Kanji, Kana } formatType;
+	QString formatString(const QString &str, formatType type) const;
+
 public:
 	const QString &CSS() const { return _css; }
 	const QString &htmlTemplate() const { return _html; }

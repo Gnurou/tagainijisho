@@ -10,6 +10,7 @@
 * Removed search button in text search widget and trigger search
   automatically
 * Add exemple sentences from the Tatoeba project
+* Tooltips now use same formatting as detailed view for kanji and kana.
 
 0.2.6.2 released on 2010/08/30
 * Really fixed bug of kana selector always appearing on startup
