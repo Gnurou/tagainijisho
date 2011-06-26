@@ -94,7 +94,7 @@ void EntryMenu::updateStatus(const QList<ConstEntryPointer>& entries)
 	setTagsAction.setEnabled(hasSelection);
 	addTagsAction.setEnabled(hasSelection);
 	setNotesAction.setEnabled(entries.size() == 1);
-	lastTagsMenu.setEnabled(!TagsDialogs::lastAddedTags.isEmpty());
+	lastTagsMenu.setEnabled(hasSelection && !TagsDialogs::lastAddedTags.isEmpty());
 }
 
 void EntryMenu::updateStatus(const ConstEntryPointer& entry)
