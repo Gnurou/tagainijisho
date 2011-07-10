@@ -7,7 +7,7 @@ set(CPACK_PACKAGE_NAME "Tagaini Jisho")
 set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "A Free Japanese dictionary and study assistant")
 set(CPACK_PACKAGE_VENDOR "tagaini.net")
 set(CPACK_PACKAGE_CONTACT http://www.tagaini.net)
-set(CPACK_PACKAGE_DESCRIPTION_FILE "${CMAKE_SOURCE_DIR}/README.txt")
+set(CPACK_PACKAGE_DESCRIPTION_FILE "${CMAKE_SOURCE_DIR}/README.md")
 set(CPACK_PACKAGE_VERSION ${VERSION})
 set(CPACK_PACKAGE_FILE_NAME "${CMAKE_PROJECT_NAME}-${VERSION}-${DICT_LANG}")
 # Source package should always be named the same regardless of the platform on which we build
@@ -15,7 +15,7 @@ set(CPACK_SOURCE_PACKAGE_FILE_NAME "tagainijisho-${VERSION}")
 set(CPACK_SOURCE_STRIP_FILES true)
 set(CPACK_STRIP_FILES true)
 set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_SOURCE_DIR}/COPYING.txt")
-set(CPACK_RESOURCE_FILE_README "${CMAKE_SOURCE_DIR}/README.txt")
+set(CPACK_RESOURCE_FILE_README "${CMAKE_SOURCE_DIR}/README.md")
 
 # Disable all build type for safer operation. Per doc one should not set CPACK_GENERATOR directly
 set(CPACK_BINARY_BUNDLE "OFF")

@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.0" language="fr_FR">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="fr" version="2.0">
 <defaultcodec>UTF-8</defaultcodec>
 <context>
     <name>AboutDialog</name>
@@ -612,7 +610,7 @@
     <message>
         <location line="+0"/>
         <source>Rename list...</source>
-        <translation type="unfinished"></translation>
+        <translation>Renommer la liste...</translation>
     </message>
     <message>
         <location line="+90"/>
@@ -1006,7 +1004,7 @@ Certains d&apos;entre eux peuvent toujours être présents.</translation>
         <location filename="../src/gui/ui_GeneralPreferences.h" line="+1"/>
         <source>Defines how many recent entries are kept in memory. High values may
 improve performance when manipulating a large number of entries.</source>
-        <translation>Définit le nombre d&apos;entrées gardées en mémoire. Une valeur élevée peut
+        <translation>Définit le nombre d'entrées gardées en mémoire. Une valeur élevée peut
 améliorer les performances en cas de manipulation de nombreuses entrées.</translation>
     </message>
     <message>
@@ -1103,7 +1101,7 @@ améliorer les performances en cas de manipulation de nombreuses entrées.</tran
     <message>
         <location filename="../src/gui/jmdict/JMdictEntryFormatter.cc" line="-338"/>
         <source>(JLPT N%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>(JLPT N%1)</translation>
     </message>
     <message>
         <location line="+38"/>
@@ -2369,12 +2367,12 @@ améliorer les performances en cas de manipulation de nombreuses entrées.</tran
     <message>
         <location line="-18"/>
         <source>&lt;b&gt;JLPT:&lt;/b&gt; N%1</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;b&gt;JLPT:&lt;/b&gt; N%1</translation>
     </message>
     <message>
         <location line="+59"/>
         <source>(JLPT N%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>(JLPT N%1)</translation>
     </message>
     <message>
         <location line="+34"/>
@@ -3449,7 +3447,7 @@ améliorer les performances en cas de manipulation de nombreuses entrées.</tran
         <source>You have now been using Tagaini Jisho for a short while. If you like it, please show your support by making a donation that expresses your appreciation of this software. While Tagaini is free, its development has a cost and your support will have a positive influence on its future. You can donate via Paypal or credit card.
 
 This message is a one-time reminder and will not appear anymore - you can still donate later by choosing the corresponding option in the Help menu.</source>
-        <translation type="obsolete">Cela fait maintenant un petit bout de temps que vous utilisez Tagaini Jisho. Si vous l&apos;appréciez, vous pouvez concrétiser cette appréciation en faisant une donation qui exprime votre satisfaction envers ce logiciel. Bien que Tagaini Jisho soit libre et gratuit, son développement a un coût et votre support aura une influence positive sur son futur. Vous pouvez donner par Paypal ou carte de crédit.
+        <translation type="obsolete">Cela fait maintenant un petit bout de temps que vous utilisez Tagaini Jisho. Si vous l'appréciez, vous pouvez concrétiser cette appréciation en faisant une donation qui exprime votre satisfaction envers ce logiciel. Bien que Tagaini Jisho soit libre et gratuit, son développement a un coût et votre support aura une influence positive sur son futur. Vous pouvez donner par Paypal ou carte de crédit.
 
 Ce message de rappel n&apos;apparaîtra dorénavant plus - vous pouvez toujours donner plus tard en choisissant l&apos;option correspondante dans le menu d&apos;Aide.</translation>
     </message>
@@ -3457,7 +3455,7 @@ Ce message de rappel n&apos;apparaîtra dorénavant plus - vous pouvez toujours 
         <source>You have now been using Tagaini Jisho for a short while. If you like it, please show your support by making a donation that expresses your appreciation of this software. While Tagaini is free, its development has a cost and your support will have a positive influence on its future. You can donate via Paypal or credit card, or use &lt;a href=&quot;https://flattr.com/thing/74296/Tagaini-Jisho&quot;&gt;Flattr&lt;/a&gt; to support this project.
 
 This message is a one-time reminder and will not appear anymore - you can still donate later by choosing the corresponding option in the Help menu.</source>
-        <translation type="obsolete">Cela fait maintenant un petit bout de temps que vous utilisez Tagaini Jisho. Si vous l&apos;appréciez, vous pouvez concrétiser cette appréciation en faisant une donation qui exprime votre satisfaction envers ce logiciel. Bien que Tagaini soit libre et gratuit, son développement a un coût et votre support aura une influence positive sur son futur. Vous pouvez donner par Paypal ou carte de crédit, ou utiliser &lt;a href=&quot;https://flattr.com/thing/74296/Tagaini-Jisho&quot;&gt;Flattr&lt;/a&gt; afin de supporter ce projet.
+        <translation type="obsolete">Cela fait maintenant un petit bout de temps que vous utilisez Tagaini Jisho. Si vous l'appréciez, vous pouvez concrétiser cette appréciation en faisant une donation qui exprime votre satisfaction envers ce logiciel. Bien que Tagaini soit libre et gratuit, son développement a un coût et votre support aura une influence positive sur son futur. Vous pouvez donner par Paypal ou carte de crédit, ou utiliser &lt;a href=&quot;https://flattr.com/thing/74296/Tagaini-Jisho&quot;&gt;Flattr&lt;/a&gt; afin de supporter ce projet.
 
 Ce message de rappel n&apos;apparaîtra dorénavant plus - vous pouvez toujours donner plus tard en choisissant l&apos;option correspondante dans le menu d&apos;Aide.</translation>
     </message>
@@ -3466,7 +3464,9 @@ Ce message de rappel n&apos;apparaîtra dorénavant plus - vous pouvez toujours 
         <source>You have now been using Tagaini Jisho for a short while. If you like it, please show your support by making a donation that expresses your appreciation of this software. While Tagaini is free, its development has a cost and your support will have a positive influence on its future. You can donate via Paypal or credit card, or use Flattr to support this project.
 
 This message is a one-time reminder and will not appear anymore - you can still donate later by choosing the corresponding option in the Help menu.</source>
-        <translation type="unfinished"></translation>
+        <translation>Vous avez été utilisé Tagaini Jisho pendant un petit temps. Si vous le souhaitez, veuillez montrer votre soutien en faisant un don exprimant votre appréciation de ce logiciel. Bien que Tagaini soit gratuit, son développement a un coût et votre soutien aura une influence positive sur son avenir. Vous pouvez faire un don via Paypal, carte de crédit ou en utilisant Flattr pour soutenir ce projet.
+
+Ce message est un rappel unique et n&apos;apparaîtra plus - vous pouvez toujours faire un don plus tard en choisissant l&apos;option correspondante dans le menu d&apos;Aide.</translation>
     </message>
     <message>
         <location line="+2"/>

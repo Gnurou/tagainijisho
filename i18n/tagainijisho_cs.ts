@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.0" language="cs_CZ" sourcelanguage="en">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="cs" version="2.0">
 <defaultcodec>UTF-8</defaultcodec>
 <context>
     <name>AboutDialog</name>
@@ -171,6 +169,40 @@
 <context>
     <name>DetailedViewPreferences</name>
     <message>
+        <source>Detailed View</source>
+        <translation type="obsolete">Vue détaillée</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/PreferencesWindow.cc" line="-108"/>
+        <source>Detailed view</source>
+        <translation>Podrobný pohled</translation>
+    </message>
+    <message>
+        <location line="+15"/>
+        <source>Default text</source>
+        <translation>Výchozí text</translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <source>Kana header</source>
+        <translation>Nápis kana</translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <source>Kanji header</source>
+        <translation>Nápis kandži</translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <source>Kanji</source>
+        <translation>Kandži</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Kana</source>
+        <translation>Kana</translation>
+    </message>
+    <message>
         <location filename="../src/gui/DetailedViewPreferences.ui" line="+14"/>
         <location filename="../src/gui/ui_DetailedViewPreferences.h" line="+79"/>
         <source>Form</source>
@@ -205,36 +237,6 @@
         <location filename="../src/gui/ui_DetailedViewPreferences.h" line="+1"/>
         <source>Preview</source>
         <translation>Náhled</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="-108"/>
-        <source>Detailed view</source>
-        <translation>Podrobný pohled</translation>
-    </message>
-    <message>
-        <location line="+15"/>
-        <source>Default text</source>
-        <translation>Výchozí text</translation>
-    </message>
-    <message>
-        <location line="+6"/>
-        <source>Kana header</source>
-        <translation>Nápis kana</translation>
-    </message>
-    <message>
-        <location line="+6"/>
-        <source>Kanji header</source>
-        <translation>Nápis kandži</translation>
-    </message>
-    <message>
-        <location line="+6"/>
-        <source>Kanji</source>
-        <translation>Kandži</translation>
-    </message>
-    <message>
-        <location line="+7"/>
-        <source>Kana</source>
-        <translation>Kana</translation>
     </message>
 </context>
 <context>
@@ -311,8 +313,14 @@
         <translation>Ná&amp;hled tisku knížečky...</translation>
     </message>
     <message>
-        <source>&amp;Export...</source>
-        <translation type="obsolete">&amp;Exportieren...</translation>
+        <location line="+0"/>
+        <source>&amp;Export as &amp;TSV...</source>
+        <translation>Vyvést jako &amp;TSV...</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Export as &amp;HTML...</source>
+        <translation>Vyvést jako &amp;HTML...</translation>
     </message>
     <message>
         <location line="+67"/>
@@ -381,22 +389,7 @@
         <translation>Chyba při zápisu souboru %1.</translation>
     </message>
     <message>
-        <location filename="../src/gui/EntriesViewHelper.h" line="+82"/>
-        <source>Print</source>
-        <translation>Tisk</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/EntriesViewHelper.cc" line="-319"/>
-        <source>&amp;Export as &amp;TSV...</source>
-        <translation>Vyvést jako &amp;TSV...</translation>
-    </message>
-    <message>
-        <location line="+0"/>
-        <source>Export as &amp;HTML...</source>
-        <translation>Vyvést jako &amp;HTML...</translation>
-    </message>
-    <message>
-        <location line="+335"/>
+        <location line="+16"/>
         <source>Export to HTML flashcard file...</source>
         <translation>Vyvést jako soubor s kartičkami HTML...</translation>
     </message>
@@ -419,6 +412,11 @@
         <location line="+0"/>
         <source>Unable to open template file!</source>
         <translation>Nelze otevřít soubor s předlohu!</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/EntriesViewHelper.h" line="+82"/>
+        <source>Print</source>
+        <translation>Tisk</translation>
     </message>
 </context>
 <context>
@@ -475,28 +473,58 @@
     <name>EntryFormatter</name>
     <message>
         <source>Notes:</source>
-        <translation type="obsolete">Notizen:</translation>
+        <translation type="obsolete">Notes: </translation>
     </message>
     <message>
-        <location filename="../src/gui/EntryFormatter.cc" line="+256"/>
+        <location filename="../src/gui/EntryFormatter.cc" line="+39"/>
+        <source>Cannot find detailed view HTML file!</source>
+        <translation>Nelze najít soubor HTML pro podrobný pohled!</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Cannot find detailed view CSS file!</source>
+        <translation>Nelze najít soubor CSS pro podrobný pohled!</translation>
+    </message>
+    <message>
+        <location line="+161"/>
+        <source>&lt;Root&gt;</source>
+        <translation>&lt;Kořen&gt;</translation>
+    </message>
+    <message>
+        <location line="+48"/>
         <source>Studied since %1.</source>
         <translation>Naučeno od %1.</translation>
     </message>
     <message>
+        <location line="+1"/>
+        <source>Score: %1.</source>
+        <translation>Počet bodů: %1.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Last trained on %1.</source>
+        <translation>Naposledy cvičeno %1.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Last mistaken on %1.</source>
+        <translation>Poslední omyl %1.</translation>
+    </message>
+    <message>
         <source> Score: %1.</source>
-        <translation type="obsolete"> Punktzahl: %1.</translation>
+        <translation type="obsolete">Score: %1.</translation>
     </message>
     <message>
         <source> Last trained on %1.</source>
-        <translation type="obsolete"> Zuletzt trainiert am %1.</translation>
+        <translation type="obsolete">Dernier entraînement le %1.</translation>
     </message>
     <message>
         <source> Last mistaken on %1.</source>
-        <translation type="obsolete"> Letzter Irrtum am %1.</translation>
+        <translation type="obsolete">Dernière erreur le %1.</translation>
     </message>
     <message>
         <source> Never trained.</source>
-        <translation type="obsolete"> Noch nie trainiert.</translation>
+        <translation type="obsolete">Jamais pratiquée.</translation>
     </message>
     <message>
         <source>On:</source>
@@ -512,15 +540,15 @@
     </message>
     <message>
         <source>&lt;b&gt;Strokes:&lt;/b&gt; %1</source>
-        <translation type="obsolete">&lt;b&gt;Strichzahl:&lt;/b&gt; %1</translation>
+        <translation type="obsolete">&lt;b&gt;Traits:&lt;/b&gt; %1</translation>
     </message>
     <message>
         <source>&lt;b&gt;Frequency:&lt;/b&gt; %1</source>
-        <translation type="obsolete">&lt;b&gt;Häufigkeit:&lt;/b&gt; %1</translation>
+        <translation type="obsolete">&lt;b&gt;Fréquence:&lt;/b&gt; %1</translation>
     </message>
     <message>
         <source>&lt;b&gt;Grade:&lt;/b&gt; %1</source>
-        <translation type="obsolete">&lt;b&gt;Klasse:&lt;/b&gt; %1</translation>
+        <translation type="obsolete">&lt;b&gt;Grade:&lt;/b&gt; %1</translation>
     </message>
     <message>
         <source>&lt;b&gt;JLPT:&lt;/b&gt; %1</source>
@@ -528,11 +556,11 @@
     </message>
     <message>
         <source>Variations:</source>
-        <translation type="obsolete">Variationen:</translation>
+        <translation type="obsolete">Variations:</translation>
     </message>
     <message>
         <source>Variation of:</source>
-        <translation type="obsolete">Variation von:</translation>
+        <translation type="obsolete">Variation de:</translation>
     </message>
     <message>
         <source>&lt;b&gt;Unicode:&lt;/b&gt; 0x%1</source>
@@ -543,57 +571,19 @@
         <translation type="obsolete">&lt;b&gt;SKIP:&lt;/b&gt; %1</translation>
     </message>
     <message>
-        <source>&lt;b&gt;4 corner:&lt;/b&gt; %1</source>
-        <translation type="obsolete">&lt;b&gt;4 Ecken:&lt;/b&gt; %1</translation>
-    </message>
-    <message>
-        <source>Radicals:</source>
-        <translation type="obsolete">Radikale:</translation>
-    </message>
-    <message>
         <source>Components:</source>
-        <translation type="obsolete">Komponenten:</translation>
+        <translation type="obsolete">Composants:</translation>
     </message>
     <message>
         <source> (JLPT %1)</source>
         <translation type="obsolete"> (JLPT %1)</translation>
-    </message>
-    <message>
-        <location line="-217"/>
-        <source>Cannot find detailed view HTML file!</source>
-        <translation>Nelze najít soubor HTML pro podrobný pohled!</translation>
-    </message>
-    <message>
-        <location line="+8"/>
-        <source>Cannot find detailed view CSS file!</source>
-        <translation>Nelze najít soubor CSS pro podrobný pohled!</translation>
-    </message>
-    <message>
-        <location line="+161"/>
-        <source>&lt;Root&gt;</source>
-        <translation>&lt;Kořen&gt;</translation>
-    </message>
-    <message>
-        <location line="+49"/>
-        <source>Score: %1.</source>
-        <translation>Počet bodů: %1.</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Last trained on %1.</source>
-        <translation>Naposledy cvičeno %1.</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Last mistaken on %1.</source>
-        <translation>Poslední omyl %1.</translation>
     </message>
 </context>
 <context>
     <name>EntryListModel</name>
     <message>
         <source>New list</source>
-        <translation type="obsolete">Nový seznam</translation>
+        <translation type="obsolete">Nouvelle liste</translation>
     </message>
 </context>
 <context>
@@ -607,6 +597,15 @@
         <location line="+0"/>
         <source>New list...</source>
         <translation>Nový seznam...</translation>
+    </message>
+    <message>
+        <source>Set as root</source>
+        <translation type="obsolete">Mettre en tant que racine</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Go up</source>
+        <translation>Jít nahoru</translation>
     </message>
     <message>
         <location line="+0"/>
@@ -651,15 +650,6 @@
 
 Některé z nich možná ještě zůstaly.</translation>
     </message>
-    <message>
-        <source>Set as root</source>
-        <translation type="obsolete">Nastavit jako superuživatel</translation>
-    </message>
-    <message>
-        <location line="-128"/>
-        <source>Go up</source>
-        <translation>Jít nahoru</translation>
-    </message>
 </context>
 <context>
     <name>EntryListWidget</name>
@@ -670,13 +660,17 @@ Některé z nich možná ještě zůstaly.</translation>
         <translation>Formulář</translation>
     </message>
     <message>
+        <source>Test test</source>
+        <translation type="obsolete">Test test</translation>
+    </message>
+    <message>
+        <source>...</source>
+        <translation type="obsolete">...</translation>
+    </message>
+    <message>
         <location filename="../src/gui/EntryListWidget.h" line="+33"/>
         <source>Lists</source>
         <translation>Seznamy</translation>
-    </message>
-    <message>
-        <source>Test test</source>
-        <translation type="obsolete">Vyzkoušet zkoušku</translation>
     </message>
 </context>
 <context>
@@ -753,6 +747,11 @@ Některé z nich možná ještě zůstaly.</translation>
         <translation>Slovíčka</translation>
     </message>
     <message>
+        <location line="+1"/>
+        <source>Characters</source>
+        <translation>Znaky</translation>
+    </message>
+    <message>
         <source>Kanji</source>
         <translation type="obsolete">Kanji</translation>
     </message>
@@ -761,10 +760,24 @@ Některé z nich možná ještě zůstaly.</translation>
         <source>Entry type filter</source>
         <translation>Filtr pro typ záznamu</translation>
     </message>
+</context>
+<context>
+    <name>EntryTypeSelectionWidget</name>
     <message>
-        <location filename="../src/gui/EntryTypeFilterWidget.cc" line="+1"/>
-        <source>Characters</source>
-        <translation>Znaky</translation>
+        <source>All</source>
+        <translation type="obsolete">Tous</translation>
+    </message>
+    <message>
+        <source>Vocabulary</source>
+        <translation type="obsolete">Vocabulaire</translation>
+    </message>
+    <message>
+        <source>Kanji</source>
+        <translation type="obsolete">Kanji</translation>
+    </message>
+    <message>
+        <source>Entry type filter</source>
+        <translation type="obsolete">Filtre de type des entrées</translation>
     </message>
 </context>
 <context>
@@ -779,7 +792,7 @@ Některé z nich možná ještě zůstaly.</translation>
     <name>FindHomonymsJob</name>
     <message>
         <source>Homophones:</source>
-        <translation type="obsolete">Homophone:</translation>
+        <translation type="obsolete">Homophones:</translation>
     </message>
 </context>
 <context>
@@ -794,15 +807,15 @@ Některé z nich možná ještě zůstaly.</translation>
     <name>FindVerbBuddyJob</name>
     <message>
         <source>Transitive buddy:</source>
-        <translation type="obsolete">Transitiver Partner:</translation>
+        <translation type="obsolete">Partenaire transitif:</translation>
     </message>
     <message>
         <source>Intransitive buddy:</source>
-        <translation type="obsolete">Intransitiver Partner:</translation>
+        <translation type="obsolete">Partenaire intransitif:</translation>
     </message>
     <message>
         <source>Buddy:</source>
-        <translation type="obsolete">Partner:</translation>
+        <translation type="obsolete">Partenaire:</translation>
     </message>
     <message>
         <location line="-15"/>
@@ -823,10 +836,78 @@ Některé z nich možná ještě zůstaly.</translation>
 <context>
     <name>GeneralPreferences</name>
     <message>
+        <location filename="../src/gui/PreferencesWindow.cc" line="-136"/>
+        <source>English</source>
+        <translation>Anglický</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>German</source>
+        <translation>Deutsch</translation>
+    </message>
+    <message>
+        <location line="-1"/>
+        <source>French</source>
+        <translation>Francouzský</translation>
+    </message>
+    <message>
+        <location line="-3"/>
+        <source>Czech</source>
+        <translation>Český</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Dutch</source>
+        <translation>Nizozemský</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Russian</source>
+        <translation>Russisch</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Spanish</source>
+        <translation>Spanisch</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>General</source>
+        <translation>Obecné</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Application-wide default font</source>
+        <translation>Výchozí písmo pro celý program</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Monday</source>
+        <translation>Pondělí</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Sunday</source>
+        <translation>Neděle</translation>
+    </message>
+    <message>
+        <location line="+53"/>
+        <source>Next check: %1</source>
+        <translation>Další ověřování: %1</translation>
+    </message>
+    <message>
         <location filename="../src/gui/GeneralPreferences.ui" line="+14"/>
         <location filename="../src/gui/ui_GeneralPreferences.h" line="+187"/>
         <source>Form</source>
         <translation>Formulář</translation>
+    </message>
+    <message>
+        <source>Application default font</source>
+        <translation type="obsolete">Police par défaut de l&apos;application</translation>
+    </message>
+    <message>
+        <source>You need to restart Tagaini Jisho for this change to take effect.</source>
+        <translation type="obsolete">Vous devez redémarrer Tagaini Jisho pour que ce changement prenne effet.</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -927,68 +1008,28 @@ improve performance when manipulating a large number of entries.</source>
 Vysoké hodnoty mohou zlepšit výkon, když se zachází s velkým počtem záznamů.</translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="-136"/>
-        <source>English</source>
-        <translation>Anglický</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>French</source>
-        <translation>Francouzský</translation>
-    </message>
-    <message>
-        <location line="-2"/>
-        <source>Dutch</source>
-        <translation>Nizozemský</translation>
-    </message>
-    <message>
-        <location line="-1"/>
-        <source>Czech</source>
-        <translation>Český</translation>
-    </message>
-    <message>
-        <location line="+9"/>
-        <source>General</source>
-        <translation>Obecné</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Application-wide default font</source>
-        <translation>Výchozí písmo pro celý program</translation>
-    </message>
-    <message>
-        <location line="+10"/>
-        <source>Monday</source>
-        <translation>Pondělí</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Sunday</source>
-        <translation>Neděle</translation>
-    </message>
-    <message>
-        <location line="+53"/>
-        <source>Next check: %1</source>
-        <translation>Další ověřování: %1</translation>
-    </message>
-    <message>
-        <location line="-73"/>
-        <source>German</source>
-        <translation>Deutsch</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Russian</source>
-        <translation>Russisch</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Spanish</source>
-        <translation>Spanisch</translation>
+        <source>Defines how many recent entries are kept in memory. High values may improve performance when manipulating a large number of entries.</source>
+        <translation type="obsolete">Définit le nombre d&apos;entrées gardées en mémoire. Une valeur élevée peut améliorer les performances en cas de manipulation de nombreuses entrées.</translation>
     </message>
 </context>
 <context>
     <name>JLPTFilterWidget</name>
+    <message>
+        <source>Level 4</source>
+        <translation type="obsolete">Niveau 4</translation>
+    </message>
+    <message>
+        <source>Level 3</source>
+        <translation type="obsolete">Niveau 3</translation>
+    </message>
+    <message>
+        <source>Level 2</source>
+        <translation type="obsolete">Niveau 2</translation>
+    </message>
+    <message>
+        <source>Level 1</source>
+        <translation type="obsolete">Niveau 1</translation>
+    </message>
     <message>
         <location filename="../src/gui/JLPTFilterWidget.cc" line="+28"/>
         <source>Level N5</source>
@@ -1021,7 +1062,42 @@ Vysoké hodnoty mohou zlepšit výkon, když se zachází s velkým počtem záz
     </message>
 </context>
 <context>
+    <name>JLPTOptionsWidget</name>
+    <message>
+        <source>JLPT filter</source>
+        <translation type="obsolete">Filtre JLPT</translation>
+    </message>
+    <message>
+        <source>Level 4</source>
+        <translation type="obsolete">Niveau 4</translation>
+    </message>
+    <message>
+        <source>Level 3</source>
+        <translation type="obsolete">Niveau 3</translation>
+    </message>
+    <message>
+        <source>Level 2</source>
+        <translation type="obsolete">Niveau 2</translation>
+    </message>
+    <message>
+        <source>Level 1</source>
+        <translation type="obsolete">Niveau 1</translation>
+    </message>
+    <message>
+        <source>JLPT:</source>
+        <translation type="obsolete">JLPT:</translation>
+    </message>
+    <message>
+        <source>JLPT</source>
+        <translation type="obsolete">JLPT</translation>
+    </message>
+</context>
+<context>
     <name>JMdictEntryFormatter</name>
+    <message>
+        <source>(JLPT %1)</source>
+        <translation type="obsolete">(JLPT %1)</translation>
+    </message>
     <message>
         <location filename="../src/gui/jmdict/JMdictEntryFormatter.cc" line="-338"/>
         <source>(JLPT N%1)</source>
@@ -1033,12 +1109,31 @@ Vysoké hodnoty mohou zlepšit výkon, když se zachází s velkým počtem záz
         <translation>Náhradní čtení: </translation>
     </message>
     <message>
+        <location line="+18"/>
+        <source>Alternate writings:</source>
+        <translation>Náhradní způsoby psaní:</translation>
+    </message>
+    <message>
+        <location line="+117"/>
+        <source>JLPT</source>
+        <translation>JLPT</translation>
+    </message>
+    <message>
+        <source>JLPT level</source>
+        <translation type="obsolete">Niveau JLPT</translation>
+    </message>
+    <message>
+        <location line="+24"/>
+        <source>Kanji</source>
+        <translation>Kandži</translation>
+    </message>
+    <message>
         <source>Variants:</source>
-        <translation type="obsolete">Varianten:</translation>
+        <translation type="obsolete">Variantes:</translation>
     </message>
     <message>
         <source>JLPT level:</source>
-        <translation type="obsolete">JLPT-Level:</translation>
+        <translation type="obsolete">Niveau JLPT:</translation>
     </message>
     <message>
         <source>Kanji:</source>
@@ -1047,29 +1142,6 @@ Vysoké hodnoty mohou zlepšit výkon, když se zachází s velkým počtem záz
     <message>
         <source> (JLPT %1)</source>
         <translation type="obsolete"> (JLPT %1)</translation>
-    </message>
-    <message>
-        <source>(JLPT %1)</source>
-        <translation type="obsolete">(JLPT %1)</translation>
-    </message>
-    <message>
-        <location line="+18"/>
-        <source>Alternate writings:</source>
-        <translation>Náhradní způsoby psaní:</translation>
-    </message>
-    <message>
-        <source>JLPT level</source>
-        <translation type="obsolete">JLPT-Level</translation>
-    </message>
-    <message>
-        <location line="+141"/>
-        <source>Kanji</source>
-        <translation>Kandži</translation>
-    </message>
-    <message>
-        <location line="-24"/>
-        <source>JLPT</source>
-        <translation>JLPT</translation>
     </message>
 </context>
 <context>
@@ -1090,7 +1162,12 @@ Vysoké hodnoty mohou zlepšit výkon, když se zachází s velkým počtem záz
         <translation>Se součástmi:</translation>
     </message>
     <message>
-        <location line="+15"/>
+        <location line="+2"/>
+        <source>Include kana-only words</source>
+        <translation>Zohlednit slova jen s Kana</translation>
+    </message>
+    <message>
+        <location line="+13"/>
         <location line="+117"/>
         <source>Part of speech</source>
         <translation>Slovní druh</translation>
@@ -1134,7 +1211,17 @@ Vysoké hodnoty mohou zlepšit výkon, když se zachází s velkým počtem záz
         <translation> se součástí </translation>
     </message>
     <message>
-        <location line="+21"/>
+        <location line="+12"/>
+        <source>, including kana words</source>
+        <translation>, včetně slov Kana</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source> using kana only</source>
+        <translation> jen s Kana</translation>
+    </message>
+    <message>
+        <location line="+8"/>
         <location line="+1"/>
         <source>Vocabulary</source>
         <translation>Slovíčka</translation>
@@ -1158,21 +1245,6 @@ Vysoké hodnoty mohou zlepšit výkon, když se zachází s velkým počtem záz
         <location line="+15"/>
         <source>Misc:</source>
         <translation>Různé:</translation>
-    </message>
-    <message>
-        <location line="-174"/>
-        <source>Include kana-only words</source>
-        <translation>Zohlednit slova jen s Kana</translation>
-    </message>
-    <message>
-        <location line="+105"/>
-        <source>, including kana words</source>
-        <translation>, včetně slov Kana</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source> using kana only</source>
-        <translation> jen s Kana</translation>
     </message>
 </context>
 <context>
@@ -1223,127 +1295,152 @@ Vysoké hodnoty mohou zlepšit výkon, když se zachází s velkým počtem záz
         <translation>Odborný výraz bojového umění</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <source>rude or X-rated term (not displayed in educational software)</source>
-        <translation>Hrubý nebo mládeži nepřístupný výraz (v pedagogickém programu se nezobrazuje)</translation>
+        <location line="+46"/>
+        <source>military</source>
+        <translation>Vojsko</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <source>abbreviation</source>
-        <translation>Zkratka</translation>
+        <location line="-16"/>
+        <source>food term</source>
+        <translation>Jídelní odborný výraz</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <source>adjective (keiyoushi)</source>
-        <translation>Přídavné jméno (keiyoushi)</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>adjectival nouns or quasi-adjectives (keiyodoshi)</source>
-        <translation>Adjektivní podstatná jména nebo jakoby přídavná jména (keiyj­odoshi)</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>nouns which may take the genitive case particle `no&apos;</source>
-        <translation>Podstatná jména, která mohou přijmout částici druhého pádu &apos;no&apos;</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>pre-noun adjectival (rentaishi)</source>
-        <translation>Přívlastkově stojící slovo (rentaishi)</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>`taru&apos; adjective</source>
-        <translation>Přídavné jméno `taru&apos;</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>noun or verb acting prenominally</source>
-        <translation>Podstatné jméno nebo zájmenně působící sloveso</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>former adjective classification (being removed)</source>
-        <translation>dříve tříděno jako přídavné jméno (odstraněno)</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>adverb (fukushi)</source>
-        <translation>Příslovce (fukushi)</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>adverb taking the `to&apos; particle</source>
-        <translation>Příslovce přijímající částici &apos;to&apos;</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>archaism</source>
-        <translation>Zastaralé slovo</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>ateji (phonetic) reading</source>
-        <translation>Čtení ateji (fonetické)</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>auxiliary</source>
-        <translation>Pomocné slovo</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>auxiliary verb</source>
-        <translation>Pomocné sloveso</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>auxiliary adjective</source>
-        <translation>Pomocné přídavné jméno</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Buddhist term</source>
-        <translation>Buddhistický odborný výraz</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>chemistry term</source>
-        <translation>Chemický odborný výraz</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>children&apos;s language</source>
-        <translation>Dětská řeč</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>colloquialism</source>
-        <translation>Hovorový výraz</translation>
-    </message>
-    <message>
-        <location line="+1"/>
+        <location line="-9"/>
         <source>computer terminology</source>
         <translation>Počítačové odborné názvosloví</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <source>conjunction</source>
-        <translation>Spojka</translation>
+        <location line="-4"/>
+        <source>Buddhist term</source>
+        <translation>Buddhistický odborný výraz</translation>
+    </message>
+    <message>
+        <location line="+24"/>
+        <source>linguistics terminology</source>
+        <translation>Jazykovědný výraz</translation>
+    </message>
+    <message>
+        <location line="-10"/>
+        <source>geometry term</source>
+        <translation>Geometrický odborný výraz</translation>
+    </message>
+    <message>
+        <location line="-13"/>
+        <source>chemistry term</source>
+        <translation>Chemický odborný výraz</translation>
+    </message>
+    <message>
+        <location line="+46"/>
+        <source>physics terminology</source>
+        <translation>Fyzikální odborný výraz</translation>
+    </message>
+    <message>
+        <location line="-19"/>
+        <source>mathematics</source>
+        <translation>Matematika</translation>
+    </message>
+    <message>
+        <location line="+64"/>
+        <source>Nagano-ben</source>
+        <translation>Nagano-ben</translation>
+    </message>
+    <message>
+        <location line="-9"/>
+        <source>Kyoto-ben</source>
+        <translation>Kyoto-ben</translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <source>Tsugaru-ben</source>
+        <translation>Tsugaru-ben</translation>
+    </message>
+    <message>
+        <location line="-2"/>
+        <source>Tosa-ben</source>
+        <translation>Tosa-ben</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Kyuushuu-ben</source>
+        <translation>Kyuushuu-ben</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>counter</source>
-        <translation>Číslovka</translation>
+        <source>Ryuukyuu-ben</source>
+        <translation>Ryuukyuu-ben</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <source>derogatory</source>
-        <translation>Hanlivý výraz</translation>
+        <location line="-6"/>
+        <source>Kansai-ben</source>
+        <translation>Kansai-ben</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-1"/>
+        <source>Osaka-ben</source>
+        <translation>Osaka-ben</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Touhoku-ben</source>
+        <translation>Touhoku-ben</translation>
+    </message>
+    <message>
+        <location line="-2"/>
+        <source>Kantou-ben</source>
+        <translation>Kantou-ben</translation>
+    </message>
+    <message>
+        <location line="-61"/>
+        <source>manga slang</source>
+        <translation>Silně hovorový výraz manga</translation>
+    </message>
+    <message>
+        <location line="+18"/>
+        <source>polite (teineigo) language</source>
+        <translation>Zdvořilý jazyk (teineigo)</translation>
+    </message>
+    <message>
+        <location line="+37"/>
+        <source>su verb - precursor to the modern suru</source>
+        <translation>Sloveso su - předchůdce novodobého suru</translation>
+    </message>
+    <message>
+        <location line="+14"/>
+        <source>vulgar expression or word</source>
+        <translation>Sprostý výraz nebo slovo</translation>
+    </message>
+    <message>
+        <location line="-75"/>
+        <source>idiomatic expression</source>
+        <translation>Nářeční výraz</translation>
+    </message>
+    <message>
+        <location line="-3"/>
+        <source>honorific or respectful (sonkeigo) language</source>
+        <translation>Zdvořilostní nebo uctivý jazyk (sonkeigo)</translation>
+    </message>
+    <message>
+        <location line="-4"/>
+        <source>female term or language</source>
+        <translation>Ženský výraz nebo jazyk</translation>
+    </message>
+    <message>
+        <location line="-20"/>
+        <source>former adjective classification (being removed)</source>
+        <translation>dříve tříděno jako přídavné jméno (odstraněno)</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>ateji (phonetic) reading</source>
+        <translation>Čtení ateji (fonetické)</translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <source>children&apos;s language</source>
+        <translation>Dětská řeč</translation>
+    </message>
+    <message>
+        <location line="+6"/>
         <source>exclusively kanji</source>
         <translation>Výlučně v kandži</translation>
     </message>
@@ -1353,66 +1450,22 @@ Vysoké hodnoty mohou zlepšit výkon, když se zachází s velkým počtem záz
         <translation>Výlučně v kana</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <source>Expressions (phrases, clauses, etc.)</source>
-        <translation>Výraz (úsloví, rčení, atd.)</translation>
+        <location line="+6"/>
+        <source>gikun (meaning as reading)  or jukujikun (special kanji reading)</source>
+        <translation>gikun (význam stejně jako čtení) nebo  jukujikun (zvláštní čtení kandži)</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <source>familiar language</source>
-        <translation>Důvěrný jazyk</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>female term or language</source>
-        <translation>Ženský výraz nebo jazyk</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>food term</source>
-        <translation>Jídelní odborný výraz</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>geometry term</source>
-        <translation>Geometrický odborný výraz</translation>
-    </message>
-    <message>
-        <source>gikun (meaning) reading</source>
-        <translation type="obsolete">gikun (Bedeutungs-) Lesung</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>honorific or respectful (sonkeigo) language</source>
-        <translation>Zdvořilostní nebo uctivý jazyk (sonkeigo)</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>humble (kenjougo) language</source>
-        <translation>Prostý jazyk (kenjougo)</translation>
-    </message>
-    <message>
-        <location line="+1"/>
+        <location line="+3"/>
         <source>word containing irregular kanji usage</source>
         <translation>Slovo s nepravidelným používáním kandži</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <source>idiomatic expression</source>
-        <translation>Nářeční výraz</translation>
-    </message>
-    <message>
-        <location line="+1"/>
+        <location line="+2"/>
         <source>word containing irregular kana usage</source>
         <translation>Slovo s nepravidelným používáním kana</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <source>interjection (kandoushi)</source>
-        <translation>Citoslovce (kandoushi)</translation>
-    </message>
-    <message>
-        <location line="+1"/>
+        <location line="+2"/>
         <source>irregular okurigana usage</source>
         <translation>Nepravidelné používání okurigana</translation>
     </message>
@@ -1422,77 +1475,17 @@ Vysoké hodnoty mohou zlepšit výkon, když se zachází s velkým počtem záz
         <translation>Nepravidelné sloveso</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <source>linguistics terminology</source>
-        <translation>Jazykovědný výraz</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>manga slang</source>
-        <translation>Silně hovorový výraz manga</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>male term or language</source>
-        <translation>Mužský výraz nebo jazyk</translation>
-    </message>
-    <message>
-        <location line="+1"/>
+        <location line="+4"/>
         <source>male slang</source>
         <translation>Mužský jazyk</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <source>mathematics</source>
-        <translation>Matematika</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>military</source>
-        <translation>Vojsko</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>noun (common) (futsuumeishi)</source>
-        <translation>Podstatné jméno (běžné) (futsuumeishi)</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>adverbial noun (fukushitekimeishi)</source>
-        <translation>Příslovečné podstatné jméno (fukushitekimeishi)</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>noun, used as a suffix</source>
-        <translation>Podstatné jméno, používáno jako přípona</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>noun, used as a prefix</source>
-        <translation>Podstatné jméno, používáno jako předpona</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>noun (temporal) (jisoumeishi)</source>
-        <translation>Podstatné jméno (časové) (jisoumeishi)</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>numeric</source>
-        <translation>Číslo</translation>
-    </message>
-    <message>
-        <location line="+1"/>
+        <location line="+9"/>
         <source>word containing out-dated kanji</source>
         <translation>Slovo se zastaralým kandži</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <source>obsolete term</source>
-        <translation>Zastaralý výraz</translation>
-    </message>
-    <message>
-        <location line="+1"/>
+        <location line="+2"/>
         <source>obscure term</source>
         <translation>Obtížně srozumitelný výraz</translation>
     </message>
@@ -1507,42 +1500,17 @@ Vysoké hodnoty mohou zlepšit výkon, když se zachází s velkým počtem záz
         <translation>Zvukomalebné nebo napodobovací slovo</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <source>pronoun</source>
-        <translation>Zájmeno</translation>
-    </message>
-    <message>
-        <location line="+1"/>
+        <location line="+2"/>
         <source>poetical term</source>
         <translation>Básnický výraz</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <source>polite (teineigo) language</source>
-        <translation>Zdvořilý jazyk (teineigo)</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>prefix</source>
-        <translation>Předpona</translation>
-    </message>
-    <message>
-        <location line="+1"/>
+        <location line="+3"/>
         <source>proverb</source>
         <translation>Přísloví</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <source>particle</source>
-        <translation>Částice</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>physics terminology</source>
-        <translation>Fyzikální odborný výraz</translation>
-    </message>
-    <message>
-        <location line="+1"/>
+        <location line="+3"/>
         <source>rare</source>
         <translation>vzácný</translation>
     </message>
@@ -1552,117 +1520,97 @@ Vysoké hodnoty mohou zlepšit výkon, když se zachází s velkým počtem záz
         <translation>citlivý</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <source>slang</source>
-        <translation>Silně hovorový výraz</translation>
+        <location line="-32"/>
+        <source>humble (kenjougo) language</source>
+        <translation>Prostý jazyk (kenjougo)</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <source>suffix</source>
-        <translation>Přípona</translation>
+        <location line="-32"/>
+        <source>abbreviation</source>
+        <translation>Zkratka</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <source>word usually written using kanji alone</source>
-        <translation>Slovo obvykle psané jen s kandži</translation>
+        <location line="+26"/>
+        <source>familiar language</source>
+        <translation>Důvěrný jazyk</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-27"/>
+        <source>rude or X-rated term (not displayed in educational software)</source>
+        <translation>Hrubý nebo mládeži nepřístupný výraz (v pedagogickém programu se nezobrazuje)</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>archaism</source>
+        <translation>Zastaralé slovo</translation>
+    </message>
+    <message>
+        <location line="+12"/>
+        <source>derogatory</source>
+        <translation>Hanlivý výraz</translation>
+    </message>
+    <message>
+        <location line="-4"/>
+        <source>colloquialism</source>
+        <translation>Hovorový výraz</translation>
+    </message>
+    <message>
+        <location line="+50"/>
         <source>word usually written using kana alone</source>
         <translation>Slovo obvykle psané jen s kana</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <source>Ichidan verb</source>
-        <translation>Sloveso ichidan</translation>
+        <location line="-3"/>
+        <source>slang</source>
+        <translation>Silně hovorový výraz</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <source>Nidan verb with &apos;u&apos; ending (archaic)</source>
-        <translation>Sloveso nidan s koncovkou &apos;u&apos; (starobylá)</translation>
+        <location line="-24"/>
+        <source>male term or language</source>
+        <translation>Mužský výraz nebo jazyk</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <source>Yondan verb with `hu/fu&apos; ending (archaic)</source>
-        <translation>Sloveso yondan s koncovkou &apos;hu/fu&apos; (starobylá)</translation>
+        <location line="+11"/>
+        <source>obsolete term</source>
+        <translation>Zastaralý výraz</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <source>Yondan verb with `ru&apos; ending (archaic)</source>
-        <translation>Sloveso yondan s koncovkou &apos;ru&apos; (starobylá)</translation>
+        <location line="-43"/>
+        <source>adverb taking the `to&apos; particle</source>
+        <translation>Příslovce přijímající částici &apos;to&apos;</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="+40"/>
+        <source>noun (temporal) (jisoumeishi)</source>
+        <translation>Podstatné jméno (časové) (jisoumeishi)</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>prefix</source>
+        <translation>Předpona</translation>
+    </message>
+    <message>
+        <location line="-54"/>
+        <source>`taru&apos; adjective</source>
+        <translation>Přídavné jméno `taru&apos;</translation>
+    </message>
+    <message>
+        <location line="+31"/>
+        <source>interjection (kandoushi)</source>
+        <translation>Citoslovce (kandoushi)</translation>
+    </message>
+    <message>
+        <location line="+31"/>
+        <source>word usually written using kanji alone</source>
+        <translation>Slovo obvykle psané jen s kandži</translation>
+    </message>
+    <message>
+        <location line="+6"/>
         <source>Godan verb (not completely classified)</source>
         <translation>Sloveso godan (není úplně zařazeno)</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <source>Godan verb - -aru special class</source>
-        <translation>Sloveso godan – zvláštní třída -aru</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Godan verb with `bu&apos; ending</source>
-        <translation>Sloveso godan s koncovkou &apos;bu&apos;</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Godan verb with `gu&apos; ending</source>
-        <translation>Sloveso godan s koncovkou &apos;gu&apos;</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Godan verb with `ku&apos; ending</source>
-        <translation>Sloveso godan s koncovkou &apos;ku&apos;</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Godan verb - Iku/Yuku special class</source>
-        <translation>Sloveso godan – zvláštní třída Iku/Yuku</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Godan verb with `mu&apos; ending</source>
-        <translation>Sloveso godan s koncovkou &apos;mu&apos;</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Godan verb with `nu&apos; ending</source>
-        <translation>Sloveso godan s koncovkou &apos;nu&apos;</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Godan verb with `ru&apos; ending</source>
-        <translation>Sloveso godan s koncovkou &apos;ru&apos;</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Godan verb with `ru&apos; ending (irregular verb)</source>
-        <translation>Sloveso godan s koncovkou &apos;ru&apos; (nepravidelné sloveso)</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Godan verb with `su&apos; ending</source>
-        <translation>Sloveso godan s koncovkou &apos;su&apos;</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Godan verb with `tsu&apos; ending</source>
-        <translation>Sloveso godan s koncovkou &apos;tsu&apos;</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Godan verb with `u&apos; ending</source>
-        <translation>Sloveso godan s koncovkou &apos;u&apos;</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Godan verb with `u&apos; ending (special class)</source>
-        <translation>Sloveso godan s koncovkou &apos;u&apos; (zvláštní třída)</translation>
-    </message>
-    <message>
-        <location line="+1"/>
+        <location line="+14"/>
         <source>Godan verb - Uru old class verb (old form of Eru)</source>
         <translation>Sloveso godan – stará třída Uru (starý tvar Eru)</translation>
     </message>
@@ -1672,12 +1620,7 @@ Vysoké hodnoty mohou zlepšit výkon, když se zachází s velkým počtem záz
         <translation>Sloveso godan s koncovkou &apos;zu&apos;</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <source>Ichidan verb - zuru verb (alternative form of -jiru verbs)</source>
-        <translation>Sloveso ichidan – sloveso zuru (náhradní tvar sloves -jiru)</translation>
-    </message>
-    <message>
-        <location line="+1"/>
+        <location line="+2"/>
         <source>intransitive verb</source>
         <translation>Nepřechodné sloveso</translation>
     </message>
@@ -1692,94 +1635,286 @@ Vysoké hodnoty mohou zlepšit výkon, když se zachází s velkým počtem záz
         <translation>Nepravidelné sloveso nu</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-31"/>
+        <source>particle</source>
+        <translation>Částice</translation>
+    </message>
+    <message>
+        <location line="+32"/>
         <source>irregular ru verb, plain form ends with -ri</source>
         <translation>Nepravidelné sloveso ru, základní tvar končí na -ri</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <source>noun or participle which takes the aux. verb suru</source>
-        <translation>Podstatné jméno nebo příčestí, které přijímá pomocné sloveso suru</translation>
+        <location line="-87"/>
+        <source>noun or verb acting prenominally</source>
+        <translation>Podstatné jméno nebo zájmenně působící sloveso</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <source>su verb - precursor to the modern suru</source>
-        <translation>Sloveso su - předchůdce novodobého suru</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>suru verb - special class</source>
-        <translation>Sloveso suru – zvláštní třída</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>suru verb - irregular</source>
-        <translation>Sloveso suru – nepravidelné</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Kyoto-ben</source>
-        <translation>Kyoto-ben</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Osaka-ben</source>
-        <translation>Osaka-ben</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Kansai-ben</source>
-        <translation>Kansai-ben</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Kantou-ben</source>
-        <translation>Kantou-ben</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Tosa-ben</source>
-        <translation>Tosa-ben</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Touhoku-ben</source>
-        <translation>Touhoku-ben</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Tsugaru-ben</source>
-        <translation>Tsugaru-ben</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Kyuushuu-ben</source>
-        <translation>Kyuushuu-ben</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Ryuukyuu-ben</source>
-        <translation>Ryuukyuu-ben</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Nagano-ben</source>
-        <translation>Nagano-ben</translation>
-    </message>
-    <message>
-        <location line="+1"/>
+        <location line="+102"/>
         <source>transitive verb</source>
         <translation>Přechodné sloveso</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <source>vulgar expression or word</source>
-        <translation>Sprostý výraz nebo slovo</translation>
+        <location line="-61"/>
+        <source>noun, used as a suffix</source>
+        <translation>Podstatné jméno, používáno jako přípona</translation>
     </message>
     <message>
-        <location line="-79"/>
-        <source>gikun (meaning as reading)  or jukujikun (special kanji reading)</source>
-        <translation>gikun (význam stejně jako čtení) nebo  jukujikun (zvláštní čtení kandži)</translation>
+        <location line="-27"/>
+        <source>conjunction</source>
+        <translation>Spojka</translation>
+    </message>
+    <message>
+        <location line="-19"/>
+        <source>adjective (keiyoushi)</source>
+        <translation>Přídavné jméno (keiyoushi)</translation>
+    </message>
+    <message>
+        <location line="+88"/>
+        <source>Ichidan verb - zuru verb (alternative form of -jiru verbs)</source>
+        <translation>Sloveso ichidan – sloveso zuru (náhradní tvar sloves -jiru)</translation>
+    </message>
+    <message>
+        <location line="-81"/>
+        <source>adverb (fukushi)</source>
+        <translation>Příslovce (fukushi)</translation>
+    </message>
+    <message>
+        <location line="+58"/>
+        <source>suffix</source>
+        <translation>Přípona</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Godan verb with `bu&apos; ending</source>
+        <translation>Sloveso godan s koncovkou &apos;bu&apos;</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Godan verb with `nu&apos; ending</source>
+        <translation>Sloveso godan s koncovkou &apos;nu&apos;</translation>
+    </message>
+    <message>
+        <location line="-6"/>
+        <source>Godan verb - -aru special class</source>
+        <translation>Sloveso godan – zvláštní třída -aru</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Godan verb with `mu&apos; ending</source>
+        <translation>Sloveso godan s koncovkou &apos;mu&apos;</translation>
+    </message>
+    <message>
+        <location line="-2"/>
+        <source>Godan verb with `ku&apos; ending</source>
+        <translation>Sloveso godan s koncovkou &apos;ku&apos;</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Godan verb with `tsu&apos; ending</source>
+        <translation>Sloveso godan s koncovkou &apos;tsu&apos;</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Godan verb with `u&apos; ending</source>
+        <translation>Sloveso godan s koncovkou &apos;u&apos;</translation>
+    </message>
+    <message>
+        <location line="-4"/>
+        <source>Godan verb with `ru&apos; ending</source>
+        <translation>Sloveso godan s koncovkou &apos;ru&apos;</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Godan verb with `su&apos; ending</source>
+        <translation>Sloveso godan s koncovkou &apos;su&apos;</translation>
+    </message>
+    <message>
+        <location line="-71"/>
+        <source>auxiliary</source>
+        <translation>Pomocné slovo</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>auxiliary verb</source>
+        <translation>Pomocné sloveso</translation>
+    </message>
+    <message>
+        <location line="-11"/>
+        <source>adjectival nouns or quasi-adjectives (keiyodoshi)</source>
+        <translation>Adjektivní podstatná jména nebo jakoby přídavná jména (keiyj­odoshi)</translation>
+    </message>
+    <message>
+        <location line="+76"/>
+        <source>Godan verb - Iku/Yuku special class</source>
+        <translation>Sloveso godan – zvláštní třída Iku/Yuku</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Godan verb with `u&apos; ending (special class)</source>
+        <translation>Sloveso godan s koncovkou &apos;u&apos; (zvláštní třída)</translation>
+    </message>
+    <message>
+        <location line="-10"/>
+        <source>Godan verb with `gu&apos; ending</source>
+        <translation>Sloveso godan s koncovkou &apos;gu&apos;</translation>
+    </message>
+    <message>
+        <location line="-73"/>
+        <source>nouns which may take the genitive case particle `no&apos;</source>
+        <translation>Podstatná jména, která mohou přijmout částici druhého pádu &apos;no&apos;</translation>
+    </message>
+    <message>
+        <location line="+66"/>
+        <source>Ichidan verb</source>
+        <translation>Sloveso ichidan</translation>
+    </message>
+    <message>
+        <location line="-21"/>
+        <source>noun, used as a prefix</source>
+        <translation>Podstatné jméno, používáno jako předpona</translation>
+    </message>
+    <message>
+        <location line="-34"/>
+        <source>auxiliary adjective</source>
+        <translation>Pomocné přídavné jméno</translation>
+    </message>
+    <message>
+        <location line="+58"/>
+        <source>Yondan verb with `ru&apos; ending (archaic)</source>
+        <translation>Sloveso yondan s koncovkou &apos;ru&apos; (starobylá)</translation>
+    </message>
+    <message>
+        <location line="-22"/>
+        <source>numeric</source>
+        <translation>Číslo</translation>
+    </message>
+    <message>
+        <location line="-29"/>
+        <source>counter</source>
+        <translation>Číslovka</translation>
+    </message>
+    <message>
+        <location line="-17"/>
+        <source>pre-noun adjectival (rentaishi)</source>
+        <translation>Přívlastkově stojící slovo (rentaishi)</translation>
+    </message>
+    <message>
+        <location line="+67"/>
+        <source>Yondan verb with `hu/fu&apos; ending (archaic)</source>
+        <translation>Sloveso yondan s koncovkou &apos;hu/fu&apos; (starobylá)</translation>
+    </message>
+    <message>
+        <location line="-1"/>
+        <source>Nidan verb with &apos;u&apos; ending (archaic)</source>
+        <translation>Sloveso nidan s koncovkou &apos;u&apos; (starobylá)</translation>
+    </message>
+    <message>
+        <location line="+26"/>
+        <source>suru verb - special class</source>
+        <translation>Sloveso suru – zvláštní třída</translation>
+    </message>
+    <message>
+        <location line="-51"/>
+        <source>noun (common) (futsuumeishi)</source>
+        <translation>Podstatné jméno (běžné) (futsuumeishi)</translation>
+    </message>
+    <message>
+        <location line="+49"/>
+        <source>noun or participle which takes the aux. verb suru</source>
+        <translation>Podstatné jméno nebo příčestí, které přijímá pomocné sloveso suru</translation>
+    </message>
+    <message>
+        <location line="-69"/>
+        <source>Expressions (phrases, clauses, etc.)</source>
+        <translation>Výraz (úsloví, rčení, atd.)</translation>
+    </message>
+    <message>
+        <location line="+72"/>
+        <source>suru verb - irregular</source>
+        <translation>Sloveso suru – nepravidelné</translation>
+    </message>
+    <message>
+        <location line="-51"/>
+        <source>adverbial noun (fukushitekimeishi)</source>
+        <translation>Příslovečné podstatné jméno (fukushitekimeishi)</translation>
+    </message>
+    <message>
+        <location line="+36"/>
+        <source>Godan verb with `ru&apos; ending (irregular verb)</source>
+        <translation>Sloveso godan s koncovkou &apos;ru&apos; (nepravidelné sloveso)</translation>
+    </message>
+    <message>
+        <location line="-26"/>
+        <source>pronoun</source>
+        <translation>Zájmeno</translation>
+    </message>
+</context>
+<context>
+    <name>JMdictOptionsWidget</name>
+    <message>
+        <source>Vocabulary</source>
+        <translation type="obsolete">Vocabulaire</translation>
+    </message>
+    <message>
+        <source>Using studied kanji only</source>
+        <translation type="obsolete">Avec seulement des kanji étudiés</translation>
+    </message>
+    <message>
+        <source>With kanji:</source>
+        <translation type="obsolete">Avec les kanji:</translation>
+    </message>
+    <message>
+        <source>With components:</source>
+        <translation type="obsolete">Composants:</translation>
+    </message>
+    <message>
+        <source>Part of speech</source>
+        <translation type="obsolete">Fonction</translation>
+    </message>
+    <message>
+        <source>Dialect</source>
+        <translation type="obsolete">Dialecte</translation>
+    </message>
+    <message>
+        <source>Field</source>
+        <translation type="obsolete">Champ</translation>
+    </message>
+    <message>
+        <source>Misc</source>
+        <translation type="obsolete">Autres</translation>
+    </message>
+    <message>
+        <source> with </source>
+        <translation type="obsolete">avec</translation>
+    </message>
+    <message>
+        <source>, studied kanji only</source>
+        <translation type="obsolete">, kanji étudiés seulement</translation>
+    </message>
+    <message>
+        <source> with studied kanji</source>
+        <translation type="obsolete"> avec kanji étudiés</translation>
+    </message>
+    <message>
+        <source> with component </source>
+        <translation type="obsolete"> avec les composants </translation>
+    </message>
+    <message>
+        <source>Pos:</source>
+        <translation type="obsolete">Fonc:</translation>
+    </message>
+    <message>
+        <source>Dial:</source>
+        <translation type="obsolete">Dial:</translation>
+    </message>
+    <message>
+        <source>Field:</source>
+        <translation type="obsolete">Champ:</translation>
+    </message>
+    <message>
+        <source>Misc:</source>
+        <translation type="obsolete">Autres:</translation>
     </message>
 </context>
 <context>
@@ -1868,8 +2003,14 @@ Vysoké hodnoty mohou zlepšit výkon, když se zachází s velkým počtem záz
         <translation>Jen naučená</translation>
     </message>
     <message>
-        <location line="+26"/>
-        <location filename="../src/gui/jmdict/ui_JMdictPreferences.h" line="+11"/>
+        <location line="-7"/>
+        <location filename="../src/gui/jmdict/ui_JMdictPreferences.h" line="-1"/>
+        <source>Homographs</source>
+        <translation>Homografy (slova se stejným pravopisem, ale rozdáílnou výslovností, významem ap.)</translation>
+    </message>
+    <message>
+        <location line="+33"/>
+        <location filename="../src/gui/jmdict/ui_JMdictPreferences.h" line="+12"/>
         <source>Printing</source>
         <translation>Tisk</translation>
     </message>
@@ -1965,18 +2106,12 @@ Vysoké hodnoty mohou zlepšit výkon, když se zachází s velkým počtem záz
         <source>Definitions types in this list will be ignored when searching and displaying entries.</source>
         <translation>Typy vymezení uvedené v tomto seznamu budou při hledání a zobrazení záznamů přehlíženy.</translation>
     </message>
-    <message>
-        <location line="-294"/>
-        <location filename="../src/gui/jmdict/ui_JMdictPreferences.h" line="-22"/>
-        <source>Homographs</source>
-        <translation>Homografy (slova se stejným pravopisem, ale rozdáílnou výslovností, významem ap.)</translation>
-    </message>
 </context>
 <context>
     <name>JMdictYesNoTrainer</name>
     <message>
         <source>Show &amp;furiganas</source>
-        <translation type="obsolete">Zeige &amp;Furigana</translation>
+        <translation type="obsolete">Afficher les &amp;furiganas</translation>
     </message>
     <message>
         <location filename="../src/gui/jmdict/JMdictYesNoTrainer.cc" line="+23"/>
@@ -2028,6 +2163,13 @@ Vysoké hodnoty mohou zlepšit výkon, když se zachází s velkým počtem záz
     </message>
 </context>
 <context>
+    <name>KanjiLinkHandler</name>
+    <message>
+        <source>Tracing for %1</source>
+        <translation type="obsolete">Tracé pour %1</translation>
+    </message>
+</context>
+<context>
     <name>KanjiPlayer</name>
     <message>
         <location filename="../src/gui/kanjidic2/KanjiPlayer.cc" line="+50"/>
@@ -2040,7 +2182,12 @@ Vysoké hodnoty mohou zlepšit výkon, když se zachází s velkým počtem záz
         <translation>Pozastavit</translation>
     </message>
     <message>
-        <location line="+6"/>
+        <location line="+3"/>
+        <source>Stop</source>
+        <translation>Zastavit</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Next stroke</source>
         <translation>Další tah</translation>
     </message>
@@ -2049,21 +2196,17 @@ Vysoké hodnoty mohou zlepšit výkon, když se zachází s velkým počtem záz
         <source>Previous stroke</source>
         <translation>Předchozí tah</translation>
     </message>
-    <message>
-        <location line="-6"/>
-        <source>Stop</source>
-        <translation>Zastavit</translation>
-    </message>
 </context>
 <context>
     <name>KanjiPopup</name>
     <message>
-        <location filename="../src/gui/kanjidic2/KanjiPopup.cc" line="+167"/>
-        <source>No information about this kanji!</source>
-        <translation>Žádné informace o tomto kandži!</translation>
+        <location filename="../src/gui/kanjidic2/KanjiPopup.ui" line="+81"/>
+        <location filename="../src/gui/kanjidic2/ui_KanjiPopup.h" line="+189"/>
+        <source>See in detailed view</source>
+        <translation>Prohlédnout si v podrobném pohledu</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location filename="../src/gui/kanjidic2/KanjiPopup.cc" line="+178"/>
         <source>&lt;b&gt;On:&lt;/b&gt; %1</source>
         <translation>&lt;b&gt;On:&lt;/b&gt; %1</translation>
     </message>
@@ -2088,12 +2231,7 @@ Vysoké hodnoty mohou zlepšit výkon, když se zachází s velkým počtem záz
         <translation>&lt;b&gt;JLPT:&lt;/b&gt; %1&lt;br/&gt;</translation>
     </message>
     <message>
-        <location line="+2"/>
-        <source>&lt;b&gt;Score:&lt;/b&gt; %1&lt;br/&gt;</source>
-        <translation>&lt;b&gt;Body:&lt;/b&gt; %1&lt;br/&gt;</translation>
-    </message>
-    <message>
-        <location line="+19"/>
+        <location line="+21"/>
         <source>&lt;b&gt;Components:&lt;/b&gt; %2 %1</source>
         <translation>&lt;b&gt;Součásti:&lt;/b&gt; %2 %1</translation>
     </message>
@@ -2103,8 +2241,17 @@ Vysoké hodnoty mohou zlepšit výkon, když se zachází s velkým počtem záz
         <translation>&lt;b&gt;Radikály:&lt;/b&gt; %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/kanjidic2/KanjiPopup.ui" line="+20"/>
-        <location filename="../src/gui/kanjidic2/ui_KanjiPopup.h" line="+179"/>
+        <source>&lt;b&gt;Components:&lt;/b&gt;%2 %1</source>
+        <translation type="obsolete">&lt;b&gt;Composants:&lt;/b&gt;%2 %1</translation>
+    </message>
+    <message>
+        <location line="-27"/>
+        <source>&lt;b&gt;Score:&lt;/b&gt; %1&lt;br/&gt;</source>
+        <translation>&lt;b&gt;Body:&lt;/b&gt; %1&lt;br/&gt;</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/kanjidic2/KanjiPopup.ui" line="-61"/>
+        <location filename="../src/gui/kanjidic2/ui_KanjiPopup.h" line="-10"/>
         <source>Form</source>
         <translation>Formulář</translation>
     </message>
@@ -2135,14 +2282,8 @@ Vysoké hodnoty mohou zlepšit výkon, když se zachází s velkým počtem záz
         <translation>Další záznam</translation>
     </message>
     <message>
-        <location line="+30"/>
-        <location filename="../src/gui/kanjidic2/ui_KanjiPopup.h" line="+4"/>
-        <source>See in detailed view</source>
-        <translation>Prohlédnout si v podrobném pohledu</translation>
-    </message>
-    <message>
-        <location line="+20"/>
-        <location filename="../src/gui/kanjidic2/ui_KanjiPopup.h" line="+4"/>
+        <location line="+50"/>
+        <location filename="../src/gui/kanjidic2/ui_KanjiPopup.h" line="+8"/>
         <source>Entry options menu</source>
         <translation>Nabídka voleb pro záznam</translation>
     </message>
@@ -2151,6 +2292,11 @@ Vysoké hodnoty mohou zlepšit výkon, když se zachází s velkým počtem záz
         <location filename="../src/gui/kanjidic2/ui_KanjiPopup.h" line="+4"/>
         <source>Close this popup</source>
         <translation>Zavřít toto vyskakovací okno</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/kanjidic2/KanjiPopup.cc" line="-36"/>
+        <source>No information about this kanji!</source>
+        <translation>Žádné informace o tomto kandži!</translation>
     </message>
 </context>
 <context>
@@ -2172,6 +2318,18 @@ Vysoké hodnoty mohou zlepšit výkon, když se zachází s velkým počtem záz
 </context>
 <context>
     <name>Kanjidic2EntryFormatter</name>
+    <message>
+        <source>On:</source>
+        <translation type="obsolete">On:</translation>
+    </message>
+    <message>
+        <source>Kun:</source>
+        <translation type="obsolete">Kun:</translation>
+    </message>
+    <message>
+        <source>Nanori:</source>
+        <translation type="obsolete">Nanori:</translation>
+    </message>
     <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="+208"/>
         <source> (%1) </source>
@@ -2198,17 +2356,7 @@ Vysoké hodnoty mohou zlepšit výkon, když se zachází s velkým počtem záz
         <translation type="obsolete">&lt;b&gt;JLPT:&lt;/b&gt; %1</translation>
     </message>
     <message>
-        <location line="+12"/>
-        <source>&lt;b&gt;Unicode:&lt;/b&gt; 0x%1</source>
-        <translation>&lt;b&gt;Unicode:&lt;/b&gt; 0x%1</translation>
-    </message>
-    <message>
-        <location line="+6"/>
-        <source>&lt;b&gt;SKIP:&lt;/b&gt; %1</source>
-        <translation>&lt;b&gt;SKIP:&lt;/b&gt; %1</translation>
-    </message>
-    <message>
-        <location line="+6"/>
+        <location line="+24"/>
         <source>&lt;b&gt;4 corner:&lt;/b&gt; %1</source>
         <translation>&lt;b&gt;4 rohy:&lt;/b&gt; %1</translation>
     </message>
@@ -2296,6 +2444,32 @@ Vysoké hodnoty mohou zlepšit výkon, když se zachází s velkým počtem záz
         <source>Components</source>
         <translation>Součásti</translation>
     </message>
+    <message>
+        <source>Variations:</source>
+        <translation type="obsolete">Variations:</translation>
+    </message>
+    <message>
+        <source>Variation of:</source>
+        <translation type="obsolete">Variation de:</translation>
+    </message>
+    <message>
+        <location line="-247"/>
+        <source>&lt;b&gt;Unicode:&lt;/b&gt; 0x%1</source>
+        <translation>&lt;b&gt;Unicode:&lt;/b&gt; 0x%1</translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <source>&lt;b&gt;SKIP:&lt;/b&gt; %1</source>
+        <translation>&lt;b&gt;SKIP:&lt;/b&gt; %1</translation>
+    </message>
+    <message>
+        <source>Components:</source>
+        <translation type="obsolete">Composants:</translation>
+    </message>
+    <message>
+        <source> (JLPT %1)</source>
+        <translation type="obsolete"> (JLPT %1)</translation>
+    </message>
 </context>
 <context>
     <name>Kanjidic2FilterWidget</name>
@@ -2354,6 +2528,10 @@ Vysoké hodnoty mohou zlepšit výkon, když se zachází s velkým počtem záz
         <location line="+3"/>
         <source>All &amp;Jouyou kanji</source>
         <translation>Vše &amp;jouyou-kandži</translation>
+    </message>
+    <message>
+        <source>, 1 stroke</source>
+        <translation type="obsolete">, 1 trait</translation>
     </message>
     <message>
         <location line="+219"/>
@@ -2461,19 +2639,34 @@ Vysoké hodnoty mohou zlepšit výkon, když se zachází s velkým počtem záz
         <translation>Používáno pro jména (2)</translation>
     </message>
     <message>
+        <location line="+33"/>
+        <source>Character flashcards</source>
+        <translation>Kartičky pro znaky</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>From &amp;character, whole study list</source>
+        <translation>Ze &amp;znaku, celý seznam k učení</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>From &amp;character, current set</source>
+        <translation>Ze &amp;znaku, nynější soubor</translation>
+    </message>
+    <message>
         <source>Kanji flashcards</source>
-        <translation type="obsolete">Lernkartei für Kanji</translation>
+        <translation type="obsolete">Flashcards kanji</translation>
     </message>
     <message>
         <source>From &amp;kanji, whole study list</source>
-        <translation type="obsolete">Aus den &amp;Kanji, gesamte Studienliste</translation>
+        <translation type="obsolete">À partir des &amp;kanji, liste d&apos;étude complète</translation>
     </message>
     <message>
         <source>From &amp;kanji, current set</source>
-        <translation type="obsolete">Aus den &amp;Kanji, aktuelle Menge</translation>
+        <translation type="obsolete">À partir des &amp;kanji, résultats courants</translation>
     </message>
     <message>
-        <location line="+39"/>
+        <location line="+4"/>
         <source>From &amp;meaning, whole study list</source>
         <translation>Z &amp;významu, celý seznam k učení</translation>
     </message>
@@ -2488,7 +2681,12 @@ Vysoké hodnoty mohou zlepšit výkon, když se zachází s velkým počtem záz
         <translation>&amp;Cvičení čtení, celý seznam k učení</translation>
     </message>
     <message>
-        <location line="+26"/>
+        <location line="+6"/>
+        <source>Kana</source>
+        <translation>Kana</translation>
+    </message>
+    <message>
+        <location line="+20"/>
         <source>Radical search input</source>
         <translation>Zadání hledání radikálu</translation>
     </message>
@@ -2524,32 +2722,75 @@ Vysoké hodnoty mohou zlepšit výkon, když se zachází s velkým počtem záz
         <source>Tracing for %1</source>
         <translation>Zápis pro %1</translation>
     </message>
+</context>
+<context>
+    <name>Kanjidic2OptionsWidget</name>
     <message>
-        <location line="-366"/>
-        <source>Character flashcards</source>
-        <translation>Kartičky pro znaky</translation>
+        <source>Stroke count</source>
+        <translation type="obsolete">Nombre de traits</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <source>From &amp;character, whole study list</source>
-        <translation>Ze &amp;znaku, celý seznam k učení</translation>
+        <source>Components</source>
+        <translation type="obsolete">Composants</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <source>From &amp;character, current set</source>
-        <translation>Ze &amp;znaku, nynější soubor</translation>
+        <source>Unicode</source>
+        <translation type="obsolete">Unicode</translation>
     </message>
     <message>
-        <location line="+14"/>
-        <source>Kana</source>
-        <translation>Kana</translation>
+        <source>School grade</source>
+        <translation type="obsolete">Niveau scolaire</translation>
+    </message>
+    <message>
+        <source>Grade</source>
+        <translation type="obsolete">Niveau</translation>
+    </message>
+    <message>
+        <source>SKIP code</source>
+        <translation type="obsolete">Code SKIP</translation>
+    </message>
+    <message>
+        <source>All &amp;Kyouiku kanji</source>
+        <translation type="obsolete">Tous les kanji &amp;Kyouku</translation>
+    </message>
+    <message>
+        <source>All &amp;Jouyou kanji</source>
+        <translation type="obsolete">Tous les kanji &amp;Jouyou</translation>
+    </message>
+    <message>
+        <source>, 1 stroke</source>
+        <translation type="obsolete">, 1 trait</translation>
+    </message>
+    <message>
+        <source>, %1 strokes</source>
+        <translation type="obsolete">, %1 traits</translation>
+    </message>
+    <message>
+        <source>, unicode: </source>
+        <translation type="obsolete">, unicode: </translation>
+    </message>
+    <message>
+        <source>, skip: </source>
+        <translation type="obsolete">, skip: </translation>
+    </message>
+    <message>
+        <source>, grade:</source>
+        <translation type="obsolete">, niveau:</translation>
+    </message>
+    <message>
+        <source>Kanji</source>
+        <translation type="obsolete">Kanji</translation>
+    </message>
+    <message>
+        <source>Grade:</source>
+        <translation type="obsolete">Niveau:</translation>
     </message>
 </context>
 <context>
     <name>Kanjidic2Preferences</name>
     <message>
         <source>Kanji entries</source>
-        <translation type="obsolete">Kanjieinträge</translation>
+        <translation type="obsolete">Entrées de kanji</translation>
     </message>
     <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2Preferences.ui" line="+14"/>
@@ -2762,9 +3003,29 @@ Vysoké hodnoty mohou zlepšit výkon, když se zachází s velkým počtem záz
         <translation>Velikost nápisu kandži:</translation>
     </message>
     <message>
-        <location line="+74"/>
+        <location line="+19"/>
+        <location filename="../src/gui/kanjidic2/ui_Kanjidic2Preferences.h" line="+1"/>
+        <source>Print grid</source>
+        <translation>Tisk mřížky</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <location filename="../src/gui/kanjidic2/ui_Kanjidic2Preferences.h" line="+1"/>
+        <source>Show stroke numbers</source>
+        <translation>Ukázat počet tahů</translation>
+    </message>
+    <message>
+        <location line="+26"/>
+        <location line="+295"/>
+        <location filename="../src/gui/kanjidic2/ui_Kanjidic2Preferences.h" line="+2"/>
+        <location line="+20"/>
+        <source>px</source>
+        <translation>px</translation>
+    </message>
+    <message>
+        <location line="-277"/>
         <location line="+403"/>
-        <location filename="../src/gui/kanjidic2/ui_Kanjidic2Preferences.h" line="+5"/>
+        <location filename="../src/gui/kanjidic2/ui_Kanjidic2Preferences.h" line="-19"/>
         <location line="+28"/>
         <source>Preview</source>
         <translation>Náhled</translation>
@@ -2794,9 +3055,21 @@ Vysoké hodnoty mohou zlepšit výkon, když se zachází s velkým počtem záz
         <translation>Kreslení tahů</translation>
     </message>
     <message>
-        <location line="-204"/>
+        <location line="+213"/>
+        <location filename="../src/gui/kanjidic2/ui_Kanjidic2Preferences.h" line="+3"/>
+        <source>Kana selector</source>
+        <translation>Volič kana</translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <location filename="../src/gui/kanjidic2/ui_Kanjidic2Preferences.h" line="-2"/>
+        <source>Appearance</source>
+        <translation>Vzhled</translation>
+    </message>
+    <message>
+        <location line="-423"/>
         <location line="+219"/>
-        <location filename="../src/gui/kanjidic2/ui_Kanjidic2Preferences.h" line="-28"/>
+        <location filename="../src/gui/kanjidic2/ui_Kanjidic2Preferences.h" line="-29"/>
         <location line="+15"/>
         <source>Size:</source>
         <translation>Velikost:</translation>
@@ -2822,8 +3095,14 @@ Vysoké hodnoty mohou zlepšit výkon, když se zachází s velkým počtem záz
         <translation>Pozastavit mezi tahy:</translation>
     </message>
     <message>
-        <location line="+48"/>
-        <location filename="../src/gui/kanjidic2/ui_Kanjidic2Preferences.h" line="+4"/>
+        <location line="+28"/>
+        <location filename="../src/gui/kanjidic2/ui_Kanjidic2Preferences.h" line="+2"/>
+        <source>Show numbers</source>
+        <translation>Ukázat čísla</translation>
+    </message>
+    <message>
+        <location line="+20"/>
+        <location filename="../src/gui/kanjidic2/ui_Kanjidic2Preferences.h" line="+2"/>
         <source>Show grid</source>
         <translation>Ukázat mřížku</translation>
     </message>
@@ -2856,44 +3135,6 @@ Vysoké hodnoty mohou zlepšit výkon, když se zachází s velkým počtem záz
         <location filename="../src/gui/kanjidic2/ui_Kanjidic2Preferences.h" line="+1"/>
         <source> seconds</source>
         <translation> sekundách</translation>
-    </message>
-    <message>
-        <location line="-412"/>
-        <location filename="../src/gui/kanjidic2/ui_Kanjidic2Preferences.h" line="-29"/>
-        <source>Print grid</source>
-        <translation>Tisk mřížky</translation>
-    </message>
-    <message>
-        <location line="+11"/>
-        <location filename="../src/gui/kanjidic2/ui_Kanjidic2Preferences.h" line="+1"/>
-        <source>Show stroke numbers</source>
-        <translation>Ukázat počet tahů</translation>
-    </message>
-    <message>
-        <location line="+26"/>
-        <location line="+295"/>
-        <location filename="../src/gui/kanjidic2/ui_Kanjidic2Preferences.h" line="+2"/>
-        <location line="+20"/>
-        <source>px</source>
-        <translation>px</translation>
-    </message>
-    <message>
-        <location line="-10"/>
-        <location filename="../src/gui/kanjidic2/ui_Kanjidic2Preferences.h" line="-1"/>
-        <source>Show numbers</source>
-        <translation>Ukázat čísla</translation>
-    </message>
-    <message>
-        <location line="+122"/>
-        <location filename="../src/gui/kanjidic2/ui_Kanjidic2Preferences.h" line="+11"/>
-        <source>Kana selector</source>
-        <translation>Volič kana</translation>
-    </message>
-    <message>
-        <location line="+6"/>
-        <location filename="../src/gui/kanjidic2/ui_Kanjidic2Preferences.h" line="-2"/>
-        <source>Appearance</source>
-        <translation>Vzhled</translation>
     </message>
     <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2Preferences.cc" line="+27"/>
@@ -2933,7 +3174,7 @@ Vysoké hodnoty mohou zlepšit výkon, když se zachází s velkým počtem záz
         <translation>Náhled</translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="+243"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="+172"/>
         <source>Lists</source>
         <translation>Seznamy</translation>
     </message>
@@ -2941,106 +3182,76 @@ Vysoké hodnoty mohou zlepšit výkon, když se zachází s velkým počtem záz
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../src/gui/MainWindow.ui" line="+44"/>
-        <location filename="../src/gui/ui_MainWindow.h" line="+256"/>
-        <source>&amp;Program</source>
-        <translation>&amp;Program</translation>
-    </message>
-    <message>
-        <location line="+83"/>
-        <location filename="../src/gui/MainWindow.cc" line="+236"/>
-        <location filename="../src/gui/ui_MainWindow.h" line="-16"/>
-        <source>Export user data...</source>
-        <translation>Vyvést uživatelova data...</translation>
-    </message>
-    <message>
-        <location line="+9"/>
-        <location filename="../src/gui/MainWindow.cc" line="+9"/>
-        <location filename="../src/gui/ui_MainWindow.h" line="+1"/>
-        <source>Import user data...</source>
-        <translation>Zavést uživatelova data...</translation>
-    </message>
-    <message>
-        <location line="+9"/>
-        <location filename="../src/gui/ui_MainWindow.h" line="+1"/>
-        <source>Preferences...</source>
-        <translation>Nastavení...</translation>
-    </message>
-    <message>
-        <location line="+12"/>
-        <location filename="../src/gui/ui_MainWindow.h" line="+1"/>
+        <location filename="../src/gui/MainWindow.ui" line="+157"/>
+        <location filename="../src/gui/ui_MainWindow.h" line="+243"/>
         <source>&amp;Quit</source>
         <translation>&amp;Ukončit</translation>
     </message>
     <message>
-        <location line="+32"/>
-        <location filename="../src/gui/ui_MainWindow.h" line="+5"/>
-        <source>&amp;Manual</source>
-        <translation>&amp;Příručka</translation>
+        <location line="-113"/>
+        <location filename="../src/gui/ui_MainWindow.h" line="+13"/>
+        <source>&amp;Program</source>
+        <translation>&amp;Program</translation>
     </message>
     <message>
-        <location line="-124"/>
-        <location filename="../src/gui/ui_MainWindow.h" line="+10"/>
+        <location line="+21"/>
+        <location filename="../src/gui/ui_MainWindow.h" line="+2"/>
         <source>&amp;Search</source>
         <translation>&amp;Hledání</translation>
     </message>
     <message>
-        <location line="-51"/>
-        <location filename="../src/gui/ui_MainWindow.h" line="-19"/>
-        <source>Tagaini Jisho</source>
-        <translation>Tagaini Jisho</translation>
-    </message>
-    <message>
-        <source>&amp;Sets</source>
-        <translation type="obsolete">&amp;Mengen</translation>
-    </message>
-    <message>
-        <location line="+156"/>
-        <location filename="../src/gui/ui_MainWindow.h" line="+6"/>
-        <source>&amp;New sets folder...</source>
-        <translation>&amp;Nová složka pro soubor...</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <location filename="../src/gui/ui_MainWindow.h" line="+1"/>
-        <source>&amp;Organize sets...</source>
-        <translation>&amp;Spravovat soubory...</translation>
-    </message>
-    <message>
-        <source>&amp;Practice</source>
-        <translation type="obsolete">&amp;Übung</translation>
-    </message>
-    <message>
-        <source>&amp;New set from current search,,,</source>
-        <translation type="obsolete">&amp;Neue Menge aus aktueller Suche...</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <location filename="../src/gui/ui_MainWindow.h" line="+1"/>
-        <source>Whole study list train &amp;settings...</source>
-        <translation>&amp;Nastavení cvičení pro celý studijní seznam...</translation>
-    </message>
-    <message>
-        <location line="-126"/>
-        <location filename="../src/gui/ui_MainWindow.h" line="+10"/>
+        <location line="-11"/>
+        <location filename="../src/gui/ui_MainWindow.h" line="-1"/>
         <source>&amp;Help</source>
         <translation>&amp;Nápověda</translation>
     </message>
     <message>
-        <location line="+39"/>
-        <location filename="../src/gui/ui_MainWindow.h" line="+4"/>
-        <source>Search</source>
-        <translation>Hledat</translation>
+        <location line="+24"/>
+        <location filename="../src/gui/ui_MainWindow.h" line="+3"/>
+        <source>S&amp;ets</source>
+        <translation>&amp;Soubory</translation>
     </message>
     <message>
-        <location line="+72"/>
-        <location filename="../src/gui/ui_MainWindow.h" line="-17"/>
-        <source>&amp;New set from current search...</source>
-        <translation>&amp;Nový soubor z nynějšího hledání...</translation>
+        <location line="-7"/>
+        <location filename="../src/gui/ui_MainWindow.h" line="-1"/>
+        <source>P&amp;ractice</source>
+        <translation>&amp;Cvičení</translation>
     </message>
     <message>
-        <location line="+33"/>
+        <location line="+37"/>
+        <location filename="../src/gui/ui_MainWindow.h" line="+3"/>
+        <source>Lists</source>
+        <translation>Seznamy</translation>
+    </message>
+    <message>
+        <source>&amp;New set from current search,,,</source>
+        <translation type="obsolete">&amp;Nouvel ensemble à partir de la recherche courante...</translation>
+    </message>
+    <message>
+        <location line="+81"/>
+        <location filename="../src/gui/ui_MainWindow.h" line="-14"/>
+        <source>&amp;Manual</source>
+        <translation>&amp;Příručka</translation>
+    </message>
+    <message>
+        <location line="+45"/>
         <location filename="../src/gui/ui_MainWindow.h" line="+5"/>
+        <source>&amp;About...</source>
+        <translation>&amp;O programu...</translation>
+    </message>
+    <message>
+        <location line="-89"/>
+        <location filename="../src/gui/ui_MainWindow.h" line="-11"/>
+        <source>Preferences...</source>
+        <translation>Nastavení...</translation>
+    </message>
+    <message>
+        <source>&amp;Manual...</source>
+        <translation type="obsolete">&amp;Manuel...</translation>
+    </message>
+    <message>
+        <location line="+53"/>
+        <location filename="../src/gui/ui_MainWindow.h" line="+7"/>
         <source>&amp;Report a bug...</source>
         <translation>Nahlásit &amp;chybu v programu...</translation>
     </message>
@@ -3063,25 +3274,212 @@ Vysoké hodnoty mohou zlepšit výkon, když se zachází s velkým počtem záz
         <translation>Podpořte Tagaini Jisho – Dejte &amp;dar!</translation>
     </message>
     <message>
-        <location line="+9"/>
-        <location filename="../src/gui/ui_MainWindow.h" line="+1"/>
-        <source>&amp;About...</source>
-        <translation>&amp;O programu...</translation>
-    </message>
-    <message>
-        <location line="+12"/>
-        <location filename="../src/gui/ui_MainWindow.h" line="+1"/>
+        <location line="+21"/>
+        <location filename="../src/gui/ui_MainWindow.h" line="+2"/>
         <source>Focus text search</source>
         <translation>Soustředit se na hledání textu</translation>
     </message>
     <message>
-        <location line="+3"/>
-        <location filename="../src/gui/ui_MainWindow.h" line="+1"/>
-        <source>Ctrl+L</source>
-        <translation>Ctrl+L</translation>
+        <source>Print preview</source>
+        <translation type="obsolete">Aperçu d&apos;impression</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="+3"/>
+        <source>Booklet print</source>
+        <translation type="obsolete">Impression de livret</translation>
+    </message>
+    <message>
+        <source>Booklet print preview</source>
+        <translation type="obsolete">Aperçu d&apos;impression de livret</translation>
+    </message>
+    <message>
+        <source>Export to tab-separated file...</source>
+        <translation type="obsolete">Exporter vers un fichier séparé par des tabulations...</translation>
+    </message>
+    <message>
+        <source>Cannot write file</source>
+        <translation type="obsolete">Impossible d&apos;écrire le fichier</translation>
+    </message>
+    <message>
+        <source>Unable to write file %1.</source>
+        <translation type="obsolete">Impossible d&apos;écrire le fichier %1.</translation>
+    </message>
+    <message>
+        <source>Error writing file</source>
+        <translation type="obsolete">Erreur lors de l&apos;écriture du fichier</translation>
+    </message>
+    <message>
+        <source>Error while writing file %1.</source>
+        <translation type="obsolete">Erreur lors de l&apos;écriture du fichier %1.</translation>
+    </message>
+    <message>
+        <source>Print entries displayed in result view</source>
+        <translation type="obsolete">Imprimer les entrées affichées dans la liste des résultats</translation>
+    </message>
+    <message>
+        <location line="-119"/>
+        <location filename="../src/gui/MainWindow.cc" line="+236"/>
+        <location filename="../src/gui/ui_MainWindow.h" line="-14"/>
+        <source>Export user data...</source>
+        <translation>Vyvést uživatelova data...</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <location filename="../src/gui/MainWindow.cc" line="+9"/>
+        <location filename="../src/gui/ui_MainWindow.h" line="+1"/>
+        <source>Import user data...</source>
+        <translation>Zavést uživatelova data...</translation>
+    </message>
+    <message>
+        <source>&amp;Results</source>
+        <translation type="obsolete">&amp;Résultats</translation>
+    </message>
+    <message>
+        <location line="-122"/>
+        <location filename="../src/gui/ui_MainWindow.h" line="-2"/>
+        <source>Tagaini Jisho</source>
+        <translation>Tagaini Jisho</translation>
+    </message>
+    <message>
+        <source>Reset search</source>
+        <translation type="obsolete">Réinitialiser la recherche</translation>
+    </message>
+    <message>
+        <source>Ctrl+R</source>
+        <translation type="obsolete">Ctrl+R</translation>
+    </message>
+    <message>
+        <source>&amp;Print...</source>
+        <translation type="obsolete">&amp;Imprimer...</translation>
+    </message>
+    <message>
+        <source>Print &amp;preview...</source>
+        <translation type="obsolete">&amp;Aperçu d&apos;impression...</translation>
+    </message>
+    <message>
+        <source>Previous search</source>
+        <translation type="obsolete">Recherche précédente</translation>
+    </message>
+    <message>
+        <source>Next search</source>
+        <translation type="obsolete">Recherche suivante</translation>
+    </message>
+    <message>
+        <source>Print preview of entries in result view</source>
+        <translation type="obsolete">Aperçu d&apos;impression des entrées dans la liste de résultats</translation>
+    </message>
+    <message>
+        <source>Print &amp;booklet(s)...</source>
+        <translation type="obsolete">Impression de &amp;livret(s)...</translation>
+    </message>
+    <message>
+        <source>Ctrl+B</source>
+        <translation type="obsolete">Ctrl+B</translation>
+    </message>
+    <message>
+        <source>Print entries displayed in result view as booklets</source>
+        <translation type="obsolete">Impression des entrées dans la liste des résultats sur des livrets</translation>
+    </message>
+    <message>
+        <source>Booklet(s) &amp;preview...</source>
+        <translation type="obsolete">&amp;Aperçu d&apos;impression de livret...</translation>
+    </message>
+    <message>
+        <source>Booklets print preview of entries in results list</source>
+        <translation type="obsolete">Aperçu d&apos;impression des entrées dans la liste des résultats sur des livrets</translation>
+    </message>
+    <message>
+        <source>Export displayed entries...</source>
+        <translation type="obsolete">Exporter les entrées affichées...</translation>
+    </message>
+    <message>
+        <source>As a tab-separated file...</source>
+        <translation type="obsolete">Fichier séparé par des tabulations...</translation>
+    </message>
+    <message>
+        <source>&amp;Sets</source>
+        <translation type="obsolete">&amp;Ensembles</translation>
+    </message>
+    <message>
+        <location line="+151"/>
+        <location filename="../src/gui/ui_MainWindow.h" line="+5"/>
+        <source>&amp;New set from current search...</source>
+        <translation>&amp;Nový soubor z nynějšího hledání...</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <location filename="../src/gui/ui_MainWindow.h" line="+1"/>
+        <source>&amp;New sets folder...</source>
+        <translation>&amp;Nová složka pro soubor...</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <location filename="../src/gui/ui_MainWindow.h" line="+1"/>
+        <source>&amp;Organize sets...</source>
+        <translation>&amp;Spravovat soubory...</translation>
+    </message>
+    <message>
+        <source>&amp;Practice</source>
+        <translation type="obsolete">&amp;Entraînement</translation>
+    </message>
+    <message>
+        <location line="-82"/>
+        <location filename="../src/gui/ui_MainWindow.h" line="+15"/>
+        <source>Search</source>
+        <translation>Hledat</translation>
+    </message>
+    <message>
+        <location line="+87"/>
+        <location filename="../src/gui/ui_MainWindow.h" line="-14"/>
+        <source>Whole study list train &amp;settings...</source>
+        <translation>&amp;Nastavení cvičení pro celý studijní seznam...</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/MainWindow.cc" line="-51"/>
+        <source>Auto-search on clipboard content</source>
+        <translation>Automatické hledání v obsahu schránky</translation>
+    </message>
+    <message>
+        <location line="+23"/>
+        <source>Please consider supporting Tagaini Jisho</source>
+        <translation>Zvažte, prosím, svou podporu pro Tagaini Jisho</translation>
+    </message>
+    <message>
+        <source>You have now been using Tagaini Jisho for a short while. If you like it, please show your support by making a donation that expresses your appreciation of this software. While Tagaini is free, its development has a cost and your support will have a positive influence on its future. You can donate via Paypal or credit card.
+
+This message is a one-time reminder and will not appear anymore - you can still donate later by choosing the corresponding option in the Help menu.</source>
+        <translation type="obsolete">Cela fait maintenant un petit bout de temps que vous utilisez Tagaini Jisho. Si vous l'appréciez, vous pouvez concrétiser cette appréciation en faisant une donation qui exprime votre satisfaction envers ce logiciel. Bien que Tagaini Jisho soit libre et gratuit, son développement a un coût et votre support aura une influence positive sur son futur. Vous pouvez donner par Paypal ou carte de crédit.
+
+Ce message de rappel n&apos;apparaîtra dorénavant plus - vous pouvez toujours donner plus tard en choisissant l&apos;option correspondante dans le menu d&apos;Aide.</translation>
+    </message>
+    <message>
+        <source>You have now been using Tagaini Jisho for a short while. If you like it, please show your support by making a donation that expresses your appreciation of this software. While Tagaini is free, its development has a cost and your support will have a positive influence on its future. You can donate via Paypal or credit card, or use &lt;a href=&quot;https://flattr.com/thing/74296/Tagaini-Jisho&quot;&gt;Flattr&lt;/a&gt; to support this project.
+
+This message is a one-time reminder and will not appear anymore - you can still donate later by choosing the corresponding option in the Help menu.</source>
+        <translation type="obsolete">Cela fait maintenant un petit bout de temps que vous utilisez Tagaini Jisho. Si vous l'appréciez, vous pouvez concrétiser cette appréciation en faisant une donation qui exprime votre satisfaction envers ce logiciel. Bien que Tagaini soit libre et gratuit, son développement a un coût et votre support aura une influence positive sur son futur. Vous pouvez donner par Paypal ou carte de crédit, ou utiliser &lt;a href=&quot;https://flattr.com/thing/74296/Tagaini-Jisho&quot;&gt;Flattr&lt;/a&gt; afin de supporter ce projet.
+
+Ce message de rappel n&apos;apparaîtra dorénavant plus - vous pouvez toujours donner plus tard en choisissant l&apos;option correspondante dans le menu d&apos;Aide.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>You have now been using Tagaini Jisho for a short while. If you like it, please show your support by making a donation that expresses your appreciation of this software. While Tagaini is free, its development has a cost and your support will have a positive influence on its future. You can donate via Paypal or credit card, or use Flattr to support this project.
+
+This message is a one-time reminder and will not appear anymore - you can still donate later by choosing the corresponding option in the Help menu.</source>
+        <translation>Nyní používáte Tagaini Jisho krátkou dobu. Pokud se vám líbí, ukažte, prosím, svou podporu tím, že poskytnete dar, kterým vyjádříte své ocenění tohoto programu. Zatímco Tagaini Jisho je zdarma, jeho vývoj něco stojí a vaše podpora bude mít kladný vliv na jeho budoucnost. Darovat můžete pomocí Paypalu nebo kreditní karty, nebo můžete pro podporu tohoto projektu použít Flattr.
+
+Tento vzkaz se vám přípomíná jen jednou a už se vícekrát neobjeví - darovat můžete i pozdějí tak, že vyberete odpovídající možnost v nabídce s nápovědou.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Donate!</source>
+        <translation>Věnovat dar!</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Nah</source>
+        <translation>Ne</translation>
+    </message>
+    <message>
+        <location line="+25"/>
         <source>About to replace user data!</source>
         <translation>Uživatelova data budou nahrazena!</translation>
     </message>
@@ -3101,43 +3499,7 @@ Vysoké hodnoty mohou zlepšit výkon, když se zachází s velkým počtem záz
         <translation>Zavedená data budou dostupná, až příště spustíte Tagaini Jisho. Všechny změny, které provedete od tohoto okamžiku, budou ztraceny. Chcete ukončit Tagaini Jisho nyní?</translation>
     </message>
     <message>
-        <location line="-61"/>
-        <source>Auto-search on clipboard content</source>
-        <translation>Automatické hledání v obsahu schránky</translation>
-    </message>
-    <message>
-        <location line="+24"/>
-        <source>You have now been using Tagaini Jisho for a short while. If you like it, please show your support by making a donation that expresses your appreciation of this software. While Tagaini is free, its development has a cost and your support will have a positive influence on its future. You can donate via Paypal or credit card, or use Flattr to support this project.
-
-This message is a one-time reminder and will not appear anymore - you can still donate later by choosing the corresponding option in the Help menu.</source>
-        <translation>Nyní používáte Tagaini Jisho krátkou dobu. Pokud se vám líbí, ukažte, prosím, svou podporu tím, že poskytnete dar, kterým vyjádříte své ocenění tohoto programu. Zatímco Tagaini Jisho je zdarma, jeho vývoj něco stojí a vaše podpora bude mít kladný vliv na jeho budoucnost. Darovat můžete pomocí Paypalu nebo kreditní karty, nebo můžete pro podporu tohoto projektu použít Flattr.
-
-Tento vzkaz se vám přípomíná jen jednou a už se vícekrát neobjeví - darovat můžete i pozdějí tak, že vyberete odpovídající možnost v nabídce s nápovědou.</translation>
-    </message>
-    <message>
-        <location line="+138"/>
-        <source>An update is available!</source>
-        <translation>Je dostupná aktualizace!</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Version %1 of Tagaini Jisho is available. Do you want to download it now?</source>
-        <translation>Je dostupná verze %1 programu Tagaini Jisho. Chcete ji stáhnout nyní?</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <location line="+15"/>
-        <source>Let&apos;s go!</source>
-        <translation>Až řeknu &quot;teď&quot;, začneme. :-)</translation>
-    </message>
-    <message>
-        <location line="-13"/>
-        <location line="+15"/>
-        <source>Maybe later</source>
-        <translation>Možná později</translation>
-    </message>
-    <message>
-        <location line="-5"/>
+        <location line="+116"/>
         <source>A development update is available!</source>
         <translation>Je dostupná vývojářská verze!</translation>
     </message>
@@ -3187,45 +3549,60 @@ Tento vzkaz se vám přípomíná jen jednou a už se vícekrát neobjeví - dar
         <translation>Nepojmenovaná složka</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.ui" line="-171"/>
-        <location filename="../src/gui/ui_MainWindow.h" line="+5"/>
-        <source>S&amp;ets</source>
-        <translation>&amp;Soubory</translation>
+        <source>Print</source>
+        <translation type="obsolete">Imprimer</translation>
     </message>
     <message>
-        <location line="-7"/>
-        <location filename="../src/gui/ui_MainWindow.h" line="-1"/>
-        <source>P&amp;ractice</source>
-        <translation>&amp;Cvičení</translation>
+        <source>Preparing print job...</source>
+        <translation type="obsolete">Préparation du travail d&apos;impression...</translation>
     </message>
     <message>
-        <location line="+37"/>
-        <location filename="../src/gui/ui_MainWindow.h" line="+3"/>
-        <source>Lists</source>
-        <translation>Seznamy</translation>
+        <source>Abort</source>
+        <translation type="obsolete">Annuler</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="-245"/>
-        <source>Please consider supporting Tagaini Jisho</source>
-        <translation>Zvažte, prosím, svou podporu pro Tagaini Jisho</translation>
+        <source>Printing...</source>
+        <translation type="obsolete">Impression en cours...</translation>
     </message>
     <message>
-        <source>You have now been using Tagaini Jisho for a short while. If you like it, please show your support by making a donation that expresses your appreciation of this software. While Tagaini is free, its development has a cost and your support will have a positive influence on its future. You can donate via Paypal or credit card.
-
-This message is a one-time reminder and will not appear anymore - you can still donate later by choosing the corresponding option in the Help menu.</source>
-        <translation type="obsolete">Používáte Tagaini Jisho krátce. Wenn Pokud se vám líbí, ukažte, prosím, svou podporu darem, který by odrážel vaše ocenění programu. I když je Tagaini Jisho zdarma, jeho vývoj s sebou nese určité náklady a vaše podpora bude mít z toho důvodu kladný vliv pro jeho budocnost. Svůj dar můžete poslat pomocí služby Paypal nebo kreditní karty.
-
-Tato zpráva je jednorázovým připomenutím a už se vícekrát neobjeví – Svůj dar můžete poskytnout i později tím, že vyberete odpovídající volbu v nabídce s nápovědou.</translation>
+        <location line="-106"/>
+        <source>An update is available!</source>
+        <translation>Je dostupná aktualizace!</translation>
     </message>
     <message>
-        <location line="+3"/>
-        <source>Donate!</source>
-        <translation>Věnovat dar!</translation>
+        <location line="+1"/>
+        <source>Version %1 of Tagaini Jisho is available. Do you want to download it now?</source>
+        <translation>Je dostupná verze %1 programu Tagaini Jisho. Chcete ji stáhnout nyní?</translation>
     </message>
     <message>
-        <location line="+3"/>
-        <source>Nah</source>
-        <translation>Ne</translation>
+        <location line="+2"/>
+        <location line="+15"/>
+        <source>Let&apos;s go!</source>
+        <translation>Až řeknu &quot;teď&quot;, začneme. :-)</translation>
+    </message>
+    <message>
+        <location line="-13"/>
+        <location line="+15"/>
+        <source>Maybe later</source>
+        <translation>Možná později</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/MainWindow.ui" line="+69"/>
+        <location filename="../src/gui/ui_MainWindow.h" line="+8"/>
+        <source>Ctrl+L</source>
+        <translation>Ctrl+L</translation>
+    </message>
+    <message>
+        <source>Previous page</source>
+        <translation type="obsolete">Page précédente</translation>
+    </message>
+    <message>
+        <source>Next page</source>
+        <translation type="obsolete">Page suivante</translation>
+    </message>
+    <message>
+        <source>Show all results</source>
+        <translation type="obsolete">Montrer tous les résultats</translation>
     </message>
 </context>
 <context>
@@ -3257,6 +3634,13 @@ Tato zpráva je jednorázovým připomenutím a už se vícekrát neobjeví – 
     </message>
 </context>
 <context>
+    <name>MultiStackedWidgetButton</name>
+    <message>
+        <source>Reset this extender</source>
+        <translation type="obsolete">Réinitialiser cet étendeur</translation>
+    </message>
+</context>
+<context>
     <name>NotesFilterWidget</name>
     <message>
         <location filename="../src/gui/NotesFilterWidget.cc" line="+49"/>
@@ -3275,9 +3659,33 @@ Tato zpráva je jednorázovým připomenutím a už se vícekrát neobjeví – 
     </message>
 </context>
 <context>
+    <name>NotesSearchWidget</name>
+    <message>
+        <source>Notes filter</source>
+        <translation type="obsolete">Filtre de notes</translation>
+    </message>
+    <message>
+        <source>Notes</source>
+        <translation type="obsolete">Notes</translation>
+    </message>
+    <message>
+        <source>Has note</source>
+        <translation type="obsolete">A une note</translation>
+    </message>
+    <message>
+        <source>Note contains %1</source>
+        <translation type="obsolete">Note contenant %1</translation>
+    </message>
+</context>
+<context>
     <name>PreferencesFontChooser</name>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="+151"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="+156"/>
+        <source>Change...</source>
+        <translation>Změnit...</translation>
+    </message>
+    <message>
+        <location line="-5"/>
         <source>%1:</source>
         <translation>%1:</translation>
     </message>
@@ -3285,11 +3693,6 @@ Tato zpráva je jednorázovým připomenutím a už se vícekrát neobjeví – 
         <location line="+2"/>
         <source>Default</source>
         <translation>Výchozí</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Change...</source>
-        <translation>Změnit...</translation>
     </message>
 </context>
 <context>
@@ -3305,50 +3708,50 @@ Tato zpráva je jednorázovým připomenutím a už se vícekrát neobjeví – 
     <name>QSQLiteDriver</name>
     <message>
         <source>Error opening database</source>
-        <translation type="obsolete">Nepodařilo se otevřít spojení s databází</translation>
+        <translation type="obsolete">Erreur lors de l&apos;ouverture de la base de données</translation>
     </message>
     <message>
         <source>Error closing database</source>
-        <translation type="obsolete">Nepodařilo se uzavřít spojení s datatabází</translation>
+        <translation type="obsolete">Erreur lors de la fermeture de la base de données</translation>
     </message>
     <message>
         <source>Unable to begin transaction</source>
-        <translation type="obsolete">Transakci se nepodařilo spustit</translation>
+        <translation type="obsolete">Impossible de commencer la transaction</translation>
     </message>
     <message>
         <source>Unable to commit transaction</source>
-        <translation type="obsolete">Transakci se nepodařilo provést (operace &apos;commit&apos;, odeslání, se nezdařila)</translation>
+        <translation type="obsolete">Impossible de valider la transaction</translation>
     </message>
     <message>
         <source>Unable to rollback transaction</source>
-        <translation type="obsolete">Transakci se nepodařilo zvrátit (operace &apos;rollback&apos;, zvrácení, se nezdařila)</translation>
+        <translation type="obsolete">Impossible de replier la transaction</translation>
     </message>
 </context>
 <context>
     <name>QSQLiteResult</name>
     <message>
         <source>Unable to fetch row</source>
-        <translation type="obsolete">Řádek se nepodařilo natáhnout</translation>
+        <translation type="obsolete">Impossible d&apos;atteindre la ligne</translation>
     </message>
     <message>
         <source>No query</source>
-        <translation type="obsolete">Žádný požadavek</translation>
+        <translation type="obsolete">Aucune requête</translation>
     </message>
     <message>
         <source>Unable to execute statement</source>
-        <translation type="obsolete">Příkaz se nepodařilo provést</translation>
+        <translation type="obsolete">Impossible d&apos;exécuter la commande</translation>
     </message>
     <message>
         <source>Unable to reset statement</source>
-        <translation type="obsolete">Příkaz se nepodařilo znovu nastavit</translation>
+        <translation type="obsolete">Impossible de réinitialiser la commande</translation>
     </message>
     <message>
         <source>Unable to bind parameters</source>
-        <translation type="obsolete">Parametry se nepodařilo spojit</translation>
+        <translation type="obsolete">Impossible de lier les paramètres</translation>
     </message>
     <message>
         <source>Parameter count mismatch</source>
-        <translation type="obsolete">Počet parametrů není správný</translation>
+        <translation type="obsolete">Nombre de paramètres incorrect</translation>
     </message>
 </context>
 <context>
@@ -3395,13 +3798,13 @@ Tato zpráva je jednorázovým připomenutím a už se vícekrát neobjeví – 
     </message>
     <message>
         <location line="+1"/>
-        <source>No more entries to train</source>
-        <translation>Žádné další záznamy ke cvičení</translation>
+        <source>There are no more entries to train for the current train settings.</source>
+        <translation>Nejsou žádné další záznamy ke cvičení pro nynější nastavení cvičení.</translation>
     </message>
     <message>
         <location line="+0"/>
-        <source>There are no more entries to train for the current train settings.</source>
-        <translation>Nejsou žádné další záznamy ke cvičení pro nynější nastavení cvičení.</translation>
+        <source>No more entries to train</source>
+        <translation>Žádné další záznamy ke cvičení</translation>
     </message>
     <message>
         <location line="+17"/>
@@ -3558,9 +3961,45 @@ Tato zpráva je jednorázovým připomenutím a už se vícekrát neobjeví – 
         <source>Select All</source>
         <translation>Vybrat vše</translation>
     </message>
+    <message>
+        <source>Marking entries...</source>
+        <translation type="obsolete">Marquage des entrées...</translation>
+    </message>
+    <message>
+        <source>Abort</source>
+        <translation type="obsolete">Annuler</translation>
+    </message>
+    <message>
+        <source>Operation in progress...</source>
+        <translation type="obsolete">Opération en cours...</translation>
+    </message>
+    <message>
+        <source>Resetting entries...</source>
+        <translation type="obsolete">Réinitialisation des entrées...</translation>
+    </message>
+    <message>
+        <source>Adding tags...</source>
+        <translation type="obsolete">Ajout des tags...</translation>
+    </message>
 </context>
 <context>
     <name>ResultsViewPreferences</name>
+    <message>
+        <source>Results View</source>
+        <translation type="obsolete">Liste des résultats</translation>
+    </message>
+    <message>
+        <source>Main writing</source>
+        <translation type="obsolete">Écriture principale</translation>
+    </message>
+    <message>
+        <source>Readings and alternate writings</source>
+        <translation type="obsolete">Lectures et écritures alternatives</translation>
+    </message>
+    <message>
+        <source>Definitions</source>
+        <translation type="obsolete">Définitions</translation>
+    </message>
     <message>
         <location filename="../src/gui/ResultsViewPreferences.ui" line="+14"/>
         <location filename="../src/gui/ui_ResultsViewPreferences.h" line="+106"/>
@@ -3574,6 +4013,18 @@ Tato zpráva je jednorázovým připomenutím a už se vícekrát neobjeví – 
         <translation>Zobrazení výsledků</translation>
     </message>
     <message>
+        <source>Style:</source>
+        <translation type="obsolete">Style:</translation>
+    </message>
+    <message>
+        <source>One line</source>
+        <translation type="obsolete">Une ligne</translation>
+    </message>
+    <message>
+        <source>Two lines</source>
+        <translation type="obsolete">Deux lignes</translation>
+    </message>
+    <message>
         <location line="+8"/>
         <location filename="../src/gui/ui_ResultsViewPreferences.h" line="+1"/>
         <source>Smooth scrolling</source>
@@ -3581,7 +4032,7 @@ Tato zpráva je jednorázovým připomenutím a už se vícekrát neobjeví – 
     </message>
     <message>
         <source>Number of results per page:</source>
-        <translation type="obsolete">Počet výsledků na stranu:</translation>
+        <translation type="obsolete">Nombre d&apos;entrées par page:</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -3602,13 +4053,17 @@ Tato zpráva je jednorázovým připomenutím a už se vícekrát neobjeví – 
         <translation>Podle počtu bodů, potom podle závažnosti</translation>
     </message>
     <message>
+        <source>Fonts</source>
+        <translation type="obsolete">Polices</translation>
+    </message>
+    <message>
         <location line="+18"/>
         <location filename="../src/gui/ui_ResultsViewPreferences.h" line="+2"/>
         <source>Preview</source>
         <translation>Náhled</translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="-190"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="-187"/>
         <source>Results view</source>
         <translation>Pohled s výsledky</translation>
     </message>
@@ -3617,7 +4072,7 @@ Tato zpráva je jednorázovým připomenutím a už se vícekrát neobjeví – 
     <name>ResultsViewPrefsDummyEntry</name>
     <message>
         <source>Romaji text</source>
-        <translation type="obsolete">Text romadži</translation>
+        <translation type="obsolete">Texte en romaji</translation>
     </message>
 </context>
 <context>
@@ -3630,23 +4085,19 @@ Tato zpráva je jednorázovým připomenutím a už se vícekrát neobjeví – 
     </message>
     <message>
         <source>Previous page</source>
-        <translation type="obsolete">Předchozí strana</translation>
+        <translation type="obsolete">Page précédente</translation>
     </message>
     <message>
         <source>Next page</source>
-        <translation type="obsolete">Další strana</translation>
+        <translation type="obsolete">Page suivante</translation>
     </message>
     <message>
         <source>Show all results</source>
-        <translation type="obsolete">Ukázat všechny výsledky</translation>
-    </message>
-    <message>
-        <source>Click when a search is active to abort it</source>
-        <translation type="obsolete">Hier klicken um eine aktive Suche abzubrechen</translation>
+        <translation type="obsolete">Montrer tous les résultats</translation>
     </message>
     <message>
         <source>Results %1 - %2 of %3</source>
-        <translation type="obsolete">Výsledky %1 – %2 z %3</translation>
+        <translation type="obsolete">Résultats %1 - %2 sur %3</translation>
     </message>
     <message>
         <location filename="../src/gui/ResultsViewWidget.cc" line="+43"/>
@@ -3660,7 +4111,60 @@ Tato zpráva je jednorázovým připomenutím a už se vícekrát neobjeví – 
     </message>
 </context>
 <context>
+    <name>SearchBar</name>
+    <message>
+        <source>Focus search bar</source>
+        <translation type="obsolete">Focus sur la barre de recherche</translation>
+    </message>
+    <message>
+        <source>Ctrl+L</source>
+        <extracomment>Used to focus on the search bar</extracomment>
+        <translation type="obsolete">Ctrl+L</translation>
+    </message>
+    <message>
+        <source>Ctrl+R</source>
+        <extracomment>Used to start a new search</extracomment>
+        <translation type="obsolete">Ctrl+R</translation>
+    </message>
+    <message>
+        <source>Search</source>
+        <translation type="obsolete">Rechercher</translation>
+    </message>
+    <message>
+        <source>Reset search</source>
+        <translation type="obsolete">Réinitialiser la recherche</translation>
+    </message>
+    <message>
+        <source>Clear search text</source>
+        <translation type="obsolete">Effacer les termes de recherche</translation>
+    </message>
+</context>
+<context>
     <name>SearchWidget</name>
+    <message>
+        <source>Previous page</source>
+        <translation type="obsolete">Page précédente</translation>
+    </message>
+    <message>
+        <source>Next page</source>
+        <translation type="obsolete">Page suivante</translation>
+    </message>
+    <message>
+        <source>Results %1 - %2 of %3</source>
+        <translation type="obsolete">Résultats %1 - %2 sur %3</translation>
+    </message>
+    <message>
+        <source>&amp;Print...</source>
+        <translation type="obsolete">&amp;Imprimer...</translation>
+    </message>
+    <message>
+        <source>Print &amp;preview...</source>
+        <translation type="obsolete">&amp;Aperçu d&apos;impression...</translation>
+    </message>
+    <message>
+        <source>Booklet(s) &amp;preview...</source>
+        <translation type="obsolete">&amp;Aperçu d&apos;impression de livret...</translation>
+    </message>
     <message>
         <location filename="../src/gui/SearchWidget.ui" line="+67"/>
         <location filename="../src/gui/ui_SearchWidget.h" line="+105"/>
@@ -3678,6 +4182,38 @@ Tato zpráva je jednorázovým připomenutím a už se vícekrát neobjeví – 
         <location filename="../src/gui/ui_SearchWidget.h" line="+1"/>
         <source>&amp;Reset search...</source>
         <translation>Nastavit hledání &amp;znovu...</translation>
+    </message>
+    <message>
+        <source>Show all results</source>
+        <translation type="obsolete">Montrer tous les résultats</translation>
+    </message>
+    <message>
+        <source>Booklet print</source>
+        <translation type="obsolete">Impression de livret</translation>
+    </message>
+    <message>
+        <source>Export to tab-separated file...</source>
+        <translation type="obsolete">Exporter vers un fichier séparé par des tabulations...</translation>
+    </message>
+    <message>
+        <source>Cannot write file</source>
+        <translation type="obsolete">Impossible d&apos;écrire le fichier</translation>
+    </message>
+    <message>
+        <source>Unable to write file %1.</source>
+        <translation type="obsolete">Impossible d&apos;écrire le fichier %1.</translation>
+    </message>
+    <message>
+        <source>Error writing file</source>
+        <translation type="obsolete">Erreur lors de l&apos;écriture du fichier</translation>
+    </message>
+    <message>
+        <source>Error while writing file %1.</source>
+        <translation type="obsolete">Erreur lors de l&apos;écriture du fichier %1.</translation>
+    </message>
+    <message>
+        <source>Print</source>
+        <translation type="obsolete">Imprimer</translation>
     </message>
 </context>
 <context>
@@ -3717,20 +4253,17 @@ Tato zpráva je jednorázovým připomenutím a už se vícekrát neobjeví – 
     <name>ShowUsedInJob</name>
     <message>
         <source>Direct compounds:</source>
-        <translation type="obsolete">Direkte Komposita:</translation>
+        <translation type="obsolete">Composés directs:</translation>
     </message>
     <message>
-        <source>Make a new search using only this filter</source>
-        <translation type="obsolete">Neue Suche mit nur diesem Filter erstellen</translation>
+        <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="+269"/>
+        <source>Direct compounds</source>
+        <translation>Přímo složená slova</translation>
     </message>
     <message>
-        <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="+44"/>
+        <location line="+16"/>
         <source>All compounds</source>
         <translation>Všechna složená slova</translation>
-    </message>
-    <message>
-        <source>Add this filter to the current search</source>
-        <translation type="obsolete">Diesen Filter zur aktuellen Suche hinzufügen</translation>
     </message>
     <message>
         <location line="+0"/>
@@ -3738,29 +4271,36 @@ Tato zpráva je jednorázovým připomenutím a už se vícekrát neobjeví – 
         <translation>(+)</translation>
     </message>
     <message>
-        <location line="-16"/>
-        <source>Direct compounds</source>
-        <translation>Přímo složená slova</translation>
+        <source>(All compounds)</source>
+        <translation type="obsolete">(Tous les composés)</translation>
+    </message>
+</context>
+<context>
+    <name>ShowUsedInKanjiJob</name>
+    <message>
+        <source>Direct compounds:</source>
+        <translation type="obsolete">Composés directs:</translation>
+    </message>
+    <message>
+        <source>(All compounds)</source>
+        <translation type="obsolete">(Tous les composés)</translation>
     </message>
 </context>
 <context>
     <name>ShowUsedInWordsJob</name>
     <message>
         <source>Seen in:</source>
-        <translation type="obsolete">Gesehen in:</translation>
+        <translation type="obsolete">Vu dans:</translation>
     </message>
     <message>
-        <source>Make a new search using only this filter</source>
-        <translation type="obsolete">Neue Suche mit nur diesem Filter erstellen</translation>
+        <location line="+10"/>
+        <source>Seen in</source>
+        <translation>Viděno v</translation>
     </message>
     <message>
-        <location line="+42"/>
+        <location line="+16"/>
         <source>All words using this kanji</source>
         <translation>Všechna slova s tímto kandži</translation>
-    </message>
-    <message>
-        <source>Add this filter to the current search</source>
-        <translation type="obsolete">Diesen Filter zur aktuellen Suche hinzufügen</translation>
     </message>
     <message>
         <location line="+0"/>
@@ -3768,9 +4308,8 @@ Tato zpráva je jednorázovým připomenutím a už se vícekrát neobjeví – 
         <translation>(+)</translation>
     </message>
     <message>
-        <location line="-16"/>
-        <source>Seen in</source>
-        <translation>Viděno v</translation>
+        <source>Find all words using this kanji</source>
+        <translation type="obsolete">Tous les mots utilisant ce kanji</translation>
     </message>
 </context>
 <context>
@@ -3821,7 +4360,7 @@ Tato zpráva je jednorázovým připomenutím a už se vícekrát neobjeví – 
     </message>
     <message>
         <source>None</source>
-        <translation type="obsolete">Žádný</translation>
+        <translation type="obsolete">Aucun</translation>
     </message>
     <message>
         <location line="+23"/>
@@ -3889,6 +4428,89 @@ Tato zpráva je jednorázovým připomenutím a už se vícekrát neobjeví – 
     </message>
 </context>
 <context>
+    <name>StudyOptionsWidget</name>
+    <message>
+        <source>Score</source>
+        <translation type="obsolete">Score</translation>
+    </message>
+    <message>
+        <source>Min</source>
+        <translation type="obsolete">Min</translation>
+    </message>
+    <message>
+        <source>Max</source>
+        <translation type="obsolete">Max</translation>
+    </message>
+    <message>
+        <source>Study date</source>
+        <translation type="obsolete">Date d&apos;étude</translation>
+    </message>
+    <message>
+        <source>since</source>
+        <translation type="obsolete">depuis</translation>
+    </message>
+    <message>
+        <source>None</source>
+        <translation type="obsolete">Aucun</translation>
+    </message>
+    <message>
+        <source>Studied</source>
+        <translation type="obsolete">Étudiées</translation>
+    </message>
+    <message>
+        <source>Not studied</source>
+        <translation type="obsolete">Non-étudiées</translation>
+    </message>
+    <message>
+        <source> since %1</source>
+        <translation type="obsolete"> depuis %1</translation>
+    </message>
+    <message>
+        <source>, score:[%1,%2]</source>
+        <translation type="obsolete">, score:[%1,%2]</translation>
+    </message>
+    <message>
+        <source>, mistaken since %1</source>
+        <translation type="obsolete">, erreur depuis %1</translation>
+    </message>
+    <message>
+        <source>Study</source>
+        <translation type="obsolete">Étude</translation>
+    </message>
+    <message>
+        <source>until</source>
+        <translation type="obsolete">jusque</translation>
+    </message>
+    <message>
+        <source>Last trained</source>
+        <translation type="obsolete">Dernier entraînement</translation>
+    </message>
+    <message>
+        <source>Last mistaken</source>
+        <translation type="obsolete">Dernière erreur</translation>
+    </message>
+    <message>
+        <source>Study status:</source>
+        <translation type="obsolete">Status d&apos;étude:</translation>
+    </message>
+    <message>
+        <source> until %1</source>
+        <translation type="obsolete"> depuis %1</translation>
+    </message>
+    <message>
+        <source>, trained since %1</source>
+        <translation type="obsolete">, pratiqués depuis le %1</translation>
+    </message>
+    <message>
+        <source>, trained until %1</source>
+        <translation type="obsolete">, pratiquée jusque %1</translation>
+    </message>
+    <message>
+        <source>, mistaken until %1</source>
+        <translation type="obsolete">, erreur jusque %1</translation>
+    </message>
+</context>
+<context>
     <name>TagsDialogs</name>
     <message>
         <location filename="../src/gui/TagsDialogs.cc" line="+162"/>
@@ -3934,6 +4556,10 @@ Tato zpráva je jednorázovým připomenutím a už se vícekrát neobjeví – 
         <location line="+34"/>
         <source>&lt;/p&gt;&lt;p&gt;Accepted characters are letters, digits and non-quoting punctuation.&lt;/p&gt;</source>
         <translation>&lt;/p&gt;&lt;p&gt;Přijatelnými znaky jsou písmena, čísla a interpunkční znaménka kromě uvozovek&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;/p&gt;&lt;p&gt;Accepted characters are letters and digits.&lt;/p&gt;</source>
+        <translation type="obsolete">&lt;/p&gt;&lt;p&gt;Les caractères acceptés sont les lettres et les chiffres.&lt;/p&gt;</translation>
     </message>
     <message>
         <location line="-29"/>
@@ -3989,6 +4615,25 @@ Tato zpráva je jednorázovým připomenutím a už se vícekrát neobjeví – 
         <location line="+1"/>
         <source>Tagged %1</source>
         <translation>Označeno %1</translation>
+    </message>
+</context>
+<context>
+    <name>TagsSearchWidget</name>
+    <message>
+        <source>Tagged %1</source>
+        <translation type="obsolete">Taggé %1</translation>
+    </message>
+    <message>
+        <source>Tags filter</source>
+        <translation type="obsolete">Filtre de tags</translation>
+    </message>
+    <message>
+        <source>...</source>
+        <translation type="obsolete">...</translation>
+    </message>
+    <message>
+        <source>Tags</source>
+        <translation type="obsolete">Tags</translation>
     </message>
 </context>
 <context>
@@ -4100,47 +4745,22 @@ Tato zpráva je jednorázovým připomenutím a už se vícekrát neobjeví – 
     <name>YesNoTrainer</name>
     <message>
         <source>&amp;Answer</source>
-        <translation type="obsolete">&amp;Antwort</translation>
+        <translation type="obsolete">&amp;Réponse</translation>
     </message>
     <message>
         <source>&amp;Correct!</source>
-        <translation type="obsolete">&amp;Richtig!</translation>
+        <translation type="obsolete">&amp;Correct!</translation>
     </message>
     <message>
         <source>&amp;Wrong...</source>
-        <translation type="obsolete">&amp;Falsch...</translation>
+        <translation type="obsolete">&amp;Faux...</translation>
     </message>
     <message>
         <source>&amp;Skip</source>
-        <translation type="obsolete">Ü&amp;berspringen</translation>
+        <translation type="obsolete">&amp;Passer</translation>
     </message>
     <message>
-        <location filename="../src/gui/YesNoTrainer.cc" line="+122"/>
-        <source>Correct: %1, Wrong: %2, Total: %3</source>
-        <translation>Správně: %1, Chybně: %2, Celkem: %3</translation>
-    </message>
-    <message>
-        <location line="+46"/>
-        <source>No entries to train</source>
-        <translation>Žádné záznamy ke cvičení</translation>
-    </message>
-    <message>
-        <location line="+0"/>
-        <source>There are no entries that match the requested settings.</source>
-        <translation>Nejsou zde žádné záznamy, které by odpovídaly požadovaným nastavením.</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>No more entries to train</source>
-        <translation>Žádné další záznamy ke cvičení</translation>
-    </message>
-    <message>
-        <location line="+0"/>
-        <source>All the requested entries have been trained.</source>
-        <translation>Všechny požadované záznamy byly cvičeny.</translation>
-    </message>
-    <message>
-        <location line="-125"/>
+        <location filename="../src/gui/YesNoTrainer.cc" line="+44"/>
         <source>Answer (&amp;1)</source>
         <translation>Odpověď (&amp;1)</translation>
     </message>
@@ -4158,6 +4778,31 @@ Tato zpráva je jednorázovým připomenutím a už se vícekrát neobjeví – 
         <location line="+5"/>
         <source>Skip (&amp;4)</source>
         <translation>Přeskočit (&amp;4)</translation>
+    </message>
+    <message>
+        <location line="+108"/>
+        <source>No entries to train</source>
+        <translation>Žádné záznamy ke cvičení</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>There are no entries that match the requested settings.</source>
+        <translation>Nejsou zde žádné záznamy, které by odpovídaly požadovaným nastavením.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>All the requested entries have been trained.</source>
+        <translation>Všechny požadované záznamy byly cvičeny.</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>No more entries to train</source>
+        <translation>Žádné další záznamy ke cvičení</translation>
+    </message>
+    <message>
+        <location line="-47"/>
+        <source>Correct: %1, Wrong: %2, Total: %3</source>
+        <translation>Správně: %1, Chybně: %2, Celkem: %3</translation>
     </message>
 </context>
 <context>
