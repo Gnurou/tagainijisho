@@ -14,6 +14,9 @@ set(SQLITE_SOURCE http://www.sqlite.org/sqlite-amalgamation-${SQLITE_VERSION}.zi
 set(JMDICT_SOURCE ftp://ftp.monash.edu.au/pub/nihongo/JMdict.gz)
 set(KANJIDIC2_SOURCE http://www.csse.monash.edu.au/~jwb/kanjidic2/kanjidic2.xml.gz)
 set(KANJIVG_SOURCE http://kanjivg.tagaini.net/upload/Main/kanjivg-latest.xml.gz)
+set(TATOEBA_SENTENCES_SOURCE http://tatoeba.org/files/downloads/sentences.csv)
+set(TATOEBA_LINKS_SOURCE http://tatoeba.org/files/downloads/links.csv)
+set(TATOEBA_INDICES_SOURCE http://tatoeba.org/files/downloads/jpn_indices.csv)
 
 cmake_minimum_required(VERSION 2.8.0)
 
@@ -118,6 +121,23 @@ else(${GUNZIP} MATCHES "GUNZIP-NOTFOUND")
 		execute_process(COMMAND ${GUNZIP} ${CMAKE_SOURCE_DIR}/3rdparty/kanjivg-latest.xml.gz WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/3rdparty)
 		FILE(RENAME ${CMAKE_SOURCE_DIR}/3rdparty/kanjivg-latest.xml ${CMAKE_SOURCE_DIR}/3rdparty/kanjivg.xml)
 	endif()
+
+	# Tatoeba
+	#if(NOT EXISTS ${CMAKE_SOURCE_DIR}/3rdparty/tatoeba/sentences.csv)
+	#FILE(MAKE_DIRECTORY ${CMAKE_SOURCE_DIR}/3rdparty/tatoeba)
+	#MESSAGE(STATUS "Downloading Tatoeba sentences from ${TATOEBA_SENTENCES_SOURCE}")
+	#FILE(DOWNLOAD ${TATOEBA_SENTENCES_SOURCE} ${CMAKE_SOURCE_DIR}/3rdparty/tatoeba/sentences.csv)
+	#endif()
+	#if(NOT EXISTS ${CMAKE_SOURCE_DIR}/3rdparty/tatoeba/links.csv)
+	#FILE(MAKE_DIRECTORY ${CMAKE_SOURCE_DIR}/3rdparty/tatoeba)
+	#MESSAGE(STATUS "Downloading Tatoeba links from ${TATOEBA_LINKS_SOURCE}")
+	#FILE(DOWNLOAD ${TATOEBA_LINKS_SOURCE} ${CMAKE_SOURCE_DIR}/3rdparty/tatoeba/links.csv)
+	#endif()
+	#if(NOT EXISTS ${CMAKE_SOURCE_DIR}/3rdparty/tatoeba/jpn_indices.csv)
+	#FILE(MAKE_DIRECTORY ${CMAKE_SOURCE_DIR}/3rdparty/tatoeba)
+	#MESSAGE(STATUS "Downloading Tatoeba indices from ${TATOEBA_INDICES_SOURCE}")
+	#FILE(DOWNLOAD ${TATOEBA_INDICES_SOURCE} ${CMAKE_SOURCE_DIR}/3rdparty/tatoeba/jpn_indices.csv)
+	#endif()
 
 	# JMdictDescs
 	if(NOT EXISTS ${CMAKE_SOURCE_DIR}/3rdparty/JMdictDescs.cc)

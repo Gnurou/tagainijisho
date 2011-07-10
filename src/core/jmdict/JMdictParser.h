@@ -88,7 +88,7 @@ protected:
 	static QRegExp deletedItemRegExp;
 	static QRegExp mergedItemRegExp;
 	
-	QStringList languages;
+	QSet<QString> languages;
 	bool gotVersion;
 	QString _dictVersion;
 
@@ -105,7 +105,7 @@ public:
 	QHash<QString, QString> entities;
 	QHash<QString, QString> reversedEntities;
 	
-	JMdictParser(const QStringList &langs);
+	JMdictParser(const QSet<QString> &langs);
 	virtual ~JMdictParser() {}
 	bool parse(QXmlStreamReader &reader);
 	const QString &dictVersion() const { return _dictVersion; }

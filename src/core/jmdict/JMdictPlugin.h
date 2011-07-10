@@ -22,6 +22,7 @@
 
 #include <QVector>
 #include <QPair>
+#include <QMap>
 
 class JMdictEntrySearcher;
 class JMdictEntryLoader;
@@ -31,7 +32,7 @@ class JMdictPlugin : public Plugin
 private:
 	static JMdictPlugin *_instance;
 	QString _dictVersion;
-	QString _dbFile;
+	QMap<QString, QString> _attachedDBs;
 
 	JMdictEntrySearcher *searcher;
 	JMdictEntryLoader *loader;
@@ -61,9 +62,11 @@ public:
 	static JMdictPlugin *instance() { return _instance; }
 	virtual bool onRegister();
 	virtual bool onUnregister();
+	bool attachAllDatabases();
+	void detachAllDatabases();
 	const QString &dictVersion() const { return _dictVersion; }
 	virtual QString pluginInfo() const;
-	const QString &dbFile() const { return _dbFile; }
+	const QMap<QString, QString> &attachedDBs() const { return _attachedDBs; }
 	
 	static QList<const QPair<QString, QString> *> posEntitiesList(quint64 mask);
 	static QList<const QPair<QString, QString> *> miscEntitiesList(quint64 mask);

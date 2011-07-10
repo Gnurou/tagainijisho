@@ -94,7 +94,7 @@ void EntryMenu::updateStatus(const QList<ConstEntryPointer>& entries)
 	setTagsAction.setEnabled(hasSelection);
 	addTagsAction.setEnabled(hasSelection);
 	setNotesAction.setEnabled(entries.size() == 1);
-	lastTagsMenu.setEnabled(!TagsDialogs::lastAddedTags.isEmpty());
+	lastTagsMenu.setEnabled(hasSelection && !TagsDialogs::lastAddedTags.isEmpty());
 }
 
 void EntryMenu::updateStatus(const ConstEntryPointer& entry)
@@ -108,7 +108,7 @@ void EntryMenu::makeLastTagsMenu()
 {
 	lastTagsMenu.clear();
 	for (int i = TagsDialogs::lastAddedTags.size(); i > 0 ; i--) {
-		QAction *action = lastTagsMenu.addAction(tr("Add <i>%1</i>.").arg(TagsDialogs::lastAddedTags[i - 1].join(", ")));
+		QAction *action = lastTagsMenu.addAction(tr("Add \"%1\"").arg(TagsDialogs::lastAddedTags[i - 1].join(", ")));
 		action->setProperty("TJtagsListIndex", i - 1);
 		connect(action, SIGNAL(triggered()), this, SLOT(onLastTagsActionTriggered()));
 	}

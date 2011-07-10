@@ -390,7 +390,7 @@ int main(int argc, char *argv[])
 	if (!languages.contains("en")) languages << "en";
 	Kanjidic2DBParser kdicParser(languages);
 	if (!kdicParser.parse(reader)) {
-		qDebug() << connection.lastError().message();
+		qDebug() << "Error during kanjidic2 parsing:" << connection.lastError().message();
 		return 1;
 	}
 	file.close();
@@ -404,7 +404,7 @@ int main(int argc, char *argv[])
 	reader.setDevice(&file);
 	KanjiVGDBParser kvgParser;
 	if (!kvgParser.parse(reader)) {
-		qDebug() << connection.lastError().message();
+		qDebug() << "Error during KanjiVG parsing" << connection.lastError().message();
 		return 1;
 	}
 	file.close();

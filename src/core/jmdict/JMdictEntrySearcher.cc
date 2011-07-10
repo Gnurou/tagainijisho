@@ -35,8 +35,11 @@ JMdictEntrySearcher::JMdictEntrySearcher() : EntrySearcher(JMDICTENTRY_GLOBALID)
 	QueryBuilder::Join::addTablePriority("jmdict.kanjiText", 35);
 	QueryBuilder::Join::addTablePriority("jmdict.kana", 30);
 	QueryBuilder::Join::addTablePriority("jmdict.kanaText", 25);
-	QueryBuilder::Join::addTablePriority("jmdict.gloss", 20);
-	QueryBuilder::Join::addTablePriority("jmdict.glossText", 15);
+	foreach (const QString &lang, JMdictPlugin::instance()->attachedDBs().keys()) {
+		if (lang.isEmpty()) continue;
+		QueryBuilder::Join::addTablePriority("jmdict_" + lang + ".gloss", 20);
+		QueryBuilder::Join::addTablePriority("jmdict_" + lang + ".glossText", 15);
+	}
 	QueryBuilder::Join::addTablePriority("jmdict.senses", 10);
 	QueryBuilder::Join::addTablePriority("jmdict.jlpt", 8);
 
@@ -84,30 +87,36 @@ static QString escapeForRegexp(const QString &string)
 static QString buildTextSearchCondition(const QStringList &words, const QString &table)
 {
 	static QRegExp regExpChars = QRegExp("[\\?\\*]");
-	static QString ftsMatch("%2Text.reading match '%1'");
-	static QString regexpMatch("%2Text.reading regexp %1");
-	static QString globalMatch("%2.docid in (select docid from %2Text where %1)");
-
-	QStringList fts;
-	QStringList conds;
-	foreach (const QString &w, words) {
-		if (w.contains(regExpChars)) {
-			// First check if we can optimize by using the FTS index (i.e. the first character is not a wildcard)
-			int wildcardIdx = 0;
-			while (!regExpChars.exactMatch(w[wildcardIdx])) wildcardIdx++;
-			if (wildcardIdx != 0) fts << "\"" + w.mid(0, wildcardIdx) + "*\"";
-			// If the wildcard we found is the last character and a star, there is no need for a regexp search
-			if (wildcardIdx == w.size() - 1 && w.size() > 1 && w[wildcardIdx] == '*') continue;
-			// Otherwise insert the regular expression search
-			int idx = Database::staticRegExps.size();
-			QRegExp regExp(escapeForRegexp(TextTools::hiragana2Katakana(w)));
-			regExp.setCaseSensitivity(Qt::CaseInsensitive);
-			Database::staticRegExps.append(regExp);
-			conds << regexpMatch.arg(idx);
-		} else fts << "\"" + w + "\"";
+	static QString ftsMatch("jmdict%3.%2Text.reading match '%1'");
+	static QString regexpMatch("jmdict%3.%2Text.reading regexp %1");
+	static QString globalMatch("jmdict%3.%2.docid in (select docid from jmdict%3.%2Text where %1)");
+	
+	QStringList globalMatches;
+	QStringList langs(JMdictPlugin::instance()->attachedDBs().keys());
+	langs.removeAll("");
+	foreach (const QString &lang, langs) {
+		QStringList fts;
+		QStringList conds;
+		foreach (const QString &w, words) {
+			if (w.contains(regExpChars)) {
+				// First check if we can optimize by using the FTS index (i.e. the first character is not a wildcard)
+				int wildcardIdx = 0;
+				while (!regExpChars.exactMatch(w[wildcardIdx])) wildcardIdx++;
+				if (wildcardIdx != 0) fts << "\"" + w.mid(0, wildcardIdx) + "*\"";
+				// If the wildcard we found is the last character and a star, there is no need for a regexp search
+				if (wildcardIdx == w.size() - 1 && w.size() > 1 && w[wildcardIdx] == '*') continue;
+				// Otherwise insert the regular expression search
+				int idx = Database::staticRegExps.size();
+				QRegExp regExp(escapeForRegexp(TextTools::hiragana2Katakana(w)));
+				regExp.setCaseSensitivity(Qt::CaseInsensitive);
+				Database::staticRegExps.append(regExp);
+				conds << regexpMatch.arg(idx);
+			} else fts << "\"" + w + "\"";
+		}
+		if (!fts.isEmpty()) conds.insert(0, ftsMatch.arg(fts.join(" ")));
+		globalMatches << globalMatch.arg(conds.join(" AND ")).arg(table).arg(table == "gloss" ? "_" + lang : "");
 	}
-	if (!fts.isEmpty()) conds.insert(0, ftsMatch.arg(fts.join(" ")));
-	return globalMatch.arg(conds.join(" AND ")).arg(table);
+	return globalMatches.join(" OR ");
 }
 
 void JMdictEntrySearcher::buildStatement(QList<SearchCommand> &commands, QueryBuilder::Statement &statement)
@@ -116,7 +125,6 @@ void JMdictEntrySearcher::buildStatement(QList<SearchCommand> &commands, QueryBu
 	EntrySearcher::buildStatement(commands, statement);
 
 	// Then process remaining commands
-	QString table;
 	QStringList kanjiReadingsMatch;
 	QStringList kanaReadingsMatch;
 	QStringList transReadingsMatch;
@@ -133,11 +141,17 @@ void JMdictEntrySearcher::buildStatement(QList<SearchCommand> &commands, QueryBu
 
 		// Search for text search commands
 		if (commandLabel == "mean" || commandLabel == "kana" || commandLabel == "kanji") {
-			if (command.command() == "mean") table = "jmdict.gloss";
-			else if (command.command() == "kana") table = "jmdict.kana";
-			else if (command.command() == "kanji") table = "jmdict.kanji";
+			QStringList tables;
+			if (command.command() == "mean") {
+				QStringList langs(JMdictPlugin::instance()->attachedDBs().keys());
+				langs.removeAll("");
+				foreach (const QString &lang, langs) tables << "jmdict_" + lang + ".gloss";
+			}
+			else if (command.command() == "kana") tables << "jmdict.kana";
+			else if (command.command() == "kanji") tables << "jmdict.kanji";
 
-			statement.addJoin(QueryBuilder::Join(QueryBuilder::Column(table, "id")));
+			foreach (const QString &table, tables)
+				statement.addJoin(QueryBuilder::Join(QueryBuilder::Column(table, "id")));
 
 			foreach(const QString &arg, command.args()) {
 				if (command.command() == "mean" ||command.command() == "kanji" || command.command() == "kana") {
@@ -308,9 +322,9 @@ void JMdictEntrySearcher::buildStatement(QList<SearchCommand> &commands, QueryBu
 	}
 
 	// Add where statements for text search
-	if (!kanjiReadingsMatch.isEmpty()) statement.addWhere(buildTextSearchCondition(kanjiReadingsMatch, "jmdict.kanji"));
-	if (!kanaReadingsMatch.isEmpty()) statement.addWhere(buildTextSearchCondition(kanaReadingsMatch, "jmdict.kana"));
-	if (!transReadingsMatch.isEmpty()) statement.addWhere(buildTextSearchCondition(transReadingsMatch, "jmdict.gloss"));
+	if (!kanjiReadingsMatch.isEmpty()) statement.addWhere(buildTextSearchCondition(kanjiReadingsMatch, "kanji"));
+	if (!kanaReadingsMatch.isEmpty()) statement.addWhere(buildTextSearchCondition(kanaReadingsMatch, "kana"));
+	if (!transReadingsMatch.isEmpty()) statement.addWhere(buildTextSearchCondition(transReadingsMatch, "gloss"));
 
 	// Add where statements for sense filters
 	// Cancel misc filters that have explicitly been required
@@ -382,7 +396,8 @@ QueryBuilder::Column JMdictEntrySearcher::canSort(const QString &sort, const Que
 		foreach(const QueryBuilder::Join &join, statement.joins()) {
 			const QString &t1 = join.column1().table();
 			const QString &t2 = join.column2().table();
-			if (t1 == "jmdict.gloss" || t2 == "jmdict.gloss") return QueryBuilder::Column("jmdict.gloss", "sensePriority", "min");
+			// TODO Update matching pattern, replace by sense.priority?
+			//if (t1 == "jmdict.gloss" || t2 == "jmdict.gloss") return QueryBuilder::Column("jmdict.gloss", "sensePriority", "min");
 			if (t1 == "jmdict.kana" || t2 == "jmdict.kana") return QueryBuilder::Column("jmdict.kana", "priority", "min");
 			if (t1 == "jmdict.kanji" || t2 == "jmdict.kanji") return QueryBuilder::Column("jmdict.kanji", "priority", "min");
 		}

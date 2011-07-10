@@ -32,11 +32,13 @@ if (APPLE)
 	set(extra_link_flags "-bind_at_load")
 endif()
 
-# Database targets for selected languages
+# Database target
+set(ALL_LANGS "")
 foreach(LANG ${DICT_LANG})
-	add_custom_command(OUTPUT ${CMAKE_BINARY_DIR}/jmdict-${LANG}.db
-	COMMAND build_jmdict_db -l${LANG} ${CMAKE_SOURCE_DIR} ${CMAKE_BINARY_DIR}/jmdict-${LANG}.db
+	set(ALL_LANGS "${ALL_LANGS},${LANG}")
+endforeach()
+add_custom_command(OUTPUT ${CMAKE_BINARY_DIR}/jmdict.db
+	COMMAND build_jmdict_db -l${ALL_LANGS} ${CMAKE_SOURCE_DIR} ${CMAKE_BINARY_DIR}
 	DEPENDS build_jmdict_db ${CMAKE_SOURCE_DIR}/3rdparty/JMdict)
-	add_custom_target(jmdict-${LANG} DEPENDS ${CMAKE_BINARY_DIR}/jmdict-${LANG}.db)
-	add_dependencies(databases-${LANG} jmdict-${LANG})
-endforeach(LANG ${LANG})
+add_custom_target(jmdict-db DEPENDS ${CMAKE_BINARY_DIR}/jmdict.db)
+add_dependencies(databases jmdict-db)

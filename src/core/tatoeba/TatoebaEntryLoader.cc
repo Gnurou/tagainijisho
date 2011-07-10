@@ -1,5 +1,5 @@
 /*
- *  Copyright (C) 2008/2009/2010  Alexandre Courbot
+ *  Copyright (C) 2011  Alexandre Courbot
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -15,25 +15,19 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef __CORE_JMDICT_ENTRY_LOADER_H_
-#define __CORE_JMDICT_ENTRY_LOADER_H_
+#include "core/tatoeba/TatoebaEntryLoader.h"
+#include "core/jmdict/JMdictPlugin.h"
 
-#include "core/EntryLoader.h"
-#include "core/jmdict/JMdictEntry.h"
-
-class JMdictEntryLoader : public EntryLoader
+TatoebaEntryLoader::TatoebaEntryLoader() : EntryLoader(), sentencesQuery(&connection)
 {
-private:
+	// Prepare queries
+}
 
-protected:
-	SQLite::Query kanjiQuery, kanaQuery, sensesQuery, jlptQuery;
-	QMap<QString, SQLite::Query> glossQueries;
+TatoebaEntryLoader::~TatoebaEntryLoader()
+{
+}
 
-public:
-	JMdictEntryLoader();
-	virtual ~JMdictEntryLoader();
-
-	virtual Entry *loadEntry(EntryId id);
-};
-
-#endif
+Entry *TatoebaEntryLoader::loadEntry(EntryId id)
+{
+	return 0;
+}

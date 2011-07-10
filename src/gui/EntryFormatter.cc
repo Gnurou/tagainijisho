@@ -108,9 +108,7 @@ QString EntryFormatter::colorTriplet(const QColor &color)
 	return QString("#%1%2%3").arg(QString::number(color.red(), 16), 2, '0').arg(QString::number(color.green(), 16), 2, '0').arg(QString::number(color.blue(), 16), 2, '0');
 }
 
-typedef enum { Romaji, Kanji, Kana } formatType;
-
-QString formatString(const QString &str, formatType type)
+QString EntryFormatter::formatString(const QString &str, formatType type) const
 {
 	switch (type) {
 		case Kanji:

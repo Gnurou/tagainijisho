@@ -1,5 +1,5 @@
 /*
- *  Copyright (C) 2008/2009/2010  Alexandre Courbot
+ *  Copyright (C) 2008/2009/2010/2011  Alexandre Courbot
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -18,18 +18,29 @@
 #include "core/jmdict/JMdictEntryLoader.h"
 #include "core/jmdict/JMdictPlugin.h"
 
-JMdictEntryLoader::JMdictEntryLoader() : EntryLoader(), kanjiQuery(&connection), kanaQuery(&connection), sensesQuery(&connection), glossQuery(&connection), jlptQuery(&connection)
+JMdictEntryLoader::JMdictEntryLoader() : EntryLoader(), kanjiQuery(&connection), kanaQuery(&connection), sensesQuery(&connection), jlptQuery(&connection)
 {
-	if (!connection.attach(JMdictPlugin::instance()->dbFile(), "jmdict")) {
-		qFatal("JMdictEntrySearcher cannot attach JMdict databases!");
+	const QMap<QString, QString> &allDBs = JMdictPlugin::instance()->attachedDBs();
+	foreach (const QString &lang, allDBs.keys()) {
+		QString dbAlias(lang.isEmpty() ? "jmdict" : "jmdict_" + lang);
+		if (!connection.attach(allDBs[lang], dbAlias)) {
+			qFatal("JMdictEntrySearcher cannot attach JMdict databases!");
+		}
 	}
 
 	// Prepare queries so that we just have to bind and execute them
 	kanjiQuery.prepare("select reading, frequency from jmdict.kanji join jmdict.kanjiText on kanji.docid == kanjiText.docid where id=? order by priority");
 	kanaQuery.prepare("select reading, nokanji, frequency, restrictedTo from jmdict.kana join jmdict.kanaText on kana.docid == kanaText.docid where id=? order by priority");
 	sensesQuery.prepare("select priority, pos, misc, dial, field, restrictedToKanji, restrictedToKana from jmdict.senses where id=? order by priority asc");
-	glossQuery.prepare("select gloss.lang, glossText.reading from jmdict.gloss join jmdict.glossText on gloss.docid == glossText.docid where gloss.id=? and gloss.sensePriority=?");
 	jlptQuery.prepare("select jlpt.level from jmdict.jlpt where jlpt.id=?");
+	
+	foreach (const QString &lang, allDBs.keys()) {
+		if (lang.isEmpty()) continue;
+		SQLite::Query &query = glossQueries[lang];
+		QString sqlString(QString("select gloss.lang, glossText.reading from jmdict_%1.gloss join jmdict_%1.glossText on gloss.docid == glossText.docid where gloss.id=? and gloss.sensePriority=?").arg(lang));
+		query.useWith(&connection);
+		query.prepare(sqlString);
+	}
 }
 
 JMdictEntryLoader::~JMdictEntryLoader()
@@ -74,6 +85,7 @@ Entry *JMdictEntryLoader::loadEntry(EntryId id)
 	// Senses
 	sensesQuery.bindValue(entry->id());
 	sensesQuery.exec();
+	const QMap<QString, QString> allDBs = JMdictPlugin::instance()->attachedDBs();
 	while(sensesQuery.next()) {
 		Sense sense(sensesQuery.valueUInt64(1), sensesQuery.valueUInt64(2), sensesQuery.valueUInt64(3), sensesQuery.valueUInt64(4));
 		// Get restricted readings/writing
@@ -82,14 +94,18 @@ Entry *JMdictEntryLoader::loadEntry(EntryId id)
 		restrictedTo = sensesQuery.valueString(6).split(',', QString::SkipEmptyParts);
 		foreach (const QString &idx, restrictedTo) sense.addStagR(idx.toInt());
 
-		glossQuery.bindValue(entry->id());
-		glossQuery.bindValue(sensesQuery.valueInt(0));
-		glossQuery.exec();
-		while(glossQuery.next())
-			sense.addGloss(Gloss(glossQuery.valueString(0), glossQuery.valueString(1)));
+		foreach (const QString &lang, allDBs.keys()) {
+			if (lang.isEmpty()) continue;
+			SQLite::Query &glossQuery = glossQueries[lang];
+			glossQuery.bindValue(entry->id());
+			glossQuery.bindValue(sensesQuery.valueInt(0));
+			glossQuery.exec();
+			while(glossQuery.next())
+				sense.addGloss(Gloss(glossQuery.valueString(0), glossQuery.valueString(1)));
+			glossQuery.reset();
+		}
 		entry->senses << sense;
 	}
-	glossQuery.reset();
 	sensesQuery.reset();
 
 	// JLPT level

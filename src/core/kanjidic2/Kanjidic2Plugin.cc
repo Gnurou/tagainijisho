@@ -18,6 +18,7 @@
 #include "tagaini_config.h"
 
 #include "core/Paths.h"
+#include "core/Lang.h"
 #include "core/Database.h"
 #include "core/EntrySearcherManager.h"
 #include "core/kanjidic2/Kanjidic2EntrySearcher.h"
@@ -52,22 +53,21 @@ bool Kanjidic2Plugin::onRegister()
 {
 	// First attach our database
 	QLocale locale;
-	QStringList supportedLanguages;
-	supportedLanguages << "en" << "fr" << "de" << "es" << "ru";
 	QString localeCode(locale.name().left(2));
-	supportedLanguages.removeAll(localeCode);
 	QString dbFile;
 
 	// First look for the dictionary corresponding to the current locale
-	dbFile = lookForFile(QString("kanjidic2-%1.db").arg(localeCode));
+	if (supportedLanguages().contains(localeCode))
+	    dbFile = lookForFile(QString("kanjidic2-%1.db").arg(localeCode));
 	// Cannot be found? Look for the other available version
-	if (dbFile.isEmpty()) foreach (const QString &lang, supportedLanguages) {
+	if (dbFile.isEmpty()) foreach (const QString &lang, supportedLanguages()) {
 		dbFile = lookForFile(QString("kanjidic2-%1.db").arg(lang));
 		if (!dbFile.isEmpty()) break;
 	}
 	// No DB file, we have a big trouble here.
 	if (dbFile.isEmpty()) {
 		qFatal("kanjidic2 plugin fatal error: cannot find any dictionary file!");
+		return false;
 	}
 	if (!Database::attachDictionaryDB(dbFile, "kanjidic2", KANJIDIC2DB_REVISION)) {
 		qFatal("kanjidic2 plugin fatal error: failed to attach Kanjidic2 database!");

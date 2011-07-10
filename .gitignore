@@ -33,14 +33,14 @@ CMakeFiles/
 CPackConfig.cmake
 CPackSourceConfig.cmake
 cmake_uninstall.cmake
-jmdict-en.db
-kanjidic2-en.db
+*.db
 cmake_install.cmake
 src/CMakeFiles/
 src/cmake_install.cmake
 src/tagaini_config.h
 src/core/jmdict/build_jmdict_db
 src/core/kanjidic2/build_kanji_db
+src/core/tatoeba/build_tatoeba_db
 src/core/tests/liststests
 src/core/tests/orderedtreedbtests
 src/core/tests/orderedtreetests
