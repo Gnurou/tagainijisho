@@ -26,11 +26,11 @@ QRegExp KanjiVGParser::versionRegExp("This file has been generated on (\\d\\d\\d
 #define TAG_KANJI       kanji
 #define ATTR_ID        "id"
 #define TAG_GROUP       g
-#define ATTR_ELEMENT   "kanjivg:element"
-#define ATTR_ORIGINAL  "kanjivg:original"
-#define ATTR_RADICAL   "kanjivg:radical"
-#define ATTR_PART      "kanjivg:part"
-#define ATTR_NUMBER    "kanjivg:number"
+#define ATTR_ELEMENT   "kvg:element"
+#define ATTR_ORIGINAL  "kvg:original"
+#define ATTR_RADICAL   "kvg:radical"
+#define ATTR_PART      "kvg:part"
+#define ATTR_NUMBER    "kvg:number"
 #define TAG_PATH        path
 #define ATTR_D         "d"
 
@@ -112,7 +112,7 @@ bool KanjiVGParser::parse(QXmlStreamReader &reader)
 			TAG_PRE(TAG_KANJI)
 				KanjiVGItem kanji;
 				quint8 strokeCounter(0);
-				int id(ATTR(ATTR_ID).toInt(0, 16));
+				int id(ATTR(ATTR_ID).mid(QString("kvg:kanji_").size()).toInt(0, 16));
 				bool shallInsert(TextTools::isJapaneseChar(TextTools::unicodeToSingleChar(id)));
 				kanji.id = id;
 			TAG_BEGIN(TAG_KANJI)
