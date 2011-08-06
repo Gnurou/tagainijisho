@@ -1,18 +1,18 @@
 /*
- *  Copyright (C) 2010  Alexandre Courbot
+ *	Copyright (C) 2010	Alexandre Courbot
  *
- *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
+ *	This program is free software: you can redistribute it and/or modify
+ *	it under the terms of the GNU General Public License as published by
+ *	the Free Software Foundation, either version 3 of the License, or
+ *	(at your option) any later version.
  *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
+ *	This program is distributed in the hope that it will be useful,
+ *	but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *	GNU General Public License for more details.
  *
- *  You should have received a copy of the GNU General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *	You should have received a copy of the GNU General Public License
+ *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "sqlite/Connection.h"
 #include "sqlite/Query.h"
@@ -27,53 +27,49 @@
 
 #include <QtDebug>
 
-static QMap<quint32, quint8> knownRadicals;
-
-static SQLite::Connection connection;
-// All the SQL queries used to build the database
-// Having them here will allow us to prepare them once and for all
-// instead of doing it for every entry.
-static SQLite::Query insertEntryQuery;
-static SQLite::Query insertOrIgnoreEntryQuery;
-static SQLite::Query insertReadingQuery;
-static SQLite::Query insertReadingTextQuery;
-static SQLite::Query insertMeaningQuery;
-static SQLite::Query insertMeaningTextQuery;
-static SQLite::Query insertNanoriQuery;
-static SQLite::Query insertNanoriTextQuery;
-static SQLite::Query insertSkipCodeQuery;
-static SQLite::Query insertFourCornerQuery;
-static SQLite::Query insertStrokeGroupQuery;
-static SQLite::Query updateJLPTLevelsQuery;
-static SQLite::Query updateStrokeCountQuery;
-static SQLite::Query insertRootComponentQuery;
-static SQLite::Query updatePathsString;
-static SQLite::Query addRadicalQuery;
-static SQLite::Query insertRadicalQuery;
-
 #define BIND(query, val) { if (!query.bindValue(val)) { qFatal(query.lastError().message().toUtf8().data()); return false; } }
 #define BINDNULL(query) { if (!query.bindNullValue()) { qFatal(query.lastError().message().toUtf8().data()); return false; } }
 #define AUTO_BIND(query, val, nval) if (val == nval) BINDNULL(query) else BIND(query, val)
 #define EXEC(query) if (!query.exec()) { qFatal(query.lastError().message().toUtf8().data()); return false; }
 #define EXEC_STMT(query, stmt) if (!query.exec(stmt)) { qFatal(query.lastError().message().toUtf8().data()); return false; }
-#define ASSERT(cond) if (!(cond)) return 1;
+#define ASSERT(cond) Q_ASSERT(cond)
+
+QMap<quint32, quint8> knownRadicals;
+QSet<QPair<uint, quint8> > insertedRadicals;
+QString srcDir, dbFile;
+
+SQLite::Query insertOrIgnoreEntryQuery;
+SQLite::Query insertRadicalQuery;
+
+SQLite::Query addRadicalQuery;
+SQLite::Query insertRootComponentQuery;
+
+SQLite::Query insertEntryQuery;
+SQLite::Query insertReadingQuery;
+SQLite::Query insertReadingTextQuery;
+SQLite::Query insertMeaningQuery;
+SQLite::Query insertMeaningTextQuery;
+SQLite::Query insertNanoriQuery;
+SQLite::Query insertNanoriTextQuery;
+SQLite::Query insertSkipCodeQuery;
+SQLite::Query insertFourCornerQuery;
+SQLite::Query updateJLPTLevelsQuery;
+SQLite::Query updateStrokeCountQuery;
+
+SQLite::Query insertStrokeGroupQuery;
+SQLite::Query updatePathsString;
 
 class Kanjidic2DBParser : public Kanjidic2Parser
 {
 public:
 	Kanjidic2DBParser(const QStringList &languages) : Kanjidic2Parser(languages) {}
 	virtual bool onItemParsed(Kanjidic2Item &kanji);
+	bool updateJLPTLevel(const QString &fName, int level);
+	bool updateJLPTLevels();
+	bool prepareQueries(SQLite::Connection connection);
+	bool clearQueries();
+private:
 };
-
-class KanjiVGDBParser : public KanjiVGParser
-{
-public:
-	virtual bool onItemParsed(KanjiVGItem &kanji);
-};
-
-/// Keeps track of the radicals inserted from kanjidic2, so
-/// that we don't insert them again using kanjivg
-QSet<QPair<uint, quint8> > insertedRadicals;
 
 bool Kanjidic2DBParser::onItemParsed(Kanjidic2Item &kanji)
 {
@@ -84,7 +80,7 @@ bool Kanjidic2DBParser::onItemParsed(Kanjidic2Item &kanji)
 	AUTO_BIND(insertEntryQuery, (kanji.freq == 0 ? 0 : 2502 - kanji.freq), 0);
 	AUTO_BIND(insertEntryQuery, kanji.jlpt, 0);
 	EXEC(insertEntryQuery);
-
+	
 	// Readings
 	foreach (const QString &readingType, kanji.readings.keys()) {
 		foreach (const QString &reading, kanji.readings[readingType]) {
@@ -100,17 +96,19 @@ bool Kanjidic2DBParser::onItemParsed(Kanjidic2Item &kanji)
 	}
 	
 	// Meanings - output the first language that we can satisfy
-	foreach (const QString &lang, languages) if (kanji.meanings.contains(lang)) {
-		foreach (const QString &meaning, kanji.meanings[lang]) {
-			// TODO factorize identical meanings! Record the row id into a hash table
-			BIND(insertMeaningTextQuery, meaning);
-			EXEC(insertMeaningTextQuery);
-			BIND(insertMeaningQuery, insertMeaningTextQuery.lastInsertId());
-			BIND(insertMeaningQuery, kanji.id);
-			BIND(insertMeaningQuery, lang);
-			EXEC(insertMeaningQuery);
+	foreach (const QString &lang, languages) {
+		if (kanji.meanings.contains(lang)) {
+			foreach (const QString &meaning, kanji.meanings[lang]) {
+				// TODO factorize identical meanings! Record the row id into a hash table
+				BIND(insertMeaningTextQuery, meaning);
+				EXEC(insertMeaningTextQuery);
+				BIND(insertMeaningQuery, insertMeaningTextQuery.lastInsertId());
+				BIND(insertMeaningQuery, kanji.id);
+				BIND(insertMeaningQuery, lang);
+				EXEC(insertMeaningQuery);
+			}
+			break;
 		}
-		break;
 	}
 	
 	// Nanori
@@ -164,6 +162,40 @@ bool Kanjidic2DBParser::onItemParsed(Kanjidic2Item &kanji)
 	return true;
 }
 
+bool Kanjidic2DBParser::updateJLPTLevel(const QString &fName, int level)
+{
+	QFile file(fName);
+	if (!file.open(QFile::ReadOnly | QFile::Text)) {
+		return false;
+	};
+	QTextStream in(&file);
+	QString line = in.readLine();
+	while (!line.isNull()) {
+		BIND(updateJLPTLevelsQuery, level);
+		BIND(updateJLPTLevelsQuery, TextTools::singleCharToUnicode(line));
+		EXEC(updateJLPTLevelsQuery);
+		line = in.readLine();
+	}
+	return true;
+}
+
+bool Kanjidic2DBParser::updateJLPTLevels()
+{
+	ASSERT(updateJLPTLevel(QDir(srcDir).absoluteFilePath("src/core/kanjidic2/jlpt-level2.txt"), 2));
+	ASSERT(updateJLPTLevel(QDir(srcDir).absoluteFilePath("src/core/kanjidic2/jlpt-level3.txt"), 3));
+	ASSERT(updateJLPTLevel(QDir(srcDir).absoluteFilePath("src/core/kanjidic2/jlpt-level4.txt"), 4));
+	return true;
+}
+
+class KanjiVGDBParser : public KanjiVGParser
+{
+public:
+	virtual bool onItemParsed(KanjiVGItem &kanji);
+	bool prepareQueries(SQLite::Connection connection);
+	bool clearQueries();
+private:
+};
+
 bool KanjiVGDBParser::onItemParsed(KanjiVGItem &kanji)
 {
 	// First ensure the kanji is into the DB by attempting to
@@ -174,7 +206,7 @@ bool KanjiVGDBParser::onItemParsed(KanjiVGItem &kanji)
 	BINDNULL(insertOrIgnoreEntryQuery);
 	BINDNULL(insertOrIgnoreEntryQuery);
 	EXEC(insertOrIgnoreEntryQuery);
-
+	
 	// Insert groups
 	//bool skipFirst = false;
 	foreach (const KanjiVGGroupItem &group, kanji.groups) {
@@ -204,53 +236,148 @@ bool KanjiVGDBParser::onItemParsed(KanjiVGItem &kanji)
 	}
 	// Insert radicals
 	//foreach (const KanjiVGGroupItem &group, kanji.groups) if (group.radicalType != KanjiVGGroupItem::NONE) {
-	foreach (const KanjiVGGroupItem &group, kanji.groups) if (knownRadicals.contains(group.element) || knownRadicals.contains(group.original)) {
-		quint8 radCode;
-		if (knownRadicals.contains(group.element)) radCode = knownRadicals[group.element];
-		else if (group.original && knownRadicals.contains(group.original)) radCode = knownRadicals[group.original];
-		else {
-			qDebug("Radical (%s,%s) for kanji %s not in the radicals list", 
-			       TextTools::unicodeToSingleChar(group.element).toUtf8().constData(),
-			       TextTools::unicodeToSingleChar(group.original).toUtf8().constData(),
-			       TextTools::unicodeToSingleChar(kanji.id).toUtf8().constData());
-			continue;
+	foreach (const KanjiVGGroupItem &group, kanji.groups)
+	{
+		if (knownRadicals.contains(group.element) || knownRadicals.contains(group.original)) {
+			quint8 radCode;
+			if (knownRadicals.contains(group.element)) radCode = knownRadicals[group.element];
+			else if (group.original && knownRadicals.contains(group.original)) {
+				radCode = knownRadicals[group.original];
+			} else {
+				qDebug("Radical (%s,%s) for kanji %s not in the radicals list", 
+					   TextTools::unicodeToSingleChar(group.element).toUtf8().constData(),
+					   TextTools::unicodeToSingleChar(group.original).toUtf8().constData(),
+					   TextTools::unicodeToSingleChar(kanji.id).toUtf8().constData());
+				continue;
+			}
+			// Do not insert radicals already inserted from kanjidic2
+			QPair<uint, quint8> rad(kanji.id, radCode);
+			if (insertedRadicals.contains(rad)) continue;
+			BIND(insertRadicalQuery, radCode);
+			BIND(insertRadicalQuery, kanji.id);
+			if (group.radicalType != 0) {
+				BIND(insertRadicalQuery, group.radicalType);
+			} else {
+				BINDNULL(insertRadicalQuery);
+			}
+			EXEC(insertRadicalQuery);
+			insertedRadicals << rad;
 		}
-		// Do not insert radicals already inserted from kanjidic2
-		QPair<uint, quint8> rad(kanji.id, radCode);
-		if (insertedRadicals.contains(rad)) continue;
-		BIND(insertRadicalQuery, radCode);
-		BIND(insertRadicalQuery, kanji.id);
-		if (group.radicalType != 0) { BIND(insertRadicalQuery, group.radicalType); }
-		else { BINDNULL(insertRadicalQuery); }
-		EXEC(insertRadicalQuery);
-		insertedRadicals << rad;
 	}
 	return true;
 }
 
-bool updateJLPTLevels(const QString &fName, int level)
+class KanjiDB {
+public:
+	KanjiDB(const QStringList &lngs, QString sourceDirectory, QString databaseFile) {
+		languages = lngs;
+		srcDir = sourceDirectory;
+		dbFile = databaseFile;
+		kdicParser = new Kanjidic2DBParser(languages);
+	}
+	bool prepareQueries();
+	bool clearQueries();
+	bool createRadicalsTable(const QString &fName);
+	bool createRootComponentsTable();
+	bool createTables();
+	bool createIndexes();
+	bool openDatabase();
+	bool closeDatabase();
+	bool parse();
+	bool fillInfoTable();
+private:
+	QStringList languages;
+	KanjiVGDBParser kvgParser;
+	Kanjidic2DBParser* kdicParser;
+	SQLite::Connection connection;
+};
+
+bool KanjiDB::prepareQueries()
 {
-	QFile file(fName);
-	if (!file.open(QFile::ReadOnly | QFile::Text)) return false;
-	char line[50];
-	int lineSize;
-	while ((lineSize = file.readLine(line, 50)) != -1) {
-		if (lineSize == 0) continue;
-		if (line[lineSize - 1] == '\n') line[lineSize - 1] = 0;
-		BIND(updateJLPTLevelsQuery, level);
-		BIND(updateJLPTLevelsQuery, TextTools::singleCharToUnicode(QString::fromUtf8(line)));
-		EXEC(updateJLPTLevelsQuery);
-	}
+#define PREPQUERY(query, text) query.useWith(&connection); query.prepare(text)
+	PREPQUERY(insertRadicalQuery, "insert into radicals values(?, ?, ?)");
+	PREPQUERY(insertOrIgnoreEntryQuery, "insert or ignore into entries values(?, ?, ?, ?, ?, null)");
+	PREPQUERY(addRadicalQuery, "insert into radicalsList values(?, ?)");
+	PREPQUERY(insertRootComponentQuery, "insert into rootComponents values(?)");
+	
+	PREPQUERY(insertEntryQuery, "insert into entries values(?, ?, ?, ?, ?, null)");
+	PREPQUERY(insertReadingQuery, "insert into reading values(?, ?, ?)");
+	PREPQUERY(insertReadingTextQuery, "insert into readingText values(?)");
+	PREPQUERY(insertMeaningQuery, "insert into meaning values(?, ?, ?)");
+	PREPQUERY(insertMeaningTextQuery, "insert into meaningText values(?)");
+	PREPQUERY(insertNanoriQuery, "insert into nanori values(?, ?)");
+	PREPQUERY(insertNanoriTextQuery, "insert into nanoriText values(?)");
+	PREPQUERY(insertSkipCodeQuery, "insert into skip values(?, ?, ?, ?)");
+	PREPQUERY(insertFourCornerQuery, "insert into fourCorner values(?, ?, ?, ?, ?, ?)");
+	PREPQUERY(updateJLPTLevelsQuery, "update entries set jlpt = ? where id = ?");
+	PREPQUERY(updateStrokeCountQuery, "update entries set strokeCount = ? where id = ?");
+	
+	PREPQUERY(insertStrokeGroupQuery, "insert into strokeGroups values(?, ?, ?, ?, ?)");
+	PREPQUERY(updatePathsString, "update entries set strokeCount = ?, paths = ? where id = ?");
+	
+#undef PREPQUERY
 	return true;
 }
 
-bool createRootComponentsTable()
+bool KanjiDB::clearQueries()
+{
+	insertRadicalQuery.clear();
+	insertOrIgnoreEntryQuery.clear();
+	
+	addRadicalQuery.clear();
+	insertRootComponentQuery.clear();
+	
+	insertEntryQuery.clear();
+	insertReadingQuery.clear();
+	insertReadingTextQuery.clear();
+	insertMeaningQuery.clear();
+	insertMeaningTextQuery.clear();
+	insertNanoriQuery.clear();
+	insertNanoriTextQuery.clear();
+	insertSkipCodeQuery.clear();
+	insertFourCornerQuery.clear();
+	updateJLPTLevelsQuery.clear();
+	updateStrokeCountQuery.clear();
+	
+	insertStrokeGroupQuery.clear();
+	updatePathsString.clear();
+	
+	return true;
+}
+
+bool KanjiDB::openDatabase()
+{	
+	QFile dst(dbFile);
+	if (dst.exists() && !dst.remove()) {
+		qCritical("Error - cannot remove existing destination file!");
+		return false;
+	}
+	if (!connection.connect(dbFile, SQLite::Connection::JournalInFile)) {
+		qFatal("Cannot open database: %s", connection.lastError().message().toLatin1().data());
+		return false;
+	}
+	connection.transaction();
+	return true;	
+}
+
+bool KanjiDB::closeDatabase()
+{	
+	connection.exec("analyze");
+	ASSERT(connection.commit());
+	QFile(connection.dbFileName()).setPermissions(QFile::ReadOwner | QFile::ReadUser | QFile::ReadGroup | QFile::ReadOther);
+	ASSERT(connection.close());
+	return true;
+}
+
+bool KanjiDB::createRootComponentsTable()
 {
 	SQLite::Query query(&connection);
 	if (!query.exec("select distinct ks.element from strokeGroups as ks join entries as e on ks.element = e.id where ks.element not in (select distinct kanji from strokeGroups where element != kanji) "
-	// We are not counting components that are only components of themselves (whatever that means)
-	"and ks.kanji != ks.element "
-	"order by strokeCount")) return false;
+					// We are not counting components that are only components of themselves (whatever that means)
+					"and ks.kanji != ks.element "
+					"order by strokeCount")) {
+		return false;
+	}
 	while (query.next()) {
 		BIND(insertRootComponentQuery, query.valueUInt(0));
 		EXEC(insertRootComponentQuery);
@@ -258,7 +385,7 @@ bool createRootComponentsTable()
 	return true;
 }
 
-bool createRadicalsTable(const QString &fName)
+bool KanjiDB::createRadicalsTable(const QString &fName)
 {
 	QFile file(fName);
 	if (!file.open(QFile::ReadOnly | QFile::Text)) return false;
@@ -282,7 +409,7 @@ bool createRadicalsTable(const QString &fName)
 	return true;
 }
 
-static bool createTables()
+bool KanjiDB::createTables()
 {
 	SQLite::Query query(&connection);
 	EXEC_STMT(query, "create table info(version INT, kanjidic2Version TEXT, kanjiVGVersion TEXT)");
@@ -302,7 +429,7 @@ static bool createTables()
 	return true;
 }
 
-static bool createIndexes()
+bool KanjiDB::createIndexes()
 {
 	SQLite::Query query(&connection);
 	EXEC_STMT(query, "create index idx_entries_frequency on entries(frequency)");
@@ -321,6 +448,51 @@ static bool createIndexes()
 	return true;
 }
 
+bool KanjiDB::fillInfoTable()
+{
+	SQLite::Query query(&connection);
+	query.prepare("insert into info values(?, ?, ?)");
+	query.bindValue(KANJIDIC2DB_REVISION);
+	query.bindValue(kdicParser->dateOfCreation());
+	query.bindValue(kvgParser.version());
+	ASSERT(query.exec());
+	return true;
+}
+
+bool KanjiDB::parse()
+{
+	// Parse and insert kanjidic2
+	QFile file(QDir(srcDir).absoluteFilePath("3rdparty/kanjidic2.xml"));
+	ASSERT(file.open(QFile::ReadOnly | QFile::Text));
+	QXmlStreamReader reader(&file);
+	// English is always used as a backup
+	if (!languages.contains("en")) {
+		languages << "en";
+	}
+	if (!kdicParser->parse(reader)) {
+		qDebug() << "Error during kanjidic2 parsing:" << connection.lastError().message();
+		return 1;
+	}
+	file.close();
+	
+	ASSERT(createRadicalsTable(QDir(srcDir).absoluteFilePath("src/core/kanjidic2/radicals.txt")));
+	
+	// Parse and insert KanjiVG data
+	file.setFileName(QDir(srcDir).absoluteFilePath("3rdparty/kanjivg.xml"));
+	ASSERT(file.open(QFile::ReadOnly | QFile::Text));
+	reader.setDevice(&file);
+	if (!kvgParser.parse(reader)) {
+		qDebug() << "Error during KanjiVG parsing" << connection.lastError().message();
+		return 1;
+	}
+	file.close();
+	
+	ASSERT(createRootComponentsTable());
+	ASSERT(fillInfoTable());	
+	ASSERT(kdicParser->updateJLPTLevels());
+	return true;
+}
+
 void printUsage(char *argv[])
 {
 	qCritical("Usage: %s [-l<lang>] source_dir dest_file\nWhere <lang> is a two-letters language code (en, fr, de, es or ru)", argv[0]);
@@ -330,133 +502,41 @@ int main(int argc, char *argv[])
 {
 	QCoreApplication app(argc, argv);
 	
-	if (argc < 3) { printUsage(argv); return 1; }
-
-	int argCpt = 1;
+	if (argc < 3) { 
+		printUsage(argv);
+		return 1;
+	}
 	QStringList languages;
+	int argCpt = 1;
 	while (argCpt < argc && argv[argCpt][0] == '-') {
 		QString param(argv[argCpt]);
-		if (!param.startsWith("-l")) { printUsage(argv); return 1; }
+		if (!param.startsWith("-l")) {
+			printUsage(argv);
+			return 1;
+		}
 		QStringList langs(param.mid(2).split(',', QString::SkipEmptyParts));
-		foreach (const QString &lang, langs) if (!languages.contains(lang)) languages << lang;
+		foreach (const QString &lang, langs) {
+			languages << lang;
+		};
 		++argCpt;
 	}
-	if (argCpt > argc - 2) { printUsage(argv); return 1; }
-
+	if (argCpt > argc - 2) {
+		printUsage(argv);
+		return -1;
+	}
+	
 	QString srcDir(argv[argCpt]);
-	QString dstFile(argv[argCpt + 1]);
+	QString dstFile(argv[argCpt + 1]);	
 	
-	QFile dst(dstFile);
-	if (dst.exists() && !dst.remove()) {
-		qCritical("Error - cannot remove existing destination file!");
-		return 1;
-	}
+	KanjiDB kanjiDB(languages, srcDir, dstFile);
 	
-	// Open the database to write to
-	connection.connect(dstFile, SQLite::Connection::JournalInFile);
-	if (!connection.connected()) {
-		qFatal("Cannot open database: %s", connection.lastError().message().toLatin1().data());
-		return 1;
-	}
-	ASSERT(connection.transaction());
-	ASSERT(createTables());
-
-	// Prepare the queries
-	#define PREPQUERY(query, text) query.useWith(&connection); query.prepare(text)
-	PREPQUERY(insertEntryQuery, "insert into entries values(?, ?, ?, ?, ?, null)");
-	PREPQUERY(insertOrIgnoreEntryQuery, "insert or ignore into entries values(?, ?, ?, ?, ?, null)");
-	PREPQUERY(insertReadingQuery, "insert into reading values(?, ?, ?)");
-	PREPQUERY(insertReadingTextQuery, "insert into readingText values(?)");
-	PREPQUERY(insertMeaningQuery, "insert into meaning values(?, ?, ?)");
-	PREPQUERY(insertMeaningTextQuery, "insert into meaningText values(?)");
-	PREPQUERY(insertNanoriQuery, "insert into nanori values(?, ?)");
-	PREPQUERY(insertNanoriTextQuery, "insert into nanoriText values(?)");
-	PREPQUERY(insertSkipCodeQuery, "insert into skip values(?, ?, ?, ?)");
-	PREPQUERY(insertFourCornerQuery, "insert into fourCorner values(?, ?, ?, ?, ?, ?)");
-	PREPQUERY(insertStrokeGroupQuery, "insert into strokeGroups values(?, ?, ?, ?, ?)");
-	PREPQUERY(updateJLPTLevelsQuery, "update entries set jlpt = ? where id = ?");
-	PREPQUERY(updateStrokeCountQuery, "update entries set strokeCount = ? where id = ?");
-	PREPQUERY(insertRootComponentQuery, "insert into rootComponents values(?)");
-	PREPQUERY(updatePathsString, "update entries set strokeCount = ?, paths = ? where id = ?");
-	PREPQUERY(addRadicalQuery, "insert into radicalsList values(?, ?)");
-	PREPQUERY(insertRadicalQuery, "insert into radicals values(?, ?, ?)");
-	#undef PREPQUERY
-
-	// Parse and insert kanjidic2
-	QFile file(QDir(srcDir).absoluteFilePath("3rdparty/kanjidic2.xml"));
-	ASSERT(file.open(QFile::ReadOnly | QFile::Text));
-	QXmlStreamReader reader(&file);
-	// English is always used as a backup
-	if (!languages.contains("en")) languages << "en";
-	Kanjidic2DBParser kdicParser(languages);
-	if (!kdicParser.parse(reader)) {
-		qDebug() << "Error during kanjidic2 parsing:" << connection.lastError().message();
-		return 1;
-	}
-	file.close();
-
-	// Create radicals table
-	ASSERT(createRadicalsTable(QDir(srcDir).absoluteFilePath("src/core/kanjidic2/radicals.txt")));
-
-	// Parse and insert KanjiVG data
-	file.setFileName(QDir(srcDir).absoluteFilePath("3rdparty/kanjivg.xml"));
-	ASSERT(file.open(QFile::ReadOnly | QFile::Text));
-	reader.setDevice(&file);
-	KanjiVGDBParser kvgParser;
-	if (!kvgParser.parse(reader)) {
-		qDebug() << "Error during KanjiVG parsing" << connection.lastError().message();
-		return 1;
-	}
-	file.close();
-
-	// Create root components table
-	ASSERT(createRootComponentsTable());
-	
-	// Fill in the info table
-	{
-		SQLite::Query query(&connection);
-		query.prepare("insert into info values(?, ?, ?)");
-		query.bindValue(KANJIDIC2DB_REVISION);
-		query.bindValue(kdicParser.dateOfCreation());
-		query.bindValue(kvgParser.version());
-		ASSERT(query.exec());
-	}
-
-	// Insert JLPT levels
-	ASSERT(updateJLPTLevels(QDir(srcDir).absoluteFilePath("src/core/kanjidic2/jlpt-level2.txt"), 2));
-	ASSERT(updateJLPTLevels(QDir(srcDir).absoluteFilePath("src/core/kanjidic2/jlpt-level3.txt"), 3));
-	ASSERT(updateJLPTLevels(QDir(srcDir).absoluteFilePath("src/core/kanjidic2/jlpt-level4.txt"), 4));
-	
-	// Create indexes
-	ASSERT(createIndexes());
-	
-	// Analyze for hopefully better performance
-	connection.exec("analyze");
-	
-	// Commit everything
-	ASSERT(connection.commit());
-	
-	// Clear the queries, close the database and set the file to read-only
-	insertEntryQuery.clear();
-	insertOrIgnoreEntryQuery.clear();
-	insertReadingQuery.clear();
-	insertReadingTextQuery.clear();
-	insertMeaningQuery.clear();
-	insertMeaningTextQuery.clear();
-	insertNanoriQuery.clear();
-	insertNanoriTextQuery.clear();
-	insertSkipCodeQuery.clear();
-	insertFourCornerQuery.clear();
-	insertStrokeGroupQuery.clear();
-	updateJLPTLevelsQuery.clear();
-	updateStrokeCountQuery.clear();
-	insertRootComponentQuery.clear();
-	updatePathsString.clear();
-	addRadicalQuery.clear();
-	insertRadicalQuery.clear();
-
-	connection.close();
-	QFile(dstFile).setPermissions(QFile::ReadOwner | QFile::ReadUser | QFile::ReadGroup | QFile::ReadOther);
+	ASSERT(kanjiDB.openDatabase()); 
+	ASSERT(kanjiDB.createTables());
+	ASSERT(kanjiDB.prepareQueries());
+	ASSERT(kanjiDB.parse());	
+	ASSERT(kanjiDB.createIndexes());	
+	ASSERT(kanjiDB.clearQueries());
+	ASSERT(kanjiDB.closeDatabase());
 	
 	return 0;
 }
