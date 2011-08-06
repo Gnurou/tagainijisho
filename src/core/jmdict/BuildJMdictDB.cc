@@ -443,7 +443,8 @@ int main(int argc, char *argv[])
 	while (argCpt < argc && argv[argCpt][0] == '-') {
 		QString param(argv[argCpt]);
 		if (!param.startsWith("-l")) {
-			printUsage(argv); return 1;
+			printUsage(argv);
+			return 1;
 		}
 		QStringList langs(param.mid(2).split(',', QString::SkipEmptyParts));
 		foreach (const QString &lang, langs) {
@@ -452,7 +453,8 @@ int main(int argc, char *argv[])
 		++argCpt;
 	}
 	if (argCpt > argc - 2) {
-		printUsage(argv); return -1;
+		printUsage(argv);
+		return -1;
 	}
 	
 	QString srcDir(argv[argCpt]);
