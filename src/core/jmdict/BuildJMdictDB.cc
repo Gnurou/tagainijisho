@@ -1,18 +1,18 @@
 /*
- *  Copyright (C) 2010  Alexandre Courbot
+ *	Copyright (C) 2010	Alexandre Courbot
  *
- *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
+ *	This program is free software: you can redistribute it and/or modify
+ *	it under the terms of the GNU General Public License as published by
+ *	the Free Software Foundation, either version 3 of the License, or
+ *	(at your option) any later version.
  *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
+ *	This program is distributed in the hope that it will be useful,
+ *	but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *	GNU General Public License for more details.
  *
- *  You should have received a copy of the GNU General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *	You should have received a copy of the GNU General Public License
+ *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 #include "sqlite/Connection.h"
@@ -34,7 +34,8 @@
 #define EXEC_STMT(query, stmt) if (!query.exec(stmt)) { qFatal(query.lastError().message().toUtf8().data()); return false; }
 #define ASSERT(cond) Q_ASSERT(cond)
 
-class JMdictDBParser : public JMdictParser {
+class JMdictDBParser : public JMdictParser
+{
 public:
 	JMdictDBParser(const QSet<QString> &languages, QString sourceDirectory, QString destinationDirectory) : JMdictParser(languages) {
 		srcDir = sourceDirectory;
@@ -78,7 +79,8 @@ private:
 	bool closeDatabase(QString handle);
 };
 
-bool JMdictDBParser::onItemParsed(const JMdictItem &entry) {
+bool JMdictDBParser::onItemParsed(const JMdictItem &entry)
+{
 	// Insert writings
 	int kanjiCount = 0;
 	quint8 idx = 0;
@@ -168,7 +170,8 @@ bool JMdictDBParser::onItemParsed(const JMdictItem &entry) {
 	return true;
 }
 
-bool JMdictDBParser::onDeletedItemParsed(const JMdictDeletedItem &entry) {
+bool JMdictDBParser::onDeletedItemParsed(const JMdictDeletedItem &entry)
+{
 	BIND(insertDeletedEntryQuery, entry.id);
 	if (entry.replacedBy) {
 		BIND(insertDeletedEntryQuery, entry.replacedBy);
@@ -179,23 +182,25 @@ bool JMdictDBParser::onDeletedItemParsed(const JMdictDeletedItem &entry) {
 	return true;
 }
 
-bool JMdictDBParser::insertJLPTLevel(const QString &fName, int level) {
+bool JMdictDBParser::insertJLPTLevel(const QString &fName, int level)
+{
 	QFile file(fName);
 	if (!file.open(QFile::ReadOnly | QFile::Text)) {
 		return false;
 	};
 	QTextStream in(&file);
-    QString line = in.readLine();
-    while (!line.isNull()) {
+	QString line = in.readLine();
+	while (!line.isNull()) {
 		BIND(insertJLPTQuery, line.toInt());
 		BIND(insertJLPTQuery, level);
 		EXEC(insertJLPTQuery);
 		line = in.readLine();
-    }
+	}
 	return true;
 }
 
-bool JMdictDBParser::insertJLPTLevels() {
+bool JMdictDBParser::insertJLPTLevels()
+{
 	ASSERT(insertJLPTLevel(QDir(srcDir).absoluteFilePath("src/core/jmdict/jlpt-level4.txt"), 4));
 	ASSERT(insertJLPTLevel(QDir(srcDir).absoluteFilePath("src/core/jmdict/jlpt-level3.txt"), 3));
 	ASSERT(insertJLPTLevel(QDir(srcDir).absoluteFilePath("src/core/jmdict/jlpt-level2.txt"), 2));
@@ -203,7 +208,8 @@ bool JMdictDBParser::insertJLPTLevels() {
 	return true;	
 }
 
-bool JMdictDBParser::openDatabase(QString databaseName, QString handle) {	
+bool JMdictDBParser::openDatabase(QString databaseName, QString handle)
+{	
 	QString dbFile = QDir(dstDir).absoluteFilePath(QString(databaseName));
 	QFile dst(dbFile);
 	SQLite::Connection &connection = connections[handle];
@@ -219,7 +225,8 @@ bool JMdictDBParser::openDatabase(QString databaseName, QString handle) {
 	return true;	
 }
 
-bool JMdictDBParser::closeDatabase(QString handle) {	
+bool JMdictDBParser::closeDatabase(QString handle)
+{	
 	connections[handle].exec("analyze");
 	ASSERT(connections[handle].commit());
 	QFile(connections[handle].dbFileName()).setPermissions(QFile::ReadOwner | QFile::ReadUser | QFile::ReadGroup | QFile::ReadOther);
@@ -227,7 +234,8 @@ bool JMdictDBParser::closeDatabase(QString handle) {
 	return true;
 }
 
-bool JMdictDBParser::prepareMainQueries() {
+bool JMdictDBParser::prepareMainQueries()
+{
 #define PREPQUERY(query, text) query.useWith(&connections["main"]); ASSERT(query.prepare(text))
 	PREPQUERY(insertEntryQuery, "insert into entries values(?, ?, ?)");
 	PREPQUERY(insertKanjiTextQuery, "insert into kanjiText values(?)");
@@ -242,7 +250,8 @@ bool JMdictDBParser::prepareMainQueries() {
 	return true;
 }
 
-bool JMdictDBParser::clearMainQueries() {
+bool JMdictDBParser::clearMainQueries()
+{
 	insertEntryQuery.clear();
 	insertKanjiTextQuery.clear();
 	insertKanjiQuery.clear();
@@ -255,11 +264,13 @@ bool JMdictDBParser::clearMainQueries() {
 	return true;
 }
 
-bool JMdictDBParser::createMainDatabase() {
+bool JMdictDBParser::createMainDatabase() 
+{
 	return openDatabase("jmdict.db", "main");
 }
 
-bool JMdictDBParser::createMainTables() {
+bool JMdictDBParser::createMainTables()
+{
 	SQLite::Query query(&connections["main"]);
 	EXEC_STMT(query, "create table info(version INT, JMdictVersion TEXT)");
 	EXEC_STMT(query, "create table posEntities(bitShift INTEGER PRIMARY KEY, name TEXT, description TEXT)");
@@ -278,7 +289,8 @@ bool JMdictDBParser::createMainTables() {
 	return true;
 }
 
-bool JMdictDBParser::createMainIndexes() {
+bool JMdictDBParser::createMainIndexes() 
+{
 	SQLite::Query query(&connections["main"]);
 	EXEC_STMT(query, "create index idx_entries_frequency on entries(frequency)");
 	EXEC_STMT(query, "create index idx_kanji on kanji(id)");
@@ -290,11 +302,13 @@ bool JMdictDBParser::createMainIndexes() {
 	return true;
 }
 
-bool JMdictDBParser::finalizeMainDatabase() {
+bool JMdictDBParser::finalizeMainDatabase() 
+{
 	return closeDatabase("main");
 }
 
-bool JMdictDBParser::prepareLanguagesQueries() {
+bool JMdictDBParser::prepareLanguagesQueries()
+{
 	foreach (const QString &lang, languages) {
 #define PREPQUERY(query, text) query.useWith(&connections[lang]); ASSERT(query.prepare(text))
 		PREPQUERY(insertGlossTextQueries[lang], "insert into glossText values(?)");
@@ -304,7 +318,8 @@ bool JMdictDBParser::prepareLanguagesQueries() {
 	return true;
 }
 
-bool JMdictDBParser::clearLanguagesQueries() {
+bool JMdictDBParser::clearLanguagesQueries() 
+{
 	foreach (const QString &lang, languages) {
 		insertGlossTextQueries[lang].clear();
 		insertGlossQueries[lang].clear();
@@ -312,7 +327,8 @@ bool JMdictDBParser::clearLanguagesQueries() {
 	return true;
 }
 
-bool JMdictDBParser::createLanguagesDatabases() {
+bool JMdictDBParser::createLanguagesDatabases()
+{
 	foreach (const QString &lang, languages) {
 		bool created = openDatabase(QString("jmdict-%1.db").arg(lang),lang);
 		if (!created) {
@@ -322,7 +338,8 @@ bool JMdictDBParser::createLanguagesDatabases() {
 	return true;
 }
 
-bool JMdictDBParser::createLanguagesTables() {
+bool JMdictDBParser::createLanguagesTables()
+{
 	foreach (const QString &lang, languages) {
 		SQLite::Query query(&connections[lang]);
 		EXEC_STMT(query, "create table info(version INT, JMdictVersion TEXT)");
@@ -332,7 +349,8 @@ bool JMdictDBParser::createLanguagesTables() {
 	return true;
 }
 
-bool JMdictDBParser::createLanguagesIndexes() {
+bool JMdictDBParser::createLanguagesIndexes()
+{
 	foreach (const QString &lang, languages) {
 		SQLite::Query query(&connections[lang]);
 		EXEC_STMT(query, "create index idx_gloss on gloss(id)");
@@ -340,7 +358,8 @@ bool JMdictDBParser::createLanguagesIndexes() {
 	return true;
 }
 
-bool JMdictDBParser::finalizeLanguagesDatabases() {
+bool JMdictDBParser::finalizeLanguagesDatabases()
+{
 	foreach (const QString &lang, languages) {
 		bool closed = closeDatabase(lang);
 		if(!closed) {
@@ -350,7 +369,8 @@ bool JMdictDBParser::finalizeLanguagesDatabases() {
 	return true;
 }
 
-bool JMdictDBParser::fillMainInfoTable() {
+bool JMdictDBParser::fillMainInfoTable()
+{
 	SQLite::Query query(&connections["main"]);
 	query.prepare("insert into info values(?, ?)");
 	query.bindValue(JMDICTDB_REVISION);
@@ -359,7 +379,8 @@ bool JMdictDBParser::fillMainInfoTable() {
 	return true;
 }
 
-bool JMdictDBParser::fillLanguagesInfoTable() {
+bool JMdictDBParser::fillLanguagesInfoTable()
+{
 	SQLite::Query query;
 	foreach (const QString &lang, languages) {
 		query.useWith(&connections[lang]);
@@ -371,7 +392,8 @@ bool JMdictDBParser::fillLanguagesInfoTable() {
 	return true;
 }
 
-bool JMdictDBParser::populateEntitiesTable() {	
+bool JMdictDBParser::populateEntitiesTable()
+{	
 	SQLite::Query entitiesQuery(&connections["main"]);
 	entitiesQuery.prepare("insert into posEntities values(?, ?, ?)");
 	foreach (const QString &name, posBitFields.keys()) {
@@ -404,11 +426,13 @@ bool JMdictDBParser::populateEntitiesTable() {
 	return true;
 }
 
-void printUsage(char *argv[]) {
+void printUsage(char *argv[])
+{
 	qCritical("Usage: %s [-l<lang>] source_dir dest_dir\nWhere <lang> is a two-letters language code (en, fr, de, es or ru)", argv[0]);
 }
 
-int main(int argc, char *argv[]) {
+int main(int argc, char *argv[])
+{
 	QCoreApplication app(argc, argv);
 	
 	if (argc < 3) { 
@@ -439,7 +463,7 @@ int main(int argc, char *argv[]) {
 
 	parser.createMainDatabase();
 	parser.createMainTables();
-	parser.createMainIndexes();	
+	parser.createMainIndexes(); 
 	parser.prepareMainQueries();
 	parser.fillMainInfoTable();
 	parser.insertJLPTLevels();
