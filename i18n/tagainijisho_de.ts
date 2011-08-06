@@ -610,7 +610,7 @@
     <message>
         <location line="+0"/>
         <source>Rename list...</source>
-        <translation/>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+90"/>
@@ -1102,7 +1102,7 @@ an Einträgen manipuliert werden.</translation>
     <message>
         <location filename="../src/gui/jmdict/JMdictEntryFormatter.cc" line="-338"/>
         <source>(JLPT N%1)</source>
-        <translation/>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+38"/>
@@ -1403,7 +1403,7 @@ an Einträgen manipuliert werden.</translation>
     <message>
         <location line="+37"/>
         <source>su verb - precursor to the modern suru</source>
-        <translation/>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+14"/>
@@ -1508,7 +1508,7 @@ an Einträgen manipuliert werden.</translation>
     <message>
         <location line="+3"/>
         <source>proverb</source>
-        <translation/>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+3"/>
@@ -2368,12 +2368,12 @@ an Einträgen manipuliert werden.</translation>
     <message>
         <location line="-18"/>
         <source>&lt;b&gt;JLPT:&lt;/b&gt; N%1</source>
-        <translation/>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+59"/>
         <source>(JLPT N%1)</source>
-        <translation/>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+34"/>
@@ -3465,7 +3465,7 @@ Ce message de rappel n&apos;apparaîtra dorénavant plus - vous pouvez toujours 
         <source>You have now been using Tagaini Jisho for a short while. If you like it, please show your support by making a donation that expresses your appreciation of this software. While Tagaini is free, its development has a cost and your support will have a positive influence on its future. You can donate via Paypal or credit card, or use Flattr to support this project.
 
 This message is a one-time reminder and will not appear anymore - you can still donate later by choosing the corresponding option in the Help menu.</source>
-        <translation/>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+2"/>
@@ -4101,12 +4101,12 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location filename="../src/gui/ResultsViewWidget.cc" line="+43"/>
         <source>Searching...</source>
-        <translation/>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+13"/>
         <source>%1 Results</source>
-        <translation/>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
