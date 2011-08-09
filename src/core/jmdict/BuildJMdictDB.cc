@@ -467,15 +467,12 @@ int main(int argc, char *argv[])
 	parser.createMainTables();
 	parser.createMainIndexes(); 
 	parser.prepareMainQueries();
-	parser.fillMainInfoTable();
-	parser.insertJLPTLevels();
 	parser.populateEntitiesTable();
 	
 	parser.createLanguagesDatabases();
 	parser.createLanguagesTables();
 	parser.createLanguagesIndexes();	
 	parser.prepareLanguagesQueries();
-	parser.fillLanguagesInfoTable();	
 	
 	QFile file(QDir(srcDir).absoluteFilePath("3rdparty/JMdict"));
 	ASSERT(file.open(QFile::ReadOnly | QFile::Text));
@@ -489,6 +486,10 @@ int main(int argc, char *argv[])
 	}
 	file.close();	
 	
+	parser.fillMainInfoTable();
+	parser.fillLanguagesInfoTable();
+	parser.insertJLPTLevels();
+
 	parser.clearMainQueries();
 	parser.finalizeMainDatabase();
 
