@@ -5,13 +5,10 @@ SQLite.cc
 Error.cc
 Connection.cc
 Query.cc
-sqlite3all.c
 sqlite3ext.cc
+${CMAKE_SOURCE_DIR}/3rdparty/sqlite/sqlite3.c
 # TODO Lame!
 ${CMAKE_SOURCE_DIR}/src/core/TextTools.cc
-)
-
-qt4_wrap_cpp(tagainijisho_sqlite_MOC_SRCS
 )
 
 include_directories(${QT_INCLUDE_DIR})
