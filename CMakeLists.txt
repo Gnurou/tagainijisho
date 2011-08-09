@@ -8,9 +8,7 @@ endif(APPLE)
 # Set the program name to be the same as the project
 set(tagaini_binary ${CMAKE_PROJECT_NAME})
 
-set(VERSION 0.8.85)
-set(SQLITE_VERSION 3070400)
-set(SQLITE_SOURCE http://www.sqlite.org/sqlite-amalgamation-${SQLITE_VERSION}.zip)
+set(VERSION 0.8.90)
 set(JMDICT_SOURCE ftp://ftp.monash.edu.au/pub/nihongo/JMdict.gz)
 set(KANJIDIC2_SOURCE http://www.csse.monash.edu.au/~jwb/kanjidic2/kanjidic2.xml.gz)
 set(KANJIVG_SOURCE http://kanjivg.tagaini.net/upload/Main/kanjivg-latest.xml.gz)
@@ -83,18 +81,6 @@ add_subdirectory(pack)
 
 if(NOT EXISTS ${CMAKE_SOURCE_DIR}/3rdparty/)
 	FILE(MAKE_DIRECTORY ${CMAKE_SOURCE_DIR}/3rdparty/)
-endif()
-
-# SQLITE
-if(NOT EXISTS ${CMAKE_SOURCE_DIR}/3rdparty/sqlite/sqlite3.c)
-	MESSAGE(STATUS "Downloading SQLite ${SQLITE_VERSION} from ${SQLITE_SOURCE}")
-	FILE(DOWNLOAD ${SQLITE_SOURCE} ${CMAKE_SOURCE_DIR}/3rdparty/sqlite-amalgamation-${SQLITE_VERSION}.zip)
-	execute_process(COMMAND cmake -E tar xvf ${CMAKE_SOURCE_DIR}/3rdparty/sqlite-amalgamation-${SQLITE_VERSION}.zip WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/3rdparty)
-	FILE(MAKE_DIRECTORY ${CMAKE_SOURCE_DIR}/3rdparty/sqlite)
-	FILE(RENAME ${CMAKE_SOURCE_DIR}/3rdparty/sqlite-amalgamation-${SQLITE_VERSION}/sqlite3.c ${CMAKE_SOURCE_DIR}/3rdparty/sqlite/sqlite3.c)
-	FILE(RENAME ${CMAKE_SOURCE_DIR}/3rdparty/sqlite-amalgamation-${SQLITE_VERSION}/sqlite3.h ${CMAKE_SOURCE_DIR}/3rdparty/sqlite/sqlite3.h)
-	FILE(REMOVE ${CMAKE_SOURCE_DIR}/3rdparty/sqlite-amalgamation-${SQLITE_VERSION}.zip)
-	FILE(REMOVE_RECURSE ${CMAKE_SOURCE_DIR}/3rdparty/sqlite-amalgamation-${SQLITE_VERSION})
 endif()
 
 if(${GUNZIP} MATCHES "GUNZIP-NOTFOUND")
