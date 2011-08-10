@@ -1,6 +1,7 @@
 0.9 released on
 * JMdict entities translated again
 * Custom SQLite backend, removes dependency on QtSql
+* System SQLite is now used by default if available
 * Entries of the results view now loaded on-demand, resulting in much
   faster searches
 * Results view not paged anymore
