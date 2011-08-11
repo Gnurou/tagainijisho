@@ -14,6 +14,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 #include "sqlite/Connection.h"
 #include "sqlite/Query.h"
 #include "core/Database.h"
@@ -36,7 +37,7 @@
 
 QMap<quint32, quint8> knownRadicals;
 QSet<QPair<uint, quint8> > insertedRadicals;
-QString srcDir, dbFile;
+QString srcDir, dstDir;
 
 SQLite::Query insertOrIgnoreEntryQuery;
 SQLite::Query insertRadicalQuery;
@@ -47,8 +48,6 @@ SQLite::Query insertRootComponentQuery;
 SQLite::Query insertEntryQuery;
 SQLite::Query insertReadingQuery;
 SQLite::Query insertReadingTextQuery;
-SQLite::Query insertMeaningQuery;
-SQLite::Query insertMeaningTextQuery;
 SQLite::Query insertNanoriQuery;
 SQLite::Query insertNanoriTextQuery;
 SQLite::Query insertSkipCodeQuery;
@@ -58,6 +57,9 @@ SQLite::Query updateStrokeCountQuery;
 
 SQLite::Query insertStrokeGroupQuery;
 SQLite::Query updatePathsString;
+
+QMap<QString, SQLite::Query> insertMeaningQueries;
+QMap<QString, SQLite::Query> insertMeaningTextQueries;
 
 class Kanjidic2DBParser : public Kanjidic2Parser
 {
@@ -100,12 +102,12 @@ bool Kanjidic2DBParser::onItemParsed(Kanjidic2Item &kanji)
 		if (kanji.meanings.contains(lang)) {
 			foreach (const QString &meaning, kanji.meanings[lang]) {
 				// TODO factorize identical meanings! Record the row id into a hash table
-				BIND(insertMeaningTextQuery, meaning);
-				EXEC(insertMeaningTextQuery);
-				BIND(insertMeaningQuery, insertMeaningTextQuery.lastInsertId());
-				BIND(insertMeaningQuery, kanji.id);
-				BIND(insertMeaningQuery, lang);
-				EXEC(insertMeaningQuery);
+				BIND(insertMeaningTextQueries["en"], meaning);
+				EXEC(insertMeaningTextQueries["en"]);
+				BIND(insertMeaningQueries["en"], insertMeaningTextQueries["en"].lastInsertId());
+				BIND(insertMeaningQueries["en"], kanji.id);
+				BIND(insertMeaningQueries["en"], lang);
+				EXEC(insertMeaningQueries["en"]);
 			}
 			break;
 		}
@@ -269,10 +271,10 @@ bool KanjiVGDBParser::onItemParsed(KanjiVGItem &kanji)
 
 class KanjiDB {
 public:
-	KanjiDB(const QStringList &lngs, QString sourceDirectory, QString databaseFile) {
+	KanjiDB(const QStringList &lngs, QString sourceDirectory, QString destinationDirectory) {
 		languages = lngs;
 		srcDir = sourceDirectory;
-		dbFile = databaseFile;
+		dstDir = destinationDirectory;
 		kdicParser = new Kanjidic2DBParser(languages);
 	}
 	bool prepareQueries();
@@ -303,8 +305,6 @@ bool KanjiDB::prepareQueries()
 	PREPQUERY(insertEntryQuery, "insert into entries values(?, ?, ?, ?, ?, null)");
 	PREPQUERY(insertReadingQuery, "insert into reading values(?, ?, ?)");
 	PREPQUERY(insertReadingTextQuery, "insert into readingText values(?)");
-	PREPQUERY(insertMeaningQuery, "insert into meaning values(?, ?, ?)");
-	PREPQUERY(insertMeaningTextQuery, "insert into meaningText values(?)");
 	PREPQUERY(insertNanoriQuery, "insert into nanori values(?, ?)");
 	PREPQUERY(insertNanoriTextQuery, "insert into nanoriText values(?)");
 	PREPQUERY(insertSkipCodeQuery, "insert into skip values(?, ?, ?, ?)");
@@ -316,6 +316,13 @@ bool KanjiDB::prepareQueries()
 	PREPQUERY(updatePathsString, "update entries set strokeCount = ?, paths = ? where id = ?");
 	
 #undef PREPQUERY
+
+	foreach (const QString &lang, languages) {
+#define PREPQUERY(query, text) query.useWith(&connection); query.prepare(text)
+		PREPQUERY(insertMeaningQueries[lang], "insert into meaning values(?, ?, ?)");
+		PREPQUERY(insertMeaningTextQueries[lang], "insert into meaningText values(?)");
+#undef PREPQUERY
+	}
 	return true;
 }
 
@@ -330,8 +337,6 @@ bool KanjiDB::clearQueries()
 	insertEntryQuery.clear();
 	insertReadingQuery.clear();
 	insertReadingTextQuery.clear();
-	insertMeaningQuery.clear();
-	insertMeaningTextQuery.clear();
 	insertNanoriQuery.clear();
 	insertNanoriTextQuery.clear();
 	insertSkipCodeQuery.clear();
@@ -342,11 +347,17 @@ bool KanjiDB::clearQueries()
 	insertStrokeGroupQuery.clear();
 	updatePathsString.clear();
 	
+	foreach (const QString &lang, languages) {
+		insertMeaningQueries[lang].clear();
+		insertMeaningTextQueries[lang].clear();
+	}
+
 	return true;
 }
 
 bool KanjiDB::openDatabase()
 {	
+	QString dbFile = QDir(dstDir).absoluteFilePath("kanjidic2-en.db");
 	QFile dst(dbFile);
 	if (dst.exists() && !dst.remove()) {
 		qCritical("Error - cannot remove existing destination file!");
@@ -526,9 +537,9 @@ int main(int argc, char *argv[])
 	}
 	
 	QString srcDir(argv[argCpt]);
-	QString dstFile(argv[argCpt + 1]);	
+	QString dstDir(argv[argCpt + 1]);	
 	
-	KanjiDB kanjiDB(languages, srcDir, dstFile);
+	KanjiDB kanjiDB(languages, srcDir, dstDir);
 	
 	ASSERT(kanjiDB.openDatabase()); 
 	ASSERT(kanjiDB.createTables());
