@@ -1,6 +1,24 @@
 # JMdict core
 set(QT_DONT_USE_QTGUI TRUE)
 
+# JMdict
+set(JMDICT_SOURCE ftp://ftp.monash.edu.au/pub/nihongo/JMdict.gz)
+if(NOT EXISTS ${CMAKE_SOURCE_DIR}/3rdparty/JMdict)
+	MESSAGE(STATUS "Downloading JMdict from ${JMDICT_SOURCE}")
+	FILE(DOWNLOAD ${JMDICT_SOURCE} ${CMAKE_SOURCE_DIR}/3rdparty/JMdict.gz)
+	execute_process(COMMAND ${GUNZIP} ${CMAKE_SOURCE_DIR}/3rdparty/JMdict.gz WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/3rdparty)
+endif()
+
+# JMdictDescs
+if(NOT EXISTS ${CMAKE_SOURCE_DIR}/3rdparty/JMdictDescs.cc)
+	MESSAGE(STATUS "Generating JMdictDescs")
+	FILE(STRINGS ${CMAKE_SOURCE_DIR}/3rdparty/JMdict LINES REGEX ENTITY)
+	foreach(LINE ${LINES})
+		STRING(REGEX REPLACE ".*\\\"(.*)\\\">" "\\1" result "${LINE}" )
+		FILE(APPEND ${CMAKE_SOURCE_DIR}/3rdparty/JMdictDescs.cc "QT_TRANSLATE_NOOP(\"JMdictLongDescs\", \"${result}\");\n")
+	endforeach(LINE ${LINES})
+endif()
+
 set(tagainijisho_core_jmdict_SRCS
 JMdictEntry.cc
 JMdictEntrySearcher.cc

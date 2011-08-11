@@ -1,6 +1,27 @@
 # Tatoeba core
 set(QT_DONT_USE_QTGUI TRUE)
 
+set(TATOEBA_SENTENCES_SOURCE http://tatoeba.org/files/downloads/sentences.csv)
+set(TATOEBA_LINKS_SOURCE http://tatoeba.org/files/downloads/links.csv)
+set(TATOEBA_INDICES_SOURCE http://tatoeba.org/files/downloads/jpn_indices.csv)
+
+# Tatoeba
+if(NOT EXISTS ${CMAKE_SOURCE_DIR}/3rdparty/tatoeba/sentences.csv)
+FILE(MAKE_DIRECTORY ${CMAKE_SOURCE_DIR}/3rdparty/tatoeba)
+MESSAGE(STATUS "Downloading Tatoeba sentences from ${TATOEBA_SENTENCES_SOURCE}")
+FILE(DOWNLOAD ${TATOEBA_SENTENCES_SOURCE} ${CMAKE_SOURCE_DIR}/3rdparty/tatoeba/sentences.csv)
+endif()
+if(NOT EXISTS ${CMAKE_SOURCE_DIR}/3rdparty/tatoeba/links.csv)
+FILE(MAKE_DIRECTORY ${CMAKE_SOURCE_DIR}/3rdparty/tatoeba)
+MESSAGE(STATUS "Downloading Tatoeba links from ${TATOEBA_LINKS_SOURCE}")
+FILE(DOWNLOAD ${TATOEBA_LINKS_SOURCE} ${CMAKE_SOURCE_DIR}/3rdparty/tatoeba/links.csv)
+endif()
+if(NOT EXISTS ${CMAKE_SOURCE_DIR}/3rdparty/tatoeba/jpn_indices.csv)
+FILE(MAKE_DIRECTORY ${CMAKE_SOURCE_DIR}/3rdparty/tatoeba)
+MESSAGE(STATUS "Downloading Tatoeba indices from ${TATOEBA_INDICES_SOURCE}")
+FILE(DOWNLOAD ${TATOEBA_INDICES_SOURCE} ${CMAKE_SOURCE_DIR}/3rdparty/tatoeba/jpn_indices.csv)
+endif()
+
 set(tagainijisho_core_tatoeba_SRCS
 TatoebaEntry.cc
 TatoebaEntryLoader.cc

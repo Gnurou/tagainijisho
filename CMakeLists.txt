@@ -5,21 +5,17 @@ if(APPLE)
 else(APPLE)
 	project("tagainijisho")
 endif(APPLE)
+
 # Set the program name to be the same as the project
 set(tagaini_binary ${CMAKE_PROJECT_NAME})
 
 set(VERSION 0.8.90)
-set(JMDICT_SOURCE ftp://ftp.monash.edu.au/pub/nihongo/JMdict.gz)
-set(KANJIDIC2_SOURCE http://www.csse.monash.edu.au/~jwb/kanjidic2/kanjidic2.xml.gz)
-set(KANJIVG_SOURCE http://kanjivg.tagaini.net/upload/Main/kanjivg-latest.xml.gz)
-set(TATOEBA_SENTENCES_SOURCE http://tatoeba.org/files/downloads/sentences.csv)
-set(TATOEBA_LINKS_SOURCE http://tatoeba.org/files/downloads/links.csv)
-set(TATOEBA_INDICES_SOURCE http://tatoeba.org/files/downloads/jpn_indices.csv)
 
 cmake_minimum_required(VERSION 2.8.0)
 
 find_package(Qt4 4.5 REQUIRED)
-find_program(GUNZIP NAMES gunzip)
+# FIXME only required when CMake downloads dictionary files. Not necessary for building from source package.
+find_program(GUNZIP NAMES gunzip REQUIRED)
 
 # Global GCC options
 if(CMAKE_COMPILER_IS_GNUCC)
@@ -42,7 +38,7 @@ if(APPLE)
 	set(CMAKE_FRAMEWORK_PATH "${CMAKE_OSX_SYSROOT}/Library/Frameworks:${CMAKE_OSX_SYSROOT}/System/")
 endif(APPLE)
 
-# Which languages are enabled?
+# By default, only enable English
 if(NOT DICT_LANG)
 	set(DICT_LANG en)
 endif()
@@ -80,63 +76,9 @@ add_subdirectory(doc)
 add_subdirectory(pack)
 
 # External resources fetching and generation
-
 if(NOT EXISTS ${CMAKE_SOURCE_DIR}/3rdparty/)
 	FILE(MAKE_DIRECTORY ${CMAKE_SOURCE_DIR}/3rdparty/)
 endif()
-
-if(${GUNZIP} MATCHES "GUNZIP-NOTFOUND")
-	MESSAGE("Gunzip not found, building will not be possible ")
-else(${GUNZIP} MATCHES "GUNZIP-NOTFOUND")
-	# JMdict
-	if(NOT EXISTS ${CMAKE_SOURCE_DIR}/3rdparty/JMdict)
-		MESSAGE(STATUS "Downloading JMdict from ${JMDICT_SOURCE}")
-		FILE(DOWNLOAD ${JMDICT_SOURCE} ${CMAKE_SOURCE_DIR}/3rdparty/JMdict.gz)
-		execute_process(COMMAND ${GUNZIP} ${CMAKE_SOURCE_DIR}/3rdparty/JMdict.gz WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/3rdparty)
-	endif()
-
-	# Kanjidic2
-	if(NOT EXISTS ${CMAKE_SOURCE_DIR}/3rdparty/kanjidic2.xml)
-		MESSAGE(STATUS "Downloading Kanjidic2 from ${KANJIDIC2_SOURCE}")
-		FILE(DOWNLOAD ${KANJIDIC2_SOURCE} ${CMAKE_SOURCE_DIR}/3rdparty/kanjidic2.xml.gz)
-		execute_process(COMMAND ${GUNZIP} ${CMAKE_SOURCE_DIR}/3rdparty/kanjidic2.xml.gz WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/3rdparty)
-	endif()
-
-	# KanjiVG
-	if(NOT EXISTS ${CMAKE_SOURCE_DIR}/3rdparty/kanjivg.xml)
-		MESSAGE(STATUS "Downloading KanjiVG from ${KANJIVG_SOURCE}")
-		FILE(DOWNLOAD ${KANJIVG_SOURCE} ${CMAKE_SOURCE_DIR}/3rdparty/kanjivg-latest.xml.gz)
-		execute_process(COMMAND ${GUNZIP} ${CMAKE_SOURCE_DIR}/3rdparty/kanjivg-latest.xml.gz WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/3rdparty)
-		FILE(RENAME ${CMAKE_SOURCE_DIR}/3rdparty/kanjivg-latest.xml ${CMAKE_SOURCE_DIR}/3rdparty/kanjivg.xml)
-	endif()
-
-	# Tatoeba
-	#if(NOT EXISTS ${CMAKE_SOURCE_DIR}/3rdparty/tatoeba/sentences.csv)
-	#FILE(MAKE_DIRECTORY ${CMAKE_SOURCE_DIR}/3rdparty/tatoeba)
-	#MESSAGE(STATUS "Downloading Tatoeba sentences from ${TATOEBA_SENTENCES_SOURCE}")
-	#FILE(DOWNLOAD ${TATOEBA_SENTENCES_SOURCE} ${CMAKE_SOURCE_DIR}/3rdparty/tatoeba/sentences.csv)
-	#endif()
-	#if(NOT EXISTS ${CMAKE_SOURCE_DIR}/3rdparty/tatoeba/links.csv)
-	#FILE(MAKE_DIRECTORY ${CMAKE_SOURCE_DIR}/3rdparty/tatoeba)
-	#MESSAGE(STATUS "Downloading Tatoeba links from ${TATOEBA_LINKS_SOURCE}")
-	#FILE(DOWNLOAD ${TATOEBA_LINKS_SOURCE} ${CMAKE_SOURCE_DIR}/3rdparty/tatoeba/links.csv)
-	#endif()
-	#if(NOT EXISTS ${CMAKE_SOURCE_DIR}/3rdparty/tatoeba/jpn_indices.csv)
-	#FILE(MAKE_DIRECTORY ${CMAKE_SOURCE_DIR}/3rdparty/tatoeba)
-	#MESSAGE(STATUS "Downloading Tatoeba indices from ${TATOEBA_INDICES_SOURCE}")
-	#FILE(DOWNLOAD ${TATOEBA_INDICES_SOURCE} ${CMAKE_SOURCE_DIR}/3rdparty/tatoeba/jpn_indices.csv)
-	#endif()
-
-	# JMdictDescs
-	if(NOT EXISTS ${CMAKE_SOURCE_DIR}/3rdparty/JMdictDescs.cc)
-		MESSAGE(STATUS "Generating JMdictDescs")
-		FILE(STRINGS ${CMAKE_SOURCE_DIR}/3rdparty/JMdict LINES REGEX ENTITY)
-		foreach(LINE ${LINES})
-			STRING(REGEX REPLACE ".*\\\"(.*)\\\">" "\\1" result "${LINE}" )
-			FILE(APPEND ${CMAKE_SOURCE_DIR}/3rdparty/JMdictDescs.cc "QT_TRANSLATE_NOOP(\"JMdictLongDescs\", \"${result}\");\n")
-		endforeach(LINE ${LINES})
-	endif()
-endif(${GUNZIP} MATCHES "GUNZIP-NOTFOUND")
 
 # Uninstall
 configure_file("${CMAKE_CURRENT_SOURCE_DIR}/cmake_uninstall.cmake.in" "${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake" IMMEDIATE @ONLY)
