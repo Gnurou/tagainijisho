@@ -38,6 +38,8 @@ if(APPLE)
 	set(CMAKE_C_COMPILER "gcc-4.0")
 	set(CMAKE_CXX_COMPILER "g++-4.0")
 	set(CMAKE_OSX_DEPLOYMENT_TARGET 10.4)
+	set(CMAKE_PREFIX_PATH "${CMAKE_OSX_SYSROOT}/usr")  
+	set(CMAKE_FRAMEWORK_PATH "${CMAKE_OSX_SYSROOT}/Library/Frameworks:${CMAKE_OSX_SYSROOT}/System/")
 endif(APPLE)
 
 # Which languages are enabled?
