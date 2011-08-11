@@ -68,8 +68,6 @@ public:
 	virtual bool onItemParsed(Kanjidic2Item &kanji);
 	bool updateJLPTLevel(const QString &fName, int level);
 	bool updateJLPTLevels();
-	bool prepareQueries(SQLite::Connection connection);
-	bool clearQueries();
 private:
 };
 
@@ -102,12 +100,12 @@ bool Kanjidic2DBParser::onItemParsed(Kanjidic2Item &kanji)
 		if (kanji.meanings.contains(lang)) {
 			foreach (const QString &meaning, kanji.meanings[lang]) {
 				// TODO factorize identical meanings! Record the row id into a hash table
-				BIND(insertMeaningTextQueries["en"], meaning);
-				EXEC(insertMeaningTextQueries["en"]);
-				BIND(insertMeaningQueries["en"], insertMeaningTextQueries["en"].lastInsertId());
-				BIND(insertMeaningQueries["en"], kanji.id);
-				BIND(insertMeaningQueries["en"], lang);
-				EXEC(insertMeaningQueries["en"]);
+				BIND(insertMeaningTextQueries[lang], meaning);
+				EXEC(insertMeaningTextQueries[lang]);
+				BIND(insertMeaningQueries[lang], insertMeaningTextQueries[lang].lastInsertId());
+				BIND(insertMeaningQueries[lang], kanji.id);
+				BIND(insertMeaningQueries[lang], lang);
+				EXEC(insertMeaningQueries[lang]);
 			}
 			break;
 		}
@@ -193,8 +191,6 @@ class KanjiVGDBParser : public KanjiVGParser
 {
 public:
 	virtual bool onItemParsed(KanjiVGItem &kanji);
-	bool prepareQueries(SQLite::Connection connection);
-	bool clearQueries();
 private:
 };
 
