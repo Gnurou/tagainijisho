@@ -15,7 +15,7 @@ MACRO(GENERATE_DOCS _doc_files)
 ENDMACRO(GENERATE_DOCS)
 
 if(${MULTI_MARKDOWN} MATCHES "MULTI_MARKDOWN-NOTFOUND")
-	MESSAGE("MultiMarkdown not found, doc generation will not be available")
+	MESSAGE(STATUS "MultiMarkdown not found, doc generation will not be available")
 else(${MULTI_MARKDOWN} MATCHES "MULTI_MARKDOWN-NOTFOUND")
 	FILE (GLOB DOCUMENTATION_FILES
 		manual.txt
