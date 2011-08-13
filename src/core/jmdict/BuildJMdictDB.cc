@@ -227,10 +227,11 @@ bool JMdictDBParser::openDatabase(QString databaseName, QString handle)
 
 bool JMdictDBParser::closeDatabase(QString handle)
 {	
-	connections[handle].exec("analyze");
-	ASSERT(connections[handle].commit());
-	QFile(connections[handle].dbFileName()).setPermissions(QFile::ReadOwner | QFile::ReadUser | QFile::ReadGroup | QFile::ReadOther);
-	ASSERT(connections[handle].close());
+	SQLite::Connection &connection = connections[handle];
+	connection.exec("analyze");
+	ASSERT(connection.commit());
+	QFile(connection.dbFileName()).setPermissions(QFile::ReadOwner | QFile::ReadUser | QFile::ReadGroup | QFile::ReadOther);
+	ASSERT(connection.close());
 	return true;
 }
 
