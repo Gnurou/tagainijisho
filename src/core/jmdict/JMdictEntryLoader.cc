@@ -37,7 +37,7 @@ JMdictEntryLoader::JMdictEntryLoader() : EntryLoader(), kanjiQuery(&connection),
 	foreach (const QString &lang, allDBs.keys()) {
 		if (lang.isEmpty()) continue;
 		SQLite::Query &query = glossQueries[lang];
-		QString sqlString(QString("select gloss.lang, glossText.reading from jmdict_%1.gloss join jmdict_%1.glossText on gloss.docid == glossText.docid where gloss.id=? and gloss.sensePriority=?").arg(lang));
+		QString sqlString(QString("select glossText.reading from jmdict_%1.gloss join jmdict_%1.glossText on gloss.docid == glossText.docid where gloss.id=? and gloss.sensePriority=?").arg(lang));
 		query.useWith(&connection);
 		query.prepare(sqlString);
 	}
@@ -101,7 +101,7 @@ Entry *JMdictEntryLoader::loadEntry(EntryId id)
 			glossQuery.bindValue(sensesQuery.valueInt(0));
 			glossQuery.exec();
 			while(glossQuery.next())
-				sense.addGloss(Gloss(glossQuery.valueString(0), glossQuery.valueString(1)));
+				sense.addGloss(Gloss(lang, glossQuery.valueString(0)));
 			glossQuery.reset();
 		}
 		entry->senses << sense;

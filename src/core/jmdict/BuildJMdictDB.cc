@@ -155,7 +155,6 @@ bool JMdictDBParser::onItemParsed(const JMdictItem &entry)
 			qint64 rowId = insertGlossTextQueries[lang].lastInsertId();
 			BIND(insertGlossQueries[lang], entry.id);
 			BIND(insertGlossQueries[lang], idx);
-			BIND(insertGlossQueries[lang], lang);
 			BIND(insertGlossQueries[lang], rowId);
 			EXEC(insertGlossQueries[lang]);
 		}
@@ -313,7 +312,7 @@ bool JMdictDBParser::prepareLanguagesQueries()
 	foreach (const QString &lang, languages) {
 #define PREPQUERY(query, text) query.useWith(&connections[lang]); ASSERT(query.prepare(text))
 		PREPQUERY(insertGlossTextQueries[lang], "insert into glossText values(?)");
-		PREPQUERY(insertGlossQueries[lang], "insert into gloss values(?, ?, ?, ?)");
+		PREPQUERY(insertGlossQueries[lang], "insert into gloss values(?, ?, ?)");
 #undef PREPQUERY
 	}
 	return true;
@@ -344,7 +343,7 @@ bool JMdictDBParser::createLanguagesTables()
 	foreach (const QString &lang, languages) {
 		SQLite::Query query(&connections[lang]);
 		EXEC_STMT(query, "create table info(version INT, JMdictVersion TEXT)");
-		EXEC_STMT(query, "create table gloss(id INTEGER SECONDARY KEY REFERENCES entries, sensePriority INT, lang CHAR(3), docid INTEGER PRIMARY KEY)");
+		EXEC_STMT(query, "create table gloss(id INTEGER SECONDARY KEY REFERENCES entries, sensePriority INT, docid INTEGER PRIMARY KEY)");
 		EXEC_STMT(query, "create virtual table glossText using fts4(reading)");
 	}	
 	return true;
