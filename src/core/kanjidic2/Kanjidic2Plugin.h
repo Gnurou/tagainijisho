@@ -31,17 +31,22 @@ private:
 	QString _dbFile;
 	QString _kanjidic2Version;
 	QString _kanjiVGVersion;
+	QMap<QString, QString> _attachedDBs;
+
 	Kanjidic2EntrySearcher *searcher;
 	Kanjidic2EntryLoader *loader;
 
+	bool attachAllDatabases();
+	void detachAllDatabases();
 public:
 	Kanjidic2Plugin();
 	virtual ~Kanjidic2Plugin();
 	static Kanjidic2Plugin *instance() { return _instance; }
 	const QString &dbFile() const { return _dbFile; }
-	virtual QString pluginInfo() const;
 	const QString &kanjidic2Version() const { return _kanjidic2Version; }
 	const QString &kanjiVGVersion() const { return _kanjiVGVersion; }
+	virtual QString pluginInfo() const;
+	const QMap<QString, QString> &attachedDBs() const { return _attachedDBs; }
 	
 	virtual bool onRegister();
 	virtual bool onUnregister();

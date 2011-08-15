@@ -51,11 +51,13 @@ if (APPLE)
 	set(extra_link_flags "-bind_at_load")
 endif()
 
-# Database targets for selected languages
+# Database target
+set(ALL_LANGS "")
 foreach(LANG ${DICT_LANG})
-	add_custom_command(OUTPUT ${CMAKE_BINARY_DIR}/kanjidic2-${LANG}.db
-	COMMAND build_kanji_db -l${LANG} ${CMAKE_SOURCE_DIR} ${CMAKE_BINARY_DIR}
+	set(ALL_LANGS "${ALL_LANGS},${LANG}")
+endforeach()
+add_custom_command(OUTPUT ${CMAKE_BINARY_DIR}/kanjidic2.db
+	COMMAND build_kanji_db -l${ALL_LANGS} ${CMAKE_SOURCE_DIR} ${CMAKE_BINARY_DIR}
 	DEPENDS build_kanji_db ${CMAKE_SOURCE_DIR}/3rdparty/kanjidic2.xml ${CMAKE_SOURCE_DIR}/3rdparty/kanjivg.xml)
-	add_custom_target(kanjidic2-${LANG} DEPENDS ${CMAKE_BINARY_DIR}/kanjidic2-${LANG}.db)
-	add_dependencies(databases-${LANG} kanjidic2-${LANG})
-endforeach(LANG ${LANG})
+add_custom_target(kanjidic2-db DEPENDS ${CMAKE_BINARY_DIR}/kanjidic2.db)
+add_dependencies(databases kanjidic2-db)
