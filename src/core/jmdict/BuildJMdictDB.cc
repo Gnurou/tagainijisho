@@ -459,6 +459,11 @@ int main(int argc, char *argv[])
 	
 	QString srcDir(argv[argCpt]);
 	QString dstDir(argv[argCpt + 1]);
+    
+    // English is used as a backup if nothing else is available
+	if (!languages.contains("en")) {
+		languages << "en";
+	};
 	
 	// Parse and insert JMdict
 	JMdictDBParser parser(languages, srcDir, dstDir);
@@ -474,10 +479,6 @@ int main(int argc, char *argv[])
 	QFile file(QDir(srcDir).absoluteFilePath("3rdparty/JMdict"));
 	ASSERT(file.open(QFile::ReadOnly | QFile::Text));
 	QXmlStreamReader reader(&file);
-	// English is used as a backup if nothing else is available
-	if (!languages.contains("en")) {
-		languages << "en";
-	};
 	if (!parser.parse(reader)) {
 		return 1;
 	}

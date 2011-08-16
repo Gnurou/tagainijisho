@@ -500,10 +500,6 @@ bool KanjiDB::parse()
 	QFile file(QDir(srcDir).absoluteFilePath("3rdparty/kanjidic2.xml"));
 	ASSERT(file.open(QFile::ReadOnly | QFile::Text));
 	QXmlStreamReader reader(&file);
-	// English is always used as a backup
-	if (!languages.contains("en")) {
-		languages << "en";
-	}
 	if (!kdicParser->parse(reader)) {
 		qDebug() << "Error during kanjidic2 parsing:" << connections["main"].lastError().message();
 		return 1;
@@ -562,7 +558,12 @@ int main(int argc, char *argv[])
 	}
 	
 	QString srcDir(argv[argCpt]);
-	QString dstDir(argv[argCpt + 1]);	
+	QString dstDir(argv[argCpt + 1]);
+	
+    // English is used as a backup if nothing else is available
+	if (!languages.contains("en")) {
+		languages << "en";
+	};
 	
 	KanjiDB kanjiDB(languages, srcDir, dstDir);
 	
