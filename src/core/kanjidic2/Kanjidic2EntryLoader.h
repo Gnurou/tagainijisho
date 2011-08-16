@@ -25,7 +25,9 @@ class Kanjidic2EntryLoader : public EntryLoader
 {
 private:
 	SQLite::Query kanjiQuery, variationsQuery, readingsQuery, nanoriQuery,
-		componentsQuery, radicalsQuery, skipQuery, fourCornerQuery, meaningsQuery;
+		componentsQuery, radicalsQuery, skipQuery, fourCornerQuery;
+	QMap<QString, SQLite::Query> meaningsQueries;
+
 protected:
 	QList<Kanjidic2Entry::KanjiMeaning> getMeanings(int id);
 public:

@@ -19,10 +19,14 @@
 #include "core/kanjidic2/Kanjidic2Entry.h"
 #include "core/kanjidic2/Kanjidic2Plugin.h"
 
-Kanjidic2EntryLoader::Kanjidic2EntryLoader() : EntryLoader(), kanjiQuery(&connection), variationsQuery(&connection), readingsQuery(&connection), nanoriQuery(&connection), componentsQuery(&connection), radicalsQuery(&connection), skipQuery(&connection), fourCornerQuery(&connection), meaningsQuery(&connection)
+Kanjidic2EntryLoader::Kanjidic2EntryLoader() : EntryLoader(), kanjiQuery(&connection), variationsQuery(&connection), readingsQuery(&connection), nanoriQuery(&connection), componentsQuery(&connection), radicalsQuery(&connection), skipQuery(&connection), fourCornerQuery(&connection)
 {
-	if (!connection.attach(Kanjidic2Plugin::instance()->dbFile(), "kanjidic2")) {
-		qFatal("JMdictEntrySearcher cannot attach JMdict databases!");
+	const QMap<QString, QString> &allDBs = Kanjidic2Plugin::instance()->attachedDBs();
+	foreach (const QString &lang, allDBs.keys()) {
+		QString dbAlias(lang.isEmpty() ? "kanjidic2" : "kanjidic2_" + lang);
+		if (!connection.attach(allDBs[lang], dbAlias)) {
+			qFatal("Kanjidic2EntrySearcher cannot attach Kanjidic2 databases!");
+		}
 	}
 
 	// Prepare loading queries for faster execution
@@ -34,16 +38,29 @@ Kanjidic2EntryLoader::Kanjidic2EntryLoader() : EntryLoader(), kanjiQuery(&connec
 	radicalsQuery.prepare("select rl.number, rl.kanji from kanjidic2.radicals as r join kanjidic2.radicalsList as rl on r.number = rl.number where r.kanji = ? and r.type is not null order by rl.number, rl.rowid");
 	skipQuery.prepare("select type, c1, c2 from skip where entry = ? limit 1");
 	fourCornerQuery.prepare("select topLeft, topRight, botLeft, botRight, extra from fourCorner where entry = ? limit 1");
-	meaningsQuery.prepare("select lang, reading from kanjidic2.meaning join kanjidic2.meaningText on kanjidic2.meaning.docid = kanjidic2.meaningText.docid where entry = ?");
+
+	foreach (const QString &lang, allDBs.keys()) {
+		if (lang.isEmpty()) continue;
+		SQLite::Query &query = meaningsQueries[lang];
+		QString sqlString(QString("select reading from kanjidic2_%1.meaning join kanjidic2_%1.meaningText on kanjidic2_%1.meaning.docid = kanjidic2_%1.meaningText.docid where entry = ?").arg(lang));
+		query.useWith(&connection);
+		query.prepare(sqlString);
+	}
 }
 
 QList<Kanjidic2Entry::KanjiMeaning> Kanjidic2EntryLoader::getMeanings(int id)
 {
 	QList<Kanjidic2Entry::KanjiMeaning> ret;
-	meaningsQuery.bindValue(id);
-	meaningsQuery.exec();
-	while(meaningsQuery.next()) {
-		ret << Kanjidic2Entry::KanjiMeaning(meaningsQuery.valueString(0), meaningsQuery.valueString(1));
+	const QMap<QString, QString> &allDBs = Kanjidic2Plugin::instance()->attachedDBs();
+	foreach (const QString &lang, allDBs.keys()) {
+		if (lang.isEmpty()) continue;
+		SQLite::Query &meaningsQuery = meaningsQueries[lang];
+		meaningsQuery.bindValue(id);
+		meaningsQuery.exec();
+		while(meaningsQuery.next()) {
+			ret << Kanjidic2Entry::KanjiMeaning(lang, meaningsQuery.valueString(0));
+		}
+		meaningsQuery.reset();
 	}
 	// Here we probably have a kana or roman character that we can build up
 	if (ret.isEmpty()) {
@@ -58,7 +75,6 @@ QList<Kanjidic2Entry::KanjiMeaning> Kanjidic2EntryLoader::getMeanings(int id)
 		else if (TextTools::isKatakana(character)) ret << Kanjidic2Entry::KanjiMeaning("en", QString("katakana \"%1\"%2").arg(reading).arg(info));
 		else ret << Kanjidic2Entry::KanjiMeaning("en", QString("unknown character \"%1\"").arg(reading));
 	}
-	meaningsQuery.reset();
 	return ret;
 }
 
@@ -118,7 +134,6 @@ Entry *Kanjidic2EntryLoader::loadEntry(EntryId id)
 			}
 		}
 	}
-	meaningsQuery.reset();
 
 	// Nanori
 	nanoriQuery.bindValue(id);

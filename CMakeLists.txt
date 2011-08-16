@@ -58,10 +58,6 @@ option(BUILD_TESTS "Build tests suite" OFF)
 
 # Databases helper targets
 add_custom_target(databases ALL)
-foreach(LANG ${DICT_LANG})
-	add_custom_target(databases-${LANG} ALL)
-	add_dependencies(databases databases-${LANG})
-endforeach(LANG ${DICT_LANG})
 
 # Source code
 add_subdirectory(src)

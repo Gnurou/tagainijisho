@@ -56,14 +56,15 @@ private:
 	 */
 	bool checkForMovedEntries();
 
+	bool attachAllDatabases();
+	void detachAllDatabases();
+
 public:
 	JMdictPlugin();
 	virtual ~JMdictPlugin();
 	static JMdictPlugin *instance() { return _instance; }
 	virtual bool onRegister();
 	virtual bool onUnregister();
-	bool attachAllDatabases();
-	void detachAllDatabases();
 	const QString &dictVersion() const { return _dictVersion; }
 	virtual QString pluginInfo() const;
 	const QMap<QString, QString> &attachedDBs() const { return _attachedDBs; }
