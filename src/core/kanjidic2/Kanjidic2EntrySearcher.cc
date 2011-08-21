@@ -70,7 +70,7 @@ static QString buildTextSearchCondition(const QStringList &words, const QString 
 	static QRegExp regExpChars = QRegExp("[\\?\\*]");
 	static QString ftsMatch("kanjidic2%3.%2Text.reading match '%1'");
 	static QString regexpMatch("kanjidic2%3.%2Text.reading regexp %1");
-	static QString globalMatch("kanjidic2%3.%2.docid in (select docid from kanjidic2.%2Text where %1)");
+	static QString globalMatch("kanjidic2%3.%2.docid in (select docid from kanjidic2%3.%2Text where %1)");
 
 	QStringList globalMatches;
 	QStringList langs(Kanjidic2Plugin::instance()->attachedDBs().keys());
@@ -95,7 +95,7 @@ static QString buildTextSearchCondition(const QStringList &words, const QString 
 			} else fts << "\"" + w + "\"";
 		}
 		if (!fts.isEmpty()) conds.insert(0, ftsMatch.arg(fts.join(" ")));
-		globalMatches <<  globalMatch.arg(conds.join(" AND ")).arg(table).arg(table == "meanings" ? "_" + lang : "");
+		globalMatches <<  globalMatch.arg(conds.join(" AND ")).arg(table).arg(table == "meaning" ? "_" + lang : "");
 	}
 	return globalMatches.join(" OR ");
 }
@@ -124,6 +124,10 @@ void Kanjidic2EntrySearcher::buildStatement(QList<SearchCommand> &commands, Quer
 			foreach(const QString &arg, command.args()) kanaSearch << arg;
 		}
 		else if (command.command() == "mean") {
+			QStringList langs(Kanjidic2Plugin::instance()->attachedDBs().keys());
+			langs.removeAll("");
+			foreach (const QString &lang, langs) statement.addJoin(QueryBuilder::Column("kanjidic2_" + lang + ".meaning", "entry"));
+
 			foreach(const QString &arg, command.args()) transSearch << arg;
 		}
 		else if (command.command() == "jlpt") {
@@ -246,7 +250,7 @@ void Kanjidic2EntrySearcher::buildStatement(QList<SearchCommand> &commands, Quer
 			statement.addJoin(QueryBuilder::Column("kanjidic2.entries", "id"));
 		}
 	}
-	if (!kanaSearch.isEmpty()) statement.addWhere(buildTextSearchCondition(kanaSearch, "kanjidic2.reading"));
+	if (!kanaSearch.isEmpty()) statement.addWhere(buildTextSearchCondition(kanaSearch, "reading"));
 	if (!transSearch.isEmpty()) statement.addWhere(buildTextSearchCondition(transSearch, "meaning"));
 
 	if (!radicalSearch.isEmpty()) {
