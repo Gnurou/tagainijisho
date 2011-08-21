@@ -90,7 +90,7 @@ static QString buildTextSearchCondition(const QStringList &words, const QString 
 	static QString ftsMatch("jmdict%3.%2Text.reading match '%1'");
 	static QString regexpMatch("jmdict%3.%2Text.reading regexp %1");
 	static QString globalMatch("jmdict%3.%2.docid in (select docid from jmdict%3.%2Text where %1)");
-	
+
 	QStringList globalMatches;
 	QStringList langs(JMdictPlugin::instance()->attachedDBs().keys());
 	langs.removeAll("");

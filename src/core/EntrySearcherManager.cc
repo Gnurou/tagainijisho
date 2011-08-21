@@ -105,9 +105,8 @@ bool EntrySearcherManager::buildQuery(const QString &search, QueryBuilder &query
 			// Try to get every command into sql statements
 			searcher->buildStatement(commands, statement);
 			if (commands.isEmpty()) {
-				int colpos = 0;
 				foreach(const QString &order, orders) {
-					colpos = statement.addColumn(searcher->canSort(order, statement));
+					statement.addColumn(searcher->canSort(order, statement));
 				}
 
 				searcher->setColumns(statement);
