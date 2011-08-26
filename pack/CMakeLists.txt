@@ -60,7 +60,7 @@ if(UNIX)
 		set(DIRS ${QT_LIBRARY_DIRS})
 
 		install(FILES "${CMAKE_BINARY_DIR}/jmdict.db" DESTINATION ${EXE_DIR} COMPONENT Runtime)
-                install(FILES "${CMAKE_BINARY_DIR}/kanjidic2.db" DESTINATION ${EXE_DIR} COMPONENT Runtime)
+		install(FILES "${CMAKE_BINARY_DIR}/kanjidic2.db" DESTINATION ${EXE_DIR} COMPONENT Runtime)
 
 		foreach(LANG ${DICT_LANG})
 			install(FILES "${CMAKE_BINARY_DIR}/jmdict-${LANG}.db" DESTINATION ${EXE_DIR} COMPONENT Runtime)
