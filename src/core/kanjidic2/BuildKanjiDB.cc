@@ -560,7 +560,7 @@ int main(int argc, char *argv[])
 	QString srcDir(argv[argCpt]);
 	QString dstDir(argv[argCpt + 1]);
 	
-    // English is used as a backup if nothing else is available
+	// English is used as a backup if nothing else is available
 	if (!languages.contains("en")) {
 		languages << "en";
 	};
