@@ -32,7 +32,7 @@
 #define AUTO_BIND(query, val, nval) if (val == nval) BINDNULL(query) else BIND(query, val)
 #define EXEC(query) if (!query.exec()) { qFatal("%s", query.lastError().message().toUtf8().data()); return false; }
 #define EXEC_STMT(query, stmt) if (!query.exec(stmt)) { qFatal("%s", query.lastError().message().toUtf8().data()); return false; }
-#define ASSERT(cond) Q_ASSERT(cond)
+#define ASSERT(cond) { if (!cond) { qCritical("%s: assert condition failed, line %d", __FILE__, __LINE__); return false; } }
 
 class JMdictDBParser : public JMdictParser
 {
@@ -431,6 +431,42 @@ void printUsage(char *argv[])
 	qCritical("Usage: %s [-l<lang>] source_dir dest_dir\nWhere <lang> is a two-letters language code (en, fr, de, es or ru)", argv[0]);
 }
 
+bool buildDB(const QSet<QString> &languages, const QString &srcDir, const QString &dstDir)
+{
+	JMdictDBParser parser(languages, srcDir, dstDir);
+
+	parser.createMainDatabase();
+	parser.createMainTables();
+	parser.prepareMainQueries();
+
+	parser.createLanguagesDatabases();
+	parser.createLanguagesTables();
+	parser.prepareLanguagesQueries();
+
+	QFile file(QDir(srcDir).absoluteFilePath("3rdparty/JMdict"));
+	ASSERT(file.open(QFile::ReadOnly | QFile::Text));
+	QXmlStreamReader reader(&file);
+	if (!parser.parse(reader)) {
+		return 1;
+	}
+	file.close();
+
+	parser.fillMainInfoTable();
+	parser.fillLanguagesInfoTable();
+	parser.insertJLPTLevels();
+	parser.populateEntitiesTable();
+	parser.createMainIndexes();
+	parser.createLanguagesIndexes();
+
+	parser.clearMainQueries();
+	parser.finalizeMainDatabase();
+
+	parser.clearLanguagesQueries();
+	parser.finalizeLanguagesDatabases();
+
+	return true;
+}
+
 int main(int argc, char *argv[])
 {
 	QCoreApplication app(argc, argv);
@@ -460,42 +496,10 @@ int main(int argc, char *argv[])
 	QString srcDir(argv[argCpt]);
 	QString dstDir(argv[argCpt + 1]);
     
-    // English is used as a backup if nothing else is available
+	// English is used as a backup if nothing else is available
 	if (!languages.contains("en")) {
 		languages << "en";
 	};
 	
-	// Parse and insert JMdict
-	JMdictDBParser parser(languages, srcDir, dstDir);
-
-	parser.createMainDatabase();
-	parser.createMainTables();
-	parser.prepareMainQueries();
-	
-	parser.createLanguagesDatabases();
-	parser.createLanguagesTables();
-	parser.prepareLanguagesQueries();
-	
-	QFile file(QDir(srcDir).absoluteFilePath("3rdparty/JMdict"));
-	ASSERT(file.open(QFile::ReadOnly | QFile::Text));
-	QXmlStreamReader reader(&file);
-	if (!parser.parse(reader)) {
-		return 1;
-	}
-	file.close();
-	
-	parser.fillMainInfoTable();
-	parser.fillLanguagesInfoTable();
-	parser.insertJLPTLevels();
-	parser.populateEntitiesTable();
-	parser.createMainIndexes();
-	parser.createLanguagesIndexes();
-
-	parser.clearMainQueries();
-	parser.finalizeMainDatabase();
-
-	parser.clearLanguagesQueries();
-	parser.finalizeLanguagesDatabases();	
-		
-	return 0;
+	return (!buildDB(languages, srcDir, dstDir));
 }

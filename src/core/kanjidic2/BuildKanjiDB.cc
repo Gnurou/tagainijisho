@@ -30,10 +30,10 @@
 
 #define BIND(query, val) { if (!query.bindValue(val)) { qFatal("%s", query.lastError().message().toUtf8().data()); return false; } }
 #define BINDNULL(query) { if (!query.bindNullValue()) { qFatal("%s", query.lastError().message().toUtf8().data()); return false; } }
-#define AUTO_BIND(query, val, nval) if (val == nval) BINDNULL(query) else BIND(query, val)
-#define EXEC(query) if (!query.exec()) { qFatal("%s", query.lastError().message().toUtf8().data()); return false; }
-#define EXEC_STMT(query, stmt) if (!query.exec(stmt)) { qFatal("%s", query.lastError().message().toUtf8().data()); return false; }
-#define ASSERT(cond) Q_ASSERT(cond)
+#define AUTO_BIND(query, val, nval) { if (val == nval) BINDNULL(query) else BIND(query, val) }
+#define EXEC(query) { if (!query.exec()) { qFatal("%s", query.lastError().message().toUtf8().data()); return false; } }
+#define EXEC_STMT(query, stmt)  { if (!query.exec(stmt)) { qFatal("%s", query.lastError().message().toUtf8().data()); return false; } }
+#define ASSERT(cond) { if (!cond) { qCritical("%s: assert condition failed, line %d", __FILE__, __LINE__); return false; } }
 
 QMap<quint32, quint8> knownRadicals;
 QSet<QPair<uint, quint8> > insertedRadicals;
@@ -530,6 +530,26 @@ void printUsage(char *argv[])
 	qCritical("Usage: %s [-l<lang>] source_dir dest_file\nWhere <lang> is a two-letters language code (en, fr, de, es or ru)", argv[0]);
 }
 
+bool buildDB(const QStringList &languages, const QString &srcDir, const QString &dstDir)
+{
+	KanjiDB kanjiDB(languages, srcDir, dstDir);
+
+	ASSERT(kanjiDB.openDatabase("kanjidic2.db", "main"));
+	foreach (const QString &lang, languages) {
+		ASSERT(kanjiDB.openDatabase(QString("kanjidic2-%1.db").arg(lang), lang));
+	}
+	ASSERT(kanjiDB.createTables());
+	ASSERT(kanjiDB.prepareQueries());
+	ASSERT(kanjiDB.parse());
+	ASSERT(kanjiDB.createIndexes());
+	ASSERT(kanjiDB.clearQueries());
+	ASSERT(kanjiDB.closeDatabase("main"));
+	foreach (const QString &lang, languages) {
+		ASSERT(kanjiDB.closeDatabase(lang));
+	}
+	return true;
+}
+
 int main(int argc, char *argv[])
 {
 	QCoreApplication app(argc, argv);
@@ -565,21 +585,5 @@ int main(int argc, char *argv[])
 		languages << "en";
 	};
 	
-	KanjiDB kanjiDB(languages, srcDir, dstDir);
-	
-	ASSERT(kanjiDB.openDatabase("kanjidic2.db", "main")); 
-	foreach (const QString &lang, languages) {
-		ASSERT(kanjiDB.openDatabase(QString("kanjidic2-%1.db").arg(lang), lang));
-	}
-	ASSERT(kanjiDB.createTables());
-	ASSERT(kanjiDB.prepareQueries());
-	ASSERT(kanjiDB.parse());	
-	ASSERT(kanjiDB.createIndexes());	
-	ASSERT(kanjiDB.clearQueries());
-	ASSERT(kanjiDB.closeDatabase("main"));
-	foreach (const QString &lang, languages) {
-		ASSERT(kanjiDB.closeDatabase(lang));
-	}
-	
-	return 0;
+	return !buildDB(languages, srcDir, dstDir);
 }
