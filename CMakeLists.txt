@@ -38,9 +38,9 @@ if(APPLE)
 	set(CMAKE_FRAMEWORK_PATH "${CMAKE_OSX_SYSROOT}/Library/Frameworks:${CMAKE_OSX_SYSROOT}/System/")
 endif(APPLE)
 
-# By default, only enable English
+# By default, enable all languages
 if(NOT DICT_LANG)
-	set(DICT_LANG en)
+	set(DICT_LANG "en;fr;de;es;ru")
 endif()
 # Set DICT_LANG to always appear in the cache
 set(DICT_LANG ${DICT_LANG} CACHE STRING "Languages to use for the dictionary data (semicolon-separated 2-letter codes)")
