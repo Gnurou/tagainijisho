@@ -15,6 +15,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "core/Lang.h"
 #include "core/kanjidic2/Kanjidic2EntryLoader.h"
 #include "core/kanjidic2/Kanjidic2Entry.h"
 #include "core/kanjidic2/Kanjidic2Plugin.h"
@@ -52,8 +53,8 @@ QList<Kanjidic2Entry::KanjiMeaning> Kanjidic2EntryLoader::getMeanings(int id)
 {
 	QList<Kanjidic2Entry::KanjiMeaning> ret;
 	const QMap<QString, QString> &allDBs = Kanjidic2Plugin::instance()->attachedDBs();
-	foreach (const QString &lang, allDBs.keys()) {
-		if (lang.isEmpty()) continue;
+	foreach (const QString &lang, Lang::preferredLanguages()) {
+		if (!allDBs.contains(lang)) continue;
 		SQLite::Query &meaningsQuery = meaningsQueries[lang];
 		meaningsQuery.bindValue(id);
 		meaningsQuery.exec();

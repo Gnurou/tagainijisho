@@ -28,7 +28,8 @@ const QStringList &Lang::supportedLanguages()
 
 QStringList Lang::preferredLanguages()
 {
-	QStringList ret(QStringList() << "en");
+	QStringList ret;
 	if (preferredLanguage.value() != "en" && _langs.contains(preferredLanguage.value())) ret << preferredLanguage.value();
+	ret << "en";
 	return ret;
 }

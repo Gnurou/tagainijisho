@@ -15,6 +15,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "core/Lang.h"
 #include "core/jmdict/JMdictEntryLoader.h"
 #include "core/jmdict/JMdictPlugin.h"
 
@@ -94,8 +95,8 @@ Entry *JMdictEntryLoader::loadEntry(EntryId id)
 		restrictedTo = sensesQuery.valueString(6).split(',', QString::SkipEmptyParts);
 		foreach (const QString &idx, restrictedTo) sense.addStagR(idx.toInt());
 
-		foreach (const QString &lang, allDBs.keys()) {
-			if (lang.isEmpty()) continue;
+		foreach (const QString &lang, Lang::preferredLanguages()) {
+			if (!allDBs.contains(lang)) continue;
 			SQLite::Query &glossQuery = glossQueries[lang];
 			glossQuery.bindValue(entry->id());
 			glossQuery.bindValue(sensesQuery.valueInt(0));

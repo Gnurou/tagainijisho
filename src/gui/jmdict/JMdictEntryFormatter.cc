@@ -16,6 +16,7 @@
  */
 
 #include "core/Paths.h"
+#include "core/Lang.h"
 #include "core/TextTools.h"
 #include "core/jmdict/JMdictPlugin.h"
 #include "core/jmdict/JMdictEntrySearcher.h"
@@ -325,14 +326,15 @@ QString JMdictEntryFormatter::formatSenses(const ConstEntryPointer &_entry) cons
 
 		// Write the entry
 		ret += "<div class=\"glosses\">\n";
-		QMap<QString, Gloss> glosses = sense->getGlosses();
+		QList<Gloss> glosses = sense->getGlosses();
 		QStringList keys;
-		// TODO separate different languages with new block
-		foreach (const QString &glossKey, glosses.keys()) {
-			QString gloss(glosses[glossKey].gloss());
-			if (!gloss.isEmpty()) gloss[0] = gloss[0].toUpper();
-			ret += QString("<span class=\"glossbody\"><img src=\"flag:%1\"> %2.</span>").arg(glossKey).arg(gloss);
+		QStringList gls;
+		foreach (const Gloss &gloss, glosses) {
+			QString str(gloss.gloss());
+			if (!str.isEmpty()) str[0] = str[0].toUpper();
+			gls << QString("<span class=\"glossbody\"><img src=\"flag:%1\"> %2.</span>").arg(gloss.lang()).arg(str);
 		}
+		ret += gls.join("<br/>");
 
 		QStringList senseHeaders;
 		// Check if the writing is restricted

@@ -16,6 +16,7 @@
  */
 
 #include "core/Paths.h"
+#include "core/Lang.h"
 #include "core/TextTools.h"
 #include "gui/kanjidic2/Kanjidic2EntryFormatter.h"
 
@@ -405,12 +406,21 @@ QString Kanjidic2EntryFormatter::formatHead(const ConstEntryPointer &_entry) con
 QString Kanjidic2EntryFormatter::formatMeanings(const ConstEntryPointer &_entry) const
 {
 	ConstKanjidic2EntryPointer entry(_entry.staticCast<const Kanjidic2Entry>());
-	if (!entry->kanjiMeanings().isEmpty()) {
-		QString s = entry->meaningsString();
-		if (!s.isEmpty()) s[0] = s[0].toUpper();
-		return s;
+	QStringList meanStrings;
+	QString curLang;
+	QMap<QString, QStringList> means;
+	foreach (const Kanjidic2Entry::KanjiMeaning &mean, entry->kanjiMeanings()) {
+		if (mean.lang() != curLang) {
+			means[mean.lang()] = QStringList();
+			curLang = mean.lang();
+		}
+		means[mean.lang()] << mean.meaning();
 	}
-	return "";
+	foreach (const QString &lang, Lang::preferredLanguages()) {
+		if (!means.contains(lang)) continue;
+		meanStrings << QString("<img src=\"flag:%1\"> ").arg(lang) + means[lang].join(", ");
+	}
+	return meanStrings.join("<br/>");
 }
 
 QString Kanjidic2EntryFormatter::formatOnReadings(const ConstEntryPointer &_entry) const
