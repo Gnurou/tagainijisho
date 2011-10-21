@@ -19,6 +19,7 @@
 
 #include "core/Paths.h"
 #include "core/Preferences.h"
+#include "core/Lang.h"
 #include "core/Database.h"
 #include "core/Tag.h"
 #include "core/EntryListCache.h"
@@ -82,7 +83,7 @@ void messageHandler(QtMsgType type, const char *msg)
  * to update configuration options that have changed or to remove obsolete
  * ones.
  */
-#define CONFIG_VERSION 3
+#define CONFIG_VERSION 4
 PreferenceItem<int> configVersion("", "configVersion", 0);
 
 void migrateOldData()
@@ -135,6 +136,9 @@ void checkConfigurationVersion()
 			settings.remove("updateCheckInterval");
 		case 3:
 			settings.remove("mainWindow/resultsView/resultsPerPage");
+		case 4:
+			if (settings.contains("mainWindow/guiLanguage")) settings.setValue("preferredLanguages", settings.value("mainWindow/guiLanguage"));
+			settings.remove("mainWindow/guiLanguage");
 		default:
 			// If we arrive here, this means we are running an pre-tracking version - do nothing in that case
 			break;
@@ -194,11 +198,10 @@ int main(int argc, char *argv[])
 	// Load translations, if available
 	QString locale;
 	// First check if the language is user-set
-	if (!MainWindow::guiLanguage.isDefault()) {
-		locale = MainWindow::guiLanguage.value();
-	}
+	if (!Lang::preferredLanguage.isDefault()) {
+		locale = Lang::preferredLanguage.value();
 	// Otherwise try the system default
-	else {
+	} else {
 		QSettings settings;
 		locale = settings.value("locale", QLocale::system().name().left(2)).toString();
 	}

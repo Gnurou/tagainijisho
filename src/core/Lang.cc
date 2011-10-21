@@ -17,9 +17,18 @@
 
 #include <core/Lang.h>
 
-static const QStringList _langs(QStringList() << "en" << "fr" << "de" << "es" << "ru");
+static const QStringList _langs(QStringList() << "en" << "fr" << "de" << "es" << "ru" << "cz");
 
-const QStringList &supportedLanguages()
+PreferenceItem<QString> Lang::preferredLanguage("", "preferredLanguages", "");
+
+const QStringList &Lang::supportedLanguages()
 {
 	return _langs;
+}
+
+QStringList Lang::preferredLanguages()
+{
+	QStringList ret(QStringList() << "en");
+	if (preferredLanguage.value() != "en" && _langs.contains(preferredLanguage.value())) ret << preferredLanguage.value();
+	return ret;
 }

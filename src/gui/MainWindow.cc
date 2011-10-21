@@ -62,7 +62,6 @@ UpdateChecker *_updateChecker = 0;
 UpdateChecker *_betaUpdateChecker = 0;
 
 PreferenceItem<QString> MainWindow::applicationFont("mainWindow", "defaultFont", "");
-PreferenceItem<QString> MainWindow::guiLanguage("mainWindow", "guiLanguage", "");
 PreferenceItem<bool> MainWindow::autoCheckUpdates("mainWindow", "autoCheckUpdates", true);
 PreferenceItem<bool> MainWindow::autoCheckBetaUpdates("mainWindow", "autoCheckBetaUpdates", false);
 PreferenceItem<int> MainWindow::updateCheckInterval("mainWindow", "updateCheckInterval", 3);

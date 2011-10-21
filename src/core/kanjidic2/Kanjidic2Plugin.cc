@@ -67,7 +67,7 @@ bool Kanjidic2Plugin::attachAllDatabases()
 	_attachedDBs[""] = dbFile;
 	
 	// Then look for language databases
-	foreach (const QString &lang, supportedLanguages()) {
+	foreach (const QString &lang, Lang::preferredLanguages()) {
 		dbFile = lookForFile(QString("kanjidic2-%1.db").arg(lang));
 		if (dbFile.isEmpty()) continue;
 		if (!Database::attachDictionaryDB(dbFile, QString("kanjidic2_%1").arg(lang), KANJIDIC2DB_REVISION)) continue;

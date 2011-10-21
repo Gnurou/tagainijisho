@@ -131,7 +131,6 @@ public:
 	QMenu *helpMenu() { return _helpMenu; }
 
 	static PreferenceItem<QString> applicationFont;
-	static PreferenceItem<QString> guiLanguage;
 	static PreferenceItem<bool> autoCheckUpdates;
 	static PreferenceItem<bool> autoCheckBetaUpdates;
 	static PreferenceItem<int> updateCheckInterval;

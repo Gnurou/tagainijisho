@@ -16,6 +16,7 @@
  */
 
 #include "core/Database.h"
+#include "core/Lang.h"
 #include "core/EntrySearcherManager.h"
 #include "core/RelativeDate.h"
 #include "gui/UpdateChecker.h"
@@ -106,8 +107,8 @@ GeneralPreferences::GeneralPreferences(QWidget *parent) : PreferencesWindowCateg
 	for (int i = 0; i < langs.size(); i++) {
 		QString transLanguage(QCoreApplication::translate("GeneralPreferences", langs[i].first.toUtf8().constData()));
 		if (transLanguage != langs[i].first) transLanguage += QString(" (%1)").arg(langs[i].first);
-		guiLanguage->addItem(transLanguage);
-		guiLanguage->setItemData(guiLanguage->count() - 1, langs[i].second);
+		prefLanguage->addItem(transLanguage);
+		prefLanguage->setItemData(prefLanguage->count() - 1, langs[i].second);
 	}
 
 	firstDayOfWeek->addItem(tr("Monday"), Qt::Monday);
@@ -124,13 +125,13 @@ void GeneralPreferences::refresh()
 	fontChooser->setDefault(MainWindow::applicationFont.isDefault());
 	fontChooser->setFont(QFont());
 
-	if (MainWindow::guiLanguage.value() == "") guiLanguage->setCurrentIndex(0);
+	if (Lang::preferredLanguage.value() == "") prefLanguage->setCurrentIndex(0);
 	else {
 		int idx = 1;
 		typedef QPair<QString, QString> langPair;
 		foreach (const langPair &pair, langs) {
-			if (pair.second == MainWindow::guiLanguage.value()) {
-				guiLanguage->setCurrentIndex(idx);
+			if (pair.second == Lang::preferredLanguage.value()) {
+				prefLanguage->setCurrentIndex(idx);
 				break;
 			}
 			++idx;
@@ -189,8 +190,8 @@ void GeneralPreferences::applySettings()
 	else MainWindow::applicationFont.set(font.toString());
 
 	// Application language
-	if (guiLanguage->currentIndex() == 0) MainWindow::guiLanguage.reset();
-	else MainWindow::guiLanguage.set(guiLanguage->itemData(guiLanguage->currentIndex()).toString());
+	if (prefLanguage->currentIndex() == 0) Lang::preferredLanguage.reset();
+	else Lang::preferredLanguage.set(prefLanguage->itemData(prefLanguage->currentIndex()).toString());
 
 	// First day of week
 	RelativeDate::firstDayOfWeek.set(static_cast<Qt::DayOfWeek>(firstDayOfWeek->itemData(firstDayOfWeek->currentIndex()).toInt()));

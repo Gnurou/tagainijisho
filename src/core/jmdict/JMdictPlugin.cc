@@ -286,7 +286,7 @@ bool JMdictPlugin::attachAllDatabases()
 	_attachedDBs[""] = dbFile;
 	
 	// Then look for language databases
-	foreach (const QString &lang, supportedLanguages()) {
+	foreach (const QString &lang, Lang::preferredLanguages()) {
 		dbFile = lookForFile(QString("jmdict-%1.db").arg(lang));
 		if (dbFile.isEmpty()) continue;
 		if (!Database::attachDictionaryDB(dbFile, QString("jmdict_%1").arg(lang), JMDICTDB_REVISION)) continue;
