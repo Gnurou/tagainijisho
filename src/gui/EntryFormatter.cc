@@ -198,7 +198,7 @@ QString EntryFormatter::formatLists(const ConstEntryPointer &entry) const
 	if (!entry->lists().isEmpty()) {
 		EntryListModel listModel;
 		QStringList ret;
-		ret << "<img src=\"listicon\">   ";
+		ret << "<img src=\"listicon\"/>   ";
 		foreach (quint64 rowid, entry->lists()) {
 			QModelIndex idx(listModel.index(rowid));
 			if (!idx.isValid()) continue;
@@ -216,7 +216,7 @@ QString EntryFormatter::formatLists(const ConstEntryPointer &entry) const
 QString EntryFormatter::formatTags(const ConstEntryPointer &entry) const
 {
 	if (!entry->tags().isEmpty()) {
-		QString ret("<img src=\"tagicon\"> ");
+		QString ret("<img src=\"tagicon\"/> ");
 		bool first = true;
 		foreach(const Tag &tag, entry->tags()) {
 			if (!first) ret += "   ";

@@ -332,7 +332,7 @@ QString JMdictEntryFormatter::formatSenses(const ConstEntryPointer &_entry) cons
 		foreach (const Gloss &gloss, glosses) {
 			QString str(gloss.gloss());
 			if (!str.isEmpty()) str[0] = str[0].toUpper();
-			gls << QString("<span class=\"glossbody\"><img src=\"flag:%1\"> %2.</span>").arg(gloss.lang()).arg(str);
+			gls << QString("<span class=\"glossbody\"><img src=\"flag:%1\"/> %2.</span>").arg(gloss.lang()).arg(str);
 		}
 		ret += gls.join("<br/>");
 
