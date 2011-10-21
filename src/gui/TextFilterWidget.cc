@@ -33,7 +33,7 @@ TextFilterWidget::TextFilterWidget(QWidget *parent) : SearchFilterWidget(parent)
 	_searchField->setMaxCount(textSearchHistorySize.value());
 	_searchField->setSizePolicy(QSizePolicy::Expanding, _searchField->sizePolicy().verticalPolicy());
 	_searchField->setInsertPolicy(QComboBox::NoInsert);
-	_searchField->setLineEdit(new TJLineEdit());
+	//_searchField->setLineEdit(new TJLineEdit());
 	connect(_searchField->lineEdit(), SIGNAL(returnPressed()), this, SLOT(runSearch()));
 	connect(_searchField->lineEdit(), SIGNAL(textChanged(QString)), this, SLOT(onSearchTextChanged(QString)));
 	connect(_searchField, SIGNAL(activated(int)), this, SLOT(onItemSelected(int)));
