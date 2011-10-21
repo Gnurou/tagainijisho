@@ -37,6 +37,9 @@ private:
 	ScrollBarSmoothScroller _sscroll;
 	void setupGridSize();
 
+protected slots:
+	void onItemEntered(QListWidgetItem *item);
+
 public:
 	ComplementsList(QWidget *parent = 0);
 	QSet<uint> currentSelection() const;

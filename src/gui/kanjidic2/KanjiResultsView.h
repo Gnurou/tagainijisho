@@ -24,6 +24,8 @@
 #include <QGraphicsScene>
 #include <QWheelEvent>
 
+class QGraphicsSimpleTextItem;
+
 /**
  * A horizontally-scrollable results view designed to display kanji
  * in an easily selectable way.
@@ -33,7 +35,7 @@ class KanjiResultsView : public QGraphicsView
 	Q_OBJECT
 private:
 	QGraphicsScene _scene;
-	QList<QGraphicsTextItem *> items;
+	QList<QGraphicsSimpleTextItem *> items;
 	ScrollBarSmoothScroller _smoothScroller;
 	QFont kanjiFont;
 

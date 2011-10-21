@@ -17,14 +17,16 @@
 
 #include <QtDebug>
 
+#include "sqlite/Query.h"
 #include "core/TextTools.h"
 #include "core/kanjidic2/KanjiRadicals.h"
 #include "core/Database.h"
-#include "sqlite/Query.h"
+#include "core/kanjidic2/Kanjidic2Entry.h"
 #include "gui/KanjiValidator.h"
 #include "gui/kanjidic2/KanjiSelector.h"
 #include "gui/MainWindow.h"
 #include "gui/TJLineEdit.h"
+#include "gui/kanjidic2/Kanjidic2EntryFormatter.h"
 
 #include <QComboBox>
 #include <QDesktopWidget>
@@ -35,6 +37,8 @@ ComplementsList::ComplementsList(QWidget *parent) : QListWidget(parent), baseFon
 	baseFont.setPointSize(baseFont.pointSize() + 2);
 	setFont(baseFont);
 	setupGridSize();
+	setMouseTracking(true);
+	connect(this, SIGNAL(itemEntered(QListWidgetItem*)), this, SLOT(onItemEntered(QListWidgetItem*)));
 }
 
 void ComplementsList::setupGridSize()
@@ -76,6 +80,12 @@ QListWidgetItem *ComplementsList::setCurrentStrokeNbr(int strokeNbr)
 	item->setBackground(Qt::yellow);
 	item->setFont(labelFont);
 	return item;
+}
+
+void ComplementsList::onItemEntered(QListWidgetItem *item)
+{
+	if (!(item->flags() & Qt::ItemIsSelectable)) return;
+	Kanjidic2EntryFormatter::instance().showToolTip(KanjiEntryRef(item->text()).get(), QCursor::pos());
 }
 
 KanjiSelector::KanjiSelector(QWidget *parent) : QFrame(parent), _associate(0), _outOfSyncWithAssociate(false), _ignoreAssociateSignals(false)
