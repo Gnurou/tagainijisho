@@ -1,6 +1,6 @@
 [tagaini-jisho.trunk-gui]
 file_filter = i18n/tagainijisho_<lang>.ts
-source_file = tagainijosho_en.ts
+source_file = i18n/tagainijisho_en.ts
 source_lang = en
 
 [main]
