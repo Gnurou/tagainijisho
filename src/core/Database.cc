@@ -25,7 +25,6 @@
 
 #include <QtDebug>
 #include <QSemaphore>
-#include <QMessageBox>
 #include <QQueue>
 
 #define USERDB_REVISION 10
@@ -244,11 +243,6 @@ bool (*dbUpdateFuncs[USERDB_REVISION - 1])(SQLite::Query &) = {
 	&update9to10,
 };
 
-void Database::dbWarning(const QString &message)
-{
-	QMessageBox::warning(0, tr("Tagaini Jisho warning"), message);
-}
-
 /**
  * Upgrade the database from the version number given in parameter to
  * the current version.
@@ -277,7 +271,7 @@ failed:
  * @return true if the database exists or have been successfully created; false
  *         if an error occured while building the database.
  */
-bool Database::checkUserDB()
+bool Database::checkUserDB(QStringList &errors)
 {
 	int currentVersion;
 	SQLite::Query query(&_connection);
@@ -296,13 +290,13 @@ bool Database::checkUserDB()
 		if (currentVersion < USERDB_REVISION) {
 			if (!updateUserDB(currentVersion)) {
 				// Big issue here - start with a temporary database
-				dbWarning(tr("Error while upgrading user database: %1").arg(_connection.lastError().message().toLatin1().constData()));
+				errors << tr("Error while upgrading user database: %1").arg(_connection.lastError().message().toLatin1().constData());
 				return false;
 			}
 		}
 		// The database is more recent than our version of Tagaini - there is nothing we can do!
 		else if (currentVersion > USERDB_REVISION) {
-			dbWarning(tr("Wrong user database version: expected %1, got %2.").arg(USERDB_REVISION).arg(currentVersion));
+			errors << tr("Wrong user database version: expected %1, got %2.").arg(USERDB_REVISION).arg(currentVersion);
 			return false;
 		}
 	}
@@ -310,28 +304,28 @@ bool Database::checkUserDB()
 		if (!createUserDB()) {
 			_connection.rollback();
 			// Big issue here - start with a temporary database
-			dbWarning(tr("Cannot create user database: %1").arg(_connection.lastError().message().toLatin1().constData()));
+			errors << tr("Cannot create user database: %1").arg(_connection.lastError().message().toLatin1().constData());
 			return false;
 		}
 	}
 	return true;
 }
 
-bool Database::connectUserDB(QString filename)
+bool Database::connectUserDB(QString filename, QStringList &errors)
 {
 	// Connect to the user DB
 	if (filename.isEmpty()) filename = defaultDBFile(); 
 
 	if (!_connection.connect(filename)) {
-		dbWarning(tr("Cannot open database: %1").arg(_connection.lastError().message().toLatin1().data()));
+		errors << tr("Cannot open database: %1").arg(_connection.lastError().message().toLatin1().data());
 		return false;
 	}
-	if (!checkUserDB()) return false;
+	if (!checkUserDB(errors)) return false;
 	_userDBFile = _connection.dbFileName();
 	return true;
 }
 
-bool Database::connectToTemporaryDatabase()
+bool Database::connectToTemporaryDatabase(QStringList &errors)
 {
 	_tFile = new QTemporaryFile();
 	_tFile->open();
@@ -339,12 +333,24 @@ bool Database::connectToTemporaryDatabase()
 	
 	// Now reopen the DB using the temporary file and create a clear database
 	_connection.close();
-	return connectUserDB(_tFile->fileName());
+	return connectUserDB(_tFile->fileName(), errors);
 }
 
-void Database::init(const QString &userDBFile, bool temporary)
+bool Database::init(const QString &userDBFile, bool temporary, QStringList &errors)
 {
-	_instance = new Database(userDBFile, temporary);
+	_instance = new Database(userDBFile);
+
+	// Temporary database explicitly required or cannot connect to user DB:
+	// Switch to the temporary database
+	if (temporary || !_instance->connectUserDB(userDBFile, errors)) {
+		if (!_instance->connectToTemporaryDatabase(errors)) {
+			errors << tr("Temporary database fallback failed. The program will now exit.");
+			return false;
+		} else if (!temporary) {
+			errors << tr("Tagaini is working on a temporary database. This allows the program to work, but user data is unavailable and any change will be lost upon program exit. If you corrupted your database file, please recreate it from the preferences.");
+		}
+	}
+	return true;
 }
 
 void Database::stop()
@@ -368,20 +374,9 @@ void Database::stop()
 	_instance = 0;
 }
 
-Database::Database(const QString &userDBFile, bool temporary) : _tFile(0)
+Database::Database(const QString &userDBFile) : _tFile(0)
 {
 	SQLite::init_sqlite_extensions();
-	
-	// Temporary database explicitly required or cannot connect to user DB:
-	// Switch to the temporary database
-	if (temporary || !connectUserDB(userDBFile)) {
-		if (!connectToTemporaryDatabase()) {
-			dbWarning(tr("Temporary database fallback failed. The program will now exit."));
-			qFatal("All database fallbacks failed, exiting...");
-		} else if (!temporary) {
-			dbWarning(tr("Tagaini is working on a temporary database. This allows the program to work, but user data is unavailable and any change will be lost upon program exit. If you corrupted your database file, please recreate it from the preferences."));
-		}
-	}
 }
 
 Database::~Database()
