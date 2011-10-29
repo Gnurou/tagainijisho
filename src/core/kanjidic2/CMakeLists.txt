@@ -51,8 +51,8 @@ if (APPLE)
 	set(extra_link_flags "-bind_at_load")
 endif()
 
-# Database target
-set(ALL_LANGS "")
+# Database target. Always build the english DB, other languages are optional.
+set(ALL_LANGS "en")
 foreach(LANG ${DICT_LANG})
 	set(ALL_LANGS "${ALL_LANGS},${LANG}")
 endforeach()

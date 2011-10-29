@@ -250,8 +250,9 @@ them. First, the makefiles must be generated:
     tagaini-jisho $ cmake
 
 You can also specify which language should be preferred for the dictionaries
-by passing the -DDICT_LANG=<lang> option to CMake. If you want to build your
-dictionaries in French, you can invoke CMake this way:
+by passing the -DDICT_LANG=<lang> option to CMake. By default, all supported
+languages are included and English is mandatory as a fallback, but if you want
+to limit your build to English and French, you can invoke CMake this way:
 
     tagaini-jisho $ cmake -DDICT_LANG=fr .
 
