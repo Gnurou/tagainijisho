@@ -202,8 +202,7 @@ int main(int argc, char *argv[])
 		locale = Lang::preferredLanguage.value();
 	// Otherwise try the system default
 	} else {
-		QSettings settings;
-		locale = settings.value("locale", QLocale::system().name().left(2)).toString();
+		locale = QLocale::system().name().left(2);
 	}
 	QLocale::setDefault(QLocale(locale));
 	
