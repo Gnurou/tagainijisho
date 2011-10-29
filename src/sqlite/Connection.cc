@@ -54,7 +54,7 @@ extern "C" {
 bool Connection::connect(const QString &dbFile, OpenFlags flags)
 {
 	if (connected()) {
-		_lastError = Error(-1, "Already connected to a database");
+		_lastError = Error(-1, "already connected to a database");
 		return false;
 	}
 
@@ -71,7 +71,10 @@ bool Connection::connect(const QString &dbFile, OpenFlags flags)
 	return true;
 
 err:
-	if (_handler) sqlite3_free(_handler);
+	if (_handler) {
+		sqlite3_free(_handler);
+		_handler = 0;
+	}
 	return false;
 }
 
