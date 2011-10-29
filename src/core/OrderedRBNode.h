@@ -287,10 +287,9 @@ public:
 	 */
 	void inline checkValid() const
 	{
-		int maxdepth = -1;
 		// Property 2: root is black
 		Q_ASSERT(!tree()->root() || tree()->root()->color() == TreeBase::Node::BLACK);
-		Q_ASSERT(_treeValid(tree()->root(), 0, maxdepth) == size());
+		Q_ASSERT(_treeValid(tree()->root(), 0, -1) == size());
 	}
 friend class OrderedRBTreeTests;
 };
