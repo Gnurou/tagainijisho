@@ -337,17 +337,17 @@ void MainWindow::manual()
 
 void MainWindow::bugReport()
 {
-	QDesktopServices::openUrl(QUrl("https://bugs.launchpad.net/tagaini-jisho"));
+	QDesktopServices::openUrl(QUrl("https://github.com/Gnurou/tagainijisho/issues"));
 }
 
 void MainWindow::featureRequest()
 {
-	QDesktopServices::openUrl(QUrl("https://blueprints.launchpad.net/tagaini-jisho"));
+	QDesktopServices::openUrl(QUrl("https://github.com/Gnurou/tagainijisho/issues"));
 }
 
 void MainWindow::askQuestion()
 {
-	QDesktopServices::openUrl(QUrl("https://answers.launchpad.net/tagaini-jisho"));
+	QDesktopServices::openUrl(QUrl("http://groups.google.com/group/tagaini-jisho"));
 }
 
 void MainWindow::updateAvailable(const QString &version)
