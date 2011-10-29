@@ -19,7 +19,7 @@
 #include "core/jmdict/JMdictEntrySearcher.h"
 #include "core/jmdict/JMdictEntry.h"
 #include "core/jmdict/JMdictPlugin.h"
-#include "core/Database.h"
+#include "sqlite/SQLite.h"
 
 PreferenceItem<QString> JMdictEntrySearcher::miscPropertiesFilter("jmdict", "miscPropertiesFilter", "arch,obs");
 quint64 JMdictEntrySearcher::_miscFilterMask = 0;
@@ -106,10 +106,10 @@ static QString buildTextSearchCondition(const QStringList &words, const QString 
 				// If the wildcard we found is the last character and a star, there is no need for a regexp search
 				if (wildcardIdx == w.size() - 1 && w.size() > 1 && w[wildcardIdx] == '*') continue;
 				// Otherwise insert the regular expression search
-				int idx = Database::staticRegExps.size();
+				int idx = SQLite::staticRegExps.size();
 				QRegExp regExp(escapeForRegexp(TextTools::hiragana2Katakana(w)));
 				regExp.setCaseSensitivity(Qt::CaseInsensitive);
-				Database::staticRegExps.append(regExp);
+				SQLite::staticRegExps.append(regExp);
 				conds << regexpMatch.arg(idx);
 			} else fts << "\"" + w + "\"";
 		}

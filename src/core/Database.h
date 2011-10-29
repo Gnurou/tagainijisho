@@ -24,7 +24,6 @@
 #include "core/Preferences.h"
 
 #include <QString>
-#include <QRegExp>
 #include <QVector>
 #include <QMap>
 #include <QTemporaryFile>
@@ -68,8 +67,6 @@ public:
 	static bool attachDictionaryDB(const QString &file, const QString &alias, int expectedVersion);
 	static bool detachDictionaryDB(const QString &alias);
 	static const QMap<QString, QString> &attachedDBs() { return _attachedDBs; }
-
-	static QVector<QRegExp> staticRegExps;
 
 	static const SQLite::Error &lastError() { return _instance->_connection.lastError(); }
 };

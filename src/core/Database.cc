@@ -15,7 +15,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "sqlite3.h"
+#include "sqlite/SQLite.h"
 
 #include "core/Paths.h"
 #include "core/TextTools.h"
@@ -368,68 +368,9 @@ void Database::stop()
 	_instance = 0;
 }
 
-static void regexpFunc(sqlite3_context *context, int argc, sqlite3_value **argv)
-{
-	QString text(TextTools::hiragana2Katakana(QString::fromUtf8((const char *)sqlite3_value_text(argv[1]))));
-	// Get the regexp referenced by the request
-	QRegExp &regexp = Database::staticRegExps[sqlite3_value_int(argv[0])];
-
-	bool res = text.contains(regexp);
-	sqlite3_result_int(context, res);
-}
-
-/**
- * Returns a pseudo-random value which is biaised by the parameter given (which must
- * be between 0 and 100). The bigger the parameter, the biggest chances the generated
- * has to be low.
- */
-static void biaised_random(sqlite3_context *context, int nParams, sqlite3_value **values)
-{
-	if (nParams != 1) {
-		sqlite3_result_error(context, "Invalid number of arguments!", -1);
-		return;
-	}
-	int score = sqlite3_value_int(values[0]);
-//	int minVal = score == 0 ? 0 : qrand() % score;
-	int res = qrand() % (101 - score);
-	sqlite3_result_int(context, res);
-}
-
-typedef struct {
-	QSet<int>* _set;
-} uniquecount_aggr;
-
-void uniquecount_aggr_step(sqlite3_context *context, int nParams, sqlite3_value **values)
-{
-	uniquecount_aggr *aggr_struct = static_cast<uniquecount_aggr *>(sqlite3_aggregate_context(context, sizeof(uniquecount_aggr)));
-	if (!aggr_struct->_set) aggr_struct->_set = new QSet<int>();
-	for (int i = 0; i < nParams; i++) {
-		if (sqlite3_value_type(values[i]) == SQLITE_NULL) continue;
-		aggr_struct->_set->insert(sqlite3_value_int(values[i]));
-	}
-}
-
-void uniquecount_aggr_finalize(sqlite3_context *context)
-{
-	uniquecount_aggr *aggr_struct = static_cast<uniquecount_aggr *>(sqlite3_aggregate_context(context, sizeof(uniquecount_aggr)));
-	int res = aggr_struct->_set->size();
-	delete aggr_struct->_set;
-	sqlite3_result_int(context, res);
-}
-
-static void load_extensions(sqlite3 *handler)
-{
-	// Attach custom functions
-	sqlite3_create_function(handler, "regexp", 2, SQLITE_UTF8, 0, regexpFunc, 0, 0);
-	sqlite3_create_function(handler, "biaised_random", 1, SQLITE_UTF8, 0, biaised_random, 0, 0);
-	sqlite3_create_function(handler, "uniquecount", -1, SQLITE_UTF8, 0, 0, uniquecount_aggr_step, uniquecount_aggr_finalize);
-	// Must be done later
-	//register_all_tokenizers(handler);
-}
-
 Database::Database(const QString &userDBFile, bool temporary) : _tFile(0)
 {
-	sqlite3_auto_extension((void (*)())load_extensions);
+	SQLite::init_sqlite_extensions();
 	
 	// Temporary database explicitly required or cannot connect to user DB:
 	// Switch to the temporary database
@@ -447,8 +388,6 @@ Database::~Database()
 {
 	if (_tFile) delete _tFile;
 }
-
-QVector<QRegExp> Database::staticRegExps;
 
 /**
  * Attach the dictionary DB to the opened user database.

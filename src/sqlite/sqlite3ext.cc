@@ -18,6 +18,8 @@
 #include "core/TextTools.h"
 #include <QSet>
 #include <QtDebug>
+#include <QRegExp>
+#include "sqlite/SQLite.h"
 
 #include <sqlite3.h>
 #include "sqlite/fts3_tokenizer.h"
@@ -27,8 +29,89 @@ extern "C" {
 	const char *hiraganasToKatakanas(const char *src);
 }
 
+QVector<QRegExp> SQLite::staticRegExps;
 static QSet<QString> ignoredWords;
 static QByteArray kanasConverted;
+
+static void regexpFunc(sqlite3_context *context, int argc, sqlite3_value **argv)
+{
+	QString text(TextTools::hiragana2Katakana(QString::fromUtf8((const char *)sqlite3_value_text(argv[1]))));
+	// Get the regexp referenced by the request
+	QRegExp &regexp = SQLite::staticRegExps[sqlite3_value_int(argv[0])];
+
+	bool res = text.contains(regexp);
+	sqlite3_result_int(context, res);
+}
+
+/**
+ * Returns a pseudo-random value which is biaised by the parameter given (which must
+ * be between 0 and 100). The bigger the parameter, the biggest chances the generated
+ * has to be low.
+ */
+static void biaised_random(sqlite3_context *context, int nParams, sqlite3_value **values)
+{
+	if (nParams != 1) {
+		sqlite3_result_error(context, "Invalid number of arguments!", -1);
+		return;
+	}
+	int score = sqlite3_value_int(values[0]);
+//	int minVal = score == 0 ? 0 : qrand() % score;
+	int res = qrand() % (101 - score);
+	sqlite3_result_int(context, res);
+}
+
+typedef struct {
+	QSet<int>* _set;
+} uniquecount_aggr;
+
+static void uniquecount_aggr_step(sqlite3_context *context, int nParams, sqlite3_value **values)
+{
+	uniquecount_aggr *aggr_struct = static_cast<uniquecount_aggr *>(sqlite3_aggregate_context(context, sizeof(uniquecount_aggr)));
+	if (!aggr_struct->_set) aggr_struct->_set = new QSet<int>();
+	for (int i = 0; i < nParams; i++) {
+		if (sqlite3_value_type(values[i]) == SQLITE_NULL) continue;
+		aggr_struct->_set->insert(sqlite3_value_int(values[i]));
+	}
+}
+
+static void uniquecount_aggr_finalize(sqlite3_context *context)
+{
+	uniquecount_aggr *aggr_struct = static_cast<uniquecount_aggr *>(sqlite3_aggregate_context(context, sizeof(uniquecount_aggr)));
+	int res = aggr_struct->_set->size();
+	delete aggr_struct->_set;
+	sqlite3_result_int(context, res);
+}
+
+static void fts_compress(sqlite3_context *context, int argc, sqlite3_value **argv)
+{
+	QByteArray text(reinterpret_cast<const char *>(sqlite3_value_text(argv[0])));
+	QByteArray compressed(qCompress(text, 9));
+	sqlite3_result_blob(context, compressed.data(), compressed.length(), 0);
+}
+
+static void fts_uncompress(sqlite3_context *context, int argc, sqlite3_value **argv)
+{
+	QByteArray data(static_cast<const char *>(sqlite3_value_blob(argv[0])), sqlite3_value_bytes(argv[0]));
+	QByteArray text(qUncompress(data));
+	sqlite3_result_text(context, text.data(), text.size(), 0);
+}
+
+static void load_extensions(sqlite3 *handler)
+{
+	// Attach custom functions
+	sqlite3_create_function(handler, "regexp", 2, SQLITE_UTF8, 0, regexpFunc, 0, 0);
+	sqlite3_create_function(handler, "biaised_random", 1, SQLITE_UTF8, 0, biaised_random, 0, 0);
+	sqlite3_create_function(handler, "uniquecount", -1, SQLITE_UTF8, 0, 0, uniquecount_aggr_step, uniquecount_aggr_finalize);
+	sqlite3_create_function(handler, "ftscompress", 1, SQLITE_UTF8, 0, fts_compress, 0, 0);
+	sqlite3_create_function(handler, "ftsuncompress", 1, SQLITE_UTF8, 0, fts_uncompress, 0, 0);
+	// Must be done later
+	//register_all_tokenizers(handler);
+}
+
+void SQLite::init_sqlite_extensions()
+{
+	sqlite3_auto_extension((void (*)())load_extensions);
+}
 
 int isToIgnore(const char *token)
 {

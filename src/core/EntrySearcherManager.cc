@@ -16,8 +16,8 @@
  */
 
 #include "core/Preferences.h"
-#include "core/Database.h"
 #include "core/EntrySearcherManager.h"
+#include "sqlite/SQLite.h"
 
 EntrySearcherManager *EntrySearcherManager::_instance = 0;
 PreferenceItem<bool> EntrySearcherManager::studiedEntriesFirst("mainWindow/resultsView", "studiedEntriesFirst", true);
@@ -77,7 +77,7 @@ static void replaceJapaneseWildCards(QString &str)
 bool EntrySearcherManager::buildQuery(const QString &search, QueryBuilder &query)
 {
 	// Clear previous static regexps - this is bad, but no better solution for now
-	Database::staticRegExps.clear();
+	SQLite::staticRegExps.clear();
 	QString searchString(search);
 	replaceJapaneseWildCards(searchString);
 
