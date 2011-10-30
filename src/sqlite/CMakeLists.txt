@@ -80,7 +80,7 @@ else()
 endif()
 
 include_directories(${QT_INCLUDE_DIR})
-add_definitions(-DSQLITE_ENABLE_FTS3 -DSQLITE_ENABLE_LOCKING_STYLE=0 -DSQLITE_OMIT_DEPRECATED)
+add_definitions(-DSQLITE_ENABLE_FTS4 -DSQLITE_ENABLE_LOCKING_STYLE=0 -DSQLITE_OMIT_DEPRECATED)
 add_library(tagaini_sqlite STATIC ${tagainijisho_sqlite_SRCS} ${tagainijisho_sqlite_MOC_SRCS})
 if(NOT EMBED_SQLITE)
 	target_link_libraries(tagaini_sqlite sqlite3)
