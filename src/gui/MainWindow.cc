@@ -273,7 +273,7 @@ void MainWindow::about()
 #error No version defined - the -DVERSION=<version> flag must be set!
 #endif
 	QString message = QString(
-		"<p>Copyright (C) 2008, 2009, 2010 Alexandre Courbot.</p>"
+		"<p>Copyright (C) 2008-2011 Alexandre Courbot.</p>"
 		"<p align=\"center\"><a href=\"http://www.tagaini.net\">http://www.tagaini.net</a></p><p>This program comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to redistribute it under the conditions of the <a href=\"http://www.gnu.org/licenses/gpl-3.0.html\">GNU General Public Licence, version 3.0</a>.</p><hr/>"
 		);
 	QString credits = "<p>Tagaini Jisho uses data from various sources:</p>";
@@ -337,17 +337,17 @@ void MainWindow::manual()
 
 void MainWindow::bugReport()
 {
-	QDesktopServices::openUrl(QUrl("https://bugs.launchpad.net/tagaini-jisho"));
+	QDesktopServices::openUrl(QUrl("https://github.com/Gnurou/tagainijisho/issues"));
 }
 
 void MainWindow::featureRequest()
 {
-	QDesktopServices::openUrl(QUrl("https://blueprints.launchpad.net/tagaini-jisho"));
+	QDesktopServices::openUrl(QUrl("https://github.com/Gnurou/tagainijisho/issues"));
 }
 
 void MainWindow::askQuestion()
 {
-	QDesktopServices::openUrl(QUrl("https://answers.launchpad.net/tagaini-jisho"));
+	QDesktopServices::openUrl(QUrl("http://groups.google.com/group/tagaini-jisho"));
 }
 
 void MainWindow::updateAvailable(const QString &version)

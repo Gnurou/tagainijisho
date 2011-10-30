@@ -15,7 +15,8 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <core/Lang.h>
+#include "core/Lang.h"
+#include <QLocale>
 
 static const QStringList _langs(QStringList() << "en" << "fr" << "de" << "es" << "ru" << "cz");
 
@@ -29,7 +30,14 @@ const QStringList &Lang::supportedLanguages()
 QStringList Lang::preferredLanguages()
 {
 	QStringList ret;
+	// Check if the user explicitely set a preferred language
 	if (preferredLanguage.value() != "en" && _langs.contains(preferredLanguage.value())) ret << preferredLanguage.value();
+	// Otherwise check the locale
+	else {
+		QString locale(QLocale::system().name().left(2));
+		if (locale != "en" && _langs.contains(locale)) ret << locale;
+	}
+	// English should always be here as last ressort
 	ret << "en";
 	return ret;
 }

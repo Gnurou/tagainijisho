@@ -16,10 +16,10 @@
  */
 
 #include "core/TextTools.h"
-#include "core/Database.h"
 #include "core/kanjidic2/Kanjidic2Plugin.h"
 #include "core/kanjidic2/Kanjidic2EntrySearcher.h"
 #include "core/kanjidic2/Kanjidic2Entry.h"
+#include "sqlite/SQLite.h"
 
 #include <QtDebug>
 
@@ -87,10 +87,10 @@ static QString buildTextSearchCondition(const QStringList &words, const QString 
 				// If the wildcard we found is the last character and a star, there is no need for a regexp search
 				if (wildcardIdx == w.size() - 1 && w.size() > 1 && w[wildcardIdx] == '*') continue;
 				// Otherwise insert the regular expression search
-				int idx = Database::staticRegExps.size();
+				int idx = SQLite::staticRegExps.size();
 				QRegExp regExp(escapeForRegexp(TextTools::hiragana2Katakana(w)));
 				regExp.setCaseSensitivity(Qt::CaseInsensitive);
-				Database::staticRegExps.append(regExp);
+				SQLite::staticRegExps.append(regExp);
 				conds << regexpMatch.arg(idx);
 			} else fts << "\"" + w + "\"";
 		}
@@ -126,9 +126,11 @@ void Kanjidic2EntrySearcher::buildStatement(QList<SearchCommand> &commands, Quer
 		else if (command.command() == "mean") {
 			QStringList langs(Kanjidic2Plugin::instance()->attachedDBs().keys());
 			langs.removeAll("");
-			foreach (const QString &lang, langs) statement.addJoin(QueryBuilder::Column("kanjidic2_" + lang + ".meaning", "entry"));
+			foreach (const QString &lang, langs)
+				statement.addJoin(QueryBuilder::Join(QueryBuilder::Column("kanjidic2_" + lang + ".meaning", "entry"), "", QueryBuilder::Join::Left));
 
-			foreach(const QString &arg, command.args()) transSearch << arg;
+			foreach(const QString &arg, command.args())
+				transSearch << arg;
 		}
 		else if (command.command() == "jlpt") {
 			if (command.args().isEmpty()) statement.addWhere(QString("kanjidic2.entries.jlpt not null"));

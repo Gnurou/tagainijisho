@@ -15,7 +15,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "sqlite3.h"
+#include "sqlite/SQLite.h"
 
 #include "core/Paths.h"
 #include "core/TextTools.h"
@@ -25,10 +25,9 @@
 
 #include <QtDebug>
 #include <QSemaphore>
-#include <QMessageBox>
 #include <QQueue>
 
-#define USERDB_REVISION 10
+#define USERDB_REVISION 11
 
 #define ASSERT(Q) if (!(Q)) return false
 #define QUERY(Q) if (!query.exec(Q)) return false
@@ -60,7 +59,7 @@ bool Database::createUserDB()
 
 	// Notes tables
 	QUERY("CREATE TABLE notes(noteId INTEGER PRIMARY KEY, type INT, id INTEGER SECONDARY KEY, dateAdded UNSIGNED INT, dateLastChange UNSIGNED INT)");
-	QUERY("CREATE VIRTUAL TABLE notesText using fts4(note)");
+	QUERY("CREATE VIRTUAL TABLE notesText USING fts4(note)");
 
 	// Sets table
 	QUERY("CREATE TABLE sets(rowid INTEGER PRIMARY KEY, parent INT, position INT NOT NULL, label TEXT, state BLOB)");
@@ -90,15 +89,15 @@ static bool update1to2(SQLite::Query &query) {
 	// Fix invalid dates...
 	QUERY("UPDATE oldtraining set dateLastTrain = null where dateLastTrain = 4294967295");
 	// Create the new training table and populate it
-	QUERY("CREATE TABLE training(type INT NOT NULL, id INTEGER SECONDARY_KEY NOT NULL, score INT NOT NULL, dateAdded UNSIGNED INT NOT NULL, dateLastTrain UNSIGNED INT, nbTrained UNSIGNED INT NOT NULL, nbSuccess UNSIGNED INT NOT NULL, dateLastMistake UNSIGNED INT, CONSTRAINT training_unique_ids UNIQUE(type, id))");
+	QUERY("CREATE TABLE training(type INT NOT NULL, id INTEGER SECONDARY KEY NOT NULL, score INT NOT NULL, dateAdded UNSIGNED INT NOT NULL, dateLastTrain UNSIGNED INT, nbTrained UNSIGNED INT NOT NULL, nbSuccess UNSIGNED INT NOT NULL, dateLastMistake UNSIGNED INT, CONSTRAINT training_unique_ids UNIQUE(type, id))");
 	QUERY("INSERT INTO training(type, id, score, dateAdded, dateLastTrain, nbTrained, nbSuccess, dateLastMistake) SELECT *, null from oldtraining");
 	QUERY("UPDATE training SET dateLastMistake = (SELECT MAX(date) FROM trainingLog WHERE result = 0 and trainingLog.id = training.id and trainingLog.type = training.type)");
 	// Delete the old training tables
 	QUERY("DROP TABLE oldtraining");
 	QUERY("DROP TABLE trainingLog");
 	// Restore training indexes
-	QUERY("CREATE INDEX idx_training_score on training(score)");
-	QUERY("CREATE INDEX idx_training_type_id on training(type, id)");
+	QUERY("CREATE INDEX idx_training_type_id ON training(type, id)");
+	QUERY("CREATE INDEX idx_training_score ON training(score)");
 	QUERY("CREATE TRIGGER update_score after update of nbTrained, nbSuccess on training begin update training set score = (nbSuccess * 100) / (nbTrained + 1) where type = old.type and id = old.id; end;");
 	// Don't know if this is even useful, but it doesn't hurt
 	QUERY("DROP TABLE IF EXISTS temp");
@@ -126,7 +125,7 @@ static bool update4to5(SQLite::Query &query) {
 	QUERY("CREATE TABLE lists(parent INTEGER REFERENCES lists, position INTEGER NOT NULL, type INTEGER, id INTEGER)");
 	QUERY("CREATE INDEX idx_lists_ref ON lists(parent, position)");
 	QUERY("CREATE INDEX idx_lists_entry ON lists(type, id)");
-	QUERY("CREATE VIRTUAL TABLE listsLabels using fts3(label)");
+	QUERY("CREATE VIRTUAL TABLE listsLabels USING fts3(label)");
 
 	return true;
 }
@@ -226,6 +225,27 @@ static bool update9to10(SQLite::Query &query)
 	QUERY("CREATE TABLE sets(rowid INTEGER PRIMARY KEY, parent INT, position INT NOT NULL, label TEXT, state BLOB)");
 	QUERY("INSERT INTO sets SELECT rowid, * FROM oldSets");
 	QUERY("DROP TABLE oldSets");
+	QUERY("CREATE INDEX idx_sets_id ON sets(parent, position)");
+
+	return true;
+}
+
+/**
+ * Just attempt to ensure that upgraded schema are identical as
+ * newly created databases.
+ */
+static bool update10to11(SQLite::Query &query)
+{
+	// Replace SECONDARY_KEY by SECONDARY KEY
+	QUERY("ALTER TABLE training RENAME TO oldtraining");
+	QUERY("CREATE TABLE training(type INT NOT NULL, id INTEGER SECONDARY KEY NOT NULL, score INT NOT NULL, dateAdded UNSIGNED INT NOT NULL, dateLastTrain UNSIGNED INT, nbTrained UNSIGNED INT NOT NULL, nbSuccess UNSIGNED INT NOT NULL, dateLastMistake UNSIGNED INT, CONSTRAINT training_unique_ids UNIQUE(type, id))");
+	QUERY("INSERT INTO training SELECT * from oldtraining");
+	QUERY("DROP TABLE oldtraining");
+	QUERY("CREATE INDEX idx_training_type_id ON training(type, id)");
+	QUERY("CREATE INDEX idx_training_score ON training(score)");
+
+	// Might still be here
+	QUERY("DROP TABLE IF EXISTS temp");
 
 	return true;
 }
@@ -242,12 +262,8 @@ bool (*dbUpdateFuncs[USERDB_REVISION - 1])(SQLite::Query &) = {
 	&update7to8,
 	&update8to9,
 	&update9to10,
+	&update10to11,
 };
-
-void Database::dbWarning(const QString &message)
-{
-	QMessageBox::warning(0, tr("Tagaini Jisho warning"), message);
-}
 
 /**
  * Upgrade the database from the version number given in parameter to
@@ -277,7 +293,7 @@ failed:
  * @return true if the database exists or have been successfully created; false
  *         if an error occured while building the database.
  */
-bool Database::checkUserDB()
+bool Database::checkUserDB(QStringList &errors)
 {
 	int currentVersion;
 	SQLite::Query query(&_connection);
@@ -296,13 +312,13 @@ bool Database::checkUserDB()
 		if (currentVersion < USERDB_REVISION) {
 			if (!updateUserDB(currentVersion)) {
 				// Big issue here - start with a temporary database
-				dbWarning(tr("Error while upgrading user database: %1").arg(_connection.lastError().message().toLatin1().constData()));
+				errors << tr("Error while upgrading user database: %1").arg(_connection.lastError().message().toLatin1().constData());
 				return false;
 			}
 		}
 		// The database is more recent than our version of Tagaini - there is nothing we can do!
 		else if (currentVersion > USERDB_REVISION) {
-			dbWarning(tr("Wrong user database version: expected %1, got %2.").arg(USERDB_REVISION).arg(currentVersion));
+			errors << tr("Wrong user database version: expected %1, got %2.").arg(USERDB_REVISION).arg(currentVersion);
 			return false;
 		}
 	}
@@ -310,28 +326,28 @@ bool Database::checkUserDB()
 		if (!createUserDB()) {
 			_connection.rollback();
 			// Big issue here - start with a temporary database
-			dbWarning(tr("Cannot create user database: %1").arg(_connection.lastError().message().toLatin1().constData()));
+			errors << tr("Cannot create user database: %1").arg(_connection.lastError().message().toLatin1().constData());
 			return false;
 		}
 	}
 	return true;
 }
 
-bool Database::connectUserDB(QString filename)
+bool Database::connectUserDB(QString filename, QStringList &errors)
 {
 	// Connect to the user DB
 	if (filename.isEmpty()) filename = defaultDBFile(); 
 
 	if (!_connection.connect(filename)) {
-		dbWarning(tr("Cannot open database: %1").arg(_connection.lastError().message().toLatin1().data()));
+		errors << tr("Cannot open database: %1").arg(_connection.lastError().message().toLatin1().data());
 		return false;
 	}
-	if (!checkUserDB()) return false;
+	if (!checkUserDB(errors)) return false;
 	_userDBFile = _connection.dbFileName();
 	return true;
 }
 
-bool Database::connectToTemporaryDatabase()
+bool Database::connectToTemporaryDatabase(QStringList &errors)
 {
 	_tFile = new QTemporaryFile();
 	_tFile->open();
@@ -339,12 +355,24 @@ bool Database::connectToTemporaryDatabase()
 	
 	// Now reopen the DB using the temporary file and create a clear database
 	_connection.close();
-	return connectUserDB(_tFile->fileName());
+	return connectUserDB(_tFile->fileName(), errors);
 }
 
-void Database::init(const QString &userDBFile, bool temporary)
+bool Database::init(const QString &userDBFile, bool temporary, QStringList &errors)
 {
-	_instance = new Database(userDBFile, temporary);
+	_instance = new Database(userDBFile);
+
+	// Temporary database explicitly required or cannot connect to user DB:
+	// Switch to the temporary database
+	if (temporary || !_instance->connectUserDB(userDBFile, errors)) {
+		if (!_instance->connectToTemporaryDatabase(errors)) {
+			errors << tr("Temporary database fallback failed. The program will now exit.");
+			return false;
+		} else if (!temporary) {
+			errors << tr("Tagaini is working on a temporary database. This allows the program to work, but user data is unavailable and any change will be lost upon program exit. If you corrupted your database file, please recreate it from the preferences.");
+		}
+	}
+	return true;
 }
 
 void Database::stop()
@@ -368,87 +396,15 @@ void Database::stop()
 	_instance = 0;
 }
 
-static void regexpFunc(sqlite3_context *context, int argc, sqlite3_value **argv)
+Database::Database(const QString &userDBFile) : _tFile(0)
 {
-	QString text(TextTools::hiragana2Katakana(QString::fromUtf8((const char *)sqlite3_value_text(argv[1]))));
-	// Get the regexp referenced by the request
-	QRegExp &regexp = Database::staticRegExps[sqlite3_value_int(argv[0])];
-
-	bool res = text.contains(regexp);
-	sqlite3_result_int(context, res);
-}
-
-/**
- * Returns a pseudo-random value which is biaised by the parameter given (which must
- * be between 0 and 100). The bigger the parameter, the biggest chances the generated
- * has to be low.
- */
-static void biaised_random(sqlite3_context *context, int nParams, sqlite3_value **values)
-{
-	if (nParams != 1) {
-		sqlite3_result_error(context, "Invalid number of arguments!", -1);
-		return;
-	}
-	int score = sqlite3_value_int(values[0]);
-//	int minVal = score == 0 ? 0 : qrand() % score;
-	int res = qrand() % (101 - score);
-	sqlite3_result_int(context, res);
-}
-
-typedef struct {
-	QSet<int>* _set;
-} uniquecount_aggr;
-
-void uniquecount_aggr_step(sqlite3_context *context, int nParams, sqlite3_value **values)
-{
-	uniquecount_aggr *aggr_struct = static_cast<uniquecount_aggr *>(sqlite3_aggregate_context(context, sizeof(uniquecount_aggr)));
-	if (!aggr_struct->_set) aggr_struct->_set = new QSet<int>();
-	for (int i = 0; i < nParams; i++) {
-		if (sqlite3_value_type(values[i]) == SQLITE_NULL) continue;
-		aggr_struct->_set->insert(sqlite3_value_int(values[i]));
-	}
-}
-
-void uniquecount_aggr_finalize(sqlite3_context *context)
-{
-	uniquecount_aggr *aggr_struct = static_cast<uniquecount_aggr *>(sqlite3_aggregate_context(context, sizeof(uniquecount_aggr)));
-	int res = aggr_struct->_set->size();
-	delete aggr_struct->_set;
-	sqlite3_result_int(context, res);
-}
-
-static void load_extensions(sqlite3 *handler)
-{
-	// Attach custom functions
-	sqlite3_create_function(handler, "regexp", 2, SQLITE_UTF8, 0, regexpFunc, 0, 0);
-	sqlite3_create_function(handler, "biaised_random", 1, SQLITE_UTF8, 0, biaised_random, 0, 0);
-	sqlite3_create_function(handler, "uniquecount", -1, SQLITE_UTF8, 0, 0, uniquecount_aggr_step, uniquecount_aggr_finalize);
-	// Must be done later
-	//register_all_tokenizers(handler);
-}
-
-Database::Database(const QString &userDBFile, bool temporary) : _tFile(0)
-{
-	sqlite3_auto_extension((void (*)())load_extensions);
-	
-	// Temporary database explicitly required or cannot connect to user DB:
-	// Switch to the temporary database
-	if (temporary || !connectUserDB(userDBFile)) {
-		if (!connectToTemporaryDatabase()) {
-			dbWarning(tr("Temporary database fallback failed. The program will now exit."));
-			qFatal("All database fallbacks failed, exiting...");
-		} else if (!temporary) {
-			dbWarning(tr("Tagaini is working on a temporary database. This allows the program to work, but user data is unavailable and any change will be lost upon program exit. If you corrupted your database file, please recreate it from the preferences."));
-		}
-	}
+	SQLite::init_sqlite_extensions();
 }
 
 Database::~Database()
 {
 	if (_tFile) delete _tFile;
 }
-
-QVector<QRegExp> Database::staticRegExps;
 
 /**
  * Attach the dictionary DB to the opened user database.

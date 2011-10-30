@@ -18,9 +18,14 @@
 #ifndef __SQLITE_SQLITE_H
 #define __SQLITE_SQLITE_H
 
+#include <QVector>
+#include <QRegExp>
+
 namespace SQLite {
 
 extern const char *version();
+extern QVector<QRegExp> staticRegExps;
+void init_sqlite_extensions();
 
 }
 

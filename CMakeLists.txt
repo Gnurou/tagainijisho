@@ -40,7 +40,7 @@ endif(APPLE)
 
 # By default, enable all languages
 if(NOT DICT_LANG)
-	set(DICT_LANG "en;fr;de;es;ru")
+	set(DICT_LANG "fr;de;es;ru")
 endif()
 # Set DICT_LANG to always appear in the cache
 set(DICT_LANG ${DICT_LANG} CACHE STRING "Languages to use for the dictionary data (semicolon-separated 2-letter codes)")

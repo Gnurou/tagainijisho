@@ -19,7 +19,7 @@
 #include "core/jmdict/JMdictEntrySearcher.h"
 #include "core/jmdict/JMdictEntry.h"
 #include "core/jmdict/JMdictPlugin.h"
-#include "core/Database.h"
+#include "sqlite/SQLite.h"
 
 PreferenceItem<QString> JMdictEntrySearcher::miscPropertiesFilter("jmdict", "miscPropertiesFilter", "arch,obs");
 quint64 JMdictEntrySearcher::_miscFilterMask = 0;
@@ -106,10 +106,10 @@ static QString buildTextSearchCondition(const QStringList &words, const QString 
 				// If the wildcard we found is the last character and a star, there is no need for a regexp search
 				if (wildcardIdx == w.size() - 1 && w.size() > 1 && w[wildcardIdx] == '*') continue;
 				// Otherwise insert the regular expression search
-				int idx = Database::staticRegExps.size();
+				int idx = SQLite::staticRegExps.size();
 				QRegExp regExp(escapeForRegexp(TextTools::hiragana2Katakana(w)));
 				regExp.setCaseSensitivity(Qt::CaseInsensitive);
-				Database::staticRegExps.append(regExp);
+				SQLite::staticRegExps.append(regExp);
 				conds << regexpMatch.arg(idx);
 			} else fts << "\"" + w + "\"";
 		}
@@ -151,7 +151,7 @@ void JMdictEntrySearcher::buildStatement(QList<SearchCommand> &commands, QueryBu
 			else if (command.command() == "kanji") tables << "jmdict.kanji";
 
 			foreach (const QString &table, tables)
-				statement.addJoin(QueryBuilder::Join(QueryBuilder::Column(table, "id")));
+				statement.addJoin(QueryBuilder::Join(QueryBuilder::Column(table, "id"), "", QueryBuilder::Join::Left));
 
 			foreach(const QString &arg, command.args()) {
 				if (command.command() == "mean" ||command.command() == "kanji" || command.command() == "kana") {

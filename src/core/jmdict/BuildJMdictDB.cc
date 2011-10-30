@@ -17,13 +17,15 @@
 
 #include "sqlite/Connection.h"
 #include "sqlite/Query.h"
-#include "core/Database.h"
+#include "sqlite/SQLite.h"
 #include "core/TextTools.h"
 #include "core/jmdict/JMdictParser.h"
 #include "core/jmdict/JMdictEntry.h"
 
 #include <QStringList>
 #include <QByteArray>
+#include <QFile>
+#include <QDir>
 
 #include <QtDebug>
 
@@ -470,6 +472,7 @@ bool buildDB(const QSet<QString> &languages, const QString &srcDir, const QStrin
 int main(int argc, char *argv[])
 {
 	QCoreApplication app(argc, argv);
+	SQLite::init_sqlite_extensions();
 	
 	if (argc < 3) { 
 		printUsage(argv); return 1;

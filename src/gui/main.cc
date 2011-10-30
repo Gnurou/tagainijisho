@@ -202,8 +202,7 @@ int main(int argc, char *argv[])
 		locale = Lang::preferredLanguage.value();
 	// Otherwise try the system default
 	} else {
-		QSettings settings;
-		locale = settings.value("locale", QLocale::system().name().left(2)).toString();
+		locale = QLocale::system().name().left(2);
 	}
 	QLocale::setDefault(QLocale(locale));
 	
@@ -234,8 +233,13 @@ int main(int argc, char *argv[])
 		if (arg == "--temp-db") temporaryDB = true;
 		else if (arg.startsWith("--user-db=")) userDBFile = arg.mid(10);
 	}
-	// TODO check return value
-	Database::init(userDBFile, temporaryDB);
+	QStringList dbErrors;
+	if (!Database::init(userDBFile, temporaryDB, dbErrors)) {
+		QMessageBox::critical(0, "Tagaini Jisho fatal error", dbErrors.join("<p>"));
+		qFatal("All database fallbacks failed, exiting...");
+	} else if (!dbErrors.empty()) {
+		QMessageBox::warning(0, "Tagaini Jisho warning", dbErrors.join("<p>"));
+	}
 
 	// Initialize tags
 	Tag::init();

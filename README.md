@@ -116,9 +116,10 @@ command-line arguments:
 removed once the program exits. This is useful for testing new things on a
 clean database.
 
-Known bugs ----------
+Known bugs
+----------
 - Kanji stroke order may not always be accurate. Please report incorrect kanji
-  to https://bugs.launchpad.net/tagaini-jisho.
+  to http://http://groups.google.com/group/tagaini-jisho.
 - Kanji stroke color segmentation is not always accurate.
 - JLPT levels may not always be accurate.
 

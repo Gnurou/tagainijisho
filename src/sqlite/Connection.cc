@@ -54,7 +54,7 @@ extern "C" {
 bool Connection::connect(const QString &dbFile, OpenFlags flags)
 {
 	if (connected()) {
-		_lastError = Error(-1, "Already connected to a database");
+		_lastError = Error(-1, "already connected to a database");
 		return false;
 	}
 
@@ -71,7 +71,10 @@ bool Connection::connect(const QString &dbFile, OpenFlags flags)
 	return true;
 
 err:
-	if (_handler) sqlite3_free(_handler);
+	if (_handler) {
+		sqlite3_free(_handler);
+		_handler = 0;
+	}
 	return false;
 }
 
@@ -117,7 +120,6 @@ const Error &Connection::lastError() const
 bool Connection::exec(const QString &statement)
 {
 	sqlite3_stmt *stmt;
-	sqlite3_mutex_enter(sqlite3_db_mutex(_handler));
 	int res = sqlite3_prepare_v2(_handler, statement.toUtf8().data(), -1, &stmt, 0);
 	if (res != SQLITE_OK) {
 		updateError();
@@ -125,13 +127,11 @@ bool Connection::exec(const QString &statement)
 	       if (_lastError.isError())
 			qDebug("On query: %s", statement.toUtf8().constData());
 #endif
-		sqlite3_mutex_leave(sqlite3_db_mutex(_handler));
 		return false;
 	}
 	res = sqlite3_step(stmt);
 	updateError();
 	sqlite3_finalize(stmt);
-	sqlite3_mutex_leave(sqlite3_db_mutex(_handler));
 	return !_lastError.isError();
 }
 
