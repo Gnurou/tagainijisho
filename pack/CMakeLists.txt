@@ -58,10 +58,10 @@ if(UNIX)
 		install(FILES "${CMAKE_BINARY_DIR}/jmdict.db" DESTINATION ${EXE_DIR} COMPONENT Runtime)
 		install(FILES "${CMAKE_BINARY_DIR}/kanjidic2.db" DESTINATION ${EXE_DIR} COMPONENT Runtime)
 
-		foreach(LANG "en ${DICT_LANG}")
+		foreach(LANG en;${DICT_LANG})
 			install(FILES "${CMAKE_BINARY_DIR}/jmdict-${LANG}.db" DESTINATION ${EXE_DIR} COMPONENT Runtime)
 			install(FILES "${CMAKE_BINARY_DIR}/kanjidic2-${LANG}.db" DESTINATION ${EXE_DIR} COMPONENT Runtime)
-		endforeach(LANG "en ${DICT_LANG}")
+		endforeach(LANG en;${DICT_LANG})
 		
 		install(FILES ${CMAKE_SOURCE_DIR}/src/gui/jmdict/detailed_jmdict.html ${CMAKE_SOURCE_DIR}/src/gui/jmdict/detailed_jmdict.css DESTINATION ${RESOURCES_DIR} COMPONENT Runtime)
 		install(FILES ${CMAKE_SOURCE_DIR}/src/gui/kanjidic2/detailed_kanjidic2.html ${CMAKE_SOURCE_DIR}/src/gui/kanjidic2/detailed_kanjidic2.css DESTINATION ${RESOURCES_DIR} COMPONENT Runtime)
