@@ -111,12 +111,7 @@
 <context>
     <name>Database</name>
     <message>
-        <location filename="../src/core/Database.cc" line="+249"/>
-        <source>Tagaini Jisho warning</source>
-        <translation>Alerta de Tagaini Jisho</translation>
-    </message>
-    <message>
-        <location line="+50"/>
+        <location filename="../src/core/Database.cc" line="+315"/>
         <source>Error while upgrading user database: %1</source>
         <translation>Error al actualizar la base de datos del usuario: %1</translation>
     </message>
@@ -136,7 +131,7 @@
         <translation>No se puede abrir la base de datos: %1</translation>
     </message>
     <message>
-        <location line="+112"/>
+        <location line="+27"/>
         <source>Temporary database fallback failed. The program will now exit.</source>
         <translation>La base de datos de reserva temporal ha fallado. El programa se cerrará ahora.</translation>
     </message>
@@ -161,10 +156,6 @@
 </context>
 <context>
     <name>DetailedViewPreferences</name>
-    <message>
-        <source>Detailed View</source>
-        <translation type="obsolete">Detailed View</translation>
-    </message>
     <message>
         <location filename="../src/gui/PreferencesWindow.cc" line="-108"/>
         <source>Detailed view</source>
@@ -293,14 +284,6 @@
         <location line="+0"/>
         <source>Print &amp;booklet...</source>
         <translation>Imprimir &amp;cuaderno...</translation>
-    </message>
-    <message>
-        <source>Booklet p&amp;review...</source>
-        <translation type="obsolete">Booklet p&amp;review...</translation>
-    </message>
-    <message>
-        <source>&amp;Export as &amp;TSV...</source>
-        <translation type="obsolete">&amp;Export as &amp;TSV...</translation>
     </message>
     <message>
         <location line="+0"/>
@@ -474,10 +457,6 @@
 <context>
     <name>EntryFormatter</name>
     <message>
-        <source>Notes:</source>
-        <translation type="obsolete">Notes:</translation>
-    </message>
-    <message>
         <location filename="../src/gui/EntryFormatter.cc" line="+39"/>
         <source>Cannot find detailed view HTML file!</source>
         <translation type="unfinished"></translation>
@@ -512,69 +491,6 @@
         <source>Last mistaken on %1.</source>
         <translation type="unfinished"></translation>
     </message>
-    <message>
-        <source>Never trained.</source>
-        <translation type="obsolete">Never trained.</translation>
-    </message>
-    <message>
-        <source>On:</source>
-        <translation type="obsolete">On:</translation>
-    </message>
-    <message>
-        <source>Kun:</source>
-        <translation type="obsolete">Kun:</translation>
-    </message>
-    <message>
-        <source>Nanori:</source>
-        <translation type="obsolete">Nanori:</translation>
-    </message>
-    <message>
-        <source>&lt;b&gt;Strokes:&lt;/b&gt; %1</source>
-        <translation type="obsolete">&lt;b&gt;Strokes:&lt;/b&gt; %1</translation>
-    </message>
-    <message>
-        <source>&lt;b&gt;Frequency:&lt;/b&gt; %1</source>
-        <translation type="obsolete">&lt;b&gt;Frequency:&lt;/b&gt; %1</translation>
-    </message>
-    <message>
-        <source>&lt;b&gt;Grade:&lt;/b&gt; %1</source>
-        <translation type="obsolete">&lt;b&gt;Grade:&lt;/b&gt; %1</translation>
-    </message>
-    <message>
-        <source>&lt;b&gt;JLPT:&lt;/b&gt; %1</source>
-        <translation type="obsolete">&lt;b&gt;JLPT:&lt;/b&gt; %1</translation>
-    </message>
-    <message>
-        <source>Variations:</source>
-        <translation type="obsolete">Variations:</translation>
-    </message>
-    <message>
-        <source>Variation of:</source>
-        <translation type="obsolete">Variation of:</translation>
-    </message>
-    <message>
-        <source>&lt;b&gt;Unicode:&lt;/b&gt; 0x%1</source>
-        <translation type="obsolete">&lt;b&gt;Unicode:&lt;/b&gt; 0x%1</translation>
-    </message>
-    <message>
-        <source>&lt;b&gt;SKIP:&lt;/b&gt; %1</source>
-        <translation type="obsolete">&lt;b&gt;SKIP:&lt;/b&gt; %1</translation>
-    </message>
-    <message>
-        <source>Components:</source>
-        <translation type="obsolete">Components:</translation>
-    </message>
-    <message>
-        <source>(JLPT %1)</source>
-        <translation type="obsolete">(JLPT %1)</translation>
-    </message>
-</context>
-<context>
-    <name>EntryListModel</name>
-    <message>
-        <source>New list</source>
-        <translation type="obsolete">New list</translation>
-    </message>
 </context>
 <context>
     <name>EntryListView</name>
@@ -587,10 +503,6 @@
         <location line="+0"/>
         <source>New list...</source>
         <translation>Nueva lista...</translation>
-    </message>
-    <message>
-        <source>Set as root</source>
-        <translation type="obsolete">Set as root</translation>
     </message>
     <message>
         <location line="+0"/>
@@ -636,20 +548,6 @@
  Some of them may be remaining.</source>
         <translation type="unfinished"></translation>
     </message>
-    <message>
-        <source>A database error has occured while trying to remove the selected items:
-
-				%1
-
-				Some of them may be remaining.
-			</source>
-        <translation type="obsolete">A database error has occured while trying to remove the selected items:
-
-				%1
-
-				Some of them may be remaining.
-			</translation>
-    </message>
 </context>
 <context>
     <name>EntryListWidget</name>
@@ -657,14 +555,6 @@
         <location filename="../src/gui/EntryListWidget.ui" line="+14"/>
         <source>Form</source>
         <translation>Formulario</translation>
-    </message>
-    <message>
-        <source>Test test</source>
-        <translation type="obsolete">Test test</translation>
-    </message>
-    <message>
-        <source>...</source>
-        <translation type="obsolete">...</translation>
     </message>
     <message>
         <location filename="../src/gui/EntryListWidget.h" line="+33"/>
@@ -719,10 +609,6 @@
         <source>Add &quot;%1&quot;</source>
         <translation type="unfinished"></translation>
     </message>
-    <message>
-        <source>Add %1.</source>
-        <translation type="obsolete">Add %1.</translation>
-    </message>
 </context>
 <context>
     <name>EntryNotesModel</name>
@@ -755,32 +641,9 @@
         <translation>Caracteres</translation>
     </message>
     <message>
-        <source>Kanji</source>
-        <translation type="obsolete">Kanji</translation>
-    </message>
-    <message>
         <location filename="../src/gui/EntryTypeFilterWidget.h" line="+43"/>
         <source>Entry type filter</source>
         <translation>Filtro de tipo de entrada</translation>
-    </message>
-</context>
-<context>
-    <name>EntryTypeSelectionWidget</name>
-    <message>
-        <source>All</source>
-        <translation type="obsolete">All</translation>
-    </message>
-    <message>
-        <source>Vocabulary</source>
-        <translation type="obsolete">Vocabulary</translation>
-    </message>
-    <message>
-        <source>Kanji</source>
-        <translation type="obsolete">Kanji</translation>
-    </message>
-    <message>
-        <source>Entry type filter</source>
-        <translation type="obsolete">Entry type filter</translation>
     </message>
 </context>
 <context>
@@ -789,13 +652,6 @@
         <location filename="../src/gui/jmdict/JMdictEntryFormatter.cc" line="+575"/>
         <source>Homographs</source>
         <translation>Homografías</translation>
-    </message>
-</context>
-<context>
-    <name>FindHomonymsJob</name>
-    <message>
-        <source>Homophones:</source>
-        <translation type="obsolete">Homophones:</translation>
     </message>
 </context>
 <context>
@@ -808,18 +664,6 @@
 </context>
 <context>
     <name>FindVerbBuddyJob</name>
-    <message>
-        <source>Transitive buddy:</source>
-        <translation type="obsolete">Transitive buddy:</translation>
-    </message>
-    <message>
-        <source>Intransitive buddy:</source>
-        <translation type="obsolete">Intransitive buddy:</translation>
-    </message>
-    <message>
-        <source>Buddy:</source>
-        <translation type="obsolete">Buddy:</translation>
-    </message>
     <message>
         <location line="-15"/>
         <source>Transitive buddy</source>
@@ -904,21 +748,9 @@
         <translation>Formulario</translation>
     </message>
     <message>
-        <source>Application default font</source>
-        <translation type="obsolete">Application default font</translation>
-    </message>
-    <message>
-        <source>You need to restart Tagaini Jisho for this change to take effect.</source>
-        <translation type="obsolete">You need to restart Tagaini Jisho for this change to take effect.</translation>
-    </message>
-    <message>
         <location line="+6"/>
         <source>General settings</source>
         <translation>Opciones generales</translation>
-    </message>
-    <message>
-        <source>GUI language</source>
-        <translation type="obsolete">GUI language</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -977,14 +809,6 @@ improve performance when manipulating a large number of entries.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>days</source>
-        <translation type="obsolete">days</translation>
-    </message>
-    <message>
-        <source>every</source>
-        <translation type="obsolete">every</translation>
-    </message>
-    <message>
         <location line="-41"/>
         <source>Also check for development versions</source>
         <translation>Buscar también versiones en desarrollo</translation>
@@ -1004,37 +828,9 @@ improve performance when manipulating a large number of entries.</source>
         <source>Default</source>
         <translation>Por defecto</translation>
     </message>
-    <message>
-        <source>Defines how many recent entries are kept in memory. High values may
-				improve performance when manipulating a large number of entries.
-			</source>
-        <translation type="obsolete">Defines how many recent entries are kept in memory. High values may
-				improve performance when manipulating a large number of entries.
-			</translation>
-    </message>
-    <message>
-        <source>Defines how many recent entries are kept in memory. High values may improve performance when manipulating a large number of entries.</source>
-        <translation type="obsolete">Defines how many recent entries are kept in memory. High values may improve performance when manipulating a large number of entries.</translation>
-    </message>
 </context>
 <context>
     <name>JLPTFilterWidget</name>
-    <message>
-        <source>Level 4</source>
-        <translation type="obsolete">Level 4</translation>
-    </message>
-    <message>
-        <source>Level 3</source>
-        <translation type="obsolete">Level 3</translation>
-    </message>
-    <message>
-        <source>Level 2</source>
-        <translation type="obsolete">Level 2</translation>
-    </message>
-    <message>
-        <source>Level 1</source>
-        <translation type="obsolete">Level 1</translation>
-    </message>
     <message>
         <location filename="../src/gui/JLPTFilterWidget.cc" line="+28"/>
         <source>Level N5</source>
@@ -1067,50 +863,11 @@ improve performance when manipulating a large number of entries.</source>
     </message>
 </context>
 <context>
-    <name>JLPTOptionsWidget</name>
-    <message>
-        <source>JLPT filter</source>
-        <translation type="obsolete">JLPT filter</translation>
-    </message>
-    <message>
-        <source>Level 4</source>
-        <translation type="obsolete">Level 4</translation>
-    </message>
-    <message>
-        <source>Level 3</source>
-        <translation type="obsolete">Level 3</translation>
-    </message>
-    <message>
-        <source>Level 2</source>
-        <translation type="obsolete">Level 2</translation>
-    </message>
-    <message>
-        <source>Level 1</source>
-        <translation type="obsolete">Level 1</translation>
-    </message>
-    <message>
-        <source>JLPT:</source>
-        <translation type="obsolete">JLPT:</translation>
-    </message>
-    <message>
-        <source>JLPT</source>
-        <translation type="obsolete">JLPT</translation>
-    </message>
-</context>
-<context>
     <name>JMdictEntryFormatter</name>
-    <message>
-        <source>(JLPT %1)</source>
-        <translation type="obsolete">(JLPT %1)</translation>
-    </message>
     <message>
         <location filename="../src/gui/jmdict/JMdictEntryFormatter.cc" line="-339"/>
         <source>(JLPT N%1)</source>
         <translation>(JLPT N%1)</translation>
-    </message>
-    <message>
-        <source>Alternate readings:</source>
-        <translation type="obsolete">Alternate readings:</translation>
     </message>
     <message>
         <location line="+38"/>
@@ -1128,25 +885,9 @@ improve performance when manipulating a large number of entries.</source>
         <translation>JLPT</translation>
     </message>
     <message>
-        <source>JLPT level</source>
-        <translation type="obsolete">JLPT level</translation>
-    </message>
-    <message>
         <location line="+24"/>
         <source>Kanji</source>
         <translation>Kanji</translation>
-    </message>
-    <message>
-        <source>Variants:</source>
-        <translation type="obsolete">Variants:</translation>
-    </message>
-    <message>
-        <source>JLPT level:</source>
-        <translation type="obsolete">JLPT level:</translation>
-    </message>
-    <message>
-        <source>Kanji:</source>
-        <translation type="obsolete">Kanji:</translation>
     </message>
 </context>
 <context>
@@ -1216,30 +957,14 @@ improve performance when manipulating a large number of entries.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>with</source>
-        <translation type="obsolete">with</translation>
-    </message>
-    <message>
         <location line="-5"/>
         <source>, studied kanji only</source>
         <translation>, sólo kanjis estudiados</translation>
     </message>
     <message>
-        <source>with studied kanji</source>
-        <translation type="obsolete">with studied kanji</translation>
-    </message>
-    <message>
-        <source>with component</source>
-        <translation type="obsolete">with component</translation>
-    </message>
-    <message>
         <location line="+4"/>
         <source>, including kana words</source>
         <translation>, incluyendo palabras con kanas</translation>
-    </message>
-    <message>
-        <source>using kana only</source>
-        <translation type="obsolete">using kana only</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -1469,10 +1194,6 @@ improve performance when manipulating a large number of entries.</source>
         <location line="+1"/>
         <source>exclusively kana</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>gikun (meaning as reading) or jukujikun (special kanji reading)</source>
-        <translation type="obsolete">gikun (meaning as reading) or jukujikun (special kanji reading)</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -1876,73 +1597,6 @@ improve performance when manipulating a large number of entries.</source>
     </message>
 </context>
 <context>
-    <name>JMdictOptionsWidget</name>
-    <message>
-        <source>Vocabulary</source>
-        <translation type="obsolete">Vocabulary</translation>
-    </message>
-    <message>
-        <source>Using studied kanji only</source>
-        <translation type="obsolete">Using studied kanji only</translation>
-    </message>
-    <message>
-        <source>With kanji:</source>
-        <translation type="obsolete">With kanji:</translation>
-    </message>
-    <message>
-        <source>With components:</source>
-        <translation type="obsolete">With components:</translation>
-    </message>
-    <message>
-        <source>Part of speech</source>
-        <translation type="obsolete">Part of speech</translation>
-    </message>
-    <message>
-        <source>Dialect</source>
-        <translation type="obsolete">Dialect</translation>
-    </message>
-    <message>
-        <source>Field</source>
-        <translation type="obsolete">Field</translation>
-    </message>
-    <message>
-        <source>Misc</source>
-        <translation type="obsolete">Misc</translation>
-    </message>
-    <message>
-        <source>with</source>
-        <translation type="obsolete">with</translation>
-    </message>
-    <message>
-        <source>, studied kanji only</source>
-        <translation type="obsolete">, studied kanji only</translation>
-    </message>
-    <message>
-        <source>with studied kanji</source>
-        <translation type="obsolete">with studied kanji</translation>
-    </message>
-    <message>
-        <source>with component</source>
-        <translation type="obsolete">with component</translation>
-    </message>
-    <message>
-        <source>Pos:</source>
-        <translation type="obsolete">Pos:</translation>
-    </message>
-    <message>
-        <source>Dial:</source>
-        <translation type="obsolete">Dial:</translation>
-    </message>
-    <message>
-        <source>Field:</source>
-        <translation type="obsolete">Field:</translation>
-    </message>
-    <message>
-        <source>Misc:</source>
-        <translation type="obsolete">Misc:</translation>
-    </message>
-</context>
-<context>
     <name>JMdictPlugin</name>
     <message>
         <location filename="../src/core/jmdict/JMdictPlugin.cc" line="+326"/>
@@ -2104,10 +1758,6 @@ improve performance when manipulating a large number of entries.</source>
 <context>
     <name>JMdictYesNoTrainer</name>
     <message>
-        <source>Show &amp;furiganas</source>
-        <translation type="obsolete">Show &amp;furiganas</translation>
-    </message>
-    <message>
         <location filename="../src/gui/jmdict/JMdictYesNoTrainer.cc" line="+23"/>
         <source>Show &amp;furigana</source>
         <translation>Mostrar &amp;furigana</translation>
@@ -2150,13 +1800,6 @@ improve performance when manipulating a large number of entries.</source>
         <location filename="../src/gui/kanjidic2/KanjiSelector.cc" line="+395"/>
         <source>Triggers the kanji input panel</source>
         <translation>Activa el panel de entrada de kanjis</translation>
-    </message>
-</context>
-<context>
-    <name>KanjiLinkHandler</name>
-    <message>
-        <source>Tracing for %1</source>
-        <translation type="obsolete">Tracing for %1</translation>
     </message>
 </context>
 <context>
@@ -2230,10 +1873,6 @@ improve performance when manipulating a large number of entries.</source>
         <translation>&lt;b&gt;Radicales:&lt;/b&gt; %1</translation>
     </message>
     <message>
-        <source>&lt;b&gt;Components:&lt;/b&gt;%2 %1</source>
-        <translation type="obsolete">&lt;b&gt;Components:&lt;/b&gt;%2 %1</translation>
-    </message>
-    <message>
         <location line="-27"/>
         <source>&lt;b&gt;Score:&lt;/b&gt; %1&lt;br/&gt;</source>
         <translation>&lt;b&gt;Puntuación:&lt;/b&gt; %1&lt;br/&gt;</translation>
@@ -2289,10 +1928,6 @@ improve performance when manipulating a large number of entries.</source>
 <context>
     <name>Kanjidic2Entry</name>
     <message>
-        <source>(var)</source>
-        <translation type="obsolete">(var)</translation>
-    </message>
-    <message>
         <location filename="../src/core/kanjidic2/Kanjidic2Entry.cc" line="+126"/>
         <source>(var) </source>
         <translation type="unfinished"></translation>
@@ -2300,22 +1935,6 @@ improve performance when manipulating a large number of entries.</source>
 </context>
 <context>
     <name>Kanjidic2EntryFormatter</name>
-    <message>
-        <source>On:</source>
-        <translation type="obsolete">On:</translation>
-    </message>
-    <message>
-        <source>Kun:</source>
-        <translation type="obsolete">Kun:</translation>
-    </message>
-    <message>
-        <source>Nanori:</source>
-        <translation type="obsolete">Nanori:</translation>
-    </message>
-    <message>
-        <source>(%1)</source>
-        <translation type="obsolete">(%1)</translation>
-    </message>
     <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="+326"/>
         <source>&lt;b&gt;Strokes:&lt;/b&gt; %1</source>
@@ -2332,17 +1951,9 @@ improve performance when manipulating a large number of entries.</source>
         <translation>&lt;b&gt;Grado:&lt;/b&gt; %1</translation>
     </message>
     <message>
-        <source>&lt;b&gt;JLPT:&lt;/b&gt; %1</source>
-        <translation type="obsolete">&lt;b&gt;JLPT:&lt;/b&gt; %1</translation>
-    </message>
-    <message>
         <location line="+16"/>
         <source>&lt;b&gt;4 corner:&lt;/b&gt; %1</source>
         <translation>&lt;b&gt;4 esquinas:&lt;/b&gt; %1</translation>
-    </message>
-    <message>
-        <source>(JLPT %1)</source>
-        <translation type="obsolete">(JLPT %1)</translation>
     </message>
     <message>
         <location line="-141"/>
@@ -2430,14 +2041,6 @@ improve performance when manipulating a large number of entries.</source>
         <translation>Componentes</translation>
     </message>
     <message>
-        <source>Variations:</source>
-        <translation type="obsolete">Variations:</translation>
-    </message>
-    <message>
-        <source>Variation of:</source>
-        <translation type="obsolete">Variation of:</translation>
-    </message>
-    <message>
         <location line="-250"/>
         <source>&lt;b&gt;Unicode:&lt;/b&gt; 0x%1</source>
         <translation>&lt;b&gt;Unicode:&lt;/b&gt; 0x%1</translation>
@@ -2446,10 +2049,6 @@ improve performance when manipulating a large number of entries.</source>
         <location line="+4"/>
         <source>&lt;b&gt;SKIP:&lt;/b&gt; %1</source>
         <translation>&lt;b&gt;SKIP:&lt;/b&gt; %1</translation>
-    </message>
-    <message>
-        <source>Components:</source>
-        <translation type="obsolete">Components:</translation>
     </message>
 </context>
 <context>
@@ -2509,10 +2108,6 @@ improve performance when manipulating a large number of entries.</source>
         <location line="+3"/>
         <source>All &amp;Jouyou kanji</source>
         <translation>Todos los &amp;Jouyou kanji</translation>
-    </message>
-    <message>
-        <source>, 1 stroke</source>
-        <translation type="obsolete">, 1 stroke</translation>
     </message>
     <message>
         <location line="+219"/>
@@ -2635,18 +2230,6 @@ improve performance when manipulating a large number of entries.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Kanji flashcards</source>
-        <translation type="obsolete">Kanji flashcards</translation>
-    </message>
-    <message>
-        <source>From &amp;kanji, whole study list</source>
-        <translation type="obsolete">From &amp;kanji, whole study list</translation>
-    </message>
-    <message>
-        <source>From &amp;kanji, current set</source>
-        <translation type="obsolete">From &amp;kanji, current set</translation>
-    </message>
-    <message>
         <location line="+4"/>
         <source>From &amp;meaning, whole study list</source>
         <translation type="unfinished"></translation>
@@ -2705,74 +2288,7 @@ improve performance when manipulating a large number of entries.</source>
     </message>
 </context>
 <context>
-    <name>Kanjidic2OptionsWidget</name>
-    <message>
-        <source>Stroke count</source>
-        <translation type="obsolete">Stroke count</translation>
-    </message>
-    <message>
-        <source>Components</source>
-        <translation type="obsolete">Components</translation>
-    </message>
-    <message>
-        <source>Unicode</source>
-        <translation type="obsolete">Unicode</translation>
-    </message>
-    <message>
-        <source>School grade</source>
-        <translation type="obsolete">School grade</translation>
-    </message>
-    <message>
-        <source>Grade</source>
-        <translation type="obsolete">Grade</translation>
-    </message>
-    <message>
-        <source>SKIP code</source>
-        <translation type="obsolete">SKIP code</translation>
-    </message>
-    <message>
-        <source>All &amp;Kyouiku kanji</source>
-        <translation type="obsolete">All &amp;Kyouiku kanji</translation>
-    </message>
-    <message>
-        <source>All &amp;Jouyou kanji</source>
-        <translation type="obsolete">All &amp;Jouyou kanji</translation>
-    </message>
-    <message>
-        <source>, 1 stroke</source>
-        <translation type="obsolete">, 1 stroke</translation>
-    </message>
-    <message>
-        <source>, %1 strokes</source>
-        <translation type="obsolete">, %1 strokes</translation>
-    </message>
-    <message>
-        <source>, unicode:</source>
-        <translation type="obsolete">, unicode:</translation>
-    </message>
-    <message>
-        <source>, skip:</source>
-        <translation type="obsolete">, skip:</translation>
-    </message>
-    <message>
-        <source>, grade:</source>
-        <translation type="obsolete">, grade:</translation>
-    </message>
-    <message>
-        <source>Kanji</source>
-        <translation type="obsolete">Kanji</translation>
-    </message>
-    <message>
-        <source>Grade:</source>
-        <translation type="obsolete">Grade:</translation>
-    </message>
-</context>
-<context>
     <name>Kanjidic2Preferences</name>
-    <message>
-        <source>Kanji entries</source>
-        <translation type="obsolete">Kanji entries</translation>
-    </message>
     <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2Preferences.ui" line="+14"/>
         <source>Form</source>
@@ -3052,10 +2568,6 @@ improve performance when manipulating a large number of entries.</source>
         <translation>No repetir</translation>
     </message>
     <message>
-        <source>seconds</source>
-        <translation type="obsolete">seconds</translation>
-    </message>
-    <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2Preferences.cc" line="+27"/>
         <source>Character entries</source>
         <translation>Entradas de caracteres</translation>
@@ -3117,10 +2629,6 @@ improve performance when manipulating a large number of entries.</source>
         <translation>A&amp;yuda</translation>
     </message>
     <message>
-        <source>S&amp;ets</source>
-        <translation type="obsolete">S&amp;ets</translation>
-    </message>
-    <message>
         <location line="+17"/>
         <source>P&amp;ractice</source>
         <translation>P&amp;racticar</translation>
@@ -3136,10 +2644,6 @@ improve performance when manipulating a large number of entries.</source>
         <translation>Listas</translation>
     </message>
     <message>
-        <source>&amp;New set from current search,,,</source>
-        <translation type="obsolete">&amp;New set from current search,,,</translation>
-    </message>
-    <message>
         <location line="+81"/>
         <source>&amp;Manual</source>
         <translation>&amp;Manual</translation>
@@ -3153,10 +2657,6 @@ improve performance when manipulating a large number of entries.</source>
         <location line="-89"/>
         <source>Preferences...</source>
         <translation>Preferencias...</translation>
-    </message>
-    <message>
-        <source>&amp;Manual...</source>
-        <translation type="obsolete">&amp;Manual...</translation>
     </message>
     <message>
         <location line="+53"/>
@@ -3184,42 +2684,6 @@ improve performance when manipulating a large number of entries.</source>
         <translation>Ir al cuadro de búsqueda</translation>
     </message>
     <message>
-        <source>Print preview</source>
-        <translation type="obsolete">Print preview</translation>
-    </message>
-    <message>
-        <source>Booklet print</source>
-        <translation type="obsolete">Booklet print</translation>
-    </message>
-    <message>
-        <source>Booklet print preview</source>
-        <translation type="obsolete">Booklet print preview</translation>
-    </message>
-    <message>
-        <source>Export to tab-separated file...</source>
-        <translation type="obsolete">Export to tab-separated file...</translation>
-    </message>
-    <message>
-        <source>Cannot write file</source>
-        <translation type="obsolete">Cannot write file</translation>
-    </message>
-    <message>
-        <source>Unable to write file %1.</source>
-        <translation type="obsolete">Unable to write file %1.</translation>
-    </message>
-    <message>
-        <source>Error writing file</source>
-        <translation type="obsolete">Error writing file</translation>
-    </message>
-    <message>
-        <source>Error while writing file %1.</source>
-        <translation type="obsolete">Error while writing file %1.</translation>
-    </message>
-    <message>
-        <source>Print entries displayed in result view</source>
-        <translation type="obsolete">Print entries displayed in result view</translation>
-    </message>
-    <message>
         <location line="-119"/>
         <location filename="../src/gui/MainWindow.cc" line="+235"/>
         <source>Export user data...</source>
@@ -3232,89 +2696,9 @@ improve performance when manipulating a large number of entries.</source>
         <translation>Importar datos de usuario...</translation>
     </message>
     <message>
-        <source>&amp;Results</source>
-        <translation type="obsolete">&amp;Results</translation>
-    </message>
-    <message>
         <location line="-122"/>
         <source>Tagaini Jisho</source>
         <translation>Tagaini Jisho</translation>
-    </message>
-    <message>
-        <source>Reset search</source>
-        <translation type="obsolete">Reset search</translation>
-    </message>
-    <message>
-        <source>Ctrl+R</source>
-        <translation type="obsolete">Ctrl+R</translation>
-    </message>
-    <message>
-        <source>&amp;Print...</source>
-        <translation type="obsolete">&amp;Print...</translation>
-    </message>
-    <message>
-        <source>Print &amp;preview...</source>
-        <translation type="obsolete">Print &amp;preview...</translation>
-    </message>
-    <message>
-        <source>Previous search</source>
-        <translation type="obsolete">Previous search</translation>
-    </message>
-    <message>
-        <source>Next search</source>
-        <translation type="obsolete">Next search</translation>
-    </message>
-    <message>
-        <source>Print preview of entries in result view</source>
-        <translation type="obsolete">Print preview of entries in result view</translation>
-    </message>
-    <message>
-        <source>Print &amp;booklet(s)...</source>
-        <translation type="obsolete">Print &amp;booklet(s)...</translation>
-    </message>
-    <message>
-        <source>Ctrl+B</source>
-        <translation type="obsolete">Ctrl+B</translation>
-    </message>
-    <message>
-        <source>Print entries displayed in result view as booklets</source>
-        <translation type="obsolete">Print entries displayed in result view as booklets</translation>
-    </message>
-    <message>
-        <source>Booklet(s) &amp;preview...</source>
-        <translation type="obsolete">Booklet(s) &amp;preview...</translation>
-    </message>
-    <message>
-        <source>Booklets print preview of entries in results list</source>
-        <translation type="obsolete">Booklets print preview of entries in results list</translation>
-    </message>
-    <message>
-        <source>Export displayed entries...</source>
-        <translation type="obsolete">Export displayed entries...</translation>
-    </message>
-    <message>
-        <source>As a tab-separated file...</source>
-        <translation type="obsolete">As a tab-separated file...</translation>
-    </message>
-    <message>
-        <source>&amp;Sets</source>
-        <translation type="obsolete">&amp;Sets</translation>
-    </message>
-    <message>
-        <source>&amp;New set from current search...</source>
-        <translation type="obsolete">&amp;New set from current search...</translation>
-    </message>
-    <message>
-        <source>&amp;New sets folder...</source>
-        <translation type="obsolete">&amp;New sets folder...</translation>
-    </message>
-    <message>
-        <source>&amp;Organize sets...</source>
-        <translation type="obsolete">&amp;Organize sets...</translation>
-    </message>
-    <message>
-        <source>&amp;Practice</source>
-        <translation type="obsolete">&amp;Practice</translation>
     </message>
     <message>
         <location line="+79"/>
@@ -3350,43 +2734,6 @@ improve performance when manipulating a large number of entries.</source>
         <location line="+23"/>
         <source>Please consider supporting Tagaini Jisho</source>
         <translation>Por favor, considera ayudar a Tagaini Jisho</translation>
-    </message>
-    <message>
-        <source>You have now been using Tagaini Jisho for a short while. If you like it, please show your support by making a donation that expresses your appreciation of this software. While Tagaini is free, its development has a cost and your support will have a positive influence on its future. You can donate via Paypal or credit card.
-
-				This message is a one-time reminder and will not appear anymore - you can still donate later by choosing the corresponding option in the Help menu.
-			</source>
-        <translation type="obsolete">You have now been using Tagaini Jisho for a short while. If you like it, please show your support by making a donation that expresses your appreciation of this software. While Tagaini is free, its development has a cost and your support will have a positive influence on its future. You can donate via Paypal or
-				credit card.
-
-				This message is a one-time reminder and will not appear anymore - you can still donate later by choosing the corresponding option in the Help menu.
-			</translation>
-    </message>
-    <message>
-        <source>You have now been using Tagaini Jisho for a short while. If you like it, please show your support by making a donation that expresses your appreciation of this software. While Tagaini is free, its development has a cost and your support will have a positive influence on its future. You can donate via Paypal or credit card, or use &lt;a
-				href=&quot;https://flattr.com/thing/74296/Tagaini-Jisho&quot;&gt;Flattr&lt;/a&gt; to support this project.
-
-				This message is a one-time reminder and will not appear anymore - you can still donate later by choosing the corresponding option in the Help menu.
-			</source>
-        <translation type="obsolete">You have now been using Tagaini Jisho for a short while. If you like it, please show your support by making a donation that expresses your appreciation of this software. While Tagaini is free, its development has a cost and your support will have a positive influence on its future. You can donate via Paypal or credit
-				card, or use &lt;a
-				href=&quot;https://flattr.com/thing/74296/Tagaini-Jisho&quot;&gt;Flattr&lt;/a&gt; to support this project.
-
-				This message is a one-time reminder and will not appear anymore - you can still donate later by choosing the corresponding option in the Help menu.
-			</translation>
-    </message>
-    <message>
-        <source>You have now been using Tagaini Jisho for a short while. If you like it, please show your support by making a donation that expresses your appreciation of this software. While Tagaini is free, its development has a cost and your support will have a positive influence on its future. You can donate via Paypal or credit card, or use Flattr
-				to support this project.
-
-				This message is a one-time reminder and will not appear anymore - you can still donate later by choosing the corresponding option in the Help menu.
-			</source>
-        <translation type="obsolete">You have now been using Tagaini Jisho for a short while. If you like it, please show your support by making a donation that expresses your appreciation of this software. While Tagaini is free, its development has a cost and your support will have a positive influence on its future. You can donate via Paypal or credit
-				card, or use Flattr
-				to support this project.
-
-				This message is a one-time reminder and will not appear anymore - you can still donate later by choosing the corresponding option in the Help menu.
-			</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -3461,29 +2808,9 @@ This message is a one-time reminder and will not appear anymore - you can still 
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Create new set here...</source>
-        <translation type="obsolete">Create new set here...</translation>
-    </message>
-    <message>
         <location line="-34"/>
         <source>Create new folder here...</source>
         <translation>Crear una nueva carpeta aquí...</translation>
-    </message>
-    <message>
-        <source>New set</source>
-        <translation type="obsolete">New set</translation>
-    </message>
-    <message>
-        <source>Please enter a name for this set:</source>
-        <translation type="obsolete">Please enter a name for this set:</translation>
-    </message>
-    <message>
-        <source>Unnamed set</source>
-        <translation type="obsolete">Unnamed set</translation>
-    </message>
-    <message>
-        <source>New sets folder</source>
-        <translation type="obsolete">New sets folder</translation>
     </message>
     <message>
         <location line="+34"/>
@@ -3494,22 +2821,6 @@ This message is a one-time reminder and will not appear anymore - you can still 
         <location line="+0"/>
         <source>Unnamed folder</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Print</source>
-        <translation type="obsolete">Print</translation>
-    </message>
-    <message>
-        <source>Preparing print job...</source>
-        <translation type="obsolete">Preparing print job...</translation>
-    </message>
-    <message>
-        <source>Abort</source>
-        <translation type="obsolete">Abort</translation>
-    </message>
-    <message>
-        <source>Printing...</source>
-        <translation type="obsolete">Printing...</translation>
     </message>
     <message>
         <location line="-106"/>
@@ -3537,18 +2848,6 @@ This message is a one-time reminder and will not appear anymore - you can still 
         <location filename="../src/gui/MainWindow.ui" line="+69"/>
         <source>Ctrl+L</source>
         <translation>Ctrl+L</translation>
-    </message>
-    <message>
-        <source>Previous page</source>
-        <translation type="obsolete">Previous page</translation>
-    </message>
-    <message>
-        <source>Next page</source>
-        <translation type="obsolete">Next page</translation>
-    </message>
-    <message>
-        <source>Show all results</source>
-        <translation type="obsolete">Show all results</translation>
     </message>
 </context>
 <context>
@@ -3579,13 +2878,6 @@ This message is a one-time reminder and will not appear anymore - you can still 
     </message>
 </context>
 <context>
-    <name>MultiStackedWidgetButton</name>
-    <message>
-        <source>Reset this extender</source>
-        <translation type="obsolete">Reset this extender</translation>
-    </message>
-</context>
-<context>
     <name>NotesFilterWidget</name>
     <message>
         <location filename="../src/gui/NotesFilterWidget.cc" line="+50"/>
@@ -3601,25 +2893,6 @@ This message is a one-time reminder and will not appear anymore - you can still 
         <location line="+1"/>
         <source>Note contains %1</source>
         <translation>Nota contiene %1</translation>
-    </message>
-</context>
-<context>
-    <name>NotesSearchWidget</name>
-    <message>
-        <source>Notes filter</source>
-        <translation type="obsolete">Notes filter</translation>
-    </message>
-    <message>
-        <source>Notes</source>
-        <translation type="obsolete">Notes</translation>
-    </message>
-    <message>
-        <source>Has note</source>
-        <translation type="obsolete">Has note</translation>
-    </message>
-    <message>
-        <source>Note contains %1</source>
-        <translation type="obsolete">Note contains %1</translation>
     </message>
 </context>
 <context>
@@ -3646,56 +2919,6 @@ This message is a one-time reminder and will not appear anymore - you can still 
         <location filename="../src/gui/PreferencesWindow.ui" line="+14"/>
         <source>Preferences</source>
         <translation>Preferencias</translation>
-    </message>
-</context>
-<context>
-    <name>QSQLiteDriver</name>
-    <message>
-        <source>Error opening database</source>
-        <translation type="obsolete">Error opening database</translation>
-    </message>
-    <message>
-        <source>Error closing database</source>
-        <translation type="obsolete">Error closing database</translation>
-    </message>
-    <message>
-        <source>Unable to begin transaction</source>
-        <translation type="obsolete">Unable to begin transaction</translation>
-    </message>
-    <message>
-        <source>Unable to commit transaction</source>
-        <translation type="obsolete">Unable to commit transaction</translation>
-    </message>
-    <message>
-        <source>Unable to rollback transaction</source>
-        <translation type="obsolete">Unable to rollback transaction</translation>
-    </message>
-</context>
-<context>
-    <name>QSQLiteResult</name>
-    <message>
-        <source>Unable to fetch row</source>
-        <translation type="obsolete">Unable to fetch row</translation>
-    </message>
-    <message>
-        <source>No query</source>
-        <translation type="obsolete">No query</translation>
-    </message>
-    <message>
-        <source>Unable to execute statement</source>
-        <translation type="obsolete">Unable to execute statement</translation>
-    </message>
-    <message>
-        <source>Unable to reset statement</source>
-        <translation type="obsolete">Unable to reset statement</translation>
-    </message>
-    <message>
-        <source>Unable to bind parameters</source>
-        <translation type="obsolete">Unable to bind parameters</translation>
-    </message>
-    <message>
-        <source>Parameter count mismatch</source>
-        <translation type="obsolete">Parameter count mismatch</translation>
     </message>
 </context>
 <context>
@@ -3901,45 +3124,9 @@ This message is a one-time reminder and will not appear anymore - you can still 
         <source>Select All</source>
         <translation>Seleccionar todo</translation>
     </message>
-    <message>
-        <source>Marking entries...</source>
-        <translation type="obsolete">Marking entries...</translation>
-    </message>
-    <message>
-        <source>Abort</source>
-        <translation type="obsolete">Abort</translation>
-    </message>
-    <message>
-        <source>Operation in progress...</source>
-        <translation type="obsolete">Operation in progress...</translation>
-    </message>
-    <message>
-        <source>Resetting entries...</source>
-        <translation type="obsolete">Resetting entries...</translation>
-    </message>
-    <message>
-        <source>Adding tags...</source>
-        <translation type="obsolete">Adding tags...</translation>
-    </message>
 </context>
 <context>
     <name>ResultsViewPreferences</name>
-    <message>
-        <source>Results View</source>
-        <translation type="obsolete">Results View</translation>
-    </message>
-    <message>
-        <source>Main writing</source>
-        <translation type="obsolete">Main writing</translation>
-    </message>
-    <message>
-        <source>Readings and alternate writings</source>
-        <translation type="obsolete">Readings and alternate writings</translation>
-    </message>
-    <message>
-        <source>Definitions</source>
-        <translation type="obsolete">Definitions</translation>
-    </message>
     <message>
         <location filename="../src/gui/ResultsViewPreferences.ui" line="+14"/>
         <source>Form</source>
@@ -3951,25 +3138,9 @@ This message is a one-time reminder and will not appear anymore - you can still 
         <translation>Mostrar resultados</translation>
     </message>
     <message>
-        <source>Style:</source>
-        <translation type="obsolete">Style:</translation>
-    </message>
-    <message>
-        <source>One line</source>
-        <translation type="obsolete">One line</translation>
-    </message>
-    <message>
-        <source>Two lines</source>
-        <translation type="obsolete">Two lines</translation>
-    </message>
-    <message>
         <location line="+8"/>
         <source>Smooth scrolling</source>
         <translation>Desplazamiento suave</translation>
-    </message>
-    <message>
-        <source>Number of results per page:</source>
-        <translation type="obsolete">Number of results per page:</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -3987,10 +3158,6 @@ This message is a one-time reminder and will not appear anymore - you can still 
         <translation>Por puntuación y después relevancia</translation>
     </message>
     <message>
-        <source>Fonts</source>
-        <translation type="obsolete">Fonts</translation>
-    </message>
-    <message>
         <location line="+18"/>
         <source>Preview</source>
         <translation>Previsualización</translation>
@@ -4002,34 +3169,11 @@ This message is a one-time reminder and will not appear anymore - you can still 
     </message>
 </context>
 <context>
-    <name>ResultsViewPrefsDummyEntry</name>
-    <message>
-        <source>Romaji text</source>
-        <translation type="obsolete">Romaji text</translation>
-    </message>
-</context>
-<context>
     <name>ResultsViewWidget</name>
     <message>
         <location filename="../src/gui/ResultsViewWidget.ui" line="+14"/>
         <source>Form</source>
         <translation>Formulario</translation>
-    </message>
-    <message>
-        <source>Previous page</source>
-        <translation type="obsolete">Previous page</translation>
-    </message>
-    <message>
-        <source>Next page</source>
-        <translation type="obsolete">Next page</translation>
-    </message>
-    <message>
-        <source>Show all results</source>
-        <translation type="obsolete">Show all results</translation>
-    </message>
-    <message>
-        <source>Results %1 - %2 of %3</source>
-        <translation type="obsolete">Results %1 - %2 of %3</translation>
     </message>
     <message>
         <location filename="../src/gui/ResultsViewWidget.cc" line="+43"/>
@@ -4074,60 +3218,7 @@ This message is a one-time reminder and will not appear anymore - you can still 
     </message>
 </context>
 <context>
-    <name>SearchBar</name>
-    <message>
-        <source>Focus search bar</source>
-        <translation type="obsolete">Focus search bar</translation>
-    </message>
-    <message>
-        <source>Ctrl+L</source>
-        <extracomment>Used to focus on the search bar</extracomment>
-        <translation type="obsolete">Ctrl+L</translation>
-    </message>
-    <message>
-        <source>Ctrl+R</source>
-        <extracomment>Used to start a new search</extracomment>
-        <translation type="obsolete">Ctrl+R</translation>
-    </message>
-    <message>
-        <source>Search</source>
-        <translation type="obsolete">Search</translation>
-    </message>
-    <message>
-        <source>Reset search</source>
-        <translation type="obsolete">Reset search</translation>
-    </message>
-    <message>
-        <source>Clear search text</source>
-        <translation type="obsolete">Clear search text</translation>
-    </message>
-</context>
-<context>
     <name>SearchWidget</name>
-    <message>
-        <source>Previous page</source>
-        <translation type="obsolete">Previous page</translation>
-    </message>
-    <message>
-        <source>Next page</source>
-        <translation type="obsolete">Next page</translation>
-    </message>
-    <message>
-        <source>Results %1 - %2 of %3</source>
-        <translation type="obsolete">Results %1 - %2 of %3</translation>
-    </message>
-    <message>
-        <source>&amp;Print...</source>
-        <translation type="obsolete">&amp;Print...</translation>
-    </message>
-    <message>
-        <source>Print &amp;preview...</source>
-        <translation type="obsolete">Print &amp;preview...</translation>
-    </message>
-    <message>
-        <source>Booklet(s) &amp;preview...</source>
-        <translation type="obsolete">Booklet(s) &amp;preview...</translation>
-    </message>
     <message>
         <location filename="../src/gui/SearchWidget.ui" line="+67"/>
         <source>Previous search</source>
@@ -4143,71 +3234,9 @@ This message is a one-time reminder and will not appear anymore - you can still 
         <source>&amp;Reset search...</source>
         <translation type="unfinished"></translation>
     </message>
-    <message>
-        <source>Show all results</source>
-        <translation type="obsolete">Show all results</translation>
-    </message>
-    <message>
-        <source>Booklet print</source>
-        <translation type="obsolete">Booklet print</translation>
-    </message>
-    <message>
-        <source>Export to tab-separated file...</source>
-        <translation type="obsolete">Export to tab-separated file...</translation>
-    </message>
-    <message>
-        <source>Cannot write file</source>
-        <translation type="obsolete">Cannot write file</translation>
-    </message>
-    <message>
-        <source>Unable to write file %1.</source>
-        <translation type="obsolete">Unable to write file %1.</translation>
-    </message>
-    <message>
-        <source>Error writing file</source>
-        <translation type="obsolete">Error writing file</translation>
-    </message>
-    <message>
-        <source>Error while writing file %1.</source>
-        <translation type="obsolete">Error while writing file %1.</translation>
-    </message>
-    <message>
-        <source>Print</source>
-        <translation type="obsolete">Print</translation>
-    </message>
-</context>
-<context>
-    <name>SetsOrganizer</name>
-    <message>
-        <source>Organize sets</source>
-        <translation type="obsolete">Organize sets</translation>
-    </message>
-    <message>
-        <source>You can organize your sets here. Double-click to change the set&apos;s label, drag and drop to move them or right-click for other options, including deletion.</source>
-        <translation type="obsolete">You can organize your sets here. Double-click to change the set&apos;s label, drag and drop to move them or right-click for other options, including deletion.</translation>
-    </message>
-</context>
-<context>
-    <name>SetsTreeWidget</name>
-    <message>
-        <source>Delete</source>
-        <translation type="obsolete">Delete</translation>
-    </message>
-    <message>
-        <source>Confirm deletion</source>
-        <translation type="obsolete">Confirm deletion</translation>
-    </message>
-    <message>
-        <source>Are you sure you want to delete the selected sets/folders?</source>
-        <translation type="obsolete">Are you sure you want to delete the selected sets/folders?</translation>
-    </message>
 </context>
 <context>
     <name>ShowUsedInJob</name>
-    <message>
-        <source>Direct compounds:</source>
-        <translation type="obsolete">Direct compounds:</translation>
-    </message>
     <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="+274"/>
         <source>Direct compounds</source>
@@ -4223,28 +3252,9 @@ This message is a one-time reminder and will not appear anymore - you can still 
         <source>(+)</source>
         <translation>(+)</translation>
     </message>
-    <message>
-        <source>(All compounds)</source>
-        <translation type="obsolete">(All compounds)</translation>
-    </message>
-</context>
-<context>
-    <name>ShowUsedInKanjiJob</name>
-    <message>
-        <source>Direct compounds:</source>
-        <translation type="obsolete">Direct compounds:</translation>
-    </message>
-    <message>
-        <source>(All compounds)</source>
-        <translation type="obsolete">(All compounds)</translation>
-    </message>
 </context>
 <context>
     <name>ShowUsedInWordsJob</name>
-    <message>
-        <source>Seen in:</source>
-        <translation type="obsolete">Seen in:</translation>
-    </message>
     <message>
         <location line="+10"/>
         <source>Seen in</source>
@@ -4259,10 +3269,6 @@ This message is a one-time reminder and will not appear anymore - you can still 
         <location line="+0"/>
         <source>(+)</source>
         <translation>(+)</translation>
-    </message>
-    <message>
-        <source>Find all words using this kanji</source>
-        <translation type="obsolete">Find all words using this kanji</translation>
     </message>
 </context>
 <context>
@@ -4329,10 +3335,6 @@ This message is a one-time reminder and will not appear anymore - you can still 
         <translation type="unfinished">, score:[%1,%2] {1-%2]?}</translation>
     </message>
     <message>
-        <source>None</source>
-        <translation type="obsolete">None</translation>
-    </message>
-    <message>
         <location line="-98"/>
         <source>Any</source>
         <translation>Cualquiera</translation>
@@ -4353,18 +3355,6 @@ This message is a one-time reminder and will not appear anymore - you can still 
         <location line="-112"/>
         <source>Study status:</source>
         <translation>Estado de estudio:</translation>
-    </message>
-    <message>
-        <source>since %1</source>
-        <translation type="obsolete">since %1</translation>
-    </message>
-    <message>
-        <source>until %1</source>
-        <translation type="obsolete">until %1</translation>
-    </message>
-    <message>
-        <source>, score:[%1,%2]</source>
-        <translation type="obsolete">, score:[%1,%2]</translation>
     </message>
     <message>
         <location line="+94"/>
@@ -4393,89 +3383,6 @@ This message is a one-time reminder and will not appear anymore - you can still 
     </message>
 </context>
 <context>
-    <name>StudyOptionsWidget</name>
-    <message>
-        <source>Score</source>
-        <translation type="obsolete">Score</translation>
-    </message>
-    <message>
-        <source>Min</source>
-        <translation type="obsolete">Min</translation>
-    </message>
-    <message>
-        <source>Max</source>
-        <translation type="obsolete">Max</translation>
-    </message>
-    <message>
-        <source>Study date</source>
-        <translation type="obsolete">Study date</translation>
-    </message>
-    <message>
-        <source>since</source>
-        <translation type="obsolete">since</translation>
-    </message>
-    <message>
-        <source>None</source>
-        <translation type="obsolete">None</translation>
-    </message>
-    <message>
-        <source>Studied</source>
-        <translation type="obsolete">Studied</translation>
-    </message>
-    <message>
-        <source>Not studied</source>
-        <translation type="obsolete">Not studied</translation>
-    </message>
-    <message>
-        <source>since %1</source>
-        <translation type="obsolete">since %1</translation>
-    </message>
-    <message>
-        <source>, score:[%1,%2]</source>
-        <translation type="obsolete">, score:[%1,%2]</translation>
-    </message>
-    <message>
-        <source>, mistaken since %1</source>
-        <translation type="obsolete">, mistaken since %1</translation>
-    </message>
-    <message>
-        <source>Study</source>
-        <translation type="obsolete">Study</translation>
-    </message>
-    <message>
-        <source>until</source>
-        <translation type="obsolete">until</translation>
-    </message>
-    <message>
-        <source>Last trained</source>
-        <translation type="obsolete">Last trained</translation>
-    </message>
-    <message>
-        <source>Last mistaken</source>
-        <translation type="obsolete">Last mistaken</translation>
-    </message>
-    <message>
-        <source>Study status:</source>
-        <translation type="obsolete">Study status:</translation>
-    </message>
-    <message>
-        <source>until %1</source>
-        <translation type="obsolete">until %1</translation>
-    </message>
-    <message>
-        <source>, trained since %1</source>
-        <translation type="obsolete">, trained since %1</translation>
-    </message>
-    <message>
-        <source>, trained until %1</source>
-        <translation type="obsolete">, trained until %1</translation>
-    </message>
-    <message>
-        <source>, mistaken until %1</source>
-        <translation type="obsolete">, mistaken until %1</translation>
-    </message>
-</context>
-<context>
     <name>TagsDialogs</name>
     <message>
         <location filename="../src/gui/TagsDialogs.cc" line="+162"/>
@@ -4486,10 +3393,6 @@ This message is a one-time reminder and will not appear anymore - you can still 
         <location line="+1"/>
         <source>Set tags</source>
         <translation>Editar etiquetas</translation>
-    </message>
-    <message>
-        <source>Enter a space-separated list of tags for</source>
-        <translation type="obsolete">Enter a space-separated list of tags for</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -4515,18 +3418,10 @@ This message is a one-time reminder and will not appear anymore - you can still 
         <translation>Etiquetas inválidas</translation>
     </message>
     <message>
-        <source>&lt;p&gt;These tags have invalid characters:</source>
-        <translation type="obsolete">&lt;p&gt;These tags have invalid characters:</translation>
-    </message>
-    <message>
         <location line="-34"/>
         <location line="+34"/>
         <source>&lt;/p&gt;&lt;p&gt;Accepted characters are letters, digits and non-quoting punctuation.&lt;/p&gt;</source>
         <translation>&lt;/p&gt;&lt;p&gt;Los caracteres aceptados son letras, números y signos de puntuación excepto citas.&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;/p&gt;&lt;p&gt;Accepted characters are letters and digits.&lt;/p&gt;</source>
-        <translation type="obsolete">&lt;/p&gt;&lt;p&gt;Accepted characters are letters and digits.&lt;/p&gt;</translation>
     </message>
     <message>
         <location line="-34"/>
@@ -4567,10 +3462,6 @@ This message is a one-time reminder and will not appear anymore - you can still 
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Enter a space-separated list of tags to add to</source>
-        <translation type="obsolete">Enter a space-separated list of tags to add to</translation>
-    </message>
-    <message>
         <location line="+10"/>
         <source>Adding tags...</source>
         <translation>Añadiendo etiquetas...</translation>
@@ -4595,34 +3486,7 @@ This message is a one-time reminder and will not appear anymore - you can still 
     </message>
 </context>
 <context>
-    <name>TagsSearchWidget</name>
-    <message>
-        <source>Tagged %1</source>
-        <translation type="obsolete">Tagged %1</translation>
-    </message>
-    <message>
-        <source>Tags filter</source>
-        <translation type="obsolete">Tags filter</translation>
-    </message>
-    <message>
-        <source>...</source>
-        <translation type="obsolete">...</translation>
-    </message>
-    <message>
-        <source>Tags</source>
-        <translation type="obsolete">Tags</translation>
-    </message>
-</context>
-<context>
     <name>TextFilterWidget</name>
-    <message>
-        <source>Search</source>
-        <translation type="obsolete">Search</translation>
-    </message>
-    <message>
-        <source>Clear search text</source>
-        <translation type="obsolete">Clear search text</translation>
-    </message>
     <message>
         <location filename="../src/gui/TextFilterWidget.cc" line="+52"/>
         <source>Text search</source>
@@ -4705,22 +3569,6 @@ This message is a one-time reminder and will not appear anymore - you can still 
 </context>
 <context>
     <name>YesNoTrainer</name>
-    <message>
-        <source>&amp;Answer</source>
-        <translation type="obsolete">&amp;Answer</translation>
-    </message>
-    <message>
-        <source>&amp;Correct!</source>
-        <translation type="obsolete">&amp;Correct!</translation>
-    </message>
-    <message>
-        <source>&amp;Wrong...</source>
-        <translation type="obsolete">&amp;Wrong...</translation>
-    </message>
-    <message>
-        <source>&amp;Skip</source>
-        <translation type="obsolete">&amp;Skip</translation>
-    </message>
     <message>
         <location filename="../src/gui/YesNoTrainer.cc" line="+44"/>
         <source>Answer (&amp;1)</source>
