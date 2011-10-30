@@ -126,9 +126,11 @@ void Kanjidic2EntrySearcher::buildStatement(QList<SearchCommand> &commands, Quer
 		else if (command.command() == "mean") {
 			QStringList langs(Kanjidic2Plugin::instance()->attachedDBs().keys());
 			langs.removeAll("");
-			foreach (const QString &lang, langs) statement.addJoin(QueryBuilder::Column("kanjidic2_" + lang + ".meaning", "entry"));
+			foreach (const QString &lang, langs)
+				statement.addJoin(QueryBuilder::Join(QueryBuilder::Column("kanjidic2_" + lang + ".meaning", "entry"), "", QueryBuilder::Join::Left));
 
-			foreach(const QString &arg, command.args()) transSearch << arg;
+			foreach(const QString &arg, command.args())
+				transSearch << arg;
 		}
 		else if (command.command() == "jlpt") {
 			if (command.args().isEmpty()) statement.addWhere(QString("kanjidic2.entries.jlpt not null"));

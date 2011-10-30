@@ -151,7 +151,7 @@ void JMdictEntrySearcher::buildStatement(QList<SearchCommand> &commands, QueryBu
 			else if (command.command() == "kanji") tables << "jmdict.kanji";
 
 			foreach (const QString &table, tables)
-				statement.addJoin(QueryBuilder::Join(QueryBuilder::Column(table, "id")));
+				statement.addJoin(QueryBuilder::Join(QueryBuilder::Column(table, "id"), "", QueryBuilder::Join::Left));
 
 			foreach(const QString &arg, command.args()) {
 				if (command.command() == "mean" ||command.command() == "kanji" || command.command() == "kana") {
