@@ -27,7 +27,7 @@
 #include <QSemaphore>
 #include <QQueue>
 
-#define USERDB_REVISION 10
+#define USERDB_REVISION 11
 
 #define ASSERT(Q) if (!(Q)) return false
 #define QUERY(Q) if (!query.exec(Q)) return false
@@ -59,7 +59,7 @@ bool Database::createUserDB()
 
 	// Notes tables
 	QUERY("CREATE TABLE notes(noteId INTEGER PRIMARY KEY, type INT, id INTEGER SECONDARY KEY, dateAdded UNSIGNED INT, dateLastChange UNSIGNED INT)");
-	QUERY("CREATE VIRTUAL TABLE notesText using fts4(note)");
+	QUERY("CREATE VIRTUAL TABLE notesText USING fts4(note)");
 
 	// Sets table
 	QUERY("CREATE TABLE sets(rowid INTEGER PRIMARY KEY, parent INT, position INT NOT NULL, label TEXT, state BLOB)");
@@ -89,15 +89,15 @@ static bool update1to2(SQLite::Query &query) {
 	// Fix invalid dates...
 	QUERY("UPDATE oldtraining set dateLastTrain = null where dateLastTrain = 4294967295");
 	// Create the new training table and populate it
-	QUERY("CREATE TABLE training(type INT NOT NULL, id INTEGER SECONDARY_KEY NOT NULL, score INT NOT NULL, dateAdded UNSIGNED INT NOT NULL, dateLastTrain UNSIGNED INT, nbTrained UNSIGNED INT NOT NULL, nbSuccess UNSIGNED INT NOT NULL, dateLastMistake UNSIGNED INT, CONSTRAINT training_unique_ids UNIQUE(type, id))");
+	QUERY("CREATE TABLE training(type INT NOT NULL, id INTEGER SECONDARY KEY NOT NULL, score INT NOT NULL, dateAdded UNSIGNED INT NOT NULL, dateLastTrain UNSIGNED INT, nbTrained UNSIGNED INT NOT NULL, nbSuccess UNSIGNED INT NOT NULL, dateLastMistake UNSIGNED INT, CONSTRAINT training_unique_ids UNIQUE(type, id))");
 	QUERY("INSERT INTO training(type, id, score, dateAdded, dateLastTrain, nbTrained, nbSuccess, dateLastMistake) SELECT *, null from oldtraining");
 	QUERY("UPDATE training SET dateLastMistake = (SELECT MAX(date) FROM trainingLog WHERE result = 0 and trainingLog.id = training.id and trainingLog.type = training.type)");
 	// Delete the old training tables
 	QUERY("DROP TABLE oldtraining");
 	QUERY("DROP TABLE trainingLog");
 	// Restore training indexes
-	QUERY("CREATE INDEX idx_training_score on training(score)");
-	QUERY("CREATE INDEX idx_training_type_id on training(type, id)");
+	QUERY("CREATE INDEX idx_training_type_id ON training(type, id)");
+	QUERY("CREATE INDEX idx_training_score ON training(score)");
 	QUERY("CREATE TRIGGER update_score after update of nbTrained, nbSuccess on training begin update training set score = (nbSuccess * 100) / (nbTrained + 1) where type = old.type and id = old.id; end;");
 	// Don't know if this is even useful, but it doesn't hurt
 	QUERY("DROP TABLE IF EXISTS temp");
@@ -125,7 +125,7 @@ static bool update4to5(SQLite::Query &query) {
 	QUERY("CREATE TABLE lists(parent INTEGER REFERENCES lists, position INTEGER NOT NULL, type INTEGER, id INTEGER)");
 	QUERY("CREATE INDEX idx_lists_ref ON lists(parent, position)");
 	QUERY("CREATE INDEX idx_lists_entry ON lists(type, id)");
-	QUERY("CREATE VIRTUAL TABLE listsLabels using fts3(label)");
+	QUERY("CREATE VIRTUAL TABLE listsLabels USING fts3(label)");
 
 	return true;
 }
@@ -225,6 +225,27 @@ static bool update9to10(SQLite::Query &query)
 	QUERY("CREATE TABLE sets(rowid INTEGER PRIMARY KEY, parent INT, position INT NOT NULL, label TEXT, state BLOB)");
 	QUERY("INSERT INTO sets SELECT rowid, * FROM oldSets");
 	QUERY("DROP TABLE oldSets");
+	QUERY("CREATE INDEX idx_sets_id ON sets(parent, position)");
+
+	return true;
+}
+
+/**
+ * Just attempt to ensure that upgraded schema are identical as
+ * newly created databases.
+ */
+static bool update10to11(SQLite::Query &query)
+{
+	// Replace SECONDARY_KEY by SECONDARY KEY
+	QUERY("ALTER TABLE training RENAME TO oldtraining");
+	QUERY("CREATE TABLE training(type INT NOT NULL, id INTEGER SECONDARY KEY NOT NULL, score INT NOT NULL, dateAdded UNSIGNED INT NOT NULL, dateLastTrain UNSIGNED INT, nbTrained UNSIGNED INT NOT NULL, nbSuccess UNSIGNED INT NOT NULL, dateLastMistake UNSIGNED INT, CONSTRAINT training_unique_ids UNIQUE(type, id))");
+	QUERY("INSERT INTO training SELECT * from oldtraining");
+	QUERY("DROP TABLE oldtraining");
+	QUERY("CREATE INDEX idx_training_type_id ON training(type, id)");
+	QUERY("CREATE INDEX idx_training_score ON training(score)");
+
+	// Might still be here
+	QUERY("DROP TABLE IF EXISTS temp");
 
 	return true;
 }
@@ -241,6 +262,7 @@ bool (*dbUpdateFuncs[USERDB_REVISION - 1])(SQLite::Query &) = {
 	&update7to8,
 	&update8to9,
 	&update9to10,
+	&update10to11,
 };
 
 /**

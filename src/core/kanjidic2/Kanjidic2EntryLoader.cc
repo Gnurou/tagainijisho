@@ -74,7 +74,6 @@ QList<Kanjidic2Entry::KanjiMeaning> Kanjidic2EntryLoader::getMeanings(int id)
 		if (TextTools::isRomaji(character)) ret << Kanjidic2Entry::KanjiMeaning("en", QString("roman character \"%1\"").arg(reading));
 		else if (TextTools::isHiragana(character)) ret << Kanjidic2Entry::KanjiMeaning("en", QString("hiragana \"%1\"%2").arg(reading).arg(info));
 		else if (TextTools::isKatakana(character)) ret << Kanjidic2Entry::KanjiMeaning("en", QString("katakana \"%1\"%2").arg(reading).arg(info));
-		else ret << Kanjidic2Entry::KanjiMeaning("en", QString("unknown character \"%1\"").arg(reading));
 	}
 	return ret;
 }
