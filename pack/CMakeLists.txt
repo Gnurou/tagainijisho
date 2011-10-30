@@ -70,7 +70,15 @@ if(UNIX)
 		
 		file(GLOB i18nfiles ${CMAKE_BINARY_DIR}/i18n/*.qm)
 		install(FILES ${i18nfiles} DESTINATION "${EXE_DIR}/i18n" COMPONENT Runtime)
-		
+
+		install(FILES "/Developer/Applications/Qt/translations/qt_cs.qm" DESTINATION "${ROOT_DIR}/Translations" COMPONENT Runtime)
+		install(FILES "/Developer/Applications/Qt/translations/qt_de.qm" DESTINATION "${ROOT_DIR}/Translations" COMPONENT Runtime)
+		install(FILES "/Developer/Applications/Qt/translations/qt_es.qm" DESTINATION "${ROOT_DIR}/Translations" COMPONENT Runtime)
+		install(FILES "/Developer/Applications/Qt/translations/qt_fr.qm" DESTINATION "${ROOT_DIR}/Translations" COMPONENT Runtime)
+		install(FILES "/Developer/Applications/Qt/translations/qt_ja.qm" DESTINATION "${ROOT_DIR}/Translations" COMPONENT Runtime)
+		install(FILES "/Developer/Applications/Qt/translations/qt_pl.qm" DESTINATION "${ROOT_DIR}/Translations" COMPONENT Runtime)
+		install(FILES "/Developer/Applications/Qt/translations/qt_ru.qm" DESTINATION "${ROOT_DIR}/Translations" COMPONENT Runtime)
+	
 		if(${MULTI_MARKDOWN} MATCHES "MULTI_MARKDOWN-NOTFOUND")
 			MESSAGE(STATUS "Warning, docs will not be generated")
 		else(${MULTI_MARKDOWN} MATCHES "MULTI_MARKDOWN-NOTFOUND")
