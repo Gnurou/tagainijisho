@@ -68,9 +68,9 @@ static QString escapeForRegexp(const QString &string)
 static QString buildTextSearchCondition(const QStringList &words, const QString &table)
 {
 	static QRegExp regExpChars = QRegExp("[\\?\\*]");
-	static QString ftsMatch("kanjidic2%3.%2Text.reading match '%1'");
-	static QString regexpMatch("kanjidic2%3.%2Text.reading regexp %1");
-	static QString globalMatch("kanjidic2%3.%2.docid in (select docid from kanjidic2%3.%2Text where %1)");
+	static QString ftsMatch("kanjidic2%3.%2Text.reading MATCH '%1'");
+	static QString regexpMatch("kanjidic2%3.%2Text.reading REGEXP %1");
+	static QString globalMatch("{{leftcolumn}} IN (SELECT entry FROM kanjidic2%3.%2 JOIN kanjidic2%3.%2Text ON kanjidic2%3.%2.docid = kanjidic2%3.%2Text.docid WHERE %1)");
 
 	QStringList globalMatches;
 	QStringList langs(Kanjidic2Plugin::instance()->attachedDBs().keys());
@@ -95,7 +95,7 @@ static QString buildTextSearchCondition(const QStringList &words, const QString 
 			} else fts << "\"" + w + "\"";
 		}
 		if (!fts.isEmpty()) conds.insert(0, ftsMatch.arg(fts.join(" ")));
-		globalMatches <<  globalMatch.arg(conds.join(" AND ")).arg(table).arg(table == "meaning" ? "_" + lang : "");
+		globalMatches << globalMatch.arg(conds.join(" AND ")).arg(table).arg(table == "meaning" ? "_" + lang : "");
 	}
 	return globalMatches.join(" OR ");
 }
@@ -120,15 +120,9 @@ void Kanjidic2EntrySearcher::buildStatement(QList<SearchCommand> &commands, Quer
 			}
 		}
 		else if (command.command() == "kana") {
-			statement.addJoin(QueryBuilder::Column("kanjidic2.reading", "entry"));
 			foreach(const QString &arg, command.args()) kanaSearch << arg;
 		}
 		else if (command.command() == "mean") {
-			QStringList langs(Kanjidic2Plugin::instance()->attachedDBs().keys());
-			langs.removeAll("");
-			foreach (const QString &lang, langs)
-				statement.addJoin(QueryBuilder::Join(QueryBuilder::Column("kanjidic2_" + lang + ".meaning", "entry"), "", QueryBuilder::Join::Left));
-
 			foreach(const QString &arg, command.args())
 				transSearch << arg;
 		}

@@ -87,9 +87,9 @@ static QString escapeForRegexp(const QString &string)
 static QString buildTextSearchCondition(const QStringList &words, const QString &table)
 {
 	static QRegExp regExpChars = QRegExp("[\\?\\*]");
-	static QString ftsMatch("jmdict%3.%2Text.reading match '%1'");
-	static QString regexpMatch("jmdict%3.%2Text.reading regexp %1");
-	static QString globalMatch("jmdict%3.%2.docid in (select docid from jmdict%3.%2Text where %1)");
+	static QString ftsMatch("jmdict%3.%2Text.reading MATCH '%1'");
+	static QString regexpMatch("jmdict%3.%2Text.reading REGEXP %1");
+	static QString globalMatch("{{leftcolumn}} IN (SELECT id FROM jmdict%3.%2 JOIN jmdict%3.%2Text ON jmdict%3.%2.docid = jmdict%3.%2Text.docid WHERE %1)");
 
 	QStringList globalMatches;
 	QStringList langs(JMdictPlugin::instance()->attachedDBs().keys());
@@ -141,18 +141,6 @@ void JMdictEntrySearcher::buildStatement(QList<SearchCommand> &commands, QueryBu
 
 		// Search for text search commands
 		if (commandLabel == "mean" || commandLabel == "kana" || commandLabel == "kanji") {
-			QStringList tables;
-			if (command.command() == "mean") {
-				QStringList langs(JMdictPlugin::instance()->attachedDBs().keys());
-				langs.removeAll("");
-				foreach (const QString &lang, langs) tables << "jmdict_" + lang + ".gloss";
-			}
-			else if (command.command() == "kana") tables << "jmdict.kana";
-			else if (command.command() == "kanji") tables << "jmdict.kanji";
-
-			foreach (const QString &table, tables)
-				statement.addJoin(QueryBuilder::Join(QueryBuilder::Column(table, "id"), "", QueryBuilder::Join::Left));
-
 			foreach(const QString &arg, command.args()) {
 				if (command.command() == "mean" ||command.command() == "kanji" || command.command() == "kana") {
 					// Protect multi-words arguments within quotes
