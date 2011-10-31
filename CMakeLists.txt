@@ -27,15 +27,16 @@ if(UNIX AND NOT APPLE AND NOT DATA_DIR)
 	set(DATA_DIR "${CMAKE_INSTALL_PREFIX}/share/tagainijisho")
 endif(UNIX AND NOT APPLE AND NOT DATA_DIR)
 
-# Universal binary 32bits with 10.4 compatibility 
+# 64 bits Intel binary with 10.6 compatibility 
 if(APPLE)
-	set(CMAKE_OSX_ARCHITECTURES "x86_64")
+	set(CMAKE_OSX_ARCHITECTURES "${ARCHS_STANDARD_64_BIT}")
 	set(CMAKE_OSX_SYSROOT /Developer/SDKs/MacOSX10.6.sdk)
 	set(CMAKE_C_COMPILER "gcc-4.2")
 	set(CMAKE_CXX_COMPILER "g++-4.2")
-	set(CMAKE_OSX_DEPLOYMENT_TARGET 10.4)
+	set(CMAKE_OSX_DEPLOYMENT_TARGET 10.6)
 	set(CMAKE_PREFIX_PATH "${CMAKE_OSX_SYSROOT}/usr")  
 	set(CMAKE_FRAMEWORK_PATH "${CMAKE_OSX_SYSROOT}/Library/Frameworks:${CMAKE_OSX_SYSROOT}/System/")
+	set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -sectcreate __TEXT __info_plist ${CMAKE_BINARY_DIR}/src/gui/Tagaini\\ Jisho.app/Contents/Info.plist")
 endif(APPLE)
 
 # By default, enable all languages

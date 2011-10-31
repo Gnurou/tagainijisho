@@ -45,7 +45,7 @@ if(UNIX)
 			MACOSX_BUNDLE_BUNDLE_VERSION ${VERSION}
 			MACOSX_BUNDLE_SHORT_VERSION_STRING ${VERSION}
 			MACOSX_BUNDLE_LONG_VERSION_STRING ${VERSION}
-			MACOSX_BUNDLE_GUI_IDENTIFIER "Tagaini Jisho"
+			MACOSX_BUNDLE_GUI_IDENTIFIER "net.tagaini.TagainiJisho"
 			MACOSX_BUNDLE_ICON_FILE appicon.icns
 		)
 		
@@ -58,10 +58,10 @@ if(UNIX)
 		install(FILES "${CMAKE_BINARY_DIR}/jmdict.db" DESTINATION ${EXE_DIR} COMPONENT Runtime)
 		install(FILES "${CMAKE_BINARY_DIR}/kanjidic2.db" DESTINATION ${EXE_DIR} COMPONENT Runtime)
 
-		foreach(LANG "en ${DICT_LANG}")
+		foreach(LANG en;${DICT_LANG})
 			install(FILES "${CMAKE_BINARY_DIR}/jmdict-${LANG}.db" DESTINATION ${EXE_DIR} COMPONENT Runtime)
 			install(FILES "${CMAKE_BINARY_DIR}/kanjidic2-${LANG}.db" DESTINATION ${EXE_DIR} COMPONENT Runtime)
-		endforeach(LANG "en ${DICT_LANG}")
+		endforeach(LANG en;${DICT_LANG})
 		
 		install(FILES ${CMAKE_SOURCE_DIR}/src/gui/jmdict/detailed_jmdict.html ${CMAKE_SOURCE_DIR}/src/gui/jmdict/detailed_jmdict.css DESTINATION ${RESOURCES_DIR} COMPONENT Runtime)
 		install(FILES ${CMAKE_SOURCE_DIR}/src/gui/kanjidic2/detailed_kanjidic2.html ${CMAKE_SOURCE_DIR}/src/gui/kanjidic2/detailed_kanjidic2.css DESTINATION ${RESOURCES_DIR} COMPONENT Runtime)
@@ -70,7 +70,15 @@ if(UNIX)
 		
 		file(GLOB i18nfiles ${CMAKE_BINARY_DIR}/i18n/*.qm)
 		install(FILES ${i18nfiles} DESTINATION "${EXE_DIR}/i18n" COMPONENT Runtime)
-		
+
+		install(FILES "/Developer/Applications/Qt/translations/qt_cs.qm" DESTINATION "${ROOT_DIR}/Translations" COMPONENT Runtime)
+		install(FILES "/Developer/Applications/Qt/translations/qt_de.qm" DESTINATION "${ROOT_DIR}/Translations" COMPONENT Runtime)
+		install(FILES "/Developer/Applications/Qt/translations/qt_es.qm" DESTINATION "${ROOT_DIR}/Translations" COMPONENT Runtime)
+		install(FILES "/Developer/Applications/Qt/translations/qt_fr.qm" DESTINATION "${ROOT_DIR}/Translations" COMPONENT Runtime)
+		install(FILES "/Developer/Applications/Qt/translations/qt_ja.qm" DESTINATION "${ROOT_DIR}/Translations" COMPONENT Runtime)
+		install(FILES "/Developer/Applications/Qt/translations/qt_pl.qm" DESTINATION "${ROOT_DIR}/Translations" COMPONENT Runtime)
+		install(FILES "/Developer/Applications/Qt/translations/qt_ru.qm" DESTINATION "${ROOT_DIR}/Translations" COMPONENT Runtime)
+	
 		if(${MULTI_MARKDOWN} MATCHES "MULTI_MARKDOWN-NOTFOUND")
 			MESSAGE(STATUS "Warning, docs will not be generated")
 		else(${MULTI_MARKDOWN} MATCHES "MULTI_MARKDOWN-NOTFOUND")
