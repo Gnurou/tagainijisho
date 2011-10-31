@@ -229,7 +229,7 @@ void KanjiRenderer::renderGrid(QPainter *painter)
 	painter->drawLine(QLineF(0, 109 / 2.0, 109, 109 / 2.0));
 	painter->drawLine(QLineF(109 / 2.0, 0, 109 / 2.0, 109));
 	QPen pen(painter->pen());
-	pen.setWidth(pen.width() / 3.0);
+	pen.setWidth((int) (pen.width() / 3.0));
 	pen.setStyle(Qt::DotLine);
 	painter->setPen(pen);
 	painter->drawLine(QLineF(0, 109 / 4.0, 109, 109 / 4.0));

@@ -73,7 +73,7 @@ void Entry::train(bool success, float factor)
 	// - The factor argument.
 	int daysNotSeen = lastTrainTime.daysTo(currentTime);
 
-	int scoreChange = 5 + (daysNotSeen * 2) * factor;
+	int scoreChange = (int) (5 + (daysNotSeen * 2) * factor);
 	if (scoreChange > 30) scoreChange = 30;
 	if (!success) scoreChange = -scoreChange;
 

@@ -175,7 +175,7 @@ public:
 		unsigned int _nbResults;
 	public:
 		/// No limit - selects all results
-		Limit() : _active(false), _start(-1), _nbResults(-1) {}
+		Limit() : _active(false), _start(0), _nbResults(0) {}
 		Limit(unsigned int start, unsigned int nbResults) : _active(true), _start(start), _nbResults(nbResults) {}
 		Limit(unsigned int nbResults) : _active(true), _start(0), _nbResults(nbResults) {}
 

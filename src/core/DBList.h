@@ -210,7 +210,7 @@ template <class T> bool DBList<T>::removeEntry(quint32 rowid)
 
 template <class T> DBListInfo DBList<T>::newList()
 {
-	DBListInfo ret = { 0 };
+	DBListInfo ret = { 0,0,0 };
 
 	if (!newListQuery.exec()) {
 		newListQuery.reset();
@@ -223,7 +223,7 @@ template <class T> DBListInfo DBList<T>::newList()
 
 template <class T> DBListInfo DBList<T>::getList(quint32 listId)
 {
-	DBListInfo ret = { 0 };
+	DBListInfo ret = { 0,0,0 };
 	getListQuery.bindValue(listId);
 
 	if (!getListQuery.exec() || !getListQuery.next()) {
