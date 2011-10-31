@@ -150,7 +150,7 @@ void JMdictEntryFormatter::drawCustom(const ConstEntryPointer& _entry, QPainter&
 				if (printOnlyStudiedKanjis && !kanji->trained()) continue;
 				QString s = QString(c) + ": " + kanji->meanings().join(", ");
 				QFontMetrics metrics(painter.font(), painter.device());
-				s = metrics.elidedText(s, Qt::ElideRight, leftArea.width());
+				s = metrics.elidedText(s, Qt::ElideRight, (int) leftArea.width());
 				textBB = painter.boundingRect(leftArea, Qt::AlignLeft, s);
 				painter.drawText(leftArea, Qt::AlignLeft, s);
 				if (!printOnlyStudiedKanjis && kanji->trained()) painter.drawLine(textBB.topLeft() + QPoint(0, metrics.ascent() + metrics.underlinePos()), textBB.topRight() + QPoint(0, metrics.ascent() + metrics.underlinePos()));

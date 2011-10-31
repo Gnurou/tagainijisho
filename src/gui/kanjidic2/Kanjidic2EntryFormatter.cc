@@ -210,7 +210,7 @@ void Kanjidic2EntryFormatter::drawCustom(const ConstKanjidic2EntryPointer& entry
 			QString meanings(original->meaningsString());
 			if (!meanings.isEmpty()) s += ": " + meanings;
 			QFontMetrics metrics(painter.font(), painter.device());
-			s = metrics.elidedText(s, Qt::ElideRight, leftArea.width());
+			s = metrics.elidedText(s, Qt::ElideRight, (int) leftArea.width());
 			textBB = painter.boundingRect(leftArea, Qt::AlignLeft, s);
 			painter.drawText(leftArea, Qt::AlignLeft, s);
 			if (!printOnlyStudiedComponents && original->trained()) painter.drawLine(textBB.topLeft() + QPoint(0, metrics.ascent() + metrics.underlinePos()), textBB.topRight() + QPoint(0, metrics.ascent() + metrics.underlinePos()));
@@ -226,7 +226,7 @@ void Kanjidic2EntryFormatter::drawCustom(const ConstKanjidic2EntryPointer& entry
 		painter.setFont(italFont);
 		str = entry->meaningsString();
 		if (!str.isEmpty()) str[0] = str[0].toUpper();
-		str = QFontMetrics(painter.font(), painter.device()).elidedText(str, Qt::ElideRight, rightArea.width());
+		str = QFontMetrics(painter.font(), painter.device()).elidedText(str, Qt::ElideRight, (int) rightArea.width());
 		textBB = painter.boundingRect(rightArea, Qt::AlignHCenter, str);
 		painter.drawText(textBB, Qt::AlignHCenter, str);
 		rightArea.setTop(textBB.bottom());
@@ -240,14 +240,14 @@ void Kanjidic2EntryFormatter::drawCustom(const ConstKanjidic2EntryPointer& entry
 			painter.setFont(boldFont);
 			str = "On:";
 			textBB = painter.boundingRect(rightArea, Qt::AlignLeft, str);
-			onLength += textBB.width();
+			onLength += (int) textBB.width();
 			painter.drawText(textBB, Qt::AlignLeft, str);
 			painter.setFont(textFont);
 			tempBox.setLeft(textBB.right());
 			tempBox.setRight(rightArea.center().x());
 			str = " " + onRead.join(", ");
-			str = QFontMetrics(painter.font(), painter.device()).elidedText(str, Qt::ElideRight, tempBox.width());
-			onLength += painter.boundingRect(tempBox, Qt::AlignLeft, str).width();
+			str = QFontMetrics(painter.font(), painter.device()).elidedText(str, Qt::ElideRight, (int) tempBox.width());
+			onLength += (int) (painter.boundingRect(tempBox, Qt::AlignLeft, str).width());
 			painter.drawText(tempBox, Qt::AlignLeft, str);
 			rightArea.setTop(textBB.bottom());
 		}
@@ -265,7 +265,7 @@ void Kanjidic2EntryFormatter::drawCustom(const ConstKanjidic2EntryPointer& entry
 			painter.setFont(textFont);
 			tempBox.setLeft(textBB.right());
 			str = " " + kunRead.join(", ");
-			str = QFontMetrics(painter.font(), painter.device()).elidedText(str, Qt::ElideRight, tempBox.width());
+			str = QFontMetrics(painter.font(), painter.device()).elidedText(str, Qt::ElideRight, (int) tempBox.width());
 			painter.drawText(tempBox, Qt::AlignLeft, str);
 			rightArea.setTop(textBB.bottom());
 		}
@@ -279,7 +279,7 @@ void Kanjidic2EntryFormatter::drawCustom(const ConstKanjidic2EntryPointer& entry
 		while (query.next()) {
 			ConstJMdictEntryPointer jmEntry(JMdictEntryRef(query.valueInt(1)).get());
 
-			QString str = QFontMetrics(painter.font(), painter.device()).elidedText(jmEntry->shortVersion(Entry::TinyVersion), Qt::ElideRight, rightArea.width());
+			QString str = QFontMetrics(painter.font(), painter.device()).elidedText(jmEntry->shortVersion(Entry::TinyVersion), Qt::ElideRight, (int) rightArea.width());
 			textBB = painter.boundingRect(rightArea, Qt::AlignLeft, str);
 			painter.drawText(textBB, Qt::AlignLeft, str);
 			rightArea.setTop(textBB.bottom());

@@ -101,7 +101,7 @@ void EntriesPrinter::prepareAndPrintJob(QPrinter* printer)
 			picPainter.setFont(font);
 			picPainter.drawText(pageRect, Qt::TextWordWrap | Qt::TextExpandTabs, label);
 			usedSpace = picPainter.boundingRect(pageRect, Qt::TextWordWrap | Qt::TextExpandTabs, label);
-			picPainter.drawLine(usedSpace.bottomLeft(), QPoint(pageRect.right(), usedSpace.bottomRight().y()));
+			picPainter.drawLine(usedSpace.bottomLeft(), QPoint((int) pageRect.right(), (int) usedSpace.bottomRight().y()));
 			usedSpace.moveBottom(usedSpace.bottom() + 3);
 			picPainter.restore();
 		}
@@ -113,7 +113,7 @@ void EntriesPrinter::prepareAndPrintJob(QPrinter* printer)
 			if (fromPage == -1 || (pageNbr >= fromPage && pageNbr <= toPage)) {
 				// If not on the first page, get a new page
 				if (pageNbr > 1 && pageNbr > fromPage) printer->newPage();
-				printPageOfEntries(waitingEntries, &painter, pageRect.height());
+				printPageOfEntries(waitingEntries, &painter, (int) pageRect.height());
 			}
 			remainingSpace = pageRect;
 			waitingEntries.clear();
@@ -130,7 +130,7 @@ void EntriesPrinter::prepareAndPrintJob(QPrinter* printer)
 
 	if (fromPage == -1 || (pageNbr >= fromPage && pageNbr <= toPage)) {
 		if (pageNbr > 1 && pageNbr > fromPage) printer->newPage();
-		printPageOfEntries(waitingEntries, &painter, pageRect.height());
+		printPageOfEntries(waitingEntries, &painter, (int) pageRect.height());
 	}
 }
 

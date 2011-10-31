@@ -74,10 +74,10 @@ void BookletPrintEngine::drawPageLayout()
 	QRectF window = painter->window();
 	// Draw the page rectangle
 	painter->drawRect(window);
-	painter->drawLine(QPoint(window.center().x(), window.top()), QPoint(window.center().x(), window.bottom()));
-	painter->drawLine(QPoint(window.left(), window.top() + _subPageWidth), QPoint(window.right(), window.top() + _subPageWidth));
-	painter->drawLine(QPoint(window.left(), window.top() + _subPageWidth * 2), QPoint(window.right(), window.top() + _subPageWidth * 2));
-	painter->drawLine(QPoint(window.left(), window.top() + _subPageWidth * 3), QPoint(window.right(), window.top() + _subPageWidth * 3));
+	painter->drawLine(QPoint((int) window.center().x(), (int) window.top()), QPoint((int) window.center().x(), (int) window.bottom()));
+	painter->drawLine(QPoint((int) window.left(), (int) (window.top() + _subPageWidth)), QPoint((int) window.right(), (int) (window.top() + _subPageWidth)));
+	painter->drawLine(QPoint((int) window.left(), (int) (window.top() + _subPageWidth * 2)), QPoint((int) window.right(), (int) (window.top() + _subPageWidth * 2)));
+	painter->drawLine(QPoint((int) window.left(), (int) (window.top() + _subPageWidth * 3)), QPoint((int) window.right(), (int) (window.top() + _subPageWidth * 3)));
 }
 
 bool BookletPrintEngine::newPage()
