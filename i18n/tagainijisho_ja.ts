@@ -1798,7 +1798,7 @@ improve performance when manipulating a large number of entries.</source>
 <context>
     <name>KanjiInputPopupAction</name>
     <message>
-        <location filename="../src/gui/kanjidic2/KanjiSelector.cc" line="+395"/>
+        <location filename="../src/gui/kanjidic2/KanjiSelector.cc" line="+396"/>
         <source>Triggers the kanji input panel</source>
         <translation type="unfinished"></translation>
     </message>
