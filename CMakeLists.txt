@@ -22,6 +22,7 @@ if(CMAKE_COMPILER_IS_GNUCC)
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wnon-virtual-dtor -Wno-unused-parameter -fno-exceptions -fno-rtti")
 endif(CMAKE_COMPILER_IS_GNUCC)
 
+
 # Add the default database lookup data path for Linux if not defined
 if(UNIX AND NOT APPLE AND NOT DATA_DIR)
 	set(DATA_DIR "${CMAKE_INSTALL_PREFIX}/share/tagainijisho")

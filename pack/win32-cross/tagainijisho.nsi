@@ -21,10 +21,30 @@ VSTOREKANJIDICEND:
 
 SetOutPath "$INSTDIR"
 File "${BUILDDIR}/src/gui/tagainijisho.exe"
-File "${BUILDDIR}/jmdict-${LANG}.db"
-SetFileAttributes "jmdict-${LANG}.db" READONLY
-File "${BUILDDIR}/kanjidic2-${LANG}.db"
-SetFileAttributes "kanjidic2-${LANG}.db" READONLY
+File "${BUILDDIR}/jmdict.db"
+SetFileAttributes "jmdict.db" READONLY
+File "${BUILDDIR}/kanjidic2.db"
+SetFileAttributes "kanjidic2.db" READONLY
+File "${BUILDDIR}/jmdict-en.db"
+SetFileAttributes "jmdict-en.db" READONLY
+File "${BUILDDIR}/kanjidic2-en.db"
+SetFileAttributes "kanjidic2-en.db" READONLY
+File "${BUILDDIR}/jmdict-fr.db"
+SetFileAttributes "jmdict-fr.db" READONLY
+File "${BUILDDIR}/kanjidic2-fr.db"
+SetFileAttributes "kanjidic2-fr.db" READONLY
+File "${BUILDDIR}/jmdict-de.db"
+SetFileAttributes "jmdict-de.db" READONLY
+File "${BUILDDIR}/kanjidic2-de.db"
+SetFileAttributes "kanjidic2-de.db" READONLY
+File "${BUILDDIR}/jmdict-es.db"
+SetFileAttributes "jmdict-es.db" READONLY
+File "${BUILDDIR}/kanjidic2-es.db"
+SetFileAttributes "kanjidic2-es.db" READONLY
+File "${BUILDDIR}/jmdict-ru.db"
+SetFileAttributes "jmdict-ru.db" READONLY
+File "${BUILDDIR}/kanjidic2-ru.db"
+SetFileAttributes "kanjidic2-ru.db" READONLY
 File "${SRCDIR}/src/gui/export_template.html"
 File "${SRCDIR}/src/gui/detailed_default.html"
 File "${SRCDIR}/src/gui/detailed_default.css"
@@ -98,8 +118,18 @@ Delete "$INSTDIR\qt.conf"
 Delete "$INSTDIR\libgcc_s_dw2-1.dll"
 Delete "$INSTDIR\mingwm10.dll"
 Delete "$INSTDIR\export_template.html"
-Delete "$INSTDIR\kanjidic2-${LANG}.db"
-Delete "$INSTDIR\jmdict-${LANG}.db"
+Delete "$INSTDIR\kanjidic2-ru.db"
+Delete "$INSTDIR\jmdict-ru.db"
+Delete "$INSTDIR\kanjidic2-es.db"
+Delete "$INSTDIR\jmdict-es.db"
+Delete "$INSTDIR\kanjidic2-de.db"
+Delete "$INSTDIR\jmdict-de.db"
+Delete "$INSTDIR\kanjidic2-fr.db"
+Delete "$INSTDIR\jmdict-fr.db"
+Delete "$INSTDIR\kanjidic2-en.db"
+Delete "$INSTDIR\jmdict-en.db"
+Delete "$INSTDIR\kanjidic2.db"
+Delete "$INSTDIR\jmdict.db"
 Delete "$INSTDIR\tagainijisho.exe"
 Delete "$INSTDIR\uninstall.exe"
 RMDir "$INSTDIR"

@@ -2,7 +2,7 @@
 curpath=`pwd`
 BASEDIR=`readlink -f \`dirname $0\``
 SRCDIR=`readlink -f $BASEDIR/../..`
-BUILDDIR=$BASEDIR/build
+BUILDDIR=$BASEDIR/build-win32
 VERSION=`grep "set(VERSION " $SRCDIR/CMakeLists.txt |sed "s/set(VERSION \(.*\))/\1/"`
 TOOLCHAIN=$BASEDIR/Toolchain-win32.cmake
 QTPATH=`grep "^set(QT_ROOT" $TOOLCHAIN |sed "s/set(QT_ROOT \(.*\))/\1/"`
@@ -17,17 +17,14 @@ do
 done
 
 cd $BUILDDIR
-cmake -DCMAKE_TOOLCHAIN_FILE=$TOOLCHAIN -DCMAKE_BUILD_TYPE=Release $SRCDIR
+cmake -DCMAKE_TOOLCHAIN_FILE=$TOOLCHAIN -DCMAKE_BUILD_TYPE=Release -DEMBED_SQLITE=1 $SRCDIR
 make tagainijisho -j5
 rm -f CMakeCache.txt
-cmake -DCMAKE_BUILD_TYPE=Release -DDICT_LANG="fr;de;es;ru" $SRCDIR
+cmake -DCMAKE_BUILD_TYPE=Release $SRCDIR
 make i18n databases docs -j5
 
 cd $BASEDIR
-for lang in en fr de es ru;
-do
-	makensis -DLANG=$lang -DVERSION=$VERSION -DBUILDDIR=$BUILDDIR -DSRCDIR=$SRCDIR -DQTPATH=$QTPATH -DMINGWDLLPATH=$MINGWDLLPATH $NSIFILE
-	mv install.exe tagainijisho-$VERSION-$lang.exe
-done
+makensis -DVERSION=$VERSION -DBUILDDIR=$BUILDDIR -DSRCDIR=$SRCDIR -DQTPATH=$QTPATH -DMINGWDLLPATH=$MINGWDLLPATH $NSIFILE
+mv install.exe tagainijisho-$VERSION.exe
 rm -Rf $BUILDDIR
 cd $curpath
