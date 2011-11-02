@@ -84,8 +84,9 @@ QListWidgetItem *ComplementsList::setCurrentStrokeNbr(int strokeNbr)
 
 void ComplementsList::onItemEntered(QListWidgetItem *item)
 {
-	if (!(item->flags() & Qt::ItemIsSelectable)) return;
-	Kanjidic2EntryFormatter::instance().showToolTip(KanjiEntryRef(item->text()).get(), QCursor::pos());
+	// Disable tooltip for now. It just gets in the way.
+	//if (!(item->flags() & Qt::ItemIsSelectable)) return;
+	//Kanjidic2EntryFormatter::instance().showToolTip(KanjiEntryRef(item->text()).get(), QCursor::pos());
 }
 
 KanjiSelector::KanjiSelector(QWidget *parent) : QFrame(parent), _associate(0), _outOfSyncWithAssociate(false), _ignoreAssociateSignals(false)

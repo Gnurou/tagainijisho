@@ -39,7 +39,7 @@
 class JMdictDBParser : public JMdictParser
 {
 public:
-	JMdictDBParser(const QSet<QString> &languages, QString sourceDirectory, QString destinationDirectory) : JMdictParser(languages) {
+	JMdictDBParser(const QStringList &languages, QString sourceDirectory, QString destinationDirectory) : JMdictParser(languages) {
 		srcDir = sourceDirectory;
 		dstDir = destinationDirectory;
 	}
@@ -433,7 +433,7 @@ void printUsage(char *argv[])
 	qCritical("Usage: %s [-l<lang>] source_dir dest_dir\nWhere <lang> is a two-letters language code (en, fr, de, es or ru)", argv[0]);
 }
 
-bool buildDB(const QSet<QString> &languages, const QString &srcDir, const QString &dstDir)
+bool buildDB(const QStringList &languages, const QString &srcDir, const QString &dstDir)
 {
 	JMdictDBParser parser(languages, srcDir, dstDir);
 
@@ -477,7 +477,7 @@ int main(int argc, char *argv[])
 	if (argc < 3) { 
 		printUsage(argv); return 1;
 	}
-	QSet<QString> languages;
+	QStringList languages;
 	int argCpt = 1;
 	while (argCpt < argc && argv[argCpt][0] == '-') {
 		QString param(argv[argCpt]);
@@ -500,9 +500,8 @@ int main(int argc, char *argv[])
 	QString dstDir(argv[argCpt + 1]);
     
 	// English is used as a backup if nothing else is available
-	if (!languages.contains("en")) {
-		languages << "en";
-	};
+	languages << "en";
+	languages.removeDuplicates();
 	
 	return (!buildDB(languages, srcDir, dstDir));
 }

@@ -581,9 +581,8 @@ int main(int argc, char *argv[])
 	QString dstDir(argv[argCpt + 1]);
 	
 	// English is used as a backup if nothing else is available
-	if (!languages.contains("en")) {
-		languages << "en";
-	};
+	languages << "en";
+	languages.removeDuplicates();
 	
 	return !buildDB(languages, srcDir, dstDir);
 }

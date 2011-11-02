@@ -14,7 +14,7 @@ cd $BASEDIR
 mkdir -p build
 cd build
 cmake ../gitexport
-cmake .
+cmake -DEMBED_SQLITE=1 .
 make docs
 make package_source
 mv tagainijisho-${VERSION}.tar.gz ..

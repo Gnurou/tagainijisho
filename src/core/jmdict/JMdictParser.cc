@@ -51,7 +51,7 @@ quint64 JMdictSenseItem::dialectBitField(const JMdictParser &parser) const {
 	return ret;
 }
 
-JMdictParser::JMdictParser(const QSet<QString> &langs) : languages(langs), gotVersion(false), posBitFieldsCount(0), fieldBitFieldsCount(0), miscBitFieldsCount(0), dialectBitFieldsCount(0) 
+JMdictParser::JMdictParser(const QStringList &langs) : languages(langs), gotVersion(false), posBitFieldsCount(0), fieldBitFieldsCount(0), miscBitFieldsCount(0), dialectBitFieldsCount(0)
 {
 }
 
