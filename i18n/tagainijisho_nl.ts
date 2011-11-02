@@ -2247,7 +2247,7 @@ improve performance when manipulating a large number of entries.</source>
     <message>
         <location line="+6"/>
         <source>Kana</source>
-        <translation type="unfinished">Kana</translation>
+        <translation>Kana</translation>
     </message>
     <message>
         <location line="+20"/>
@@ -2847,7 +2847,7 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location filename="../src/gui/MainWindow.ui" line="+69"/>
         <source>Ctrl+L</source>
-        <translation type="unfinished">Ctrl+L</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -3332,7 +3332,7 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location line="-20"/>
         <source>, score:[%1-%2]</source>
-        <translation type="unfinished">, score:[%1,%2] {1-%2]?}</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="-98"/>

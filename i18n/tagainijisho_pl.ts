@@ -179,7 +179,7 @@
     <message>
         <location line="+6"/>
         <source>Kanji</source>
-        <translation type="unfinished">Kanji</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+7"/>
@@ -209,7 +209,7 @@
     <message>
         <location line="+10"/>
         <source>Fonts</source>
-        <translation type="unfinished">Fonts</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+7"/>
@@ -245,27 +245,27 @@
     <message>
         <location filename="../src/gui/EntriesPrinter.cc" line="+66"/>
         <source>Preparing print job...</source>
-        <translation type="unfinished">Preparing print job...</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Abort</source>
-        <translation type="unfinished">Abort</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Printing...</source>
-        <translation type="unfinished">Printing...</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+89"/>
         <source>Print preview</source>
-        <translation type="unfinished">Print preview</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+15"/>
         <source>Booklet print preview</source>
-        <translation type="unfinished">Booklet print preview</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -273,7 +273,7 @@
     <message>
         <location filename="../src/gui/EntriesViewHelper.cc" line="+37"/>
         <source>&amp;Print...</source>
-        <translation type="unfinished">&amp;Print...</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+0"/>
@@ -305,7 +305,7 @@
         <location line="+20"/>
         <location line="+20"/>
         <source>Marking entries...</source>
-        <translation type="unfinished">Marking entries...</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="-40"/>
@@ -314,7 +314,7 @@
         <location line="+21"/>
         <location line="+36"/>
         <source>Abort</source>
-        <translation type="unfinished">Abort</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="-95"/>
@@ -323,58 +323,58 @@
         <location line="+21"/>
         <location line="+36"/>
         <source>Operation in progress...</source>
-        <translation type="unfinished">Operation in progress...</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="-38"/>
         <source>Resetting entries...</source>
-        <translation type="unfinished">Resetting entries...</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+36"/>
         <source>Adding tags...</source>
-        <translation type="unfinished">Adding tags...</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+106"/>
         <source>Print preview</source>
-        <translation type="unfinished">Print preview</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Booklet print</source>
-        <translation type="unfinished">Booklet print</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Booklet print preview</source>
-        <translation type="unfinished">Booklet print preview</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Export to tab-separated file...</source>
-        <translation type="unfinished">Export to tab-separated file...</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+4"/>
         <location line="+47"/>
         <source>Cannot write file</source>
-        <translation type="unfinished">Cannot write file</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="-47"/>
         <source>Unable to write file %1.</source>
-        <translation type="unfinished">Unable to write file %1.</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+27"/>
         <source>Error writing file</source>
-        <translation type="unfinished">Error writing file</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Error while writing file %1.</source>
-        <translation type="unfinished">Error while writing file %1.</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+16"/>
@@ -389,7 +389,7 @@
     <message>
         <location line="+4"/>
         <source>Unable to write file %1!</source>
-        <translation type="unfinished">Unable to write file %1. {1!?}</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+16"/>
@@ -405,7 +405,7 @@
         <location line="-94"/>
         <location filename="../src/gui/EntriesViewHelper.h" line="+82"/>
         <source>Print</source>
-        <translation type="unfinished">Print</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -418,32 +418,32 @@
     <message>
         <location line="+8"/>
         <source>Style:</source>
-        <translation type="unfinished">Style:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+7"/>
         <source>One line</source>
-        <translation type="unfinished">One line</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Two lines</source>
-        <translation type="unfinished">Two lines</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/PreferencesWindow.cc" line="-196"/>
         <source>Main writing</source>
-        <translation type="unfinished">Main writing</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Readings and alternate writings</source>
-        <translation type="unfinished">Readings and alternate writings</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Definitions</source>
-        <translation type="unfinished">Definitions</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -497,7 +497,7 @@
     <message>
         <location filename="../src/gui/EntryListView.cc" line="+35"/>
         <source>Delete</source>
-        <translation type="unfinished">Delete</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+0"/>
@@ -527,7 +527,7 @@
     <message>
         <location line="+20"/>
         <source>Confirm deletion</source>
-        <translation type="unfinished">Confirm deletion</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+0"/>
@@ -615,7 +615,7 @@
     <message>
         <location filename="../src/gui/EditEntryNotesDialog.cc" line="-65"/>
         <source>Notes</source>
-        <translation type="unfinished">Notes</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+16"/>
@@ -628,12 +628,12 @@
     <message>
         <location filename="../src/gui/EntryTypeFilterWidget.cc" line="+33"/>
         <source>All</source>
-        <translation type="unfinished">All</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Vocabulary</source>
-        <translation type="unfinished">Vocabulary</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+1"/>
@@ -643,7 +643,7 @@
     <message>
         <location filename="../src/gui/EntryTypeFilterWidget.h" line="+43"/>
         <source>Entry type filter</source>
-        <translation type="unfinished">Entry type filter</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -854,12 +854,12 @@ improve performance when manipulating a large number of entries.</source>
     <message>
         <location line="+66"/>
         <source>JLPT:</source>
-        <translation type="unfinished">JLPT:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+1"/>
         <source>JLPT</source>
-        <translation type="unfinished">JLPT</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -882,12 +882,12 @@ improve performance when manipulating a large number of entries.</source>
     <message>
         <location line="+118"/>
         <source>JLPT</source>
-        <translation type="unfinished">JLPT</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+24"/>
         <source>Kanji</source>
-        <translation type="unfinished">Kanji</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -895,17 +895,17 @@ improve performance when manipulating a large number of entries.</source>
     <message>
         <location filename="../src/gui/jmdict/JMdictFilterWidget.cc" line="+42"/>
         <source>Using studied kanji only</source>
-        <translation type="unfinished">Using studied kanji only</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="-2"/>
         <source>With kanji:</source>
-        <translation type="unfinished">With kanji:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+5"/>
         <source>With components:</source>
-        <translation type="unfinished">With components:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+2"/>
@@ -916,25 +916,25 @@ improve performance when manipulating a large number of entries.</source>
         <location line="+13"/>
         <location line="+117"/>
         <source>Part of speech</source>
-        <translation type="unfinished">Part of speech</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="-111"/>
         <location line="+126"/>
         <source>Dialect</source>
-        <translation type="unfinished">Dialect</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="-120"/>
         <location line="+135"/>
         <source>Field</source>
-        <translation type="unfinished">Field</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="-129"/>
         <location line="+144"/>
         <source>Misc</source>
-        <translation type="unfinished">Misc</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="-91"/>
@@ -959,7 +959,7 @@ improve performance when manipulating a large number of entries.</source>
     <message>
         <location line="-5"/>
         <source>, studied kanji only</source>
-        <translation type="unfinished">, studied kanji only</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+4"/>
@@ -970,27 +970,27 @@ improve performance when manipulating a large number of entries.</source>
         <location line="+9"/>
         <location line="+1"/>
         <source>Vocabulary</source>
-        <translation type="unfinished">Vocabulary</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Pos:</source>
-        <translation type="unfinished">Pos:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+15"/>
         <source>Dial:</source>
-        <translation type="unfinished">Dial:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+15"/>
         <source>Field:</source>
-        <translation type="unfinished">Field:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+15"/>
         <source>Misc:</source>
-        <translation type="unfinished">Misc:</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1629,7 +1629,7 @@ improve performance when manipulating a large number of entries.</source>
     <message>
         <location line="+6"/>
         <source>JLPT level</source>
-        <translation type="unfinished">JLPT level</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+7"/>
@@ -1696,12 +1696,12 @@ improve performance when manipulating a large number of entries.</source>
     <message>
         <location line="+7"/>
         <source>All</source>
-        <translation type="unfinished">All</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Kanji</source>
-        <translation type="unfinished">Kanji</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+6"/>
@@ -1742,7 +1742,7 @@ improve performance when manipulating a large number of entries.</source>
         <location line="+27"/>
         <location line="+24"/>
         <source>...</source>
-        <translation type="unfinished">...</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+28"/>
@@ -1894,7 +1894,7 @@ improve performance when manipulating a large number of entries.</source>
         <location line="+20"/>
         <location line="+23"/>
         <source>...</source>
-        <translation type="unfinished">...</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="-76"/>
@@ -1938,17 +1938,17 @@ improve performance when manipulating a large number of entries.</source>
     <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="+326"/>
         <source>&lt;b&gt;Strokes:&lt;/b&gt; %1</source>
-        <translation type="unfinished">&lt;b&gt;Strokes:&lt;/b&gt; %1</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+4"/>
         <source>&lt;b&gt;Frequency:&lt;/b&gt; %1</source>
-        <translation type="unfinished">&lt;b&gt;Frequency:&lt;/b&gt; %1</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+4"/>
         <source>&lt;b&gt;Grade:&lt;/b&gt; %1</source>
-        <translation type="unfinished">&lt;b&gt;Grade:&lt;/b&gt; %1</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+16"/>
@@ -1998,12 +1998,12 @@ improve performance when manipulating a large number of entries.</source>
     <message>
         <location line="+9"/>
         <source>Grade</source>
-        <translation type="unfinished">Grade</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+9"/>
         <source>JLPT</source>
-        <translation type="unfinished">JLPT</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+20"/>
@@ -2018,7 +2018,7 @@ improve performance when manipulating a large number of entries.</source>
     <message>
         <location line="+9"/>
         <source>Unicode</source>
-        <translation type="unfinished">Unicode</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+9"/>
@@ -2038,17 +2038,17 @@ improve performance when manipulating a large number of entries.</source>
     <message>
         <location line="+22"/>
         <source>Components</source>
-        <translation type="unfinished">Components</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="-250"/>
         <source>&lt;b&gt;Unicode:&lt;/b&gt; 0x%1</source>
-        <translation type="unfinished">&lt;b&gt;Unicode:&lt;/b&gt; 0x%1</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+4"/>
         <source>&lt;b&gt;SKIP:&lt;/b&gt; %1</source>
-        <translation type="unfinished">&lt;b&gt;SKIP:&lt;/b&gt; %1</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2056,7 +2056,7 @@ improve performance when manipulating a large number of entries.</source>
     <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2FilterWidget.cc" line="+46"/>
         <source>Stroke count</source>
-        <translation type="unfinished">Stroke count</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+18"/>
@@ -2071,17 +2071,17 @@ improve performance when manipulating a large number of entries.</source>
     <message>
         <location line="+9"/>
         <source>Components</source>
-        <translation type="unfinished">Components</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Unicode</source>
-        <translation type="unfinished">Unicode</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+9"/>
         <source>SKIP code</source>
-        <translation type="unfinished">SKIP code</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+19"/>
@@ -2091,28 +2091,28 @@ improve performance when manipulating a large number of entries.</source>
     <message>
         <location line="+26"/>
         <source>School grade</source>
-        <translation type="unfinished">School grade</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+3"/>
         <location line="+261"/>
         <source>Grade</source>
-        <translation type="unfinished">Grade</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="-247"/>
         <source>All &amp;Kyouiku kanji</source>
-        <translation type="unfinished">All &amp;Kyouiku kanji</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+3"/>
         <source>All &amp;Jouyou kanji</source>
-        <translation type="unfinished">All &amp;Jouyou kanji</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+219"/>
         <source>, %1 strokes</source>
-        <translation type="unfinished">, %1 strokes</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+2"/>
@@ -2127,7 +2127,7 @@ improve performance when manipulating a large number of entries.</source>
     <message>
         <location line="+1"/>
         <source>, %1-%2 strokes</source>
-        <translation type="unfinished">, %1 strokes {1-%2 ?}</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+2"/>
@@ -2153,12 +2153,12 @@ improve performance when manipulating a large number of entries.</source>
         <location line="+1"/>
         <location line="+1"/>
         <source>Kanji</source>
-        <translation type="unfinished">Kanji</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Grade:</source>
-        <translation type="unfinished">Grade:</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2284,7 +2284,7 @@ improve performance when manipulating a large number of entries.</source>
     <message>
         <location line="+25"/>
         <source>Tracing for %1</source>
-        <translation type="unfinished">Tracing for %1</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2313,7 +2313,7 @@ improve performance when manipulating a large number of entries.</source>
         <location line="+7"/>
         <location line="+464"/>
         <source>Unicode</source>
-        <translation type="unfinished">Unicode</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="-429"/>
@@ -2329,7 +2329,7 @@ improve performance when manipulating a large number of entries.</source>
         <location line="-21"/>
         <location line="+436"/>
         <source>SKIP code</source>
-        <translation type="unfinished">SKIP code</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="-401"/>
@@ -2341,19 +2341,19 @@ improve performance when manipulating a large number of entries.</source>
         <location line="-408"/>
         <location line="+415"/>
         <source>School grade</source>
-        <translation type="unfinished">School grade</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="-422"/>
         <location line="+429"/>
         <source>JLPT level</source>
-        <translation type="unfinished">JLPT level</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="-397"/>
         <location line="+109"/>
         <source>Components</source>
-        <translation type="unfinished">Components</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="-183"/>
@@ -2493,7 +2493,7 @@ improve performance when manipulating a large number of entries.</source>
     <message>
         <location line="+16"/>
         <source>Score</source>
-        <translation type="unfinished">Score</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+66"/>
@@ -2698,12 +2698,12 @@ improve performance when manipulating a large number of entries.</source>
     <message>
         <location line="-122"/>
         <source>Tagaini Jisho</source>
-        <translation type="unfinished">Tagaini Jisho</translation>
+        <translation>Tagaini Jisho</translation>
     </message>
     <message>
         <location line="+79"/>
         <source>Search</source>
-        <translation type="unfinished">Search</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+72"/>
@@ -2847,7 +2847,7 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location filename="../src/gui/MainWindow.ui" line="+69"/>
         <source>Ctrl+L</source>
-        <translation type="unfinished">Ctrl+L</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2882,17 +2882,17 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location filename="../src/gui/NotesFilterWidget.cc" line="+50"/>
         <source>Notes</source>
-        <translation type="unfinished">Notes</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Has note</source>
-        <translation type="unfinished">Has note</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Note contains %1</source>
-        <translation type="unfinished">Note contains %1</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -3204,12 +3204,12 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location filename="../src/gui/SavedSearchesOrganizer.cc" line="+143"/>
         <source>Delete</source>
-        <translation type="unfinished">Delete</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+36"/>
         <source>Confirm deletion</source>
-        <translation type="unfinished">Confirm deletion</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+0"/>
@@ -3222,12 +3222,12 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location filename="../src/gui/SearchWidget.ui" line="+67"/>
         <source>Previous search</source>
-        <translation type="unfinished">Previous search</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Next search</source>
-        <translation type="unfinished">Next search</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+9"/>
@@ -3276,46 +3276,46 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location filename="../src/gui/StudyFilterWidget.cc" line="+30"/>
         <source>Score</source>
-        <translation type="unfinished">Score</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+30"/>
         <source>Min</source>
-        <translation type="unfinished">Min</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Max</source>
-        <translation type="unfinished">Max</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Study date</source>
-        <translation type="unfinished">Study date</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+24"/>
         <location line="+30"/>
         <location line="+20"/>
         <source>since</source>
-        <translation type="unfinished">since</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="-49"/>
         <location line="+30"/>
         <location line="+20"/>
         <source>until</source>
-        <translation type="unfinished">until</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="-45"/>
         <source>Last trained</source>
-        <translation type="unfinished">Last trained</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+30"/>
         <source>Last mistaken</source>
-        <translation type="unfinished">Last mistaken</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+114"/>
@@ -3332,7 +3332,7 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location line="-20"/>
         <source>, score:[%1-%2]</source>
-        <translation type="unfinished">, score:[%1,%2] {1-%2]?}</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="-98"/>
@@ -3343,43 +3343,43 @@ This message is a one-time reminder and will not appear anymore - you can still 
         <location line="+3"/>
         <location line="+85"/>
         <source>Studied</source>
-        <translation type="unfinished">Studied</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="-83"/>
         <location line="+116"/>
         <source>Not studied</source>
-        <translation type="unfinished">Not studied</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="-112"/>
         <source>Study status:</source>
-        <translation type="unfinished">Study status:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+94"/>
         <source>, trained since %1</source>
-        <translation type="unfinished">, trained since %1</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+4"/>
         <source>, trained until %1</source>
-        <translation type="unfinished">, trained until %1</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+6"/>
         <source>, mistaken since %1</source>
-        <translation type="unfinished">, mistaken since %1</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+4"/>
         <source>, mistaken until %1</source>
-        <translation type="unfinished">, mistaken until %1</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Study</source>
-        <translation type="unfinished">Study</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -3438,13 +3438,13 @@ This message is a one-time reminder and will not appear anymore - you can still 
         <location line="+0"/>
         <location line="+34"/>
         <source>Abort</source>
-        <translation type="unfinished">Abort</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="-32"/>
         <location line="+34"/>
         <source>Operation in progress...</source>
-        <translation type="unfinished">Operation in progress...</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="-14"/>
@@ -3464,7 +3464,7 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location line="+10"/>
         <source>Adding tags...</source>
-        <translation type="unfinished">Adding tags...</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -3472,17 +3472,17 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location filename="../src/gui/TagsFilterWidget.cc" line="+32"/>
         <source>...</source>
-        <translation type="unfinished">...</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+59"/>
         <source>Tags</source>
-        <translation type="unfinished">Tags</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Tagged %1</source>
-        <translation type="unfinished">Tagged %1</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -3534,7 +3534,7 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location line="+10"/>
         <source>Score</source>
-        <translation type="unfinished">Score</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+6"/>

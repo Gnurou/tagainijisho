@@ -343,7 +343,7 @@
     <message>
         <location line="+7"/>
         <source>Booklet print</source>
-        <translation type="unfinished">Booklet print</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+7"/>
@@ -353,7 +353,7 @@
     <message>
         <location line="+6"/>
         <source>Export to tab-separated file...</source>
-        <translation type="unfinished">Export to tab-separated file...</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+4"/>
@@ -916,7 +916,7 @@ improve performance when manipulating a large number of entries.</source>
         <location line="+13"/>
         <location line="+117"/>
         <source>Part of speech</source>
-        <translation type="unfinished">Part of speech</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="-111"/>
@@ -975,12 +975,12 @@ improve performance when manipulating a large number of entries.</source>
     <message>
         <location line="+14"/>
         <source>Pos:</source>
-        <translation type="unfinished">Pos:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+15"/>
         <source>Dial:</source>
-        <translation type="unfinished">Dial:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+15"/>
@@ -2284,7 +2284,7 @@ improve performance when manipulating a large number of entries.</source>
     <message>
         <location line="+25"/>
         <source>Tracing for %1</source>
-        <translation type="unfinished">Tracing for %1</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -3332,7 +3332,7 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location line="-20"/>
         <source>, score:[%1-%2]</source>
-        <translation type="unfinished">, score:[%1,%2] {1-%2]?}</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="-98"/>
