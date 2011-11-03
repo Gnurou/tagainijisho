@@ -42,7 +42,7 @@ private:
 	 * entries must all fit within the range 0..height, and height must not be higher
 	 * than the available height of the painter.
 	 */
-	void printPageOfEntries(const QList<QPicture> &entries, QPainter *painter, int height);
+	void printPageOfEntries(const QList<QPicture> &entries, QPainter *painter, qreal height);
 
 protected slots:
 	/**

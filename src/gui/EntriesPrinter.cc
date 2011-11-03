@@ -27,27 +27,27 @@ EntriesPrinter::EntriesPrinter(QWidget* parent) : QObject(parent)
 {
 }
 
-#define PRINT_MINIMAL_SPACING 10
+#define PRINT_MINIMAL_SPACING 10.0
 
-void EntriesPrinter::printPageOfEntries(const QList<QPicture> &entries, QPainter *painter, int height)
+void EntriesPrinter::printPageOfEntries(const QList<QPicture> &entries, QPainter *painter, qreal height)
 {
 	// First adjust the distance between entries
-	int dist;
+	qreal dist;
 	if (entries.size() == 1) dist = 0;
 	else {
-		int totalHeight = 0;
+		qreal totalHeight = 0.0;
 		foreach(const QPicture &pic, entries) totalHeight += pic.height();
 		// Use uniform repartition only if the space taken by the entries is more than 3/4 of the page
-		if (totalHeight > height / 1.5) dist = (height - totalHeight) / entries.size() - 1;
+		if (totalHeight > height / 1.5) dist = (height - totalHeight) / entries.size() - 1.0;
 		// Otherwise use a default space
 		else dist = PRINT_MINIMAL_SPACING;
 	}
 
 	// Then print all entries drawn so far
-	int pos = 0;
+	qreal pos = 0;
 	foreach(const QPicture &pic, entries) {
 		painter->save();
-		painter->drawPicture(QPoint(0, pos), pic);
+		painter->drawPicture(QPointF(0.0, pos), pic);
 		painter->restore();
 		pos += pic.height() + dist;
 	}
@@ -101,7 +101,7 @@ void EntriesPrinter::prepareAndPrintJob(QPrinter* printer)
 			picPainter.setFont(font);
 			picPainter.drawText(pageRect, Qt::TextWordWrap | Qt::TextExpandTabs, label);
 			usedSpace = picPainter.boundingRect(pageRect, Qt::TextWordWrap | Qt::TextExpandTabs, label);
-			picPainter.drawLine(usedSpace.bottomLeft(), QPoint((int) pageRect.right(), (int) usedSpace.bottomRight().y()));
+			picPainter.drawLine(usedSpace.bottomLeft(), QPointF(pageRect.right(), usedSpace.bottomRight().y()));
 			usedSpace.moveBottom(usedSpace.bottom() + 3);
 			picPainter.restore();
 		}
@@ -113,7 +113,7 @@ void EntriesPrinter::prepareAndPrintJob(QPrinter* printer)
 			if (fromPage == -1 || (pageNbr >= fromPage && pageNbr <= toPage)) {
 				// If not on the first page, get a new page
 				if (pageNbr > 1 && pageNbr > fromPage) printer->newPage();
-				printPageOfEntries(waitingEntries, &painter, (int) pageRect.height());
+				printPageOfEntries(waitingEntries, &painter, pageRect.height());
 			}
 			remainingSpace = pageRect;
 			waitingEntries.clear();
@@ -130,7 +130,7 @@ void EntriesPrinter::prepareAndPrintJob(QPrinter* printer)
 
 	if (fromPage == -1 || (pageNbr >= fromPage && pageNbr <= toPage)) {
 		if (pageNbr > 1 && pageNbr > fromPage) printer->newPage();
-		printPageOfEntries(waitingEntries, &painter, (int) pageRect.height());
+		printPageOfEntries(waitingEntries, &painter, pageRect.height());
 	}
 }
 
