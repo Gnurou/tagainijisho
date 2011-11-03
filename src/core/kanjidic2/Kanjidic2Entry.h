@@ -108,6 +108,7 @@ private:
 	int _grade;
 	int _strokeCount;
 	int _jlpt;
+	int _heisig;
 	QString _skip;
 	QString _fourCorner;
 
@@ -132,7 +133,7 @@ protected:
 	KanjiStroke *addStroke(const QChar &type, const QString &path);
 
 protected:
-	Kanjidic2Entry(const QString &kanji, bool inDB, int grade = -1, int strokeCount = -1, qint32 kanjiFrequency = -1, int jlpt = -1);
+	Kanjidic2Entry(const QString &kanji, bool inDB, int grade = -1, int strokeCount = -1, qint32 kanjiFrequency = -1, int jlpt = -1, int heisig = -1);
 
 public:
 	virtual ~Kanjidic2Entry() {}
@@ -173,6 +174,10 @@ public:
 	 * any JLPT test.
 	 */
 	int jlpt() const { return _jlpt; }
+	/**
+	 * Returns the heisig number of this kanji. -1 means it does not have any.
+	 */
+	int heisig() const { return _heisig; }
 	QString meaningsString() const;
 
 	virtual QStringList writings() const;

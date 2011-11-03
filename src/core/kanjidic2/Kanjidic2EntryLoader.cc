@@ -31,7 +31,7 @@ Kanjidic2EntryLoader::Kanjidic2EntryLoader() : EntryLoader(), kanjiQuery(&connec
 	}
 
 	// Prepare loading queries for faster execution
-	kanjiQuery.prepare("select grade, strokeCount, frequency, jlpt, paths from kanjidic2.entries where id = ?");
+	kanjiQuery.prepare("select grade, strokeCount, frequency, jlpt, heisig, paths from kanjidic2.entries where id = ?");
 	variationsQuery.prepare("select distinct original from strokeGroups where element = ? and original not null");
 	readingsQuery.prepare("select type, reading from kanjidic2.reading join kanjidic2.readingText on kanjidic2.reading.docid = kanjidic2.readingText.docid where entry = ? order by type");
 	nanoriQuery.prepare("select reading from kanjidic2.nanori join kanjidic2.nanoriText on kanjidic2.nanori.docid = kanjidic2.nanoriText.docid where entry = ?");
@@ -95,11 +95,12 @@ Entry *Kanjidic2EntryLoader::loadEntry(EntryId id)
 		int strokeCount = kanjiQuery.valueIsNull(1) ? -1 :kanjiQuery.valueInt(1);
 		qint32 frequency = kanjiQuery.valueIsNull(2) ? -1 : kanjiQuery.valueInt(2);
 		int jlpt = kanjiQuery.valueIsNull(3) ? -1 : kanjiQuery.valueInt(3);
+		int heisig = kanjiQuery.valueIsNull(4) ? -1 : kanjiQuery.valueInt(4);
 		// Get the strokes paths for later processing
-		QByteArray pathsBA(kanjiQuery.valueBlob(4));
+		QByteArray pathsBA(kanjiQuery.valueBlob(5));
 		if (!pathsBA.isEmpty()) paths = QString(qUncompress(pathsBA)).split('|');
 
-		entry = new Kanjidic2Entry(character, true, grade, strokeCount, frequency, jlpt);
+		entry = new Kanjidic2Entry(character, true, grade, strokeCount, frequency, jlpt, heisig);
 	}
 	kanjiQuery.reset();
 	

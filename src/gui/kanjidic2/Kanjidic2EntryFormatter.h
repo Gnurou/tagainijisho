@@ -65,6 +65,7 @@ public:
 	static PreferenceItem<bool> showUnicode;
 	static PreferenceItem<bool> showSKIP;
 	static PreferenceItem<bool> showFourCorner;
+	static PreferenceItem<bool> showHeisig;
 	static PreferenceItem<bool> showJLPT;
 	static PreferenceItem<bool> showGrade;
 	static PreferenceItem<bool> showRadicals;
@@ -82,6 +83,7 @@ public:
 	static PreferenceItem<bool> tooltipShowUnicode;
 	static PreferenceItem<bool> tooltipShowSKIP;
 	static PreferenceItem<bool> tooltipShowFourCorner;
+	static PreferenceItem<bool> tooltipShowHeisig;
 	static PreferenceItem<bool> tooltipShowJLPT;
 	static PreferenceItem<bool> tooltipShowGrade;
 	static PreferenceItem<bool> tooltipShowStrokesNumber;
@@ -115,6 +117,7 @@ public slots:
 	virtual QString formatUnicode(const ConstEntryPointer &entry) const;
 	virtual QString formatSkip(const ConstEntryPointer &entry) const;
 	virtual QString formatFourCorner(const ConstEntryPointer &entry) const;
+	virtual QString formatHeisig(const ConstEntryPointer &entry) const;
 	virtual QString formatRadicals(const ConstEntryPointer &entry) const;
 	virtual QString formatComponents(const ConstEntryPointer &entry) const;
 

@@ -92,6 +92,7 @@ void Kanjidic2Preferences::refresh()
 	showUnicode->setChecked(Kanjidic2EntryFormatter::showUnicode.value());
 	showSKIP->setChecked(Kanjidic2EntryFormatter::showSKIP.value());
 	showFourCorner->setChecked(Kanjidic2EntryFormatter::showFourCorner.value());
+	showHeisig->setChecked(Kanjidic2EntryFormatter::showHeisig.value());
 	showVariations->setChecked(Kanjidic2EntryFormatter::showVariations.value());
 	showVariationOf->setChecked(Kanjidic2EntryFormatter::showVariationOf.value());
 
@@ -109,6 +110,7 @@ void Kanjidic2Preferences::refresh()
 	tooltipShowUnicode->setChecked(Kanjidic2EntryFormatter::tooltipShowUnicode.value());
 	tooltipShowSKIP->setChecked(Kanjidic2EntryFormatter::tooltipShowSKIP.value());
 	tooltipShowFourCorner->setChecked(Kanjidic2EntryFormatter::tooltipShowFourCorner.value());
+	tooltipShowHeisig->setChecked(Kanjidic2EntryFormatter::tooltipShowHeisig.value());
 
 	kanjiPrintSize->setValue(Kanjidic2EntryFormatter::printSize.value());
 	printMeanings->setChecked(Kanjidic2EntryFormatter::printMeanings.value());
@@ -156,6 +158,7 @@ void Kanjidic2Preferences::applySettings()
 	Kanjidic2EntryFormatter::showUnicode.set(showUnicode->isChecked());
 	Kanjidic2EntryFormatter::showSKIP.set(showSKIP->isChecked());
 	Kanjidic2EntryFormatter::showFourCorner.set(showFourCorner->isChecked());
+	Kanjidic2EntryFormatter::showHeisig.set(showHeisig->isChecked());
 	Kanjidic2EntryFormatter::showVariations.set(showVariations->isChecked());
 	Kanjidic2EntryFormatter::showVariationOf.set(showVariationOf->isChecked());
 
@@ -173,6 +176,7 @@ void Kanjidic2Preferences::applySettings()
 	Kanjidic2EntryFormatter::tooltipShowUnicode.set(tooltipShowUnicode->isChecked());
 	Kanjidic2EntryFormatter::tooltipShowSKIP.set(tooltipShowSKIP->isChecked());
 	Kanjidic2EntryFormatter::tooltipShowFourCorner.set(tooltipShowFourCorner->isChecked());
+	Kanjidic2EntryFormatter::tooltipShowHeisig.set(tooltipShowHeisig->isChecked());
 
 	Kanjidic2EntryFormatter::printSize.set(kanjiPrintSize->value());
 	Kanjidic2EntryFormatter::printMeanings.set(printMeanings->isChecked());

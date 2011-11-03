@@ -71,6 +71,15 @@ bool Kanjidic2Parser::parse(QXmlStreamReader &reader)
 					DONE
 					ENDTAG
 				ENDTAG
+				TAG(dic_number)
+					TAG_PRE(dic_ref)
+						QString dr_type(ATTR("dr_type"));
+					TAG_BEGIN(dic_ref)
+					CHARACTERS
+						if (dr_type == "heisig") kanji.heisig = TEXT.toUInt();
+					DONE
+					ENDTAG
+				ENDTAG
 				TAG(reading_meaning)
 					TAG(rmgroup)
 						TAG_PRE(reading)

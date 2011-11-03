@@ -42,6 +42,7 @@ PreferenceItem<bool> Kanjidic2EntryFormatter::showUnicode("kanjidic", "showUnico
 PreferenceItem<bool> Kanjidic2EntryFormatter::showSKIP("kanjidic", "showSKIP", true);
 PreferenceItem<bool> Kanjidic2EntryFormatter::showFourCorner("kanjidic", "showFourCorner", true);
 PreferenceItem<bool> Kanjidic2EntryFormatter::showJLPT("kanjidic", "showJLPT", true);
+PreferenceItem<bool> Kanjidic2EntryFormatter::showHeisig("kanjidic", "showHeisig", true);
 PreferenceItem<bool> Kanjidic2EntryFormatter::showGrade("kanjidic", "showGrade", true);
 PreferenceItem<bool> Kanjidic2EntryFormatter::showRadicals("kanjidic", "showRadicals", true);
 PreferenceItem<bool> Kanjidic2EntryFormatter::showComponents("kanjidic", "showComponents", true);
@@ -58,6 +59,7 @@ PreferenceItem<bool> Kanjidic2EntryFormatter::tooltipShowScore("kanjidic", "tool
 PreferenceItem<bool> Kanjidic2EntryFormatter::tooltipShowUnicode("kanjidic", "tooltipShowUnicode", false);
 PreferenceItem<bool> Kanjidic2EntryFormatter::tooltipShowSKIP("kanjidic", "tooltipShowSKIP", false);
 PreferenceItem<bool> Kanjidic2EntryFormatter::tooltipShowFourCorner("kanjidic", "tooltipShowFourCorner", false);
+PreferenceItem<bool> Kanjidic2EntryFormatter::tooltipShowHeisig("kanjidic", "tooltipShowHeisig", false);
 PreferenceItem<bool> Kanjidic2EntryFormatter::tooltipShowJLPT("kanjidic", "tooltipShowJLPT", false);
 PreferenceItem<bool> Kanjidic2EntryFormatter::tooltipShowGrade("kanjidic", "tooltipShowGrade", false);
 PreferenceItem<bool> Kanjidic2EntryFormatter::tooltipShowStrokesNumber("kanjidic", "tooltipShowStrokesNumber", false);
@@ -338,6 +340,10 @@ void Kanjidic2EntryFormatter::showToolTip(const ConstKanjidic2EntryPointer entry
 		QString body(tr("<b>JLPT:</b> N%1").arg(entry->jlpt() < 3 ? entry->jlpt() : entry->jlpt() + 1));
 		CLOSE_TAB;
 	}
+	if (entry->heisig() != -1 && tooltipShowHeisig.value()) {
+		QString body(tr("<b>Heisig:</b> %1").arg(entry->heisig()));
+		CLOSE_TAB;
+	}
 	if (tooltipShowUnicode.value()) {
 		QString body(tr("<b>Unicode:</b> 0x%1").arg(QString::number(TextTools::singleCharToUnicode(entry->kanji()), 16)));
 		CLOSE_TAB;
@@ -489,6 +495,15 @@ QString Kanjidic2EntryFormatter::formatJLPT(const ConstEntryPointer &_entry) con
 	ConstKanjidic2EntryPointer entry(_entry.staticCast<const Kanjidic2Entry>());
 	if (entry->jlpt() != -1 && showJLPT.value()) {
 		return QString("<b>%1:</b> N%2").arg(tr("JLPT")).arg(entry->jlpt() < 3 ? entry->jlpt() : entry->jlpt() + 1);
+	}
+	return "";
+}
+
+QString Kanjidic2EntryFormatter::formatHeisig(const ConstEntryPointer &_entry) const
+{
+	ConstKanjidic2EntryPointer entry(_entry.staticCast<const Kanjidic2Entry>());
+	if (entry->heisig() != -1 && showHeisig.value()) {
+		return QString("<b>%1:</b> %2").arg(tr("Heisig")).arg(entry->heisig());
 	}
 	return "";
 }

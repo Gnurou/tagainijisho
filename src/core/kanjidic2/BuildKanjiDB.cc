@@ -79,6 +79,7 @@ bool Kanjidic2DBParser::onItemParsed(Kanjidic2Item &kanji)
 	AUTO_BIND(insertEntryQuery, kanji.stroke_count, 0);
 	AUTO_BIND(insertEntryQuery, (kanji.freq == 0 ? 0 : 2502 - kanji.freq), 0);
 	AUTO_BIND(insertEntryQuery, kanji.jlpt, 0);
+	AUTO_BIND(insertEntryQuery, kanji.heisig, 0);
 	EXEC(insertEntryQuery);
 	
 	// Readings
@@ -295,11 +296,11 @@ bool KanjiDB::prepareQueries()
 {
 #define PREPQUERY(query, text) query.useWith(&connections["main"]); query.prepare(text)
 	PREPQUERY(insertRadicalQuery, "insert into radicals values(?, ?, ?)");
-	PREPQUERY(insertOrIgnoreEntryQuery, "insert or ignore into entries values(?, ?, ?, ?, ?, null)");
+	PREPQUERY(insertOrIgnoreEntryQuery, "insert or ignore into entries values(?, ?, ?, ?, ?, ?, null)");
 	PREPQUERY(addRadicalQuery, "insert into radicalsList values(?, ?)");
 	PREPQUERY(insertRootComponentQuery, "insert into rootComponents values(?)");
 	
-	PREPQUERY(insertEntryQuery, "insert into entries values(?, ?, ?, ?, ?, null)");
+	PREPQUERY(insertEntryQuery, "insert into entries values(?, ?, ?, ?, ?, ?, null)");
 	PREPQUERY(insertReadingQuery, "insert into reading values(?, ?, ?)");
 	PREPQUERY(insertReadingTextQuery, "insert into readingText values(?)");
 	PREPQUERY(insertNanoriQuery, "insert into nanori values(?, ?)");
@@ -423,7 +424,7 @@ bool KanjiDB::createTables()
 {
 	SQLite::Query query(&connections["main"]);
 	EXEC_STMT(query, "create table info(version INT, kanjidic2Version TEXT, kanjiVGVersion TEXT)");
-	EXEC_STMT(query, "create table entries(id INTEGER PRIMARY KEY, grade TINYINT, strokeCount TINYINT, frequency SMALLINT, jlpt TINYINT, paths BLOB)");
+	EXEC_STMT(query, "create table entries(id INTEGER PRIMARY KEY, grade TINYINT, strokeCount TINYINT, frequency SMALLINT, jlpt TINYINT, heisig SMALLINT, paths BLOB)");
 	EXEC_STMT(query, "create table reading(docid INTEGER PRIMARY KEY, entry INTEGER SECONDARY KEY REFERENCES entries, type TEXT)");
 	EXEC_STMT(query, "create virtual table readingText using fts4(reading, TOKENIZE katakana)");
 	EXEC_STMT(query, "create table nanori(docid INTEGER PRIMARY KEY, entry INTEGER SECONDARY KEY REFERENCES entries)");
