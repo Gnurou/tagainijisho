@@ -113,8 +113,8 @@ MultiStackedWidget::MultiStackedWidget(QWidget *parent) : QWidget(parent)
 	QAction *popupShortcut = new QAction(this);
 	for (int i = 1; i < 10; i++) {
 		popupShortcut = new QAction(this);
-		//: Shortcut for popping up/down an extender
 		popupShortcut->setProperty("buttonNbr", i - 1);
+		//: Shortcut for popping up/down an extender
 		popupShortcut->setShortcut(QKeySequence(tr("Ctrl+%1").arg(i)));
 		popupShortcut->setAutoRepeat(false);
 		connect(popupShortcut, SIGNAL(triggered()), this, SLOT(onShortcutTriggered()));
