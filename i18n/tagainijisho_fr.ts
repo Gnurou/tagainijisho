@@ -53,7 +53,7 @@
         <translation>Fichier de base de données utilisateur:</translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="+463"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="+465"/>
         <source>User data</source>
         <translation>Données utilisateur</translation>
     </message>
@@ -293,12 +293,12 @@
     <message>
         <location line="+0"/>
         <source>Booklet pre&amp;view...</source>
-        <translation type="unfinished"></translation>
+        <translation>Pré&amp;visualisation du booklet</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Export as &amp;TSV...</source>
-        <translation type="unfinished"></translation>
+        <translation>Exporter en tant que &amp;TSV...</translation>
     </message>
     <message>
         <location line="+67"/>
@@ -546,7 +546,11 @@
 %1
 
  Some of them may be remaining.</source>
-        <translation type="unfinished"></translation>
+        <translation>Une erreur de base de données est apparue lors de l&apos;effacement des données suivantes:
+
+%1
+
+Certaines d&apos;entre elles sont peut-être toujours présentes.</translation>
     </message>
 </context>
 <context>
@@ -607,7 +611,7 @@
     <message>
         <location line="+83"/>
         <source>Add &quot;%1&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>Ajouter &quot;%1&quot;</translation>
     </message>
 </context>
 <context>
@@ -683,7 +687,7 @@
 <context>
     <name>GeneralPreferences</name>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="-136"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="-138"/>
         <source>English</source>
         <translation>Anglais</translation>
     </message>
@@ -709,13 +713,23 @@
     </message>
     <message>
         <location line="+4"/>
+        <source>Italian</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Norwegian BokmÃ¥l</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
         <source>Russian</source>
         <translation>Russe</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Spanish</source>
-        <translation>Espagnol</translation>
+        <source>Spanish (Castilian)</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+3"/>
@@ -755,7 +769,7 @@
     <message>
         <location line="+8"/>
         <source>Preferred language</source>
-        <translation type="unfinished"></translation>
+        <translation>Language préféré</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -795,18 +809,18 @@
     <message>
         <location line="+3"/>
         <source> days</source>
-        <translation type="unfinished"></translation>
+        <translation> jours</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>every </source>
-        <translation type="unfinished"></translation>
+        <translation>tous les </translation>
     </message>
     <message>
         <location line="+56"/>
         <source>Defines how many recent entries are kept in memory. High values may
 improve performance when manipulating a large number of entries.</source>
-        <translation type="unfinished"></translation>
+        <translation>Définit combien d&apos;entrées récentes sont conservées en mémoire. Une valeur élevée peut améliorer les performances en cas de manipulation d&apos;un grand nombre d&apos;entrées.</translation>
     </message>
     <message>
         <location line="-41"/>
@@ -872,7 +886,7 @@ improve performance when manipulating a large number of entries.</source>
     <message>
         <location line="+38"/>
         <source>Alternate readings: </source>
-        <translation type="unfinished"></translation>
+        <translation>Lectures alternatives : </translation>
     </message>
     <message>
         <location line="+18"/>
@@ -939,22 +953,22 @@ improve performance when manipulating a large number of entries.</source>
     <message>
         <location line="-91"/>
         <source> with </source>
-        <translation type="unfinished"></translation>
+        <translation> avec </translation>
     </message>
     <message>
         <location line="+9"/>
         <source> with component </source>
-        <translation type="unfinished"></translation>
+        <translation> avec le composant </translation>
     </message>
     <message>
         <location line="+9"/>
         <source> with studied kanji</source>
-        <translation type="unfinished"></translation>
+        <translation> avec kanji étudiés</translation>
     </message>
     <message>
         <location line="+4"/>
         <source> using kana only</source>
-        <translation type="unfinished"></translation>
+        <translation> n&apos;utilisant que les kana</translation>
     </message>
     <message>
         <location line="-5"/>
@@ -1338,7 +1352,7 @@ improve performance when manipulating a large number of entries.</source>
     <message>
         <location line="+25"/>
         <source>gikun (meaning as reading)  or jukujikun (special kanji reading)</source>
-        <translation type="unfinished"></translation>
+        <translation>gikun (sens similaire à la lecture  ou jukujikun (lecture spéciale de kanji)</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -1930,7 +1944,7 @@ improve performance when manipulating a large number of entries.</source>
     <message>
         <location filename="../src/core/kanjidic2/Kanjidic2Entry.cc" line="+126"/>
         <source>(var) </source>
-        <translation type="unfinished"></translation>
+        <translation>(var) </translation>
     </message>
 </context>
 <context>
@@ -1958,7 +1972,7 @@ improve performance when manipulating a large number of entries.</source>
     <message>
         <location line="-141"/>
         <source> (%1) </source>
-        <translation type="unfinished"></translation>
+        <translation> (%1) </translation>
     </message>
     <message>
         <location line="+129"/>
@@ -2503,7 +2517,7 @@ improve performance when manipulating a large number of entries.</source>
     <message>
         <location line="+181"/>
         <source> seconds</source>
-        <translation type="unfinished"></translation>
+        <translation> secondes</translation>
     </message>
     <message>
         <location line="+32"/>
@@ -2636,7 +2650,7 @@ improve performance when manipulating a large number of entries.</source>
     <message>
         <location line="+7"/>
         <source>S&amp;aved searches</source>
-        <translation type="unfinished"></translation>
+        <translation>Recherche &amp;rapide</translation>
     </message>
     <message>
         <location line="+30"/>
@@ -2708,17 +2722,17 @@ improve performance when manipulating a large number of entries.</source>
     <message>
         <location line="+72"/>
         <source>&amp;Save current search...</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Enregistrer la recherche courante...</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>&amp;New folder...</source>
-        <translation type="unfinished"></translation>
+        <translation>Nouveau &amp;dossier...</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>&amp;Organize saved searches...</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Organiser les recherches rapides...</translation>
     </message>
     <message>
         <location line="+5"/>
@@ -2740,7 +2754,9 @@ improve performance when manipulating a large number of entries.</source>
         <source>You have now been using Tagaini Jisho for a short while. If you like it, please show your support by making a donation that expresses your appreciation of this software. While Tagaini is free, its development has a cost and your support will have a positive influence on its future. You can donate via Paypal or credit card.
 
 This message is a one-time reminder and will not appear anymore - you can still donate later by choosing the corresponding option in the Help menu.</source>
-        <translation type="unfinished"></translation>
+        <translation>Cela fait un petit moment que vous utilisez Tagaini Jisho. S&apos;il vous est utile, vous pouvez exprimer votre appréciation pour ce logiciel sous la forme d&apos;une petite donation. Tagaini est libre et gratuit, mais son développement a un coût et votre support influencera son développement futur de façon positive. Vous pouvez donner via Paypal ou par carte de crédit.
+
+Ce message est programmé afin de n&apos;apparaître qu&apos;une seule fois - vous pouvez toujours choisir de faire un don plus tard en choisissant l&apos;option correspondante dans le menu Aide.</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -2773,7 +2789,7 @@ This message is a one-time reminder and will not appear anymore - you can still 
         <translation>Les données importées seront actives après le redémarrage de Tagaini Jisho. Tous les changements effectués à partir de maintenant seront perdus. Voulez-vous quitter Tagaini Jisho maintenant?</translation>
     </message>
     <message>
-        <location line="+116"/>
+        <location line="+114"/>
         <source>A development update is available!</source>
         <translation>Une nouvelle version de développement est disponible!</translation>
     </message>
@@ -2785,27 +2801,27 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location line="+54"/>
         <source>Save current search here...</source>
-        <translation type="unfinished"></translation>
+        <translation>Enregistrer la recherche courante ici...</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Save current search</source>
-        <translation type="unfinished"></translation>
+        <translation>Enregistrer la recherche courante</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Please enter a name for this search:</source>
-        <translation type="unfinished"></translation>
+        <translation>Veuillez entrer un nom pour cette recherche : </translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Unnamed</source>
-        <translation type="unfinished"></translation>
+        <translation>Sans nom</translation>
     </message>
     <message>
         <location line="+22"/>
         <source>New folder</source>
-        <translation type="unfinished"></translation>
+        <translation>Nouveau dossier</translation>
     </message>
     <message>
         <location line="-34"/>
@@ -2863,6 +2879,7 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location filename="../src/gui/MultiStackedWidget.cc" line="+118"/>
         <source>Ctrl+%1</source>
+        <extracomment>Shortcut for popping up/down an extender</extracomment>
         <translation>Ctrl+%1</translation>
     </message>
     <message>
@@ -3191,12 +3208,12 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location filename="../src/gui/SavedSearchesOrganizer.ui" line="+14"/>
         <source>Organize saved searches</source>
-        <translation type="unfinished"></translation>
+        <translation>Organiser les recherches rapides</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>You can organize your saved searches here. Double-click to change the search&apos;s label, drag and drop to move or right-click for other options, including deletion.</source>
-        <translation type="unfinished"></translation>
+        <translation>Vous pouvez organiser vos recherches rapides ici. Double-cliquez pour changer le label de la recherche, glissez-déposez pour déplacer, ou cliquez-droit pour effacer et d&apos;autres options.</translation>
     </message>
 </context>
 <context>
@@ -3214,7 +3231,7 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location line="+0"/>
         <source>Are you sure you want to delete the selected search/folder?</source>
-        <translation type="unfinished"></translation>
+        <translation>Êtes-vous sûr de vouloir supprimer les recherches/dossiers sélectionnés?</translation>
     </message>
 </context>
 <context>
@@ -3320,19 +3337,19 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location line="+114"/>
         <source> since %1</source>
-        <translation type="unfinished"></translation>
+        <translation> depuis le %1</translation>
     </message>
     <message>
         <location line="+4"/>
         <location line="+13"/>
         <location line="+10"/>
         <source> until %1</source>
-        <translation type="unfinished"></translation>
+        <translation> jusqu&apos;au %1</translation>
     </message>
     <message>
         <location line="-20"/>
         <source>, score:[%1-%2]</source>
-        <translation type="unfinished"></translation>
+        <translation>, score:[%1-%2]</translation>
     </message>
     <message>
         <location line="-98"/>
@@ -3409,7 +3426,7 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location line="-34"/>
         <source>Enter a space-separated list of tags for </source>
-        <translation type="unfinished"></translation>
+        <translation>Entrez une liste de tags séparés par des espaces pour </translation>
     </message>
     <message>
         <location line="+5"/>
@@ -3427,7 +3444,7 @@ This message is a one-time reminder and will not appear anymore - you can still 
         <location line="-34"/>
         <location line="+34"/>
         <source>&lt;p&gt;These tags have invalid characters: </source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;p&gt;Ces tags ont des caractères invalides : </translation>
     </message>
     <message>
         <location line="-29"/>
@@ -3459,7 +3476,7 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location line="+1"/>
         <source>Enter a space-separated list of tags to add to </source>
-        <translation type="unfinished"></translation>
+        <translation>Entrez une liste de tags séparés par des espaces à ajouter à </translation>
     </message>
     <message>
         <location line="+10"/>

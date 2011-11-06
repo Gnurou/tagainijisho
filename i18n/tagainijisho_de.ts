@@ -53,7 +53,7 @@
         <translation>Datei für Benutzerdatenbank:</translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="+463"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="+465"/>
         <source>User data</source>
         <translation>Benutzerdaten</translation>
     </message>
@@ -683,7 +683,7 @@
 <context>
     <name>GeneralPreferences</name>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="-136"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="-138"/>
         <source>English</source>
         <translation>Englisch</translation>
     </message>
@@ -709,13 +709,23 @@
     </message>
     <message>
         <location line="+4"/>
+        <source>Italian</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Norwegian BokmÃ¥l</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
         <source>Russian</source>
         <translation>Russisch</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Spanish</source>
-        <translation>Spanisch</translation>
+        <source>Spanish (Castilian)</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+3"/>
@@ -2773,7 +2783,7 @@ This message is a one-time reminder and will not appear anymore - you can still 
         <translation>Die importierten Daten werden verfügbar sein wenn Sie das nächste Mal Tagaini Jisho starten. Alle Veränderungen von jetzt an werden verloren sein. Möchten Sie Tagaini Jisho jetzt beenden?</translation>
     </message>
     <message>
-        <location line="+116"/>
+        <location line="+114"/>
         <source>A development update is available!</source>
         <translation>Eine Entwicklungsversion ist verfügbar!</translation>
     </message>
@@ -2863,6 +2873,7 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location filename="../src/gui/MultiStackedWidget.cc" line="+118"/>
         <source>Ctrl+%1</source>
+        <extracomment>Shortcut for popping up/down an extender</extracomment>
         <translation>Ctrl+%1</translation>
     </message>
     <message>

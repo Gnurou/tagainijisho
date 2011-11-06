@@ -53,14 +53,14 @@
         <translation>Archivo de la base de datos del usuario:</translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="+463"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="+465"/>
         <source>User data</source>
         <translation>Datos de usuario</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Really erase user data?</source>
-        <translation>¿Eliminar realmente los datos del usuario?</translation>
+        <translation>¿Seguro de querer eliminar los datos del usuario?</translation>
     </message>
     <message>
         <location line="+0"/>
@@ -95,7 +95,7 @@
     <message>
         <location line="+0"/>
         <source>Unable to erase user database. Please see what is wrong and try to do it manually.</source>
-        <translation>No es posible eliminar la base de datos del usuario. Por favor, fijese que es incorrecto y trate de hacerlo manualmente.</translation>
+        <translation>No es posible eliminar la base de datos del usuario. Por favor, fíjese en qué es incorrecto y trate de hacerlo manualmente.</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -105,7 +105,7 @@
     <message>
         <location line="+0"/>
         <source>User data has been erased. Tagaini Jisho will now exit. You will be back to a blank database when it is restarted.</source>
-        <translation>Los datos del usuario han sido eliminados. Tagaini Jisho se cerrará. Se regresará a una base de datos vacia luego de reiniciar.</translation>
+        <translation>Los datos del usuario han sido eliminados. Tagaini Jisho se cerrará. Se volverá a una base de datos vacía tras reiniciar.</translation>
     </message>
 </context>
 <context>
@@ -133,12 +133,12 @@
     <message>
         <location line="+27"/>
         <source>Temporary database fallback failed. The program will now exit.</source>
-        <translation>La base de datos de reserva temporal ha fallado. El programa se cerrará ahora.</translation>
+        <translation>La base de datos temporal de reserva ha fallado. El programa se cerrará ahora.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Tagaini is working on a temporary database. This allows the program to work, but user data is unavailable and any change will be lost upon program exit. If you corrupted your database file, please recreate it from the preferences.</source>
-        <translation>Tagaini esta trabajando con una base de datos temporal. Esto permite que el programa funcione, pero los datos de usuario no estarán disponibles y cualquier cambio se perderá al salir del programa. Si ha dañado su archivo de base de datos, por favor, intente recrearlo a partir de las preferencias.</translation>
+        <translation>Tagaini está trabajando con una base de datos temporal. Esto permite que el programa funcione, pero los datos del usuario no estarán disponibles y cualquier cambio se perderá al salir del programa. Si ha dañado su archivo de base de datos, por favor, intente recrearlo a partir de las preferencias.</translation>
     </message>
 </context>
 <context>
@@ -278,7 +278,7 @@
     <message>
         <location line="+0"/>
         <source>Print p&amp;review...</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Vista preliminar...</translation>
     </message>
     <message>
         <location line="+0"/>
@@ -305,7 +305,7 @@
         <location line="+20"/>
         <location line="+20"/>
         <source>Marking entries...</source>
-        <translation>Marcando entradas...</translation>
+        <translation>Añadiendo entradas...</translation>
     </message>
     <message>
         <location line="-40"/>
@@ -328,7 +328,7 @@
     <message>
         <location line="-38"/>
         <source>Resetting entries...</source>
-        <translation>Reseteando entradas...</translation>
+        <translation>Reseteando puntuaciones...</translation>
     </message>
     <message>
         <location line="+36"/>
@@ -343,7 +343,7 @@
     <message>
         <location line="+7"/>
         <source>Booklet print</source>
-        <translation type="unfinished"></translation>
+        <translation>Imprimir cuaderno</translation>
     </message>
     <message>
         <location line="+7"/>
@@ -683,7 +683,7 @@
 <context>
     <name>GeneralPreferences</name>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="-136"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="-138"/>
         <source>English</source>
         <translation>Inglés</translation>
     </message>
@@ -709,13 +709,23 @@
     </message>
     <message>
         <location line="+4"/>
+        <source>Italian</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Norwegian BokmÃ¥l</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
         <source>Russian</source>
         <translation>Ruso</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Spanish</source>
-        <translation>Español</translation>
+        <source>Spanish (Castilian)</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+3"/>
@@ -2773,7 +2783,7 @@ This message is a one-time reminder and will not appear anymore - you can still 
         <translation>Los datos importados estarán disponibles la próxima vez que inicie Tagaini jisho. Todos los cambios realizados a partir de ahora se perderán. ¿Quiere salir Tagaini jisho ahora?</translation>
     </message>
     <message>
-        <location line="+116"/>
+        <location line="+114"/>
         <source>A development update is available!</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2863,6 +2873,7 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location filename="../src/gui/MultiStackedWidget.cc" line="+118"/>
         <source>Ctrl+%1</source>
+        <extracomment>Shortcut for popping up/down an extender</extracomment>
         <translation>Ctrl+%1</translation>
     </message>
     <message>

@@ -53,7 +53,7 @@
         <translation>Soubor s uživatelovou databází:</translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="+463"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="+465"/>
         <source>User data</source>
         <translation>Uživatelova data</translation>
     </message>
@@ -293,12 +293,12 @@
     <message>
         <location line="+0"/>
         <source>Booklet pre&amp;view...</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Náhled na knížečku...</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Export as &amp;TSV...</source>
-        <translation type="unfinished"></translation>
+        <translation>Vyvést jako &amp;TSV...</translation>
     </message>
     <message>
         <location line="+67"/>
@@ -546,7 +546,11 @@
 %1
 
  Some of them may be remaining.</source>
-        <translation type="unfinished"></translation>
+        <translation>Při pokusu o odstranění vybraných záznamů se vyskytla chyba databáze:
+
+%1
+
+Některé z nich možná zůstaly.</translation>
     </message>
 </context>
 <context>
@@ -607,7 +611,7 @@
     <message>
         <location line="+83"/>
         <source>Add &quot;%1&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>Přidat &quot;%1&quot;</translation>
     </message>
 </context>
 <context>
@@ -683,7 +687,7 @@
 <context>
     <name>GeneralPreferences</name>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="-136"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="-138"/>
         <source>English</source>
         <translation>Anglický</translation>
     </message>
@@ -709,13 +713,23 @@
     </message>
     <message>
         <location line="+4"/>
+        <source>Italian</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Norwegian BokmÃ¥l</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
         <source>Russian</source>
         <translation>Russisch</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Spanish</source>
-        <translation>Spanisch</translation>
+        <source>Spanish (Castilian)</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+3"/>
@@ -755,7 +769,7 @@
     <message>
         <location line="+8"/>
         <source>Preferred language</source>
-        <translation type="unfinished"></translation>
+        <translation>Upřednostňovaný jazyk</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -785,7 +799,7 @@
     <message>
         <location line="+8"/>
         <source>Check for updates</source>
-        <translation>Ověřovat kvůli aktualizacím</translation>
+        <translation>Prověřovat na aktualizace</translation>
     </message>
     <message>
         <location line="+7"/>
@@ -795,18 +809,19 @@
     <message>
         <location line="+3"/>
         <source> days</source>
-        <translation type="unfinished"></translation>
+        <translation> dnů</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>every </source>
-        <translation type="unfinished"></translation>
+        <translation>každých </translation>
     </message>
     <message>
         <location line="+56"/>
         <source>Defines how many recent entries are kept in memory. High values may
 improve performance when manipulating a large number of entries.</source>
-        <translation type="unfinished"></translation>
+        <translation>Stanovuje, kolik posledních záznamů je uchováváno v paměti. Vysoké hodnoty
+mohou při práci s velkým počtem záznamů zlepšit výkon.</translation>
     </message>
     <message>
         <location line="-41"/>
@@ -872,7 +887,7 @@ improve performance when manipulating a large number of entries.</source>
     <message>
         <location line="+38"/>
         <source>Alternate readings: </source>
-        <translation type="unfinished"></translation>
+        <translation>Náhradní způsoby čtení:</translation>
     </message>
     <message>
         <location line="+18"/>
@@ -939,22 +954,22 @@ improve performance when manipulating a large number of entries.</source>
     <message>
         <location line="-91"/>
         <source> with </source>
-        <translation type="unfinished"></translation>
+        <translation> s </translation>
     </message>
     <message>
         <location line="+9"/>
         <source> with component </source>
-        <translation type="unfinished"></translation>
+        <translation> se součástí </translation>
     </message>
     <message>
         <location line="+9"/>
         <source> with studied kanji</source>
-        <translation type="unfinished"></translation>
+        <translation> se naučeným kanji</translation>
     </message>
     <message>
         <location line="+4"/>
         <source> using kana only</source>
-        <translation type="unfinished"></translation>
+        <translation> za použití pouze kana</translation>
     </message>
     <message>
         <location line="-5"/>
@@ -1338,7 +1353,7 @@ improve performance when manipulating a large number of entries.</source>
     <message>
         <location line="+25"/>
         <source>gikun (meaning as reading)  or jukujikun (special kanji reading)</source>
-        <translation type="unfinished"></translation>
+        <translation>gikun (význam jako čtení) nebo jukujikun (zvláštní čtení kanji)</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -1930,7 +1945,7 @@ improve performance when manipulating a large number of entries.</source>
     <message>
         <location filename="../src/core/kanjidic2/Kanjidic2Entry.cc" line="+126"/>
         <source>(var) </source>
-        <translation type="unfinished"></translation>
+        <translation>(var) </translation>
     </message>
 </context>
 <context>
@@ -1958,7 +1973,7 @@ improve performance when manipulating a large number of entries.</source>
     <message>
         <location line="-141"/>
         <source> (%1) </source>
-        <translation type="unfinished"></translation>
+        <translation> (%1) </translation>
     </message>
     <message>
         <location line="+129"/>
@@ -2503,7 +2518,7 @@ improve performance when manipulating a large number of entries.</source>
     <message>
         <location line="+181"/>
         <source> seconds</source>
-        <translation type="unfinished"></translation>
+        <translation> sekund</translation>
     </message>
     <message>
         <location line="+32"/>
@@ -2636,7 +2651,7 @@ improve performance when manipulating a large number of entries.</source>
     <message>
         <location line="+7"/>
         <source>S&amp;aved searches</source>
-        <translation type="unfinished"></translation>
+        <translation>U&amp;ložená hledání</translation>
     </message>
     <message>
         <location line="+30"/>
@@ -2708,17 +2723,17 @@ improve performance when manipulating a large number of entries.</source>
     <message>
         <location line="+72"/>
         <source>&amp;Save current search...</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Uložit nynější hledání...</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>&amp;New folder...</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Nová složka...</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>&amp;Organize saved searches...</source>
-        <translation type="unfinished"></translation>
+        <translation>U&amp;spořádat uložená hledání...</translation>
     </message>
     <message>
         <location line="+5"/>
@@ -2740,7 +2755,9 @@ improve performance when manipulating a large number of entries.</source>
         <source>You have now been using Tagaini Jisho for a short while. If you like it, please show your support by making a donation that expresses your appreciation of this software. While Tagaini is free, its development has a cost and your support will have a positive influence on its future. You can donate via Paypal or credit card.
 
 This message is a one-time reminder and will not appear anymore - you can still donate later by choosing the corresponding option in the Help menu.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nyní jste používal Tagaini Jish krátce. Pokud se vám líbí, ukažte, prosím, svou podporu tím, že poskytnete dar, který vyjádří vaše ocenění tohoto programu. Zatímco Tagaini je zadarmo, jeho vývoj má náklady a vaše podpora bude mít kladný vliv na jeho budoucnost. Darovat můžete pomocí služby Paypal nebo kreditní kartou.
+
+Tento vzkaz se připomíná jednou a už se neobjeví - darovat můžete později výběrem odpovídající volby v nabídce pro nápovědu.</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -2773,7 +2790,7 @@ This message is a one-time reminder and will not appear anymore - you can still 
         <translation>Zavedená data budou dostupná, až příště spustíte Tagaini Jisho. Všechny změny, které provedete od tohoto okamžiku, budou ztraceny. Chcete ukončit Tagaini Jisho nyní?</translation>
     </message>
     <message>
-        <location line="+116"/>
+        <location line="+114"/>
         <source>A development update is available!</source>
         <translation>Je dostupná vývojářská verze!</translation>
     </message>
@@ -2785,27 +2802,27 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location line="+54"/>
         <source>Save current search here...</source>
-        <translation type="unfinished"></translation>
+        <translation>Uložit nynější hledání zde...</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Save current search</source>
-        <translation type="unfinished"></translation>
+        <translation>Uložit nynější hledání</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Please enter a name for this search:</source>
-        <translation type="unfinished"></translation>
+        <translation>Zadejte, prosím, název pro toto hledání:</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Unnamed</source>
-        <translation type="unfinished"></translation>
+        <translation>Bez názvu</translation>
     </message>
     <message>
         <location line="+22"/>
         <source>New folder</source>
-        <translation type="unfinished"></translation>
+        <translation>Nová složka</translation>
     </message>
     <message>
         <location line="-34"/>
@@ -2863,6 +2880,7 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location filename="../src/gui/MultiStackedWidget.cc" line="+118"/>
         <source>Ctrl+%1</source>
+        <extracomment>Shortcut for popping up/down an extender</extracomment>
         <translation>Ctrl+%1</translation>
     </message>
     <message>
@@ -3191,12 +3209,12 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location filename="../src/gui/SavedSearchesOrganizer.ui" line="+14"/>
         <source>Organize saved searches</source>
-        <translation type="unfinished"></translation>
+        <translation>Uspořádat uložená hledání</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>You can organize your saved searches here. Double-click to change the search&apos;s label, drag and drop to move or right-click for other options, including deletion.</source>
-        <translation type="unfinished"></translation>
+        <translation>Uložená hledání můžete uspořádat zde. Dvojité poklepání pro změnu štítku hledání, tažení a upuštění pro přesun nebo klepnutí pravým tlačítkem myši pro jiné volby včetně smazání.</translation>
     </message>
 </context>
 <context>
@@ -3214,7 +3232,7 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location line="+0"/>
         <source>Are you sure you want to delete the selected search/folder?</source>
-        <translation type="unfinished"></translation>
+        <translation>Jste si jistý, že chcete smazat vybrané hledání/složku?</translation>
     </message>
 </context>
 <context>
@@ -3320,19 +3338,19 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location line="+114"/>
         <source> since %1</source>
-        <translation type="unfinished"></translation>
+        <translation> od %1</translation>
     </message>
     <message>
         <location line="+4"/>
         <location line="+13"/>
         <location line="+10"/>
         <source> until %1</source>
-        <translation type="unfinished"></translation>
+        <translation> do %1</translation>
     </message>
     <message>
         <location line="-20"/>
         <source>, score:[%1-%2]</source>
-        <translation type="unfinished"></translation>
+        <translation>, výsledek:[%1-%2]</translation>
     </message>
     <message>
         <location line="-98"/>
@@ -3409,7 +3427,7 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location line="-34"/>
         <source>Enter a space-separated list of tags for </source>
-        <translation type="unfinished"></translation>
+        <translation>Zadejte mezerou oddělený seznam značek pro </translation>
     </message>
     <message>
         <location line="+5"/>
@@ -3427,7 +3445,7 @@ This message is a one-time reminder and will not appear anymore - you can still 
         <location line="-34"/>
         <location line="+34"/>
         <source>&lt;p&gt;These tags have invalid characters: </source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;p&gt;Tyto značky mají neplatný počet znaků: </translation>
     </message>
     <message>
         <location line="-29"/>
@@ -3459,7 +3477,7 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location line="+1"/>
         <source>Enter a space-separated list of tags to add to </source>
-        <translation type="unfinished"></translation>
+        <translation>Zadejte mezerou oddělený seznam značek pro přidání do </translation>
     </message>
     <message>
         <location line="+10"/>

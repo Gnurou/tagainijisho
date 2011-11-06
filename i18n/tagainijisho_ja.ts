@@ -54,7 +54,7 @@
         <translation>ユーザ・データベース・ファイル：</translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="+463"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="+465"/>
         <source>User data</source>
         <translation type="unfinished"></translation>
     </message>
@@ -684,7 +684,7 @@
 <context>
     <name>GeneralPreferences</name>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="-136"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="-138"/>
         <source>English</source>
         <translation>英語</translation>
     </message>
@@ -710,13 +710,23 @@
     </message>
     <message>
         <location line="+4"/>
+        <source>Italian</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Norwegian BokmÃ¥l</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
         <source>Russian</source>
         <translation>ロシア語</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Spanish</source>
-        <translation>スペイン語</translation>
+        <source>Spanish (Castilian)</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+3"/>
@@ -2774,7 +2784,7 @@ This message is a one-time reminder and will not appear anymore - you can still 
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+116"/>
+        <location line="+114"/>
         <source>A development update is available!</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2864,6 +2874,7 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location filename="../src/gui/MultiStackedWidget.cc" line="+118"/>
         <source>Ctrl+%1</source>
+        <extracomment>Shortcut for popping up/down an extender</extracomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
