@@ -303,10 +303,8 @@ void MainWindow::about()
 		"<h2>Thanks to</h2>"
 		"<p><b>Philip Seyfi</b> application icon.</p>"
 		"<p><b>Tracy Poff</b> bug reports, documentation fixes.</p>"
-		"<p><b>Jeroen Hoek</b> Dutch translation.</p>"
-		"<p><b>Philipp Meyer</b> German translation.</p>"
-		"<p><b>Pavel Fric</b> Czech translation.</p>"
-		"<p>All the people who donated and contributed directly or indirectly to this software!</p>"
+		"<p>All the translators on <a href=\"https://www.transifex.net/projects/p/tagaini-jisho\">Transifex</a>.</p>"
+		"<p>All the persons who donated and contributed directly or indirectly to this software!</p>"
 		"";
 	aboutDialogUI.authors->setHtml(authors);
 	aboutDialogUI.authors->viewport()->setAutoFillBackground(false);
