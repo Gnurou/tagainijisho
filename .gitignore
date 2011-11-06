@@ -50,3 +50,4 @@ doc/install.html
 doc/manual.html
 doc/quickstart.html
 *.txt.user
+*.kdev4
