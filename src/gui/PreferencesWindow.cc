@@ -93,6 +93,8 @@ const QList<QPair<QString, QString> > GeneralPreferences::langs = (QList<QPair<Q
 	QPair<QString, QString>(QT_TRANSLATE_NOOP("GeneralPreferences", "English"), "en") <<
 	QPair<QString, QString>(QT_TRANSLATE_NOOP("GeneralPreferences", "French"), "fr") <<
 	QPair<QString, QString>(QT_TRANSLATE_NOOP("GeneralPreferences", "German"), "de") <<
+	QPair<QString, QString>(QT_TRANSLATE_NOOP("GeneralPreferences", "Italian"), "it") <<
+	QPair<QString, QString>(QT_TRANSLATE_NOOP("GeneralPreferences", "Norwegian Bokmal"), "nb") <<
 	QPair<QString, QString>(QT_TRANSLATE_NOOP("GeneralPreferences", "Russian"), "ru") <<
 	QPair<QString, QString>(QT_TRANSLATE_NOOP("GeneralPreferences", "Spanish"), "es")
 	);
