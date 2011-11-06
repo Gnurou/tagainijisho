@@ -18,7 +18,6 @@
 #define __CORE_ORDEREDRBDBNODE_H
 
 #include "core/OrderedRBNode.h"
-#include "core/EntryListDB.h"
 
 #include <QSet>
 
