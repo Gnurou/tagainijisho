@@ -51,72 +51,64 @@ if(UNIX)
 		
 		set(ROOT_DIR "${tagaini_binary}.app/Contents")
 		set(EXE_DIR "${ROOT_DIR}/MacOS")
+		set(DB_DIR ${EXE_DIR})
+		set(I18N_DIR "${EXEC_DIR}/i18n")
+		set(DOC_DIR "${EXEC_DIR}/doc")
 		set(RESOURCES_DIR "${ROOT_DIR}/Resources")
 		set(APPS "\${CMAKE_INSTALL_PREFIX}/${tagaini_binary}.app")
-		set(DIRS ${QT_LIBRARY_DIRS})
 
-		install(FILES "${CMAKE_BINARY_DIR}/jmdict.db" DESTINATION ${EXE_DIR} COMPONENT Runtime)
-		install(FILES "${CMAKE_BINARY_DIR}/kanjidic2.db" DESTINATION ${EXE_DIR} COMPONENT Runtime)
-
-		foreach(LANG en;${DICT_LANG})
-			install(FILES "${CMAKE_BINARY_DIR}/jmdict-${LANG}.db" DESTINATION ${EXE_DIR} COMPONENT Runtime)
-			install(FILES "${CMAKE_BINARY_DIR}/kanjidic2-${LANG}.db" DESTINATION ${EXE_DIR} COMPONENT Runtime)
-		endforeach(LANG en;${DICT_LANG})
-		
-		install(FILES ${CMAKE_SOURCE_DIR}/src/gui/jmdict/detailed_jmdict.html ${CMAKE_SOURCE_DIR}/src/gui/jmdict/detailed_jmdict.css DESTINATION ${RESOURCES_DIR} COMPONENT Runtime)
-		install(FILES ${CMAKE_SOURCE_DIR}/src/gui/kanjidic2/detailed_kanjidic2.html ${CMAKE_SOURCE_DIR}/src/gui/kanjidic2/detailed_kanjidic2.css DESTINATION ${RESOURCES_DIR} COMPONENT Runtime)
-		install(FILES ${CMAKE_SOURCE_DIR}/src/gui/export_template.html DESTINATION ${RESOURCES_DIR} COMPONENT Runtime)
-		install(FILES ${CMAKE_SOURCE_DIR}/src/gui/detailed_default.html ${CMAKE_SOURCE_DIR}/src/gui/detailed_default.css DESTINATION ${RESOURCES_DIR} COMPONENT Runtime)
-		
-		file(GLOB i18nfiles ${CMAKE_BINARY_DIR}/i18n/*.qm)
-		install(FILES ${i18nfiles} DESTINATION "${EXE_DIR}/i18n" COMPONENT Runtime)
-
-		install(FILES "/Developer/Applications/Qt/translations/qt_cs.qm" DESTINATION "${ROOT_DIR}/Translations" COMPONENT Runtime)
-		install(FILES "/Developer/Applications/Qt/translations/qt_de.qm" DESTINATION "${ROOT_DIR}/Translations" COMPONENT Runtime)
-		install(FILES "/Developer/Applications/Qt/translations/qt_es.qm" DESTINATION "${ROOT_DIR}/Translations" COMPONENT Runtime)
-		install(FILES "/Developer/Applications/Qt/translations/qt_fr.qm" DESTINATION "${ROOT_DIR}/Translations" COMPONENT Runtime)
-		install(FILES "/Developer/Applications/Qt/translations/qt_ja.qm" DESTINATION "${ROOT_DIR}/Translations" COMPONENT Runtime)
-		install(FILES "/Developer/Applications/Qt/translations/qt_pl.qm" DESTINATION "${ROOT_DIR}/Translations" COMPONENT Runtime)
-		install(FILES "/Developer/Applications/Qt/translations/qt_ru.qm" DESTINATION "${ROOT_DIR}/Translations" COMPONENT Runtime)
+		# Extra Qt translations
+		foreach(LANG ${UI_LANG})
+			install(FILES "/Developer/Applications/Qt/translations/qt_${LANG}.qm" DESTINATION "${ROOT_DIR}/Translations" COMPONENT Runtime)
+		endforeach(LANG ${UI_LANG})
 	
-		if(${MULTI_MARKDOWN} MATCHES "MULTI_MARKDOWN-NOTFOUND")
-			MESSAGE(STATUS "Warning, docs will not be generated")
-		else(${MULTI_MARKDOWN} MATCHES "MULTI_MARKDOWN-NOTFOUND")
-			install(FILES ${CMAKE_SOURCE_DIR}/doc/manual.html DESTINATION ${EXE_DIR}/doc COMPONENT Runtime)
-			install(DIRECTORY ${CMAKE_SOURCE_DIR}/doc/images DESTINATION ${EXE_DIR}/doc COMPONENT Runtime)
-		endif(${MULTI_MARKDOWN} MATCHES "MULTI_MARKDOWN-NOTFOUND")
-		
+		# Qt config
 		install(CODE "file(WRITE \"\${CMAKE_INSTALL_PREFIX}/${RESOURCES_DIR}/qt.conf\" \"[Paths]\nPlugins = PlugIns\nTranslations = Translations\n\")" COMPONENT Runtime)
 		
+		# Qt plugins
 		install(CODE "
 			file(GLOB_RECURSE QTPLUGINS \"\${CMAKE_INSTALL_PREFIX}/${EXE_DIR}/plugins/*${CMAKE_SHARED_LIBRARY_SUFFIX}\")
 		include(BundleUtilities)
-		fixup_bundle(\"${APPS}\" \"${QTPLUGINS}\" \"${DIRS}\")" COMPONENT Runtime)
+		fixup_bundle(\"${APPS}\" \"${QTPLUGINS}\" \"${QT_LIBRARY_DIRS}\")" COMPONENT Runtime)
 	else(APPLE)
 		set(CPACK_PACKAGE_NAME "tagainijisho")	
+		set(ROOT_DIR share/tagainijisho)
+		set(DB_DIR ${ROOT_DIR})
+		set(I18N_DIR ${ROOT_DIR}/i18n)
+		set(DOC_DIR ${ROOT_DIR}/doc)
+		set(RESOURCES_DIR ${ROOT_DIR})
+
+		# Desktop and icon files
 		install(FILES ${CMAKE_SOURCE_DIR}/tagainijisho.desktop DESTINATION share/applications PERMISSIONS OWNER_READ GROUP_READ WORLD_READ COMPONENT Runtime)
 		install(FILES ${CMAKE_SOURCE_DIR}/images/tagainijisho.png DESTINATION share/pixmaps PERMISSIONS OWNER_READ GROUP_READ WORLD_READ COMPONENT Runtime)
-		install(FILES ${CMAKE_BINARY_DIR}/jmdict.db DESTINATION share/tagainijisho PERMISSIONS OWNER_READ GROUP_READ WORLD_READ COMPONENT Runtime)
-		install(FILES ${CMAKE_BINARY_DIR}/kanjidic2.db DESTINATION share/tagainijisho PERMISSIONS OWNER_READ GROUP_READ WORLD_READ COMPONENT Runtime)
-		foreach(LANG en;${DICT_LANG})
-			install(FILES ${CMAKE_BINARY_DIR}/jmdict-${LANG}.db DESTINATION share/tagainijisho PERMISSIONS OWNER_READ GROUP_READ WORLD_READ COMPONENT Runtime)
-			install(FILES ${CMAKE_BINARY_DIR}/kanjidic2-${LANG}.db DESTINATION share/tagainijisho PERMISSIONS OWNER_READ GROUP_READ WORLD_READ COMPONENT Runtime)
-		endforeach(LANG en;${DICT_LANG})
-		install(FILES ${CMAKE_SOURCE_DIR}/src/gui/jmdict/detailed_jmdict.html ${CMAKE_SOURCE_DIR}/src/gui/jmdict/detailed_jmdict.css DESTINATION share/tagainijisho PERMISSIONS OWNER_READ GROUP_READ WORLD_READ COMPONENT Runtime)
-		install(FILES ${CMAKE_SOURCE_DIR}/src/gui/kanjidic2/detailed_kanjidic2.html ${CMAKE_SOURCE_DIR}/src/gui/kanjidic2/detailed_kanjidic2.css DESTINATION share/tagainijisho PERMISSIONS OWNER_READ GROUP_READ WORLD_READ COMPONENT Runtime)
-		install(FILES ${CMAKE_SOURCE_DIR}/src/gui/export_template.html DESTINATION share/tagainijisho PERMISSIONS OWNER_READ GROUP_READ WORLD_READ COMPONENT Runtime)
-		install(FILES ${CMAKE_SOURCE_DIR}/src/gui/detailed_default.html ${CMAKE_SOURCE_DIR}/src/gui/detailed_default.css DESTINATION share/tagainijisho PERMISSIONS OWNER_READ GROUP_READ WORLD_READ COMPONENT Runtime)
-		
-		file(GLOB i18nfiles ${CMAKE_BINARY_DIR}/i18n/*.qm)
-		install(FILES ${i18nfiles} DESTINATION share/tagainijisho/i18n PERMISSIONS OWNER_READ GROUP_READ WORLD_READ COMPONENT Runtime)
-		
-		if (EXISTS ${CMAKE_SOURCE_DIR}/doc/manual.html)
-			install(FILES ${CMAKE_SOURCE_DIR}/doc/manual.html DESTINATION share/tagainijisho/doc COMPONENT Runtime)
-			install(DIRECTORY ${CMAKE_SOURCE_DIR}/doc/images DESTINATION share/tagainijisho/doc COMPONENT Runtime)
-		else(EXISTS ${CMAKE_SOURCE_DIR}/doc/manual.html)
-			MESSAGE(STATUS "Warning, docs were not generated")
-		endif()
 	endif(APPLE)
+
+	# Databases
+	install(FILES ${CMAKE_BINARY_DIR}/jmdict.db DESTINATION ${DB_DIR} PERMISSIONS OWNER_READ GROUP_READ WORLD_READ COMPONENT Runtime)
+	install(FILES ${CMAKE_BINARY_DIR}/kanjidic2.db DESTINATION ${DB_DIR} PERMISSIONS OWNER_READ GROUP_READ WORLD_READ COMPONENT Runtime)
+	foreach(LANG en;${DICT_LANG})
+		install(FILES ${CMAKE_BINARY_DIR}/jmdict-${LANG}.db DESTINATION ${DB_DIR} PERMISSIONS OWNER_READ GROUP_READ WORLD_READ COMPONENT Runtime)
+		install(FILES ${CMAKE_BINARY_DIR}/kanjidic2-${LANG}.db DESTINATION ${DB_DIR} PERMISSIONS OWNER_READ GROUP_READ WORLD_READ COMPONENT Runtime)
+	endforeach(LANG en;${DICT_LANG})
+
+	# i18n files
+	foreach(LANG ${UI_LANG})
+		install(FILES ${CMAKE_BINARY_DIR}/i18n/tagainijisho_${LANG}.qm DESTINATION ${I18N_DIR} PERMISSIONS OWNER_READ GROUP_READ WORLD_READ COMPONENT Runtime)
+	endforeach(LANG ${UI_LANG})
+
+	# Template files
+	install(FILES ${CMAKE_SOURCE_DIR}/src/gui/jmdict/detailed_jmdict.html ${CMAKE_SOURCE_DIR}/src/gui/jmdict/detailed_jmdict.css DESTINATION ${RESOURCES_DIR} PERMISSIONS OWNER_READ GROUP_READ WORLD_READ COMPONENT Runtime)
+	install(FILES ${CMAKE_SOURCE_DIR}/src/gui/kanjidic2/detailed_kanjidic2.html ${CMAKE_SOURCE_DIR}/src/gui/kanjidic2/detailed_kanjidic2.css DESTINATION ${RESOURCES_DIR} PERMISSIONS OWNER_READ GROUP_READ WORLD_READ COMPONENT Runtime)
+	install(FILES ${CMAKE_SOURCE_DIR}/src/gui/export_template.html DESTINATION ${RESOURCES_DIR} PERMISSIONS OWNER_READ GROUP_READ WORLD_READ COMPONENT Runtime)
+	install(FILES ${CMAKE_SOURCE_DIR}/src/gui/detailed_default.html ${CMAKE_SOURCE_DIR}/src/gui/detailed_default.css DESTINATION ${RESOURCES_DIR} PERMISSIONS OWNER_READ GROUP_READ WORLD_READ COMPONENT Runtime)
+
+	# Documentation
+	if (EXISTS ${CMAKE_SOURCE_DIR}/doc/manual.html)
+		install(FILES ${CMAKE_SOURCE_DIR}/doc/manual.html DESTINATION ${DOC_DIR} COMPONENT Runtime)
+		install(DIRECTORY ${CMAKE_SOURCE_DIR}/doc/images DESTINATION ${DOC_DIR} COMPONENT Runtime)
+	else(EXISTS ${CMAKE_SOURCE_DIR}/doc/manual.html)
+		MESSAGE(STATUS "Warning, docs were not generated")
+	endif()
 endif(UNIX)
 
 if(WIN32)
