@@ -323,7 +323,7 @@ void MainWindow::manual()
 {
 	// First check if we have an installation prefix
 #ifdef DATA_DIR
-	QString f = QDir(QUOTEMACRO(DATA_DIR)).filePath("doc");
+	QString f = QDir(DATA_DIR).filePath("doc");
 #else
 	QString f = QDir(QCoreApplication::applicationDirPath()).filePath("doc");
 #endif
