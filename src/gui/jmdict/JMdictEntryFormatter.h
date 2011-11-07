@@ -36,7 +36,7 @@ public:
 	virtual QString shortDesc(const ConstEntryPointer &entry) const;
 
 	virtual void draw(const ConstEntryPointer &entry, QPainter &painter, const QRectF &rectangle, QRectF &usedSpace, const QFont &textFont = QFont()) const { drawCustom(entry, painter, rectangle, usedSpace, textFont); }
-	void drawCustom(const ConstEntryPointer &entry, QPainter &painter, const QRectF &rectangle, QRectF &usedSpace, const QFont &textFont = QFont(), int headerPrintSize = headerPrintSize.defaultValue(), bool printKanjis = printKanjis.defaultValue(), bool printOnlyStudiedKanjis = printOnlyStudiedKanjis.defaultValue(), int maxDefinitionsToPrint = maxDefinitionsToPrint.defaultValue()) const;
+	void drawCustom(const ConstEntryPointer &entry, QPainter &painter, const QRectF &rectangle, QRectF &usedSpace, const QFont &textFont = QFont(), int _headerPrintSize = headerPrintSize.defaultValue(), bool _printKanjis = printKanjis.defaultValue(), bool _printOnlyStudiedKanjis = printOnlyStudiedKanjis.defaultValue(), int _maxDefinitionsToPrint = maxDefinitionsToPrint.defaultValue()) const;
 
 	static QString getVerbBuddySql(const QString &matchPattern, quint64 pos, int id);
 	static QString getHomophonesSql(const QString &reading, int id, int maxToDisplay = maxHomophonesToDisplay.value(), bool studiedOnly = displayStudiedHomophonesOnly.value());
