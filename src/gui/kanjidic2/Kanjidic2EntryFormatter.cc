@@ -523,7 +523,7 @@ QString Kanjidic2EntryFormatter::formatVariationsOf(const ConstEntryPointer &_en
 			ConstKanjidic2EntryPointer kEntry(KanjiEntryRef(kid).get());
 			formats << entryTitle(kEntry);
 		}
-		QString("<b>%1:</b> %2").arg(tr("Variation of")).arg(formats.join(" "));
+		return QString("<b>%1:</b> %2").arg(tr("Variation of")).arg(formats.join(" "));
 	}
 	return "";
 }
