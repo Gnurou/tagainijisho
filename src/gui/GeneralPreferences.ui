@@ -158,11 +158,13 @@
       <item>
        <widget class="QLabel" name="label_4">
         <property name="text">
-         <string>Defines how many recent entries are kept in memory. High values may
-improve performance when manipulating a large number of entries.</string>
+         <string>Defines how many recent entries are kept in memory. High values may improve performance when manipulating a large number of entries.</string>
+        </property>
+        <property name="textFormat">
+         <enum>Qt::PlainText</enum>
         </property>
         <property name="wordWrap">
-         <bool>false</bool>
+         <bool>true</bool>
         </property>
        </widget>
       </item>

@@ -107,20 +107,23 @@ static const QMap<QString, QString> _langMapping()
 
 static const QMap<QString, QString> langMapping(_langMapping());
 
+typedef QPair<QString, QString> qps;
+
 /* Localized sorted version of langMapping */
-static const QList<QPair<QString, QString> > _prefLangs()
+static const QList<qps> _prefLangs()
 {
-	QList<QPair<QString, QString> > ret;
+	QList<qps> ret;
 	foreach (const QString &lang, langMapping.keys()) {
-		// TODO sort
-		ret << QPair<QString, QString>(lang, QCoreApplication::translate("GeneralPreferences", langMapping[lang].toUtf8().constData()));
+		// FIXME log(n2)
+		int i;
+		QString trans = QCoreApplication::translate("GeneralPreferences", langMapping[lang].toUtf8().constData());
+		for (i = 0; i < ret.size(); i++)
+			if (trans <= ret[i].second) break;
+		ret.insert(i, qps(lang, trans));
 	}
 
 	return ret;
 }
-
-typedef QPair<QString, QString> qps;
-static const QList<qps> prefLangs(_prefLangs());
 
 GeneralPreferences::GeneralPreferences(QWidget *parent) : PreferencesWindowCategory(tr("General"), parent)
 {
@@ -129,6 +132,7 @@ GeneralPreferences::GeneralPreferences(QWidget *parent) : PreferencesWindowCateg
 	fontChooser = new PreferencesFontChooser(tr("Application-wide default font"), QFont(), this);
 	static_cast<QBoxLayout*>(generalGroupBox->layout())->insertWidget(0, fontChooser);
 
+	QList<qps> prefLangs = _prefLangs();
 	foreach (const qps &langPair, prefLangs) {
 		QString lang = langPair.second;
 		const QString &enLang = langMapping[langPair.first];
@@ -152,6 +156,7 @@ void GeneralPreferences::refresh()
 	fontChooser->setFont(QFont());
 
 	int idx;
+	QList<qps> prefLangs = _prefLangs();
 	for (idx = 0; idx < prefLangs.size(); idx++) {
 		if (prefLangs[idx].first == Lang::preferredLanguage.value()) break;
 	}
