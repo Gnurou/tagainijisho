@@ -53,7 +53,7 @@
         <translation>User database file:</translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="+465"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="+488"/>
         <source>User data</source>
         <translation>User data</translation>
     </message>
@@ -687,7 +687,7 @@
 <context>
     <name>GeneralPreferences</name>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="-138"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="-160"/>
         <source>English</source>
         <translation>English</translation>
     </message>
@@ -702,37 +702,47 @@
         <translation>French</translation>
     </message>
     <message>
-        <location line="-3"/>
+        <location line="+2"/>
+        <source>Spanish</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Norvegian Bokmal</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
         <source>Czech</source>
         <translation>Czech</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-3"/>
         <source>Dutch</source>
         <translation>Dutch</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+1"/>
         <source>Italian</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+1"/>
-        <source>Norwegian BokmÃ¥l</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+1"/>
+        <location line="-2"/>
         <source>Russian</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+1"/>
-        <source>Spanish (Castilian)</source>
+        <location line="+5"/>
+        <source>Japanese</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+1"/>
+        <source>Polish</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+24"/>
         <source>General</source>
         <translation>General</translation>
     </message>
@@ -742,7 +752,7 @@
         <translation>Application-wide default font</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+12"/>
         <source>Monday</source>
         <translation>Monday</translation>
     </message>
@@ -752,7 +762,7 @@
         <translation>Sunday</translation>
     </message>
     <message>
-        <location line="+53"/>
+        <location line="+48"/>
         <source>Next check: %1</source>
         <translation>Next check: %1</translation>
     </message>
@@ -818,10 +828,8 @@
     </message>
     <message>
         <location line="+56"/>
-        <source>Defines how many recent entries are kept in memory. High values may
-improve performance when manipulating a large number of entries.</source>
-        <translation>Defines how many recent entries are kept in memory. High values may
-improve performance when manipulating a large number of entries.</translation>
+        <source>Defines how many recent entries are kept in memory. High values may improve performance when manipulating a large number of entries.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="-41"/>

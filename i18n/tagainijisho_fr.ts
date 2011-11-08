@@ -53,7 +53,7 @@
         <translation>Fichier de base de données utilisateur:</translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="+465"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="+488"/>
         <source>User data</source>
         <translation>Données utilisateur</translation>
     </message>
@@ -687,7 +687,7 @@ Certaines d&apos;entre elles sont peut-être toujours présentes.</translation>
 <context>
     <name>GeneralPreferences</name>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="-138"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="-160"/>
         <source>English</source>
         <translation>Anglais</translation>
     </message>
@@ -702,37 +702,47 @@ Certaines d&apos;entre elles sont peut-être toujours présentes.</translation>
         <translation>Français</translation>
     </message>
     <message>
-        <location line="-3"/>
+        <location line="+2"/>
+        <source>Spanish</source>
+        <translation>Espagnol</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Norvegian Bokmal</source>
+        <translation>Norvégien Bokmal</translation>
+    </message>
+    <message>
+        <location line="+1"/>
         <source>Czech</source>
         <translation>Tchèque</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-3"/>
         <source>Dutch</source>
         <translation>Hollandais</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+1"/>
         <source>Italian</source>
-        <translation type="unfinished"></translation>
+        <translation>Italien</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <source>Norwegian BokmÃ¥l</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+1"/>
+        <location line="-2"/>
         <source>Russian</source>
         <translation>Russe</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <source>Spanish (Castilian)</source>
-        <translation type="unfinished"></translation>
+        <location line="+5"/>
+        <source>Japanese</source>
+        <translation>Japonais</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+1"/>
+        <source>Polish</source>
+        <translation>Polonais</translation>
+    </message>
+    <message>
+        <location line="+24"/>
         <source>General</source>
         <translation>Général</translation>
     </message>
@@ -742,7 +752,7 @@ Certaines d&apos;entre elles sont peut-être toujours présentes.</translation>
         <translation>Police par défaut de l&apos;application</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+12"/>
         <source>Monday</source>
         <translation>Lundi</translation>
     </message>
@@ -752,7 +762,7 @@ Certaines d&apos;entre elles sont peut-être toujours présentes.</translation>
         <translation>Dimanche</translation>
     </message>
     <message>
-        <location line="+53"/>
+        <location line="+48"/>
         <source>Next check: %1</source>
         <translation>Prochaine vérification: %1</translation>
     </message>
@@ -818,8 +828,7 @@ Certaines d&apos;entre elles sont peut-être toujours présentes.</translation>
     </message>
     <message>
         <location line="+56"/>
-        <source>Defines how many recent entries are kept in memory. High values may
-improve performance when manipulating a large number of entries.</source>
+        <source>Defines how many recent entries are kept in memory. High values may improve performance when manipulating a large number of entries.</source>
         <translation>Définit combien d&apos;entrées récentes sont conservées en mémoire. Une valeur élevée peut améliorer les performances en cas de manipulation d&apos;un grand nombre d&apos;entrées.</translation>
     </message>
     <message>
