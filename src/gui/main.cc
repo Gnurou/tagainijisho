@@ -64,9 +64,11 @@ void messageHandler(QtMsgType type, const char *msg)
 		break;
 	case QtWarningMsg:
 		fprintf(stderr, "Warning: %s\n", msg);
+		QMessageBox::warning(0, "Warning", msg);
 		break;
 	case QtCriticalMsg:
 		fprintf(stderr, "Critical: %s\n", msg);
+		QMessageBox::critical(0, "Critical", msg);
 		break;
 	case QtFatalMsg:
 		// TODO here a message should be emitted and caught by the main thread in
@@ -74,6 +76,7 @@ void messageHandler(QtMsgType type, const char *msg)
 		// in auxiliary threads too.
 		//QMessageBox::critical(0, "Tagaini Jisho fatal error", msg);
 		fprintf(stderr, "Fatal: %s\n", msg);
+		QMessageBox::critical(0, "Fatal error", QString("%1\n\nUnrecoverable error, the program will now exit.").arg(msg));
 		exit(1);
 	}
 }
@@ -172,9 +175,6 @@ void checkUserProfileDirectory()
 
 int main(int argc, char *argv[])
 {
-	// Install the error message handler
-	qInstallMsgHandler(messageHandler);
-
 	// Seed the random number generator
 	qsrand(QDateTime::currentDateTime().toTime_t());
 	QApplication app(argc, argv);
@@ -182,6 +182,9 @@ int main(int argc, char *argv[])
 	QCoreApplication::setOrganizationDomain(__ORGANIZATION_NAME);
 	QCoreApplication::setApplicationName(__APPLICATION_NAME);
 	QCoreApplication::setApplicationVersion(QUOTEMACRO(VERSION));
+
+	// Install the error message handler now that we have a GUI
+	qInstallMsgHandler(messageHandler);
 
 	migrateOldData();
 	checkConfigurationVersion();
