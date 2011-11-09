@@ -25,7 +25,7 @@ JMdictEntryLoader::JMdictEntryLoader() : EntryLoader(), kanjiQuery(&connection),
 	foreach (const QString &lang, allDBs.keys()) {
 		QString dbAlias(lang.isEmpty() ? "jmdict" : "jmdict_" + lang);
 		if (!connection.attach(allDBs[lang], dbAlias)) {
-			qFatal("JMdictEntrySearcher cannot attach JMdict databases!");
+			qFatal("JMdictEntryLoader cannot attach JMdict databases!");
 		}
 	}
 

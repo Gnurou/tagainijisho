@@ -258,7 +258,7 @@ bool JMdictPlugin::checkForMovedEntries()
 				CHECK(query2.exec());
 			}
 		}
-		// Finally set out new version number 
+		// Finally set our new version number
 		CHECK(query.exec(QString("insert or replace into versions values(\"JMdictDB\", %1)").arg(curVersion)));
 	}
 	return true;
