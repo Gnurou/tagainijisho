@@ -293,12 +293,12 @@
     <message>
         <location line="+0"/>
         <source>Booklet pre&amp;view...</source>
-        <translation type="unfinished"></translation>
+        <translation>Booklet-V&amp;orschau…</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Export as &amp;TSV...</source>
-        <translation type="unfinished"></translation>
+        <translation>Als &amp;TSV exportieren…</translation>
     </message>
     <message>
         <location line="+67"/>
@@ -512,7 +512,7 @@
     <message>
         <location line="+0"/>
         <source>Rename list...</source>
-        <translation type="unfinished"></translation>
+        <translation>Liste umbenennen…</translation>
     </message>
     <message>
         <location line="+90"/>
@@ -546,7 +546,11 @@
 %1
 
  Some of them may be remaining.</source>
-        <translation type="unfinished"></translation>
+        <translation>Beim Entfernen der ausgewählten Einträge ist ein Datenbank-Fehler aufgetreten:
+
+%1
+
+Manche der Einträge könnten noch vorhanden sein.</translation>
     </message>
 </context>
 <context>
@@ -607,7 +611,7 @@
     <message>
         <location line="+83"/>
         <source>Add &quot;%1&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>&quot;%1&quot; hinzufügen</translation>
     </message>
 </context>
 <context>
@@ -700,12 +704,12 @@
     <message>
         <location line="+2"/>
         <source>Spanish</source>
-        <translation type="unfinished"></translation>
+        <translation>Spanisch</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Norvegian Bokmal</source>
-        <translation type="unfinished"></translation>
+        <translation>Norwegisch Bokmål</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -720,7 +724,7 @@
     <message>
         <location line="+1"/>
         <source>Italian</source>
-        <translation type="unfinished"></translation>
+        <translation>Italienisch</translation>
     </message>
     <message>
         <location line="-2"/>
@@ -730,12 +734,12 @@
     <message>
         <location line="+5"/>
         <source>Japanese</source>
-        <translation type="unfinished"></translation>
+        <translation>Japanisch</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Polish</source>
-        <translation type="unfinished"></translation>
+        <translation>Polnisch</translation>
     </message>
     <message>
         <location line="+24"/>
@@ -775,7 +779,7 @@
     <message>
         <location line="+8"/>
         <source>Preferred language</source>
-        <translation type="unfinished"></translation>
+        <translation>Bevorzugte Sprache</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -815,17 +819,17 @@
     <message>
         <location line="+3"/>
         <source> days</source>
-        <translation type="unfinished"></translation>
+        <translation> Tage</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>every </source>
-        <translation type="unfinished"></translation>
+        <translation>alle </translation>
     </message>
     <message>
         <location line="+56"/>
         <source>Defines how many recent entries are kept in memory. High values may improve performance when manipulating a large number of entries.</source>
-        <translation type="unfinished"></translation>
+        <translation>Bestimmt, wie viele kürzliche Einträge im Speicher behalten werden. Hohe Werte können die Performanz bei Manipulation einer großen Anzahl von Einträgen verbessern.</translation>
     </message>
     <message>
         <location line="-41"/>
@@ -886,12 +890,12 @@
     <message>
         <location filename="../src/gui/jmdict/JMdictEntryFormatter.cc" line="-339"/>
         <source>(JLPT N%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>(JLPT N%1)</translation>
     </message>
     <message>
         <location line="+38"/>
         <source>Alternate readings: </source>
-        <translation type="unfinished"></translation>
+        <translation>Alternative Lesungen: </translation>
     </message>
     <message>
         <location line="+18"/>
@@ -958,22 +962,22 @@
     <message>
         <location line="-91"/>
         <source> with </source>
-        <translation type="unfinished"></translation>
+        <translation> mit </translation>
     </message>
     <message>
         <location line="+9"/>
         <source> with component </source>
-        <translation type="unfinished"></translation>
+        <translation> mit Komponente </translation>
     </message>
     <message>
         <location line="+9"/>
         <source> with studied kanji</source>
-        <translation type="unfinished"></translation>
+        <translation> mit einstudierten Kanji</translation>
     </message>
     <message>
         <location line="+4"/>
         <source> using kana only</source>
-        <translation type="unfinished"></translation>
+        <translation> nur mit Kana</translation>
     </message>
     <message>
         <location line="-5"/>
@@ -1167,7 +1171,7 @@
     <message>
         <location line="+37"/>
         <source>su verb - precursor to the modern suru</source>
-        <translation type="unfinished"></translation>
+        <translation>su-Verb – Vorläufer zu dem modernen suru</translation>
     </message>
     <message>
         <location line="+14"/>
@@ -1267,7 +1271,7 @@
     <message>
         <location line="+3"/>
         <source>proverb</source>
-        <translation type="unfinished"></translation>
+        <translation>Sprichwort</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -1357,7 +1361,7 @@
     <message>
         <location line="+25"/>
         <source>gikun (meaning as reading)  or jukujikun (special kanji reading)</source>
-        <translation type="unfinished"></translation>
+        <translation>gikun (Bedeutung als Lesung) or jukujikun (spezielle Kanjilesung)</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -1577,7 +1581,7 @@
     <message>
         <location line="+26"/>
         <source>suru verb - special class</source>
-        <translation>suru-verb – Spezialklasse</translation>
+        <translation>suru-Verb – Spezialklasse</translation>
     </message>
     <message>
         <location line="-51"/>
@@ -1949,13 +1953,13 @@
     <message>
         <location filename="../src/core/kanjidic2/Kanjidic2Entry.cc" line="+126"/>
         <source>(var) </source>
-        <translation type="unfinished"></translation>
+        <translation>(var) </translation>
     </message>
 </context>
 <context>
     <name>Kanjidic2EntryFormatter</name>
     <message>
-        <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="+326"/>
+        <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="+328"/>
         <source>&lt;b&gt;Strokes:&lt;/b&gt; %1</source>
         <translation>&lt;b&gt;Striche:&lt;/b&gt; %1</translation>
     </message>
@@ -1970,24 +1974,29 @@
         <translation>&lt;b&gt;Klasse:&lt;/b&gt; %1</translation>
     </message>
     <message>
-        <location line="+16"/>
+        <location line="+20"/>
         <source>&lt;b&gt;4 corner:&lt;/b&gt; %1</source>
         <translation>&lt;b&gt;4 Ecken:&lt;/b&gt; %1</translation>
     </message>
     <message>
-        <location line="-141"/>
+        <location line="-145"/>
         <source> (%1) </source>
-        <translation type="unfinished"></translation>
+        <translation> (%1) </translation>
     </message>
     <message>
         <location line="+129"/>
         <source>&lt;b&gt;JLPT:&lt;/b&gt; N%1</source>
+        <translation>&lt;b&gt;JLPT:&lt;/b&gt; N%1</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>&lt;b&gt;Heisig:&lt;/b&gt; %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+51"/>
         <source>(JLPT N%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>(JLPT N%1)</translation>
     </message>
     <message>
         <location line="+43"/>
@@ -2025,6 +2034,11 @@
         <translation>JLPT</translation>
     </message>
     <message>
+        <location line="+9"/>
+        <source>Heisig</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location line="+20"/>
         <source>Variations</source>
         <translation>Variationen</translation>
@@ -2060,7 +2074,7 @@
         <translation>Komponenten</translation>
     </message>
     <message>
-        <location line="-250"/>
+        <location line="-259"/>
         <source>&lt;b&gt;Unicode:&lt;/b&gt; 0x%1</source>
         <translation>&lt;b&gt;Unicode:&lt;/b&gt; 0x%1</translation>
     </message>
@@ -2330,12 +2344,12 @@
     </message>
     <message>
         <location line="+7"/>
-        <location line="+464"/>
+        <location line="+471"/>
         <source>Unicode</source>
         <translation>Unicode</translation>
     </message>
     <message>
-        <location line="-429"/>
+        <location line="-436"/>
         <source>Variations</source>
         <translation>Variationen</translation>
     </message>
@@ -2346,13 +2360,13 @@
     </message>
     <message>
         <location line="-21"/>
-        <location line="+436"/>
+        <location line="+443"/>
         <source>SKIP code</source>
         <translation>SKIP-Code</translation>
     </message>
     <message>
-        <location line="-401"/>
-        <location line="+429"/>
+        <location line="-408"/>
+        <location line="+436"/>
         <source>Frequency</source>
         <translation>Häufigkeit</translation>
     </message>
@@ -2375,24 +2389,30 @@
         <translation>Komponenten</translation>
     </message>
     <message>
-        <location line="-183"/>
-        <location line="+443"/>
+        <location line="-190"/>
+        <location line="+450"/>
         <source># of strokes</source>
         <translation>Strichanzahl</translation>
     </message>
     <message>
-        <location line="-436"/>
+        <location line="-443"/>
         <source>Nanori</source>
         <translation>Nanori</translation>
     </message>
     <message>
         <location line="+28"/>
-        <location line="+443"/>
+        <location line="+450"/>
         <source>Four corner code</source>
         <translation>Viereckenindex</translation>
     </message>
     <message>
-        <location line="-419"/>
+        <location line="-443"/>
+        <location line="+450"/>
+        <source>Heisig number</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="-426"/>
         <source>Additional information</source>
         <translation>Zusätzliche Informationen</translation>
     </message>
@@ -2489,18 +2509,18 @@
     </message>
     <message>
         <location line="+26"/>
-        <location line="+295"/>
+        <location line="+302"/>
         <source>px</source>
         <translation>px</translation>
     </message>
     <message>
-        <location line="-277"/>
-        <location line="+403"/>
+        <location line="-284"/>
+        <location line="+410"/>
         <source>Preview</source>
         <translation>Vorschau</translation>
     </message>
     <message>
-        <location line="-315"/>
+        <location line="-322"/>
         <source>Tooltip</source>
         <translation>Tooltip</translation>
     </message>
@@ -2515,14 +2535,14 @@
         <translation>Punktzahl</translation>
     </message>
     <message>
-        <location line="+66"/>
+        <location line="+73"/>
         <source>Stroke animation</source>
         <translation>Strichanimation</translation>
     </message>
     <message>
         <location line="+181"/>
         <source> seconds</source>
-        <translation type="unfinished"></translation>
+        <translation> Sekunden</translation>
     </message>
     <message>
         <location line="+32"/>
@@ -2535,8 +2555,8 @@
         <translation>Aussehen</translation>
     </message>
     <message>
-        <location line="-423"/>
-        <location line="+219"/>
+        <location line="-430"/>
+        <location line="+226"/>
         <source>Size:</source>
         <translation>Größe:</translation>
     </message>
@@ -2655,7 +2675,7 @@
     <message>
         <location line="+7"/>
         <source>S&amp;aved searches</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Gespeicherte Suchen</translation>
     </message>
     <message>
         <location line="+30"/>
@@ -2727,17 +2747,17 @@
     <message>
         <location line="+72"/>
         <source>&amp;Save current search...</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Speichere aktuelle Suche…</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>&amp;New folder...</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Neuer Ordner…</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>&amp;Organize saved searches...</source>
-        <translation type="unfinished"></translation>
+        <translation>Gespeicherte Suchen &amp;verwalten…</translation>
     </message>
     <message>
         <location line="+5"/>
@@ -2759,7 +2779,9 @@
         <source>You have now been using Tagaini Jisho for a short while. If you like it, please show your support by making a donation that expresses your appreciation of this software. While Tagaini is free, its development has a cost and your support will have a positive influence on its future. You can donate via Paypal or credit card.
 
 This message is a one-time reminder and will not appear anymore - you can still donate later by choosing the corresponding option in the Help menu.</source>
-        <translation type="unfinished"></translation>
+        <translation>Sie haben Tagaini Jisho jetzt für einige Zeit benutzt. Wenn Sie es mögen, zeigen Sie bitte Ihre Unterstützung durch eine Spende, die Ihre Dankbarkeit ausdrückt. Auch wenn Tagaini kostenlos ist, hat die Entwicklung ihre Kosten und ihre Unterstützung wird eine positive Auswirkung auf deren Zukunft haben. Sie können per Paypal und Kreditkarte spenden.
+
+Diese Nachricht wird ist eine einmalige Erinnerung und wird nicht wieder angezeigt - Sie können trotzdem später spenden, indem Sie die entsprechende Option im Hilfemenü auswählen.</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -2804,27 +2826,27 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location line="+54"/>
         <source>Save current search here...</source>
-        <translation type="unfinished"></translation>
+        <translation>Speichere aktuelle Suche hier…</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Save current search</source>
-        <translation type="unfinished"></translation>
+        <translation>Speichere aktuelle Suche</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Please enter a name for this search:</source>
-        <translation type="unfinished"></translation>
+        <translation>Bitte geben Sie einen Namen für diese Suche ein:</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Unnamed</source>
-        <translation type="unfinished"></translation>
+        <translation>Unbenannt</translation>
     </message>
     <message>
         <location line="+22"/>
         <source>New folder</source>
-        <translation type="unfinished"></translation>
+        <translation>Neuer Ordner</translation>
     </message>
     <message>
         <location line="-34"/>
@@ -3198,12 +3220,12 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location filename="../src/gui/ResultsViewWidget.cc" line="+43"/>
         <source>Searching...</source>
-        <translation type="unfinished"></translation>
+        <translation>Suche…</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>%1 Results</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 Ergebnisse</translation>
     </message>
 </context>
 <context>
@@ -3211,12 +3233,12 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location filename="../src/gui/SavedSearchesOrganizer.ui" line="+14"/>
         <source>Organize saved searches</source>
-        <translation type="unfinished"></translation>
+        <translation>Gespeicherte Suchen verwalten</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>You can organize your saved searches here. Double-click to change the search&apos;s label, drag and drop to move or right-click for other options, including deletion.</source>
-        <translation type="unfinished"></translation>
+        <translation>Sie können hier Ihre gespeicherten Suchen verwalten. Doppelklicken Sie um die Bezeichnung einer Suche zu ändern, ziehen Sie zum Verschieben und rechtsklicken Sie für weitere Optionen, inklusive Löschung.</translation>
     </message>
 </context>
 <context>
@@ -3234,7 +3256,7 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location line="+0"/>
         <source>Are you sure you want to delete the selected search/folder?</source>
-        <translation type="unfinished"></translation>
+        <translation>Sind Sie sich sicher, dass Sie die ausgewählten Suchen/Ordner löschen wollen?</translation>
     </message>
 </context>
 <context>
@@ -3258,7 +3280,7 @@ This message is a one-time reminder and will not appear anymore - you can still 
 <context>
     <name>ShowUsedInJob</name>
     <message>
-        <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="+274"/>
+        <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="+283"/>
         <source>Direct compounds</source>
         <translation>Direkte Komposita</translation>
     </message>
@@ -3340,19 +3362,19 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location line="+114"/>
         <source> since %1</source>
-        <translation type="unfinished"></translation>
+        <translation> seit %1</translation>
     </message>
     <message>
         <location line="+4"/>
         <location line="+13"/>
         <location line="+10"/>
         <source> until %1</source>
-        <translation type="unfinished"></translation>
+        <translation> bis %1</translation>
     </message>
     <message>
         <location line="-20"/>
         <source>, score:[%1-%2]</source>
-        <translation type="unfinished"></translation>
+        <translation>, Punktzahl: [%1-%2]</translation>
     </message>
     <message>
         <location line="-98"/>
@@ -3429,7 +3451,7 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location line="-34"/>
         <source>Enter a space-separated list of tags for </source>
-        <translation type="unfinished"></translation>
+        <translation>Geben Sie eine mit Leerzeichen getrennte Liste an Tags ein für </translation>
     </message>
     <message>
         <location line="+5"/>
@@ -3447,7 +3469,7 @@ This message is a one-time reminder and will not appear anymore - you can still 
         <location line="-34"/>
         <location line="+34"/>
         <source>&lt;p&gt;These tags have invalid characters: </source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;p&gt;Diese Tags haben ungültige Zeichen: </translation>
     </message>
     <message>
         <location line="-29"/>
@@ -3479,7 +3501,7 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location line="+1"/>
         <source>Enter a space-separated list of tags to add to </source>
-        <translation type="unfinished"></translation>
+        <translation>Geben Sie eine mit Leerzeichen getrennte Liste an Tags ein zum Hinzufügen zu </translation>
     </message>
     <message>
         <location line="+10"/>
@@ -3638,7 +3660,7 @@ This message is a one-time reminder and will not appear anymore - you can still 
 <context>
     <name>main.cc</name>
     <message>
-        <location filename="../src/gui/main.cc" line="+107"/>
+        <location filename="../src/gui/main.cc" line="+110"/>
         <source>User data migrated</source>
         <translation>Benutzerdaten übertragen</translation>
     </message>

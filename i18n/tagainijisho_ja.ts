@@ -701,7 +701,7 @@
     <message>
         <location line="+2"/>
         <source>Spanish</source>
-        <translation type="unfinished"></translation>
+        <translation>スペイン語</translation>
     </message>
     <message>
         <location line="+4"/>
@@ -1956,7 +1956,7 @@
 <context>
     <name>Kanjidic2EntryFormatter</name>
     <message>
-        <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="+326"/>
+        <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="+328"/>
         <source>&lt;b&gt;Strokes:&lt;/b&gt; %1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1971,12 +1971,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+16"/>
+        <location line="+20"/>
         <source>&lt;b&gt;4 corner:&lt;/b&gt; %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-141"/>
+        <location line="-145"/>
         <source> (%1) </source>
         <translation type="unfinished"></translation>
     </message>
@@ -1984,6 +1984,11 @@
         <location line="+129"/>
         <source>&lt;b&gt;JLPT:&lt;/b&gt; N%1</source>
         <translation>&lt;b&gt;日本語能力試験：&lt;/b&gt; %1級</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>&lt;b&gt;Heisig:&lt;/b&gt; %1</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+51"/>
@@ -2026,6 +2031,11 @@
         <translation>日本語能力試験</translation>
     </message>
     <message>
+        <location line="+9"/>
+        <source>Heisig</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location line="+20"/>
         <source>Variations</source>
         <translation type="unfinished"></translation>
@@ -2061,7 +2071,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-250"/>
+        <location line="-259"/>
         <source>&lt;b&gt;Unicode:&lt;/b&gt; 0x%1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2331,12 +2341,12 @@
     </message>
     <message>
         <location line="+7"/>
-        <location line="+464"/>
+        <location line="+471"/>
         <source>Unicode</source>
         <translation>ユニコード</translation>
     </message>
     <message>
-        <location line="-429"/>
+        <location line="-436"/>
         <source>Variations</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2347,13 +2357,13 @@
     </message>
     <message>
         <location line="-21"/>
-        <location line="+436"/>
+        <location line="+443"/>
         <source>SKIP code</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-401"/>
-        <location line="+429"/>
+        <location line="-408"/>
+        <location line="+436"/>
         <source>Frequency</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2376,24 +2386,30 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-183"/>
-        <location line="+443"/>
+        <location line="-190"/>
+        <location line="+450"/>
         <source># of strokes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-436"/>
+        <location line="-443"/>
         <source>Nanori</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+28"/>
-        <location line="+443"/>
+        <location line="+450"/>
         <source>Four corner code</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-419"/>
+        <location line="-443"/>
+        <location line="+450"/>
+        <source>Heisig number</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="-426"/>
         <source>Additional information</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2490,18 +2506,18 @@
     </message>
     <message>
         <location line="+26"/>
-        <location line="+295"/>
+        <location line="+302"/>
         <source>px</source>
         <translation>ピクセル</translation>
     </message>
     <message>
-        <location line="-277"/>
-        <location line="+403"/>
+        <location line="-284"/>
+        <location line="+410"/>
         <source>Preview</source>
         <translation>プレビュー</translation>
     </message>
     <message>
-        <location line="-315"/>
+        <location line="-322"/>
         <source>Tooltip</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2516,7 +2532,7 @@
         <translation>スコア</translation>
     </message>
     <message>
-        <location line="+66"/>
+        <location line="+73"/>
         <source>Stroke animation</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2536,8 +2552,8 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-423"/>
-        <location line="+219"/>
+        <location line="-430"/>
+        <location line="+226"/>
         <source>Size:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3259,7 +3275,7 @@ This message is a one-time reminder and will not appear anymore - you can still 
 <context>
     <name>ShowUsedInJob</name>
     <message>
-        <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="+274"/>
+        <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="+283"/>
         <source>Direct compounds</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3639,7 +3655,7 @@ This message is a one-time reminder and will not appear anymore - you can still 
 <context>
     <name>main.cc</name>
     <message>
-        <location filename="../src/gui/main.cc" line="+107"/>
+        <location filename="../src/gui/main.cc" line="+110"/>
         <source>User data migrated</source>
         <translation type="unfinished"></translation>
     </message>
