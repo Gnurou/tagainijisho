@@ -11,9 +11,12 @@
 * Heisig ("Remembering the Kanji") number displayable for kanji entries.
 (thanks Philipp Meyer!)
 * Added Spanish GUI translation (thanks Daniel Halens!)
-* Added Italian GUI translation
-* Added Norvegian GUI translation
-* Tooltips now use same formatting as detailed view for kanji and kana.
+* Added Italian GUI translation (thanks Luca Manlio De Lisi!)
+* Added Norvegian GUI translation (thanks Tokiko Lorelei!)
+* Dictionary strings now stored in different databases, removing duplicate
+  data
+* Tooltips now use same formatting as detailed view for kanji and kana
+* Tooltip now displayed when hovering over kanji selector results
 
 0.2.6.2 released on 2010/08/30
 * Really fixed bug of kana selector always appearing on startup
