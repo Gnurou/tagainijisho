@@ -6,9 +6,13 @@
   faster searches
 * Results view not paged anymore
 * Lists system totally rewritten, now much faster and safer to use
-* Added Spanish GUI translation (thanks Daniel Halens!)
 * Removed search button in text search widget and trigger search
   automatically
+* Heisig ("Remembering the Kanji") number displayable for kanji entries.
+(thanks Philipp Meyer!)
+* Added Spanish GUI translation (thanks Daniel Halens!)
+* Added Italian GUI translation
+* Added Norvegian GUI translation
 * Tooltips now use same formatting as detailed view for kanji and kana.
 
 0.2.6.2 released on 2010/08/30
