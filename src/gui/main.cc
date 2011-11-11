@@ -64,7 +64,6 @@ void messageHandler(QtMsgType type, const char *msg)
 		break;
 	case QtWarningMsg:
 		fprintf(stderr, "Warning: %s\n", msg);
-		QMessageBox::warning(0, "Warning", msg);
 		break;
 	case QtCriticalMsg:
 		fprintf(stderr, "Critical: %s\n", msg);
