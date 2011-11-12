@@ -59,11 +59,11 @@ option(BUILD_TESTS "Build tests suite" OFF)
 # Databases helper targets
 add_custom_target(databases ALL)
 
-# Source code
-add_subdirectory(src)
-
 # i18n
 add_subdirectory(i18n)
+
+# Source code
+add_subdirectory(src)
 
 # Docs
 add_subdirectory(doc)
