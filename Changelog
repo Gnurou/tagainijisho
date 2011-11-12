@@ -1,4 +1,4 @@
-0.9 released on
+0.9 "Fukkatsu" released on 2011/11/13
 * JMdict entities translated again
 * Custom SQLite backend, removes dependency on QtSql
 * System SQLite is now used by default if available
