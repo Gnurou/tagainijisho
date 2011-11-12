@@ -4,10 +4,10 @@ curpath=`pwd`
 BASEDIR=`readlink -f \`dirname $0\``
 SRCDIR=`readlink -f $BASEDIR/../..`
 VERSION=`grep "set(VERSION " $SRCDIR/CMakeLists.txt |sed -n 's/set(VERSION \(.*\))$/\1/p'`
-cd $SRCDIR/i18n
-./update.sh
-git add .	
-git commit -m "Updated translation files for version $VERSION"
+#cd $SRCDIR/i18n
+#./update.sh
+#git add .	
+#git commit -m "Updated translation files for version $VERSION"
 cd $SRCDIR
 git archive --format=tar --prefix=gitexport/ HEAD |tar xv -C $BASEDIR
 cd $BASEDIR
