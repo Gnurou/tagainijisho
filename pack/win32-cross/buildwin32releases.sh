@@ -10,7 +10,7 @@ NSIFILE=$BASEDIR/tagainijisho.nsi
 MINGWDLLPATH=${MINGWDLLPATH-/usr/i486-mingw32/bin}
 
 mkdir -p $BUILDDIR/i18n
-for lang in fr de es ru nl cs;
+for lang in `ls $SRCDIR/i18n/*.ts |cut -d'_' -f2 |cut -d'.' -f1`;
 do
 	touch $BUILDDIR/i18n/qt_$lang.qm
 	lrelease $QTPATH/translations/qt_$lang.ts -qm $BUILDDIR/i18n/qt_$lang.qm
