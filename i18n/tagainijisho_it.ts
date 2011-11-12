@@ -1622,7 +1622,7 @@ Alcuni di questi potrebbero rimanere.</translation>
 <context>
     <name>JMdictPlugin</name>
     <message>
-        <location filename="../src/core/jmdict/JMdictPlugin.cc" line="+326"/>
+        <location filename="../src/core/jmdict/JMdictPlugin.cc" line="+328"/>
         <source>An error seems to have occured while updating the JMdict database records - the program might crash during usage. Please report this bug.</source>
         <translation>Sembra si sia verificato un errore durante l&apos;aggiornamento del database JMdict - il programma potrebbe andare in crash e chiudersi durante l&apos;uso. Cortesemente segnalare questo bug.</translation>
     </message>
@@ -3660,7 +3660,7 @@ Questo messaggio è un promemoria che appare una volta sola e non apparirà più
 <context>
     <name>main.cc</name>
     <message>
-        <location filename="../src/gui/main.cc" line="+110"/>
+        <location filename="../src/gui/main.cc" line="+109"/>
         <source>User data migrated</source>
         <translation>I dati dell&apos;utente sono migrati</translation>
     </message>

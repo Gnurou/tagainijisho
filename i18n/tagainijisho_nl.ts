@@ -1618,7 +1618,7 @@
 <context>
     <name>JMdictPlugin</name>
     <message>
-        <location filename="../src/core/jmdict/JMdictPlugin.cc" line="+326"/>
+        <location filename="../src/core/jmdict/JMdictPlugin.cc" line="+328"/>
         <source>An error seems to have occured while updating the JMdict database records - the program might crash during usage. Please report this bug.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3654,7 +3654,7 @@ This message is a one-time reminder and will not appear anymore - you can still 
 <context>
     <name>main.cc</name>
     <message>
-        <location filename="../src/gui/main.cc" line="+110"/>
+        <location filename="../src/gui/main.cc" line="+109"/>
         <source>User data migrated</source>
         <translation>Gebruikersgegevens verhuisd</translation>
     </message>
