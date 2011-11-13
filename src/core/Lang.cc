@@ -19,7 +19,7 @@
 #include "tagaini_config.h"
 #include <QLocale>
 
-static const QStringList _langs(QStringList(QString(UI_LANG).split(';')));
+static const QStringList _langs(QStringList(QString(DICT_LANG).append(";").append(UI_LANG).split(';')));
 
 PreferenceItem<QString> Lang::preferredLanguage("", "preferredLanguages", "");
 
