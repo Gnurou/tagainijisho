@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.0" language="cs" sourcelanguage="en">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="cs" sourcelanguage="en" version="2.0">
 <defaultcodec>UTF-8</defaultcodec>
 <context>
     <name>AboutDialog</name>
@@ -709,7 +707,7 @@ Některé z nich možná zůstaly.</translation>
     <message>
         <location line="+4"/>
         <source>Norvegian Bokmal</source>
-        <translation type="unfinished"></translation>
+        <translation>Norský (Bokmal)</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -724,7 +722,7 @@ Některé z nich možná zůstaly.</translation>
     <message>
         <location line="+1"/>
         <source>Italian</source>
-        <translation type="unfinished"></translation>
+        <translation>Italský</translation>
     </message>
     <message>
         <location line="-2"/>
@@ -734,12 +732,12 @@ Některé z nich možná zůstaly.</translation>
     <message>
         <location line="+5"/>
         <source>Japanese</source>
-        <translation type="unfinished"></translation>
+        <translation>Japonština</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Polish</source>
-        <translation type="unfinished"></translation>
+        <translation>Polský</translation>
     </message>
     <message>
         <location line="+24"/>
@@ -829,7 +827,7 @@ Některé z nich možná zůstaly.</translation>
     <message>
         <location line="+56"/>
         <source>Defines how many recent entries are kept in memory. High values may improve performance when manipulating a large number of entries.</source>
-        <translation type="unfinished"></translation>
+        <translation>Stanovuje, kolik posledních záznamů je uchováváno v paměti. Vysoké hodnoty zlepšují při práci s velkým počtem záznamů výkon.</translation>
     </message>
     <message>
         <location line="-41"/>
@@ -1622,7 +1620,7 @@ Některé z nich možná zůstaly.</translation>
 <context>
     <name>JMdictPlugin</name>
     <message>
-        <location filename="../src/core/jmdict/JMdictPlugin.cc" line="+328"/>
+        <location filename="../src/core/jmdict/JMdictPlugin.cc" line="+326"/>
         <source>An error seems to have occured while updating the JMdict database records - the program might crash during usage. Please report this bug.</source>
         <translation>Zdá se, že se při obnově záznamů databáze JMdict vyskytla chyba – Program by během používání mohl spadnout. Nahlašte, prosím, tuto chybu.</translation>
     </message>
@@ -1991,7 +1989,7 @@ Některé z nich možná zůstaly.</translation>
     <message>
         <location line="+4"/>
         <source>&lt;b&gt;Heisig:&lt;/b&gt; %1</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;b&gt;Heisig:&lt;/b&gt; %1</translation>
     </message>
     <message>
         <location line="+51"/>
@@ -2036,7 +2034,7 @@ Některé z nich možná zůstaly.</translation>
     <message>
         <location line="+9"/>
         <source>Heisig</source>
-        <translation type="unfinished"></translation>
+        <translation>Heisig</translation>
     </message>
     <message>
         <location line="+20"/>
@@ -2409,7 +2407,7 @@ Některé z nich možná zůstaly.</translation>
         <location line="-443"/>
         <location line="+450"/>
         <source>Heisig number</source>
-        <translation type="unfinished"></translation>
+        <translation>Číslo Heisig</translation>
     </message>
     <message>
         <location line="-426"/>
@@ -3660,7 +3658,7 @@ Tento vzkaz se připomíná jednou a už se neobjeví - darovat můžete pozděj
 <context>
     <name>main.cc</name>
     <message>
-        <location filename="../src/gui/main.cc" line="+109"/>
+        <location filename="../src/gui/main.cc" line="+110"/>
         <source>User data migrated</source>
         <translation>Uživatelova data přenesena</translation>
     </message>

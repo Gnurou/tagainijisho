@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.0" language="nb" sourcelanguage="en">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="nb" sourcelanguage="en" version="2.0">
 <defaultcodec>UTF-8</defaultcodec>
 <context>
     <name>AboutDialog</name>
@@ -709,7 +707,7 @@
     <message>
         <location line="+4"/>
         <source>Norvegian Bokmal</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
@@ -724,7 +722,7 @@
     <message>
         <location line="+1"/>
         <source>Italian</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="-2"/>
@@ -734,12 +732,12 @@
     <message>
         <location line="+5"/>
         <source>Japanese</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
         <source>Polish</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+24"/>
@@ -829,7 +827,7 @@
     <message>
         <location line="+56"/>
         <source>Defines how many recent entries are kept in memory. High values may improve performance when manipulating a large number of entries.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="-41"/>
@@ -1622,7 +1620,7 @@
 <context>
     <name>JMdictPlugin</name>
     <message>
-        <location filename="../src/core/jmdict/JMdictPlugin.cc" line="+328"/>
+        <location filename="../src/core/jmdict/JMdictPlugin.cc" line="+326"/>
         <source>An error seems to have occured while updating the JMdict database records - the program might crash during usage. Please report this bug.</source>
         <translation>En feil ser ut til å ha oppstått under oppdatering av JMdict databasepostene - programmet kan muligens krasje under bruk. Vennligst rapporter denne feilen.</translation>
     </message>
@@ -1991,7 +1989,7 @@
     <message>
         <location line="+4"/>
         <source>&lt;b&gt;Heisig:&lt;/b&gt; %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+51"/>
@@ -2036,7 +2034,7 @@
     <message>
         <location line="+9"/>
         <source>Heisig</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+20"/>
@@ -2409,7 +2407,7 @@
         <location line="-443"/>
         <location line="+450"/>
         <source>Heisig number</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="-426"/>
@@ -3660,7 +3658,7 @@ Denne meldingen er en engangspåminnelse og vil ikke vises mer - du kan fremdele
 <context>
     <name>main.cc</name>
     <message>
-        <location filename="../src/gui/main.cc" line="+109"/>
+        <location filename="../src/gui/main.cc" line="+110"/>
         <source>User data migrated</source>
         <translation>Brukerdata migrert</translation>
     </message>

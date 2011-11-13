@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.0" language="it" sourcelanguage="en">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="it" sourcelanguage="en" version="2.0">
 <defaultcodec>UTF-8</defaultcodec>
 <context>
     <name>AboutDialog</name>
@@ -709,7 +707,7 @@ Alcuni di questi potrebbero rimanere.</translation>
     <message>
         <location line="+4"/>
         <source>Norvegian Bokmal</source>
-        <translation type="unfinished"></translation>
+        <translation>Bokmal Norvegese</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -724,7 +722,7 @@ Alcuni di questi potrebbero rimanere.</translation>
     <message>
         <location line="+1"/>
         <source>Italian</source>
-        <translation type="unfinished"></translation>
+        <translation>Italiano</translation>
     </message>
     <message>
         <location line="-2"/>
@@ -734,12 +732,12 @@ Alcuni di questi potrebbero rimanere.</translation>
     <message>
         <location line="+5"/>
         <source>Japanese</source>
-        <translation type="unfinished"></translation>
+        <translation>Giapponese</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Polish</source>
-        <translation type="unfinished"></translation>
+        <translation>Polacco</translation>
     </message>
     <message>
         <location line="+24"/>
@@ -829,7 +827,7 @@ Alcuni di questi potrebbero rimanere.</translation>
     <message>
         <location line="+56"/>
         <source>Defines how many recent entries are kept in memory. High values may improve performance when manipulating a large number of entries.</source>
-        <translation type="unfinished"></translation>
+        <translation>Determina quante voci recenti sono tenute in memoria. Alti valori potrebbero migliorare le prestazioni quando di manipolano un alto numero di voci.</translation>
     </message>
     <message>
         <location line="-41"/>
@@ -1622,7 +1620,7 @@ Alcuni di questi potrebbero rimanere.</translation>
 <context>
     <name>JMdictPlugin</name>
     <message>
-        <location filename="../src/core/jmdict/JMdictPlugin.cc" line="+328"/>
+        <location filename="../src/core/jmdict/JMdictPlugin.cc" line="+326"/>
         <source>An error seems to have occured while updating the JMdict database records - the program might crash during usage. Please report this bug.</source>
         <translation>Sembra si sia verificato un errore durante l&apos;aggiornamento del database JMdict - il programma potrebbe andare in crash e chiudersi durante l&apos;uso. Cortesemente segnalare questo bug.</translation>
     </message>
@@ -1991,7 +1989,7 @@ Alcuni di questi potrebbero rimanere.</translation>
     <message>
         <location line="+4"/>
         <source>&lt;b&gt;Heisig:&lt;/b&gt; %1</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;b&gt;Heisig:&lt;/b&gt; %1</translation>
     </message>
     <message>
         <location line="+51"/>
@@ -2036,7 +2034,7 @@ Alcuni di questi potrebbero rimanere.</translation>
     <message>
         <location line="+9"/>
         <source>Heisig</source>
-        <translation type="unfinished"></translation>
+        <translation>Heisig</translation>
     </message>
     <message>
         <location line="+20"/>
@@ -2409,7 +2407,7 @@ Alcuni di questi potrebbero rimanere.</translation>
         <location line="-443"/>
         <location line="+450"/>
         <source>Heisig number</source>
-        <translation type="unfinished"></translation>
+        <translation>Numero Heisig</translation>
     </message>
     <message>
         <location line="-426"/>
@@ -2779,7 +2777,7 @@ Alcuni di questi potrebbero rimanere.</translation>
         <source>You have now been using Tagaini Jisho for a short while. If you like it, please show your support by making a donation that expresses your appreciation of this software. While Tagaini is free, its development has a cost and your support will have a positive influence on its future. You can donate via Paypal or credit card.
 
 This message is a one-time reminder and will not appear anymore - you can still donate later by choosing the corresponding option in the Help menu.</source>
-        <translation>Stai usando Tagaini Jisho da un po&apos;. Se ti piace, per favore mostra il tuo supporto tramite una donazione che esprime il tuo apprezzamento per questo software. Mentre Tagaini è gratuito, il suo sviluppo ha dei costi ed il tuo supporto avrà un&apos;influenza positiva sul suo futuro. Puoi donare con PayPal o con carta di credito.
+        <translation>Stai usando Tagaini Jisho da un po'. Se ti piace, per favore mostra il tuo supporto tramite una donazione che esprime il tuo apprezzamento per questo software. Mentre Tagaini è gratuito, il suo sviluppo ha dei costi ed il tuo supporto avrà un'influenza positiva sul suo futuro. Puoi donare con PayPal o con carta di credito.
 
 Questo messaggio è un promemoria che appare una volta sola e non apparirà più - puoi ancora donare dopo scegliendo l&apos;opzione corrispondente nel menu Aiuto.</translation>
     </message>
@@ -3660,7 +3658,7 @@ Questo messaggio è un promemoria che appare una volta sola e non apparirà più
 <context>
     <name>main.cc</name>
     <message>
-        <location filename="../src/gui/main.cc" line="+109"/>
+        <location filename="../src/gui/main.cc" line="+110"/>
         <source>User data migrated</source>
         <translation>I dati dell&apos;utente sono migrati</translation>
     </message>

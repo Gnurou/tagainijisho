@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.0" language="fr" sourcelanguage="en">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="fr" sourcelanguage="en" version="2.0">
 <defaultcodec>UTF-8</defaultcodec>
 <context>
     <name>AboutDialog</name>
@@ -546,7 +544,7 @@
 %1
 
  Some of them may be remaining.</source>
-        <translation>Une erreur de base de données est apparue lors de l&apos;effacement des données suivantes:
+        <translation>Une erreur de base de données est apparue lors de l'effacement des données suivantes:
 
 %1
 
@@ -1622,7 +1620,7 @@ Certaines d&apos;entre elles sont peut-être toujours présentes.</translation>
 <context>
     <name>JMdictPlugin</name>
     <message>
-        <location filename="../src/core/jmdict/JMdictPlugin.cc" line="+328"/>
+        <location filename="../src/core/jmdict/JMdictPlugin.cc" line="+326"/>
         <source>An error seems to have occured while updating the JMdict database records - the program might crash during usage. Please report this bug.</source>
         <translation>Une erreur semble être survenue lors de la mise à jour des enregistrements du JMdict - il se peut que le programme plante pendant son utilisation. Merci de rapporter ce bug.</translation>
     </message>
@@ -1991,7 +1989,7 @@ Certaines d&apos;entre elles sont peut-être toujours présentes.</translation>
     <message>
         <location line="+4"/>
         <source>&lt;b&gt;Heisig:&lt;/b&gt; %1</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;b&gt;Heisig:&lt;/b&gt; %1</translation>
     </message>
     <message>
         <location line="+51"/>
@@ -2036,7 +2034,7 @@ Certaines d&apos;entre elles sont peut-être toujours présentes.</translation>
     <message>
         <location line="+9"/>
         <source>Heisig</source>
-        <translation type="unfinished"></translation>
+        <translation>Heisig</translation>
     </message>
     <message>
         <location line="+20"/>
@@ -2409,7 +2407,7 @@ Certaines d&apos;entre elles sont peut-être toujours présentes.</translation>
         <location line="-443"/>
         <location line="+450"/>
         <source>Heisig number</source>
-        <translation type="unfinished"></translation>
+        <translation>Nombre Heisig</translation>
     </message>
     <message>
         <location line="-426"/>
@@ -2779,7 +2777,7 @@ Certaines d&apos;entre elles sont peut-être toujours présentes.</translation>
         <source>You have now been using Tagaini Jisho for a short while. If you like it, please show your support by making a donation that expresses your appreciation of this software. While Tagaini is free, its development has a cost and your support will have a positive influence on its future. You can donate via Paypal or credit card.
 
 This message is a one-time reminder and will not appear anymore - you can still donate later by choosing the corresponding option in the Help menu.</source>
-        <translation>Cela fait un petit moment que vous utilisez Tagaini Jisho. S&apos;il vous est utile, vous pouvez exprimer votre appréciation pour ce logiciel sous la forme d&apos;une petite donation. Tagaini est libre et gratuit, mais son développement a un coût et votre support influencera son développement futur de façon positive. Vous pouvez donner via Paypal ou par carte de crédit.
+        <translation>Cela fait un petit moment que vous utilisez Tagaini Jisho. S'il vous est utile, vous pouvez exprimer votre appréciation pour ce logiciel sous la forme d'une petite donation. Tagaini est libre et gratuit, mais son développement a un coût et votre support influencera son développement futur de façon positive. Vous pouvez donner via Paypal ou par carte de crédit.
 
 Ce message est programmé afin de n&apos;apparaître qu&apos;une seule fois - vous pouvez toujours choisir de faire un don plus tard en choisissant l&apos;option correspondante dans le menu Aide.</translation>
     </message>
@@ -3660,7 +3658,7 @@ Ce message est programmé afin de n&apos;apparaître qu&apos;une seule fois - vo
 <context>
     <name>main.cc</name>
     <message>
-        <location filename="../src/gui/main.cc" line="+109"/>
+        <location filename="../src/gui/main.cc" line="+110"/>
         <source>User data migrated</source>
         <translation>Données utilisateur migrées</translation>
     </message>

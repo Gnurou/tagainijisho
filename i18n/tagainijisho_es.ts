@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.0" language="es" sourcelanguage="en">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="es" sourcelanguage="en" version="2.0">
 <defaultcodec>UTF-8</defaultcodec>
 <context>
     <name>AboutDialog</name>
@@ -293,12 +291,12 @@
     <message>
         <location line="+0"/>
         <source>Booklet pre&amp;view...</source>
-        <translation type="unfinished"></translation>
+        <translation>Pre&amp;visualización del cuaderno...</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Export as &amp;TSV...</source>
-        <translation type="unfinished"></translation>
+        <translation>Exportar como &amp;TSV...</translation>
     </message>
     <message>
         <location line="+67"/>
@@ -379,7 +377,7 @@
     <message>
         <location line="+16"/>
         <source>Export to HTML flashcard file...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+0"/>
@@ -459,12 +457,12 @@
     <message>
         <location filename="../src/gui/EntryFormatter.cc" line="+39"/>
         <source>Cannot find detailed view HTML file!</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+8"/>
         <source>Cannot find detailed view CSS file!</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+159"/>
@@ -474,7 +472,7 @@
     <message>
         <location line="+48"/>
         <source>Studied since %1.</source>
-        <translation type="unfinished"></translation>
+        <translation>Estudiado desde el %1.</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -484,12 +482,12 @@
     <message>
         <location line="+2"/>
         <source>Last trained on %1.</source>
-        <translation type="unfinished"></translation>
+        <translation>Practicado por última vez el %1.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Last mistaken on %1.</source>
-        <translation type="unfinished"></translation>
+        <translation>Fallado por última vez el %1.</translation>
     </message>
 </context>
 <context>
@@ -546,7 +544,11 @@
 %1
 
  Some of them may be remaining.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ha ocurrido un error de la base de datos al intentar eliminar los ítemes seleccionados:
+
+%1
+
+Algunos pueden seguir existiendo.</translation>
     </message>
 </context>
 <context>
@@ -577,7 +579,7 @@
     <message>
         <location line="+0"/>
         <source>Already &amp;known</source>
-        <translation type="unfinished"></translation>
+        <translation>Ya &amp;conocido</translation>
     </message>
     <message>
         <location line="+0"/>
@@ -607,7 +609,7 @@
     <message>
         <location line="+83"/>
         <source>Add &quot;%1&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>Añadir &quot;%1&quot;</translation>
     </message>
 </context>
 <context>
@@ -643,7 +645,7 @@
     <message>
         <location filename="../src/gui/EntryTypeFilterWidget.h" line="+43"/>
         <source>Entry type filter</source>
-        <translation>Filtro de tipo de entrada</translation>
+        <translation>Filtro de tipo de búsqueda</translation>
     </message>
 </context>
 <context>
@@ -667,17 +669,17 @@
     <message>
         <location line="-15"/>
         <source>Transitive buddy</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+0"/>
         <source>Intransitive buddy</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+0"/>
         <source>Buddy</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -705,7 +707,7 @@
     <message>
         <location line="+4"/>
         <source>Norvegian Bokmal</source>
-        <translation type="unfinished"></translation>
+        <translation>Noruego bokmål</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -720,7 +722,7 @@
     <message>
         <location line="+1"/>
         <source>Italian</source>
-        <translation type="unfinished"></translation>
+        <translation>Italiano</translation>
     </message>
     <message>
         <location line="-2"/>
@@ -730,12 +732,12 @@
     <message>
         <location line="+5"/>
         <source>Japanese</source>
-        <translation type="unfinished"></translation>
+        <translation>Japonés</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Polish</source>
-        <translation type="unfinished"></translation>
+        <translation>Polaco</translation>
     </message>
     <message>
         <location line="+24"/>
@@ -775,7 +777,7 @@
     <message>
         <location line="+8"/>
         <source>Preferred language</source>
-        <translation type="unfinished"></translation>
+        <translation>Idioma preferido</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -815,17 +817,17 @@
     <message>
         <location line="+3"/>
         <source> days</source>
-        <translation type="unfinished"></translation>
+        <translation> días</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>every </source>
-        <translation type="unfinished"></translation>
+        <translation>cada </translation>
     </message>
     <message>
         <location line="+56"/>
         <source>Defines how many recent entries are kept in memory. High values may improve performance when manipulating a large number of entries.</source>
-        <translation type="unfinished"></translation>
+        <translation>Indica cuantas entradas recientes se mantienen en memoria. Valores altos pueden mejorar el rendimiento al manejar grandes cantidades de entradas.</translation>
     </message>
     <message>
         <location line="-41"/>
@@ -891,7 +893,7 @@
     <message>
         <location line="+38"/>
         <source>Alternate readings: </source>
-        <translation type="unfinished"></translation>
+        <translation>Lecturas alternativas: </translation>
     </message>
     <message>
         <location line="+18"/>
@@ -935,7 +937,7 @@
         <location line="+13"/>
         <location line="+117"/>
         <source>Part of speech</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="-111"/>
@@ -958,22 +960,22 @@
     <message>
         <location line="-91"/>
         <source> with </source>
-        <translation type="unfinished"></translation>
+        <translation> con </translation>
     </message>
     <message>
         <location line="+9"/>
         <source> with component </source>
-        <translation type="unfinished"></translation>
+        <translation> con los componentes </translation>
     </message>
     <message>
         <location line="+9"/>
         <source> with studied kanji</source>
-        <translation type="unfinished"></translation>
+        <translation> sólo kanjis estudiados </translation>
     </message>
     <message>
         <location line="+4"/>
         <source> using kana only</source>
-        <translation type="unfinished"></translation>
+        <translation> sólo usando kanas</translation>
     </message>
     <message>
         <location line="-5"/>
@@ -994,12 +996,12 @@
     <message>
         <location line="+14"/>
         <source>Pos:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+15"/>
         <source>Dial:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+15"/>
@@ -1017,27 +1019,27 @@
     <message>
         <location filename="../src/gui/jmdict/JMdictGUIPlugin.cc" line="+61"/>
         <source>Vocabulary flashcards</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
         <source>From &amp;japanese, whole study list</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
         <source>From &amp;japanese, current set</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+4"/>
         <source>From &amp;translation, whole study list</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
         <source>From &amp;translation, current set</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+125"/>
@@ -1049,7 +1051,7 @@
         <location line="-20"/>
         <location line="+20"/>
         <source>There are no vocabulary entries in this set to train on.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -1057,52 +1059,52 @@
     <message>
         <location filename="../3rdparty/JMdictDescs.cc" line="+1"/>
         <source>martial arts term</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+46"/>
         <source>military</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="-16"/>
         <source>food term</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="-9"/>
         <source>computer terminology</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="-4"/>
         <source>Buddhist term</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+24"/>
         <source>linguistics terminology</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="-10"/>
         <source>geometry term</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="-13"/>
         <source>chemistry term</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+46"/>
         <source>physics terminology</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="-19"/>
         <source>mathematics</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+64"/>
@@ -1157,17 +1159,17 @@
     <message>
         <location line="-61"/>
         <source>manga slang</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+18"/>
         <source>polite (teineigo) language</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+37"/>
         <source>su verb - precursor to the modern suru</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+14"/>
@@ -1177,57 +1179,57 @@
     <message>
         <location line="-75"/>
         <source>idiomatic expression</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="-3"/>
         <source>honorific or respectful (sonkeigo) language</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="-4"/>
         <source>female term or language</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="-20"/>
         <source>former adjective classification (being removed)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+4"/>
         <source>ateji (phonetic) reading</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+6"/>
         <source>children&apos;s language</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+6"/>
         <source>exclusively kanji</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
         <source>exclusively kana</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+9"/>
         <source>word containing irregular kanji usage</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+2"/>
         <source>word containing irregular kana usage</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+2"/>
         <source>irregular okurigana usage</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
@@ -1237,32 +1239,32 @@
     <message>
         <location line="+4"/>
         <source>male slang</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+9"/>
         <source>word containing out-dated kanji</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+2"/>
         <source>obscure term</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
         <source>out-dated or obsolete kana usage</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
         <source>onomatopoeic or mimetic word</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+2"/>
         <source>poetical term</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+3"/>
@@ -1272,17 +1274,17 @@
     <message>
         <location line="+3"/>
         <source>rare</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
         <source>sensitive</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="-32"/>
         <source>humble (kenjougo) language</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="-32"/>
@@ -1292,57 +1294,57 @@
     <message>
         <location line="+26"/>
         <source>familiar language</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="-27"/>
         <source>rude or X-rated term (not displayed in educational software)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+11"/>
         <source>archaism</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+12"/>
         <source>derogatory</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="-4"/>
         <source>colloquialism</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+50"/>
         <source>word usually written using kana alone</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="-3"/>
         <source>slang</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="-24"/>
         <source>male term or language</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+11"/>
         <source>obsolete term</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="-43"/>
         <source>adverb taking the `to&apos; particle</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+40"/>
         <source>noun (temporal) (jisoumeishi)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+10"/>
@@ -1352,52 +1354,52 @@
     <message>
         <location line="-54"/>
         <source>`taru&apos; adjective</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+25"/>
         <source>gikun (meaning as reading)  or jukujikun (special kanji reading)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+6"/>
         <source>interjection (kandoushi)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+31"/>
         <source>word usually written using kanji alone</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+6"/>
         <source>Godan verb (not completely classified)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+14"/>
         <source>Godan verb - Uru old class verb (old form of Eru)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
         <source>Godan verb with `zu&apos; ending</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+2"/>
         <source>intransitive verb</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
         <source>Kuru verb - special class</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
         <source>irregular nu verb</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="-31"/>
@@ -1407,22 +1409,22 @@
     <message>
         <location line="+32"/>
         <source>irregular ru verb, plain form ends with -ri</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="-87"/>
         <source>noun or verb acting prenominally</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+102"/>
         <source>transitive verb</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="-61"/>
         <source>noun, used as a suffix</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="-27"/>
@@ -1432,17 +1434,17 @@
     <message>
         <location line="-19"/>
         <source>adjective (keiyoushi)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+88"/>
         <source>Ichidan verb - zuru verb (alternative form of -jiru verbs)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="-81"/>
         <source>adverb (fukushi)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+58"/>
@@ -1452,162 +1454,162 @@
     <message>
         <location line="+9"/>
         <source>Godan verb with `bu&apos; ending</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+5"/>
         <source>Godan verb with `nu&apos; ending</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="-6"/>
         <source>Godan verb - -aru special class</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+5"/>
         <source>Godan verb with `mu&apos; ending</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="-2"/>
         <source>Godan verb with `ku&apos; ending</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+7"/>
         <source>Godan verb with `tsu&apos; ending</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
         <source>Godan verb with `u&apos; ending</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="-4"/>
         <source>Godan verb with `ru&apos; ending</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+2"/>
         <source>Godan verb with `su&apos; ending</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="-71"/>
         <source>auxiliary</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
         <source>auxiliary verb</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="-11"/>
         <source>adjectival nouns or quasi-adjectives (keiyodoshi)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+76"/>
         <source>Godan verb - Iku/Yuku special class</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+8"/>
         <source>Godan verb with `u&apos; ending (special class)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="-10"/>
         <source>Godan verb with `gu&apos; ending</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="-73"/>
         <source>nouns which may take the genitive case particle `no&apos;</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+66"/>
         <source>Ichidan verb</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="-21"/>
         <source>noun, used as a prefix</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="-34"/>
         <source>auxiliary adjective</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+58"/>
         <source>Yondan verb with `ru&apos; ending (archaic)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="-22"/>
         <source>numeric</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="-29"/>
         <source>counter</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="-17"/>
         <source>pre-noun adjectival (rentaishi)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+67"/>
         <source>Yondan verb with `hu/fu&apos; ending (archaic)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="-1"/>
         <source>Nidan verb with &apos;u&apos; ending (archaic)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+26"/>
         <source>suru verb - special class</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="-51"/>
         <source>noun (common) (futsuumeishi)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+49"/>
         <source>noun or participle which takes the aux. verb suru</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="-69"/>
         <source>Expressions (phrases, clauses, etc.)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+72"/>
         <source>suru verb - irregular</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="-51"/>
         <source>adverbial noun (fukushitekimeishi)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+36"/>
         <source>Godan verb with `ru&apos; ending (irregular verb)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="-26"/>
@@ -1618,9 +1620,9 @@
 <context>
     <name>JMdictPlugin</name>
     <message>
-        <location filename="../src/core/jmdict/JMdictPlugin.cc" line="+328"/>
+        <location filename="../src/core/jmdict/JMdictPlugin.cc" line="+326"/>
         <source>An error seems to have occured while updating the JMdict database records - the program might crash during usage. Please report this bug.</source>
-        <translation type="unfinished"></translation>
+        <translation>Parece que ha ocurrido un error mientras se actualizaban los datos de la base de datos JMdict - puede que el programa falle al ser usado. Por favor, reporte este fallo.</translation>
     </message>
 </context>
 <context>
@@ -1663,12 +1665,12 @@
     <message>
         <location line="+6"/>
         <source>For transitive verbs, look for the equivalent intransitive entry and vice-versa.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+3"/>
         <source>Search for transitive/intransitive verb buddy</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+12"/>
@@ -1923,7 +1925,7 @@
     <message>
         <location line="+50"/>
         <source>Entry options menu</source>
-        <translation>Menú de opciones de entrada</translation>
+        <translation>Opciones</translation>
     </message>
     <message>
         <location line="+23"/>
@@ -1949,7 +1951,7 @@
     <message>
         <location filename="../src/core/kanjidic2/Kanjidic2Entry.cc" line="+126"/>
         <source>(var) </source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -1977,7 +1979,7 @@
     <message>
         <location line="-145"/>
         <source> (%1) </source>
-        <translation type="unfinished"></translation>
+        <translation> (%1) </translation>
     </message>
     <message>
         <location line="+129"/>
@@ -1987,7 +1989,7 @@
     <message>
         <location line="+4"/>
         <source>&lt;b&gt;Heisig:&lt;/b&gt; %1</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;b&gt;Heisig:&lt;/b&gt; %1</translation>
     </message>
     <message>
         <location line="+51"/>
@@ -2032,7 +2034,7 @@
     <message>
         <location line="+9"/>
         <source>Heisig</source>
-        <translation type="unfinished"></translation>
+        <translation>Heisig</translation>
     </message>
     <message>
         <location line="+20"/>
@@ -2246,32 +2248,32 @@
     <message>
         <location line="+33"/>
         <source>Character flashcards</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
         <source>From &amp;character, whole study list</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
         <source>From &amp;character, current set</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+4"/>
         <source>From &amp;meaning, whole study list</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
         <source>From &amp;meaning, current set</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+3"/>
         <source>&amp;Reading practice, whole study list</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+6"/>
@@ -2291,7 +2293,7 @@
     <message>
         <location line="+4"/>
         <source>Show stroke popup for currently displayed kanji</source>
-        <translation type="unfinished"></translation>
+        <translation>Muestra el popup con los trazos para el kanji que se está mostrando</translation>
     </message>
     <message>
         <location line="+94"/>
@@ -2313,7 +2315,7 @@
     <message>
         <location line="+25"/>
         <source>Tracing for %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -2405,7 +2407,7 @@
         <location line="-443"/>
         <location line="+450"/>
         <source>Heisig number</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="-426"/>
@@ -2420,7 +2422,7 @@
     <message>
         <location line="+18"/>
         <source>Compounds:</source>
-        <translation>Compuestos:</translation>
+        <translation>Componentes:</translation>
     </message>
     <message>
         <location line="+14"/>
@@ -2518,12 +2520,12 @@
     <message>
         <location line="-322"/>
         <source>Tooltip</source>
-        <translation type="unfinished"></translation>
+        <translation>Sugerencia</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Kanji tooltip enabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Habilitar sugerencia en los kanjis</translation>
     </message>
     <message>
         <location line="+16"/>
@@ -2538,7 +2540,7 @@
     <message>
         <location line="+181"/>
         <source> seconds</source>
-        <translation type="unfinished"></translation>
+        <translation> segundos</translation>
     </message>
     <message>
         <location line="+32"/>
@@ -2671,7 +2673,7 @@
     <message>
         <location line="+7"/>
         <source>S&amp;aved searches</source>
-        <translation type="unfinished"></translation>
+        <translation>Búsqued&amp;as guardadas</translation>
     </message>
     <message>
         <location line="+30"/>
@@ -2743,22 +2745,22 @@
     <message>
         <location line="+72"/>
         <source>&amp;Save current search...</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Guardar la búsqueda actual...</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>&amp;New folder...</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Nueva carpeta...</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>&amp;Organize saved searches...</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Organizar las búsquedas guardadas</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Whole study list train &amp;settings...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/gui/MainWindow.cc" line="-51"/>
@@ -2768,14 +2770,16 @@
     <message>
         <location line="+23"/>
         <source>Please consider supporting Tagaini Jisho</source>
-        <translation>Por favor, considera ayudar a Tagaini Jisho</translation>
+        <translation>Por favor, considere ayudar a Tagaini Jisho</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>You have now been using Tagaini Jisho for a short while. If you like it, please show your support by making a donation that expresses your appreciation of this software. While Tagaini is free, its development has a cost and your support will have a positive influence on its future. You can donate via Paypal or credit card.
 
 This message is a one-time reminder and will not appear anymore - you can still donate later by choosing the corresponding option in the Help menu.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ha estado usando Tagaini Jisho durante un tiempo. Si le ha gustado, por favor, demuestre su apoyo realizando una donación que exprese su aprecio por este programa. Tagaini es gratuito pero su desarrollo tiene un coste y su ayuda tendrá una influencia positiva en su futuro. Puede donar usando Paypal o tarjeta de crédito.
+
+Este mensaje es un recordatorio que no volverá a aparecer, pero puede donar mas tarde haciendo clic en la opción del menú Ayuda.</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -2790,57 +2794,57 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location line="+25"/>
         <source>About to replace user data!</source>
-        <translation>A punto de reemplazar los datos del usuario!</translation>
+        <translation>¡A punto de reemplazar los datos del usuario!</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>&lt;b&gt;WARNING:&lt;/b&gt; All the user data (study list, tags, notes, training, ...) is going to be replaced by the selected user data file. Are you &lt;b&gt;sure&lt;/b&gt; you want to do this?</source>
-        <translation>&lt;b&gt;ALERTA:&lt;/b&gt; Todos los datos de usuario (listas de estudio, etiquetas, notas, entrenamiento, ...) van a ser reemplazados por el archivo de datos de usuario seleccionado. ¿Está &lt;b&gt;seguro&lt;/b&gt; de querer hacer esto?</translation>
+        <translation>&lt;b&gt;ALERTA:&lt;/b&gt; Todos los datos de usuario (listas de estudio, etiquetas, notas, entrenamiento, ...) serán reemplazados por el archivo de datos de usuario seleccionado. ¿Está &lt;b&gt;seguro&lt;/b&gt; de querer hacer esto?</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Please restart Tagaini Jisho</source>
-        <translation>Por favor, reinicia Tagaini Jisho</translation>
+        <translation>Por favor, reinicie Tagaini Jisho</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>The imported data will be available the next time you start Tagaini Jisho. All changes performed from now will be lost. Do you want to exit Tagaini Jisho now?</source>
-        <translation>Los datos importados estarán disponibles la próxima vez que inicie Tagaini jisho. Todos los cambios realizados a partir de ahora se perderán. ¿Quiere salir Tagaini jisho ahora?</translation>
+        <translation>Los datos importados estarán disponibles la próxima vez que inicie Tagaini Jisho. Todos los cambios realizados a partir de ahora se perderán. ¿Quiere salir Tagaini Jisho ahora?</translation>
     </message>
     <message>
         <location line="+114"/>
         <source>A development update is available!</source>
-        <translation type="unfinished"></translation>
+        <translation>¡Está disponible una actualización de desarrollo!</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Development version %1 of Tagaini Jisho is available. Do you want to download it now?</source>
-        <translation type="unfinished"></translation>
+        <translation>La versión en desarrollo %1 de Tagaini Jisho está disponible. ¿Quiere descargarla ahora?</translation>
     </message>
     <message>
         <location line="+54"/>
         <source>Save current search here...</source>
-        <translation type="unfinished"></translation>
+        <translation>Guardar la búsqueda actual aquí...</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Save current search</source>
-        <translation type="unfinished"></translation>
+        <translation>Guardar la búsqueda actual</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Please enter a name for this search:</source>
-        <translation type="unfinished"></translation>
+        <translation>Por favor, introduzca un nombre para esta búsqueda:</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Unnamed</source>
-        <translation type="unfinished"></translation>
+        <translation>Sin nombre</translation>
     </message>
     <message>
         <location line="+22"/>
         <source>New folder</source>
-        <translation type="unfinished"></translation>
+        <translation>Nueva carpeta</translation>
     </message>
     <message>
         <location line="-34"/>
@@ -2850,12 +2854,12 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location line="+34"/>
         <source>Please enter a name for this folder</source>
-        <translation>Por favor ingrese un nombre para esta carpeta</translation>
+        <translation>Por favor, introduzca un nombre para esta carpeta</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Unnamed folder</source>
-        <translation type="unfinished"></translation>
+        <translation>Carpeta sin nombre</translation>
     </message>
     <message>
         <location line="-106"/>
@@ -2865,7 +2869,7 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location line="+1"/>
         <source>Version %1 of Tagaini Jisho is available. Do you want to download it now?</source>
-        <translation>La versión %1 de Tagaini Jisho está disponible. ¿Quieres descargarla ahora?</translation>
+        <translation>La versión %1 de Tagaini Jisho está disponible. ¿Quiere descargarla ahora?</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -2910,7 +2914,7 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location line="+11"/>
         <source>Reset this filter</source>
-        <translation type="unfinished"></translation>
+        <translation>Eliminar este filtro</translation>
     </message>
 </context>
 <context>
@@ -2976,7 +2980,7 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location filename="../src/gui/ReadingTrainer.cc" line="+5"/>
         <source>Show &amp;meaning</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Mostrar significado</translation>
     </message>
     <message>
         <location line="+18"/>
@@ -2986,22 +2990,22 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location line="+1"/>
         <source>Preparing training session, please wait...</source>
-        <translation>Preparando sesión de entrenamiento, por favor espere...</translation>
+        <translation>Preparando sesión de entrenamiento, espere por favor...</translation>
     </message>
     <message>
         <location line="+57"/>
         <source>No matching entries found</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+0"/>
         <source>Unable to find any entry eligible for reading practice. Entries eligible for this training mode are studied vocabulary entries for which all kanji are also studied, and match the train settings. Please add entries or modify the train settings accordingly if you want to practice this mode.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
         <source>There are no more entries to train for the current train settings.</source>
-        <translation>No hay más entradas a entrenar para la configuración actual.</translation>
+        <translation>No hay más entradas para entrenar para la configuración de entrenamiento actual.</translation>
     </message>
     <message>
         <location line="+0"/>
@@ -3026,17 +3030,17 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location filename="../src/gui/ReadingTrainer.ui" line="+9"/>
         <source>Type the correct reading for this word:</source>
-        <translation type="unfinished"></translation>
+        <translation>Escriba la lectura correcta de esta palabra:</translation>
     </message>
     <message>
         <location line="+30"/>
         <source>&amp;Next</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Siguiente</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>&amp;Ok!</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Comprobar</translation>
     </message>
 </context>
 <context>
@@ -3227,12 +3231,12 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location filename="../src/gui/SavedSearchesOrganizer.ui" line="+14"/>
         <source>Organize saved searches</source>
-        <translation type="unfinished"></translation>
+        <translation>Organizar las búsquedas guardadas</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>You can organize your saved searches here. Double-click to change the search&apos;s label, drag and drop to move or right-click for other options, including deletion.</source>
-        <translation type="unfinished"></translation>
+        <translation>Puede organizar las búsquedas guardadas aquí. Doble clic para cambiar la etiqueta de la búsqueda, arrastrar y soltar para mover , o clic derecho para otras opciones, incluido eliminar.</translation>
     </message>
 </context>
 <context>
@@ -3250,7 +3254,7 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location line="+0"/>
         <source>Are you sure you want to delete the selected search/folder?</source>
-        <translation type="unfinished"></translation>
+        <translation>¿Está seguro de querer eliminar la búsqueda/carpeta seleccionada?</translation>
     </message>
 </context>
 <context>
@@ -3268,7 +3272,7 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location line="+9"/>
         <source>&amp;Reset search...</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Limpiar búsqueda...</translation>
     </message>
 </context>
 <context>
@@ -3356,19 +3360,19 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location line="+114"/>
         <source> since %1</source>
-        <translation type="unfinished"></translation>
+        <translation> desde el %1</translation>
     </message>
     <message>
         <location line="+4"/>
         <location line="+13"/>
         <location line="+10"/>
         <source> until %1</source>
-        <translation type="unfinished"></translation>
+        <translation> hasta el %1</translation>
     </message>
     <message>
         <location line="-20"/>
         <source>, score:[%1-%2]</source>
-        <translation type="unfinished"></translation>
+        <translation>, puntuación: [%1-%2]</translation>
     </message>
     <message>
         <location line="-98"/>
@@ -3445,7 +3449,7 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location line="-34"/>
         <source>Enter a space-separated list of tags for </source>
-        <translation type="unfinished"></translation>
+        <translation>Introduzca una lista de etiquetas separadas por espacios para </translation>
     </message>
     <message>
         <location line="+5"/>
@@ -3463,7 +3467,7 @@ This message is a one-time reminder and will not appear anymore - you can still 
         <location line="-34"/>
         <location line="+34"/>
         <source>&lt;p&gt;These tags have invalid characters: </source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;p&gt;Estas etiquetas contienen caracteres inválidos: </translation>
     </message>
     <message>
         <location line="-29"/>
@@ -3495,7 +3499,7 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location line="+1"/>
         <source>Enter a space-separated list of tags to add to </source>
-        <translation type="unfinished"></translation>
+        <translation>Introduzca una lista de etiquetas separadas por espacios para añadir a </translation>
     </message>
     <message>
         <location line="+10"/>
@@ -3565,7 +3569,7 @@ This message is a one-time reminder and will not appear anymore - you can still 
         <location line="+10"/>
         <location line="+7"/>
         <source>PushButton</source>
-        <translation type="unfinished"></translation>
+        <translation>PushButton</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -3585,17 +3589,17 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location line="+20"/>
         <source>Sort biais</source>
-        <translation type="unfinished"></translation>
+        <translation>Ordenar</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Bias:</source>
-        <translation type="unfinished"></translation>
+        <translation>Ordenar:</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>No bias</source>
-        <translation type="unfinished"></translation>
+        <translation>Sin ordenar</translation>
     </message>
     <message>
         <location line="+5"/>
@@ -3654,14 +3658,14 @@ This message is a one-time reminder and will not appear anymore - you can still 
 <context>
     <name>main.cc</name>
     <message>
-        <location filename="../src/gui/main.cc" line="+109"/>
+        <location filename="../src/gui/main.cc" line="+110"/>
         <source>User data migrated</source>
         <translation>Datos de usuario migrados</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Your user data and settings have successfully been migrated. Tagaini Jisho needs to be restarted and will now exit.</source>
-        <translation>Tus datos de usuario y preferencias se han migrado correctamente. Tagaini Jisho necesita reiniciarse y se cerrará ahora.</translation>
+        <translation>Los datos de usuario y preferencias se han migrado correctamente. Tagaini Jisho necesita reiniciarse y se cerrará ahora.</translation>
     </message>
 </context>
 </TS>
