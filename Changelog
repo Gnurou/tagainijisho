@@ -4,6 +4,8 @@
 * System SQLite is now used by default if available
 * Entries of the results view now loaded on-demand, resulting in much
   faster searches
+* Dictionary strings now stored in different databases, removing duplicate
+  data
 * Results view not paged anymore
 * Lists system totally rewritten, now much faster and safer to use
 * Removed search button in text search widget and trigger search
@@ -13,8 +15,7 @@
 * Added Spanish GUI translation (thanks Daniel Halens!)
 * Added Italian GUI translation (thanks Luca Manlio De Lisi!)
 * Added Norvegian GUI translation (thanks Tokiko Lorelei!)
-* Dictionary strings now stored in different databases, removing duplicate
-  data
+* Added Japanese GUI translation (thanks Chikahiro Masami!)
 * Tooltips now use same formatting as detailed view for kanji and kana
 * Tooltip now displayed when hovering over kanji selector results
 
