@@ -59,7 +59,7 @@ if(UNIX)
 
 		# Extra Qt translations
 		foreach(LANG ${UI_LANG})
-			set(QTQMFILE "/Developer/Applications/Qt/translations/qt_${LANG}.qm")
+			set(QMFILE "/Developer/Applications/Qt/translations/qt_${LANG}.qm")
 			if(EXISTS ${QMFILE})
 				install(FILES ${QMFILE} DESTINATION "${ROOT_DIR}/Translations" COMPONENT Runtime)
 			endif(EXISTS ${QMFILE})
