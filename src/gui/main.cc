@@ -180,7 +180,7 @@ int main(int argc, char *argv[])
 
 	QCoreApplication::setOrganizationDomain(__ORGANIZATION_NAME);
 	QCoreApplication::setApplicationName(__APPLICATION_NAME);
-	QCoreApplication::setApplicationVersion(QUOTEMACRO(VERSION));
+	QCoreApplication::setApplicationVersion(VERSION);
 
 	// Install the error message handler now that we have a GUI
 	qInstallMsgHandler(messageHandler);

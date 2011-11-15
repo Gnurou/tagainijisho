@@ -287,7 +287,7 @@ void MainWindow::about()
 	QDialog aboutDialog;
 	aboutDialogUI.setupUi(&aboutDialog);
 	aboutDialog.setWindowIcon(windowIcon());
-	aboutDialogUI.title->setText(aboutDialogUI.title->text() + " " + QUOTEMACRO(VERSION));
+	aboutDialogUI.title->setText(aboutDialogUI.title->text() + " " + VERSION);
 	aboutDialogUI.logo->setPixmap(aboutDialogUI.logo->pixmap()->scaledToWidth(75, Qt::SmoothTransformation));
 	aboutDialogUI.credits->setHtml(message + credits);
 	aboutDialogUI.credits->viewport()->setAutoFillBackground(false);
