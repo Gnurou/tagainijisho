@@ -76,6 +76,7 @@ private:
 	SQLite::Query insertDeletedEntryQuery;
 	QMap<QString, SQLite::Query> insertGlossTextQueries;
 	QMap<QString, SQLite::Query> insertGlossQueries;
+	QMap<QString, SQLite::Query> insertGlossesQueries;
 	
 	bool openDatabase(QString databaseName, QString handle);
 	bool closeDatabase(QString handle);
@@ -134,6 +135,9 @@ bool JMdictDBParser::onItemParsed(const JMdictItem &entry)
 	
 	// Insert senses and glosses
 	idx = 0;
+	QMap<QString, QStringList> allGlosses;
+	foreach (const QString &lang, languages)
+		allGlosses[lang] = QStringList();
 	foreach (const JMdictSenseItem &sense, entry.senses) {
 		BIND(insertSenseQuery, entry.id);
 		BIND(insertSenseQuery, idx);
@@ -151,16 +155,28 @@ bool JMdictDBParser::onItemParsed(const JMdictItem &entry)
 		
 		// Insert the gloss for all languages
 		foreach (const QString &lang, languages) {
-			if (!sense.gloss.contains(lang)) continue;
+			if (!sense.gloss.contains(lang)) {
+				allGlosses[lang] << QString();
+				continue;
+			}
+			allGlosses[lang] << sense.gloss[lang].join("\n");
 			BIND(insertGlossTextQueries[lang], sense.gloss[lang].join(", "));
 			EXEC(insertGlossTextQueries[lang]);
 			qint64 rowId = insertGlossTextQueries[lang].lastInsertId();
 			BIND(insertGlossQueries[lang], entry.id);
-			BIND(insertGlossQueries[lang], idx);
 			BIND(insertGlossQueries[lang], rowId);
 			EXEC(insertGlossQueries[lang]);
 		}
 		++idx;
+	}
+	// Insert the glosses for every language
+	// TODO do not insert for non-present glosses
+	foreach (const QString &lang, languages) {
+		QString all(allGlosses[lang].join("\n\n"));
+		if (all.split("\n", QString::SkipEmptyParts).empty()) continue;
+		BIND(insertGlossesQueries[lang], entry.id);
+		BIND(insertGlossesQueries[lang], qCompress(all.toUtf8(), 9));
+		EXEC(insertGlossesQueries[lang])
 	}
 	
 	// Insert entry
@@ -229,8 +245,9 @@ bool JMdictDBParser::openDatabase(QString databaseName, QString handle)
 bool JMdictDBParser::closeDatabase(QString handle)
 {	
 	SQLite::Connection &connection = connections[handle];
-	connection.exec("analyze");
+	ASSERT(connection.exec("ANALYZE"));
 	ASSERT(connection.commit());
+	ASSERT(connection.exec("VACUUM"));
 	QFile(connection.dbFileName()).setPermissions(QFile::ReadOwner | QFile::ReadUser | QFile::ReadGroup | QFile::ReadOther);
 	ASSERT(connection.close());
 	return true;
@@ -314,7 +331,8 @@ bool JMdictDBParser::prepareLanguagesQueries()
 	foreach (const QString &lang, languages) {
 #define PREPQUERY(query, text) query.useWith(&connections[lang]); ASSERT(query.prepare(text))
 		PREPQUERY(insertGlossTextQueries[lang], "insert into glossText values(?)");
-		PREPQUERY(insertGlossQueries[lang], "insert into gloss values(?, ?, ?)");
+		PREPQUERY(insertGlossQueries[lang], "insert into gloss values(?, ?)");
+		PREPQUERY(insertGlossesQueries[lang], "insert into glosses values(?, ?)");
 #undef PREPQUERY
 	}
 	return true;
@@ -325,6 +343,7 @@ bool JMdictDBParser::clearLanguagesQueries()
 	foreach (const QString &lang, languages) {
 		insertGlossTextQueries[lang].clear();
 		insertGlossQueries[lang].clear();
+		insertGlossesQueries[lang].clear();
 	}
 	return true;
 }
@@ -345,8 +364,9 @@ bool JMdictDBParser::createLanguagesTables()
 	foreach (const QString &lang, languages) {
 		SQLite::Query query(&connections[lang]);
 		EXEC_STMT(query, "create table info(version INT, JMdictVersion TEXT)");
-		EXEC_STMT(query, "create table gloss(id INTEGER SECONDARY KEY REFERENCES entries, sensePriority INT, docid INTEGER PRIMARY KEY)");
+		EXEC_STMT(query, "create table gloss(id INTEGER SECONDARY KEY, docid INTEGER PRIMARY KEY)");
 		EXEC_STMT(query, "create virtual table glossText using fts4(reading)");
+		EXEC_STMT(query, "create table glosses(id INTEGER PRIMARY KEY, glosses BLOB)");
 	}	
 	return true;
 }
@@ -355,7 +375,7 @@ bool JMdictDBParser::createLanguagesIndexes()
 {
 	foreach (const QString &lang, languages) {
 		SQLite::Query query(&connections[lang]);
-		EXEC_STMT(query, "create index idx_gloss on gloss(id)");
+		EXEC_STMT(query, "DELETE FROM glossText_content");
 	}
 	return true;
 }

@@ -43,7 +43,7 @@ Kanjidic2EntryLoader::Kanjidic2EntryLoader() : EntryLoader(), kanjiQuery(&connec
 	foreach (const QString &lang, allDBs.keys()) {
 		if (lang.isEmpty()) continue;
 		SQLite::Query &query = meaningsQueries[lang];
-		QString sqlString(QString("select reading from kanjidic2_%1.meaning join kanjidic2_%1.meaningText on kanjidic2_%1.meaning.docid = kanjidic2_%1.meaningText.docid where entry = ?").arg(lang));
+		QString sqlString(QString("select meanings from kanjidic2_%1.meaning where entry = ?").arg(lang));
 		query.useWith(&connection);
 		query.prepare(sqlString);
 	}
@@ -59,7 +59,7 @@ QList<Kanjidic2Entry::KanjiMeaning> Kanjidic2EntryLoader::getMeanings(int id)
 		meaningsQuery.bindValue(id);
 		meaningsQuery.exec();
 		while(meaningsQuery.next()) {
-			ret << Kanjidic2Entry::KanjiMeaning(lang, meaningsQuery.valueString(0));
+			ret << Kanjidic2Entry::KanjiMeaning(lang, QString::fromUtf8(qUncompress(meaningsQuery.valueBlob(0))));
 		}
 		meaningsQuery.reset();
 	}

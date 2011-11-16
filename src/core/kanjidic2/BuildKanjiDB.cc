@@ -107,6 +107,7 @@ bool Kanjidic2DBParser::onItemParsed(Kanjidic2Item &kanji)
 				EXEC(mtQuery);
 				BIND(mQuery, mtQuery.lastInsertId());
 				BIND(mQuery, kanji.id);
+				BIND(mQuery, qCompress(meaning.toUtf8(), 9));
 				EXEC(mQuery);
 			}
 		}
@@ -280,6 +281,7 @@ public:
 	bool createRootComponentsTable();
 	bool createTables();
 	bool createIndexes();
+	bool finalize();
 	bool openDatabase(QString databaseName, QString handle);
 	bool closeDatabase(QString handle);
 	bool parse();
@@ -317,7 +319,7 @@ bool KanjiDB::prepareQueries()
 
 	foreach (const QString &lang, languages) {
 #define PREPQUERY(query, text) query.useWith(&connections[lang]); query.prepare(text)
-		PREPQUERY(insertMeaningQueries[lang], "insert into meaning values(?, ?)");
+		PREPQUERY(insertMeaningQueries[lang], "insert into meaning values(?, ?, ?)");
 		PREPQUERY(insertMeaningTextQueries[lang], "insert into meaningText values(?)");
 #undef PREPQUERY
 	}
@@ -375,6 +377,7 @@ bool KanjiDB::closeDatabase(QString handle)
 	SQLite::Connection &connection = connections[handle];
 	connection.exec("analyze");
 	ASSERT(connection.commit());
+	ASSERT(connection.exec("VACUUM"));
 	QFile(connection.dbFileName()).setPermissions(QFile::ReadOwner | QFile::ReadUser | QFile::ReadGroup | QFile::ReadOther);
 	ASSERT(connection.close());
 	return true;
@@ -439,7 +442,7 @@ bool KanjiDB::createTables()
 	foreach (const QString &lang, languages) {
 		query.useWith(&connections[lang]);
 		EXEC_STMT(query, "create table info(version INT, kanjidic2Version TEXT, kanjiVGVersion TEXT)");
-		EXEC_STMT(query, "create table meaning(docid INTEGER PRIMARY KEY, entry INTEGER SECONDARY KEY REFERENCES entries)");
+		EXEC_STMT(query, "create table meaning(docid INTEGER PRIMARY KEY, entry INTEGER SECONDARY KEY REFERENCES entries, meanings BLOB)");
 		EXEC_STMT(query, "create virtual table meaningText using fts4(reading)");
 	}
 
@@ -465,6 +468,17 @@ bool KanjiDB::createIndexes()
 	foreach (const QString &lang, languages) {
 		query.useWith(&connections[lang]);
 		EXEC_STMT(query, "create index idx_meaning_entry on meaning(entry)");
+	}
+
+	return true;
+}
+
+bool KanjiDB::finalize()
+{
+	SQLite::Query query;
+	foreach (const QString &lang, languages) {
+		query.useWith(&connections[lang]);
+		EXEC_STMT(query, "DELETE FROM meaningText_content");
 	}
 
 	return true;
@@ -544,6 +558,7 @@ bool buildDB(const QStringList &languages, const QString &srcDir, const QString 
 	ASSERT(kanjiDB.parse());
 	ASSERT(kanjiDB.createIndexes());
 	ASSERT(kanjiDB.clearQueries());
+	ASSERT(kanjiDB.finalize());
 	ASSERT(kanjiDB.closeDatabase("main"));
 	foreach (const QString &lang, languages) {
 		ASSERT(kanjiDB.closeDatabase(lang));

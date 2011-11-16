@@ -32,13 +32,13 @@ JMdictEntryLoader::JMdictEntryLoader() : EntryLoader(), kanjiQuery(&connection),
 	// Prepare queries so that we just have to bind and execute them
 	kanjiQuery.prepare("select reading, frequency from jmdict.kanji join jmdict.kanjiText on kanji.docid == kanjiText.docid where id=? order by priority");
 	kanaQuery.prepare("select reading, nokanji, frequency, restrictedTo from jmdict.kana join jmdict.kanaText on kana.docid == kanaText.docid where id=? order by priority");
-	sensesQuery.prepare("select priority, pos, misc, dial, field, restrictedToKanji, restrictedToKana from jmdict.senses where id=? order by priority asc");
+	sensesQuery.prepare("select pos, misc, dial, field, restrictedToKanji, restrictedToKana from jmdict.senses where id=? order by priority asc");
 	jlptQuery.prepare("select jlpt.level from jmdict.jlpt where jlpt.id=?");
 	
 	foreach (const QString &lang, allDBs.keys()) {
 		if (lang.isEmpty()) continue;
 		SQLite::Query &query = glossQueries[lang];
-		QString sqlString(QString("select glossText.reading from jmdict_%1.gloss join jmdict_%1.glossText on gloss.docid == glossText.docid where gloss.id=? and gloss.sensePriority=?").arg(lang));
+		QString sqlString(QString("select glosses from jmdict_%1.glosses where id=?").arg(lang));
 		query.useWith(&connection);
 		query.prepare(sqlString);
 	}
@@ -88,26 +88,28 @@ Entry *JMdictEntryLoader::loadEntry(EntryId id)
 	sensesQuery.exec();
 	const QMap<QString, QString> allDBs = JMdictPlugin::instance()->attachedDBs();
 	while(sensesQuery.next()) {
-		Sense sense(sensesQuery.valueUInt64(1), sensesQuery.valueUInt64(2), sensesQuery.valueUInt64(3), sensesQuery.valueUInt64(4));
+		Sense sense(sensesQuery.valueUInt64(0), sensesQuery.valueUInt64(1), sensesQuery.valueUInt64(2), sensesQuery.valueUInt64(3));
 		// Get restricted readings/writing
-		QStringList restrictedTo(sensesQuery.valueString(5).split(',', QString::SkipEmptyParts));
+		QStringList restrictedTo(sensesQuery.valueString(4).split(',', QString::SkipEmptyParts));
 		foreach (const QString &idx, restrictedTo) sense.addStagK(idx.toInt());
-		restrictedTo = sensesQuery.valueString(6).split(',', QString::SkipEmptyParts);
+		restrictedTo = sensesQuery.valueString(5).split(',', QString::SkipEmptyParts);
 		foreach (const QString &idx, restrictedTo) sense.addStagR(idx.toInt());
 
-		foreach (const QString &lang, Lang::preferredLanguages()) {
-			if (!allDBs.contains(lang)) continue;
-			SQLite::Query &glossQuery = glossQueries[lang];
-			glossQuery.bindValue(entry->id());
-			glossQuery.bindValue(sensesQuery.valueInt(0));
-			glossQuery.exec();
-			while(glossQuery.next())
-				sense.addGloss(Gloss(lang, glossQuery.valueString(0)));
-			glossQuery.reset();
-		}
 		entry->senses << sense;
 	}
 	sensesQuery.reset();
+	foreach (const QString &lang, Lang::preferredLanguages()) {
+		if (!allDBs.contains(lang)) continue;
+		SQLite::Query &glossQuery = glossQueries[lang];
+		glossQuery.bindValue(entry->id());
+		glossQuery.exec();
+		if (glossQuery.next()) {
+			QStringList glosses(QString::fromUtf8(qUncompress(glossQuery.valueBlob(0))).split("\n\n"));
+			for (int i = 0; i < glosses.size(); i++)
+				entry->senses[i].addGloss(Gloss(lang, glosses[i]));
+		}
+		glossQuery.reset();
+	}
 
 	// JLPT level
 	jlptQuery.bindValue(entry->id());

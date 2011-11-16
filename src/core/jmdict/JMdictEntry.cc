@@ -57,7 +57,7 @@ QString Sense::senseText() const
 	const QList<Gloss> &glosses = getGlosses();
 	QStringList strList;
 	foreach(const Gloss &gloss, glosses) {
-		strList << gloss.gloss();
+		strList << QString(gloss.gloss()).replace("\n", ", ");
 	}
 	QString res(strList.join(" - ") + ".");
 	return res;
