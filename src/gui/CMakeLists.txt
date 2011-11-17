@@ -43,7 +43,6 @@ TrainSettings.cc
 YesNoTrainer.cc
 ReadingTrainer.cc
 PreferencesWindow.cc
-ManualBrowser.cc
 MainWindow.cc
 )
 
@@ -85,7 +84,6 @@ ToolBarDetailedView.h
 TrainSettings.h
 UpdateChecker.h
 YesNoTrainer.h
-ManualBrowser.h
 )
 
 set(tagainijisho_gui_UIS
@@ -103,7 +101,6 @@ ResultsViewPreferences.ui
 ListsViewPreferences.ui
 GeneralPreferences.ui
 DataPreferences.ui
-ManualBrowser.ui
 MainWindow.ui
 )
 
