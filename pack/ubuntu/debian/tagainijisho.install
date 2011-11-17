@@ -1,4 +1,2 @@
-debian/tagainijisho.desktop usr/share/applications
-images/tagainijisho.png usr/share/pixmaps
 jmdict.db usr/share/tagainijisho
 kanjidic2.db usr/share/tagainijisho
