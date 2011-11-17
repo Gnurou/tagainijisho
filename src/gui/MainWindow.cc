@@ -67,7 +67,6 @@ PreferenceItem<int> MainWindow::updateCheckInterval("mainWindow", "updateCheckIn
 
 PreferenceItem<QByteArray> MainWindow::windowGeometry("mainWindow", "geometry", "");
 PreferenceItem<QByteArray> MainWindow::windowState("mainWindow", "state", "");
-PreferenceItem<QByteArray> MainWindow::splitterState("mainWindow", "splitterGeometry", "");
 
 PreferenceItem<QDateTime> MainWindow::lastUpdateCheck("mainWindow", "lastUpdateCheck", QDateTime(QDate(2000, 1, 1)));
 PreferenceItem<bool> MainWindow::donationReminderDisplayed("mainWindow", "donationReminderDisplayed", false, true);

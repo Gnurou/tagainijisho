@@ -66,7 +66,6 @@ private:
 	QList<QMenu *> _rootMenus;
 	
 	QTimer _updateTimer;
-	static PreferenceItem<QByteArray> splitterState;
 	
 	bool _clipboardEnabled;
 	
