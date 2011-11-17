@@ -117,10 +117,14 @@ bool JMdictPlugin::checkForMovedEntries()
 	if (query.next()) lastVersion = query.valueInt(0);
 	// Our version is more recent - make sure that there is no orphan entries!
 	if (curVersion > lastVersion) {
+		QList<int> rowIds;
 		// Check the study table
 		CHECK(query.exec(QString("select training.id, score, dateAdded, dateLastTrain, nbTrained, nbSuccess, dateLastMistake from training left join jmdict.entries on training.type = %1 and training.id = entries.id where training.type = %1 and entries.id is null").arg(JMDICTENTRY_GLOBALID)));
-		while (query.next()) {
-			int entryId = query.valueInt(0);
+		while (query.next())
+			rowIds << query.valueInt(0);
+		query.clear();
+		foreach (int entryId, rowIds) {
+			//int entryId = query.valueInt(0);
 			SQLite::Query query2(Database::connection());
 			/*query2.prepare("select movedTo from jmdict.deletedEntries where id = ?");
 			query2.bindValue(entryId);
@@ -173,12 +177,16 @@ bool JMdictPlugin::checkForMovedEntries()
 				}
 			}*/
 		}
+		rowIds.clear();
 		// Check the tags table - move existing tags to merged entry
 		CHECK(query.exec(QString("select taggedEntries.id, tagId, taggedEntries.rowid from taggedEntries left join jmdict.entries on taggedEntries.type = %1 and taggedEntries.id = entries.id where taggedEntries.type = %1 and entries.id is null").arg(JMDICTENTRY_GLOBALID)));
-		while (query.next()) {
+		while (query.next())
+			rowIds << query.valueInt(2);
+		query.clear();
+		foreach (int rowId, rowIds) {
 			//int entryId = query.valueInt(0);
 			//int tagId = query.valueInt(1);
-			int rowId = query.valueInt(2);
+			//int rowId = query.valueInt(2);
 			SQLite::Query query2(Database::connection());
 			/*query2.prepare("select movedTo from jmdict.deletedEntries where id = ?");
 			query2.bindValue(entryId);
@@ -211,11 +219,15 @@ bool JMdictPlugin::checkForMovedEntries()
 				}
 			}*/
 		}
+		rowIds.clear();
 		// Check the notes table
 		CHECK(query.exec(QString("select notes.id, noteId from notes left join jmdict.entries on notes.type = %1 and notes.id = entries.id where notes.type = %1 and entries.id is null").arg(JMDICTENTRY_GLOBALID)));
-		while (query.next()) {
+		while (query.next())
+			rowIds << query.valueInt(1);
+		query.clear();
+		foreach (int noteId, rowIds) {
 			//int entryId = query.valueInt(0);
-			int noteId = query.valueInt(1);
+			//int noteId = query.valueInt(1);
 			SQLite::Query query2(Database::connection());
 			/*query2.prepare("select movedTo from jmdict.deletedEntries where id = ?");
 			query2.bindValue(entryId);
@@ -235,10 +247,13 @@ bool JMdictPlugin::checkForMovedEntries()
 				CHECK(query2.exec());
 			}*/
 		}
+		rowIds.clear();
 		// Check the lists table
 		CHECK(query.exec(QString("select lists.rowid, lists.id from lists left join jmdict.entries on lists.type = %1 and lists.id = entries.id where lists.type = %1 and entries.id is null").arg(JMDICTENTRY_GLOBALID)));
-		while (query.next()) {
-			int rowId = query.valueInt(0);
+		while (query.next())
+			rowIds << query.valueInt(0);
+		query.clear();
+		foreach (int rowId, rowIds) {
 			/*int entryId = query.valueInt(1);
 			SQLite::Query query2(Database::connection());
 			query2.prepare("select movedTo from jmdict.deletedEntries where id = ?");
@@ -259,6 +274,7 @@ bool JMdictPlugin::checkForMovedEntries()
 				CHECK(query2.exec());
 			}*/
 		}
+		rowIds.clear();
 		// Finally set our new version number
 		CHECK(query.exec(QString("insert or replace into versions values(\"JMdictDB\", %1)").arg(curVersion)));
 	}
@@ -323,6 +339,7 @@ bool JMdictPlugin::onRegister()
 	// Get the dictionary version
 	query.exec("select JMdictVersion from jmdict.info");
 	if (query.next()) _dictVersion = query.valueString(0);
+	query.clear();
 	
 	if (!checkForMovedEntries()) {
 		qCritical("%s", QCoreApplication::translate("JMdictPlugin", "An error seems to have occured while updating the JMdict database records - the program might crash during usage. Please report this bug.").toUtf8().constData());
