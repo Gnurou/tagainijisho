@@ -176,6 +176,8 @@ void MainWindow::setupListWidget()
 	DockTitleBar *dBar = new DockTitleBar(toolsBar, _listDockWidget);
 	dBar->setAttribute(Qt::WA_MacMiniSize);
 	_listDockWidget->setTitleBarWidget(dBar);
+	// Not visible on first start
+	_listDockWidget->setVisible(false);
 	
 	connect(_entryListWidget->entryListView(), SIGNAL(entrySelected(EntryPointer)), detailedView(), SLOT(display(EntryPointer)));
 	
