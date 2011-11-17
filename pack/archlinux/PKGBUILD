@@ -14,12 +14,7 @@ md5sums=('56a79e46f5ffc37415fa5f5b33ff99b6')
 
 build() {
   cd "$srcdir/$pkgname-$pkgver"
-
-# Change the value of DICT_LANG on the next line to en, fr, es, de, or ru to generate
-# the databases in one of these languages
-
   CFLAGS=`echo $CFLAGS | sed 's/-ffast-math//'` cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr . || return 1
-  
   make || return 1
 }
 
