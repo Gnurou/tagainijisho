@@ -25,7 +25,8 @@
 class JLPTFilterWidget : public SearchFilterWidget {
 	Q_OBJECT
 private:
-	QCheckBox *JLPT4CheckBox, *JLPT3CheckBox, *JLPT2CheckBox, *JLPT1CheckBox;
+	QCheckBox *JLPTN5CheckBox, *JLPTN4CheckBox,
+		*JLPTN3CheckBox, *JLPTN2CheckBox, *JLPTN1CheckBox;
 
 protected:
 	virtual void _reset();

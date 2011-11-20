@@ -142,9 +142,9 @@ project](http://www.csse.monash.edu.au/~jwb/kanjidic.html).
 Kanji components, and stroke animations come from the [KanjiVG
 project](http://kanjivg.tagaini.net).
 
-JLPT levels for words come from the [JLPT study
-page](http://www.jlptstudy.com/) for level 4, 3, and 2. Level 1 vocabulary was
-extracted from lists provided by [Thierry
+JLPT levels for words come from the [JLPT Study
+Page](http://www.jlptstudy.com/), the [JLPT Resource
+Page](http://www.tanos.co.uk/jlpt/), as well as lists provided by [Thierry
 Bézecourt](http://www.thbz.org/kanjimots/jlpt.php3) and [Alain
 Côté](http://jetsdencredujapon.blogspot.com).
 

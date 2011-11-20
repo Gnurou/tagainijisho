@@ -78,7 +78,7 @@ bool Kanjidic2DBParser::onItemParsed(Kanjidic2Item &kanji)
 	AUTO_BIND(insertEntryQuery, kanji.grade, 0);
 	AUTO_BIND(insertEntryQuery, kanji.stroke_count, 0);
 	AUTO_BIND(insertEntryQuery, (kanji.freq == 0 ? 0 : 2502 - kanji.freq), 0);
-	AUTO_BIND(insertEntryQuery, kanji.jlpt, 0);
+	AUTO_BIND(insertEntryQuery, (kanji.jlpt >= 3 ? kanji.jlpt + 1 : kanji.jlpt), 0);
 	AUTO_BIND(insertEntryQuery, kanji.heisig, 0);
 	EXEC(insertEntryQuery);
 	
@@ -183,9 +183,11 @@ bool Kanjidic2DBParser::updateJLPTLevel(const QString &fName, int level)
 
 bool Kanjidic2DBParser::updateJLPTLevels()
 {
-	ASSERT(updateJLPTLevel(QDir(srcDir).absoluteFilePath("src/core/kanjidic2/jlpt-level2.txt"), 2));
-	ASSERT(updateJLPTLevel(QDir(srcDir).absoluteFilePath("src/core/kanjidic2/jlpt-level3.txt"), 3));
-	ASSERT(updateJLPTLevel(QDir(srcDir).absoluteFilePath("src/core/kanjidic2/jlpt-level4.txt"), 4));
+	ASSERT(updateJLPTLevel(QDir(srcDir).absoluteFilePath("src/core/kanjidic2/jlpt-n1.csv"), 1));
+	ASSERT(updateJLPTLevel(QDir(srcDir).absoluteFilePath("src/core/kanjidic2/jlpt-n2.csv"), 2));
+	ASSERT(updateJLPTLevel(QDir(srcDir).absoluteFilePath("src/core/kanjidic2/jlpt-n3.csv"), 3));
+	ASSERT(updateJLPTLevel(QDir(srcDir).absoluteFilePath("src/core/kanjidic2/jlpt-n4.csv"), 4));
+	ASSERT(updateJLPTLevel(QDir(srcDir).absoluteFilePath("src/core/kanjidic2/jlpt-n5.csv"), 5));
 	return true;
 }
 
