@@ -15,8 +15,8 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "sqlite/SQLite.h"
 #include "sqlite/Connection.h"
-#include "sqlite3.h"
 #include "tagaini_config.h"
 
 #include <QtDebug>
@@ -47,10 +47,6 @@ const Error &Connection::updateError() const
 	return _lastError;
 }
 
-extern "C" {
-	void register_all_tokenizers(sqlite3 *handler);
-}
-
 bool Connection::connect(const QString &dbFile, OpenFlags flags)
 {
 	if (connected()) {
@@ -61,8 +57,9 @@ bool Connection::connect(const QString &dbFile, OpenFlags flags)
 	int res = sqlite3_open_v2(dbFile.toUtf8().data(), &_handler, SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE, 0);
 	updateError();
 	if (res != SQLITE_OK) goto err;
-	// Register our special stuff
-	register_all_tokenizers(_handler);
+	// Register our tokenizers (extensions can be handled by SQLite's auto mechanism, not tokenizers
+	// as they need the connection to be opened
+	register_tokenizers(_handler);
 	// Configure the connection
 	exec("pragma encoding=\"UTF-16le\"");
 	if (!flags & JournalInFile) exec("pragma journal_mode=MEMORY");

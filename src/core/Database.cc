@@ -398,7 +398,7 @@ void Database::stop()
 
 Database::Database(const QString &userDBFile) : _tFile(0)
 {
-	SQLite::init_sqlite_extensions();
+	SQLite::init_extensions();
 }
 
 Database::~Database()

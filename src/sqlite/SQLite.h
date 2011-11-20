@@ -20,12 +20,14 @@
 
 #include <QVector>
 #include <QRegExp>
+#include "sqlite3.h"
 
 namespace SQLite {
 
 extern const char *version();
 extern QVector<QRegExp> staticRegExps;
-void init_sqlite_extensions();
+void init_extensions();
+void register_tokenizers(sqlite3 *db);
 
 }
 

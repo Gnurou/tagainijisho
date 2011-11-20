@@ -96,23 +96,6 @@ static void fts_uncompress(sqlite3_context *context, int argc, sqlite3_value **a
 	sqlite3_result_text(context, text.data(), text.size(), 0);
 }
 
-static void load_extensions(sqlite3 *handler)
-{
-	// Attach custom functions
-	sqlite3_create_function(handler, "regexp", 2, SQLITE_UTF8, 0, regexpFunc, 0, 0);
-	sqlite3_create_function(handler, "biaised_random", 1, SQLITE_UTF8, 0, biaised_random, 0, 0);
-	sqlite3_create_function(handler, "uniquecount", -1, SQLITE_UTF8, 0, 0, uniquecount_aggr_step, uniquecount_aggr_finalize);
-	sqlite3_create_function(handler, "ftscompress", 1, SQLITE_UTF8, 0, fts_compress, 0, 0);
-	sqlite3_create_function(handler, "ftsuncompress", 1, SQLITE_UTF8, 0, fts_uncompress, 0, 0);
-	// Must be done later
-	//register_all_tokenizers(handler);
-}
-
-void SQLite::init_sqlite_extensions()
-{
-	sqlite3_auto_extension((void (*)())load_extensions);
-}
-
 int isToIgnore(const char *token)
 {
 	if (!strcmp(token, "a")) return true;
@@ -342,16 +325,6 @@ static const sqlite3_tokenizer_module ignoreTokenizerModule = {
   ignoreNext,
 };
 
-/*
-** Allocate a new simple tokenizer.  Return a pointer to the new
-** tokenizer in *ppModule
-*/
-void sqlite3Fts3IgnoreTokenizerModule(
-  sqlite3_tokenizer_module const**ppModule
-){
-  *ppModule = &ignoreTokenizerModule;
-}
-
 //
 // Hiranaga to katakana tokenizer
 // The following provides a special tokenizer that converts all hiraganas into
@@ -539,20 +512,25 @@ static const sqlite3_tokenizer_module katakanaTokenizerModule = {
   katakanaNext,
 };
 
-/*
-** Allocate a new simple tokenizer.  Return a pointer to the new
-** tokenizer in *ppModule
-*/
-void sqlite3Fts3KatakanaTokenizerModule(
-  sqlite3_tokenizer_module const**ppModule
-){
-  *ppModule = &katakanaTokenizerModule;
+static int load_extensions(sqlite3 *handler, const char **pzErrMsg,
+	const struct sqlite3_api_routines *pThunk)
+{
+	// Attach custom functions
+	sqlite3_create_function(handler, "regexp", 2, SQLITE_UTF8, 0, regexpFunc, 0, 0);
+	sqlite3_create_function(handler, "biaised_random", 1, SQLITE_UTF8, 0, biaised_random, 0, 0);
+	sqlite3_create_function(handler, "uniquecount", -1, SQLITE_UTF8, 0, 0, uniquecount_aggr_step, uniquecount_aggr_finalize);
+	sqlite3_create_function(handler, "ftscompress", 1, SQLITE_UTF8, 0, fts_compress, 0, 0);
+	sqlite3_create_function(handler, "ftsuncompress", 1, SQLITE_UTF8, 0, fts_uncompress, 0, 0);
+
+	return SQLITE_OK;
 }
 
-extern "C"
+void SQLite::init_extensions()
 {
-void register_all_tokenizers(sqlite3 *handler)
+	sqlite3_auto_extension((void (*)())load_extensions);
+}
+
+void SQLite::register_tokenizers(sqlite3 *handler)
 {
 	register_tokenizer(handler, "katakana", &katakanaTokenizerModule);
-}
 }
