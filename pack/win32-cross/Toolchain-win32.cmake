@@ -12,6 +12,5 @@ set(QT_LIBRARY_DIR ${QT_ROOT}/lib)
 set(QT_QTCORE_INCLUDE_DIR ${QT_ROOT}/include/QtCore)
 set(QT_QTGUI_INCLUDE_DIR ${QT_ROOT}/include/QtGui)
 set(QT_QTNETWORK_INCLUDE_DIR ${QT_ROOT}/include/QtNetwork)
-set(QT_QTSQL_INCLUDE_DIR ${QT_ROOT}/include/QtSql)
 set(QT_QTXML_INCLUDE_DIR ${QT_ROOT}/include/QtXml)
 
