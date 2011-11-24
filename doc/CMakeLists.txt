@@ -16,6 +16,7 @@ ENDMACRO(GENERATE_DOCS)
 
 if(${MULTI_MARKDOWN} MATCHES "MULTI_MARKDOWN-NOTFOUND")
 	MESSAGE(STATUS "MultiMarkdown not found, doc generation will not be available")
+	add_custom_target(docs)
 else(${MULTI_MARKDOWN} MATCHES "MULTI_MARKDOWN-NOTFOUND")
 	FILE (GLOB DOCUMENTATION_FILES
 		manual.txt
@@ -23,5 +24,5 @@ else(${MULTI_MARKDOWN} MATCHES "MULTI_MARKDOWN-NOTFOUND")
 		quickstart.txt
 	)
 	GENERATE_DOCS(DOC_FILES ${DOCUMENTATION_FILES})
-	add_custom_target (docs ALL DEPENDS ${DOC_FILES})
+	add_custom_target(docs ALL DEPENDS ${DOC_FILES})
 endif(${MULTI_MARKDOWN} MATCHES "MULTI_MARKDOWN-NOTFOUND")

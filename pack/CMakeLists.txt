@@ -92,11 +92,11 @@ if(UNIX)
 	endif(APPLE)
 
 	# Databases
-	install(FILES ${CMAKE_BINARY_DIR}/jmdict.db DESTINATION ${DB_DIR} PERMISSIONS OWNER_READ GROUP_READ WORLD_READ COMPONENT Runtime)
-	install(FILES ${CMAKE_BINARY_DIR}/kanjidic2.db DESTINATION ${DB_DIR} PERMISSIONS OWNER_READ GROUP_READ WORLD_READ COMPONENT Runtime)
+	install(FILES ${CMAKE_BINARY_DIR}/jmdict.db DESTINATION ${DB_DIR} PERMISSIONS OWNER_READ GROUP_READ WORLD_READ COMPONENT Databases)
+	install(FILES ${CMAKE_BINARY_DIR}/kanjidic2.db DESTINATION ${DB_DIR} PERMISSIONS OWNER_READ GROUP_READ WORLD_READ COMPONENT Databases)
 	foreach(LANG en;${DICT_LANG})
-		install(FILES ${CMAKE_BINARY_DIR}/jmdict-${LANG}.db DESTINATION ${DB_DIR} PERMISSIONS OWNER_READ GROUP_READ WORLD_READ COMPONENT Runtime)
-		install(FILES ${CMAKE_BINARY_DIR}/kanjidic2-${LANG}.db DESTINATION ${DB_DIR} PERMISSIONS OWNER_READ GROUP_READ WORLD_READ COMPONENT Runtime)
+		install(FILES ${CMAKE_BINARY_DIR}/jmdict-${LANG}.db DESTINATION ${DB_DIR} PERMISSIONS OWNER_READ GROUP_READ WORLD_READ COMPONENT Databases)
+		install(FILES ${CMAKE_BINARY_DIR}/kanjidic2-${LANG}.db DESTINATION ${DB_DIR} PERMISSIONS OWNER_READ GROUP_READ WORLD_READ COMPONENT Databases)
 	endforeach(LANG en;${DICT_LANG})
 
 	# i18n files
@@ -117,6 +117,20 @@ if(UNIX)
 	else(EXISTS ${CMAKE_SOURCE_DIR}/doc/manual.html)
 		MESSAGE(STATUS "Warning, docs were not generated")
 	endif()
+
+	# Custom install targets
+	add_custom_target(install_runtime
+		${CMAKE_COMMAND}
+		-D "COMPONENT=Runtime"
+		-P "${CMAKE_BINARY_DIR}/cmake_install.cmake"
+	)
+	add_dependencies(install_runtime tagainijisho i18n docs)
+	add_custom_target(install_databases
+		${CMAKE_COMMAND}
+		-D "COMPONENT=Databases"
+		-P "${CMAKE_BINARY_DIR}/cmake_install.cmake"
+	)
+	add_dependencies(install_databases databases)
 endif(UNIX)
 
 if(WIN32)
