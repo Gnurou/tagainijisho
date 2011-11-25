@@ -1,6 +1,7 @@
 0.9.3 released on
 * Update JLPT lists to follow new N* scheme (thanks to the JLPT
   Resources Page: http://www.tanos.co.uk/jlpt/)
+* Fix: do not display empty glosses for a language in detailed view.
 
 0.9.2 released on 2011/11/17
 * Fix startup bug when updating removed JMdict entries (thanks jnaset!)
