@@ -89,6 +89,7 @@ static QString buildTextSearchCondition(const QStringList &words, const QString 
 	static QRegExp regExpChars = QRegExp("[\\?\\*]");
 	static QString ftsMatch("jmdict%3.%2Text.reading MATCH '%1'");
 	static QString regexpMatch("jmdict%3.%2Text.reading REGEXP %1");
+	static QString glossRegexpMatch("{{leftcolumn}} in (select id from jmdict_%2.glosses where FTSUNCOMPRESS(glosses) REGEXP '%1')");
 	static QString globalMatch("{{leftcolumn}} IN (SELECT id FROM jmdict%3.%2 JOIN jmdict%3.%2Text ON jmdict%3.%2.docid = jmdict%3.%2Text.docid WHERE %1)");
 
 	QStringList globalMatches;
@@ -97,6 +98,7 @@ static QString buildTextSearchCondition(const QStringList &words, const QString 
 	foreach (const QString &lang, langs) {
 		QStringList fts;
 		QStringList conds;
+		QStringList condsGloss;
 		foreach (const QString &w, words) {
 			if (w.contains(regExpChars)) {
 				// First check if we can optimize by using the FTS index (i.e. the first character is not a wildcard)
@@ -110,11 +112,15 @@ static QString buildTextSearchCondition(const QStringList &words, const QString 
 				QRegExp regExp(escapeForRegexp(TextTools::hiragana2Katakana(w)));
 				regExp.setCaseSensitivity(Qt::CaseInsensitive);
 				SQLite::staticRegExps.append(regExp);
-				conds << regexpMatch.arg(idx);
+				if (table != "gloss")
+					conds << regexpMatch.arg(idx);
+				else
+					condsGloss << glossRegexpMatch.arg(idx).arg(lang);
 			} else fts << "\"" + w + "\"";
 		}
 		if (!fts.isEmpty()) conds.insert(0, ftsMatch.arg(fts.join(" ")));
-		globalMatches << globalMatch.arg(conds.join(" AND ")).arg(table).arg(table == "gloss" ? "_" + lang : "");
+		if (!conds.isEmpty()) globalMatches << globalMatch.arg(conds.join(" AND ")).arg(table).arg(table == "gloss" ? "_" + lang : "");
+		globalMatches += condsGloss;
 	}
 	return globalMatches.join(" OR ");
 }
