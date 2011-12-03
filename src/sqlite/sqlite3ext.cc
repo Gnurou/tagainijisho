@@ -29,7 +29,6 @@ extern "C" {
 	const char *hiraganasToKatakanas(const char *src);
 }
 
-QVector<QRegExp> SQLite::staticRegExps;
 static QSet<QString> ignoredWords;
 static QByteArray kanasConverted;
 
@@ -37,7 +36,8 @@ static void regexpFunc(sqlite3_context *context, int argc, sqlite3_value **argv)
 {
 	QString text(TextTools::hiragana2Katakana(QString::fromUtf8((const char *)sqlite3_value_text(argv[1]))));
 	// Get the regexp referenced by the request
-	QRegExp &regexp = SQLite::staticRegExps[sqlite3_value_int(argv[0])];
+	QRegExp regexp = QRegExp((const char *)sqlite3_value_text(argv[0]));
+	regexp.setCaseSensitivity(Qt::CaseInsensitive);
 
 	bool res = text.contains(regexp);
 	sqlite3_result_int(context, res);

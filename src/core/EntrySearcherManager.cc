@@ -76,8 +76,6 @@ static void replaceJapaneseWildCards(QString &str)
 
 bool EntrySearcherManager::buildQuery(const QString &search, QueryBuilder &query)
 {
-	// Clear previous static regexps - this is bad, but no better solution for now
-	SQLite::staticRegExps.clear();
 	QString searchString(search);
 	replaceJapaneseWildCards(searchString);
 
