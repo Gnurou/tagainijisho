@@ -49,7 +49,12 @@ SearchCommand Kanjidic2EntrySearcher::commandFromWord(const QString &word) const
 	// We have a kanji command if the string is of size 1 and the character is a kanji.
 	if (word.size() == 1 && TextTools::isKanji(word[0])) return SearchCommand::fromString(QString(":kanji=\"%1\"").arg(word[0]));
 	else if (TextTools::isKana(checkString)) return SearchCommand::fromString(QString(":kana=\"%1\"").arg(word));
-	else if (TextTools::isRomaji(checkString)) return SearchCommand::fromString(QString(":mean=\"%1\"").arg(word));
+	else if (TextTools::isRomaji(checkString)) {
+		// TODO does not work with wildcards
+		QString kn(TextTools::romajiToKana(word));
+		if (!kn.isEmpty()) return SearchCommand::fromString(QString(":kana=\"%1\"").arg(kn));
+		return SearchCommand::fromString(QString(":mean=\"%1\"").arg(word));
+	}
 	return SearchCommand::invalid();
 }
 
@@ -70,6 +75,7 @@ static QString buildTextSearchCondition(const QStringList &words, const QString 
 	static QRegExp regExpChars = QRegExp("[\\?\\*]");
 	static QString ftsMatch("kanjidic2%3.%2Text.reading MATCH '%1'");
 	static QString regexpMatch("kanjidic2%3.%2Text.reading REGEXP %1");
+	static QString glossRegexpMatch("{{leftcolumn}} in (select entry from kanjidic2_%2.meaning where FTSUNCOMPRESS(meanings) REGEXP '%1')");
 	static QString globalMatch("{{leftcolumn}} IN (SELECT entry FROM kanjidic2%3.%2 JOIN kanjidic2%3.%2Text ON kanjidic2%3.%2.docid = kanjidic2%3.%2Text.docid WHERE %1)");
 
 	QStringList globalMatches;
@@ -78,6 +84,7 @@ static QString buildTextSearchCondition(const QStringList &words, const QString 
 	foreach (const QString &lang, langs) {
 		QStringList fts;
 		QStringList conds;
+		QStringList condsGloss;
 		foreach (const QString &w, words) {
 			if (w.contains(regExpChars)) {
 				// First check if we can optimize by using the FTS index (i.e. the first character is not a wildcard)
@@ -91,11 +98,15 @@ static QString buildTextSearchCondition(const QStringList &words, const QString 
 				QRegExp regExp(escapeForRegexp(TextTools::hiragana2Katakana(w)));
 				regExp.setCaseSensitivity(Qt::CaseInsensitive);
 				SQLite::staticRegExps.append(regExp);
-				conds << regexpMatch.arg(idx);
+				if (table != "meaning")
+					conds << regexpMatch.arg(idx);
+				else
+					condsGloss << glossRegexpMatch.arg(idx).arg(lang);
 			} else fts << "\"" + w + "\"";
 		}
 		if (!fts.isEmpty()) conds.insert(0, ftsMatch.arg(fts.join(" ")));
-		globalMatches << globalMatch.arg(conds.join(" AND ")).arg(table).arg(table == "meaning" ? "_" + lang : "");
+		if (!conds.isEmpty()) globalMatches << globalMatch.arg(conds.join(" AND ")).arg(table).arg(table == "meaning" ? "_" + lang : "");
+		globalMatches += condsGloss;
 	}
 	return globalMatches.join(" OR ");
 }
