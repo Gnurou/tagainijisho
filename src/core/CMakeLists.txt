@@ -49,7 +49,14 @@ include_directories(${CMAKE_SOURCE_DIR}/3rdparty/sqlite)
 
 add_library(tagaini_core SHARED ${tagainijisho_core_MOC_SRCS} ${tagainijisho_core_SRCS})
 target_link_libraries(tagaini_core tagaini_sqlite ${QT_LIBRARIES} ${extra_link_flags})
-install(TARGETS tagaini_core BUNDLE DESTINATION . COMPONENT Runtime LIBRARY DESTINATION lib COMPONENT Runtime ARCHIVE DESTINATION lib COMPONENT Runtime)
+
+if(APPLE)
+	set(DEST_DIR "${tagaini_binary}.app/Contents/MacOS")
+else(APPLE)
+	set(DEST_DIR "lib")	
+endif(APPLE)
+
+install(TARGETS tagaini_core BUNDLE DESTINATION . COMPONENT Runtime LIBRARY DESTINATION ${DEST_DIR} COMPONENT Runtime ARCHIVE DESTINATION lib COMPONENT Runtime)
 
 # Add rules for sub-components
 add_subdirectory(jmdict)
