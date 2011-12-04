@@ -66,6 +66,8 @@ namespace TextTools {
 	QString unicodeToSingleChar(unsigned int unicode);
 	unsigned int singleCharToUnicode(const QString &chr, int pos = 0);
 
+	QString romajiToKana(const QString &src);
+
 	class KanaInfo  {
 	public:
 		typedef enum { Small, Normal } Size;

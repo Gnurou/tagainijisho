@@ -366,4 +366,137 @@ unsigned int singleCharToUnicode(const QString &chr, int pos)
 	else return 0;
 }
 
+static QMap<QString, QString> __kanaTranscribe()
+{
+	QMap<QString, QString> ret;
+#define TR(a, b) ret.insert(a, QString::fromUtf8(b));
+	TR("a", "あ");
+	TR("i", "い");
+	TR("u", "う");
+	TR("e", "え");
+	TR("o", "お");
+	TR("ka", "か");
+	TR("ki", "き");
+	TR("ku", "く");
+	TR("ke", "け");
+	TR("ko", "こ");
+	TR("ga", "が");
+	TR("gi", "ぎ");
+	TR("gu", "ぐ");
+	TR("ge", "げ");
+	TR("go", "ご");
+	TR("sa", "さ");
+	TR("si", "し");
+	TR("shi", "し");
+	TR("su", "す");
+	TR("se", "せ");
+	TR("so", "そ");
+	TR("za", "ざ");
+	TR("zi", "じ");
+	TR("ji", "じ");
+	TR("zu", "ず");
+	TR("ze", "ぜ");
+	TR("zo", "ぞ");
+	TR("ta", "た");
+	TR("ti", "ち");
+	TR("chi", "ち");
+	TR("tu", "つ");
+	TR("tsu", "つ");
+	TR("te", "て");
+	TR("to", "と");
+	TR("da", "だ");
+	TR("di", "ぢ");
+	TR("tu", "づ");
+	TR("te", "で");
+	TR("to", "ど");
+	TR("na", "な");
+	TR("ni", "に");
+	TR("nu", "ぬ");
+	TR("ne", "ね");
+	TR("no", "の");
+	TR("ha", "は");
+	TR("hi", "ひ");
+	TR("hu", "ふ");
+	TR("fu", "ふ");
+	TR("he", "へ");
+	TR("ho", "ほ");
+	TR("ba", "ば");
+	TR("bi", "び");
+	TR("bu", "ぶ");
+	TR("be", "べ");
+	TR("bo", "ぼ");
+	TR("pa", "ぱ");
+	TR("pi", "ぴ");
+	TR("pu", "ぷ");
+	TR("pe", "ぺ");
+	TR("po", "ぽ");
+	TR("ma", "ま");
+	TR("mi", "み");
+	TR("mu", "む");
+	TR("me", "め");
+	TR("mo", "も");
+	TR("ya", "や");
+	TR("yu", "ゆ");
+	TR("yo", "よ");
+	TR("ra", "ら");
+	TR("ri", "り");
+	TR("ru", "る");
+	TR("re", "れ");
+	TR("ro", "ろ");
+	TR("wa", "わ");
+	TR("wo", "を");
+	TR("-", "ー");
+#undef TR
+
+	return ret;
+}
+
+static QSet<QChar> __nodouble()
+{
+	QSet<QChar> ret;
+
+	ret << 'a' << 'i' << 'u' << 'e' << 'o' << 'y' << 'n';
+
+	return ret;
+}
+
+static const QMap<QString, QString> kanaTranscribe(__kanaTranscribe());
+static const QSet<QChar> nodouble(__nodouble());
+
+QString romajiToKana(const QString &src)
+{
+	static QString nn = QString::fromUtf8("ん");
+	static QString tt = QString::fromUtf8("っ");
+	QString ret;
+	int i;
+
+	for (i = 0; i < src.size();) {
+		QString part = src.mid(i);
+		int p = i;
+
+		if (part.size() > 1 && part[0] == part[1] && !nodouble.contains(part[0])) {
+			ret += tt;
+			i += 1;
+		}
+		if (p != i) continue;
+		foreach (const QString &roma, kanaTranscribe.keys()) {
+			if (part.startsWith(roma)) {
+				ret += kanaTranscribe[roma];
+				i += roma.size();
+				break;
+			}
+		}
+		if (p != i) continue;
+		if (part.startsWith("n")) {
+			ret += nn;
+			i += 1;
+			if (part.size() > 1 && part[1] == 'n') i += 1;
+		}
+		if (p != i) continue;
+		// Did not match, return empty string
+		return "";
+	}
+	return ret;
+}
+
 }
