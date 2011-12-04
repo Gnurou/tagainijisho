@@ -25,7 +25,6 @@
 namespace SQLite {
 
 extern const char *version();
-extern QVector<QRegExp> staticRegExps;
 void init_extensions();
 void register_tokenizers(sqlite3 *db);
 

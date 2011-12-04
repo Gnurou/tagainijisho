@@ -69,7 +69,7 @@ static QString buildTextSearchCondition(const QStringList &words, const QString 
 {
 	static QRegExp regExpChars = QRegExp("[\\?\\*]");
 	static QString ftsMatch("kanjidic2%3.%2Text.reading MATCH '%1'");
-	static QString regexpMatch("kanjidic2%3.%2Text.reading REGEXP %1");
+	static QString regexpMatch("kanjidic2%3.%2Text.reading REGEXP '%1'");
 	static QString glossRegexpMatch("{{leftcolumn}} in (select entry from kanjidic2_%2.meaning where FTSUNCOMPRESS(meanings) REGEXP '%1')");
 	static QString globalMatch("{{leftcolumn}} IN (SELECT entry FROM kanjidic2%3.%2 JOIN kanjidic2%3.%2Text ON kanjidic2%3.%2.docid = kanjidic2%3.%2Text.docid WHERE %1)");
 
@@ -89,14 +89,11 @@ static QString buildTextSearchCondition(const QStringList &words, const QString 
 				// If the wildcard we found is the last character and a star, there is no need for a regexp search
 				if (wildcardIdx == w.size() - 1 && w.size() > 1 && w[wildcardIdx] == '*') continue;
 				// Otherwise insert the regular expression search
-				int idx = SQLite::staticRegExps.size();
-				QRegExp regExp(escapeForRegexp(TextTools::hiragana2Katakana(w)));
-				regExp.setCaseSensitivity(Qt::CaseInsensitive);
-				SQLite::staticRegExps.append(regExp);
+				QString regExp(escapeForRegexp(TextTools::hiragana2Katakana(w)));
 				if (table != "meaning")
-					conds << regexpMatch.arg(idx);
+					conds << regexpMatch.arg(regExp);
 				else
-					condsGloss << glossRegexpMatch.arg(idx).arg(lang);
+					condsGloss << glossRegexpMatch.arg(regExp).arg(lang);
 			} else fts << "\"" + w + "\"";
 		}
 		if (!fts.isEmpty()) conds.insert(0, ftsMatch.arg(fts.join(" ")));
