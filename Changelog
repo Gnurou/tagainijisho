@@ -3,6 +3,8 @@
   Resources Page: http://www.tanos.co.uk/jlpt/)
 * Fix: do not display empty glosses for a language in detailed view.
 * Fixed wildcard search which was broken in previous version
+* Core and SQLite modules are compiled as shared libraries, and SQLite
+  module can be loaded as an SQLite extension
 
 0.9.2 released on 2011/11/17
 * Fix startup bug when updating removed JMdict entries (thanks jnaset!)

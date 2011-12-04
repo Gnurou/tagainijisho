@@ -61,11 +61,11 @@ if(EMBED_SQLITE AND NOT EXISTS ${CMAKE_SOURCE_DIR}/3rdparty/sqlite/sqlite3.c)
 endif()
 
 set(tagainijisho_sqlite_SRCS
-SQLite.cc
 Error.cc
 Connection.cc
 Query.cc
 sqlite3ext.cc
+sqlite3mod.c
 # TODO Lame!
 ${CMAKE_SOURCE_DIR}/src/core/TextTools.cc
 )

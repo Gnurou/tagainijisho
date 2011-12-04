@@ -1,5 +1,5 @@
 /*
- *  Copyright (C) 2009  Alexandre Courbot
+ *  Copyright (C) 2009-2011  Alexandre Courbot
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -15,19 +15,14 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "sqlite3.h"
+#include "sqlite/fts3_tokenizer.h"
 #include "core/TextTools.h"
+#include "sqlite/SQLite.h"
+
 #include <QSet>
 #include <QtDebug>
 #include <QRegExp>
-#include "sqlite/SQLite.h"
-
-#include <sqlite3.h>
-#include "sqlite/fts3_tokenizer.h"
-
-extern "C" {
-	int isToIgnore(const char *token);
-	const char *hiraganasToKatakanas(const char *src);
-}
 
 static QSet<QString> ignoredWords;
 static QByteArray kanasConverted;
@@ -515,6 +510,21 @@ static const sqlite3_tokenizer_module katakanaTokenizerModule = {
 static int load_extensions(sqlite3 *handler, const char **pzErrMsg,
 	const struct sqlite3_api_routines *pThunk)
 {
+	   sqlite3ext_register_functions(handler);
+
+	return SQLITE_OK;
+}
+
+extern "C"
+{
+
+void sqlite3ext_init()
+{
+	sqlite3_auto_extension((void (*)())load_extensions);
+}
+
+int sqlite3ext_register_functions(sqlite3 *handler)
+{
 	// Attach custom functions
 	sqlite3_create_function(handler, "regexp", 2, SQLITE_UTF8, 0, regexpFunc, 0, 0);
 	sqlite3_create_function(handler, "biaised_random", 1, SQLITE_UTF8, 0, biaised_random, 0, 0);
@@ -525,12 +535,15 @@ static int load_extensions(sqlite3 *handler, const char **pzErrMsg,
 	return SQLITE_OK;
 }
 
-void SQLite::init_extensions()
+int sqlite3ext_register_tokenizers(sqlite3 *handler)
 {
-	sqlite3_auto_extension((void (*)())load_extensions);
+	int err = register_tokenizer(handler, "katakana", &katakanaTokenizerModule);
+	if (err) {
+		qDebug("Could not register katakana tokenizer!");
+		return err;
+	}
+
+	return SQLITE_OK;
 }
 
-void SQLite::register_tokenizers(sqlite3 *handler)
-{
-	register_tokenizer(handler, "katakana", &katakanaTokenizerModule);
 }

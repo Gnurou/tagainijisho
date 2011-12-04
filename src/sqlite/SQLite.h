@@ -18,16 +18,20 @@
 #ifndef __SQLITE_SQLITE_H
 #define __SQLITE_SQLITE_H
 
-#include <QVector>
-#include <QRegExp>
-#include "sqlite3.h"
+#ifdef __cplusplus
+extern "C" {
+#endif
 
-namespace SQLite {
+/* Register the callback that will automatically call register_functions
+ * for every new SQLite connection */
+void sqlite3ext_init();
+/* Register all our custom functions */
+int sqlite3ext_register_functions(sqlite3 *handler);
+/* Register all our custom tokenizers */
+int sqlite3ext_register_tokenizers(sqlite3 *db);
 
-extern const char *version();
-void init_extensions();
-void register_tokenizers(sqlite3 *db);
-
+#ifdef __cplusplus
 }
+#endif
 
 #endif

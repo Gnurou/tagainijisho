@@ -492,7 +492,7 @@ bool buildDB(const QStringList &languages, const QString &srcDir, const QString 
 int main(int argc, char *argv[])
 {
 	QCoreApplication app(argc, argv);
-	SQLite::init_extensions();
+	sqlite3ext_init();
 	
 	if (argc < 3) { 
 		printUsage(argv); return 1;
