@@ -36,7 +36,11 @@ if(APPLE)
 	set(CMAKE_PREFIX_PATH "${CMAKE_OSX_SYSROOT}/usr")  
 	set(CMAKE_FRAMEWORK_PATH "${CMAKE_OSX_SYSROOT}/Library/Frameworks:${CMAKE_OSX_SYSROOT}/System/")
 	set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -sectcreate __TEXT __info_plist ${CMAKE_BINARY_DIR}/src/gui/Tagaini\\ Jisho.app/Contents/Info.plist")
+	set(extra_link_flags "-bind_at_load")
 endif(APPLE)
+if(WIN32)
+	set(extra_link_flags "-static-libgcc -static-libstdc++ -mwindows")
+endif(WIN32)
 
 # By default, enable all languages
 if(NOT DICT_LANG)
