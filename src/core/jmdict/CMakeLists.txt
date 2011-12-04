@@ -33,7 +33,6 @@ JMdictEntrySearcher.h
 
 qt4_wrap_cpp(tagainijisho_core_jmdict_MOC_SRCS ${tagainijisho_core_jmdict_MOCS})
 add_library(tagaini_core_jmdict STATIC ${tagainijisho_core_jmdict_MOC_SRCS} ${tagainijisho_core_jmdict_SRCS})
-add_dependencies(tagaini_core_jmdict tagaini_core)
 
 # Database builder
 set(QT_USE_QTXML TRUE)
