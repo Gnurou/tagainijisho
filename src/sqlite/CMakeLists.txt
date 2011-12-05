@@ -89,7 +89,14 @@ target_link_libraries(tagaini_sqlite ${QT_LIBRARIES} ${extra_link_flags})
 if(NOT EMBED_SQLITE)
 	target_link_libraries(tagaini_sqlite sqlite3)
 endif()
-install(TARGETS tagaini_sqlite BUNDLE DESTINATION . COMPONENT Runtime LIBRARY DESTINATION lib COMPONENT Runtime ARCHIVE DESTINATION lib COMPONENT Runtime)
+
+if(APPLE)
+        set(DEST_DIR "${tagaini_binary}.app/Contents/MacOS")
+else(APPLE)
+        set(DEST_DIR "lib")
+endif(APPLE)
+
+install(TARGETS tagaini_sqlite BUNDLE DESTINATION . COMPONENT Runtime LIBRARY DESTINATION ${DEST_DIR} COMPONENT Runtime ARCHIVE DESTINATION lib COMPONENT Runtime)
 
 if (BUILD_TESTS)
 add_subdirectory(tests)
