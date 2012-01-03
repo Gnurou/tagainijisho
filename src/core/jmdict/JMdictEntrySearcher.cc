@@ -215,7 +215,7 @@ void JMdictEntrySearcher::buildStatement(QList<SearchCommand> &commands, QueryBu
 					bool isInt;
 					int level = arg.toInt(&isInt);
 					if (!isInt) continue;
-					if (level < 1 || level > 4) continue;
+					if (level < 1 || level > 5) continue;
 					levelsList << QString::number(level);
 				}
 				statement.addWhere(QString("jmdict.jlpt.level in (%1)").arg(levelsList.join(", ")));

@@ -1,18 +1,18 @@
 /*
- *	Copyright (C) 2010	Alexandre Courbot
+ * Copyright (C) 2010 Alexandre Courbot
  *
- *	This program is free software: you can redistribute it and/or modify
- *	it under the terms of the GNU General Public License as published by
- *	the Free Software Foundation, either version 3 of the License, or
- *	(at your option) any later version.
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
  *
- *	This program is distributed in the hope that it will be useful,
- *	but WITHOUT ANY WARRANTY; without even the implied warranty of
- *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *	GNU General Public License for more details.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
  *
- *	You should have received a copy of the GNU General Public License
- *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 #include "sqlite/Connection.h"
@@ -218,10 +218,11 @@ bool JMdictDBParser::insertJLPTLevel(const QString &fName, int level)
 
 bool JMdictDBParser::insertJLPTLevels()
 {
-	ASSERT(insertJLPTLevel(QDir(srcDir).absoluteFilePath("src/core/jmdict/jlpt-level4.txt"), 4));
-	ASSERT(insertJLPTLevel(QDir(srcDir).absoluteFilePath("src/core/jmdict/jlpt-level3.txt"), 3));
-	ASSERT(insertJLPTLevel(QDir(srcDir).absoluteFilePath("src/core/jmdict/jlpt-level2.txt"), 2));
-	ASSERT(insertJLPTLevel(QDir(srcDir).absoluteFilePath("src/core/jmdict/jlpt-level1.txt"), 1));
+	ASSERT(insertJLPTLevel(QDir(srcDir).absoluteFilePath("src/core/jmdict/jlpt-n1.csv"), 1));
+        ASSERT(insertJLPTLevel(QDir(srcDir).absoluteFilePath("src/core/jmdict/jlpt-n2.csv"), 2));
+        ASSERT(insertJLPTLevel(QDir(srcDir).absoluteFilePath("src/core/jmdict/jlpt-n3.csv"), 3));
+        ASSERT(insertJLPTLevel(QDir(srcDir).absoluteFilePath("src/core/jmdict/jlpt-n4.csv"), 4));
+        ASSERT(insertJLPTLevel(QDir(srcDir).absoluteFilePath("src/core/jmdict/jlpt-n5.csv"), 5));
 	return true;	
 }
 

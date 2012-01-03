@@ -195,7 +195,7 @@ QString JMdictEntryFormatter::shortDesc(const ConstEntryPointer &_entry) const
 	ConstJMdictEntryPointer entry(_entry.staticCast<const JMdictEntry>());
 	QString ret(autoFormat(entry->shortVersion(Entry::TinyVersion)));
 	if (shortDescShowJLPT.value() && entry->jlpt() != -1) {
-		ret += QString(" <b>%1</b>").arg(autoFormat(tr("(JLPT N%1)").arg(entry->jlpt() < 3 ? entry->jlpt() : entry->jlpt() + 1)));
+		ret += QString(" <b>%1</b>").arg(autoFormat(tr("(JLPT N%1)").arg(entry->jlpt())));
 	}
 	ret += QString(" <a href=\"entry://?type=%1&id=%2\"><img src=\"moreicon\"/></a>").arg(entry->type()).arg(entry->id());
 	if (entry->trained()) {
@@ -371,7 +371,7 @@ QString JMdictEntryFormatter::formatJLPT(const ConstEntryPointer &_entry) const
 {
 	ConstJMdictEntryPointer entry(_entry.staticCast<const JMdictEntry>());
 	if (showJLPT.value() && entry->jlpt() != -1)
-		return QString("<b>%1:</b> N%2").arg(tr("JLPT")).arg(entry->jlpt() >= 3 ? entry->jlpt() + 1 : entry->jlpt());
+		return QString("<b>%1:</b> N%2").arg(tr("JLPT")).arg(entry->jlpt());
 	else return "";
 }
 
