@@ -510,7 +510,7 @@ static const sqlite3_tokenizer_module katakanaTokenizerModule = {
 static int load_extensions(sqlite3 *handler, const char **pzErrMsg,
 	const struct sqlite3_api_routines *pThunk)
 {
-	   sqlite3ext_register_functions(handler);
+	sqlite3ext_register_functions(handler);
 
 	return SQLITE_OK;
 }
