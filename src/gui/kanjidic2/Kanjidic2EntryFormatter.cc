@@ -648,7 +648,7 @@ void ShowUsedInKanjiJob::result(EntryPointer entry)
 void ShowUsedInKanjiJob::completed()
 {
 	if (!gotResults) return;
-	cursor().insertHtml(QString("<a href=\"component:?reset=true&kanji=%1\" title=\"%4\">%2</a> <a href=\"component:?kanji=%1\" title=\"%5\">%3</a>").arg(_kanji).arg(tr("All compounds")).arg(tr("(+)")).arg("Make a new search using only this filter").arg("Add this filter to the current search"));
+	cursor().insertHtml(QString("<a href=\"component:?reset=true&kanji=%1\" title=\"%4\">%2</a> <a href=\"component:?kanji=%1\" title=\"%5\">%3</a>").arg(_kanji).arg(tr("All compounds")).arg(tr("(+)")).arg(tr("Make a new search using only this filter")).arg(tr("Add this filter to the current search")));
 }
 
 ShowUsedInWordsJob::ShowUsedInWordsJob(const QString &kanji, const QTextCursor &cursor) :
@@ -674,5 +674,5 @@ void ShowUsedInWordsJob::result(EntryPointer entry)
 void ShowUsedInWordsJob::completed()
 {
 	if (!gotResults) return;
-	cursor().insertHtml(QString("<a href=\"allwords:?reset=true&kanji=%1\" title=\"%4\">%2</a> <a href=\"allwords:?kanji=%1\" title=\"%5\">%3</a>").arg(_kanji).arg(tr("All words using this kanji")).arg(tr("(+)")).arg("Make a new search using only this filter").arg("Add this filter to the current search"));
+	cursor().insertHtml(QString("<a href=\"allwords:?reset=true&kanji=%1\" title=\"%4\">%2</a> <a href=\"allwords:?kanji=%1\" title=\"%5\">%3</a>").arg(_kanji).arg(tr("All words using this kanji")).arg(tr("(+)")).arg(tr("Make a new search using only this filter")).arg(tr("Add this filter to the current search")));
 }
