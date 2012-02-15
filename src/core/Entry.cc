@@ -45,11 +45,11 @@ static QString dateToString(const QDateTime &date)
 
 void Entry::updateTrainingData()
 {
-	SQLite::Query query(Database::connection());
-
 	QString qString;
 	if (!trained()) removeFromTraining();
 	else {
+                SQLite::Query query(Database::connection());
+
 		qString = "insert or replace into training values(" + QString::number(type()) + ", " + QString::number(id()) + ", " + QString::number(score()) + ", " + dateToString(dateAdded()) + ", " + dateToString(dateLastTrain()) + ", " + QString::number(nbTrained()) + ", " + QString::number(nbSuccess()) + ", " + dateToString(dateLastMistake()) + ")";
 		if (!query.exec(qString)) qCritical() << "Error executing query: " << query.lastError().message();
 		emit entryChanged(this);
