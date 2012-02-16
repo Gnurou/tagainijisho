@@ -60,7 +60,7 @@ bool Query::prepare(const QString &statement)
 
 	int res;
 	// Busy loop while the shared cache is locked. This is ugly.
-	while ((res = sqlite3_prepare_v2(_connection->_handler, statement.toUtf8().data(), -1, &_stmt, 0)) == SQLITE_LOCKED_SHAREDCACHE);
+	while ((res = sqlite3_prepare_v2(_connection->_handler, statement.toUtf8().data(), -1, &_stmt, 0)) == SQLITE_LOCKED_SHAREDCACHE){};
 	_lastError = _connection->updateError();
 #ifdef DEBUG_QUERIES
 	checkQueryError(*this, statement);
@@ -171,7 +171,7 @@ bool Query::exec()
 {
 	if (_state != PREPARED) return false;
 	// Busy-loop while the shared cache is locked. This is ugly.
-	while (sqlite3_step(_stmt) == SQLITE_LOCKED_SHAREDCACHE);
+	while (sqlite3_step(_stmt) == SQLITE_LOCKED_SHAREDCACHE){};
 	_lastError = _connection->updateError();
 #ifdef DEBUG_QUERIES
 	checkQueryError(*this, queryText());
