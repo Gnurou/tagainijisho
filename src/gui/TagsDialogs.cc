@@ -15,9 +15,11 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "gui/TagsDialogs.h"
 #include "core/Tag.h"
 #include "core/Entry.h"
+#include "core/Database.h"
+#include "gui/TagsDialogs.h"
+#include "gui/BatchHandler.h"
 
 #include <QCompleter>
 #include <QInputDialog>
@@ -132,6 +134,17 @@ bool TagsDialogs::splitTagsString(const QString &string, QStringList &tagsList, 
 	return (invalidTags.isEmpty());
 }
 
+struct SetTagsHandler : BatchHandler
+{
+	const QStringList &_tags;
+	SetTagsHandler(const QStringList &tags) : _tags(tags) {}
+
+	void apply(const EntryPointer &e) const
+	{
+		e->setTags(_tags);
+	}
+};
+
 bool TagsDialogs::setTagsDialog(const QList<EntryPointer> &entries, QWidget *parent)
 {
 	QStringList split;
@@ -170,20 +183,21 @@ bool TagsDialogs::setTagsDialog(const QList<EntryPointer> &entries, QWidget *par
 
 	} while (!invalidTags.isEmpty());
 
-	// Progress bar
-	QProgressDialog progressDialog(tr("Setting tags..."), tr("Abort"), 0, entries.size(), parent);
-	progressDialog.setMinimumDuration(1000);
-	progressDialog.setWindowTitle(tr("Operation in progress..."));
-	progressDialog.setWindowModality(Qt::WindowModal);
-	int i = 0;
-	foreach(const EntryPointer &entry, entries) {
-		if (progressDialog.wasCanceled()) break;
-		progressDialog.setValue(i++);
-		entry->setTags(split);
-	}
+	BatchHandler::applyOnEntries(SetTagsHandler(split), entries, parent);
 
 	return true;
 }
+
+struct AddTagsHandler : BatchHandler
+{
+	const QStringList &_tags;
+	AddTagsHandler(const QStringList &tags) : _tags(tags) {}
+
+	void apply(const EntryPointer &e) const
+	{
+		e->addTags(_tags);
+	}
+};
 
 bool TagsDialogs::addTagsDialog(const QList<EntryPointer> &entries, QWidget *parent)
 {
@@ -204,17 +218,7 @@ bool TagsDialogs::addTagsDialog(const QList<EntryPointer> &entries, QWidget *par
 
 	} while (!invalidTags.isEmpty());
 
-	// Progress bar
-	QProgressDialog progressDialog(tr("Adding tags..."), tr("Abort"), 0, entries.size(), parent);
-	progressDialog.setMinimumDuration(1000);
-	progressDialog.setWindowTitle(tr("Operation in progress..."));
-	progressDialog.setWindowModality(Qt::WindowModal);
-	int i = 0;
-	foreach(const EntryPointer &entry, entries) {
-		if (progressDialog.wasCanceled()) break;
-		progressDialog.setValue(i++);
-		entry->addTags(split);
-	}
+	BatchHandler::applyOnEntries(AddTagsHandler(split), entries, parent);
 
 	lastAddedTags.enqueue(split);
 	while (lastAddedTags.size() > 5) lastAddedTags.dequeue();

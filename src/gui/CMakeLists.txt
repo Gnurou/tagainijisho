@@ -30,6 +30,7 @@ SearchBuilder.cc
 SmoothScroller.cc
 ScrollBarSmoothScroller.cc
 EntryDelegate.cc
+BatchHandler.cc
 EntriesViewHelper.cc
 ResultsView.cc
 ResultsViewWidget.cc
