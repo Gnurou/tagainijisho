@@ -96,7 +96,7 @@ static QString buildTextSearchCondition(const QStringList &words, const QString 
 				// If the wildcard we found is the last character and a star, there is no need for a regexp search
 				if (wildcardIdx == w.size() - 1 && w.size() > 1 && w[wildcardIdx] == '*') continue;
 				// Otherwise insert the regular expression search
-				QString regExp(TextTools::escapeForRegexp(TextTools::hiragana2Katakana(w)));
+				QString regExp(TextTools::escapeForRegexp(w));
 				if (table != "gloss")
 					conds << regexpMatch.arg(regExp);
 				else
