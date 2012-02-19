@@ -51,7 +51,7 @@ const QString Kanjidic2GUIPlugin::kanjiGrades[] = {
 	QT_TRANSLATE_NOOP("Kanjidic2GUIPlugin", "Elementary 5th grade"),
 	QT_TRANSLATE_NOOP("Kanjidic2GUIPlugin", "Elementary 6th grade"),
 	QT_TRANSLATE_NOOP("Kanjidic2GUIPlugin", "Invalid"),
-	QT_TRANSLATE_NOOP("Kanjidic2GUIPlugin", "Secondary school"),
+	QT_TRANSLATE_NOOP("Kanjidic2GUIPlugin", "Junior high school"),
 	QT_TRANSLATE_NOOP("Kanjidic2GUIPlugin", "Used for names (1)"),
 	QT_TRANSLATE_NOOP("Kanjidic2GUIPlugin", "Used for names (2)"),
 };
