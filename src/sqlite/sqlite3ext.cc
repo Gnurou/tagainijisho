@@ -29,9 +29,9 @@ static QByteArray kanasConverted;
 
 static void regexpFunc(sqlite3_context *context, int argc, sqlite3_value **argv)
 {
-	QString text(TextTools::hiragana2Katakana(QString::fromUtf8((const char *)sqlite3_value_text(argv[1]))));
+	const QString text(TextTools::hiragana2Katakana(QString::fromUtf8((const char *)sqlite3_value_text(argv[1]))));
 	// Get the regexp referenced by the request
-	QRegExp regexp = QRegExp((const char *)sqlite3_value_text(argv[0]));
+	QRegExp regexp = QRegExp(QString::fromUtf8((const char *)sqlite3_value_text(argv[0])));
 	regexp.setCaseSensitivity(Qt::CaseInsensitive);
 
 	bool res = text.contains(regexp);
