@@ -493,6 +493,12 @@ QString romajiToKana(const QString &src)
 			if (part.size() > 1 && part[1] == 'n') i += 1;
 		}
 		if (p != i) continue;
+		if (isPunctuationChar(part[0]) || part[0] == '*') {
+			ret += part[0];
+			i += 1;
+			continue;
+		}
+		if (p != i) continue;
 		// Did not match, return empty string
 		return "";
 	}

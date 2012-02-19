@@ -50,7 +50,8 @@ SearchCommand Kanjidic2EntrySearcher::commandFromWord(const QString &word) const
 	if (word.size() == 1 && TextTools::isKanji(word[0])) return SearchCommand::fromString(QString(":kanji=\"%1\"").arg(word[0]));
 	else if (TextTools::isKana(checkString)) return SearchCommand::fromString(QString(":kana=\"%1\"").arg(word));
 	else if (TextTools::isRomaji(checkString)) {
-		// TODO does not work with wildcards
+		// TODO we would like to do a "or" of the kana and romaji search conditions here. The current query generator
+		//      does not allow this for now.
 		QString kn(TextTools::romajiToKana(word));
 		if (!kn.isEmpty()) return SearchCommand::fromString(QString(":kana=\"%1\"").arg(kn));
 		return SearchCommand::fromString(QString(":mean=\"%1\"").arg(word));
