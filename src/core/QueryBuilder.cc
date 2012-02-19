@@ -145,6 +145,25 @@ QueryBuilder::Column QueryBuilder::Statement::leftColumn() const
 	return jList[0].column1();
 }
 
+QString QueryBuilder::Where::toString() const {
+	if (_wheres.isEmpty())
+		return _constraint;
+	else {
+		QStringList s;
+		foreach (const Where &where, _wheres)
+			s << where.toString();
+		return "(" + s.join(QString(" %1 ").arg(_constraint)) + ")";
+	}
+}
+
+void QueryBuilder::Where::addWhere(const Where &where, int pos)
+{
+	if (_wheres.contains(where)) return;
+
+	if (pos == -1) pos = _wheres.size();
+	_wheres.insert(pos, where);
+}
+
 QString QueryBuilder::Statement::sqlStatementRightPart() const
 {
 	QString res;
@@ -211,6 +230,8 @@ QString QueryBuilder::Statement::buildSqlStatement() const
 
 	QString lC = leftColumn().toString();
 	res.replace("{{leftcolumn}}", lC);
+
+	qDebug() << res;
 	return res;
 }
 
