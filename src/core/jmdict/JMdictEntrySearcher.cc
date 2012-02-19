@@ -72,18 +72,6 @@ SearchCommand JMdictEntrySearcher::commandFromWord(const QString &word) const
 	//return SearchCommand::invalid();
 }
 
-/**
- * Turns the string given as parameter into the equivalent regexp string.
- */
-static QString escapeForRegexp(const QString &string)
-{
-	QString ret = string;
-
-	ret.replace('?', "[\\w]");
-	ret.replace('*', "[\\w]*");
-	return "\\b" + ret + "\\b";
-}
-
 static QString buildTextSearchCondition(const QStringList &words, const QString &table)
 {
 	static QRegExp regExpChars = QRegExp("[\\?\\*]");
@@ -108,7 +96,7 @@ static QString buildTextSearchCondition(const QStringList &words, const QString 
 				// If the wildcard we found is the last character and a star, there is no need for a regexp search
 				if (wildcardIdx == w.size() - 1 && w.size() > 1 && w[wildcardIdx] == '*') continue;
 				// Otherwise insert the regular expression search
-				QString regExp(escapeForRegexp(TextTools::hiragana2Katakana(w)));
+				QString regExp(TextTools::escapeForRegexp(TextTools::hiragana2Katakana(w)));
 				if (table != "gloss")
 					conds << regexpMatch.arg(regExp);
 				else

@@ -22,6 +22,10 @@
 #include <QString>
 
 namespace TextTools {
+	/**
+	 * Turns the wildcards string given as parameter into the equivalent regexp string.
+	 */
+	QString escapeForRegexp(const QString &string);
 	bool isHiraganaChar(const QChar c);
 	bool isKatakanaChar(const QChar c);
 	bool isKanaChar(const QChar c);

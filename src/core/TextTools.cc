@@ -44,6 +44,15 @@
 
 namespace TextTools {
 
+QString escapeForRegexp(const QString &string)
+{
+	QString ret = string;
+
+	ret.replace('?', "\\w");
+	ret.replace('*', "\\w*");
+	return "\\b" + ret + "\\b";
+}
+
 bool isHiraganaChar(const QChar c) {
 	return c >= UNICODE_HIRAGANA_BEGIN && c <= UNICODE_HIRAGANA_END;
 }
