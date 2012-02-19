@@ -7,6 +7,7 @@
   module can be loaded as an SQLite extension
 * Fixed database concurrency bugs
 * Much faster mass-manipulation of entries
+* Better handling of components with variations in kanji popup
 
 0.9.2 released on 2011/11/17
 * Fix startup bug when updating removed JMdict entries (thanks jnaset!)
