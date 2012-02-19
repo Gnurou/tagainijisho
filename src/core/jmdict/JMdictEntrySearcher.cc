@@ -256,7 +256,7 @@ void JMdictEntrySearcher::buildStatement(QList<SearchCommand> &commands, QueryBu
 				// Check if the argument is defined
 				if (JMdictPlugin::posBitShifts().contains(arg)) {
 					quint8 bitShift(JMdictPlugin::posBitShifts()[arg]);
-					posFilter |= 1L << bitShift;
+					posFilter |= 1ULL << bitShift;
 				} else allArgsProcessed = false;
 			}
 			if (!allArgsProcessed) continue;
@@ -268,7 +268,7 @@ void JMdictEntrySearcher::buildStatement(QList<SearchCommand> &commands, QueryBu
 				// Check if the argument is defined
 				if (JMdictPlugin::miscBitShifts().contains(arg)) {
 					quint8 bitShift(JMdictPlugin::miscBitShifts()[arg]);
-					miscFilter |= 1L << bitShift;
+					miscFilter |= 1ULL << bitShift;
 				} else allArgsProcessed = false;
 			}
 			if (!allArgsProcessed) continue;
@@ -280,7 +280,7 @@ void JMdictEntrySearcher::buildStatement(QList<SearchCommand> &commands, QueryBu
 				// Check if the argument is defined
 				if (JMdictPlugin::dialectBitShifts().contains(arg)) {
 					quint8 bitShift(JMdictPlugin::dialectBitShifts()[arg]);
-					dialectFilter |= 1L << bitShift;
+					dialectFilter |= 1ULL << bitShift;
 				} else allArgsProcessed = false;
 			}
 			if (!allArgsProcessed) continue;
@@ -292,7 +292,7 @@ void JMdictEntrySearcher::buildStatement(QList<SearchCommand> &commands, QueryBu
 				// Check if the argument is defined
 				if (JMdictPlugin::fieldBitShifts().contains(arg)) {
 					quint8 bitShift(JMdictPlugin::fieldBitShifts()[arg]);
-					fieldFilter |= 1L << bitShift;
+					fieldFilter |= 1ULL << bitShift;
 				} else allArgsProcessed = false;
 			}
 			if (!allArgsProcessed) continue;
@@ -363,7 +363,7 @@ void JMdictEntrySearcher::buildStatement(QList<SearchCommand> &commands, QueryBu
 void JMdictEntrySearcher::updateMiscFilterMask()
 {
 	_miscFilterMask = 0;
-	foreach (const QString &str, miscPropertiesFilter.value().split(',')) if (JMdictPlugin::miscBitShifts().contains(str)) _miscFilterMask |= 1 << JMdictPlugin::miscBitShifts()[str];
+	foreach (const QString &str, miscPropertiesFilter.value().split(',')) if (JMdictPlugin::miscBitShifts().contains(str)) _miscFilterMask |= 1ULL << JMdictPlugin::miscBitShifts()[str];
 }
 
 QueryBuilder::Column JMdictEntrySearcher::canSort(const QString &sort, const QueryBuilder::Statement &statement)
