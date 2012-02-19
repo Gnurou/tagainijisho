@@ -46,7 +46,7 @@ JMdictEntrySearcher::JMdictEntrySearcher() : EntrySearcher(JMDICTENTRY_GLOBALID)
 	QueryBuilder::Order::orderingWay["freq"] = QueryBuilder::Order::DESC;
 
 	// Register text search commands
-	validCommands << "mean" << "kana" << "kanji" << "jmdict" << "haskanji" << "jlpt" << "withstudiedkanjis" << "hascomponent" << "withkanaonly";
+	validCommands << "romaji" << "mean" << "kana" << "kanji" << "jmdict" << "haskanji" << "jlpt" << "withstudiedkanjis" << "hascomponent" << "withkanaonly";
 	// Also register commands that are sense properties
 	validCommands << "pos" << "misc" << "dial" << "field";
 }
@@ -66,8 +66,14 @@ SearchCommand JMdictEntrySearcher::commandFromWord(const QString &word) const
 	else if (TextTools::isKana(checkString)) return SearchCommand::fromString(QString(":kana=\"%1\"").arg(word));
 	// Otherwise check if it is kanji or kanji/kana mixed Japanese
 	else if (TextTools::isJapanese(checkString)) return SearchCommand::fromString(QString(":kanji=\"%1\"").arg(word));
-	// Then we are probably looking for a translation
-	else return SearchCommand::fromString(QString(":mean=\"%1\"").arg(word));
+	// Then we are probably looking for romaji
+	else {
+		if (true) {
+			QString kn(TextTools::romajiToKana(word));
+			if (!kn.isEmpty()) return SearchCommand::fromString(QString(":romaji=\"%1\"").arg(word));
+		}
+		return SearchCommand::fromString(QString(":mean=\"%1\"").arg(word));
+	}
 	// Nothing? Return an invalid command
 	//return SearchCommand::invalid();
 }
@@ -131,6 +137,7 @@ void JMdictEntrySearcher::buildStatement(QList<SearchCommand> &commands, QueryBu
 	QStringList kanjiReadingsMatch;
 	QStringList kanaReadingsMatch;
 	QStringList transReadingsMatch;
+	QStringList romajiSearch;
 	QStringList hasKanjiSearch;
 	QStringList hasComponentSearch;
 	quint64 posFilter(0), miscFilter(0), dialectFilter(0), fieldFilter(0);
@@ -145,16 +152,18 @@ void JMdictEntrySearcher::buildStatement(QList<SearchCommand> &commands, QueryBu
 		// Search for text search commands
 		if (commandLabel == "mean" || commandLabel == "kana" || commandLabel == "kanji") {
 			foreach(const QString &arg, command.args()) {
-				if (command.command() == "mean" ||command.command() == "kanji" || command.command() == "kana") {
-					// Protect multi-words arguments within quotes
-					if (command.command() == "mean")
-						transReadingsMatch << arg;
-					if (command.command() == "kanji")
-						kanjiReadingsMatch << arg;
-					if (command.command() == "kana")
-						kanaReadingsMatch << arg;
-				}
+				// TODO Protect multi-words arguments within quotes
+				if (command.command() == "mean")
+					transReadingsMatch << arg;
+				if (command.command() == "kanji")
+					kanjiReadingsMatch << arg;
+				if (command.command() == "kana")
+					kanaReadingsMatch << arg;
 			}
+			commands.removeOne(command);
+		}
+		else if (command.command() == "romaji") {
+			foreach(const QString &arg, command.args()) romajiSearch << arg;
 			commands.removeOne(command);
 		}
 		else if (commandLabel == "jmdict") {
@@ -313,6 +322,16 @@ void JMdictEntrySearcher::buildStatement(QList<SearchCommand> &commands, QueryBu
 	}
 
 	// Add where statements for text search
+	foreach (const QString &rword, romajiSearch) {
+		QueryBuilder::Where where("OR");
+		QString kword(TextTools::romajiToKana(rword));
+		if (kword.isEmpty()) transReadingsMatch << rword;
+		else {
+			where.addWhere(buildTextSearchCondition(QStringList() << kword, "kana"));
+			where.addWhere(buildTextSearchCondition(QStringList() << rword, "gloss"));
+			statement.addWhere(where);
+		}
+	}
 	if (!kanjiReadingsMatch.isEmpty()) statement.addWhere(buildTextSearchCondition(kanjiReadingsMatch, "kanji"));
 	if (!kanaReadingsMatch.isEmpty()) statement.addWhere(buildTextSearchCondition(kanaReadingsMatch, "kana"));
 	if (!transReadingsMatch.isEmpty()) statement.addWhere(buildTextSearchCondition(transReadingsMatch, "gloss"));

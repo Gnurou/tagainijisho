@@ -33,7 +33,7 @@ Kanjidic2EntrySearcher::Kanjidic2EntrySearcher() : EntrySearcher(KANJIDIC2ENTRY_
 
 	QueryBuilder::Order::orderingWay["freq"] = QueryBuilder::Order::DESC;
 
-	validCommands << "kanji" << "kana" << "mean" << "jlpt" << "grade" << "stroke" << "radical" << "component" << "unicode" << "skip" << "fourcorner" << "kanjidic";
+	validCommands << "kanji" << "romaji" << "kana" << "mean" << "jlpt" << "grade" << "stroke" << "radical" << "component" << "unicode" << "skip" << "fourcorner" << "kanjidic";
 }
 
 SearchCommand Kanjidic2EntrySearcher::commandFromWord(const QString &word) const
@@ -50,10 +50,10 @@ SearchCommand Kanjidic2EntrySearcher::commandFromWord(const QString &word) const
 	if (word.size() == 1 && TextTools::isKanji(word[0])) return SearchCommand::fromString(QString(":kanji=\"%1\"").arg(word[0]));
 	else if (TextTools::isKana(checkString)) return SearchCommand::fromString(QString(":kana=\"%1\"").arg(word));
 	else if (TextTools::isRomaji(checkString)) {
-		// TODO we would like to do a "or" of the kana and romaji search conditions here. The current query generator
-		//      does not allow this for now.
-		QString kn(TextTools::romajiToKana(word));
-		if (!kn.isEmpty()) return SearchCommand::fromString(QString(":kana=\"%1\"").arg(kn));
+		if (true) {
+			QString kn(TextTools::romajiToKana(word));
+			if (!kn.isEmpty()) return SearchCommand::fromString(QString(":romaji=\"%1\"").arg(word));
+		}
 		return SearchCommand::fromString(QString(":mean=\"%1\"").arg(word));
 	}
 	return SearchCommand::invalid();
@@ -117,6 +117,7 @@ void Kanjidic2EntrySearcher::buildStatement(QList<SearchCommand> &commands, Quer
 	// And do the rest
 	QStringList kanaSearch;
 	QStringList transSearch;
+	QStringList romajiSearch;
 	QStringList radicalSearch;
 	QStringList componentSearch;
 	foreach (const SearchCommand &command, commands) {
@@ -130,6 +131,9 @@ void Kanjidic2EntrySearcher::buildStatement(QList<SearchCommand> &commands, Quer
 		}
 		else if (command.command() == "kana") {
 			foreach(const QString &arg, command.args()) kanaSearch << arg;
+		}
+		else if (command.command() == "romaji") {
+			foreach(const QString &arg, command.args()) romajiSearch << arg;
 		}
 		else if (command.command() == "mean") {
 			foreach(const QString &arg, command.args())
@@ -253,6 +257,16 @@ void Kanjidic2EntrySearcher::buildStatement(QList<SearchCommand> &commands, Quer
 		if (processed) {
 			commands.removeOne(command);
 			statement.addJoin(QueryBuilder::Column("kanjidic2.entries", "id"));
+		}
+	}
+	foreach (const QString &rword, romajiSearch) {
+		QueryBuilder::Where where("OR");
+		QString kword(TextTools::romajiToKana(rword));
+		if (kword.isEmpty()) transSearch << rword;
+		else {
+			where.addWhere(buildTextSearchCondition(QStringList() << kword, "reading"));
+			where.addWhere(buildTextSearchCondition(QStringList() << rword, "meaning"));
+			statement.addWhere(where);
 		}
 	}
 	if (!kanaSearch.isEmpty()) statement.addWhere(buildTextSearchCondition(kanaSearch, "reading"));
