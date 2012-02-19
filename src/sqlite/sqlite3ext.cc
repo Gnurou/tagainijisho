@@ -337,7 +337,13 @@ typedef struct katakana_tokenizer_cursor {
   int iOffset;                 /* current position in pInput */
   int iToken;                  /* index of next token to be returned */
   char *pToken;                /* storage for current token */
-  int nTokenAllocated;         /* space allocated to zToken buffer */
+  size_t nTokenAllocated;         /* space allocated to zToken buffer */
+
+	bool replay;
+	char *replayToken;
+	int replayStart;
+	int replayEnd;
+	int replayPos;
 } katakana_tokenizer_cursor;
 
 static int katakanaDelim(katakana_tokenizer *t, unsigned char c){
@@ -379,6 +385,8 @@ static int katakanaCreate(
     for(i=1; i<0x80; i++){
       t->delim[i] = !isalnum(i);
     }
+    // '.' is used in kanji readings and should not be a delimiter
+    t->delim['.'] = 0;
   }
 
   *ppTokenizer = &t->base;
@@ -409,6 +417,7 @@ static int katakanaOpen(
   c = (katakana_tokenizer_cursor *) sqlite3_malloc(sizeof(*c));
   if( c==NULL ) return SQLITE_NOMEM;
 
+  memset(c, 0, sizeof(*c));
   c->pInput = pInput;
   if( pInput==0 ){
     c->nBytes = 0;
@@ -433,6 +442,7 @@ static int katakanaOpen(
 static int katakanaClose(sqlite3_tokenizer_cursor *pCursor){
   katakana_tokenizer_cursor *c = (katakana_tokenizer_cursor *) pCursor;
   sqlite3_free(c->pToken);
+  if (c->replayToken) free(c->replayToken);
   sqlite3_free(c);
   return SQLITE_OK;
 }
@@ -453,6 +463,25 @@ static int katakanaNext(
   katakana_tokenizer *t = (katakana_tokenizer *) pCursor->pTokenizer;
   unsigned char *p = (unsigned char *)c->pInput;
 
+  /* Replay a dotted token */
+  if (c->replay) {
+	c->replay = false;
+	if (c->nTokenAllocated <= strlen(c->replayToken + 1)) {
+		c->nTokenAllocated = strlen(c->replayToken + 21);
+		c->pToken = (char *)sqlite3_realloc(c->pToken, c->nTokenAllocated);
+		if( c->pToken==NULL ) return SQLITE_NOMEM;
+	}
+	strcpy(c->pToken, c->replayToken);
+	free(c->replayToken);
+	c->replayToken = 0;
+	*ppToken = c->pToken;
+	*pnBytes = strlen(c->pToken);
+	*piStartOffset = c->replayStart;
+	*piEndOffset = c->replayEnd;
+	*piPosition = c->replayPos;
+	return SQLITE_OK;
+  }
+
   while( c->iOffset<c->nBytes ){
     int iStartOffset;
 
@@ -468,7 +497,7 @@ static int katakanaNext(
     }
 
     if( c->iOffset>iStartOffset ){
-      int i, n = c->iOffset-iStartOffset;
+      size_t i, n = c->iOffset-iStartOffset;
       if( n+1>c->nTokenAllocated ){
 	c->nTokenAllocated = n+21;
 	c->pToken = (char *)sqlite3_realloc(c->pToken, c->nTokenAllocated);
@@ -482,8 +511,22 @@ static int katakanaNext(
 	c->pToken[i] = ch<0x80 ? tolower(ch) : ch;
       }
       c->pToken[i] = 0;
-      *ppToken = hiraganasToKatakanas(c->pToken);
-      *pnBytes = n;
+      QString katakanaString(TextTools::hiragana2Katakana(QString::fromUtf8(c->pToken)));
+
+      if (katakanaString.contains('.')) {
+	      QString replayString(katakanaString);
+	      replayString.remove('.');
+	      c->replay = true;
+	      c->replayToken = strdup(replayString.toUtf8().constData());
+	      katakanaString = katakanaString.left(katakanaString.indexOf('.'));
+	      c->replayStart = iStartOffset;
+	      c->replayEnd = c->iOffset;
+	      c->replayPos = c->iToken;
+      }
+
+      strcpy(c->pToken, katakanaString.toUtf8().constData());
+      *ppToken = c->pToken;
+      *pnBytes = strlen(c->pToken);
       *piStartOffset = iStartOffset;
       *piEndOffset = c->iOffset;
       *piPosition = c->iToken++;
