@@ -103,7 +103,7 @@ void KanjiComponentWidget::paintEvent(QPaintEvent *event)
 
 	QRect textRect(QPoint(kanjiSize + 5, 0), size() - QSize(kanjiSize + 5, 0));
 	readings = fontMetrics().elidedText(kEntry->readings().join(", "), Qt::ElideRight, textRect.width());
-	//meanings = fontMetrics().elidedText(meanings, Qt::ElideRight, textRect.width());
+	meanings = fontMetrics().elidedText(meanings, Qt::ElideRight, textRect.width());
 	if (!meanings.isEmpty()) meanings[0] = meanings[0].toUpper();
 
 	painter.drawText(textRect, 0, QString("%1\n%2").arg(meanings).arg(readings));
