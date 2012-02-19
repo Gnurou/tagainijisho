@@ -145,7 +145,7 @@ template <> void DBListEntry<QString>::readDataValues(SQLite::Query &query, int 
 
 void OrderedRBTreeDBTests::createTreeTest()
 {
-        OrderedRBTree<OrderedRBDBTree<QString> > tree;
+	OrderedRBTree<OrderedRBDBTree<QString> > tree;
 	tree.tree()->setDBAccess(&stringListDB);
 	tree.tree()->setListId(1);
 	tree.tree()->setLabel("Test list");
@@ -239,7 +239,7 @@ void OrderedRBTreeDBTests::removeTreeTest() {
 	q.useWith(&connection);
 	QVERIFY(q.prepare(QString("select count(*) from %1").arg(stringListDB.tableName())));
 
-        OrderedRBTree<OrderedRBDBTree<QString> > tree;
+	OrderedRBTree<OrderedRBDBTree<QString> > tree;
 	tree.tree()->setDBAccess(&stringListDB);
 	tree.tree()->setListId(1);
 
@@ -261,7 +261,7 @@ void OrderedRBTreeDBTests::newTreeTest()
 	SQLite::Query q;
 	q.useWith(&connection);
 	QVERIFY(q.prepare(QString("select count(*) from %1Roots").arg(listDB.tableName())));
-        EntryList tree(&listDB, 0), tree2(&listDB, 0);
+	EntryList tree(&listDB, 0), tree2(&listDB, 0);
 
 	QVERIFY(q.exec());
 	QVERIFY(q.next());

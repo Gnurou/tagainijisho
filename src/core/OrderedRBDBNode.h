@@ -194,13 +194,13 @@ public:
 		mustUpdateRootTable = true;
 	}
 
-        bool aboutToChange()
+	bool aboutToChange()
 	{
 		_changedNodes.clear();
 		return _ldb->connection()->transaction();
 	}
 
-        void nodeChanged(Node *n)
+	void nodeChanged(Node *n)
 	{
 		_changedNodes << n;
 	}
@@ -220,7 +220,7 @@ public:
 		delete node;
 	}
 
-        bool commitChanges()
+	bool commitChanges()
 	{
 		foreach (Node *n, _changedNodes) {
 			if (!n->updateDB()) {

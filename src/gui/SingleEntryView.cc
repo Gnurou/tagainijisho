@@ -29,7 +29,7 @@ SingleEntryView::SingleEntryView(QObject *parent) : EntryMenu(parent), _entry(0)
 	connect(&addTagsAction, SIGNAL(triggered()), this, SLOT(addTags()));
 	connect(&setNotesAction, SIGNAL(triggered()), this, SLOT(setNotes()));
 	connect(this, SIGNAL(tagsHistorySelected(const QStringList &)),
-	        this, SLOT(setTagsFromHistory(const QStringList &)));
+	this, SLOT(setTagsFromHistory(const QStringList &)));
 }
 
 void SingleEntryView::setEntry(const EntryPointer &entry)

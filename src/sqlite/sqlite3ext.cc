@@ -180,8 +180,8 @@ static int ignoreCreate(
       unsigned char ch = argv[1][i];
       /* We explicitly don't support UTF-8 delimiters for now. */
       if( ch>=0x80 ){
-        sqlite3_free(t);
-        return SQLITE_ERROR;
+	sqlite3_free(t);
+	return SQLITE_ERROR;
       }
       t->delim[ch] = 1;
     }
@@ -283,16 +283,16 @@ beginParse:
     if( c->iOffset>iStartOffset ){
       int i, n = c->iOffset-iStartOffset;
       if( n+1>c->nTokenAllocated ){
-        c->nTokenAllocated = n+21;
-        c->pToken = (char *)sqlite3_realloc(c->pToken, c->nTokenAllocated);
-        if( c->pToken==NULL ) return SQLITE_NOMEM;
+	c->nTokenAllocated = n+21;
+	c->pToken = (char *)sqlite3_realloc(c->pToken, c->nTokenAllocated);
+	if( c->pToken==NULL ) return SQLITE_NOMEM;
       }
       for(i=0; i<n; i++){
-        /* TODO(shess) This needs expansion to handle UTF-8
-        ** case-insensitivity.
-        */
-        unsigned char ch = p[iStartOffset+i];
-        c->pToken[i] = ch<0x80 ? tolower(ch) : ch;
+	/* TODO(shess) This needs expansion to handle UTF-8
+	** case-insensitivity.
+	*/
+	unsigned char ch = p[iStartOffset+i];
+	c->pToken[i] = ch<0x80 ? tolower(ch) : ch;
       }
       c->pToken[i] = 0;
 	if (isToIgnore(c->pToken)) goto beginParse;
@@ -369,8 +369,8 @@ static int katakanaCreate(
       unsigned char ch = argv[1][i];
       /* We explicitly don't support UTF-8 delimiters for now. */
       if( ch>=0x80 ){
-        sqlite3_free(t);
-        return SQLITE_ERROR;
+	sqlite3_free(t);
+	return SQLITE_ERROR;
       }
       t->delim[ch] = 1;
     }
@@ -471,16 +471,16 @@ static int katakanaNext(
     if( c->iOffset>iStartOffset ){
       int i, n = c->iOffset-iStartOffset;
       if( n+1>c->nTokenAllocated ){
-        c->nTokenAllocated = n+21;
-        c->pToken = (char *)sqlite3_realloc(c->pToken, c->nTokenAllocated);
-        if( c->pToken==NULL ) return SQLITE_NOMEM;
+	c->nTokenAllocated = n+21;
+	c->pToken = (char *)sqlite3_realloc(c->pToken, c->nTokenAllocated);
+	if( c->pToken==NULL ) return SQLITE_NOMEM;
       }
       for(i=0; i<n; i++){
-        /* TODO(shess) This needs expansion to handle UTF-8
-        ** case-insensitivity.
-        */
-        unsigned char ch = p[iStartOffset+i];
-        c->pToken[i] = ch<0x80 ? tolower(ch) : ch;
+	/* TODO(shess) This needs expansion to handle UTF-8
+	** case-insensitivity.
+	*/
+	unsigned char ch = p[iStartOffset+i];
+	c->pToken[i] = ch<0x80 ? tolower(ch) : ch;
       }
       c->pToken[i] = 0;
       *ppToken = hiraganasToKatakanas(c->pToken);

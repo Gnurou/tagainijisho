@@ -389,9 +389,9 @@ bool KanjiDB::createRootComponentsTable()
 {
 	SQLite::Query query(&connections["main"]);
 	if (!query.exec("select distinct ks.element from strokeGroups as ks join entries as e on ks.element = e.id where ks.element not in (select distinct kanji from strokeGroups where element != kanji) "
-	                // We are not counting components that are only components of themselves (whatever that means)
-	                "and ks.kanji != ks.element "
-	                "order by strokeCount")) {
+	        // We are not counting components that are only components of themselves (whatever that means)
+	        "and ks.kanji != ks.element "
+	        "order by strokeCount")) {
 		return false;
 	}
 	while (query.next()) {

@@ -50,9 +50,9 @@ private slots:
 	void updateDataTest();
 	void removeDataTest();
 
-        void createTreeTest();
-        void retrieveTreeTest();
-        void removeTreeTest();
+	void createTreeTest();
+	void retrieveTreeTest();
+	void removeTreeTest();
 
 	void newTreeTest();
 public:

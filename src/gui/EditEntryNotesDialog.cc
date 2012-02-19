@@ -94,7 +94,7 @@ EditEntryNotesDialog::EditEntryNotesDialog(Entry &entry, QWidget *parent) : QDia
 	view->setModel(model);
 	QItemSelectionModel *selModel = view->selectionModel();
 	connect(selModel, SIGNAL(selectionChanged(const QItemSelection &, const QItemSelection &)),
-	        this, SLOT(displayNote(const QItemSelection &, const QItemSelection &)));
+	this, SLOT(displayNote(const QItemSelection &, const QItemSelection &)));
 
 	textEdit = new QTextEdit(this);
 	textEdit->setAcceptRichText(false);

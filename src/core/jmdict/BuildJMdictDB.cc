@@ -219,10 +219,10 @@ bool JMdictDBParser::insertJLPTLevel(const QString &fName, int level)
 bool JMdictDBParser::insertJLPTLevels()
 {
 	ASSERT(insertJLPTLevel(QDir(srcDir).absoluteFilePath("src/core/jmdict/jlpt-n1.csv"), 1));
-        ASSERT(insertJLPTLevel(QDir(srcDir).absoluteFilePath("src/core/jmdict/jlpt-n2.csv"), 2));
-        ASSERT(insertJLPTLevel(QDir(srcDir).absoluteFilePath("src/core/jmdict/jlpt-n3.csv"), 3));
-        ASSERT(insertJLPTLevel(QDir(srcDir).absoluteFilePath("src/core/jmdict/jlpt-n4.csv"), 4));
-        ASSERT(insertJLPTLevel(QDir(srcDir).absoluteFilePath("src/core/jmdict/jlpt-n5.csv"), 5));
+	ASSERT(insertJLPTLevel(QDir(srcDir).absoluteFilePath("src/core/jmdict/jlpt-n2.csv"), 2));
+	ASSERT(insertJLPTLevel(QDir(srcDir).absoluteFilePath("src/core/jmdict/jlpt-n3.csv"), 3));
+	ASSERT(insertJLPTLevel(QDir(srcDir).absoluteFilePath("src/core/jmdict/jlpt-n4.csv"), 4));
+	ASSERT(insertJLPTLevel(QDir(srcDir).absoluteFilePath("src/core/jmdict/jlpt-n5.csv"), 5));
 	return true;	
 }
 

@@ -78,7 +78,7 @@ void EntrySearcher::buildStatement(QList<SearchCommand> &commands, QueryBuilder:
 			bool ok;
 			int from = command.args()[0].toInt(&ok);
 			if (!ok) continue;
-                        int to = 100;
+	                int to = 100;
 			if (command.args().size() == 2) {
 				to = command.args()[1].toInt(&ok);
 				if (!ok) continue;

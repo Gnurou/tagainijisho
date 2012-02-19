@@ -90,18 +90,18 @@ void PreferencesWindow::applySettings()
 
 static const QMap<QString, QString> _langMapping()
 {
-        QMap<QString, QString> ret;
-        ret.insert("en", QT_TRANSLATE_NOOP("GeneralPreferences", "English"));
-        ret.insert("fr", QT_TRANSLATE_NOOP("GeneralPreferences", "French"));
-        ret.insert("de", QT_TRANSLATE_NOOP("GeneralPreferences", "German"));
-        ret.insert("es", QT_TRANSLATE_NOOP("GeneralPreferences", "Spanish"));
-        ret.insert("ru", QT_TRANSLATE_NOOP("GeneralPreferences", "Russian"));
-        ret.insert("nl", QT_TRANSLATE_NOOP("GeneralPreferences", "Dutch"));
-        ret.insert("it", QT_TRANSLATE_NOOP("GeneralPreferences", "Italian"));
-        ret.insert("nb", QT_TRANSLATE_NOOP("GeneralPreferences", "Norvegian Bokmal"));
-        ret.insert("cs", QT_TRANSLATE_NOOP("GeneralPreferences", "Czech"));
-        ret.insert("ja", QT_TRANSLATE_NOOP("GeneralPreferences", "Japanese"));
-        ret.insert("pl", QT_TRANSLATE_NOOP("GeneralPreferences", "Polish"));
+	QMap<QString, QString> ret;
+	ret.insert("en", QT_TRANSLATE_NOOP("GeneralPreferences", "English"));
+	ret.insert("fr", QT_TRANSLATE_NOOP("GeneralPreferences", "French"));
+	ret.insert("de", QT_TRANSLATE_NOOP("GeneralPreferences", "German"));
+	ret.insert("es", QT_TRANSLATE_NOOP("GeneralPreferences", "Spanish"));
+	ret.insert("ru", QT_TRANSLATE_NOOP("GeneralPreferences", "Russian"));
+	ret.insert("nl", QT_TRANSLATE_NOOP("GeneralPreferences", "Dutch"));
+	ret.insert("it", QT_TRANSLATE_NOOP("GeneralPreferences", "Italian"));
+	ret.insert("nb", QT_TRANSLATE_NOOP("GeneralPreferences", "Norvegian Bokmal"));
+	ret.insert("cs", QT_TRANSLATE_NOOP("GeneralPreferences", "Czech"));
+	ret.insert("ja", QT_TRANSLATE_NOOP("GeneralPreferences", "Japanese"));
+	ret.insert("pl", QT_TRANSLATE_NOOP("GeneralPreferences", "Polish"));
 	return ret;
 }
 

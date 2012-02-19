@@ -325,11 +325,11 @@ DetailedViewJobRunner::DetailedViewJobRunner(DetailedView * view, QObject *paren
 
 	connect(_aQuery, SIGNAL(firstResult()), this, SLOT(onFirstResult()));
 	connect(_aQuery, SIGNAL(result(EntryPointer)),
-	        this, SLOT(onResult(EntryPointer)));
+	this, SLOT(onResult(EntryPointer)));
 	connect(_aQuery, SIGNAL(completed()), this, SLOT(onCompleted()));
 	connect(_aQuery, SIGNAL(aborted()), this, SLOT(onAborted()));
 	connect(_aQuery, SIGNAL(error(const QString &)),
-	        this, SLOT(onError(const QString &)));
+	this, SLOT(onError(const QString &)));
 }
 
 DetailedViewJobRunner::~DetailedViewJobRunner()

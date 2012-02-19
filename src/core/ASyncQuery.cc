@@ -119,9 +119,9 @@ void ASyncQuery::process()
 		} while(_query.next());
 	}
 	_active = false;
-        _query.clear();
+	_query.clear();
 	emit completed();
-        return;
+	return;
 
 process_abort:
 	_active = false;
@@ -262,17 +262,17 @@ void DatabaseThread::run()
 	// Create our connection in the thread space
 	_connection = new ThreadedDatabaseConnection();
 
-        // Connect to the main database
-        connection()->connect(Database::instance()->userDBFile());
+	// Connect to the main database
+	connection()->connect(Database::instance()->userDBFile());
 
-        // Attach all databases
-        const QMap<QString, QString> &dbsToAttach(Database::attachedDBs());
-        foreach (const QString &alias, dbsToAttach.keys()) {
-                connection()->attach(dbsToAttach[alias], alias);
-        }
+	// Attach all databases
+	const QMap<QString, QString> &dbsToAttach(Database::attachedDBs());
+	foreach (const QString &alias, dbsToAttach.keys()) {
+	        connection()->attach(dbsToAttach[alias], alias);
+	}
 
-        // Add to instances list
-        _instances << this;
+	// Add to instances list
+	_instances << this;
 	// Let the main thread continue
 	_startSem.release();
 
