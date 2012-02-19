@@ -55,13 +55,14 @@ bool Connection::connect(const QString &dbFile, OpenFlags flags)
 		return false;
 	}
 
+	// Enable shared-cache mode
+	sqlite3_enable_shared_cache(1);
+
 	int res = sqlite3_open_v2(dbFile.toUtf8().data(), &_handler, SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE, 0);
 	updateError();
 	if (res != SQLITE_OK) goto err;
 	// Enable extended error codes
 	sqlite3_extended_result_codes(_handler, 1);
-	// Try to enable shared cache
-	sqlite3_enable_shared_cache(1);
 	// Set busy timeout to 20 seconds - this should be more than enough
 	sqlite3_busy_timeout(_handler, 20000);
 	// Register our tokenizers (extensions can be handled by SQLite's auto mechanism, not tokenizers
@@ -70,6 +71,8 @@ bool Connection::connect(const QString &dbFile, OpenFlags flags)
 	// Configure the connection
 	exec("pragma encoding=\"UTF-16le\"");
 	if (!flags & JournalInFile) exec("pragma journal_mode=MEMORY");
+	// Set read-uncommited mode so that read queries can not block
+	exec("pragma read_uncommitted=1");
 
 	_dbFile = dbFile;
 	return true;
