@@ -9,7 +9,7 @@ endif(APPLE)
 # Set the program name to be the same as the project
 set(tagaini_binary ${CMAKE_PROJECT_NAME})
 
-set(VERSION 0.9.2)
+set(VERSION 0.9.3)
 
 cmake_minimum_required(VERSION 2.8.0)
 
