@@ -9,7 +9,7 @@ endif(APPLE)
 # Set the program name to be the same as the project
 set(tagaini_binary ${CMAKE_PROJECT_NAME})
 
-set(VERSION 0.9.2)
+set(VERSION 0.9.3)
 
 cmake_minimum_required(VERSION 2.8.0)
 
@@ -22,7 +22,6 @@ if(CMAKE_COMPILER_IS_GNUCC)
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wnon-virtual-dtor -Wno-unused-parameter -fno-exceptions -fno-rtti")
 endif(CMAKE_COMPILER_IS_GNUCC)
 
-
 # Add the default database lookup data path for Linux if not defined
 if(UNIX AND NOT APPLE AND NOT DATA_DIR)
 	set(DATA_DIR "${CMAKE_INSTALL_PREFIX}/share/tagainijisho")
@@ -31,12 +30,16 @@ endif(UNIX AND NOT APPLE AND NOT DATA_DIR)
 # 64 bits Intel binary with 10.6 compatibility 
 if(APPLE)
 	set(CMAKE_OSX_ARCHITECTURES "${ARCHS_STANDARD_64_BIT}")
-	set(CMAKE_OSX_SYSROOT /Developer/SDKs/MacOSX10.6.sdk)
-	set(CMAKE_OSX_DEPLOYMENT_TARGET 10.6)
+	set(CMAKE_OSX_SYSROOT "/Developer/SDKs/MacOSX10.6.sdk")
+	set(CMAKE_OSX_DEPLOYMENT_TARGET "10.6")
 	set(CMAKE_PREFIX_PATH "${CMAKE_OSX_SYSROOT}/usr")  
 	set(CMAKE_FRAMEWORK_PATH "${CMAKE_OSX_SYSROOT}/Library/Frameworks:${CMAKE_OSX_SYSROOT}/System/")
 	set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -sectcreate __TEXT __info_plist ${CMAKE_BINARY_DIR}/src/gui/Tagaini\\ Jisho.app/Contents/Info.plist")
+	set(extra_link_flags "-bind_at_load")
 endif(APPLE)
+if(WIN32)
+	set(extra_link_flags "-static-libgcc -static-libstdc++ -mwindows")
+endif(WIN32)
 
 # By default, enable all languages
 if(NOT DICT_LANG)

@@ -1,5 +1,5 @@
 /*
- *  Copyright (C) 2010  Alexandre Courbot
+ *  Copyright (C) 2010-2012  Alexandre Courbot
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -20,6 +20,7 @@
 
 #include "gui/EntryMenu.h"
 #include "gui/EntryDelegate.h"
+#include "gui/BatchHandler.h"
 
 #include <QMenu>
 
@@ -53,7 +54,12 @@ private:
 	QModelIndexList getAllIndexes(const QModelIndexList& indexes);
 	
 	QModelIndexList getEntriesToProcess(bool limitToSelection = false);
-	
+
+	/**
+	 * Apply a handler to a selection and update the client accordingly
+	 */
+	void applyOnSelection(const BatchHandler &handler);
+
 protected:
 	bool eventFilter(QObject *obj, QEvent *ev);
 
@@ -63,7 +69,6 @@ public slots:
 	 */
 	void updateLayout();
 	void updateConfig(const QVariant &value);
-
 
 protected slots:
 	void studySelected();

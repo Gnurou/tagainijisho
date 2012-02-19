@@ -113,7 +113,7 @@ void EntryDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
 	QStringList readings(entry->readings());
 	bbox = painter->boundingRect(rect, 0, mainRepr);
 	painter->drawText(QPoint(rect.left(), rect.top() + topLineAscent),
-	                  mainRepr);
+	          mainRepr);
 	// Used for alternate writings and readings
 	QString s = " ";
 	if (layout->displayMode() == EntryDelegateLayout::OneLine) {

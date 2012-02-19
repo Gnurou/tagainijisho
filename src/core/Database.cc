@@ -15,6 +15,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "sqlite3.h"
 #include "sqlite/SQLite.h"
 
 #include "core/Paths.h"
@@ -398,7 +399,7 @@ void Database::stop()
 
 Database::Database(const QString &userDBFile) : _tFile(0)
 {
-	SQLite::init_extensions();
+	sqlite3ext_init();
 }
 
 Database::~Database()

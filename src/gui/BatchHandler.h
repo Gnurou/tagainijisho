@@ -1,5 +1,5 @@
 /*
- *  Copyright (C) 2010  Alexandre Courbot
+ *  Copyright (C) 2012  Alexandre Courbot
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -15,23 +15,23 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef __SQLITE_SQLITE_H
-#define __SQLITE_SQLITE_H
+#ifndef __GUI_BATCHHANDLER_H
+#define __GUI_BATCHHANDLER_H
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#include "core/Entry.h"
 
-/* Register the callback that will automatically call register_functions
- * for every new SQLite connection */
-void sqlite3ext_init();
-/* Register all our custom functions */
-int sqlite3ext_register_functions(sqlite3 *handler);
-/* Register all our custom tokenizers */
-int sqlite3ext_register_tokenizers(sqlite3 *db);
+#include <QModelIndexList>
+#include <QCoreApplication>
+#include <QWidget>
 
-#ifdef __cplusplus
-}
-#endif
+class BatchHandler
+{
+	Q_DECLARE_TR_FUNCTIONS(BatchHandler)
+public:
+	virtual ~BatchHandler() {}
+	virtual void apply(const EntryPointer &e) const = 0;
+	static void applyOnSelection(const BatchHandler &handler, const QModelIndexList &selection, QWidget *parent = 0);
+	static void applyOnEntries(const BatchHandler &handler, const QList<EntryPointer> &entries, QWidget *parent = 0);
+};
 
 #endif

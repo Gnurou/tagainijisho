@@ -1,10 +1,10 @@
+set(QT_DONT_USE_QTGUI TRUE)
 include(${QT_USE_FILE})
 
-set(SQLITE_MIN_VERSION "3.7.4")
-set(SQLITE_LATEST_VERSION "3.7.9.0")
-set(SQLITE_BLACKLIST "3.7.7;3.7.7.1;3.7.8")
+set(SQLITE_MIN_VERSION "3007004")
+set(SQLITE_BLACKLIST "3007007;3007008")
+set(SQLITE_DOWNLOAD_VERSION "3071000")
 
-string(REPLACE "." "0" SQLITE_DOWNLOAD_VERSION ${SQLITE_LATEST_VERSION})
 set(SQLITE_SOURCE http://www.sqlite.org/sqlite-amalgamation-${SQLITE_DOWNLOAD_VERSION}.zip)
 
 # Embed SQLite even if the system version looks good?
@@ -17,8 +17,8 @@ find_library(SQLITE_LIBRARY
 	DOC "SQLite library"
 )
 if(SQLITE_INCLUDE_DIR AND SQLITE_LIBRARY AND NOT EMBED_SQLITE)
-	file(STRINGS ${SQLITE_INCLUDE_DIR}/sqlite3.h SQLITE_VERSION LIMIT_COUNT 1 REGEX "#define SQLITE_VERSION ")
-	string(REGEX REPLACE "#define SQLITE_VERSION +\"(.+)\"" "\\1" SQLITE_VERSION ${SQLITE_VERSION})
+	file(STRINGS ${SQLITE_INCLUDE_DIR}/sqlite3.h SQLITE_VERSION LIMIT_COUNT 1 REGEX "#define SQLITE_VERSION_NUMBER ")
+	string(REGEX REPLACE "#define SQLITE_VERSION_NUMBER +(.+)" "\\1" SQLITE_VERSION ${SQLITE_VERSION})
 	string(COMPARE GREATER "${SQLITE_VERSION}" "${SQLITE_MIN_VERSION}" FOUND_SQLITE)
 	if(NOT FOUND_SQLITE)
 		string(COMPARE EQUAL "${SQLITE_VERSION}" "${SQLITE_MIN_VERSION}" FOUND_SQLITE)
@@ -55,16 +55,17 @@ if(EMBED_SQLITE AND NOT EXISTS ${CMAKE_SOURCE_DIR}/3rdparty/sqlite/sqlite3.c)
 	file(MAKE_DIRECTORY ${CMAKE_SOURCE_DIR}/3rdparty/sqlite)
 	file(RENAME ${CMAKE_SOURCE_DIR}/3rdparty/sqlite-amalgamation-${SQLITE_DOWNLOAD_VERSION}/sqlite3.c ${CMAKE_SOURCE_DIR}/3rdparty/sqlite/sqlite3.c)
 	file(RENAME ${CMAKE_SOURCE_DIR}/3rdparty/sqlite-amalgamation-${SQLITE_DOWNLOAD_VERSION}/sqlite3.h ${CMAKE_SOURCE_DIR}/3rdparty/sqlite/sqlite3.h)
+	file(RENAME ${CMAKE_SOURCE_DIR}/3rdparty/sqlite-amalgamation-${SQLITE_DOWNLOAD_VERSION}/sqlite3ext.h ${CMAKE_SOURCE_DIR}/3rdparty/sqlite/sqlite3ext.h)
 	file(REMOVE ${CMAKE_SOURCE_DIR}/3rdparty/sqlite-amalgamation-${SQLITE_DOWNLOAD_VERSION}.zip)
 	file(REMOVE_RECURSE ${CMAKE_SOURCE_DIR}/3rdparty/sqlite-amalgamation-${SQLITE_DOWNLOAD_VERSION})
 endif()
 
 set(tagainijisho_sqlite_SRCS
-SQLite.cc
 Error.cc
 Connection.cc
 Query.cc
 sqlite3ext.cc
+sqlite3mod.c
 # TODO Lame!
 ${CMAKE_SOURCE_DIR}/src/core/TextTools.cc
 )
@@ -81,10 +82,20 @@ endif()
 
 include_directories(${QT_INCLUDE_DIR})
 add_definitions(-DSQLITE_ENABLE_FTS3 -DSQLITE_ENABLE_FTS3_PARENTHESIS -DSQLITE_ENABLE_LOCKING_STYLE=0 -DSQLITE_OMIT_DEPRECATED)
-add_library(tagaini_sqlite STATIC ${tagainijisho_sqlite_SRCS} ${tagainijisho_sqlite_MOC_SRCS})
+
+add_library(tagaini_sqlite SHARED ${tagainijisho_sqlite_SRCS} ${tagainijisho_sqlite_MOC_SRCS})
+target_link_libraries(tagaini_sqlite ${QT_LIBRARIES} ${extra_link_flags})
 if(NOT EMBED_SQLITE)
 	target_link_libraries(tagaini_sqlite sqlite3)
 endif()
+
+if(APPLE)
+        set(DEST_DIR "${tagaini_binary}.app/Contents/MacOS")
+else(APPLE)
+        set(DEST_DIR "lib")
+endif(APPLE)
+
+install(TARGETS tagaini_sqlite BUNDLE DESTINATION . COMPONENT Runtime LIBRARY DESTINATION ${DEST_DIR} COMPONENT Runtime ARCHIVE DESTINATION lib COMPONENT Runtime)
 
 if (BUILD_TESTS)
 add_subdirectory(tests)

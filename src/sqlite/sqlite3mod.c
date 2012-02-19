@@ -1,5 +1,5 @@
 /*
- *  Copyright (C) 2010  Alexandre Courbot
+ *  Copyright (C) 2009-2011  Alexandre Courbot
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -14,13 +14,15 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+#include "sqlite3ext.h"
+#include "SQLite.h"
 
-#include "sqlite/SQLite.h"
-#include "sqlite3.h"
+SQLITE_EXTENSION_INIT1
 
-using namespace SQLite;
-
-const char *version()
+int sqlite3_extension_init(sqlite3 *db, char **pzErrMsg, const sqlite3_api_routines *pApi)
 {
-	return SQLITE_VERSION;
+	SQLITE_EXTENSION_INIT2(pApi)
+	sqlite3ext_register_functions(db);
+	sqlite3ext_register_tokenizers(db);
+	return 0;
 }

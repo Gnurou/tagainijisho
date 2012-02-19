@@ -17,7 +17,6 @@
 
 #include "core/Preferences.h"
 #include "core/EntrySearcherManager.h"
-#include "sqlite/SQLite.h"
 
 EntrySearcherManager *EntrySearcherManager::_instance = 0;
 PreferenceItem<bool> EntrySearcherManager::studiedEntriesFirst("mainWindow/resultsView", "studiedEntriesFirst", true);
