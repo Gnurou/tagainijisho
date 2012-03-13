@@ -30,7 +30,6 @@ class BatchHandler
 public:
 	virtual ~BatchHandler() {}
 	virtual void apply(const EntryPointer &e) const = 0;
-	static void applyOnSelection(const BatchHandler &handler, const QModelIndexList &selection, QWidget *parent = 0);
 	static void applyOnEntries(const BatchHandler &handler, const QList<EntryPointer> &entries, QWidget *parent = 0);
 };
 

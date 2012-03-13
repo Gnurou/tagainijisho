@@ -21,48 +21,11 @@
 #include <QProgressDialog>
 #include <QMessageBox>
 
-/**
- * Apply a custom handler to a selection after beginning a database transaction.
- * This is a commonly-used pattern when marking lots of entries from an entry view.
- */
-void BatchHandler::applyOnSelection(const BatchHandler &handler, const QModelIndexList &selection, QWidget *parent)
-{
-	QProgressDialog progressDialog(tr("Marking entries..."), tr("Abort"), 0, selection.size(), parent);
-	progressDialog.setMinimumDuration(1000);
-	progressDialog.setWindowTitle(tr("Operation in progress..."));
-	progressDialog.setWindowModality(Qt::WindowModal);
-
-	int i = 0;
-	if (!Database::connection()->transaction()) {
-		QMessageBox::warning(0, tr("Cannot start transaction"), QString(tr("Error while trying to start database transaction.")));
-		return;
-	}
-	bool completed = true;
-	foreach (const QModelIndex &index, selection) {
-		EntryPointer entry = qVariantValue<EntryPointer>(index.data(Entry::EntryRole));
-		if (progressDialog.wasCanceled()) {
-			completed = false;
-			break;
-		}
-		progressDialog.setValue(i++);
-		if (!entry) continue;
-		handler.apply(entry);
-	}
-	if (!completed) {
-		Database::connection()->rollback();
-	}
-	else if (!Database::connection()->commit()) {
-		Database::connection()->rollback();
-		QMessageBox::warning(0, tr("Cannot commit transaction"), QString(tr("Error while trying to commit database transaction.")));
-		return;
-	}
-}
-
 void BatchHandler::applyOnEntries(const BatchHandler &handler, const QList<EntryPointer> &entries, QWidget *parent)
 {
 	QProgressDialog progressDialog(tr("Marking entries..."), tr("Abort"), 0, entries.size(), parent);
 	progressDialog.setMinimumDuration(1000);
-	progressDialog.setWindowTitle(tr("Operation in progress..."));
+	progressDialog.setWindowTitle(tr("Please wait..."));
 	progressDialog.setWindowModality(Qt::WindowModal);
 
 	int i = 0;

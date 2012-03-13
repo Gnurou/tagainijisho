@@ -91,19 +91,32 @@ void EntriesViewHelper::setPreferenceHandler(Preference pref, PreferenceRoot *re
 QList<EntryPointer> EntriesViewHelper::selectedEntries() const
 {
 	QModelIndexList selection = client()->selectionModel()->selectedIndexes();
+	QProgressDialog progressDialog(tr("Selecting entries..."), tr("Abort"), 0, selection.size(), 0);
+	progressDialog.setMinimumDuration(1000);
+	progressDialog.setWindowTitle(tr("Please wait..."));
+	progressDialog.setWindowModality(Qt::WindowModal);
+
 	QList<EntryPointer> selectedEntries;
+	int i = 0;
+	int completed = true;
 	foreach(const QModelIndex &index, selection) {
+		if (progressDialog.wasCanceled()) {
+			completed = false;
+			break;
+		}
+		progressDialog.setValue(i++);
 		EntryPointer entry(qVariantValue<EntryPointer>(index.data(Entry::EntryRole)));
 		if (entry) selectedEntries << entry;
 	}
-	return selectedEntries;
+	if (!completed) return QList<EntryPointer>();
+	else return selectedEntries;
 }
 
 void EntriesViewHelper::applyOnSelection(const BatchHandler &handler)
 {
 	QModelIndexList selection(client()->selectionModel()->selectedIndexes());
 
-	BatchHandler::applyOnSelection(handler, selection);
+	BatchHandler::applyOnEntries(handler, selectedEntries());
 	foreach (const QModelIndex &index, selection)
 		client()->update(index);
 }
@@ -409,11 +422,15 @@ bool EntriesViewHelper::eventFilter(QObject *obj, QEvent *ev)
 				QMenu *menu(contextMenu());
 				if (menu->actions().isEmpty()) return true;
 				QContextMenuEvent *cev(static_cast<QContextMenuEvent *>(ev));
-				QList<EntryPointer> _selectedEntries(selectedEntries());
-				// This is stupid, but const-safety forces us here
-				QList<ConstEntryPointer> selectedEntries;
-				foreach (const EntryPointer &entry, _selectedEntries) selectedEntries << entry;
-				updateStatus(selectedEntries);
+				QList<ConstEntryPointer> cSelectedEntries;
+				if (client()->selectionModel()->selectedIndexes().size() < 250) {
+					QList<EntryPointer> _selectedEntries(selectedEntries());
+					// This is stupid, but const-safety forces us here
+					foreach (const EntryPointer &entry, _selectedEntries) cSelectedEntries << entry;
+					updateStatus(cSelectedEntries);
+				} else {
+					setEnabledAll(true);
+				}
 				menu->exec(client()->mapToGlobal(cev->pos()));
 				return false;
 			}

@@ -59,6 +59,8 @@ void EntryMenu::populateToolBar(QToolBar *bar)
 
 void EntryMenu::setEnabledAll(bool enabled)
 {
+	addToStudyAction.setVisible(true);
+	removeFromStudyAction.setVisible(true);
 	addToStudyAction.setEnabled(enabled);
 	removeFromStudyAction.setEnabled(enabled);
 	alreadyKnownAction.setEnabled(enabled);
