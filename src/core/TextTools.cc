@@ -415,9 +415,10 @@ static QMap<QString, QString> __kanaTranscribe()
 	TR("to", "と");
 	TR("da", "だ");
 	TR("di", "ぢ");
-	TR("tu", "づ");
-	TR("te", "で");
-	TR("to", "ど");
+	TR("du", "づ");
+	TR("dzu", "づ");
+	TR("de", "で");
+	TR("do", "ど");
 	TR("na", "な");
 	TR("ni", "に");
 	TR("nu", "ぬ");
