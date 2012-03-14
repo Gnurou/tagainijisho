@@ -231,7 +231,6 @@ QString QueryBuilder::Statement::buildSqlStatement() const
 	QString lC = leftColumn().toString();
 	res.replace("{{leftcolumn}}", lC);
 
-	qDebug() << res;
 	return res;
 }
 
