@@ -22,6 +22,7 @@
 #include "core/Preferences.h"
 
 #include <QComboBox>
+#include <QCheckBox>
 #include <QLineEdit>
 #include <QToolButton>
 #include <QPushButton>
@@ -32,6 +33,7 @@ class TextFilterWidget : public SearchFilterWidget
 	Q_OBJECT
 private:
 	QComboBox *_searchField;
+	QCheckBox *_romajiSearchAllowed;
 	bool _reseted;
 	
 private slots:
@@ -39,6 +41,7 @@ private slots:
 	void onItemSelected(int item);
 	void resetSearchText();
 	void onSearchTextChanged(const QString &text);
+	void onRomajiChanged(bool state);
 
 protected:
 	virtual void _reset();
@@ -52,7 +55,10 @@ public:
 	
 	QString text() const { return _searchField->lineEdit()->text(); }
 	void setText(const QString &text);
+	bool romajiSearchAllowed() const  { return _romajiSearchAllowed->isChecked(); }
+	void setRomajiSearchAllowed(bool value) { _romajiSearchAllowed->setChecked(value); }
 	Q_PROPERTY(QString text READ text WRITE setText)
+	Q_PROPERTY(bool allowRomajiSearch READ romajiSearchAllowed WRITE setRomajiSearchAllowed)
 	
 	static PreferenceItem<int> textSearchHistorySize;
 };

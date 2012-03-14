@@ -24,6 +24,8 @@
 #include <QRegExp>
 #include <QStringList>
 
+PreferenceItem<bool> EntrySearcher::allowRomajiSearch("", "allowRomajiSearch", false);
+
 EntrySearcher::EntrySearcher(EntryType entryType) :commandMatch(SearchCommand::commandMatch().pattern()), _entryType(entryType)
 {
 	QueryBuilder::Join::addTablePriority("training", -100);

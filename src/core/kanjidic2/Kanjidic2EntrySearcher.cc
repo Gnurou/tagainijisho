@@ -50,7 +50,7 @@ SearchCommand Kanjidic2EntrySearcher::commandFromWord(const QString &word) const
 	if (word.size() == 1 && TextTools::isKanji(word[0])) return SearchCommand::fromString(QString(":kanji=\"%1\"").arg(word[0]));
 	else if (TextTools::isKana(checkString)) return SearchCommand::fromString(QString(":kana=\"%1\"").arg(word));
 	else if (TextTools::isRomaji(checkString)) {
-		if (true) {
+		if (allowRomajiSearch()) {
 			QString kn(TextTools::romajiToKana(word));
 			if (!kn.isEmpty()) return SearchCommand::fromString(QString(":romaji=\"%1\"").arg(word));
 		}

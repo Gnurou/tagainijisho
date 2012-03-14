@@ -68,7 +68,7 @@ SearchCommand JMdictEntrySearcher::commandFromWord(const QString &word) const
 	else if (TextTools::isJapanese(checkString)) return SearchCommand::fromString(QString(":kanji=\"%1\"").arg(word));
 	// Then we are probably looking for romaji
 	else {
-		if (true) {
+		if (allowRomajiSearch()) {
 			QString kn(TextTools::romajiToKana(word));
 			if (!kn.isEmpty()) return SearchCommand::fromString(QString(":romaji=\"%1\"").arg(word));
 		}
