@@ -44,6 +44,13 @@
             </property>
            </widget>
           </item>
+          <item row="2" column="0">
+           <widget class="QCheckBox" name="showJMdictID">
+            <property name="text">
+             <string>JMdict ID (only for debugging)</string>
+            </property>
+           </widget>
+          </item>
          </layout>
         </widget>
        </item>
@@ -216,8 +223,8 @@
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>434</width>
-               <height>137</height>
+               <width>438</width>
+               <height>151</height>
               </rect>
              </property>
              <layout class="QVBoxLayout" name="verticalLayout_10">

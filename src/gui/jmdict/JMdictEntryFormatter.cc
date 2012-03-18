@@ -33,6 +33,7 @@
 
 PreferenceItem<bool> JMdictEntryFormatter::showJLPT("jmdict", "showJLPT", true);
 PreferenceItem<bool> JMdictEntryFormatter::showKanjis("jmdict", "showKanjis", true);
+PreferenceItem<bool> JMdictEntryFormatter::showJMdictID("jmdict", "showJMdictID", false);
 PreferenceItem<bool> JMdictEntryFormatter::searchVerbBuddy("jmdict", "searchVerbBuddy", true);
 PreferenceItem<int> JMdictEntryFormatter::maxHomophonesToDisplay("jmdict", "maxHomophonesToDisplay", 5);
 PreferenceItem<bool> JMdictEntryFormatter::displayStudiedHomophonesOnly("jmdict", "displayStudiedHomophonesOnly", false);
@@ -396,6 +397,14 @@ QString JMdictEntryFormatter::formatKanji(const ConstEntryPointer &entry) const
 		}
 	}
 	if (!contents.isEmpty()) return buildSubInfoBlock(tr("Kanji"), contents);
+	else return "";
+}
+
+QString JMdictEntryFormatter::formatJMdictID(const ConstEntryPointer &_entry) const
+{
+	ConstJMdictEntryPointer entry(_entry.staticCast<const JMdictEntry>());
+	if (showJMdictID.value())
+		return QString("<b>%1:</b> %2").arg(tr("JMdict ID")).arg(entry->id());
 	else return "";
 }
 

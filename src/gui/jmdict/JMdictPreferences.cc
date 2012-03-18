@@ -78,6 +78,7 @@ void JMdictPreferences::refresh()
 {
 	showJLPT->setChecked(JMdictEntryFormatter::showJLPT.value());
 	showKanjis->setChecked(JMdictEntryFormatter::showKanjis.value());
+	showJMdictID->setChecked(JMdictEntryFormatter::showJMdictID.value());
 	homophonesCount->setValue(JMdictEntryFormatter::maxHomophonesToDisplay.value());
 	studiedHomophonesOnly->setChecked(JMdictEntryFormatter::displayStudiedHomophonesOnly.value());
 	homographsCount->setValue(JMdictEntryFormatter::maxHomographsToDisplay.value());
@@ -105,6 +106,7 @@ void JMdictPreferences::applySettings()
 {
 	JMdictEntryFormatter::showJLPT.set(showJLPT->isChecked());
 	JMdictEntryFormatter::showKanjis.set(showKanjis->isChecked());
+	JMdictEntryFormatter::showJMdictID.set(showJMdictID->isChecked());
 	JMdictEntryFormatter::maxHomophonesToDisplay.set(homophonesCount->value());
 	JMdictEntryFormatter::displayStudiedHomophonesOnly.set(studiedHomophonesOnly->isChecked());
 	JMdictEntryFormatter::maxHomographsToDisplay.set(homographsCount->value());

@@ -44,6 +44,7 @@ public:
 
 	static PreferenceItem<bool> showJLPT;
 	static PreferenceItem<bool> showKanjis;
+	static PreferenceItem<bool> showJMdictID;
 	static PreferenceItem<bool> searchVerbBuddy;
 	static PreferenceItem<int> maxHomophonesToDisplay;
 	static PreferenceItem<bool> displayStudiedHomophonesOnly;
@@ -63,6 +64,7 @@ public slots:
 	virtual QString formatSenses(const ConstEntryPointer &entry) const;
 	virtual QString formatJLPT(const ConstEntryPointer &entry) const;
 	virtual QString formatKanji(const ConstEntryPointer &entry) const;
+	QString formatJMdictID(const ConstEntryPointer &entry) const;
 	
 	virtual QList<DetailedViewJob *> jobVerbBuddy(const ConstEntryPointer& _entry, const QTextCursor& cursor) const;
 	virtual QList<DetailedViewJob *> jobHomophones(const ConstEntryPointer &_entry, const QTextCursor& cursor) const;
