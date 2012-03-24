@@ -206,7 +206,7 @@ void KanjiPopup::updateInfo()
 	if (entry->jlpt() != -1)
 		str += tr("<b>Grade:</b> %1<br/>").arg(QCoreApplication::translate("Kanjidic2GUIPlugin", Kanjidic2GUIPlugin::kanjiGrades[entry->grade()].toLatin1()));
 	if (entry->jlpt() != -1)
-		str += tr("<b>JLPT:</b> %1<br/>").arg(entry->jlpt());
+		str += tr("<b>JLPT:</b> N%1<br/>").arg(entry->jlpt());
 	if (entry->trained())
 		str += tr("<b>Score:</b> %1<br/>").arg(entry->score());
 	propsLabel->setText(str);
