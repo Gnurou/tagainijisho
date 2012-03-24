@@ -110,7 +110,7 @@ void KanjiComponentWidget::paintEvent(QPaintEvent *event)
 }
 
 PreferenceItem<int> KanjiPopup::historySize("kanjidic", "popupHistorySize", 1000);
-PreferenceItem<int> KanjiPopup::animationSize("kanjidic", "animationSize", 100);
+PreferenceItem<int> KanjiPopup::animationSize("kanjidic", "animationSize", 150);
 PreferenceItem<bool> KanjiPopup::autoStartAnim("kanjidic", "autoStartAnim", true);
 
 KanjiPopup::KanjiPopup(QWidget *parent) : QFrame(parent), _history(historySize.value()), entryView()
