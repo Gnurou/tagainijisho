@@ -19,24 +19,34 @@
 #include "tagaini_config.h"
 #include <QLocale>
 
-static const QStringList _langs(QStringList(QString(DICT_LANG).append(";").append(UI_LANG).split(';')));
+static const QStringList _dictLangs(QStringList(QString(DICT_LANG).split(';')));
+static const QStringList _guiLangs(QStringList(QString(UI_LANG).split(';')));
 
-PreferenceItem<QString> Lang::preferredLanguage("", "preferredLanguages", "");
+PreferenceItem<QString> Lang::preferredDictLanguage("", "preferredDictLanguage", "");
+PreferenceItem<QString> Lang::preferredGUILanguage("", "preferredGUILanguage", "");
 
-const QStringList &Lang::supportedLanguages()
+const QStringList &Lang::supportedDictLanguages()
 {
-	return _langs;
+	return _dictLangs;
 }
 
-QStringList Lang::preferredLanguages()
+const QStringList &Lang::supportedGUILanguages()
+{
+	return _guiLangs;
+}
+
+QStringList Lang::preferredDictLanguages()
 {
 	QStringList ret;
+	QString userLang;
+	if (preferredDictLanguage.isDefault() && _dictLangs.contains(preferredGUILanguage.value())) userLang = preferredGUILanguage.value();
+	else if (_dictLangs.contains(preferredDictLanguage.value())) userLang = preferredDictLanguage.value();
 	// Check if the user explicitely set a preferred language
-	if (preferredLanguage.value() != "en" && _langs.contains(preferredLanguage.value())) ret << preferredLanguage.value();
+	if (!userLang.isEmpty()) ret << userLang;
 	// Otherwise check the locale
 	else {
 		QString locale(QLocale::system().name().left(2));
-		if (locale != "en" && _langs.contains(locale)) ret << locale;
+		if (locale != "en" && _dictLangs.contains(locale)) ret << locale;
 	}
 	// English should always be here as last ressort
 	ret << "en";

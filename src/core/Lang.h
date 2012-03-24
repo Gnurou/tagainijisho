@@ -24,14 +24,16 @@
 class Lang
 {
 public:
-	static PreferenceItem<QString> preferredLanguage;
+	static PreferenceItem<QString> preferredDictLanguage;
+	static PreferenceItem<QString> preferredGUILanguage;
 
 	/**
 	* Returns the list of languages supported for the user interface and database
 	* searches.
 	*/
-	static const QStringList &supportedLanguages();
-	static QStringList preferredLanguages();
+	static const QStringList &supportedDictLanguages();
+	static const QStringList &supportedGUILanguages();
+	static QStringList preferredDictLanguages();
 };
 
 #endif

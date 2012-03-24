@@ -98,7 +98,7 @@ Entry *JMdictEntryLoader::loadEntry(EntryId id)
 		entry->senses << sense;
 	}
 	sensesQuery.reset();
-	foreach (const QString &lang, Lang::preferredLanguages()) {
+	foreach (const QString &lang, Lang::preferredDictLanguages()) {
 		if (!allDBs.contains(lang)) continue;
 		SQLite::Query &glossQuery = glossQueries[lang];
 		glossQuery.bindValue(entry->id());

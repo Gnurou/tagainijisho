@@ -85,7 +85,7 @@ void messageHandler(QtMsgType type, const char *msg)
  * to update configuration options that have changed or to remove obsolete
  * ones.
  */
-#define CONFIG_VERSION 4
+#define CONFIG_VERSION 6
 PreferenceItem<int> configVersion("", "configVersion", 0);
 
 void migrateOldData()
@@ -141,6 +141,10 @@ void checkConfigurationVersion()
 		case 4:
 			if (settings.contains("mainWindow/guiLanguage")) settings.setValue("preferredLanguages", settings.value("mainWindow/guiLanguage"));
 			settings.remove("mainWindow/guiLanguage");
+		case 5:
+			Lang::preferredDictLanguage.setValue(settings.value("preferredLanguages"));
+			Lang::preferredGUILanguage.setValue(settings.value("preferredLanguages"));
+			settings.remove("preferredLanguages");
 		default:
 			// If we arrive here, this means we are running an pre-tracking version - do nothing in that case
 			break;
@@ -200,8 +204,8 @@ int main(int argc, char *argv[])
 	// Load translations, if available
 	QString locale;
 	// First check if the language is user-set
-	if (!Lang::preferredLanguage.isDefault()) {
-		locale = Lang::preferredLanguage.value();
+	if (!Lang::preferredGUILanguage.isDefault()) {
+		locale = Lang::preferredGUILanguage.value();
 	// Otherwise try the system default
 	} else {
 		locale = QLocale::system().name().left(2);

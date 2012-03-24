@@ -137,8 +137,14 @@ GeneralPreferences::GeneralPreferences(QWidget *parent) : PreferencesWindowCateg
 		QString lang = langPair.second;
 		const QString &enLang = langMapping[langPair.first];
 		if (lang != enLang) lang += QString(" (%1)").arg(enLang);
-		prefLanguage->addItem(lang);
-		prefLanguage->setItemData(prefLanguage->count() - 1, langPair.first);
+		if (Lang::supportedGUILanguages().contains(langPair.first)) {
+			guiLanguage->addItem(lang);
+			guiLanguage->setItemData(guiLanguage->count() - 1, langPair.first);
+		}
+		if (Lang::supportedDictLanguages().contains(langPair.first)) {
+			dictLanguage->addItem(lang);
+			dictLanguage->setItemData(guiLanguage->count() - 1, langPair.first);
+		}
 	}
 
 	firstDayOfWeek->addItem(tr("Monday"), Qt::Monday);
@@ -155,13 +161,16 @@ void GeneralPreferences::refresh()
 	fontChooser->setDefault(MainWindow::applicationFont.isDefault());
 	fontChooser->setFont(QFont());
 
-	int idx;
-	QList<qps> prefLangs = _prefLangs();
-	for (idx = 0; idx < prefLangs.size(); idx++) {
-		if (prefLangs[idx].first == Lang::preferredLanguage.value()) break;
-	}
-	if (idx >= prefLangs.size()) idx = -1;
-	prefLanguage->setCurrentIndex(idx + 1);
+	for (int idx = 1; idx < guiLanguage->count(); idx++)
+		if (guiLanguage->itemData(idx) == Lang::preferredGUILanguage.value()) {
+			guiLanguage->setCurrentIndex(idx);
+			break;
+		}
+	for (int idx = 1; idx < dictLanguage->count(); idx++)
+		if (dictLanguage->itemData(idx) == Lang::preferredDictLanguage.value()) {
+			dictLanguage->setCurrentIndex(idx);
+			break;
+		}
 
 	firstDayOfWeek->setCurrentIndex(firstDayOfWeek->findData(RelativeDate::firstDayOfWeek.value()));
 
@@ -215,8 +224,10 @@ void GeneralPreferences::applySettings()
 	else MainWindow::applicationFont.set(font.toString());
 
 	// Application language
-	if (prefLanguage->currentIndex() == 0) Lang::preferredLanguage.reset();
-	else Lang::preferredLanguage.set(prefLanguage->itemData(prefLanguage->currentIndex()).toString());
+	if (guiLanguage->currentIndex() == 0) Lang::preferredGUILanguage.reset();
+	else Lang::preferredGUILanguage.set(guiLanguage->itemData(guiLanguage->currentIndex()).toString());
+	if (dictLanguage->currentIndex() == 0) Lang::preferredDictLanguage.reset();
+	else Lang::preferredDictLanguage.set(dictLanguage->itemData(dictLanguage->currentIndex()).toString());
 
 	// First day of week
 	RelativeDate::firstDayOfWeek.set(static_cast<Qt::DayOfWeek>(firstDayOfWeek->itemData(firstDayOfWeek->currentIndex()).toInt()));

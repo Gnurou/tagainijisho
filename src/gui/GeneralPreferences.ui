@@ -25,18 +25,44 @@
         <item>
          <widget class="QLabel" name="label_2">
           <property name="text">
-           <string>Preferred language</string>
+           <string>Preferred GUI language</string>
           </property>
           <property name="buddy">
-           <cstring>prefLanguage</cstring>
+           <cstring>guiLanguage</cstring>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QComboBox" name="prefLanguage">
+         <widget class="QComboBox" name="guiLanguage">
+          <property name="toolTip">
+           <string>The GUI will use this language whenever possible. English will be used as a fallback.</string>
+          </property>
           <item>
            <property name="text">
             <string>System default</string>
+           </property>
+          </item>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_5">
+        <item>
+         <widget class="QLabel" name="label_5">
+          <property name="text">
+           <string>Preferred dictionary language</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QComboBox" name="dictLanguage">
+          <property name="toolTip">
+           <string>The dictionaries will use this language whenever possible. English will be used as a fallback.</string>
+          </property>
+          <item>
+           <property name="text">
+            <string>Same as GUI</string>
            </property>
           </item>
          </widget>
@@ -174,7 +200,7 @@
   </layout>
  </widget>
  <tabstops>
-  <tabstop>prefLanguage</tabstop>
+  <tabstop>guiLanguage</tabstop>
   <tabstop>firstDayOfWeek</tabstop>
   <tabstop>checkForUpdates</tabstop>
   <tabstop>checkInterval</tabstop>

@@ -53,7 +53,7 @@ QList<Kanjidic2Entry::KanjiMeaning> Kanjidic2EntryLoader::getMeanings(int id)
 {
 	QList<Kanjidic2Entry::KanjiMeaning> ret;
 	const QMap<QString, QString> &allDBs = Kanjidic2Plugin::instance()->attachedDBs();
-	foreach (const QString &lang, Lang::preferredLanguages()) {
+	foreach (const QString &lang, Lang::preferredDictLanguages()) {
 		if (!allDBs.contains(lang)) continue;
 		SQLite::Query &meaningsQuery = meaningsQueries[lang];
 		meaningsQuery.bindValue(id);

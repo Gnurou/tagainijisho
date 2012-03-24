@@ -422,7 +422,7 @@ QString Kanjidic2EntryFormatter::formatMeanings(const ConstEntryPointer &_entry)
 		}
 		means[mean.lang()] << mean.meaning();
 	}
-	foreach (const QString &lang, Lang::preferredLanguages()) {
+	foreach (const QString &lang, Lang::preferredDictLanguages()) {
 		if (!means.contains(lang)) continue;
 		meanStrings << QString("<img src=\"flag:%1\"/> ").arg(lang) + means[lang].join(", ");
 	}
