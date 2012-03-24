@@ -1,6 +1,7 @@
 0.9.3 released on
 * Update JLPT lists to follow new N* scheme (thanks to the JLPT
   Resources Page: http://www.tanos.co.uk/jlpt/)
+* Added optional link to example sentences on Tatoeba or jisho.org
 * Fix: do not display empty glosses for a language in detailed view
 * Fixed wildcard search which was broken in previous version
 * Core and SQLite modules are compiled as shared libraries, and SQLite

@@ -41,6 +41,7 @@
 #include <QPalette>
 #include <QDir>
 #include <QMap>
+#include <QDesktopServices>
 
 DetailedViewFonts *DetailedViewFonts::_instance = 0;
 PreferenceItem<QString> DetailedViewFonts::textFont("mainWindow/detailedView", "textFont", "");
@@ -595,6 +596,7 @@ void DetailedViewLinkManager::handleUrl(const QUrl &url)
 	if (!view) return;
 	DetailedViewLinkHandler *handler = getHandler(url.scheme());
 	if (handler) handler->handleUrl(url, view);
+	else if (url.scheme() == "http") QDesktopServices::openUrl(url);
 }
 
 bool DetailedViewLinkManager::registerHandler(DetailedViewLinkHandler *handler)

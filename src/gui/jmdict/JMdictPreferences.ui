@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>499</width>
-    <height>387</height>
+    <width>494</width>
+    <height>390</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -118,6 +118,29 @@
             </item>
            </layout>
           </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_4">
+            <item>
+             <widget class="QLabel" name="label_7">
+              <property name="text">
+               <string>Link to example sentences:</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QComboBox" name="exampleSentencesServiceBox">
+              <property name="toolTip">
+               <string>If enabled, display a link that will look for example sentences in your web browser using the selected service</string>
+              </property>
+              <item>
+               <property name="text">
+                <string>Disabled</string>
+               </property>
+              </item>
+             </widget>
+            </item>
+           </layout>
+          </item>
          </layout>
         </widget>
        </item>
@@ -223,8 +246,8 @@
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>438</width>
-               <height>151</height>
+               <width>433</width>
+               <height>154</height>
               </rect>
              </property>
              <layout class="QVBoxLayout" name="verticalLayout_10">

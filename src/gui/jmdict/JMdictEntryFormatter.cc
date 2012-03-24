@@ -31,6 +31,9 @@
 #include <QTextList>
 #include <QPair>
 
+static QString tatoebaTemplate("http://tatoeba.org/eng/sentences/search?query=%1&from=jpn&to=eng");
+static QString jishoTemplate("http://jisho.org/sentences?jap=%1&eng=");
+
 PreferenceItem<bool> JMdictEntryFormatter::showJLPT("jmdict", "showJLPT", true);
 PreferenceItem<bool> JMdictEntryFormatter::showKanjis("jmdict", "showKanjis", true);
 PreferenceItem<bool> JMdictEntryFormatter::showJMdictID("jmdict", "showJMdictID", false);
@@ -44,6 +47,7 @@ PreferenceItem<int> JMdictEntryFormatter::headerPrintSize("jmdict", "headerPrint
 PreferenceItem<bool> JMdictEntryFormatter::printKanjis("jmdict", "printKanjis", true);
 PreferenceItem<bool> JMdictEntryFormatter::printOnlyStudiedKanjis("jmdict", "printOnlyStudiedKanjis", false);
 PreferenceItem<int> JMdictEntryFormatter::maxDefinitionsToPrint("jmdict", "maxDefinitionsToPrint", 0);
+PreferenceItem<QString> JMdictEntryFormatter::exampleSentencesService("jmdict", "exampleSentencesService", "");
 
 JMdictEntryFormatter &JMdictEntryFormatter::instance()
 {
@@ -108,6 +112,8 @@ QString JMdictEntryFormatter::getHomographsSql(const QString &writing, int id, i
 
 JMdictEntryFormatter::JMdictEntryFormatter(QObject* parent) : EntryFormatter("detailed_jmdict.css", "detailed_jmdict.html", parent)
 {
+	_exampleSentencesServices["Tatoeba"] = tatoebaTemplate;
+	_exampleSentencesServices["Jisho.org"] = jishoTemplate;
 }
 
 void JMdictEntryFormatter::drawCustom(const ConstEntryPointer& _entry, QPainter& painter, const QRectF& rectangle, QRectF& usedSpace, const QFont& textFont, int headerPrintSize, bool printKanjis, bool printOnlyStudiedKanjis, int maxDefinitionsToPrint) const
@@ -397,6 +403,25 @@ QString JMdictEntryFormatter::formatKanji(const ConstEntryPointer &entry) const
 		}
 	}
 	if (!contents.isEmpty()) return buildSubInfoBlock(tr("Kanji"), contents);
+	else return "";
+}
+
+QString JMdictEntryFormatter::formatExampleSentencesLink(const ConstEntryPointer &_entry) const
+{
+	if (!exampleSentencesService.value().isEmpty()) {
+		ConstJMdictEntryPointer entry(_entry.staticCast<const JMdictEntry>());
+		QString tpl(_exampleSentencesServices[exampleSentencesService.value()]);
+		if (!tpl.isEmpty()) {
+			const QList<KanjiReading> &kanji(entry->getKanjiReadings());
+			const QList<KanaReading> &kana(entry->getKanaReadings());
+			const QList<const Sense *> &senses(entry->getSenses());
+			if (kanji.size() == 0 || senses[0]->misc() & JMdictPlugin::miscBitShifts()["uk"])
+				tpl = tpl.arg(kana[0].getReading());
+			else
+				tpl = tpl.arg(kanji[0].getReading());
+		}
+		return tr("<a href=\"%1\">Examples sentences</a>").arg(tpl);
+	}
 	else return "";
 }
 

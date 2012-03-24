@@ -23,9 +23,14 @@
 #include "gui/EntryFormatter.h"
 #include "gui/DetailedView.h"
 
+#include <QMap>
+
 class JMdictEntryFormatter : public EntryFormatter
 {
 	Q_OBJECT
+private:
+	QMap<QString, QString> _exampleSentencesServices;
+
 protected:
 	JMdictEntryFormatter(QObject *parent = 0);
 	virtual ~JMdictEntryFormatter() {}
@@ -42,6 +47,7 @@ public:
 	static QString getHomophonesSql(const QString &reading, int id, int maxToDisplay = maxHomophonesToDisplay.value(), bool studiedOnly = displayStudiedHomophonesOnly.value());
 	static QString getHomographsSql(const QString &writing, int id, int maxToDisplay = maxHomophonesToDisplay.value(), bool studiedOnly = displayStudiedHomophonesOnly.value());
 
+	static const QMap<QString, QString> &getExampleSentencesServices() { return instance()._exampleSentencesServices; }
 	static PreferenceItem<bool> showJLPT;
 	static PreferenceItem<bool> showKanjis;
 	static PreferenceItem<bool> showJMdictID;
@@ -55,6 +61,7 @@ public:
 	static PreferenceItem<bool> printKanjis;
 	static PreferenceItem<bool> printOnlyStudiedKanjis;
 	static PreferenceItem<int> maxDefinitionsToPrint;
+	static PreferenceItem<QString> exampleSentencesService;
 
 public slots:
 	virtual QString formatHeadFurigana(const ConstEntryPointer &entry) const;
@@ -64,7 +71,8 @@ public slots:
 	virtual QString formatSenses(const ConstEntryPointer &entry) const;
 	virtual QString formatJLPT(const ConstEntryPointer &entry) const;
 	virtual QString formatKanji(const ConstEntryPointer &entry) const;
-	QString formatJMdictID(const ConstEntryPointer &entry) const;
+	virtual QString formatExampleSentencesLink(const ConstEntryPointer &entry) const;
+	virtual QString formatJMdictID(const ConstEntryPointer &entry) const;
 	
 	virtual QList<DetailedViewJob *> jobVerbBuddy(const ConstEntryPointer& _entry, const QTextCursor& cursor) const;
 	virtual QList<DetailedViewJob *> jobHomophones(const ConstEntryPointer &_entry, const QTextCursor& cursor) const;
