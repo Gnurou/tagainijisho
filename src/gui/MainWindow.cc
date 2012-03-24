@@ -273,7 +273,7 @@ void MainWindow::about()
 #error No version defined - the -DVERSION=<version> flag must be set!
 #endif
 	QString message = QString(
-		"<p>Copyright (C) 2008-2011 Alexandre Courbot.</p>"
+		"<p>Copyright (C) 2008-2012 Alexandre Courbot.</p>"
 		"<p align=\"center\"><a href=\"http://www.tagaini.net\">http://www.tagaini.net</a></p><p>This program comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to redistribute it under the conditions of the <a href=\"http://www.gnu.org/licenses/gpl-3.0.html\">GNU General Public Licence, version 3.0</a>.</p><hr/>"
 		);
 	QString credits = "<p>Tagaini Jisho uses data from various sources:</p>";
@@ -298,8 +298,8 @@ void MainWindow::about()
 	QString authors =
 		"<h2>Authors</h2>"
 		"<p><b>Alexandre Courbot</b> project lead, programming.</p>"
+		"<p><b>Axel Bodart</b> CMake improvements, web site guru, Mac release manager.</p>"
 		"<p><b>Neil Caldwell</b> documentation.</p>"
-		"<p><b>Axel Bodart</b> project build, Mac release manager.</p>"
 		"<h2>Thanks to</h2>"
 		"<p><b>Philip Seyfi</b> application icon.</p>"
 		"<p><b>Tracy Poff</b> bug reports, documentation fixes.</p>"
