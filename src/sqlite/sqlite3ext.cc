@@ -1,5 +1,5 @@
 /*
- *  Copyright (C) 2009  Alexandre Courbot
+ *  Copyright (C) 2009-2011  Alexandre Courbot
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -15,20 +15,80 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "sqlite3.h"
+#include "sqlite/fts3_tokenizer.h"
 #include "core/TextTools.h"
+#include "sqlite/SQLite.h"
+
 #include <QSet>
 #include <QtDebug>
-
-#include <sqlite3.h>
-#include "sqlite/fts3_tokenizer.h"
-
-extern "C" {
-	int isToIgnore(const char *token);
-	const char *hiraganasToKatakanas(const char *src);
-}
+#include <QRegExp>
 
 static QSet<QString> ignoredWords;
 static QByteArray kanasConverted;
+
+static void regexpFunc(sqlite3_context *context, int argc, sqlite3_value **argv)
+{
+	const QString text(TextTools::hiragana2Katakana(QString::fromUtf8((const char *)sqlite3_value_text(argv[1]))));
+	QRegExp regexp = QRegExp(TextTools::hiragana2Katakana(QString::fromUtf8((const char *)sqlite3_value_text(argv[0]))));
+	regexp.setCaseSensitivity(Qt::CaseInsensitive);
+
+	bool res = text.contains(regexp);
+	sqlite3_result_int(context, res);
+}
+
+/**
+ * Returns a pseudo-random value which is biaised by the parameter given (which must
+ * be between 0 and 100). The bigger the parameter, the biggest chances the generated
+ * has to be low.
+ */
+static void biaised_random(sqlite3_context *context, int nParams, sqlite3_value **values)
+{
+	if (nParams != 1) {
+		sqlite3_result_error(context, "Invalid number of arguments!", -1);
+		return;
+	}
+	int score = sqlite3_value_int(values[0]);
+//	int minVal = score == 0 ? 0 : qrand() % score;
+	int res = qrand() % (101 - score);
+	sqlite3_result_int(context, res);
+}
+
+typedef struct {
+	QSet<int>* _set;
+} uniquecount_aggr;
+
+static void uniquecount_aggr_step(sqlite3_context *context, int nParams, sqlite3_value **values)
+{
+	uniquecount_aggr *aggr_struct = static_cast<uniquecount_aggr *>(sqlite3_aggregate_context(context, sizeof(uniquecount_aggr)));
+	if (!aggr_struct->_set) aggr_struct->_set = new QSet<int>();
+	for (int i = 0; i < nParams; i++) {
+		if (sqlite3_value_type(values[i]) == SQLITE_NULL) continue;
+		aggr_struct->_set->insert(sqlite3_value_int(values[i]));
+	}
+}
+
+static void uniquecount_aggr_finalize(sqlite3_context *context)
+{
+	uniquecount_aggr *aggr_struct = static_cast<uniquecount_aggr *>(sqlite3_aggregate_context(context, sizeof(uniquecount_aggr)));
+	int res = aggr_struct->_set->size();
+	delete aggr_struct->_set;
+	sqlite3_result_int(context, res);
+}
+
+static void fts_compress(sqlite3_context *context, int argc, sqlite3_value **argv)
+{
+	QByteArray text(reinterpret_cast<const char *>(sqlite3_value_text(argv[0])));
+	QByteArray compressed(qCompress(text, 9));
+	sqlite3_result_blob(context, compressed.data(), compressed.length(), 0);
+}
+
+static void fts_uncompress(sqlite3_context *context, int argc, sqlite3_value **argv)
+{
+	QByteArray data(static_cast<const char *>(sqlite3_value_blob(argv[0])), sqlite3_value_bytes(argv[0]));
+	QByteArray text(qUncompress(data));
+	sqlite3_result_text(context, text.data(), text.size(), 0);
+}
 
 int isToIgnore(const char *token)
 {
@@ -119,8 +179,8 @@ static int ignoreCreate(
       unsigned char ch = argv[1][i];
       /* We explicitly don't support UTF-8 delimiters for now. */
       if( ch>=0x80 ){
-        sqlite3_free(t);
-        return SQLITE_ERROR;
+	sqlite3_free(t);
+	return SQLITE_ERROR;
       }
       t->delim[ch] = 1;
     }
@@ -222,16 +282,16 @@ beginParse:
     if( c->iOffset>iStartOffset ){
       int i, n = c->iOffset-iStartOffset;
       if( n+1>c->nTokenAllocated ){
-        c->nTokenAllocated = n+21;
-        c->pToken = (char *)sqlite3_realloc(c->pToken, c->nTokenAllocated);
-        if( c->pToken==NULL ) return SQLITE_NOMEM;
+	c->nTokenAllocated = n+21;
+	c->pToken = (char *)sqlite3_realloc(c->pToken, c->nTokenAllocated);
+	if( c->pToken==NULL ) return SQLITE_NOMEM;
       }
       for(i=0; i<n; i++){
-        /* TODO(shess) This needs expansion to handle UTF-8
-        ** case-insensitivity.
-        */
-        unsigned char ch = p[iStartOffset+i];
-        c->pToken[i] = ch<0x80 ? tolower(ch) : ch;
+	/* TODO(shess) This needs expansion to handle UTF-8
+	** case-insensitivity.
+	*/
+	unsigned char ch = p[iStartOffset+i];
+	c->pToken[i] = ch<0x80 ? tolower(ch) : ch;
       }
       c->pToken[i] = 0;
 	if (isToIgnore(c->pToken)) goto beginParse;
@@ -259,16 +319,6 @@ static const sqlite3_tokenizer_module ignoreTokenizerModule = {
   ignoreNext,
 };
 
-/*
-** Allocate a new simple tokenizer.  Return a pointer to the new
-** tokenizer in *ppModule
-*/
-void sqlite3Fts3IgnoreTokenizerModule(
-  sqlite3_tokenizer_module const**ppModule
-){
-  *ppModule = &ignoreTokenizerModule;
-}
-
 //
 // Hiranaga to katakana tokenizer
 // The following provides a special tokenizer that converts all hiraganas into
@@ -287,7 +337,13 @@ typedef struct katakana_tokenizer_cursor {
   int iOffset;                 /* current position in pInput */
   int iToken;                  /* index of next token to be returned */
   char *pToken;                /* storage for current token */
-  int nTokenAllocated;         /* space allocated to zToken buffer */
+  size_t nTokenAllocated;         /* space allocated to zToken buffer */
+
+	bool replay;
+	char *replayToken;
+	int replayStart;
+	int replayEnd;
+	int replayPos;
 } katakana_tokenizer_cursor;
 
 static int katakanaDelim(katakana_tokenizer *t, unsigned char c){
@@ -318,8 +374,8 @@ static int katakanaCreate(
       unsigned char ch = argv[1][i];
       /* We explicitly don't support UTF-8 delimiters for now. */
       if( ch>=0x80 ){
-        sqlite3_free(t);
-        return SQLITE_ERROR;
+	sqlite3_free(t);
+	return SQLITE_ERROR;
       }
       t->delim[ch] = 1;
     }
@@ -329,6 +385,8 @@ static int katakanaCreate(
     for(i=1; i<0x80; i++){
       t->delim[i] = !isalnum(i);
     }
+    // '.' is used in kanji readings and should not be a delimiter
+    t->delim['.'] = 0;
   }
 
   *ppTokenizer = &t->base;
@@ -359,6 +417,7 @@ static int katakanaOpen(
   c = (katakana_tokenizer_cursor *) sqlite3_malloc(sizeof(*c));
   if( c==NULL ) return SQLITE_NOMEM;
 
+  memset(c, 0, sizeof(*c));
   c->pInput = pInput;
   if( pInput==0 ){
     c->nBytes = 0;
@@ -383,6 +442,7 @@ static int katakanaOpen(
 static int katakanaClose(sqlite3_tokenizer_cursor *pCursor){
   katakana_tokenizer_cursor *c = (katakana_tokenizer_cursor *) pCursor;
   sqlite3_free(c->pToken);
+  if (c->replayToken) free(c->replayToken);
   sqlite3_free(c);
   return SQLITE_OK;
 }
@@ -403,6 +463,25 @@ static int katakanaNext(
   katakana_tokenizer *t = (katakana_tokenizer *) pCursor->pTokenizer;
   unsigned char *p = (unsigned char *)c->pInput;
 
+  /* Replay a dotted token */
+  if (c->replay) {
+	c->replay = false;
+	if (c->nTokenAllocated <= strlen(c->replayToken + 1)) {
+		c->nTokenAllocated = strlen(c->replayToken + 21);
+		c->pToken = (char *)sqlite3_realloc(c->pToken, c->nTokenAllocated);
+		if( c->pToken==NULL ) return SQLITE_NOMEM;
+	}
+	strcpy(c->pToken, c->replayToken);
+	free(c->replayToken);
+	c->replayToken = 0;
+	*ppToken = c->pToken;
+	*pnBytes = strlen(c->pToken);
+	*piStartOffset = c->replayStart;
+	*piEndOffset = c->replayEnd;
+	*piPosition = c->replayPos;
+	return SQLITE_OK;
+  }
+
   while( c->iOffset<c->nBytes ){
     int iStartOffset;
 
@@ -418,22 +497,36 @@ static int katakanaNext(
     }
 
     if( c->iOffset>iStartOffset ){
-      int i, n = c->iOffset-iStartOffset;
+      size_t i, n = c->iOffset-iStartOffset;
       if( n+1>c->nTokenAllocated ){
-        c->nTokenAllocated = n+21;
-        c->pToken = (char *)sqlite3_realloc(c->pToken, c->nTokenAllocated);
-        if( c->pToken==NULL ) return SQLITE_NOMEM;
+	c->nTokenAllocated = n+21;
+	c->pToken = (char *)sqlite3_realloc(c->pToken, c->nTokenAllocated);
+	if( c->pToken==NULL ) return SQLITE_NOMEM;
       }
       for(i=0; i<n; i++){
-        /* TODO(shess) This needs expansion to handle UTF-8
-        ** case-insensitivity.
-        */
-        unsigned char ch = p[iStartOffset+i];
-        c->pToken[i] = ch<0x80 ? tolower(ch) : ch;
+	/* TODO(shess) This needs expansion to handle UTF-8
+	** case-insensitivity.
+	*/
+	unsigned char ch = p[iStartOffset+i];
+	c->pToken[i] = ch<0x80 ? tolower(ch) : ch;
       }
       c->pToken[i] = 0;
-      *ppToken = hiraganasToKatakanas(c->pToken);
-      *pnBytes = n;
+      QString katakanaString(TextTools::hiragana2Katakana(QString::fromUtf8(c->pToken)));
+
+      if (katakanaString.contains('.')) {
+	      QString replayString(katakanaString);
+	      replayString.remove('.');
+	      c->replay = true;
+	      c->replayToken = strdup(replayString.toUtf8().constData());
+	      katakanaString = katakanaString.left(katakanaString.indexOf('.'));
+	      c->replayStart = iStartOffset;
+	      c->replayEnd = c->iOffset;
+	      c->replayPos = c->iToken;
+      }
+
+      strcpy(c->pToken, katakanaString.toUtf8().constData());
+      *ppToken = c->pToken;
+      *pnBytes = strlen(c->pToken);
       *piStartOffset = iStartOffset;
       *piEndOffset = c->iOffset;
       *piPosition = c->iToken++;
@@ -456,20 +549,43 @@ static const sqlite3_tokenizer_module katakanaTokenizerModule = {
   katakanaNext,
 };
 
-/*
-** Allocate a new simple tokenizer.  Return a pointer to the new
-** tokenizer in *ppModule
-*/
-void sqlite3Fts3KatakanaTokenizerModule(
-  sqlite3_tokenizer_module const**ppModule
-){
-  *ppModule = &katakanaTokenizerModule;
+static int load_extensions(sqlite3 *handler, const char **pzErrMsg,
+	const struct sqlite3_api_routines *pThunk)
+{
+	sqlite3ext_register_functions(handler);
+
+	return SQLITE_OK;
 }
 
 extern "C"
 {
-void register_all_tokenizers(sqlite3 *handler)
+
+void sqlite3ext_init()
 {
-	register_tokenizer(handler, "katakana", &katakanaTokenizerModule);
+	sqlite3_auto_extension((void (*)())load_extensions);
 }
+
+int sqlite3ext_register_functions(sqlite3 *handler)
+{
+	// Attach custom functions
+	sqlite3_create_function(handler, "regexp", 2, SQLITE_UTF8, 0, regexpFunc, 0, 0);
+	sqlite3_create_function(handler, "biaised_random", 1, SQLITE_UTF8, 0, biaised_random, 0, 0);
+	sqlite3_create_function(handler, "uniquecount", -1, SQLITE_UTF8, 0, 0, uniquecount_aggr_step, uniquecount_aggr_finalize);
+	sqlite3_create_function(handler, "ftscompress", 1, SQLITE_UTF8, 0, fts_compress, 0, 0);
+	sqlite3_create_function(handler, "ftsuncompress", 1, SQLITE_UTF8, 0, fts_uncompress, 0, 0);
+
+	return SQLITE_OK;
+}
+
+int sqlite3ext_register_tokenizers(sqlite3 *handler)
+{
+	int err = register_tokenizer(handler, "katakana", &katakanaTokenizerModule);
+	if (err) {
+		qDebug("Could not register katakana tokenizer!");
+		return err;
+	}
+
+	return SQLITE_OK;
+}
+
 }

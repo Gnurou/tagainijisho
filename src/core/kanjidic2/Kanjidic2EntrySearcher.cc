@@ -16,10 +16,10 @@
  */
 
 #include "core/TextTools.h"
-#include "core/Database.h"
 #include "core/kanjidic2/Kanjidic2Plugin.h"
 #include "core/kanjidic2/Kanjidic2EntrySearcher.h"
 #include "core/kanjidic2/Kanjidic2Entry.h"
+#include "sqlite/SQLite.h"
 
 #include <QtDebug>
 
@@ -33,7 +33,7 @@ Kanjidic2EntrySearcher::Kanjidic2EntrySearcher() : EntrySearcher(KANJIDIC2ENTRY_
 
 	QueryBuilder::Order::orderingWay["freq"] = QueryBuilder::Order::DESC;
 
-	validCommands << "kanji" << "kana" << "mean" << "jlpt" << "grade" << "stroke" << "radical" << "component" << "unicode" << "skip" << "fourcorner" << "kanjidic";
+	validCommands << "kanji" << "romaji" << "kana" << "mean" << "jlpt" << "grade" << "stroke" << "radical" << "component" << "unicode" << "skip" << "fourcorner" << "kanjidic";
 }
 
 SearchCommand Kanjidic2EntrySearcher::commandFromWord(const QString &word) const
@@ -49,28 +49,23 @@ SearchCommand Kanjidic2EntrySearcher::commandFromWord(const QString &word) const
 	// We have a kanji command if the string is of size 1 and the character is a kanji.
 	if (word.size() == 1 && TextTools::isKanji(word[0])) return SearchCommand::fromString(QString(":kanji=\"%1\"").arg(word[0]));
 	else if (TextTools::isKana(checkString)) return SearchCommand::fromString(QString(":kana=\"%1\"").arg(word));
-	else if (TextTools::isRomaji(checkString)) return SearchCommand::fromString(QString(":mean=\"%1\"").arg(word));
+	else if (TextTools::isRomaji(checkString)) {
+		if (allowRomajiSearch()) {
+			QString kn(TextTools::romajiToKana(word));
+			if (!kn.isEmpty()) return SearchCommand::fromString(QString(":romaji=\"%1\"").arg(word));
+		}
+		return SearchCommand::fromString(QString(":mean=\"%1\"").arg(word));
+	}
 	return SearchCommand::invalid();
-}
-
-/**
- * Turns the string given as parameter into the equivalent regexp string.
- */
-static QString escapeForRegexp(const QString &string)
-{
-	QString ret = string;
-
-	ret.replace('?', "[\\w]");
-	ret.replace('*', "[\\w]*");
-	return "\\b" + ret + "\\b";
 }
 
 static QString buildTextSearchCondition(const QStringList &words, const QString &table)
 {
 	static QRegExp regExpChars = QRegExp("[\\?\\*]");
-	static QString ftsMatch("kanjidic2%3.%2Text.reading match '%1'");
-	static QString regexpMatch("kanjidic2%3.%2Text.reading regexp %1");
-	static QString globalMatch("kanjidic2%3.%2.docid in (select docid from kanjidic2%3.%2Text where %1)");
+	static QString ftsMatch("kanjidic2%3.%2Text.reading MATCH '%1'");
+	static QString regexpMatch("kanjidic2%3.%2Text.reading REGEXP '%1'");
+	static QString glossRegexpMatch("{{leftcolumn}} in (select entry from kanjidic2_%2.meaning where FTSUNCOMPRESS(meanings) REGEXP '%1')");
+	static QString globalMatch("{{leftcolumn}} IN (SELECT entry FROM kanjidic2%3.%2 JOIN kanjidic2%3.%2Text ON kanjidic2%3.%2.docid = kanjidic2%3.%2Text.docid WHERE %1)");
 
 	QStringList globalMatches;
 	QStringList langs(Kanjidic2Plugin::instance()->attachedDBs().keys());
@@ -78,6 +73,7 @@ static QString buildTextSearchCondition(const QStringList &words, const QString 
 	foreach (const QString &lang, langs) {
 		QStringList fts;
 		QStringList conds;
+		QStringList condsGloss;
 		foreach (const QString &w, words) {
 			if (w.contains(regExpChars)) {
 				// First check if we can optimize by using the FTS index (i.e. the first character is not a wildcard)
@@ -87,15 +83,16 @@ static QString buildTextSearchCondition(const QStringList &words, const QString 
 				// If the wildcard we found is the last character and a star, there is no need for a regexp search
 				if (wildcardIdx == w.size() - 1 && w.size() > 1 && w[wildcardIdx] == '*') continue;
 				// Otherwise insert the regular expression search
-				int idx = Database::staticRegExps.size();
-				QRegExp regExp(escapeForRegexp(TextTools::hiragana2Katakana(w)));
-				regExp.setCaseSensitivity(Qt::CaseInsensitive);
-				Database::staticRegExps.append(regExp);
-				conds << regexpMatch.arg(idx);
+				QString regExp(TextTools::escapeForRegexp(w));
+				if (table != "meaning")
+					conds << regexpMatch.arg(regExp);
+				else
+					condsGloss << glossRegexpMatch.arg(regExp).arg(lang);
 			} else fts << "\"" + w + "\"";
 		}
 		if (!fts.isEmpty()) conds.insert(0, ftsMatch.arg(fts.join(" ")));
-		globalMatches <<  globalMatch.arg(conds.join(" AND ")).arg(table).arg(table == "meaning" ? "_" + lang : "");
+		if (!conds.isEmpty()) globalMatches << globalMatch.arg(conds.join(" AND ")).arg(table).arg(table == "meaning" ? "_" + lang : "");
+		globalMatches += condsGloss;
 	}
 	return globalMatches.join(" OR ");
 }
@@ -108,6 +105,7 @@ void Kanjidic2EntrySearcher::buildStatement(QList<SearchCommand> &commands, Quer
 	// And do the rest
 	QStringList kanaSearch;
 	QStringList transSearch;
+	QStringList romajiSearch;
 	QStringList radicalSearch;
 	QStringList componentSearch;
 	foreach (const SearchCommand &command, commands) {
@@ -120,15 +118,14 @@ void Kanjidic2EntrySearcher::buildStatement(QList<SearchCommand> &commands, Quer
 			}
 		}
 		else if (command.command() == "kana") {
-			statement.addJoin(QueryBuilder::Column("kanjidic2.reading", "entry"));
 			foreach(const QString &arg, command.args()) kanaSearch << arg;
 		}
+		else if (command.command() == "romaji") {
+			foreach(const QString &arg, command.args()) romajiSearch << arg;
+		}
 		else if (command.command() == "mean") {
-			QStringList langs(Kanjidic2Plugin::instance()->attachedDBs().keys());
-			langs.removeAll("");
-			foreach (const QString &lang, langs) statement.addJoin(QueryBuilder::Column("kanjidic2_" + lang + ".meaning", "entry"));
-
-			foreach(const QString &arg, command.args()) transSearch << arg;
+			foreach(const QString &arg, command.args())
+				transSearch << arg;
 		}
 		else if (command.command() == "jlpt") {
 			if (command.args().isEmpty()) statement.addWhere(QString("kanjidic2.entries.jlpt not null"));
@@ -138,7 +135,7 @@ void Kanjidic2EntrySearcher::buildStatement(QList<SearchCommand> &commands, Quer
 					bool isInt;
 					int level = arg.toInt(&isInt);
 					if (!isInt) continue;
-					if (level < 1 || level > 4) continue;
+					if (level < 1 || level > 5) continue;
 					levelsList << QString::number(level);
 				}
 				statement.addWhere(QString("kanjidic2.entries.jlpt in (%1)").arg(levelsList.join(", ")));
@@ -248,6 +245,16 @@ void Kanjidic2EntrySearcher::buildStatement(QList<SearchCommand> &commands, Quer
 		if (processed) {
 			commands.removeOne(command);
 			statement.addJoin(QueryBuilder::Column("kanjidic2.entries", "id"));
+		}
+	}
+	foreach (const QString &rword, romajiSearch) {
+		QueryBuilder::Where where("OR");
+		QString kword(TextTools::romajiToKana(rword));
+		if (kword.isEmpty()) transSearch << rword;
+		else {
+			where.addWhere(buildTextSearchCondition(QStringList() << kword, "reading"));
+			where.addWhere(buildTextSearchCondition(QStringList() << rword, "meaning"));
+			statement.addWhere(where);
 		}
 	}
 	if (!kanaSearch.isEmpty()) statement.addWhere(buildTextSearchCondition(kanaSearch, "reading"));

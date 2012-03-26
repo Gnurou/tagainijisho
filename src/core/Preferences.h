@@ -87,7 +87,7 @@ public:
 	/**
 	 * Reset the new value of the preference.
 	 */
-	void set(T newVal) {
+	void set(const T &newVal) {
 		bool toEmit(value() != newVal);
 		_settingsMutex().lock();
 		_prefsSettings().beginGroup(_group);
@@ -119,6 +119,15 @@ public:
 
 	bool isDefault() {
 		return _isDefault;
+	}
+
+	const T &operator()() const {
+		return value();
+	}
+
+	PreferenceItem<T> &operator=(const T newVal) {
+		setValue(newVal);
+		return *this;
 	}
 };
 

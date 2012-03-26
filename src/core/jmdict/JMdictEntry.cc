@@ -16,6 +16,7 @@
  */
 
 #include "core/Paths.h"
+#include "core/Lang.h"
 #include "core/TextTools.h"
 #include "core/EntriesCache.h"
 #include "core/jmdict/JMdictEntry.h"
@@ -48,20 +49,16 @@ Sense::Sense(quint64 partOfSpeech, quint64 misc, quint64 dialect, quint64 field)
 
 void Sense::addGloss(const Gloss &gloss)
 {
-	glosses[gloss.lang()] = gloss;
-}
-
-const Gloss Sense::gloss(const QString &lang) const
-{
-	return glosses[lang];
+	glosses << gloss;
 }
 
 QString Sense::senseText() const
 {
-	const QMap<QString, Gloss> &glosses = getGlosses();
+	const QList<Gloss> &glosses = getGlosses();
 	QStringList strList;
-	foreach(const QString &key, glosses.keys())
-		strList << glosses[key].gloss();
+	foreach(const Gloss &gloss, glosses) {
+		strList << QString(gloss.gloss()).replace("\n", ", ");
+	}
 	QString res(strList.join(" - ") + ".");
 	return res;
 }

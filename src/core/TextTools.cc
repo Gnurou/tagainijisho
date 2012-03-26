@@ -44,6 +44,15 @@
 
 namespace TextTools {
 
+QString escapeForRegexp(const QString &string)
+{
+	QString ret = string;
+
+	ret.replace('?', "\\w");
+	ret.replace('*', "\\w*");
+	return "\\b" + ret + "\\b";
+}
+
 bool isHiraganaChar(const QChar c) {
 	return c >= UNICODE_HIRAGANA_BEGIN && c <= UNICODE_HIRAGANA_END;
 }
@@ -364,6 +373,146 @@ unsigned int singleCharToUnicode(const QString &chr, int pos)
 	if (!chr[pos].isHighSurrogate()) return chr[pos].unicode();
 	else if (chr.size() >= pos + 2 && chr[pos + 1].isLowSurrogate()) return QChar::surrogateToUcs4(chr[pos], chr[pos + 1]);
 	else return 0;
+}
+
+static QMap<QString, QString> __kanaTranscribe()
+{
+	QMap<QString, QString> ret;
+#define T(a, b) ret.insert(a, QString::fromUtf8(b));
+	T("a", "あ");
+	T("i", "い");
+	T("u", "う");
+	T("e", "え");
+	T("o", "お");
+	T("ka", "か");
+	T("ki", "き");
+	T("ku", "く");
+	T("ke", "け");
+	T("ko", "こ");
+	T("ga", "が");
+	T("gi", "ぎ");
+	T("gu", "ぐ");
+	T("ge", "げ");
+	T("go", "ご");
+	T("sa", "さ");
+	T("si", "し");
+	T("shi", "し");
+	T("su", "す");
+	T("se", "せ");
+	T("so", "そ");
+	T("za", "ざ");
+	T("zi", "じ");
+	T("ji", "じ");
+	T("zu", "ず");
+	T("ze", "ぜ");
+	T("zo", "ぞ");
+	T("ta", "た");
+	T("ti", "ち");
+	T("chi", "ち");
+	T("tu", "つ");
+	T("tsu", "つ");
+	T("te", "て");
+	T("to", "と");
+	T("da", "だ");
+	T("di", "ぢ");
+	T("du", "づ");
+	T("dzu", "づ");
+	T("de", "で");
+	T("do", "ど");
+	T("na", "な");
+	T("ni", "に");
+	T("nu", "ぬ");
+	T("ne", "ね");
+	T("no", "の");
+	T("ha", "は");
+	T("hi", "ひ");
+	T("hu", "ふ");
+	T("fu", "ふ");
+	T("he", "へ");
+	T("ho", "ほ");
+	T("ba", "ば");
+	T("bi", "び");
+	T("bu", "ぶ");
+	T("be", "べ");
+	T("bo", "ぼ");
+	T("pa", "ぱ");
+	T("pi", "ぴ");
+	T("pu", "ぷ");
+	T("pe", "ぺ");
+	T("po", "ぽ");
+	T("ma", "ま");
+	T("mi", "み");
+	T("mu", "む");
+	T("me", "め");
+	T("mo", "も");
+	T("ya", "や");
+	T("yu", "ゆ");
+	T("yo", "よ");
+	T("ra", "ら");
+	T("ri", "り");
+	T("ru", "る");
+	T("re", "れ");
+	T("ro", "ろ");
+	T("wa", "わ");
+	T("wo", "を");
+	T("-", "ー");
+#undef TR
+
+	return ret;
+}
+
+static QSet<QChar> __nodouble()
+{
+	QSet<QChar> ret;
+
+	ret << 'a' << 'i' << 'u' << 'e' << 'o' << 'y' << 'n';
+
+	return ret;
+}
+
+static const QMap<QString, QString> kanaTranscribe(__kanaTranscribe());
+static const QSet<QChar> nodouble(__nodouble());
+
+QString romajiToKana(const QString &src)
+{
+	static QString nn = QString::fromUtf8("ん");
+	static QString tt = QString::fromUtf8("っ");
+	QString ret;
+	int i;
+
+	for (i = 0; i < src.size();) {
+		QString part = src.mid(i);
+		int p = i;
+
+		if (part.size() > 1 && part[0] == part[1] && !nodouble.contains(part[0])) {
+			ret += tt;
+			i += 1;
+		}
+		if (p != i) continue;
+		foreach (const QString &roma, kanaTranscribe.keys()) {
+			if (part.startsWith(roma)) {
+				ret += kanaTranscribe[roma];
+				i += roma.size();
+				break;
+			}
+		}
+		if (p != i) continue;
+		if (part.startsWith("n")) {
+			ret += nn;
+			i += 1;
+			if (part.size() > 1 && part[1] == 'n') i += 1;
+		}
+		if (p != i) continue;
+		if (isPunctuationChar(part[0]) || part[0] == '*') {
+			ret += part[0];
+			i += 1;
+			continue;
+		}
+		if (p != i) continue;
+		// Did not match, return empty string
+		return "";
+	}
+	return ret;
 }
 
 }

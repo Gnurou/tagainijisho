@@ -118,8 +118,11 @@ void EntryListView::startDrag(Qt::DropActions supportedActions)
 	}
 }
 
-void EntryListView::newList(const QModelIndex &parent)
+void EntryListView::newList(QModelIndex parent)
 {
+	if (parent == QModelIndex()) {
+		parent = rootIndex();
+	}
 	int idx = model()->rowCount(parent);
 	if (!model()->insertRows(idx, 1, parent)) {
 		QMessageBox::information(this, tr("Unable to create list"), tr("A database error occured while trying to add the list."));

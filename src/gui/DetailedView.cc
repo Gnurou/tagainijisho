@@ -41,6 +41,7 @@
 #include <QPalette>
 #include <QDir>
 #include <QMap>
+#include <QDesktopServices>
 
 DetailedViewFonts *DetailedViewFonts::_instance = 0;
 PreferenceItem<QString> DetailedViewFonts::textFont("mainWindow/detailedView", "textFont", "");
@@ -325,11 +326,11 @@ DetailedViewJobRunner::DetailedViewJobRunner(DetailedView * view, QObject *paren
 
 	connect(_aQuery, SIGNAL(firstResult()), this, SLOT(onFirstResult()));
 	connect(_aQuery, SIGNAL(result(EntryPointer)),
-	        this, SLOT(onResult(EntryPointer)));
+	this, SLOT(onResult(EntryPointer)));
 	connect(_aQuery, SIGNAL(completed()), this, SLOT(onCompleted()));
 	connect(_aQuery, SIGNAL(aborted()), this, SLOT(onAborted()));
 	connect(_aQuery, SIGNAL(error(const QString &)),
-	        this, SLOT(onError(const QString &)));
+	this, SLOT(onError(const QString &)));
 }
 
 DetailedViewJobRunner::~DetailedViewJobRunner()
@@ -595,6 +596,7 @@ void DetailedViewLinkManager::handleUrl(const QUrl &url)
 	if (!view) return;
 	DetailedViewLinkHandler *handler = getHandler(url.scheme());
 	if (handler) handler->handleUrl(url, view);
+	else if (url.scheme() == "http") QDesktopServices::openUrl(url);
 }
 
 bool DetailedViewLinkManager::registerHandler(DetailedViewLinkHandler *handler)

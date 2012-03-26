@@ -19,6 +19,7 @@
 
 #include "core/Paths.h"
 #include "core/Preferences.h"
+#include "core/Lang.h"
 #include "core/Database.h"
 #include "core/Tag.h"
 #include "core/EntryListCache.h"
@@ -66,6 +67,7 @@ void messageHandler(QtMsgType type, const char *msg)
 		break;
 	case QtCriticalMsg:
 		fprintf(stderr, "Critical: %s\n", msg);
+		QMessageBox::critical(0, "Critical", msg);
 		break;
 	case QtFatalMsg:
 		// TODO here a message should be emitted and caught by the main thread in
@@ -73,6 +75,7 @@ void messageHandler(QtMsgType type, const char *msg)
 		// in auxiliary threads too.
 		//QMessageBox::critical(0, "Tagaini Jisho fatal error", msg);
 		fprintf(stderr, "Fatal: %s\n", msg);
+		QMessageBox::critical(0, "Fatal error", QString("%1\n\nUnrecoverable error, the program will now exit.").arg(msg));
 		exit(1);
 	}
 }
@@ -82,7 +85,7 @@ void messageHandler(QtMsgType type, const char *msg)
  * to update configuration options that have changed or to remove obsolete
  * ones.
  */
-#define CONFIG_VERSION 3
+#define CONFIG_VERSION 6
 PreferenceItem<int> configVersion("", "configVersion", 0);
 
 void migrateOldData()
@@ -135,6 +138,13 @@ void checkConfigurationVersion()
 			settings.remove("updateCheckInterval");
 		case 3:
 			settings.remove("mainWindow/resultsView/resultsPerPage");
+		case 4:
+			if (settings.contains("mainWindow/guiLanguage")) settings.setValue("preferredLanguages", settings.value("mainWindow/guiLanguage"));
+			settings.remove("mainWindow/guiLanguage");
+		case 5:
+			Lang::preferredDictLanguage.setValue(settings.value("preferredLanguages"));
+			Lang::preferredGUILanguage.setValue(settings.value("preferredLanguages"));
+			settings.remove("preferredLanguages");
 		default:
 			// If we arrive here, this means we are running an pre-tracking version - do nothing in that case
 			break;
@@ -168,16 +178,16 @@ void checkUserProfileDirectory()
 
 int main(int argc, char *argv[])
 {
-	// Install the error message handler
-	qInstallMsgHandler(messageHandler);
-
 	// Seed the random number generator
 	qsrand(QDateTime::currentDateTime().toTime_t());
 	QApplication app(argc, argv);
 
 	QCoreApplication::setOrganizationDomain(__ORGANIZATION_NAME);
 	QCoreApplication::setApplicationName(__APPLICATION_NAME);
-	QCoreApplication::setApplicationVersion(QUOTEMACRO(VERSION));
+	QCoreApplication::setApplicationVersion(VERSION);
+
+	// Install the error message handler now that we have a GUI
+	qInstallMsgHandler(messageHandler);
 
 	migrateOldData();
 	checkConfigurationVersion();
@@ -194,13 +204,11 @@ int main(int argc, char *argv[])
 	// Load translations, if available
 	QString locale;
 	// First check if the language is user-set
-	if (!MainWindow::guiLanguage.isDefault()) {
-		locale = MainWindow::guiLanguage.value();
-	}
+	if (!Lang::preferredGUILanguage.isDefault()) {
+		locale = Lang::preferredGUILanguage.value();
 	// Otherwise try the system default
-	else {
-		QSettings settings;
-		locale = settings.value("locale", QLocale::system().name().left(2)).toString();
+	} else {
+		locale = QLocale::system().name().left(2);
 	}
 	QLocale::setDefault(QLocale(locale));
 	
@@ -210,7 +218,7 @@ int main(int argc, char *argv[])
 	// Load the translation for Tagaini
 	if (appTranslator.load(lookForFile("i18n/tagainijisho_" + locale + ".qm"))) app.installTranslator(&appTranslator);
 	// Load the translations for Qt
-	if (qtTranslator.load(QDir(QLibraryInfo::location(QLibraryInfo::TranslationsPath)).absoluteFilePath(QString("qt_%1").arg(locale))) || qtTranslator.load(lookForFile(QString("i18n/qt_%1.qm").arg(locale)))) app.installTranslator(&qtTranslator);
+	if (qtTranslator.load(QDir(QLibraryInfo::location(QLibraryInfo::TranslationsPath)).absoluteFilePath(QString("qt_%1.qm").arg(locale))) || qtTranslator.load(lookForFile(QString("i18n/qt_%1.qm").arg(locale)))) app.installTranslator(&qtTranslator);
 
 	// Register meta-types
 	qRegisterMetaType<EntryRef>("EntryRef");
@@ -231,8 +239,13 @@ int main(int argc, char *argv[])
 		if (arg == "--temp-db") temporaryDB = true;
 		else if (arg.startsWith("--user-db=")) userDBFile = arg.mid(10);
 	}
-	// TODO check return value
-	Database::init(userDBFile, temporaryDB);
+	QStringList dbErrors;
+	if (!Database::init(userDBFile, temporaryDB, dbErrors)) {
+		QMessageBox::critical(0, "Tagaini Jisho fatal error", dbErrors.join("<p>"));
+		qFatal("All database fallbacks failed, exiting...");
+	} else if (!dbErrors.empty()) {
+		QMessageBox::warning(0, "Tagaini Jisho warning", dbErrors.join("<p>"));
+	}
 
 	// Initialize tags
 	Tag::init();

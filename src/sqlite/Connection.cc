@@ -15,8 +15,9 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "sqlite/Connection.h"
 #include "sqlite3.h"
+#include "sqlite/SQLite.h"
+#include "sqlite/Connection.h"
 #include "tagaini_config.h"
 
 #include <QtDebug>
@@ -47,31 +48,40 @@ const Error &Connection::updateError() const
 	return _lastError;
 }
 
-extern "C" {
-	void register_all_tokenizers(sqlite3 *handler);
-}
-
 bool Connection::connect(const QString &dbFile, OpenFlags flags)
 {
 	if (connected()) {
-		_lastError = Error(-1, "Already connected to a database");
+		_lastError = Error(-1, "already connected to a database");
 		return false;
 	}
+
+	// Enable shared-cache mode
+	sqlite3_enable_shared_cache(1);
 
 	int res = sqlite3_open_v2(dbFile.toUtf8().data(), &_handler, SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE, 0);
 	updateError();
 	if (res != SQLITE_OK) goto err;
-	// Register our special stuff
-	register_all_tokenizers(_handler);
+	// Enable extended error codes
+	sqlite3_extended_result_codes(_handler, 1);
+	// Set busy timeout to 20 seconds - this should be more than enough
+	sqlite3_busy_timeout(_handler, 20000);
+	// Register our tokenizers (extensions can be handled by SQLite's auto mechanism, not tokenizers
+	// as they need the connection to be opened
+	   sqlite3ext_register_tokenizers(_handler);
 	// Configure the connection
 	exec("pragma encoding=\"UTF-16le\"");
 	if (!flags & JournalInFile) exec("pragma journal_mode=MEMORY");
+	// Set read-uncommited mode so that read queries can not block
+	exec("pragma read_uncommitted=1");
 
 	_dbFile = dbFile;
 	return true;
 
 err:
-	if (_handler) sqlite3_free(_handler);
+	if (_handler) {
+		sqlite3_free(_handler);
+		_handler = 0;
+	}
 	return false;
 }
 
@@ -117,7 +127,6 @@ const Error &Connection::lastError() const
 bool Connection::exec(const QString &statement)
 {
 	sqlite3_stmt *stmt;
-	sqlite3_mutex_enter(sqlite3_db_mutex(_handler));
 	int res = sqlite3_prepare_v2(_handler, statement.toUtf8().data(), -1, &stmt, 0);
 	if (res != SQLITE_OK) {
 		updateError();
@@ -125,13 +134,11 @@ bool Connection::exec(const QString &statement)
 	       if (_lastError.isError())
 			qDebug("On query: %s", statement.toUtf8().constData());
 #endif
-		sqlite3_mutex_leave(sqlite3_db_mutex(_handler));
 		return false;
 	}
 	res = sqlite3_step(stmt);
 	updateError();
 	sqlite3_finalize(stmt);
-	sqlite3_mutex_leave(sqlite3_db_mutex(_handler));
 	return !_lastError.isError();
 }
 

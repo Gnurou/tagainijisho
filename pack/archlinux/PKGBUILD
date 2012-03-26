@@ -1,0 +1,25 @@
+# Contributor: Kristian Setälä <kristian.setala@gmail.com>
+
+pkgname=tagainijisho
+pkgver=0.9.2
+pkgrel=1
+pkgdesc="A Free Japanese dictionary and study assistant"
+arch=('i686' 'x86_64')
+url="http://www.tagaini.net/"
+license=('GPL3')
+depends=('qt>=4.7' 'sqlite3>=3.7.9')
+makedepends=('cmake>=2.8.1' 'desktop-file-utils')
+source=(https://github.com/downloads/Gnurou/$pkgname/$pkgname-$pkgver.tar.gz)
+md5sums=('e12ca78a3677685f1d6e89095526d840')
+
+build() {
+  cd "$srcdir/$pkgname-$pkgver"
+  CFLAGS=`echo $CFLAGS | sed 's/-ffast-math//'` cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr . || return 1
+  make || return 1
+}
+
+package() {
+  cd "$srcdir/$pkgname-$pkgver"
+  make DESTDIR=$pkgdir install || return 1
+}
+# vim:set ts=2 sw=2 et:

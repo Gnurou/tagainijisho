@@ -19,7 +19,7 @@
 #include "core/jmdict/JMdictEntrySearcher.h"
 #include "core/jmdict/JMdictEntry.h"
 #include "core/jmdict/JMdictPlugin.h"
-#include "core/Database.h"
+#include "sqlite/SQLite.h"
 
 PreferenceItem<QString> JMdictEntrySearcher::miscPropertiesFilter("jmdict", "miscPropertiesFilter", "arch,obs");
 quint64 JMdictEntrySearcher::_miscFilterMask = 0;
@@ -46,7 +46,7 @@ JMdictEntrySearcher::JMdictEntrySearcher() : EntrySearcher(JMDICTENTRY_GLOBALID)
 	QueryBuilder::Order::orderingWay["freq"] = QueryBuilder::Order::DESC;
 
 	// Register text search commands
-	validCommands << "mean" << "kana" << "kanji" << "jmdict" << "haskanji" << "jlpt" << "withstudiedkanjis" << "hascomponent" << "withkanaonly";
+	validCommands << "romaji" << "mean" << "kana" << "kanji" << "jmdict" << "haskanji" << "jlpt" << "withstudiedkanjis" << "hascomponent" << "withkanaonly";
 	// Also register commands that are sense properties
 	validCommands << "pos" << "misc" << "dial" << "field";
 }
@@ -66,30 +66,25 @@ SearchCommand JMdictEntrySearcher::commandFromWord(const QString &word) const
 	else if (TextTools::isKana(checkString)) return SearchCommand::fromString(QString(":kana=\"%1\"").arg(word));
 	// Otherwise check if it is kanji or kanji/kana mixed Japanese
 	else if (TextTools::isJapanese(checkString)) return SearchCommand::fromString(QString(":kanji=\"%1\"").arg(word));
-	// Then we are probably looking for a translation
-	else return SearchCommand::fromString(QString(":mean=\"%1\"").arg(word));
+	// Then we are probably looking for romaji
+	else {
+		if (allowRomajiSearch()) {
+			QString kn(TextTools::romajiToKana(word));
+			if (!kn.isEmpty()) return SearchCommand::fromString(QString(":romaji=\"%1\"").arg(word));
+		}
+		return SearchCommand::fromString(QString(":mean=\"%1\"").arg(word));
+	}
 	// Nothing? Return an invalid command
 	//return SearchCommand::invalid();
-}
-
-/**
- * Turns the string given as parameter into the equivalent regexp string.
- */
-static QString escapeForRegexp(const QString &string)
-{
-	QString ret = string;
-
-	ret.replace('?', "[\\w]");
-	ret.replace('*', "[\\w]*");
-	return "\\b" + ret + "\\b";
 }
 
 static QString buildTextSearchCondition(const QStringList &words, const QString &table)
 {
 	static QRegExp regExpChars = QRegExp("[\\?\\*]");
-	static QString ftsMatch("jmdict%3.%2Text.reading match '%1'");
-	static QString regexpMatch("jmdict%3.%2Text.reading regexp %1");
-	static QString globalMatch("jmdict%3.%2.docid in (select docid from jmdict%3.%2Text where %1)");
+	static QString ftsMatch("jmdict%3.%2Text.reading MATCH '%1'");
+	static QString regexpMatch("jmdict%3.%2Text.reading REGEXP '%1'");
+	static QString glossRegexpMatch("{{leftcolumn}} in (select id from jmdict_%2.glosses where FTSUNCOMPRESS(glosses) REGEXP '%1')");
+	static QString globalMatch("{{leftcolumn}} IN (SELECT id FROM jmdict%3.%2 JOIN jmdict%3.%2Text ON jmdict%3.%2.docid = jmdict%3.%2Text.docid WHERE %1)");
 
 	QStringList globalMatches;
 	QStringList langs(JMdictPlugin::instance()->attachedDBs().keys());
@@ -97,6 +92,7 @@ static QString buildTextSearchCondition(const QStringList &words, const QString 
 	foreach (const QString &lang, langs) {
 		QStringList fts;
 		QStringList conds;
+		QStringList condsGloss;
 		foreach (const QString &w, words) {
 			if (w.contains(regExpChars)) {
 				// First check if we can optimize by using the FTS index (i.e. the first character is not a wildcard)
@@ -106,15 +102,16 @@ static QString buildTextSearchCondition(const QStringList &words, const QString 
 				// If the wildcard we found is the last character and a star, there is no need for a regexp search
 				if (wildcardIdx == w.size() - 1 && w.size() > 1 && w[wildcardIdx] == '*') continue;
 				// Otherwise insert the regular expression search
-				int idx = Database::staticRegExps.size();
-				QRegExp regExp(escapeForRegexp(TextTools::hiragana2Katakana(w)));
-				regExp.setCaseSensitivity(Qt::CaseInsensitive);
-				Database::staticRegExps.append(regExp);
-				conds << regexpMatch.arg(idx);
+				QString regExp(TextTools::escapeForRegexp(w));
+				if (table != "gloss")
+					conds << regexpMatch.arg(regExp);
+				else
+					condsGloss << glossRegexpMatch.arg(regExp).arg(lang);
 			} else fts << "\"" + w + "\"";
 		}
 		if (!fts.isEmpty()) conds.insert(0, ftsMatch.arg(fts.join(" ")));
-		globalMatches << globalMatch.arg(conds.join(" AND ")).arg(table).arg(table == "gloss" ? "_" + lang : "");
+		if (!conds.isEmpty()) globalMatches << globalMatch.arg(conds.join(" AND ")).arg(table).arg(table == "gloss" ? "_" + lang : "");
+		globalMatches += condsGloss;
 	}
 	return globalMatches.join(" OR ");
 }
@@ -128,6 +125,7 @@ void JMdictEntrySearcher::buildStatement(QList<SearchCommand> &commands, QueryBu
 	QStringList kanjiReadingsMatch;
 	QStringList kanaReadingsMatch;
 	QStringList transReadingsMatch;
+	QStringList romajiSearch;
 	QStringList hasKanjiSearch;
 	QStringList hasComponentSearch;
 	quint64 posFilter(0), miscFilter(0), dialectFilter(0), fieldFilter(0);
@@ -141,29 +139,19 @@ void JMdictEntrySearcher::buildStatement(QList<SearchCommand> &commands, QueryBu
 
 		// Search for text search commands
 		if (commandLabel == "mean" || commandLabel == "kana" || commandLabel == "kanji") {
-			QStringList tables;
-			if (command.command() == "mean") {
-				QStringList langs(JMdictPlugin::instance()->attachedDBs().keys());
-				langs.removeAll("");
-				foreach (const QString &lang, langs) tables << "jmdict_" + lang + ".gloss";
-			}
-			else if (command.command() == "kana") tables << "jmdict.kana";
-			else if (command.command() == "kanji") tables << "jmdict.kanji";
-
-			foreach (const QString &table, tables)
-				statement.addJoin(QueryBuilder::Join(QueryBuilder::Column(table, "id")));
-
 			foreach(const QString &arg, command.args()) {
-				if (command.command() == "mean" ||command.command() == "kanji" || command.command() == "kana") {
-					// Protect multi-words arguments within quotes
-					if (command.command() == "mean")
-						transReadingsMatch << arg;
-					if (command.command() == "kanji")
-						kanjiReadingsMatch << arg;
-					if (command.command() == "kana")
-						kanaReadingsMatch << arg;
-				}
+				// TODO Protect multi-words arguments within quotes
+				if (command.command() == "mean")
+					transReadingsMatch << arg;
+				if (command.command() == "kanji")
+					kanjiReadingsMatch << arg;
+				if (command.command() == "kana")
+					kanaReadingsMatch << arg;
 			}
+			commands.removeOne(command);
+		}
+		else if (command.command() == "romaji") {
+			foreach(const QString &arg, command.args()) romajiSearch << arg;
 			commands.removeOne(command);
 		}
 		else if (commandLabel == "jmdict") {
@@ -224,7 +212,7 @@ void JMdictEntrySearcher::buildStatement(QList<SearchCommand> &commands, QueryBu
 					bool isInt;
 					int level = arg.toInt(&isInt);
 					if (!isInt) continue;
-					if (level < 1 || level > 4) continue;
+					if (level < 1 || level > 5) continue;
 					levelsList << QString::number(level);
 				}
 				statement.addWhere(QString("jmdict.jlpt.level in (%1)").arg(levelsList.join(", ")));
@@ -277,7 +265,7 @@ void JMdictEntrySearcher::buildStatement(QList<SearchCommand> &commands, QueryBu
 				// Check if the argument is defined
 				if (JMdictPlugin::posBitShifts().contains(arg)) {
 					quint8 bitShift(JMdictPlugin::posBitShifts()[arg]);
-					posFilter |= 1L << bitShift;
+					posFilter |= 1ULL << bitShift;
 				} else allArgsProcessed = false;
 			}
 			if (!allArgsProcessed) continue;
@@ -289,7 +277,7 @@ void JMdictEntrySearcher::buildStatement(QList<SearchCommand> &commands, QueryBu
 				// Check if the argument is defined
 				if (JMdictPlugin::miscBitShifts().contains(arg)) {
 					quint8 bitShift(JMdictPlugin::miscBitShifts()[arg]);
-					miscFilter |= 1L << bitShift;
+					miscFilter |= 1ULL << bitShift;
 				} else allArgsProcessed = false;
 			}
 			if (!allArgsProcessed) continue;
@@ -301,7 +289,7 @@ void JMdictEntrySearcher::buildStatement(QList<SearchCommand> &commands, QueryBu
 				// Check if the argument is defined
 				if (JMdictPlugin::dialectBitShifts().contains(arg)) {
 					quint8 bitShift(JMdictPlugin::dialectBitShifts()[arg]);
-					dialectFilter |= 1L << bitShift;
+					dialectFilter |= 1ULL << bitShift;
 				} else allArgsProcessed = false;
 			}
 			if (!allArgsProcessed) continue;
@@ -313,7 +301,7 @@ void JMdictEntrySearcher::buildStatement(QList<SearchCommand> &commands, QueryBu
 				// Check if the argument is defined
 				if (JMdictPlugin::fieldBitShifts().contains(arg)) {
 					quint8 bitShift(JMdictPlugin::fieldBitShifts()[arg]);
-					fieldFilter |= 1L << bitShift;
+					fieldFilter |= 1ULL << bitShift;
 				} else allArgsProcessed = false;
 			}
 			if (!allArgsProcessed) continue;
@@ -322,6 +310,16 @@ void JMdictEntrySearcher::buildStatement(QList<SearchCommand> &commands, QueryBu
 	}
 
 	// Add where statements for text search
+	foreach (const QString &rword, romajiSearch) {
+		QueryBuilder::Where where("OR");
+		QString kword(TextTools::romajiToKana(rword));
+		if (kword.isEmpty()) transReadingsMatch << rword;
+		else {
+			where.addWhere(buildTextSearchCondition(QStringList() << kword, "kana"));
+			where.addWhere(buildTextSearchCondition(QStringList() << rword, "gloss"));
+			statement.addWhere(where);
+		}
+	}
 	if (!kanjiReadingsMatch.isEmpty()) statement.addWhere(buildTextSearchCondition(kanjiReadingsMatch, "kanji"));
 	if (!kanaReadingsMatch.isEmpty()) statement.addWhere(buildTextSearchCondition(kanaReadingsMatch, "kana"));
 	if (!transReadingsMatch.isEmpty()) statement.addWhere(buildTextSearchCondition(transReadingsMatch, "gloss"));
@@ -384,7 +382,7 @@ void JMdictEntrySearcher::buildStatement(QList<SearchCommand> &commands, QueryBu
 void JMdictEntrySearcher::updateMiscFilterMask()
 {
 	_miscFilterMask = 0;
-	foreach (const QString &str, miscPropertiesFilter.value().split(',')) if (JMdictPlugin::miscBitShifts().contains(str)) _miscFilterMask |= 1 << JMdictPlugin::miscBitShifts()[str];
+	foreach (const QString &str, miscPropertiesFilter.value().split(',')) if (JMdictPlugin::miscBitShifts().contains(str)) _miscFilterMask |= 1ULL << JMdictPlugin::miscBitShifts()[str];
 }
 
 QueryBuilder::Column JMdictEntrySearcher::canSort(const QString &sort, const QueryBuilder::Statement &statement)

@@ -65,7 +65,7 @@ public:
 	static PreferenceItem<int> displayModeSetting;
 
 public slots:
-	void newList(const QModelIndex &parent = QModelIndex());
+	void newList(QModelIndex parent = QModelIndex());
 	void editSelectedList();
 	void deleteSelectedItems();
 	void goUp();

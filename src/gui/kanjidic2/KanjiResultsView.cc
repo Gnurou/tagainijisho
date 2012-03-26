@@ -18,13 +18,40 @@
 #include <QtDebug>
 #include <QScrollBar>
 
+#include "core/kanjidic2/Kanjidic2Entry.h"
 #include "gui/kanjidic2/KanjiResultsView.h"
+#include "gui/kanjidic2/Kanjidic2EntryFormatter.h"
 
 #include <QCoreApplication>
-#include <QGraphicsTextItem>
+#include <QGraphicsSimpleTextItem>
+#include <QToolTip>
 
 #define KANJI_SIZE 50
 #define PADDING 5
+
+class QGraphicsSceneHoverEvent;
+
+class KanjiGraphicsItem : public QGraphicsSimpleTextItem
+{
+public:
+	KanjiGraphicsItem(const QString &chr, QGraphicsItem *parent) : QGraphicsSimpleTextItem(chr, parent)
+	{
+		setAcceptHoverEvents(true);
+	}
+
+	virtual ~KanjiGraphicsItem() {}
+
+protected:
+	virtual void hoverEnterEvent(QGraphicsSceneHoverEvent *event)
+	{
+		Kanjidic2EntryFormatter::instance().showToolTip(KanjiEntryRef(text()).get(), QCursor::pos());
+	}
+
+	virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
+	{
+		QToolTip::hideText();
+	}
+};
 
 KanjiResultsView::KanjiResultsView(QWidget *parent) : QGraphicsView(parent), _scene()
 {
@@ -55,7 +82,7 @@ void KanjiResultsView::onSelectionChanged()
 {
 	QList<QGraphicsItem *> selection(_scene.selectedItems());
 	if (selection.isEmpty()) return;
-	emit kanjiSelected(static_cast<QGraphicsTextItem *>(selection[selection.size() - 1])->toPlainText());
+	emit kanjiSelected(static_cast<QGraphicsSimpleTextItem *>(selection[selection.size() - 1])->text());
 }
 
 void KanjiResultsView::startReceive()
@@ -65,7 +92,9 @@ void KanjiResultsView::startReceive()
 
 void KanjiResultsView::addItem(const QString &kanji)
 {
-	QGraphicsTextItem *item = _scene.addText(kanji, kanjiFont);
+	QGraphicsSimpleTextItem *item = new KanjiGraphicsItem(kanji, 0);
+	item->setFont(kanjiFont);
+	_scene.addItem(item);
 	item->setPos(ITEM_POSITION(items.size()), 0);
 	item->setFlags(QGraphicsItem::ItemIsSelectable);
 	items << item;

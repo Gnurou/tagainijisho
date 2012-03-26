@@ -15,6 +15,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "core/EntrySearcher.h"
 #include "gui/TextFilterWidget.h"
 #include "gui/TJLineEdit.h"
 
@@ -25,7 +26,7 @@ PreferenceItem<int> TextFilterWidget::textSearchHistorySize("mainWindow", "searc
 
 TextFilterWidget::TextFilterWidget(QWidget *parent) : SearchFilterWidget(parent), _reseted(true)
 {
-	_propsToSave << "text";
+	_propsToSave << "text" << "allowRomajiSearch";
 
 	_searchField = new QComboBox(this);
 	_searchField->setMinimumWidth(150);
@@ -33,15 +34,21 @@ TextFilterWidget::TextFilterWidget(QWidget *parent) : SearchFilterWidget(parent)
 	_searchField->setMaxCount(textSearchHistorySize.value());
 	_searchField->setSizePolicy(QSizePolicy::Expanding, _searchField->sizePolicy().verticalPolicy());
 	_searchField->setInsertPolicy(QComboBox::NoInsert);
-	_searchField->setLineEdit(new TJLineEdit());
+	//_searchField->setLineEdit(new TJLineEdit());
 	connect(_searchField->lineEdit(), SIGNAL(returnPressed()), this, SLOT(runSearch()));
 	connect(_searchField->lineEdit(), SIGNAL(textChanged(QString)), this, SLOT(onSearchTextChanged(QString)));
 	connect(_searchField, SIGNAL(activated(int)), this, SLOT(onItemSelected(int)));
+
+	_romajiSearchAllowed = new QCheckBox(tr("Romaji search"), this);
+	_romajiSearchAllowed->setChecked(EntrySearcher::allowRomajiSearch());
+	_romajiSearchAllowed->setToolTip(tr("If checked, text typed in romaji will be converted to kana and searched as such."));
+	connect(_romajiSearchAllowed, SIGNAL(toggled(bool)), this, SLOT(onRomajiChanged(bool)));
 
 	QHBoxLayout *hLayout = new QHBoxLayout(this);
 	hLayout->setContentsMargins(0, 0, 0, 0);
 	hLayout->setSpacing(5);
 	hLayout->addWidget(_searchField);
+	hLayout->addWidget(_romajiSearchAllowed);
 	
 	setFocusProxy(_searchField);	
 }
@@ -93,7 +100,15 @@ void TextFilterWidget::resetSearchText()
 	commandUpdate();
 }
 
+void TextFilterWidget::onRomajiChanged(bool state)
+{
+	EntrySearcher::allowRomajiSearch = (bool)state;
+	commandUpdate();
+}
+
+
 void TextFilterWidget::_reset()
 {
 	resetSearchText();
+	_romajiSearchAllowed->setChecked(EntrySearcher::allowRomajiSearch());
 }

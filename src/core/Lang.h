@@ -19,11 +19,21 @@
 #define __CORE_LANG_H
 
 #include <QStringList>
+#include "core/Preferences.h"
 
-/**
- * Returns the list of languages supported for the user interface and database
- * searches.
- */
-const QStringList &supportedLanguages();
+class Lang
+{
+public:
+	static PreferenceItem<QString> preferredDictLanguage;
+	static PreferenceItem<QString> preferredGUILanguage;
+
+	/**
+	* Returns the list of languages supported for the user interface and database
+	* searches.
+	*/
+	static const QStringList &supportedDictLanguages();
+	static const QStringList &supportedGUILanguages();
+	static QStringList preferredDictLanguages();
+};
 
 #endif

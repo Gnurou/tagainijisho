@@ -58,13 +58,14 @@ public:
 	static QString getQueryUsedInKanjiSql(int kanji, int limit = maxCompoundsToDisplay.value(), bool onlyStudied = showOnlyStudiedCompounds.value());
 
 	virtual void draw(const ConstEntryPointer &entry, QPainter &painter, const QRectF &rectangle, QRectF &usedSpace, const QFont &textFont = QFont()) const;
-	void drawCustom(const ConstKanjidic2EntryPointer& entry, QPainter& painter, const QRectF& rectangle, QRectF& usedSpace, const QFont& textFont = QFont(), int printSize = printSize.value(), bool printWithFont = printWithFont.value(), bool printMeanings = printMeanings.value(), bool printOnyomi = printOnyomi.value(), bool printKunyomi = printKunyomi.value(), bool printComponents = printComponents.value(), bool printOnlyStudiedComponents = printOnlyStudiedComponents.value(), int maxWordsToPrint = maxWordsToPrint.value(), bool printOnlyStudiedVocab = printOnlyStudiedVocab.value(), bool printStrokesNumbers = printStrokesNumbers.value(), int printStrokesNumbersSize = strokesNumbersSize.value(), bool printGrid = printGrid.value()) const;
+	void drawCustom(const ConstKanjidic2EntryPointer& entry, QPainter& painter, const QRectF& rectangle, QRectF& usedSpace, const QFont& textFont = QFont(), int _printSize = printSize.value(), bool _printWithFont = printWithFont.value(), bool _printMeanings = printMeanings.value(), bool _printOnyomi = printOnyomi.value(), bool _printKunyomi = printKunyomi.value(), bool _printComponents = printComponents.value(), bool _printOnlyStudiedComponents = printOnlyStudiedComponents.value(), int _maxWordsToPrint = maxWordsToPrint.value(), bool _printOnlyStudiedVocab = printOnlyStudiedVocab.value(), bool _printStrokesNumbers = printStrokesNumbers.value(), int _printStrokesNumbersSize = strokesNumbersSize.value(), bool _printGrid = printGrid.value()) const;
 
 	static PreferenceItem<bool> showReadings;
 	static PreferenceItem<bool> showNanori;
 	static PreferenceItem<bool> showUnicode;
 	static PreferenceItem<bool> showSKIP;
 	static PreferenceItem<bool> showFourCorner;
+	static PreferenceItem<bool> showHeisig;
 	static PreferenceItem<bool> showJLPT;
 	static PreferenceItem<bool> showGrade;
 	static PreferenceItem<bool> showRadicals;
@@ -82,6 +83,7 @@ public:
 	static PreferenceItem<bool> tooltipShowUnicode;
 	static PreferenceItem<bool> tooltipShowSKIP;
 	static PreferenceItem<bool> tooltipShowFourCorner;
+	static PreferenceItem<bool> tooltipShowHeisig;
 	static PreferenceItem<bool> tooltipShowJLPT;
 	static PreferenceItem<bool> tooltipShowGrade;
 	static PreferenceItem<bool> tooltipShowStrokesNumber;
@@ -115,6 +117,7 @@ public slots:
 	virtual QString formatUnicode(const ConstEntryPointer &entry) const;
 	virtual QString formatSkip(const ConstEntryPointer &entry) const;
 	virtual QString formatFourCorner(const ConstEntryPointer &entry) const;
+	virtual QString formatHeisig(const ConstEntryPointer &entry) const;
 	virtual QString formatRadicals(const ConstEntryPointer &entry) const;
 	virtual QString formatComponents(const ConstEntryPointer &entry) const;
 

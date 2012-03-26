@@ -58,13 +58,13 @@ bool Query::prepare(const QString &statement)
 	if (!_connection) return false;
 	clear();
 
-	sqlite3_mutex_enter(sqlite3_db_mutex(_connection->_handler));
-	int res = sqlite3_prepare_v2(_connection->_handler, statement.toUtf8().data(), -1, &_stmt, 0);
+	int res;
+	// Busy loop while the shared cache is locked. This is ugly.
+	while ((res = sqlite3_prepare_v2(_connection->_handler, statement.toUtf8().data(), -1, &_stmt, 0)) == SQLITE_LOCKED_SHAREDCACHE){};
 	_lastError = _connection->updateError();
 #ifdef DEBUG_QUERIES
 	checkQueryError(*this, statement);
 #endif
-	sqlite3_mutex_leave(sqlite3_db_mutex(_connection->_handler));
 	if (res != SQLITE_OK) {
 		_state = ERROR;
 		return false;
@@ -80,7 +80,6 @@ bool Query::checkBind(int &col)
 	if (col == 0) col = ++_bindIndex;
 	else _bindIndex = col;
 
-	sqlite3_mutex_enter(sqlite3_db_mutex(_connection->_handler));
 	return true;
 }
 
@@ -92,10 +91,8 @@ bool Query::checkBindRes()
 #endif
 	if (_lastError.code() != SQLITE_OK) {
 		_state = ERROR;
-		sqlite3_mutex_leave(sqlite3_db_mutex(_connection->_handler));
 		return false;
 	}
-	sqlite3_mutex_leave(sqlite3_db_mutex(_connection->_handler));
 	return true;
 }
 
@@ -162,26 +159,23 @@ void Query::reset()
 {
 	_bindIndex = 0;
 	if (!_stmt) return;
-	sqlite3_mutex_enter(sqlite3_db_mutex(_connection->_handler));
 	sqlite3_reset(_stmt);
 	_lastError = _connection->updateError();
 #ifdef DEBUG_QUERIES
 	checkQueryError(*this, queryText());
 #endif
-	sqlite3_mutex_leave(sqlite3_db_mutex(_connection->_handler));
 	_state = PREPARED;
 }
 
 bool Query::exec()
 {
 	if (_state != PREPARED) return false;
-	sqlite3_mutex_enter(sqlite3_db_mutex(_connection->_handler));
-	sqlite3_step(_stmt);
+	// Busy-loop while the shared cache is locked. This is ugly.
+	while (sqlite3_step(_stmt) == SQLITE_LOCKED_SHAREDCACHE){};
 	_lastError = _connection->updateError();
 #ifdef DEBUG_QUERIES
 	checkQueryError(*this, queryText());
 #endif
-	sqlite3_mutex_leave(sqlite3_db_mutex(_connection->_handler));
 	switch (_lastError.code()) {
 	case SQLITE_ROW:
 		_state = FIRSTRES;
@@ -202,13 +196,11 @@ bool Query::next()
 		_state = RUN;
 		return true;
 	case RUN:
-		sqlite3_mutex_enter(sqlite3_db_mutex(_connection->_handler));
 		sqlite3_step(_stmt);
 		_lastError = _connection->updateError();
 #ifdef DEBUG_QUERIES
 		checkQueryError(*this, queryText());
 #endif
-		sqlite3_mutex_leave(sqlite3_db_mutex(_connection->_handler));
 		switch (_lastError.code()) {
 		case SQLITE_ROW:
 			return true;
@@ -315,13 +307,11 @@ bool Query::valueIsNull(int column) const
 void Query::clear()
 {
 	if (_stmt) {
-		sqlite3_mutex_enter(sqlite3_db_mutex(_connection->_handler));
 		sqlite3_finalize(_stmt);
 		_lastError = _connection->updateError();
 #ifdef DEBUG_QUERIES
 		checkQueryError(*this, queryText());
 #endif
-		sqlite3_mutex_leave(sqlite3_db_mutex(_connection->_handler));
 		_stmt = 0;
 	}
 	_state = INVALID;

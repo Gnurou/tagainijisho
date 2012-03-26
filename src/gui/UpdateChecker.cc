@@ -17,6 +17,7 @@
 
 #include <QtDebug>
 
+#include "tagaini_config.h"
 #include "core/Paths.h"
 #include "gui/UpdateChecker.h"
 
@@ -48,7 +49,7 @@ void UpdateChecker::checkForUpdates(bool beta)
 {
 	QHttpRequestHeader request("GET", _versionURL);
 	request.setValue("Host", "www.tagaini.net");
-	request.setValue("User-Agent", QString("Tagaini Jisho %1 (%2)").arg(QUOTEMACRO(VERSION)).arg(PLATFORM));
+	request.setValue("User-Agent", QString("Tagaini Jisho %1 (%2)").arg(VERSION).arg(PLATFORM));
 	if (_buffer) delete _buffer;
 	_buffer = new QBuffer(this);
 	_http->request(request, 0, _buffer);
@@ -61,6 +62,6 @@ void UpdateChecker::requestFinished(int id, bool error)
 	// If the first character is not a digit, this means we got another page
 	if (!buffer[0].isDigit()) return;
 	QString latestVersion(buffer.contains('\n') ? buffer.left(buffer.indexOf('\n')) : buffer);
-	if (QString(QUOTEMACRO(VERSION)).compare(latestVersion) < 0) emit updateAvailable(latestVersion);
+	if (QString(VERSION).compare(latestVersion) < 0) emit updateAvailable(latestVersion);
 }
 

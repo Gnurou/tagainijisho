@@ -21,6 +21,7 @@
 #include "core/SearchCommand.h"
 #include "core/QueryBuilder.h"
 #include "core/Entry.h"
+#include "core/Preferences.h"
 
 #include <QList>
 #include <QStringList>
@@ -101,6 +102,8 @@ public:
 	 * this searcher, by adding the minimal necessary columns.
 	 */
 	void setColumns(QueryBuilder::Statement &statement) const;
+
+	static PreferenceItem<bool> allowRomajiSearch;
 };
 
 #endif

@@ -16,6 +16,7 @@
  */
 
 #include "core/Database.h"
+#include "core/Lang.h"
 #include "core/EntrySearcherManager.h"
 #include "core/RelativeDate.h"
 #include "gui/UpdateChecker.h"
@@ -78,7 +79,8 @@ void PreferencesWindow::addCategory(PreferencesWindowCategory *category)
 	category->refresh();
 }
 
-void PreferencesWindow::applySettings() {
+void PreferencesWindow::applySettings()
+{
 	QList<PreferencesWindowCategory *> cats;
 	for (int i = 0; i < stackedWidget->count(); i++)
 		cats << qobject_cast<PreferencesWindowCategory *> (stackedWidget->widget(i));
@@ -86,15 +88,42 @@ void PreferencesWindow::applySettings() {
 	foreach (PreferencesWindowCategory *category, cats) category->updateUI();
 }
 
-const QList<QPair<QString, QString> > GeneralPreferences::langs = (QList<QPair<QString, QString> >() <<
-	QPair<QString, QString>(QT_TRANSLATE_NOOP("GeneralPreferences", "Czech"), "cs") <<
-	QPair<QString, QString>(QT_TRANSLATE_NOOP("GeneralPreferences", "Dutch"), "nl") <<
-	QPair<QString, QString>(QT_TRANSLATE_NOOP("GeneralPreferences", "English"), "en") <<
-	QPair<QString, QString>(QT_TRANSLATE_NOOP("GeneralPreferences", "French"), "fr") <<
-	QPair<QString, QString>(QT_TRANSLATE_NOOP("GeneralPreferences", "German"), "de") <<
-	QPair<QString, QString>(QT_TRANSLATE_NOOP("GeneralPreferences", "Russian"), "ru") <<
-	QPair<QString, QString>(QT_TRANSLATE_NOOP("GeneralPreferences", "Spanish"), "es")
-	);
+static const QMap<QString, QString> _langMapping()
+{
+	QMap<QString, QString> ret;
+	ret.insert("en", QT_TRANSLATE_NOOP("GeneralPreferences", "English"));
+	ret.insert("fr", QT_TRANSLATE_NOOP("GeneralPreferences", "French"));
+	ret.insert("de", QT_TRANSLATE_NOOP("GeneralPreferences", "German"));
+	ret.insert("es", QT_TRANSLATE_NOOP("GeneralPreferences", "Spanish"));
+	ret.insert("ru", QT_TRANSLATE_NOOP("GeneralPreferences", "Russian"));
+	ret.insert("nl", QT_TRANSLATE_NOOP("GeneralPreferences", "Dutch"));
+	ret.insert("it", QT_TRANSLATE_NOOP("GeneralPreferences", "Italian"));
+	ret.insert("nb", QT_TRANSLATE_NOOP("GeneralPreferences", "Norvegian Bokmal"));
+	ret.insert("cs", QT_TRANSLATE_NOOP("GeneralPreferences", "Czech"));
+	ret.insert("ja", QT_TRANSLATE_NOOP("GeneralPreferences", "Japanese"));
+	ret.insert("pl", QT_TRANSLATE_NOOP("GeneralPreferences", "Polish"));
+	return ret;
+}
+
+static const QMap<QString, QString> langMapping(_langMapping());
+
+typedef QPair<QString, QString> qps;
+
+/* Localized sorted version of langMapping */
+static const QList<qps> _prefLangs()
+{
+	QList<qps> ret;
+	foreach (const QString &lang, langMapping.keys()) {
+		// FIXME log(n2)
+		int i;
+		QString trans = QCoreApplication::translate("GeneralPreferences", langMapping[lang].toUtf8().constData());
+		for (i = 0; i < ret.size(); i++)
+			if (trans <= ret[i].second) break;
+		ret.insert(i, qps(lang, trans));
+	}
+
+	return ret;
+}
 
 GeneralPreferences::GeneralPreferences(QWidget *parent) : PreferencesWindowCategory(tr("General"), parent)
 {
@@ -103,11 +132,19 @@ GeneralPreferences::GeneralPreferences(QWidget *parent) : PreferencesWindowCateg
 	fontChooser = new PreferencesFontChooser(tr("Application-wide default font"), QFont(), this);
 	static_cast<QBoxLayout*>(generalGroupBox->layout())->insertWidget(0, fontChooser);
 
-	for (int i = 0; i < langs.size(); i++) {
-		QString transLanguage(QCoreApplication::translate("GeneralPreferences", langs[i].first.toUtf8().constData()));
-		if (transLanguage != langs[i].first) transLanguage += QString(" (%1)").arg(langs[i].first);
-		guiLanguage->addItem(transLanguage);
-		guiLanguage->setItemData(guiLanguage->count() - 1, langs[i].second);
+	QList<qps> prefLangs = _prefLangs();
+	foreach (const qps &langPair, prefLangs) {
+		QString lang = langPair.second;
+		const QString &enLang = langMapping[langPair.first];
+		if (lang != enLang) lang += QString(" (%1)").arg(enLang);
+		if (Lang::supportedGUILanguages().contains(langPair.first)) {
+			guiLanguage->addItem(lang);
+			guiLanguage->setItemData(guiLanguage->count() - 1, langPair.first);
+		}
+		if (Lang::supportedDictLanguages().contains(langPair.first)) {
+			dictLanguage->addItem(lang);
+			dictLanguage->setItemData(guiLanguage->count() - 1, langPair.first);
+		}
 	}
 
 	firstDayOfWeek->addItem(tr("Monday"), Qt::Monday);
@@ -124,18 +161,16 @@ void GeneralPreferences::refresh()
 	fontChooser->setDefault(MainWindow::applicationFont.isDefault());
 	fontChooser->setFont(QFont());
 
-	if (MainWindow::guiLanguage.value() == "") guiLanguage->setCurrentIndex(0);
-	else {
-		int idx = 1;
-		typedef QPair<QString, QString> langPair;
-		foreach (const langPair &pair, langs) {
-			if (pair.second == MainWindow::guiLanguage.value()) {
-				guiLanguage->setCurrentIndex(idx);
-				break;
-			}
-			++idx;
+	for (int idx = 1; idx < guiLanguage->count(); idx++)
+		if (guiLanguage->itemData(idx) == Lang::preferredGUILanguage.value()) {
+			guiLanguage->setCurrentIndex(idx);
+			break;
 		}
-	}
+	for (int idx = 1; idx < dictLanguage->count(); idx++)
+		if (dictLanguage->itemData(idx) == Lang::preferredDictLanguage.value()) {
+			dictLanguage->setCurrentIndex(idx);
+			break;
+		}
 
 	firstDayOfWeek->setCurrentIndex(firstDayOfWeek->findData(RelativeDate::firstDayOfWeek.value()));
 
@@ -189,8 +224,10 @@ void GeneralPreferences::applySettings()
 	else MainWindow::applicationFont.set(font.toString());
 
 	// Application language
-	if (guiLanguage->currentIndex() == 0) MainWindow::guiLanguage.reset();
-	else MainWindow::guiLanguage.set(guiLanguage->itemData(guiLanguage->currentIndex()).toString());
+	if (guiLanguage->currentIndex() == 0) Lang::preferredGUILanguage.reset();
+	else Lang::preferredGUILanguage.set(guiLanguage->itemData(guiLanguage->currentIndex()).toString());
+	if (dictLanguage->currentIndex() == 0) Lang::preferredDictLanguage.reset();
+	else Lang::preferredDictLanguage.set(dictLanguage->itemData(dictLanguage->currentIndex()).toString());
 
 	// First day of week
 	RelativeDate::firstDayOfWeek.set(static_cast<Qt::DayOfWeek>(firstDayOfWeek->itemData(firstDayOfWeek->currentIndex()).toInt()));

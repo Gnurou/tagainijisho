@@ -198,12 +198,12 @@ QString EntryFormatter::formatLists(const ConstEntryPointer &entry) const
 	if (!entry->lists().isEmpty()) {
 		EntryListModel listModel;
 		QStringList ret;
-		ret << "<img src=\"listicon\">   ";
+		ret << "<img src=\"listicon\"/>   ";
 		foreach (quint64 rowid, entry->lists()) {
 			QModelIndex idx(listModel.index(rowid));
 			if (!idx.isValid()) continue;
 			QString label(listModel.data(idx.parent(), Qt::DisplayRole).toString());
-			if (label.isEmpty()) label = tr("<Root>");
+			if (label.isEmpty()) label = tr("Root list");
 			QUrl url("list://");
 			url.addQueryItem("rowid", QString("%1").arg(rowid));
 			ret << QString("<a href=\"%1\">%2</a>").arg(QString(url.toEncoded())).arg(autoFormat(label));
@@ -216,7 +216,7 @@ QString EntryFormatter::formatLists(const ConstEntryPointer &entry) const
 QString EntryFormatter::formatTags(const ConstEntryPointer &entry) const
 {
 	if (!entry->tags().isEmpty()) {
-		QString ret("<img src=\"tagicon\"> ");
+		QString ret("<img src=\"tagicon\"/> ");
 		bool first = true;
 		foreach(const Tag &tag, entry->tags()) {
 			if (!first) ret += "   ";

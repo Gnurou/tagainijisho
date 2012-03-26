@@ -1162,7 +1162,7 @@ Other Bugs
 ----------
 
 If you have an issue that is not listed above, you may wish to check Tagaini's
-bug tracker on [launchpad][btfoot], or the [mailing lists][mailfoot]. Chances
+bug tracker on [Github][btfoot], or the [mailing lists][mailfoot]. Chances
 are that someone else has already reported the problem and a work around has
 been posted. If no one else has reported the bug, then please feel free to do
 so.
@@ -1171,16 +1171,13 @@ Contact
 =======
 
 For  development-related contact and user questions we ask that you use
-[Launchpad's][lpfoot] [bug tracker][btfoot] or [answers][answersfoot]
-interface.
-
-For informal discussion about Tagaini's development, you can join the
-dedicated [Google group][mailfoot].
+[Github's][ghfoot] [bug tracker][btfoot] or the [mailing list][mailfoot].
+The latter can also be used for informal discussion about Tagaini's
+development.
 
 This manual has been written and maintained by Neil Caldwell and Alexandre
 Courbot, and Tagaini Jisho is copyright Alexandre Courbot.
 
-[lpfoot]: https://launchpad.net/tagaini-jisho
+[ghfoot]: https://github.com/Gnurou/tagainijisho
 [mailfoot]: http://groups.google.com/group/tagaini-jisho
-[btfoot]: https://bugs.launchpad.net/tagaini-jisho
-[answersfoot]: https://answers.launchpad.net/tagaini-jisho
+[btfoot]: https://github.com/Gnurou/tagainijisho/issues

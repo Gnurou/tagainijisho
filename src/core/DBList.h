@@ -123,8 +123,8 @@ template <class T> DBList<T>::DBList(const QString &tableName, SQLite::Connectio
 
 template <class T> bool DBList<T>::createTables(SQLite::Connection *connection)
 {
-	if (!connection->exec(QString("create table %1(rowid INTEGER PRIMARY KEY, leftSize INTEGER, red TINYINT, parent INTEGER, left INTEGER, right INTEGER, %2)").arg(_tableName).arg(DBListEntry<T>::tableDataMembers()))) return false;
-	if (!connection->exec(QString("create table %1Roots(listId INTEGER PRIMARY KEY, rootId INTEGER, label TEXT)").arg(DBList<T>::tableName()))) return false;
+	if (!connection->exec(QString("CREATE TABLE %1(rowid INTEGER PRIMARY KEY, leftSize INTEGER, red TINYINT, parent INTEGER, left INTEGER, right INTEGER, %2)").arg(_tableName).arg(DBListEntry<T>::tableDataMembers()))) return false;
+	if (!connection->exec(QString("CREATE TABLE %1Roots(listId INTEGER PRIMARY KEY, rootId INTEGER, label TEXT)").arg(DBList<T>::tableName()))) return false;
 	// Entry for root list (rowid = 0)
 	//if (!connection->exec(QString("insert into %1Root values(0, 0, \"\")").arg(DBList<T>::tableName()))) return false;
 	return true;
@@ -210,7 +210,7 @@ template <class T> bool DBList<T>::removeEntry(quint32 rowid)
 
 template <class T> DBListInfo DBList<T>::newList()
 {
-	DBListInfo ret = { 0 };
+	DBListInfo ret = { 0,0,0 };
 
 	if (!newListQuery.exec()) {
 		newListQuery.reset();
@@ -223,7 +223,7 @@ template <class T> DBListInfo DBList<T>::newList()
 
 template <class T> DBListInfo DBList<T>::getList(quint32 listId)
 {
-	DBListInfo ret = { 0 };
+	DBListInfo ret = { 0,0,0 };
 	getListQuery.bindValue(listId);
 
 	if (!getListQuery.exec() || !getListQuery.next()) {

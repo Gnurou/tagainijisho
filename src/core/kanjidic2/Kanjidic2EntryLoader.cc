@@ -15,6 +15,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "core/Lang.h"
 #include "core/kanjidic2/Kanjidic2EntryLoader.h"
 #include "core/kanjidic2/Kanjidic2Entry.h"
 #include "core/kanjidic2/Kanjidic2Plugin.h"
@@ -30,7 +31,7 @@ Kanjidic2EntryLoader::Kanjidic2EntryLoader() : EntryLoader(), kanjiQuery(&connec
 	}
 
 	// Prepare loading queries for faster execution
-	kanjiQuery.prepare("select grade, strokeCount, frequency, jlpt, paths from kanjidic2.entries where id = ?");
+	kanjiQuery.prepare("select grade, strokeCount, frequency, jlpt, heisig, paths from kanjidic2.entries where id = ?");
 	variationsQuery.prepare("select distinct original from strokeGroups where element = ? and original not null");
 	readingsQuery.prepare("select type, reading from kanjidic2.reading join kanjidic2.readingText on kanjidic2.reading.docid = kanjidic2.readingText.docid where entry = ? order by type");
 	nanoriQuery.prepare("select reading from kanjidic2.nanori join kanjidic2.nanoriText on kanjidic2.nanori.docid = kanjidic2.nanoriText.docid where entry = ?");
@@ -42,7 +43,7 @@ Kanjidic2EntryLoader::Kanjidic2EntryLoader() : EntryLoader(), kanjiQuery(&connec
 	foreach (const QString &lang, allDBs.keys()) {
 		if (lang.isEmpty()) continue;
 		SQLite::Query &query = meaningsQueries[lang];
-		QString sqlString(QString("select reading from kanjidic2_%1.meaning join kanjidic2_%1.meaningText on kanjidic2_%1.meaning.docid = kanjidic2_%1.meaningText.docid where entry = ?").arg(lang));
+		QString sqlString(QString("select meanings from kanjidic2_%1.meaning where entry = ?").arg(lang));
 		query.useWith(&connection);
 		query.prepare(sqlString);
 	}
@@ -52,13 +53,13 @@ QList<Kanjidic2Entry::KanjiMeaning> Kanjidic2EntryLoader::getMeanings(int id)
 {
 	QList<Kanjidic2Entry::KanjiMeaning> ret;
 	const QMap<QString, QString> &allDBs = Kanjidic2Plugin::instance()->attachedDBs();
-	foreach (const QString &lang, allDBs.keys()) {
-		if (lang.isEmpty()) continue;
+	foreach (const QString &lang, Lang::preferredDictLanguages()) {
+		if (!allDBs.contains(lang)) continue;
 		SQLite::Query &meaningsQuery = meaningsQueries[lang];
 		meaningsQuery.bindValue(id);
 		meaningsQuery.exec();
 		while(meaningsQuery.next()) {
-			ret << Kanjidic2Entry::KanjiMeaning(lang, meaningsQuery.valueString(0));
+			ret << Kanjidic2Entry::KanjiMeaning(lang, QString::fromUtf8(qUncompress(meaningsQuery.valueBlob(0))));
 		}
 		meaningsQuery.reset();
 	}
@@ -73,7 +74,6 @@ QList<Kanjidic2Entry::KanjiMeaning> Kanjidic2EntryLoader::getMeanings(int id)
 		if (TextTools::isRomaji(character)) ret << Kanjidic2Entry::KanjiMeaning("en", QString("roman character \"%1\"").arg(reading));
 		else if (TextTools::isHiragana(character)) ret << Kanjidic2Entry::KanjiMeaning("en", QString("hiragana \"%1\"%2").arg(reading).arg(info));
 		else if (TextTools::isKatakana(character)) ret << Kanjidic2Entry::KanjiMeaning("en", QString("katakana \"%1\"%2").arg(reading).arg(info));
-		else ret << Kanjidic2Entry::KanjiMeaning("en", QString("unknown character \"%1\"").arg(reading));
 	}
 	return ret;
 }
@@ -95,11 +95,12 @@ Entry *Kanjidic2EntryLoader::loadEntry(EntryId id)
 		int strokeCount = kanjiQuery.valueIsNull(1) ? -1 :kanjiQuery.valueInt(1);
 		qint32 frequency = kanjiQuery.valueIsNull(2) ? -1 : kanjiQuery.valueInt(2);
 		int jlpt = kanjiQuery.valueIsNull(3) ? -1 : kanjiQuery.valueInt(3);
+		int heisig = kanjiQuery.valueIsNull(4) ? -1 : kanjiQuery.valueInt(4);
 		// Get the strokes paths for later processing
-		QByteArray pathsBA(kanjiQuery.valueBlob(4));
+		QByteArray pathsBA(kanjiQuery.valueBlob(5));
 		if (!pathsBA.isEmpty()) paths = QString(qUncompress(pathsBA)).split('|');
 
-		entry = new Kanjidic2Entry(character, true, grade, strokeCount, frequency, jlpt);
+		entry = new Kanjidic2Entry(character, true, grade, strokeCount, frequency, jlpt, heisig);
 	}
 	kanjiQuery.reset();
 	

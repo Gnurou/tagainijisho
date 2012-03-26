@@ -62,16 +62,17 @@ QString QueryBuilder::Join::toString(const Column &with) const
 	QString res;
 	switch (type()) {
 	case Join::Cross:
-		res += "join ";
+		res += "JOIN ";
 		break;
 	case Join::Left:
-		res += "left join ";
+		res += "LEFT JOIN ";
 		break;
 	}
-	res += table1() + " on " + column1().toString() + " = ";
+	res += table1() + " ON (" + column1().toString() + " = ";
 	if (!hasRightPart()) res += with.toString();
 	else res += column2().toString();
-	if (additionalCondition() != "") res += " and " + additionalCondition();
+	res += ")";
+	if (additionalCondition() != "") res += " AND (" + additionalCondition() + ")";
 	return res;
 }
 
@@ -105,7 +106,7 @@ QString QueryBuilder::GroupBy::toString() const
 QString QueryBuilder::Limit::toString() const
 {
 	if (!active()) return "";
-	else return QString("limit %1,%2").arg(start()).arg(nbResults());
+	else return QString("LIMIT %1,%2").arg(start()).arg(nbResults());
 }
 
 int QueryBuilder::Statement::addColumn(const Column &column, int pos)
@@ -144,6 +145,25 @@ QueryBuilder::Column QueryBuilder::Statement::leftColumn() const
 	return jList[0].column1();
 }
 
+QString QueryBuilder::Where::toString() const {
+	if (_wheres.isEmpty())
+		return _constraint;
+	else {
+		QStringList s;
+		foreach (const Where &where, _wheres)
+			s << where.toString();
+		return "(" + s.join(QString(" %1 ").arg(_constraint)) + ")";
+	}
+}
+
+void QueryBuilder::Where::addWhere(const Where &where, int pos)
+{
+	if (_wheres.contains(where)) return;
+
+	if (pos == -1) pos = _wheres.size();
+	_wheres.insert(pos, where);
+}
+
 QString QueryBuilder::Statement::sqlStatementRightPart() const
 {
 	QString res;
@@ -161,7 +181,7 @@ QString QueryBuilder::Statement::sqlStatementRightPart() const
 	}
 
 	if (!_joins.isEmpty()) {
-		res += " from ";
+		res += " FROM ";
 
 		leftJoin = &jList[0];
 		res += leftJoin->column1().table();
@@ -173,15 +193,15 @@ QString QueryBuilder::Statement::sqlStatementRightPart() const
 	}
 
 	if (!_wheres.isEmpty() || (leftJoin && leftJoin->hasAdditionalCondition())) {
-		res += " where ";
+		res += " WHERE ";
 
 		QStringList whereStrs;
-		if (leftJoin->hasAdditionalCondition()) whereStrs << leftJoin->additionalCondition();
+		if (leftJoin->hasAdditionalCondition()) whereStrs << "(" + leftJoin->additionalCondition() + ")";
 
 		foreach (const Where &where, wheres()) {
-			whereStrs << where.toString();
+			whereStrs << "(" + where.toString() + ")";
 		}
-		res += whereStrs.join(" and ");
+		res += whereStrs.join(" AND ");
 	}
 
 	return res;
@@ -197,9 +217,9 @@ QString QueryBuilder::Statement::sqlStatementGroupPart() const
 
 QString QueryBuilder::Statement::buildSqlStatement() const
 {
-	QString res = "select ";
+	QString res = "SELECT ";
 
-	if (distinct()) res += "distinct ";
+	if (distinct()) res += "DISTINCT ";
 
 	for (int i = 0; i < _columns.size(); i++) {
 		if (i > 0) res += ", ";
@@ -210,6 +230,7 @@ QString QueryBuilder::Statement::buildSqlStatement() const
 
 	QString lC = leftColumn().toString();
 	res.replace("{{leftcolumn}}", lC);
+
 	return res;
 }
 

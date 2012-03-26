@@ -50,3 +50,8 @@ doc/install.html
 doc/manual.html
 doc/quickstart.html
 *.txt.user
+*.kdev4
+pack/archlinux/pkg
+pack/archlinux/src
+pack/archlinux/*.tar.gz
+pack/archlinux/*.tar.xz

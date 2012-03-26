@@ -47,7 +47,7 @@ KanjiStroke::~KanjiStroke()
 {
 }
 
-Kanjidic2Entry::Kanjidic2Entry(const QString& kanji, bool inDB, int grade, int strokeCount, qint32 kanjiFrequency, int jlpt) : Entry(KANJIDIC2ENTRY_GLOBALID, TextTools::singleCharToUnicode(kanji)), _inDB(inDB), _kanji(kanji), _grade(grade), _strokeCount(strokeCount), _jlpt(jlpt)
+Kanjidic2Entry::Kanjidic2Entry(const QString& kanji, bool inDB, int grade, int strokeCount, qint32 kanjiFrequency, int jlpt, int heisig) : Entry(KANJIDIC2ENTRY_GLOBALID, TextTools::singleCharToUnicode(kanji)), _inDB(inDB), _kanji(kanji), _grade(grade), _strokeCount(strokeCount), _jlpt(jlpt), _heisig(heisig)
 {
 	_frequency = kanjiFrequency;
 }

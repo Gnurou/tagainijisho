@@ -306,10 +306,9 @@ efficiently. Please don't forget that this is still an early version - check
 the website regularly to see when updates are available. There is an [rss
 feed][rsslink] you can watch to see the progress, as well as a [google
 group][mailinglistlink] for discussion. Please feel free to submit your
-[suggestions][answerslink] and [report bugs][bugslink] to the Launchpad
-interface. Have fun with Tagaini Jisho!
+suggestions there and [report bugs][bugslink] to the Github interface. Have
+fun with Tagaini Jisho!
 
 [rsslink]: http://feeds.feedburner.com/TagainiJisho "rss feed"
 [mailinglistlink]: http://groups.google.com/group/tagaini-jisho "mailing list"
-[answerslink]: https://answers.launchpad.net/tagaini-jisho "launchpad answers"
-[bugslink]: https://bugs.launchpad.net/tagaini-jisho "launchpad bug tracker"
+[bugslink]: https://github.com/Gnurou/tagainijisho/issues "github bug tracker"

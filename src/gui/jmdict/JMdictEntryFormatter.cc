@@ -16,6 +16,7 @@
  */
 
 #include "core/Paths.h"
+#include "core/Lang.h"
 #include "core/TextTools.h"
 #include "core/jmdict/JMdictPlugin.h"
 #include "core/jmdict/JMdictEntrySearcher.h"
@@ -30,8 +31,12 @@
 #include <QTextList>
 #include <QPair>
 
+static QString tatoebaTemplate("http://tatoeba.org/eng/sentences/search?query=%1&from=jpn&to=eng");
+static QString jishoTemplate("http://jisho.org/sentences?jap=%1&eng=");
+
 PreferenceItem<bool> JMdictEntryFormatter::showJLPT("jmdict", "showJLPT", true);
 PreferenceItem<bool> JMdictEntryFormatter::showKanjis("jmdict", "showKanjis", true);
+PreferenceItem<bool> JMdictEntryFormatter::showJMdictID("jmdict", "showJMdictID", false);
 PreferenceItem<bool> JMdictEntryFormatter::searchVerbBuddy("jmdict", "searchVerbBuddy", true);
 PreferenceItem<int> JMdictEntryFormatter::maxHomophonesToDisplay("jmdict", "maxHomophonesToDisplay", 5);
 PreferenceItem<bool> JMdictEntryFormatter::displayStudiedHomophonesOnly("jmdict", "displayStudiedHomophonesOnly", false);
@@ -42,6 +47,7 @@ PreferenceItem<int> JMdictEntryFormatter::headerPrintSize("jmdict", "headerPrint
 PreferenceItem<bool> JMdictEntryFormatter::printKanjis("jmdict", "printKanjis", true);
 PreferenceItem<bool> JMdictEntryFormatter::printOnlyStudiedKanjis("jmdict", "printOnlyStudiedKanjis", false);
 PreferenceItem<int> JMdictEntryFormatter::maxDefinitionsToPrint("jmdict", "maxDefinitionsToPrint", 0);
+PreferenceItem<QString> JMdictEntryFormatter::exampleSentencesService("jmdict", "exampleSentencesService", "");
 
 JMdictEntryFormatter &JMdictEntryFormatter::instance()
 {
@@ -106,6 +112,8 @@ QString JMdictEntryFormatter::getHomographsSql(const QString &writing, int id, i
 
 JMdictEntryFormatter::JMdictEntryFormatter(QObject* parent) : EntryFormatter("detailed_jmdict.css", "detailed_jmdict.html", parent)
 {
+	_exampleSentencesServices["Tatoeba"] = tatoebaTemplate;
+	_exampleSentencesServices["Jisho.org"] = jishoTemplate;
 }
 
 void JMdictEntryFormatter::drawCustom(const ConstEntryPointer& _entry, QPainter& painter, const QRectF& rectangle, QRectF& usedSpace, const QFont& textFont, int headerPrintSize, bool printKanjis, bool printOnlyStudiedKanjis, int maxDefinitionsToPrint) const
@@ -149,7 +157,7 @@ void JMdictEntryFormatter::drawCustom(const ConstEntryPointer& _entry, QPainter&
 				if (printOnlyStudiedKanjis && !kanji->trained()) continue;
 				QString s = QString(c) + ": " + kanji->meanings().join(", ");
 				QFontMetrics metrics(painter.font(), painter.device());
-				s = metrics.elidedText(s, Qt::ElideRight, leftArea.width());
+				s = metrics.elidedText(s, Qt::ElideRight, (int) leftArea.width());
 				textBB = painter.boundingRect(leftArea, Qt::AlignLeft, s);
 				painter.drawText(leftArea, Qt::AlignLeft, s);
 				if (!printOnlyStudiedKanjis && kanji->trained()) painter.drawLine(textBB.topLeft() + QPoint(0, metrics.ascent() + metrics.underlinePos()), textBB.topRight() + QPoint(0, metrics.ascent() + metrics.underlinePos()));
@@ -194,7 +202,7 @@ QString JMdictEntryFormatter::shortDesc(const ConstEntryPointer &_entry) const
 	ConstJMdictEntryPointer entry(_entry.staticCast<const JMdictEntry>());
 	QString ret(autoFormat(entry->shortVersion(Entry::TinyVersion)));
 	if (shortDescShowJLPT.value() && entry->jlpt() != -1) {
-		ret += QString(" <b>%1</b>").arg(autoFormat(tr("(JLPT N%1)").arg(entry->jlpt() < 3 ? entry->jlpt() : entry->jlpt() + 1)));
+		ret += QString(" <b>%1</b>").arg(autoFormat(tr("(JLPT N%1)").arg(entry->jlpt())));
 	}
 	ret += QString(" <a href=\"entry://?type=%1&id=%2\"><img src=\"moreicon\"/></a>").arg(entry->type()).arg(entry->id());
 	if (entry->trained()) {
@@ -325,14 +333,17 @@ QString JMdictEntryFormatter::formatSenses(const ConstEntryPointer &_entry) cons
 
 		// Write the entry
 		ret += "<div class=\"glosses\">\n";
-		QMap<QString, Gloss> glosses = sense->getGlosses();
+		QList<Gloss> glosses = sense->getGlosses();
 		QStringList keys;
-		// TODO separate different languages with new block
-		foreach (const QString &glossKey, glosses.keys()) {
-			QString gloss(glosses[glossKey].gloss());
-			if (!gloss.isEmpty()) gloss[0] = gloss[0].toUpper();
-			ret += QString("<span class=\"glossbody\"><img src=\"flag:%1\"> %2.</span>").arg(glossKey).arg(gloss);
+		QStringList gls;
+		foreach (const Gloss &gloss, glosses) {
+			QString str(gloss.gloss());
+			str.replace("\n", ", ");
+			if (str.isEmpty()) continue;
+			str[0] = str[0].toUpper();
+			gls << QString("<span class=\"glossbody\"><img src=\"flag:%1\"/> %2.</span>").arg(gloss.lang()).arg(str);
 		}
+		ret += gls.join("<br/>");
 
 		QStringList senseHeaders;
 		// Check if the writing is restricted
@@ -367,7 +378,7 @@ QString JMdictEntryFormatter::formatJLPT(const ConstEntryPointer &_entry) const
 {
 	ConstJMdictEntryPointer entry(_entry.staticCast<const JMdictEntry>());
 	if (showJLPT.value() && entry->jlpt() != -1)
-		return QString("<b>%1:</b> N%2").arg(tr("JLPT")).arg(entry->jlpt() >= 3 ? entry->jlpt() + 1 : entry->jlpt());
+		return QString("<b>%1:</b> N%2").arg(tr("JLPT")).arg(entry->jlpt());
 	else return "";
 }
 
@@ -392,6 +403,33 @@ QString JMdictEntryFormatter::formatKanji(const ConstEntryPointer &entry) const
 		}
 	}
 	if (!contents.isEmpty()) return buildSubInfoBlock(tr("Kanji"), contents);
+	else return "";
+}
+
+QString JMdictEntryFormatter::formatExampleSentencesLink(const ConstEntryPointer &_entry) const
+{
+	if (!exampleSentencesService.value().isEmpty()) {
+		ConstJMdictEntryPointer entry(_entry.staticCast<const JMdictEntry>());
+		QString tpl(_exampleSentencesServices[exampleSentencesService.value()]);
+		if (!tpl.isEmpty()) {
+			const QList<KanjiReading> &kanji(entry->getKanjiReadings());
+			const QList<KanaReading> &kana(entry->getKanaReadings());
+			const QList<const Sense *> &senses(entry->getSenses());
+			if (kanji.size() == 0 || senses[0]->misc() & JMdictPlugin::miscBitShifts()["uk"])
+				tpl = tpl.arg(kana[0].getReading());
+			else
+				tpl = tpl.arg(kanji[0].getReading());
+		}
+		return tr("<a href=\"%1\">Examples sentences</a>").arg(tpl);
+	}
+	else return "";
+}
+
+QString JMdictEntryFormatter::formatJMdictID(const ConstEntryPointer &_entry) const
+{
+	ConstJMdictEntryPointer entry(_entry.staticCast<const JMdictEntry>());
+	if (showJMdictID.value())
+		return QString("<b>%1:</b> %2").arg(tr("JMdict ID")).arg(entry->id());
 	else return "";
 }
 

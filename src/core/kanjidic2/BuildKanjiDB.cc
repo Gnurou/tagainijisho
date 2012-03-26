@@ -1,18 +1,18 @@
 /*
- *	Copyright (C) 2010	Alexandre Courbot
+ * Copyright (C) 2010 Alexandre Courbot
  *
- *	This program is free software: you can redistribute it and/or modify
- *	it under the terms of the GNU General Public License as published by
- *	the Free Software Foundation, either version 3 of the License, or
- *	(at your option) any later version.
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
  *
- *	This program is distributed in the hope that it will be useful,
- *	but WITHOUT ANY WARRANTY; without even the implied warranty of
- *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *	GNU General Public License for more details.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
  *
- *	You should have received a copy of the GNU General Public License
- *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 #include "sqlite/Connection.h"
@@ -30,10 +30,10 @@
 
 #define BIND(query, val) { if (!query.bindValue(val)) { qFatal("%s", query.lastError().message().toUtf8().data()); return false; } }
 #define BINDNULL(query) { if (!query.bindNullValue()) { qFatal("%s", query.lastError().message().toUtf8().data()); return false; } }
-#define AUTO_BIND(query, val, nval) if (val == nval) BINDNULL(query) else BIND(query, val)
-#define EXEC(query) if (!query.exec()) { qFatal("%s", query.lastError().message().toUtf8().data()); return false; }
-#define EXEC_STMT(query, stmt) if (!query.exec(stmt)) { qFatal("%s", query.lastError().message().toUtf8().data()); return false; }
-#define ASSERT(cond) Q_ASSERT(cond)
+#define AUTO_BIND(query, val, nval) { if (val == nval) BINDNULL(query) else BIND(query, val) }
+#define EXEC(query) { if (!query.exec()) { qFatal("%s", query.lastError().message().toUtf8().data()); return false; } }
+#define EXEC_STMT(query, stmt)  { if (!query.exec(stmt)) { qFatal("%s", query.lastError().message().toUtf8().data()); return false; } }
+#define ASSERT(cond) { if (!cond) { qCritical("%s: assert condition failed, line %d", __FILE__, __LINE__); return false; } }
 
 QMap<quint32, quint8> knownRadicals;
 QSet<QPair<uint, quint8> > insertedRadicals;
@@ -78,7 +78,8 @@ bool Kanjidic2DBParser::onItemParsed(Kanjidic2Item &kanji)
 	AUTO_BIND(insertEntryQuery, kanji.grade, 0);
 	AUTO_BIND(insertEntryQuery, kanji.stroke_count, 0);
 	AUTO_BIND(insertEntryQuery, (kanji.freq == 0 ? 0 : 2502 - kanji.freq), 0);
-	AUTO_BIND(insertEntryQuery, kanji.jlpt, 0);
+	AUTO_BIND(insertEntryQuery, (kanji.jlpt >= 3 ? kanji.jlpt + 1 : kanji.jlpt), 0);
+	AUTO_BIND(insertEntryQuery, kanji.heisig, 0);
 	EXEC(insertEntryQuery);
 	
 	// Readings
@@ -106,6 +107,7 @@ bool Kanjidic2DBParser::onItemParsed(Kanjidic2Item &kanji)
 				EXEC(mtQuery);
 				BIND(mQuery, mtQuery.lastInsertId());
 				BIND(mQuery, kanji.id);
+				BIND(mQuery, qCompress(meaning.toUtf8(), 9));
 				EXEC(mQuery);
 			}
 		}
@@ -181,9 +183,11 @@ bool Kanjidic2DBParser::updateJLPTLevel(const QString &fName, int level)
 
 bool Kanjidic2DBParser::updateJLPTLevels()
 {
-	ASSERT(updateJLPTLevel(QDir(srcDir).absoluteFilePath("src/core/kanjidic2/jlpt-level2.txt"), 2));
-	ASSERT(updateJLPTLevel(QDir(srcDir).absoluteFilePath("src/core/kanjidic2/jlpt-level3.txt"), 3));
-	ASSERT(updateJLPTLevel(QDir(srcDir).absoluteFilePath("src/core/kanjidic2/jlpt-level4.txt"), 4));
+	ASSERT(updateJLPTLevel(QDir(srcDir).absoluteFilePath("src/core/kanjidic2/jlpt-n1.csv"), 1));
+	ASSERT(updateJLPTLevel(QDir(srcDir).absoluteFilePath("src/core/kanjidic2/jlpt-n2.csv"), 2));
+	ASSERT(updateJLPTLevel(QDir(srcDir).absoluteFilePath("src/core/kanjidic2/jlpt-n3.csv"), 3));
+	ASSERT(updateJLPTLevel(QDir(srcDir).absoluteFilePath("src/core/kanjidic2/jlpt-n4.csv"), 4));
+	ASSERT(updateJLPTLevel(QDir(srcDir).absoluteFilePath("src/core/kanjidic2/jlpt-n5.csv"), 5));
 	return true;
 }
 
@@ -279,6 +283,7 @@ public:
 	bool createRootComponentsTable();
 	bool createTables();
 	bool createIndexes();
+	bool finalize();
 	bool openDatabase(QString databaseName, QString handle);
 	bool closeDatabase(QString handle);
 	bool parse();
@@ -295,11 +300,11 @@ bool KanjiDB::prepareQueries()
 {
 #define PREPQUERY(query, text) query.useWith(&connections["main"]); query.prepare(text)
 	PREPQUERY(insertRadicalQuery, "insert into radicals values(?, ?, ?)");
-	PREPQUERY(insertOrIgnoreEntryQuery, "insert or ignore into entries values(?, ?, ?, ?, ?, null)");
+	PREPQUERY(insertOrIgnoreEntryQuery, "insert or ignore into entries values(?, ?, ?, ?, ?, ?, null)");
 	PREPQUERY(addRadicalQuery, "insert into radicalsList values(?, ?)");
 	PREPQUERY(insertRootComponentQuery, "insert into rootComponents values(?)");
 	
-	PREPQUERY(insertEntryQuery, "insert into entries values(?, ?, ?, ?, ?, null)");
+	PREPQUERY(insertEntryQuery, "insert into entries values(?, ?, ?, ?, ?, ?, null)");
 	PREPQUERY(insertReadingQuery, "insert into reading values(?, ?, ?)");
 	PREPQUERY(insertReadingTextQuery, "insert into readingText values(?)");
 	PREPQUERY(insertNanoriQuery, "insert into nanori values(?, ?)");
@@ -316,7 +321,7 @@ bool KanjiDB::prepareQueries()
 
 	foreach (const QString &lang, languages) {
 #define PREPQUERY(query, text) query.useWith(&connections[lang]); query.prepare(text)
-		PREPQUERY(insertMeaningQueries[lang], "insert into meaning values(?, ?)");
+		PREPQUERY(insertMeaningQueries[lang], "insert into meaning values(?, ?, ?)");
 		PREPQUERY(insertMeaningTextQueries[lang], "insert into meaningText values(?)");
 #undef PREPQUERY
 	}
@@ -374,6 +379,7 @@ bool KanjiDB::closeDatabase(QString handle)
 	SQLite::Connection &connection = connections[handle];
 	connection.exec("analyze");
 	ASSERT(connection.commit());
+	ASSERT(connection.exec("VACUUM"));
 	QFile(connection.dbFileName()).setPermissions(QFile::ReadOwner | QFile::ReadUser | QFile::ReadGroup | QFile::ReadOther);
 	ASSERT(connection.close());
 	return true;
@@ -383,9 +389,9 @@ bool KanjiDB::createRootComponentsTable()
 {
 	SQLite::Query query(&connections["main"]);
 	if (!query.exec("select distinct ks.element from strokeGroups as ks join entries as e on ks.element = e.id where ks.element not in (select distinct kanji from strokeGroups where element != kanji) "
-	                // We are not counting components that are only components of themselves (whatever that means)
-	                "and ks.kanji != ks.element "
-	                "order by strokeCount")) {
+	        // We are not counting components that are only components of themselves (whatever that means)
+	        "and ks.kanji != ks.element "
+	        "order by strokeCount")) {
 		return false;
 	}
 	while (query.next()) {
@@ -423,7 +429,7 @@ bool KanjiDB::createTables()
 {
 	SQLite::Query query(&connections["main"]);
 	EXEC_STMT(query, "create table info(version INT, kanjidic2Version TEXT, kanjiVGVersion TEXT)");
-	EXEC_STMT(query, "create table entries(id INTEGER PRIMARY KEY, grade TINYINT, strokeCount TINYINT, frequency SMALLINT, jlpt TINYINT, paths BLOB)");
+	EXEC_STMT(query, "create table entries(id INTEGER PRIMARY KEY, grade TINYINT, strokeCount TINYINT, frequency SMALLINT, jlpt TINYINT, heisig SMALLINT, paths BLOB)");
 	EXEC_STMT(query, "create table reading(docid INTEGER PRIMARY KEY, entry INTEGER SECONDARY KEY REFERENCES entries, type TEXT)");
 	EXEC_STMT(query, "create virtual table readingText using fts4(reading, TOKENIZE katakana)");
 	EXEC_STMT(query, "create table nanori(docid INTEGER PRIMARY KEY, entry INTEGER SECONDARY KEY REFERENCES entries)");
@@ -438,7 +444,7 @@ bool KanjiDB::createTables()
 	foreach (const QString &lang, languages) {
 		query.useWith(&connections[lang]);
 		EXEC_STMT(query, "create table info(version INT, kanjidic2Version TEXT, kanjiVGVersion TEXT)");
-		EXEC_STMT(query, "create table meaning(docid INTEGER PRIMARY KEY, entry INTEGER SECONDARY KEY REFERENCES entries)");
+		EXEC_STMT(query, "create table meaning(docid INTEGER PRIMARY KEY, entry INTEGER SECONDARY KEY REFERENCES entries, meanings BLOB)");
 		EXEC_STMT(query, "create virtual table meaningText using fts4(reading)");
 	}
 
@@ -464,6 +470,17 @@ bool KanjiDB::createIndexes()
 	foreach (const QString &lang, languages) {
 		query.useWith(&connections[lang]);
 		EXEC_STMT(query, "create index idx_meaning_entry on meaning(entry)");
+	}
+
+	return true;
+}
+
+bool KanjiDB::finalize()
+{
+	SQLite::Query query;
+	foreach (const QString &lang, languages) {
+		query.useWith(&connections[lang]);
+		EXEC_STMT(query, "DELETE FROM meaningText_content");
 	}
 
 	return true;
@@ -530,6 +547,27 @@ void printUsage(char *argv[])
 	qCritical("Usage: %s [-l<lang>] source_dir dest_file\nWhere <lang> is a two-letters language code (en, fr, de, es or ru)", argv[0]);
 }
 
+bool buildDB(const QStringList &languages, const QString &srcDir, const QString &dstDir)
+{
+	KanjiDB kanjiDB(languages, srcDir, dstDir);
+
+	ASSERT(kanjiDB.openDatabase("kanjidic2.db", "main"));
+	foreach (const QString &lang, languages) {
+		ASSERT(kanjiDB.openDatabase(QString("kanjidic2-%1.db").arg(lang), lang));
+	}
+	ASSERT(kanjiDB.createTables());
+	ASSERT(kanjiDB.prepareQueries());
+	ASSERT(kanjiDB.parse());
+	ASSERT(kanjiDB.createIndexes());
+	ASSERT(kanjiDB.clearQueries());
+	ASSERT(kanjiDB.finalize());
+	ASSERT(kanjiDB.closeDatabase("main"));
+	foreach (const QString &lang, languages) {
+		ASSERT(kanjiDB.closeDatabase(lang));
+	}
+	return true;
+}
+
 int main(int argc, char *argv[])
 {
 	QCoreApplication app(argc, argv);
@@ -561,25 +599,8 @@ int main(int argc, char *argv[])
 	QString dstDir(argv[argCpt + 1]);
 	
 	// English is used as a backup if nothing else is available
-	if (!languages.contains("en")) {
-		languages << "en";
-	};
+	languages << "en";
+	languages.removeDuplicates();
 	
-	KanjiDB kanjiDB(languages, srcDir, dstDir);
-	
-	ASSERT(kanjiDB.openDatabase("kanjidic2.db", "main")); 
-	foreach (const QString &lang, languages) {
-		ASSERT(kanjiDB.openDatabase(QString("kanjidic2-%1.db").arg(lang), lang));
-	}
-	ASSERT(kanjiDB.createTables());
-	ASSERT(kanjiDB.prepareQueries());
-	ASSERT(kanjiDB.parse());	
-	ASSERT(kanjiDB.createIndexes());	
-	ASSERT(kanjiDB.clearQueries());
-	ASSERT(kanjiDB.closeDatabase("main"));
-	foreach (const QString &lang, languages) {
-		ASSERT(kanjiDB.closeDatabase(lang));
-	}
-	
-	return 0;
+	return !buildDB(languages, srcDir, dstDir);
 }

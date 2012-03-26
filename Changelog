@@ -1,17 +1,48 @@
-0.9 released on
+0.9.3 released on
+* Update JLPT lists to follow new N* scheme (thanks to the JLPT
+  Resources Page: http://www.tanos.co.uk/jlpt/)
+* Added optional link to example sentences on Tatoeba or jisho.org
+* Fix: do not display empty glosses for a language in detailed view
+* Fixed wildcard search which was broken in previous version
+* Core and SQLite modules are compiled as shared libraries, and SQLite
+  module can be loaded as an SQLite extension
+* Fixed database concurrency bugs
+* Much faster mass-manipulation of entries
+* Better handling of components with variations in kanji popup
+* Allow romaji input for entries and kanji readings
+* Improved searching of kanji per reading
+* Fixed buggy part-of-speech search on 32 bits architectures
+
+0.9.2 released on 2011/11/17
+* Fix startup bug when updating removed JMdict entries (thanks jnaset!)
+* Optimized databases organization, now ~13 MB lighter (installers get
+  bigger though)
+* Display manual using system browser instead of internal broken one
+
+0.9.1 released on 2011/11/16
+* Update to SQLite 3.7.9
+* Fix a bug in the update checker preventing new versions to be announced
+
+0.9 "Fukkatsu" released on 2011/11/13
 * JMdict entities translated again
 * Custom SQLite backend, removes dependency on QtSql
 * System SQLite is now used by default if available
 * Entries of the results view now loaded on-demand, resulting in much
   faster searches
+* Dictionary strings now stored in different databases, removing duplicate
+  data
 * Results view not paged anymore
 * Lists system totally rewritten, now much faster and safer to use
-* Updated to SQLite 3.7.4
-* Added Spanish GUI translation (thanks Daniel Halens!)
 * Removed search button in text search widget and trigger search
   automatically
-* Add exemple sentences from the Tatoeba project
-* Tooltips now use same formatting as detailed view for kanji and kana.
+* Heisig ("Remembering the Kanji") number displayable for kanji entries.
+(thanks Philipp Meyer!)
+* Added Spanish GUI translation (thanks Daniel Halens!)
+* Added Italian GUI translation (thanks Luca Manlio De Lisi!)
+* Added Norvegian GUI translation (thanks Tokiko Lorelei!)
+* Added Japanese GUI translation (thanks Chikahiro Masami!)
+* Tooltips now use same formatting as detailed view for kanji and kana
+* Tooltip now displayed when hovering over kanji selector results
 
 0.2.6.2 released on 2010/08/30
 * Really fixed bug of kana selector always appearing on startup

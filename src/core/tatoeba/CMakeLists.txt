@@ -45,12 +45,9 @@ BuildTatoebaDB.cc
 include(${QT_USE_FILE})
 add_executable(build_tatoeba_db EXCLUDE_FROM_ALL ${build_tatoeba_db_SRCS})
 target_link_libraries(build_tatoeba_db tagaini_sqlite ${QT_LIBRARIES})
-if (APPLE)
-	set(extra_link_flags "-bind_at_load")
-endif()
 
-# Database target
-set(ALL_LANGS "")
+# Database target. Always build the english DB, other languages are optional.
+set(ALL_LANGS "en")
 foreach(LANG ${DICT_LANG})
 	set(ALL_LANGS "${ALL_LANGS},${LANG}")
 endforeach()

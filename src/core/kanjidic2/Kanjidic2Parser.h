@@ -32,6 +32,7 @@ public:
 	int stroke_count;
 	int freq;
 	int jlpt;
+	int heisig;
 	QString skip;
 	QString fourCorner;
 	// TODO Add a rmgroup parameter to allow grouping of readings and meanings
@@ -42,7 +43,7 @@ public:
 	QStringList nanori;
 	QList<QPair<quint8, RadicalType> > radicals;
 	
-	Kanjidic2Item() : id(0), grade(0), stroke_count(0), freq(0), jlpt(0) {}
+	Kanjidic2Item() : id(0), grade(0), stroke_count(0), freq(0), jlpt(0), heisig(0) {}
 };
 
 class Kanjidic2Parser {

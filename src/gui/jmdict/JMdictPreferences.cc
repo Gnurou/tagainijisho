@@ -25,6 +25,9 @@ JMdictPreferences::JMdictPreferences(QWidget *parent) : PreferencesWindowCategor
 {
 	setupUi(this);
 
+	foreach (const QString &idx, JMdictEntryFormatter::getExampleSentencesServices().keys())
+		exampleSentencesServiceBox->addItem(idx);
+
 	connect(printKanjis, SIGNAL(toggled(bool)), printOnlyStudiedKanjis, SLOT(setEnabled(bool)));
 	connect(headerPrintSize, SIGNAL(valueChanged(int)), this, SLOT(updatePrintPreview()));
 	connect(printKanjis, SIGNAL(toggled(bool)), this, SLOT(updatePrintPreview()));
@@ -78,11 +81,19 @@ void JMdictPreferences::refresh()
 {
 	showJLPT->setChecked(JMdictEntryFormatter::showJLPT.value());
 	showKanjis->setChecked(JMdictEntryFormatter::showKanjis.value());
+	showJMdictID->setChecked(JMdictEntryFormatter::showJMdictID.value());
 	homophonesCount->setValue(JMdictEntryFormatter::maxHomophonesToDisplay.value());
 	studiedHomophonesOnly->setChecked(JMdictEntryFormatter::displayStudiedHomophonesOnly.value());
 	homographsCount->setValue(JMdictEntryFormatter::maxHomographsToDisplay.value());
 	studiedHomographsOnly->setChecked(JMdictEntryFormatter::displayStudiedHomographsOnly.value());
 	lookupVerbBuddy->setChecked(JMdictEntryFormatter::searchVerbBuddy.value());
+
+	exampleSentencesServiceBox->setCurrentIndex(0);
+	for (int i = 1; i < exampleSentencesServiceBox->count(); i++)
+		if (exampleSentencesServiceBox->itemText(i) == JMdictEntryFormatter::exampleSentencesService.value()) {
+			exampleSentencesServiceBox->setCurrentIndex(i);
+			break;
+		}
 
 	headerPrintSize->setValue(JMdictEntryFormatter::headerPrintSize.value());
 	printKanjis->setChecked(JMdictEntryFormatter::printKanjis.value());
@@ -105,11 +116,17 @@ void JMdictPreferences::applySettings()
 {
 	JMdictEntryFormatter::showJLPT.set(showJLPT->isChecked());
 	JMdictEntryFormatter::showKanjis.set(showKanjis->isChecked());
+	JMdictEntryFormatter::showJMdictID.set(showJMdictID->isChecked());
 	JMdictEntryFormatter::maxHomophonesToDisplay.set(homophonesCount->value());
 	JMdictEntryFormatter::displayStudiedHomophonesOnly.set(studiedHomophonesOnly->isChecked());
 	JMdictEntryFormatter::maxHomographsToDisplay.set(homographsCount->value());
 	JMdictEntryFormatter::displayStudiedHomographsOnly.set(studiedHomographsOnly->isChecked());
 	JMdictEntryFormatter::searchVerbBuddy.set(lookupVerbBuddy->isChecked());
+
+	if (exampleSentencesServiceBox->currentIndex() == 0)
+		JMdictEntryFormatter::exampleSentencesService.reset();
+	else
+		JMdictEntryFormatter::exampleSentencesService.set(exampleSentencesServiceBox->currentText());
 
 	JMdictEntryFormatter::headerPrintSize.set(headerPrintSize->value());
 	JMdictEntryFormatter::printKanjis.set(printKanjis->isChecked());

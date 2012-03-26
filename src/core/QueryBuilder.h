@@ -21,6 +21,7 @@
 #include <QString>
 #include <QList>
 #include <QHash>
+#include <QStringList>
 
 class QueryBuilder
 {
@@ -115,16 +116,20 @@ public:
 	/**
 	 * WHERE statement - restricts the selected set of database entries
 	 * to those matching the given constraint.
+	 *
+	 * WHERE statements can be used recursively, using a OR or AND relationship.
 	 */
 	class Where
 	{
 	private:
 		QString _constraint;
+		QList<Where> _wheres;
+
 	public:
 		Where(const QString &constraint) : _constraint(constraint) {}
 		const QString &constraint() const { return _constraint; }
-
-		QString toString() const { return _constraint; }
+		QString toString() const;
+		void addWhere(const Where &where, int pos = -1);
 
 		bool operator==(const Where &c) const;
 	};
@@ -175,7 +180,7 @@ public:
 		unsigned int _nbResults;
 	public:
 		/// No limit - selects all results
-		Limit() : _active(false), _start(-1), _nbResults(-1) {}
+		Limit() : _active(false), _start(0), _nbResults(0) {}
 		Limit(unsigned int start, unsigned int nbResults) : _active(true), _start(start), _nbResults(nbResults) {}
 		Limit(unsigned int nbResults) : _active(true), _start(0), _nbResults(nbResults) {}
 

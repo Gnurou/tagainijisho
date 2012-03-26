@@ -208,7 +208,7 @@ void KanjiRenderer::renderStrokeNumber(const KanjiStroke &stroke, QPainter *pain
 	//line = line.normalVector();
 	line.setLength(-baseSize * 1.5);
 	//line.setAngle(path.angleAtPercent(0.05));
-	QRectF elipseRect(line.p2() - QPointF(baseSize, baseSize), QSize(baseSize * 2, baseSize * 2));
+	QRectF elipseRect(line.p2() - QPointF(baseSize, baseSize), QSizeF((baseSize * 2), (baseSize * 2)));
 	painter->drawEllipse(elipseRect);
 	pen.setColor(Qt::black);
 	painter->setPen(pen);
@@ -217,7 +217,7 @@ void KanjiRenderer::renderStrokeNumber(const KanjiStroke &stroke, QPainter *pain
 	// Find the index of the stroke
 	int pos = _strokes.indexOf(*(_strokesMap[&stroke])) + 1;
 	QFont font;
-	font.setPixelSize(baseSize * 2 - 2);
+	font.setPixelSize((int) (baseSize * 2 - 2));
 	painter->setFont(font);
 	painter->drawText(elipseRect, Qt::AlignHCenter | Qt::AlignVCenter, QString::number(pos));
 	painter->restore();
@@ -229,7 +229,7 @@ void KanjiRenderer::renderGrid(QPainter *painter)
 	painter->drawLine(QLineF(0, 109 / 2.0, 109, 109 / 2.0));
 	painter->drawLine(QLineF(109 / 2.0, 0, 109 / 2.0, 109));
 	QPen pen(painter->pen());
-	pen.setWidth(pen.width() / 3.0);
+	pen.setWidthF(pen.widthF() / 3.0);
 	pen.setStyle(Qt::DotLine);
 	painter->setPen(pen);
 	painter->drawLine(QLineF(0, 109 / 4.0, 109, 109 / 4.0));

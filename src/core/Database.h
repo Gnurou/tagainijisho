@@ -24,7 +24,6 @@
 #include "core/Preferences.h"
 
 #include <QString>
-#include <QRegExp>
 #include <QVector>
 #include <QMap>
 #include <QTemporaryFile>
@@ -37,7 +36,6 @@ class Database
 {
 Q_DECLARE_TR_FUNCTIONS(Database)
 private:
-	static void dbWarning(const QString &message);
 	/// Set to the name of the current user DB file
 	static QString _userDBFile;
 	/// Temporary file used to create the temporary user DB
@@ -46,18 +44,18 @@ private:
 	static Database *_instance;
 
 	SQLite::Connection _connection;
-	Database(const QString &userDBFile = QString(), bool temporary = false);
+	Database(const QString &userDBFile = QString());
 	~Database();
 
 	bool createUserDB();
 	bool updateUserDB(int currentVersion);
-	bool connectUserDB(QString filename = "");
-	bool checkUserDB();
-	bool connectToTemporaryDatabase();
+	bool connectUserDB(QString filename, QStringList &errors);
+	bool checkUserDB(QStringList &errors);
+	bool connectToTemporaryDatabase(QStringList &errors);
 	void closeDB();
 
 public:
-	static void init(const QString &userDBFile = QString(), bool temporary = false);
+	static bool init(const QString &userDBFile, bool temporary, QStringList &errors);
 	static void stop();
 	static Database *instance() { return _instance; }
 	static SQLite::Connection *connection() { return &_instance->_connection; }
@@ -68,8 +66,6 @@ public:
 	static bool attachDictionaryDB(const QString &file, const QString &alias, int expectedVersion);
 	static bool detachDictionaryDB(const QString &alias);
 	static const QMap<QString, QString> &attachedDBs() { return _attachedDBs; }
-
-	static QVector<QRegExp> staticRegExps;
 
 	static const SQLite::Error &lastError() { return _instance->_connection.lastError(); }
 };

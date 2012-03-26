@@ -25,15 +25,44 @@
         <item>
          <widget class="QLabel" name="label_2">
           <property name="text">
-           <string>GUI language</string>
+           <string>Preferred GUI language</string>
+          </property>
+          <property name="buddy">
+           <cstring>guiLanguage</cstring>
           </property>
          </widget>
         </item>
         <item>
          <widget class="QComboBox" name="guiLanguage">
+          <property name="toolTip">
+           <string>The GUI will use this language whenever possible. English will be used as a fallback.</string>
+          </property>
           <item>
            <property name="text">
             <string>System default</string>
+           </property>
+          </item>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_5">
+        <item>
+         <widget class="QLabel" name="label_5">
+          <property name="text">
+           <string>Preferred dictionary language</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QComboBox" name="dictLanguage">
+          <property name="toolTip">
+           <string>The dictionaries will use this language whenever possible. English will be used as a fallback.</string>
+          </property>
+          <item>
+           <property name="text">
+            <string>Same as GUI</string>
            </property>
           </item>
          </widget>
@@ -63,6 +92,9 @@
        <widget class="QLabel" name="label">
         <property name="text">
          <string>Weeks start on</string>
+        </property>
+        <property name="buddy">
+         <cstring>firstDayOfWeek</cstring>
         </property>
        </widget>
       </item>
@@ -152,11 +184,13 @@
       <item>
        <widget class="QLabel" name="label_4">
         <property name="text">
-         <string>Defines how many recent entries are kept in memory. High values may
-improve performance when manipulating a large number of entries.</string>
+         <string>Defines how many recent entries are kept in memory. High values may improve performance when manipulating a large number of entries.</string>
+        </property>
+        <property name="textFormat">
+         <enum>Qt::PlainText</enum>
         </property>
         <property name="wordWrap">
-         <bool>false</bool>
+         <bool>true</bool>
         </property>
        </widget>
       </item>
@@ -183,12 +217,12 @@ improve performance when manipulating a large number of entries.</string>
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>68</x>
-     <y>197</y>
+     <x>80</x>
+     <y>265</y>
     </hint>
     <hint type="destinationlabel">
-     <x>68</x>
-     <y>223</y>
+     <x>79</x>
+     <y>292</y>
     </hint>
    </hints>
   </connection>

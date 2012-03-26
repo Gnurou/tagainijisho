@@ -1,5 +1,5 @@
 /*
- *  Copyright (C) 2010  Alexandre Courbot
+ *  Copyright (C) 2012  Alexandre Courbot
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -15,19 +15,22 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <QtDebug>
+#ifndef __GUI_BATCHHANDLER_H
+#define __GUI_BATCHHANDLER_H
 
-#include "gui/ManualBrowser.h"
+#include "core/Entry.h"
 
-#include <QFile>
-#include <QDir>
+#include <QModelIndexList>
+#include <QCoreApplication>
+#include <QWidget>
 
-ManualBrowser::ManualBrowser(const QString &manualPath, QWidget* parent) : QWidget(parent)
+class BatchHandler
 {
-	setupUi(this);
-	textBrowser->setSearchPaths(QStringList(manualPath));
-	QFile f(QDir(manualPath).filePath("manual.html"));
-	f.open(QIODevice::ReadOnly);
-	QString contents(QString::fromUtf8(f.readAll()));
-	textBrowser->setHtml(contents);
-}
+	Q_DECLARE_TR_FUNCTIONS(BatchHandler)
+public:
+	virtual ~BatchHandler() {}
+	virtual void apply(const EntryPointer &e) const = 0;
+	static void applyOnEntries(const BatchHandler &handler, const QList<EntryPointer> &entries, QWidget *parent = 0);
+};
+
+#endif

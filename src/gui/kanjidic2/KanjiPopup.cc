@@ -91,18 +91,26 @@ void KanjiComponentWidget::paintEvent(QPaintEvent *event)
 	if (!_component->original().isEmpty()) kEntry = KanjiEntryRef(_component->original()).get();
 	
 	QString readings;
-	QString meanings;
+	QStringList meaningsList(kEntry->meanings());
+	QString meanings(!meaningsList.isEmpty() ? meaningsList[0] : "");
+	if (!_component->original().isEmpty()) {
+		ConstKanjidic2EntryPointer elt = KanjiEntryRef(_component->element()).get();
+		if (elt) {
+			meaningsList = elt->meanings();
+			if (!meaningsList.isEmpty() && meaningsList[0] != meanings) meanings = tr("%1 (drawn as \"%2\")").arg(meanings).arg(meaningsList[0]);
+		}
+	}
 
 	QRect textRect(QPoint(kanjiSize + 5, 0), size() - QSize(kanjiSize + 5, 0));
 	readings = fontMetrics().elidedText(kEntry->readings().join(", "), Qt::ElideRight, textRect.width());
-	meanings = fontMetrics().elidedText(kEntry->meanings().join(", "), Qt::ElideRight, textRect.width());
+	meanings = fontMetrics().elidedText(meanings, Qt::ElideRight, textRect.width());
 	if (!meanings.isEmpty()) meanings[0] = meanings[0].toUpper();
 
 	painter.drawText(textRect, 0, QString("%1\n%2").arg(meanings).arg(readings));
 }
 
 PreferenceItem<int> KanjiPopup::historySize("kanjidic", "popupHistorySize", 1000);
-PreferenceItem<int> KanjiPopup::animationSize("kanjidic", "animationSize", 100);
+PreferenceItem<int> KanjiPopup::animationSize("kanjidic", "animationSize", 150);
 PreferenceItem<bool> KanjiPopup::autoStartAnim("kanjidic", "autoStartAnim", true);
 
 KanjiPopup::KanjiPopup(QWidget *parent) : QFrame(parent), _history(historySize.value()), entryView()
@@ -198,7 +206,7 @@ void KanjiPopup::updateInfo()
 	if (entry->jlpt() != -1)
 		str += tr("<b>Grade:</b> %1<br/>").arg(QCoreApplication::translate("Kanjidic2GUIPlugin", Kanjidic2GUIPlugin::kanjiGrades[entry->grade()].toLatin1()));
 	if (entry->jlpt() != -1)
-		str += tr("<b>JLPT:</b> %1<br/>").arg(entry->jlpt());
+		str += tr("<b>JLPT:</b> N%1<br/>").arg(entry->jlpt());
 	if (entry->trained())
 		str += tr("<b>Score:</b> %1<br/>").arg(entry->score());
 	propsLabel->setText(str);
@@ -212,7 +220,8 @@ void KanjiPopup::setComponentsLabelText(int highlightPos)
 	QStringList componentsStrings;
 	int i = 0;
 	foreach (const KanjiComponent *component, entry->rootComponents()) {
-		componentsStrings << QString("<a %3href=\"%1\">%2</a>").arg(i).arg(component->original().isEmpty() ? component->element() : component->original()).arg(highlightPos == i ? "class=\"highlighted\" " : "");
+		componentsStrings << QString("<a %3href=\"%1|%2\">%2</a>").arg(i).arg(component->original().isEmpty() ? component->element() : component->original()).arg(highlightPos == i ? "class=\"highlighted\" " : "");
+		if (!component->original().isEmpty()) componentsStrings.last() += QString("(<a %3href=\"%1|%2\">%2</a>)").arg(i).arg(component->element()).arg(highlightPos == i ? "class=\"highlighted\" " : "");
 		++i;
 	}
 
@@ -293,7 +302,7 @@ void KanjiPopup::onComponentClicked(const KanjiComponent *component)
 
 void KanjiPopup::onComponentLinkHovered(const QString &link)
 {
-	int idx(link.toInt());
+	int idx(link.split('|')[0].toInt());
 	ConstKanjidic2EntryPointer entry(entryView.entry().staticCast<const Kanjidic2Entry>());
 	const KanjiComponent *component(entry->rootComponents()[idx]);
 
@@ -304,10 +313,11 @@ void KanjiPopup::onComponentLinkHovered(const QString &link)
 
 void KanjiPopup::onComponentLinkActivated(const QString &link)
 {
-	int idx(link.toInt());
-	ConstKanjidic2EntryPointer entry(entryView.entry().staticCast<const Kanjidic2Entry>());
-	const KanjiComponent *component(entry->rootComponents()[idx]);
-	onComponentClicked(component);
+	QString kanji(link.split('|')[1]);
+	Kanjidic2EntryPointer kElement(KanjiEntryRef(TextTools::singleCharToUnicode(kanji)).get());
+	if (!kElement) return;
+	_history.add(kElement->kanji());
+	showKanji(kElement);
 }
 
 bool KanjiPopup::eventFilter(QObject *obj, QEvent *event)

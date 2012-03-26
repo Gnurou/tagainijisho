@@ -83,7 +83,7 @@ public:
 class Sense
 {
 private:
-	QMap<QString, Gloss> glosses;
+	QList<Gloss> glosses;
 	QStringList infos;
 	QList<qint32> _stagK;
 	QList<qint32> _stagR;
@@ -94,8 +94,7 @@ private:
 
 public:
 	Sense(quint64 partOfSpeech, quint64 misc, quint64 dialect, quint64 field);
-	const QMap<QString, Gloss> &getGlosses() const { return glosses; }
-	const Gloss gloss(const QString &lang) const;
+	const QList<Gloss> &getGlosses() const { return glosses; }
 	const QStringList &getInfos() const { return infos; }
 
 	quint64 partOfSpeech() const { return _partOfSpeech; }

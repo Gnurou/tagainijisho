@@ -16,6 +16,7 @@
  */
 
 #include "core/Paths.h"
+#include "core/Lang.h"
 #include "core/TextTools.h"
 #include "gui/kanjidic2/Kanjidic2EntryFormatter.h"
 
@@ -41,6 +42,7 @@ PreferenceItem<bool> Kanjidic2EntryFormatter::showUnicode("kanjidic", "showUnico
 PreferenceItem<bool> Kanjidic2EntryFormatter::showSKIP("kanjidic", "showSKIP", true);
 PreferenceItem<bool> Kanjidic2EntryFormatter::showFourCorner("kanjidic", "showFourCorner", true);
 PreferenceItem<bool> Kanjidic2EntryFormatter::showJLPT("kanjidic", "showJLPT", true);
+PreferenceItem<bool> Kanjidic2EntryFormatter::showHeisig("kanjidic", "showHeisig", true);
 PreferenceItem<bool> Kanjidic2EntryFormatter::showGrade("kanjidic", "showGrade", true);
 PreferenceItem<bool> Kanjidic2EntryFormatter::showRadicals("kanjidic", "showRadicals", true);
 PreferenceItem<bool> Kanjidic2EntryFormatter::showComponents("kanjidic", "showComponents", true);
@@ -57,6 +59,7 @@ PreferenceItem<bool> Kanjidic2EntryFormatter::tooltipShowScore("kanjidic", "tool
 PreferenceItem<bool> Kanjidic2EntryFormatter::tooltipShowUnicode("kanjidic", "tooltipShowUnicode", false);
 PreferenceItem<bool> Kanjidic2EntryFormatter::tooltipShowSKIP("kanjidic", "tooltipShowSKIP", false);
 PreferenceItem<bool> Kanjidic2EntryFormatter::tooltipShowFourCorner("kanjidic", "tooltipShowFourCorner", false);
+PreferenceItem<bool> Kanjidic2EntryFormatter::tooltipShowHeisig("kanjidic", "tooltipShowHeisig", false);
 PreferenceItem<bool> Kanjidic2EntryFormatter::tooltipShowJLPT("kanjidic", "tooltipShowJLPT", false);
 PreferenceItem<bool> Kanjidic2EntryFormatter::tooltipShowGrade("kanjidic", "tooltipShowGrade", false);
 PreferenceItem<bool> Kanjidic2EntryFormatter::tooltipShowStrokesNumber("kanjidic", "tooltipShowStrokesNumber", false);
@@ -209,7 +212,7 @@ void Kanjidic2EntryFormatter::drawCustom(const ConstKanjidic2EntryPointer& entry
 			QString meanings(original->meaningsString());
 			if (!meanings.isEmpty()) s += ": " + meanings;
 			QFontMetrics metrics(painter.font(), painter.device());
-			s = metrics.elidedText(s, Qt::ElideRight, leftArea.width());
+			s = metrics.elidedText(s, Qt::ElideRight, (int) leftArea.width());
 			textBB = painter.boundingRect(leftArea, Qt::AlignLeft, s);
 			painter.drawText(leftArea, Qt::AlignLeft, s);
 			if (!printOnlyStudiedComponents && original->trained()) painter.drawLine(textBB.topLeft() + QPoint(0, metrics.ascent() + metrics.underlinePos()), textBB.topRight() + QPoint(0, metrics.ascent() + metrics.underlinePos()));
@@ -225,7 +228,7 @@ void Kanjidic2EntryFormatter::drawCustom(const ConstKanjidic2EntryPointer& entry
 		painter.setFont(italFont);
 		str = entry->meaningsString();
 		if (!str.isEmpty()) str[0] = str[0].toUpper();
-		str = QFontMetrics(painter.font(), painter.device()).elidedText(str, Qt::ElideRight, rightArea.width());
+		str = QFontMetrics(painter.font(), painter.device()).elidedText(str, Qt::ElideRight, (int) rightArea.width());
 		textBB = painter.boundingRect(rightArea, Qt::AlignHCenter, str);
 		painter.drawText(textBB, Qt::AlignHCenter, str);
 		rightArea.setTop(textBB.bottom());
@@ -239,14 +242,14 @@ void Kanjidic2EntryFormatter::drawCustom(const ConstKanjidic2EntryPointer& entry
 			painter.setFont(boldFont);
 			str = "On:";
 			textBB = painter.boundingRect(rightArea, Qt::AlignLeft, str);
-			onLength += textBB.width();
+			onLength += (int) textBB.width();
 			painter.drawText(textBB, Qt::AlignLeft, str);
 			painter.setFont(textFont);
 			tempBox.setLeft(textBB.right());
 			tempBox.setRight(rightArea.center().x());
 			str = " " + onRead.join(", ");
-			str = QFontMetrics(painter.font(), painter.device()).elidedText(str, Qt::ElideRight, tempBox.width());
-			onLength += painter.boundingRect(tempBox, Qt::AlignLeft, str).width();
+			str = QFontMetrics(painter.font(), painter.device()).elidedText(str, Qt::ElideRight, (int) tempBox.width());
+			onLength += (int) (painter.boundingRect(tempBox, Qt::AlignLeft, str).width());
 			painter.drawText(tempBox, Qt::AlignLeft, str);
 			rightArea.setTop(textBB.bottom());
 		}
@@ -264,7 +267,7 @@ void Kanjidic2EntryFormatter::drawCustom(const ConstKanjidic2EntryPointer& entry
 			painter.setFont(textFont);
 			tempBox.setLeft(textBB.right());
 			str = " " + kunRead.join(", ");
-			str = QFontMetrics(painter.font(), painter.device()).elidedText(str, Qt::ElideRight, tempBox.width());
+			str = QFontMetrics(painter.font(), painter.device()).elidedText(str, Qt::ElideRight, (int) tempBox.width());
 			painter.drawText(tempBox, Qt::AlignLeft, str);
 			rightArea.setTop(textBB.bottom());
 		}
@@ -278,7 +281,7 @@ void Kanjidic2EntryFormatter::drawCustom(const ConstKanjidic2EntryPointer& entry
 		while (query.next()) {
 			ConstJMdictEntryPointer jmEntry(JMdictEntryRef(query.valueInt(1)).get());
 
-			QString str = QFontMetrics(painter.font(), painter.device()).elidedText(jmEntry->shortVersion(Entry::TinyVersion), Qt::ElideRight, rightArea.width());
+			QString str = QFontMetrics(painter.font(), painter.device()).elidedText(jmEntry->shortVersion(Entry::TinyVersion), Qt::ElideRight, (int) rightArea.width());
 			textBB = painter.boundingRect(rightArea, Qt::AlignLeft, str);
 			painter.drawText(textBB, Qt::AlignLeft, str);
 			rightArea.setTop(textBB.bottom());
@@ -335,6 +338,10 @@ void Kanjidic2EntryFormatter::showToolTip(const ConstKanjidic2EntryPointer entry
 	}
 	if (entry->jlpt() != -1 && tooltipShowJLPT.value()) {
 		QString body(tr("<b>JLPT:</b> N%1").arg(entry->jlpt() < 3 ? entry->jlpt() : entry->jlpt() + 1));
+		CLOSE_TAB;
+	}
+	if (entry->heisig() != -1 && tooltipShowHeisig.value()) {
+		QString body(tr("<b>Heisig:</b> %1").arg(entry->heisig()));
 		CLOSE_TAB;
 	}
 	if (tooltipShowUnicode.value()) {
@@ -405,12 +412,21 @@ QString Kanjidic2EntryFormatter::formatHead(const ConstEntryPointer &_entry) con
 QString Kanjidic2EntryFormatter::formatMeanings(const ConstEntryPointer &_entry) const
 {
 	ConstKanjidic2EntryPointer entry(_entry.staticCast<const Kanjidic2Entry>());
-	if (!entry->kanjiMeanings().isEmpty()) {
-		QString s = entry->meaningsString();
-		if (!s.isEmpty()) s[0] = s[0].toUpper();
-		return s;
+	QStringList meanStrings;
+	QString curLang;
+	QMap<QString, QStringList> means;
+	foreach (const Kanjidic2Entry::KanjiMeaning &mean, entry->kanjiMeanings()) {
+		if (mean.lang() != curLang) {
+			means[mean.lang()] = QStringList();
+			curLang = mean.lang();
+		}
+		means[mean.lang()] << mean.meaning();
 	}
-	return "";
+	foreach (const QString &lang, Lang::preferredDictLanguages()) {
+		if (!means.contains(lang)) continue;
+		meanStrings << QString("<img src=\"flag:%1\"/> ").arg(lang) + means[lang].join(", ");
+	}
+	return meanStrings.join("<br/>");
 }
 
 QString Kanjidic2EntryFormatter::formatOnReadings(const ConstEntryPointer &_entry) const
@@ -483,6 +499,15 @@ QString Kanjidic2EntryFormatter::formatJLPT(const ConstEntryPointer &_entry) con
 	return "";
 }
 
+QString Kanjidic2EntryFormatter::formatHeisig(const ConstEntryPointer &_entry) const
+{
+	ConstKanjidic2EntryPointer entry(_entry.staticCast<const Kanjidic2Entry>());
+	if (entry->heisig() != -1 && showHeisig.value()) {
+		return QString("<b>%1:</b> %2").arg(tr("Heisig")).arg(entry->heisig());
+	}
+	return "";
+}
+
 QString Kanjidic2EntryFormatter::formatVariations(const ConstEntryPointer &_entry) const
 {
 	if (showVariations.value()) {
@@ -513,7 +538,7 @@ QString Kanjidic2EntryFormatter::formatVariationsOf(const ConstEntryPointer &_en
 			ConstKanjidic2EntryPointer kEntry(KanjiEntryRef(kid).get());
 			formats << entryTitle(kEntry);
 		}
-		QString("<b>%1:</b> %2").arg(tr("Variation of")).arg(formats.join(" "));
+		return QString("<b>%1:</b> %2").arg(tr("Variation of")).arg(formats.join(" "));
 	}
 	return "";
 }
@@ -623,7 +648,7 @@ void ShowUsedInKanjiJob::result(EntryPointer entry)
 void ShowUsedInKanjiJob::completed()
 {
 	if (!gotResults) return;
-	cursor().insertHtml(QString("<a href=\"component:?reset=true&kanji=%1\" title=\"%4\">%2</a> <a href=\"component:?kanji=%1\" title=\"%5\">%3</a>").arg(_kanji).arg(tr("All compounds")).arg(tr("(+)")).arg("Make a new search using only this filter").arg("Add this filter to the current search"));
+	cursor().insertHtml(QString("<a href=\"component:?reset=true&kanji=%1\" title=\"%4\">%2</a> <a href=\"component:?kanji=%1\" title=\"%5\">%3</a>").arg(_kanji).arg(tr("All compounds")).arg(tr("(+)")).arg(tr("Make a new search using only this filter")).arg(tr("Add this filter to the current search")));
 }
 
 ShowUsedInWordsJob::ShowUsedInWordsJob(const QString &kanji, const QTextCursor &cursor) :
@@ -649,5 +674,5 @@ void ShowUsedInWordsJob::result(EntryPointer entry)
 void ShowUsedInWordsJob::completed()
 {
 	if (!gotResults) return;
-	cursor().insertHtml(QString("<a href=\"allwords:?reset=true&kanji=%1\" title=\"%4\">%2</a> <a href=\"allwords:?kanji=%1\" title=\"%5\">%3</a>").arg(_kanji).arg(tr("All words using this kanji")).arg(tr("(+)")).arg("Make a new search using only this filter").arg("Add this filter to the current search"));
+	cursor().insertHtml(QString("<a href=\"allwords:?reset=true&kanji=%1\" title=\"%4\">%2</a> <a href=\"allwords:?kanji=%1\" title=\"%5\">%3</a>").arg(_kanji).arg(tr("All words using this kanji")).arg(tr("(+)")).arg(tr("Make a new search using only this filter")).arg(tr("Add this filter to the current search")));
 }

@@ -31,7 +31,6 @@
 #include "gui/TextFilterWidget.h"
 #include "gui/MainWindow.h"
 #include "gui/ui_AboutDialog.h"
-#include "gui/ManualBrowser.h"
 
 #include <QtDebug>
 
@@ -62,14 +61,12 @@ UpdateChecker *_updateChecker = 0;
 UpdateChecker *_betaUpdateChecker = 0;
 
 PreferenceItem<QString> MainWindow::applicationFont("mainWindow", "defaultFont", "");
-PreferenceItem<QString> MainWindow::guiLanguage("mainWindow", "guiLanguage", "");
 PreferenceItem<bool> MainWindow::autoCheckUpdates("mainWindow", "autoCheckUpdates", true);
 PreferenceItem<bool> MainWindow::autoCheckBetaUpdates("mainWindow", "autoCheckBetaUpdates", false);
 PreferenceItem<int> MainWindow::updateCheckInterval("mainWindow", "updateCheckInterval", 3);
 
 PreferenceItem<QByteArray> MainWindow::windowGeometry("mainWindow", "geometry", "");
 PreferenceItem<QByteArray> MainWindow::windowState("mainWindow", "state", "");
-PreferenceItem<QByteArray> MainWindow::splitterState("mainWindow", "splitterGeometry", "");
 
 PreferenceItem<QDateTime> MainWindow::lastUpdateCheck("mainWindow", "lastUpdateCheck", QDateTime(QDate(2000, 1, 1)));
 PreferenceItem<bool> MainWindow::donationReminderDisplayed("mainWindow", "donationReminderDisplayed", false, true);
@@ -178,6 +175,8 @@ void MainWindow::setupListWidget()
 	DockTitleBar *dBar = new DockTitleBar(toolsBar, _listDockWidget);
 	dBar->setAttribute(Qt::WA_MacMiniSize);
 	_listDockWidget->setTitleBarWidget(dBar);
+	// Not visible on first start
+	_listDockWidget->setVisible(false);
 	
 	connect(_entryListWidget->entryListView(), SIGNAL(entrySelected(EntryPointer)), detailedView(), SLOT(display(EntryPointer)));
 	
@@ -274,7 +273,7 @@ void MainWindow::about()
 #error No version defined - the -DVERSION=<version> flag must be set!
 #endif
 	QString message = QString(
-		"<p>Copyright (C) 2008, 2009, 2010 Alexandre Courbot.</p>"
+		"<p>Copyright (C) 2008-2012 Alexandre Courbot.</p>"
 		"<p align=\"center\"><a href=\"http://www.tagaini.net\">http://www.tagaini.net</a></p><p>This program comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to redistribute it under the conditions of the <a href=\"http://www.gnu.org/licenses/gpl-3.0.html\">GNU General Public Licence, version 3.0</a>.</p><hr/>"
 		);
 	QString credits = "<p>Tagaini Jisho uses data from various sources:</p>";
@@ -288,7 +287,7 @@ void MainWindow::about()
 	QDialog aboutDialog;
 	aboutDialogUI.setupUi(&aboutDialog);
 	aboutDialog.setWindowIcon(windowIcon());
-	aboutDialogUI.title->setText(aboutDialogUI.title->text() + " " + QUOTEMACRO(VERSION));
+	aboutDialogUI.title->setText(aboutDialogUI.title->text() + " " + VERSION);
 	aboutDialogUI.logo->setPixmap(aboutDialogUI.logo->pixmap()->scaledToWidth(75, Qt::SmoothTransformation));
 	aboutDialogUI.credits->setHtml(message + credits);
 	aboutDialogUI.credits->viewport()->setAutoFillBackground(false);
@@ -299,15 +298,13 @@ void MainWindow::about()
 	QString authors =
 		"<h2>Authors</h2>"
 		"<p><b>Alexandre Courbot</b> project lead, programming.</p>"
+		"<p><b>Axel Bodart</b> CMake improvements, web site guru, Mac release manager.</p>"
 		"<p><b>Neil Caldwell</b> documentation.</p>"
-		"<p><b>Axel Bodart</b> project build, Mac release manager.</p>"
 		"<h2>Thanks to</h2>"
 		"<p><b>Philip Seyfi</b> application icon.</p>"
 		"<p><b>Tracy Poff</b> bug reports, documentation fixes.</p>"
-		"<p><b>Jeroen Hoek</b> Dutch translation.</p>"
-		"<p><b>Philipp Meyer</b> German translation.</p>"
-		"<p><b>Pavel Fric</b> Czech translation.</p>"
-		"<p>All the people who donated and contributed directly or indirectly to this software!</p>"
+		"<p>All the translators on <a href=\"https://www.transifex.net/projects/p/tagaini-jisho\">Transifex</a>.</p>"
+		"<p>All the persons who donated and contributed directly or indirectly to this software!</p>"
 		"";
 	aboutDialogUI.authors->setHtml(authors);
 	aboutDialogUI.authors->viewport()->setAutoFillBackground(false);
@@ -326,29 +323,26 @@ void MainWindow::manual()
 {
 	// First check if we have an installation prefix
 #ifdef DATA_DIR
-	QString f = QDir(QUOTEMACRO(DATA_DIR)).filePath("doc");
+	QString f = QDir(DATA_DIR).filePath("doc/manual.html");
 #else
-	QString f = QDir(QCoreApplication::applicationDirPath()).filePath("doc");
+	QString f = QDir(QCoreApplication::applicationDirPath()).filePath("doc/manual.html");
 #endif
-	ManualBrowser *mb = new ManualBrowser(f, this);
-	mb->setAttribute(Qt::WA_DeleteOnClose);
-	mb->setWindowFlags(Qt::Window);
-	mb->show();
+	QDesktopServices::openUrl(f);
 }
 
 void MainWindow::bugReport()
 {
-	QDesktopServices::openUrl(QUrl("https://bugs.launchpad.net/tagaini-jisho"));
+	QDesktopServices::openUrl(QUrl("https://github.com/Gnurou/tagainijisho/issues"));
 }
 
 void MainWindow::featureRequest()
 {
-	QDesktopServices::openUrl(QUrl("https://blueprints.launchpad.net/tagaini-jisho"));
+	QDesktopServices::openUrl(QUrl("https://github.com/Gnurou/tagainijisho/issues"));
 }
 
 void MainWindow::askQuestion()
 {
-	QDesktopServices::openUrl(QUrl("https://answers.launchpad.net/tagaini-jisho"));
+	QDesktopServices::openUrl(QUrl("http://groups.google.com/group/tagaini-jisho"));
 }
 
 void MainWindow::updateAvailable(const QString &version)

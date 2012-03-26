@@ -34,7 +34,7 @@ QColor Entry::scoreColor() const
 {
 	int sc = score() * 5;
 	return QColor(sc > 0xff ? sc < 0x1ff ? 0xff - (sc - 0x100) : 0x00 : 0xff,
-	              sc < 0xff ? sc : 0xff, 0x00).lighter(165);
+	      sc < 0xff ? sc : 0xff, 0x00).lighter(165);
 }
 
 static QString dateToString(const QDateTime &date)
@@ -45,11 +45,11 @@ static QString dateToString(const QDateTime &date)
 
 void Entry::updateTrainingData()
 {
-	SQLite::Query query(Database::connection());
-
 	QString qString;
 	if (!trained()) removeFromTraining();
 	else {
+	        SQLite::Query query(Database::connection());
+
 		qString = "insert or replace into training values(" + QString::number(type()) + ", " + QString::number(id()) + ", " + QString::number(score()) + ", " + dateToString(dateAdded()) + ", " + dateToString(dateLastTrain()) + ", " + QString::number(nbTrained()) + ", " + QString::number(nbSuccess()) + ", " + dateToString(dateLastMistake()) + ")";
 		if (!query.exec(qString)) qCritical() << "Error executing query: " << query.lastError().message();
 		emit entryChanged(this);
@@ -73,7 +73,7 @@ void Entry::train(bool success, float factor)
 	// - The factor argument.
 	int daysNotSeen = lastTrainTime.daysTo(currentTime);
 
-	int scoreChange = 5 + (daysNotSeen * 2) * factor;
+	int scoreChange = (int) (5 + (daysNotSeen * 2) * factor);
 	if (scoreChange > 30) scoreChange = 30;
 	if (!success) scoreChange = -scoreChange;
 

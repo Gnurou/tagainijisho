@@ -1,5 +1,5 @@
 /*
- *  Copyright (C) 2010  Alexandre Courbot
+ *  Copyright (C) 2010-2012  Alexandre Courbot
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -16,11 +16,13 @@
  */
 
 #include "core/Paths.h"
+#include <core/Database.h>
 #include "gui/EntriesViewHelper.h"
 #include "gui/EntryMenu.h"
 #include "gui/EditEntryNotesDialog.h"
 #include "gui/TagsDialogs.h"
 #include "gui/EntriesPrinter.h"
+#include "gui/BatchHandler.h"
 
 #include <QAction>
 #include <QProgressDialog>
@@ -89,93 +91,86 @@ void EntriesViewHelper::setPreferenceHandler(Preference pref, PreferenceRoot *re
 QList<EntryPointer> EntriesViewHelper::selectedEntries() const
 {
 	QModelIndexList selection = client()->selectionModel()->selectedIndexes();
+	QProgressDialog progressDialog(tr("Selecting entries..."), tr("Abort"), 0, selection.size(), 0);
+	progressDialog.setMinimumDuration(1000);
+	progressDialog.setWindowTitle(tr("Please wait..."));
+	progressDialog.setWindowModality(Qt::WindowModal);
+
 	QList<EntryPointer> selectedEntries;
+	int i = 0;
+	int completed = true;
 	foreach(const QModelIndex &index, selection) {
+		if (progressDialog.wasCanceled()) {
+			completed = false;
+			break;
+		}
+		progressDialog.setValue(i++);
 		EntryPointer entry(qVariantValue<EntryPointer>(index.data(Entry::EntryRole)));
 		if (entry) selectedEntries << entry;
 	}
-	return selectedEntries;
+	if (!completed) return QList<EntryPointer>();
+	else return selectedEntries;
 }
+
+void EntriesViewHelper::applyOnSelection(const BatchHandler &handler)
+{
+	QModelIndexList selection(client()->selectionModel()->selectedIndexes());
+
+	BatchHandler::applyOnEntries(handler, selectedEntries());
+	foreach (const QModelIndex &index, selection)
+		client()->update(index);
+}
+
+struct StudyHandler : BatchHandler
+{
+	void apply(const EntryPointer &e) const
+	{
+		e->addToTraining();
+	}
+};
 
 void EntriesViewHelper::studySelected()
 {
-	QModelIndexList selection = client()->selectionModel()->selectedIndexes();
-	// Progress bar
-	QProgressDialog progressDialog(tr("Marking entries..."), tr("Abort"), 0, selection.size(), client());
-	progressDialog.setMinimumDuration(1000);
-	progressDialog.setWindowTitle(tr("Operation in progress..."));
-	progressDialog.setWindowModality(Qt::WindowModal);
-
-	int i = 0;
-	foreach (const QModelIndex &index, selection) {
-		if (progressDialog.wasCanceled()) break;
-		progressDialog.setValue(i++);
-		EntryPointer entry = qVariantValue<EntryPointer>(index.data(Entry::EntryRole));
-		if (!entry) continue;
-		entry->addToTraining();
-		client()->update(index);
-	}
+	applyOnSelection(StudyHandler());
 }
+
+struct UnstudyHandler : BatchHandler
+{
+	void apply(const EntryPointer &e) const
+	{
+		e->removeFromTraining();
+	}
+};
 
 void EntriesViewHelper::unstudySelected()
 {
-	QModelIndexList selection = client()->selectionModel()->selectedIndexes();
-	// Progress bar
-	QProgressDialog progressDialog(tr("Marking entries..."), tr("Abort"), 0, selection.size(), client());
-	progressDialog.setMinimumDuration(1000);
-	progressDialog.setWindowTitle(tr("Operation in progress..."));
-	progressDialog.setWindowModality(Qt::WindowModal);
-
-	int i = 0;
-	foreach (const QModelIndex &index, selection) {
-		if (progressDialog.wasCanceled()) break;
-		progressDialog.setValue(i++);
-		EntryPointer entry = qVariantValue<EntryPointer>(index.data(Entry::EntryRole));
-		if (!entry) continue;
-		entry->removeFromTraining();
-		client()->update(index);
-	}
+	applyOnSelection(UnstudyHandler());
 }
+
+struct MarkAsKnownHandler : BatchHandler
+{
+	void apply(const EntryPointer &e) const
+	{
+		e->setAlreadyKnown();
+	}
+};
 
 void EntriesViewHelper::markAsKnown()
 {
-	QModelIndexList selection = client()->selectionModel()->selectedIndexes();
-	// Progress bar
-	QProgressDialog progressDialog(tr("Marking entries..."), tr("Abort"), 0, selection.size(), client());
-	progressDialog.setMinimumDuration(1000);
-	progressDialog.setWindowTitle(tr("Operation in progress..."));
-	progressDialog.setWindowModality(Qt::WindowModal);
-
-	int i = 0;
-	foreach (const QModelIndex &index, selection) {
-		if (progressDialog.wasCanceled()) break;
-		progressDialog.setValue(i++);
-		EntryPointer entry = qVariantValue<EntryPointer>(index.data(Entry::EntryRole));
-		if (!entry) continue;
-		if (entry->alreadyKnown()) continue;
-		entry->setAlreadyKnown();
-		client()->update(index);
-	}
+	applyOnSelection(MarkAsKnownHandler());
 }
+
+struct ResetTrainingHandler : BatchHandler
+{
+	void apply(const EntryPointer &e) const
+	{
+		e->resetScore();
+	}
+};
 
 void EntriesViewHelper::resetTraining()
 {
-	QModelIndexList selection = client()->selectionModel()->selectedIndexes();
-	// Progress bar
-	QProgressDialog progressDialog(tr("Resetting entries..."), tr("Abort"), 0, selection.size(), client());
-	progressDialog.setMinimumDuration(1000);
-	progressDialog.setWindowTitle(tr("Operation in progress..."));
-	progressDialog.setWindowModality(Qt::WindowModal);
-
-	int i = 0;
-	foreach (const QModelIndex &index, selection) {
-		if (progressDialog.wasCanceled()) break;
-		progressDialog.setValue(i++);
-		EntryPointer entry = qVariantValue<EntryPointer>(index.data(Entry::EntryRole));
-		if (!entry) continue;
-		entry->resetScore();
-		client()->update(index);
-	}
+	applyOnSelection(ResetTrainingHandler());
 }
 
 void EntriesViewHelper::setTags()
@@ -194,24 +189,20 @@ void EntriesViewHelper::addTags()
 		client()->update(index);
 }
 
+struct AddTagsListHandler : BatchHandler
+{
+	const QStringList &_tags;
+	AddTagsListHandler(const QStringList &tags) : _tags(tags) {}
+
+	void apply(const EntryPointer &e) const
+	{
+		e->addTags(_tags);
+	}
+};
+
 void EntriesViewHelper::addTags(const QStringList &tags)
 {
-	QModelIndexList selection = client()->selectionModel()->selectedIndexes();
-	// Progress bar
-	QProgressDialog progressDialog(tr("Adding tags..."), tr("Abort"), 0, selection.size(), client());
-	progressDialog.setMinimumDuration(1000);
-	progressDialog.setWindowTitle(tr("Operation in progress..."));
-	progressDialog.setWindowModality(Qt::WindowModal);
-	
-	int i = 0;
-	foreach (const QModelIndex &index, selection) {
-		if (progressDialog.wasCanceled()) break;
-		progressDialog.setValue(i++);
-		EntryPointer entry = qVariantValue<EntryPointer>(index.data(Entry::EntryRole));
-		if (!entry) continue;
-		entry->addTags(tags);
-		client()->update(index);
-	}
+	applyOnSelection(AddTagsListHandler(tags));
 }
 
 void EntriesViewHelper::addNote()
@@ -431,11 +422,15 @@ bool EntriesViewHelper::eventFilter(QObject *obj, QEvent *ev)
 				QMenu *menu(contextMenu());
 				if (menu->actions().isEmpty()) return true;
 				QContextMenuEvent *cev(static_cast<QContextMenuEvent *>(ev));
-				QList<EntryPointer> _selectedEntries(selectedEntries());
-				// This is stupid, but const-safety forces us here
-				QList<ConstEntryPointer> selectedEntries;
-				foreach (const EntryPointer &entry, _selectedEntries) selectedEntries << entry;
-				updateStatus(selectedEntries);
+				QList<ConstEntryPointer> cSelectedEntries;
+				if (client()->selectionModel()->selectedIndexes().size() < 250) {
+					QList<EntryPointer> _selectedEntries(selectedEntries());
+					// This is stupid, but const-safety forces us here
+					foreach (const EntryPointer &entry, _selectedEntries) cSelectedEntries << entry;
+					updateStatus(cSelectedEntries);
+				} else {
+					setEnabledAll(true);
+				}
 				menu->exec(client()->mapToGlobal(cev->pos()));
 				return false;
 			}
