@@ -82,6 +82,7 @@ public:
 	 */
 	bool eventFilter(QObject *obj, QEvent *_event);
 
+	QDockWidget *kanaDockWidget() { return _kanaDockWidget; }
 	KanaSelector *kanaSelector() { return _kanaSelector; }
 
 	static const QString kanjiGrades[];
