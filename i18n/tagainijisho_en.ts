@@ -543,7 +543,7 @@
         <translation>A database error occured while trying to add the list.</translation>
     </message>
     <message>
-        <location line="+20"/>
+        <location line="+30"/>
         <source>Confirm deletion</source>
         <translation>Confirm deletion</translation>
     </message>
@@ -553,7 +553,7 @@
         <translation>This will delete the selected lists items and lists, including all their children. Continue?</translation>
     </message>
     <message>
-        <location line="+18"/>
+        <location line="+23"/>
         <source>Removal failed</source>
         <translation>Removal failed</translation>
     </message>
@@ -957,7 +957,7 @@
     </message>
     <message>
         <location line="+18"/>
-        <source>&lt;a href=&quot;%1&quot;&gt;Examples sentences&lt;/a&gt;</source>
+        <source>Example sentences</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

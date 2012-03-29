@@ -420,7 +420,7 @@ QString JMdictEntryFormatter::formatExampleSentencesLink(const ConstEntryPointer
 			else
 				tpl = tpl.arg(kanji[0].getReading());
 		}
-		return tr("<a href=\"%1\">Examples sentences</a>").arg(tpl);
+		return QString("<a href=\"%1\">%2</a>").arg(tpl).arg(tr("Example sentences"));
 	}
 	else return "";
 }
