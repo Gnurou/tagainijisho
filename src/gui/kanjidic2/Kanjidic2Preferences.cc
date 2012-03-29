@@ -73,6 +73,7 @@ Kanjidic2Preferences::Kanjidic2Preferences(QWidget *parent) : PreferencesWindowC
 	bLayout->addLayout(hLayout);
 
 	_kanaSelectorPreview = new KanaView(this, true);
+	_kanaSelectorPreview->setShowObsolete(true);
 	QLayout *layout = kanaPreviewBox->layout();
 	layout->addWidget(_kanaSelectorPreview);
 
