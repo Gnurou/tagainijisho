@@ -137,13 +137,13 @@ GeneralPreferences::GeneralPreferences(QWidget *parent) : PreferencesWindowCateg
 		QString lang = langPair.second;
 		const QString &enLang = langMapping[langPair.first];
 		if (lang != enLang) lang += QString(" (%1)").arg(enLang);
-		if (Lang::supportedGUILanguages().contains(langPair.first)) {
+		if (langPair.first == "en" || Lang::supportedGUILanguages().contains(langPair.first)) {
 			guiLanguage->addItem(lang);
 			guiLanguage->setItemData(guiLanguage->count() - 1, langPair.first);
 		}
-		if (Lang::supportedDictLanguages().contains(langPair.first)) {
+		if (langPair.first == "en" || Lang::supportedDictLanguages().contains(langPair.first)) {
 			dictLanguage->addItem(lang);
-			dictLanguage->setItemData(guiLanguage->count() - 1, langPair.first);
+			dictLanguage->setItemData(dictLanguage->count() - 1, langPair.first);
 		}
 	}
 
