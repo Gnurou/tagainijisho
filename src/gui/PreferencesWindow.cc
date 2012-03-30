@@ -134,15 +134,16 @@ GeneralPreferences::GeneralPreferences(QWidget *parent) : PreferencesWindowCateg
 
 	QList<qps> prefLangs = _prefLangs();
 	foreach (const qps &langPair, prefLangs) {
-		QString lang = langPair.second;
+		QString lang(langPair.second);
 		const QString &enLang = langMapping[langPair.first];
+		QIcon langIcon(QString(":/images/flags/%1.png").arg(langPair.first));
 		if (lang != enLang) lang += QString(" (%1)").arg(enLang);
 		if (langPair.first == "en" || Lang::supportedGUILanguages().contains(langPair.first)) {
-			guiLanguage->addItem(lang);
+			guiLanguage->addItem(langIcon, lang);
 			guiLanguage->setItemData(guiLanguage->count() - 1, langPair.first);
 		}
 		if (langPair.first == "en" || Lang::supportedDictLanguages().contains(langPair.first)) {
-			dictLanguage->addItem(lang);
+			dictLanguage->addItem(langIcon, lang);
 			dictLanguage->setItemData(dictLanguage->count() - 1, langPair.first);
 		}
 	}
