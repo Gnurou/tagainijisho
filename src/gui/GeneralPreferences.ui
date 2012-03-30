@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>506</width>
+    <width>535</width>
     <height>428</height>
    </rect>
   </property>
@@ -21,8 +21,15 @@
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_3">
       <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_3">
-        <item>
+       <layout class="QGridLayout" name="gridLayout">
+        <item row="2" column="0">
+         <widget class="QLabel" name="label_5">
+          <property name="text">
+           <string>Preferred dictionary language</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0">
          <widget class="QLabel" name="label_2">
           <property name="text">
            <string>Preferred GUI language</string>
@@ -32,8 +39,14 @@
           </property>
          </widget>
         </item>
-        <item>
+        <item row="1" column="1">
          <widget class="QComboBox" name="guiLanguage">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
           <property name="toolTip">
            <string>The GUI will use this language whenever possible. English will be used as a fallback.</string>
           </property>
@@ -44,19 +57,14 @@
           </item>
          </widget>
         </item>
-       </layout>
-      </item>
-      <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_5">
-        <item>
-         <widget class="QLabel" name="label_5">
-          <property name="text">
-           <string>Preferred dictionary language</string>
-          </property>
-         </widget>
-        </item>
-        <item>
+        <item row="2" column="1">
          <widget class="QComboBox" name="dictLanguage">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
           <property name="toolTip">
            <string>The dictionaries will use this language whenever possible. English will be used as a fallback.</string>
           </property>
@@ -201,6 +209,7 @@
  </widget>
  <tabstops>
   <tabstop>guiLanguage</tabstop>
+  <tabstop>dictLanguage</tabstop>
   <tabstop>firstDayOfWeek</tabstop>
   <tabstop>checkForUpdates</tabstop>
   <tabstop>checkInterval</tabstop>
