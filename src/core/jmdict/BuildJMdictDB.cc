@@ -29,11 +29,11 @@
 
 #include <QtDebug>
 
-#define BIND(query, val) { if (!query.bindValue(val)) { qFatal("%s", query.lastError().message().toUtf8().data()); return false; } }
-#define BINDNULL(query) { if (!query.bindNullValue()) { qFatal("%s", query.lastError().message().toUtf8().data()); return false; } }
+#define BIND(query, val) { if (!query.bindValue(val)) { qCritical("%s", query.lastError().message().toUtf8().data()); return false; } }
+#define BINDNULL(query) { if (!query.bindNullValue()) { qCritical("%s", query.lastError().message().toUtf8().data()); return false; } }
 #define AUTO_BIND(query, val, nval) if (val == nval) BINDNULL(query) else BIND(query, val)
-#define EXEC(query) if (!query.exec()) { qFatal("%s", query.lastError().message().toUtf8().data()); return false; }
-#define EXEC_STMT(query, stmt) if (!query.exec(stmt)) { qFatal("%s", query.lastError().message().toUtf8().data()); return false; }
+#define EXEC(query) if (!query.exec()) { qCritical("%s", query.lastError().message().toUtf8().data()); return false; }
+#define EXEC_STMT(query, stmt) if (!query.exec(stmt)) { qCritical("%s", query.lastError().message().toUtf8().data()); return false; }
 #define ASSERT(cond) { if (!cond) { qCritical("%s: assert condition failed, line %d", __FILE__, __LINE__); return false; } }
 
 class JMdictDBParser : public JMdictParser
@@ -236,7 +236,7 @@ bool JMdictDBParser::openDatabase(QString databaseName, QString handle)
 		return false;
 	}
 	if (!connection.connect(dbFile, SQLite::Connection::JournalInFile)) {
-		qFatal("Cannot open database: %s", connection.lastError().message().toLatin1().data());
+		qCritical("Cannot open database: %s", connection.lastError().message().toLatin1().data());
 		return false;
 	}
 	connection.transaction();
