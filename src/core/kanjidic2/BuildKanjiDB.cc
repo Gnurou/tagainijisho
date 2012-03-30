@@ -68,6 +68,7 @@ public:
 	virtual bool onItemParsed(Kanjidic2Item &kanji);
 	bool updateJLPTLevel(const QString &fName, int level);
 	bool updateJLPTLevels();
+
 private:
 };
 
@@ -171,7 +172,7 @@ bool Kanjidic2DBParser::updateJLPTLevel(const QString &fName, int level)
 		return false;
 	};
 	QTextStream in(&file);
-	QString line = in.readLine();
+	QString line(in.readLine());
 	while (!line.isNull()) {
 		BIND(updateJLPTLevelsQuery, level);
 		BIND(updateJLPTLevelsQuery, TextTools::singleCharToUnicode(line));
@@ -289,6 +290,10 @@ public:
 	bool parse();
 	bool fillMainInfoTable();
 	bool fillLanguagesInfoTable();
+
+	bool updateTranslations();
+	bool updateTranslation(const QString &fName, const QString &lang);
+
 private:
 	QStringList languages;
 	KanjiVGDBParser kvgParser;
@@ -511,6 +516,60 @@ bool KanjiDB::fillLanguagesInfoTable()
 	return true;
 }
 
+bool KanjiDB::updateTranslations()
+{
+	QDir dir(QDir(srcDir).absoluteFilePath("src/core/kanjidic2"));
+
+	foreach (QString fName, dir.entryList(QStringList() << "*.jmf")) {
+		updateTranslation(dir.absoluteFilePath(fName), fName.split('.')[0]);
+	}
+
+	return true;
+}
+
+bool KanjiDB::updateTranslation(const QString &fName, const QString &lang)
+{
+	QFile file(fName);
+	if (!file.open(QFile::ReadOnly | QFile::Text)) {
+		return false;
+	}
+
+	SQLite::Query deleteMeaningQuery(&connections[lang]);
+	SQLite::Query deleteMeaningTextQuery(&connections[lang]);
+	deleteMeaningTextQuery.prepare("delete from meaningText where docid in (select docid from meaning where entry = ?)");
+	deleteMeaningQuery.prepare("delete from meaning where entry = ?");
+	SQLite::Query &mQuery = insertMeaningQueries[lang];
+	SQLite::Query &mtQuery = insertMeaningTextQueries[lang];
+	QTextStream in(&file);
+
+	int lastKanji = 0;
+	QString line(in.readLine());
+	while (!line.isNull()) {
+		int pos = line.indexOf(' ');
+		int kanji(TextTools::singleCharToUnicode(line.left(pos)));
+		QString meaning(line.mid(pos + 1));
+
+		if (lastKanji != kanji) {
+			BIND(deleteMeaningTextQuery, kanji);
+			EXEC(deleteMeaningTextQuery);
+			BIND(deleteMeaningQuery, kanji);
+			EXEC(deleteMeaningQuery);
+			lastKanji = kanji;
+		}
+
+		// TODO factorize identical meanings! Record the row id into a hash table
+		BIND(mtQuery, meaning);
+		EXEC(mtQuery);
+		BIND(mQuery, mtQuery.lastInsertId());
+		BIND(mQuery, kanji);
+		BIND(mQuery, qCompress(meaning.toUtf8(), 9));
+		EXEC(mQuery);
+
+		line = in.readLine();
+	}
+	return true;
+}
+
 bool KanjiDB::parse()
 {
 	// Parse and insert kanjidic2
@@ -539,6 +598,7 @@ bool KanjiDB::parse()
 	ASSERT(fillMainInfoTable());	
 	ASSERT(fillLanguagesInfoTable());	
 	ASSERT(kdicParser->updateJLPTLevels());
+	ASSERT(updateTranslations());
 	return true;
 }
 
