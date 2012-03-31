@@ -26,6 +26,7 @@ class Lang
 public:
 	static PreferenceItem<QString> preferredDictLanguage;
 	static PreferenceItem<QString> preferredGUILanguage;
+	static PreferenceItem<bool> alwaysShowEnglish;
 
 	/**
 	* Returns the list of languages supported for the user interface and database

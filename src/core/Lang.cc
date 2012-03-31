@@ -24,6 +24,7 @@ static const QStringList _guiLangs(QStringList(QString(UI_LANG).split(';')));
 
 PreferenceItem<QString> Lang::preferredDictLanguage("", "preferredDictLanguage", "");
 PreferenceItem<QString> Lang::preferredGUILanguage("", "preferredGUILanguage", "");
+PreferenceItem<bool> Lang::alwaysShowEnglish("", "alwaysShowEnglish", false);
 
 const QStringList &Lang::supportedDictLanguages()
 {

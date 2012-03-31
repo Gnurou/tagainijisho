@@ -178,6 +178,8 @@ void GeneralPreferences::refresh()
 			break;
 		}
 
+	alwaysShowEnglish->setChecked(Lang::alwaysShowEnglish.value());
+
 	firstDayOfWeek->setCurrentIndex(firstDayOfWeek->findData(RelativeDate::firstDayOfWeek.value()));
 
 	checkForUpdates->setChecked(MainWindow::autoCheckUpdates.value());
@@ -234,6 +236,9 @@ void GeneralPreferences::applySettings()
 	else Lang::preferredGUILanguage.set(guiLanguage->itemData(guiLanguage->currentIndex()).toString());
 	if (dictLanguage->currentIndex() == 0) Lang::preferredDictLanguage.reset();
 	else Lang::preferredDictLanguage.set(dictLanguage->itemData(dictLanguage->currentIndex()).toString());
+
+	// Always show English
+	Lang::alwaysShowEnglish.set(alwaysShowEnglish->isChecked());
 
 	// First day of week
 	RelativeDate::firstDayOfWeek.set(static_cast<Qt::DayOfWeek>(firstDayOfWeek->itemData(firstDayOfWeek->currentIndex()).toInt()));

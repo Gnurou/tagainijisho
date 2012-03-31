@@ -105,8 +105,13 @@ Entry *JMdictEntryLoader::loadEntry(EntryId id)
 		glossQuery.exec();
 		if (glossQuery.next()) {
 			QStringList glosses(QString::fromUtf8(qUncompress(glossQuery.valueBlob(0))).split("\n\n"));
-			for (int i = 0; i < glosses.size(); i++)
+			for (int i = 0; i < glosses.size(); i++) {
+				// Skip empty glosses
+				if (glosses[i].isEmpty()) continue;
+				// Do not load english if a preferred language is already loaded and the corresponding option is set
+				if (!Lang::alwaysShowEnglish() && lang == "en" && entry->senses[i].getGlosses().size() > 0) continue;
 				entry->senses[i].addGloss(Gloss(lang, glosses[i]));
+			}
 		}
 		glossQuery.reset();
 	}

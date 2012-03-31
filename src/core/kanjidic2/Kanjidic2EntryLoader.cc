@@ -53,7 +53,10 @@ QList<Kanjidic2Entry::KanjiMeaning> Kanjidic2EntryLoader::getMeanings(int id)
 {
 	QList<Kanjidic2Entry::KanjiMeaning> ret;
 	const QMap<QString, QString> &allDBs = Kanjidic2Plugin::instance()->attachedDBs();
+	bool nonEnglishLoaded = false;
 	foreach (const QString &lang, Lang::preferredDictLanguages()) {
+		// Do not load english if a preferred language is already loaded and the corresponding option is set
+		if (!Lang::alwaysShowEnglish() && nonEnglishLoaded && lang == "en" && ret.size() > 0) continue;
 		if (!allDBs.contains(lang)) continue;
 		SQLite::Query &meaningsQuery = meaningsQueries[lang];
 		meaningsQuery.bindValue(id);
@@ -62,6 +65,7 @@ QList<Kanjidic2Entry::KanjiMeaning> Kanjidic2EntryLoader::getMeanings(int id)
 			ret << Kanjidic2Entry::KanjiMeaning(lang, QString::fromUtf8(qUncompress(meaningsQuery.valueBlob(0))));
 		}
 		meaningsQuery.reset();
+		if (lang != "en" && !ret.isEmpty()) nonEnglishLoaded = true;
 	}
 	// Here we probably have a kana or roman character that we can build up
 	if (ret.isEmpty()) {

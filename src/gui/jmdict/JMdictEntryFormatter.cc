@@ -334,7 +334,6 @@ QString JMdictEntryFormatter::formatSenses(const ConstEntryPointer &_entry) cons
 		// Write the entry
 		ret += "<div class=\"glosses\">\n";
 		QList<Gloss> glosses = sense->getGlosses();
-		QStringList keys;
 		QStringList gls;
 		foreach (const Gloss &gloss, glosses) {
 			QString str(gloss.gloss());
