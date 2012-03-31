@@ -24,6 +24,44 @@
     </message>
 </context>
 <context>
+    <name>BatchHandler</name>
+    <message>
+        <location filename="../src/gui/BatchHandler.cc" line="+26"/>
+        <source>Marking entries...</source>
+        <translation>Contrassegna voci...</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Abort</source>
+        <translation>Annulla</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Please wait...</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Cannot start transaction</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Error while trying to start database transaction.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+18"/>
+        <source>Cannot commit transaction</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Error while trying to commit database transaction.</source>
+        <translation type="unfinished"/>
+    </message>
+</context>
+<context>
     <name>DataPreferences</name>
     <message>
         <location filename="../src/gui/DataPreferences.ui" line="+14"/>
@@ -51,7 +89,7 @@
         <translation>File del database utenti:</translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="+488"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="+499"/>
         <source>User data</source>
         <translation>Dati utente</translation>
     </message>
@@ -109,7 +147,7 @@
 <context>
     <name>Database</name>
     <message>
-        <location filename="../src/core/Database.cc" line="+315"/>
+        <location filename="../src/core/Database.cc" line="+316"/>
         <source>Error while upgrading user database: %1</source>
         <translation>Errore durante l&apos;upgrade del database utente: %1</translation>
     </message>
@@ -142,7 +180,7 @@
 <context>
     <name>DetailedView</name>
     <message>
-        <location filename="../src/gui/DetailedView.cc" line="+97"/>
+        <location filename="../src/gui/DetailedView.cc" line="+98"/>
         <source>Previous entry</source>
         <translation>Voce precedente</translation>
     </message>
@@ -269,7 +307,7 @@
 <context>
     <name>EntriesViewHelper</name>
     <message>
-        <location filename="../src/gui/EntriesViewHelper.cc" line="+37"/>
+        <location filename="../src/gui/EntriesViewHelper.cc" line="+39"/>
         <source>&amp;Print...</source>
         <translation>&amp;Stampa...</translation>
     </message>
@@ -299,42 +337,22 @@
         <translation>Esporta come &amp;TSV...</translation>
     </message>
     <message>
-        <location line="+67"/>
-        <location line="+20"/>
-        <location line="+20"/>
-        <source>Marking entries...</source>
-        <translation>Contrassegna voci...</translation>
-    </message>
-    <message>
-        <location line="-40"/>
-        <location line="+20"/>
-        <location line="+20"/>
-        <location line="+21"/>
-        <location line="+36"/>
+        <location line="+55"/>
         <source>Abort</source>
         <translation>Annulla</translation>
     </message>
     <message>
-        <location line="-95"/>
-        <location line="+20"/>
-        <location line="+20"/>
-        <location line="+21"/>
-        <location line="+36"/>
-        <source>Operation in progress...</source>
-        <translation>Operazione in corso...</translation>
+        <location line="+0"/>
+        <source>Selecting entries...</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location line="-38"/>
-        <source>Resetting entries...</source>
-        <translation>Ripristino voci...</translation>
+        <location line="+2"/>
+        <source>Please wait...</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+36"/>
-        <source>Adding tags...</source>
-        <translation>Aggiunzione tag...</translation>
-    </message>
-    <message>
-        <location line="+106"/>
+        <location line="+202"/>
         <source>Print preview</source>
         <translation>Anteprima di stampa</translation>
     </message>
@@ -401,7 +419,7 @@
     </message>
     <message>
         <location line="-94"/>
-        <location filename="../src/gui/EntriesViewHelper.h" line="+82"/>
+        <location filename="../src/gui/EntriesViewHelper.h" line="+87"/>
         <source>Print</source>
         <translation>Stampa</translation>
     </message>
@@ -466,8 +484,8 @@
     </message>
     <message>
         <location line="+159"/>
-        <source>&lt;Root&gt;</source>
-        <translation>&lt;Root&gt;</translation>
+        <source>Root list</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+48"/>
@@ -513,7 +531,7 @@
         <translation>Rinomina lista...</translation>
     </message>
     <message>
-        <location line="+90"/>
+        <location line="+93"/>
         <source>Unable to create list</source>
         <translation>Impossibile creare lista</translation>
     </message>
@@ -523,7 +541,7 @@
         <translation>Si è verificato un errore del database durante l&apos;aggiunzione della lista.</translation>
     </message>
     <message>
-        <location line="+20"/>
+        <location line="+30"/>
         <source>Confirm deletion</source>
         <translation>Conferma della cancellazione</translation>
     </message>
@@ -533,7 +551,7 @@
         <translation>Questo cancellerà gli elementi selezionati e le liste, incluse le loro dipendenze. Continuare?</translation>
     </message>
     <message>
-        <location line="+18"/>
+        <location line="+23"/>
         <source>Removal failed</source>
         <translation>Rimozione fallita</translation>
     </message>
@@ -607,7 +625,7 @@ Alcuni di questi potrebbero rimanere.</translation>
         <translation>Tag aggiunti di recente...</translation>
     </message>
     <message>
-        <location line="+83"/>
+        <location line="+85"/>
         <source>Add &quot;%1&quot;</source>
         <translation>Aggiungi &quot;%1&quot;</translation>
     </message>
@@ -651,7 +669,7 @@ Alcuni di questi potrebbero rimanere.</translation>
 <context>
     <name>FindHomographsJob</name>
     <message>
-        <location filename="../src/gui/jmdict/JMdictEntryFormatter.cc" line="+575"/>
+        <location filename="../src/gui/jmdict/JMdictEntryFormatter.cc" line="+611"/>
         <source>Homographs</source>
         <translation>Omografi</translation>
     </message>
@@ -685,7 +703,7 @@ Alcuni di questi potrebbero rimanere.</translation>
 <context>
     <name>GeneralPreferences</name>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="-160"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="-171"/>
         <source>English</source>
         <translation>Inglese</translation>
     </message>
@@ -750,7 +768,7 @@ Alcuni di questi potrebbero rimanere.</translation>
         <translation>Carattere predefinito dell&apos;applicazione</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+18"/>
         <source>Monday</source>
         <translation>Lunedì</translation>
     </message>
@@ -760,7 +778,7 @@ Alcuni di questi potrebbero rimanere.</translation>
         <translation>Domenica</translation>
     </message>
     <message>
-        <location line="+48"/>
+        <location line="+51"/>
         <source>Next check: %1</source>
         <translation>Prossimo controllo: %1</translation>
     </message>
@@ -775,14 +793,24 @@ Alcuni di questi potrebbero rimanere.</translation>
         <translation>Impostazioni generali</translation>
     </message>
     <message>
-        <location line="+8"/>
-        <source>Preferred language</source>
-        <translation>Lingua preferita</translation>
-    </message>
-    <message>
-        <location line="+11"/>
+        <location line="+22"/>
         <source>System default</source>
         <translation>Predefinito del sistema</translation>
+    </message>
+    <message>
+        <location line="+12"/>
+        <source>Preferred dictionary language</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>The dictionaries will use this language whenever possible. English will be used as a fallback.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Same as GUI</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+10"/>
@@ -835,7 +863,17 @@ Alcuni di questi potrebbero rimanere.</translation>
         <translation>Cerca anche per versioni in sviluppo</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="-118"/>
+        <source>Preferred GUI language</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>The GUI will use this language whenever possible. English will be used as a fallback.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+115"/>
         <source>Next check:</source>
         <translation>Prossimo controllo:</translation>
     </message>
@@ -854,26 +892,31 @@ Alcuni di questi potrebbero rimanere.</translation>
     <name>JLPTFilterWidget</name>
     <message>
         <location filename="../src/gui/JLPTFilterWidget.cc" line="+28"/>
-        <source>Level N5</source>
-        <translation>Livello N5</translation>
+        <source>N5</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+2"/>
-        <source>Level N4</source>
-        <translation>Livello N4</translation>
+        <source>N4</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+2"/>
-        <source>Level N2</source>
-        <translation>Livello N2</translation>
+        <source>N3</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+2"/>
-        <source>Level N1</source>
-        <translation>Livello N1</translation>
+        <source>N2</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+66"/>
+        <location line="+2"/>
+        <source>N1</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+78"/>
         <source>JLPT:</source>
         <translation>JLPT:</translation>
     </message>
@@ -886,7 +929,7 @@ Alcuni di questi potrebbero rimanere.</translation>
 <context>
     <name>JMdictEntryFormatter</name>
     <message>
-        <location filename="../src/gui/jmdict/JMdictEntryFormatter.cc" line="-339"/>
+        <location filename="../src/gui/jmdict/JMdictEntryFormatter.cc" line="-368"/>
         <source>(JLPT N%1)</source>
         <translation>(JLPT N%1)</translation>
     </message>
@@ -901,7 +944,7 @@ Alcuni di questi potrebbero rimanere.</translation>
         <translation>Testi alternativi:</translation>
     </message>
     <message>
-        <location line="+118"/>
+        <location line="+120"/>
         <source>JLPT</source>
         <translation>JLPT</translation>
     </message>
@@ -909,6 +952,16 @@ Alcuni di questi potrebbero rimanere.</translation>
         <location line="+24"/>
         <source>Kanji</source>
         <translation>Kanji</translation>
+    </message>
+    <message>
+        <location line="+18"/>
+        <source>Example sentences</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>JMdict ID</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -1620,7 +1673,7 @@ Alcuni di questi potrebbero rimanere.</translation>
 <context>
     <name>JMdictPlugin</name>
     <message>
-        <location filename="../src/core/jmdict/JMdictPlugin.cc" line="+326"/>
+        <location filename="../src/core/jmdict/JMdictPlugin.cc" line="+345"/>
         <source>An error seems to have occured while updating the JMdict database records - the program might crash during usage. Please report this bug.</source>
         <translation>Sembra si sia verificato un errore durante l&apos;aggiornamento del database JMdict - il programma potrebbe andare in crash e chiudersi durante l&apos;uso. Cortesemente segnalare questo bug.</translation>
     </message>
@@ -1656,6 +1709,11 @@ Alcuni di questi potrebbero rimanere.</translation>
         <location line="+7"/>
         <source>Kanji used in main reading</source>
         <translation>Kanji usato nella lettura principale</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>JMdict ID (only for debugging)</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+10"/>
@@ -1695,7 +1753,22 @@ Alcuni di questi potrebbero rimanere.</translation>
         <translation>Omografi</translation>
     </message>
     <message>
-        <location line="+33"/>
+        <location line="+18"/>
+        <source>Link to example sentences:</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>If enabled, display a link that will look for example sentences in your web browser using the selected service</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Disabled</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+27"/>
         <source>Printing</source>
         <translation>Stampa</translation>
     </message>
@@ -1816,6 +1889,14 @@ Alcuni di questi potrebbero rimanere.</translation>
     </message>
 </context>
 <context>
+    <name>KanjiComponentWidget</name>
+    <message>
+        <location filename="../src/gui/kanjidic2/KanjiPopup.cc" line="+100"/>
+        <source>%1 (drawn as &quot;%2&quot;)</source>
+        <translation type="unfinished"/>
+    </message>
+</context>
+<context>
     <name>KanjiInputPopupAction</name>
     <message>
         <location filename="../src/gui/kanjidic2/KanjiSelector.cc" line="+396"/>
@@ -1859,7 +1940,7 @@ Alcuni di questi potrebbero rimanere.</translation>
         <translation>Vedi in vista dettagliata</translation>
     </message>
     <message>
-        <location filename="../src/gui/kanjidic2/KanjiPopup.cc" line="+178"/>
+        <location filename="../src/gui/kanjidic2/KanjiPopup.cc" line="+86"/>
         <source>&lt;b&gt;On:&lt;/b&gt; %1</source>
         <translation>&lt;b&gt;On:&lt;/b&gt; %1</translation>
     </message>
@@ -1880,11 +1961,11 @@ Alcuni di questi potrebbero rimanere.</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>&lt;b&gt;JLPT:&lt;/b&gt; %1&lt;br/&gt;</source>
-        <translation>&lt;b&gt;JLPT:&lt;/b&gt; %1&lt;br/&gt;</translation>
+        <source>&lt;b&gt;JLPT:&lt;/b&gt; N%1&lt;br/&gt;</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+21"/>
+        <location line="+22"/>
         <source>&lt;b&gt;Components:&lt;/b&gt; %2 %1</source>
         <translation>&lt;b&gt;Componenti:&lt;/b&gt; %2 %1</translation>
     </message>
@@ -1894,7 +1975,7 @@ Alcuni di questi potrebbero rimanere.</translation>
         <translation>&lt;b&gt;Radicali:&lt;/b&gt; %1</translation>
     </message>
     <message>
-        <location line="-27"/>
+        <location line="-28"/>
         <source>&lt;b&gt;Score:&lt;/b&gt; %1&lt;br/&gt;</source>
         <translation>&lt;b&gt;Punteggio:&lt;/b&gt; %1&lt;br/&gt;</translation>
     </message>
@@ -2232,8 +2313,8 @@ Alcuni di questi potrebbero rimanere.</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>Secondary school</source>
-        <translation>Scuola secondaria</translation>
+        <source>Junior high school</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
@@ -2638,7 +2719,7 @@ Alcuni di questi potrebbero rimanere.</translation>
         <translation>Anteprima</translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="+172"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="+174"/>
         <source>Lists</source>
         <translation>Liste</translation>
     </message>
@@ -2777,7 +2858,7 @@ Alcuni di questi potrebbero rimanere.</translation>
         <source>You have now been using Tagaini Jisho for a short while. If you like it, please show your support by making a donation that expresses your appreciation of this software. While Tagaini is free, its development has a cost and your support will have a positive influence on its future. You can donate via Paypal or credit card.
 
 This message is a one-time reminder and will not appear anymore - you can still donate later by choosing the corresponding option in the Help menu.</source>
-        <translation>Stai usando Tagaini Jisho da un po'. Se ti piace, per favore mostra il tuo supporto tramite una donazione che esprime il tuo apprezzamento per questo software. Mentre Tagaini è gratuito, il suo sviluppo ha dei costi ed il tuo supporto avrà un'influenza positiva sul suo futuro. Puoi donare con PayPal o con carta di credito.
+        <translation>Stai usando Tagaini Jisho da un po&apos;. Se ti piace, per favore mostra il tuo supporto tramite una donazione che esprime il tuo apprezzamento per questo software. Mentre Tagaini è gratuito, il suo sviluppo ha dei costi ed il tuo supporto avrà un&apos;influenza positiva sul suo futuro. Puoi donare con PayPal o con carta di credito.
 
 Questo messaggio è un promemoria che appare una volta sola e non apparirà più - puoi ancora donare dopo scegliendo l&apos;opzione corrispondente nel menu Aiuto.</translation>
     </message>
@@ -2812,7 +2893,7 @@ Questo messaggio è un promemoria che appare una volta sola e non apparirà più
         <translation>I dati impostati saranno disponibili al prossimo avvio di Tagaini Jisho. Tutti i cambiamenti apportati da ora verranno persi. Vuoi chiudere Tagaini Jisho adesso?</translation>
     </message>
     <message>
-        <location line="+114"/>
+        <location line="+111"/>
         <source>A development update is available!</source>
         <translation>Un aggiornamento di sviluppo è disponibile!</translation>
     </message>
@@ -2887,14 +2968,6 @@ Questo messaggio è un promemoria che appare una volta sola e non apparirà più
         <location filename="../src/gui/MainWindow.ui" line="+69"/>
         <source>Ctrl+L</source>
         <translation>CTRL+L</translation>
-    </message>
-</context>
-<context>
-    <name>ManualBrowser</name>
-    <message>
-        <location filename="../src/gui/ManualBrowser.ui" line="+14"/>
-        <source>Tagaini Jisho Manual</source>
-        <translation>Manuale di Tagaini Jisho</translation>
     </message>
 </context>
 <context>
@@ -3292,6 +3365,16 @@ Questo messaggio è un promemoria che appare una volta sola e non apparirà più
         <source>(+)</source>
         <translation>(+)</translation>
     </message>
+    <message>
+        <location line="+0"/>
+        <source>Make a new search using only this filter</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Add this filter to the current search</source>
+        <translation type="unfinished"/>
+    </message>
 </context>
 <context>
     <name>ShowUsedInWordsJob</name>
@@ -3309,6 +3392,16 @@ Questo messaggio è un promemoria che appare una volta sola e non apparirà più
         <location line="+0"/>
         <source>(+)</source>
         <translation>(+)</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Make a new search using only this filter</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Add this filter to the current search</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -3425,7 +3518,7 @@ Questo messaggio è un promemoria che appare una volta sola e non apparirà più
 <context>
     <name>TagsDialogs</name>
     <message>
-        <location filename="../src/gui/TagsDialogs.cc" line="+162"/>
+        <location filename="../src/gui/TagsDialogs.cc" line="+175"/>
         <source>Set tags for %1</source>
         <translation>Imposta tags per %1</translation>
     </message>
@@ -3436,58 +3529,41 @@ Questo messaggio è un promemoria che appare una volta sola e non apparirà più
     </message>
     <message>
         <location line="+1"/>
-        <location line="+34"/>
+        <location line="+35"/>
         <source>these entries:</source>
         <translation>queste voci:</translation>
     </message>
     <message>
-        <location line="-34"/>
-        <location line="+34"/>
+        <location line="-35"/>
+        <location line="+35"/>
         <source>this entry:</source>
         <translation>questa voce:</translation>
     </message>
     <message>
-        <location line="-34"/>
+        <location line="-35"/>
         <source>Enter a space-separated list of tags for </source>
         <translation>Inserisci una lista di tags separati da spazi per</translation>
     </message>
     <message>
         <location line="+5"/>
-        <location line="+34"/>
+        <location line="+35"/>
         <source>Invalid tags</source>
         <translation>Tags non validi</translation>
     </message>
     <message>
-        <location line="-34"/>
-        <location line="+34"/>
+        <location line="-35"/>
+        <location line="+35"/>
         <source>&lt;/p&gt;&lt;p&gt;Accepted characters are letters, digits and non-quoting punctuation.&lt;/p&gt;</source>
         <translation>&lt;/p&gt;&lt;p&gt;I caratteri accettati sono lettere, numeri e tutta la punteggiatura escluso le virgolette.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location line="-34"/>
-        <location line="+34"/>
+        <location line="-35"/>
+        <location line="+35"/>
         <source>&lt;p&gt;These tags have invalid characters: </source>
         <translation>&lt;p&gt;Questi tags hanno caratteri non validi:</translation>
     </message>
     <message>
-        <location line="-29"/>
-        <source>Setting tags...</source>
-        <translation>Impostazione tags...</translation>
-    </message>
-    <message>
-        <location line="+0"/>
-        <location line="+34"/>
-        <source>Abort</source>
-        <translation>Annulla</translation>
-    </message>
-    <message>
-        <location line="-32"/>
-        <location line="+34"/>
-        <source>Operation in progress...</source>
-        <translation>Operazione in corso...</translation>
-    </message>
-    <message>
-        <location line="-14"/>
+        <location line="-7"/>
         <source>Add tags to %1</source>
         <translation>Aggiungi tags a %1</translation>
     </message>
@@ -3500,11 +3576,6 @@ Questo messaggio è un promemoria che appare una volta sola e non apparirà più
         <location line="+1"/>
         <source>Enter a space-separated list of tags to add to </source>
         <translation>Inserisci una lista di tags separati da spazi per aggiungerla a</translation>
-    </message>
-    <message>
-        <location line="+10"/>
-        <source>Adding tags...</source>
-        <translation>Aggiunzione tags...</translation>
     </message>
 </context>
 <context>
@@ -3528,7 +3599,17 @@ Questo messaggio è un promemoria che appare una volta sola e non apparirà più
 <context>
     <name>TextFilterWidget</name>
     <message>
-        <location filename="../src/gui/TextFilterWidget.cc" line="+52"/>
+        <location filename="../src/gui/TextFilterWidget.cc" line="+42"/>
+        <source>Romaji search</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>If checked, text typed in romaji will be converted to kana and searched as such.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+15"/>
         <source>Text search</source>
         <translation>Ricerca testo</translation>
     </message>
@@ -3658,7 +3739,7 @@ Questo messaggio è un promemoria che appare una volta sola e non apparirà più
 <context>
     <name>main.cc</name>
     <message>
-        <location filename="../src/gui/main.cc" line="+110"/>
+        <location filename="../src/gui/main.cc" line="+109"/>
         <source>User data migrated</source>
         <translation>I dati dell&apos;utente sono migrati</translation>
     </message>

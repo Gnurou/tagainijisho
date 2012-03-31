@@ -24,6 +24,44 @@
     </message>
 </context>
 <context>
+    <name>BatchHandler</name>
+    <message>
+        <location filename="../src/gui/BatchHandler.cc" line="+26"/>
+        <source>Marking entries...</source>
+        <translation>Markerer oppføringer...</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Abort</source>
+        <translation>Avbryt</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Please wait...</source>
+        <translation>Vennligst vent...</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Cannot start transaction</source>
+        <translation>Kan ikke starte transaksjon</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Error while trying to start database transaction.</source>
+        <translation>En feil skjedde ved forsøk på å starte transaksjon av databaser.</translation>
+    </message>
+    <message>
+        <location line="+18"/>
+        <source>Cannot commit transaction</source>
+        <translation>Kan ikke sende inn transaksjon</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Error while trying to commit database transaction.</source>
+        <translation>En feil skjedde ved forsøk på å sende inn transaksjon av databaser.</translation>
+    </message>
+</context>
+<context>
     <name>DataPreferences</name>
     <message>
         <location filename="../src/gui/DataPreferences.ui" line="+14"/>
@@ -51,7 +89,7 @@
         <translation>Brukerdatabasefil:</translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="+488"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="+499"/>
         <source>User data</source>
         <translation>Brukerdata</translation>
     </message>
@@ -109,7 +147,7 @@
 <context>
     <name>Database</name>
     <message>
-        <location filename="../src/core/Database.cc" line="+315"/>
+        <location filename="../src/core/Database.cc" line="+316"/>
         <source>Error while upgrading user database: %1</source>
         <translation>Feil under oppgradering av brukerdatabase: %1</translation>
     </message>
@@ -142,7 +180,7 @@
 <context>
     <name>DetailedView</name>
     <message>
-        <location filename="../src/gui/DetailedView.cc" line="+97"/>
+        <location filename="../src/gui/DetailedView.cc" line="+98"/>
         <source>Previous entry</source>
         <translation>Forrige oppføring</translation>
     </message>
@@ -269,7 +307,7 @@
 <context>
     <name>EntriesViewHelper</name>
     <message>
-        <location filename="../src/gui/EntriesViewHelper.cc" line="+37"/>
+        <location filename="../src/gui/EntriesViewHelper.cc" line="+39"/>
         <source>&amp;Print...</source>
         <translation>&amp;Skriv ut...</translation>
     </message>
@@ -299,42 +337,22 @@
         <translation>Eksporter som &amp;TSV...</translation>
     </message>
     <message>
-        <location line="+67"/>
-        <location line="+20"/>
-        <location line="+20"/>
-        <source>Marking entries...</source>
-        <translation>Markerer oppføringer...</translation>
-    </message>
-    <message>
-        <location line="-40"/>
-        <location line="+20"/>
-        <location line="+20"/>
-        <location line="+21"/>
-        <location line="+36"/>
+        <location line="+55"/>
         <source>Abort</source>
         <translation>Avbryt</translation>
     </message>
     <message>
-        <location line="-95"/>
-        <location line="+20"/>
-        <location line="+20"/>
-        <location line="+21"/>
-        <location line="+36"/>
-        <source>Operation in progress...</source>
-        <translation>Handling pågår...</translation>
+        <location line="+0"/>
+        <source>Selecting entries...</source>
+        <translation>Velger oppføringer...</translation>
     </message>
     <message>
-        <location line="-38"/>
-        <source>Resetting entries...</source>
-        <translation>Tilbakestiller oppføringer...</translation>
+        <location line="+2"/>
+        <source>Please wait...</source>
+        <translation>Vennligst vent...</translation>
     </message>
     <message>
-        <location line="+36"/>
-        <source>Adding tags...</source>
-        <translation>Legger til tagger...</translation>
-    </message>
-    <message>
-        <location line="+106"/>
+        <location line="+202"/>
         <source>Print preview</source>
         <translation>Utskriftsforhåndsvisning</translation>
     </message>
@@ -401,7 +419,7 @@
     </message>
     <message>
         <location line="-94"/>
-        <location filename="../src/gui/EntriesViewHelper.h" line="+82"/>
+        <location filename="../src/gui/EntriesViewHelper.h" line="+87"/>
         <source>Print</source>
         <translation>Skriv ut</translation>
     </message>
@@ -466,8 +484,8 @@
     </message>
     <message>
         <location line="+159"/>
-        <source>&lt;Root&gt;</source>
-        <translation>&lt;Rot&gt;</translation>
+        <source>Root list</source>
+        <translation>Rotliste</translation>
     </message>
     <message>
         <location line="+48"/>
@@ -513,7 +531,7 @@
         <translation>Endre navn på liste...</translation>
     </message>
     <message>
-        <location line="+90"/>
+        <location line="+93"/>
         <source>Unable to create list</source>
         <translation>Kunne ikke lage liste</translation>
     </message>
@@ -523,7 +541,7 @@
         <translation>En databasefeil oppstod under forsøk på å legge til listen.</translation>
     </message>
     <message>
-        <location line="+20"/>
+        <location line="+30"/>
         <source>Confirm deletion</source>
         <translation>Bekreft sletting</translation>
     </message>
@@ -533,7 +551,7 @@
         <translation>Dette vil slette de markerte listeoppføringene og lister, inkludert alle deres underoppføringer. Fortsett?</translation>
     </message>
     <message>
-        <location line="+18"/>
+        <location line="+23"/>
         <source>Removal failed</source>
         <translation>Fjerning mislyktes</translation>
     </message>
@@ -607,7 +625,7 @@
         <translation>Nylig tillagte tagger...</translation>
     </message>
     <message>
-        <location line="+83"/>
+        <location line="+85"/>
         <source>Add &quot;%1&quot;</source>
         <translation>Legg til &quot;%1&quot;</translation>
     </message>
@@ -651,7 +669,7 @@
 <context>
     <name>FindHomographsJob</name>
     <message>
-        <location filename="../src/gui/jmdict/JMdictEntryFormatter.cc" line="+575"/>
+        <location filename="../src/gui/jmdict/JMdictEntryFormatter.cc" line="+611"/>
         <source>Homographs</source>
         <translation>Homografer</translation>
     </message>
@@ -685,7 +703,7 @@
 <context>
     <name>GeneralPreferences</name>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="-160"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="-171"/>
         <source>English</source>
         <translation>Engelsk</translation>
     </message>
@@ -707,7 +725,7 @@
     <message>
         <location line="+4"/>
         <source>Norvegian Bokmal</source>
-        <translation type="unfinished"/>
+        <translation>Norsk bokmål</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -722,7 +740,7 @@
     <message>
         <location line="+1"/>
         <source>Italian</source>
-        <translation type="unfinished"/>
+        <translation>Italiensk</translation>
     </message>
     <message>
         <location line="-2"/>
@@ -732,12 +750,12 @@
     <message>
         <location line="+5"/>
         <source>Japanese</source>
-        <translation type="unfinished"/>
+        <translation>Japansk</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Polish</source>
-        <translation type="unfinished"/>
+        <translation>Polsk</translation>
     </message>
     <message>
         <location line="+24"/>
@@ -750,7 +768,7 @@
         <translation>Applikasjonsbred standardskrift</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+18"/>
         <source>Monday</source>
         <translation>mandag</translation>
     </message>
@@ -760,7 +778,7 @@
         <translation>søndag</translation>
     </message>
     <message>
-        <location line="+48"/>
+        <location line="+51"/>
         <source>Next check: %1</source>
         <translation>Neste sjekk: %1</translation>
     </message>
@@ -775,14 +793,24 @@
         <translation>Generelle innstillinger</translation>
     </message>
     <message>
-        <location line="+8"/>
-        <source>Preferred language</source>
-        <translation>Foretrukket språk</translation>
-    </message>
-    <message>
-        <location line="+11"/>
+        <location line="+22"/>
         <source>System default</source>
         <translation>Systemstandard</translation>
+    </message>
+    <message>
+        <location line="+12"/>
+        <source>Preferred dictionary language</source>
+        <translation>Foretrukket ordbokspråk</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>The dictionaries will use this language whenever possible. English will be used as a fallback.</source>
+        <translation>Ordbøkene vil bruke dette språket når det er mulig. Engelsk vil bli brukt som en fallback.</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Same as GUI</source>
+        <translation>Det samme som GUI</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -827,7 +855,7 @@
     <message>
         <location line="+56"/>
         <source>Defines how many recent entries are kept in memory. High values may improve performance when manipulating a large number of entries.</source>
-        <translation type="unfinished"/>
+        <translation>Definerer hvor mange nylige oppføringer som blir holdt i minnet. Høye verdier kan øke ytelsen når man manipulerer høye antall med oppføringer.</translation>
     </message>
     <message>
         <location line="-41"/>
@@ -835,7 +863,17 @@
         <translation>Sjekk også etter utviklingsversjoner</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="-118"/>
+        <source>Preferred GUI language</source>
+        <translation>Foretrukket GUI-språk</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>The GUI will use this language whenever possible. English will be used as a fallback.</source>
+        <translation>GUI vil bruke dette språket når det er mulig. Engelsk vil bli brukt som en fallback.</translation>
+    </message>
+    <message>
+        <location line="+115"/>
         <source>Next check:</source>
         <translation>Neste sjekk:</translation>
     </message>
@@ -854,26 +892,31 @@
     <name>JLPTFilterWidget</name>
     <message>
         <location filename="../src/gui/JLPTFilterWidget.cc" line="+28"/>
-        <source>Level N5</source>
-        <translation>Nivå N5</translation>
+        <source>N5</source>
+        <translation>N5</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>Level N4</source>
-        <translation>Nivå N4</translation>
+        <source>N4</source>
+        <translation>N4</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>Level N2</source>
-        <translation>Nivå N2</translation>
+        <source>N3</source>
+        <translation>N3</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>Level N1</source>
-        <translation>Nivå N1</translation>
+        <source>N2</source>
+        <translation>N2</translation>
     </message>
     <message>
-        <location line="+66"/>
+        <location line="+2"/>
+        <source>N1</source>
+        <translation>N1</translation>
+    </message>
+    <message>
+        <location line="+78"/>
         <source>JLPT:</source>
         <translation>JLPT:</translation>
     </message>
@@ -886,7 +929,7 @@
 <context>
     <name>JMdictEntryFormatter</name>
     <message>
-        <location filename="../src/gui/jmdict/JMdictEntryFormatter.cc" line="-339"/>
+        <location filename="../src/gui/jmdict/JMdictEntryFormatter.cc" line="-368"/>
         <source>(JLPT N%1)</source>
         <translation>(JLPT N%1)</translation>
     </message>
@@ -901,7 +944,7 @@
         <translation>Alternative skrivemåter:</translation>
     </message>
     <message>
-        <location line="+118"/>
+        <location line="+120"/>
         <source>JLPT</source>
         <translation>JLPT</translation>
     </message>
@@ -909,6 +952,16 @@
         <location line="+24"/>
         <source>Kanji</source>
         <translation>Kanji</translation>
+    </message>
+    <message>
+        <location line="+18"/>
+        <source>Example sentences</source>
+        <translation>Eksempelsetninger</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>JMdict ID</source>
+        <translation>JMdict ID</translation>
     </message>
 </context>
 <context>
@@ -1620,7 +1673,7 @@
 <context>
     <name>JMdictPlugin</name>
     <message>
-        <location filename="../src/core/jmdict/JMdictPlugin.cc" line="+326"/>
+        <location filename="../src/core/jmdict/JMdictPlugin.cc" line="+345"/>
         <source>An error seems to have occured while updating the JMdict database records - the program might crash during usage. Please report this bug.</source>
         <translation>En feil ser ut til å ha oppstått under oppdatering av JMdict databasepostene - programmet kan muligens krasje under bruk. Vennligst rapporter denne feilen.</translation>
     </message>
@@ -1656,6 +1709,11 @@
         <location line="+7"/>
         <source>Kanji used in main reading</source>
         <translation>Kanji som er brukt i hovedlesemåten</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>JMdict ID (only for debugging)</source>
+        <translation>JMdict ID (kun forfeilretting)</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -1695,7 +1753,22 @@
         <translation>Homografer</translation>
     </message>
     <message>
-        <location line="+33"/>
+        <location line="+18"/>
+        <source>Link to example sentences:</source>
+        <translation>Link til eksempelsetninger:</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>If enabled, display a link that will look for example sentences in your web browser using the selected service</source>
+        <translation>Dersom dette er slått på, vil en link vises som vil se etter eksempelsetninger i din nettleser ved å bruke den valgte tjenesten</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Disabled</source>
+        <translation>Av</translation>
+    </message>
+    <message>
+        <location line="+27"/>
         <source>Printing</source>
         <translation>Utskrift</translation>
     </message>
@@ -1816,6 +1889,14 @@
     </message>
 </context>
 <context>
+    <name>KanjiComponentWidget</name>
+    <message>
+        <location filename="../src/gui/kanjidic2/KanjiPopup.cc" line="+100"/>
+        <source>%1 (drawn as &quot;%2&quot;)</source>
+        <translation>%1 (tegnet som &quot;%2&quot;)</translation>
+    </message>
+</context>
+<context>
     <name>KanjiInputPopupAction</name>
     <message>
         <location filename="../src/gui/kanjidic2/KanjiSelector.cc" line="+396"/>
@@ -1859,7 +1940,7 @@
         <translation>Se i detaljert visning</translation>
     </message>
     <message>
-        <location filename="../src/gui/kanjidic2/KanjiPopup.cc" line="+178"/>
+        <location filename="../src/gui/kanjidic2/KanjiPopup.cc" line="+86"/>
         <source>&lt;b&gt;On:&lt;/b&gt; %1</source>
         <translation>&lt;b&gt;On:&lt;/b&gt; %1</translation>
     </message>
@@ -1880,11 +1961,11 @@
     </message>
     <message>
         <location line="+2"/>
-        <source>&lt;b&gt;JLPT:&lt;/b&gt; %1&lt;br/&gt;</source>
-        <translation>&lt;b&gt;JLPT:&lt;/b&gt; %1&lt;br/&gt;</translation>
+        <source>&lt;b&gt;JLPT:&lt;/b&gt; N%1&lt;br/&gt;</source>
+        <translation>&lt;b&gt;JLPT: &lt;/b&gt; N%1&lt;br/&gt;</translation>
     </message>
     <message>
-        <location line="+21"/>
+        <location line="+22"/>
         <source>&lt;b&gt;Components:&lt;/b&gt; %2 %1</source>
         <translation>&lt;b&gt;Komponenter:&lt;/b&gt; %2 %1</translation>
     </message>
@@ -1894,7 +1975,7 @@
         <translation>&lt;b&gt;Radikaler:&lt;/b&gt; %1</translation>
     </message>
     <message>
-        <location line="-27"/>
+        <location line="-28"/>
         <source>&lt;b&gt;Score:&lt;/b&gt; %1&lt;br/&gt;</source>
         <translation>&lt;b&gt;Poeng:&lt;/b&gt; %1&lt;br/&gt;</translation>
     </message>
@@ -1989,7 +2070,7 @@
     <message>
         <location line="+4"/>
         <source>&lt;b&gt;Heisig:&lt;/b&gt; %1</source>
-        <translation type="unfinished"/>
+        <translation>&lt;b&gt;Heisig:&lt;/b&gt; %1</translation>
     </message>
     <message>
         <location line="+51"/>
@@ -2034,7 +2115,7 @@
     <message>
         <location line="+9"/>
         <source>Heisig</source>
-        <translation type="unfinished"/>
+        <translation>Heisig</translation>
     </message>
     <message>
         <location line="+20"/>
@@ -2232,8 +2313,8 @@
     </message>
     <message>
         <location line="+2"/>
-        <source>Secondary school</source>
-        <translation>Videregående skole</translation>
+        <source>Junior high school</source>
+        <translation>Ungdomsskole</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -2407,7 +2488,7 @@
         <location line="-443"/>
         <location line="+450"/>
         <source>Heisig number</source>
-        <translation type="unfinished"/>
+        <translation>Heisig nummer</translation>
     </message>
     <message>
         <location line="-426"/>
@@ -2638,7 +2719,7 @@
         <translation>Forhåndsvisning</translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="+172"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="+174"/>
         <source>Lists</source>
         <translation>Lister</translation>
     </message>
@@ -2812,7 +2893,7 @@ Denne meldingen er en engangspåminnelse og vil ikke vises mer - du kan fremdele
         <translation>De importerte dataene vil være tilgjengelige neste gang du starter Tagaini Jisho. Alle endringer som foretas fra nå av vil gå tapt. Ønsker du å avslutte Tagaini Jisho nå?</translation>
     </message>
     <message>
-        <location line="+114"/>
+        <location line="+111"/>
         <source>A development update is available!</source>
         <translation>En utviklingsoppdatering er tilgjengelig!</translation>
     </message>
@@ -2887,14 +2968,6 @@ Denne meldingen er en engangspåminnelse og vil ikke vises mer - du kan fremdele
         <location filename="../src/gui/MainWindow.ui" line="+69"/>
         <source>Ctrl+L</source>
         <translation>Ctrl+L</translation>
-    </message>
-</context>
-<context>
-    <name>ManualBrowser</name>
-    <message>
-        <location filename="../src/gui/ManualBrowser.ui" line="+14"/>
-        <source>Tagaini Jisho Manual</source>
-        <translation>Tagaini Jisho Manual</translation>
     </message>
 </context>
 <context>
@@ -3292,6 +3365,16 @@ Denne meldingen er en engangspåminnelse og vil ikke vises mer - du kan fremdele
         <source>(+)</source>
         <translation>(+)</translation>
     </message>
+    <message>
+        <location line="+0"/>
+        <source>Make a new search using only this filter</source>
+        <translation>Gjør et nytt søk som kun bruker dette filteret</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Add this filter to the current search</source>
+        <translation>Legg til dette filteret til det gjeldende søket</translation>
+    </message>
 </context>
 <context>
     <name>ShowUsedInWordsJob</name>
@@ -3309,6 +3392,16 @@ Denne meldingen er en engangspåminnelse og vil ikke vises mer - du kan fremdele
         <location line="+0"/>
         <source>(+)</source>
         <translation>(+)</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Make a new search using only this filter</source>
+        <translation>Gjør et nytt søk som kun bruker dette filteret</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Add this filter to the current search</source>
+        <translation>Legg til dette filteret til det gjeldende søket</translation>
     </message>
 </context>
 <context>
@@ -3425,7 +3518,7 @@ Denne meldingen er en engangspåminnelse og vil ikke vises mer - du kan fremdele
 <context>
     <name>TagsDialogs</name>
     <message>
-        <location filename="../src/gui/TagsDialogs.cc" line="+162"/>
+        <location filename="../src/gui/TagsDialogs.cc" line="+175"/>
         <source>Set tags for %1</source>
         <translation>Velg tagger for %1</translation>
     </message>
@@ -3436,58 +3529,41 @@ Denne meldingen er en engangspåminnelse og vil ikke vises mer - du kan fremdele
     </message>
     <message>
         <location line="+1"/>
-        <location line="+34"/>
+        <location line="+35"/>
         <source>these entries:</source>
         <translation>disse oppføringene:</translation>
     </message>
     <message>
-        <location line="-34"/>
-        <location line="+34"/>
+        <location line="-35"/>
+        <location line="+35"/>
         <source>this entry:</source>
         <translation>denne oppføringen:</translation>
     </message>
     <message>
-        <location line="-34"/>
+        <location line="-35"/>
         <source>Enter a space-separated list of tags for </source>
         <translation>Skriv inn en mellomromsseparert liste av tagger for </translation>
     </message>
     <message>
         <location line="+5"/>
-        <location line="+34"/>
+        <location line="+35"/>
         <source>Invalid tags</source>
         <translation>Ugyldige tagger</translation>
     </message>
     <message>
-        <location line="-34"/>
-        <location line="+34"/>
+        <location line="-35"/>
+        <location line="+35"/>
         <source>&lt;/p&gt;&lt;p&gt;Accepted characters are letters, digits and non-quoting punctuation.&lt;/p&gt;</source>
         <translation>&lt;/p&gt;&lt;p&gt;Aksepterte tegn er bokstaver, sifre og ikke-siterende tegnsetting.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location line="-34"/>
-        <location line="+34"/>
+        <location line="-35"/>
+        <location line="+35"/>
         <source>&lt;p&gt;These tags have invalid characters: </source>
         <translation>&lt;p&gt;Disse stikkordene inneholder ugyldige tegn: </translation>
     </message>
     <message>
-        <location line="-29"/>
-        <source>Setting tags...</source>
-        <translation>Velger stikkord...</translation>
-    </message>
-    <message>
-        <location line="+0"/>
-        <location line="+34"/>
-        <source>Abort</source>
-        <translation>Avbryt</translation>
-    </message>
-    <message>
-        <location line="-32"/>
-        <location line="+34"/>
-        <source>Operation in progress...</source>
-        <translation>Handling pågår...</translation>
-    </message>
-    <message>
-        <location line="-14"/>
+        <location line="-7"/>
         <source>Add tags to %1</source>
         <translation>Legg til stikkord for %1</translation>
     </message>
@@ -3500,11 +3576,6 @@ Denne meldingen er en engangspåminnelse og vil ikke vises mer - du kan fremdele
         <location line="+1"/>
         <source>Enter a space-separated list of tags to add to </source>
         <translation>Skriv inn en mellomromsseparert liste av tagger til å legge til for </translation>
-    </message>
-    <message>
-        <location line="+10"/>
-        <source>Adding tags...</source>
-        <translation>Legger til stikkord...</translation>
     </message>
 </context>
 <context>
@@ -3528,7 +3599,17 @@ Denne meldingen er en engangspåminnelse og vil ikke vises mer - du kan fremdele
 <context>
     <name>TextFilterWidget</name>
     <message>
-        <location filename="../src/gui/TextFilterWidget.cc" line="+52"/>
+        <location filename="../src/gui/TextFilterWidget.cc" line="+42"/>
+        <source>Romaji search</source>
+        <translation>Romaji-søk</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>If checked, text typed in romaji will be converted to kana and searched as such.</source>
+        <translation>Tekst skrevet i romaji vil bli konvertert til kana og søkt deretter hvis dette er haket av.</translation>
+    </message>
+    <message>
+        <location line="+15"/>
         <source>Text search</source>
         <translation>Tekstsøk</translation>
     </message>
@@ -3658,7 +3739,7 @@ Denne meldingen er en engangspåminnelse og vil ikke vises mer - du kan fremdele
 <context>
     <name>main.cc</name>
     <message>
-        <location filename="../src/gui/main.cc" line="+110"/>
+        <location filename="../src/gui/main.cc" line="+109"/>
         <source>User data migrated</source>
         <translation>Brukerdata migrert</translation>
     </message>

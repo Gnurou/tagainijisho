@@ -24,6 +24,44 @@
     </message>
 </context>
 <context>
+    <name>BatchHandler</name>
+    <message>
+        <location filename="../src/gui/BatchHandler.cc" line="+26"/>
+        <source>Marking entries...</source>
+        <translation>Označují se záznamy...</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Abort</source>
+        <translation>Přerušit</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Please wait...</source>
+        <translation>Počkejte, prosím...</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Cannot start transaction</source>
+        <translation>Nelze spustit transakci</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Error while trying to start database transaction.</source>
+        <translation>Chyba při pokusu o spuštění databázové  transakce.</translation>
+    </message>
+    <message>
+        <location line="+18"/>
+        <source>Cannot commit transaction</source>
+        <translation>Nelze odeslat transakci</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Error while trying to commit database transaction.</source>
+        <translation>Chyba při pokusu o odeslání databázové  transakce.</translation>
+    </message>
+</context>
+<context>
     <name>DataPreferences</name>
     <message>
         <location filename="../src/gui/DataPreferences.ui" line="+14"/>
@@ -51,7 +89,7 @@
         <translation>Soubor s uživatelovou databází:</translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="+488"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="+499"/>
         <source>User data</source>
         <translation>Uživatelova data</translation>
     </message>
@@ -109,7 +147,7 @@
 <context>
     <name>Database</name>
     <message>
-        <location filename="../src/core/Database.cc" line="+315"/>
+        <location filename="../src/core/Database.cc" line="+316"/>
         <source>Error while upgrading user database: %1</source>
         <translation>Chyba při obnově uživatelovy databáze: %1</translation>
     </message>
@@ -142,7 +180,7 @@
 <context>
     <name>DetailedView</name>
     <message>
-        <location filename="../src/gui/DetailedView.cc" line="+97"/>
+        <location filename="../src/gui/DetailedView.cc" line="+98"/>
         <source>Previous entry</source>
         <translation>Předchozí záznam</translation>
     </message>
@@ -269,7 +307,7 @@
 <context>
     <name>EntriesViewHelper</name>
     <message>
-        <location filename="../src/gui/EntriesViewHelper.cc" line="+37"/>
+        <location filename="../src/gui/EntriesViewHelper.cc" line="+39"/>
         <source>&amp;Print...</source>
         <translation>&amp;Tisk...</translation>
     </message>
@@ -299,42 +337,22 @@
         <translation>Vyvést jako &amp;TSV...</translation>
     </message>
     <message>
-        <location line="+67"/>
-        <location line="+20"/>
-        <location line="+20"/>
-        <source>Marking entries...</source>
-        <translation>Označují se záznamy...</translation>
-    </message>
-    <message>
-        <location line="-40"/>
-        <location line="+20"/>
-        <location line="+20"/>
-        <location line="+21"/>
-        <location line="+36"/>
+        <location line="+55"/>
         <source>Abort</source>
         <translation>Přerušit</translation>
     </message>
     <message>
-        <location line="-95"/>
-        <location line="+20"/>
-        <location line="+20"/>
-        <location line="+21"/>
-        <location line="+36"/>
-        <source>Operation in progress...</source>
-        <translation>Operace probíhá...</translation>
+        <location line="+0"/>
+        <source>Selecting entries...</source>
+        <translation>Vybírají se záznamy...</translation>
     </message>
     <message>
-        <location line="-38"/>
-        <source>Resetting entries...</source>
-        <translation>Záznamy se nastavují znovu...</translation>
+        <location line="+2"/>
+        <source>Please wait...</source>
+        <translation>Počkejte, prosím...</translation>
     </message>
     <message>
-        <location line="+36"/>
-        <source>Adding tags...</source>
-        <translation>Přidávají se značky...</translation>
-    </message>
-    <message>
-        <location line="+106"/>
+        <location line="+202"/>
         <source>Print preview</source>
         <translation>Náhled tisku</translation>
     </message>
@@ -401,7 +419,7 @@
     </message>
     <message>
         <location line="-94"/>
-        <location filename="../src/gui/EntriesViewHelper.h" line="+82"/>
+        <location filename="../src/gui/EntriesViewHelper.h" line="+87"/>
         <source>Print</source>
         <translation>Tisk</translation>
     </message>
@@ -466,8 +484,8 @@
     </message>
     <message>
         <location line="+159"/>
-        <source>&lt;Root&gt;</source>
-        <translation>&lt;Kořen&gt;</translation>
+        <source>Root list</source>
+        <translation>Kořenový seznam</translation>
     </message>
     <message>
         <location line="+48"/>
@@ -513,7 +531,7 @@
         <translation>Přejmenovat seznam...</translation>
     </message>
     <message>
-        <location line="+90"/>
+        <location line="+93"/>
         <source>Unable to create list</source>
         <translation>Nelze vytvořit seznam</translation>
     </message>
@@ -523,7 +541,7 @@
         <translation>Při přidávání seznamu se vyskyta chyba v databázi.</translation>
     </message>
     <message>
-        <location line="+20"/>
+        <location line="+30"/>
         <source>Confirm deletion</source>
         <translation>Potvrdit smazání</translation>
     </message>
@@ -533,7 +551,7 @@
         <translation>Tímto budou smazány v seznamu vybrané položky a seznamy, včetně všech jejich potomků. Pokračovat?</translation>
     </message>
     <message>
-        <location line="+18"/>
+        <location line="+23"/>
         <source>Removal failed</source>
         <translation>Odstranění se nezdařilo</translation>
     </message>
@@ -607,7 +625,7 @@ Některé z nich možná zůstaly.</translation>
         <translation>Nedávno přidané značky...</translation>
     </message>
     <message>
-        <location line="+83"/>
+        <location line="+85"/>
         <source>Add &quot;%1&quot;</source>
         <translation>Přidat &quot;%1&quot;</translation>
     </message>
@@ -651,7 +669,7 @@ Některé z nich možná zůstaly.</translation>
 <context>
     <name>FindHomographsJob</name>
     <message>
-        <location filename="../src/gui/jmdict/JMdictEntryFormatter.cc" line="+575"/>
+        <location filename="../src/gui/jmdict/JMdictEntryFormatter.cc" line="+611"/>
         <source>Homographs</source>
         <translation>Homografy (slova se stejným pravopisem, ale rozdílnou výslovností, významem apod.)</translation>
     </message>
@@ -685,7 +703,7 @@ Některé z nich možná zůstaly.</translation>
 <context>
     <name>GeneralPreferences</name>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="-160"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="-171"/>
         <source>English</source>
         <translation>Anglický</translation>
     </message>
@@ -750,7 +768,7 @@ Některé z nich možná zůstaly.</translation>
         <translation>Výchozí písmo pro celý program</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+18"/>
         <source>Monday</source>
         <translation>Pondělí</translation>
     </message>
@@ -760,7 +778,7 @@ Některé z nich možná zůstaly.</translation>
         <translation>Neděle</translation>
     </message>
     <message>
-        <location line="+48"/>
+        <location line="+51"/>
         <source>Next check: %1</source>
         <translation>Další ověřování: %1</translation>
     </message>
@@ -775,14 +793,24 @@ Některé z nich možná zůstaly.</translation>
         <translation>Obecná nastavení</translation>
     </message>
     <message>
-        <location line="+8"/>
-        <source>Preferred language</source>
-        <translation>Upřednostňovaný jazyk</translation>
-    </message>
-    <message>
-        <location line="+11"/>
+        <location line="+22"/>
         <source>System default</source>
         <translation>Výchozí nastavení systému</translation>
+    </message>
+    <message>
+        <location line="+12"/>
+        <source>Preferred dictionary language</source>
+        <translation>Upřednostňovaný jazyk slovníku</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>The dictionaries will use this language whenever possible. English will be used as a fallback.</source>
+        <translation>Slovníky budou tento jazyk používat, kdykoli to bude možné. Angličtina se bude používat jako záloha.</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Same as GUI</source>
+        <translation>Stejný jako jazyk rozhraní</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -835,7 +863,17 @@ Některé z nich možná zůstaly.</translation>
         <translation>Ověřovat i pro vývojářské verze</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="-118"/>
+        <source>Preferred GUI language</source>
+        <translation>Upřednostňovaný jazyk rozhraní</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>The GUI will use this language whenever possible. English will be used as a fallback.</source>
+        <translation>Rozhraní bude tento jazyk používat, kdykoli to bude možné. Angličtina se bude používat jako záloha.</translation>
+    </message>
+    <message>
+        <location line="+115"/>
         <source>Next check:</source>
         <translation>Další ověření:</translation>
     </message>
@@ -854,26 +892,31 @@ Některé z nich možná zůstaly.</translation>
     <name>JLPTFilterWidget</name>
     <message>
         <location filename="../src/gui/JLPTFilterWidget.cc" line="+28"/>
-        <source>Level N5</source>
-        <translation>Úroveň N5</translation>
+        <source>N5</source>
+        <translation>N5</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>Level N4</source>
-        <translation>Úroveň N4</translation>
+        <source>N4</source>
+        <translation>N4</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>Level N2</source>
-        <translation>Úroveň N2</translation>
+        <source>N3</source>
+        <translation>N3</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>Level N1</source>
-        <translation>Úroveň N1</translation>
+        <source>N2</source>
+        <translation>N2</translation>
     </message>
     <message>
-        <location line="+66"/>
+        <location line="+2"/>
+        <source>N1</source>
+        <translation>N1</translation>
+    </message>
+    <message>
+        <location line="+78"/>
         <source>JLPT:</source>
         <translation>JLPT:</translation>
     </message>
@@ -886,7 +929,7 @@ Některé z nich možná zůstaly.</translation>
 <context>
     <name>JMdictEntryFormatter</name>
     <message>
-        <location filename="../src/gui/jmdict/JMdictEntryFormatter.cc" line="-339"/>
+        <location filename="../src/gui/jmdict/JMdictEntryFormatter.cc" line="-368"/>
         <source>(JLPT N%1)</source>
         <translation>(JLPT N%1)</translation>
     </message>
@@ -901,7 +944,7 @@ Některé z nich možná zůstaly.</translation>
         <translation>Náhradní způsoby psaní:</translation>
     </message>
     <message>
-        <location line="+118"/>
+        <location line="+120"/>
         <source>JLPT</source>
         <translation>JLPT</translation>
     </message>
@@ -909,6 +952,16 @@ Některé z nich možná zůstaly.</translation>
         <location line="+24"/>
         <source>Kanji</source>
         <translation>Kandži</translation>
+    </message>
+    <message>
+        <location line="+18"/>
+        <source>Example sentences</source>
+        <translation>Příklady vět</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>JMdict ID</source>
+        <translation>JMdict ID</translation>
     </message>
 </context>
 <context>
@@ -1620,7 +1673,7 @@ Některé z nich možná zůstaly.</translation>
 <context>
     <name>JMdictPlugin</name>
     <message>
-        <location filename="../src/core/jmdict/JMdictPlugin.cc" line="+326"/>
+        <location filename="../src/core/jmdict/JMdictPlugin.cc" line="+345"/>
         <source>An error seems to have occured while updating the JMdict database records - the program might crash during usage. Please report this bug.</source>
         <translation>Zdá se, že se při obnově záznamů databáze JMdict vyskytla chyba – Program by během používání mohl spadnout. Nahlašte, prosím, tuto chybu.</translation>
     </message>
@@ -1656,6 +1709,11 @@ Některé z nich možná zůstaly.</translation>
         <location line="+7"/>
         <source>Kanji used in main reading</source>
         <translation>Kandži použité v hlavním čtení</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>JMdict ID (only for debugging)</source>
+        <translation>JMdict ID (pouze pro ladění)</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -1695,7 +1753,22 @@ Některé z nich možná zůstaly.</translation>
         <translation>Homografy (slova se stejným pravopisem, ale rozdáílnou výslovností, významem ap.)</translation>
     </message>
     <message>
-        <location line="+33"/>
+        <location line="+18"/>
+        <source>Link to example sentences:</source>
+        <translation>Odkaz na příklady vět:</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>If enabled, display a link that will look for example sentences in your web browser using the selected service</source>
+        <translation>Je-li povoleno, zobrazí se odkaz, který bude hledat příklady vět ve vašem prohlížeči internetu za použití vybrané služby</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Disabled</source>
+        <translation>Zakázáno</translation>
+    </message>
+    <message>
+        <location line="+27"/>
         <source>Printing</source>
         <translation>Tisk</translation>
     </message>
@@ -1816,6 +1889,14 @@ Některé z nich možná zůstaly.</translation>
     </message>
 </context>
 <context>
+    <name>KanjiComponentWidget</name>
+    <message>
+        <location filename="../src/gui/kanjidic2/KanjiPopup.cc" line="+100"/>
+        <source>%1 (drawn as &quot;%2&quot;)</source>
+        <translation>%1 (kresleno jako &quot;%2&quot;)</translation>
+    </message>
+</context>
+<context>
     <name>KanjiInputPopupAction</name>
     <message>
         <location filename="../src/gui/kanjidic2/KanjiSelector.cc" line="+396"/>
@@ -1859,7 +1940,7 @@ Některé z nich možná zůstaly.</translation>
         <translation>Prohlédnout si v podrobném pohledu</translation>
     </message>
     <message>
-        <location filename="../src/gui/kanjidic2/KanjiPopup.cc" line="+178"/>
+        <location filename="../src/gui/kanjidic2/KanjiPopup.cc" line="+86"/>
         <source>&lt;b&gt;On:&lt;/b&gt; %1</source>
         <translation>&lt;b&gt;On:&lt;/b&gt; %1</translation>
     </message>
@@ -1880,11 +1961,11 @@ Některé z nich možná zůstaly.</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>&lt;b&gt;JLPT:&lt;/b&gt; %1&lt;br/&gt;</source>
-        <translation>&lt;b&gt;JLPT:&lt;/b&gt; %1&lt;br/&gt;</translation>
+        <source>&lt;b&gt;JLPT:&lt;/b&gt; N%1&lt;br/&gt;</source>
+        <translation>&lt;b&gt;JLPT:&lt;/b&gt; N%1&lt;br/&gt;</translation>
     </message>
     <message>
-        <location line="+21"/>
+        <location line="+22"/>
         <source>&lt;b&gt;Components:&lt;/b&gt; %2 %1</source>
         <translation>&lt;b&gt;Součásti:&lt;/b&gt; %2 %1</translation>
     </message>
@@ -1894,7 +1975,7 @@ Některé z nich možná zůstaly.</translation>
         <translation>&lt;b&gt;Radikály:&lt;/b&gt; %1</translation>
     </message>
     <message>
-        <location line="-27"/>
+        <location line="-28"/>
         <source>&lt;b&gt;Score:&lt;/b&gt; %1&lt;br/&gt;</source>
         <translation>&lt;b&gt;Body:&lt;/b&gt; %1&lt;br/&gt;</translation>
     </message>
@@ -2232,8 +2313,8 @@ Některé z nich možná zůstaly.</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>Secondary school</source>
-        <translation>Střední škola (pokračovací)</translation>
+        <source>Junior high school</source>
+        <translation>Nižší střední škola</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -2638,7 +2719,7 @@ Některé z nich možná zůstaly.</translation>
         <translation>Náhled</translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="+172"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="+174"/>
         <source>Lists</source>
         <translation>Seznamy</translation>
     </message>
@@ -2812,7 +2893,7 @@ Tento vzkaz se připomíná jednou a už se neobjeví - darovat můžete pozděj
         <translation>Zavedená data budou dostupná, až příště spustíte Tagaini Jisho. Všechny změny, které provedete od tohoto okamžiku, budou ztraceny. Chcete ukončit Tagaini Jisho nyní?</translation>
     </message>
     <message>
-        <location line="+114"/>
+        <location line="+111"/>
         <source>A development update is available!</source>
         <translation>Je dostupná vývojářská verze!</translation>
     </message>
@@ -2887,14 +2968,6 @@ Tento vzkaz se připomíná jednou a už se neobjeví - darovat můžete pozděj
         <location filename="../src/gui/MainWindow.ui" line="+69"/>
         <source>Ctrl+L</source>
         <translation>Ctrl+L</translation>
-    </message>
-</context>
-<context>
-    <name>ManualBrowser</name>
-    <message>
-        <location filename="../src/gui/ManualBrowser.ui" line="+14"/>
-        <source>Tagaini Jisho Manual</source>
-        <translation>Příručka k Tagaini Jisho</translation>
     </message>
 </context>
 <context>
@@ -3292,6 +3365,16 @@ Tento vzkaz se připomíná jednou a už se neobjeví - darovat můžete pozděj
         <source>(+)</source>
         <translation>(+)</translation>
     </message>
+    <message>
+        <location line="+0"/>
+        <source>Make a new search using only this filter</source>
+        <translation>Provést nové hledání jen s pomocí tohoto filtru</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Add this filter to the current search</source>
+        <translation>Přidat tento filtr do nynějšího hledání</translation>
+    </message>
 </context>
 <context>
     <name>ShowUsedInWordsJob</name>
@@ -3309,6 +3392,16 @@ Tento vzkaz se připomíná jednou a už se neobjeví - darovat můžete pozděj
         <location line="+0"/>
         <source>(+)</source>
         <translation>(+)</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Make a new search using only this filter</source>
+        <translation>Provést nové hledání jen s pomocí tohoto filtru</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Add this filter to the current search</source>
+        <translation>Přidat tento filtr do nynějšího hledání</translation>
     </message>
 </context>
 <context>
@@ -3425,7 +3518,7 @@ Tento vzkaz se připomíná jednou a už se neobjeví - darovat můžete pozděj
 <context>
     <name>TagsDialogs</name>
     <message>
-        <location filename="../src/gui/TagsDialogs.cc" line="+162"/>
+        <location filename="../src/gui/TagsDialogs.cc" line="+175"/>
         <source>Set tags for %1</source>
         <translation>Nastavit značky pro %1</translation>
     </message>
@@ -3436,58 +3529,41 @@ Tento vzkaz se připomíná jednou a už se neobjeví - darovat můžete pozděj
     </message>
     <message>
         <location line="+1"/>
-        <location line="+34"/>
+        <location line="+35"/>
         <source>these entries:</source>
         <translation>tyto záznamy:</translation>
     </message>
     <message>
-        <location line="-34"/>
-        <location line="+34"/>
+        <location line="-35"/>
+        <location line="+35"/>
         <source>this entry:</source>
         <translation>tento záznam:</translation>
     </message>
     <message>
-        <location line="-34"/>
+        <location line="-35"/>
         <source>Enter a space-separated list of tags for </source>
         <translation>Zadejte mezerou oddělený seznam značek pro </translation>
     </message>
     <message>
         <location line="+5"/>
-        <location line="+34"/>
+        <location line="+35"/>
         <source>Invalid tags</source>
         <translation>Neplatné značky</translation>
     </message>
     <message>
-        <location line="-34"/>
-        <location line="+34"/>
+        <location line="-35"/>
+        <location line="+35"/>
         <source>&lt;/p&gt;&lt;p&gt;Accepted characters are letters, digits and non-quoting punctuation.&lt;/p&gt;</source>
         <translation>&lt;/p&gt;&lt;p&gt;Přijatelnými znaky jsou písmena, čísla a interpunkční znaménka kromě uvozovek&lt;/p&gt;</translation>
     </message>
     <message>
-        <location line="-34"/>
-        <location line="+34"/>
+        <location line="-35"/>
+        <location line="+35"/>
         <source>&lt;p&gt;These tags have invalid characters: </source>
         <translation>&lt;p&gt;Tyto značky mají neplatný počet znaků: </translation>
     </message>
     <message>
-        <location line="-29"/>
-        <source>Setting tags...</source>
-        <translation>Nastavují se značky...</translation>
-    </message>
-    <message>
-        <location line="+0"/>
-        <location line="+34"/>
-        <source>Abort</source>
-        <translation>Přerušit</translation>
-    </message>
-    <message>
-        <location line="-32"/>
-        <location line="+34"/>
-        <source>Operation in progress...</source>
-        <translation>Operace se provádí...</translation>
-    </message>
-    <message>
-        <location line="-14"/>
+        <location line="-7"/>
         <source>Add tags to %1</source>
         <translation>Přidat značky k %1</translation>
     </message>
@@ -3500,11 +3576,6 @@ Tento vzkaz se připomíná jednou a už se neobjeví - darovat můžete pozděj
         <location line="+1"/>
         <source>Enter a space-separated list of tags to add to </source>
         <translation>Zadejte mezerou oddělený seznam značek pro přidání do </translation>
-    </message>
-    <message>
-        <location line="+10"/>
-        <source>Adding tags...</source>
-        <translation>Přidávají se značky...</translation>
     </message>
 </context>
 <context>
@@ -3528,7 +3599,17 @@ Tento vzkaz se připomíná jednou a už se neobjeví - darovat můžete pozděj
 <context>
     <name>TextFilterWidget</name>
     <message>
-        <location filename="../src/gui/TextFilterWidget.cc" line="+52"/>
+        <location filename="../src/gui/TextFilterWidget.cc" line="+42"/>
+        <source>Romaji search</source>
+        <translation>Hledání romaji</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>If checked, text typed in romaji will be converted to kana and searched as such.</source>
+        <translation>Je-li zaškrtnuto, text napsaný v romaji bude převeden na kana a jako takový hledán.</translation>
+    </message>
+    <message>
+        <location line="+15"/>
         <source>Text search</source>
         <translation>Hledání textu</translation>
     </message>
@@ -3658,7 +3739,7 @@ Tento vzkaz se připomíná jednou a už se neobjeví - darovat můžete pozděj
 <context>
     <name>main.cc</name>
     <message>
-        <location filename="../src/gui/main.cc" line="+110"/>
+        <location filename="../src/gui/main.cc" line="+109"/>
         <source>User data migrated</source>
         <translation>Uživatelova data přenesena</translation>
     </message>

@@ -1,11 +1,11 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="nl" sourcelanguage="en" version="2.0">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="pl" sourcelanguage="en" version="2.0">
 <defaultcodec>UTF-8</defaultcodec>
 <context>
     <name>AboutDialog</name>
     <message>
         <location filename="../src/gui/AboutDialog.ui" line="+14"/>
         <source>About Tagaini Jisho</source>
-        <translation>Over Tagaini Jisho</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+13"/>
@@ -15,12 +15,12 @@
     <message>
         <location line="+29"/>
         <source>About</source>
-        <translation>Info</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+23"/>
         <source>Authors &amp;&amp; contributors</source>
-        <translation>Auteurs &amp;&amp; bijdragers</translation>
+        <translation>Autorzy i kontrybutorzy </translation>
     </message>
 </context>
 <context>
@@ -28,12 +28,12 @@
     <message>
         <location filename="../src/gui/BatchHandler.cc" line="+26"/>
         <source>Marking entries...</source>
-        <translation>Ingangen markeren...</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+0"/>
         <source>Abort</source>
-        <translation>Annuleren</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+2"/>
@@ -66,82 +66,82 @@
     <message>
         <location filename="../src/gui/DataPreferences.ui" line="+14"/>
         <source>Form</source>
-        <translation>Formulier</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+6"/>
         <source>Erase user data</source>
-        <translation>Persoonlijke gegevens verwijderen</translation>
+        <translation>Usun dane uzytkownika</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Pushing this button will completely erase all your user data. This includes study list, tags, notes, scores, basically everything you did. After pushing this button, Tagaini Jisho will exit. Upon restart, you will be back to a fresh, blank database.</source>
-        <translation>Door op deze knop te drukken worden alle persoonlijke gegevens verwijderd, inclusief studielijsten, labels, notities, scores; alles wat je zelf hebt ingevoerd. Na het indrukken van deze knop zal Tagaini Jisho afgesloten worden; bij het opnieuw opstarten ervan is de database weer leeg en schoon.</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+10"/>
         <source>Reset user data</source>
-        <translation>Gebruikersgegevens terugzetten</translation>
+        <translation>Resetuj dane uzytkownika</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>User database file:</source>
-        <translation>Gebruikersdatabasebestand:</translation>
+        <translation>Plik baz danych użytkownika</translation>
     </message>
     <message>
         <location filename="../src/gui/PreferencesWindow.cc" line="+499"/>
         <source>User data</source>
-        <translation>Gebruikersgegevens</translation>
+        <translation>Dane uzytkownika</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Really erase user data?</source>
-        <translation>Gebruikersgegevens verwijderen?</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+0"/>
         <source>This will erase all your user data. Are you sure you want to do this?</source>
-        <translation>Hiermee worden alle gebruikersgegevens verwijderd. Weet je zeker dat je dit wil doen?</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
         <source>REALLY erase it?</source>
-        <translation>ECHT verwijderen?</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+0"/>
         <source>Are you absolutely, positively, definitely sure?</source>
-        <translation>Weet je het heel erg zeker?</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+3"/>
         <source>No user database file</source>
-        <translation>Geen gebruikersdatabasebestand</translation>
+        <translation>Brak baz danych uzytkownika</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>The user database file has already been erased before.</source>
-        <translation>Het gebruikersdatabasebestand is reeds verwijderd.</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+3"/>
         <source>Cannot erase user database</source>
-        <translation>Kan gebruikersdatabase niet verwijderen</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+0"/>
         <source>Unable to erase user database. Please see what is wrong and try to do it manually.</source>
-        <translation>Kon de gebruikersdatabase niet verwijderen. Ga na wat er mis ging en probeer het handmatig.</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+2"/>
         <source>User data erased</source>
-        <translation>Gebruikersgegevens verwijderd</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+0"/>
         <source>User data has been erased. Tagaini Jisho will now exit. You will be back to a blank database when it is restarted.</source>
-        <translation>Gebruikersgegevens zijn verwijderd. Tagaini Jisho zal afgesloten worden; bij het opnieuw opstarten ervan is de database leeg.</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -149,32 +149,32 @@
     <message>
         <location filename="../src/core/Database.cc" line="+316"/>
         <source>Error while upgrading user database: %1</source>
-        <translation>Fout bij het upgraden van de gebruikersdatabase: %1</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+6"/>
         <source>Wrong user database version: expected %1, got %2.</source>
-        <translation>Verkeerde gebruikersdatabase versie: %1 werd verwacht, maar dit is %2.</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+8"/>
         <source>Cannot create user database: %1</source>
-        <translation>Kan de gebruikersdatabase niet aanmaken: %1</translation>
+        <translation>Nie mozna napisac baz danych uzytkownika: %1</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Cannot open database: %1</source>
-        <translation>Kan de database niet openen: %1</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+27"/>
         <source>Temporary database fallback failed. The program will now exit.</source>
-        <translation>Terugvallen op een tijdelijke database faalde. Dit programma wordt nu afgesloten.</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+3"/>
         <source>Tagaini is working on a temporary database. This allows the program to work, but user data is unavailable and any change will be lost upon program exit. If you corrupted your database file, please recreate it from the preferences.</source>
-        <translation>Tagaini werkt nu met een tijdelijke database. Het programma werkt, maar persoonlijke gegevens zijn niet beschikbaar, en wijzigingen raken verloren bij het afsluiten van het programma. Als je het databasebestand beschadigd hebt, maak deze dan opnieuw aan via de instellingen.</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -182,12 +182,12 @@
     <message>
         <location filename="../src/gui/DetailedView.cc" line="+98"/>
         <source>Previous entry</source>
-        <translation>Vorige ingang</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+6"/>
         <source>Next entry</source>
-        <translation>Volgende ingang</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -195,62 +195,62 @@
     <message>
         <location filename="../src/gui/PreferencesWindow.cc" line="-108"/>
         <source>Detailed view</source>
-        <translation>Gedetaileerde weergave</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+15"/>
         <source>Default text</source>
-        <translation>Standaard tekst</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+6"/>
         <source>Kana header</source>
-        <translation>Kana koppen</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+6"/>
         <source>Kanji header</source>
-        <translation>Kanji koppen</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+6"/>
         <source>Kanji</source>
-        <translation>Kanji</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+7"/>
         <source>Kana</source>
-        <translation>Kana</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/gui/DetailedViewPreferences.ui" line="+14"/>
         <source>Form</source>
-        <translation>Formulier</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+6"/>
         <source>General</source>
-        <translation>Algemeen</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+6"/>
         <source>Smooth scrolling</source>
-        <translation>Soepel schuiven</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+7"/>
         <source>Show JLPT level in short descriptions</source>
-        <translation>Toon JLPT-niveau in de korte omschrijvingen</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+10"/>
         <source>Fonts</source>
-        <translation>Lettertypen</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+7"/>
         <source>Preview</source>
-        <translation>Voorproefje</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -258,22 +258,22 @@
     <message>
         <location filename="../src/gui/EditEntryNotesDialog.cc" line="+86"/>
         <source>Notes for %1</source>
-        <translation>Aantekeningen voor %1</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+3"/>
         <source>Existing notes:</source>
-        <translation>Bestaande aantekeningen:</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+17"/>
         <source>&amp;New note</source>
-        <translation>&amp;Nieuwe aantekening</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+2"/>
         <source>&amp;Delete note</source>
-        <translation>&amp;Verwijder aantekening</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -281,27 +281,27 @@
     <message>
         <location filename="../src/gui/EntriesPrinter.cc" line="+66"/>
         <source>Preparing print job...</source>
-        <translation>Printopdracht wordt voorbereid...</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+0"/>
         <source>Abort</source>
-        <translation>Annuleren</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+2"/>
         <source>Printing...</source>
-        <translation>Er wordt geprint...</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+89"/>
         <source>Print preview</source>
-        <translation>Print-voorproefje</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+15"/>
         <source>Booklet print preview</source>
-        <translation>Boekje print-voorproefje</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -309,22 +309,22 @@
     <message>
         <location filename="../src/gui/EntriesViewHelper.cc" line="+39"/>
         <source>&amp;Print...</source>
-        <translation>&amp;Printen...</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+0"/>
         <source>Print p&amp;review...</source>
-        <translation>Print &amp;voorproefje...</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+0"/>
         <source>Print &amp;booklet...</source>
-        <translation>Print &amp;boekje(s)...</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+0"/>
         <source>Export as &amp;HTML...</source>
-        <translation>Exporteren als &amp;HTML...</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+0"/>
@@ -339,7 +339,7 @@
     <message>
         <location line="+55"/>
         <source>Abort</source>
-        <translation>Annuleren</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+0"/>
@@ -354,74 +354,74 @@
     <message>
         <location line="+202"/>
         <source>Print preview</source>
-        <translation>Print-voorproefje</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+7"/>
         <source>Booklet print</source>
-        <translation>Boekje printen</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+7"/>
         <source>Booklet print preview</source>
-        <translation>Boekje print-voorproefje</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+6"/>
         <source>Export to tab-separated file...</source>
-        <translation>Exporteer als tab-gescheiden bestand...</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+4"/>
         <location line="+47"/>
         <source>Cannot write file</source>
-        <translation>Kan bestand niet wegschrijven</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="-47"/>
         <source>Unable to write file %1.</source>
-        <translation>Kan bestand %1 niet wegschrijven.</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+27"/>
         <source>Error writing file</source>
-        <translation>Fout opgetreden bij wegschrijven bestand</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+0"/>
         <source>Error while writing file %1.</source>
-        <translation>Er is een fout opgetreden bij het wegschrijven van bestand %1.</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+16"/>
         <source>Export to HTML flashcard file...</source>
-        <translation>Exporteer als HTML geheugenkaartjes-bestand...</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+0"/>
         <source>HTML files (*.html)</source>
-        <translation>HTML-bestanden (*.html)</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+4"/>
         <source>Unable to write file %1!</source>
-        <translation>Kan bestand %1 niet wegschrijven!</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+16"/>
         <source>Cannot open template file</source>
-        <translation>Kan sjabloonbestand niet openen</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+0"/>
         <source>Unable to open template file!</source>
-        <translation>Kon het sjabloonbestand niet openen!</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="-94"/>
         <location filename="../src/gui/EntriesViewHelper.h" line="+87"/>
         <source>Print</source>
-        <translation>Printen</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -429,37 +429,37 @@
     <message>
         <location filename="../src/gui/EntryDelegatePreferences.ui" line="+14"/>
         <source>Form</source>
-        <translation>Formulier</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+8"/>
         <source>Style:</source>
-        <translation>Stijl:</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+7"/>
         <source>One line</source>
-        <translation>Enkele regel</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+7"/>
         <source>Two lines</source>
-        <translation>Twee regels</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/gui/PreferencesWindow.cc" line="-196"/>
         <source>Main writing</source>
-        <translation>Voornaamste schrijfwijze</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+6"/>
         <source>Readings and alternate writings</source>
-        <translation>Lezingen en alternatieve schrijfwijzes</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+6"/>
         <source>Definitions</source>
-        <translation>Definities</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -467,7 +467,7 @@
     <message>
         <location filename="../src/gui/ToolBarDetailedView.cc" line="+27"/>
         <source>Drag the currently displayed entry</source>
-        <translation>Versleep de getoonde ingang</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -475,12 +475,12 @@
     <message>
         <location filename="../src/gui/EntryFormatter.cc" line="+39"/>
         <source>Cannot find detailed view HTML file!</source>
-        <translation>Kan het getaileerde weergave HTML-bestand niet vinden!</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+8"/>
         <source>Cannot find detailed view CSS file!</source>
-        <translation>Kan het getaileerde weergave CSS-bestand niet vinden!</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+159"/>
@@ -490,22 +490,22 @@
     <message>
         <location line="+48"/>
         <source>Studied since %1.</source>
-        <translation>Bestudeerd sinds %1.</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
         <source>Score: %1.</source>
-        <translation>Score: %1.</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+2"/>
         <source>Last trained on %1.</source>
-        <translation>Voor het laatst geoefend op %1.</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+2"/>
         <source>Last mistaken on %1.</source>
-        <translation>Voor het laatst fout op %1.</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -513,17 +513,17 @@
     <message>
         <location filename="../src/gui/EntryListView.cc" line="+35"/>
         <source>Delete</source>
-        <translation>Verwijderen</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+0"/>
         <source>New list...</source>
-        <translation>Nieuwe lijst...</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+0"/>
         <source>Go up</source>
-        <translation>Omhoog</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+0"/>
@@ -533,27 +533,27 @@
     <message>
         <location line="+93"/>
         <source>Unable to create list</source>
-        <translation>Kan lijst niet aanmaken</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+0"/>
         <source>A database error occured while trying to add the list.</source>
-        <translation>Een databasefout is opgetreden tijdens het toevoegen aan de lijst.</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+30"/>
         <source>Confirm deletion</source>
-        <translation>Bevestig verwijdering</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+0"/>
         <source>This will delete the selected lists items and lists, including all their children. Continue?</source>
-        <translation>De geselecteerde lijstonderdelen en lijsten (inclusief alles wat daar in staat) worden verwijderd. Doorgaan?</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+23"/>
         <source>Removal failed</source>
-        <translation>Verwijderen mislukt</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+0"/>
@@ -570,12 +570,12 @@
     <message>
         <location filename="../src/gui/EntryListWidget.ui" line="+14"/>
         <source>Form</source>
-        <translation>Formulier</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/gui/EntryListWidget.h" line="+33"/>
         <source>Lists</source>
-        <translation>Lijsten</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -583,42 +583,42 @@
     <message>
         <location filename="../src/gui/EntryMenu.cc" line="+28"/>
         <source>Add to &amp;study list</source>
-        <translation>Toevoegen aan &amp;studielijst</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+0"/>
         <source>Remove from &amp;study list</source>
-        <translation>Verwijderen uit &amp;studielijst</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+0"/>
         <source>Already &amp;known</source>
-        <translation>Reeds &amp;bekend</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+0"/>
         <source>&amp;Reset score</source>
-        <translation>Score &amp;terugzetten</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+0"/>
         <source>Set &amp;tags...</source>
-        <translation>&amp;Labels instellen...</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+0"/>
         <source>&amp;Add tags...</source>
-        <translation>Labels &amp;toevoegen...</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+0"/>
         <source>Edit &amp;notes...</source>
-        <translation>&amp;Aantekeningen bewerken...</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+0"/>
         <source>Recently added tags...</source>
-        <translation>Onlangs toegevoegde labels...</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+85"/>
@@ -631,12 +631,12 @@
     <message>
         <location filename="../src/gui/EditEntryNotesDialog.cc" line="-65"/>
         <source>Notes</source>
-        <translation>Aantekeningen</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+16"/>
         <source>&lt;New note&gt;</source>
-        <translation>&lt;Nieuwe aantekening&gt;</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -644,12 +644,12 @@
     <message>
         <location filename="../src/gui/EntryTypeFilterWidget.cc" line="+33"/>
         <source>All</source>
-        <translation>Alles</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
         <source>Vocabulary</source>
-        <translation>Woordenschat</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
@@ -659,7 +659,7 @@
     <message>
         <location filename="../src/gui/EntryTypeFilterWidget.h" line="+43"/>
         <source>Entry type filter</source>
-        <translation>Ingangssoortfilter</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -667,7 +667,7 @@
     <message>
         <location filename="../src/gui/jmdict/JMdictEntryFormatter.cc" line="+611"/>
         <source>Homographs</source>
-        <translation>Homografen</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -675,7 +675,7 @@
     <message>
         <location line="-23"/>
         <source>Homophones</source>
-        <translation>Homofonen</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -683,17 +683,17 @@
     <message>
         <location line="-15"/>
         <source>Transitive buddy</source>
-        <translation>Overgankelijk maatje</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+0"/>
         <source>Intransitive buddy</source>
-        <translation>Onovergankelijk maatje</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+0"/>
         <source>Buddy</source>
-        <translation>Maatje</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -701,22 +701,22 @@
     <message>
         <location filename="../src/gui/PreferencesWindow.cc" line="-171"/>
         <source>English</source>
-        <translation>Engels</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+2"/>
         <source>German</source>
-        <translation>Duits</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="-1"/>
         <source>French</source>
-        <translation>Frans</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+2"/>
         <source>Spanish</source>
-        <translation>Spaans</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+4"/>
@@ -731,7 +731,7 @@
     <message>
         <location line="-3"/>
         <source>Dutch</source>
-        <translation>Nederlands</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
@@ -741,7 +741,7 @@
     <message>
         <location line="-2"/>
         <source>Russian</source>
-        <translation>Russisch</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+5"/>
@@ -756,42 +756,42 @@
     <message>
         <location line="+24"/>
         <source>General</source>
-        <translation>Algemeen</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+4"/>
         <source>Application-wide default font</source>
-        <translation>Applicatiebreed standaard lettertype</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+18"/>
         <source>Monday</source>
-        <translation>Maandag</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
         <source>Sunday</source>
-        <translation>Zondag</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+51"/>
         <source>Next check: %1</source>
-        <translation>Volgende controle: %1</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/gui/GeneralPreferences.ui" line="+14"/>
         <source>Form</source>
-        <translation>Formulier</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+6"/>
         <source>General settings</source>
-        <translation>Algemene instellingen</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+22"/>
         <source>System default</source>
-        <translation>Systeem standaard</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+12"/>
@@ -811,32 +811,32 @@
     <message>
         <location line="+10"/>
         <source>You need to restart Tagaini Jisho for these changes to take effect.</source>
-        <translation>Deze wijzigingen zijn pas van kracht als Tagaini Jisho opnieuw opgestart is.</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+13"/>
         <source>Dates</source>
-        <translation>Data</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+6"/>
         <source>Weeks start on</source>
-        <translation>Week begint op</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+16"/>
         <source>Updates</source>
-        <translation>Updates</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+8"/>
         <source>Check for updates</source>
-        <translation>Controleren op updates</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+7"/>
         <source>every day</source>
-        <translation>Dagelijks</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+3"/>
@@ -856,7 +856,7 @@
     <message>
         <location line="-41"/>
         <source>Also check for development versions</source>
-        <translation>Controleer ook op ontwikkelversies</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="-118"/>
@@ -871,17 +871,17 @@
     <message>
         <location line="+115"/>
         <source>Next check:</source>
-        <translation>Volgende controle:</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+10"/>
         <source>Entries cache (advanced)</source>
-        <translation>Ingangen cache (geavanceerd)</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+8"/>
         <source>Default</source>
-        <translation>Standaard</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -914,12 +914,12 @@
     <message>
         <location line="+78"/>
         <source>JLPT:</source>
-        <translation>JLPT:</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
         <source>JLPT</source>
-        <translation>JLPT</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -937,17 +937,17 @@
     <message>
         <location line="+18"/>
         <source>Alternate writings:</source>
-        <translation>Alternatieve schrijfwijzen:</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+120"/>
         <source>JLPT</source>
-        <translation>JLPT</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+24"/>
         <source>Kanji</source>
-        <translation>Kanji</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+18"/>
@@ -965,46 +965,46 @@
     <message>
         <location filename="../src/gui/jmdict/JMdictFilterWidget.cc" line="+42"/>
         <source>Using studied kanji only</source>
-        <translation>Alleen reeds bestudeerde kanji</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="-2"/>
         <source>With kanji:</source>
-        <translation>Bevat deze kanji:</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+5"/>
         <source>With components:</source>
-        <translation>Bevat deze componenten:</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+2"/>
         <source>Include kana-only words</source>
-        <translation>Inclusief enkel in kana geschreven woorden</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+13"/>
         <location line="+117"/>
         <source>Part of speech</source>
-        <translation>Woordsoort</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="-111"/>
         <location line="+126"/>
         <source>Dialect</source>
-        <translation>Dialect</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="-120"/>
         <location line="+135"/>
         <source>Field</source>
-        <translation>Vakgebied</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="-129"/>
         <location line="+144"/>
         <source>Misc</source>
-        <translation>Diversen</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="-91"/>
@@ -1029,38 +1029,38 @@
     <message>
         <location line="-5"/>
         <source>, studied kanji only</source>
-        <translation>, enkel bestudeerde kanji</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+4"/>
         <source>, including kana words</source>
-        <translation>, inclusief kana woorden</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+9"/>
         <location line="+1"/>
         <source>Vocabulary</source>
-        <translation>Woordenschat</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+14"/>
         <source>Pos:</source>
-        <translation>Soort:</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+15"/>
         <source>Dial:</source>
-        <translation>Dial:</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+15"/>
         <source>Field:</source>
-        <translation>Gebied:</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+15"/>
         <source>Misc:</source>
-        <translation>Div.:</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -1068,39 +1068,39 @@
     <message>
         <location filename="../src/gui/jmdict/JMdictGUIPlugin.cc" line="+61"/>
         <source>Vocabulary flashcards</source>
-        <translation>Woordenschat geheugenkaartjes</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
         <source>From &amp;japanese, whole study list</source>
-        <translation>Vanuit het &amp;Japans, gehele studielijst</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
         <source>From &amp;japanese, current set</source>
-        <translation>Vanuit het &amp;Japans, huidige reeks</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+4"/>
         <source>From &amp;translation, whole study list</source>
-        <translation>Vanuit &amp;vertaling, gehele studielijst</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
         <source>From &amp;translation, current set</source>
-        <translation>Vanuit &amp;vertaling, huidige reeks</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+125"/>
         <location line="+20"/>
         <source>Nothing to train</source>
-        <translation>Niets te oefenen</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="-20"/>
         <location line="+20"/>
         <source>There are no vocabulary entries in this set to train on.</source>
-        <translation>Deze reeks bevat geen woordenschatingangen om te oefenen.</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -1108,7 +1108,7 @@
     <message>
         <location filename="../3rdparty/JMdictDescs.cc" line="+1"/>
         <source>martial arts term</source>
-        <translation>vechtsportterm</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+46"/>
@@ -1338,7 +1338,7 @@
     <message>
         <location line="-32"/>
         <source>abbreviation</source>
-        <translation>afkorting</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+26"/>
@@ -1348,7 +1348,7 @@
     <message>
         <location line="-27"/>
         <source>rude or X-rated term (not displayed in educational software)</source>
-        <translation>grove, sexueel expliciete of pornografische term (niet weergegeven in educationele software)</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+11"/>
@@ -1403,7 +1403,7 @@
     <message>
         <location line="-54"/>
         <source>`taru&apos; adjective</source>
-        <translation>`taru&apos; bijvoeglijk naamwoord</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+25"/>
@@ -1463,7 +1463,7 @@
     <message>
         <location line="-87"/>
         <source>noun or verb acting prenominally</source>
-        <translation>prenominaal zelfstandig naamwoord of werkwoord</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+102"/>
@@ -1483,7 +1483,7 @@
     <message>
         <location line="-19"/>
         <source>adjective (keiyoushi)</source>
-        <translation>bijvoeglijk naamwoord (keiyōshi)</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+88"/>
@@ -1558,7 +1558,7 @@
     <message>
         <location line="-11"/>
         <source>adjectival nouns or quasi-adjectives (keiyodoshi)</source>
-        <translation>bijvoeglijk zelfstandig naamwoord (keiyōdōshi)</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+76"/>
@@ -1578,7 +1578,7 @@
     <message>
         <location line="-73"/>
         <source>nouns which may take the genitive case particle `no&apos;</source>
-        <translation>zelfstandig naamwoord waar het bezittelijk partikel `no&apos; achter mag</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+66"/>
@@ -1613,7 +1613,7 @@
     <message>
         <location line="-17"/>
         <source>pre-noun adjectival (rentaishi)</source>
-        <translation>attributief (ware bijvoeglijke naamwoorden, rentaishi)</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+67"/>
@@ -1679,32 +1679,32 @@
     <message>
         <location filename="../src/gui/jmdict/JMdictPreferences.cc" line="+24"/>
         <source>Vocabulary entries</source>
-        <translation>Woordenschat ingangen</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="+14"/>
         <source>Form</source>
-        <translation>Formulier</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+10"/>
         <source>Display</source>
-        <translation>Weergave</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+6"/>
         <source>Basic information</source>
-        <translation>Basis informatie</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+6"/>
         <source>JLPT level</source>
-        <translation>JLPT-niveau</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+7"/>
         <source>Kanji used in main reading</source>
-        <translation>Kanji die voorkomt in de meest gangbare lezing</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+7"/>
@@ -1714,39 +1714,39 @@
     <message>
         <location line="+10"/>
         <source>Additional information</source>
-        <translation>Aanvullende informatie</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+6"/>
         <source>For transitive verbs, look for the equivalent intransitive entry and vice-versa.</source>
-        <translation>Zoek bij overgankelijke werkwoorden ook het onovergankelijke equivalent op (en vice versa).</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+3"/>
         <source>Search for transitive/intransitive verb buddy</source>
-        <translation>Zoek naar het overgankelijke/onovergankelijke „werkwoordsmaatje”</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+12"/>
         <location line="+24"/>
         <source>Display words that have the same pronunciation.</source>
-        <translation>Toon woorden met dezelfde uitspraak.</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="-21"/>
         <source>Homophones</source>
-        <translation>Homofonen</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+7"/>
         <location line="+24"/>
         <source>Studied only</source>
-        <translation>Alleen bestudeerde woorden</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="-7"/>
         <source>Homographs</source>
-        <translation>Homografen</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+18"/>
@@ -1766,83 +1766,83 @@
     <message>
         <location line="+27"/>
         <source>Printing</source>
-        <translation>Printen</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+6"/>
         <source>General</source>
-        <translation>Algemeen</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+13"/>
         <source>Header font size:</source>
-        <translation>Kop-lettertype grootte:</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+7"/>
         <source>Maximum number of definitions:</source>
-        <translation>Maximaal aantal definities:</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+7"/>
         <source>All</source>
-        <translation>Alles</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+10"/>
         <source>Kanji</source>
-        <translation>Kanji</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+6"/>
         <source>Kanji used in word</source>
-        <translation>Kanji gebruikt in woord</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+7"/>
         <source>Only studied kanji</source>
-        <translation>Alleen de bestudeerde kanji</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+10"/>
         <source>Preview</source>
-        <translation>Voorproefje</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+88"/>
         <source>Definitions filtering</source>
-        <translation>Definitiefilters</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+6"/>
         <source>Filtered definitions</source>
-        <translation>Gefilterde definities</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+8"/>
         <source>Displayed:</source>
-        <translation>Weergegeven:</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+7"/>
         <source>Definitions types in this list will be searched for and displayed.</source>
-        <translation>Definitietypen in deze lijst worden gebruikt in de zoekopdracht, en weergegeven.</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+27"/>
         <location line="+24"/>
         <source>...</source>
-        <translation>...</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+28"/>
         <source>Filtered:</source>
-        <translation>Gefilterd:</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+7"/>
         <source>Definitions types in this list will be ignored when searching and displaying entries.</source>
-        <translation>Definitietypen in deze lijst worden genegeerd bij het zoeken en weergeven van ingangen.</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -1850,7 +1850,7 @@
     <message>
         <location filename="../src/gui/jmdict/JMdictYesNoTrainer.cc" line="+23"/>
         <source>Show &amp;furigana</source>
-        <translation>Toon &amp;furigana</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -1858,7 +1858,7 @@
     <message>
         <location filename="../src/gui/kanjidic2/KanaSelector.ui" line="+14"/>
         <source>Form</source>
-        <translation>Formulier</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+9"/>
@@ -1881,7 +1881,7 @@
     <message>
         <location filename="../src/gui/kanjidic2/KanaView.cc" line="+161"/>
         <source>Select All</source>
-        <translation>Alles selecteren</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -1905,27 +1905,27 @@
     <message>
         <location filename="../src/gui/kanjidic2/KanjiPlayer.cc" line="+50"/>
         <source>Play</source>
-        <translation>Afspelen</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+3"/>
         <source>Pause</source>
-        <translation>Pauze</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+3"/>
         <source>Stop</source>
-        <translation>Stop</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+3"/>
         <source>Next stroke</source>
-        <translation>Volgende streek</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+3"/>
         <source>Previous stroke</source>
-        <translation>Vorige streek</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -1933,27 +1933,27 @@
     <message>
         <location filename="../src/gui/kanjidic2/KanjiPopup.ui" line="+81"/>
         <source>See in detailed view</source>
-        <translation>Bekijk de gedetaileerde weergave</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/gui/kanjidic2/KanjiPopup.cc" line="+86"/>
         <source>&lt;b&gt;On:&lt;/b&gt; %1</source>
-        <translation>&lt;b&gt;On:&lt;/b&gt; %1</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
         <source>&lt;b&gt;Kun:&lt;/b&gt; %1</source>
-        <translation>&lt;b&gt;Kun:&lt;/b&gt; %1</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+18"/>
         <source>&lt;b&gt;Freq:&lt;/b&gt; %1&lt;br/&gt;</source>
-        <translation>&lt;b&gt;Freq:&lt;/b&gt; %1&lt;br/&gt;</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+2"/>
         <source>&lt;b&gt;Grade:&lt;/b&gt; %1&lt;br/&gt;</source>
-        <translation>&lt;b&gt;Schooljaar:&lt;/b&gt; %1&lt;br/&gt;</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+2"/>
@@ -1963,27 +1963,27 @@
     <message>
         <location line="+22"/>
         <source>&lt;b&gt;Components:&lt;/b&gt; %2 %1</source>
-        <translation>&lt;b&gt;Componenten:&lt;/b&gt; %2 %1</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+8"/>
         <source>&lt;b&gt;Radicals:&lt;/b&gt; %1</source>
-        <translation>&lt;b&gt;Radikalen:&lt;/b&gt; %1</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="-28"/>
         <source>&lt;b&gt;Score:&lt;/b&gt; %1&lt;br/&gt;</source>
-        <translation>&lt;b&gt;Score:&lt;/b&gt; %1&lt;br/&gt;</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/gui/kanjidic2/KanjiPopup.ui" line="-61"/>
         <source>Form</source>
-        <translation>Formulier</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+11"/>
         <source>Previous entry</source>
-        <translation>Vorige ingang</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+3"/>
@@ -1992,27 +1992,27 @@
         <location line="+20"/>
         <location line="+23"/>
         <source>...</source>
-        <translation>...</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="-76"/>
         <source>Next entry</source>
-        <translation>Volgende ingang</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+50"/>
         <source>Entry options menu</source>
-        <translation>Ingangenkeuzemenu</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+23"/>
         <source>Close this popup</source>
-        <translation>Pop-up sluiten</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/gui/kanjidic2/KanjiPopup.cc" line="-36"/>
         <source>No information about this kanji!</source>
-        <translation>Geen informatie beschikbaar over deze kanji!</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -2020,7 +2020,7 @@
     <message>
         <location filename="../src/gui/kanjidic2/KanjiSelector.ui" line="+6"/>
         <source>Radical search</source>
-        <translation>Radikaal zoeken</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -2028,7 +2028,7 @@
     <message>
         <location filename="../src/core/kanjidic2/Kanjidic2Entry.cc" line="+126"/>
         <source>(var) </source>
-        <translation>(var) </translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -2036,22 +2036,22 @@
     <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="+328"/>
         <source>&lt;b&gt;Strokes:&lt;/b&gt; %1</source>
-        <translation>&lt;b&gt;Streken:&lt;/b&gt; %1</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+4"/>
         <source>&lt;b&gt;Frequency:&lt;/b&gt; %1</source>
-        <translation>&lt;b&gt;Frequentie:&lt;/b&gt; %1</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+4"/>
         <source>&lt;b&gt;Grade:&lt;/b&gt; %1</source>
-        <translation>&lt;b&gt;Schooljaar:&lt;/b&gt; %1</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+20"/>
         <source>&lt;b&gt;4 corner:&lt;/b&gt; %1</source>
-        <translation>&lt;b&gt;4 hoeken:&lt;/b&gt; %1</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="-145"/>
@@ -2076,37 +2076,37 @@
     <message>
         <location line="+43"/>
         <source>On</source>
-        <translation>On</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+11"/>
         <source>Kun</source>
-        <translation>Kun</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+11"/>
         <source>Nanori</source>
-        <translation>Nanori</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+10"/>
         <source>Strokes</source>
-        <translation>Streken</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+9"/>
         <source>Frequency</source>
-        <translation>Frequentie</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+9"/>
         <source>Grade</source>
-        <translation>Schooljaar</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+9"/>
         <source>JLPT</source>
-        <translation>JLPT</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+9"/>
@@ -2116,47 +2116,47 @@
     <message>
         <location line="+20"/>
         <source>Variations</source>
-        <translation>Varianten</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+15"/>
         <source>Variation of</source>
-        <translation>Variant van</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+9"/>
         <source>Unicode</source>
-        <translation>Unicode</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+9"/>
         <source>SKIP</source>
-        <translation>SKIP</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+9"/>
         <source>4 corner</source>
-        <translation>4 hoeken</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+17"/>
         <source>Radicals</source>
-        <translation>Radikalen</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+22"/>
         <source>Components</source>
-        <translation>Componenten</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="-259"/>
         <source>&lt;b&gt;Unicode:&lt;/b&gt; 0x%1</source>
-        <translation>&lt;b&gt;Unicode:&lt;/b&gt; 0x%1</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+4"/>
         <source>&lt;b&gt;SKIP:&lt;/b&gt; %1</source>
-        <translation>&lt;b&gt;SKIP:&lt;/b&gt; %1</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -2164,109 +2164,109 @@
     <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2FilterWidget.cc" line="+46"/>
         <source>Stroke count</source>
-        <translation>Aantal (penseel)streken</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+18"/>
         <source>Range</source>
-        <translation>Bereik</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+9"/>
         <source>Radicals</source>
-        <translation>Radikalen</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+9"/>
         <source>Components</source>
-        <translation>Componenten</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+12"/>
         <source>Unicode</source>
-        <translation>Unicode</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+9"/>
         <source>SKIP code</source>
-        <translation>SKIP code</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+19"/>
         <source>Four corner</source>
-        <translation>Vier hoeken</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+26"/>
         <source>School grade</source>
-        <translation>Schooljaar</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+3"/>
         <location line="+261"/>
         <source>Grade</source>
-        <translation>Schooljaar</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="-247"/>
         <source>All &amp;Kyouiku kanji</source>
-        <translation>Alle &amp;Kyōiku-kanji</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+3"/>
         <source>All &amp;Jouyou kanji</source>
-        <translation>Alle &amp;Jōyō-kanji</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+219"/>
         <source>, %1 strokes</source>
-        <translation>, %1 (penseel-)streken</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+2"/>
         <source>, strokes&lt;=%1</source>
-        <translation>, (penseel)streken&lt;=%1</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
         <source>, strokes&gt;=%1</source>
-        <translation>, (penseel)streken&gt;=%1</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
         <source>, %1-%2 strokes</source>
-        <translation>, %1 -%2 (penseel-)streken</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+2"/>
         <source>, unicode: %1</source>
-        <translation>, unicode: %1</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
         <source>, skip: %1</source>
-        <translation>, skip: %1</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
         <source>, 4c: %1</source>
-        <translation>, 4h: %1</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
         <source>, grade: %1</source>
-        <translation>, schooljaar: %1</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
         <location line="+1"/>
         <source>Kanji</source>
-        <translation>Kanji</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+13"/>
         <source>Grade:</source>
-        <translation>Schooljaar:</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -2275,37 +2275,37 @@
         <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="+46"/>
         <location line="+7"/>
         <source>Invalid</source>
-        <translation>Ongeldig</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="-6"/>
         <source>Elementary 1st grade</source>
-        <translation>Basisschool groep 3</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
         <source>Elementary 2nd grade</source>
-        <translation>Basisschool groep 4</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
         <source>Elementary 3rd grade</source>
-        <translation>Basisschool groep 5</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
         <source>Elementary 4th grade</source>
-        <translation>Basisschool groep 6</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
         <source>Elementary 5th grade</source>
-        <translation>Basisschool groep 7</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
         <source>Elementary 6th grade</source>
-        <translation>Basisschool groep 8</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+2"/>
@@ -2315,12 +2315,12 @@
     <message>
         <location line="+1"/>
         <source>Used for names (1)</source>
-        <translation>Gebruikt in namen (1)</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
         <source>Used for names (2)</source>
-        <translation>Gebruikt in namen (2)</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+33"/>
@@ -2340,59 +2340,59 @@
     <message>
         <location line="+4"/>
         <source>From &amp;meaning, whole study list</source>
-        <translation>Vanuit &amp;betekenis, gehele studielijst</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
         <source>From &amp;meaning, current set</source>
-        <translation>Vanuit &amp;betekenis, huidige reeks</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+3"/>
         <source>&amp;Reading practice, whole study list</source>
-        <translation>&amp;Leesoefening, gehele studielijst</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+6"/>
         <source>Kana</source>
-        <translation>Kana</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+20"/>
         <source>Radical search input</source>
-        <translation>Radikaal zoeken invoer</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+3"/>
         <source>Component search input</source>
-        <translation>Component zoeken invoer</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+4"/>
         <source>Show stroke popup for currently displayed kanji</source>
-        <translation>Toon (penseel)streken popup voor de weergegeven kanji</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+94"/>
         <location line="+18"/>
         <source>Nothing to train</source>
-        <translation>Niets te oefenen</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="-18"/>
         <location line="+18"/>
         <source>There are no kanji entries in this set to train on.</source>
-        <translation>Deze reeks bevat geen kanji-ingangen om te oefenen.</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+186"/>
         <source>Open in detailed view...</source>
-        <translation>Bekijk de gedetaileerde weergave...</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+25"/>
         <source>Tracing for %1</source>
-        <translation>Calque van %1</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -2400,85 +2400,85 @@
     <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2Preferences.ui" line="+14"/>
         <source>Form</source>
-        <translation>Formulier</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+10"/>
         <source>Display</source>
-        <translation>Weergave</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+6"/>
         <source>Basic information</source>
-        <translation>Basis informatie</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+6"/>
         <source>Readings</source>
-        <translation>Lezingen</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+7"/>
         <location line="+471"/>
         <source>Unicode</source>
-        <translation>Unicode</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="-436"/>
         <source>Variations</source>
-        <translation>Varianten</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="-7"/>
         <source>Original</source>
-        <translation>Oorspronkelijk</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="-21"/>
         <location line="+443"/>
         <source>SKIP code</source>
-        <translation>SKIP code</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="-408"/>
         <location line="+436"/>
         <source>Frequency</source>
-        <translation>Frequentie</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="-408"/>
         <location line="+415"/>
         <source>School grade</source>
-        <translation>Schooljaar</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="-422"/>
         <location line="+429"/>
         <source>JLPT level</source>
-        <translation>JLPT-niveau</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="-397"/>
         <location line="+109"/>
         <source>Components</source>
-        <translation>Componenten</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="-190"/>
         <location line="+450"/>
         <source># of strokes</source>
-        <translation>Aantal (penseel-)streken</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="-443"/>
         <source>Nanori</source>
-        <translation>Nanori</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+28"/>
         <location line="+450"/>
         <source>Four corner code</source>
-        <translation>Vier-hoeken code</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="-443"/>
@@ -2489,130 +2489,130 @@
     <message>
         <location line="-426"/>
         <source>Additional information</source>
-        <translation>Aanvullende informatie</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+8"/>
         <source>Radicals</source>
-        <translation>Radikalen</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+18"/>
         <source>Compounds:</source>
-        <translation>Samenstellingen:</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+14"/>
         <location line="+25"/>
         <source>Studied only</source>
-        <translation>Alleen bestudeerde woorden</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="-14"/>
         <source>Words using the kanji:</source>
-        <translation>Woorden met deze kanji:</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+40"/>
         <source>Printing</source>
-        <translation>Printen</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+6"/>
         <source>Kanji information</source>
-        <translation>Kanji-informatie</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+6"/>
         <source>Meaning</source>
-        <translation>Betekenis</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+7"/>
         <source>Onyomi</source>
-        <translation>Onyomi</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+7"/>
         <source>Kunyomi</source>
-        <translation>Kunyomi</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+17"/>
         <source>Only studied components</source>
-        <translation>Alleen de bestudeerde componenten</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+12"/>
         <source>words</source>
-        <translation>woorden</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+9"/>
         <source>Only studied words</source>
-        <translation>Alleen bestudeerde woorden</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+10"/>
         <source>Kanji drawing style</source>
-        <translation>Kanji tekenwijze</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+8"/>
         <source>Handwriting</source>
-        <translation>Handschrift</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+7"/>
         <source>Default font</source>
-        <translation>Standaard lettertype</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+13"/>
         <source>Kanji header size:</source>
-        <translation>Kanji-kopgrootte:</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+19"/>
         <source>Print grid</source>
-        <translation>Print raster</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+11"/>
         <source>Show stroke numbers</source>
-        <translation>Toon streek nummers</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+26"/>
         <location line="+302"/>
         <source>px</source>
-        <translation>px</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="-284"/>
         <location line="+410"/>
         <source>Preview</source>
-        <translation>Voorproefje</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="-322"/>
         <source>Tooltip</source>
-        <translation>Tooltip</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+6"/>
         <source>Kanji tooltip enabled</source>
-        <translation>Kanji-tooltip aangezet</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+16"/>
         <source>Score</source>
-        <translation>Score</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+73"/>
         <source>Stroke animation</source>
-        <translation>(Penseel)streekanimatie</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+181"/>
@@ -2633,53 +2633,53 @@
         <location line="-430"/>
         <location line="+226"/>
         <source>Size:</source>
-        <translation>Grootte:</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+17"/>
         <source>Drawing speed:</source>
-        <translation>Tekensnelheid:</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+9"/>
         <location line="+31"/>
         <source>Default</source>
-        <translation>Standaard</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="-9"/>
         <source>Pause between strokes:</source>
-        <translation>Pauzeren tussen de streken:</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+28"/>
         <source>Show numbers</source>
-        <translation>Toon nummers</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+20"/>
         <source>Show grid</source>
-        <translation>Toon raster</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+39"/>
         <source>Animation playback</source>
-        <translation>Animatie afspelen</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+6"/>
         <source>Play animation when the kanji popup appears</source>
-        <translation>Animatie afspelen zodra de kanji-pop-up verschijnt</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+15"/>
         <source>Loop animation after:</source>
-        <translation>Herhaal animatie na:</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+7"/>
         <source>Do not loop</source>
-        <translation>Niet herhalen</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2Preferences.cc" line="+27"/>
@@ -2697,27 +2697,27 @@
     <message>
         <location filename="../src/gui/ListsViewPreferences.ui" line="+14"/>
         <source>Form</source>
-        <translation>Formulier</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+6"/>
         <source>Lists display</source>
-        <translation>Lijstweergave</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+6"/>
         <source>Smooth scrolling</source>
-        <translation>Soepel schuiven</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+13"/>
         <source>Preview</source>
-        <translation>Voorproefje</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/gui/PreferencesWindow.cc" line="+174"/>
         <source>Lists</source>
-        <translation>Lijsten</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -2725,27 +2725,27 @@
     <message>
         <location filename="../src/gui/MainWindow.ui" line="+157"/>
         <source>&amp;Quit</source>
-        <translation>A&amp;fsluiten</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="-113"/>
         <source>&amp;Program</source>
-        <translation>&amp;Programma</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+21"/>
         <source>&amp;Search</source>
-        <translation>&amp;Zoeken</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="-11"/>
         <source>&amp;Help</source>
-        <translation>&amp;Help</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+17"/>
         <source>P&amp;ractice</source>
-        <translation>Oe&amp;fenen</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+7"/>
@@ -2755,59 +2755,59 @@
     <message>
         <location line="+30"/>
         <source>Lists</source>
-        <translation>Lijsten</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+81"/>
         <source>&amp;Manual</source>
-        <translation>H&amp;andleiding</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+45"/>
         <source>&amp;About...</source>
-        <translation>&amp;Over...</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="-89"/>
         <source>Preferences...</source>
-        <translation>Voorkeuren...</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+53"/>
         <source>&amp;Report a bug...</source>
-        <translation>&amp;Rapporteer een bug...</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+9"/>
         <source>&amp;Suggest a feature...</source>
-        <translation>&amp;Suggesteer een feature...</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+9"/>
         <source>Ask a &amp;question...</source>
-        <translation>Stel een &amp;vraag...</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+9"/>
         <source>Support Tagaini Jisho - Make a &amp;donation!</source>
-        <translation>Steun Tagaini Jisho - &amp;Doneer!</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+21"/>
         <source>Focus text search</source>
-        <translation>Tekst zoekopdracht focus geven</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="-119"/>
         <location filename="../src/gui/MainWindow.cc" line="+235"/>
         <source>Export user data...</source>
-        <translation>Gebruiksgegevens exporteren...</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+9"/>
         <location filename="../src/gui/MainWindow.cc" line="+9"/>
         <source>Import user data...</source>
-        <translation>Gebruiksgegevens importeren...</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="-122"/>
@@ -2817,7 +2817,7 @@
     <message>
         <location line="+79"/>
         <source>Search</source>
-        <translation>Zoeken</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+72"/>
@@ -2837,17 +2837,17 @@
     <message>
         <location line="+5"/>
         <source>Whole study list train &amp;settings...</source>
-        <translation>Oefeninstellingen voor de hele &amp;studielijst...</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/gui/MainWindow.cc" line="-51"/>
         <source>Auto-search on clipboard content</source>
-        <translation>Automatisch zoeken naar klembordinhoud</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+23"/>
         <source>Please consider supporting Tagaini Jisho</source>
-        <translation>Steun Tagaini Jisho</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
@@ -2859,37 +2859,37 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location line="+2"/>
         <source>Donate!</source>
-        <translation>Doneren!</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+3"/>
         <source>Nah</source>
-        <translation>Nee</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+25"/>
         <source>About to replace user data!</source>
-        <translation>Gebruikersgegevens zullen worden vervangen!</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+0"/>
         <source>&lt;b&gt;WARNING:&lt;/b&gt; All the user data (study list, tags, notes, training, ...) is going to be replaced by the selected user data file. Are you &lt;b&gt;sure&lt;/b&gt; you want to do this?</source>
-        <translation>&lt;b&gt;LET OP:&lt;/b&gt; Alle gebruikersgegevens (studielijst, labels, aantekeningen, oefeningen, etc.) zullen worden vervangen door het geselecteerde gebruikersgegevensbestand. Weet je &lt;b&gt;zeker&lt;/b&gt; dat je dit wil doen?</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+7"/>
         <source>Please restart Tagaini Jisho</source>
-        <translation>Gelieve Tagaini Jisho opnieuw op te starten</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+0"/>
         <source>The imported data will be available the next time you start Tagaini Jisho. All changes performed from now will be lost. Do you want to exit Tagaini Jisho now?</source>
-        <translation>De geïmporteerde gegevens zullen de volgende keer dat Tagaini Jisho gestart wordt beschikbaar zijn. Alle wijzigingen die nu nog uitgevoerd worden zullen verloren gaan. Wil je Tagaini Jisho nu sluiten?</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+111"/>
         <source>A development update is available!</source>
-        <translation>Een ontwikkelversie update is beschikbaar!</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
@@ -2924,39 +2924,39 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location line="-34"/>
         <source>Create new folder here...</source>
-        <translation>Maak hier een nieuwe map aan...</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+34"/>
         <source>Please enter a name for this folder</source>
-        <translation>Geef een naam op voor deze map</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+0"/>
         <source>Unnamed folder</source>
-        <translation>Naamloze map</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="-106"/>
         <source>An update is available!</source>
-        <translation>Een update is beschikbaar!</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
         <source>Version %1 of Tagaini Jisho is available. Do you want to download it now?</source>
-        <translation>Versie %1 van Tagaini Jisho is beschikbaar. Wil je deze nu downloaden?</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+2"/>
         <location line="+15"/>
         <source>Let&apos;s go!</source>
-        <translation>Kom maar op!</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="-13"/>
         <location line="+15"/>
         <source>Maybe later</source>
-        <translation>Misschien later</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/gui/MainWindow.ui" line="+69"/>
@@ -2970,18 +2970,18 @@ This message is a one-time reminder and will not appear anymore - you can still 
         <location filename="../src/gui/MultiStackedWidget.cc" line="+118"/>
         <source>Ctrl+%1</source>
         <extracomment>Shortcut for popping up/down an extender</extracomment>
-        <translation>Ctrl+%1</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+8"/>
         <source>Ctrl+0</source>
         <extracomment>Shortcut for hiding all extenders</extracomment>
-        <translation>Ctrl+0</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+11"/>
         <source>Reset this filter</source>
-        <translation>Filter herstellen</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -2989,17 +2989,17 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location filename="../src/gui/NotesFilterWidget.cc" line="+50"/>
         <source>Notes</source>
-        <translation>Aantekeningen</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+2"/>
         <source>Has note</source>
-        <translation>Heeft aantekeningen</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
         <source>Note contains %1</source>
-        <translation>Aantekening bevat %1</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -3007,17 +3007,17 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location filename="../src/gui/PreferencesWindow.cc" line="+156"/>
         <source>Change...</source>
-        <translation>Wijzigen...</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="-5"/>
         <source>%1:</source>
-        <translation>%1:</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+2"/>
         <source>Default</source>
-        <translation>Standaard</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -3025,7 +3025,7 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location filename="../src/gui/PreferencesWindow.ui" line="+14"/>
         <source>Preferences</source>
-        <translation>Voorkeuren</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -3033,7 +3033,7 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location filename="../src/gui/kanjidic2/RadicalSearchWidget.ui" line="+14"/>
         <source>Radical search</source>
-        <translation>Radikaal zoeken</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -3042,72 +3042,72 @@ This message is a one-time reminder and will not appear anymore - you can still 
         <location filename="../src/gui/ReadingTrainer.ui" line="+14"/>
         <location filename="../src/gui/ReadingTrainer.cc" line="+40"/>
         <source>Reading practice</source>
-        <translation>Leesoefeningen</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/gui/ReadingTrainer.cc" line="+5"/>
         <source>Show &amp;meaning</source>
-        <translation>Toon &amp;betekenis</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+18"/>
         <source>Preparing training session</source>
-        <translation>Oefensessie wordt voorbereid</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
         <source>Preparing training session, please wait...</source>
-        <translation>Oefensessie wordt voorbereid, één moment geduld alstublieft...</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+57"/>
         <source>No matching entries found</source>
-        <translation>Geen overeenkomende ingangen gevonden</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+0"/>
         <source>Unable to find any entry eligible for reading practice. Entries eligible for this training mode are studied vocabulary entries for which all kanji are also studied, and match the train settings. Please add entries or modify the train settings accordingly if you want to practice this mode.</source>
-        <translation>Geen geldige ingangen gevonden voor de leesoefeningen. Geldige ingangen voor deze oefenwijze zijn reeds bestudeerde woordenschatingangen waarvan ook alle kanji bestudeerd zijn, en die overeenkomen met de oefeneningsinstellingen. Voeg ingangen toe, of pas de oefeneningsinstellingen aan als je deze oefenwijze wil gebruiken.</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
         <source>There are no more entries to train for the current train settings.</source>
-        <translation>Met de huidige oefeneningsinstellingen zijn er geen ingangen meer om te oefenen.</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+0"/>
         <source>No more entries to train</source>
-        <translation>Geen ingangen meer om te oefenen</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+17"/>
         <source>&lt;font color=&quot;green&quot;&gt;Correct!&lt;/font&gt;</source>
-        <translation>&lt;font color=&quot;green&quot;&gt;Correct!&lt;/font&gt;</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+4"/>
         <source>&lt;font color=&quot;red&quot;&gt;Error!&lt;/font&gt;</source>
-        <translation>&lt;font color=&quot;red&quot;&gt;Fout!&lt;/font&gt;</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+37"/>
         <source>Correct: %1, Wrong: %2, Total: %3</source>
-        <translation>Correct: %1, Fout: %2, Totaal: %3</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/gui/ReadingTrainer.ui" line="+9"/>
         <source>Type the correct reading for this word:</source>
-        <translation>Voer de juiste lezing in voor dit woord:</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+30"/>
         <source>&amp;Next</source>
-        <translation>&amp;Volgende</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+10"/>
         <source>&amp;Ok!</source>
-        <translation>&amp;Ok!</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -3115,62 +3115,62 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location filename="../src/core/RelativeDate.cc" line="+99"/>
         <source>today</source>
-        <translation>vandaag</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
         <source>yesterday</source>
-        <translation>gisteren</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
         <source>%1 days ago</source>
-        <translation>%1 dagen geleden</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+2"/>
         <source>this week</source>
-        <translation>deze week</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
         <source>last week</source>
-        <translation>vorige week</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
         <source>%1 weeks ago</source>
-        <translation>%1 weken geleden</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+2"/>
         <source>this month</source>
-        <translation>deze maand</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
         <source>last month</source>
-        <translation>vorige maand</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
         <source>%1 months ago</source>
-        <translation>%1 maanden geleden</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+2"/>
         <source>this year</source>
-        <translation>dit jaar</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
         <source>last year</source>
-        <translation>vorig jaar</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
         <source>%1 years ago</source>
-        <translation>%1 jaar geleden</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -3178,7 +3178,7 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location filename="../src/gui/RelativeDateEdit.cc" line="+163"/>
         <source>Not set</source>
-        <translation>Niet ingesteld</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -3186,42 +3186,42 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location line="-130"/>
         <source>Not set</source>
-        <translation>Niet ingesteld</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+5"/>
         <source>days ago</source>
-        <translation>dagen geleden</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
         <source>weeks ago</source>
-        <translation>weken geleden</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
         <source>months ago</source>
-        <translation>maanden geleden</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
         <source>years ago</source>
-        <translation>jaren geleden</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
         <source>Ok</source>
-        <translation>Ok</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+14"/>
         <source>Relative date:</source>
-        <translation>Relatieve datum:</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+5"/>
         <source>Absolute date:</source>
-        <translation>Absolute datum:</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -3229,7 +3229,7 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location filename="../src/gui/ResultsView.cc" line="+49"/>
         <source>Select All</source>
-        <translation>Alles selecteren</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -3237,42 +3237,42 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location filename="../src/gui/ResultsViewPreferences.ui" line="+14"/>
         <source>Form</source>
-        <translation>Formulier</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+6"/>
         <source>Results display</source>
-        <translation>Resultaatweergave</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+8"/>
         <source>Smooth scrolling</source>
-        <translation>Soepel schuiven</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+9"/>
         <source>Results sorting:</source>
-        <translation>Sorteren van resultaten:</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+21"/>
         <source>By relevance</source>
-        <translation>Op relevantie</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+5"/>
         <source>By score, then relevance</source>
-        <translation>Op score, vervolgens op relevantie</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+18"/>
         <source>Preview</source>
-        <translation>Voorproefje</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/gui/PreferencesWindow.cc" line="-187"/>
         <source>Results view</source>
-        <translation>Resultaatweergave</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -3280,7 +3280,7 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location filename="../src/gui/ResultsViewWidget.ui" line="+14"/>
         <source>Form</source>
-        <translation>Formulier</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/gui/ResultsViewWidget.cc" line="+43"/>
@@ -3311,12 +3311,12 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location filename="../src/gui/SavedSearchesOrganizer.cc" line="+143"/>
         <source>Delete</source>
-        <translation>Verwijderen</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+36"/>
         <source>Confirm deletion</source>
-        <translation>Bevestig verwijdering</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+0"/>
@@ -3329,17 +3329,17 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location filename="../src/gui/SearchWidget.ui" line="+67"/>
         <source>Previous search</source>
-        <translation>Vorige zoekopdracht</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+12"/>
         <source>Next search</source>
-        <translation>Volgende zoekopdracht</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+9"/>
         <source>&amp;Reset search...</source>
-        <translation>Zoekopdracht he&amp;rstellen...</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -3347,17 +3347,17 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="+283"/>
         <source>Direct compounds</source>
-        <translation>Directe samenstellingen</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+16"/>
         <source>All compounds</source>
-        <translation>Alle samenstellingen</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+0"/>
         <source>(+)</source>
-        <translation>(+)</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+0"/>
@@ -3375,17 +3375,17 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location line="+10"/>
         <source>Seen in</source>
-        <translation>Gezien in</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+16"/>
         <source>All words using this kanji</source>
-        <translation>Alle woorden met deze kanji</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+0"/>
         <source>(+)</source>
-        <translation>(+)</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+0"/>
@@ -3403,46 +3403,46 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location filename="../src/gui/StudyFilterWidget.cc" line="+30"/>
         <source>Score</source>
-        <translation>Score</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+30"/>
         <source>Min</source>
-        <translation>Min</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
         <source>Max</source>
-        <translation>Max</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+7"/>
         <source>Study date</source>
-        <translation>Studiedatum</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+24"/>
         <location line="+30"/>
         <location line="+20"/>
         <source>since</source>
-        <translation>sinds</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="-49"/>
         <location line="+30"/>
         <location line="+20"/>
         <source>until</source>
-        <translation>tot</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="-45"/>
         <source>Last trained</source>
-        <translation>Laatst geoefend</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+30"/>
         <source>Last mistaken</source>
-        <translation>Laatst onjuist</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+114"/>
@@ -3470,43 +3470,43 @@ This message is a one-time reminder and will not appear anymore - you can still 
         <location line="+3"/>
         <location line="+85"/>
         <source>Studied</source>
-        <translation>Bestudeerd</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="-83"/>
         <location line="+116"/>
         <source>Not studied</source>
-        <translation>Niet bestudeerd</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="-112"/>
         <source>Study status:</source>
-        <translation>Studiestatus:</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+94"/>
         <source>, trained since %1</source>
-        <translation>, geoefend sinds %1</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+4"/>
         <source>, trained until %1</source>
-        <translation>, geoefend tot %1</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+6"/>
         <source>, mistaken since %1</source>
-        <translation>, onjuist sinds %1</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+4"/>
         <source>, mistaken until %1</source>
-        <translation>, onjuist tot %1</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+5"/>
         <source>Study</source>
-        <translation>Studie</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -3514,24 +3514,24 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location filename="../src/gui/TagsDialogs.cc" line="+175"/>
         <source>Set tags for %1</source>
-        <translation>Stel labels in for %1</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
         <source>Set tags</source>
-        <translation>Labels instellen</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
         <location line="+35"/>
         <source>these entries:</source>
-        <translation>deze ingangen:</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="-35"/>
         <location line="+35"/>
         <source>this entry:</source>
-        <translation>deze ingang:</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="-35"/>
@@ -3542,13 +3542,13 @@ This message is a one-time reminder and will not appear anymore - you can still 
         <location line="+5"/>
         <location line="+35"/>
         <source>Invalid tags</source>
-        <translation>Ongeldige labels</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="-35"/>
         <location line="+35"/>
         <source>&lt;/p&gt;&lt;p&gt;Accepted characters are letters, digits and non-quoting punctuation.&lt;/p&gt;</source>
-        <translation>&lt;/p&gt;&lt;p&gt;Letters, cijfers, en leestekens (behalve de aanhalingstekens en apostrophe) zijn geldige tekens.&lt;/p&gt;</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="-35"/>
@@ -3559,12 +3559,12 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location line="-7"/>
         <source>Add tags to %1</source>
-        <translation>Labels toevoegen aan %1</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
         <source>Add tags</source>
-        <translation>Labels toevoegen</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
@@ -3577,17 +3577,17 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location filename="../src/gui/TagsFilterWidget.cc" line="+32"/>
         <source>...</source>
-        <translation>...</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+59"/>
         <source>Tags</source>
-        <translation>Labels</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
         <source>Tagged %1</source>
-        <translation>Gelabeld met %1</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -3605,7 +3605,7 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location line="+15"/>
         <source>Text search</source>
-        <translation>Tekst zoekopdracht</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -3613,73 +3613,73 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location filename="../src/gui/TrainSettings.cc" line="+66"/>
         <source>Entries appear totally randomly.</source>
-        <translation>Ingangen verschijnen compleet willekeurig.</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+3"/>
         <source>Entries with a low score are likely to appear first.</source>
-        <translation>Ingangen met een lagere score hebben een hogere kans om eerder te verschijnen.</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/gui/TrainSettings.ui" line="+14"/>
         <source>Train settings</source>
-        <translation>Oefeneningsinstellingen</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+6"/>
         <source>Date of last training</source>
-        <translation>Datum van de laatste oefening</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+6"/>
         <source>Before</source>
-        <translation>Voor</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+10"/>
         <source>After</source>
-        <translation>Na</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+10"/>
         <location line="+7"/>
         <source>PushButton</source>
-        <translation>PushButton</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+10"/>
         <source>Score</source>
-        <translation>Score</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+6"/>
         <source>between</source>
-        <translation>tussen</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+17"/>
         <source>and</source>
-        <translation>en</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+20"/>
         <source>Sort biais</source>
-        <translation>Sorteervoorkeur</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+8"/>
         <source>Bias:</source>
-        <translation>Voorkeur:</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+8"/>
         <source>No bias</source>
-        <translation>Geen voorkeur</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+5"/>
         <source>By score</source>
-        <translation>Op score</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -3707,27 +3707,27 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location line="+108"/>
         <source>No entries to train</source>
-        <translation>Geen ingangen om te oefenen</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+0"/>
         <source>There are no entries that match the requested settings.</source>
-        <translation>Er zijn geen ingangen die overeenkomen met deze instellingen.</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
         <source>All the requested entries have been trained.</source>
-        <translation>Alle aangevraagde ingangen zijn geoefend.</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+0"/>
         <source>No more entries to train</source>
-        <translation>Geen ingangen meer om te oefenen</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="-47"/>
         <source>Correct: %1, Wrong: %2, Total: %3</source>
-        <translation>Correct: %1, Fout: %2, Totaal: %3</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -3735,12 +3735,12 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location filename="../src/gui/main.cc" line="+109"/>
         <source>User data migrated</source>
-        <translation>Gebruikersgegevens verhuisd</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+0"/>
         <source>Your user data and settings have successfully been migrated. Tagaini Jisho needs to be restarted and will now exit.</source>
-        <translation>Uw gebruikersgegevens en -instellingen zijn met succes verhuisd. Tagaini Jisho moet herstart worden en zal nu sluiten.</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 </TS>

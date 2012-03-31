@@ -24,6 +24,44 @@
     </message>
 </context>
 <context>
+    <name>BatchHandler</name>
+    <message>
+        <location filename="../src/gui/BatchHandler.cc" line="+26"/>
+        <source>Marking entries...</source>
+        <translation>項目をマーク...</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Abort</source>
+        <translation>中止</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Please wait...</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Cannot start transaction</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Error while trying to start database transaction.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+18"/>
+        <source>Cannot commit transaction</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Error while trying to commit database transaction.</source>
+        <translation type="unfinished"/>
+    </message>
+</context>
+<context>
     <name>DataPreferences</name>
     <message>
         <location filename="../src/gui/DataPreferences.ui" line="+14"/>
@@ -52,7 +90,7 @@
         <translation>ユーザ・データベース・ファイル：</translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="+488"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="+499"/>
         <source>User data</source>
         <translation>ユーザ・データ</translation>
     </message>
@@ -110,7 +148,7 @@
 <context>
     <name>Database</name>
     <message>
-        <location filename="../src/core/Database.cc" line="+315"/>
+        <location filename="../src/core/Database.cc" line="+316"/>
         <source>Error while upgrading user database: %1</source>
         <translation>ユーザ・データベースの更新中にエラー: %1</translation>
     </message>
@@ -143,7 +181,7 @@
 <context>
     <name>DetailedView</name>
     <message>
-        <location filename="../src/gui/DetailedView.cc" line="+97"/>
+        <location filename="../src/gui/DetailedView.cc" line="+98"/>
         <source>Previous entry</source>
         <translation>前の項目</translation>
     </message>
@@ -270,7 +308,7 @@
 <context>
     <name>EntriesViewHelper</name>
     <message>
-        <location filename="../src/gui/EntriesViewHelper.cc" line="+37"/>
+        <location filename="../src/gui/EntriesViewHelper.cc" line="+39"/>
         <source>&amp;Print...</source>
         <translation>印刷…(&amp;P)</translation>
     </message>
@@ -300,42 +338,22 @@
         <translation>タブ区切りファイル出力(&amp;T)</translation>
     </message>
     <message>
-        <location line="+67"/>
-        <location line="+20"/>
-        <location line="+20"/>
-        <source>Marking entries...</source>
-        <translation>項目をマーク...</translation>
-    </message>
-    <message>
-        <location line="-40"/>
-        <location line="+20"/>
-        <location line="+20"/>
-        <location line="+21"/>
-        <location line="+36"/>
+        <location line="+55"/>
         <source>Abort</source>
         <translation>中止</translation>
     </message>
     <message>
-        <location line="-95"/>
-        <location line="+20"/>
-        <location line="+20"/>
-        <location line="+21"/>
-        <location line="+36"/>
-        <source>Operation in progress...</source>
-        <translation>実行中...</translation>
+        <location line="+0"/>
+        <source>Selecting entries...</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location line="-38"/>
-        <source>Resetting entries...</source>
-        <translation>項目をリセット中...</translation>
+        <location line="+2"/>
+        <source>Please wait...</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+36"/>
-        <source>Adding tags...</source>
-        <translation>タグを追加中...</translation>
-    </message>
-    <message>
-        <location line="+106"/>
+        <location line="+202"/>
         <source>Print preview</source>
         <translation>印刷プレビュー</translation>
     </message>
@@ -402,7 +420,7 @@
     </message>
     <message>
         <location line="-94"/>
-        <location filename="../src/gui/EntriesViewHelper.h" line="+82"/>
+        <location filename="../src/gui/EntriesViewHelper.h" line="+87"/>
         <source>Print</source>
         <translation>印刷</translation>
     </message>
@@ -467,8 +485,8 @@
     </message>
     <message>
         <location line="+159"/>
-        <source>&lt;Root&gt;</source>
-        <translation>&lt;Root&gt;</translation>
+        <source>Root list</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+48"/>
@@ -514,7 +532,7 @@
         <translation>リストの名前の変更…</translation>
     </message>
     <message>
-        <location line="+90"/>
+        <location line="+93"/>
         <source>Unable to create list</source>
         <translation>リストを作れません…</translation>
     </message>
@@ -524,7 +542,7 @@
         <translation>リストを追加するときにデータベース・エラーが発生しました</translation>
     </message>
     <message>
-        <location line="+20"/>
+        <location line="+30"/>
         <source>Confirm deletion</source>
         <translation>消去の確認</translation>
     </message>
@@ -534,7 +552,7 @@
         <translation>選択したリスト項目、リスト、関連するデータを削除します。消去しますか?</translation>
     </message>
     <message>
-        <location line="+18"/>
+        <location line="+23"/>
         <source>Removal failed</source>
         <translation>削除に失敗</translation>
     </message>
@@ -545,7 +563,11 @@
 %1
 
  Some of them may be remaining.</source>
-        <translation type="unfinished"/>
+        <translation>選択した項目を削除するときにデータベースエラーが発生しました:
+
+%1
+
+ いくつかの項目が残っているかもしれません.</translation>
     </message>
 </context>
 <context>
@@ -604,7 +626,7 @@
         <translation>最近追加したタグ...</translation>
     </message>
     <message>
-        <location line="+83"/>
+        <location line="+85"/>
         <source>Add &quot;%1&quot;</source>
         <translation type="unfinished"/>
     </message>
@@ -648,7 +670,7 @@
 <context>
     <name>FindHomographsJob</name>
     <message>
-        <location filename="../src/gui/jmdict/JMdictEntryFormatter.cc" line="+575"/>
+        <location filename="../src/gui/jmdict/JMdictEntryFormatter.cc" line="+611"/>
         <source>Homographs</source>
         <translation>同綴異義語</translation>
     </message>
@@ -682,7 +704,7 @@
 <context>
     <name>GeneralPreferences</name>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="-160"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="-171"/>
         <source>English</source>
         <translation>英語</translation>
     </message>
@@ -704,7 +726,7 @@
     <message>
         <location line="+4"/>
         <source>Norvegian Bokmal</source>
-        <translation type="unfinished"/>
+        <translation>ノルウェー語（ブークモール）</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -719,7 +741,7 @@
     <message>
         <location line="+1"/>
         <source>Italian</source>
-        <translation type="unfinished"/>
+        <translation>イタリア語</translation>
     </message>
     <message>
         <location line="-2"/>
@@ -729,12 +751,12 @@
     <message>
         <location line="+5"/>
         <source>Japanese</source>
-        <translation type="unfinished"/>
+        <translation>日本語</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Polish</source>
-        <translation type="unfinished"/>
+        <translation>ポーランド語</translation>
     </message>
     <message>
         <location line="+24"/>
@@ -747,7 +769,7 @@
         <translation>アプリケーション全体の標準フォント</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+18"/>
         <source>Monday</source>
         <translation>月曜日</translation>
     </message>
@@ -757,7 +779,7 @@
         <translation>日曜日</translation>
     </message>
     <message>
-        <location line="+48"/>
+        <location line="+51"/>
         <source>Next check: %1</source>
         <translation>次のチェック: %1</translation>
     </message>
@@ -772,14 +794,24 @@
         <translation>全般の設定</translation>
     </message>
     <message>
-        <location line="+8"/>
-        <source>Preferred language</source>
+        <location line="+22"/>
+        <source>System default</source>
+        <translation>システム標準</translation>
+    </message>
+    <message>
+        <location line="+12"/>
+        <source>Preferred dictionary language</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+11"/>
-        <source>System default</source>
-        <translation>システム標準</translation>
+        <location line="+7"/>
+        <source>The dictionaries will use this language whenever possible. English will be used as a fallback.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Same as GUI</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+10"/>
@@ -814,12 +846,12 @@
     <message>
         <location line="+3"/>
         <source> days</source>
-        <translation type="unfinished"/>
+        <translation> 日</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>every </source>
-        <translation type="unfinished"/>
+        <translation>毎回 </translation>
     </message>
     <message>
         <location line="+56"/>
@@ -832,7 +864,17 @@
         <translation>開発バージョンも確認する</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="-118"/>
+        <source>Preferred GUI language</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>The GUI will use this language whenever possible. English will be used as a fallback.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+115"/>
         <source>Next check:</source>
         <translation>次のチェック:</translation>
     </message>
@@ -851,26 +893,31 @@
     <name>JLPTFilterWidget</name>
     <message>
         <location filename="../src/gui/JLPTFilterWidget.cc" line="+28"/>
-        <source>Level N5</source>
-        <translation>5級</translation>
+        <source>N5</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+2"/>
-        <source>Level N4</source>
-        <translation>4級</translation>
+        <source>N4</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+2"/>
-        <source>Level N2</source>
-        <translation>2級</translation>
+        <source>N3</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+2"/>
-        <source>Level N1</source>
-        <translation>1級</translation>
+        <source>N2</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+66"/>
+        <location line="+2"/>
+        <source>N1</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+78"/>
         <source>JLPT:</source>
         <translation>日本語能力試験：</translation>
     </message>
@@ -883,14 +930,14 @@
 <context>
     <name>JMdictEntryFormatter</name>
     <message>
-        <location filename="../src/gui/jmdict/JMdictEntryFormatter.cc" line="-339"/>
+        <location filename="../src/gui/jmdict/JMdictEntryFormatter.cc" line="-368"/>
         <source>(JLPT N%1)</source>
         <translation>(日本語能力試験%1級)</translation>
     </message>
     <message>
         <location line="+38"/>
         <source>Alternate readings: </source>
-        <translation type="unfinished"/>
+        <translation>別の読み方:</translation>
     </message>
     <message>
         <location line="+18"/>
@@ -898,7 +945,7 @@
         <translation>別の書き方:</translation>
     </message>
     <message>
-        <location line="+118"/>
+        <location line="+120"/>
         <source>JLPT</source>
         <translation>日本語能力試験</translation>
     </message>
@@ -906,6 +953,16 @@
         <location line="+24"/>
         <source>Kanji</source>
         <translation>漢字</translation>
+    </message>
+    <message>
+        <location line="+18"/>
+        <source>Example sentences</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>JMdict ID</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -923,7 +980,7 @@
     <message>
         <location line="+5"/>
         <source>With components:</source>
-        <translation type="unfinished"/>
+        <translation>コンポーネントを使用:</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -957,22 +1014,22 @@
     <message>
         <location line="-91"/>
         <source> with </source>
-        <translation type="unfinished"/>
+        <translation> と </translation>
     </message>
     <message>
         <location line="+9"/>
         <source> with component </source>
-        <translation type="unfinished"/>
+        <translation> コンポーネントと </translation>
     </message>
     <message>
         <location line="+9"/>
         <source> with studied kanji</source>
-        <translation type="unfinished"/>
+        <translation> 学習した漢字と</translation>
     </message>
     <message>
         <location line="+4"/>
         <source> using kana only</source>
-        <translation type="unfinished"/>
+        <translation> かなのみ使用</translation>
     </message>
     <message>
         <location line="-5"/>
@@ -1356,7 +1413,7 @@
     <message>
         <location line="+25"/>
         <source>gikun (meaning as reading)  or jukujikun (special kanji reading)</source>
-        <translation type="unfinished"/>
+        <translation>義訓 (読みの意味)  または 熟字訓 (特別な漢字の読み方)</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -1617,7 +1674,7 @@
 <context>
     <name>JMdictPlugin</name>
     <message>
-        <location filename="../src/core/jmdict/JMdictPlugin.cc" line="+326"/>
+        <location filename="../src/core/jmdict/JMdictPlugin.cc" line="+345"/>
         <source>An error seems to have occured while updating the JMdict database records - the program might crash during usage. Please report this bug.</source>
         <translation>JMdictデータベースレコードを更新中にエラーが発生したようです - プログラムがクラッシュする可能性があります。このバグを報告してください。</translation>
     </message>
@@ -1653,6 +1710,11 @@
         <location line="+7"/>
         <source>Kanji used in main reading</source>
         <translation>漢字の主な読み方</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>JMdict ID (only for debugging)</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+10"/>
@@ -1692,7 +1754,22 @@
         <translation>同形異義語</translation>
     </message>
     <message>
-        <location line="+33"/>
+        <location line="+18"/>
+        <source>Link to example sentences:</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>If enabled, display a link that will look for example sentences in your web browser using the selected service</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Disabled</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+27"/>
         <source>Printing</source>
         <translation>印刷</translation>
     </message>
@@ -1813,6 +1890,14 @@
     </message>
 </context>
 <context>
+    <name>KanjiComponentWidget</name>
+    <message>
+        <location filename="../src/gui/kanjidic2/KanjiPopup.cc" line="+100"/>
+        <source>%1 (drawn as &quot;%2&quot;)</source>
+        <translation type="unfinished"/>
+    </message>
+</context>
+<context>
     <name>KanjiInputPopupAction</name>
     <message>
         <location filename="../src/gui/kanjidic2/KanjiSelector.cc" line="+396"/>
@@ -1856,42 +1941,42 @@
         <translation>詳細表示</translation>
     </message>
     <message>
-        <location filename="../src/gui/kanjidic2/KanjiPopup.cc" line="+178"/>
+        <location filename="../src/gui/kanjidic2/KanjiPopup.cc" line="+86"/>
         <source>&lt;b&gt;On:&lt;/b&gt; %1</source>
-        <translation type="unfinished"/>
+        <translation>&lt;b&gt;音:&lt;/b&gt; %1</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>&lt;b&gt;Kun:&lt;/b&gt; %1</source>
-        <translation type="unfinished"/>
+        <translation>&lt;b&gt;訓:&lt;/b&gt; %1</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>&lt;b&gt;Freq:&lt;/b&gt; %1&lt;br/&gt;</source>
-        <translation type="unfinished"/>
+        <translation>&lt;b&gt;頻度:&lt;/b&gt; %1&lt;br/&gt;</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>&lt;b&gt;Grade:&lt;/b&gt; %1&lt;br/&gt;</source>
-        <translation type="unfinished"/>
+        <translation>&lt;b&gt;学年:&lt;/b&gt; %1&lt;br/&gt;</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>&lt;b&gt;JLPT:&lt;/b&gt; %1&lt;br/&gt;</source>
+        <source>&lt;b&gt;JLPT:&lt;/b&gt; N%1&lt;br/&gt;</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+21"/>
+        <location line="+22"/>
         <source>&lt;b&gt;Components:&lt;/b&gt; %2 %1</source>
-        <translation type="unfinished"/>
+        <translation>&lt;b&gt;構成要素:&lt;/b&gt; %2 %1</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>&lt;b&gt;Radicals:&lt;/b&gt; %1</source>
-        <translation type="unfinished"/>
+        <translation>&lt;b&gt;部首:&lt;/b&gt; %1</translation>
     </message>
     <message>
-        <location line="-27"/>
+        <location line="-28"/>
         <source>&lt;b&gt;Score:&lt;/b&gt; %1&lt;br/&gt;</source>
         <translation>&lt;b&gt;画数:&lt;/b&gt; %1&lt;br/&gt;</translation>
     </message>
@@ -1948,7 +2033,7 @@
     <message>
         <location filename="../src/core/kanjidic2/Kanjidic2Entry.cc" line="+126"/>
         <source>(var) </source>
-        <translation type="unfinished"/>
+        <translation>(var) </translation>
     </message>
 </context>
 <context>
@@ -1956,17 +2041,17 @@
     <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="+328"/>
         <source>&lt;b&gt;Strokes:&lt;/b&gt; %1</source>
-        <translation type="unfinished"/>
+        <translation>&lt;b&gt;画数:&lt;/b&gt; %1</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>&lt;b&gt;Frequency:&lt;/b&gt; %1</source>
-        <translation type="unfinished"/>
+        <translation>&lt;b&gt;頻度:&lt;/b&gt; %1</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>&lt;b&gt;Grade:&lt;/b&gt; %1</source>
-        <translation type="unfinished"/>
+        <translation>&lt;b&gt;学年:&lt;/b&gt; %1</translation>
     </message>
     <message>
         <location line="+20"/>
@@ -1976,7 +2061,7 @@
     <message>
         <location line="-145"/>
         <source> (%1) </source>
-        <translation type="unfinished"/>
+        <translation> (%1) </translation>
     </message>
     <message>
         <location line="+129"/>
@@ -2071,12 +2156,12 @@
     <message>
         <location line="-259"/>
         <source>&lt;b&gt;Unicode:&lt;/b&gt; 0x%1</source>
-        <translation type="unfinished"/>
+        <translation>&lt;b&gt;Unicode:&lt;/b&gt; 0x%1</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>&lt;b&gt;SKIP:&lt;/b&gt; %1</source>
-        <translation type="unfinished"/>
+        <translation>&lt;b&gt;SKIP:&lt;/b&gt; %1</translation>
     </message>
 </context>
 <context>
@@ -2089,7 +2174,7 @@
     <message>
         <location line="+18"/>
         <source>Range</source>
-        <translation type="unfinished"/>
+        <translation>範囲</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -2160,22 +2245,22 @@
     <message>
         <location line="+2"/>
         <source>, unicode: %1</source>
-        <translation type="unfinished"/>
+        <translation>, unicode: %1</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>, skip: %1</source>
-        <translation type="unfinished"/>
+        <translation>, skip: %1</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>, 4c: %1</source>
-        <translation type="unfinished"/>
+        <translation>, 4c: %1</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>, grade: %1</source>
-        <translation type="unfinished"/>
+        <translation>, 学年: %1</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -2186,7 +2271,7 @@
     <message>
         <location line="+13"/>
         <source>Grade:</source>
-        <translation type="unfinished"/>
+        <translation>学年:</translation>
     </message>
 </context>
 <context>
@@ -2195,82 +2280,82 @@
         <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="+46"/>
         <location line="+7"/>
         <source>Invalid</source>
-        <translation type="unfinished"/>
+        <translation>無効</translation>
     </message>
     <message>
         <location line="-6"/>
         <source>Elementary 1st grade</source>
-        <translation type="unfinished"/>
+        <translation>小1</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Elementary 2nd grade</source>
-        <translation type="unfinished"/>
+        <translation>小2</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Elementary 3rd grade</source>
-        <translation type="unfinished"/>
+        <translation>小3</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Elementary 4th grade</source>
-        <translation type="unfinished"/>
+        <translation>小4</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Elementary 5th grade</source>
-        <translation type="unfinished"/>
+        <translation>小5</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Elementary 6th grade</source>
-        <translation type="unfinished"/>
+        <translation>小6</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>Secondary school</source>
+        <source>Junior high school</source>
         <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
         <source>Used for names (1)</source>
-        <translation type="unfinished"/>
+        <translation>名前に使用 (1)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Used for names (2)</source>
-        <translation type="unfinished"/>
+        <translation>名前に使用 (2)</translation>
     </message>
     <message>
         <location line="+33"/>
         <source>Character flashcards</source>
-        <translation type="unfinished"/>
+        <translation>漢字帳</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>From &amp;character, whole study list</source>
-        <translation type="unfinished"/>
+        <translation>文字から(&amp;c), 全体</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>From &amp;character, current set</source>
-        <translation type="unfinished"/>
+        <translation>文字から(&amp;c). グループ</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>From &amp;meaning, whole study list</source>
-        <translation type="unfinished"/>
+        <translation>意味から(&amp;m), 全体</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>From &amp;meaning, current set</source>
-        <translation type="unfinished"/>
+        <translation>意味から(&amp;m), グループ</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>&amp;Reading practice, whole study list</source>
-        <translation type="unfinished"/>
+        <translation>読み練習(&amp;r). 全体</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -2290,7 +2375,7 @@
     <message>
         <location line="+4"/>
         <source>Show stroke popup for currently displayed kanji</source>
-        <translation type="unfinished"/>
+        <translation>現在表示中の漢字の書き順を表示する</translation>
     </message>
     <message>
         <location line="+94"/>
@@ -2302,17 +2387,17 @@
         <location line="-18"/>
         <location line="+18"/>
         <source>There are no kanji entries in this set to train on.</source>
-        <translation type="unfinished"/>
+        <translation>使用中のグループに漢字の問題はありません</translation>
     </message>
     <message>
         <location line="+186"/>
         <source>Open in detailed view...</source>
-        <translation type="unfinished"/>
+        <translation>詳細表示で開く...</translation>
     </message>
     <message>
         <location line="+25"/>
         <source>Tracing for %1</source>
-        <translation type="unfinished"/>
+        <translation>%1 を追跡</translation>
     </message>
 </context>
 <context>
@@ -2320,22 +2405,22 @@
     <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2Preferences.ui" line="+14"/>
         <source>Form</source>
-        <translation type="unfinished"/>
+        <translation>フォーム</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Display</source>
-        <translation type="unfinished"/>
+        <translation>表示</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Basic information</source>
-        <translation type="unfinished"/>
+        <translation>基本情報</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Readings</source>
-        <translation type="unfinished"/>
+        <translation>読み方</translation>
     </message>
     <message>
         <location line="+7"/>
@@ -2346,42 +2431,42 @@
     <message>
         <location line="-436"/>
         <source>Variations</source>
-        <translation type="unfinished"/>
+        <translation>派生</translation>
     </message>
     <message>
         <location line="-7"/>
         <source>Original</source>
-        <translation type="unfinished"/>
+        <translation>元</translation>
     </message>
     <message>
         <location line="-21"/>
         <location line="+443"/>
         <source>SKIP code</source>
-        <translation type="unfinished"/>
+        <translation>SKIP コード</translation>
     </message>
     <message>
         <location line="-408"/>
         <location line="+436"/>
         <source>Frequency</source>
-        <translation type="unfinished"/>
+        <translation>頻度</translation>
     </message>
     <message>
         <location line="-408"/>
         <location line="+415"/>
         <source>School grade</source>
-        <translation type="unfinished"/>
+        <translation>学年</translation>
     </message>
     <message>
         <location line="-422"/>
         <location line="+429"/>
         <source>JLPT level</source>
-        <translation type="unfinished"/>
+        <translation>日本語能力試験レベル</translation>
     </message>
     <message>
         <location line="-397"/>
         <location line="+109"/>
         <source>Components</source>
-        <translation type="unfinished"/>
+        <translation>コンポーネント</translation>
     </message>
     <message>
         <location line="-190"/>
@@ -2392,7 +2477,7 @@
     <message>
         <location line="-443"/>
         <source>Nanori</source>
-        <translation type="unfinished"/>
+        <translation>名乗り</translation>
     </message>
     <message>
         <location line="+28"/>
@@ -2409,7 +2494,7 @@
     <message>
         <location line="-426"/>
         <source>Additional information</source>
-        <translation type="unfinished"/>
+        <translation>追加の情報</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -2435,7 +2520,7 @@
     <message>
         <location line="+40"/>
         <source>Printing</source>
-        <translation type="unfinished"/>
+        <translation>印刷</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -2495,7 +2580,7 @@
     <message>
         <location line="+19"/>
         <source>Print grid</source>
-        <translation type="unfinished"/>
+        <translation>グリッドの表示</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -2537,7 +2622,7 @@
     <message>
         <location line="+181"/>
         <source> seconds</source>
-        <translation type="unfinished"/>
+        <translation> 秒</translation>
     </message>
     <message>
         <location line="+32"/>
@@ -2564,7 +2649,7 @@
         <location line="+9"/>
         <location line="+31"/>
         <source>Default</source>
-        <translation type="unfinished"/>
+        <translation>標準</translation>
     </message>
     <message>
         <location line="-9"/>
@@ -2617,7 +2702,7 @@
     <message>
         <location filename="../src/gui/ListsViewPreferences.ui" line="+14"/>
         <source>Form</source>
-        <translation type="unfinished"/>
+        <translation>フォーム</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -2627,7 +2712,7 @@
     <message>
         <location line="+6"/>
         <source>Smooth scrolling</source>
-        <translation type="unfinished"/>
+        <translation>スムーススクロール</translation>
     </message>
     <message>
         <location line="+13"/>
@@ -2635,9 +2720,9 @@
         <translation>プレビュー</translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="+172"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="+174"/>
         <source>Lists</source>
-        <translation type="unfinished"/>
+        <translation>リスト</translation>
     </message>
 </context>
 <context>
@@ -2675,7 +2760,7 @@
     <message>
         <location line="+30"/>
         <source>Lists</source>
-        <translation type="unfinished"/>
+        <translation>リスト</translation>
     </message>
     <message>
         <location line="+81"/>
@@ -2721,13 +2806,13 @@
         <location line="-119"/>
         <location filename="../src/gui/MainWindow.cc" line="+235"/>
         <source>Export user data...</source>
-        <translation type="unfinished"/>
+        <translation>ユーザーデータのエクスポート...</translation>
     </message>
     <message>
         <location line="+9"/>
         <location filename="../src/gui/MainWindow.cc" line="+9"/>
         <source>Import user data...</source>
-        <translation type="unfinished"/>
+        <translation>ユーザーデータのインポート...</translation>
     </message>
     <message>
         <location line="-122"/>
@@ -2767,7 +2852,7 @@
     <message>
         <location line="+23"/>
         <source>Please consider supporting Tagaini Jisho</source>
-        <translation type="unfinished"/>
+        <translation>互いに辞書への支援を検討願います</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -2779,42 +2864,42 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location line="+2"/>
         <source>Donate!</source>
-        <translation type="unfinished"/>
+        <translation>寄付する!</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Nah</source>
-        <translation type="unfinished"/>
+        <translation>しない</translation>
     </message>
     <message>
         <location line="+25"/>
         <source>About to replace user data!</source>
-        <translation type="unfinished"/>
+        <translation>ユーザデータの置き換え!</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>&lt;b&gt;WARNING:&lt;/b&gt; All the user data (study list, tags, notes, training, ...) is going to be replaced by the selected user data file. Are you &lt;b&gt;sure&lt;/b&gt; you want to do this?</source>
-        <translation type="unfinished"/>
+        <translation>&lt;b&gt;警告:&lt;/b&gt; 全てのユーザデータ(学習リスト, タグ, ノート, 練習, ...) が選択されたユーザデータファイルによって置き換えられようとしています.  &lt;b&gt;本当に&lt;/b&gt;実行してもいいですか?</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Please restart Tagaini Jisho</source>
-        <translation type="unfinished"/>
+        <translation>互いに辞書を再起動してください</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>The imported data will be available the next time you start Tagaini Jisho. All changes performed from now will be lost. Do you want to exit Tagaini Jisho now?</source>
-        <translation type="unfinished"/>
+        <translation>互いに辞書を次回起動したときに読み込まれたデータが利用できます. 今までの変更内容は全て失われます. 互いに辞書を終了してもいいですか?</translation>
     </message>
     <message>
-        <location line="+114"/>
+        <location line="+111"/>
         <source>A development update is available!</source>
-        <translation type="unfinished"/>
+        <translation>開発版の新しいソフトウェアが利用できます!</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Development version %1 of Tagaini Jisho is available. Do you want to download it now?</source>
-        <translation type="unfinished"/>
+        <translation>互いに辞書 開発バージョン %1 が利用できます. 直ちにダウンロードしますか?</translation>
     </message>
     <message>
         <location line="+54"/>
@@ -2839,22 +2924,22 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location line="+22"/>
         <source>New folder</source>
-        <translation type="unfinished"/>
+        <translation>新規フォルダー</translation>
     </message>
     <message>
         <location line="-34"/>
         <source>Create new folder here...</source>
-        <translation type="unfinished"/>
+        <translation>ここに新しいフォルダを作成...</translation>
     </message>
     <message>
         <location line="+34"/>
         <source>Please enter a name for this folder</source>
-        <translation type="unfinished"/>
+        <translation>フォルダ名を入力してください</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Unnamed folder</source>
-        <translation type="unfinished"/>
+        <translation>名前無しフォルダ</translation>
     </message>
     <message>
         <location line="-106"/>
@@ -2864,19 +2949,19 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location line="+1"/>
         <source>Version %1 of Tagaini Jisho is available. Do you want to download it now?</source>
-        <translation type="unfinished"/>
+        <translation>互いに辞書 バージョン %1 が利用できます. 直ちにダウンロードしますか?</translation>
     </message>
     <message>
         <location line="+2"/>
         <location line="+15"/>
         <source>Let&apos;s go!</source>
-        <translation type="unfinished"/>
+        <translation>はい!</translation>
     </message>
     <message>
         <location line="-13"/>
         <location line="+15"/>
         <source>Maybe later</source>
-        <translation type="unfinished"/>
+        <translation>後で</translation>
     </message>
     <message>
         <location filename="../src/gui/MainWindow.ui" line="+69"/>
@@ -2885,31 +2970,23 @@ This message is a one-time reminder and will not appear anymore - you can still 
     </message>
 </context>
 <context>
-    <name>ManualBrowser</name>
-    <message>
-        <location filename="../src/gui/ManualBrowser.ui" line="+14"/>
-        <source>Tagaini Jisho Manual</source>
-        <translation type="unfinished"/>
-    </message>
-</context>
-<context>
     <name>MultiStackedWidget</name>
     <message>
         <location filename="../src/gui/MultiStackedWidget.cc" line="+118"/>
         <source>Ctrl+%1</source>
         <extracomment>Shortcut for popping up/down an extender</extracomment>
-        <translation type="unfinished"/>
+        <translation>Ctrl+%1</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Ctrl+0</source>
         <extracomment>Shortcut for hiding all extenders</extracomment>
-        <translation type="unfinished"/>
+        <translation>Ctrl+0</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Reset this filter</source>
-        <translation type="unfinished"/>
+        <translation>このフィルタをリセット</translation>
     </message>
 </context>
 <context>
@@ -2917,17 +2994,17 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location filename="../src/gui/NotesFilterWidget.cc" line="+50"/>
         <source>Notes</source>
-        <translation type="unfinished"/>
+        <translation>ノート</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Has note</source>
-        <translation type="unfinished"/>
+        <translation>ノートあり</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Note contains %1</source>
-        <translation type="unfinished"/>
+        <translation>%1 を含むノート</translation>
     </message>
 </context>
 <context>
@@ -2935,17 +3012,17 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location filename="../src/gui/PreferencesWindow.cc" line="+156"/>
         <source>Change...</source>
-        <translation type="unfinished"/>
+        <translation>変更...</translation>
     </message>
     <message>
         <location line="-5"/>
         <source>%1:</source>
-        <translation type="unfinished"/>
+        <translation>%1:</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Default</source>
-        <translation type="unfinished"/>
+        <translation>標準</translation>
     </message>
 </context>
 <context>
@@ -2970,7 +3047,7 @@ This message is a one-time reminder and will not appear anymore - you can still 
         <location filename="../src/gui/ReadingTrainer.ui" line="+14"/>
         <location filename="../src/gui/ReadingTrainer.cc" line="+40"/>
         <source>Reading practice</source>
-        <translation type="unfinished"/>
+        <translation>読み方の練習</translation>
     </message>
     <message>
         <location filename="../src/gui/ReadingTrainer.cc" line="+5"/>
@@ -2980,17 +3057,17 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location line="+18"/>
         <source>Preparing training session</source>
-        <translation type="unfinished"/>
+        <translation>練習セッションの準備</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Preparing training session, please wait...</source>
-        <translation type="unfinished"/>
+        <translation>練習セッションの準備中,しばらくお待ちください...</translation>
     </message>
     <message>
         <location line="+57"/>
         <source>No matching entries found</source>
-        <translation type="unfinished"/>
+        <translation>一致する項目はありません</translation>
     </message>
     <message>
         <location line="+0"/>
@@ -3000,22 +3077,22 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location line="+1"/>
         <source>There are no more entries to train for the current train settings.</source>
-        <translation type="unfinished"/>
+        <translation>現在の練習の設定に、これ以上練習する項目はありません.</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>No more entries to train</source>
-        <translation type="unfinished"/>
+        <translation>これ以上練習する項目はありません</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>&lt;font color=&quot;green&quot;&gt;Correct!&lt;/font&gt;</source>
-        <translation type="unfinished"/>
+        <translation>&lt;font color=&quot;green&quot;&gt;正解!&lt;/font&gt;</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>&lt;font color=&quot;red&quot;&gt;Error!&lt;/font&gt;</source>
-        <translation type="unfinished"/>
+        <translation>&lt;font color=&quot;red&quot;&gt;間違い!&lt;/font&gt;</translation>
     </message>
     <message>
         <location line="+37"/>
@@ -3025,17 +3102,17 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location filename="../src/gui/ReadingTrainer.ui" line="+9"/>
         <source>Type the correct reading for this word:</source>
-        <translation type="unfinished"/>
+        <translation>この単語の正しい読みを入力:</translation>
     </message>
     <message>
         <location line="+30"/>
         <source>&amp;Next</source>
-        <translation type="unfinished"/>
+        <translation>次(&amp;N)</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>&amp;Ok!</source>
-        <translation type="unfinished"/>
+        <translation>&amp;Ok</translation>
     </message>
 </context>
 <context>
@@ -3106,7 +3183,7 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location filename="../src/gui/RelativeDateEdit.cc" line="+163"/>
         <source>Not set</source>
-        <translation type="unfinished"/>
+        <translation>設定できない</translation>
     </message>
 </context>
 <context>
@@ -3114,7 +3191,7 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location line="-130"/>
         <source>Not set</source>
-        <translation type="unfinished"/>
+        <translation>設定できない</translation>
     </message>
     <message>
         <location line="+5"/>
@@ -3144,12 +3221,12 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location line="+14"/>
         <source>Relative date:</source>
-        <translation type="unfinished"/>
+        <translation>日数:</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Absolute date:</source>
-        <translation type="unfinished"/>
+        <translation>日付:</translation>
     </message>
 </context>
 <context>
@@ -3165,32 +3242,32 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location filename="../src/gui/ResultsViewPreferences.ui" line="+14"/>
         <source>Form</source>
-        <translation type="unfinished"/>
+        <translation>フォーム</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Results display</source>
-        <translation type="unfinished"/>
+        <translation>結果表示</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Smooth scrolling</source>
-        <translation type="unfinished"/>
+        <translation>スムーススクロール</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Results sorting:</source>
-        <translation type="unfinished"/>
+        <translation>結果の並び替え:</translation>
     </message>
     <message>
         <location line="+21"/>
         <source>By relevance</source>
-        <translation type="unfinished"/>
+        <translation>関連づけ</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>By score, then relevance</source>
-        <translation type="unfinished"/>
+        <translation>得点, 関連</translation>
     </message>
     <message>
         <location line="+18"/>
@@ -3200,7 +3277,7 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location filename="../src/gui/PreferencesWindow.cc" line="-187"/>
         <source>Results view</source>
-        <translation type="unfinished"/>
+        <translation>結果表示</translation>
     </message>
 </context>
 <context>
@@ -3208,7 +3285,7 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location filename="../src/gui/ResultsViewWidget.ui" line="+14"/>
         <source>Form</source>
-        <translation type="unfinished"/>
+        <translation>フォーム</translation>
     </message>
     <message>
         <location filename="../src/gui/ResultsViewWidget.cc" line="+43"/>
@@ -3218,7 +3295,7 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location line="+13"/>
         <source>%1 Results</source>
-        <translation type="unfinished"/>
+        <translation>%1 結果</translation>
     </message>
 </context>
 <context>
@@ -3285,6 +3362,16 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location line="+0"/>
         <source>(+)</source>
+        <translation>(+)</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Make a new search using only this filter</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Add this filter to the current search</source>
         <translation type="unfinished"/>
     </message>
 </context>
@@ -3303,6 +3390,16 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location line="+0"/>
         <source>(+)</source>
+        <translation>(+)</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Make a new search using only this filter</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Add this filter to the current search</source>
         <translation type="unfinished"/>
     </message>
 </context>
@@ -3316,36 +3413,36 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location line="+30"/>
         <source>Min</source>
-        <translation type="unfinished"/>
+        <translation>最小</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Max</source>
-        <translation type="unfinished"/>
+        <translation>最大</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Study date</source>
-        <translation type="unfinished"/>
+        <translation>学習日</translation>
     </message>
     <message>
         <location line="+24"/>
         <location line="+30"/>
         <location line="+20"/>
         <source>since</source>
-        <translation type="unfinished"/>
+        <translation>から</translation>
     </message>
     <message>
         <location line="-49"/>
         <location line="+30"/>
         <location line="+20"/>
         <source>until</source>
-        <translation type="unfinished"/>
+        <translation>まで</translation>
     </message>
     <message>
         <location line="-45"/>
         <source>Last trained</source>
-        <translation type="unfinished"/>
+        <translation>最終学習</translation>
     </message>
     <message>
         <location line="+30"/>
@@ -3355,14 +3452,14 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location line="+114"/>
         <source> since %1</source>
-        <translation type="unfinished"/>
+        <translation> %1 から</translation>
     </message>
     <message>
         <location line="+4"/>
         <location line="+13"/>
         <location line="+10"/>
         <source> until %1</source>
-        <translation type="unfinished"/>
+        <translation> %1 まで</translation>
     </message>
     <message>
         <location line="-20"/>
@@ -3420,85 +3517,63 @@ This message is a one-time reminder and will not appear anymore - you can still 
 <context>
     <name>TagsDialogs</name>
     <message>
-        <location filename="../src/gui/TagsDialogs.cc" line="+162"/>
+        <location filename="../src/gui/TagsDialogs.cc" line="+175"/>
         <source>Set tags for %1</source>
         <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
         <source>Set tags</source>
-        <translation type="unfinished"/>
+        <translation>タグを設定する</translation>
     </message>
     <message>
         <location line="+1"/>
-        <location line="+34"/>
+        <location line="+35"/>
         <source>these entries:</source>
-        <translation type="unfinished"/>
+        <translation>これらのエントリー:</translation>
     </message>
     <message>
-        <location line="-34"/>
-        <location line="+34"/>
+        <location line="-35"/>
+        <location line="+35"/>
         <source>this entry:</source>
-        <translation type="unfinished"/>
+        <translation>このエントリー:</translation>
     </message>
     <message>
-        <location line="-34"/>
+        <location line="-35"/>
         <source>Enter a space-separated list of tags for </source>
         <translation type="unfinished"/>
     </message>
     <message>
         <location line="+5"/>
-        <location line="+34"/>
+        <location line="+35"/>
         <source>Invalid tags</source>
-        <translation type="unfinished"/>
+        <translation>無効なタグ</translation>
     </message>
     <message>
-        <location line="-34"/>
-        <location line="+34"/>
+        <location line="-35"/>
+        <location line="+35"/>
         <source>&lt;/p&gt;&lt;p&gt;Accepted characters are letters, digits and non-quoting punctuation.&lt;/p&gt;</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="-34"/>
-        <location line="+34"/>
+        <location line="-35"/>
+        <location line="+35"/>
         <source>&lt;p&gt;These tags have invalid characters: </source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="-29"/>
-        <source>Setting tags...</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location line="+0"/>
-        <location line="+34"/>
-        <source>Abort</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location line="-32"/>
-        <location line="+34"/>
-        <source>Operation in progress...</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location line="-14"/>
+        <location line="-7"/>
         <source>Add tags to %1</source>
-        <translation type="unfinished"/>
+        <translation>タグを %1 に追加する</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Add tags</source>
-        <translation type="unfinished"/>
+        <translation>タグを追加する</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Enter a space-separated list of tags to add to </source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location line="+10"/>
-        <source>Adding tags...</source>
         <translation type="unfinished"/>
     </message>
 </context>
@@ -3512,7 +3587,7 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location line="+59"/>
         <source>Tags</source>
-        <translation type="unfinished"/>
+        <translation>タグ</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -3523,9 +3598,19 @@ This message is a one-time reminder and will not appear anymore - you can still 
 <context>
     <name>TextFilterWidget</name>
     <message>
-        <location filename="../src/gui/TextFilterWidget.cc" line="+52"/>
-        <source>Text search</source>
+        <location filename="../src/gui/TextFilterWidget.cc" line="+42"/>
+        <source>Romaji search</source>
         <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>If checked, text typed in romaji will be converted to kana and searched as such.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+15"/>
+        <source>Text search</source>
+        <translation>テキスト検索</translation>
     </message>
 </context>
 <context>
@@ -3622,27 +3707,27 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location line="+5"/>
         <source>Skip (&amp;4)</source>
-        <translation type="unfinished"/>
+        <translation>スキップ (&amp;4)</translation>
     </message>
     <message>
         <location line="+108"/>
         <source>No entries to train</source>
-        <translation type="unfinished"/>
+        <translation>練習する項目がありません</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>There are no entries that match the requested settings.</source>
-        <translation type="unfinished"/>
+        <translation>要件に一致する項目がありません.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>All the requested entries have been trained.</source>
-        <translation type="unfinished"/>
+        <translation>要求した項目はすべて練習済みです.</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>No more entries to train</source>
-        <translation type="unfinished"/>
+        <translation>これ以上練習する項目がありません</translation>
     </message>
     <message>
         <location line="-47"/>
@@ -3653,14 +3738,14 @@ This message is a one-time reminder and will not appear anymore - you can still 
 <context>
     <name>main.cc</name>
     <message>
-        <location filename="../src/gui/main.cc" line="+110"/>
+        <location filename="../src/gui/main.cc" line="+109"/>
         <source>User data migrated</source>
-        <translation type="unfinished"/>
+        <translation>ユーザデータが変換されました</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Your user data and settings have successfully been migrated. Tagaini Jisho needs to be restarted and will now exit.</source>
-        <translation type="unfinished"/>
+        <translation>ユーザデータと設定は正しく変換されました.互いに辞書を再起動してください.</translation>
     </message>
 </context>
 </TS>

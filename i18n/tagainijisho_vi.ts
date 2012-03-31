@@ -1,11 +1,11 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="nl" sourcelanguage="en" version="2.0">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="vi" sourcelanguage="en" version="2.0">
 <defaultcodec>UTF-8</defaultcodec>
 <context>
     <name>AboutDialog</name>
     <message>
         <location filename="../src/gui/AboutDialog.ui" line="+14"/>
         <source>About Tagaini Jisho</source>
-        <translation>Over Tagaini Jisho</translation>
+        <translation>Giới thiệu về Tagaini Jisho</translation>
     </message>
     <message>
         <location line="+13"/>
@@ -15,12 +15,12 @@
     <message>
         <location line="+29"/>
         <source>About</source>
-        <translation>Info</translation>
+        <translation>Giới thiệu</translation>
     </message>
     <message>
         <location line="+23"/>
         <source>Authors &amp;&amp; contributors</source>
-        <translation>Auteurs &amp;&amp; bijdragers</translation>
+        <translation>Tác giả &amp;&amp; cộng tác viên</translation>
     </message>
 </context>
 <context>
@@ -28,12 +28,12 @@
     <message>
         <location filename="../src/gui/BatchHandler.cc" line="+26"/>
         <source>Marking entries...</source>
-        <translation>Ingangen markeren...</translation>
+        <translation>Đang đánh dấu các mục...</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Abort</source>
-        <translation>Annuleren</translation>
+        <translation>Hủy</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -66,82 +66,82 @@
     <message>
         <location filename="../src/gui/DataPreferences.ui" line="+14"/>
         <source>Form</source>
-        <translation>Formulier</translation>
+        <translation>In</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Erase user data</source>
-        <translation>Persoonlijke gegevens verwijderen</translation>
+        <translation>Xóa dữ liệu cá nhân</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Pushing this button will completely erase all your user data. This includes study list, tags, notes, scores, basically everything you did. After pushing this button, Tagaini Jisho will exit. Upon restart, you will be back to a fresh, blank database.</source>
-        <translation>Door op deze knop te drukken worden alle persoonlijke gegevens verwijderd, inclusief studielijsten, labels, notities, scores; alles wat je zelf hebt ingevoerd. Na het indrukken van deze knop zal Tagaini Jisho afgesloten worden; bij het opnieuw opstarten ervan is de database weer leeg en schoon.</translation>
+        <translation>Nhấn nút này sẽ xóa hoàn toàn tất cả dữ liệu cá nhân của bạn. Bao gồm mọi thứ bạn đã tạo ra như các danh sách, nhãn, ghi chú, điểm số,...Sau khi nhấn nút này, Tagaini Jisho sẽ thoát. Sau khi khởi chạy lại, bạn sẽ có một cơ sở dữ liệu mới, trắng và sạch sẽ.</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Reset user data</source>
-        <translation>Gebruikersgegevens terugzetten</translation>
+        <translation>Khởi tạo lại dữ liệu cá nhân</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>User database file:</source>
-        <translation>Gebruikersdatabasebestand:</translation>
+        <translation>Tập tin dữ liệu cá nhân</translation>
     </message>
     <message>
         <location filename="../src/gui/PreferencesWindow.cc" line="+499"/>
         <source>User data</source>
-        <translation>Gebruikersgegevens</translation>
+        <translation>Dữ liệu cá nhân</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Really erase user data?</source>
-        <translation>Gebruikersgegevens verwijderen?</translation>
+        <translation>Bạn có thật sự muốn xóa dữ liệu cá nhân?</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>This will erase all your user data. Are you sure you want to do this?</source>
-        <translation>Hiermee worden alle gebruikersgegevens verwijderd. Weet je zeker dat je dit wil doen?</translation>
+        <translation>Việc này sẽ xóa hết mọi dữ liệu cá nhân của bạn. Bạn có chắc chứ?</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>REALLY erase it?</source>
-        <translation>ECHT verwijderen?</translation>
+        <translation>Thật sự chắc chưa?</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Are you absolutely, positively, definitely sure?</source>
-        <translation>Weet je het heel erg zeker?</translation>
+        <translation>Bạn đã thật sự chắc chắn hoàn toàn chưa?</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>No user database file</source>
-        <translation>Geen gebruikersdatabasebestand</translation>
+        <translation>Không có tập tin dữ liệu cá nhân</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>The user database file has already been erased before.</source>
-        <translation>Het gebruikersdatabasebestand is reeds verwijderd.</translation>
+        <translation>Tập tin dữ liệu cá nhân đã bị xóa từ trước.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Cannot erase user database</source>
-        <translation>Kan gebruikersdatabase niet verwijderen</translation>
+        <translation>Không thể xóa dữ liệu cá nhân</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Unable to erase user database. Please see what is wrong and try to do it manually.</source>
-        <translation>Kon de gebruikersdatabase niet verwijderen. Ga na wat er mis ging en probeer het handmatig.</translation>
+        <translation>Không thể xóa dữ liệu cá nhân. Xin hãy kiểm tra và xóa thủ công.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>User data erased</source>
-        <translation>Gebruikersgegevens verwijderd</translation>
+        <translation>Đã xóa dữ liệu cá nhân</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>User data has been erased. Tagaini Jisho will now exit. You will be back to a blank database when it is restarted.</source>
-        <translation>Gebruikersgegevens zijn verwijderd. Tagaini Jisho zal afgesloten worden; bij het opnieuw opstarten ervan is de database leeg.</translation>
+        <translation>Đã xóa dữ liệu cá nhân. Bây giờ Tagaini Jisho sẽ thoát và bạn sẽ có một cơ sở dữ liệu mới khi khởi chạy lại.</translation>
     </message>
 </context>
 <context>
@@ -149,32 +149,32 @@
     <message>
         <location filename="../src/core/Database.cc" line="+316"/>
         <source>Error while upgrading user database: %1</source>
-        <translation>Fout bij het upgraden van de gebruikersdatabase: %1</translation>
+        <translation>Gặp lỗi khi đang nâng cấp cơ sở dữ liệu cá nhân: %1</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Wrong user database version: expected %1, got %2.</source>
-        <translation>Verkeerde gebruikersdatabase versie: %1 werd verwacht, maar dit is %2.</translation>
+        <translation>Phiên bản cơ sở dữ liệu cá nhân không đúng: mong %1 nhưng nhận được %2</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Cannot create user database: %1</source>
-        <translation>Kan de gebruikersdatabase niet aanmaken: %1</translation>
+        <translation>Không thể tạo cơ sở dữ liệu cá nhân: %1</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Cannot open database: %1</source>
-        <translation>Kan de database niet openen: %1</translation>
+        <translation>Không thể mở cơ sở dữ liệu: %1</translation>
     </message>
     <message>
         <location line="+27"/>
         <source>Temporary database fallback failed. The program will now exit.</source>
-        <translation>Terugvallen op een tijdelijke database faalde. Dit programma wordt nu afgesloten.</translation>
+        <translation>Cơ sở dữ liệu tạm không hoạt động. Chương trình sẽ kết thúc.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Tagaini is working on a temporary database. This allows the program to work, but user data is unavailable and any change will be lost upon program exit. If you corrupted your database file, please recreate it from the preferences.</source>
-        <translation>Tagaini werkt nu met een tijdelijke database. Het programma werkt, maar persoonlijke gegevens zijn niet beschikbaar, en wijzigingen raken verloren bij het afsluiten van het programma. Als je het databasebestand beschadigd hebt, maak deze dan opnieuw aan via de instellingen.</translation>
+        <translation>Tagaini Jisho đang sử dụng một cơ sở dữ liệu tạm thời. Nó giúp cho chương trình hoạt động nhưng mọi thay đổi sẽ biến mất sau khi thoát. Nếu bạn đã làm hỏng cơ sở dữ liệu của mình, hãy tạo lại trong mục thiết lập.</translation>
     </message>
 </context>
 <context>
@@ -182,12 +182,12 @@
     <message>
         <location filename="../src/gui/DetailedView.cc" line="+98"/>
         <source>Previous entry</source>
-        <translation>Vorige ingang</translation>
+        <translation>Mục trước</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Next entry</source>
-        <translation>Volgende ingang</translation>
+        <translation>Mục tiếp theo</translation>
     </message>
 </context>
 <context>
@@ -195,22 +195,22 @@
     <message>
         <location filename="../src/gui/PreferencesWindow.cc" line="-108"/>
         <source>Detailed view</source>
-        <translation>Gedetaileerde weergave</translation>
+        <translation>Chi tiết</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>Default text</source>
-        <translation>Standaard tekst</translation>
+        <translation>Chữ thường</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Kana header</source>
-        <translation>Kana koppen</translation>
+        <translation>Đề mục kana</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Kanji header</source>
-        <translation>Kanji koppen</translation>
+        <translation>Đề mục kanji</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -225,32 +225,32 @@
     <message>
         <location filename="../src/gui/DetailedViewPreferences.ui" line="+14"/>
         <source>Form</source>
-        <translation>Formulier</translation>
+        <translation>In</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>General</source>
-        <translation>Algemeen</translation>
+        <translation>Chung</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Smooth scrolling</source>
-        <translation>Soepel schuiven</translation>
+        <translation>Cuộn trơn tru</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Show JLPT level in short descriptions</source>
-        <translation>Toon JLPT-niveau in de korte omschrijvingen</translation>
+        <translation>Hiện bậc JLPT ở đoạn miêu tả ngắn</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Fonts</source>
-        <translation>Lettertypen</translation>
+        <translation>Phông chữ</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Preview</source>
-        <translation>Voorproefje</translation>
+        <translation>Xem trước</translation>
     </message>
 </context>
 <context>
@@ -258,22 +258,22 @@
     <message>
         <location filename="../src/gui/EditEntryNotesDialog.cc" line="+86"/>
         <source>Notes for %1</source>
-        <translation>Aantekeningen voor %1</translation>
+        <translation>Ghi chú cho %1</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Existing notes:</source>
-        <translation>Bestaande aantekeningen:</translation>
+        <translation>Ghi chú đã có:</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>&amp;New note</source>
-        <translation>&amp;Nieuwe aantekening</translation>
+        <translation>&amp;Thêm ghi chú</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>&amp;Delete note</source>
-        <translation>&amp;Verwijder aantekening</translation>
+        <translation>&amp;Xóa ghi chú</translation>
     </message>
 </context>
 <context>
@@ -281,27 +281,27 @@
     <message>
         <location filename="../src/gui/EntriesPrinter.cc" line="+66"/>
         <source>Preparing print job...</source>
-        <translation>Printopdracht wordt voorbereid...</translation>
+        <translation>Chuẩn bị in...</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Abort</source>
-        <translation>Annuleren</translation>
+        <translation>Hủy</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Printing...</source>
-        <translation>Er wordt geprint...</translation>
+        <translation>Đang in...</translation>
     </message>
     <message>
         <location line="+89"/>
         <source>Print preview</source>
-        <translation>Print-voorproefje</translation>
+        <translation>Xem trước bản in</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>Booklet print preview</source>
-        <translation>Boekje print-voorproefje</translation>
+        <translation>Xem trước bản in sổ tay</translation>
     </message>
 </context>
 <context>
@@ -309,37 +309,37 @@
     <message>
         <location filename="../src/gui/EntriesViewHelper.cc" line="+39"/>
         <source>&amp;Print...</source>
-        <translation>&amp;Printen...</translation>
+        <translation>&amp;In</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Print p&amp;review...</source>
-        <translation>Print &amp;voorproefje...</translation>
+        <translation>Xem &amp;thử bản in</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Print &amp;booklet...</source>
-        <translation>Print &amp;boekje(s)...</translation>
+        <translation>In &amp;sổ tay</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Export as &amp;HTML...</source>
-        <translation>Exporteren als &amp;HTML...</translation>
+        <translation>Xuất dưới dạng &amp;HTML</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Booklet pre&amp;view...</source>
-        <translation type="unfinished"/>
+        <translation>Xem t&amp;rước sổ tay...</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Export as &amp;TSV...</source>
-        <translation type="unfinished"/>
+        <translation>Xuất ra dạng &amp;TSV...</translation>
     </message>
     <message>
         <location line="+55"/>
         <source>Abort</source>
-        <translation>Annuleren</translation>
+        <translation>Hủy</translation>
     </message>
     <message>
         <location line="+0"/>
@@ -354,74 +354,74 @@
     <message>
         <location line="+202"/>
         <source>Print preview</source>
-        <translation>Print-voorproefje</translation>
+        <translation>Xem thử bản in</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Booklet print</source>
-        <translation>Boekje printen</translation>
+        <translation>In sổ tay</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Booklet print preview</source>
-        <translation>Boekje print-voorproefje</translation>
+        <translation>Xem thử bản in sổ tay</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Export to tab-separated file...</source>
-        <translation>Exporteer als tab-gescheiden bestand...</translation>
+        <translation>Xuất ra tập tin phân cách tab...</translation>
     </message>
     <message>
         <location line="+4"/>
         <location line="+47"/>
         <source>Cannot write file</source>
-        <translation>Kan bestand niet wegschrijven</translation>
+        <translation>Không thể ghi tập tin</translation>
     </message>
     <message>
         <location line="-47"/>
         <source>Unable to write file %1.</source>
-        <translation>Kan bestand %1 niet wegschrijven.</translation>
+        <translation>Không thể ghi vào tập tin %1.</translation>
     </message>
     <message>
         <location line="+27"/>
         <source>Error writing file</source>
-        <translation>Fout opgetreden bij wegschrijven bestand</translation>
+        <translation>Lỗi ghi tập tin</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Error while writing file %1.</source>
-        <translation>Er is een fout opgetreden bij het wegschrijven van bestand %1.</translation>
+        <translation>Lỗi khi đang ghi tập tin %1.</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Export to HTML flashcard file...</source>
-        <translation>Exporteer als HTML geheugenkaartjes-bestand...</translation>
+        <translation>Đang xuấtn ra tập tin flashcard HTML...</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>HTML files (*.html)</source>
-        <translation>HTML-bestanden (*.html)</translation>
+        <translation>Tập tin HTML (*.html)</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Unable to write file %1!</source>
-        <translation>Kan bestand %1 niet wegschrijven!</translation>
+        <translation>Không thể ghi tập tin %1!</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Cannot open template file</source>
-        <translation>Kan sjabloonbestand niet openen</translation>
+        <translation>Không thể mở tập tin mẫu</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Unable to open template file!</source>
-        <translation>Kon het sjabloonbestand niet openen!</translation>
+        <translation>Không thể mở tập tin mẫu!</translation>
     </message>
     <message>
         <location line="-94"/>
         <location filename="../src/gui/EntriesViewHelper.h" line="+87"/>
         <source>Print</source>
-        <translation>Printen</translation>
+        <translation>In</translation>
     </message>
 </context>
 <context>
@@ -429,37 +429,37 @@
     <message>
         <location filename="../src/gui/EntryDelegatePreferences.ui" line="+14"/>
         <source>Form</source>
-        <translation>Formulier</translation>
+        <translation>In</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Style:</source>
-        <translation>Stijl:</translation>
+        <translation>Kiểu dáng:</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>One line</source>
-        <translation>Enkele regel</translation>
+        <translation>Một dòng</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Two lines</source>
-        <translation>Twee regels</translation>
+        <translation>Hai dòng</translation>
     </message>
     <message>
         <location filename="../src/gui/PreferencesWindow.cc" line="-196"/>
         <source>Main writing</source>
-        <translation>Voornaamste schrijfwijze</translation>
+        <translation>Cách viết hay dùng</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Readings and alternate writings</source>
-        <translation>Lezingen en alternatieve schrijfwijzes</translation>
+        <translation>Cách đọc và cách viết khác</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Definitions</source>
-        <translation>Definities</translation>
+        <translation>Định nghĩa</translation>
     </message>
 </context>
 <context>
@@ -467,7 +467,7 @@
     <message>
         <location filename="../src/gui/ToolBarDetailedView.cc" line="+27"/>
         <source>Drag the currently displayed entry</source>
-        <translation>Versleep de getoonde ingang</translation>
+        <translation>Kéo mục đang hiển thị</translation>
     </message>
 </context>
 <context>
@@ -475,12 +475,12 @@
     <message>
         <location filename="../src/gui/EntryFormatter.cc" line="+39"/>
         <source>Cannot find detailed view HTML file!</source>
-        <translation>Kan het getaileerde weergave HTML-bestand niet vinden!</translation>
+        <translation>Không thể tìm thấy tập tin HTML xem chi tiết!</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Cannot find detailed view CSS file!</source>
-        <translation>Kan het getaileerde weergave CSS-bestand niet vinden!</translation>
+        <translation>Không thể tìm thấy tập tin CSS xem chi tiết!</translation>
     </message>
     <message>
         <location line="+159"/>
@@ -490,22 +490,22 @@
     <message>
         <location line="+48"/>
         <source>Studied since %1.</source>
-        <translation>Bestudeerd sinds %1.</translation>
+        <translation>Bắt đầu học từ %1.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Score: %1.</source>
-        <translation>Score: %1.</translation>
+        <translation>Điểm: %1.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Last trained on %1.</source>
-        <translation>Voor het laatst geoefend op %1.</translation>
+        <translation>Ôn tập lần cuối vào %1.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Last mistaken on %1.</source>
-        <translation>Voor het laatst fout op %1.</translation>
+        <translation>Mắc lỗi lần cuối vào %1.</translation>
     </message>
 </context>
 <context>
@@ -513,47 +513,47 @@
     <message>
         <location filename="../src/gui/EntryListView.cc" line="+35"/>
         <source>Delete</source>
-        <translation>Verwijderen</translation>
+        <translation>Xóa</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>New list...</source>
-        <translation>Nieuwe lijst...</translation>
+        <translation>Danh sách mới...</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Go up</source>
-        <translation>Omhoog</translation>
+        <translation>Lên trên</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Rename list...</source>
-        <translation type="unfinished"/>
+        <translation>Đổi tên danh sách...</translation>
     </message>
     <message>
         <location line="+93"/>
         <source>Unable to create list</source>
-        <translation>Kan lijst niet aanmaken</translation>
+        <translation>Không thể tạo danh sách</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>A database error occured while trying to add the list.</source>
-        <translation>Een databasefout is opgetreden tijdens het toevoegen aan de lijst.</translation>
+        <translation>Gặp lỗi cơ sở dữ liệu khi cố thêm vào danh sách.</translation>
     </message>
     <message>
         <location line="+30"/>
         <source>Confirm deletion</source>
-        <translation>Bevestig verwijdering</translation>
+        <translation>Xác nhận xóa</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>This will delete the selected lists items and lists, including all their children. Continue?</source>
-        <translation>De geselecteerde lijstonderdelen en lijsten (inclusief alles wat daar in staat) worden verwijderd. Doorgaan?</translation>
+        <translation>Việc này sẽ xóa các mục danh sách đang lựa chọn và cả mục con của chúng. Bạn có muốn tiếp tục không?</translation>
     </message>
     <message>
         <location line="+23"/>
         <source>Removal failed</source>
-        <translation>Verwijderen mislukt</translation>
+        <translation>Không thể xóa!</translation>
     </message>
     <message>
         <location line="+0"/>
@@ -562,7 +562,11 @@
 %1
 
  Some of them may be remaining.</source>
-        <translation type="unfinished"/>
+        <translation>Gặp lỗi cơ sở dữ liệu khi cố xóa các mục sau:
+
+%1
+
+Một số có thể vẫn còn.</translation>
     </message>
 </context>
 <context>
@@ -570,12 +574,12 @@
     <message>
         <location filename="../src/gui/EntryListWidget.ui" line="+14"/>
         <source>Form</source>
-        <translation>Formulier</translation>
+        <translation>In</translation>
     </message>
     <message>
         <location filename="../src/gui/EntryListWidget.h" line="+33"/>
         <source>Lists</source>
-        <translation>Lijsten</translation>
+        <translation>Danh sách</translation>
     </message>
 </context>
 <context>
@@ -583,47 +587,47 @@
     <message>
         <location filename="../src/gui/EntryMenu.cc" line="+28"/>
         <source>Add to &amp;study list</source>
-        <translation>Toevoegen aan &amp;studielijst</translation>
+        <translation>Thêm vào danh sách &amp;học</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Remove from &amp;study list</source>
-        <translation>Verwijderen uit &amp;studielijst</translation>
+        <translation>Xóa &amp;khỏi danh sách học</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Already &amp;known</source>
-        <translation>Reeds &amp;bekend</translation>
+        <translation>Đã &amp;biết</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>&amp;Reset score</source>
-        <translation>Score &amp;terugzetten</translation>
+        <translation>&amp;Xóa điểm</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Set &amp;tags...</source>
-        <translation>&amp;Labels instellen...</translation>
+        <translation>Sửa &amp;nhãn</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>&amp;Add tags...</source>
-        <translation>Labels &amp;toevoegen...</translation>
+        <translation>Thêm n&amp;hãn</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Edit &amp;notes...</source>
-        <translation>&amp;Aantekeningen bewerken...</translation>
+        <translation>Sửa &amp;ghi chú...</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Recently added tags...</source>
-        <translation>Onlangs toegevoegde labels...</translation>
+        <translation>Các nhãn mới thêm vào...</translation>
     </message>
     <message>
         <location line="+85"/>
         <source>Add &quot;%1&quot;</source>
-        <translation type="unfinished"/>
+        <translation>Thêm &quot;%1&quot;</translation>
     </message>
 </context>
 <context>
@@ -631,12 +635,12 @@
     <message>
         <location filename="../src/gui/EditEntryNotesDialog.cc" line="-65"/>
         <source>Notes</source>
-        <translation>Aantekeningen</translation>
+        <translation>Ghi chú</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>&lt;New note&gt;</source>
-        <translation>&lt;Nieuwe aantekening&gt;</translation>
+        <translation>&lt;Ghi chú mới&gt;</translation>
     </message>
 </context>
 <context>
@@ -644,22 +648,22 @@
     <message>
         <location filename="../src/gui/EntryTypeFilterWidget.cc" line="+33"/>
         <source>All</source>
-        <translation>Alles</translation>
+        <translation>Tất cả</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Vocabulary</source>
-        <translation>Woordenschat</translation>
+        <translation>Từ vựng</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Characters</source>
-        <translation type="unfinished"/>
+        <translation>Chữ kanji</translation>
     </message>
     <message>
         <location filename="../src/gui/EntryTypeFilterWidget.h" line="+43"/>
         <source>Entry type filter</source>
-        <translation>Ingangssoortfilter</translation>
+        <translation>Bộ lọc</translation>
     </message>
 </context>
 <context>
@@ -667,7 +671,7 @@
     <message>
         <location filename="../src/gui/jmdict/JMdictEntryFormatter.cc" line="+611"/>
         <source>Homographs</source>
-        <translation>Homografen</translation>
+        <translation>Từ đồng chữ</translation>
     </message>
 </context>
 <context>
@@ -675,7 +679,7 @@
     <message>
         <location line="-23"/>
         <source>Homophones</source>
-        <translation>Homofonen</translation>
+        <translation>Từ đồng âm</translation>
     </message>
 </context>
 <context>
@@ -683,17 +687,17 @@
     <message>
         <location line="-15"/>
         <source>Transitive buddy</source>
-        <translation>Overgankelijk maatje</translation>
+        <translation>Tha động từ cùng cặp</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Intransitive buddy</source>
-        <translation>Onovergankelijk maatje</translation>
+        <translation>Tự động từ cùng cặp</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Buddy</source>
-        <translation>Maatje</translation>
+        <translation>Cặp</translation>
     </message>
 </context>
 <context>
@@ -701,97 +705,97 @@
     <message>
         <location filename="../src/gui/PreferencesWindow.cc" line="-171"/>
         <source>English</source>
-        <translation>Engels</translation>
+        <translation>Tiếng Anh</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>German</source>
-        <translation>Duits</translation>
+        <translation>Tiếng Đức</translation>
     </message>
     <message>
         <location line="-1"/>
         <source>French</source>
-        <translation>Frans</translation>
+        <translation>Tiếng Pháp</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Spanish</source>
-        <translation>Spaans</translation>
+        <translation>Tiếng Tây Ban Nha</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Norvegian Bokmal</source>
-        <translation type="unfinished"/>
+        <translation>Tiếng Bokmal ở Na Uy</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Czech</source>
-        <translation type="unfinished"/>
+        <translation>Tiếng Séc</translation>
     </message>
     <message>
         <location line="-3"/>
         <source>Dutch</source>
-        <translation>Nederlands</translation>
+        <translation>Tiếng Hà Lan</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Italian</source>
-        <translation type="unfinished"/>
+        <translation>Tiếng Ý</translation>
     </message>
     <message>
         <location line="-2"/>
         <source>Russian</source>
-        <translation>Russisch</translation>
+        <translation>Tiếng Nga</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Japanese</source>
-        <translation type="unfinished"/>
+        <translation>Tiếng Nhật</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Polish</source>
-        <translation type="unfinished"/>
+        <translation>Tiếng Ba Lan</translation>
     </message>
     <message>
         <location line="+24"/>
         <source>General</source>
-        <translation>Algemeen</translation>
+        <translation>Chung</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Application-wide default font</source>
-        <translation>Applicatiebreed standaard lettertype</translation>
+        <translation>Phông chung toàn ứng dụng</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Monday</source>
-        <translation>Maandag</translation>
+        <translation>Thứ hai</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Sunday</source>
-        <translation>Zondag</translation>
+        <translation>Chủ Nhật</translation>
     </message>
     <message>
         <location line="+51"/>
         <source>Next check: %1</source>
-        <translation>Volgende controle: %1</translation>
+        <translation>Lần kiểm tra tiếp theo: %1</translation>
     </message>
     <message>
         <location filename="../src/gui/GeneralPreferences.ui" line="+14"/>
         <source>Form</source>
-        <translation>Formulier</translation>
+        <translation>In</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>General settings</source>
-        <translation>Algemene instellingen</translation>
+        <translation>Thiết lập chung</translation>
     </message>
     <message>
         <location line="+22"/>
         <source>System default</source>
-        <translation>Systeem standaard</translation>
+        <translation>Chuẩn hệ thống</translation>
     </message>
     <message>
         <location line="+12"/>
@@ -811,52 +815,52 @@
     <message>
         <location line="+10"/>
         <source>You need to restart Tagaini Jisho for these changes to take effect.</source>
-        <translation>Deze wijzigingen zijn pas van kracht als Tagaini Jisho opnieuw opgestart is.</translation>
+        <translation>Bạn phải khởi động lại Tagaini Jisho để kích hoạt các thiết lập trên.</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Dates</source>
-        <translation>Data</translation>
+        <translation>Ngày</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Weeks start on</source>
-        <translation>Week begint op</translation>
+        <translation>Ngày đầu tuần</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Updates</source>
-        <translation>Updates</translation>
+        <translation>Cập nhật</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Check for updates</source>
-        <translation>Controleren op updates</translation>
+        <translation>Kiểm tra cập nhật</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>every day</source>
-        <translation>Dagelijks</translation>
+        <translation>mỗi ngày</translation>
     </message>
     <message>
         <location line="+3"/>
         <source> days</source>
-        <translation type="unfinished"/>
+        <translation> ngày</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>every </source>
-        <translation type="unfinished"/>
+        <translation>mỗi </translation>
     </message>
     <message>
         <location line="+56"/>
         <source>Defines how many recent entries are kept in memory. High values may improve performance when manipulating a large number of entries.</source>
-        <translation type="unfinished"/>
+        <translation>Thiết lập số mục gần đây lưu trong bộ nhớ.</translation>
     </message>
     <message>
         <location line="-41"/>
         <source>Also check for development versions</source>
-        <translation>Controleer ook op ontwikkelversies</translation>
+        <translation>Kiểm tra luôn cả phiên bản đang phát triển</translation>
     </message>
     <message>
         <location line="-118"/>
@@ -871,17 +875,17 @@
     <message>
         <location line="+115"/>
         <source>Next check:</source>
-        <translation>Volgende controle:</translation>
+        <translation>Lần kiểm tra tiếp theo</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Entries cache (advanced)</source>
-        <translation>Ingangen cache (geavanceerd)</translation>
+        <translation>Bộ nhớ tạm các mục (nâng cao)</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Default</source>
-        <translation>Standaard</translation>
+        <translation>Chuẩn</translation>
     </message>
 </context>
 <context>
@@ -927,17 +931,17 @@
     <message>
         <location filename="../src/gui/jmdict/JMdictEntryFormatter.cc" line="-368"/>
         <source>(JLPT N%1)</source>
-        <translation type="unfinished"/>
+        <translation>(JLPT N%1)</translation>
     </message>
     <message>
         <location line="+38"/>
         <source>Alternate readings: </source>
-        <translation type="unfinished"/>
+        <translation>Cách đọc khác: </translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Alternate writings:</source>
-        <translation>Alternatieve schrijfwijzen:</translation>
+        <translation>Cách viết khác:</translation>
     </message>
     <message>
         <location line="+120"/>
@@ -965,102 +969,102 @@
     <message>
         <location filename="../src/gui/jmdict/JMdictFilterWidget.cc" line="+42"/>
         <source>Using studied kanji only</source>
-        <translation>Alleen reeds bestudeerde kanji</translation>
+        <translation>Chỉ sử dụng các kanji đã học</translation>
     </message>
     <message>
         <location line="-2"/>
         <source>With kanji:</source>
-        <translation>Bevat deze kanji:</translation>
+        <translation>Chứa kanji:</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>With components:</source>
-        <translation>Bevat deze componenten:</translation>
+        <translation>Chứa thành tố:</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Include kana-only words</source>
-        <translation>Inclusief enkel in kana geschreven woorden</translation>
+        <translation>Bao gồm cả những từ chỉ viết bằng kana</translation>
     </message>
     <message>
         <location line="+13"/>
         <location line="+117"/>
         <source>Part of speech</source>
-        <translation>Woordsoort</translation>
+        <translation>Từ loại</translation>
     </message>
     <message>
         <location line="-111"/>
         <location line="+126"/>
         <source>Dialect</source>
-        <translation>Dialect</translation>
+        <translation>Phương ngữ</translation>
     </message>
     <message>
         <location line="-120"/>
         <location line="+135"/>
         <source>Field</source>
-        <translation>Vakgebied</translation>
+        <translation>Lĩnh vực</translation>
     </message>
     <message>
         <location line="-129"/>
         <location line="+144"/>
         <source>Misc</source>
-        <translation>Diversen</translation>
+        <translation>Khác</translation>
     </message>
     <message>
         <location line="-91"/>
         <source> with </source>
-        <translation type="unfinished"/>
+        <translation> với </translation>
     </message>
     <message>
         <location line="+9"/>
         <source> with component </source>
-        <translation type="unfinished"/>
+        <translation> với thành tố </translation>
     </message>
     <message>
         <location line="+9"/>
         <source> with studied kanji</source>
-        <translation type="unfinished"/>
+        <translation> với kanji đã học</translation>
     </message>
     <message>
         <location line="+4"/>
         <source> using kana only</source>
-        <translation type="unfinished"/>
+        <translation> chỉ dùng kana</translation>
     </message>
     <message>
         <location line="-5"/>
         <source>, studied kanji only</source>
-        <translation>, enkel bestudeerde kanji</translation>
+        <translation>, chỉ kanji đã học</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>, including kana words</source>
-        <translation>, inclusief kana woorden</translation>
+        <translation>, gồm cả từ viết bằng kana</translation>
     </message>
     <message>
         <location line="+9"/>
         <location line="+1"/>
         <source>Vocabulary</source>
-        <translation>Woordenschat</translation>
+        <translation>Từ vựng</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Pos:</source>
-        <translation>Soort:</translation>
+        <translation>TLoại:</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>Dial:</source>
-        <translation>Dial:</translation>
+        <translation>PNgữ:</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>Field:</source>
-        <translation>Gebied:</translation>
+        <translation>LVực:</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>Misc:</source>
-        <translation>Div.:</translation>
+        <translation>Khác:</translation>
     </message>
 </context>
 <context>
@@ -1068,39 +1072,39 @@
     <message>
         <location filename="../src/gui/jmdict/JMdictGUIPlugin.cc" line="+61"/>
         <source>Vocabulary flashcards</source>
-        <translation>Woordenschat geheugenkaartjes</translation>
+        <translation>Flashcard từ vựng</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>From &amp;japanese, whole study list</source>
-        <translation>Vanuit het &amp;Japans, gehele studielijst</translation>
+        <translation>Từ tiếng &amp;Nhật, toàn bộ danh sách học</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>From &amp;japanese, current set</source>
-        <translation>Vanuit het &amp;Japans, huidige reeks</translation>
+        <translation>Từ tiếng &amp;Nhật, tập hợp hiện tại</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>From &amp;translation, whole study list</source>
-        <translation>Vanuit &amp;vertaling, gehele studielijst</translation>
+        <translation>Từ bản dịch, toàn bộ danh sách học</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>From &amp;translation, current set</source>
-        <translation>Vanuit &amp;vertaling, huidige reeks</translation>
+        <translation>Từ bản dịch, tập hợp hiện tại</translation>
     </message>
     <message>
         <location line="+125"/>
         <location line="+20"/>
         <source>Nothing to train</source>
-        <translation>Niets te oefenen</translation>
+        <translation>Không có gì để luyện tập</translation>
     </message>
     <message>
         <location line="-20"/>
         <location line="+20"/>
         <source>There are no vocabulary entries in this set to train on.</source>
-        <translation>Deze reeks bevat geen woordenschatingangen om te oefenen.</translation>
+        <translation>Hiện tại không có danh mục từ vựng nào trong tập hợp này để luyện tập.</translation>
     </message>
 </context>
 <context>
@@ -1108,137 +1112,137 @@
     <message>
         <location filename="../3rdparty/JMdictDescs.cc" line="+1"/>
         <source>martial arts term</source>
-        <translation>vechtsportterm</translation>
+        <translation>thuật ngữ võ thuật</translation>
     </message>
     <message>
         <location line="+46"/>
         <source>military</source>
-        <translation type="unfinished"/>
+        <translation>quân đội</translation>
     </message>
     <message>
         <location line="-16"/>
         <source>food term</source>
-        <translation type="unfinished"/>
+        <translation>thuật ngữ ẩm thực</translation>
     </message>
     <message>
         <location line="-9"/>
         <source>computer terminology</source>
-        <translation type="unfinished"/>
+        <translation>thuật ngữ máy tính</translation>
     </message>
     <message>
         <location line="-4"/>
         <source>Buddhist term</source>
-        <translation type="unfinished"/>
+        <translation>thuật ngữ đạo Phật</translation>
     </message>
     <message>
         <location line="+24"/>
         <source>linguistics terminology</source>
-        <translation type="unfinished"/>
+        <translation>thuật ngữ ngôn ngữ học</translation>
     </message>
     <message>
         <location line="-10"/>
         <source>geometry term</source>
-        <translation type="unfinished"/>
+        <translation>thuật ngữ hình học</translation>
     </message>
     <message>
         <location line="-13"/>
         <source>chemistry term</source>
-        <translation type="unfinished"/>
+        <translation>thuật ngữ hóa học</translation>
     </message>
     <message>
         <location line="+46"/>
         <source>physics terminology</source>
-        <translation type="unfinished"/>
+        <translation>thuật ngữ vật lý</translation>
     </message>
     <message>
         <location line="-19"/>
         <source>mathematics</source>
-        <translation type="unfinished"/>
+        <translation>toán học</translation>
     </message>
     <message>
         <location line="+64"/>
         <source>Nagano-ben</source>
-        <translation type="unfinished"/>
+        <translation>Vùng Nagano</translation>
     </message>
     <message>
         <location line="-9"/>
         <source>Kyoto-ben</source>
-        <translation type="unfinished"/>
+        <translation>Vùng Kyoto</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Tsugaru-ben</source>
-        <translation type="unfinished"/>
+        <translation>Vùng Tsugaru</translation>
     </message>
     <message>
         <location line="-2"/>
         <source>Tosa-ben</source>
-        <translation type="unfinished"/>
+        <translation>Vùng Tosa</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Kyuushuu-ben</source>
-        <translation type="unfinished"/>
+        <translation>Vùng Kyuushuu</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Ryuukyuu-ben</source>
-        <translation type="unfinished"/>
+        <translation>Vùng Ryuukyuu</translation>
     </message>
     <message>
         <location line="-6"/>
         <source>Kansai-ben</source>
-        <translation type="unfinished"/>
+        <translation>Vùng Kansai</translation>
     </message>
     <message>
         <location line="-1"/>
         <source>Osaka-ben</source>
-        <translation type="unfinished"/>
+        <translation>Vùng Osaka</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Touhoku-ben</source>
-        <translation type="unfinished"/>
+        <translation>Vùng Touhoku</translation>
     </message>
     <message>
         <location line="-2"/>
         <source>Kantou-ben</source>
-        <translation type="unfinished"/>
+        <translation>Vùng Kantou</translation>
     </message>
     <message>
         <location line="-61"/>
         <source>manga slang</source>
-        <translation type="unfinished"/>
+        <translation>từ lóng manga</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>polite (teineigo) language</source>
-        <translation type="unfinished"/>
+        <translation>từ lịch sự</translation>
     </message>
     <message>
         <location line="+37"/>
         <source>su verb - precursor to the modern suru</source>
-        <translation type="unfinished"/>
+        <translation>động từ dạng su - tiền thân của dạng suru hiện đại</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>vulgar expression or word</source>
-        <translation type="unfinished"/>
+        <translation>từ ngữ khiếm nhã </translation>
     </message>
     <message>
         <location line="-75"/>
         <source>idiomatic expression</source>
-        <translation type="unfinished"/>
+        <translation>thành ngữ</translation>
     </message>
     <message>
         <location line="-3"/>
         <source>honorific or respectful (sonkeigo) language</source>
-        <translation type="unfinished"/>
+        <translation>kính ngữ (sonkeigo)</translation>
     </message>
     <message>
         <location line="-4"/>
         <source>female term or language</source>
-        <translation type="unfinished"/>
+        <translation>từ của nữ giới</translation>
     </message>
     <message>
         <location line="-20"/>
@@ -1248,422 +1252,422 @@
     <message>
         <location line="+4"/>
         <source>ateji (phonetic) reading</source>
-        <translation type="unfinished"/>
+        <translation>cách đọc ateji (ngữ âm) </translation>
     </message>
     <message>
         <location line="+6"/>
         <source>children&apos;s language</source>
-        <translation type="unfinished"/>
+        <translation>ngôn ngữ trẻ nhỏ</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>exclusively kanji</source>
-        <translation type="unfinished"/>
+        <translation>chỉ dùng kanji</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>exclusively kana</source>
-        <translation type="unfinished"/>
+        <translation>chỉ dùng kana</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>word containing irregular kanji usage</source>
-        <translation type="unfinished"/>
+        <translation>từ có cách dùng kanji bất quy tắc</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>word containing irregular kana usage</source>
-        <translation type="unfinished"/>
+        <translation>từ có cách dùng kana bất quy tắc</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>irregular okurigana usage</source>
-        <translation type="unfinished"/>
+        <translation>cách dùng okurigana bất quy tắc</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>irregular verb</source>
-        <translation type="unfinished"/>
+        <translation>động từ bất quy tắc</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>male slang</source>
-        <translation type="unfinished"/>
+        <translation>từ lóng đàn ông</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>word containing out-dated kanji</source>
-        <translation type="unfinished"/>
+        <translation>từ có cách dùng kanji cổ</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>obscure term</source>
-        <translation type="unfinished"/>
+        <translation>thuật ngữ ít dùng</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>out-dated or obsolete kana usage</source>
-        <translation type="unfinished"/>
+        <translation>cách dùng kana cổ</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>onomatopoeic or mimetic word</source>
-        <translation type="unfinished"/>
+        <translation>từ tượng thanh hoặc bắt chước</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>poetical term</source>
-        <translation type="unfinished"/>
+        <translation>thuật ngữ thơ ca</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>proverb</source>
-        <translation type="unfinished"/>
+        <translation>tục ngữ</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>rare</source>
-        <translation type="unfinished"/>
+        <translation>hiếm</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>sensitive</source>
-        <translation type="unfinished"/>
+        <translation>nhạy cảm</translation>
     </message>
     <message>
         <location line="-32"/>
         <source>humble (kenjougo) language</source>
-        <translation type="unfinished"/>
+        <translation>ngôn ngữ nhún nhường (kenjougo)</translation>
     </message>
     <message>
         <location line="-32"/>
         <source>abbreviation</source>
-        <translation>afkorting</translation>
+        <translation>viết tắt</translation>
     </message>
     <message>
         <location line="+26"/>
         <source>familiar language</source>
-        <translation type="unfinished"/>
+        <translation>ngôn ngữ thân mật</translation>
     </message>
     <message>
         <location line="-27"/>
         <source>rude or X-rated term (not displayed in educational software)</source>
-        <translation>grove, sexueel expliciete of pornografische term (niet weergegeven in educationele software)</translation>
+        <translation>từ khiếm nhã (không hiện trong phần mềm giáo dục)</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>archaism</source>
-        <translation type="unfinished"/>
+        <translation>từ cổ</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>derogatory</source>
-        <translation type="unfinished"/>
+        <translation>chê bai</translation>
     </message>
     <message>
         <location line="-4"/>
         <source>colloquialism</source>
-        <translation type="unfinished"/>
+        <translation>thông tục</translation>
     </message>
     <message>
         <location line="+50"/>
         <source>word usually written using kana alone</source>
-        <translation type="unfinished"/>
+        <translation>từ thường chỉ viết bằng kana</translation>
     </message>
     <message>
         <location line="-3"/>
         <source>slang</source>
-        <translation type="unfinished"/>
+        <translation>từ lóng</translation>
     </message>
     <message>
         <location line="-24"/>
         <source>male term or language</source>
-        <translation type="unfinished"/>
+        <translation>từ ngữ của đàn ông</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>obsolete term</source>
-        <translation type="unfinished"/>
+        <translation>từ không được dùng nữa</translation>
     </message>
     <message>
         <location line="-43"/>
         <source>adverb taking the `to&apos; particle</source>
-        <translation type="unfinished"/>
+        <translation>phó từ sử dụng trợ từ &apos;to&apos;</translation>
     </message>
     <message>
         <location line="+40"/>
         <source>noun (temporal) (jisoumeishi)</source>
-        <translation type="unfinished"/>
+        <translation>danh từ (chỉ thời gian) (jisoumeishi)</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>prefix</source>
-        <translation type="unfinished"/>
+        <translation>tiền tố</translation>
     </message>
     <message>
         <location line="-54"/>
         <source>`taru&apos; adjective</source>
-        <translation>`taru&apos; bijvoeglijk naamwoord</translation>
+        <translation>tính từ &apos;taru&apos;</translation>
     </message>
     <message>
         <location line="+25"/>
         <source>gikun (meaning as reading)  or jukujikun (special kanji reading)</source>
-        <translation type="unfinished"/>
+        <translation>gikun (cách đọc theo nghĩa)  hoặc jukujikun (cách đọc đặc biệt)</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>interjection (kandoushi)</source>
-        <translation type="unfinished"/>
+        <translation>thán từ (kandoushi)</translation>
     </message>
     <message>
         <location line="+31"/>
         <source>word usually written using kanji alone</source>
-        <translation type="unfinished"/>
+        <translation>từ thường chỉ viết bằng kanji</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Godan verb (not completely classified)</source>
-        <translation type="unfinished"/>
+        <translation>Động từ godan (chưa phân nhóm hoàn toàn)</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Godan verb - Uru old class verb (old form of Eru)</source>
-        <translation type="unfinished"/>
+        <translation>Động từ godan - nhóm uru cũ (dạng cũ của Eru)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Godan verb with `zu&apos; ending</source>
-        <translation type="unfinished"/>
+        <translation>động từ godan kết thúc là &apos;zu&apos;</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>intransitive verb</source>
-        <translation type="unfinished"/>
+        <translation>tự động từ</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Kuru verb - special class</source>
-        <translation type="unfinished"/>
+        <translation>Động từ kuru - nhóm đặc biệt</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>irregular nu verb</source>
-        <translation type="unfinished"/>
+        <translation>động từ nu bất quy tắc</translation>
     </message>
     <message>
         <location line="-31"/>
         <source>particle</source>
-        <translation type="unfinished"/>
+        <translation>trợ từ</translation>
     </message>
     <message>
         <location line="+32"/>
         <source>irregular ru verb, plain form ends with -ri</source>
-        <translation type="unfinished"/>
+        <translation>động từ ru bất quy tắc, dạng cơ bản đuôi -ri</translation>
     </message>
     <message>
         <location line="-87"/>
         <source>noun or verb acting prenominally</source>
-        <translation>prenominaal zelfstandig naamwoord of werkwoord</translation>
+        <translation>danh từ hoặc động từ đặt trước danh từ</translation>
     </message>
     <message>
         <location line="+102"/>
         <source>transitive verb</source>
-        <translation type="unfinished"/>
+        <translation>tha động từ</translation>
     </message>
     <message>
         <location line="-61"/>
         <source>noun, used as a suffix</source>
-        <translation type="unfinished"/>
+        <translation>danh từ, dùng làm hậu tố</translation>
     </message>
     <message>
         <location line="-27"/>
         <source>conjunction</source>
-        <translation type="unfinished"/>
+        <translation>liên từ</translation>
     </message>
     <message>
         <location line="-19"/>
         <source>adjective (keiyoushi)</source>
-        <translation>bijvoeglijk naamwoord (keiyōshi)</translation>
+        <translation>tính từ (keiyoushi)</translation>
     </message>
     <message>
         <location line="+88"/>
         <source>Ichidan verb - zuru verb (alternative form of -jiru verbs)</source>
-        <translation type="unfinished"/>
+        <translation>Động từ ichidan - động từ zuru (dạng khác của động từ -jiru)</translation>
     </message>
     <message>
         <location line="-81"/>
         <source>adverb (fukushi)</source>
-        <translation type="unfinished"/>
+        <translation>phó từ (fukushi)</translation>
     </message>
     <message>
         <location line="+58"/>
         <source>suffix</source>
-        <translation type="unfinished"/>
+        <translation>hậu tố</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Godan verb with `bu&apos; ending</source>
-        <translation type="unfinished"/>
+        <translation>Động từ godan đuôi &apos;bu&apos;</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Godan verb with `nu&apos; ending</source>
-        <translation type="unfinished"/>
+        <translation>Động từ Godan đuôi &apos;nu&apos;</translation>
     </message>
     <message>
         <location line="-6"/>
         <source>Godan verb - -aru special class</source>
-        <translation type="unfinished"/>
+        <translation>Động từ godan - nhóm -ara đặc biệt</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Godan verb with `mu&apos; ending</source>
-        <translation type="unfinished"/>
+        <translation>Động từ godan kết thúc là &apos;mu&apos;</translation>
     </message>
     <message>
         <location line="-2"/>
         <source>Godan verb with `ku&apos; ending</source>
-        <translation type="unfinished"/>
+        <translation>Động từ godan kết thúc là &apos;ku&apos;</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Godan verb with `tsu&apos; ending</source>
-        <translation type="unfinished"/>
+        <translation>Động từ godan kết thúc là &apos;tsu&apos;</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Godan verb with `u&apos; ending</source>
-        <translation type="unfinished"/>
+        <translation>Động từ godan kết thúc là &apos;u&apos;</translation>
     </message>
     <message>
         <location line="-4"/>
         <source>Godan verb with `ru&apos; ending</source>
-        <translation type="unfinished"/>
+        <translation>Động từ godan kết thúc là &apos;ru&apos;</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Godan verb with `su&apos; ending</source>
-        <translation type="unfinished"/>
+        <translation>Động từ godan kết thúc là &apos;su&apos;</translation>
     </message>
     <message>
         <location line="-71"/>
         <source>auxiliary</source>
-        <translation type="unfinished"/>
+        <translation>từ phụ trợ</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>auxiliary verb</source>
-        <translation type="unfinished"/>
+        <translation>trợ động từ</translation>
     </message>
     <message>
         <location line="-11"/>
         <source>adjectival nouns or quasi-adjectives (keiyodoshi)</source>
-        <translation>bijvoeglijk zelfstandig naamwoord (keiyōdōshi)</translation>
+        <translation>danh tính từ (keiyodoshi)</translation>
     </message>
     <message>
         <location line="+76"/>
         <source>Godan verb - Iku/Yuku special class</source>
-        <translation type="unfinished"/>
+        <translation>Động từ godan - nhóm Iku/Yuku đặc biệt</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Godan verb with `u&apos; ending (special class)</source>
-        <translation type="unfinished"/>
+        <translation>Động từ godan kết thúc là &apos;u&apos; (trường hợp đặc biệt)</translation>
     </message>
     <message>
         <location line="-10"/>
         <source>Godan verb with `gu&apos; ending</source>
-        <translation type="unfinished"/>
+        <translation>Động từ godan kết thúc là &apos;gu&apos;</translation>
     </message>
     <message>
         <location line="-73"/>
         <source>nouns which may take the genitive case particle `no&apos;</source>
-        <translation>zelfstandig naamwoord waar het bezittelijk partikel `no&apos; achter mag</translation>
+        <translation>danh từ đi với trợ từ sở hữu &apos;no&apos;</translation>
     </message>
     <message>
         <location line="+66"/>
         <source>Ichidan verb</source>
-        <translation type="unfinished"/>
+        <translation>Động từ ichidan</translation>
     </message>
     <message>
         <location line="-21"/>
         <source>noun, used as a prefix</source>
-        <translation type="unfinished"/>
+        <translation>danh từ, dùng làm tiền tố</translation>
     </message>
     <message>
         <location line="-34"/>
         <source>auxiliary adjective</source>
-        <translation type="unfinished"/>
+        <translation>trợ tính từ</translation>
     </message>
     <message>
         <location line="+58"/>
         <source>Yondan verb with `ru&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Động từ Yondan đuôi &apos;ru&apos; (cổ)</translation>
     </message>
     <message>
         <location line="-22"/>
         <source>numeric</source>
-        <translation type="unfinished"/>
+        <translation>số từ</translation>
     </message>
     <message>
         <location line="-29"/>
         <source>counter</source>
-        <translation type="unfinished"/>
+        <translation>từ đếm</translation>
     </message>
     <message>
         <location line="-17"/>
         <source>pre-noun adjectival (rentaishi)</source>
-        <translation>attributief (ware bijvoeglijke naamwoorden, rentaishi)</translation>
+        <translation>tính từ xác định danh từ (rentaishi)</translation>
     </message>
     <message>
         <location line="+67"/>
         <source>Yondan verb with `hu/fu&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Động từ yondan đuôi &apos;hu/fu&apos; (cổ)</translation>
     </message>
     <message>
         <location line="-1"/>
         <source>Nidan verb with &apos;u&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Động từ nidan đuôi &apos;u&apos; (cổ)</translation>
     </message>
     <message>
         <location line="+26"/>
         <source>suru verb - special class</source>
-        <translation type="unfinished"/>
+        <translation>động từ suru - nhóm riêng</translation>
     </message>
     <message>
         <location line="-51"/>
         <source>noun (common) (futsuumeishi)</source>
-        <translation type="unfinished"/>
+        <translation>danh từ (thông thường) (futsuumeishi)</translation>
     </message>
     <message>
         <location line="+49"/>
         <source>noun or participle which takes the aux. verb suru</source>
-        <translation type="unfinished"/>
+        <translation>danh từ hay động tính từ sử dụng trợ động từ suru</translation>
     </message>
     <message>
         <location line="-69"/>
         <source>Expressions (phrases, clauses, etc.)</source>
-        <translation type="unfinished"/>
+        <translation>Thành ngữ</translation>
     </message>
     <message>
         <location line="+72"/>
         <source>suru verb - irregular</source>
-        <translation type="unfinished"/>
+        <translation>động từ suru - bất quy tắc</translation>
     </message>
     <message>
         <location line="-51"/>
         <source>adverbial noun (fukushitekimeishi)</source>
-        <translation type="unfinished"/>
+        <translation>phó danh từ (fukushitekimeishi)</translation>
     </message>
     <message>
         <location line="+36"/>
         <source>Godan verb with `ru&apos; ending (irregular verb)</source>
-        <translation type="unfinished"/>
+        <translation>Động từ godan đuôi &apos;ru&apos; (bất quy tắc)</translation>
     </message>
     <message>
         <location line="-26"/>
         <source>pronoun</source>
-        <translation type="unfinished"/>
+        <translation>đai từ</translation>
     </message>
 </context>
 <context>
@@ -1671,7 +1675,7 @@
     <message>
         <location filename="../src/core/jmdict/JMdictPlugin.cc" line="+345"/>
         <source>An error seems to have occured while updating the JMdict database records - the program might crash during usage. Please report this bug.</source>
-        <translation type="unfinished"/>
+        <translation>Có vẻ như đã xảy ra lỗi khi cập nhật cơ sở dữ liệu JMdict. Chương trình có thể sẽ ngừng đột ngột. Khi đó xin hãy thông báo về lỗi này.</translation>
     </message>
 </context>
 <context>
@@ -1679,32 +1683,32 @@
     <message>
         <location filename="../src/gui/jmdict/JMdictPreferences.cc" line="+24"/>
         <source>Vocabulary entries</source>
-        <translation>Woordenschat ingangen</translation>
+        <translation>Các mục từ vựng</translation>
     </message>
     <message>
         <location filename="../src/gui/jmdict/JMdictPreferences.ui" line="+14"/>
         <source>Form</source>
-        <translation>Formulier</translation>
+        <translation>In</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Display</source>
-        <translation>Weergave</translation>
+        <translation>Hiển thị</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Basic information</source>
-        <translation>Basis informatie</translation>
+        <translation>Thông tin chính</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>JLPT level</source>
-        <translation>JLPT-niveau</translation>
+        <translation>Cấp độ JLPT</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Kanji used in main reading</source>
-        <translation>Kanji die voorkomt in de meest gangbare lezing</translation>
+        <translation>Kanji trong cách đọc chính</translation>
     </message>
     <message>
         <location line="+7"/>
@@ -1714,39 +1718,39 @@
     <message>
         <location line="+10"/>
         <source>Additional information</source>
-        <translation>Aanvullende informatie</translation>
+        <translation>Thông tin thêm</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>For transitive verbs, look for the equivalent intransitive entry and vice-versa.</source>
-        <translation>Zoek bij overgankelijke werkwoorden ook het onovergankelijke equivalent op (en vice versa).</translation>
+        <translation>Đối với tha động từ, tìm thêm cả tự động từ tương ứng và ngược lại.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Search for transitive/intransitive verb buddy</source>
-        <translation>Zoek naar het overgankelijke/onovergankelijke „werkwoordsmaatje”</translation>
+        <translation>Tìm cặp tự/tha động từ.</translation>
     </message>
     <message>
         <location line="+12"/>
         <location line="+24"/>
         <source>Display words that have the same pronunciation.</source>
-        <translation>Toon woorden met dezelfde uitspraak.</translation>
+        <translation>Hiện những từ có cùng cách đọc.</translation>
     </message>
     <message>
         <location line="-21"/>
         <source>Homophones</source>
-        <translation>Homofonen</translation>
+        <translation>Từ đồng âm</translation>
     </message>
     <message>
         <location line="+7"/>
         <location line="+24"/>
         <source>Studied only</source>
-        <translation>Alleen bestudeerde woorden</translation>
+        <translation>Chỉ hiện từ đã học</translation>
     </message>
     <message>
         <location line="-7"/>
         <source>Homographs</source>
-        <translation>Homografen</translation>
+        <translation>Từ đồng chữ</translation>
     </message>
     <message>
         <location line="+18"/>
@@ -1766,27 +1770,27 @@
     <message>
         <location line="+27"/>
         <source>Printing</source>
-        <translation>Printen</translation>
+        <translation>In</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>General</source>
-        <translation>Algemeen</translation>
+        <translation>Chung</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Header font size:</source>
-        <translation>Kop-lettertype grootte:</translation>
+        <translation>Cỡ chữ đề mục:</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Maximum number of definitions:</source>
-        <translation>Maximaal aantal definities:</translation>
+        <translation>Số định nghĩa tối đa:</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>All</source>
-        <translation>Alles</translation>
+        <translation>Tất cả</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -1796,37 +1800,37 @@
     <message>
         <location line="+6"/>
         <source>Kanji used in word</source>
-        <translation>Kanji gebruikt in woord</translation>
+        <translation>Kanji được sử dụng</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Only studied kanji</source>
-        <translation>Alleen de bestudeerde kanji</translation>
+        <translation>Chỉ kanji đã học</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Preview</source>
-        <translation>Voorproefje</translation>
+        <translation>Xem trước</translation>
     </message>
     <message>
         <location line="+88"/>
         <source>Definitions filtering</source>
-        <translation>Definitiefilters</translation>
+        <translation>Lọc định nghĩa</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Filtered definitions</source>
-        <translation>Gefilterde definities</translation>
+        <translation>Các định nghĩa đã được lọc</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Displayed:</source>
-        <translation>Weergegeven:</translation>
+        <translation>Hiển thị:</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Definitions types in this list will be searched for and displayed.</source>
-        <translation>Definitietypen in deze lijst worden gebruikt in de zoekopdracht, en weergegeven.</translation>
+        <translation>Các kiểu định nghĩa trong danh sách này sẽ được tìm kiếm và hiển thị.</translation>
     </message>
     <message>
         <location line="+27"/>
@@ -1837,12 +1841,12 @@
     <message>
         <location line="+28"/>
         <source>Filtered:</source>
-        <translation>Gefilterd:</translation>
+        <translation>Đã lọc:</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Definitions types in this list will be ignored when searching and displaying entries.</source>
-        <translation>Definitietypen in deze lijst worden genegeerd bij het zoeken en weergeven van ingangen.</translation>
+        <translation>Các kiểu định nghĩa trong danh sách này sẽ bị bỏ qua khi tìm kiếm.</translation>
     </message>
 </context>
 <context>
@@ -1850,7 +1854,7 @@
     <message>
         <location filename="../src/gui/jmdict/JMdictYesNoTrainer.cc" line="+23"/>
         <source>Show &amp;furigana</source>
-        <translation>Toon &amp;furigana</translation>
+        <translation>Hiện &amp;furigana</translation>
     </message>
 </context>
 <context>
@@ -1858,22 +1862,22 @@
     <message>
         <location filename="../src/gui/kanjidic2/KanaSelector.ui" line="+14"/>
         <source>Form</source>
-        <translation>Formulier</translation>
+        <translation>In</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Hiragana</source>
-        <translation type="unfinished"/>
+        <translation>Hiragana</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Katakana</source>
-        <translation type="unfinished"/>
+        <translation>Katakana</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Obsolete</source>
-        <translation type="unfinished"/>
+        <translation>Cổ</translation>
     </message>
 </context>
 <context>
@@ -1881,7 +1885,7 @@
     <message>
         <location filename="../src/gui/kanjidic2/KanaView.cc" line="+161"/>
         <source>Select All</source>
-        <translation>Alles selecteren</translation>
+        <translation>Chọn tất cả</translation>
     </message>
 </context>
 <context>
@@ -1897,7 +1901,7 @@
     <message>
         <location filename="../src/gui/kanjidic2/KanjiSelector.cc" line="+396"/>
         <source>Triggers the kanji input panel</source>
-        <translation type="unfinished"/>
+        <translation>Đóng/mở thanh nhập kanji</translation>
     </message>
 </context>
 <context>
@@ -1905,27 +1909,27 @@
     <message>
         <location filename="../src/gui/kanjidic2/KanjiPlayer.cc" line="+50"/>
         <source>Play</source>
-        <translation>Afspelen</translation>
+        <translation>Chạy</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Pause</source>
-        <translation>Pauze</translation>
+        <translation>Tạm ngừng</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Stop</source>
-        <translation>Stop</translation>
+        <translation>Ngừng</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Next stroke</source>
-        <translation>Volgende streek</translation>
+        <translation>Nét tiếp</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Previous stroke</source>
-        <translation>Vorige streek</translation>
+        <translation>Nét trước</translation>
     </message>
 </context>
 <context>
@@ -1933,27 +1937,27 @@
     <message>
         <location filename="../src/gui/kanjidic2/KanjiPopup.ui" line="+81"/>
         <source>See in detailed view</source>
-        <translation>Bekijk de gedetaileerde weergave</translation>
+        <translation>Xem chi tiết</translation>
     </message>
     <message>
         <location filename="../src/gui/kanjidic2/KanjiPopup.cc" line="+86"/>
         <source>&lt;b&gt;On:&lt;/b&gt; %1</source>
-        <translation>&lt;b&gt;On:&lt;/b&gt; %1</translation>
+        <translation>&lt;b&gt;Âm Hán:&lt;/b&gt; %1</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>&lt;b&gt;Kun:&lt;/b&gt; %1</source>
-        <translation>&lt;b&gt;Kun:&lt;/b&gt; %1</translation>
+        <translation>&lt;b&gt;Âm Nhật:&lt;/b&gt; %1</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>&lt;b&gt;Freq:&lt;/b&gt; %1&lt;br/&gt;</source>
-        <translation>&lt;b&gt;Freq:&lt;/b&gt; %1&lt;br/&gt;</translation>
+        <translation>&lt;b&gt;Tần suất:&lt;/b&gt; %1&lt;br/&gt;</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>&lt;b&gt;Grade:&lt;/b&gt; %1&lt;br/&gt;</source>
-        <translation>&lt;b&gt;Schooljaar:&lt;/b&gt; %1&lt;br/&gt;</translation>
+        <translation>&lt;b&gt;Lớp:&lt;/b&gt; %1&lt;br/&gt;</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -1963,27 +1967,27 @@
     <message>
         <location line="+22"/>
         <source>&lt;b&gt;Components:&lt;/b&gt; %2 %1</source>
-        <translation>&lt;b&gt;Componenten:&lt;/b&gt; %2 %1</translation>
+        <translation>&lt;b&gt;Thành tố:&lt;/b&gt; %2 %1</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>&lt;b&gt;Radicals:&lt;/b&gt; %1</source>
-        <translation>&lt;b&gt;Radikalen:&lt;/b&gt; %1</translation>
+        <translation>&lt;b&gt;Bộ thủ:&lt;/b&gt; %1</translation>
     </message>
     <message>
         <location line="-28"/>
         <source>&lt;b&gt;Score:&lt;/b&gt; %1&lt;br/&gt;</source>
-        <translation>&lt;b&gt;Score:&lt;/b&gt; %1&lt;br/&gt;</translation>
+        <translation>&lt;b&gt;Điểm:&lt;/b&gt; %1&lt;br/&gt;</translation>
     </message>
     <message>
         <location filename="../src/gui/kanjidic2/KanjiPopup.ui" line="-61"/>
         <source>Form</source>
-        <translation>Formulier</translation>
+        <translation>In</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Previous entry</source>
-        <translation>Vorige ingang</translation>
+        <translation>Mục trước</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -1997,22 +2001,22 @@
     <message>
         <location line="-76"/>
         <source>Next entry</source>
-        <translation>Volgende ingang</translation>
+        <translation>Mục tiếp theo</translation>
     </message>
     <message>
         <location line="+50"/>
         <source>Entry options menu</source>
-        <translation>Ingangenkeuzemenu</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+23"/>
         <source>Close this popup</source>
-        <translation>Pop-up sluiten</translation>
+        <translation>Đóng popup này</translation>
     </message>
     <message>
         <location filename="../src/gui/kanjidic2/KanjiPopup.cc" line="-36"/>
         <source>No information about this kanji!</source>
-        <translation>Geen informatie beschikbaar over deze kanji!</translation>
+        <translation>Không có thông tin nào về kanji này!</translation>
     </message>
 </context>
 <context>
@@ -2020,7 +2024,7 @@
     <message>
         <location filename="../src/gui/kanjidic2/KanjiSelector.ui" line="+6"/>
         <source>Radical search</source>
-        <translation>Radikaal zoeken</translation>
+        <translation>Tìm theo bộ thủ</translation>
     </message>
 </context>
 <context>
@@ -2028,7 +2032,7 @@
     <message>
         <location filename="../src/core/kanjidic2/Kanjidic2Entry.cc" line="+126"/>
         <source>(var) </source>
-        <translation>(var) </translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -2036,42 +2040,42 @@
     <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="+328"/>
         <source>&lt;b&gt;Strokes:&lt;/b&gt; %1</source>
-        <translation>&lt;b&gt;Streken:&lt;/b&gt; %1</translation>
+        <translation>&lt;b&gt;Số nét:&lt;/b&gt; %1</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>&lt;b&gt;Frequency:&lt;/b&gt; %1</source>
-        <translation>&lt;b&gt;Frequentie:&lt;/b&gt; %1</translation>
+        <translation>&lt;b&gt;Tần suất:&lt;/b&gt; %1</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>&lt;b&gt;Grade:&lt;/b&gt; %1</source>
-        <translation>&lt;b&gt;Schooljaar:&lt;/b&gt; %1</translation>
+        <translation>&lt;b&gt;Lớp:&lt;/b&gt; %1</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>&lt;b&gt;4 corner:&lt;/b&gt; %1</source>
-        <translation>&lt;b&gt;4 hoeken:&lt;/b&gt; %1</translation>
+        <translation>&lt;b&gt;4 góc:&lt;/b&gt; %1</translation>
     </message>
     <message>
         <location line="-145"/>
         <source> (%1) </source>
-        <translation type="unfinished"/>
+        <translation> (%1) </translation>
     </message>
     <message>
         <location line="+129"/>
         <source>&lt;b&gt;JLPT:&lt;/b&gt; N%1</source>
-        <translation type="unfinished"/>
+        <translation>&lt;b&gt;JLPT:&lt;/b&gt; N%1</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>&lt;b&gt;Heisig:&lt;/b&gt; %1</source>
-        <translation type="unfinished"/>
+        <translation>&lt;b&gt;Heisig:&lt;/b&gt; %1</translation>
     </message>
     <message>
         <location line="+51"/>
         <source>(JLPT N%1)</source>
-        <translation type="unfinished"/>
+        <translation>(JLPT N%1)</translation>
     </message>
     <message>
         <location line="+43"/>
@@ -2086,22 +2090,22 @@
     <message>
         <location line="+11"/>
         <source>Nanori</source>
-        <translation>Nanori</translation>
+        <translation>Tên riêng</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Strokes</source>
-        <translation>Streken</translation>
+        <translation>Số nét</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Frequency</source>
-        <translation>Frequentie</translation>
+        <translation>Tần suất</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Grade</source>
-        <translation>Schooljaar</translation>
+        <translation>Lớp</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -2111,17 +2115,17 @@
     <message>
         <location line="+9"/>
         <source>Heisig</source>
-        <translation type="unfinished"/>
+        <translation>Heisig</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Variations</source>
-        <translation>Varianten</translation>
+        <translation>Dị bản</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>Variation of</source>
-        <translation>Variant van</translation>
+        <translation>Dị bản của</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -2136,17 +2140,17 @@
     <message>
         <location line="+9"/>
         <source>4 corner</source>
-        <translation>4 hoeken</translation>
+        <translation>4 góc</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Radicals</source>
-        <translation>Radikalen</translation>
+        <translation>Bộ thủ</translation>
     </message>
     <message>
         <location line="+22"/>
         <source>Components</source>
-        <translation>Componenten</translation>
+        <translation>Thành tố</translation>
     </message>
     <message>
         <location line="-259"/>
@@ -2164,22 +2168,22 @@
     <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2FilterWidget.cc" line="+46"/>
         <source>Stroke count</source>
-        <translation>Aantal (penseel)streken</translation>
+        <translation>Số nét</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Range</source>
-        <translation>Bereik</translation>
+        <translation>Khoảng</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Radicals</source>
-        <translation>Radikalen</translation>
+        <translation>Bộ thủ</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Components</source>
-        <translation>Componenten</translation>
+        <translation>Thành tố</translation>
     </message>
     <message>
         <location line="+12"/>
@@ -2189,53 +2193,53 @@
     <message>
         <location line="+9"/>
         <source>SKIP code</source>
-        <translation>SKIP code</translation>
+        <translation>Mã SKIP</translation>
     </message>
     <message>
         <location line="+19"/>
         <source>Four corner</source>
-        <translation>Vier hoeken</translation>
+        <translation>4 góc</translation>
     </message>
     <message>
         <location line="+26"/>
         <source>School grade</source>
-        <translation>Schooljaar</translation>
+        <translation>Học ở lớp</translation>
     </message>
     <message>
         <location line="+3"/>
         <location line="+261"/>
         <source>Grade</source>
-        <translation>Schooljaar</translation>
+        <translation>Lớp</translation>
     </message>
     <message>
         <location line="-247"/>
         <source>All &amp;Kyouiku kanji</source>
-        <translation>Alle &amp;Kyōiku-kanji</translation>
+        <translation>Tất cả kanji &amp;Kyouiku</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>All &amp;Jouyou kanji</source>
-        <translation>Alle &amp;Jōyō-kanji</translation>
+        <translation>Tất cả kanji &amp;Jouyou</translation>
     </message>
     <message>
         <location line="+219"/>
         <source>, %1 strokes</source>
-        <translation>, %1 (penseel-)streken</translation>
+        <translation>, %1 nét</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>, strokes&lt;=%1</source>
-        <translation>, (penseel)streken&lt;=%1</translation>
+        <translation>, nét&lt;=%1</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>, strokes&gt;=%1</source>
-        <translation>, (penseel)streken&gt;=%1</translation>
+        <translation>, nét&gt;=%1</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>, %1-%2 strokes</source>
-        <translation>, %1 -%2 (penseel-)streken</translation>
+        <translation>, %1-%2 nét</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -2250,12 +2254,12 @@
     <message>
         <location line="+1"/>
         <source>, 4c: %1</source>
-        <translation>, 4h: %1</translation>
+        <translation>, 4g: %1</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>, grade: %1</source>
-        <translation>, schooljaar: %1</translation>
+        <translation>, lớp: %1</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -2266,7 +2270,7 @@
     <message>
         <location line="+13"/>
         <source>Grade:</source>
-        <translation>Schooljaar:</translation>
+        <translation>Lớp:</translation>
     </message>
 </context>
 <context>
@@ -2275,37 +2279,37 @@
         <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="+46"/>
         <location line="+7"/>
         <source>Invalid</source>
-        <translation>Ongeldig</translation>
+        <translation>Không đúng</translation>
     </message>
     <message>
         <location line="-6"/>
         <source>Elementary 1st grade</source>
-        <translation>Basisschool groep 3</translation>
+        <translation>Lớp 1 tiểu học</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Elementary 2nd grade</source>
-        <translation>Basisschool groep 4</translation>
+        <translation>Lớp 2 tiểu học</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Elementary 3rd grade</source>
-        <translation>Basisschool groep 5</translation>
+        <translation>Lớp 3 tiểu học</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Elementary 4th grade</source>
-        <translation>Basisschool groep 6</translation>
+        <translation>Lớp 4 tiểu học</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Elementary 5th grade</source>
-        <translation>Basisschool groep 7</translation>
+        <translation>Lớp 5 tiểu học </translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Elementary 6th grade</source>
-        <translation>Basisschool groep 8</translation>
+        <translation>Lớp 6 tiểu học</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -2315,42 +2319,42 @@
     <message>
         <location line="+1"/>
         <source>Used for names (1)</source>
-        <translation>Gebruikt in namen (1)</translation>
+        <translation>Sử dụng trong tên riêng (1)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Used for names (2)</source>
-        <translation>Gebruikt in namen (2)</translation>
+        <translation>Sử dụng trong tên riêng (2)</translation>
     </message>
     <message>
         <location line="+33"/>
         <source>Character flashcards</source>
-        <translation type="unfinished"/>
+        <translation>Flashcard kanji</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>From &amp;character, whole study list</source>
-        <translation type="unfinished"/>
+        <translation>Từ chữ kanji, toàn bộ danh sách học</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>From &amp;character, current set</source>
-        <translation type="unfinished"/>
+        <translation>Từ chữ kanji, tập hợp hiện tại</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>From &amp;meaning, whole study list</source>
-        <translation>Vanuit &amp;betekenis, gehele studielijst</translation>
+        <translation>Từ ý n&amp;ghĩa, toàn bộ danh sách học</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>From &amp;meaning, current set</source>
-        <translation>Vanuit &amp;betekenis, huidige reeks</translation>
+        <translation>Từ ý &amp;nghĩa, tập hợp hiện tại</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>&amp;Reading practice, whole study list</source>
-        <translation>&amp;Leesoefening, gehele studielijst</translation>
+        <translation>Tập đọc, &amp;toàn bộ danh sách đang học</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -2360,39 +2364,39 @@
     <message>
         <location line="+20"/>
         <source>Radical search input</source>
-        <translation>Radikaal zoeken invoer</translation>
+        <translation>Nhập bộ thủ</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Component search input</source>
-        <translation>Component zoeken invoer</translation>
+        <translation>Nhập thành tố</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Show stroke popup for currently displayed kanji</source>
-        <translation>Toon (penseel)streken popup voor de weergegeven kanji</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+94"/>
         <location line="+18"/>
         <source>Nothing to train</source>
-        <translation>Niets te oefenen</translation>
+        <translation>Không có gì để luyện tập</translation>
     </message>
     <message>
         <location line="-18"/>
         <location line="+18"/>
         <source>There are no kanji entries in this set to train on.</source>
-        <translation>Deze reeks bevat geen kanji-ingangen om te oefenen.</translation>
+        <translation>Không có kanji nào trong nhóm này để luyện tập.</translation>
     </message>
     <message>
         <location line="+186"/>
         <source>Open in detailed view...</source>
-        <translation>Bekijk de gedetaileerde weergave...</translation>
+        <translation>Mở xem chi tiết</translation>
     </message>
     <message>
         <location line="+25"/>
         <source>Tracing for %1</source>
-        <translation>Calque van %1</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -2400,22 +2404,22 @@
     <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2Preferences.ui" line="+14"/>
         <source>Form</source>
-        <translation>Formulier</translation>
+        <translation>In</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Display</source>
-        <translation>Weergave</translation>
+        <translation>Hiển thị</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Basic information</source>
-        <translation>Basis informatie</translation>
+        <translation>Thông tin cơ bản</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Readings</source>
-        <translation>Lezingen</translation>
+        <translation>Cách đọc</translation>
     </message>
     <message>
         <location line="+7"/>
@@ -2426,48 +2430,48 @@
     <message>
         <location line="-436"/>
         <source>Variations</source>
-        <translation>Varianten</translation>
+        <translation>Dị bản</translation>
     </message>
     <message>
         <location line="-7"/>
         <source>Original</source>
-        <translation>Oorspronkelijk</translation>
+        <translation>Nguyên gốc</translation>
     </message>
     <message>
         <location line="-21"/>
         <location line="+443"/>
         <source>SKIP code</source>
-        <translation>SKIP code</translation>
+        <translation>Mã SKIP</translation>
     </message>
     <message>
         <location line="-408"/>
         <location line="+436"/>
         <source>Frequency</source>
-        <translation>Frequentie</translation>
+        <translation>Tần suất</translation>
     </message>
     <message>
         <location line="-408"/>
         <location line="+415"/>
         <source>School grade</source>
-        <translation>Schooljaar</translation>
+        <translation>Lớp được học</translation>
     </message>
     <message>
         <location line="-422"/>
         <location line="+429"/>
         <source>JLPT level</source>
-        <translation>JLPT-niveau</translation>
+        <translation>Cấp độ JLPT</translation>
     </message>
     <message>
         <location line="-397"/>
         <location line="+109"/>
         <source>Components</source>
-        <translation>Componenten</translation>
+        <translation>Thành tố</translation>
     </message>
     <message>
         <location line="-190"/>
         <location line="+450"/>
         <source># of strokes</source>
-        <translation>Aantal (penseel-)streken</translation>
+        <translation>Số nét</translation>
     </message>
     <message>
         <location line="-443"/>
@@ -2478,109 +2482,109 @@
         <location line="+28"/>
         <location line="+450"/>
         <source>Four corner code</source>
-        <translation>Vier-hoeken code</translation>
+        <translation>Mã 4 góc</translation>
     </message>
     <message>
         <location line="-443"/>
         <location line="+450"/>
         <source>Heisig number</source>
-        <translation type="unfinished"/>
+        <translation>Số Heisig</translation>
     </message>
     <message>
         <location line="-426"/>
         <source>Additional information</source>
-        <translation>Aanvullende informatie</translation>
+        <translation>Thông tin phụ thêm</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Radicals</source>
-        <translation>Radikalen</translation>
+        <translation>Bộ thủ</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Compounds:</source>
-        <translation>Samenstellingen:</translation>
+        <translation>Từ ghép:</translation>
     </message>
     <message>
         <location line="+14"/>
         <location line="+25"/>
         <source>Studied only</source>
-        <translation>Alleen bestudeerde woorden</translation>
+        <translation>Chỉ những từ đã học</translation>
     </message>
     <message>
         <location line="-14"/>
         <source>Words using the kanji:</source>
-        <translation>Woorden met deze kanji:</translation>
+        <translation>Từ sử dụng kanji này:</translation>
     </message>
     <message>
         <location line="+40"/>
         <source>Printing</source>
-        <translation>Printen</translation>
+        <translation>In</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Kanji information</source>
-        <translation>Kanji-informatie</translation>
+        <translation>Thông tin kanji</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Meaning</source>
-        <translation>Betekenis</translation>
+        <translation>Ý nghĩa</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Onyomi</source>
-        <translation>Onyomi</translation>
+        <translation>Âm Hán</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Kunyomi</source>
-        <translation>Kunyomi</translation>
+        <translation>Âm Nhật</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Only studied components</source>
-        <translation>Alleen de bestudeerde componenten</translation>
+        <translation>Chỉ những thành tố đã học</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>words</source>
-        <translation>woorden</translation>
+        <translation>từ</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Only studied words</source>
-        <translation>Alleen bestudeerde woorden</translation>
+        <translation>Chỉ những từ đã học</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Kanji drawing style</source>
-        <translation>Kanji tekenwijze</translation>
+        <translation>Cách vẽ kanji</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Handwriting</source>
-        <translation>Handschrift</translation>
+        <translation>Viết tay</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Default font</source>
-        <translation>Standaard lettertype</translation>
+        <translation>Phông chuẩn</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Kanji header size:</source>
-        <translation>Kanji-kopgrootte:</translation>
+        <translation>Kích thước đề mục kanji:</translation>
     </message>
     <message>
         <location line="+19"/>
         <source>Print grid</source>
-        <translation>Print raster</translation>
+        <translation>In ô li</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Show stroke numbers</source>
-        <translation>Toon streek nummers</translation>
+        <translation>Đánh số nét</translation>
     </message>
     <message>
         <location line="+26"/>
@@ -2592,7 +2596,7 @@
         <location line="-284"/>
         <location line="+410"/>
         <source>Preview</source>
-        <translation>Voorproefje</translation>
+        <translation>Xem trước</translation>
     </message>
     <message>
         <location line="-322"/>
@@ -2602,94 +2606,94 @@
     <message>
         <location line="+6"/>
         <source>Kanji tooltip enabled</source>
-        <translation>Kanji-tooltip aangezet</translation>
+        <translation>Đã bật kanji tooltip</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Score</source>
-        <translation>Score</translation>
+        <translation>Điểm</translation>
     </message>
     <message>
         <location line="+73"/>
         <source>Stroke animation</source>
-        <translation>(Penseel)streekanimatie</translation>
+        <translation>Minh họa nét</translation>
     </message>
     <message>
         <location line="+181"/>
         <source> seconds</source>
-        <translation type="unfinished"/>
+        <translation> giây</translation>
     </message>
     <message>
         <location line="+32"/>
         <source>Kana selector</source>
-        <translation type="unfinished"/>
+        <translation>Bảng chọn kana</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Appearance</source>
-        <translation type="unfinished"/>
+        <translation>Hiển thị</translation>
     </message>
     <message>
         <location line="-430"/>
         <location line="+226"/>
         <source>Size:</source>
-        <translation>Grootte:</translation>
+        <translation>Kích thước:</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Drawing speed:</source>
-        <translation>Tekensnelheid:</translation>
+        <translation>Tốc độ vẽ:</translation>
     </message>
     <message>
         <location line="+9"/>
         <location line="+31"/>
         <source>Default</source>
-        <translation>Standaard</translation>
+        <translation>Chuẩn</translation>
     </message>
     <message>
         <location line="-9"/>
         <source>Pause between strokes:</source>
-        <translation>Pauzeren tussen de streken:</translation>
+        <translation>Khoảng nghỉ giữa các nét:</translation>
     </message>
     <message>
         <location line="+28"/>
         <source>Show numbers</source>
-        <translation>Toon nummers</translation>
+        <translation>Hiện số</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Show grid</source>
-        <translation>Toon raster</translation>
+        <translation>Hiện ô li</translation>
     </message>
     <message>
         <location line="+39"/>
         <source>Animation playback</source>
-        <translation>Animatie afspelen</translation>
+        <translation>Minh họa hoạt hình</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Play animation when the kanji popup appears</source>
-        <translation>Animatie afspelen zodra de kanji-pop-up verschijnt</translation>
+        <translation>Hiển thị ảnh động khi kanji popup xuất hiện</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>Loop animation after:</source>
-        <translation>Herhaal animatie na:</translation>
+        <translation>Lặp hoạt hình sau:</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Do not loop</source>
-        <translation>Niet herhalen</translation>
+        <translation>Không lặp</translation>
     </message>
     <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2Preferences.cc" line="+27"/>
         <source>Character entries</source>
-        <translation type="unfinished"/>
+        <translation>Mục chữ kanji</translation>
     </message>
     <message>
         <location line="+43"/>
         <source>Character font</source>
-        <translation type="unfinished"/>
+        <translation>Phông chữ</translation>
     </message>
 </context>
 <context>
@@ -2697,27 +2701,27 @@
     <message>
         <location filename="../src/gui/ListsViewPreferences.ui" line="+14"/>
         <source>Form</source>
-        <translation>Formulier</translation>
+        <translation>In</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Lists display</source>
-        <translation>Lijstweergave</translation>
+        <translation>Hiển thị danh sách</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Smooth scrolling</source>
-        <translation>Soepel schuiven</translation>
+        <translation>Cuộn trơn tru</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Preview</source>
-        <translation>Voorproefje</translation>
+        <translation>Xem trước</translation>
     </message>
     <message>
         <location filename="../src/gui/PreferencesWindow.cc" line="+174"/>
         <source>Lists</source>
-        <translation>Lijsten</translation>
+        <translation>Danh sách</translation>
     </message>
 </context>
 <context>
@@ -2725,89 +2729,89 @@
     <message>
         <location filename="../src/gui/MainWindow.ui" line="+157"/>
         <source>&amp;Quit</source>
-        <translation>A&amp;fsluiten</translation>
+        <translation>&amp;Thoát</translation>
     </message>
     <message>
         <location line="-113"/>
         <source>&amp;Program</source>
-        <translation>&amp;Programma</translation>
+        <translation>&amp;Phần mềm</translation>
     </message>
     <message>
         <location line="+21"/>
         <source>&amp;Search</source>
-        <translation>&amp;Zoeken</translation>
+        <translation>Tì&amp;m kiếm</translation>
     </message>
     <message>
         <location line="-11"/>
         <source>&amp;Help</source>
-        <translation>&amp;Help</translation>
+        <translation>Trợ &amp;giúp</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>P&amp;ractice</source>
-        <translation>Oe&amp;fenen</translation>
+        <translation>Tập &amp;luyện</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>S&amp;aved searches</source>
-        <translation type="unfinished"/>
+        <translation>&amp;Những lần tìm kiếm đã lưu</translation>
     </message>
     <message>
         <location line="+30"/>
         <source>Lists</source>
-        <translation>Lijsten</translation>
+        <translation>Danh sách</translation>
     </message>
     <message>
         <location line="+81"/>
         <source>&amp;Manual</source>
-        <translation>H&amp;andleiding</translation>
+        <translation>&amp;Hướng dẫn sử dụng</translation>
     </message>
     <message>
         <location line="+45"/>
         <source>&amp;About...</source>
-        <translation>&amp;Over...</translation>
+        <translation>&amp;Giới thiệu</translation>
     </message>
     <message>
         <location line="-89"/>
         <source>Preferences...</source>
-        <translation>Voorkeuren...</translation>
+        <translation>Tinh chỉnh...</translation>
     </message>
     <message>
         <location line="+53"/>
         <source>&amp;Report a bug...</source>
-        <translation>&amp;Rapporteer een bug...</translation>
+        <translation>Thông báo &amp;lỗi</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>&amp;Suggest a feature...</source>
-        <translation>&amp;Suggesteer een feature...</translation>
+        <translation>Đề xuất tính &amp;năng mới</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Ask a &amp;question...</source>
-        <translation>Stel een &amp;vraag...</translation>
+        <translation>&amp;Hỏi đáp nói chung</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Support Tagaini Jisho - Make a &amp;donation!</source>
-        <translation>Steun Tagaini Jisho - &amp;Doneer!</translation>
+        <translation>Hỗ trợ Tagaini Jisho bằng cách ủng hộ tiền!</translation>
     </message>
     <message>
         <location line="+21"/>
         <source>Focus text search</source>
-        <translation>Tekst zoekopdracht focus geven</translation>
+        <translation>Đặt con trỏ vào ô tìm kiếm</translation>
     </message>
     <message>
         <location line="-119"/>
         <location filename="../src/gui/MainWindow.cc" line="+235"/>
         <source>Export user data...</source>
-        <translation>Gebruiksgegevens exporteren...</translation>
+        <translation>Xuất dữ liệu cá nhân...</translation>
     </message>
     <message>
         <location line="+9"/>
         <location filename="../src/gui/MainWindow.cc" line="+9"/>
         <source>Import user data...</source>
-        <translation>Gebruiksgegevens importeren...</translation>
+        <translation>Nhập dữ liệu cá nhân...</translation>
     </message>
     <message>
         <location line="-122"/>
@@ -2817,151 +2821,153 @@
     <message>
         <location line="+79"/>
         <source>Search</source>
-        <translation>Zoeken</translation>
+        <translation>Tìm kiếm</translation>
     </message>
     <message>
         <location line="+72"/>
         <source>&amp;Save current search...</source>
-        <translation type="unfinished"/>
+        <translation>&amp;Lưu lần tìm kiếm này...</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>&amp;New folder...</source>
-        <translation type="unfinished"/>
+        <translation>Thư mục &amp;mới...</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>&amp;Organize saved searches...</source>
-        <translation type="unfinished"/>
+        <translation>&amp;Quản lý những lần tìm kiếm đã lưu...</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Whole study list train &amp;settings...</source>
-        <translation>Oefeninstellingen voor de hele &amp;studielijst...</translation>
+        <translation>Thiết lập ôn tập toàn bộ danh sách học...</translation>
     </message>
     <message>
         <location filename="../src/gui/MainWindow.cc" line="-51"/>
         <source>Auto-search on clipboard content</source>
-        <translation>Automatisch zoeken naar klembordinhoud</translation>
+        <translation>Tự động tra từ trong clipboard</translation>
     </message>
     <message>
         <location line="+23"/>
         <source>Please consider supporting Tagaini Jisho</source>
-        <translation>Steun Tagaini Jisho</translation>
+        <translation>Xin hãy xem xét việc hỗ trợ Tagaini Jisho</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>You have now been using Tagaini Jisho for a short while. If you like it, please show your support by making a donation that expresses your appreciation of this software. While Tagaini is free, its development has a cost and your support will have a positive influence on its future. You can donate via Paypal or credit card.
 
 This message is a one-time reminder and will not appear anymore - you can still donate later by choosing the corresponding option in the Help menu.</source>
-        <translation type="unfinished"/>
+        <translation>Bạn đã sử dụng Tagaini Jisho một thời gian. Nếu bạn thích nó, hãy thể hiện điều đó bằng cách hỗ trợ tài chính. Mặc dù Tagaini là phần mềm tự do miễn phí, việc phát triển nó lại không hề miễn phí và sự giúp đỡ của bạn có ảnh hưởng rất tích cực đến tương lai của phần mềm này. Bạn có thể đóng góp qua Paypal hoặc thẻ tín dụng.
+
+Thông báo này chỉ xuất hiện một lần nhưng bạn vẫn có thể hỗ trợ tài chính bằng cách truy cập đến chức năng tương ứng trong menu Help.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Donate!</source>
-        <translation>Doneren!</translation>
+        <translation>Ủng hộ tiền!</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Nah</source>
-        <translation>Nee</translation>
+        <translation>Nah</translation>
     </message>
     <message>
         <location line="+25"/>
         <source>About to replace user data!</source>
-        <translation>Gebruikersgegevens zullen worden vervangen!</translation>
+        <translation>Chuẩn bị thay thế dữ liệu cá nhân!</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>&lt;b&gt;WARNING:&lt;/b&gt; All the user data (study list, tags, notes, training, ...) is going to be replaced by the selected user data file. Are you &lt;b&gt;sure&lt;/b&gt; you want to do this?</source>
-        <translation>&lt;b&gt;LET OP:&lt;/b&gt; Alle gebruikersgegevens (studielijst, labels, aantekeningen, oefeningen, etc.) zullen worden vervangen door het geselecteerde gebruikersgegevensbestand. Weet je &lt;b&gt;zeker&lt;/b&gt; dat je dit wil doen?</translation>
+        <translation>&lt;b&gt;CHÚ Ý:&lt;/b&gt; Tất cả dữ liệu cá nhân (danh sách học, tag, ghi chú, luyện tập...) sẽ bị thay thế bởi dữ liệu trong tập tin được chọn. Bạn có &lt;b&gt;chắc chắn&lt;/b&gt; không?</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Please restart Tagaini Jisho</source>
-        <translation>Gelieve Tagaini Jisho opnieuw op te starten</translation>
+        <translation>Xin vui lòng khởi động lại Tagaini Jisho</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>The imported data will be available the next time you start Tagaini Jisho. All changes performed from now will be lost. Do you want to exit Tagaini Jisho now?</source>
-        <translation>De geïmporteerde gegevens zullen de volgende keer dat Tagaini Jisho gestart wordt beschikbaar zijn. Alle wijzigingen die nu nog uitgevoerd worden zullen verloren gaan. Wil je Tagaini Jisho nu sluiten?</translation>
+        <translation>Dữ liệu nhập sẽ xuất hiện vào lần khởi động Tagaini Jisho tiếp theo. Tất cả thay đổi lúc này sẽ không được lưu. Bạn có muốn thoát Tagaini Jisho ngay bây giờ không?</translation>
     </message>
     <message>
         <location line="+111"/>
         <source>A development update is available!</source>
-        <translation>Een ontwikkelversie update is beschikbaar!</translation>
+        <translation>Có cập nhật phiên bản đang phát triển!</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Development version %1 of Tagaini Jisho is available. Do you want to download it now?</source>
-        <translation type="unfinished"/>
+        <translation>Bạn có muốn tải phiên bản đang phát triển %1 của Tagaini Jisho không?</translation>
     </message>
     <message>
         <location line="+54"/>
         <source>Save current search here...</source>
-        <translation type="unfinished"/>
+        <translation>Lưu lần tìm kiếm này tại đây...</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Save current search</source>
-        <translation type="unfinished"/>
+        <translation>Lưu lần tìm kiếm này</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Please enter a name for this search:</source>
-        <translation type="unfinished"/>
+        <translation>Đặt tên cho lần tìm kiếm này:</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Unnamed</source>
-        <translation type="unfinished"/>
+        <translation>Không tên</translation>
     </message>
     <message>
         <location line="+22"/>
         <source>New folder</source>
-        <translation type="unfinished"/>
+        <translation>Thư mục mới</translation>
     </message>
     <message>
         <location line="-34"/>
         <source>Create new folder here...</source>
-        <translation>Maak hier een nieuwe map aan...</translation>
+        <translation>Tạo thư mục mới tại đây...</translation>
     </message>
     <message>
         <location line="+34"/>
         <source>Please enter a name for this folder</source>
-        <translation>Geef een naam op voor deze map</translation>
+        <translation>Xin hãy nhập tên cho thư mục này</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Unnamed folder</source>
-        <translation>Naamloze map</translation>
+        <translation>Thư mục không tên</translation>
     </message>
     <message>
         <location line="-106"/>
         <source>An update is available!</source>
-        <translation>Een update is beschikbaar!</translation>
+        <translation>Có cập nhật!</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Version %1 of Tagaini Jisho is available. Do you want to download it now?</source>
-        <translation>Versie %1 van Tagaini Jisho is beschikbaar. Wil je deze nu downloaden?</translation>
+        <translation>Bạn có muốn tải phiên bản %1 của Tagaini Jisho không?</translation>
     </message>
     <message>
         <location line="+2"/>
         <location line="+15"/>
         <source>Let&apos;s go!</source>
-        <translation>Kom maar op!</translation>
+        <translation>Cập nhật luôn!</translation>
     </message>
     <message>
         <location line="-13"/>
         <location line="+15"/>
         <source>Maybe later</source>
-        <translation>Misschien later</translation>
+        <translation>Có lẽ để sau</translation>
     </message>
     <message>
         <location filename="../src/gui/MainWindow.ui" line="+69"/>
         <source>Ctrl+L</source>
-        <translation type="unfinished"/>
+        <translation>Ctrl+L</translation>
     </message>
 </context>
 <context>
@@ -2981,7 +2987,7 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location line="+11"/>
         <source>Reset this filter</source>
-        <translation>Filter herstellen</translation>
+        <translation>Đặt lại bộ lọc này</translation>
     </message>
 </context>
 <context>
@@ -2989,17 +2995,17 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location filename="../src/gui/NotesFilterWidget.cc" line="+50"/>
         <source>Notes</source>
-        <translation>Aantekeningen</translation>
+        <translation>Ghi chú</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Has note</source>
-        <translation>Heeft aantekeningen</translation>
+        <translation>Có ghi chú</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Note contains %1</source>
-        <translation>Aantekening bevat %1</translation>
+        <translation>Ghi chú có chứa %1</translation>
     </message>
 </context>
 <context>
@@ -3007,7 +3013,7 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location filename="../src/gui/PreferencesWindow.cc" line="+156"/>
         <source>Change...</source>
-        <translation>Wijzigen...</translation>
+        <translation>Thay đổi...</translation>
     </message>
     <message>
         <location line="-5"/>
@@ -3017,7 +3023,7 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location line="+2"/>
         <source>Default</source>
-        <translation>Standaard</translation>
+        <translation>Chuẩn</translation>
     </message>
 </context>
 <context>
@@ -3025,7 +3031,7 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location filename="../src/gui/PreferencesWindow.ui" line="+14"/>
         <source>Preferences</source>
-        <translation>Voorkeuren</translation>
+        <translation>Tinh chỉnh</translation>
     </message>
 </context>
 <context>
@@ -3033,7 +3039,7 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location filename="../src/gui/kanjidic2/RadicalSearchWidget.ui" line="+14"/>
         <source>Radical search</source>
-        <translation>Radikaal zoeken</translation>
+        <translation>Tìm theo bộ thủ</translation>
     </message>
 </context>
 <context>
@@ -3042,67 +3048,67 @@ This message is a one-time reminder and will not appear anymore - you can still 
         <location filename="../src/gui/ReadingTrainer.ui" line="+14"/>
         <location filename="../src/gui/ReadingTrainer.cc" line="+40"/>
         <source>Reading practice</source>
-        <translation>Leesoefeningen</translation>
+        <translation>Luyện đọc</translation>
     </message>
     <message>
         <location filename="../src/gui/ReadingTrainer.cc" line="+5"/>
         <source>Show &amp;meaning</source>
-        <translation>Toon &amp;betekenis</translation>
+        <translation>Hiện ý &amp;nghĩa</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Preparing training session</source>
-        <translation>Oefensessie wordt voorbereid</translation>
+        <translation>Đang chuẩn bị buổi luyện tập</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Preparing training session, please wait...</source>
-        <translation>Oefensessie wordt voorbereid, één moment geduld alstublieft...</translation>
+        <translation>Đang chuẩn bị buổi luyện tập, xin hãy đợi...</translation>
     </message>
     <message>
         <location line="+57"/>
         <source>No matching entries found</source>
-        <translation>Geen overeenkomende ingangen gevonden</translation>
+        <translation>Không tìm thấy mục tương ứng</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Unable to find any entry eligible for reading practice. Entries eligible for this training mode are studied vocabulary entries for which all kanji are also studied, and match the train settings. Please add entries or modify the train settings accordingly if you want to practice this mode.</source>
-        <translation>Geen geldige ingangen gevonden voor de leesoefeningen. Geldige ingangen voor deze oefenwijze zijn reeds bestudeerde woordenschatingangen waarvan ook alle kanji bestudeerd zijn, en die overeenkomen met de oefeneningsinstellingen. Voeg ingangen toe, of pas de oefeneningsinstellingen aan als je deze oefenwijze wil gebruiken.</translation>
+        <translation>Không tìm thấy mục nào phù hợp để tập đọc. Những mục phù hợp là những từ đã học mà tất cả các kanji của chúng đều đã được học và phù hợp với tiêu chí luyện tập. Xin hãy thêm mục hoặc thay đổi thiết lập luyện tập để có thể sử dụng chế độ luyện tập này.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>There are no more entries to train for the current train settings.</source>
-        <translation>Met de huidige oefeneningsinstellingen zijn er geen ingangen meer om te oefenen.</translation>
+        <translation>Không còn mục nào để luyện tập phù hợp với thiết lập hiện tại.</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>No more entries to train</source>
-        <translation>Geen ingangen meer om te oefenen</translation>
+        <translation>Không còn mục nào để luyện tập</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>&lt;font color=&quot;green&quot;&gt;Correct!&lt;/font&gt;</source>
-        <translation>&lt;font color=&quot;green&quot;&gt;Correct!&lt;/font&gt;</translation>
+        <translation>&lt;font color=&quot;green&quot;&gt;Đúng!&lt;/font&gt;</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>&lt;font color=&quot;red&quot;&gt;Error!&lt;/font&gt;</source>
-        <translation>&lt;font color=&quot;red&quot;&gt;Fout!&lt;/font&gt;</translation>
+        <translation>&lt;font color=&quot;red&quot;&gt;Sai!&lt;/font&gt;</translation>
     </message>
     <message>
         <location line="+37"/>
         <source>Correct: %1, Wrong: %2, Total: %3</source>
-        <translation>Correct: %1, Fout: %2, Totaal: %3</translation>
+        <translation>Đúng: %1, Sai: %2, Tổng: %3</translation>
     </message>
     <message>
         <location filename="../src/gui/ReadingTrainer.ui" line="+9"/>
         <source>Type the correct reading for this word:</source>
-        <translation>Voer de juiste lezing in voor dit woord:</translation>
+        <translation>Hãy nhập cách đọc đúng của từ này:</translation>
     </message>
     <message>
         <location line="+30"/>
         <source>&amp;Next</source>
-        <translation>&amp;Volgende</translation>
+        <translation>&amp;Tiếp</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -3115,62 +3121,62 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location filename="../src/core/RelativeDate.cc" line="+99"/>
         <source>today</source>
-        <translation>vandaag</translation>
+        <translation>hôm nay</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>yesterday</source>
-        <translation>gisteren</translation>
+        <translation>hôm qua </translation>
     </message>
     <message>
         <location line="+1"/>
         <source>%1 days ago</source>
-        <translation>%1 dagen geleden</translation>
+        <translation>%1 ngày trước</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>this week</source>
-        <translation>deze week</translation>
+        <translation>tuần này</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>last week</source>
-        <translation>vorige week</translation>
+        <translation>tuần trước</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>%1 weeks ago</source>
-        <translation>%1 weken geleden</translation>
+        <translation>%1 tuần trước</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>this month</source>
-        <translation>deze maand</translation>
+        <translation>tháng này</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>last month</source>
-        <translation>vorige maand</translation>
+        <translation>tháng trước</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>%1 months ago</source>
-        <translation>%1 maanden geleden</translation>
+        <translation>%1 tháng trước</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>this year</source>
-        <translation>dit jaar</translation>
+        <translation>năm nay</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>last year</source>
-        <translation>vorig jaar</translation>
+        <translation>năm ngoái</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>%1 years ago</source>
-        <translation>%1 jaar geleden</translation>
+        <translation>%1 năm trước</translation>
     </message>
 </context>
 <context>
@@ -3178,7 +3184,7 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location filename="../src/gui/RelativeDateEdit.cc" line="+163"/>
         <source>Not set</source>
-        <translation>Niet ingesteld</translation>
+        <translation>Không đặt</translation>
     </message>
 </context>
 <context>
@@ -3186,27 +3192,27 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location line="-130"/>
         <source>Not set</source>
-        <translation>Niet ingesteld</translation>
+        <translation>Không đặt</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>days ago</source>
-        <translation>dagen geleden</translation>
+        <translation>ngày trước</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>weeks ago</source>
-        <translation>weken geleden</translation>
+        <translation>tuần trước</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>months ago</source>
-        <translation>maanden geleden</translation>
+        <translation>tháng trước</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>years ago</source>
-        <translation>jaren geleden</translation>
+        <translation>năm trước</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -3216,12 +3222,12 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location line="+14"/>
         <source>Relative date:</source>
-        <translation>Relatieve datum:</translation>
+        <translation>Ngày tương đối</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Absolute date:</source>
-        <translation>Absolute datum:</translation>
+        <translation>Ngày chính xác</translation>
     </message>
 </context>
 <context>
@@ -3229,7 +3235,7 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location filename="../src/gui/ResultsView.cc" line="+49"/>
         <source>Select All</source>
-        <translation>Alles selecteren</translation>
+        <translation>Chọn tất cả</translation>
     </message>
 </context>
 <context>
@@ -3237,42 +3243,42 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location filename="../src/gui/ResultsViewPreferences.ui" line="+14"/>
         <source>Form</source>
-        <translation>Formulier</translation>
+        <translation>In</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Results display</source>
-        <translation>Resultaatweergave</translation>
+        <translation>Hiển thị kết quả</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Smooth scrolling</source>
-        <translation>Soepel schuiven</translation>
+        <translation>Cuộn trơn tru</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Results sorting:</source>
-        <translation>Sorteren van resultaten:</translation>
+        <translation>Sắp xếp kết quả:</translation>
     </message>
     <message>
         <location line="+21"/>
         <source>By relevance</source>
-        <translation>Op relevantie</translation>
+        <translation>Theo mức liên quan</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>By score, then relevance</source>
-        <translation>Op score, vervolgens op relevantie</translation>
+        <translation>Theo điểm số, sau đó là mức liên quan</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Preview</source>
-        <translation>Voorproefje</translation>
+        <translation>Xem trước</translation>
     </message>
     <message>
         <location filename="../src/gui/PreferencesWindow.cc" line="-187"/>
         <source>Results view</source>
-        <translation>Resultaatweergave</translation>
+        <translation>Hiển thị kết quả</translation>
     </message>
 </context>
 <context>
@@ -3280,17 +3286,17 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location filename="../src/gui/ResultsViewWidget.ui" line="+14"/>
         <source>Form</source>
-        <translation>Formulier</translation>
+        <translation>In</translation>
     </message>
     <message>
         <location filename="../src/gui/ResultsViewWidget.cc" line="+43"/>
         <source>Searching...</source>
-        <translation type="unfinished"/>
+        <translation>Đang tìm kiếm...</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>%1 Results</source>
-        <translation type="unfinished"/>
+        <translation>%1 Kết quả</translation>
     </message>
 </context>
 <context>
@@ -3298,12 +3304,12 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location filename="../src/gui/SavedSearchesOrganizer.ui" line="+14"/>
         <source>Organize saved searches</source>
-        <translation type="unfinished"/>
+        <translation>Quản lý những lần tìm kiếm đã lưu</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>You can organize your saved searches here. Double-click to change the search&apos;s label, drag and drop to move or right-click for other options, including deletion.</source>
-        <translation type="unfinished"/>
+        <translation>Bạn có thể quản lý những lần tìm kiếm đã lưu tại đây. Nhấn đúp để đổi tên lần tìm kiếm, kéo thả để di chuyển và nhấn phải chuột để hiện thêm lựa chọn khác.</translation>
     </message>
 </context>
 <context>
@@ -3311,17 +3317,17 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location filename="../src/gui/SavedSearchesOrganizer.cc" line="+143"/>
         <source>Delete</source>
-        <translation>Verwijderen</translation>
+        <translation>Xóa</translation>
     </message>
     <message>
         <location line="+36"/>
         <source>Confirm deletion</source>
-        <translation>Bevestig verwijdering</translation>
+        <translation>Xác nhận xóa</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Are you sure you want to delete the selected search/folder?</source>
-        <translation type="unfinished"/>
+        <translation>Bạn có chắc bạn muốn xóa thư mục/lần tìm kiếm đã chọn?</translation>
     </message>
 </context>
 <context>
@@ -3329,17 +3335,17 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location filename="../src/gui/SearchWidget.ui" line="+67"/>
         <source>Previous search</source>
-        <translation>Vorige zoekopdracht</translation>
+        <translation>Lần tìm trước</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Next search</source>
-        <translation>Volgende zoekopdracht</translation>
+        <translation>Lần tìm sau</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>&amp;Reset search...</source>
-        <translation>Zoekopdracht he&amp;rstellen...</translation>
+        <translation>Đặt &amp;lại tìm kiếm</translation>
     </message>
 </context>
 <context>
@@ -3347,12 +3353,12 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="+283"/>
         <source>Direct compounds</source>
-        <translation>Directe samenstellingen</translation>
+        <translation>Trực tiếp làm thành tố</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>All compounds</source>
-        <translation>Alle samenstellingen</translation>
+        <translation>Hiện tất cả</translation>
     </message>
     <message>
         <location line="+0"/>
@@ -3375,12 +3381,12 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location line="+10"/>
         <source>Seen in</source>
-        <translation>Gezien in</translation>
+        <translation>Gặp ở</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>All words using this kanji</source>
-        <translation>Alle woorden met deze kanji</translation>
+        <translation>Tất cả các từ chứa kanji này</translation>
     </message>
     <message>
         <location line="+0"/>
@@ -3403,7 +3409,7 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location filename="../src/gui/StudyFilterWidget.cc" line="+30"/>
         <source>Score</source>
-        <translation>Score</translation>
+        <translation>Điểm số</translation>
     </message>
     <message>
         <location line="+30"/>
@@ -3418,95 +3424,95 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location line="+7"/>
         <source>Study date</source>
-        <translation>Studiedatum</translation>
+        <translation>Ngày học</translation>
     </message>
     <message>
         <location line="+24"/>
         <location line="+30"/>
         <location line="+20"/>
         <source>since</source>
-        <translation>sinds</translation>
+        <translation>từ</translation>
     </message>
     <message>
         <location line="-49"/>
         <location line="+30"/>
         <location line="+20"/>
         <source>until</source>
-        <translation>tot</translation>
+        <translation>đến </translation>
     </message>
     <message>
         <location line="-45"/>
         <source>Last trained</source>
-        <translation>Laatst geoefend</translation>
+        <translation>Lần học cuối</translation>
     </message>
     <message>
         <location line="+30"/>
         <source>Last mistaken</source>
-        <translation>Laatst onjuist</translation>
+        <translation>Lần sai cuối</translation>
     </message>
     <message>
         <location line="+114"/>
         <source> since %1</source>
-        <translation type="unfinished"/>
+        <translation> từ %1</translation>
     </message>
     <message>
         <location line="+4"/>
         <location line="+13"/>
         <location line="+10"/>
         <source> until %1</source>
-        <translation type="unfinished"/>
+        <translation> đến %1</translation>
     </message>
     <message>
         <location line="-20"/>
         <source>, score:[%1-%2]</source>
-        <translation type="unfinished"/>
+        <translation>, điểm:[%1-%2]</translation>
     </message>
     <message>
         <location line="-98"/>
         <source>Any</source>
-        <translation type="unfinished"/>
+        <translation>Tất cả</translation>
     </message>
     <message>
         <location line="+3"/>
         <location line="+85"/>
         <source>Studied</source>
-        <translation>Bestudeerd</translation>
+        <translation>Đã học</translation>
     </message>
     <message>
         <location line="-83"/>
         <location line="+116"/>
         <source>Not studied</source>
-        <translation>Niet bestudeerd</translation>
+        <translation>Chưa học</translation>
     </message>
     <message>
         <location line="-112"/>
         <source>Study status:</source>
-        <translation>Studiestatus:</translation>
+        <translation>Tình trạng học:</translation>
     </message>
     <message>
         <location line="+94"/>
         <source>, trained since %1</source>
-        <translation>, geoefend sinds %1</translation>
+        <translation>, học từ %1</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>, trained until %1</source>
-        <translation>, geoefend tot %1</translation>
+        <translation>, học đến %1</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>, mistaken since %1</source>
-        <translation>, onjuist sinds %1</translation>
+        <translation>, lỗi từ %1</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>, mistaken until %1</source>
-        <translation>, onjuist tot %1</translation>
+        <translation>, lỗi đến %1</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Study</source>
-        <translation>Studie</translation>
+        <translation>Học</translation>
     </message>
 </context>
 <context>
@@ -3514,62 +3520,62 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location filename="../src/gui/TagsDialogs.cc" line="+175"/>
         <source>Set tags for %1</source>
-        <translation>Stel labels in for %1</translation>
+        <translation>Đặt nhãn cho %1</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Set tags</source>
-        <translation>Labels instellen</translation>
+        <translation>Đặt nhãn</translation>
     </message>
     <message>
         <location line="+1"/>
         <location line="+35"/>
         <source>these entries:</source>
-        <translation>deze ingangen:</translation>
+        <translation>những mục này:</translation>
     </message>
     <message>
         <location line="-35"/>
         <location line="+35"/>
         <source>this entry:</source>
-        <translation>deze ingang:</translation>
+        <translation>mục này:</translation>
     </message>
     <message>
         <location line="-35"/>
         <source>Enter a space-separated list of tags for </source>
-        <translation type="unfinished"/>
+        <translation>Hãy nhập các nhãn ngăn nhau bằng dấu cách cho </translation>
     </message>
     <message>
         <location line="+5"/>
         <location line="+35"/>
         <source>Invalid tags</source>
-        <translation>Ongeldige labels</translation>
+        <translation>Nhãn không hợp lệ</translation>
     </message>
     <message>
         <location line="-35"/>
         <location line="+35"/>
         <source>&lt;/p&gt;&lt;p&gt;Accepted characters are letters, digits and non-quoting punctuation.&lt;/p&gt;</source>
-        <translation>&lt;/p&gt;&lt;p&gt;Letters, cijfers, en leestekens (behalve de aanhalingstekens en apostrophe) zijn geldige tekens.&lt;/p&gt;</translation>
+        <translation>&lt;/p&gt;&lt;p&gt;Chỉ chấp nhận chữ cái, chữ số và dấu không phải ngoặc.&lt;/p&gt;</translation>
     </message>
     <message>
         <location line="-35"/>
         <location line="+35"/>
         <source>&lt;p&gt;These tags have invalid characters: </source>
-        <translation type="unfinished"/>
+        <translation>&lt;p&gt;Những nhãn này chứa ký tự không phù hợp: </translation>
     </message>
     <message>
         <location line="-7"/>
         <source>Add tags to %1</source>
-        <translation>Labels toevoegen aan %1</translation>
+        <translation>Thêm nhãn cho %1</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Add tags</source>
-        <translation>Labels toevoegen</translation>
+        <translation>Thêm nhãn</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Enter a space-separated list of tags to add to </source>
-        <translation type="unfinished"/>
+        <translation>Hãy nhập một danh sách tag ngăn cách bởi dấu cách </translation>
     </message>
 </context>
 <context>
@@ -3582,12 +3588,12 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location line="+59"/>
         <source>Tags</source>
-        <translation>Labels</translation>
+        <translation>Nhãn</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Tagged %1</source>
-        <translation>Gelabeld met %1</translation>
+        <translation>Đã dán nhãn %1</translation>
     </message>
 </context>
 <context>
@@ -3605,7 +3611,7 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location line="+15"/>
         <source>Text search</source>
-        <translation>Tekst zoekopdracht</translation>
+        <translation>Tìm kiếm văn bản</translation>
     </message>
 </context>
 <context>
@@ -3613,73 +3619,73 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location filename="../src/gui/TrainSettings.cc" line="+66"/>
         <source>Entries appear totally randomly.</source>
-        <translation>Ingangen verschijnen compleet willekeurig.</translation>
+        <translation>Các mục hiện ra ngẫu nhiên.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Entries with a low score are likely to appear first.</source>
-        <translation>Ingangen met een lagere score hebben een hogere kans om eerder te verschijnen.</translation>
+        <translation>Những mục thấp điểm hơn sẽ hiện ra trước.</translation>
     </message>
     <message>
         <location filename="../src/gui/TrainSettings.ui" line="+14"/>
         <source>Train settings</source>
-        <translation>Oefeneningsinstellingen</translation>
+        <translation>Thiết lập luyện tập</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Date of last training</source>
-        <translation>Datum van de laatste oefening</translation>
+        <translation>Ngày luyện tập cuối</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Before</source>
-        <translation>Voor</translation>
+        <translation>Trước</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>After</source>
-        <translation>Na</translation>
+        <translation>Sau</translation>
     </message>
     <message>
         <location line="+10"/>
         <location line="+7"/>
         <source>PushButton</source>
-        <translation>PushButton</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+10"/>
         <source>Score</source>
-        <translation>Score</translation>
+        <translation>Điểm</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>between</source>
-        <translation>tussen</translation>
+        <translation>giữa</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>and</source>
-        <translation>en</translation>
+        <translation>và</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Sort biais</source>
-        <translation>Sorteervoorkeur</translation>
+        <translation>Ưu tiên sắp xếp</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Bias:</source>
-        <translation>Voorkeur:</translation>
+        <translation>Ưu tiên:</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>No bias</source>
-        <translation>Geen voorkeur</translation>
+        <translation>Không ưu tiên</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>By score</source>
-        <translation>Op score</translation>
+        <translation>Theo điểm số</translation>
     </message>
 </context>
 <context>
@@ -3687,47 +3693,47 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location filename="../src/gui/YesNoTrainer.cc" line="+44"/>
         <source>Answer (&amp;1)</source>
-        <translation type="unfinished"/>
+        <translation>Đáp án (%1)</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Correct! (&amp;2)</source>
-        <translation type="unfinished"/>
+        <translation>Đúng! (%2)</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Wrong... (&amp;3)</source>
-        <translation type="unfinished"/>
+        <translation>Sai... (%3)</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Skip (&amp;4)</source>
-        <translation type="unfinished"/>
+        <translation>Bỏ qua (%4)</translation>
     </message>
     <message>
         <location line="+108"/>
         <source>No entries to train</source>
-        <translation>Geen ingangen om te oefenen</translation>
+        <translation>Không còn mục nào để luyện tập</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>There are no entries that match the requested settings.</source>
-        <translation>Er zijn geen ingangen die overeenkomen met deze instellingen.</translation>
+        <translation>Không có mục nào thỏa mãn thiết lập đã yêu cầu.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>All the requested entries have been trained.</source>
-        <translation>Alle aangevraagde ingangen zijn geoefend.</translation>
+        <translation>Tất cả các mục yêu cầu đều đã được luyện tập.</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>No more entries to train</source>
-        <translation>Geen ingangen meer om te oefenen</translation>
+        <translation>Không còn mục nào để luyện tập</translation>
     </message>
     <message>
         <location line="-47"/>
         <source>Correct: %1, Wrong: %2, Total: %3</source>
-        <translation>Correct: %1, Fout: %2, Totaal: %3</translation>
+        <translation>Đúng: %1, Sai: %2, Tổng: %3</translation>
     </message>
 </context>
 <context>
@@ -3735,12 +3741,12 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location filename="../src/gui/main.cc" line="+109"/>
         <source>User data migrated</source>
-        <translation>Gebruikersgegevens verhuisd</translation>
+        <translation>Đã di chuyển dữ liệu cá nhân</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Your user data and settings have successfully been migrated. Tagaini Jisho needs to be restarted and will now exit.</source>
-        <translation>Uw gebruikersgegevens en -instellingen zijn met succes verhuisd. Tagaini Jisho moet herstart worden en zal nu sluiten.</translation>
+        <translation>Đã di chuyển thành công dữ liệu cá nhân của bạn. Bây giờ Tagaini Jisho sẽ khởi động lại.</translation>
     </message>
 </context>
 </TS>

@@ -91,7 +91,7 @@
         <translation>User database file:</translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="+499"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="+503"/>
         <source>User data</source>
         <translation>User data</translation>
     </message>
@@ -543,7 +543,7 @@
         <translation>A database error occured while trying to add the list.</translation>
     </message>
     <message>
-        <location line="+30"/>
+        <location line="+20"/>
         <source>Confirm deletion</source>
         <translation>Confirm deletion</translation>
     </message>
@@ -553,7 +553,7 @@
         <translation>This will delete the selected lists items and lists, including all their children. Continue?</translation>
     </message>
     <message>
-        <location line="+23"/>
+        <location line="+18"/>
         <source>Removal failed</source>
         <translation>Removal failed</translation>
     </message>
@@ -705,22 +705,22 @@
 <context>
     <name>GeneralPreferences</name>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="-171"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="-173"/>
         <source>English</source>
         <translation>English</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="-1"/>
         <source>German</source>
         <translation>German</translation>
     </message>
     <message>
-        <location line="-1"/>
+        <location line="+3"/>
         <source>French</source>
         <translation>French</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="-1"/>
         <source>Spanish</source>
         <translation type="unfinished"></translation>
     </message>
@@ -730,33 +730,48 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-7"/>
         <source>Czech</source>
         <translation>Czech</translation>
     </message>
     <message>
-        <location line="-3"/>
+        <location line="+8"/>
         <source>Dutch</source>
         <translation>Dutch</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-3"/>
         <source>Italian</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-2"/>
+        <location line="+5"/>
         <source>Russian</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="-4"/>
         <source>Japanese</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="+3"/>
         <source>Polish</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Swedish</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Turkish</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Vietnamese</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -770,7 +785,7 @@
         <translation>Application-wide default font</translation>
     </message>
     <message>
-        <location line="+18"/>
+        <location line="+19"/>
         <source>Monday</source>
         <translation>Monday</translation>
     </message>
@@ -795,17 +810,17 @@
         <translation>General settings</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+35"/>
         <source>System default</source>
         <translation>System default</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="-27"/>
         <source>Preferred dictionary language</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+41"/>
         <source>The dictionaries will use this language whenever possible. English will be used as a fallback.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -815,7 +830,17 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+8"/>
+        <source>If not checked, English will not be shown when a translation in the preferred language is available. If checked, English will be shown alongside the preferred language.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Always display English</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+9"/>
         <source>You need to restart Tagaini Jisho for these changes to take effect.</source>
         <translation>You need to restart Tagaini Jisho for these changes to take effect.</translation>
     </message>
@@ -865,17 +890,17 @@
         <translation>Also check for development versions</translation>
     </message>
     <message>
-        <location line="-118"/>
+        <location line="-129"/>
         <source>Preferred GUI language</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+16"/>
         <source>The GUI will use this language whenever possible. English will be used as a fallback.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+115"/>
+        <location line="+120"/>
         <source>Next check:</source>
         <translation>Next check:</translation>
     </message>
