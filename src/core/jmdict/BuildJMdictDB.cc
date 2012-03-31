@@ -58,7 +58,9 @@ public:
 	bool finalizeLanguagesDatabases();
 	bool prepareLanguagesQueries();
 	bool clearLanguagesQueries();
-	bool fillLanguagesInfoTable();	
+	bool fillLanguagesInfoTable();
+	bool parseJMFs(const QStringList &supportedLanguages);
+	bool parseJMF(const QString &fname, const QString &lang);
 	bool insertJLPTLevel(const QString& fName, int level);
 	bool insertJLPTLevels();
 	bool populateEntitiesTable();
@@ -77,6 +79,8 @@ private:
 	QMap<QString, SQLite::Query> insertGlossTextQueries;
 	QMap<QString, SQLite::Query> insertGlossQueries;
 	QMap<QString, SQLite::Query> insertGlossesQueries;
+	// lang ; id ; pri ; str
+	QMap<QString, QMap<int, QMap<int, QStringList> > > jmf;
 	
 	bool openDatabase(QString databaseName, QString handle);
 	bool closeDatabase(QString handle);
@@ -152,25 +156,27 @@ bool JMdictDBParser::onItemParsed(const JMdictItem &entry)
 		foreach (quint8 res, sense.restrictedToKana) restrictedToList << QString::number(res);
 		AUTO_BIND(insertSenseQuery, restrictedToList.join(","), "");
 		EXEC(insertSenseQuery);
-		
-		// Insert the gloss for all languages
+
+
+		// Insert the gloss for all languages (search table)
 		foreach (const QString &lang, languages) {
-			if (!sense.gloss.contains(lang)) {
+			// Do we have a replacement for the glosses?
+			const QStringList &glosses = jmf[lang][entry.id][idx].isEmpty() ?
+				sense.gloss[lang] : jmf[lang][entry.id][idx];
+			if (glosses.isEmpty()) {
 				allGlosses[lang] << QString();
 				continue;
 			}
-			allGlosses[lang] << sense.gloss[lang].join("\n");
-			BIND(insertGlossTextQueries[lang], sense.gloss[lang].join(", "));
+			allGlosses[lang] << glosses.join("\n");
+			BIND(insertGlossTextQueries[lang], glosses.join(", "));
 			EXEC(insertGlossTextQueries[lang]);
-			qint64 rowId = insertGlossTextQueries[lang].lastInsertId();
 			BIND(insertGlossQueries[lang], entry.id);
-			BIND(insertGlossQueries[lang], rowId);
+			BIND(insertGlossQueries[lang], insertGlossTextQueries[lang].lastInsertId());
 			EXEC(insertGlossQueries[lang]);
 		}
 		++idx;
 	}
-	// Insert the glosses for every language
-	// TODO do not insert for non-present glosses
+	// For every language, insert all glosses of an entry (load table)
 	foreach (const QString &lang, languages) {
 		QString all(allGlosses[lang].join("\n\n"));
 		if (all.split("\n", QString::SkipEmptyParts).empty()) continue;
@@ -449,6 +455,42 @@ bool JMdictDBParser::populateEntitiesTable()
 	return true;
 }
 
+bool JMdictDBParser::parseJMF(const QString &fName, const QString &lang)
+{
+	QFile file(fName);
+	if (!file.open(QFile::ReadOnly | QFile::Text)) {
+		return false;
+	}
+
+	QTextStream in(&file);
+	QString line(in.readLine());
+	while (!line.isNull()) {
+		int pos = line.indexOf(' ');
+		int pos2 = line.indexOf(' ', pos + 1);
+		int eid(line.left(pos).toInt());
+		int pri(line.mid(pos + 1, pos2 - (pos + 1)).toInt());
+
+		// Flush previous 
+		QString gloss(line.mid(pos2 + 1));
+		jmf[lang][eid][pri] << gloss;
+		line = in.readLine();
+	}
+	return true;
+}
+
+bool JMdictDBParser::parseJMFs(const QStringList &supportedLanguages)
+{
+	QDir dir(QDir(srcDir).absoluteFilePath("src/core/jmdict"));
+
+	foreach (QString fName, dir.entryList(QStringList() << "*.jmf")) {
+		QString lang(fName.split('.')[0]);
+		if (supportedLanguages.contains(lang))
+			parseJMF(dir.absoluteFilePath(fName), lang);
+	}
+
+	return true;
+}
+
 void printUsage(char *argv[])
 {
 	qCritical("Usage: %s [-l<lang>] source_dir dest_dir\nWhere <lang> is a two-letters language code (en, fr, de, es or ru)", argv[0]);
@@ -458,6 +500,7 @@ bool buildDB(const QStringList &languages, const QString &srcDir, const QString 
 {
 	JMdictDBParser parser(languages, srcDir, dstDir);
 
+	parser.parseJMFs(languages);
 	parser.createMainDatabase();
 	parser.createMainTables();
 	parser.prepareMainQueries();
