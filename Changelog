@@ -1,7 +1,9 @@
-0.9.3 released on 2012/03/31
+0.9.3 released on 2012/04/01
 * Update JLPT lists to follow new N* scheme (thanks to the JLPT
   Resources Page: http://www.tanos.co.uk/jlpt/)
 * Added optional link to example sentences on Tatoeba or jisho.org
+* Plenty of new languages supported for GUI and databases: Italian,
+  Swedish, Thai, Turkish, Vietnamese, ...
 * Fix: do not display empty glosses for a language in detailed view
 * Fixed wildcard search which was broken in previous version
 * Core and SQLite modules are compiled as shared libraries, and SQLite
