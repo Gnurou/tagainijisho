@@ -104,6 +104,7 @@ static const QMap<QString, QString> _langMapping()
 	ret.insert("pt", QT_TRANSLATE_NOOP("GeneralPreferences", "Portuguese"));
 	ret.insert("ru", QT_TRANSLATE_NOOP("GeneralPreferences", "Russian"));
 	ret.insert("sv", QT_TRANSLATE_NOOP("GeneralPreferences", "Swedish"));
+	ret.insert("th", QT_TRANSLATE_NOOP("GeneralPreferences", "Thai"));
 	ret.insert("tr", QT_TRANSLATE_NOOP("GeneralPreferences", "Turkish"));
 	ret.insert("vi", QT_TRANSLATE_NOOP("GeneralPreferences", "Vietnamese"));
 	return ret;
