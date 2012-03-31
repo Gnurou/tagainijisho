@@ -291,7 +291,7 @@ public:
 	bool fillMainInfoTable();
 	bool fillLanguagesInfoTable();
 
-	bool updateTranslations();
+	bool updateTranslations(const QStringList &supportedLanguages);
 	bool updateTranslation(const QString &fName, const QString &lang);
 
 private:
@@ -516,12 +516,14 @@ bool KanjiDB::fillLanguagesInfoTable()
 	return true;
 }
 
-bool KanjiDB::updateTranslations()
+bool KanjiDB::updateTranslations(const QStringList &supportedLanguages)
 {
 	QDir dir(QDir(srcDir).absoluteFilePath("src/core/kanjidic2"));
 
 	foreach (QString fName, dir.entryList(QStringList() << "*.jmf")) {
-		updateTranslation(dir.absoluteFilePath(fName), fName.split('.')[0]);
+		QString lang(fName.split('.')[0]);
+		if (supportedLanguages.contains(lang))
+			updateTranslation(dir.absoluteFilePath(fName), lang);
 	}
 
 	return true;
@@ -598,7 +600,6 @@ bool KanjiDB::parse()
 	ASSERT(fillMainInfoTable());	
 	ASSERT(fillLanguagesInfoTable());	
 	ASSERT(kdicParser->updateJLPTLevels());
-	ASSERT(updateTranslations());
 	return true;
 }
 
@@ -618,6 +619,7 @@ bool buildDB(const QStringList &languages, const QString &srcDir, const QString 
 	ASSERT(kanjiDB.createTables());
 	ASSERT(kanjiDB.prepareQueries());
 	ASSERT(kanjiDB.parse());
+	ASSERT(kanjiDB.updateTranslations(languages));
 	ASSERT(kanjiDB.createIndexes());
 	ASSERT(kanjiDB.clearQueries());
 	ASSERT(kanjiDB.finalize());
