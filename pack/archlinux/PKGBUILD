@@ -1,7 +1,7 @@
 # Contributor: Kristian Setälä <kristian.setala@gmail.com>
 
 pkgname=tagainijisho
-pkgver=0.9.2
+pkgver=0.9.3
 pkgrel=1
 pkgdesc="A Free Japanese dictionary and study assistant"
 arch=('i686' 'x86_64')
@@ -10,11 +10,11 @@ license=('GPL3')
 depends=('qt>=4.7' 'sqlite3>=3.7.9')
 makedepends=('cmake>=2.8.1' 'desktop-file-utils')
 source=(https://github.com/downloads/Gnurou/$pkgname/$pkgname-$pkgver.tar.gz)
-md5sums=('e12ca78a3677685f1d6e89095526d840')
+md5sums=('6d539ec11c8338aa8a0f333374ef862b')
 
 build() {
   cd "$srcdir/$pkgname-$pkgver"
-  CFLAGS=`echo $CFLAGS | sed 's/-ffast-math//'` cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr . || return 1
+  CFLAGS=`echo $CFLAGS | sed 's/-ffast-math//'` cmake -DCMAKE_EXE_LINKER_FLAGS="${CMAKE_EXE_LINKER_FLAGS} -lpthread -ldl" -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr . || return 1
   make || return 1
 }
 
