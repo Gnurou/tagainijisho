@@ -2,7 +2,7 @@
 set(QT_DONT_USE_QTGUI TRUE)
 
 set(KANJIDIC2_SOURCE http://www.csse.monash.edu.au/~jwb/kanjidic2/kanjidic2.xml.gz)
-set(KANJIVG_SOURCE https://github.com/downloads/KanjiVG/kanjivg/kanjivg-20120219.xml.gz)
+set(KANJIVG_SOURCE https://github.com/downloads/KanjiVG/kanjivg/kanjivg-20120401.xml.gz)
 
 # Kanjidic2
 if(NOT EXISTS ${CMAKE_SOURCE_DIR}/3rdparty/kanjidic2.xml)
