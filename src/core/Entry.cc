@@ -163,6 +163,20 @@ void Entry::Note::update(const QString &newNote)
 	_dateLastChange = QDateTime::currentDateTime();
 }
 
+void Entry::addToList (quint64 listId)
+{
+	if (!_lists.contains(listId)) {
+		_lists << listId;
+		emit entryChanged(this);
+	}
+}
+
+void Entry::removeFromList (quint64 listId)
+{
+	if (_lists.remove(listId))
+		emit entryChanged(this);
+}
+
 void Entry::Note::writeToDB(const Entry *entry)
 {
 	SQLite::Query query(Database::connection());

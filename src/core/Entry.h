@@ -121,6 +121,12 @@ public:
 	void resetScore();
 
 	/**
+	 * Emit the entryChanged() signal unconditionally.
+	 * This may be needed if something around the entry has changed
+	 * that may affect it.
+	 */
+	void emitChanged() { emit entryChanged(this); }
+	/**
 	 * An entry is considered to be under training if it has been added to the
 	 * training list at some point.
 	 */
@@ -152,7 +158,8 @@ public:
 	 * their row number.
 	 */
 	const QSet<quint64> &lists() const { return _lists; }
-	QSet<quint64> &lists() { return _lists; }
+	void addToList(quint64 listId);
+	void removeFromList(quint64 listId);
 
 	void train(bool success, float factor = 1.0f);
 

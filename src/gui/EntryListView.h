@@ -36,6 +36,10 @@ private:
 	ScrollBarSmoothScroller scroller;
 	EntriesViewHelper _helper;
 	QAction _newListAction, _rightClickNewListAction, _deleteSelectionAction, _renameListAction, _goUpAction;
+	/**
+	 * Recursively delete the given index and all indexes below it.
+	 */
+	bool deleteEntries(const QModelIndex &index);
 	
 private slots:
 	void rightClickNewList();

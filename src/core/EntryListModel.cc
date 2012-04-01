@@ -58,7 +58,15 @@ QModelIndex EntryListModel::index(quint64 rowid) const
 	if (!p.first) return QModelIndex();
 	return createIndex(p.second, 0, p.first->listId());
 }
-	
+
+quint64 EntryListModel::rowIdFromIndex(const QModelIndex &index) const
+{
+	if (!index.isValid()) return 0;
+
+	EntryList *list = EntryListCache::get(index.internalId());
+	return EntryListCache::getRowIdFromIndex(QPair<const EntryList *, quint32>(list, index.row()));
+}
+
 QModelIndex EntryListModel::parent(const QModelIndex &idx) const
 {
 	// Invalid index has no parent
@@ -322,6 +330,7 @@ bool EntryListModel::dropMimeData(const QMimeData *data, Qt::DropAction action, 
 				goto failure_2;
 			}
 
+
 			QMutableListIterator<QModelIndex> it(pIdxs);
 			while (it.hasNext()) {
 				const QModelIndex &idx = it.next();
@@ -341,6 +350,9 @@ bool EntryListModel::dropMimeData(const QMimeData *data, Qt::DropAction action, 
 				// Persistent index after destination, increment its row
 				if (idx.internalId() == list.listId() && idx.row() >= origRow) updatedPIndexes[idx].row++;
 			}
+			EntryRef entry(iRef.node->value().entryRef());
+			if (entry.isLoaded())
+				entry.get()->emitChanged();
 		}
 		// Update the persistent indexes that need to be
 		foreach (const QModelIndex &idx, updatedPIndexes.keys()) {
@@ -380,8 +392,10 @@ bool EntryListModel::dropMimeData(const QMimeData *data, Qt::DropAction action, 
 				goto failure_2;
 			}
 
-			// Now add the list to the entry if it is loaded
-			//if (entry.isLoaded()) entry.get()->lists() << Entry::EntryListRef(list.listId(), row + cpt);
+			// Add the list to the entry if it is loaded
+			if (entry.isLoaded()) {
+				entry.get()->addToList(EntryListCache::getRowIdFromIndex(QPair<const EntryList *, quint32>(&list, row + cpt)));
+			}
 			cpt++;
 		}
 		if (!EntryListCache::connection()->commit()) goto failure_2;

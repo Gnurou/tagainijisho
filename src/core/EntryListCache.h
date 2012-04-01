@@ -48,6 +48,7 @@ private:
 	void _clearListCache(quint64 id);
 	QPair <const EntryList *, quint32> _getOwner(quint64 id);
 	QPair<const EntryList *, quint32> _getIndexFromRowId(quint64 rowid);
+	quint64 _getRowIdFromIndex(const QPair<const EntryList *, quint32> &idx);
 	void _clearOwnerCache(quint64 id);
 	void _clearOwnerCache();
 
@@ -64,6 +65,7 @@ public:
 	/// Returns the list that contains the list which id is given in parameter.
 	static QPair<const EntryList *, quint32> getOwner(quint64 id) { return instance()._getOwner(id); }
 	static QPair<const EntryList *, quint32> getIndexFromRowId(quint64 rowid) { return instance()._getIndexFromRowId(rowid); }
+	static quint64 getRowIdFromIndex(const QPair<const EntryList *, quint32> &idx) { return instance()._getRowIdFromIndex(idx); }
 	static void clearOwnerCache(quint64 id) { instance()._clearOwnerCache(id); }
 	static void clearOwnerCache() { instance()._clearOwnerCache(); }
 	/// Returns the database connection used by the entry list system
