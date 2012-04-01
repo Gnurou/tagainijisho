@@ -494,7 +494,7 @@ QString Kanjidic2EntryFormatter::formatJLPT(const ConstEntryPointer &_entry) con
 {
 	ConstKanjidic2EntryPointer entry(_entry.staticCast<const Kanjidic2Entry>());
 	if (entry->jlpt() != -1 && showJLPT.value()) {
-		return QString("<b>%1:</b> N%2").arg(tr("JLPT")).arg(entry->jlpt() < 3 ? entry->jlpt() : entry->jlpt() + 1);
+		return QString("<b>%1:</b> N%2").arg(tr("JLPT")).arg(entry->jlpt());
 	}
 	return "";
 }
