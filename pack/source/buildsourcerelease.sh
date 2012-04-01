@@ -20,4 +20,5 @@ make package_source
 mv tagainijisho-${VERSION}.tar.gz ..
 cd ..
 rm -Rf gitexport build
+echo "Final source release: `pwd`/tagainijisho-${VERSION}.tar.gz"
 cd $curpath
