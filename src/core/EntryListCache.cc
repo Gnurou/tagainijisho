@@ -131,6 +131,11 @@ QPair<const EntryList *, quint32> EntryListCache::_getIndexFromRowId(quint64 row
 	}
 }
 
+quint64 EntryListCache::_getRowIdFromIndex (const QPair<const EntryList *, quint32> &idx)
+{
+	return idx.first->getNode(idx.second)->rowId();
+}
+
 void EntryListCache::_clearOwnerCache(quint64 id)
 {
 	_cachedParents.remove(id);

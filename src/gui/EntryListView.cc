@@ -143,23 +143,45 @@ void EntryListView::rightClickNewList()
 	else if (selection.size() == 1 && !selection[0].data(Entry::EntryRole).isValid()) newList(selection[0]);
 }
 
+bool EntryListView::deleteEntries(const QModelIndex &index)
+{
+	if (!index.isValid()) return true;
+	EntryListModel *m(qobject_cast<EntryListModel *>(model()));
+	int nRows = m->rowCount(index);
+	// Delete all children
+	while (nRows--)
+		if (!deleteEntries(index.child(0, 0))) return false;
+
+	// Remove ourselves from the model
+	EntryRef ref(index.data(Entry::EntryRefRole).value<EntryRef>());
+	if (ref.isLoaded()) {
+		EntryPointer e(ref.get());
+		e->removeFromList(m->rowIdFromIndex(index));
+	}
+
+	return model()->removeRow(index.row(), index.parent());
+}
+
 void EntryListView::deleteSelectedItems()
 {
 	if (QMessageBox::question(this, tr("Confirm deletion"), tr("This will delete the selected lists items and lists, including all their children. Continue?"), QMessageBox::Yes | QMessageBox::No, QMessageBox::No) != QMessageBox::Yes) return;
 	QModelIndexList selection(selectionModel()->selectedIndexes());
+
+	// Build a persistent list of all the indexes to remove as we are going to mess with their order
 	QList<QPersistentModelIndex> perList;
 	foreach (const QModelIndex &idx, selection) {
 		perList << QPersistentModelIndex(idx);
 	}
+
 	// TODO progress bar
 	if (!EntryListCache::connection()->transaction()) goto failure_1;
 	foreach (const QPersistentModelIndex &index, perList) {
-		if (!index.isValid()) continue;
-		if (!model()->removeRow(index.row(), index.parent())) goto failure_2;
+		if (!deleteEntries(index)) goto failure_2;
 	}
 	if (!EntryListCache::connection()->commit()) goto failure_2;
 
 	return;
+
 failure_2:
 	EntryListCache::connection()->rollback();
 failure_1:

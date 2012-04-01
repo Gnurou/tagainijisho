@@ -33,6 +33,7 @@ public:
 	virtual QModelIndex index(int row, int column, const QModelIndex &parent = QModelIndex()) const;
 	QModelIndex indexFromList(quint64 listId, quint64 position) const;
 	QModelIndex index(quint64 rowid) const;
+	quint64 rowIdFromIndex(const QModelIndex &index) const;
 	virtual QModelIndex parent(const QModelIndex &index) const;
 	virtual int rowCount(const QModelIndex &parent = QModelIndex()) const;
 	virtual int columnCount(const QModelIndex &parent = QModelIndex()) const { return 1; }
