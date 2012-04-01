@@ -337,7 +337,7 @@ void Kanjidic2EntryFormatter::showToolTip(const ConstKanjidic2EntryPointer entry
 		CLOSE_TAB;
 	}
 	if (entry->jlpt() != -1 && tooltipShowJLPT.value()) {
-		QString body(tr("<b>JLPT:</b> N%1").arg(entry->jlpt() < 3 ? entry->jlpt() : entry->jlpt() + 1));
+		QString body(tr("<b>JLPT:</b> N%1").arg(entry->jlpt()));
 		CLOSE_TAB;
 	}
 	if (entry->heisig() != -1 && tooltipShowHeisig.value()) {
@@ -392,7 +392,7 @@ QString Kanjidic2EntryFormatter::shortDesc(const ConstKanjidic2EntryPointer &sha
 	ret += autoFormat(str);
 	
 	if (shortDescShowJLPT.value() && entry->jlpt() != -1)
-		ret += QString(" <b>%1</b>").arg(autoFormat(tr("(JLPT N%1)").arg(entry->jlpt() < 3 ? entry->jlpt() : entry->jlpt() + 1)));
+		ret += QString(" <b>%1</b>").arg(autoFormat(tr("(JLPT N%1)").arg(entry->jlpt())));
 	ret += QString(" <a href=\"entry://?type=%1&id=%2\"><img src=\"moreicon\"/></a>").arg(entry->type()).arg(entry->id());
 	if (entry->trained()) {
 		ret = QString("<span style=\"background-color:%1\">%2</span>").arg(colorTriplet(entry->scoreColor())).arg(ret);
