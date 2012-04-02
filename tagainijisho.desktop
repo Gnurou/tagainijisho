@@ -3,10 +3,26 @@ Encoding=UTF-8
 Type=Application
 Name=Tagaini Jisho
 GenericName=Japanese dictionary and study assistant
-GenericName[fr]=Dictionnaire et assistant d'étude du japonais
 Comment=A free Japanese dictionary and study assistant
-Comment[fr]=Un dictionnaire et assistant d'étude du japonais
 Exec=tagainijisho
 Icon=tagainijisho
 Terminal=false
 Categories=Languages;Education;Qt;
+
+
+# Translations
+Name[de]=Tagaini Jisho
+Name[pl]=Tagaini Jisho
+Name[ru]=Tagaini Jisho
+Name[fr]=Tagaini Jisho
+Icon[fr]=tagainijisho
+Comment[fr]=Un dictionnaire et assistant d'étude du japonais
+GenericName[fr]=Dictionnaire et assistant d'étude du japonais
+Name[it]=Tagaini Jisho
+Name[cs]=Tagaini Jisho
+Name[sv]=Tagaini jisho
+Name[tr]=Tagaini Jisho
+Name[es]=Tagaini Jisho
+Name[vi]=Tagaini Jisho
+Name[nb]=Tagaini Jisho
+Name[nl]=Tagaini Jisho

@@ -1,8 +1,13 @@
-[tagaini-jisho.trunk-gui]
+[tagaini-jisho.gui]
 file_filter = i18n/tagainijisho_<lang>.ts
 source_file = i18n/tagainijisho_en.ts
 source_lang = en
 type = QT
+
+[tagaini-jisho.desktop]
+source_file = tagainijisho.desktop
+source_lang = en
+type = DESKTOP
 
 [main]
 host = https://www.transifex.net
