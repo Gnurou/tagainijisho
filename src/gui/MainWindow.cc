@@ -355,7 +355,7 @@ void MainWindow::updateAvailable(const QString &version)
 	QPushButton laterButton(tr("Maybe later"));
 	messageBox.addButton(&laterButton, QMessageBox::RejectRole);
 	if (messageBox.exec() == QMessageBox::AcceptRole) {
-		QDesktopServices::openUrl(QUrl("http://www.tagaini.net"));
+		QDesktopServices::openUrl(QUrl("http://www.tagaini.net/download"));
 	}
 	_updateTimer.stop();
 }
@@ -370,7 +370,7 @@ void MainWindow::betaUpdateAvailable(const QString &version)
 	QPushButton laterButton(tr("Maybe later"));
 	messageBox.addButton(&laterButton, QMessageBox::RejectRole);
 	if (messageBox.exec() == QMessageBox::AcceptRole) {
-		QDesktopServices::openUrl(QUrl("http://www.tagaini.net"));
+		QDesktopServices::openUrl(QUrl("http://www.tagaini.net/download"));
 	}
 	_updateTimer.stop();
 }
