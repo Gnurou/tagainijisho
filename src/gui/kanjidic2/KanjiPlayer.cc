@@ -196,8 +196,7 @@ void KanjiPlayer::highlightComponent(const KanjiComponent *component)
 {
 	if (component == _highlightedComponent) return;
 	_highlightedComponent = component;
-	// Only schedule a redraw if the animation is stopped
-	if (!_timer.isActive()) update();
+	update();
 }
 
 void KanjiPlayer::unHighlightComponent()
