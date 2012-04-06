@@ -103,7 +103,7 @@
    <item>
     <widget class="QGroupBox" name="groupBox_3">
      <property name="title">
-      <string>Sort biais</string>
+      <string>Sort bias</string>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout">
       <item>

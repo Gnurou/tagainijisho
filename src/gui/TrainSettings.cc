@@ -103,6 +103,6 @@ QString TrainSettings::buildQueryString(int entryType)
 QString TrainSettings::buildOrderString(const QString &scoreColumn)
 {
 	int bias(biasPref.value());
-	if (bias == TrainSettings::BIAS_SCORE) return QString("ORDER BY biaised_random(%1) DESC").arg(scoreColumn);
+	if (bias == TrainSettings::BIAS_SCORE) return QString("ORDER BY biased_random(%1) DESC").arg(scoreColumn);
 	else return "ORDER BY random()";
 }
