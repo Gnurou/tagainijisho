@@ -165,8 +165,8 @@ void YesNoTrainer::showAnswer()
 void YesNoTrainer::hasResults(unsigned int nbResults)
 {
 	if (nbResults == 0) {
-		if (_totalCount == 0) QMessageBox::information(this, tr("No entries to train"), tr("There are no entries that match the requested settings."));
-		else QMessageBox::information(this, tr("No more entries to train"), tr("All the requested entries have been trained."));
+		if (_totalCount == 0) QMessageBox::information(this, tr("No entries to train"), tr("There are no entries to train as of now. Please add entries to your study list or check the train settings."));
+		else QMessageBox::information(this, tr("No more entries to train"), tr("All the matching entries have been trained."));
 		close();
 	}
 }
