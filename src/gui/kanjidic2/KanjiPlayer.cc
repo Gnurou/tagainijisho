@@ -232,7 +232,8 @@ void KanjiPlayer::renderCurrentState()
 	painter.setPen(outLinePen);
 	renderer.renderStrokes(&painter);
 	if (highlightedComponent()) {
-		outLinePen.setWidth(outline_size + 3);
+		outLinePen.setColor(palette().color(QPalette::Dark).darker());
+		outLinePen.setWidth(outline_size + 1);
 		painter.setPen(outLinePen);
 		renderer.renderComponentStrokes(*highlightedComponent(), &painter);
 	}
