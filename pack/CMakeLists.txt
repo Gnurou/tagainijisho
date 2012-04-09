@@ -105,10 +105,10 @@ if(UNIX)
 	endforeach(LANG ${UI_LANG})
 
 	# Template files
-	install(FILES ${CMAKE_SOURCE_DIR}/src/gui/jmdict/detailed_jmdict.html ${CMAKE_SOURCE_DIR}/src/gui/jmdict/detailed_jmdict.css DESTINATION ${RESOURCES_DIR} PERMISSIONS OWNER_READ GROUP_READ WORLD_READ COMPONENT Runtime)
-	install(FILES ${CMAKE_SOURCE_DIR}/src/gui/kanjidic2/detailed_kanjidic2.html ${CMAKE_SOURCE_DIR}/src/gui/kanjidic2/detailed_kanjidic2.css DESTINATION ${RESOURCES_DIR} PERMISSIONS OWNER_READ GROUP_READ WORLD_READ COMPONENT Runtime)
-	install(FILES ${CMAKE_SOURCE_DIR}/src/gui/export_template.html DESTINATION ${RESOURCES_DIR} PERMISSIONS OWNER_READ GROUP_READ WORLD_READ COMPONENT Runtime)
-	install(FILES ${CMAKE_SOURCE_DIR}/src/gui/detailed_default.html ${CMAKE_SOURCE_DIR}/src/gui/detailed_default.css DESTINATION ${RESOURCES_DIR} PERMISSIONS OWNER_READ GROUP_READ WORLD_READ COMPONENT Runtime)
+	install(FILES ${CMAKE_SOURCE_DIR}/src/gui/jmdict/detailed_jmdict.html ${CMAKE_SOURCE_DIR}/src/gui/jmdict/detailed_jmdict.css DESTINATION ${RESOURCES_DIR} PERMISSIONS OWNER_READ GROUP_READ WORLD_READ COMPONENT Templates)
+	install(FILES ${CMAKE_SOURCE_DIR}/src/gui/kanjidic2/detailed_kanjidic2.html ${CMAKE_SOURCE_DIR}/src/gui/kanjidic2/detailed_kanjidic2.css DESTINATION ${RESOURCES_DIR} PERMISSIONS OWNER_READ GROUP_READ WORLD_READ COMPONENT Templates)
+	install(FILES ${CMAKE_SOURCE_DIR}/src/gui/export_template.html DESTINATION ${RESOURCES_DIR} PERMISSIONS OWNER_READ GROUP_READ WORLD_READ COMPONENT Templates)
+	install(FILES ${CMAKE_SOURCE_DIR}/src/gui/detailed_default.html ${CMAKE_SOURCE_DIR}/src/gui/detailed_default.css DESTINATION ${RESOURCES_DIR} PERMISSIONS OWNER_READ GROUP_READ WORLD_READ COMPONENT Templates)
 
 	# Documentation
 	if (EXISTS ${CMAKE_SOURCE_DIR}/doc/manual.html)
@@ -137,6 +137,12 @@ if(UNIX)
 		-P "${CMAKE_BINARY_DIR}/cmake_install.cmake"
 	)
 	add_dependencies(install_i18n i18n)
+	add_custom_target(install_templates
+		${CMAKE_COMMAND}
+		-D "COMPONENT=Templates"
+		-P "${CMAKE_BINARY_DIR}/cmake_install.cmake"
+	)
+	add_dependencies(install_templates templates)
 	add_custom_target(install_icons
 		${CMAKE_COMMAND}
 		-D "COMPONENT=Icons"
@@ -149,6 +155,8 @@ if(UNIX)
 		-P "${CMAKE_BINARY_DIR}/cmake_install.cmake"
 	)
 	add_dependencies(install_docs docs)
+	add_custom_target(install_nonarch)
+	add_dependencies(install_nonarch install_databases install_i18n install_templates install_icons install_docs)
 endif(UNIX)
 
 if(WIN32)
