@@ -101,7 +101,7 @@ if(UNIX)
 
 	# i18n files
 	foreach(LANG ${UI_LANG})
-		install(FILES ${CMAKE_BINARY_DIR}/i18n/tagainijisho_${LANG}.qm DESTINATION ${I18N_DIR} PERMISSIONS OWNER_READ GROUP_READ WORLD_READ COMPONENT Runtime)
+		install(FILES ${CMAKE_BINARY_DIR}/i18n/tagainijisho_${LANG}.qm DESTINATION ${I18N_DIR} PERMISSIONS OWNER_READ GROUP_READ WORLD_READ COMPONENT I18n)
 	endforeach(LANG ${UI_LANG})
 
 	# Template files
@@ -112,8 +112,8 @@ if(UNIX)
 
 	# Documentation
 	if (EXISTS ${CMAKE_SOURCE_DIR}/doc/manual.html)
-		install(FILES ${CMAKE_SOURCE_DIR}/doc/manual.html DESTINATION ${DOC_DIR} COMPONENT Runtime)
-		install(DIRECTORY ${CMAKE_SOURCE_DIR}/doc/images DESTINATION ${DOC_DIR} COMPONENT Runtime)
+		install(FILES ${CMAKE_SOURCE_DIR}/doc/manual.html DESTINATION ${DOC_DIR} COMPONENT Docs)
+		install(DIRECTORY ${CMAKE_SOURCE_DIR}/doc/images DESTINATION ${DOC_DIR} COMPONENT Docs)
 	else(EXISTS ${CMAKE_SOURCE_DIR}/doc/manual.html)
 		MESSAGE(STATUS "Warning, docs were not generated")
 	endif()
@@ -124,13 +124,25 @@ if(UNIX)
 		-D "COMPONENT=Runtime"
 		-P "${CMAKE_BINARY_DIR}/cmake_install.cmake"
 	)
-	add_dependencies(install_runtime tagainijisho i18n docs)
+	add_dependencies(install_runtime tagainijisho)
 	add_custom_target(install_databases
 		${CMAKE_COMMAND}
 		-D "COMPONENT=Databases"
 		-P "${CMAKE_BINARY_DIR}/cmake_install.cmake"
 	)
 	add_dependencies(install_databases databases)
+	add_custom_target(install_i18n
+		${CMAKE_COMMAND}
+		-D "COMPONENT=I18n"
+		-P "${CMAKE_BINARY_DIR}/cmake_install.cmake"
+	)
+	add_dependencies(install_i18n i18n)
+	add_custom_target(install_docs
+		${CMAKE_COMMAND}
+		-D "COMPONENT=Docs"
+		-P "${CMAKE_BINARY_DIR}/cmake_install.cmake"
+	)
+	add_dependencies(install_docs docs)
 endif(UNIX)
 
 if(WIN32)
