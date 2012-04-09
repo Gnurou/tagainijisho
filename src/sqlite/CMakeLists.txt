@@ -7,6 +7,8 @@ set(SQLITE_DOWNLOAD_VERSION "3071000")
 
 set(SQLITE_SOURCE http://www.sqlite.org/sqlite-amalgamation-${SQLITE_DOWNLOAD_VERSION}.zip)
 
+option(SHARED_SQLITE_LIBRARY "Build the SQLite library as a shared library (loadable by SQLite's interpreter)" OFF)
+
 # Embed SQLite even if the system version looks good?
 option(EMBED_SQLITE "Embed SQLite even if a system version is present and valid" OFF)
 
@@ -82,8 +84,13 @@ endif()
 include_directories(${QT_INCLUDE_DIR})
 add_definitions(-DSQLITE_ENABLE_FTS3 -DSQLITE_ENABLE_FTS3_PARENTHESIS -DSQLITE_ENABLE_LOCKING_STYLE=0 -DSQLITE_OMIT_DEPRECATED)
 
-add_library(tagaini_sqlite SHARED ${tagainijisho_sqlite_SRCS} ${tagainijisho_sqlite_MOC_SRCS})
-target_link_libraries(tagaini_sqlite ${QT_LIBRARIES} ${extra_link_flags})
+if(SHARED_SQLITE_LIBRARY)
+	add_library(tagaini_sqlite SHARED ${tagainijisho_sqlite_SRCS} ${tagainijisho_sqlite_MOC_SRCS})
+	target_link_libraries(tagaini_sqlite ${QT_LIBRARIES} ${extra_link_flags})
+	install(TARGETS tagaini_sqlite BUNDLE DESTINATION . COMPONENT Runtime LIBRARY DESTINATION lib COMPONENT Runtime)
+else()
+	add_library(tagaini_sqlite STATIC ${tagainijisho_sqlite_SRCS} ${tagainijisho_sqlite_MOC_SRCS})
+endif()
 if(NOT EMBED_SQLITE)
 	target_link_libraries(tagaini_sqlite sqlite3)
 endif()
@@ -93,8 +100,6 @@ if(APPLE)
 else(APPLE)
         set(DEST_DIR "lib")
 endif(APPLE)
-
-install(TARGETS tagaini_sqlite BUNDLE DESTINATION . COMPONENT Runtime LIBRARY DESTINATION ${DEST_DIR} COMPONENT Runtime ARCHIVE DESTINATION lib COMPONENT Runtime)
 
 if (BUILD_TESTS)
 add_subdirectory(tests)
