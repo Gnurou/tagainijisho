@@ -40,7 +40,7 @@ public:
 	const QString &name() const { return _name; }
 
 	/**
-	 * Returns a string giving version and licence information about
+	 * Returns a string giving version and license information about
 	 * this plugin and the data it uses.
 	 */
 	virtual QString pluginInfo() const { return ""; }

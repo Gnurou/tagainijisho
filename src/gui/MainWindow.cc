@@ -274,14 +274,14 @@ void MainWindow::about()
 #endif
 	QString message = QString(
 		"<p>Copyright (C) 2008-2012 Alexandre Courbot.</p>"
-		"<p align=\"center\"><a href=\"http://www.tagaini.net\">http://www.tagaini.net</a></p><p>This program comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to redistribute it under the conditions of the <a href=\"http://www.gnu.org/licenses/gpl-3.0.html\">GNU General Public Licence, version 3.0</a>.</p><hr/>"
+		"<p align=\"center\"><a href=\"http://www.tagaini.net\">http://www.tagaini.net</a></p><p>This program comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to redistribute it under the conditions of the <a href=\"http://www.gnu.org/licenses/gpl-3.0.html\">GNU General Public License, version 3.0</a>, or (at your option) any later version.</p><hr/>"
 		);
 	QString credits = "<p>Tagaini Jisho uses data from various sources:</p>";
 
 	foreach (const Plugin *plugin, Plugin::plugins()) {
 		credits += plugin->pluginInfo();
 	}
-	credits += "<p>Fugue Icons Copyright (C) 2010 <a href=\"http://p.yusukekamiyamane.com/\">Yusuke Kamiyamane</a>. All rights reserved. The icons are licensed under a <a href=\"http://creativecommons.org/licenses/by/3.0/\">Creative Commons Attribution 3.0 license</a>.</p>";
+	credits += "<p>Fugue Icons Copyright (C) 2010 <a href=\"http://p.yusukekamiyamane.com/\">Yusuke Kamiyamane</a>, licensed under a <a href=\"http://creativecommons.org/licenses/by/3.0/\">Creative Commons Attribution 3.0 license</a>.</p>";
 
 	Ui::AboutDialog aboutDialogUI;
 	QDialog aboutDialog;

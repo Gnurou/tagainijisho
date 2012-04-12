@@ -78,7 +78,7 @@ Windows
 -------
 
 Once you have downloaded the Windows Installer, all you have to do is run it.
-A dialogue box will come up and ask you to accept the [licence][GPL]
+A dialogue box will come up and ask you to accept the [license][GPL]
 and where you would like it installed, by default `C:\Program Files\Tagaini
 Jisho`. It will place a shortcut in a folder in the applications menu, which
 you can run to launch Tagaini.
@@ -101,7 +101,7 @@ how-to on the Windows IME, one can be found
 [here](http://newton.uor.edu/Departments&Programs/AsianStudiesDept/Language/japanese_write.htm "Writing Japanese on the Windows Platform") or [here](http://www.declan-software.com/japanese_ime/ "Declan Software; Installing the Japanese IME").
 
 
-[GPL]: http://en.wikipedia.org/wiki/Gpl "General Public Licence"
+[GPL]: http://en.wikipedia.org/wiki/Gpl "General Public License"
 
 
 ### Linux Japanese Support

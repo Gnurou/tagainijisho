@@ -81,6 +81,6 @@ bool TatoebaPlugin::onUnregister()
 
 QString TatoebaPlugin::pluginInfo() const
 {
-	return QString("<p><a href=\"http://www.tatoeba.org\">Tatoeba</a>, distributed under the <a href=\"http://www.creativecommons.org/licenses/by/2.0/\">Creative Commons Attribution Licence, version 2.0</a>.</p>");
+	return QString("<p><a href=\"http://www.tatoeba.org\">Tatoeba</a>, distributed under the <a href=\"http://www.creativecommons.org/licenses/by/2.0/\">Creative Commons Attribution License, version 2.0</a>.</p>");
 }
 

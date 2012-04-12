@@ -18,10 +18,10 @@ book) so let you study anywhere.
 
 Tagaini Jisho runs on Linux/Unix, MacOS X, and Microsoft Windows.
 
-Licence
+License
 -------
 
-Copyright (C) 2008-2011 Alexandre Courbot.
+Copyright (C) 2008-2012 Alexandre Courbot.
 
 This program is free software: you can redistribute it and/or modify it under
 the terms of the GNU General Public License as published by the Free Software
@@ -33,7 +33,7 @@ WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
 PARTICULAR PURPOSE.  See the COPYING file for more details. 
 
 Documentation is Copyright (C) 2010 Neil Caldwell & Alexandre Courbot,
-distributed under the Creative Commons Attribution-Share Alike 3.0 licence.
+distributed under the Creative Commons Attribution-Share Alike 3.0 license.
 
 Features
 --------
@@ -153,9 +153,8 @@ Application icon has been contributed by [Philip Seyfi](http://divita.eu/).
 Flag images by [Mark James](http://www.famfamfam.com/lab/icons/flags/).
 
 Fugue Icons Copyright (C) 2010 [Yusuke
-Kamiyamane](http://p.yusukekamiyamane.com/). All rights reserved.  The icons
-are licensed under a [Creative Commons Attribution 3.0
-license](http://creativecommons.org/licenses/by/3.0/).
+Kamiyamane](http://p.yusukekamiyamane.com/), licensed under a [Creative Commons
+Attribution 3.0 license](http://creativecommons.org/licenses/by/3.0/).
 
 Contact
 -------
