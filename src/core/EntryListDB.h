@@ -71,7 +71,7 @@ public:
 
 	const QString &label() const { return tree()->label(); }
 	bool setLabel(const QString &label) { return tree()->setLabel(label); }
-	int listId() const { return tree()->listId(); }
+	quint32 listId() const { return tree()->listId(); }
 
 	void newList()
 	{
