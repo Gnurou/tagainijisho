@@ -1,5 +1,6 @@
 0.9.4 released on
 * Fixed some issues with kanji popup component highlighting
+* Fixed romaji-to-kanji converter (digraphs were missing)
 
 0.9.3 released on 2012/04/01
 * Update JLPT lists to follow new N* scheme (thanks to the JLPT
