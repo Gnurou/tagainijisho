@@ -38,11 +38,11 @@ static void regexpFunc(sqlite3_context *context, int argc, sqlite3_value **argv)
 }
 
 /**
- * Returns a pseudo-random value which is biaised by the parameter given (which must
+ * Returns a pseudo-random value which is biased by the parameter given (which must
  * be between 0 and 100). The bigger the parameter, the biggest chances the generated
  * has to be low.
  */
-static void biaised_random(sqlite3_context *context, int nParams, sqlite3_value **values)
+static void biased_random(sqlite3_context *context, int nParams, sqlite3_value **values)
 {
 	if (nParams != 1) {
 		sqlite3_result_error(context, "Invalid number of arguments!", -1);
@@ -569,7 +569,7 @@ int sqlite3ext_register_functions(sqlite3 *handler)
 {
 	// Attach custom functions
 	sqlite3_create_function(handler, "regexp", 2, SQLITE_UTF8, 0, regexpFunc, 0, 0);
-	sqlite3_create_function(handler, "biaised_random", 1, SQLITE_UTF8, 0, biaised_random, 0, 0);
+	sqlite3_create_function(handler, "biased_random", 1, SQLITE_UTF8, 0, biased_random, 0, 0);
 	sqlite3_create_function(handler, "uniquecount", -1, SQLITE_UTF8, 0, 0, uniquecount_aggr_step, uniquecount_aggr_finalize);
 	sqlite3_create_function(handler, "ftscompress", 1, SQLITE_UTF8, 0, fts_compress, 0, 0);
 	sqlite3_create_function(handler, "ftsuncompress", 1, SQLITE_UTF8, 0, fts_uncompress, 0, 0);
