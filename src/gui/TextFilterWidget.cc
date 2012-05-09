@@ -103,6 +103,7 @@ void TextFilterWidget::resetSearchText()
 void TextFilterWidget::onRomajiChanged(bool state)
 {
 	EntrySearcher::allowRomajiSearch = (bool)state;
+	_searchField->setFocus();
 	commandUpdate();
 }
 
