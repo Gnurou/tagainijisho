@@ -228,22 +228,44 @@ bool EntriesViewHelper::askForPrintOptions(QPrinter &printer, const QString &tit
 	return true;
 }
 
+static bool modelIndexLessThan(const QModelIndex &i1, const QModelIndex &i2)
+{
+	// Just in case we compare the same index - should not happen in real life
+	if (i1 == i2) return false;
+
+	// Build lists of the path that leads to both indexes from the root node
+	QList<QModelIndex> l1, l2;
+	QModelIndex p(i1);
+	do {
+		l1.prepend(p);
+		if (!p.isValid()) break;
+		p = p.parent();
+	} while (true);
+	p = i2;
+	do {
+		l2.prepend(p);
+		if (!p.isValid()) break;
+		p = p.parent();
+	} while (true);
+
+	// Check if one is the parent of another
+	if (l2.contains(i1)) return true;
+	if (l1.contains(i2)) return false;
+
+	// Otherwise find the common lowest ancestor
+	int lca = 0;
+	while (l1[lca] == l2[lca]) lca++;
+
+	// And check which child is lower than the other
+	return l1[lca].row() < l2[lca].row();
+}
+
 QModelIndexList EntriesViewHelper::getAllIndexes(const QModelIndexList& indexes)
 {
 	QSet<QModelIndex> alreadyIn;
-	return getAllIndexes(indexes, alreadyIn);
-}
-
-static bool modelIndexLessThan(const QModelIndex &i1, const QModelIndex &i2)
-{
-	QModelIndex p1(i1.parent());
-	QModelIndex p2(i2.parent());
-	if (i1 == p2) return true;
-	else if (p1 == p2) {
-		return (i1.row() < i2.row());
-	}
-	else if (p1.isValid() && modelIndexLessThan(p1, i2)) return true;
-	return false;
+	QModelIndexList ret(getAllIndexes(indexes, alreadyIn));
+	qStableSort(ret.begin(), ret.end(), modelIndexLessThan);
+	return ret;
 }
 
 QModelIndexList EntriesViewHelper::getAllIndexes(const QModelIndexList& indexes, QSet<QModelIndex>& alreadyIn)
@@ -266,7 +288,6 @@ QModelIndexList EntriesViewHelper::getAllIndexes(const QModelIndexList& indexes,
 			ret += getAllIndexes(childs, alreadyIn);
 		}
 	}
-	qStableSort(ret.begin(), ret.end(), modelIndexLessThan);
 	return ret;
 }
 
