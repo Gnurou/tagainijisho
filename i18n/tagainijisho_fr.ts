@@ -89,7 +89,7 @@
         <translation>Fichier de base de données utilisateur:</translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="+499"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="+510"/>
         <source>User data</source>
         <translation>Données utilisateur</translation>
     </message>
@@ -352,7 +352,7 @@
         <translation>Veuillez patienter...</translation>
     </message>
     <message>
-        <location line="+202"/>
+        <location line="+223"/>
         <source>Print preview</source>
         <translation>Aperçu d&apos;impression</translation>
     </message>
@@ -541,7 +541,7 @@
         <translation>Une erreur de base de données est survenue lors de l&apos;ajout à la liste.</translation>
     </message>
     <message>
-        <location line="+30"/>
+        <location line="+39"/>
         <source>Confirm deletion</source>
         <translation>Confirmer la suppression</translation>
     </message>
@@ -551,7 +551,7 @@
         <translation>Les éléments et listes sélectionnées ainsi que leurs enfants seront supprimés. Continuer?</translation>
     </message>
     <message>
-        <location line="+23"/>
+        <location line="+21"/>
         <source>Removal failed</source>
         <translation>Échec de l&apos;effacement</translation>
     </message>
@@ -669,7 +669,7 @@ Certaines d&apos;entre elles sont peut-être toujours présentes.</translation>
 <context>
     <name>FindHomographsJob</name>
     <message>
-        <location filename="../src/gui/jmdict/JMdictEntryFormatter.cc" line="+611"/>
+        <location filename="../src/gui/jmdict/JMdictEntryFormatter.cc" line="+610"/>
         <source>Homographs</source>
         <translation>Homographes</translation>
     </message>
@@ -703,22 +703,22 @@ Certaines d&apos;entre elles sont peut-être toujours présentes.</translation>
 <context>
     <name>GeneralPreferences</name>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="-171"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="-180"/>
         <source>English</source>
         <translation>Anglais</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="-1"/>
         <source>German</source>
         <translation>Allemand</translation>
     </message>
     <message>
-        <location line="-1"/>
+        <location line="+3"/>
         <source>French</source>
         <translation>Français</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="-1"/>
         <source>Spanish</source>
         <translation>Espagnol</translation>
     </message>
@@ -728,34 +728,59 @@ Certaines d&apos;entre elles sont peut-être toujours présentes.</translation>
         <translation>Norvégien Bokmal</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-7"/>
         <source>Czech</source>
         <translation>Tchèque</translation>
     </message>
     <message>
-        <location line="-3"/>
+        <location line="+8"/>
         <source>Dutch</source>
         <translation>Hollandais</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-3"/>
         <source>Italian</source>
         <translation>Italien</translation>
     </message>
     <message>
-        <location line="-2"/>
+        <location line="+6"/>
         <source>Russian</source>
         <translation>Russe</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="-5"/>
         <source>Japanese</source>
         <translation>Japonais</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="+3"/>
         <source>Polish</source>
         <translation>Polonais</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Portuguese</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Swedish</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Thai</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Turkish</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Vietnamese</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+24"/>
@@ -768,7 +793,7 @@ Certaines d&apos;entre elles sont peut-être toujours présentes.</translation>
         <translation>Police par défaut de l&apos;application</translation>
     </message>
     <message>
-        <location line="+18"/>
+        <location line="+19"/>
         <source>Monday</source>
         <translation>Lundi</translation>
     </message>
@@ -778,7 +803,7 @@ Certaines d&apos;entre elles sont peut-être toujours présentes.</translation>
         <translation>Dimanche</translation>
     </message>
     <message>
-        <location line="+51"/>
+        <location line="+53"/>
         <source>Next check: %1</source>
         <translation>Prochaine vérification: %1</translation>
     </message>
@@ -793,17 +818,17 @@ Certaines d&apos;entre elles sont peut-être toujours présentes.</translation>
         <translation>Paramètres généraux</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+35"/>
         <source>System default</source>
         <translation>Valeur par défaut du système</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="-27"/>
         <source>Preferred dictionary language</source>
         <translation>Langue préférée pour le dictionnaire</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+41"/>
         <source>The dictionaries will use this language whenever possible. English will be used as a fallback.</source>
         <translation>Les dictionnaires utiliseront cette langue autant que possible. L&apos;anglais sera utilisé pour les entrées non-traduites.</translation>
     </message>
@@ -813,7 +838,7 @@ Certaines d&apos;entre elles sont peut-être toujours présentes.</translation>
         <translation>Comme l&apos;interface</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+20"/>
         <source>You need to restart Tagaini Jisho for these changes to take effect.</source>
         <translation>Vous devez redémarrer Tagaini Jisho pour que ces changements prennent effet.</translation>
     </message>
@@ -863,17 +888,27 @@ Certaines d&apos;entre elles sont peut-être toujours présentes.</translation>
         <translation>Vérifier également la disponibilité de versions de développement</translation>
     </message>
     <message>
-        <location line="-118"/>
+        <location line="-129"/>
         <source>Preferred GUI language</source>
         <translation>Langue préférée pour l&apos;interface</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+16"/>
         <source>The GUI will use this language whenever possible. English will be used as a fallback.</source>
         <translation>L&apos;interface utilisera cette langue autant que possible. L&apos;anglais sera utilisé pour les parties non-traduites.</translation>
     </message>
     <message>
-        <location line="+115"/>
+        <location line="+30"/>
+        <source>If checked, English meanings will be shown even if a translation in the preferred language is available.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Always show English meanings</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+87"/>
         <source>Next check:</source>
         <translation>Prochaine vérification: </translation>
     </message>
@@ -929,7 +964,7 @@ Certaines d&apos;entre elles sont peut-être toujours présentes.</translation>
 <context>
     <name>JMdictEntryFormatter</name>
     <message>
-        <location filename="../src/gui/jmdict/JMdictEntryFormatter.cc" line="-368"/>
+        <location filename="../src/gui/jmdict/JMdictEntryFormatter.cc" line="-367"/>
         <source>(JLPT N%1)</source>
         <translation>(JLPT N%1)</translation>
     </message>
@@ -944,7 +979,7 @@ Certaines d&apos;entre elles sont peut-être toujours présentes.</translation>
         <translation>Écritures alternatives:</translation>
     </message>
     <message>
-        <location line="+120"/>
+        <location line="+119"/>
         <source>JLPT</source>
         <translation>JLPT</translation>
     </message>
@@ -1225,12 +1260,17 @@ Certaines d&apos;entre elles sont peut-être toujours présentes.</translation>
         <translation>verbe su - précurseur du &apos;suru&apos; moderne</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="+13"/>
+        <source>Hokkaido-ben</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>vulgar expression or word</source>
         <translation>mot ou expression vulgaire</translation>
     </message>
     <message>
-        <location line="-75"/>
+        <location line="-76"/>
         <source>idiomatic expression</source>
         <translation>expression idiomatique</translation>
     </message>
@@ -1470,12 +1510,12 @@ Certaines d&apos;entre elles sont peut-être toujours présentes.</translation>
         <translation>nom ou verbe prénomial</translation>
     </message>
     <message>
-        <location line="+102"/>
+        <location line="+103"/>
         <source>transitive verb</source>
         <translation>verbe transitif</translation>
     </message>
     <message>
-        <location line="-61"/>
+        <location line="-62"/>
         <source>noun, used as a suffix</source>
         <translation>nom, utilisé comme suffixe</translation>
     </message>
@@ -2719,7 +2759,7 @@ Certaines d&apos;entre elles sont peut-être toujours présentes.</translation>
         <translation>Prévisualisation</translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="+174"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="+177"/>
         <source>Lists</source>
         <translation>Listes</translation>
     </message>
@@ -3072,8 +3112,8 @@ Ce message est programmé afin de n&apos;apparaître qu&apos;une seule fois - vo
     </message>
     <message>
         <location line="+0"/>
-        <source>Unable to find any entry eligible for reading practice. Entries eligible for this training mode are studied vocabulary entries for which all kanji are also studied, and match the train settings. Please add entries or modify the train settings accordingly if you want to practice this mode.</source>
-        <translation>Impossible de trouver des entrées utilisables pour la pratique de la lecture. Les entrées utilisables avec ce mode sont les entrées de vocabulaire étudiées dont tous les kanjis sont aussi étudiés. Veuillez ajouter des entrées à votre liste d&apos;étude ou modifier les paramètres d&apos;entraînement de telle sorte que des entrées puisse être sélectionnées.</translation>
+        <source>Unable to find any entry eligible for reading practice. Entries eligible for this training mode are studied vocabulary entries for which all kanji are also studied, and that match the train settings. Please add entries or modify the train settings accordingly if you want to practice this mode.</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
@@ -3086,7 +3126,7 @@ Ce message est programmé afin de n&apos;apparaître qu&apos;une seule fois - vo
         <translation>Plus d&apos;entrées à pratiquer</translation>
     </message>
     <message>
-        <location line="+17"/>
+        <location line="+18"/>
         <source>&lt;font color=&quot;green&quot;&gt;Correct!&lt;/font&gt;</source>
         <translation>&lt;font color=&quot;green&quot;&gt;Correct!&lt;/font&gt;</translation>
     </message>
@@ -3669,8 +3709,8 @@ Ce message est programmé afin de n&apos;apparaître qu&apos;une seule fois - vo
     </message>
     <message>
         <location line="+20"/>
-        <source>Sort biais</source>
-        <translation>Biais de tri</translation>
+        <source>Sort bias</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+8"/>
@@ -3717,13 +3757,13 @@ Ce message est programmé afin de n&apos;apparaître qu&apos;une seule fois - vo
     </message>
     <message>
         <location line="+0"/>
-        <source>There are no entries that match the requested settings.</source>
-        <translation>Il n&apos;y a aucune entrées correspondant aux paramètres d&apos;entraînement actuels.</translation>
+        <source>There are no entries to train as of now. Please add entries to your study list or check the train settings.</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
-        <source>All the requested entries have been trained.</source>
-        <translation>Toutes les entrées demandées ont été pratiquées.</translation>
+        <source>All the matching entries have been trained.</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+0"/>

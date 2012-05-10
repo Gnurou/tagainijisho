@@ -91,7 +91,7 @@
         <translation>User database file:</translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="+503"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="+510"/>
         <source>User data</source>
         <translation>User data</translation>
     </message>
@@ -354,7 +354,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+202"/>
+        <location line="+223"/>
         <source>Print preview</source>
         <translation>Print preview</translation>
     </message>
@@ -543,7 +543,7 @@
         <translation>A database error occured while trying to add the list.</translation>
     </message>
     <message>
-        <location line="+20"/>
+        <location line="+39"/>
         <source>Confirm deletion</source>
         <translation>Confirm deletion</translation>
     </message>
@@ -553,7 +553,7 @@
         <translation>This will delete the selected lists items and lists, including all their children. Continue?</translation>
     </message>
     <message>
-        <location line="+18"/>
+        <location line="+21"/>
         <source>Removal failed</source>
         <translation>Removal failed</translation>
     </message>
@@ -671,7 +671,7 @@
 <context>
     <name>FindHomographsJob</name>
     <message>
-        <location filename="../src/gui/jmdict/JMdictEntryFormatter.cc" line="+611"/>
+        <location filename="../src/gui/jmdict/JMdictEntryFormatter.cc" line="+610"/>
         <source>Homographs</source>
         <translation>Homographs</translation>
     </message>
@@ -705,7 +705,7 @@
 <context>
     <name>GeneralPreferences</name>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="-173"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="-180"/>
         <source>English</source>
         <translation>English</translation>
     </message>
@@ -745,12 +745,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Russian</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-4"/>
+        <location line="-5"/>
         <source>Japanese</source>
         <translation type="unfinished"></translation>
     </message>
@@ -760,8 +760,18 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+1"/>
+        <source>Portuguese</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location line="+2"/>
         <source>Swedish</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Thai</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -795,7 +805,7 @@
         <translation>Sunday</translation>
     </message>
     <message>
-        <location line="+51"/>
+        <location line="+53"/>
         <source>Next check: %1</source>
         <translation>Next check: %1</translation>
     </message>
@@ -830,17 +840,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+8"/>
-        <source>If not checked, English will not be shown when a translation in the preferred language is available. If checked, English will be shown alongside the preferred language.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Always display English</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+9"/>
+        <location line="+20"/>
         <source>You need to restart Tagaini Jisho for these changes to take effect.</source>
         <translation>You need to restart Tagaini Jisho for these changes to take effect.</translation>
     </message>
@@ -900,7 +900,17 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+120"/>
+        <location line="+30"/>
+        <source>If checked, English meanings will be shown even if a translation in the preferred language is available.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Always show English meanings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+87"/>
         <source>Next check:</source>
         <translation>Next check:</translation>
     </message>
@@ -956,7 +966,7 @@
 <context>
     <name>JMdictEntryFormatter</name>
     <message>
-        <location filename="../src/gui/jmdict/JMdictEntryFormatter.cc" line="-368"/>
+        <location filename="../src/gui/jmdict/JMdictEntryFormatter.cc" line="-367"/>
         <source>(JLPT N%1)</source>
         <translation>(JLPT N%1)</translation>
     </message>
@@ -971,7 +981,7 @@
         <translation>Alternate writings:</translation>
     </message>
     <message>
-        <location line="+120"/>
+        <location line="+119"/>
         <source>JLPT</source>
         <translation>JLPT</translation>
     </message>
@@ -1252,12 +1262,17 @@
         <translation>su verb - precursor to the modern suru</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="+13"/>
+        <source>Hokkaido-ben</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>vulgar expression or word</source>
         <translation>vulgar expression or word</translation>
     </message>
     <message>
-        <location line="-75"/>
+        <location line="-76"/>
         <source>idiomatic expression</source>
         <translation>idiomatic expression</translation>
     </message>
@@ -1497,12 +1512,12 @@
         <translation>noun or verb acting prenominally</translation>
     </message>
     <message>
-        <location line="+102"/>
+        <location line="+103"/>
         <source>transitive verb</source>
         <translation>transitive verb</translation>
     </message>
     <message>
-        <location line="-61"/>
+        <location line="-62"/>
         <source>noun, used as a suffix</source>
         <translation>noun, used as a suffix</translation>
     </message>
@@ -2746,7 +2761,7 @@
         <translation>Preview</translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="+174"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="+177"/>
         <source>Lists</source>
         <translation>Lists</translation>
     </message>
@@ -3099,8 +3114,8 @@ This message is a one-time reminder and will not appear anymore - you can still 
     </message>
     <message>
         <location line="+0"/>
-        <source>Unable to find any entry eligible for reading practice. Entries eligible for this training mode are studied vocabulary entries for which all kanji are also studied, and match the train settings. Please add entries or modify the train settings accordingly if you want to practice this mode.</source>
-        <translation>Unable to find any entry eligible for reading practice. Entries eligible for this training mode are studied vocabulary entries for which all kanji are also studied, and match the train settings. Please add entries or modify the train settings accordingly if you want to practice this mode.</translation>
+        <source>Unable to find any entry eligible for reading practice. Entries eligible for this training mode are studied vocabulary entries for which all kanji are also studied, and that match the train settings. Please add entries or modify the train settings accordingly if you want to practice this mode.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+1"/>
@@ -3113,7 +3128,7 @@ This message is a one-time reminder and will not appear anymore - you can still 
         <translation>No more entries to train</translation>
     </message>
     <message>
-        <location line="+17"/>
+        <location line="+18"/>
         <source>&lt;font color=&quot;green&quot;&gt;Correct!&lt;/font&gt;</source>
         <translation>&lt;font color=&quot;green&quot;&gt;Correct!&lt;/font&gt;</translation>
     </message>
@@ -3696,8 +3711,8 @@ This message is a one-time reminder and will not appear anymore - you can still 
     </message>
     <message>
         <location line="+20"/>
-        <source>Sort biais</source>
-        <translation>Sort biais</translation>
+        <source>Sort bias</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+8"/>
@@ -3744,13 +3759,13 @@ This message is a one-time reminder and will not appear anymore - you can still 
     </message>
     <message>
         <location line="+0"/>
-        <source>There are no entries that match the requested settings.</source>
-        <translation>There are no entries that match the requested settings.</translation>
+        <source>There are no entries to train as of now. Please add entries to your study list or check the train settings.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>All the requested entries have been trained.</source>
-        <translation>All the requested entries have been trained.</translation>
+        <source>All the matching entries have been trained.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+0"/>

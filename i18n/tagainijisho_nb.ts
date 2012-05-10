@@ -89,7 +89,7 @@
         <translation>Brukerdatabasefil:</translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="+499"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="+510"/>
         <source>User data</source>
         <translation>Brukerdata</translation>
     </message>
@@ -352,7 +352,7 @@
         <translation>Vennligst vent...</translation>
     </message>
     <message>
-        <location line="+202"/>
+        <location line="+223"/>
         <source>Print preview</source>
         <translation>Utskriftsforhåndsvisning</translation>
     </message>
@@ -541,7 +541,7 @@
         <translation>En databasefeil oppstod under forsøk på å legge til listen.</translation>
     </message>
     <message>
-        <location line="+30"/>
+        <location line="+39"/>
         <source>Confirm deletion</source>
         <translation>Bekreft sletting</translation>
     </message>
@@ -551,7 +551,7 @@
         <translation>Dette vil slette de markerte listeoppføringene og lister, inkludert alle deres underoppføringer. Fortsett?</translation>
     </message>
     <message>
-        <location line="+23"/>
+        <location line="+21"/>
         <source>Removal failed</source>
         <translation>Fjerning mislyktes</translation>
     </message>
@@ -669,7 +669,7 @@
 <context>
     <name>FindHomographsJob</name>
     <message>
-        <location filename="../src/gui/jmdict/JMdictEntryFormatter.cc" line="+611"/>
+        <location filename="../src/gui/jmdict/JMdictEntryFormatter.cc" line="+610"/>
         <source>Homographs</source>
         <translation>Homografer</translation>
     </message>
@@ -703,22 +703,22 @@
 <context>
     <name>GeneralPreferences</name>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="-171"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="-180"/>
         <source>English</source>
         <translation>Engelsk</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="-1"/>
         <source>German</source>
         <translation>Tysk</translation>
     </message>
     <message>
-        <location line="-1"/>
+        <location line="+3"/>
         <source>French</source>
         <translation>Fransk</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="-1"/>
         <source>Spanish</source>
         <translation>Spansk</translation>
     </message>
@@ -728,34 +728,59 @@
         <translation>Norsk bokmål</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-7"/>
         <source>Czech</source>
         <translation>Tsjekkisk</translation>
     </message>
     <message>
-        <location line="-3"/>
+        <location line="+8"/>
         <source>Dutch</source>
         <translation>Nederlandsk</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-3"/>
         <source>Italian</source>
         <translation>Italiensk</translation>
     </message>
     <message>
-        <location line="-2"/>
+        <location line="+6"/>
         <source>Russian</source>
         <translation>Russisk</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="-5"/>
         <source>Japanese</source>
         <translation>Japansk</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="+3"/>
         <source>Polish</source>
         <translation>Polsk</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Portuguese</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Swedish</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Thai</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Turkish</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Vietnamese</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+24"/>
@@ -768,7 +793,7 @@
         <translation>Applikasjonsbred standardskrift</translation>
     </message>
     <message>
-        <location line="+18"/>
+        <location line="+19"/>
         <source>Monday</source>
         <translation>mandag</translation>
     </message>
@@ -778,7 +803,7 @@
         <translation>søndag</translation>
     </message>
     <message>
-        <location line="+51"/>
+        <location line="+53"/>
         <source>Next check: %1</source>
         <translation>Neste sjekk: %1</translation>
     </message>
@@ -793,17 +818,17 @@
         <translation>Generelle innstillinger</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+35"/>
         <source>System default</source>
         <translation>Systemstandard</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="-27"/>
         <source>Preferred dictionary language</source>
         <translation>Foretrukket ordbokspråk</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+41"/>
         <source>The dictionaries will use this language whenever possible. English will be used as a fallback.</source>
         <translation>Ordbøkene vil bruke dette språket når det er mulig. Engelsk vil bli brukt som en fallback.</translation>
     </message>
@@ -813,7 +838,7 @@
         <translation>Det samme som GUI</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+20"/>
         <source>You need to restart Tagaini Jisho for these changes to take effect.</source>
         <translation>Du er nødt til å starte Tagaini Jisho på nytt for at disse endringene skal tre i kraft.</translation>
     </message>
@@ -863,17 +888,27 @@
         <translation>Sjekk også etter utviklingsversjoner</translation>
     </message>
     <message>
-        <location line="-118"/>
+        <location line="-129"/>
         <source>Preferred GUI language</source>
         <translation>Foretrukket GUI-språk</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+16"/>
         <source>The GUI will use this language whenever possible. English will be used as a fallback.</source>
         <translation>GUI vil bruke dette språket når det er mulig. Engelsk vil bli brukt som en fallback.</translation>
     </message>
     <message>
-        <location line="+115"/>
+        <location line="+30"/>
+        <source>If checked, English meanings will be shown even if a translation in the preferred language is available.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Always show English meanings</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+87"/>
         <source>Next check:</source>
         <translation>Neste sjekk:</translation>
     </message>
@@ -929,7 +964,7 @@
 <context>
     <name>JMdictEntryFormatter</name>
     <message>
-        <location filename="../src/gui/jmdict/JMdictEntryFormatter.cc" line="-368"/>
+        <location filename="../src/gui/jmdict/JMdictEntryFormatter.cc" line="-367"/>
         <source>(JLPT N%1)</source>
         <translation>(JLPT N%1)</translation>
     </message>
@@ -944,7 +979,7 @@
         <translation>Alternative skrivemåter:</translation>
     </message>
     <message>
-        <location line="+120"/>
+        <location line="+119"/>
         <source>JLPT</source>
         <translation>JLPT</translation>
     </message>
@@ -1225,12 +1260,17 @@
         <translation>su verb - forløper til det moderne suru</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="+13"/>
+        <source>Hokkaido-ben</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>vulgar expression or word</source>
         <translation>vulgært uttrykk eller ord</translation>
     </message>
     <message>
-        <location line="-75"/>
+        <location line="-76"/>
         <source>idiomatic expression</source>
         <translation>idiomatisk uttrykk</translation>
     </message>
@@ -1470,12 +1510,12 @@
         <translation>substantiv eller verb som opptrer prenominalt</translation>
     </message>
     <message>
-        <location line="+102"/>
+        <location line="+103"/>
         <source>transitive verb</source>
         <translation>transitivt verb</translation>
     </message>
     <message>
-        <location line="-61"/>
+        <location line="-62"/>
         <source>noun, used as a suffix</source>
         <translation>substantiv, brukt som et suffiks</translation>
     </message>
@@ -2719,7 +2759,7 @@
         <translation>Forhåndsvisning</translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="+174"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="+177"/>
         <source>Lists</source>
         <translation>Lister</translation>
     </message>
@@ -3072,8 +3112,8 @@ Denne meldingen er en engangspåminnelse og vil ikke vises mer - du kan fremdele
     </message>
     <message>
         <location line="+0"/>
-        <source>Unable to find any entry eligible for reading practice. Entries eligible for this training mode are studied vocabulary entries for which all kanji are also studied, and match the train settings. Please add entries or modify the train settings accordingly if you want to practice this mode.</source>
-        <translation>Kunne ikke finne noen oppføringer som er kvalifisert for leseøvelse. Oppføringer som er kvalifisert for denne treningsmetoden er studerte vokabularoppføringer som også alle inneholdte kanji er studert, og passer treningsinnstillingene. Vennligst legg til oppføringer eller endre treningsinnstillingene tilsvarende dersom du ønsker å øve gjennom denne metoden.</translation>
+        <source>Unable to find any entry eligible for reading practice. Entries eligible for this training mode are studied vocabulary entries for which all kanji are also studied, and that match the train settings. Please add entries or modify the train settings accordingly if you want to practice this mode.</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
@@ -3086,7 +3126,7 @@ Denne meldingen er en engangspåminnelse og vil ikke vises mer - du kan fremdele
         <translation>Ingen flere oppføringer å trene på</translation>
     </message>
     <message>
-        <location line="+17"/>
+        <location line="+18"/>
         <source>&lt;font color=&quot;green&quot;&gt;Correct!&lt;/font&gt;</source>
         <translation>&lt;font color=&quot;green&quot;&gt;Riktig!&lt;/font&gt;</translation>
     </message>
@@ -3669,8 +3709,8 @@ Denne meldingen er en engangspåminnelse og vil ikke vises mer - du kan fremdele
     </message>
     <message>
         <location line="+20"/>
-        <source>Sort biais</source>
-        <translation>Sorteringsbias</translation>
+        <source>Sort bias</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+8"/>
@@ -3717,13 +3757,13 @@ Denne meldingen er en engangspåminnelse og vil ikke vises mer - du kan fremdele
     </message>
     <message>
         <location line="+0"/>
-        <source>There are no entries that match the requested settings.</source>
-        <translation>Det finnes ingen oppføringer som passer de forespurte innstillingene.</translation>
+        <source>There are no entries to train as of now. Please add entries to your study list or check the train settings.</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
-        <source>All the requested entries have been trained.</source>
-        <translation>Alle de forespurte oppføringene har blitt trent på.</translation>
+        <source>All the matching entries have been trained.</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+0"/>

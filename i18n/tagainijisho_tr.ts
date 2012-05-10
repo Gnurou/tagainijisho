@@ -89,7 +89,7 @@
         <translation>Kullanıcı veritabanı dosyası:</translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="+499"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="+510"/>
         <source>User data</source>
         <translation>Kullanıcı verisi</translation>
     </message>
@@ -352,7 +352,7 @@
         <translation>Lütfen bekleyiniz...</translation>
     </message>
     <message>
-        <location line="+202"/>
+        <location line="+223"/>
         <source>Print preview</source>
         <translation>Yazıcı önizlemesi</translation>
     </message>
@@ -541,7 +541,7 @@
         <translation>Listeye ekleme yapılırken veritabanı hatası oluştu.</translation>
     </message>
     <message>
-        <location line="+30"/>
+        <location line="+39"/>
         <source>Confirm deletion</source>
         <translation>Silme işlemini onayla</translation>
     </message>
@@ -551,7 +551,7 @@
         <translation>Seçilen tüm öğeler, listeler ve onların altındaki öğeler silinecek. Devam etmek istiyor musunuz?</translation>
     </message>
     <message>
-        <location line="+23"/>
+        <location line="+21"/>
         <source>Removal failed</source>
         <translation>Silme işlemi başarısız oldu</translation>
     </message>
@@ -665,7 +665,7 @@
 <context>
     <name>FindHomographsJob</name>
     <message>
-        <location filename="../src/gui/jmdict/JMdictEntryFormatter.cc" line="+611"/>
+        <location filename="../src/gui/jmdict/JMdictEntryFormatter.cc" line="+610"/>
         <source>Homographs</source>
         <translation type="unfinished"/>
     </message>
@@ -699,22 +699,22 @@
 <context>
     <name>GeneralPreferences</name>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="-171"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="-180"/>
         <source>English</source>
         <translation>İngilizce</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="-1"/>
         <source>German</source>
         <translation>Almanca</translation>
     </message>
     <message>
-        <location line="-1"/>
+        <location line="+3"/>
         <source>French</source>
         <translation>Fransızca</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="-1"/>
         <source>Spanish</source>
         <translation>İspanyolca</translation>
     </message>
@@ -724,34 +724,59 @@
         <translation>Norvegian Bokmal</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-7"/>
         <source>Czech</source>
         <translation>Çek dili</translation>
     </message>
     <message>
-        <location line="-3"/>
+        <location line="+8"/>
         <source>Dutch</source>
         <translation>Hollandaca</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-3"/>
         <source>Italian</source>
         <translation>İtalyanca</translation>
     </message>
     <message>
-        <location line="-2"/>
+        <location line="+6"/>
         <source>Russian</source>
         <translation>Rusça</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="-5"/>
         <source>Japanese</source>
         <translation>Japonca</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="+3"/>
         <source>Polish</source>
         <translation>Lehçe</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Portuguese</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Swedish</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Thai</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Turkish</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Vietnamese</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+24"/>
@@ -764,7 +789,7 @@
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+18"/>
+        <location line="+19"/>
         <source>Monday</source>
         <translation>Pazartesi</translation>
     </message>
@@ -774,7 +799,7 @@
         <translation>Pazar</translation>
     </message>
     <message>
-        <location line="+51"/>
+        <location line="+53"/>
         <source>Next check: %1</source>
         <translation>Sonraki kontrol: %1</translation>
     </message>
@@ -789,17 +814,17 @@
         <translation>Genel ayarlar</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+35"/>
         <source>System default</source>
         <translation>Sistem varsayılanı</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="-27"/>
         <source>Preferred dictionary language</source>
         <translation>Tercih edilen sözlük dili</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+41"/>
         <source>The dictionaries will use this language whenever possible. English will be used as a fallback.</source>
         <translation type="unfinished"/>
     </message>
@@ -809,7 +834,7 @@
         <translation>Arayüz ile aynı</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+20"/>
         <source>You need to restart Tagaini Jisho for these changes to take effect.</source>
         <translation>Bu değişikliklerin uygulanması için Tagaini Jisho&apos;yu yeniden başlatmalısınız.</translation>
     </message>
@@ -859,17 +884,27 @@
         <translation>Geliştirme sürümleri için de kontrol et</translation>
     </message>
     <message>
-        <location line="-118"/>
+        <location line="-129"/>
         <source>Preferred GUI language</source>
         <translation>Tercih edilen arayüz dili</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+16"/>
         <source>The GUI will use this language whenever possible. English will be used as a fallback.</source>
         <translation>Arayüz bu lisanı mümkün oldukça kullanacaktır. İngilizce ise bir son çare olarak kullanılacaktır.</translation>
     </message>
     <message>
-        <location line="+115"/>
+        <location line="+30"/>
+        <source>If checked, English meanings will be shown even if a translation in the preferred language is available.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Always show English meanings</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+87"/>
         <source>Next check:</source>
         <translation>Sondaki kontrol:</translation>
     </message>
@@ -925,7 +960,7 @@
 <context>
     <name>JMdictEntryFormatter</name>
     <message>
-        <location filename="../src/gui/jmdict/JMdictEntryFormatter.cc" line="-368"/>
+        <location filename="../src/gui/jmdict/JMdictEntryFormatter.cc" line="-367"/>
         <source>(JLPT N%1)</source>
         <translation>(JLPT N%1)</translation>
     </message>
@@ -940,7 +975,7 @@
         <translation>Alternatif yazımlar:</translation>
     </message>
     <message>
-        <location line="+120"/>
+        <location line="+119"/>
         <source>JLPT</source>
         <translation>JLPT</translation>
     </message>
@@ -1221,12 +1256,17 @@
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="+13"/>
+        <source>Hokkaido-ben</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>vulgar expression or word</source>
         <translation>kaba söz veya kelime</translation>
     </message>
     <message>
-        <location line="-75"/>
+        <location line="-76"/>
         <source>idiomatic expression</source>
         <translation>deyimsel ifade</translation>
     </message>
@@ -1466,12 +1506,12 @@
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+102"/>
+        <location line="+103"/>
         <source>transitive verb</source>
         <translation>geçişli fiil</translation>
     </message>
     <message>
-        <location line="-61"/>
+        <location line="-62"/>
         <source>noun, used as a suffix</source>
         <translation>isim, sonek olarak kullanılır</translation>
     </message>
@@ -2715,7 +2755,7 @@
         <translation>Önizleme</translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="+174"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="+177"/>
         <source>Lists</source>
         <translation>Listeler</translation>
     </message>
@@ -3066,7 +3106,7 @@ This message is a one-time reminder and will not appear anymore - you can still 
     </message>
     <message>
         <location line="+0"/>
-        <source>Unable to find any entry eligible for reading practice. Entries eligible for this training mode are studied vocabulary entries for which all kanji are also studied, and match the train settings. Please add entries or modify the train settings accordingly if you want to practice this mode.</source>
+        <source>Unable to find any entry eligible for reading practice. Entries eligible for this training mode are studied vocabulary entries for which all kanji are also studied, and that match the train settings. Please add entries or modify the train settings accordingly if you want to practice this mode.</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -3080,7 +3120,7 @@ This message is a one-time reminder and will not appear anymore - you can still 
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+17"/>
+        <location line="+18"/>
         <source>&lt;font color=&quot;green&quot;&gt;Correct!&lt;/font&gt;</source>
         <translation>&lt;font color=&quot;green&quot;&gt;Doğru!&lt;/font&gt;</translation>
     </message>
@@ -3663,7 +3703,7 @@ This message is a one-time reminder and will not appear anymore - you can still 
     </message>
     <message>
         <location line="+20"/>
-        <source>Sort biais</source>
+        <source>Sort bias</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -3711,13 +3751,13 @@ This message is a one-time reminder and will not appear anymore - you can still 
     </message>
     <message>
         <location line="+0"/>
-        <source>There are no entries that match the requested settings.</source>
+        <source>There are no entries to train as of now. Please add entries to your study list or check the train settings.</source>
         <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
-        <source>All the requested entries have been trained.</source>
-        <translation>Belirtilen tüm girdiler çalışıldı.</translation>
+        <source>All the matching entries have been trained.</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+0"/>

@@ -89,7 +89,7 @@
         <translation>Datei für Benutzerdatenbank:</translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="+499"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="+510"/>
         <source>User data</source>
         <translation>Benutzerdaten</translation>
     </message>
@@ -352,7 +352,7 @@
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+202"/>
+        <location line="+223"/>
         <source>Print preview</source>
         <translation>Druckvorschau</translation>
     </message>
@@ -541,7 +541,7 @@
         <translation>Ein Datenbankfehler trat beim Hinzufügen der Liste auf.</translation>
     </message>
     <message>
-        <location line="+30"/>
+        <location line="+39"/>
         <source>Confirm deletion</source>
         <translation>Löschung bestätigen</translation>
     </message>
@@ -551,7 +551,7 @@
         <translation>Dies wird die ausgewählten Listenelemente und Listen, inklusive aller ihrer Kinder, löschen. Weiter?</translation>
     </message>
     <message>
-        <location line="+23"/>
+        <location line="+21"/>
         <source>Removal failed</source>
         <translation>Entfernen fehlgeschlagen</translation>
     </message>
@@ -669,7 +669,7 @@ Manche der Einträge könnten noch vorhanden sein.</translation>
 <context>
     <name>FindHomographsJob</name>
     <message>
-        <location filename="../src/gui/jmdict/JMdictEntryFormatter.cc" line="+611"/>
+        <location filename="../src/gui/jmdict/JMdictEntryFormatter.cc" line="+610"/>
         <source>Homographs</source>
         <translation>Homographe</translation>
     </message>
@@ -703,22 +703,22 @@ Manche der Einträge könnten noch vorhanden sein.</translation>
 <context>
     <name>GeneralPreferences</name>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="-171"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="-180"/>
         <source>English</source>
         <translation>Englisch</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="-1"/>
         <source>German</source>
         <translation>Deutsch</translation>
     </message>
     <message>
-        <location line="-1"/>
+        <location line="+3"/>
         <source>French</source>
         <translation>Französisch</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="-1"/>
         <source>Spanish</source>
         <translation>Spanisch</translation>
     </message>
@@ -728,34 +728,59 @@ Manche der Einträge könnten noch vorhanden sein.</translation>
         <translation>Norwegisch Bokmål</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-7"/>
         <source>Czech</source>
         <translation>Tschechisch</translation>
     </message>
     <message>
-        <location line="-3"/>
+        <location line="+8"/>
         <source>Dutch</source>
         <translation>Niederländisch</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-3"/>
         <source>Italian</source>
         <translation>Italienisch</translation>
     </message>
     <message>
-        <location line="-2"/>
+        <location line="+6"/>
         <source>Russian</source>
         <translation>Russisch</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="-5"/>
         <source>Japanese</source>
         <translation>Japanisch</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="+3"/>
         <source>Polish</source>
         <translation>Polnisch</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Portuguese</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Swedish</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Thai</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Turkish</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Vietnamese</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+24"/>
@@ -768,7 +793,7 @@ Manche der Einträge könnten noch vorhanden sein.</translation>
         <translation>Standardschriftart für gesamte Anwendung</translation>
     </message>
     <message>
-        <location line="+18"/>
+        <location line="+19"/>
         <source>Monday</source>
         <translation>Montag</translation>
     </message>
@@ -778,7 +803,7 @@ Manche der Einträge könnten noch vorhanden sein.</translation>
         <translation>Sonntag</translation>
     </message>
     <message>
-        <location line="+51"/>
+        <location line="+53"/>
         <source>Next check: %1</source>
         <translation>Nächste Überprüfung: %1</translation>
     </message>
@@ -793,17 +818,17 @@ Manche der Einträge könnten noch vorhanden sein.</translation>
         <translation>Allgemeine Einstellungen</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+35"/>
         <source>System default</source>
         <translation>Systemstandard</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="-27"/>
         <source>Preferred dictionary language</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+41"/>
         <source>The dictionaries will use this language whenever possible. English will be used as a fallback.</source>
         <translation type="unfinished"/>
     </message>
@@ -813,7 +838,7 @@ Manche der Einträge könnten noch vorhanden sein.</translation>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+20"/>
         <source>You need to restart Tagaini Jisho for these changes to take effect.</source>
         <translation>Sie müssen Tagaini Jisho neustarten, damit die Änderungen in Kraft treten.</translation>
     </message>
@@ -863,17 +888,27 @@ Manche der Einträge könnten noch vorhanden sein.</translation>
         <translation>Auch auf Entwicklungsversionen überprüfen</translation>
     </message>
     <message>
-        <location line="-118"/>
+        <location line="-129"/>
         <source>Preferred GUI language</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+16"/>
         <source>The GUI will use this language whenever possible. English will be used as a fallback.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+115"/>
+        <location line="+30"/>
+        <source>If checked, English meanings will be shown even if a translation in the preferred language is available.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Always show English meanings</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+87"/>
         <source>Next check:</source>
         <translation>Nächste Überprüfung:</translation>
     </message>
@@ -929,7 +964,7 @@ Manche der Einträge könnten noch vorhanden sein.</translation>
 <context>
     <name>JMdictEntryFormatter</name>
     <message>
-        <location filename="../src/gui/jmdict/JMdictEntryFormatter.cc" line="-368"/>
+        <location filename="../src/gui/jmdict/JMdictEntryFormatter.cc" line="-367"/>
         <source>(JLPT N%1)</source>
         <translation>(JLPT N%1)</translation>
     </message>
@@ -944,7 +979,7 @@ Manche der Einträge könnten noch vorhanden sein.</translation>
         <translation>Alternative Schreibweisen:</translation>
     </message>
     <message>
-        <location line="+120"/>
+        <location line="+119"/>
         <source>JLPT</source>
         <translation>JLPT</translation>
     </message>
@@ -1225,12 +1260,17 @@ Manche der Einträge könnten noch vorhanden sein.</translation>
         <translation>su-Verb – Vorläufer zu dem modernen suru</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="+13"/>
+        <source>Hokkaido-ben</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>vulgar expression or word</source>
         <translation>vulgärer Ausdruck oder Wort</translation>
     </message>
     <message>
-        <location line="-75"/>
+        <location line="-76"/>
         <source>idiomatic expression</source>
         <translation>idiomatischer Ausdruck</translation>
     </message>
@@ -1470,12 +1510,12 @@ Manche der Einträge könnten noch vorhanden sein.</translation>
         <translation>Nomen oder pränominales wirkendes Verb</translation>
     </message>
     <message>
-        <location line="+102"/>
+        <location line="+103"/>
         <source>transitive verb</source>
         <translation>transitives Verb</translation>
     </message>
     <message>
-        <location line="-61"/>
+        <location line="-62"/>
         <source>noun, used as a suffix</source>
         <translation>Nomen, als Suffix verwendet</translation>
     </message>
@@ -2719,7 +2759,7 @@ Manche der Einträge könnten noch vorhanden sein.</translation>
         <translation>Vorschau</translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="+174"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="+177"/>
         <source>Lists</source>
         <translation>Listen</translation>
     </message>
@@ -3072,8 +3112,8 @@ Diese Nachricht wird ist eine einmalige Erinnerung und wird nicht wieder angezei
     </message>
     <message>
         <location line="+0"/>
-        <source>Unable to find any entry eligible for reading practice. Entries eligible for this training mode are studied vocabulary entries for which all kanji are also studied, and match the train settings. Please add entries or modify the train settings accordingly if you want to practice this mode.</source>
-        <translation>Kann keine für die Leseübung gültigen Einträge finden. Einträge gültig für diese Trainingsmethode sind einstudierte Vokabeleinträge für die alle Kanji auch einstudiert sind und die die Trainingseinstellungen erfüllen. Bitte fügen sie Einträge hinzu oder ändern sie die Trainingseinstellungen entsprechend wenn sie diese Methode verwenden wollen.</translation>
+        <source>Unable to find any entry eligible for reading practice. Entries eligible for this training mode are studied vocabulary entries for which all kanji are also studied, and that match the train settings. Please add entries or modify the train settings accordingly if you want to practice this mode.</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
@@ -3086,7 +3126,7 @@ Diese Nachricht wird ist eine einmalige Erinnerung und wird nicht wieder angezei
         <translation>Keine weiteren Einträge zu trainieren</translation>
     </message>
     <message>
-        <location line="+17"/>
+        <location line="+18"/>
         <source>&lt;font color=&quot;green&quot;&gt;Correct!&lt;/font&gt;</source>
         <translation>&lt;font color=&quot;green&quot;&gt;Richtig!&lt;/font&gt;</translation>
     </message>
@@ -3669,8 +3709,8 @@ Diese Nachricht wird ist eine einmalige Erinnerung und wird nicht wieder angezei
     </message>
     <message>
         <location line="+20"/>
-        <source>Sort biais</source>
-        <translation>Sortiertendenz</translation>
+        <source>Sort bias</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+8"/>
@@ -3717,13 +3757,13 @@ Diese Nachricht wird ist eine einmalige Erinnerung und wird nicht wieder angezei
     </message>
     <message>
         <location line="+0"/>
-        <source>There are no entries that match the requested settings.</source>
-        <translation>Es gibt keine Einträge die die gewünschten Einstellungen erfüllen.</translation>
+        <source>There are no entries to train as of now. Please add entries to your study list or check the train settings.</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
-        <source>All the requested entries have been trained.</source>
-        <translation>Alle gewünschten Einträge wurden trainiert.</translation>
+        <source>All the matching entries have been trained.</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+0"/>

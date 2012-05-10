@@ -89,7 +89,7 @@
         <translation>Soubor s uživatelovou databází:</translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="+499"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="+510"/>
         <source>User data</source>
         <translation>Uživatelova data</translation>
     </message>
@@ -352,7 +352,7 @@
         <translation>Počkejte, prosím...</translation>
     </message>
     <message>
-        <location line="+202"/>
+        <location line="+223"/>
         <source>Print preview</source>
         <translation>Náhled tisku</translation>
     </message>
@@ -541,7 +541,7 @@
         <translation>Při přidávání seznamu se vyskyta chyba v databázi.</translation>
     </message>
     <message>
-        <location line="+30"/>
+        <location line="+39"/>
         <source>Confirm deletion</source>
         <translation>Potvrdit smazání</translation>
     </message>
@@ -551,7 +551,7 @@
         <translation>Tímto budou smazány v seznamu vybrané položky a seznamy, včetně všech jejich potomků. Pokračovat?</translation>
     </message>
     <message>
-        <location line="+23"/>
+        <location line="+21"/>
         <source>Removal failed</source>
         <translation>Odstranění se nezdařilo</translation>
     </message>
@@ -669,7 +669,7 @@ Některé z nich možná zůstaly.</translation>
 <context>
     <name>FindHomographsJob</name>
     <message>
-        <location filename="../src/gui/jmdict/JMdictEntryFormatter.cc" line="+611"/>
+        <location filename="../src/gui/jmdict/JMdictEntryFormatter.cc" line="+610"/>
         <source>Homographs</source>
         <translation>Homografy (slova se stejným pravopisem, ale rozdílnou výslovností, významem apod.)</translation>
     </message>
@@ -703,22 +703,22 @@ Některé z nich možná zůstaly.</translation>
 <context>
     <name>GeneralPreferences</name>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="-171"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="-180"/>
         <source>English</source>
         <translation>Anglický</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="-1"/>
         <source>German</source>
         <translation>Deutsch</translation>
     </message>
     <message>
-        <location line="-1"/>
+        <location line="+3"/>
         <source>French</source>
         <translation>Francouzský</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="-1"/>
         <source>Spanish</source>
         <translation>Spanisch</translation>
     </message>
@@ -728,34 +728,59 @@ Některé z nich možná zůstaly.</translation>
         <translation>Norský (Bokmal)</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-7"/>
         <source>Czech</source>
         <translation>Český</translation>
     </message>
     <message>
-        <location line="-3"/>
+        <location line="+8"/>
         <source>Dutch</source>
         <translation>Nizozemský</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-3"/>
         <source>Italian</source>
         <translation>Italský</translation>
     </message>
     <message>
-        <location line="-2"/>
+        <location line="+6"/>
         <source>Russian</source>
         <translation>Russisch</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="-5"/>
         <source>Japanese</source>
         <translation>Japonština</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="+3"/>
         <source>Polish</source>
         <translation>Polský</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Portuguese</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Swedish</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Thai</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Turkish</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Vietnamese</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+24"/>
@@ -768,7 +793,7 @@ Některé z nich možná zůstaly.</translation>
         <translation>Výchozí písmo pro celý program</translation>
     </message>
     <message>
-        <location line="+18"/>
+        <location line="+19"/>
         <source>Monday</source>
         <translation>Pondělí</translation>
     </message>
@@ -778,7 +803,7 @@ Některé z nich možná zůstaly.</translation>
         <translation>Neděle</translation>
     </message>
     <message>
-        <location line="+51"/>
+        <location line="+53"/>
         <source>Next check: %1</source>
         <translation>Další ověřování: %1</translation>
     </message>
@@ -793,17 +818,17 @@ Některé z nich možná zůstaly.</translation>
         <translation>Obecná nastavení</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+35"/>
         <source>System default</source>
         <translation>Výchozí nastavení systému</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="-27"/>
         <source>Preferred dictionary language</source>
         <translation>Upřednostňovaný jazyk slovníku</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+41"/>
         <source>The dictionaries will use this language whenever possible. English will be used as a fallback.</source>
         <translation>Slovníky budou tento jazyk používat, kdykoli to bude možné. Angličtina se bude používat jako záloha.</translation>
     </message>
@@ -813,7 +838,7 @@ Některé z nich možná zůstaly.</translation>
         <translation>Stejný jako jazyk rozhraní</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+20"/>
         <source>You need to restart Tagaini Jisho for these changes to take effect.</source>
         <translation>Musíte Tagaini Jisho spustit znovu, aby se změny projevily.</translation>
     </message>
@@ -863,17 +888,27 @@ Některé z nich možná zůstaly.</translation>
         <translation>Ověřovat i pro vývojářské verze</translation>
     </message>
     <message>
-        <location line="-118"/>
+        <location line="-129"/>
         <source>Preferred GUI language</source>
         <translation>Upřednostňovaný jazyk rozhraní</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+16"/>
         <source>The GUI will use this language whenever possible. English will be used as a fallback.</source>
         <translation>Rozhraní bude tento jazyk používat, kdykoli to bude možné. Angličtina se bude používat jako záloha.</translation>
     </message>
     <message>
-        <location line="+115"/>
+        <location line="+30"/>
+        <source>If checked, English meanings will be shown even if a translation in the preferred language is available.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Always show English meanings</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+87"/>
         <source>Next check:</source>
         <translation>Další ověření:</translation>
     </message>
@@ -929,7 +964,7 @@ Některé z nich možná zůstaly.</translation>
 <context>
     <name>JMdictEntryFormatter</name>
     <message>
-        <location filename="../src/gui/jmdict/JMdictEntryFormatter.cc" line="-368"/>
+        <location filename="../src/gui/jmdict/JMdictEntryFormatter.cc" line="-367"/>
         <source>(JLPT N%1)</source>
         <translation>(JLPT N%1)</translation>
     </message>
@@ -944,7 +979,7 @@ Některé z nich možná zůstaly.</translation>
         <translation>Náhradní způsoby psaní:</translation>
     </message>
     <message>
-        <location line="+120"/>
+        <location line="+119"/>
         <source>JLPT</source>
         <translation>JLPT</translation>
     </message>
@@ -1225,12 +1260,17 @@ Některé z nich možná zůstaly.</translation>
         <translation>Sloveso su - předchůdce novodobého suru</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="+13"/>
+        <source>Hokkaido-ben</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>vulgar expression or word</source>
         <translation>Sprostý výraz nebo slovo</translation>
     </message>
     <message>
-        <location line="-75"/>
+        <location line="-76"/>
         <source>idiomatic expression</source>
         <translation>Nářeční výraz</translation>
     </message>
@@ -1470,12 +1510,12 @@ Některé z nich možná zůstaly.</translation>
         <translation>Podstatné jméno nebo zájmenně působící sloveso</translation>
     </message>
     <message>
-        <location line="+102"/>
+        <location line="+103"/>
         <source>transitive verb</source>
         <translation>Přechodné sloveso</translation>
     </message>
     <message>
-        <location line="-61"/>
+        <location line="-62"/>
         <source>noun, used as a suffix</source>
         <translation>Podstatné jméno, používáno jako přípona</translation>
     </message>
@@ -2719,7 +2759,7 @@ Některé z nich možná zůstaly.</translation>
         <translation>Náhled</translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="+174"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="+177"/>
         <source>Lists</source>
         <translation>Seznamy</translation>
     </message>
@@ -3072,8 +3112,8 @@ Tento vzkaz se připomíná jednou a už se neobjeví - darovat můžete pozděj
     </message>
     <message>
         <location line="+0"/>
-        <source>Unable to find any entry eligible for reading practice. Entries eligible for this training mode are studied vocabulary entries for which all kanji are also studied, and match the train settings. Please add entries or modify the train settings accordingly if you want to practice this mode.</source>
-        <translation>Nelze najít žádný vyhovující záznam pro cvičení čtení. Záznamy vhodné pro tento režim cvičení jsou naučené slovníkové záznamy, pro které jsou naučené také všechny kandži a které odpovídají nastavení cvičení. Přidejte, prosím, záznamy, nebo odpovídajícím způsobem upravte nastavení cvičení, jestliže chcete použít tento režim.</translation>
+        <source>Unable to find any entry eligible for reading practice. Entries eligible for this training mode are studied vocabulary entries for which all kanji are also studied, and that match the train settings. Please add entries or modify the train settings accordingly if you want to practice this mode.</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
@@ -3086,7 +3126,7 @@ Tento vzkaz se připomíná jednou a už se neobjeví - darovat můžete pozděj
         <translation>Žádné další záznamy ke cvičení</translation>
     </message>
     <message>
-        <location line="+17"/>
+        <location line="+18"/>
         <source>&lt;font color=&quot;green&quot;&gt;Correct!&lt;/font&gt;</source>
         <translation>&lt;font color=&quot;green&quot;&gt;Správně!&lt;/font&gt;</translation>
     </message>
@@ -3669,8 +3709,8 @@ Tento vzkaz se připomíná jednou a už se neobjeví - darovat můžete pozděj
     </message>
     <message>
         <location line="+20"/>
-        <source>Sort biais</source>
-        <translation>Důraz při třídění</translation>
+        <source>Sort bias</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+8"/>
@@ -3717,13 +3757,13 @@ Tento vzkaz se připomíná jednou a už se neobjeví - darovat můžete pozděj
     </message>
     <message>
         <location line="+0"/>
-        <source>There are no entries that match the requested settings.</source>
-        <translation>Nejsou zde žádné záznamy, které by odpovídaly požadovaným nastavením.</translation>
+        <source>There are no entries to train as of now. Please add entries to your study list or check the train settings.</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
-        <source>All the requested entries have been trained.</source>
-        <translation>Všechny požadované záznamy byly cvičeny.</translation>
+        <source>All the matching entries have been trained.</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+0"/>

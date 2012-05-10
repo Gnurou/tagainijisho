@@ -3512,7 +3512,7 @@ Este mensaje es un recordatorio que no volverá a aparecer, pero puede donar mas
     <message>
         <location line="+5"/>
         <source>Study</source>
-        <translation>Estudiado</translation>
+        <translation>Estudiando</translation>
     </message>
 </context>
 <context>

@@ -89,7 +89,7 @@
         <translation>Tập tin dữ liệu cá nhân</translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="+499"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="+510"/>
         <source>User data</source>
         <translation>Dữ liệu cá nhân</translation>
     </message>
@@ -352,7 +352,7 @@
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+202"/>
+        <location line="+223"/>
         <source>Print preview</source>
         <translation>Xem thử bản in</translation>
     </message>
@@ -541,7 +541,7 @@
         <translation>Gặp lỗi cơ sở dữ liệu khi cố thêm vào danh sách.</translation>
     </message>
     <message>
-        <location line="+30"/>
+        <location line="+39"/>
         <source>Confirm deletion</source>
         <translation>Xác nhận xóa</translation>
     </message>
@@ -551,7 +551,7 @@
         <translation>Việc này sẽ xóa các mục danh sách đang lựa chọn và cả mục con của chúng. Bạn có muốn tiếp tục không?</translation>
     </message>
     <message>
-        <location line="+23"/>
+        <location line="+21"/>
         <source>Removal failed</source>
         <translation>Không thể xóa!</translation>
     </message>
@@ -669,7 +669,7 @@ Một số có thể vẫn còn.</translation>
 <context>
     <name>FindHomographsJob</name>
     <message>
-        <location filename="../src/gui/jmdict/JMdictEntryFormatter.cc" line="+611"/>
+        <location filename="../src/gui/jmdict/JMdictEntryFormatter.cc" line="+610"/>
         <source>Homographs</source>
         <translation>Từ đồng chữ</translation>
     </message>
@@ -703,22 +703,22 @@ Một số có thể vẫn còn.</translation>
 <context>
     <name>GeneralPreferences</name>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="-171"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="-180"/>
         <source>English</source>
         <translation>Tiếng Anh</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="-1"/>
         <source>German</source>
         <translation>Tiếng Đức</translation>
     </message>
     <message>
-        <location line="-1"/>
+        <location line="+3"/>
         <source>French</source>
         <translation>Tiếng Pháp</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="-1"/>
         <source>Spanish</source>
         <translation>Tiếng Tây Ban Nha</translation>
     </message>
@@ -728,34 +728,59 @@ Một số có thể vẫn còn.</translation>
         <translation>Tiếng Bokmal ở Na Uy</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-7"/>
         <source>Czech</source>
         <translation>Tiếng Séc</translation>
     </message>
     <message>
-        <location line="-3"/>
+        <location line="+8"/>
         <source>Dutch</source>
         <translation>Tiếng Hà Lan</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-3"/>
         <source>Italian</source>
         <translation>Tiếng Ý</translation>
     </message>
     <message>
-        <location line="-2"/>
+        <location line="+6"/>
         <source>Russian</source>
         <translation>Tiếng Nga</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="-5"/>
         <source>Japanese</source>
         <translation>Tiếng Nhật</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="+3"/>
         <source>Polish</source>
         <translation>Tiếng Ba Lan</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Portuguese</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Swedish</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Thai</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Turkish</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Vietnamese</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+24"/>
@@ -768,7 +793,7 @@ Một số có thể vẫn còn.</translation>
         <translation>Phông chung toàn ứng dụng</translation>
     </message>
     <message>
-        <location line="+18"/>
+        <location line="+19"/>
         <source>Monday</source>
         <translation>Thứ hai</translation>
     </message>
@@ -778,7 +803,7 @@ Một số có thể vẫn còn.</translation>
         <translation>Chủ Nhật</translation>
     </message>
     <message>
-        <location line="+51"/>
+        <location line="+53"/>
         <source>Next check: %1</source>
         <translation>Lần kiểm tra tiếp theo: %1</translation>
     </message>
@@ -793,17 +818,17 @@ Một số có thể vẫn còn.</translation>
         <translation>Thiết lập chung</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+35"/>
         <source>System default</source>
         <translation>Chuẩn hệ thống</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="-27"/>
         <source>Preferred dictionary language</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+41"/>
         <source>The dictionaries will use this language whenever possible. English will be used as a fallback.</source>
         <translation type="unfinished"/>
     </message>
@@ -813,7 +838,7 @@ Một số có thể vẫn còn.</translation>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+20"/>
         <source>You need to restart Tagaini Jisho for these changes to take effect.</source>
         <translation>Bạn phải khởi động lại Tagaini Jisho để kích hoạt các thiết lập trên.</translation>
     </message>
@@ -863,17 +888,27 @@ Một số có thể vẫn còn.</translation>
         <translation>Kiểm tra luôn cả phiên bản đang phát triển</translation>
     </message>
     <message>
-        <location line="-118"/>
+        <location line="-129"/>
         <source>Preferred GUI language</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+16"/>
         <source>The GUI will use this language whenever possible. English will be used as a fallback.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+115"/>
+        <location line="+30"/>
+        <source>If checked, English meanings will be shown even if a translation in the preferred language is available.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Always show English meanings</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+87"/>
         <source>Next check:</source>
         <translation>Lần kiểm tra tiếp theo</translation>
     </message>
@@ -929,7 +964,7 @@ Một số có thể vẫn còn.</translation>
 <context>
     <name>JMdictEntryFormatter</name>
     <message>
-        <location filename="../src/gui/jmdict/JMdictEntryFormatter.cc" line="-368"/>
+        <location filename="../src/gui/jmdict/JMdictEntryFormatter.cc" line="-367"/>
         <source>(JLPT N%1)</source>
         <translation>(JLPT N%1)</translation>
     </message>
@@ -944,7 +979,7 @@ Một số có thể vẫn còn.</translation>
         <translation>Cách viết khác:</translation>
     </message>
     <message>
-        <location line="+120"/>
+        <location line="+119"/>
         <source>JLPT</source>
         <translation>JLPT</translation>
     </message>
@@ -1225,12 +1260,17 @@ Một số có thể vẫn còn.</translation>
         <translation>động từ dạng su - tiền thân của dạng suru hiện đại</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="+13"/>
+        <source>Hokkaido-ben</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>vulgar expression or word</source>
         <translation>từ ngữ khiếm nhã </translation>
     </message>
     <message>
-        <location line="-75"/>
+        <location line="-76"/>
         <source>idiomatic expression</source>
         <translation>thành ngữ</translation>
     </message>
@@ -1470,12 +1510,12 @@ Một số có thể vẫn còn.</translation>
         <translation>danh từ hoặc động từ đặt trước danh từ</translation>
     </message>
     <message>
-        <location line="+102"/>
+        <location line="+103"/>
         <source>transitive verb</source>
         <translation>tha động từ</translation>
     </message>
     <message>
-        <location line="-61"/>
+        <location line="-62"/>
         <source>noun, used as a suffix</source>
         <translation>danh từ, dùng làm hậu tố</translation>
     </message>
@@ -2719,7 +2759,7 @@ Một số có thể vẫn còn.</translation>
         <translation>Xem trước</translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="+174"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="+177"/>
         <source>Lists</source>
         <translation>Danh sách</translation>
     </message>
@@ -3072,8 +3112,8 @@ Thông báo này chỉ xuất hiện một lần nhưng bạn vẫn có thể h�
     </message>
     <message>
         <location line="+0"/>
-        <source>Unable to find any entry eligible for reading practice. Entries eligible for this training mode are studied vocabulary entries for which all kanji are also studied, and match the train settings. Please add entries or modify the train settings accordingly if you want to practice this mode.</source>
-        <translation>Không tìm thấy mục nào phù hợp để tập đọc. Những mục phù hợp là những từ đã học mà tất cả các kanji của chúng đều đã được học và phù hợp với tiêu chí luyện tập. Xin hãy thêm mục hoặc thay đổi thiết lập luyện tập để có thể sử dụng chế độ luyện tập này.</translation>
+        <source>Unable to find any entry eligible for reading practice. Entries eligible for this training mode are studied vocabulary entries for which all kanji are also studied, and that match the train settings. Please add entries or modify the train settings accordingly if you want to practice this mode.</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
@@ -3086,7 +3126,7 @@ Thông báo này chỉ xuất hiện một lần nhưng bạn vẫn có thể h�
         <translation>Không còn mục nào để luyện tập</translation>
     </message>
     <message>
-        <location line="+17"/>
+        <location line="+18"/>
         <source>&lt;font color=&quot;green&quot;&gt;Correct!&lt;/font&gt;</source>
         <translation>&lt;font color=&quot;green&quot;&gt;Đúng!&lt;/font&gt;</translation>
     </message>
@@ -3669,8 +3709,8 @@ Thông báo này chỉ xuất hiện một lần nhưng bạn vẫn có thể h�
     </message>
     <message>
         <location line="+20"/>
-        <source>Sort biais</source>
-        <translation>Ưu tiên sắp xếp</translation>
+        <source>Sort bias</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+8"/>
@@ -3717,13 +3757,13 @@ Thông báo này chỉ xuất hiện một lần nhưng bạn vẫn có thể h�
     </message>
     <message>
         <location line="+0"/>
-        <source>There are no entries that match the requested settings.</source>
-        <translation>Không có mục nào thỏa mãn thiết lập đã yêu cầu.</translation>
+        <source>There are no entries to train as of now. Please add entries to your study list or check the train settings.</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
-        <source>All the requested entries have been trained.</source>
-        <translation>Tất cả các mục yêu cầu đều đã được luyện tập.</translation>
+        <source>All the matching entries have been trained.</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+0"/>

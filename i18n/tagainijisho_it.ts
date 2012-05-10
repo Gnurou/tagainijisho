@@ -38,27 +38,27 @@
     <message>
         <location line="+2"/>
         <source>Please wait...</source>
-        <translation type="unfinished"/>
+        <translation>Attendere prego...</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Cannot start transaction</source>
-        <translation type="unfinished"/>
+        <translation>L&apos;operazione non può iniziare</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Error while trying to start database transaction.</source>
-        <translation type="unfinished"/>
+        <translation>Si è verificato un errore mentre si tentava di eseguire un&apos;operazione sul database.</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Cannot commit transaction</source>
-        <translation type="unfinished"/>
+        <translation>L&apos;operazione non può essere inoltrata</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Error while trying to commit database transaction.</source>
-        <translation type="unfinished"/>
+        <translation>Si è verificato un errore mentre si tentava di inoltrare un&apos;operazione sul database.</translation>
     </message>
 </context>
 <context>
@@ -344,12 +344,12 @@
     <message>
         <location line="+0"/>
         <source>Selecting entries...</source>
-        <translation type="unfinished"/>
+        <translation>Selezionando le voci...</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Please wait...</source>
-        <translation type="unfinished"/>
+        <translation>Attendere prego...</translation>
     </message>
     <message>
         <location line="+202"/>
@@ -485,7 +485,7 @@
     <message>
         <location line="+159"/>
         <source>Root list</source>
-        <translation type="unfinished"/>
+        <translation>Lista iniziale</translation>
     </message>
     <message>
         <location line="+48"/>
@@ -800,17 +800,17 @@ Alcuni di questi potrebbero rimanere.</translation>
     <message>
         <location line="+12"/>
         <source>Preferred dictionary language</source>
-        <translation type="unfinished"/>
+        <translation>Lingua del dizionario preferita</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>The dictionaries will use this language whenever possible. English will be used as a fallback.</source>
-        <translation type="unfinished"/>
+        <translation>I dizionari useranno questa lingua quando sarà possibile. L&apos;Inglese sarà usato come ultima risorsa.</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Same as GUI</source>
-        <translation type="unfinished"/>
+        <translation>La stessa del GUI</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -865,12 +865,12 @@ Alcuni di questi potrebbero rimanere.</translation>
     <message>
         <location line="-118"/>
         <source>Preferred GUI language</source>
-        <translation type="unfinished"/>
+        <translation>Lingua GUI preferita</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>The GUI will use this language whenever possible. English will be used as a fallback.</source>
-        <translation type="unfinished"/>
+        <translation>Il GUI userà questo linguaggio quando possibile. L&apos;Inglese verrà usato come ultima risorsa.</translation>
     </message>
     <message>
         <location line="+115"/>
@@ -893,27 +893,27 @@ Alcuni di questi potrebbero rimanere.</translation>
     <message>
         <location filename="../src/gui/JLPTFilterWidget.cc" line="+28"/>
         <source>N5</source>
-        <translation type="unfinished"/>
+        <translation>N5</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>N4</source>
-        <translation type="unfinished"/>
+        <translation>N4</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>N3</source>
-        <translation type="unfinished"/>
+        <translation>N3</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>N2</source>
-        <translation type="unfinished"/>
+        <translation>N2</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>N1</source>
-        <translation type="unfinished"/>
+        <translation>N1</translation>
     </message>
     <message>
         <location line="+78"/>
@@ -956,12 +956,12 @@ Alcuni di questi potrebbero rimanere.</translation>
     <message>
         <location line="+18"/>
         <source>Example sentences</source>
-        <translation type="unfinished"/>
+        <translation>Frasi di esempio</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>JMdict ID</source>
-        <translation type="unfinished"/>
+        <translation>JMdict ID</translation>
     </message>
 </context>
 <context>
@@ -1713,7 +1713,7 @@ Alcuni di questi potrebbero rimanere.</translation>
     <message>
         <location line="+7"/>
         <source>JMdict ID (only for debugging)</source>
-        <translation type="unfinished"/>
+        <translation>JMdict ID (solo per debugging)</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -1755,17 +1755,17 @@ Alcuni di questi potrebbero rimanere.</translation>
     <message>
         <location line="+18"/>
         <source>Link to example sentences:</source>
-        <translation type="unfinished"/>
+        <translation>Link a frasi esemplificative:</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>If enabled, display a link that will look for example sentences in your web browser using the selected service</source>
-        <translation type="unfinished"/>
+        <translation>Se abilitato, mostra un link che cercherà frasi esemplificative su internet usando il servizio selezionato</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Disabled</source>
-        <translation type="unfinished"/>
+        <translation>Disabilitato</translation>
     </message>
     <message>
         <location line="+27"/>
@@ -1893,7 +1893,7 @@ Alcuni di questi potrebbero rimanere.</translation>
     <message>
         <location filename="../src/gui/kanjidic2/KanjiPopup.cc" line="+100"/>
         <source>%1 (drawn as &quot;%2&quot;)</source>
-        <translation type="unfinished"/>
+        <translation>%1 (disegnato come &quot;%2&quot;)</translation>
     </message>
 </context>
 <context>
@@ -1962,7 +1962,7 @@ Alcuni di questi potrebbero rimanere.</translation>
     <message>
         <location line="+2"/>
         <source>&lt;b&gt;JLPT:&lt;/b&gt; N%1&lt;br/&gt;</source>
-        <translation type="unfinished"/>
+        <translation>&lt;b&gt;JLPT:&lt;/b&gt; N%1&lt;br/&gt;</translation>
     </message>
     <message>
         <location line="+22"/>
@@ -2314,7 +2314,7 @@ Alcuni di questi potrebbero rimanere.</translation>
     <message>
         <location line="+2"/>
         <source>Junior high school</source>
-        <translation type="unfinished"/>
+        <translation>Liceo</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -3368,12 +3368,12 @@ Questo messaggio è un promemoria che appare una volta sola e non apparirà più
     <message>
         <location line="+0"/>
         <source>Make a new search using only this filter</source>
-        <translation type="unfinished"/>
+        <translation>Esegui una nuova ricerca usando solo questo filtro</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Add this filter to the current search</source>
-        <translation type="unfinished"/>
+        <translation>Aggiungi questo filtro all&apos;attuale ricerca</translation>
     </message>
 </context>
 <context>
@@ -3396,12 +3396,12 @@ Questo messaggio è un promemoria che appare una volta sola e non apparirà più
     <message>
         <location line="+0"/>
         <source>Make a new search using only this filter</source>
-        <translation type="unfinished"/>
+        <translation>Esegui una nuova ricerca usando solo questo filtro</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Add this filter to the current search</source>
-        <translation type="unfinished"/>
+        <translation>Aggiungi questo filtro all&apos;attuale ricerca</translation>
     </message>
 </context>
 <context>
@@ -3601,12 +3601,12 @@ Questo messaggio è un promemoria che appare una volta sola e non apparirà più
     <message>
         <location filename="../src/gui/TextFilterWidget.cc" line="+42"/>
         <source>Romaji search</source>
-        <translation type="unfinished"/>
+        <translation>Ricerca in Romaji</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>If checked, text typed in romaji will be converted to kana and searched as such.</source>
-        <translation type="unfinished"/>
+        <translation>Se selezionato, il testo digitato in romaji verrà convertito in kana e cercato in quel modo.</translation>
     </message>
     <message>
         <location line="+15"/>
