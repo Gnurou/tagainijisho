@@ -386,7 +386,7 @@ static int katakanaCreate(
       t->delim[i] = !isalnum(i);
     }
     // '.' is used in kanji readings and should not be a delimiter
-    t->delim['.'] = 0;
+    t->delim[(int)'.'] = 0;
   }
 
   *ppTokenizer = &t->base;

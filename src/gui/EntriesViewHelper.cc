@@ -336,7 +336,7 @@ void EntriesViewHelper::printBookletPreview()
 
 void EntriesViewHelper::tabExport()
 {
-	QString exportFile = QFileDialog::getSaveFileName(0, tr("Export to tab-separated file..."));
+	QString exportFile = QFileDialog::getSaveFileName(0, tr("Export to tab-separated file..."), "export.tsv");
 	if (exportFile.isEmpty()) return;
 	QFile outFile(exportFile);
 	if (!outFile.open(QIODevice::WriteOnly)) {
@@ -383,7 +383,7 @@ static QString escapeQuotes(const QString &str)
 
 void EntriesViewHelper::jsExport()
 {
-	QString exportFile = QFileDialog::getSaveFileName(0, tr("Export to HTML flashcard file..."), QString(), tr("HTML files (*.html)"));
+	QString exportFile = QFileDialog::getSaveFileName(0, tr("Export to HTML flashcard file..."), "flashcard.html", tr("HTML files (*.html)"));
 	if (exportFile.isEmpty()) return;
 	QFile outFile(exportFile);
 	if (!outFile.open(QIODevice::WriteOnly)) {
