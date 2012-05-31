@@ -232,7 +232,7 @@ void MainWindow::donationReminderCheck()
 
 void MainWindow::exportUserData()
 {
-	QString to(QFileDialog::getSaveFileName(this, tr("Export user data...")));
+	QString to(QFileDialog::getSaveFileName(this, tr("Export user data..."), "export.dat"));
 	if (to.isEmpty()) return;
 
 	QFile dataFile(Database::instance()->userDBFile());
