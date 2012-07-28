@@ -7,6 +7,7 @@ if(NOT EXISTS ${CMAKE_SOURCE_DIR}/3rdparty/JMdict)
 	MESSAGE(STATUS "Downloading JMdict from ${JMDICT_SOURCE}")
 	FILE(DOWNLOAD ${JMDICT_SOURCE} ${CMAKE_SOURCE_DIR}/3rdparty/JMdict.gz)
 	execute_process(COMMAND ${GUNZIP} ${CMAKE_SOURCE_DIR}/3rdparty/JMdict.gz WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/3rdparty)
+	FILE(DOWNLOAD ${JMDICT_SOURCE} ${CMAKE_SOURCE_DIR}/3rdparty/JMdict.gz SHOW_PROGRESS)
 endif()
 
 # JMdictDescs
