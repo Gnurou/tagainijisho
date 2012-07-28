@@ -7,17 +7,21 @@ set(KANJIVG_SOURCE http://cloud.github.com/downloads/KanjiVG/kanjivg/kanjivg-201
 # Kanjidic2
 if(NOT EXISTS ${CMAKE_SOURCE_DIR}/3rdparty/kanjidic2.xml)
 	MESSAGE(STATUS "Downloading Kanjidic2 from ${KANJIDIC2_SOURCE}")
-	FILE(DOWNLOAD ${KANJIDIC2_SOURCE} ${CMAKE_SOURCE_DIR}/3rdparty/kanjidic2.xml.gz)
-	execute_process(COMMAND ${GUNZIP} ${CMAKE_SOURCE_DIR}/3rdparty/kanjidic2.xml.gz WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/3rdparty)
 	FILE(DOWNLOAD ${KANJIDIC2_SOURCE} ${CMAKE_SOURCE_DIR}/3rdparty/kanjidic2.xml.gz SHOW_PROGRESS)
+	execute_process(COMMAND ${GUNZIP} ${CMAKE_SOURCE_DIR}/3rdparty/kanjidic2.xml.gz WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/3rdparty RESULT_VARIABLE result)
+	if(NOT "${result}" STREQUAL 0)
+                MESSAGE(FATAL_ERROR "Unable to run [${GUNZIP} ${CMAKE_SOURCE_DIR}/3rdparty/kanjidic2.xml.gz]. Reported error was [${result}]")
+        endif(NOT "${result}" STREQUAL 0)
 endif()
 
 # KanjiVG
 if(NOT EXISTS ${CMAKE_SOURCE_DIR}/3rdparty/kanjivg.xml)
 	MESSAGE(STATUS "Downloading KanjiVG from ${KANJIVG_SOURCE}")
-	FILE(DOWNLOAD ${KANJIVG_SOURCE} ${CMAKE_SOURCE_DIR}/3rdparty/kanjivg-latest.xml.gz)
-	execute_process(COMMAND ${GUNZIP} ${CMAKE_SOURCE_DIR}/3rdparty/kanjivg-latest.xml.gz WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/3rdparty)
 	FILE(DOWNLOAD ${KANJIVG_SOURCE} ${CMAKE_SOURCE_DIR}/3rdparty/kanjivg-latest.xml.gz SHOW_PROGRESS)
+	execute_process(COMMAND ${GUNZIP} ${CMAKE_SOURCE_DIR}/3rdparty/kanjivg-latest.xml.gz WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/3rdparty RESULT_VARIABLE result)
+	if(NOT "${result}" STREQUAL 0)
+                MESSAGE(FATAL_ERROR "Unable to run [${GUNZIP} ${CMAKE_SOURCE_DIR}/3rdparty/kanjivg-latest.xml.gz]. Reported error was [${result}]")
+        endif(NOT "${result}" STREQUAL 0)
 	FILE(RENAME ${CMAKE_SOURCE_DIR}/3rdparty/kanjivg-latest.xml ${CMAKE_SOURCE_DIR}/3rdparty/kanjivg.xml)
 endif()
 
