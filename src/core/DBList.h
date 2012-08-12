@@ -150,27 +150,34 @@ template <class T> bool DBList<T>::prepareForConnection(SQLite::Connection *conn
 
 	if (connection) {
 		std::ostringstream os;
+
 		os << "select * from " << _tableName << " where rowid = ?";
 		if (!getEntryQuery.prepare(os.str())) return false;
-		os.clear();
+		os.clear(); os.str("");
+
 		os << "insert or replace into " << _tableName << " values(?, ?, ?, ?, ?, ?, "<< dataHolders << ")";
 		if (!insertEntryQuery.prepare(os.str())) return false;
-		os.clear();
+		os.clear(); os.str("");
+
 		os << "delete from " << _tableName << " where rowid == ?";
 		if (!removeEntryQuery.prepare(os.str())) return false;
-		os.clear();
+		os.clear(); os.str("");
 
 		os << "insert into " << _tableName << "Roots values(NULL, 0, \"\")";
 		if (!newListQuery.prepare(os.str())) return false;
-		os.clear();
+		os.clear(); os.str("");
+
 		os << "select * from " << _tableName << "Roots where listId = ?";
 		if (!getListQuery.prepare(os.str())) return false;
-		os.clear();
+		os.clear(); os.str("");
+
 		os << "insert or replace into " << DBList<T>::tableName() << "Roots values(?, ?, ?)";
 		if (!insertListQuery.prepare(os.str())) return false;
-		os.clear();
+		os.clear(); os.str("");
+
 		os << "delete from " << DBList<T>::tableName() << "Roots where listId = ?";
 		if (!removeListQuery.prepare(os.str())) return false;
+		os.clear(); os.str("");
 	}
 	return true;
 }
