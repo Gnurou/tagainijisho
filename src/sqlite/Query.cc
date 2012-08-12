@@ -49,10 +49,10 @@ void Query::useWith(Connection *connection)
 }
 
 #ifdef DEBUG_QUERIES
-void checkQueryError(const Query &query, const QString &statement)
+static void checkQueryError(const Query &query, const TString &statement)
 {
 	if (query.lastError().isError())
-		qDebug("On query: %s", statement);
+		std::cerr << "On query: " << statement << std::endl;
 }
 #endif
 
@@ -66,7 +66,7 @@ bool Query::prepare(const TString &query)
 	while ((res = sqlite3_prepare_v2(_connection->_handler, query.c_str(), -1, &_stmt, 0)) == SQLITE_LOCKED_SHAREDCACHE){};
 	_lastError = _connection->updateError();
 #ifdef DEBUG_QUERIES
-	checkQueryError(*this, statement);
+	checkQueryError(*this, query);
 #endif
 	if (res != SQLITE_OK) {
 		_state = ERROR;

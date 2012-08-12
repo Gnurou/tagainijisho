@@ -23,6 +23,7 @@
 #include <QtDebug>
 
 #include <sstream>
+#include <iostream>
 
 using namespace SQLite;
 
@@ -137,7 +138,7 @@ bool Connection::exec(const TString &statement)
 		updateError();
 #ifdef DEBUG_QUERIES
 	       if (_lastError.isError())
-			qDebug("On query: %s", statement);
+			std::cerr << "On query: " << statement << std::endl;
 #endif
 		return false;
 	}
