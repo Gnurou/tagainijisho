@@ -28,11 +28,16 @@
 
 #include <QtDebug>
 
-#define BIND(query, val) { if (!query.bindValue(val)) { qCritical("%s", query.lastError().message().toUtf8().data()); return false; } }
-#define BINDNULL(query) { if (!query.bindNullValue()) { qCritical("%s", query.lastError().message().toUtf8().data()); return false; } }
+#include <vector>
+#include <string>
+#include <boost/algorithm/string/join.hpp>
+
+#define BIND(query, val) { if (!query.bindValue(val)) { qCritical("%s", query.lastError().message()); return false; } }
+#define BINDC(query, val) { if (!query.bindCompressedValue(val)) { qCritical("%s", query.lastError().message()); return false; } }
+#define BINDNULL(query) { if (!query.bindNullValue()) { qCritical("%s", query.lastError().message()); return false; } }
 #define AUTO_BIND(query, val, nval) { if (val == nval) BINDNULL(query) else BIND(query, val) }
-#define EXEC(query) { if (!query.exec()) { qCritical("%s", query.lastError().message().toUtf8().data()); return false; } }
-#define EXEC_STMT(query, stmt)  { if (!query.exec(stmt)) { qCritical("%s", query.lastError().message().toUtf8().data()); return false; } }
+#define EXEC(query) { if (!query.exec()) { qCritical("%s", query.lastError().message()); return false; } }
+#define EXEC_STMT(query, stmt)  { if (!query.exec(stmt)) { qCritical("%s", query.lastError().message()); return false; } }
 #define ASSERT(cond) { if (!cond) { qCritical("%s: assert condition failed, line %d", __FILE__, __LINE__); return false; } }
 
 QMap<quint32, quint8> knownRadicals;
@@ -108,7 +113,9 @@ bool Kanjidic2DBParser::onItemParsed(Kanjidic2Item &kanji)
 				EXEC(mtQuery);
 				BIND(mQuery, mtQuery.lastInsertId());
 				BIND(mQuery, kanji.id);
-				BIND(mQuery, qCompress(meaning.toUtf8(), 9));
+				QByteArray data(meaning.toUtf8());
+				std::vector<uint8_t> src(data.data(), data.data() + data.size());
+				BINDC(mQuery, src);
 				EXEC(mQuery);
 			}
 		}
@@ -226,14 +233,15 @@ bool KanjiVGDBParser::onItemParsed(KanjiVGItem &kanji)
 	}
 	
 	// Insert strokes
-	QStringList paths;
+	std::vector<std::string> paths;
 	foreach (const KanjiVGStrokeItem &stroke, kanji.strokes) {
-		paths << stroke.path;
+		paths.push_back(stroke.path.toStdString());
 	}
-	QByteArray compressedPaths(paths.join("|").toAscii());
-	if (!paths.isEmpty()) {
+	if (paths.size() > 0) {
+		std::string joinedPaths(boost::algorithm::join(paths, "|"));
+		std::vector<uint8_t> allPaths(joinedPaths.data(), joinedPaths.data() + joinedPaths.size());
 		BIND(updatePathsString, paths.size());
-		BIND(updatePathsString, qCompress(compressedPaths, 9));
+		BINDC(updatePathsString, allPaths);
 		BIND(updatePathsString, kanji.id);
 		EXEC(updatePathsString);
 	}
@@ -285,8 +293,8 @@ public:
 	bool createTables();
 	bool createIndexes();
 	bool finalize();
-	bool openDatabase(QString databaseName, QString handle);
-	bool closeDatabase(QString handle);
+	bool openDatabase(const QString &databaseName, const QString &handle);
+	bool closeDatabase(const QString &handle);
 	bool parse();
 	bool fillMainInfoTable();
 	bool fillLanguagesInfoTable();
@@ -362,7 +370,7 @@ bool KanjiDB::clearQueries()
 	return true;
 }
 
-bool KanjiDB::openDatabase(QString databaseName, QString handle)
+bool KanjiDB::openDatabase(const QString &databaseName, const QString &handle)
 {	
 	QString dbFile = QDir(dstDir).absoluteFilePath(databaseName);
 	QFile dst(dbFile);
@@ -372,14 +380,14 @@ bool KanjiDB::openDatabase(QString databaseName, QString handle)
 		return false;
 	}
 	if (!connection.connect(dbFile, SQLite::Connection::JournalInFile)) {
-		qCritical("Cannot open database: %s", connection.lastError().message().toLatin1().data());
+		qCritical("Cannot open database: %s", connection.lastError().message());
 		return false;
 	}
 	connection.transaction();
 	return true;	
 }
 
-bool KanjiDB::closeDatabase(QString handle)
+bool KanjiDB::closeDatabase(const QString &handle)
 {	
 	SQLite::Connection &connection = connections[handle];
 	connection.exec("analyze");
@@ -564,7 +572,9 @@ bool KanjiDB::updateTranslation(const QString &fName, const QString &lang)
 		EXEC(mtQuery);
 		BIND(mQuery, mtQuery.lastInsertId());
 		BIND(mQuery, kanji);
-		BIND(mQuery, qCompress(meaning.toUtf8(), 9));
+		QByteArray tmpMean(meaning.toUtf8());
+		std::vector<uint8_t> cMeaning(tmpMean.data(), tmpMean.data() + tmpMean.size());
+		BINDC(mQuery, cMeaning);
 		EXEC(mQuery);
 
 		line = in.readLine();

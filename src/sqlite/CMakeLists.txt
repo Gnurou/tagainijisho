@@ -1,6 +1,8 @@
 set(QT_DONT_USE_QTGUI TRUE)
 include(${QT_USE_FILE})
 
+find_package(ZLIB REQUIRED)
+
 set(SQLITE_MIN_VERSION "3007004")
 set(SQLITE_BLACKLIST "3007007;3007008")
 set(SQLITE_DOWNLOAD_VERSION "3071100")
@@ -69,7 +71,10 @@ sqlite3ext.cc
 sqlite3mod.c
 # TODO Lame!
 ${CMAKE_SOURCE_DIR}/src/core/TextTools.cc
+${CMAKE_SOURCE_DIR}/src/core/Compress.cc
 )
+
+include_directories(${ZLIB_INCLUDE_DIRS})
 
 if(EMBED_SQLITE)
 	include_directories(${CMAKE_SOURCE_DIR}/3rdparty/sqlite)
@@ -97,6 +102,7 @@ endif()
 
 target_link_libraries(tagaini_sqlite pthread)
 target_link_libraries(tagaini_sqlite dl)
+target_link_libraries(tagaini_sqlite ${ZLIB_LIBRARIES})
 
 if(APPLE)
         set(DEST_DIR "${tagaini_binary}.app/Contents/MacOS")

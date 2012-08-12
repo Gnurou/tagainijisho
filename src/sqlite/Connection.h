@@ -23,7 +23,7 @@
 
 #include "tagaini_config.h"
 
-#include <QList>
+#include "core/TString.h"
 
 struct sqlite3;
 namespace SQLite {
@@ -34,10 +34,8 @@ friend class Error;
 friend class Query;
 private:
 	sqlite3 *_handler;
-	QString _dbFile;
+	TString _dbFile;
 	mutable Error _lastError;
-
-	QList<Query> _queries;
 
 	const Error &updateError() const;
 
@@ -54,11 +52,11 @@ public:
 	 * Connect to the database file given as parameter. Returns true in case
 	 * of success, false otherwise.
 	 */
-	bool connect(const QString &dbFile, OpenFlags flags = None);
+	bool connect(const TString &dbFile, OpenFlags flags = None);
 
 	bool connected() const { return _handler != 0; }
 
-	const QString &dbFileName() const { return _dbFile; }
+	const char *dbFileName() const { return _dbFile.c_str(); }
 
 	bool close();
 
@@ -66,12 +64,12 @@ public:
 	 * Attach the database file given as parameter to alias. Returns true
 	 * in case of success, false otherwise.
 	 */
-	bool attach(const QString &dbFile, const QString &alias);
+	bool attach(const TString &dbFile, const TString &alias);
 
 	/**
 	 * Detach the previously attached database alias.
 	 */
-	bool detach(const QString &alias);
+	bool detach(const TString &alias);
 
 	/// Returns the last error that happened on this connection
 	const Error &lastError() const;
@@ -82,7 +80,7 @@ public:
 	 * Execute a single statement directly. Should only be used
 	 * to execute non-queries like table creation or pragmas.
 	 */
-	bool exec(const QString &statement);
+	bool exec(const TString &statement);
 
 	bool transaction();
 	bool commit();

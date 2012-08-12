@@ -102,8 +102,8 @@ bool Kanjidic2Plugin::onRegister()
 	// Get the dictionaries versions
 	query.exec("select kanjidic2Version, kanjiVGVersion from kanjidic2.info");
 	if (query.next()) {
-		_kanjidic2Version = query.valueString(0);
-		_kanjiVGVersion = query.valueString(1);
+		_kanjidic2Version = query.valueString(0).c_str();
+		_kanjiVGVersion = query.valueString(1).c_str();
 	}
 
 	// Register our entry searcher

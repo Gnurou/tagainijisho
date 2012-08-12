@@ -24,6 +24,8 @@
 #include <QPushButton>
 #include <QMessageBox>
 
+// TODO DB interface in core for this!
+
 SavedSearchTreeItem::SavedSearchTreeItem(int setId, int position, bool isFolder, const QString &label) : QTreeWidgetItem(isFolder ? FolderType : SavedSearchType), _setId(setId), _position(position), _parentCopy(0)
 {
 	setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsEditable | Qt::ItemIsDragEnabled);
@@ -109,7 +111,7 @@ bool SavedSearchesTreeWidget::dropMimeData(QTreeWidgetItem *parent, int index, c
 		// Only update the layout if there is any change
 		if (!(prevParent == newParent && prevPosition == newPosition)) {
 			SQLite::Query query(Database::connection());
-#define QUERY(q) { if (!query.exec(q)) qDebug() << "Query failed" << query.lastError().message(); }
+#define QUERY(q) { if (!query.exec(QString(q))) qDebug() << "Query failed" << query.lastError().message(); }
 			// Update the positions of the items after the one we removed
 			QUERY(QString("UPDATE sets SET position = position - 1 where parent %1 and position > %2").arg(!prevParentId ? "is null" : QString("= %1").arg(prevParentId)).arg(prevPosition));
 			QList<SavedSearchTreeItem *> siblings(childsOf(prevParent));
@@ -199,7 +201,7 @@ void SavedSearchesTreeWidget::populateRoot()
 
 	query.exec("SELECT rowid, position, state IS NULL, label FROM sets WHERE parent IS NULL ORDER BY position");
 	while (query.next()) {
-		SavedSearchTreeItem *item = new SavedSearchTreeItem(query.valueInt(0), query.valueInt(1), query.valueBool(2), query.valueString(3));
+		SavedSearchTreeItem *item = new SavedSearchTreeItem(query.valueInt(0), query.valueInt(1), query.valueBool(2), QString::fromUtf8(query.valueString(3).c_str()));
 		if (item->isFolder()) {
 			item->setIcon(0, QIcon(":/images/icons/folder.png"));
 			populateFolder(item);
@@ -216,7 +218,7 @@ void SavedSearchesTreeWidget::populateFolder(SavedSearchTreeItem *parent) const
 	query.bindValue(parent->setId());
 	query.exec();
 	while (query.next()) {
-		SavedSearchTreeItem *item = new SavedSearchTreeItem(query.valueInt(0), query.valueInt(1), query.valueBool(2), query.valueString(3));
+		SavedSearchTreeItem *item = new SavedSearchTreeItem(query.valueInt(0), query.valueInt(1), query.valueBool(2), QString::fromUtf8(query.valueString(3).c_str()));
 		if (item->isFolder()) {
 			item->setIcon(0, QIcon(":/images/icons/folder.png"));
 			populateFolder(item);

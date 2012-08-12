@@ -5,6 +5,8 @@
 include(${QT_USE_FILE})
 
 set(tagainijisho_core_SRCS
+BoostException.cc
+TString.cc
 TextTools.cc
 Paths.cc
 Lang.cc
