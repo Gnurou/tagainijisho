@@ -324,10 +324,13 @@ QByteArray Query::valueBlob(int column) const
 	return QByteArray((const char *)sqlite3_column_blob(_stmt, column), sqlite3_column_bytes(_stmt, column));
 }
 
-std::vector<uint8_t> Query::valueBlob2(int column) const
+std::vector<uint8_t> Query::valueCompressedBlob(int column) const
 {
 	const uint8_t *data = (const uint8_t *)sqlite3_column_blob(_stmt, column);
 	int len = sqlite3_column_bytes(_stmt, column);
+
+	if (len == 0)
+		return std::vector<uint8_t>();
 
 	// Uncompressed data?
 	if (data[0] == 0) {

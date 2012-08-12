@@ -106,7 +106,7 @@ Entry *JMdictEntryLoader::loadEntry(EntryId id)
 		glossQuery.bindValue(entry->id());
 		glossQuery.exec();
 		if (glossQuery.next()) {
-			std::vector<uint8_t> glossesV = glossQuery.valueBlob2(0);
+			std::vector<uint8_t> glossesV = glossQuery.valueCompressedBlob(0);
 			TStringList glosses;
 			TString((const char *)glossesV.data(), glossesV.size()).split("\r", glosses);
 			for (std::size_t i = 0; i < glosses.size(); i++) {

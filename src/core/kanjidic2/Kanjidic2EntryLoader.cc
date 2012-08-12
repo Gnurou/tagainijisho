@@ -64,7 +64,7 @@ QList<Kanjidic2Entry::KanjiMeaning> Kanjidic2EntryLoader::getMeanings(int id)
 		meaningsQuery.bindValue(id);
 		meaningsQuery.exec();
 		while(meaningsQuery.next()) {
-			std::vector<uint8_t> meanings(meaningsQuery.valueBlob2(0));
+			std::vector<uint8_t> meanings(meaningsQuery.valueCompressedBlob(0));
 			ret << Kanjidic2Entry::KanjiMeaning(lang, TString((const char *)meanings.data(), meanings.size()).asQString());
 		}
 		meaningsQuery.reset();
@@ -104,7 +104,7 @@ Entry *Kanjidic2EntryLoader::loadEntry(EntryId id)
 		int jlpt = kanjiQuery.valueIsNull(3) ? -1 : kanjiQuery.valueInt(3);
 		int heisig = kanjiQuery.valueIsNull(4) ? -1 : kanjiQuery.valueInt(4);
 		// Get the strokes paths for later processing
-		std::vector<uint8_t> pathsBA(kanjiQuery.valueBlob2(5));
+		std::vector<uint8_t> pathsBA(kanjiQuery.valueCompressedBlob(5));
 		if (pathsBA.size() > 0)
 			TString((const char *)pathsBA.data(), pathsBA.size()).split("|", paths);
 

@@ -100,7 +100,7 @@ public:
 	double valueDouble(int column) const;
 	TString valueString(int column) const;
 	QByteArray valueBlob(int column) const;
-	std::vector<uint8_t> valueBlob2(int column) const;
+	std::vector<uint8_t> valueCompressedBlob(int column) const;
 	bool valueIsNull(int column) const;
 
 	void clear();
