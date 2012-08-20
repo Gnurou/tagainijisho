@@ -42,7 +42,7 @@ void Tag::init()
 	SQLite::Query query(Database::connection());
 	query.exec("select tag from tags");
 	while (query.next()) {
-		knownTags << query.valueString(0);
+		knownTags << QString::fromUtf8(query.valueString(0).c_str());
 	}
 }
 
@@ -56,7 +56,7 @@ Tag Tag::getTag(const QString &tagString)
 
 	query.exec(QString("select docid, tag from tags where tag match '%1'").arg(tagString));
 	if (!query.next()) return _invalid;
-	return Tag(query.valueInt(0), query.valueString(1));
+	return Tag(query.valueInt(0), QString::fromUtf8(query.valueString(1).c_str()));
 }
 
 Tag Tag::getTag(quint32 id)
@@ -65,7 +65,7 @@ Tag Tag::getTag(quint32 id)
 
 	query.exec(QString("select docid, tag from tags where docid = %1").arg(id));
 	if (!query.next()) return _invalid;
-	return Tag(query.valueInt(0), query.valueString(1));
+	return Tag(query.valueInt(0), QString::fromUtf8(query.valueString(1).c_str()));
 }
 
 Tag Tag::getOrCreateTag(const QString &tagString)

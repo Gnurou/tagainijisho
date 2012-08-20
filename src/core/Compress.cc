@@ -1,5 +1,5 @@
 /*
- *  Copyright (C) 2010  Alexandre Courbot
+ *  Copyright (C) 2012  Alexandre Courbot
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -15,34 +15,9 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef __SQLITE_ERROR_H
-#define __SQLITE_ERROR_H
+#include "core/Compress.h"
 
-#include "core/TString.h"
 
-namespace SQLite {
-
-class Connection;
-
-class Error
+namespace Tagaini
 {
-friend class Connection;
-friend class Query;
-private:
-	int _code;
-
-	TString _message;
-
-	Error() : _code(0) {}
-	Error(int code, const TString &message);
-	Error(const Connection &connection);
-public:
-	int code() const { return _code; }
-	const char *message() const { return _message.c_str(); }
-	bool isError() const;
-	bool isInterrupted() const;
-};
-
 }
-
-#endif

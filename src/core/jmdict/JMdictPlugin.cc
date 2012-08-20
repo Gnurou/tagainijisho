@@ -282,7 +282,7 @@ bool JMdictPlugin::checkForMovedEntries()
 
 #undef CHECK
 errorOccured:
-	qCritical("%s", Database::connection()->lastError().message().toUtf8().constData());
+	qCritical("%s", Database::connection()->lastError().message());
 	return false;
 }
 
@@ -338,7 +338,7 @@ bool JMdictPlugin::onRegister()
 	SQLite::Query query(Database::connection());
 	// Get the dictionary version
 	query.exec("select JMdictVersion from jmdict.info");
-	if (query.next()) _dictVersion = query.valueString(0);
+	if (query.next()) _dictVersion = query.valueString(0).c_str();
 	query.clear();
 	
 	if (!checkForMovedEntries()) {
@@ -348,26 +348,26 @@ bool JMdictPlugin::onRegister()
 	// Populate the entities tables
 	query.exec("select bitShift, name, description from jmdict.posEntities order by bitShift");
 	while (query.next()) {
-		QString name(query.valueString(1));
-		_posEntities << QPair<QString, QString>(name, query.valueString(2));
+		QString name(query.valueString(1).c_str());
+		_posEntities << QPair<QString, QString>(name, query.valueString(2).c_str());
 		_posBitShift[name] = query.valueInt(0);
 	}
 	query.exec("select bitShift, name, description from jmdict.miscEntities order by bitShift");
 	while (query.next()) {
-		QString name(query.valueString(1));
-		_miscEntities << QPair<QString, QString>(name, query.valueString(2));
+		QString name(query.valueString(1).c_str());
+		_miscEntities << QPair<QString, QString>(name, query.valueString(2).c_str());
 		_miscBitShift[name] = query.valueInt(0);
 	}
 	query.exec("select bitShift, name, description from jmdict.dialectEntities order by bitShift");
 	while (query.next()) {
-		QString name(query.valueString(1));
-		_dialectEntities << QPair<QString, QString>(name, query.valueString(2));
+		QString name(query.valueString(1).c_str());
+		_dialectEntities << QPair<QString, QString>(name, query.valueString(2).c_str());
 		_dialectBitShift[name] = query.valueInt(0);
 	}
 	query.exec("select bitShift, name, description from jmdict.fieldEntities order by bitShift");
 	while (query.next()) {
-		QString name(query.valueString(1));
-		_fieldEntities << QPair<QString, QString>(name, query.valueString(2));
+		QString name(query.valueString(1).c_str());
+		_fieldEntities << QPair<QString, QString>(name, query.valueString(2).c_str());
 		_fieldBitShift[name] = query.valueInt(0);
 	}
 	

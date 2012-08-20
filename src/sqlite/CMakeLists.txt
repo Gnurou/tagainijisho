@@ -1,6 +1,8 @@
 set(QT_DONT_USE_QTGUI TRUE)
 include(${QT_USE_FILE})
 
+find_package(ZLIB REQUIRED)
+
 set(SQLITE_MIN_VERSION "3007004")
 set(SQLITE_BLACKLIST "3007007;3007008")
 set(SQLITE_DOWNLOAD_VERSION "3071100")
@@ -51,7 +53,7 @@ endif()
 # Need to download SQLite?
 if(EMBED_SQLITE AND NOT EXISTS ${CMAKE_SOURCE_DIR}/3rdparty/sqlite/sqlite3.c)
 	message(STATUS "Downloading SQLite ${SQLITE_DOWNLOAD_VERSION} from ${SQLITE_SOURCE}")
-	file(DOWNLOAD ${SQLITE_SOURCE} ${CMAKE_SOURCE_DIR}/3rdparty/sqlite-amalgamation-${SQLITE_DOWNLOAD_VERSION}.zip)
+	file(DOWNLOAD ${SQLITE_SOURCE} ${CMAKE_SOURCE_DIR}/3rdparty/sqlite-amalgamation-${SQLITE_DOWNLOAD_VERSION}.zip SHOW_PROGRESS)
 	execute_process(COMMAND cmake -E tar xvf ${CMAKE_SOURCE_DIR}/3rdparty/sqlite-amalgamation-${SQLITE_DOWNLOAD_VERSION}.zip WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/3rdparty)
 	file(MAKE_DIRECTORY ${CMAKE_SOURCE_DIR}/3rdparty/sqlite)
 	file(RENAME ${CMAKE_SOURCE_DIR}/3rdparty/sqlite-amalgamation-${SQLITE_DOWNLOAD_VERSION}/sqlite3.c ${CMAKE_SOURCE_DIR}/3rdparty/sqlite/sqlite3.c)
@@ -69,7 +71,10 @@ sqlite3ext.cc
 sqlite3mod.c
 # TODO Lame!
 ${CMAKE_SOURCE_DIR}/src/core/TextTools.cc
+${CMAKE_SOURCE_DIR}/src/core/Compress.cc
 )
+
+include_directories(${ZLIB_INCLUDE_DIRS})
 
 if(EMBED_SQLITE)
 	include_directories(${CMAKE_SOURCE_DIR}/3rdparty/sqlite)
@@ -94,6 +99,10 @@ endif()
 if(NOT EMBED_SQLITE)
 	target_link_libraries(tagaini_sqlite sqlite3)
 endif()
+
+target_link_libraries(tagaini_sqlite pthread)
+target_link_libraries(tagaini_sqlite dl)
+target_link_libraries(tagaini_sqlite ${ZLIB_LIBRARIES})
 
 if(APPLE)
         set(DEST_DIR "${tagaini_binary}.app/Contents/MacOS")

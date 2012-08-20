@@ -21,7 +21,9 @@
 #include "tagaini_config.h"
 
 #include <QtDebug>
-#include <QMutexLocker>
+
+#include <sstream>
+#include <iostream>
 
 using namespace SQLite;
 
@@ -42,13 +44,13 @@ const Error &Connection::updateError() const
 	_lastError = Error(*this);
 #ifdef DEBUG_QUERIES
 	if (_lastError.isError()) {
-		qDebug("Query error: %s", _lastError.message().toUtf8().constData());
+		qDebug("Query error: %s", _lastError.message());
 	}
 #endif
 	return _lastError;
 }
 
-bool Connection::connect(const QString &dbFile, OpenFlags flags)
+bool Connection::connect(const TString &dbFile, OpenFlags flags)
 {
 	if (connected()) {
 		_lastError = Error(-1, "already connected to a database");
@@ -58,7 +60,7 @@ bool Connection::connect(const QString &dbFile, OpenFlags flags)
 	// Enable shared-cache mode
 	sqlite3_enable_shared_cache(1);
 
-	int res = sqlite3_open_v2(dbFile.toUtf8().data(), &_handler, SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE, 0);
+	int res = sqlite3_open_v2(dbFile.c_str(), &_handler, SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE, 0);
 	updateError();
 	if (res != SQLITE_OK) goto err;
 	// Enable extended error codes
@@ -109,14 +111,18 @@ bool Connection::close()
 	return true;
 }
 
-bool Connection::attach(const QString &dbFile, const QString &alias)
+bool Connection::attach(const TString &dbFile, const TString &alias)
 {
-	return exec(QString("attach database '%1' as %2").arg(dbFile).arg(alias));
+	std::ostringstream os;
+	os << "attach database '" << dbFile << "' as " << alias.c_str();
+	return exec(os.str());
 }
 
-bool Connection::detach(const QString &alias)
+bool Connection::detach(const TString &alias)
 {
-	return exec(QString("detach database %1").arg(alias));
+	std::ostringstream os;
+	os << "detach database " << alias;
+	return exec(os.str());
 }
 
 const Error &Connection::lastError() const
@@ -124,15 +130,15 @@ const Error &Connection::lastError() const
 	return _lastError;
 }
 
-bool Connection::exec(const QString &statement)
+bool Connection::exec(const TString &statement)
 {
 	sqlite3_stmt *stmt;
-	int res = sqlite3_prepare_v2(_handler, statement.toUtf8().data(), -1, &stmt, 0);
+	int res = sqlite3_prepare_v2(_handler, statement.c_str(), -1, &stmt, 0);
 	if (res != SQLITE_OK) {
 		updateError();
 #ifdef DEBUG_QUERIES
 	       if (_lastError.isError())
-			qDebug("On query: %s", statement.toUtf8().constData());
+			std::cerr << "On query: " << statement << std::endl;
 #endif
 		return false;
 	}

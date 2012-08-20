@@ -23,6 +23,7 @@
 
 #include <QStringList>
 
+#include <sstream>
 /**
  * Represents how entries lists are actually recorded inside the DB.
  */
@@ -73,7 +74,7 @@ struct DBListInfo
 template <class T> class DBList
 {
 private:
-	const QString _tableName;
+	const TString _tableName;
 	SQLite::Connection *_connection;
 
 	SQLite::Query getEntryQuery;
@@ -87,7 +88,7 @@ private:
 
 public:
 	DBList(const QString &tableName, SQLite::Connection *connection = 0);
-	const QString &tableName() const { return _tableName; }
+	const TString &tableName() const { return _tableName; }
 
 	/**
 	 * Prepare all the cached statements to be used with the given connection.
@@ -123,8 +124,8 @@ template <class T> DBList<T>::DBList(const QString &tableName, SQLite::Connectio
 
 template <class T> bool DBList<T>::createTables(SQLite::Connection *connection)
 {
-	if (!connection->exec(QString("CREATE TABLE %1(rowid INTEGER PRIMARY KEY, leftSize INTEGER, red TINYINT, parent INTEGER, left INTEGER, right INTEGER, %2)").arg(_tableName).arg(DBListEntry<T>::tableDataMembers()))) return false;
-	if (!connection->exec(QString("CREATE TABLE %1Roots(listId INTEGER PRIMARY KEY, rootId INTEGER, label TEXT)").arg(DBList<T>::tableName()))) return false;
+	if (!connection->exec(QString("CREATE TABLE %1(rowid INTEGER PRIMARY KEY, leftSize INTEGER, red TINYINT, parent INTEGER, left INTEGER, right INTEGER, %2)").arg(_tableName.asQString()).arg(DBListEntry<T>::tableDataMembers()))) return false;
+	if (!connection->exec(QString("CREATE TABLE %1Roots(listId INTEGER PRIMARY KEY, rootId INTEGER, label TEXT)").arg(DBList<T>::tableName().asQString()))) return false;
 	// Entry for root list (rowid = 0)
 	//if (!connection->exec(QString("insert into %1Root values(0, 0, \"\")").arg(DBList<T>::tableName()))) return false;
 	return true;
@@ -145,17 +146,38 @@ template <class T> bool DBList<T>::prepareForConnection(SQLite::Connection *conn
 	int nbDataMembers = DBListEntry<T>::tableDataMembers().count(',') + 1;
 	QStringList dataHoldersList;
 	while (nbDataMembers-- > 0) dataHoldersList << "?";
-	QString dataHolders(dataHoldersList.join(", "));
+	TString dataHolders(dataHoldersList.join(", "));
 
 	if (connection) {
-		if (!getEntryQuery.prepare(QString("select * from %1 where rowid = ?").arg(_tableName))) return false;
-		if (!insertEntryQuery.prepare(QString("insert or replace into %1 values(?, ?, ?, ?, ?, ?, %2)").arg(_tableName).arg(dataHolders))) return false;
-		if (!removeEntryQuery.prepare(QString("delete from %1 where rowid == ?").arg(_tableName))) return false;
+		std::ostringstream os;
 
-		if (!newListQuery.prepare(QString("insert into %1Roots values(NULL, 0, \"\")").arg(_tableName))) return false;
-		if (!getListQuery.prepare(QString("select * from %1Roots where listId = ?").arg(_tableName))) return false;
-		if (!insertListQuery.prepare(QString("insert or replace into %1Roots values(?, ?, ?)").arg(DBList<T>::tableName()))) return false;
-		if (!removeListQuery.prepare(QString("delete from %1Roots where listId = ?").arg(DBList<T>::tableName()))) return false;
+		os << "select * from " << _tableName << " where rowid = ?";
+		if (!getEntryQuery.prepare(os.str())) return false;
+		os.clear(); os.str("");
+
+		os << "insert or replace into " << _tableName << " values(?, ?, ?, ?, ?, ?, "<< dataHolders << ")";
+		if (!insertEntryQuery.prepare(os.str())) return false;
+		os.clear(); os.str("");
+
+		os << "delete from " << _tableName << " where rowid == ?";
+		if (!removeEntryQuery.prepare(os.str())) return false;
+		os.clear(); os.str("");
+
+		os << "insert into " << _tableName << "Roots values(NULL, 0, \"\")";
+		if (!newListQuery.prepare(os.str())) return false;
+		os.clear(); os.str("");
+
+		os << "select * from " << _tableName << "Roots where listId = ?";
+		if (!getListQuery.prepare(os.str())) return false;
+		os.clear(); os.str("");
+
+		os << "insert or replace into " << DBList<T>::tableName() << "Roots values(?, ?, ?)";
+		if (!insertListQuery.prepare(os.str())) return false;
+		os.clear(); os.str("");
+
+		os << "delete from " << DBList<T>::tableName() << "Roots where listId = ?";
+		if (!removeListQuery.prepare(os.str())) return false;
+		os.clear(); os.str("");
 	}
 	return true;
 }
@@ -232,7 +254,7 @@ template <class T> DBListInfo DBList<T>::getList(quint32 listId)
 	}
 	ret.listId = getListQuery.valueUInt(0);
 	ret.rootId = getListQuery.valueUInt(1);
-	ret.label = getListQuery.valueString(2);
+	ret.label = QString::fromUtf8(getListQuery.valueString(2).c_str());
 
 	getListQuery.reset();
 	return ret;

@@ -81,7 +81,7 @@ void EntryLoader::loadMiscData(Entry *entry)
 	notesQuery.bindValue(entry->id());
 	notesQuery.exec();
 	while (notesQuery.next()) {
-		entry->_notes << Entry::Note(notesQuery.valueInt(0), QDateTime::fromTime_t(notesQuery.valueInt(1)), QDateTime::fromTime_t(notesQuery.valueInt(2)), notesQuery.valueString(3));
+		entry->_notes << Entry::Note(notesQuery.valueInt(0), QDateTime::fromTime_t(notesQuery.valueInt(1)), QDateTime::fromTime_t(notesQuery.valueInt(2)), QString::fromUtf8(notesQuery.valueString(3).c_str()));
 	}
 	notesQuery.reset();
 	

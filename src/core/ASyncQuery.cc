@@ -78,7 +78,7 @@ void ASyncQuery::process()
 		}
 		else {
 			_active = false;
-			emit error(_query.lastError().message());
+			emit error(QString(_query.lastError().message()));
 			goto process_end;
 		}
 	}
@@ -93,13 +93,13 @@ void ASyncQuery::process()
 				QVariant value;
 				switch (_query.valueType(i)) {
 				case SQLite::Integer:
-					value = _query.valueInt64(i);
+					value = (qint64) _query.valueInt64(i);
 					break;
 				case SQLite::Float:
 					value = _query.valueDouble(i);
 					break;
 				case SQLite::String:
-					value = _query.valueString(i);
+					value = QString::fromUtf8(_query.valueString(i).c_str());
 					break;
 				case SQLite::Blob:
 					value = _query.valueBlob(i);
@@ -175,7 +175,7 @@ ThreadedDatabaseConnection::~ThreadedDatabaseConnection()
 bool ThreadedDatabaseConnection::connect(const QString &dbFile)
 {
 	if (!_connection.connect(dbFile)) {
-		qWarning("Cannot open database: %s", _connection.lastError().message().toLatin1().data());
+		qWarning("Cannot open database: %s", _connection.lastError().message());
 		return false;
 	}	
 	return true;
@@ -184,7 +184,7 @@ bool ThreadedDatabaseConnection::connect(const QString &dbFile)
 bool ThreadedDatabaseConnection::attach(const QString &dbFile, const QString &alias)
 {
 	if (!_connection.attach(dbFile, alias)) {
-		qWarning("Failed to attach dictionary file %s: %s", dbFile.toLatin1().data(), _connection.lastError().message().toLatin1().data());
+		qWarning("Failed to attach dictionary file %s: %s", dbFile.toLatin1().data(), _connection.lastError().message());
 		return false;
 	}
 	return true;
@@ -193,7 +193,7 @@ bool ThreadedDatabaseConnection::attach(const QString &dbFile, const QString &al
 bool ThreadedDatabaseConnection::detach(const QString &alias)
 {
 	if (!_connection.detach(alias)) {
-		qWarning("Failed to detach database %s: %s", alias.toLatin1().data(), _connection.lastError().message().toLatin1().data());
+		qWarning("Failed to detach database %s: %s", alias.toLatin1().data(), _connection.lastError().message());
 		return false;
 	}
 	return true;
@@ -263,12 +263,12 @@ void DatabaseThread::run()
 	_connection = new ThreadedDatabaseConnection();
 
 	// Connect to the main database
-	connection()->connect(Database::instance()->userDBFile());
+	connection()->connect(Database::instance()->userDBFile().asQString());
 
 	// Attach all databases
-	const QMap<QString, QString> &dbsToAttach(Database::attachedDBs());
-	foreach (const QString &alias, dbsToAttach.keys()) {
-	        connection()->attach(dbsToAttach[alias], alias);
+	const QMap<TString, TString> &dbsToAttach(Database::attachedDBs());
+	foreach (const TString &alias, dbsToAttach.keys()) {
+	        connection()->attach(dbsToAttach[alias].asQString(), alias.asQString());
 	}
 
 	// Add to instances list

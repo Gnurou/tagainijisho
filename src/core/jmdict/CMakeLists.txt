@@ -5,8 +5,11 @@ set(QT_DONT_USE_QTGUI TRUE)
 set(JMDICT_SOURCE ftp://ftp.monash.edu.au/pub/nihongo/JMdict.gz)
 if(NOT EXISTS ${CMAKE_SOURCE_DIR}/3rdparty/JMdict)
 	MESSAGE(STATUS "Downloading JMdict from ${JMDICT_SOURCE}")
-	FILE(DOWNLOAD ${JMDICT_SOURCE} ${CMAKE_SOURCE_DIR}/3rdparty/JMdict.gz)
-	execute_process(COMMAND ${GUNZIP} ${CMAKE_SOURCE_DIR}/3rdparty/JMdict.gz WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/3rdparty)
+	FILE(DOWNLOAD ${JMDICT_SOURCE} ${CMAKE_SOURCE_DIR}/3rdparty/JMdict.gz SHOW_PROGRESS)
+	execute_process(COMMAND ${GUNZIP} ${CMAKE_SOURCE_DIR}/3rdparty/JMdict.gz WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/3rdparty RESULT_VARIABLE result)
+	if(NOT "${result}" STREQUAL 0)
+		MESSAGE(FATAL_ERROR "Unable to run [${GUNZIP} ${CMAKE_SOURCE_DIR}/3rdparty/JMdict.gz]. Reported error was [${result}]")
+	endif(NOT "${result}" STREQUAL 0)
 endif()
 
 # JMdictDescs

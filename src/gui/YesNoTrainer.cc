@@ -31,6 +31,8 @@
 
 PreferenceItem<QByteArray> YesNoTrainer::windowGeometry("trainWindow", "geometry", "");
 
+// TODO DB interface and algorithms in core!
+
 YesNoTrainer::YesNoTrainer(QWidget *parent) : QWidget(parent), _trainingMode(Japanese), currentEntry(0), _query(Database::connection())
 {
 	frontParts << "front";

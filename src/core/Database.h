@@ -37,10 +37,10 @@ class Database
 Q_DECLARE_TR_FUNCTIONS(Database)
 private:
 	/// Set to the name of the current user DB file
-	static QString _userDBFile;
+	static TString _userDBFile;
 	/// Temporary file used to create the temporary user DB
 	QTemporaryFile *_tFile;
-	static QMap<QString, QString> _attachedDBs;
+	static QMap<TString, TString> _attachedDBs;
 	static Database *_instance;
 
 	SQLite::Connection _connection;
@@ -60,12 +60,12 @@ public:
 	static Database *instance() { return _instance; }
 	static SQLite::Connection *connection() { return &_instance->_connection; }
 
-	static const QString &userDBFile() { return _userDBFile; }
+	static const TString &userDBFile() { return _userDBFile; }
 	static const QString defaultDBFile() { return QDir(userProfile()).absoluteFilePath("user.db"); }
 
-	static bool attachDictionaryDB(const QString &file, const QString &alias, int expectedVersion);
-	static bool detachDictionaryDB(const QString &alias);
-	static const QMap<QString, QString> &attachedDBs() { return _attachedDBs; }
+	static bool attachDictionaryDB(const TString &file, const TString &alias, int expectedVersion);
+	static bool detachDictionaryDB(const TString &alias);
+	static const QMap<TString, TString> &attachedDBs() { return _attachedDBs; }
 
 	static const SQLite::Error &lastError() { return _instance->_connection.lastError(); }
 };
