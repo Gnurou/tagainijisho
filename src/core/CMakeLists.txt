@@ -49,6 +49,9 @@ include_directories(${QT_INCLUDE_DIR})
 # TODO remove once the SQLite stuff is entirely moved into the sqlite module
 include_directories(${CMAKE_SOURCE_DIR}/3rdparty/sqlite)
 
+find_package(Boost 1.49.0 REQUIRED)
+include_directories(${Boost_INCLUDE_DIRS})
+
 add_library(tagaini_core STATIC ${tagainijisho_core_MOC_SRCS} ${tagainijisho_core_SRCS})
 target_link_libraries(tagaini_core tagaini_sqlite)
 
