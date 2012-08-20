@@ -81,6 +81,7 @@ public:
 	bool bindValue(const TString &val, int col = 0);
 	bool bindValue(const char *val, int col = 0) { return bindValue(TString(val), col); }
 	bool bindValue(const QByteArray &val, int col = 0);
+	bool bindValue(const size_t val, int col = 0);
 	bool bindCompressedValue(const std::vector<uint8_t> &val, int col = 0);
 	bool bindNullValue(int col = 0);
 	

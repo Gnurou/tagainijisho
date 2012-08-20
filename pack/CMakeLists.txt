@@ -47,6 +47,7 @@ if(UNIX)
 			MACOSX_BUNDLE_LONG_VERSION_STRING ${VERSION}
 			MACOSX_BUNDLE_GUI_IDENTIFIER "net.tagaini.TagainiJisho"
 			MACOSX_BUNDLE_ICON_FILE appicon.icns
+			MACOSX_BUNDLE_COPYRIGHT "© 2008 - 2012, Alexandre Courbot."
 		)
 		
 		set(ROOT_DIR "${tagaini_binary}.app/Contents")

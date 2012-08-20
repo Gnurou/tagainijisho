@@ -151,6 +151,11 @@ bool Query::bindValue(const QByteArray &val, int col)
 	return checkBindRes();
 }
 
+bool Query::bindValue(const size_t val, int col)
+{
+        return bindValue((int64_t)val, col);
+}
+
 bool Query::bindCompressedValue(const std::vector<uint8_t> &val, int col)
 {
 	if (!checkBind(col)) return false;
