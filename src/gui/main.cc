@@ -182,8 +182,7 @@ int main(int argc, char *argv[])
 	qsrand(QDateTime::currentDateTime().toTime_t());
 	QApplication app(argc, argv);
 
-	QCoreApplication::setOrganizationDomain(__ORGANIZATION_DOMAIN);
-	QCoreApplication::setOrganizationName(__ORGANIZATION_NAME);
+	QCoreApplication::setOrganizationDomain(__ORGANIZATION_NAME);
 	QCoreApplication::setApplicationName(__APPLICATION_NAME);
 	QCoreApplication::setApplicationVersion(VERSION);
 

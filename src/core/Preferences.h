@@ -25,7 +25,6 @@
 #include <QMutex>
 
 #define __ORGANIZATION_NAME "tagaini.net"
-#define __ORGANIZATION_DOMAIN "tagaini.net"
 #define __APPLICATION_NAME "Tagaini Jisho"
 
 /**
