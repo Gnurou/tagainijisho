@@ -240,7 +240,7 @@ bool KanjiVGDBParser::onItemParsed(KanjiVGItem &kanji)
 	if (paths.size() > 0) {
 		std::string joinedPaths(boost::algorithm::join(paths, "|"));
 		std::vector<uint8_t> allPaths(joinedPaths.data(), joinedPaths.data() + joinedPaths.size());
-		BIND(updatePathsString, paths.size());
+		BIND(updatePathsString, (uint64_t)paths.size());
 		BINDC(updatePathsString, allPaths);
 		BIND(updatePathsString, kanji.id);
 		EXEC(updatePathsString);
