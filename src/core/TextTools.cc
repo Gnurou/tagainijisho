@@ -237,7 +237,7 @@ static void initKanaInfos()
 	_kanaInfos[QChar(0x305e)] = KanaInfo("zo");
 
 	_kanaInfos[QChar(0x305f)] = KanaInfo("ta");
-	_kanaInfos[QChar(0x3061)] = KanaInfo("tchi");
+	_kanaInfos[QChar(0x3061)] = KanaInfo("chi");
 	_kanaInfos[QChar(0x3063)] = KanaInfo("tsu", KanaInfo::Small);
 	_kanaInfos[QChar(0x3064)] = KanaInfo("tsu");
 	_kanaInfos[QChar(0x3066)] = KanaInfo("te");
@@ -257,7 +257,7 @@ static void initKanaInfos()
 
 	_kanaInfos[QChar(0x306f)] = KanaInfo("ha");
 	_kanaInfos[QChar(0x3072)] = KanaInfo("hi");
-	_kanaInfos[QChar(0x3075)] = KanaInfo("hu");
+	_kanaInfos[QChar(0x3075)] = KanaInfo("fu");
 	_kanaInfos[QChar(0x3078)] = KanaInfo("he");
 	_kanaInfos[QChar(0x307b)] = KanaInfo("ho");
 
