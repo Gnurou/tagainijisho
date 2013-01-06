@@ -64,7 +64,9 @@ bool JMdictPreferences::eventFilter(QObject *obj, QEvent *event)
 void JMdictPreferences::onFilterButtonClicked()
 {
 	foreach (QListWidgetItem *item, displayedDefs->selectedItems()) {
-		filteredDefs->addItem(item->text());
+		QListWidgetItem *newItem = new QListWidgetItem(item->text());
+		newItem->setData(Qt::UserRole, item->data(Qt::UserRole));
+		filteredDefs->addItem(newItem);
 		delete item;
 	}
 }
@@ -72,7 +74,9 @@ void JMdictPreferences::onFilterButtonClicked()
 void JMdictPreferences::onUnFilterButtonClicked()
 {
 	foreach (QListWidgetItem *item, filteredDefs->selectedItems()) {
-		displayedDefs->addItem(item->text());
+		QListWidgetItem *newItem = new QListWidgetItem(item->text());
+		newItem->setData(Qt::UserRole, item->data(Qt::UserRole));
+		displayedDefs->addItem(newItem);
 		delete item;
 	}
 }
@@ -107,8 +111,12 @@ void JMdictPreferences::refresh()
 		QPair<QString, QString> entity(JMdictPlugin::miscEntities()[i]);
 		QString s(QCoreApplication::translate("JMdictLongDescs", entity.second.toLatin1()));
 		s[0] = s[0].toUpper();
-		if (filtered.contains(entity.first)) filteredDefs->addItem(s);
-		else displayedDefs->addItem(s);
+		QListWidgetItem *item = new QListWidgetItem(s);
+		item->setData(Qt::UserRole, entity.first);
+		if (filtered.contains(entity.first))
+			filteredDefs->addItem(item);
+		else
+			displayedDefs->addItem(item);
 	}
 }
 
@@ -134,12 +142,13 @@ void JMdictPreferences::applySettings()
 	JMdictEntryFormatter::maxDefinitionsToPrint.set(maxDefinitionsToPrint->value());
 
 	QStringList filtered, res;
-	for (int i = 0; i < filteredDefs->model()->rowCount(); i++) filtered << filteredDefs->item(i)->text();
+	for (int i = 0; i < filteredDefs->model()->rowCount(); i++)
+		filtered << filteredDefs->item(i)->data(Qt::UserRole).toString();
 	for (int i = 0; i < JMdictPlugin::miscEntities().size(); i++) {
 		QPair<QString, QString> entity(JMdictPlugin::miscEntities()[i]);
-		QString s(entity.second);
-		s[0] = s[0].toUpper();
-		if (filtered.contains(s)) res << entity.first;
+		QString s(entity.first);
+		if (filtered.contains(s))
+			res << entity.first;
 	}
 	JMdictEntrySearcher::miscPropertiesFilter.set(res.join(","));
 }
