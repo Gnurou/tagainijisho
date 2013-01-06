@@ -54,6 +54,10 @@ static void checkQueryError(const Query &query, const TString &statement)
 	if (query.lastError().isError())
 		std::cerr << "On query: " << statement << std::endl;
 }
+#else
+static void checkQueryError(const Query &query, const TString &statement)
+{
+}
 #endif
 
 bool Query::prepare(const TString &query)
@@ -65,9 +69,7 @@ bool Query::prepare(const TString &query)
 	// Busy loop while the shared cache is locked. This is ugly.
 	while ((res = sqlite3_prepare_v2(_connection->_handler, query.c_str(), -1, &_stmt, 0)) == SQLITE_LOCKED_SHAREDCACHE){};
 	_lastError = _connection->updateError();
-#ifdef DEBUG_QUERIES
 	checkQueryError(*this, query);
-#endif
 	if (res != SQLITE_OK) {
 		_state = ERROR;
 		return false;
@@ -89,9 +91,7 @@ bool Query::checkBind(int &col)
 bool Query::checkBindRes()
 {
 	_lastError = _connection->updateError();
-#ifdef DEBUG_QUERIES
 	checkQueryError(*this, queryText());
-#endif
 	if (_lastError.code() != SQLITE_OK) {
 		_state = ERROR;
 		return false;
@@ -183,9 +183,7 @@ void Query::reset()
 	if (!_stmt) return;
 	sqlite3_reset(_stmt);
 	_lastError = _connection->updateError();
-#ifdef DEBUG_QUERIES
 	checkQueryError(*this, queryText());
-#endif
 	_state = PREPARED;
 }
 
@@ -195,9 +193,7 @@ bool Query::exec()
 	// Busy-loop while the shared cache is locked. This is ugly.
 	while (sqlite3_step(_stmt) == SQLITE_LOCKED_SHAREDCACHE){};
 	_lastError = _connection->updateError();
-#ifdef DEBUG_QUERIES
 	checkQueryError(*this, queryText());
-#endif
 	switch (_lastError.code()) {
 	case SQLITE_ROW:
 		_state = FIRSTRES;
@@ -220,9 +216,7 @@ bool Query::next()
 	case RUN:
 		sqlite3_step(_stmt);
 		_lastError = _connection->updateError();
-#ifdef DEBUG_QUERIES
 		checkQueryError(*this, queryText());
-#endif
 		switch (_lastError.code()) {
 		case SQLITE_ROW:
 			return true;
@@ -359,9 +353,7 @@ void Query::clear()
 	if (_stmt) {
 		sqlite3_finalize(_stmt);
 		_lastError = _connection->updateError();
-#ifdef DEBUG_QUERIES
 		checkQueryError(*this, queryText());
-#endif
 		_stmt = 0;
 	}
 	_state = INVALID;
