@@ -49,6 +49,8 @@ JMdictEntrySearcher::JMdictEntrySearcher() : EntrySearcher(JMDICTENTRY_GLOBALID)
 	validCommands << "romaji" << "mean" << "kana" << "kanji" << "jmdict" << "haskanji" << "jlpt" << "withstudiedkanjis" << "hascomponent" << "withkanaonly";
 	// Also register commands that are sense properties
 	validCommands << "pos" << "misc" << "dial" << "field";
+
+	updateMiscFilterMask();
 }
 
 SearchCommand JMdictEntrySearcher::commandFromWord(const QString &word) const
