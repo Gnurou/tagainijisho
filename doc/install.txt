@@ -271,12 +271,8 @@ latest, not nessasarly stable, build. As it is moving towards 0.2.7 it may
 have features that are yet undocumented.
 
 The git repository does not hold any of the custom 3rd party libraries or the
-dictionaries, so they must first be downloaded. 
-
-    tagaini-jisho $ ./prepare-source.sh
-
-This script is provided to make sure all the 3rd party libraries are there,
-and fetch those that are not. It does not handle Qt. When it has finished,
+dictionaries. This script is provided to download all the 3rd party libraries
+It does not handle Qt. When it has finished,
 the makefiles need to be generated.
     
     tagaini-jisho $ cmake .
