@@ -235,7 +235,7 @@ void MainWindow::exportUserData()
 	QString to(QFileDialog::getSaveFileName(this, tr("Export user data..."), "export.dat"));
 	if (to.isEmpty()) return;
 
-	QFile dataFile(Database::instance()->userDBFile().asQString());
+	QFile dataFile(Database::instance()->userDBFile());
 	dataFile.copy(to);
 }
 
@@ -382,14 +382,14 @@ void MainWindow::populateMenu(QMenu *menu, int parentId)
 	while (query.next()) {
 		// A folder
 		if (query.valueIsNull(1)) {
-			QMenu *subMenu = menu->addMenu(QIcon(":/images/icons/folder.png"), query.valueString(0).asQString());
+			QMenu *subMenu = menu->addMenu(QIcon(":/images/icons/folder.png"), query.valueString(0));
 			connect(subMenu, SIGNAL(aboutToShow()), this, SLOT(populateSubMenu()));
 			subMenu->setProperty("T_rowid", query.valueInt(2));
 			if (!parentId) _rootMenus << subMenu;
 		}
 		// A set
 		else {
-			QAction *action = menu->addAction(query.valueString(0).asQString(), this, SLOT(onSavedSearchSelected()));
+			QAction *action = menu->addAction(query.valueString(0), this, SLOT(onSavedSearchSelected()));
 			action->setProperty("T_state", query.valueBlob(1));
 			if (!parentId) _rootActions << action;
 		}

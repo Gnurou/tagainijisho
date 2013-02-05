@@ -19,23 +19,22 @@
 #include "sqlite/fts3_tokenizer.h"
 #include "core/TextTools.h"
 #include "sqlite/SQLite.h"
-#include "core/TString.h"
-#include "core/Compress.h"
 
-#include <set>
+#include <QSet>
+#include <QtDebug>
+#include <QRegExp>
 
+static QSet<QString> ignoredWords;
 static QByteArray kanasConverted;
 
 static void regexpFunc(sqlite3_context *context, int argc, sqlite3_value **argv)
 {
-	// TODO use boost regexps
-	//const TString text(TextTools::hiragana2Katakana(QString::fromUtf8((const char *)sqlite3_value_text(argv[1]))));
-	//QRegExp regexp = QRegExp(TextTools::hiragana2Katakana(QString::fromUtf8((const char *)sqlite3_value_text(argv[0]))));
-	//regexp.setCaseSensitivity(Qt::CaseInsensitive);
+	const QString text(TextTools::hiragana2Katakana(QString::fromUtf8((const char *)sqlite3_value_text(argv[1]))));
+	QRegExp regexp = QRegExp(TextTools::hiragana2Katakana(QString::fromUtf8((const char *)sqlite3_value_text(argv[0]))));
+	regexp.setCaseSensitivity(Qt::CaseInsensitive);
 
-	//bool res = text.asQString().contains(regexp);
-	//sqlite3_result_int(context, res);
-	sqlite3_result_int(context, 0);
+	bool res = text.contains(regexp);
+	sqlite3_result_int(context, res);
 }
 
 /**
@@ -56,13 +55,13 @@ static void biased_random(sqlite3_context *context, int nParams, sqlite3_value *
 }
 
 typedef struct {
-	std::set<int>* _set;
+	QSet<int>* _set;
 } uniquecount_aggr;
 
 static void uniquecount_aggr_step(sqlite3_context *context, int nParams, sqlite3_value **values)
 {
 	uniquecount_aggr *aggr_struct = static_cast<uniquecount_aggr *>(sqlite3_aggregate_context(context, sizeof(uniquecount_aggr)));
-	if (!aggr_struct->_set) aggr_struct->_set = new std::set<int>();
+	if (!aggr_struct->_set) aggr_struct->_set = new QSet<int>();
 	for (int i = 0; i < nParams; i++) {
 		if (sqlite3_value_type(values[i]) == SQLITE_NULL) continue;
 		aggr_struct->_set->insert(sqlite3_value_int(values[i]));
@@ -79,21 +78,16 @@ static void uniquecount_aggr_finalize(sqlite3_context *context)
 
 static void fts_compress(sqlite3_context *context, int argc, sqlite3_value **argv)
 {
-	const uint8_t *text = (uint8_t *)sqlite3_value_text(argv[0]);
-	std::vector<uint8_t> v(text, text + strlen((const char *)text) + 1);
-	std::vector<uint8_t> compressed;
-	Tagaini::Compress(v, compressed);
-	sqlite3_result_blob(context, compressed.data(), compressed.size(), 0);
+	QByteArray text(reinterpret_cast<const char *>(sqlite3_value_text(argv[0])));
+	QByteArray compressed(qCompress(text, 9));
+	sqlite3_result_blob(context, compressed.data(), compressed.length(), 0);
 }
 
 static void fts_uncompress(sqlite3_context *context, int argc, sqlite3_value **argv)
 {
-	const uint8_t *data = (uint8_t *)sqlite3_value_blob(argv[0]);
-	int size = sqlite3_value_bytes(argv[0]);
-	std::vector<uint8_t> v(data, data + size);
-	std::vector<uint8_t> uncompressed;
-	Tagaini::Decompress(v, uncompressed);
-	sqlite3_result_text(context, (const char *)uncompressed.data(), uncompressed.size(), 0);
+	QByteArray data(static_cast<const char *>(sqlite3_value_blob(argv[0])), sqlite3_value_bytes(argv[0]));
+	QByteArray text(qUncompress(data));
+	sqlite3_result_text(context, text.data(), text.size(), 0);
 }
 
 int isToIgnore(const char *token)
@@ -108,8 +102,12 @@ int isToIgnore(const char *token)
 
 const char *hiraganasToKatakanas(const char *src)
 {
-	TString s(src);
-	kanasConverted = TextTools::hiragana2Katakana(s.asQString()).toUtf8();
+	QString s(QString::fromUtf8(src));
+//	qDebug("%x", s[0].unicode());
+//	return src;
+//	printf("%x %x %x\n", (unsigned char)src[0], (unsigned char)src[1], (unsigned char)src[2]);
+	kanasConverted = TextTools::hiragana2Katakana(s).toUtf8();
+//	qDebug() << src << kanasConverted;
 	return kanasConverted.constData();
 }
 
@@ -341,11 +339,11 @@ typedef struct katakana_tokenizer_cursor {
   char *pToken;                /* storage for current token */
   size_t nTokenAllocated;         /* space allocated to zToken buffer */
 
-  bool replay;
-  char *replayToken;
-  int replayStart;
-  int replayEnd;
-  int replayPos;
+	bool replay;
+	char *replayToken;
+	int replayStart;
+	int replayEnd;
+	int replayPos;
 } katakana_tokenizer_cursor;
 
 static int katakanaDelim(katakana_tokenizer *t, unsigned char c){

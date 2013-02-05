@@ -19,8 +19,6 @@
 #include "core/jmdict/JMdictEntryLoader.h"
 #include "core/jmdict/JMdictPlugin.h"
 
-#include "boost/algorithm/string/split.hpp"
-
 JMdictEntryLoader::JMdictEntryLoader() : EntryLoader(), kanjiQuery(&connection), kanaQuery(&connection), sensesQuery(&connection), jlptQuery(&connection)
 {
 	const QMap<QString, QString> &allDBs = JMdictPlugin::instance()->attachedDBs();
@@ -61,7 +59,7 @@ Entry *JMdictEntryLoader::loadEntry(EntryId id)
 	kanjiQuery.bindValue(entry->id());
 	kanjiQuery.exec();
 	while(kanjiQuery.next()) {
-		entry->kanjis << KanjiReading(QString::fromUtf8(kanjiQuery.valueString(0).c_str()), 0, kanjiQuery.valueUInt(1));
+		entry->kanjis << KanjiReading(kanjiQuery.valueString(0), 0, kanjiQuery.valueUInt(1));
 	}
 	kanjiQuery.reset();
 
@@ -70,10 +68,10 @@ Entry *JMdictEntryLoader::loadEntry(EntryId id)
 	kanaQuery.exec();
 	while(kanaQuery.next())
 	{
-		KanaReading kana(QString::fromUtf8(kanaQuery.valueString(0).c_str()), 0, kanaQuery.valueUInt(2));
+		KanaReading kana(kanaQuery.valueString(0), 0, kanaQuery.valueUInt(2));
 		// Get kana readings
 		if (kanaQuery.valueBool(1) == false) {
-			QStringList restrictedTo(QString(kanaQuery.valueString(3).c_str()).split(',', QString::SkipEmptyParts));
+			QStringList restrictedTo(kanaQuery.valueString(3).split(',', QString::SkipEmptyParts));
 			if (restrictedTo.isEmpty()) for (int i = 0; i < entry->getKanjiReadings().size(); i++) {
 				kana.addKanjiReading(i);
 			}
@@ -92,9 +90,9 @@ Entry *JMdictEntryLoader::loadEntry(EntryId id)
 	while(sensesQuery.next()) {
 		Sense sense(sensesQuery.valueUInt64(0), sensesQuery.valueUInt64(1), sensesQuery.valueUInt64(2), sensesQuery.valueUInt64(3));
 		// Get restricted readings/writing
-		QStringList restrictedTo(QString(sensesQuery.valueString(4).c_str()).split(',', QString::SkipEmptyParts));
+		QStringList restrictedTo(sensesQuery.valueString(4).split(',', QString::SkipEmptyParts));
 		foreach (const QString &idx, restrictedTo) sense.addStagK(idx.toInt());
-		restrictedTo = QString(sensesQuery.valueString(5).c_str()).split(',', QString::SkipEmptyParts);
+		restrictedTo = sensesQuery.valueString(5).split(',', QString::SkipEmptyParts);
 		foreach (const QString &idx, restrictedTo) sense.addStagR(idx.toInt());
 
 		entry->senses << sense;
@@ -106,15 +104,13 @@ Entry *JMdictEntryLoader::loadEntry(EntryId id)
 		glossQuery.bindValue(entry->id());
 		glossQuery.exec();
 		if (glossQuery.next()) {
-			std::vector<uint8_t> glossesV = glossQuery.valueCompressedBlob(0);
-			TStringList glosses;
-			TString((const char *)glossesV.data(), glossesV.size()).split("\r", glosses);
-			for (std::size_t i = 0; i < glosses.size(); i++) {
+			QStringList glosses(QString::fromUtf8(qUncompress(glossQuery.valueBlob(0))).split("\n\n"));
+			for (int i = 0; i < glosses.size(); i++) {
 				// Skip empty glosses
-				if (glosses[i].size() == 0) continue;
+				if (glosses[i].isEmpty()) continue;
 				// Do not load english if a preferred language is already loaded and the corresponding option is set
 				if (!Lang::alwaysShowEnglish() && lang == "en" && entry->senses[i].getGlosses().size() > 0) continue;
-				entry->senses[i].addGloss(Gloss(lang, glosses[i].asQString()));
+				entry->senses[i].addGloss(Gloss(lang, glosses[i]));
 			}
 		}
 		glossQuery.reset();

@@ -28,16 +28,14 @@
 #include <QSemaphore>
 #include <QQueue>
 
-#include <sstream>
-
 #define USERDB_REVISION 11
 
 #define ASSERT(Q) if (!(Q)) return false
-#define QUERY(Q) if (!query.exec(QString(Q))) return false
+#define QUERY(Q) if (!query.exec(Q)) return false
 
-TString Database::_userDBFile;
+QString Database::_userDBFile;
 Database *Database::_instance = 0;
-QMap<TString, TString> Database::_attachedDBs;
+QMap<QString, QString> Database::_attachedDBs;
 
 /**
  * Creates the user database. The database file on which
@@ -173,7 +171,7 @@ static bool update7to8(SQLite::Query &query) {
 			else {
 				EntryList subList(&dbAccess, 0);
 				subList.newList();
-				subList.setLabel(QString::fromUtf8(query.valueString(3).c_str()));
+				subList.setLabel(query.valueString(3));
 				entryData.id = subList.listId();
 				// Associate the old parent id to the new list id
 				nextLists << QPair<quint64, quint64>(rowid, subList.listId());
@@ -315,7 +313,7 @@ bool Database::checkUserDB(QStringList &errors)
 		if (currentVersion < USERDB_REVISION) {
 			if (!updateUserDB(currentVersion)) {
 				// Big issue here - start with a temporary database
-				errors << tr("Error while upgrading user database: %1").arg(_connection.lastError().message());
+				errors << tr("Error while upgrading user database: %1").arg(_connection.lastError().message().toLatin1().constData());
 				return false;
 			}
 		}
@@ -329,7 +327,7 @@ bool Database::checkUserDB(QStringList &errors)
 		if (!createUserDB()) {
 			_connection.rollback();
 			// Big issue here - start with a temporary database
-			errors << tr("Cannot create user database: %1").arg(_connection.lastError().message());
+			errors << tr("Cannot create user database: %1").arg(_connection.lastError().message().toLatin1().constData());
 			return false;
 		}
 	}
@@ -342,7 +340,7 @@ bool Database::connectUserDB(QString filename, QStringList &errors)
 	if (filename.isEmpty()) filename = defaultDBFile(); 
 
 	if (!_connection.connect(filename)) {
-		errors << tr("Cannot open database: %1").arg(_connection.lastError().message());
+		errors << tr("Cannot open database: %1").arg(_connection.lastError().message().toLatin1().data());
 		return false;
 	}
 	if (!checkUserDB(errors)) return false;
@@ -391,7 +389,7 @@ void Database::stop()
 		if (!query.exec("delete from tags where docid not in (select tagId from taggedEntries)")) qWarning("Could not cleanup unused tags!");
 
 		// VACUUM the database
-		if (!query.exec("vacuum")) qWarning("Final VACUUM failed %s", query.lastError().message());
+		if (!query.exec("vacuum")) qWarning("Final VACUUM failed %s", query.lastError().message().toLatin1().data());
 	}
 	// Close the database
 	_instance->_connection.close();
@@ -414,7 +412,7 @@ Database::~Database()
  * @return true if the dictionary DB has successfully been attached; false
  *         in an error occured.
  */
-bool Database::attachDictionaryDB(const TString &file, const TString &alias, int expectedVersion)
+bool Database::attachDictionaryDB(const QString &file, const QString &alias, int expectedVersion)
 {
 #define QUERY(Q) if (!query.exec(Q)) goto error
 	SQLite::Query query(&instance()->_connection);
@@ -432,27 +430,25 @@ bool Database::attachDictionaryDB(const TString &file, const TString &alias, int
 
 	// Now attach the database on all other threaded connections
 	foreach(DatabaseThread *dbThread, DatabaseThread::instances()) {
-		if (!dbThread->connection()->attach(file.asQString(), alias.asQString())) goto errorDetachAll;
+		if (!dbThread->connection()->attach(file, alias)) goto errorDetachAll;
 	}
 	return true;
 errorDetachAll:
 	foreach(DatabaseThread *dbThread, DatabaseThread::instances())
-		dbThread->connection()->detach(alias.asQString());
+		dbThread->connection()->detach(alias);
 errorDetach:
 	QUERY("detach database " + alias);
 #undef QUERY
 error:
 	qCritical() << QString("Failed to attach database: %1").arg(query.lastError().message());
-	qCritical() << QString("Attached dictionary file was %1").arg(file.asQString());
+	qCritical() << QString("Attached dictionary file was %1").arg(file);
 	return false;
 }
 
-bool Database::detachDictionaryDB(const TString &alias)
+bool Database::detachDictionaryDB(const QString &alias)
 {
-	std::ostringstream os;
 	SQLite::Query query(&instance()->_connection);
-	os << "detach database " << alias;
-	if (!query.exec(os.str())) {
+	if (!query.exec("detach database " + alias)) {
 		qCritical() << QString("Failed to attach database: %2").arg(query.lastError().message());
 		return false;
 	}

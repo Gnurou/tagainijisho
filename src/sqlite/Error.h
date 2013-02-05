@@ -18,7 +18,7 @@
 #ifndef __SQLITE_ERROR_H
 #define __SQLITE_ERROR_H
 
-#include "core/TString.h"
+#include <QString>
 
 namespace SQLite {
 
@@ -31,14 +31,14 @@ friend class Query;
 private:
 	int _code;
 
-	TString _message;
+	QString _message;
 
 	Error() : _code(0) {}
-	Error(int code, const TString &message);
+	Error(int code, const QString &message);
 	Error(const Connection &connection);
 public:
 	int code() const { return _code; }
-	const char *message() const { return _message.c_str(); }
+	const QString &message() const { return _message; }
 	bool isError() const;
 	bool isInterrupted() const;
 };

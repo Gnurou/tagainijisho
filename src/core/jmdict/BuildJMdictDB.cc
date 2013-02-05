@@ -29,12 +29,11 @@
 
 #include <QtDebug>
 
-#define BIND(query, val) { if (!query.bindValue(val)) { qCritical("%s", query.lastError().message()); return false; } }
-#define BINDC(query, val) { if (!query.bindCompressedValue(val)) { qCritical("%s", query.lastError().message()); return false; } }
-#define BINDNULL(query) { if (!query.bindNullValue()) { qCritical("%s", query.lastError().message()); return false; } }
+#define BIND(query, val) { if (!query.bindValue(val)) { qCritical("%s", query.lastError().message().toUtf8().data()); return false; } }
+#define BINDNULL(query) { if (!query.bindNullValue()) { qCritical("%s", query.lastError().message().toUtf8().data()); return false; } }
 #define AUTO_BIND(query, val, nval) if (val == nval) BINDNULL(query) else BIND(query, val)
-#define EXEC(query) if (!query.exec()) { qCritical("%s", query.lastError().message()); return false; }
-#define EXEC_STMT(query, stmt) if (!query.exec(stmt)) { qCritical("%s", query.lastError().message()); return false; }
+#define EXEC(query) if (!query.exec()) { qCritical("%s", query.lastError().message().toUtf8().data()); return false; }
+#define EXEC_STMT(query, stmt) if (!query.exec(stmt)) { qCritical("%s", query.lastError().message().toUtf8().data()); return false; }
 #define ASSERT(cond) { if (!cond) { qCritical("%s: assert condition failed, line %d", __FILE__, __LINE__); return false; } }
 
 class JMdictDBParser : public JMdictParser
@@ -95,7 +94,7 @@ bool JMdictDBParser::onItemParsed(const JMdictItem &entry)
 	foreach (const JMdictKanjiWritingItem &kWriting, entry.kanji) {
 		BIND(insertKanjiTextQuery, kWriting.writing);
 		EXEC(insertKanjiTextQuery);
-		int64_t rowId = insertKanjiTextQuery.lastInsertId();
+		qint64 rowId = insertKanjiTextQuery.lastInsertId();
 		BIND(insertKanjiQuery, entry.id);
 		BIND(insertKanjiQuery, idx);
 		BIND(insertKanjiQuery, rowId);
@@ -125,7 +124,7 @@ bool JMdictDBParser::onItemParsed(const JMdictItem &entry)
 	foreach (const JMdictKanaReadingItem &kReading, entry.kana) {
 		BIND(insertKanaTextQuery, kReading.reading);
 		EXEC(insertKanaTextQuery);
-		int64_t rowId = insertKanaTextQuery.lastInsertId();
+		qint64 rowId = insertKanaTextQuery.lastInsertId();
 		BIND(insertKanaQuery, entry.id);
 		BIND(insertKanaQuery, idx);
 		BIND(insertKanaQuery, rowId);
@@ -133,7 +132,7 @@ bool JMdictDBParser::onItemParsed(const JMdictItem &entry)
 		AUTO_BIND(insertKanaQuery, kReading.frequency, 0);
 		QStringList restrictedToList;
 		foreach (quint8 res, kReading.restrictedTo) restrictedToList << QString::number(res);
-		AUTO_BIND(insertKanaQuery, TString(restrictedToList.join(",")), TString(""));
+		AUTO_BIND(insertKanaQuery, restrictedToList.join(","), "");
 		EXEC(insertKanaQuery);
 		++idx;
 	}
@@ -146,16 +145,16 @@ bool JMdictDBParser::onItemParsed(const JMdictItem &entry)
 	foreach (const JMdictSenseItem &sense, entry.senses) {
 		BIND(insertSenseQuery, entry.id);
 		BIND(insertSenseQuery, idx);
-		BIND(insertSenseQuery, (uint64_t)sense.posBitField(*this));
-		BIND(insertSenseQuery, (uint64_t)sense.miscBitField(*this));
-		BIND(insertSenseQuery, (uint64_t)sense.dialectBitField(*this));
-		BIND(insertSenseQuery, (uint64_t)sense.fieldBitField(*this));
+		BIND(insertSenseQuery, sense.posBitField(*this));
+		BIND(insertSenseQuery, sense.miscBitField(*this));
+		BIND(insertSenseQuery, sense.dialectBitField(*this));
+		BIND(insertSenseQuery, sense.fieldBitField(*this));
 		QStringList restrictedToList;
 		foreach (quint8 res, sense.restrictedToKanji) restrictedToList << QString::number(res);
-		AUTO_BIND(insertSenseQuery, TString(restrictedToList.join(",")), TString(""));
+		AUTO_BIND(insertSenseQuery, restrictedToList.join(","), "");
 		restrictedToList.clear();
 		foreach (quint8 res, sense.restrictedToKana) restrictedToList << QString::number(res);
-		AUTO_BIND(insertSenseQuery, TString(restrictedToList.join(",")), TString(""));
+		AUTO_BIND(insertSenseQuery, restrictedToList.join(","), "");
 		EXEC(insertSenseQuery);
 
 
@@ -179,12 +178,10 @@ bool JMdictDBParser::onItemParsed(const JMdictItem &entry)
 	}
 	// For every language, insert all glosses of an entry (load table)
 	foreach (const QString &lang, languages) {
-		QString all(allGlosses[lang].join("\r"));
+		QString all(allGlosses[lang].join("\n\n"));
 		if (all.split("\n", QString::SkipEmptyParts).empty()) continue;
 		BIND(insertGlossesQueries[lang], entry.id);
-		QByteArray data(all.toUtf8());
-		std::vector<uint8_t> src(data.data(), data.data() + data.size());
-		BINDC(insertGlossesQueries[lang], src);
+		BIND(insertGlossesQueries[lang], qCompress(all.toUtf8(), 9));
 		EXEC(insertGlossesQueries[lang])
 	}
 	
@@ -245,7 +242,7 @@ bool JMdictDBParser::openDatabase(QString databaseName, QString handle)
 		return false;
 	}
 	if (!connection.connect(dbFile, SQLite::Connection::JournalInFile)) {
-		qCritical("Cannot open database: %s", connection.lastError().message());
+		qCritical("Cannot open database: %s", connection.lastError().message().toLatin1().data());
 		return false;
 	}
 	connection.transaction();

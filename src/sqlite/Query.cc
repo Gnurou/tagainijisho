@@ -18,12 +18,9 @@
 #include "sqlite3.h"
 #include "sqlite/Query.h"
 #include "sqlite/Connection.h"
-#include "core/Compress.h"
 #include "tagaini_config.h"
 
 #include <QtDebug>
-
-#include <iostream>
 
 using namespace SQLite;
 
@@ -49,27 +46,27 @@ void Query::useWith(Connection *connection)
 }
 
 #ifdef DEBUG_QUERIES
-static void checkQueryError(const Query &query, const TString &statement)
+void checkQueryError(const Query &query, const QString &statement)
 {
 	if (query.lastError().isError())
-		std::cerr << "On query: " << statement << std::endl;
+		qDebug("On query: %s", statement.toUtf8().constData());
 }
 #else
-static void checkQueryError(const Query &query, const TString &statement)
+static void checkQueryError(const Query &query, const QString &statement)
 {
 }
 #endif
 
-bool Query::prepare(const TString &query)
+bool Query::prepare(const QString &statement)
 {
 	if (!_connection) return false;
 	clear();
 
 	int res;
 	// Busy loop while the shared cache is locked. This is ugly.
-	while ((res = sqlite3_prepare_v2(_connection->_handler, query.c_str(), -1, &_stmt, 0)) == SQLITE_LOCKED_SHAREDCACHE){};
+	while ((res = sqlite3_prepare_v2(_connection->_handler, statement.toUtf8().data(), -1, &_stmt, 0)) == SQLITE_LOCKED_SHAREDCACHE){};
 	_lastError = _connection->updateError();
-	checkQueryError(*this, query);
+	checkQueryError(*this, statement);
 	if (res != SQLITE_OK) {
 		_state = ERROR;
 		return false;
@@ -99,14 +96,14 @@ bool Query::checkBindRes()
 	return true;
 }
 
-bool Query::bindValue(const int32_t val, int col)
+bool Query::bindValue(const qint32 val, int col)
 {
 	if (!checkBind(col)) return false;
 	sqlite3_bind_int(_stmt, col, val);
 	return checkBindRes();
 }
 
-bool Query::bindValue(const uint32_t val, int col)
+bool Query::bindValue(const quint32 val, int col)
 {
 	return bindValue((qint32)val, col);
 }
@@ -116,16 +113,16 @@ bool Query::bindValue(const bool val, int col)
 	return bindValue((qint32)val, col);
 }
 
-bool Query::bindValue(const int64_t val, int col)
+bool Query::bindValue(const qint64 val, int col)
 {
 	if (!checkBind(col)) return false;
 	sqlite3_bind_int64(_stmt, col, val);
 	return checkBindRes();
 }
 
-bool Query::bindValue(const uint64_t val, int col)
+bool Query::bindValue(const quint64 val, int col)
 {
-	return bindValue((int64_t)val, col);
+	return bindValue((qint64)val, col);
 }
 
 bool Query::bindValue(const double val, int col)
@@ -135,11 +132,11 @@ bool Query::bindValue(const double val, int col)
 	return checkBindRes();
 }
 
-bool Query::bindValue(const TString &val, int col)
+bool Query::bindValue(const QString &val, int col)
 {
 	if (!checkBind(col)) return false;
 	sqlite3_bind_text(_stmt, col,
-		val.c_str(), -1, SQLITE_TRANSIENT);
+		val.toUtf8().data(), -1, SQLITE_TRANSIENT);
 	return checkBindRes();
 }
 
@@ -148,25 +145,6 @@ bool Query::bindValue(const QByteArray &val, int col)
 	if (!checkBind(col)) return false;
 	sqlite3_bind_blob(_stmt, col,
 		val.data(), val.length(), SQLITE_TRANSIENT);
-	return checkBindRes();
-}
-
-bool Query::bindCompressedValue(const std::vector<uint8_t> &val, int col)
-{
-	if (!checkBind(col)) return false;
-	// Try to compress and see if it is worth storing a compressed version
-	std::vector<uint8_t> src(val), comp;
-	Tagaini::Compress(src, comp);
-	if (comp.size() < src.size() + 8) {
-		comp.insert(comp.begin(), 1);
-		sqlite3_bind_blob(_stmt, col,
-			comp.data(), comp.size(), SQLITE_TRANSIENT);
-	} else {
-		src.insert(src.begin(), 0);
-		sqlite3_bind_blob(_stmt, col,
-			src.data(), src.size(), SQLITE_TRANSIENT);
-	}
-
 	return checkBindRes();
 }
 
@@ -232,13 +210,13 @@ bool Query::next()
 	}
 }
 
-bool Query::exec(const TString &query)
+bool Query::exec(const QString &query)
 {
 	if (!prepare(query)) return false;
 	return exec();
 }
 
-int64_t Query::lastInsertId() const
+qint64 Query::lastInsertId() const
 {
 	if (!_stmt) return 0;
 
@@ -280,22 +258,22 @@ bool Query::valueBool(int column) const
 	return (bool)valueInt(column);
 }
 
-int32_t Query::valueInt(int column) const
+qint32 Query::valueInt(int column) const
 {
 	return sqlite3_column_int(_stmt, column);
 }
 
-uint32_t Query::valueUInt(int column) const
+quint32 Query::valueUInt(int column) const
 {
 	return (quint32)sqlite3_column_int(_stmt, column);
 }
 
-int64_t Query::valueInt64(int column) const
+qint64 Query::valueInt64(int column) const
 {
 	return sqlite3_column_int64(_stmt, column);
 }
 
-uint64_t Query::valueUInt64(int column) const
+quint64 Query::valueUInt64(int column) const
 {
 	return (quint64)sqlite3_column_int64(_stmt, column);
 }
@@ -305,42 +283,14 @@ double Query::valueDouble(int column) const
 	return sqlite3_column_double(_stmt, column);
 }
 
-TString Query::valueString(int column) const
+QString Query::valueString(int column) const
 {
-	// sqlite3_column_text converts to UTF-8 if needed
-	const char *s = (const char *)sqlite3_column_text(_stmt, column);
-	if (!s) return TString();
-	else return TString(s);
+	return QString::fromUtf16((const ushort *)sqlite3_column_text16(_stmt, column));
 }
 
 QByteArray Query::valueBlob(int column) const
 {
 	return QByteArray((const char *)sqlite3_column_blob(_stmt, column), sqlite3_column_bytes(_stmt, column));
-}
-
-std::vector<uint8_t> Query::valueCompressedBlob(int column) const
-{
-	const uint8_t *data = (const uint8_t *)sqlite3_column_blob(_stmt, column);
-	int len = sqlite3_column_bytes(_stmt, column);
-
-	if (len == 0)
-		return std::vector<uint8_t>();
-
-	// Uncompressed data?
-	if (data[0] == 0) {
-		return std::vector<uint8_t>(data + 1, data + len);
-	} else if (data[0] == 1) {
-		std::vector<uint8_t> comp(data + 1, data + len);
-		std::vector<uint8_t> ret;
-		int err = Tagaini::Decompress(comp, ret);
-		if (err) {
-			std::cerr << "error while uncompressing blob data: " << err << std::endl;
-		}
-		return ret;
-	} else {
-		std::cerr << "not a valid blob data!" << std::endl;
-		return std::vector<uint8_t>();
-	}
 }
 
 bool Query::valueIsNull(int column) const
@@ -360,8 +310,8 @@ void Query::clear()
 	_bindIndex = 0;
 }
 
-TString Query::queryText() const
+QString Query::queryText() const
 {
 	if (_state >= PREPARED) return sqlite3_sql(_stmt);
-	else return TString();
+	else return QString();
 }

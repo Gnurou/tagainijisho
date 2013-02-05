@@ -20,8 +20,6 @@
 #include "core/kanjidic2/Kanjidic2Entry.h"
 #include "core/kanjidic2/Kanjidic2Plugin.h"
 
-#include <boost/foreach.hpp>
-
 Kanjidic2EntryLoader::Kanjidic2EntryLoader() : EntryLoader(), kanjiQuery(&connection), variationsQuery(&connection), readingsQuery(&connection), nanoriQuery(&connection), componentsQuery(&connection), radicalsQuery(&connection), skipQuery(&connection), fourCornerQuery(&connection)
 {
 	const QMap<QString, QString> &allDBs = Kanjidic2Plugin::instance()->attachedDBs();
@@ -64,8 +62,7 @@ QList<Kanjidic2Entry::KanjiMeaning> Kanjidic2EntryLoader::getMeanings(int id)
 		meaningsQuery.bindValue(id);
 		meaningsQuery.exec();
 		while(meaningsQuery.next()) {
-			std::vector<uint8_t> meanings(meaningsQuery.valueCompressedBlob(0));
-			ret << Kanjidic2Entry::KanjiMeaning(lang, TString((const char *)meanings.data(), meanings.size()).asQString());
+			ret << Kanjidic2Entry::KanjiMeaning(lang, QString::fromUtf8(qUncompress(meaningsQuery.valueBlob(0))));
 		}
 		meaningsQuery.reset();
 		if (lang != "en" && !ret.isEmpty()) nonEnglishLoaded = true;
@@ -92,7 +89,7 @@ Entry *Kanjidic2EntryLoader::loadEntry(EntryId id)
 	kanjiQuery.bindValue(id);
 	kanjiQuery.exec();
 	Kanjidic2Entry *entry;
-	TStringList paths;
+	QStringList paths;
 	// We have no information about this kanji! This is probably an unknown radical
 	if (!kanjiQuery.next()) {
 		entry = new Kanjidic2Entry(character, false);
@@ -104,9 +101,8 @@ Entry *Kanjidic2EntryLoader::loadEntry(EntryId id)
 		int jlpt = kanjiQuery.valueIsNull(3) ? -1 : kanjiQuery.valueInt(3);
 		int heisig = kanjiQuery.valueIsNull(4) ? -1 : kanjiQuery.valueInt(4);
 		// Get the strokes paths for later processing
-		std::vector<uint8_t> pathsBA(kanjiQuery.valueCompressedBlob(5));
-		if (pathsBA.size() > 0)
-			TString((const char *)pathsBA.data(), pathsBA.size()).split("|", paths);
+		QByteArray pathsBA(kanjiQuery.valueBlob(5));
+		if (!pathsBA.isEmpty()) paths = QString(qUncompress(pathsBA)).split('|');
 
 		entry = new Kanjidic2Entry(character, true, grade, strokeCount, frequency, jlpt, heisig);
 	}
@@ -127,7 +123,7 @@ Entry *Kanjidic2EntryLoader::loadEntry(EntryId id)
 	readingsQuery.bindValue(id);
 	readingsQuery.exec();
 	while (readingsQuery.next()) {
-		entry->_readings << Kanjidic2Entry::KanjiReading(readingsQuery.valueString(0).c_str(), QString::fromUtf8(readingsQuery.valueString(1).c_str()));
+		entry->_readings << Kanjidic2Entry::KanjiReading(readingsQuery.valueString(0), readingsQuery.valueString(1));
 	}
 	readingsQuery.reset();
 
@@ -148,20 +144,19 @@ Entry *Kanjidic2EntryLoader::loadEntry(EntryId id)
 	nanoriQuery.bindValue(id);
 	nanoriQuery.exec();
 	while(nanoriQuery.next()) {
-		entry->_nanoris << QString::fromUtf8(nanoriQuery.valueString(0).c_str());
+		entry->_nanoris << nanoriQuery.valueString(0);
 	}
 	nanoriQuery.reset();
 
 	// Insert the strokes
-	BOOST_FOREACH (const TString &path, paths)
-		entry->addStroke(0, path.asQString());
+	foreach (const QString &path, paths) entry->addStroke(0, path);
 
 	// Load components
 	componentsQuery.bindValue(id);
 	componentsQuery.exec();
 	while(componentsQuery.next()) {
 		QString element(TextTools::unicodeToSingleChar(componentsQuery.valueUInt(0)));
-		QString original(TextTools::unicodeToSingleChar(componentsQuery.valueUInt(1)));
+		QString original(TextTools::unicodeToSingleChar(componentsQuery.valueUInt(1)));;
 		
 		KanjiComponent *comp(entry->addComponent(element, original, componentsQuery.valueBool(2)));
 		// Add references to the strokes belonging to this component

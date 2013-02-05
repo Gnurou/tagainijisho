@@ -21,7 +21,7 @@
 
 using namespace SQLite;
 
-Error::Error(int code, const TString &message) : _code(code), _message(message)
+Error::Error(int code, const QString &message) : _code(code), _message(message)
 {
 }
 

@@ -19,11 +19,6 @@
 #define __SQLITE_QUERY_H
 
 #include "sqlite/Error.h"
-#include "core/TString.h"
-
-#include <stdint.h>
-
-#include <QByteArray>
 
 struct sqlite3_stmt;
 
@@ -45,7 +40,7 @@ private:
 	Connection *_connection;
 	Error _lastError;
 	enum { INVALID, ERROR, BLANK, PREPARED, RUN, FIRSTRES } _state;
-	uint8_t _bindIndex;
+	quint8 _bindIndex;
 
 	/// Copy is forbidden
 	Query &operator =(const Query &query);
@@ -68,24 +63,22 @@ public:
 	Connection *connection() { return _connection; }
 
 	void reset();
-	bool prepare(const TString &query);
+	bool prepare(const QString &query);
 	bool exec();
-	bool exec(const TString &query);
+	bool exec(const QString &query);
 
 	bool bindValue(const bool val, int col = 0);
-	bool bindValue(const int32_t val, int col = 0);
-	bool bindValue(const uint32_t val, int col = 0);
-	bool bindValue(const int64_t val, int col = 0);
-	bool bindValue(const uint64_t val, int col = 0);
+	bool bindValue(const qint32 val, int col = 0);
+	bool bindValue(const quint32 val, int col = 0);
+	bool bindValue(const qint64 val, int col = 0);
+	bool bindValue(const quint64 val, int col = 0);
 	bool bindValue(const double val, int col = 0);
-	bool bindValue(const TString &val, int col = 0);
-	bool bindValue(const char *val, int col = 0) { return bindValue(TString(val), col); }
+	bool bindValue(const QString &val, int col = 0);
 	bool bindValue(const QByteArray &val, int col = 0);
-	bool bindCompressedValue(const std::vector<uint8_t> &val, int col = 0);
 	bool bindNullValue(int col = 0);
 	
 	bool next();
-	int64_t lastInsertId() const;
+	qint64 lastInsertId() const;
 
 	/// Returns the number of columns in a results row, or
 	/// 0 if the statement does not yield any result.
@@ -93,20 +86,19 @@ public:
 	bool valueAvailable(int column) const;
 	Type valueType(int column) const;
 	bool valueBool(int column) const;
-	int32_t valueInt(int column) const;
-	uint32_t valueUInt(int column) const;
-	int64_t valueInt64(int column) const;
-	uint64_t valueUInt64(int column) const;
+	qint32 valueInt(int column) const;
+	quint32 valueUInt(int column) const;
+	qint64 valueInt64(int column) const;
+	quint64 valueUInt64(int column) const;
 	double valueDouble(int column) const;
-	TString valueString(int column) const;
+	QString valueString(int column) const;
 	QByteArray valueBlob(int column) const;
-	std::vector<uint8_t> valueCompressedBlob(int column) const;
 	bool valueIsNull(int column) const;
 
 	void clear();
 
 	const Error &lastError() const { return _lastError; }
-	TString queryText() const;
+	QString queryText() const;
 };
 
 }

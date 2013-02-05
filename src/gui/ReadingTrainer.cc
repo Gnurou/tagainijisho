@@ -31,8 +31,6 @@
 #include <QMessageBox>
 #include <QLabel>
 
-// TODO DB interface and algorithms in core!
-
 PreferenceItem<QByteArray> ReadingTrainer::windowGeometry("readingTrainWindow", "geometry", "");
 PreferenceItem<bool> ReadingTrainer::showMeaning("readingTrainWindow", "showMeaning", true);
 

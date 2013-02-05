@@ -29,9 +29,9 @@ EntryListCache::EntryListCache() : _dbAccess(LISTS_DB_TABLES_PREFIX)
 	ownerQuery.useWith(&_connection);
 	goUpQuery.useWith(&_connection);
 	listFromRootQuery.useWith(&_connection);
-	ownerQuery.prepare(QString("select rowid from %1 where type = 0 and id = ?").arg(_dbAccess.tableName().asQString()));
-	goUpQuery.prepare(QString("select parent, leftSize, right from %1 where rowid = ?").arg(_dbAccess.tableName().asQString()));
-	listFromRootQuery.prepare(QString("select listId from %1Roots where rootId = ?").arg(_dbAccess.tableName().asQString()));
+	ownerQuery.prepare(QString("select rowid from %1 where type = 0 and id = ?").arg(_dbAccess.tableName()));
+	goUpQuery.prepare(QString("select parent, leftSize, right from %1 where rowid = ?").arg(_dbAccess.tableName()));
+	listFromRootQuery.prepare(QString("select listId from %1Roots where rootId = ?").arg(_dbAccess.tableName()));
 }
 
 EntryListCache::~EntryListCache()
@@ -82,7 +82,7 @@ void EntryListCache::_clearListCache(quint64 id)
 QPair<const EntryList *, quint32> EntryListCache::_getOwner(quint64 id)
 {
 	if (!_cachedParents.contains(id)) {
-		ownerQuery.bindValue((uint64_t) id);
+		ownerQuery.bindValue(id);
 		ownerQuery.exec();
 		if (!ownerQuery.next()) return QPair<const EntryList *, quint32>();
 		quint64 rowid = ownerQuery.valueUInt64(0);
@@ -96,7 +96,7 @@ QPair<const EntryList *, quint32> EntryListCache::_getOwner(quint64 id)
 QPair<const EntryList *, quint32> EntryListCache::_getIndexFromRowId(quint64 rowid)
 {
 	// Get the initial info about the list
-	goUpQuery.bindValue((uint64_t) rowid);
+	goUpQuery.bindValue(rowid);
 	if (!goUpQuery.exec() || !goUpQuery.next()) {
 		qCritical("List inconsistency!");
 	}
@@ -106,7 +106,7 @@ QPair<const EntryList *, quint32> EntryListCache::_getIndexFromRowId(quint64 row
 
 	// Go back to the root of the list, and calculate the position of the item
 	while (parent != 0) {
-		goUpQuery.bindValue((uint64_t) parent);
+		goUpQuery.bindValue(parent);
 		if (!goUpQuery.exec() || !goUpQuery.next()) {
 			qCritical("List inconsistency!");
 			break;
@@ -121,7 +121,7 @@ QPair<const EntryList *, quint32> EntryListCache::_getIndexFromRowId(quint64 row
 	}
 
 	// rowid now contains the root of the containing list, we can look its id up
-	listFromRootQuery.bindValue((uint64_t) rowid);
+	listFromRootQuery.bindValue(rowid);
 	listFromRootQuery.exec();
 	if (!listFromRootQuery.next()) return QPair<const EntryList *, quint32>();
 	else {
