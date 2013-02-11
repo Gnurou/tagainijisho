@@ -95,8 +95,10 @@ if(NOT EMBED_SQLITE)
 	target_link_libraries(tagaini_sqlite sqlite3)
 endif()
 
-target_link_libraries(tagaini_sqlite pthread)
-target_link_libraries(tagaini_sqlite dl)
+if(UNIX)
+	target_link_libraries(tagaini_sqlite pthread)
+	target_link_libraries(tagaini_sqlite dl)
+endif(UNIX)
 
 if(APPLE)
         set(DEST_DIR "${tagaini_binary}.app/Contents/MacOS")
