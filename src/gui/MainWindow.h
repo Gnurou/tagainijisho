@@ -90,6 +90,7 @@ protected slots:
 	void display(const QModelIndex& clicked);
 
 	void focusTextSearch();
+	void focusResultsList();
 	
 	void exportUserData();
 	void importUserData();

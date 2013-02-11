@@ -65,6 +65,7 @@
      <string>&amp;Search</string>
     </property>
     <addaction name="actionFocus_text_search"/>
+    <addaction name="actionFocus_results_list"/>
    </widget>
    <widget class="QMenu" name="_trainMenu">
     <property name="title">
@@ -247,6 +248,14 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+L</string>
+   </property>
+  </action>
+  <action name="actionFocus_results_list">
+   <property name="text">
+    <string>Focus results list</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+O</string>
    </property>
   </action>
  </widget>
@@ -516,6 +525,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionFocus_results_list</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>focusResultsList()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>359</x>
+     <y>379</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>goPrev()</slot>
@@ -541,5 +566,6 @@
   <slot>about()</slot>
   <slot>resetSearch()</slot>
   <slot>focusTextSearch()</slot>
+  <slot>focusResultsList()</slot>
  </slots>
 </ui>

@@ -517,6 +517,11 @@ void MainWindow::focusTextSearch()
 	tWidget->searchField()->lineEdit()->selectAll();
 }
 
+void MainWindow::focusResultsList()
+{
+	searchWidget()->resultsView()->setFocus();
+}
+
 void MainWindow::enableClipboardInput(bool enable)
 {
 	QClipboard *clipboard = QApplication::clipboard();
