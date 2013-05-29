@@ -246,7 +246,6 @@ void Kanjidic2EntryFormatter::drawCustom(const ConstKanjidic2EntryPointer& entry
 			painter.drawText(textBB, Qt::AlignLeft, str);
 			painter.setFont(textFont);
 			tempBox.setLeft(textBB.right());
-			tempBox.setRight(rightArea.center().x());
 			str = " " + onRead.join(", ");
 			str = QFontMetrics(painter.font(), painter.device()).elidedText(str, Qt::ElideRight, (int) tempBox.width());
 			onLength += (int) (painter.boundingRect(tempBox, Qt::AlignLeft, str).width());
@@ -258,8 +257,8 @@ void Kanjidic2EntryFormatter::drawCustom(const ConstKanjidic2EntryPointer& entry
 	if (printKunyomi) {
 		QStringList kunRead = entry->kunyomiReadings();
 		if (!kunRead.isEmpty()) {
-			tempBox.setLeft(rightArea.center().x());
-			tempBox.setRight(rightArea.right());
+			tempBox.setLeft(rightArea.left());
+			tempBox.setTop(textBB.bottom());
 			str = "Kun:";
 			painter.setFont(boldFont);
 			textBB = painter.boundingRect(tempBox, Qt::AlignLeft, str);
