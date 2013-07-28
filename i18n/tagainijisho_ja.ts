@@ -1186,12 +1186,12 @@
         <translation>化学</translation>
     </message>
     <message>
-        <location line="+46"/>
+        <location line="+47"/>
         <source>physics terminology</source>
         <translation>物理</translation>
     </message>
     <message>
-        <location line="-19"/>
+        <location line="-20"/>
         <source>mathematics</source>
         <translation>数学</translation>
     </message>
@@ -1251,12 +1251,22 @@
         <translation>マンガのスラング</translation>
     </message>
     <message>
-        <location line="+18"/>
+        <location line="+19"/>
         <source>polite (teineigo) language</source>
         <translation>丁寧語</translation>
     </message>
     <message>
-        <location line="+37"/>
+        <location line="+13"/>
+        <source>Yodan verb with `hu/fu&apos; ending (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Yodan verb with `ru&apos; ending (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+22"/>
         <source>su verb - precursor to the modern suru</source>
         <translation>す 動詞(する の昔の表現)</translation>
     </message>
@@ -1352,6 +1362,11 @@
     </message>
     <message>
         <location line="+1"/>
+        <source>old or irregular kana form</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
         <source>onomatopoeic or mimetic word</source>
         <translation>擬態語、擬音語</translation>
     </message>
@@ -1376,7 +1391,277 @@
         <translation>注意が必要</translation>
     </message>
     <message>
-        <location line="-32"/>
+        <location line="+46"/>
+        <source>`kari&apos; adjective (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>`ku&apos; adjective (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>`shiku&apos; adjective (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>archaic/formal form of na-adjective</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>proper noun</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>verb unspecified</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Yodan verb with `ku&apos; ending (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Yodan verb with `gu&apos; ending (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Yodan verb with `su&apos; ending (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Yodan verb with `tsu&apos; ending (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Yodan verb with `nu&apos; ending (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Yodan verb with `bu&apos; ending (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Yodan verb with `mu&apos; ending (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Nidan verb (upper class) with `ku&apos; ending (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Nidan verb (upper class) with `gu&apos; ending (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Nidan verb (upper class) with `tsu&apos; ending (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Nidan verb (upper class) with `dzu&apos; ending (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Nidan verb (upper class) with `hu/fu&apos; ending (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Nidan verb (upper class) with `bu&apos; ending (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Nidan verb (upper class) with `mu&apos; ending (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Nidan verb (upper class) with `yu&apos; ending (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Nidan verb (upper class) with `ru&apos; ending (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Nidan verb (lower class) with `ku&apos; ending (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Nidan verb (lower class) with `gu&apos; ending (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Nidan verb (lower class) with `su&apos; ending (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Nidan verb (lower class) with `zu&apos; ending (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Nidan verb (lower class) with `tsu&apos; ending (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Nidan verb (lower class) with `dzu&apos; ending (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Nidan verb (lower class) with `nu&apos; ending (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Nidan verb (lower class) with `hu/fu&apos; ending (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Nidan verb (lower class) with `bu&apos; ending (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Nidan verb (lower class) with `mu&apos; ending (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Nidan verb (lower class) with `yu&apos; ending (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Nidan verb (lower class) with `ru&apos; ending (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Nidan verb (lower class) with `u&apos; ending and `we&apos; conjugation (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>architecture term</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>anatomical term</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>astronomy, etc. term</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>baseball term</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>biology term</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>botany term</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>business term</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>economics term</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>engineering term</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>finance term</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>geology, etc. term</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>law, etc. term</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>medicine, etc. term</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>music term</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Shinto term</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>sports term</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>sumo term</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>zoology term</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>jocular, humorous term</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="-132"/>
         <source>humble (kenjougo) language</source>
         <translation>謙譲語</translation>
     </message>
@@ -1411,7 +1696,7 @@
         <translation>話し言葉</translation>
     </message>
     <message>
-        <location line="+50"/>
+        <location line="+51"/>
         <source>word usually written using kana alone</source>
         <translation>かなだけで書く言葉</translation>
     </message>
@@ -1421,7 +1706,7 @@
         <translation>スラング</translation>
     </message>
     <message>
-        <location line="-24"/>
+        <location line="-25"/>
         <source>male term or language</source>
         <translation>男言葉</translation>
     </message>
@@ -1441,12 +1726,12 @@
         <translation>名詞</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+11"/>
         <source>prefix</source>
         <translation>接頭語</translation>
     </message>
     <message>
-        <location line="-54"/>
+        <location line="-55"/>
         <source>`taru&apos; adjective</source>
         <translation>&apos;たる&apos;形容詞</translation>
     </message>
@@ -1461,7 +1746,7 @@
         <translation>感動詞</translation>
     </message>
     <message>
-        <location line="+31"/>
+        <location line="+32"/>
         <source>word usually written using kanji alone</source>
         <translation>漢字だけで書く言葉</translation>
     </message>
@@ -1474,11 +1759,6 @@
         <location line="+14"/>
         <source>Godan verb - Uru old class verb (old form of Eru)</source>
         <translation>五段活用動詞 - うる 動詞(昔は える) </translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Godan verb with `zu&apos; ending</source>
-        <translation>ずで終わる 五段活用動詞 </translation>
     </message>
     <message>
         <location line="+2"/>
@@ -1496,12 +1776,12 @@
         <translation>特殊な ぬ 動詞</translation>
     </message>
     <message>
-        <location line="-31"/>
+        <location line="-30"/>
         <source>particle</source>
         <translation>助詞</translation>
     </message>
     <message>
-        <location line="+32"/>
+        <location line="+31"/>
         <source>irregular ru verb, plain form ends with -ri</source>
         <translation>特殊な る 動詞、終止形が り で終わる</translation>
     </message>
@@ -1541,7 +1821,7 @@
         <translation>副詞</translation>
     </message>
     <message>
-        <location line="+58"/>
+        <location line="+59"/>
         <source>suffix</source>
         <translation>接尾語</translation>
     </message>
@@ -1591,7 +1871,7 @@
         <translation>す で終わる五段活用動詞</translation>
     </message>
     <message>
-        <location line="-71"/>
+        <location line="-72"/>
         <source>auxiliary</source>
         <translation>助動詞</translation>
     </message>
@@ -1606,7 +1886,7 @@
         <translation>形容動詞</translation>
     </message>
     <message>
-        <location line="+76"/>
+        <location line="+77"/>
         <source>Godan verb - Iku/Yuku special class</source>
         <translation>五段活用動詞 - いく/ゆく</translation>
     </message>
@@ -1621,17 +1901,17 @@
         <translation>ぐ で終わる五段活用動詞</translation>
     </message>
     <message>
-        <location line="-73"/>
+        <location line="-74"/>
         <source>nouns which may take the genitive case particle `no&apos;</source>
         <translation>所有格の の を付ける名詞</translation>
     </message>
     <message>
-        <location line="+66"/>
+        <location line="+67"/>
         <source>Ichidan verb</source>
         <translation>一段活用動詞</translation>
     </message>
     <message>
-        <location line="-21"/>
+        <location line="-22"/>
         <source>noun, used as a prefix</source>
         <translation>名詞、接頭語として使用</translation>
     </message>
@@ -1641,12 +1921,7 @@
         <translation>補助形容詞</translation>
     </message>
     <message>
-        <location line="+58"/>
-        <source>Yondan verb with `ru&apos; ending (archaic)</source>
-        <translation>四段活用動詞 る で終わる(古語)</translation>
-    </message>
-    <message>
-        <location line="-22"/>
+        <location line="+36"/>
         <source>numeric</source>
         <translation>数詞</translation>
     </message>
@@ -1662,16 +1937,11 @@
     </message>
     <message>
         <location line="+67"/>
-        <source>Yondan verb with `hu/fu&apos; ending (archaic)</source>
-        <translation>四段活用動詞 ふ で終わる(古語)</translation>
-    </message>
-    <message>
-        <location line="-1"/>
         <source>Nidan verb with &apos;u&apos; ending (archaic)</source>
         <translation>二段活用動詞 う で終わる(古語)</translation>
     </message>
     <message>
-        <location line="+26"/>
+        <location line="+25"/>
         <source>suru verb - special class</source>
         <translation>する 動詞 - 特殊形</translation>
     </message>
@@ -1701,7 +1971,7 @@
         <translation>副詞的名詞</translation>
     </message>
     <message>
-        <location line="+36"/>
+        <location line="+37"/>
         <source>Godan verb with `ru&apos; ending (irregular verb)</source>
         <translation>る で終わる五段活用動詞（例外的な動詞)</translation>
     </message>
@@ -2768,12 +3038,12 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../src/gui/MainWindow.ui" line="+157"/>
+        <location filename="../src/gui/MainWindow.ui" line="+158"/>
         <source>&amp;Quit</source>
         <translation>終了(&amp;Q)</translation>
     </message>
     <message>
-        <location line="-113"/>
+        <location line="-114"/>
         <source>&amp;Program</source>
         <translation>プログラム(&amp;P)</translation>
     </message>
@@ -2788,7 +3058,7 @@
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+17"/>
+        <location line="+18"/>
         <source>P&amp;ractice</source>
         <translation>練習(&amp;R)</translation>
     </message>
@@ -2813,7 +3083,17 @@
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="-89"/>
+        <location line="+20"/>
+        <source>Focus results list</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Ctrl+O</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="-112"/>
         <source>Preferences...</source>
         <translation>設定…</translation>
     </message>
@@ -2855,12 +3135,12 @@
         <translation>ユーザーデータのインポート...</translation>
     </message>
     <message>
-        <location line="-122"/>
+        <location line="-123"/>
         <source>Tagaini Jisho</source>
         <translation>互いに辞書</translation>
     </message>
     <message>
-        <location line="+79"/>
+        <location line="+80"/>
         <source>Search</source>
         <translation>検索</translation>
     </message>

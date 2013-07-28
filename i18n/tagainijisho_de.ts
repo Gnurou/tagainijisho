@@ -38,27 +38,27 @@
     <message>
         <location line="+2"/>
         <source>Please wait...</source>
-        <translation type="unfinished"/>
+        <translation>Bitte warten…</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Cannot start transaction</source>
-        <translation type="unfinished"/>
+        <translation>Kann Vorgang nicht starten</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Error while trying to start database transaction.</source>
-        <translation type="unfinished"/>
+        <translation>Fehler beim Starten des Datenbank-Vorgangs</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Cannot commit transaction</source>
-        <translation type="unfinished"/>
+        <translation>Kann den Vorgang nicht durchführen</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Error while trying to commit database transaction.</source>
-        <translation type="unfinished"/>
+        <translation>Fehler beim Übergeben der Datenbankanweisung</translation>
     </message>
 </context>
 <context>
@@ -344,12 +344,12 @@
     <message>
         <location line="+0"/>
         <source>Selecting entries...</source>
-        <translation type="unfinished"/>
+        <translation>Wähle Einträge…</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Please wait...</source>
-        <translation type="unfinished"/>
+        <translation>Bitte warten…</translation>
     </message>
     <message>
         <location line="+223"/>
@@ -485,7 +485,7 @@
     <message>
         <location line="+159"/>
         <source>Root list</source>
-        <translation type="unfinished"/>
+        <translation>Basis-Liste</translation>
     </message>
     <message>
         <location line="+48"/>
@@ -760,27 +760,27 @@ Manche der Einträge könnten noch vorhanden sein.</translation>
     <message>
         <location line="+1"/>
         <source>Portuguese</source>
-        <translation type="unfinished"/>
+        <translation>Portugiesisch</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Swedish</source>
-        <translation type="unfinished"/>
+        <translation>Schwedisch</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Thai</source>
-        <translation type="unfinished"/>
+        <translation>Thailändisch</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Turkish</source>
-        <translation type="unfinished"/>
+        <translation>Türkisch</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Vietnamese</source>
-        <translation type="unfinished"/>
+        <translation>Vietnamesisch</translation>
     </message>
     <message>
         <location line="+24"/>
@@ -825,17 +825,17 @@ Manche der Einträge könnten noch vorhanden sein.</translation>
     <message>
         <location line="-27"/>
         <source>Preferred dictionary language</source>
-        <translation type="unfinished"/>
+        <translation>Bevorzugte Wörterbuchsprache</translation>
     </message>
     <message>
         <location line="+41"/>
         <source>The dictionaries will use this language whenever possible. English will be used as a fallback.</source>
-        <translation type="unfinished"/>
+        <translation>Wörterbücher werden diese Sprache wenn möglich nutzen. Englisch ist die Rückfallmöglichkeit.</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Same as GUI</source>
-        <translation type="unfinished"/>
+        <translation>Wie Benutzeroberfläche</translation>
     </message>
     <message>
         <location line="+20"/>
@@ -890,22 +890,22 @@ Manche der Einträge könnten noch vorhanden sein.</translation>
     <message>
         <location line="-129"/>
         <source>Preferred GUI language</source>
-        <translation type="unfinished"/>
+        <translation>Bevorzugte Sprache der Benutzeroberfläche</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>The GUI will use this language whenever possible. English will be used as a fallback.</source>
-        <translation type="unfinished"/>
+        <translation>Die Benutzeroberfläche wird diese Sprache wenn möglich nutzen. Englisch ist die Rückfallmöglichkeit.</translation>
     </message>
     <message>
         <location line="+30"/>
         <source>If checked, English meanings will be shown even if a translation in the preferred language is available.</source>
-        <translation type="unfinished"/>
+        <translation>Die englische Bedeutung wird gezeigt, selbst wenn Übersetzungen in der eingestellten Sprache vorhanden sind.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Always show English meanings</source>
-        <translation type="unfinished"/>
+        <translation>Zeige immer die englische Bedeutung</translation>
     </message>
     <message>
         <location line="+87"/>
@@ -928,27 +928,27 @@ Manche der Einträge könnten noch vorhanden sein.</translation>
     <message>
         <location filename="../src/gui/JLPTFilterWidget.cc" line="+28"/>
         <source>N5</source>
-        <translation type="unfinished"/>
+        <translation>N5</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>N4</source>
-        <translation type="unfinished"/>
+        <translation>N4</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>N3</source>
-        <translation type="unfinished"/>
+        <translation>N3</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>N2</source>
-        <translation type="unfinished"/>
+        <translation>N2</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>N1</source>
-        <translation type="unfinished"/>
+        <translation>N1</translation>
     </message>
     <message>
         <location line="+78"/>
@@ -991,12 +991,12 @@ Manche der Einträge könnten noch vorhanden sein.</translation>
     <message>
         <location line="+18"/>
         <source>Example sentences</source>
-        <translation type="unfinished"/>
+        <translation>Beispielsätze</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>JMdict ID</source>
-        <translation type="unfinished"/>
+        <translation>JMdict ID</translation>
     </message>
 </context>
 <context>
@@ -1185,12 +1185,12 @@ Manche der Einträge könnten noch vorhanden sein.</translation>
         <translation>Chemischer Fachausdruck</translation>
     </message>
     <message>
-        <location line="+46"/>
+        <location line="+47"/>
         <source>physics terminology</source>
         <translation>physikalischer Fachausdruck</translation>
     </message>
     <message>
-        <location line="-19"/>
+        <location line="-20"/>
         <source>mathematics</source>
         <translation>Mathematik</translation>
     </message>
@@ -1250,19 +1250,29 @@ Manche der Einträge könnten noch vorhanden sein.</translation>
         <translation>Manga-Slang</translation>
     </message>
     <message>
-        <location line="+18"/>
+        <location line="+19"/>
         <source>polite (teineigo) language</source>
         <translation>höfliche (teineigo) Sprache</translation>
     </message>
     <message>
-        <location line="+37"/>
+        <location line="+13"/>
+        <source>Yodan verb with `hu/fu&apos; ending (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Yodan verb with `ru&apos; ending (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+22"/>
         <source>su verb - precursor to the modern suru</source>
         <translation>su-Verb – Vorläufer zu dem modernen suru</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Hokkaido-ben</source>
-        <translation type="unfinished"/>
+        <translation>Hokkaido-ben</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -1351,6 +1361,11 @@ Manche der Einträge könnten noch vorhanden sein.</translation>
     </message>
     <message>
         <location line="+1"/>
+        <source>old or irregular kana form</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
         <source>onomatopoeic or mimetic word</source>
         <translation>lautmalerisches oder mimetisches Wort</translation>
     </message>
@@ -1375,7 +1390,277 @@ Manche der Einträge könnten noch vorhanden sein.</translation>
         <translation>empfindlich</translation>
     </message>
     <message>
-        <location line="-32"/>
+        <location line="+46"/>
+        <source>`kari&apos; adjective (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>`ku&apos; adjective (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>`shiku&apos; adjective (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>archaic/formal form of na-adjective</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>proper noun</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>verb unspecified</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Yodan verb with `ku&apos; ending (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Yodan verb with `gu&apos; ending (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Yodan verb with `su&apos; ending (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Yodan verb with `tsu&apos; ending (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Yodan verb with `nu&apos; ending (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Yodan verb with `bu&apos; ending (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Yodan verb with `mu&apos; ending (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Nidan verb (upper class) with `ku&apos; ending (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Nidan verb (upper class) with `gu&apos; ending (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Nidan verb (upper class) with `tsu&apos; ending (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Nidan verb (upper class) with `dzu&apos; ending (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Nidan verb (upper class) with `hu/fu&apos; ending (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Nidan verb (upper class) with `bu&apos; ending (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Nidan verb (upper class) with `mu&apos; ending (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Nidan verb (upper class) with `yu&apos; ending (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Nidan verb (upper class) with `ru&apos; ending (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Nidan verb (lower class) with `ku&apos; ending (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Nidan verb (lower class) with `gu&apos; ending (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Nidan verb (lower class) with `su&apos; ending (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Nidan verb (lower class) with `zu&apos; ending (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Nidan verb (lower class) with `tsu&apos; ending (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Nidan verb (lower class) with `dzu&apos; ending (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Nidan verb (lower class) with `nu&apos; ending (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Nidan verb (lower class) with `hu/fu&apos; ending (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Nidan verb (lower class) with `bu&apos; ending (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Nidan verb (lower class) with `mu&apos; ending (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Nidan verb (lower class) with `yu&apos; ending (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Nidan verb (lower class) with `ru&apos; ending (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Nidan verb (lower class) with `u&apos; ending and `we&apos; conjugation (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>architecture term</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>anatomical term</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>astronomy, etc. term</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>baseball term</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>biology term</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>botany term</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>business term</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>economics term</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>engineering term</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>finance term</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>geology, etc. term</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>law, etc. term</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>medicine, etc. term</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>music term</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Shinto term</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>sports term</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>sumo term</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>zoology term</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>jocular, humorous term</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="-132"/>
         <source>humble (kenjougo) language</source>
         <translation>bescheidene (kenjougo) Sprache</translation>
     </message>
@@ -1410,7 +1695,7 @@ Manche der Einträge könnten noch vorhanden sein.</translation>
         <translation>umgangssprachlicher Ausdruck</translation>
     </message>
     <message>
-        <location line="+50"/>
+        <location line="+51"/>
         <source>word usually written using kana alone</source>
         <translation>Wort gewöhnlich nur mit Kana geschrieben</translation>
     </message>
@@ -1420,7 +1705,7 @@ Manche der Einträge könnten noch vorhanden sein.</translation>
         <translation>Slang</translation>
     </message>
     <message>
-        <location line="-24"/>
+        <location line="-25"/>
         <source>male term or language</source>
         <translation>männlicher Ausdruck oder Sprache</translation>
     </message>
@@ -1440,12 +1725,12 @@ Manche der Einträge könnten noch vorhanden sein.</translation>
         <translation>Nomen (temporales) (jisoumeishi)</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+11"/>
         <source>prefix</source>
         <translation>Präfix</translation>
     </message>
     <message>
-        <location line="-54"/>
+        <location line="-55"/>
         <source>`taru&apos; adjective</source>
         <translation>&apos;taru&apos;-Adjektiv</translation>
     </message>
@@ -1460,7 +1745,7 @@ Manche der Einträge könnten noch vorhanden sein.</translation>
         <translation>Interjektion (kandoushi)</translation>
     </message>
     <message>
-        <location line="+31"/>
+        <location line="+32"/>
         <source>word usually written using kanji alone</source>
         <translation>Wort gewöhnlich nur mit Kanji geschrieben</translation>
     </message>
@@ -1473,11 +1758,6 @@ Manche der Einträge könnten noch vorhanden sein.</translation>
         <location line="+14"/>
         <source>Godan verb - Uru old class verb (old form of Eru)</source>
         <translation>Godan-Verb – alte Uru-Klasse (alte Form von Eru)</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Godan verb with `zu&apos; ending</source>
-        <translation>Godan-Verb mit &apos;zu&apos;-Endung</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -1495,12 +1775,12 @@ Manche der Einträge könnten noch vorhanden sein.</translation>
         <translation>unregelmäßiges nu-Verb</translation>
     </message>
     <message>
-        <location line="-31"/>
+        <location line="-30"/>
         <source>particle</source>
         <translation>Partikel</translation>
     </message>
     <message>
-        <location line="+32"/>
+        <location line="+31"/>
         <source>irregular ru verb, plain form ends with -ri</source>
         <translation>unregelmäßiges ru-Verb, Grundform endet mit -ri</translation>
     </message>
@@ -1540,7 +1820,7 @@ Manche der Einträge könnten noch vorhanden sein.</translation>
         <translation>Adverb (fukushi)</translation>
     </message>
     <message>
-        <location line="+58"/>
+        <location line="+59"/>
         <source>suffix</source>
         <translation>Suffix</translation>
     </message>
@@ -1590,7 +1870,7 @@ Manche der Einträge könnten noch vorhanden sein.</translation>
         <translation>Godan-Verb mit &apos;su&apos;-Endung</translation>
     </message>
     <message>
-        <location line="-71"/>
+        <location line="-72"/>
         <source>auxiliary</source>
         <translation>Hilfswort</translation>
     </message>
@@ -1605,7 +1885,7 @@ Manche der Einträge könnten noch vorhanden sein.</translation>
         <translation>adjektivisches Nomen oder Quasi-Adjektiv (keiyj­odoshi)</translation>
     </message>
     <message>
-        <location line="+76"/>
+        <location line="+77"/>
         <source>Godan verb - Iku/Yuku special class</source>
         <translation>Godan-Verb – Iku/Yuku-Spezialklasse</translation>
     </message>
@@ -1620,17 +1900,17 @@ Manche der Einträge könnten noch vorhanden sein.</translation>
         <translation>Godan-Verb mit &apos;gu&apos;-Endung</translation>
     </message>
     <message>
-        <location line="-73"/>
+        <location line="-74"/>
         <source>nouns which may take the genitive case particle `no&apos;</source>
         <translation>Nomen das den Genitivfall-Partikel &apos;no&apos; nehmen kann</translation>
     </message>
     <message>
-        <location line="+66"/>
+        <location line="+67"/>
         <source>Ichidan verb</source>
         <translation>Ichidan-Verb</translation>
     </message>
     <message>
-        <location line="-21"/>
+        <location line="-22"/>
         <source>noun, used as a prefix</source>
         <translation>Nomen, als Präfix verwendet</translation>
     </message>
@@ -1640,12 +1920,7 @@ Manche der Einträge könnten noch vorhanden sein.</translation>
         <translation>Hilfsadjektiv</translation>
     </message>
     <message>
-        <location line="+58"/>
-        <source>Yondan verb with `ru&apos; ending (archaic)</source>
-        <translation>Yondan-Verb mit &apos;hu/fu&apos;-Endung (archaisch)</translation>
-    </message>
-    <message>
-        <location line="-22"/>
+        <location line="+36"/>
         <source>numeric</source>
         <translation>Zahl</translation>
     </message>
@@ -1661,16 +1936,11 @@ Manche der Einträge könnten noch vorhanden sein.</translation>
     </message>
     <message>
         <location line="+67"/>
-        <source>Yondan verb with `hu/fu&apos; ending (archaic)</source>
-        <translation>Yondan-Verb mit &apos;hu/fu&apos;-Endung (archaisch)</translation>
-    </message>
-    <message>
-        <location line="-1"/>
         <source>Nidan verb with &apos;u&apos; ending (archaic)</source>
         <translation>Nidan-Verb mit &apos;u&apos;-Endung (archaisch)</translation>
     </message>
     <message>
-        <location line="+26"/>
+        <location line="+25"/>
         <source>suru verb - special class</source>
         <translation>suru-Verb – Spezialklasse</translation>
     </message>
@@ -1700,7 +1970,7 @@ Manche der Einträge könnten noch vorhanden sein.</translation>
         <translation>adverbiales Nomen (fukushitekimeishi)</translation>
     </message>
     <message>
-        <location line="+36"/>
+        <location line="+37"/>
         <source>Godan verb with `ru&apos; ending (irregular verb)</source>
         <translation>Godan-Verb mit &apos;ru&apos;-Endung (unregelmäßiges Verb)</translation>
     </message>
@@ -1753,7 +2023,7 @@ Manche der Einträge könnten noch vorhanden sein.</translation>
     <message>
         <location line="+7"/>
         <source>JMdict ID (only for debugging)</source>
-        <translation type="unfinished"/>
+        <translation>JMdict ID (nur für Debugging)</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -1795,17 +2065,17 @@ Manche der Einträge könnten noch vorhanden sein.</translation>
     <message>
         <location line="+18"/>
         <source>Link to example sentences:</source>
-        <translation type="unfinished"/>
+        <translation>Weblinks zu Beispielsätzen:</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>If enabled, display a link that will look for example sentences in your web browser using the selected service</source>
-        <translation type="unfinished"/>
+        <translation>Zeigt einen Weblink zu Beispielsätzen im Internet an. Fragt mit Ihrem Webbrowser den entsprechenden Dienst an.</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Disabled</source>
-        <translation type="unfinished"/>
+        <translation>Deaktiviert</translation>
     </message>
     <message>
         <location line="+27"/>
@@ -1933,7 +2203,7 @@ Manche der Einträge könnten noch vorhanden sein.</translation>
     <message>
         <location filename="../src/gui/kanjidic2/KanjiPopup.cc" line="+100"/>
         <source>%1 (drawn as &quot;%2&quot;)</source>
-        <translation type="unfinished"/>
+        <translation>%1 (geschrieben &quot;%2&quot;)</translation>
     </message>
 </context>
 <context>
@@ -2002,7 +2272,7 @@ Manche der Einträge könnten noch vorhanden sein.</translation>
     <message>
         <location line="+2"/>
         <source>&lt;b&gt;JLPT:&lt;/b&gt; N%1&lt;br/&gt;</source>
-        <translation type="unfinished"/>
+        <translation>&lt;b&gt;JLPT:&lt;/b&gt; N%1&lt;br/&gt;</translation>
     </message>
     <message>
         <location line="+22"/>
@@ -2354,7 +2624,7 @@ Manche der Einträge könnten noch vorhanden sein.</translation>
     <message>
         <location line="+2"/>
         <source>Junior high school</source>
-        <translation type="unfinished"/>
+        <translation>Mittelschule</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -2767,12 +3037,12 @@ Manche der Einträge könnten noch vorhanden sein.</translation>
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../src/gui/MainWindow.ui" line="+157"/>
+        <location filename="../src/gui/MainWindow.ui" line="+158"/>
         <source>&amp;Quit</source>
         <translation>&amp;Beenden</translation>
     </message>
     <message>
-        <location line="-113"/>
+        <location line="-114"/>
         <source>&amp;Program</source>
         <translation>&amp;Programm</translation>
     </message>
@@ -2787,7 +3057,7 @@ Manche der Einträge könnten noch vorhanden sein.</translation>
         <translation>&amp;Hilfe</translation>
     </message>
     <message>
-        <location line="+17"/>
+        <location line="+18"/>
         <source>P&amp;ractice</source>
         <translation>Ü&amp;bung</translation>
     </message>
@@ -2812,7 +3082,17 @@ Manche der Einträge könnten noch vorhanden sein.</translation>
         <translation>&amp;Über...</translation>
     </message>
     <message>
-        <location line="-89"/>
+        <location line="+20"/>
+        <source>Focus results list</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Ctrl+O</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="-112"/>
         <source>Preferences...</source>
         <translation>Einstellungen...</translation>
     </message>
@@ -2854,12 +3134,12 @@ Manche der Einträge könnten noch vorhanden sein.</translation>
         <translation>Benutzerdaten importieren...</translation>
     </message>
     <message>
-        <location line="-122"/>
+        <location line="-123"/>
         <source>Tagaini Jisho</source>
         <translation>Tagaini Jisho</translation>
     </message>
     <message>
-        <location line="+79"/>
+        <location line="+80"/>
         <source>Search</source>
         <translation>Suche</translation>
     </message>
@@ -3113,7 +3393,7 @@ Diese Nachricht wird ist eine einmalige Erinnerung und wird nicht wieder angezei
     <message>
         <location line="+0"/>
         <source>Unable to find any entry eligible for reading practice. Entries eligible for this training mode are studied vocabulary entries for which all kanji are also studied, and that match the train settings. Please add entries or modify the train settings accordingly if you want to practice this mode.</source>
-        <translation type="unfinished"/>
+        <translation>Finde keine geeigneten Einträge als Leseübung. Geeignete Einträge für diesen Übungsmodus sind einstudierte Vokabeln, für welche alle Kanji einstudiert wurden und die zusätzlich den Übungseinstellungen entsprechen. Bitte fügen sie solche Vokabeln hinzu oder ändern Sie die Übungseinstellungen entsprechend um diesen Übungsmodus zu benutzen. </translation>
     </message>
     <message>
         <location line="+1"/>
@@ -3408,12 +3688,12 @@ Diese Nachricht wird ist eine einmalige Erinnerung und wird nicht wieder angezei
     <message>
         <location line="+0"/>
         <source>Make a new search using only this filter</source>
-        <translation type="unfinished"/>
+        <translation>Erstelle neue Suche nur mit diesem Filter</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Add this filter to the current search</source>
-        <translation type="unfinished"/>
+        <translation>Füge diesen Filter der aktuellen Suche hinzu</translation>
     </message>
 </context>
 <context>
@@ -3436,12 +3716,12 @@ Diese Nachricht wird ist eine einmalige Erinnerung und wird nicht wieder angezei
     <message>
         <location line="+0"/>
         <source>Make a new search using only this filter</source>
-        <translation type="unfinished"/>
+        <translation>Erstelle neue Suche nur mit diesem Filter</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Add this filter to the current search</source>
-        <translation type="unfinished"/>
+        <translation>Füge diesen Filter der aktuellen Suche hinzu</translation>
     </message>
 </context>
 <context>
@@ -3641,12 +3921,12 @@ Diese Nachricht wird ist eine einmalige Erinnerung und wird nicht wieder angezei
     <message>
         <location filename="../src/gui/TextFilterWidget.cc" line="+42"/>
         <source>Romaji search</source>
-        <translation type="unfinished"/>
+        <translation>Romaji-Suche</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>If checked, text typed in romaji will be converted to kana and searched as such.</source>
-        <translation type="unfinished"/>
+        <translation>Eingetippte lateinische Zeichen werden in Kana umgewandelt und danach gesucht.</translation>
     </message>
     <message>
         <location line="+15"/>
@@ -3710,7 +3990,7 @@ Diese Nachricht wird ist eine einmalige Erinnerung und wird nicht wieder angezei
     <message>
         <location line="+20"/>
         <source>Sort bias</source>
-        <translation type="unfinished"/>
+        <translation>Sortiere nach Tendenz</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -3758,12 +4038,12 @@ Diese Nachricht wird ist eine einmalige Erinnerung und wird nicht wieder angezei
     <message>
         <location line="+0"/>
         <source>There are no entries to train as of now. Please add entries to your study list or check the train settings.</source>
-        <translation type="unfinished"/>
+        <translation>Es sind zur Zeit keine Einträge zum Üben vorhanden. Bitte fügen Sie weitere Vokabeln zu ihrer Studienliste hinzu oder ändern Sie die Übungseinstellungen.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>All the matching entries have been trained.</source>
-        <translation type="unfinished"/>
+        <translation>Alle passenden Einträge wurden geübt.</translation>
     </message>
     <message>
         <location line="+0"/>

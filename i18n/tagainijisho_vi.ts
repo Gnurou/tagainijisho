@@ -38,17 +38,17 @@
     <message>
         <location line="+2"/>
         <source>Please wait...</source>
-        <translation type="unfinished"/>
+        <translation>Xin hãy đợi...</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Cannot start transaction</source>
-        <translation type="unfinished"/>
+        <translation>Không thể bắt đầu giao dịch</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Error while trying to start database transaction.</source>
-        <translation type="unfinished"/>
+        <translation>Có lỗi khi cố gắng bắt đầu giao dịch dữ liệu.</translation>
     </message>
     <message>
         <location line="+18"/>
@@ -349,7 +349,7 @@
     <message>
         <location line="+2"/>
         <source>Please wait...</source>
-        <translation type="unfinished"/>
+        <translation>Xin đợi...</translation>
     </message>
     <message>
         <location line="+223"/>
@@ -760,27 +760,27 @@ Một số có thể vẫn còn.</translation>
     <message>
         <location line="+1"/>
         <source>Portuguese</source>
-        <translation type="unfinished"/>
+        <translation>Tiếng Bồ Đào Nha</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Swedish</source>
-        <translation type="unfinished"/>
+        <translation>Tiếng Thụy Điển</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Thai</source>
-        <translation type="unfinished"/>
+        <translation>Tiếng Thái</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Turkish</source>
-        <translation type="unfinished"/>
+        <translation>Tiếng Thổ Nhĩ Kỳ</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Vietnamese</source>
-        <translation type="unfinished"/>
+        <translation>Tiếng Việt</translation>
     </message>
     <message>
         <location line="+24"/>
@@ -825,17 +825,17 @@ Một số có thể vẫn còn.</translation>
     <message>
         <location line="-27"/>
         <source>Preferred dictionary language</source>
-        <translation type="unfinished"/>
+        <translation>Ngôn ngữ từ điển</translation>
     </message>
     <message>
         <location line="+41"/>
         <source>The dictionaries will use this language whenever possible. English will be used as a fallback.</source>
-        <translation type="unfinished"/>
+        <translation>Từ điển sẽ cố gắng sử dụng ngôn ngữ này bất cứ khi nào có thể. Nếu không thể thì sẽ dùng tiếng Anh.</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Same as GUI</source>
-        <translation type="unfinished"/>
+        <translation>Giống giao diện</translation>
     </message>
     <message>
         <location line="+20"/>
@@ -890,22 +890,22 @@ Một số có thể vẫn còn.</translation>
     <message>
         <location line="-129"/>
         <source>Preferred GUI language</source>
-        <translation type="unfinished"/>
+        <translation>Ngôn ngữ giao diện</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>The GUI will use this language whenever possible. English will be used as a fallback.</source>
-        <translation type="unfinished"/>
+        <translation>Giao diện sẽ cố gắng dùng ngôn ngữ này bất cứ khi nào có thể. Nếu không thể thì sẽ dùng tiếng Anh.</translation>
     </message>
     <message>
         <location line="+30"/>
         <source>If checked, English meanings will be shown even if a translation in the preferred language is available.</source>
-        <translation type="unfinished"/>
+        <translation>Nếu được chọn, nghĩa tiếng Anh sẽ được hiện cho dù phần dịch bản địa.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Always show English meanings</source>
-        <translation type="unfinished"/>
+        <translation>Luôn hiện nghĩa tiếng Anh</translation>
     </message>
     <message>
         <location line="+87"/>
@@ -928,27 +928,27 @@ Một số có thể vẫn còn.</translation>
     <message>
         <location filename="../src/gui/JLPTFilterWidget.cc" line="+28"/>
         <source>N5</source>
-        <translation type="unfinished"/>
+        <translation>N5</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>N4</source>
-        <translation type="unfinished"/>
+        <translation>N4</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>N3</source>
-        <translation type="unfinished"/>
+        <translation>N3</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>N2</source>
-        <translation type="unfinished"/>
+        <translation>N2</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>N1</source>
-        <translation type="unfinished"/>
+        <translation>N1</translation>
     </message>
     <message>
         <location line="+78"/>
@@ -991,12 +991,12 @@ Một số có thể vẫn còn.</translation>
     <message>
         <location line="+18"/>
         <source>Example sentences</source>
-        <translation type="unfinished"/>
+        <translation>Câu mẫu</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>JMdict ID</source>
-        <translation type="unfinished"/>
+        <translation>JMdict ID</translation>
     </message>
 </context>
 <context>
@@ -1185,12 +1185,12 @@ Một số có thể vẫn còn.</translation>
         <translation>thuật ngữ hóa học</translation>
     </message>
     <message>
-        <location line="+46"/>
+        <location line="+47"/>
         <source>physics terminology</source>
         <translation>thuật ngữ vật lý</translation>
     </message>
     <message>
-        <location line="-19"/>
+        <location line="-20"/>
         <source>mathematics</source>
         <translation>toán học</translation>
     </message>
@@ -1250,12 +1250,22 @@ Một số có thể vẫn còn.</translation>
         <translation>từ lóng manga</translation>
     </message>
     <message>
-        <location line="+18"/>
+        <location line="+19"/>
         <source>polite (teineigo) language</source>
         <translation>từ lịch sự</translation>
     </message>
     <message>
-        <location line="+37"/>
+        <location line="+13"/>
+        <source>Yodan verb with `hu/fu&apos; ending (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Yodan verb with `ru&apos; ending (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+22"/>
         <source>su verb - precursor to the modern suru</source>
         <translation>động từ dạng su - tiền thân của dạng suru hiện đại</translation>
     </message>
@@ -1351,6 +1361,11 @@ Một số có thể vẫn còn.</translation>
     </message>
     <message>
         <location line="+1"/>
+        <source>old or irregular kana form</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
         <source>onomatopoeic or mimetic word</source>
         <translation>từ tượng thanh hoặc bắt chước</translation>
     </message>
@@ -1375,7 +1390,277 @@ Một số có thể vẫn còn.</translation>
         <translation>nhạy cảm</translation>
     </message>
     <message>
-        <location line="-32"/>
+        <location line="+46"/>
+        <source>`kari&apos; adjective (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>`ku&apos; adjective (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>`shiku&apos; adjective (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>archaic/formal form of na-adjective</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>proper noun</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>verb unspecified</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Yodan verb with `ku&apos; ending (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Yodan verb with `gu&apos; ending (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Yodan verb with `su&apos; ending (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Yodan verb with `tsu&apos; ending (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Yodan verb with `nu&apos; ending (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Yodan verb with `bu&apos; ending (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Yodan verb with `mu&apos; ending (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Nidan verb (upper class) with `ku&apos; ending (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Nidan verb (upper class) with `gu&apos; ending (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Nidan verb (upper class) with `tsu&apos; ending (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Nidan verb (upper class) with `dzu&apos; ending (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Nidan verb (upper class) with `hu/fu&apos; ending (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Nidan verb (upper class) with `bu&apos; ending (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Nidan verb (upper class) with `mu&apos; ending (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Nidan verb (upper class) with `yu&apos; ending (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Nidan verb (upper class) with `ru&apos; ending (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Nidan verb (lower class) with `ku&apos; ending (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Nidan verb (lower class) with `gu&apos; ending (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Nidan verb (lower class) with `su&apos; ending (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Nidan verb (lower class) with `zu&apos; ending (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Nidan verb (lower class) with `tsu&apos; ending (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Nidan verb (lower class) with `dzu&apos; ending (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Nidan verb (lower class) with `nu&apos; ending (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Nidan verb (lower class) with `hu/fu&apos; ending (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Nidan verb (lower class) with `bu&apos; ending (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Nidan verb (lower class) with `mu&apos; ending (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Nidan verb (lower class) with `yu&apos; ending (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Nidan verb (lower class) with `ru&apos; ending (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Nidan verb (lower class) with `u&apos; ending and `we&apos; conjugation (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>architecture term</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>anatomical term</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>astronomy, etc. term</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>baseball term</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>biology term</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>botany term</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>business term</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>economics term</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>engineering term</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>finance term</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>geology, etc. term</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>law, etc. term</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>medicine, etc. term</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>music term</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Shinto term</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>sports term</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>sumo term</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>zoology term</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>jocular, humorous term</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="-132"/>
         <source>humble (kenjougo) language</source>
         <translation>ngôn ngữ nhún nhường (kenjougo)</translation>
     </message>
@@ -1410,7 +1695,7 @@ Một số có thể vẫn còn.</translation>
         <translation>thông tục</translation>
     </message>
     <message>
-        <location line="+50"/>
+        <location line="+51"/>
         <source>word usually written using kana alone</source>
         <translation>từ thường chỉ viết bằng kana</translation>
     </message>
@@ -1420,7 +1705,7 @@ Một số có thể vẫn còn.</translation>
         <translation>từ lóng</translation>
     </message>
     <message>
-        <location line="-24"/>
+        <location line="-25"/>
         <source>male term or language</source>
         <translation>từ ngữ của đàn ông</translation>
     </message>
@@ -1440,12 +1725,12 @@ Một số có thể vẫn còn.</translation>
         <translation>danh từ (chỉ thời gian) (jisoumeishi)</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+11"/>
         <source>prefix</source>
         <translation>tiền tố</translation>
     </message>
     <message>
-        <location line="-54"/>
+        <location line="-55"/>
         <source>`taru&apos; adjective</source>
         <translation>tính từ &apos;taru&apos;</translation>
     </message>
@@ -1460,7 +1745,7 @@ Một số có thể vẫn còn.</translation>
         <translation>thán từ (kandoushi)</translation>
     </message>
     <message>
-        <location line="+31"/>
+        <location line="+32"/>
         <source>word usually written using kanji alone</source>
         <translation>từ thường chỉ viết bằng kanji</translation>
     </message>
@@ -1473,11 +1758,6 @@ Một số có thể vẫn còn.</translation>
         <location line="+14"/>
         <source>Godan verb - Uru old class verb (old form of Eru)</source>
         <translation>Động từ godan - nhóm uru cũ (dạng cũ của Eru)</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Godan verb with `zu&apos; ending</source>
-        <translation>động từ godan kết thúc là &apos;zu&apos;</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -1495,12 +1775,12 @@ Một số có thể vẫn còn.</translation>
         <translation>động từ nu bất quy tắc</translation>
     </message>
     <message>
-        <location line="-31"/>
+        <location line="-30"/>
         <source>particle</source>
         <translation>trợ từ</translation>
     </message>
     <message>
-        <location line="+32"/>
+        <location line="+31"/>
         <source>irregular ru verb, plain form ends with -ri</source>
         <translation>động từ ru bất quy tắc, dạng cơ bản đuôi -ri</translation>
     </message>
@@ -1540,7 +1820,7 @@ Một số có thể vẫn còn.</translation>
         <translation>phó từ (fukushi)</translation>
     </message>
     <message>
-        <location line="+58"/>
+        <location line="+59"/>
         <source>suffix</source>
         <translation>hậu tố</translation>
     </message>
@@ -1590,7 +1870,7 @@ Một số có thể vẫn còn.</translation>
         <translation>Động từ godan kết thúc là &apos;su&apos;</translation>
     </message>
     <message>
-        <location line="-71"/>
+        <location line="-72"/>
         <source>auxiliary</source>
         <translation>từ phụ trợ</translation>
     </message>
@@ -1605,7 +1885,7 @@ Một số có thể vẫn còn.</translation>
         <translation>danh tính từ (keiyodoshi)</translation>
     </message>
     <message>
-        <location line="+76"/>
+        <location line="+77"/>
         <source>Godan verb - Iku/Yuku special class</source>
         <translation>Động từ godan - nhóm Iku/Yuku đặc biệt</translation>
     </message>
@@ -1620,17 +1900,17 @@ Một số có thể vẫn còn.</translation>
         <translation>Động từ godan kết thúc là &apos;gu&apos;</translation>
     </message>
     <message>
-        <location line="-73"/>
+        <location line="-74"/>
         <source>nouns which may take the genitive case particle `no&apos;</source>
         <translation>danh từ đi với trợ từ sở hữu &apos;no&apos;</translation>
     </message>
     <message>
-        <location line="+66"/>
+        <location line="+67"/>
         <source>Ichidan verb</source>
         <translation>Động từ ichidan</translation>
     </message>
     <message>
-        <location line="-21"/>
+        <location line="-22"/>
         <source>noun, used as a prefix</source>
         <translation>danh từ, dùng làm tiền tố</translation>
     </message>
@@ -1640,12 +1920,7 @@ Một số có thể vẫn còn.</translation>
         <translation>trợ tính từ</translation>
     </message>
     <message>
-        <location line="+58"/>
-        <source>Yondan verb with `ru&apos; ending (archaic)</source>
-        <translation>Động từ Yondan đuôi &apos;ru&apos; (cổ)</translation>
-    </message>
-    <message>
-        <location line="-22"/>
+        <location line="+36"/>
         <source>numeric</source>
         <translation>số từ</translation>
     </message>
@@ -1661,16 +1936,11 @@ Một số có thể vẫn còn.</translation>
     </message>
     <message>
         <location line="+67"/>
-        <source>Yondan verb with `hu/fu&apos; ending (archaic)</source>
-        <translation>Động từ yondan đuôi &apos;hu/fu&apos; (cổ)</translation>
-    </message>
-    <message>
-        <location line="-1"/>
         <source>Nidan verb with &apos;u&apos; ending (archaic)</source>
         <translation>Động từ nidan đuôi &apos;u&apos; (cổ)</translation>
     </message>
     <message>
-        <location line="+26"/>
+        <location line="+25"/>
         <source>suru verb - special class</source>
         <translation>động từ suru - nhóm riêng</translation>
     </message>
@@ -1700,7 +1970,7 @@ Một số có thể vẫn còn.</translation>
         <translation>phó danh từ (fukushitekimeishi)</translation>
     </message>
     <message>
-        <location line="+36"/>
+        <location line="+37"/>
         <source>Godan verb with `ru&apos; ending (irregular verb)</source>
         <translation>Động từ godan đuôi &apos;ru&apos; (bất quy tắc)</translation>
     </message>
@@ -1753,7 +2023,7 @@ Một số có thể vẫn còn.</translation>
     <message>
         <location line="+7"/>
         <source>JMdict ID (only for debugging)</source>
-        <translation type="unfinished"/>
+        <translation>JMdict ID (chỉ dùng khi gỡ lỗi)</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -1795,17 +2065,17 @@ Một số có thể vẫn còn.</translation>
     <message>
         <location line="+18"/>
         <source>Link to example sentences:</source>
-        <translation type="unfinished"/>
+        <translation>Liên kết đến câu mẫu:</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>If enabled, display a link that will look for example sentences in your web browser using the selected service</source>
-        <translation type="unfinished"/>
+        <translation>Nếu bật, sẽ hiện một liên kết để tìm kiếm câu mẫu trong trình duyệt web của bạn sử dụng dịch vụ được chon</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Disabled</source>
-        <translation type="unfinished"/>
+        <translation>Tắt</translation>
     </message>
     <message>
         <location line="+27"/>
@@ -2002,7 +2272,7 @@ Một số có thể vẫn còn.</translation>
     <message>
         <location line="+2"/>
         <source>&lt;b&gt;JLPT:&lt;/b&gt; N%1&lt;br/&gt;</source>
-        <translation type="unfinished"/>
+        <translation>&lt;b&gt;JLPT:&lt;/b&gt; N%1&lt;br/&gt;</translation>
     </message>
     <message>
         <location line="+22"/>
@@ -2354,7 +2624,7 @@ Một số có thể vẫn còn.</translation>
     <message>
         <location line="+2"/>
         <source>Junior high school</source>
-        <translation type="unfinished"/>
+        <translation>2 năm đầu THCS</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -2767,12 +3037,12 @@ Một số có thể vẫn còn.</translation>
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../src/gui/MainWindow.ui" line="+157"/>
+        <location filename="../src/gui/MainWindow.ui" line="+158"/>
         <source>&amp;Quit</source>
         <translation>&amp;Thoát</translation>
     </message>
     <message>
-        <location line="-113"/>
+        <location line="-114"/>
         <source>&amp;Program</source>
         <translation>&amp;Phần mềm</translation>
     </message>
@@ -2787,7 +3057,7 @@ Một số có thể vẫn còn.</translation>
         <translation>Trợ &amp;giúp</translation>
     </message>
     <message>
-        <location line="+17"/>
+        <location line="+18"/>
         <source>P&amp;ractice</source>
         <translation>Tập &amp;luyện</translation>
     </message>
@@ -2812,7 +3082,17 @@ Một số có thể vẫn còn.</translation>
         <translation>&amp;Giới thiệu</translation>
     </message>
     <message>
-        <location line="-89"/>
+        <location line="+20"/>
+        <source>Focus results list</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Ctrl+O</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="-112"/>
         <source>Preferences...</source>
         <translation>Tinh chỉnh...</translation>
     </message>
@@ -2854,12 +3134,12 @@ Một số có thể vẫn còn.</translation>
         <translation>Nhập dữ liệu cá nhân...</translation>
     </message>
     <message>
-        <location line="-122"/>
+        <location line="-123"/>
         <source>Tagaini Jisho</source>
         <translation>Tagaini Jisho</translation>
     </message>
     <message>
-        <location line="+79"/>
+        <location line="+80"/>
         <source>Search</source>
         <translation>Tìm kiếm</translation>
     </message>
@@ -3408,12 +3688,12 @@ Thông báo này chỉ xuất hiện một lần nhưng bạn vẫn có thể h�
     <message>
         <location line="+0"/>
         <source>Make a new search using only this filter</source>
-        <translation type="unfinished"/>
+        <translation>Tạo một tìm kiếm mới chỉ sử dụng bộ lọc này</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Add this filter to the current search</source>
-        <translation type="unfinished"/>
+        <translation>Thêm bộ lọc này vào tìm kiếm hiện tại</translation>
     </message>
 </context>
 <context>
@@ -3436,12 +3716,12 @@ Thông báo này chỉ xuất hiện một lần nhưng bạn vẫn có thể h�
     <message>
         <location line="+0"/>
         <source>Make a new search using only this filter</source>
-        <translation type="unfinished"/>
+        <translation>Tạo một tìm kiếm mới chỉ sử dụng bộ lọc này</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Add this filter to the current search</source>
-        <translation type="unfinished"/>
+        <translation>Thêm bộ lọc này vào tìm kiếm hiện tại</translation>
     </message>
 </context>
 <context>
@@ -3641,12 +3921,12 @@ Thông báo này chỉ xuất hiện một lần nhưng bạn vẫn có thể h�
     <message>
         <location filename="../src/gui/TextFilterWidget.cc" line="+42"/>
         <source>Romaji search</source>
-        <translation type="unfinished"/>
+        <translation>Tìm theo romaji</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>If checked, text typed in romaji will be converted to kana and searched as such.</source>
-        <translation type="unfinished"/>
+        <translation>Nếu được chon, văn bản gõ bằng romaji sẽ được tự động chuyển thành kana</translation>
     </message>
     <message>
         <location line="+15"/>

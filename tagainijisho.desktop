@@ -11,12 +11,28 @@ Categories=Languages;Education;Qt;
 
 
 # Translations
+
+
+# Translations
 Name[de]=Tagaini Jisho
+Icon[de]=tagainijisho
+Comment[de]=Ein freies Japanisch-Wörterbuch und Studienhelfer
+GenericName[de]=Japanisch-Wörterbuch und Studienhelfer
+Name[ar]=Tagaini Jisho
+Icon[ar]=tagainijisho
+Comment[ar]=قاموس ياباني حر، وبرنامج مساعد على الدراسة.
+GenericName[ar]=قاموس ياباني، وبرنامج مساعد على الدراسة.
 Name[pl]=Tagaini Jisho
-Name[ru]=Tagaini Jisho
+Icon[pl]=tagainijisho
+Comment[pl]=Darmowy słownik języka japońskiego, mogący  służyć również jako pomoc w nauce.
+GenericName[pl]=Słownik języka japońskiego
+Name[id]=Kamus Tagaini
+Icon[id]=KamusTagaini
+Comment[id]=Kamus dan pembantu pelajaran bahasa jepang GRATIS
+GenericName[id]=Kamus dan pembantu pelajaran bahasa jepang
 Name[fr]=Tagaini Jisho
 Icon[fr]=tagainijisho
-Comment[fr]=Un dictionnaire et assistant d'étude du japonais
+Comment[fr]=Un dictionnaire libre et assistant d'étude du japonais
 GenericName[fr]=Dictionnaire et assistant d'étude du japonais
 Name[it]=Tagaini Jisho
 Icon[it]=tagainijisho
@@ -26,13 +42,34 @@ Name[cs]=Tagaini Jisho
 Icon[cs]=tagainijisho
 Comment[cs]=Japonský slovník zdarma a pomocník při učení
 GenericName[cs]=Japonský slovník a pomocník při učení
+Name[fi_FI]=Tagaini Jisho
+Icon[fi_FI]=tagainijisho
+Comment[fi_FI]=Ilmainen japaninkielinen sanakirja ja opiskeluavustaja
+GenericName[fi_FI]=Japanilainen sanakirja ja opiskeluavustaja
 Name[sv]=Tagaini jisho
+Icon[sv]=tagainijisho
+Comment[sv]=En öppen/fri japansk ordbok med studiehjälpmedel
+GenericName[sv]=Japansk ordbok med studiehjälpmedel
+Name[ru]=Tagaini Jisho
+Icon[ru]=tagainijisho
+Comment[ru]=Бесплатный словарь японского языка и помощник в обучении
+GenericName[ru]=Словарь японского языка и помощник в обучении
+Name[fa_IR]=تاگااینی جیشو
+Icon[fa_IR]=تااگااینی‌جیشو
+Comment[fa_IR]=یک فرهنگ واژگان ژاپنی و دستیار مطالعهٔ آزاد
+GenericName[fa_IR]=فرهنگ واژگان و دستیار مطالعهٔ ژاپنی
 Name[tr]=Tagaini Jisho
+Icon[tr]=tagainijisho
+Comment[tr]=Ücretsiz Japonca sözlük ve çalışma yardımcısı
+GenericName[tr]=Japonca sözlük ve çalışma yardımcısı
 Name[es]=Tagaini Jisho
 Icon[es]=tagainijisho
 Comment[es]=Un diccionario de Japonés gratuito, además de un asistente para el estudio
 GenericName[es]=Diccionario de Japonés y asistente para el estudio
 Name[vi]=Tagaini Jisho
+Icon[vi]=tagainijisho
+Comment[vi]=Từ điển và công cụ hỗ trợ học tiếng Nhật miễn phí
+GenericName[vi]=Từ điển và công cụ hỗ trợ học tiếng Nhật miễn phí
 Name[nb]=Tagaini Jisho
 Icon[nb]=tagainijisho
 Comment[nb]=En gratis japansk ordbok og studieassistent
