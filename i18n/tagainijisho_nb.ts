@@ -1257,12 +1257,12 @@
     <message>
         <location line="+13"/>
         <source>Yodan verb with `hu/fu&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Yodan verb med `hu/fu&apos;-endelse (arkaisk)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Yodan verb with `ru&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Yodan verb med `ru&apos;-endelse (arkaisk)</translation>
     </message>
     <message>
         <location line="+22"/>
@@ -1362,7 +1362,7 @@
     <message>
         <location line="+1"/>
         <source>old or irregular kana form</source>
-        <translation type="unfinished"/>
+        <translation>gammel eller uregelmessig bruk av kana</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -1392,272 +1392,272 @@
     <message>
         <location line="+46"/>
         <source>`kari&apos; adjective (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>`kari&apos;-adjektiv (arkaisk)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>`ku&apos; adjective (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>`ku&apos;-adjektiv (arkaisk)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>`shiku&apos; adjective (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>`shiku&apos;-adjektiv (arkaisk)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>archaic/formal form of na-adjective</source>
-        <translation type="unfinished"/>
+        <translation>arkaisk/formell form av na-adjektiv</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>proper noun</source>
-        <translation type="unfinished"/>
+        <translation>egennavn</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>verb unspecified</source>
-        <translation type="unfinished"/>
+        <translation>verb uspesifisert</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Yodan verb with `ku&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Yodan verb med `ru&apos;-endelse (arkaisk)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Yodan verb with `gu&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Yodan verb med `gu&apos;-endelse (arkaisk)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Yodan verb with `su&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Yodan verb med `su&apos;-endelse (arkaisk)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Yodan verb with `tsu&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Yodan verb med `tsu&apos;-endelse (arkaisk)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Yodan verb with `nu&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Yodan verb med `nu&apos;-endelse (arkaisk)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Yodan verb with `bu&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Yodan verb med `bu&apos;-endelse (arkaisk)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Yodan verb with `mu&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Yodan verb med `mu&apos;-endelse (arkaisk)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Nidan verb (upper class) with `ku&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Nidan verb (øvre klasse) med `ku&apos;-endelse (arkaisk)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Nidan verb (upper class) with `gu&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Nidan verb (øvre klasse) med `gu&apos;-endelse (arkaisk)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Nidan verb (upper class) with `tsu&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Nidan verb (øvre klasse) med `tsu&apos;-endelse (arkaisk)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Nidan verb (upper class) with `dzu&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Nidan verb (øvre klasse) med `dzu&apos;-endelse (arkaisk)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Nidan verb (upper class) with `hu/fu&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Nidan verb (øvre klasse) med `hu/fu&apos; endelse (arkaisk)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Nidan verb (upper class) with `bu&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Nidan verb (øvre klasse) med `bu&apos;-endelse (arkaisk)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Nidan verb (upper class) with `mu&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Nidan verb (øvre klasse) med `mu&apos;-endelse (arkaisk)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Nidan verb (upper class) with `yu&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Nidan verb (øvre klasse) med `yu&apos;-endelse (arkaisk)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Nidan verb (upper class) with `ru&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Nidan verb (øvre klasse) med `ru&apos; endelse (arkaisk)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Nidan verb (lower class) with `ku&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Nidan verb (lavere klasse) med `ku&apos;-endelse (arkaisk)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Nidan verb (lower class) with `gu&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Nidan verb (lavere klasse) med `gu&apos;-endelse (arkaisk)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Nidan verb (lower class) with `su&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Nidan verb (lavere klasse) med `su&apos;-endelse (arkaisk)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Nidan verb (lower class) with `zu&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Nidan verb (lavere klasse) med `zu&apos;-endelse (arkaisk)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Nidan verb (lower class) with `tsu&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Nidan verb (lavere klasse) med `tsu&apos;-endelse (arkaisk)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Nidan verb (lower class) with `dzu&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Nidan verb (lavere klasse) med `dzu&apos;-endelse (arkaisk)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Nidan verb (lower class) with `nu&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Nidan verb (lavere klasse) med `nu&apos;-endelse (arkaisk)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Nidan verb (lower class) with `hu/fu&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Nidan verb (lavere klasse) med `hu/fu&apos;-endelse (arkaisk)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Nidan verb (lower class) with `bu&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Nidan verb (lavere klasse) med `bu&apos;-endelse (arkaisk)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Nidan verb (lower class) with `mu&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Nidan verb (lavere klasse) med `mu&apos;-endelse (arkaisk)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Nidan verb (lower class) with `yu&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Nidan verb (lavere klasse) med `yu&apos;-endelse (arkaisk)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Nidan verb (lower class) with `ru&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Nidan verb (lavere klasse) med `ru&apos;-endelse (arkaisk)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Nidan verb (lower class) with `u&apos; ending and `we&apos; conjugation (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Nidan verb (lavere klasse) med `u&apos;-endelse og `we&apos;-bøyelse (arkaisk)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>architecture term</source>
-        <translation type="unfinished"/>
+        <translation>arkitekturbegrep</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>anatomical term</source>
-        <translation type="unfinished"/>
+        <translation>anatomisk begrep</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>astronomy, etc. term</source>
-        <translation type="unfinished"/>
+        <translation>astronomibegrep, etc.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>baseball term</source>
-        <translation type="unfinished"/>
+        <translation>baseball-begrep</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>biology term</source>
-        <translation type="unfinished"/>
+        <translation>biologibegrep</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>botany term</source>
-        <translation type="unfinished"/>
+        <translation>botanikkbegrep</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>business term</source>
-        <translation type="unfinished"/>
+        <translation>virksomhetsbegrep</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>economics term</source>
-        <translation type="unfinished"/>
+        <translation>økonomibegrep</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>engineering term</source>
-        <translation type="unfinished"/>
+        <translation>ingeniørbegrep</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>finance term</source>
-        <translation type="unfinished"/>
+        <translation>finansbegrep</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>geology, etc. term</source>
-        <translation type="unfinished"/>
+        <translation>geologibegrep, etc.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>law, etc. term</source>
-        <translation type="unfinished"/>
+        <translation>lovbegrep, etc.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>medicine, etc. term</source>
-        <translation type="unfinished"/>
+        <translation>medisinbegrep, etc.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>music term</source>
-        <translation type="unfinished"/>
+        <translation>musikkbegrep</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Shinto term</source>
-        <translation type="unfinished"/>
+        <translation>Shinto-begrep</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>sports term</source>
-        <translation type="unfinished"/>
+        <translation>sportbegrep</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>sumo term</source>
-        <translation type="unfinished"/>
+        <translation>sumo-begrep</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>zoology term</source>
-        <translation type="unfinished"/>
+        <translation>zoologibegrep</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>jocular, humorous term</source>
-        <translation type="unfinished"/>
+        <translation>spøkefullt, humoristisk begrep</translation>
     </message>
     <message>
         <location line="-132"/>
@@ -3084,12 +3084,12 @@
     <message>
         <location line="+20"/>
         <source>Focus results list</source>
-        <translation type="unfinished"/>
+        <translation>Fokuser resultatlisten</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Ctrl+O</source>
-        <translation type="unfinished"/>
+        <translation>Ctrl+O</translation>
     </message>
     <message>
         <location line="-112"/>

@@ -1147,7 +1147,7 @@ Některé z nich možná zůstaly.</translation>
     <message>
         <location filename="../3rdparty/JMdictDescs.cc" line="+1"/>
         <source>martial arts term</source>
-        <translation>Odborný výraz bojového umění</translation>
+        <translation>Odborný pojem z oblasti bojového umění</translation>
     </message>
     <message>
         <location line="+46"/>
@@ -1157,7 +1157,7 @@ Některé z nich možná zůstaly.</translation>
     <message>
         <location line="-16"/>
         <source>food term</source>
-        <translation>Jídelní odborný výraz</translation>
+        <translation>Odborný pojem z oblasti výživy</translation>
     </message>
     <message>
         <location line="-9"/>
@@ -1167,27 +1167,27 @@ Některé z nich možná zůstaly.</translation>
     <message>
         <location line="-4"/>
         <source>Buddhist term</source>
-        <translation>Buddhistický odborný výraz</translation>
+        <translation>Odborný pojem z oblasti buddhismu</translation>
     </message>
     <message>
         <location line="+24"/>
         <source>linguistics terminology</source>
-        <translation>Jazykovědný výraz</translation>
+        <translation>Odborný pojem z oblasti jazykovědy</translation>
     </message>
     <message>
         <location line="-10"/>
         <source>geometry term</source>
-        <translation>Geometrický odborný výraz</translation>
+        <translation>Odborný pojem z oblasti geometrie</translation>
     </message>
     <message>
         <location line="-13"/>
         <source>chemistry term</source>
-        <translation>Chemický odborný výraz</translation>
+        <translation>Odborný pojem z oblasti chemie</translation>
     </message>
     <message>
         <location line="+47"/>
         <source>physics terminology</source>
-        <translation>Fyzikální odborný výraz</translation>
+        <translation>Odborný pojem z oblasti fyziky</translation>
     </message>
     <message>
         <location line="-20"/>
@@ -1257,12 +1257,12 @@ Některé z nich možná zůstaly.</translation>
     <message>
         <location line="+13"/>
         <source>Yodan verb with `hu/fu&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Sloveso yodan s koncovkou &apos;hu/fu&apos; (starobylá)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Yodan verb with `ru&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Sloveso yodan s koncovkou &apos;ru&apos; (starobylá)</translation>
     </message>
     <message>
         <location line="+22"/>
@@ -1352,7 +1352,7 @@ Některé z nich možná zůstaly.</translation>
     <message>
         <location line="+2"/>
         <source>obscure term</source>
-        <translation>Obtížně srozumitelný výraz</translation>
+        <translation>Obtížně srozumitelný pojem</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -1362,7 +1362,7 @@ Některé z nich možná zůstaly.</translation>
     <message>
         <location line="+1"/>
         <source>old or irregular kana form</source>
-        <translation type="unfinished"/>
+        <translation>Starý nebo nepravidelný tvar kana</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -1392,272 +1392,272 @@ Některé z nich možná zůstaly.</translation>
     <message>
         <location line="+46"/>
         <source>`kari&apos; adjective (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Přídavné jméno `kari&apos; (starobylé)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>`ku&apos; adjective (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Přídavné jméno `ku&apos; (starobylé)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>`shiku&apos; adjective (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Přídavné jméno `shiku&apos; (starobylé)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>archaic/formal form of na-adjective</source>
-        <translation type="unfinished"/>
+        <translation>Starobylý/formální tvar přídavného jména na</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>proper noun</source>
-        <translation type="unfinished"/>
+        <translation>Vlastní podstatné jméno</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>verb unspecified</source>
-        <translation type="unfinished"/>
+        <translation>Nespecifikované sloveso</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Yodan verb with `ku&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Sloveso yodan s koncovkou &apos;ku&apos; (starobylá)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Yodan verb with `gu&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Sloveso yodan s koncovkou &apos;gu&apos; (starobylá)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Yodan verb with `su&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Sloveso yodan s koncovkou &apos;su&apos; (starobylá)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Yodan verb with `tsu&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Sloveso yodan s koncovkou &apos;tsu&apos; (starobylá)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Yodan verb with `nu&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Sloveso yodan s koncovkou &apos;nu&apos; (starobylá)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Yodan verb with `bu&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Sloveso yodan s koncovkou &apos;bu&apos; (starobylá)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Yodan verb with `mu&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Sloveso yodan s koncovkou &apos;mu&apos; (starobylá)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Nidan verb (upper class) with `ku&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Sloveso nidan (vyšší třída) s koncovkou &apos;ku&apos; (starobylá)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Nidan verb (upper class) with `gu&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Sloveso nidan (vyšší třída) s koncovkou &apos;gu&apos; (starobylá)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Nidan verb (upper class) with `tsu&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Sloveso nidan (vyšší třída) s koncovkou &apos;tsu&apos; (starobylá)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Nidan verb (upper class) with `dzu&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Sloveso nidan (vyšší třída) s koncovkou &apos;dzu&apos; (starobylá)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Nidan verb (upper class) with `hu/fu&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Sloveso nidan (vyšší třída) s koncovkou &apos;hu/fu&apos; (starobylá)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Nidan verb (upper class) with `bu&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Sloveso nidan (vyšší třída) s koncovkou &apos;bu&apos; (starobylá)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Nidan verb (upper class) with `mu&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Sloveso nidan (vyšší třída) s koncovkou &apos;mu&apos; (starobylá)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Nidan verb (upper class) with `yu&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Sloveso nidan (vyšší třída) s koncovkou &apos;yu&apos; (starobylá)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Nidan verb (upper class) with `ru&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Sloveso nidan (vyšší třída) s koncovkou &apos;ru&apos; (starobylá)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Nidan verb (lower class) with `ku&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Sloveso nidan (nižší třída) s koncovkou &apos;ku&apos; (starobylá)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Nidan verb (lower class) with `gu&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Sloveso nidan (nižší třída) s koncovkou &apos;gu&apos; (starobylá)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Nidan verb (lower class) with `su&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Sloveso nidan (nižší třída) s koncovkou &apos;su&apos; (starobylá)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Nidan verb (lower class) with `zu&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Sloveso nidan (nižší třída) s koncovkou &apos;zu&apos; (starobylá)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Nidan verb (lower class) with `tsu&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Sloveso nidan (nižší třída) s koncovkou &apos;tsu&apos; (starobylá)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Nidan verb (lower class) with `dzu&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Sloveso nidan (nižší třída) s koncovkou &apos;dzu&apos; (starobylá)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Nidan verb (lower class) with `nu&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Sloveso nidan (nižší třída) s koncovkou &apos;nu&apos; (starobylá)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Nidan verb (lower class) with `hu/fu&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Sloveso nidan (nižší třída) s koncovkou &apos;hu/fu&apos; (starobylá)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Nidan verb (lower class) with `bu&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Sloveso nidan (nižší třída) s koncovkou &apos;bu&apos; (starobylá)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Nidan verb (lower class) with `mu&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Sloveso nidan (nižší třída) s koncovkou &apos;mu&apos; (starobylá)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Nidan verb (lower class) with `yu&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Sloveso nidan (nižší třída) s koncovkou &apos;yu&apos; (starobylá)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Nidan verb (lower class) with `ru&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Sloveso nidan (nižší třída) s koncovkou &apos;ru&apos; (starobylá)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Nidan verb (lower class) with `u&apos; ending and `we&apos; conjugation (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Sloveso nidan (nižší třída) s koncovkou &apos;u&apos; a časováním `we&apos; (starobylá)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>architecture term</source>
-        <translation type="unfinished"/>
+        <translation>Odborný pojem z oblasti architektury</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>anatomical term</source>
-        <translation type="unfinished"/>
+        <translation>Odborný pojem z oblasti anatomie</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>astronomy, etc. term</source>
-        <translation type="unfinished"/>
+        <translation>Odborný pojem z oblasti astronomie</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>baseball term</source>
-        <translation type="unfinished"/>
+        <translation>Odborný pojem z oblasti basebalu</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>biology term</source>
-        <translation type="unfinished"/>
+        <translation>Odborný pojem z oblasti biologie</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>botany term</source>
-        <translation type="unfinished"/>
+        <translation>Odborný pojem z oblasti rostlinopisu</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>business term</source>
-        <translation type="unfinished"/>
+        <translation>Odborný pojem z oblasti obchodu</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>economics term</source>
-        <translation type="unfinished"/>
+        <translation>Odborný pojem z oblasti hospodářství</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>engineering term</source>
-        <translation type="unfinished"/>
+        <translation>Odborný pojem z oblasti inženýrství</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>finance term</source>
-        <translation type="unfinished"/>
+        <translation>Odborný pojem z oblasti peněžnictví</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>geology, etc. term</source>
-        <translation type="unfinished"/>
+        <translation>Odborný pojem z oblasti geologie</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>law, etc. term</source>
-        <translation type="unfinished"/>
+        <translation>Odborný pojem z oblasti právnictví</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>medicine, etc. term</source>
-        <translation type="unfinished"/>
+        <translation>Odborný pojem z oblasti lékařství</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>music term</source>
-        <translation type="unfinished"/>
+        <translation>Odborný pojem z oblasti hudby</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Shinto term</source>
-        <translation type="unfinished"/>
+        <translation>Odborný pojem z oblasti šintoizmu</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>sports term</source>
-        <translation type="unfinished"/>
+        <translation>Odborný pojem z oblasti sportu</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>sumo term</source>
-        <translation type="unfinished"/>
+        <translation>Odborný pojem z oblasti suma</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>zoology term</source>
-        <translation type="unfinished"/>
+        <translation>Odborný pojem z oblasti živočichopisu</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>jocular, humorous term</source>
-        <translation type="unfinished"/>
+        <translation>Humorné, vtipné slovo</translation>
     </message>
     <message>
         <location line="-132"/>
@@ -3084,12 +3084,12 @@ Některé z nich možná zůstaly.</translation>
     <message>
         <location line="+20"/>
         <source>Focus results list</source>
-        <translation type="unfinished"/>
+        <translation>Zaměřit seznam výsledků</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Ctrl+O</source>
-        <translation type="unfinished"/>
+        <translation>Ctrl+O</translation>
     </message>
     <message>
         <location line="-112"/>
