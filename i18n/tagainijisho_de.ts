@@ -500,7 +500,7 @@
     <message>
         <location line="+2"/>
         <source>Last trained on %1.</source>
-        <translation> Zuletzt trainiert am %1.</translation>
+        <translation> Zuletzt geübt am %1.</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -1004,7 +1004,7 @@ Manche der Einträge könnten noch vorhanden sein.</translation>
     <message>
         <location filename="../src/gui/jmdict/JMdictFilterWidget.cc" line="+42"/>
         <source>Using studied kanji only</source>
-        <translation>Nur mit einstudierten Kanji</translation>
+        <translation>nur mit einstudierten Kanji</translation>
     </message>
     <message>
         <location line="-2"/>
@@ -1019,7 +1019,7 @@ Manche der Einträge könnten noch vorhanden sein.</translation>
     <message>
         <location line="+2"/>
         <source>Include kana-only words</source>
-        <translation>Berücksichtige Wörter nur mit Kana</translation>
+        <translation>schließe Wörter nur aus Kana mit ein</translation>
     </message>
     <message>
         <location line="+13"/>
@@ -1107,7 +1107,7 @@ Manche der Einträge könnten noch vorhanden sein.</translation>
     <message>
         <location filename="../src/gui/jmdict/JMdictGUIPlugin.cc" line="+61"/>
         <source>Vocabulary flashcards</source>
-        <translation>Lernkartei für Vokabeln</translation>
+        <translation>Vokabel-Karteikarten</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -1117,7 +1117,7 @@ Manche der Einträge könnten noch vorhanden sein.</translation>
     <message>
         <location line="+1"/>
         <source>From &amp;japanese, current set</source>
-        <translation>Aus dem &amp;Japanischen, aktuelle Menge</translation>
+        <translation>Aus dem &amp;Japanischen, aktuelle Auswahl</translation>
     </message>
     <message>
         <location line="+4"/>
@@ -1127,19 +1127,19 @@ Manche der Einträge könnten noch vorhanden sein.</translation>
     <message>
         <location line="+1"/>
         <source>From &amp;translation, current set</source>
-        <translation>Aus der Ü&amp;bersetzung, aktuelle Menge</translation>
+        <translation>Aus der Ü&amp;bersetzung, aktuelle Auswahl</translation>
     </message>
     <message>
         <location line="+125"/>
         <location line="+20"/>
         <source>Nothing to train</source>
-        <translation>Nichts zu trainieren</translation>
+        <translation>Nichts zu üben</translation>
     </message>
     <message>
         <location line="-20"/>
         <location line="+20"/>
         <source>There are no vocabulary entries in this set to train on.</source>
-        <translation>Es gibt keine Vokabeleinträge in dieser Menge zum Trainieren.</translation>
+        <translation>Es gibt keine Vokabeleinträge in dieser Auswahl zum Üben.</translation>
     </message>
 </context>
 <context>
@@ -1147,17 +1147,17 @@ Manche der Einträge könnten noch vorhanden sein.</translation>
     <message>
         <location filename="../3rdparty/JMdictDescs.cc" line="+1"/>
         <source>martial arts term</source>
-        <translation>Kampfkunst-Fachausdruck</translation>
+        <translation>Kampfkunst-Begriff</translation>
     </message>
     <message>
         <location line="+46"/>
         <source>military</source>
-        <translation>Militär</translation>
+        <translation>Militär-Begriff</translation>
     </message>
     <message>
         <location line="-16"/>
         <source>food term</source>
-        <translation>Essen-Fachausdruck</translation>
+        <translation>Lebensmittel-Begriff</translation>
     </message>
     <message>
         <location line="-9"/>
@@ -1167,7 +1167,7 @@ Manche der Einträge könnten noch vorhanden sein.</translation>
     <message>
         <location line="-4"/>
         <source>Buddhist term</source>
-        <translation>Buddhistischer Fachausdruck</translation>
+        <translation>Buddhismus-Begriff</translation>
     </message>
     <message>
         <location line="+24"/>
@@ -1177,12 +1177,12 @@ Manche der Einträge könnten noch vorhanden sein.</translation>
     <message>
         <location line="-10"/>
         <source>geometry term</source>
-        <translation>Geometrie-Fachausdruck</translation>
+        <translation>Geometrie-Begriff</translation>
     </message>
     <message>
         <location line="-13"/>
         <source>chemistry term</source>
-        <translation>Chemischer Fachausdruck</translation>
+        <translation>Chemie-Begriff</translation>
     </message>
     <message>
         <location line="+47"/>
@@ -1192,7 +1192,7 @@ Manche der Einträge könnten noch vorhanden sein.</translation>
     <message>
         <location line="-20"/>
         <source>mathematics</source>
-        <translation>Mathematik</translation>
+        <translation>Mathematik-Begriff</translation>
     </message>
     <message>
         <location line="+64"/>
@@ -1252,22 +1252,22 @@ Manche der Einträge könnten noch vorhanden sein.</translation>
     <message>
         <location line="+19"/>
         <source>polite (teineigo) language</source>
-        <translation>höfliche (teineigo) Sprache</translation>
+        <translation>Teineigo: höfliche Ausdrücke</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Yodan verb with `hu/fu&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Yodan-Verb mit ‚hu/fu‘-Endung (altes Jap.)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Yodan verb with `ru&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Yodan-Verb mit ‚ru‘-Endung (altes Jap.)</translation>
     </message>
     <message>
         <location line="+22"/>
         <source>su verb - precursor to the modern suru</source>
-        <translation>su-Verb – Vorläufer zu dem modernen suru</translation>
+        <translation>‚su‘-Verb – Vorläufer des modernen ‚suru‘</translation>
     </message>
     <message>
         <location line="+13"/>
@@ -1287,7 +1287,7 @@ Manche der Einträge könnten noch vorhanden sein.</translation>
     <message>
         <location line="-3"/>
         <source>honorific or respectful (sonkeigo) language</source>
-        <translation>ehrende oder respektvolle (sonkeigo) Sprache</translation>
+        <translation>Sonkeigo: ehrerbietige Ausdrücke</translation>
     </message>
     <message>
         <location line="-4"/>
@@ -1302,7 +1302,7 @@ Manche der Einträge könnten noch vorhanden sein.</translation>
     <message>
         <location line="+4"/>
         <source>ateji (phonetic) reading</source>
-        <translation>ateji (phonetische) Lesung</translation>
+        <translation>Ateji-Lesung (Kanji nach Aussprache)</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -1362,7 +1362,7 @@ Manche der Einträge könnten noch vorhanden sein.</translation>
     <message>
         <location line="+1"/>
         <source>old or irregular kana form</source>
-        <translation type="unfinished"/>
+        <translation>alte oder unregelmäßige Form</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -1392,277 +1392,277 @@ Manche der Einträge könnten noch vorhanden sein.</translation>
     <message>
         <location line="+46"/>
         <source>`kari&apos; adjective (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>‚kari‘-Adjektiv (altes Jap.)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>`ku&apos; adjective (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>‚ku‘-Adjektiv (altes Jap.)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>`shiku&apos; adjective (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>‚shiku‘-Adjektiv (altes Jap.)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>archaic/formal form of na-adjective</source>
-        <translation type="unfinished"/>
+        <translation>alte/formelle Form des Nominaladjektivs</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>proper noun</source>
-        <translation type="unfinished"/>
+        <translation>Eigenname</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>verb unspecified</source>
-        <translation type="unfinished"/>
+        <translation>unspezifiziertes Verb</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Yodan verb with `ku&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Yodan-Verb mit ‚ku‘-Endung (altes Jap.)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Yodan verb with `gu&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Yodan-Verb mit ‚gu‘-Endung (altes Jap.)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Yodan verb with `su&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Yodan-Verb mit ‚su‘-Endung (altes Jap.)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Yodan verb with `tsu&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Yodan-Verb mit ‚tsu‘-Endung (altes Jap.)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Yodan verb with `nu&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Yodan-Verb mit ‚nu‘-Endung (altes Jap.)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Yodan verb with `bu&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Yodan-Verb mit ‚bu‘-Endung (altes Jap.)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Yodan verb with `mu&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Yodan-Verb mit ‚mu‘-Endung (altes Jap.)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Nidan verb (upper class) with `ku&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Nidan-Verb (obere Stufe) mit ‚ku‘-Endung (altes Jap.)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Nidan verb (upper class) with `gu&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Nidan-Verb (obere Stufe) mit ‚gu‘-Endung (altes Jap.)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Nidan verb (upper class) with `tsu&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Nidan-Verb (obere Stufe) mit ‚tsu‘-Endung (altes Jap.)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Nidan verb (upper class) with `dzu&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Nidan-Verb (obere Stufe) mit ‚dzu‘-Endung (altes Jap.)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Nidan verb (upper class) with `hu/fu&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Nidan-Verb (obere Stufe) mit ‚hu/fu‘-Endung (altes Jap.)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Nidan verb (upper class) with `bu&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Nidan-Verb (obere Stufe) mit ‚bu‘-Endung (altes Jap.)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Nidan verb (upper class) with `mu&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Nidan-Verb (obere Stufe) mit ‚mu‘-Endung (altes Jap.)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Nidan verb (upper class) with `yu&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Nidan-Verb (obere Stufe) mit ‚yu‘-Endung (altes Jap.)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Nidan verb (upper class) with `ru&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Nidan-Verb (obere Stufe) mit ‚ru‘-Endung (altes Jap.)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Nidan verb (lower class) with `ku&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Nidan-Verb (untere Stufe) mit ‚ku‘-Endung (altes Jap.)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Nidan verb (lower class) with `gu&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Nidan-Verb (untere Stufe) mit ‚gu‘-Endung (altes Jap.)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Nidan verb (lower class) with `su&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Nidan-Verb (untere Stufe) mit ‚su‘-Endung (altes Jap.)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Nidan verb (lower class) with `zu&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Nidan-Verb (untere Stufe) mit ‚zu‘-Endung (altes Jap.)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Nidan verb (lower class) with `tsu&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Nidan-Verb (untere Stufe) mit ‚tsu‘-Endung (altes Jap.)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Nidan verb (lower class) with `dzu&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Nidan-Verb (untere Stufe) mit ‚dzu‘-Endung (altes Jap.)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Nidan verb (lower class) with `nu&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Nidan-Verb (untere Stufe) mit ‚nu‘-Endung (altes Jap.)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Nidan verb (lower class) with `hu/fu&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Nidan-Verb (untere Stufe) mit ‚hu/fu‘-Endung (altes Jap.)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Nidan verb (lower class) with `bu&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Nidan-Verb (untere Stufe) mit ‚bu‘-Endung (altes Jap.)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Nidan verb (lower class) with `mu&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Nidan-Verb (untere Stufe) mit ‚mu‘-Endung (altes Jap.)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Nidan verb (lower class) with `yu&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Nidan-Verb (untere Stufe) mit ‚yu‘-Endung (altes Jap.)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Nidan verb (lower class) with `ru&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Nidan-Verb (untere Stufe) mit ‚ru‘-Endung (altes Jap.)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Nidan verb (lower class) with `u&apos; ending and `we&apos; conjugation (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Nidan-Verb (untere Stufe) mit ‚wu‘-Endung und ‚we‘-Konjugation (altes Jap.)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>architecture term</source>
-        <translation type="unfinished"/>
+        <translation>Architektur-Begriff</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>anatomical term</source>
-        <translation type="unfinished"/>
+        <translation>anatomischer Begriff</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>astronomy, etc. term</source>
-        <translation type="unfinished"/>
+        <translation>Astronomie-Begriff (u.ä.)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>baseball term</source>
-        <translation type="unfinished"/>
+        <translation>Baseball-Begriff</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>biology term</source>
-        <translation type="unfinished"/>
+        <translation>Biologie-Begriff</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>botany term</source>
-        <translation type="unfinished"/>
+        <translation>Botanik-Begriff</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>business term</source>
-        <translation type="unfinished"/>
+        <translation>Geschäftsbegriff</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>economics term</source>
-        <translation type="unfinished"/>
+        <translation>Wirtschaftsbegriff</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>engineering term</source>
-        <translation type="unfinished"/>
+        <translation>Ingenieursbegriff</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>finance term</source>
-        <translation type="unfinished"/>
+        <translation>Finanzbegriff</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>geology, etc. term</source>
-        <translation type="unfinished"/>
+        <translation>Geologie-Begriff</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>law, etc. term</source>
-        <translation type="unfinished"/>
+        <translation>Rechtsbegriff (u.ä.)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>medicine, etc. term</source>
-        <translation type="unfinished"/>
+        <translation>Medizin-Begriff (u.ä.)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>music term</source>
-        <translation type="unfinished"/>
+        <translation>Musikbegriff</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Shinto term</source>
-        <translation type="unfinished"/>
+        <translation>Shintoismus-Begriff</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>sports term</source>
-        <translation type="unfinished"/>
+        <translation>Sportbegriff</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>sumo term</source>
-        <translation type="unfinished"/>
+        <translation>Sumo-Begriff</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>zoology term</source>
-        <translation type="unfinished"/>
+        <translation>Zoologie-Begriff</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>jocular, humorous term</source>
-        <translation type="unfinished"/>
+        <translation>scherzhafter, spaßiger Begriff</translation>
     </message>
     <message>
         <location line="-132"/>
         <source>humble (kenjougo) language</source>
-        <translation>bescheidene (kenjougo) Sprache</translation>
+        <translation>Kenjougo: bescheidene Ausdrücke</translation>
     </message>
     <message>
         <location line="-32"/>
@@ -1672,7 +1672,7 @@ Manche der Einträge könnten noch vorhanden sein.</translation>
     <message>
         <location line="+26"/>
         <source>familiar language</source>
-        <translation>Vetrauliche Sprache</translation>
+        <translation>Vertrauliche Sprache</translation>
     </message>
     <message>
         <location line="-27"/>
@@ -1717,7 +1717,7 @@ Manche der Einträge könnten noch vorhanden sein.</translation>
     <message>
         <location line="-43"/>
         <source>adverb taking the `to&apos; particle</source>
-        <translation>Adverb das den &apos;to&apos;-Partikel nimmt</translation>
+        <translation>Adverb, das die ‚to‘-Partikel nimmt</translation>
     </message>
     <message>
         <location line="+40"/>
@@ -1732,7 +1732,7 @@ Manche der Einträge könnten noch vorhanden sein.</translation>
     <message>
         <location line="-55"/>
         <source>`taru&apos; adjective</source>
-        <translation>&apos;taru&apos;-Adjektiv</translation>
+        <translation>‚taru‘-Adjektiv</translation>
     </message>
     <message>
         <location line="+25"/>
@@ -1757,7 +1757,7 @@ Manche der Einträge könnten noch vorhanden sein.</translation>
     <message>
         <location line="+14"/>
         <source>Godan verb - Uru old class verb (old form of Eru)</source>
-        <translation>Godan-Verb – alte Uru-Klasse (alte Form von Eru)</translation>
+        <translation>Godan-Verb mit ‚Uru‘-Form (alte Form von ‚Eru‘)</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -1767,12 +1767,12 @@ Manche der Einträge könnten noch vorhanden sein.</translation>
     <message>
         <location line="+1"/>
         <source>Kuru verb - special class</source>
-        <translation>Kuru-Verb – Spezialklasse</translation>
+        <translation>‚kuru‘-Verb – Spezialklasse</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>irregular nu verb</source>
-        <translation>unregelmäßiges nu-Verb</translation>
+        <translation>unregelmäßiges ‚nu‘-Verb</translation>
     </message>
     <message>
         <location line="-30"/>
@@ -1782,12 +1782,12 @@ Manche der Einträge könnten noch vorhanden sein.</translation>
     <message>
         <location line="+31"/>
         <source>irregular ru verb, plain form ends with -ri</source>
-        <translation>unregelmäßiges ru-Verb, Grundform endet mit -ri</translation>
+        <translation>unregelmäßiges ‚ru‘-Verb, Grundform endet mit ‚ri‘</translation>
     </message>
     <message>
         <location line="-87"/>
         <source>noun or verb acting prenominally</source>
-        <translation>Nomen oder pränominales wirkendes Verb</translation>
+        <translation>Nomen oder pränominal wirkendes Verb</translation>
     </message>
     <message>
         <location line="+103"/>
@@ -1812,7 +1812,7 @@ Manche der Einträge könnten noch vorhanden sein.</translation>
     <message>
         <location line="+88"/>
         <source>Ichidan verb - zuru verb (alternative form of -jiru verbs)</source>
-        <translation>Ichidan-Verb – zuru-Verb (alternative Form von -jiru-Verben)</translation>
+        <translation>Ichidan-Verb – ‚zuru‘-Verb (alternative Form von ‚-jiru‘-Verben)</translation>
     </message>
     <message>
         <location line="-81"/>
@@ -1827,47 +1827,47 @@ Manche der Einträge könnten noch vorhanden sein.</translation>
     <message>
         <location line="+9"/>
         <source>Godan verb with `bu&apos; ending</source>
-        <translation>Godan-Verb mit &apos;bu&apos;-Endung</translation>
+        <translation>Godan-Verb mit ‚bu‘-Endung</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Godan verb with `nu&apos; ending</source>
-        <translation>Godan-Verb mit &apos;nu&apos;-Endung</translation>
+        <translation>Godan-Verb mit ‚nu‘-Endung</translation>
     </message>
     <message>
         <location line="-6"/>
         <source>Godan verb - -aru special class</source>
-        <translation>Godan-Verb – -aru-Spezialklasse</translation>
+        <translation>Godan-Verb – ‚-aru‘-Spezialklasse</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Godan verb with `mu&apos; ending</source>
-        <translation>Godan-Verb mit &apos;mu&apos;-Endung</translation>
+        <translation>Godan-Verb mit ‚mu‘-Endung</translation>
     </message>
     <message>
         <location line="-2"/>
         <source>Godan verb with `ku&apos; ending</source>
-        <translation>Godan-Verb mit &apos;ku&apos;-Endung</translation>
+        <translation>Godan-Verb mit ‚ku‘-Endung</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Godan verb with `tsu&apos; ending</source>
-        <translation>Godan-Verb mit &apos;tsu&apos;-Endung</translation>
+        <translation>Godan-Verb mit ‚tsu‘-Endung</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Godan verb with `u&apos; ending</source>
-        <translation>Godan-Verb mit &apos;u&apos;-Endung</translation>
+        <translation>Godan-Verb mit ‚u‘-Endung</translation>
     </message>
     <message>
         <location line="-4"/>
         <source>Godan verb with `ru&apos; ending</source>
-        <translation>Godan-Verb mit &apos;ru&apos;-Endung</translation>
+        <translation>Godan-Verb mit ‚ru‘-Endung</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Godan verb with `su&apos; ending</source>
-        <translation>Godan-Verb mit &apos;su&apos;-Endung</translation>
+        <translation>Godan-Verb mit ‚su‘-Endung</translation>
     </message>
     <message>
         <location line="-72"/>
@@ -1882,27 +1882,27 @@ Manche der Einträge könnten noch vorhanden sein.</translation>
     <message>
         <location line="-11"/>
         <source>adjectival nouns or quasi-adjectives (keiyodoshi)</source>
-        <translation>adjektivisches Nomen oder Quasi-Adjektiv (keiyj­odoshi)</translation>
+        <translation>Nominaladjektiv oder ‚na‘-Adjektiv (keiy­odoshi)</translation>
     </message>
     <message>
         <location line="+77"/>
         <source>Godan verb - Iku/Yuku special class</source>
-        <translation>Godan-Verb – Iku/Yuku-Spezialklasse</translation>
+        <translation>Godan-Verb – ‚iku/yuku‘-Spezialklasse</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Godan verb with `u&apos; ending (special class)</source>
-        <translation>Godan-Verb mit &apos;u&apos;-Endung (Spezialklasse)</translation>
+        <translation>Godan-Verb mit ‚u‘-Endung (Spezialklasse)</translation>
     </message>
     <message>
         <location line="-10"/>
         <source>Godan verb with `gu&apos; ending</source>
-        <translation>Godan-Verb mit &apos;gu&apos;-Endung</translation>
+        <translation>Godan-Verb mit ‚gu‘-Endung</translation>
     </message>
     <message>
         <location line="-74"/>
         <source>nouns which may take the genitive case particle `no&apos;</source>
-        <translation>Nomen das den Genitivfall-Partikel &apos;no&apos; nehmen kann</translation>
+        <translation>Nomen das die Genitivfall-Partikel ‚no‘ nehmen kann</translation>
     </message>
     <message>
         <location line="+67"/>
@@ -1942,7 +1942,7 @@ Manche der Einträge könnten noch vorhanden sein.</translation>
     <message>
         <location line="+25"/>
         <source>suru verb - special class</source>
-        <translation>suru-Verb – Spezialklasse</translation>
+        <translation>‚suru‘-Verb – Spezialklasse</translation>
     </message>
     <message>
         <location line="-51"/>
@@ -1952,7 +1952,7 @@ Manche der Einträge könnten noch vorhanden sein.</translation>
     <message>
         <location line="+49"/>
         <source>noun or participle which takes the aux. verb suru</source>
-        <translation>Nomen oder Partizip welches das Hilfsverb suru nimmt</translation>
+        <translation>Nomen oder Partizip welches das Hilfsverb ‚suru‘ nimmt</translation>
     </message>
     <message>
         <location line="-69"/>
@@ -1962,7 +1962,7 @@ Manche der Einträge könnten noch vorhanden sein.</translation>
     <message>
         <location line="+72"/>
         <source>suru verb - irregular</source>
-        <translation>suru-verb – unregelmäßig</translation>
+        <translation>‚suru‘-verb – unregelmäßig</translation>
     </message>
     <message>
         <location line="-51"/>
@@ -2508,7 +2508,7 @@ Manche der Einträge könnten noch vorhanden sein.</translation>
     <message>
         <location line="+19"/>
         <source>Four corner</source>
-        <translation>Vierecken</translation>
+        <translation>Vier Ecken</translation>
     </message>
     <message>
         <location line="+26"/>
@@ -2639,7 +2639,7 @@ Manche der Einträge könnten noch vorhanden sein.</translation>
     <message>
         <location line="+33"/>
         <source>Character flashcards</source>
-        <translation>Lernkartei für Schriftzeichen</translation>
+        <translation>Schriftzeichen-Karteikarten</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -2649,7 +2649,7 @@ Manche der Einträge könnten noch vorhanden sein.</translation>
     <message>
         <location line="+1"/>
         <source>From &amp;character, current set</source>
-        <translation>Aus den &amp;Schriftzeichen, aktuelle Menge</translation>
+        <translation>Aus den &amp;Schriftzeichen, aktuelle Auswahl</translation>
     </message>
     <message>
         <location line="+4"/>
@@ -2659,12 +2659,12 @@ Manche der Einträge könnten noch vorhanden sein.</translation>
     <message>
         <location line="+1"/>
         <source>From &amp;meaning, current set</source>
-        <translation>Aus der &amp;Bedeutung, aktuelle Menge</translation>
+        <translation>Aus der &amp;Bedeutung, aktuelle Auswahl</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>&amp;Reading practice, whole study list</source>
-        <translation>&amp;Lesungsübung, gesamte Studienliste</translation>
+        <translation>&amp;Leseübung, gesamte Studienliste</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -2690,13 +2690,13 @@ Manche der Einträge könnten noch vorhanden sein.</translation>
         <location line="+94"/>
         <location line="+18"/>
         <source>Nothing to train</source>
-        <translation>Nichts zu trainieren</translation>
+        <translation>Nichts zu üben</translation>
     </message>
     <message>
         <location line="-18"/>
         <location line="+18"/>
         <source>There are no kanji entries in this set to train on.</source>
-        <translation>Es gibt keine Kanjieinträge in dieser Menge zum Trainieren.</translation>
+        <translation>Es gibt keine Kanji-Einträge in dieser Auswahl zum Üben.</translation>
     </message>
     <message>
         <location line="+186"/>
@@ -2792,7 +2792,7 @@ Manche der Einträge könnten noch vorhanden sein.</translation>
         <location line="+28"/>
         <location line="+450"/>
         <source>Four corner code</source>
-        <translation>Viereckenindex</translation>
+        <translation>Vier-Ecken-Index</translation>
     </message>
     <message>
         <location line="-443"/>
@@ -2819,12 +2819,12 @@ Manche der Einträge könnten noch vorhanden sein.</translation>
         <location line="+14"/>
         <location line="+25"/>
         <source>Studied only</source>
-        <translation>Nur einstudierte</translation>
+        <translation>nur einstudierte</translation>
     </message>
     <message>
         <location line="-14"/>
         <source>Words using the kanji:</source>
-        <translation>Wörter mit dem Kanji:</translation>
+        <translation>Wörter aus diesem Kanji:</translation>
     </message>
     <message>
         <location line="+40"/>
@@ -2936,7 +2936,7 @@ Manche der Einträge könnten noch vorhanden sein.</translation>
     <message>
         <location line="+32"/>
         <source>Kana selector</source>
-        <translation>Kanaauswahl</translation>
+        <translation>Kana-Auswahl</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -3084,12 +3084,12 @@ Manche der Einträge könnten noch vorhanden sein.</translation>
     <message>
         <location line="+20"/>
         <source>Focus results list</source>
-        <translation type="unfinished"/>
+        <translation>Ergebnisliste fokussieren</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Ctrl+O</source>
-        <translation type="unfinished"/>
+        <translation>Strg+O</translation>
     </message>
     <message>
         <location line="-112"/>
@@ -3099,12 +3099,12 @@ Manche der Einträge könnten noch vorhanden sein.</translation>
     <message>
         <location line="+53"/>
         <source>&amp;Report a bug...</source>
-        <translation>&amp;Einen Bug melden...</translation>
+        <translation>&amp;Einen Programmfehler melden...</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>&amp;Suggest a feature...</source>
-        <translation>Ein Feature &amp;vorschlagen...</translation>
+        <translation>Weitere Funktionen &amp;vorschlagen...</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -3114,7 +3114,7 @@ Manche der Einträge könnten noch vorhanden sein.</translation>
     <message>
         <location line="+9"/>
         <source>Support Tagaini Jisho - Make a &amp;donation!</source>
-        <translation>Unterstützen Sie Tagaini Jisho – Machen Sie eine &amp;Spende!</translation>
+        <translation>Unterstützen Sie Tagaini Jisho – Spenden Sie!</translation>
     </message>
     <message>
         <location line="+21"/>
@@ -3161,7 +3161,7 @@ Manche der Einträge könnten noch vorhanden sein.</translation>
     <message>
         <location line="+5"/>
         <source>Whole study list train &amp;settings...</source>
-        <translation>&amp;Trainingseinstellungen der gesamten Studienliste...</translation>
+        <translation>&amp;Übungseinstellungen der gesamten Studienliste...</translation>
     </message>
     <message>
         <location filename="../src/gui/MainWindow.cc" line="-51"/>
@@ -3171,7 +3171,7 @@ Manche der Einträge könnten noch vorhanden sein.</translation>
     <message>
         <location line="+23"/>
         <source>Please consider supporting Tagaini Jisho</source>
-        <translation>Bitte erwägen sie, Tagaini Jisho zu unterstützen</translation>
+        <translation>Bitte erwägen Sie, Tagaini Jisho zu unterstützen</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -3200,7 +3200,7 @@ Diese Nachricht wird ist eine einmalige Erinnerung und wird nicht wieder angezei
     <message>
         <location line="+0"/>
         <source>&lt;b&gt;WARNING:&lt;/b&gt; All the user data (study list, tags, notes, training, ...) is going to be replaced by the selected user data file. Are you &lt;b&gt;sure&lt;/b&gt; you want to do this?</source>
-        <translation>&lt;b&gt;WARNUNG:&lt;/b&gt; Alle Benutzerdaten (Studienliste, Tags, Notizen, Training, ...) werden durch die ausgewählte Benutzerdatendatei ersetzt. Sind Sie sich &lt;b&gt;sicher&lt;/b&gt;, dass Sie dies wollen?</translation>
+        <translation>&lt;b&gt;WARNUNG:&lt;/b&gt; Alle Benutzerdaten (Studienliste, Tags, Notizen, Übungen, ...) werden durch die ausgewählte Benutzerdatendatei ersetzt. Sind Sie sich &lt;b&gt;sicher&lt;/b&gt;, dass Sie dies wollen?</translation>
     </message>
     <message>
         <location line="+7"/>
@@ -3210,7 +3210,7 @@ Diese Nachricht wird ist eine einmalige Erinnerung und wird nicht wieder angezei
     <message>
         <location line="+0"/>
         <source>The imported data will be available the next time you start Tagaini Jisho. All changes performed from now will be lost. Do you want to exit Tagaini Jisho now?</source>
-        <translation>Die importierten Daten werden verfügbar sein wenn Sie das nächste Mal Tagaini Jisho starten. Alle Veränderungen von jetzt an werden verloren sein. Möchten Sie Tagaini Jisho jetzt beenden?</translation>
+        <translation>Die importierten Daten werden verfügbar sein, wenn Sie das nächste Mal Tagaini Jisho starten. Alle Änderungen von jetzt an bis zum nächsten Programmstart gehen verloren. Möchten Sie Tagaini Jisho jetzt beenden?</translation>
     </message>
     <message>
         <location line="+111"/>
@@ -3287,7 +3287,7 @@ Diese Nachricht wird ist eine einmalige Erinnerung und wird nicht wieder angezei
     <message>
         <location filename="../src/gui/MainWindow.ui" line="+69"/>
         <source>Ctrl+L</source>
-        <translation>Ctrl+L</translation>
+        <translation>Strg+L</translation>
     </message>
 </context>
 <context>
@@ -3296,13 +3296,13 @@ Diese Nachricht wird ist eine einmalige Erinnerung und wird nicht wieder angezei
         <location filename="../src/gui/MultiStackedWidget.cc" line="+118"/>
         <source>Ctrl+%1</source>
         <extracomment>Shortcut for popping up/down an extender</extracomment>
-        <translation>Ctrl+%1</translation>
+        <translation>Strg+%1</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Ctrl+0</source>
         <extracomment>Shortcut for hiding all extenders</extracomment>
-        <translation>Ctrl+0</translation>
+        <translation>Strg+0</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -3378,12 +3378,12 @@ Diese Nachricht wird ist eine einmalige Erinnerung und wird nicht wieder angezei
     <message>
         <location line="+18"/>
         <source>Preparing training session</source>
-        <translation>Bereite Trainingssitzung vor</translation>
+        <translation>Bereite Übungssitzung vor</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Preparing training session, please wait...</source>
-        <translation>Bereite Trainingssitzung vor, bitte warten...</translation>
+        <translation>Bereite Übungssitzung vor, bitte warten...</translation>
     </message>
     <message>
         <location line="+57"/>
@@ -3398,12 +3398,12 @@ Diese Nachricht wird ist eine einmalige Erinnerung und wird nicht wieder angezei
     <message>
         <location line="+1"/>
         <source>There are no more entries to train for the current train settings.</source>
-        <translation>Es gibt keine weiteren Einträge für die aktuellen Trainingseinstellungen.</translation>
+        <translation>Es gibt keine weiteren Einträge zu den aktuellen Übungseinstellungen.</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>No more entries to train</source>
-        <translation>Keine weiteren Einträge zu trainieren</translation>
+        <translation>Keine weiteren Einträge zu üben</translation>
     </message>
     <message>
         <location line="+18"/>
@@ -3706,7 +3706,7 @@ Diese Nachricht wird ist eine einmalige Erinnerung und wird nicht wieder angezei
     <message>
         <location line="+16"/>
         <source>All words using this kanji</source>
-        <translation>Alle Wörter mit diesem Kanji</translation>
+        <translation>Alle Wörter aus diesem Kanji</translation>
     </message>
     <message>
         <location line="+0"/>
@@ -3763,7 +3763,7 @@ Diese Nachricht wird ist eine einmalige Erinnerung und wird nicht wieder angezei
     <message>
         <location line="-45"/>
         <source>Last trained</source>
-        <translation>Zuletzt trainiert</translation>
+        <translation>Zuletzt geübt</translation>
     </message>
     <message>
         <location line="+30"/>
@@ -3812,12 +3812,12 @@ Diese Nachricht wird ist eine einmalige Erinnerung und wird nicht wieder angezei
     <message>
         <location line="+94"/>
         <source>, trained since %1</source>
-        <translation>, trainiert seit %1</translation>
+        <translation>, geübt seit %1</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>, trained until %1</source>
-        <translation>, trainiert bis %1</translation>
+        <translation>, geübt bis %1</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -3949,12 +3949,12 @@ Diese Nachricht wird ist eine einmalige Erinnerung und wird nicht wieder angezei
     <message>
         <location filename="../src/gui/TrainSettings.ui" line="+14"/>
         <source>Train settings</source>
-        <translation>Trainingseinstellungen</translation>
+        <translation>Übungseinstellungen</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Date of last training</source>
-        <translation>Datum des letzten Trainings</translation>
+        <translation>Datum der letzten Übung</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -4033,12 +4033,12 @@ Diese Nachricht wird ist eine einmalige Erinnerung und wird nicht wieder angezei
     <message>
         <location line="+108"/>
         <source>No entries to train</source>
-        <translation>Keine Einträge zu trainieren</translation>
+        <translation>Keine Einträge zu üben</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>There are no entries to train as of now. Please add entries to your study list or check the train settings.</source>
-        <translation>Es sind zur Zeit keine Einträge zum Üben vorhanden. Bitte fügen Sie weitere Vokabeln zu ihrer Studienliste hinzu oder ändern Sie die Übungseinstellungen.</translation>
+        <translation>Es sind zur Zeit keine Einträge zum Üben vorhanden. Bitte fügen Sie weitere Vokabeln zu Ihrer Studienliste hinzu oder ändern Sie die Übungseinstellungen.</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -4048,7 +4048,7 @@ Diese Nachricht wird ist eine einmalige Erinnerung und wird nicht wieder angezei
     <message>
         <location line="+0"/>
         <source>No more entries to train</source>
-        <translation>Keine weiteren Einträge zu trainieren</translation>
+        <translation>Keine weiteren Einträge zu üben</translation>
     </message>
     <message>
         <location line="-47"/>
