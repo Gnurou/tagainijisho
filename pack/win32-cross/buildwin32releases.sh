@@ -17,7 +17,7 @@ do
 done
 
 cd $BUILDDIR
-cmake -DCMAKE_BUILD_TYPE=Release $SRCDIR
+cmake -DCMAKE_BUILD_TYPE=Release -DEMBED_SQLITE=1 $SRCDIR
 make i18n databases docs -j5
 rm -Rf CMakeCache.txt CMakeFiles
 cmake -DCMAKE_TOOLCHAIN_FILE=$TOOLCHAIN -DCMAKE_BUILD_TYPE=Release -DEMBED_SQLITE=1 $SRCDIR
