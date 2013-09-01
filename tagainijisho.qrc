@@ -1,7 +1,6 @@
 <RCC>
     <qresource prefix="/">
         <file alias="images/tagainijisho.png">images/tagainijisho-128x128.png</file>
-        <file>images/flags/ar.png</file>
         <file>images/flags/cs.png</file>
         <file>images/flags/de.png</file>
         <file>images/flags/en.png</file>
