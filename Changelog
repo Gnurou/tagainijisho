@@ -1,4 +1,7 @@
-1.0 release on 2013/09/01
+1.0.0 release on 2013/09/01
+* Update to SQLite 3.7.17
+* Update JMdict, kanjidic2 and KanjiVG
+* New Arabic and Finnish translations
 * Many minor fixes, development now concentrates on Tagaini 2.0
 
 0.9.4 released on 2012/05/11
