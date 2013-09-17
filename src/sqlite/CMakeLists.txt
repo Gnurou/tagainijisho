@@ -12,6 +12,11 @@ option(SHARED_SQLITE_LIBRARY "Build the SQLite library as a shared library (load
 # Embed SQLite even if the system version looks good?
 option(EMBED_SQLITE "Embed SQLite even if a system version is present and valid" OFF)
 
+# Force embedded version on Apple
+if (APPLE)
+	set (EMBED_SQLITE "ON")  
+endif(APPLE)
+
 # Look for system SQLite
 find_path(SQLITE_INCLUDE_DIR sqlite3.h)
 find_library(SQLITE_LIBRARY
@@ -59,6 +64,8 @@ if(EMBED_SQLITE AND NOT EXISTS ${CMAKE_SOURCE_DIR}/3rdparty/sqlite/sqlite3.c)
 	file(RENAME ${CMAKE_SOURCE_DIR}/3rdparty/sqlite-amalgamation-${SQLITE_DOWNLOAD_VERSION}/sqlite3ext.h ${CMAKE_SOURCE_DIR}/3rdparty/sqlite/sqlite3ext.h)
 	file(REMOVE ${CMAKE_SOURCE_DIR}/3rdparty/sqlite-amalgamation-${SQLITE_DOWNLOAD_VERSION}.zip)
 	file(REMOVE_RECURSE ${CMAKE_SOURCE_DIR}/3rdparty/sqlite-amalgamation-${SQLITE_DOWNLOAD_VERSION})
+elseif(EMBED_SQLITE)
+	message(STATUS "Embedding SQLite ${SQLITE_DOWNLOAD_VERSION}")
 endif()
 
 set(tagainijisho_sqlite_SRCS
