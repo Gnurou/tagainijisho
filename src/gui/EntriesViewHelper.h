@@ -71,6 +71,8 @@ public slots:
 	void updateConfig(const QVariant &value);
 
 protected slots:
+	void copyWriting();
+	void copyReading();
 	void studySelected();
 	void unstudySelected();
 	void markAsKnown();

@@ -35,6 +35,8 @@
 #include <QContextMenuEvent>
 #include <QLayout>
 #include <QToolButton>
+#include <QApplication>
+#include <QClipboard>
 
 EntriesViewHelper::EntriesViewHelper(QAbstractItemView* client, EntryDelegateLayout* delegateLayout, bool workOnSelection, bool viewOnly) : EntryMenu(client), _client(client), _entriesMenu(), _workOnSelection(workOnSelection), _actionPrint(QIcon(":/images/icons/print.png"), tr("&Print..."), 0), _actionPrintPreview(QIcon(":/images/icons/print.png"), tr("Print p&review..."), 0), _actionPrintBooklet(QIcon(":/images/icons/print.png"), tr("Print &booklet..."), 0), _actionPrintBookletPreview(QIcon(":/images/icons/print.png"), tr("Booklet pre&view..."), 0), _actionExportTab(QIcon(":/images/icons/document-export.png"), tr("Export as &TSV..."), 0), _actionExportJs(QIcon(":/images/icons/document-export.png"), tr("Export as &HTML..."), 0), prefRefs(MAX_PREF), _contextMenu()
 {
@@ -46,6 +48,8 @@ EntriesViewHelper::EntriesViewHelper(QAbstractItemView* client, EntryDelegateLay
 	connect(delegateLayout, SIGNAL(layoutHasChanged()), this, SLOT(updateLayout()));
 	_delegateLayout = delegateLayout;
 
+	connect(&copyWritingAction, SIGNAL(triggered()), this, SLOT(copyWriting()));
+	connect(&copyReadingAction, SIGNAL(triggered()), this, SLOT(copyReading()));
 	connect(&addToStudyAction, SIGNAL(triggered()), this, SLOT(studySelected()));
 	connect(&removeFromStudyAction, SIGNAL(triggered()), this, SLOT(unstudySelected()));
 	connect(&alreadyKnownAction, SIGNAL(triggered()), this, SLOT(markAsKnown()));
@@ -128,6 +132,42 @@ struct StudyHandler : BatchHandler
 		e->addToTraining();
 	}
 };
+
+struct CopyWritingHandler : BatchHandler
+{
+	void apply(const EntryPointer &e) const
+	{
+		const QStringList& writings(e->writings());
+
+		if (writings.isEmpty())
+			return;
+
+		QApplication::clipboard()->setText(writings[0]);
+	}
+};
+
+struct CopyReadingHandler : BatchHandler
+{
+	void apply(const EntryPointer &e) const
+	{
+		const QStringList& readings(e->readings());
+
+		if (readings.isEmpty())
+			return;
+
+		QApplication::clipboard()->setText(readings[0]);
+	}
+};
+
+void EntriesViewHelper::copyWriting()
+{
+	applyOnSelection(CopyWritingHandler());
+}
+
+void EntriesViewHelper::copyReading()
+{
+	applyOnSelection(CopyReadingHandler());
+}
 
 void EntriesViewHelper::studySelected()
 {
