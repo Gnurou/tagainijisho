@@ -33,7 +33,8 @@ EntrySearcher::EntrySearcher(EntryType entryType) :commandMatch(SearchCommand::c
 	QueryBuilder::Join::addTablePriority("notesText", -45);
 	QueryBuilder::Join::addTablePriority("taggedEntries", -50);
 	QueryBuilder::Join::addTablePriority("tags", -55);
-	validCommands << "study" << "nostudy" << "note" << "lasttrained" << "mistaken" << "tag" << "score";
+	QueryBuilder::Join::addTablePriority("tags", -55);
+	validCommands << "study" << "nostudy" << "note" << "lasttrained" << "mistaken" << "tag" << "untagged" << "score";
 }
 
 EntrySearcher::~EntrySearcher()
@@ -103,6 +104,10 @@ void EntrySearcher::buildStatement(QList<SearchCommand> &commands, QueryBuilder:
 				if (arg != "*") tagSearch << "\"" + arg + "\"";
 				else if (!allTagsHandled) { statement.addWhere(QString("taggedEntries.date not null")); allTagsHandled = true; }
 			statement.setFirstTable("taggedEntries");
+		}
+		else if (command.command() == "untagged") {
+			statement.addJoin(QueryBuilder::Join(QueryBuilder::Column("taggedEntries", "id"), QString("taggedEntries.type = %1").arg(entryType()), QueryBuilder::Join::Left));
+			statement.addWhere(QString("taggedEntries.date is null"));
 		}
 		else if (command.command() == "lasttrained") {
 			if (command.args().size() > 2) continue;

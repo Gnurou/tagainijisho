@@ -22,15 +22,18 @@
 #include "gui/TagsDialogs.h"
 
 #include <QPushButton>
+#include <QCheckBox>
 
 class TagsFilterWidget : public SearchFilterWidget {
 	Q_OBJECT
 private:
 	TagsLineInput *lineInput;
 	QPushButton *tagsButton;
+	QCheckBox *untaggedBox;
 
 private slots:
 	void populateTagsMenu();
+	void untaggedBoxToggled(bool status);
 
 protected:
 	virtual void _reset();
@@ -44,6 +47,9 @@ public:
 	QString tags() const { return lineInput->text(); }
 	void setTags(const QString &tags);
 	Q_PROPERTY(QString tags READ tags WRITE setTags)
+	bool untagged() const { return untaggedBox->isChecked(); }
+	void setUntagged(bool untagged);
+	Q_PROPERTY(bool untagged READ untagged WRITE setUntagged)
 
 public slots:
 	void tagMenuClicked(QAction *action);

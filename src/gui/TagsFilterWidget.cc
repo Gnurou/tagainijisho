@@ -24,7 +24,7 @@
 
 TagsFilterWidget::TagsFilterWidget(QWidget *parent) : SearchFilterWidget(parent)
 {
-	_propsToSave << "tags";
+	_propsToSave << "tags" << "untagged";
 
 	lineInput = new TagsLineInput(this);
 	connect(lineInput, SIGNAL(allValidTags()), this, SLOT(commandUpdate()));
@@ -34,12 +34,16 @@ TagsFilterWidget::TagsFilterWidget(QWidget *parent) : SearchFilterWidget(parent)
 	connect(menu, SIGNAL(aboutToShow()), this, SLOT(populateTagsMenu()));
 	tagsButton->setMenu(menu);
 	connect(menu, SIGNAL(triggered(QAction*)), this, SLOT(tagMenuClicked(QAction*)));
+
+	untaggedBox = new QCheckBox(tr("Untagged"), this);
+	connect(untaggedBox, SIGNAL(toggled(bool)), this, SLOT(untaggedBoxToggled(bool)));
 	
 	QHBoxLayout *hLayout = new QHBoxLayout(this);
 	hLayout->setContentsMargins(0, 0, 0, 0);
 	hLayout->setSpacing(5);
 	hLayout->addWidget(lineInput);
 	hLayout->addWidget(tagsButton);
+	hLayout->addWidget(untaggedBox);
 
 	setFocusProxy(lineInput);
 }
@@ -85,8 +89,16 @@ void TagsFilterWidget::setTags(const QString &tags)
 	lineInput->setText(rTags);
 }
 
+void TagsFilterWidget::setUntagged(bool untagged)
+{
+	untaggedBox->setChecked(untagged);
+}
+
 QString TagsFilterWidget::currentTitle() const
 {
+	if (untaggedBox->isChecked())
+		return tr("Untagged");
+
 	QStringList tags(lineInput->text().split(QRegExp("[ ,\\.]"), QString::SkipEmptyParts));
 	if (tags.isEmpty()) return tr("Tags");
 	else return tr("Tagged %1").arg(tags.join(","));
@@ -94,6 +106,9 @@ QString TagsFilterWidget::currentTitle() const
 
 QString TagsFilterWidget::currentCommand() const
 {
+	if (untaggedBox->isChecked())
+		return QString(":untagged");
+
 	QStringList tags(lineInput->text().split(QRegExp("[ ,\\.]"), QString::SkipEmptyParts));
 	if (tags.isEmpty()) return "";
 	return QString(":tag%1%2").arg(tags.isEmpty() ? "" : "=").arg(tags.join(","));
@@ -102,4 +117,13 @@ QString TagsFilterWidget::currentCommand() const
 void TagsFilterWidget::_reset()
 {
 	lineInput->clear();
+	untaggedBox->setChecked(false);
+}
+
+void TagsFilterWidget::untaggedBoxToggled(bool status)
+{
+	lineInput->setEnabled(!status);
+	tagsButton->setEnabled(!status);
+
+	commandUpdate();
 }
