@@ -7,7 +7,7 @@ VERSION=`grep "set(VERSION " $SRCDIR/CMakeLists.txt |sed "s/set(VERSION \(.*\))/
 TOOLCHAIN=$BASEDIR/Toolchain-win32.cmake
 QTPATH=`grep "^set(QT_ROOT" $TOOLCHAIN |sed "s/set(QT_ROOT \(.*\))/\1/"`
 NSIFILE=$BASEDIR/tagainijisho.nsi
-MINGWDLLPATH=${MINGWDLLPATH-/usr/i486-mingw32/bin}
+MINGWDLLPATH=${MINGWDLLPATH-/usr/i686-w64-mingw32/bin}
 
 mkdir -p $BUILDDIR/i18n
 for lang in `ls $SRCDIR/i18n/*.ts |cut -d'_' -f2 |cut -d'.' -f1`;
