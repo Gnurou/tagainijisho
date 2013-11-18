@@ -5,13 +5,14 @@ SRCDIR=`readlink -f $BASEDIR/../..`
 BUILDDIR=$BASEDIR/build-win32
 VERSION=`grep "set(VERSION " $SRCDIR/CMakeLists.txt |sed "s/set(VERSION \(.*\))/\1/"`
 QTPATH=/usr/i686-w64-mingw32
+QTTRANS=/home/gnurou/.wine/drive_c/Qt/latest
 NSIFILE=$BASEDIR/tagainijisho.nsi
 
 mkdir -p $BUILDDIR/i18n
 for lang in `ls $SRCDIR/i18n/*.ts |cut -d'_' -f2 |cut -d'.' -f1`;
 do
 	touch $BUILDDIR/i18n/qt_$lang.qm
-	#lrelease $QTPATH/translations/qt_$lang.ts -qm $BUILDDIR/i18n/qt_$lang.qm
+	lrelease $QTTRANS/translations/qt_$lang.ts -qm $BUILDDIR/i18n/qt_$lang.qm
 done
 
 cd $BUILDDIR
