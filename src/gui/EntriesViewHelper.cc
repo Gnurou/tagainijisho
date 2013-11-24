@@ -423,7 +423,7 @@ static QString escapeQuotes(const QString &str)
 
 void EntriesViewHelper::jsExport()
 {
-	QString exportFile = QFileDialog::getSaveFileName(0, tr("Export to HTML flashcard file..."), "flashcard.html", tr("HTML files (*.html)"));
+	QString exportFile = QFileDialog::getSaveFileName(0, tr("Export to HTML flashcard file..."), "flashcard.html");
 	if (exportFile.isEmpty()) return;
 	QFile outFile(exportFile);
 	if (!outFile.open(QIODevice::WriteOnly)) {
