@@ -15,12 +15,17 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <QApplication>
+#include <QClipboard>
+
 #include "gui/TagsDialogs.h"
 #include "gui/SingleEntryView.h"
 #include "gui/EditEntryNotesDialog.h"
 
 SingleEntryView::SingleEntryView(QObject *parent) : EntryMenu(parent), _entry(0)
 {
+	connect(&copyWritingAction, SIGNAL(triggered()), this, SLOT(copyWriting()));
+	connect(&copyReadingAction, SIGNAL(triggered()), this, SLOT(copyReading()));
 	connect(&addToStudyAction, SIGNAL(triggered()), this, SLOT(addToStudy()));
 	connect(&removeFromStudyAction, SIGNAL(triggered()), this, SLOT(removeFromStudy()));
 	connect(&alreadyKnownAction, SIGNAL(triggered()), this, SLOT(alreadyKnown()));
@@ -39,6 +44,28 @@ void SingleEntryView::setEntry(const EntryPointer &entry)
 	_entry = entry;
 	updateStatus(_entry);
 	emit entrySet(entry.data());
+}
+
+void SingleEntryView::copyWriting()
+{
+
+	const QStringList& writings(entry()->writings());
+
+	qDebug() << writings.size();
+	if (writings.isEmpty())
+		return;
+
+	QApplication::clipboard()->setText(writings[0]);
+}
+
+void SingleEntryView::copyReading()
+{
+	const QStringList& readings(entry()->readings());
+
+	if (readings.isEmpty())
+		return;
+
+	QApplication::clipboard()->setText(readings[0]);
 }
 
 void SingleEntryView::addToStudy()

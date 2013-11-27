@@ -35,6 +35,8 @@ private:
 	EntryPointer _entry;
 
 protected slots:
+	virtual void copyWriting();
+	virtual void copyReading();
 	virtual void addToStudy();
 	virtual void removeFromStudy();
 	virtual void alreadyKnown();
