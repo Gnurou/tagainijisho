@@ -174,7 +174,7 @@ bool RelativeDateEdit::eventFilter(QObject *obj, QEvent *event)
 
 void RelativeDateEdit::wheelEvent(QWheelEvent *event)
 {
-	if (!event->orientation() == Qt::Vertical) return;
+	if (event->orientation() != Qt::Vertical) return;
 	static int wheelDelta = 0;
 	wheelDelta += event->delta();
 	int steps = wheelDelta / 120;
