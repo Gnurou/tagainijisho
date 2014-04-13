@@ -51,7 +51,6 @@ void SingleEntryView::copyWriting()
 
 	const QStringList& writings(entry()->writings());
 
-	qDebug() << writings.size();
 	if (writings.isEmpty())
 		return;
 
