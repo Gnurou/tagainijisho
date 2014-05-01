@@ -10,10 +10,14 @@ endif(APPLE)
 set(tagaini_binary ${CMAKE_PROJECT_NAME})
 
 set(VERSION 1.0.1)
+set(QTVERSION 5.2)
 
 cmake_minimum_required(VERSION 2.8.0)
 
-find_package(Qt4 4.5 REQUIRED)
+find_package(Qt5Core ${QTVERSION} REQUIRED)
+find_package(Qt5Widgets ${QTVERSION} REQUIRED)
+find_package(Qt5PrintSupport ${QTVERSION} REQUIRED)
+find_package(Qt5Network ${QTVERSION} REQUIRED)
 # FIXME only required when CMake downloads dictionary files. Not necessary for building from source package.
 find_program(GUNZIP NAMES gunzip REQUIRED)
 
@@ -21,6 +25,9 @@ find_program(GUNZIP NAMES gunzip REQUIRED)
 if(CMAKE_COMPILER_IS_GNUCC)
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wnon-virtual-dtor -Wno-unused-parameter -fno-exceptions -fno-rtti")
 endif(CMAKE_COMPILER_IS_GNUCC)
+
+# CMake-required compiler flags
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${Qt5Widgets_EXECUTABLE_COMPILE_FLAGS}")
 
 # Add the default database lookup data path for Linux if not defined
 if(UNIX AND NOT APPLE AND NOT DATA_DIR)

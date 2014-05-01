@@ -23,6 +23,7 @@
 #include "gui/BatchHandler.h"
 
 #include <QMenu>
+#include <QPrinter>
 
 /**
  * Provides a set of functions commonly used by views on entry lists.

@@ -1,5 +1,5 @@
 set(QT_DONT_USE_QTGUI TRUE)
-include(${QT_USE_FILE})
+#include(${QT_USE_FILE})
 
 set(SQLITE_MIN_VERSION "3007004")
 set(SQLITE_BLACKLIST "3007007;3007008;3008000")
@@ -88,12 +88,12 @@ else()
 	include_directories(${SQLITE_INCLUDE_DIR})
 endif()
 
-include_directories(${QT_INCLUDE_DIR})
+include_directories(${Qt5Core_INCLUDE_DIRS})
 add_definitions(-DSQLITE_ENABLE_FTS3 -DSQLITE_ENABLE_FTS3_PARENTHESIS -DSQLITE_ENABLE_LOCKING_STYLE=0 -DSQLITE_OMIT_DEPRECATED)
 
 if(SHARED_SQLITE_LIBRARY)
 	add_library(tagaini_sqlite SHARED ${tagainijisho_sqlite_SRCS} ${tagainijisho_sqlite_MOC_SRCS})
-	target_link_libraries(tagaini_sqlite ${QT_LIBRARIES} ${extra_link_flags})
+	target_link_libraries(tagaini_sqlite ${Qt5Core_LIBRARIES} ${extra_link_flags})
 	install(TARGETS tagaini_sqlite BUNDLE DESTINATION . COMPONENT Runtime LIBRARY DESTINATION lib COMPONENT Runtime)
 else()
 	add_library(tagaini_sqlite STATIC ${tagainijisho_sqlite_SRCS} ${tagainijisho_sqlite_MOC_SRCS})

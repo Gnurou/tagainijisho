@@ -138,11 +138,11 @@ bool Kanjidic2DBParser::onItemParsed(Kanjidic2Item &kanji)
 	
 	// Four corner
 	if (!kanji.fourCorner.isEmpty()) {
-		quint8 topLeft(kanji.fourCorner[0].toAscii() - '0');
-		quint8 topRight(kanji.fourCorner[1].toAscii() - '0');
-		quint8 botLeft(kanji.fourCorner[2].toAscii() - '0');
-		quint8 botRight(kanji.fourCorner[3].toAscii() - '0');
-		quint8 extra(kanji.fourCorner[5].toAscii() - '0');
+		quint8 topLeft(kanji.fourCorner[0].toLatin1() - '0');
+		quint8 topRight(kanji.fourCorner[1].toLatin1() - '0');
+		quint8 botLeft(kanji.fourCorner[2].toLatin1() - '0');
+		quint8 botRight(kanji.fourCorner[3].toLatin1() - '0');
+		quint8 extra(kanji.fourCorner[5].toLatin1() - '0');
 		
 		BIND(insertFourCornerQuery, kanji.id);
 		BIND(insertFourCornerQuery, topLeft);
@@ -230,7 +230,7 @@ bool KanjiVGDBParser::onItemParsed(KanjiVGItem &kanji)
 	foreach (const KanjiVGStrokeItem &stroke, kanji.strokes) {
 		paths << stroke.path;
 	}
-	QByteArray compressedPaths(paths.join("|").toAscii());
+	QByteArray compressedPaths(paths.join("|").toLatin1());
 	if (!paths.isEmpty()) {
 		BIND(updatePathsString, paths.size());
 		BIND(updatePathsString, qCompress(compressedPaths, 9));

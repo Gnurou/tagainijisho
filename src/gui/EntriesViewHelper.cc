@@ -109,7 +109,7 @@ QList<EntryPointer> EntriesViewHelper::selectedEntries() const
 			break;
 		}
 		progressDialog.setValue(i++);
-		EntryPointer entry(qVariantValue<EntryPointer>(index.data(Entry::EntryRole)));
+		EntryPointer entry(index.data(Entry::EntryRole).value<EntryPointer>());
 		if (entry) selectedEntries << entry;
 	}
 	if (!completed) return QList<EntryPointer>();
@@ -249,7 +249,7 @@ void EntriesViewHelper::addNote()
 {
 	QModelIndexList selection = client()->selectionModel()->selectedIndexes();
 	if (selection.size() != 1) return;
-	EntryPointer entry = qVariantValue<EntryPointer >(selection[0].data(Entry::EntryRole));
+	EntryPointer entry(selection[0].data(Entry::EntryRole).value<EntryPointer>());
 	if (!entry) return;
 	EditEntryNotesDialog dialog(*entry, client());
 	if (dialog.exec() != QDialog::Accepted) return;
@@ -319,7 +319,7 @@ QModelIndexList EntriesViewHelper::getAllIndexes(const QModelIndexList& indexes,
 		ret << idx;
 		alreadyIn << idx;
 		// Entries can be put directly into the return list
-		ConstEntryPointer entry(qVariantValue<EntryPointer>(idx.data(Entry::EntryRole)));
+		ConstEntryPointer entry(idx.data(Entry::EntryRole).value<EntryPointer>());
 		if (!entry) {
 			// Non entries indexes must be list - see if they have children
 			QModelIndexList childs;
@@ -389,7 +389,7 @@ void EntriesViewHelper::tabExport()
 	// Dummy entry to notify Anki that tab is our delimiter
 	//outFile.write("\t\t\n");
 	foreach (const QModelIndex &idx, entries) {
-		ConstEntryPointer entry = qVariantValue<EntryPointer>(idx.data(Entry::EntryRole));
+		ConstEntryPointer entry(idx.data(Entry::EntryRole).value<EntryPointer>());
 		// We cannot "export" lists due to the file purpose
 		if (!entry) continue;
 		QStringList writings = entry->writings();
@@ -435,7 +435,7 @@ void EntriesViewHelper::jsExport()
 	QList<ConstEntryPointer> realEntries;
 
 	foreach (const QModelIndex &idx, entries) {
-		ConstEntryPointer entry = qVariantValue<EntryPointer>(idx.data(Entry::EntryRole));
+		ConstEntryPointer entry(idx.data(Entry::EntryRole).value<EntryPointer>());
 		// We cannot "export" lists due to the file purpose
 		if (!entry) continue;
 		realEntries << entry;

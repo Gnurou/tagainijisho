@@ -19,6 +19,8 @@
 
 #include <QVBoxLayout>
 #include <QApplication>
+#include <QDrag>
+#include <QMimeData>
 
 EntryDragButton::EntryDragButton(const SingleEntryView *view, QWidget *parent) : QToolButton(parent), _view(view)
 {

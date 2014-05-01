@@ -6,7 +6,7 @@ set(sqlite_tests_SRCS
 SQLiteTests.cc
 )
 
-qt4_wrap_cpp(sqlite_tests_MOC_SRCS
+qt5_wrap_cpp(sqlite_tests_MOC_SRCS
 SQLiteTests.h
 )
 

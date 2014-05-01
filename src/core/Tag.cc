@@ -20,6 +20,8 @@
 #include "core/Tag.h"
 #include "core/Entry.h"
 
+#include <QtDebug>
+
 Tag Tag::_invalid(0, "");
 TagsListModel Tag::knownTags;
 

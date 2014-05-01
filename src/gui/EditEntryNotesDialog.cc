@@ -135,7 +135,7 @@ void EditEntryNotesDialog::displayNote(const QItemSelection &selected, const QIt
 	deleteButton->setEnabled(false);
 	if (selected.indexes().size() != 1) return;
 
-	currentNote = qVariantValue<Entry::Note *>(selected.indexes()[0].data(EntryNotesModel::NoteRole));
+	currentNote = selected.indexes()[0].data(EntryNotesModel::NoteRole).value<Entry::Note *>();
 	deleteButton->setEnabled(true);
 	textEdit->setEnabled(true);
 	textEdit->setPlainText(currentNote->note());

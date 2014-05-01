@@ -22,6 +22,7 @@
 #include "gui/UpdateChecker.h"
 
 #include <QUrl>
+#include <QNetworkRequest>
 
 #if defined(Q_WS_X11)
 #define PLATFORM "Unix/X11"
@@ -31,14 +32,16 @@
 #define PLATFORM "Mac"
 #elif defined(Q_WS_QWS)
 #define PLATFORM "Unix/Embedded"
+#else
+#define PLATFORM "Unknown"
 #endif
 
 UpdateChecker::UpdateChecker(const QString &versionURL, QObject *parent) : QObject(parent), _buffer(0), _versionURL(versionURL)
 {
-	_http = new QHttp("www.tagaini.net", 80, this);
+	_http = new QNetworkAccessManager(this);
 
-	connect(_http, SIGNAL(requestFinished(int, bool)),
-			this, SLOT(requestFinished(int, bool)));
+	connect(_http, SIGNAL(finished(QNetworkReply *)),
+		this, SLOT(finished(QNetworkReply *)));
 }
 
 UpdateChecker::~UpdateChecker()
@@ -47,17 +50,22 @@ UpdateChecker::~UpdateChecker()
 
 void UpdateChecker::checkForUpdates(bool beta)
 {
+	QNetworkRequest request(QUrl("http://www.tagaini.net" + _versionURL));
+	request.setHeader(QNetworkRequest::UserAgentHeader, QString("Tagaini Jisho %1 (%2)").arg(VERSION).arg(PLATFORM));
+	_http->get(request);
+
+#warning TODO Complete this class
+	/*
 	QHttpRequestHeader request("GET", _versionURL);
 	request.setValue("Host", "www.tagaini.net");
 	request.setValue("User-Agent", QString("Tagaini Jisho %1 (%2)").arg(VERSION).arg(PLATFORM));
 	if (_buffer) delete _buffer;
 	_buffer = new QBuffer(this);
-	_http->request(request, 0, _buffer);
+	_http->request(request, 0, _buffer);*/
 }
 
-void UpdateChecker::requestFinished(int id, bool error)
+void UpdateChecker::finished(QNetworkReply *reply)
 {
-	if (error) return;
 	QString buffer(QString(_buffer->data()).trimmed());
 	// If the first character is not a digit, this means we got another page
 	if (!buffer[0].isDigit()) return;

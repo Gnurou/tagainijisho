@@ -29,6 +29,7 @@
 #include <QFontMetrics>
 #include <QPixmap>
 #include <QScrollBar>
+#include <QDrag>
 
 PreferenceItem<bool> ResultsView::smoothScrollingSetting("mainWindow/resultsView", "smoothScrolling", true);
 PreferenceItem<QString> ResultsView::textFontSetting("mainWindow/resultsView", "textFont", "");

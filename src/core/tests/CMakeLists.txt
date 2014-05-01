@@ -6,7 +6,7 @@ set(lists_tests_SRCS
 ListsTests.cc
 )
 
-qt4_wrap_cpp(lists_tests_MOC_SRCS
+qt5_wrap_cpp(lists_tests_MOC_SRCS
 ListsTests.h
 )
 
@@ -14,7 +14,7 @@ set(orderedtree_tests_SRCS
 OrderedRBTreeTests.cc
 )
 
-qt4_wrap_cpp(orderedtree_tests_MOC_SRCS
+qt5_wrap_cpp(orderedtree_tests_MOC_SRCS
 OrderedRBTreeTests.h
 )
 
@@ -22,7 +22,7 @@ set(orderedtreedb_tests_SRCS
 OrderedRBTreeDBTests.cc
 )
 
-qt4_wrap_cpp(orderedtreedb_tests_MOC_SRCS
+qt5_wrap_cpp(orderedtreedb_tests_MOC_SRCS
 OrderedRBTreeDBTests.h
 )
 include_directories(${QT_INCLUDE_DIR})

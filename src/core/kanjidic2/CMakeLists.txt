@@ -37,11 +37,10 @@ set(tagainijisho_core_kanjidic2_MOCS
 Kanjidic2Entry.h
 )
 
-qt4_wrap_cpp(tagainijisho_core_kanjidic2_MOC_SRCS ${tagainijisho_core_kanjidic2_MOCS})
+qt5_wrap_cpp(tagainijisho_core_kanjidic2_MOC_SRCS ${tagainijisho_core_kanjidic2_MOCS})
 add_library(tagaini_core_kanjidic2 STATIC ${tagainijisho_core_kanjidic2_MOC_SRCS} ${tagainijisho_core_kanjidic2_SRCS})
 
 # Database builder
-set(QT_USE_QTXML TRUE)
 set(build_kanji_db_SRCS
 Kanjidic2Parser.cc
 KanjiVGParser.cc
@@ -49,9 +48,9 @@ BuildKanjiDB.cc
 ../XmlParserHelper.cc
 )
 
-include(${QT_USE_FILE})
+#include(${QT_USE_FILE})
 add_executable(build_kanji_db EXCLUDE_FROM_ALL ${build_kanji_db_SRCS})
-target_link_libraries(build_kanji_db tagaini_sqlite ${QT_LIBRARIES})
+target_link_libraries(build_kanji_db tagaini_sqlite ${Qt5Core_LIBRARIES})
 
 # Database target. Always build the english DB, other languages are optional.
 set(ALL_LANGS "en")

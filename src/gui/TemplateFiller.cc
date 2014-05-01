@@ -40,7 +40,7 @@ QString TemplateFiller::fill(const QString &tmpl, const EntryFormatter *formatte
 		// Try to invoke the format method
 		QMetaObject::invokeMethod(const_cast<EntryFormatter *>(formatter), QString("format" + meth).toLatin1().constData(), Qt::DirectConnection, Q_RETURN_ARG(QString, repl), Q_ARG(ConstEntryPointer, entry));
 		// Process options
-		foreach (const QString &option, options) switch (option[0].toAscii()) {
+		foreach (const QString &option, options) switch (option[0].toLatin1()) {
 			// If the result if empty, remove the block which tag is given
 			case 'R':
 			{

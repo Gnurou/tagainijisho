@@ -42,7 +42,7 @@
 
 #include <QApplication>
 #include <QSettings>
-#include <QDesktopServices>
+#include <QStandardPaths>
 #include <QTranslator>
 #include <QLocale>
 #include <QMessageBox>
@@ -88,12 +88,13 @@ void messageHandler(QtMsgType type, const char *msg)
 #define CONFIG_VERSION 6
 PreferenceItem<int> configVersion("", "configVersion", 0);
 
+/*
 void migrateOldData()
 {
 	QCoreApplication::setApplicationName("tagainijisho");
-	QString oldDataDir(QDesktopServices::storageLocation(QDesktopServices::DataLocation));
+	QString oldDataDir(QStandardPaths::standardLocations(QStandardPaths::DataLocation));
 	QCoreApplication::setApplicationName(__APPLICATION_NAME);
-	QString newDataDir(QDesktopServices::storageLocation(QDesktopServices::DataLocation));
+	QString newDataDir(QStandardPaths::standardLocations(QStandardPaths::DataLocation));
 	// If the old DB directory exists, this means we have an old installation there and must
 	// rename it
 	if (QDir(oldDataDir).exists()) {
@@ -110,6 +111,7 @@ void migrateOldData()
 		exit(0);
 	}
 }
+*/
 
 void checkConfigurationVersion()
 {
@@ -162,7 +164,8 @@ void checkUserProfileDirectory()
 {
 	// Set the user profile location
 	// This is done here because this function requires the QtGui module
-	__userProfile = QDesktopServices::storageLocation(QDesktopServices::DataLocation);
+#warning dangerous
+	__userProfile = QStandardPaths::standardLocations(QStandardPaths::DataLocation)[0];
 	// Create the user profile directory if not existing
 	QDir profileDir(userProfile());
 	if (!profileDir.exists()) profileDir.mkpath(".");
@@ -187,9 +190,10 @@ int main(int argc, char *argv[])
 	QCoreApplication::setApplicationVersion(VERSION);
 
 	// Install the error message handler now that we have a GUI
-	qInstallMsgHandler(messageHandler);
+#warning fix this
+	//qInstallMessageHandler(messageHandler);
 
-	migrateOldData();
+	//migrateOldData();
 	checkConfigurationVersion();
 
 	checkUserProfileDirectory();

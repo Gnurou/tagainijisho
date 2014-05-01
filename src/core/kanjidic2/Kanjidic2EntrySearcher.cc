@@ -225,11 +225,11 @@ void Kanjidic2EntrySearcher::buildStatement(QList<SearchCommand> &commands, Quer
 			if (value.size() != 6 || value[4] != '.') continue;
 			
 			int topLeft, topRight, botLeft, botRight, extra;
-			topLeft = value[0].isDigit() ? value[0].toAscii() - '0' : -1;
-			topRight = value[1].isDigit() ? value[1].toAscii() - '0' : -1;
-			botLeft = value[2].isDigit() ? value[2].toAscii() - '0' : -1;
-			botRight = value[3].isDigit() ? value[3].toAscii() - '0' : -1;
-			extra = value[5].isDigit() ? value[5].toAscii() - '0' : -1;
+			topLeft = value[0].isDigit() ? value[0].toLatin1() - '0' : -1;
+			topRight = value[1].isDigit() ? value[1].toLatin1() - '0' : -1;
+			botLeft = value[2].isDigit() ? value[2].toLatin1() - '0' : -1;
+			botRight = value[3].isDigit() ? value[3].toLatin1() - '0' : -1;
+			extra = value[5].isDigit() ? value[5].toLatin1() - '0' : -1;
 			if (topLeft != -1 || topRight != -1 || botLeft != -1 || botRight != -1 || extra != -1) {
 				statement.addJoin(QueryBuilder::Join(QueryBuilder::Column("kanjidic2.fourCorner", "entry")));
 				if (topLeft != -1) statement.addWhere(QString("kanjidic2.fourCorner.topLeft = %1").arg(topLeft));

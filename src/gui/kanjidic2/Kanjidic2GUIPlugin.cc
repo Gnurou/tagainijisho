@@ -41,6 +41,9 @@
 #include <QToolTip>
 #include <QAbstractTextDocumentLayout>
 #include <QScrollBar>
+#include <QDrag>
+#include <QUrl>
+#include <QUrlQuery>
 
 const QString Kanjidic2GUIPlugin::kanjiGrades[] = {
 	QT_TRANSLATE_NOOP("Kanjidic2GUIPlugin", "Invalid"),
@@ -411,7 +414,7 @@ bool Kanjidic2GUIPlugin::eventFilter(QObject *obj, QEvent *_event)
 			if (cursor.charFormat().isAnchor()) {
 				QUrl url(cursor.charFormat().anchorHref());
 				if (url.scheme() == "entry") {
-					EntryPointer entry(EntryRef(url.queryItemValue("type").toInt(), url.queryItemValue("id").toInt()).get());
+					EntryPointer entry(EntryRef(QUrlQuery(url).queryItemValue("type").toInt(), QUrlQuery(url).queryItemValue("id").toInt()).get());
 					if (entry) tview.setEntry(entry);
 				}
 			}
@@ -472,7 +475,7 @@ KanjiLinkHandler::KanjiLinkHandler() : DetailedViewLinkHandler("drawkanji")
 
 void KanjiLinkHandler::handleUrl(const QUrl &url, DetailedView *view)
 {
-	QString kanji = url.queryItemValue("kanji");
+	QString kanji = QUrlQuery(url).queryItemValue("kanji");
 	if (kanji.isEmpty()) return;
 
 	Kanjidic2EntryPointer entry(KanjiEntryRef(TextTools::singleCharToUnicode(kanji)).get());
@@ -490,12 +493,12 @@ void KanjiAllWordsHandler::handleUrl(const QUrl &url, DetailedView *view)
 	JMdictFilterWidget *extender = qobject_cast<JMdictFilterWidget *>(mainWindow->searchWidget()->getSearchFilter("jmdictoptions"));
 	if (!entryType || !extender) return;
 
-	if (url.hasQueryItem("reset")) mainWindow->searchWidget()->searchBuilder()->reset();
+	if (QUrlQuery(url).hasQueryItem("reset")) mainWindow->searchWidget()->searchBuilder()->reset();
 	entryType->setAutoUpdateQuery(false);
 	entryType->setType(EntryTypeFilterWidget::Vocabulary);
 	entryType->setAutoUpdateQuery(true);
 	extender->setAutoUpdateQuery(false);
-	extender->setContainedKanjis(url.queryItemValue("kanji"));
+	extender->setContainedKanjis(QUrlQuery(url).queryItemValue("kanji"));
 	extender->setAutoUpdateQuery(true);
 	mainWindow->searchWidget()->searchBuilder()->runSearch();
 }
@@ -511,12 +514,12 @@ void KanjiAllComponentsOfHandler::handleUrl(const QUrl &url, DetailedView *view)
 	Kanjidic2FilterWidget *extender = qobject_cast<Kanjidic2FilterWidget *>(mainWindow->searchWidget()->getSearchFilter("kanjidicoptions"));
 	if (!entryType || !extender) return;
 
-	if (url.hasQueryItem("reset")) mainWindow->searchWidget()->searchBuilder()->reset();
+	if (QUrlQuery(url).hasQueryItem("reset")) mainWindow->searchWidget()->searchBuilder()->reset();
 	entryType->setAutoUpdateQuery(false);
 	entryType->setType(EntryTypeFilterWidget::Kanjis);
 	entryType->setAutoUpdateQuery(true);
 	extender->setAutoUpdateQuery(false);
-	extender->setComponents(url.queryItemValue("kanji"));
+	extender->setComponents(QUrlQuery(url).queryItemValue("kanji"));
 	extender->setAutoUpdateQuery(true);
 	mainWindow->searchWidget()->searchBuilder()->runSearch();
 }

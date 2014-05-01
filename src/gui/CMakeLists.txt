@@ -1,5 +1,4 @@
 set(QT_USE_QTNETWORK TRUE)
-include(${QT_USE_FILE})
 
 set(tagainijisho_gui_SRCS
 TJSpinBox.cc
@@ -109,11 +108,14 @@ MainWindow.ui
 add_subdirectory(jmdict)
 add_subdirectory(kanjidic2)
 
-qt4_wrap_cpp(tagainijisho_gui_MOC_SRCS ${tagainijisho_gui_MOCS})
-qt4_wrap_ui(tagainijisho_gui_UI_SRCS ${tagainijisho_gui_UIS})
-qt4_add_resources(tagainijisho_gui_RC ${CMAKE_SOURCE_DIR}/tagainijisho.qrc)
+qt5_wrap_cpp(tagainijisho_gui_MOC_SRCS ${tagainijisho_gui_MOCS})
+qt5_wrap_ui(tagainijisho_gui_UI_SRCS ${tagainijisho_gui_UIS})
+qt5_add_resources(tagainijisho_gui_RC ${CMAKE_SOURCE_DIR}/tagainijisho.qrc)
 
-include_directories(${QT_INCLUDE_DIR})
+include_directories(${Qt5Core_INCLUDE_DIRS})
+include_directories(${Qt5Widgets_INCLUDE_DIRS})
+include_directories(${Qt5PrintSupport_INCLUDE_DIRS})
+include_directories(${Qt5Network_INCLUDE_DIRS})
 
 add_library(tagaini_gui STATIC ${tagainijisho_gui_UI_SRCS} ${tagainijisho_gui_MOC_SRCS} ${tagainijisho_gui_SRCS})
 
@@ -136,7 +138,7 @@ if (APPLE)
 endif()
 
 add_executable(${tagaini_binary} MACOSX_BUNDLE WIN32 ${tagainijisho_SRCS})
-target_link_libraries(${tagaini_binary} tagaini_gui_jmdict tagaini_gui_kanjidic2 tagaini_gui tagaini_core_jmdict tagaini_core_kanjidic2 tagaini_core tagaini_sqlite ${QT_LIBRARIES} ${extra_link_flags})
+target_link_libraries(${tagaini_binary} tagaini_gui_jmdict tagaini_gui_kanjidic2 tagaini_gui tagaini_core_jmdict tagaini_core_kanjidic2 tagaini_core tagaini_sqlite ${Qt5Core_LIBRARIES} ${Qt5Widgets_LIBRARIES} ${Qt5PrintSupport_LIBRARIES} ${Qt5Network_LIBRARIES} ${extra_link_flags})
 install(TARGETS ${tagaini_binary} BUNDLE DESTINATION . COMPONENT Runtime RUNTIME DESTINATION bin COMPONENT Runtime)
 
 # If needed, add standard dependency to have identical build on all platforms

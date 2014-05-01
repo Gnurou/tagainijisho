@@ -21,7 +21,6 @@
 #include "sqlite/Connection.h"
 
 #include "core/Paths.h"
-#include "core/Preferences.h"
 
 #include <QString>
 #include <QVector>

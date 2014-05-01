@@ -149,8 +149,8 @@ KanaView::KanaView(QWidget *parent, bool viewOnly) : QTableView(parent), _helper
 {
 	setModel(&_model);
 
-	horizontalHeader()->setResizeMode(QHeaderView::Stretch);
-	verticalHeader()->setResizeMode(QHeaderView::Fixed);
+	horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+	verticalHeader()->setSectionResizeMode(QHeaderView::Fixed);
 	setShowGrid(false);
 
 	resizeColumnsToContents();

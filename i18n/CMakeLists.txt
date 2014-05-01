@@ -6,7 +6,7 @@ foreach(tsfile ${TSFILES})
 	endif()
 endforeach()
 
-QT4_ADD_TRANSLATION(QM_FILES ${TRANSLATIONS_FILES})
+#QT_ADD_TRANSLATION(QM_FILES ${TRANSLATIONS_FILES})
 add_custom_target (i18n ALL DEPENDS ${QM_FILES})
 
 set(UI_LANG "")

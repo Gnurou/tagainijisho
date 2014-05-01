@@ -22,6 +22,8 @@
 #include "gui/DetailedView.h"
 
 #include <QFile>
+#include <QUrl>
+#include <QUrlQuery>
 
 PreferenceItem<bool> EntryFormatter::shortDescShowJLPT("mainWindow/detailedView", "shortEntryShowJLPT", false);
 
@@ -205,7 +207,9 @@ QString EntryFormatter::formatLists(const ConstEntryPointer &entry) const
 			QString label(listModel.data(idx.parent(), Qt::DisplayRole).toString());
 			if (label.isEmpty()) label = tr("Root list");
 			QUrl url("list://");
-			url.addQueryItem("rowid", QString("%1").arg(rowid));
+			QUrlQuery query;
+			query.addQueryItem("rowid", QString("%1").arg(rowid));
+			url.setQuery(query);
 			ret << QString("<a href=\"%1\">%2</a>").arg(QString(url.toEncoded())).arg(autoFormat(label));
 		}
 		return ret.join(" ");
@@ -222,7 +226,9 @@ QString EntryFormatter::formatTags(const ConstEntryPointer &entry) const
 			if (!first) ret += "   ";
 			else first = false;
 			QUrl url("tag://");
-			url.addQueryItem("tag", tag.name());
+			QUrlQuery query;
+			query.addQueryItem("tag", tag.name());
+			url.setQuery(query);
 			ret += QString("<a href=\"%1\">%2</a>").arg(QString(url.toEncoded())).arg(autoFormat(tag.name()));
 		}
 		return ret;

@@ -5,7 +5,7 @@ set(gui_tests_SRCS
 TemplateFillerTests.cc
 )
 
-qt4_wrap_cpp(gui_tests_MOC_SRCS
+qt5_wrap_cpp(gui_tests_MOC_SRCS
 TemplateFillerTests.h
 )
 

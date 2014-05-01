@@ -2,7 +2,11 @@
 # QColor, QFont, QPalette, QBrush are used by
 # Entry, EntrylistModel, and ResultsList.
 #set(QT_DONT_USE_QTGUI TRUE)
-include(${QT_USE_FILE})
+#include(${QT_USE_FILE})
+
+include_directories(${Qt5Core_INCLUDE_DIRS})
+# TODO remove this - dependency on QColor
+include_directories(${Qt5Widgets_INCLUDE_DIRS})
 
 set(tagainijisho_core_SRCS
 TextTools.cc
@@ -41,9 +45,9 @@ Preferences.h
 Tag.h
 )
 
-qt4_wrap_cpp(tagainijisho_core_MOC_SRCS ${tagainijisho_core_MOCS})
+qt5_wrap_cpp(tagainijisho_core_MOC_SRCS ${tagainijisho_core_MOCS})
 
-include_directories(${QT_INCLUDE_DIR})
+#include_directories(${QT_INCLUDE_DIR})
 # TODO remove once the SQLite stuff is entirely moved into the sqlite module
 include_directories(${CMAKE_SOURCE_DIR}/3rdparty/sqlite)
 
