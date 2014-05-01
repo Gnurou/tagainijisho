@@ -1,4 +1,5 @@
 # kanjidic2 and KanjiVG core
+find_program(SED NAMES sed REQUIRED)
 set(QT_DONT_USE_QTGUI TRUE)
 
 set(KANJIDIC2_SOURCE http://www.csse.monash.edu.au/~jwb/kanjidic2/kanjidic2.xml.gz)
@@ -12,6 +13,7 @@ if(NOT EXISTS ${CMAKE_SOURCE_DIR}/3rdparty/kanjidic2.xml)
 	if(NOT "${result}" STREQUAL 0)
 		MESSAGE(FATAL_ERROR "Unable to run [${GUNZIP} ${CMAKE_SOURCE_DIR}/3rdparty/kanjidic2.xml.gz]. Reported error was [${result}]")
 	endif(NOT "${result}" STREQUAL 0)
+	execute_process(COMMAND ${SED} "-i" "/q_code qc_type=\"skip\"/d" ${CMAKE_SOURCE_DIR}/3rdparty/kanjidic2.xml)
 endif()
 
 # KanjiVG
