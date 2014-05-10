@@ -23,7 +23,7 @@ find_program(GUNZIP NAMES gunzip REQUIRED)
 
 # Global GCC options
 if(CMAKE_COMPILER_IS_GNUCC)
-	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wnon-virtual-dtor -Wno-unused-parameter -fno-exceptions -fno-rtti")
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -Wextra -Wnon-virtual-dtor -Wno-unused-parameter -fno-exceptions -fno-rtti")
 endif(CMAKE_COMPILER_IS_GNUCC)
 
 # CMake-required compiler flags
