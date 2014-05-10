@@ -1,0 +1,16 @@
+#kanji {
+	text-align: center;
+	font-size: 20pt;
+}
+
+#meanings {
+	text-align: center;
+}
+
+#strokeAnimContainer {
+	text-align: center;
+}
+
+#strokeAnim {
+	background-color: #dddddd;
+}

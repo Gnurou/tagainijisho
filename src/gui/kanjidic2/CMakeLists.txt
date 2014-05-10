@@ -35,9 +35,12 @@ KanaSelector.ui
 Kanjidic2Preferences.ui
 )
 
+find_package(Qt5WebKitWidgets ${QTVERSION} REQUIRED)
+
 include_directories(${Qt5Core_INCLUDE_DIRS})
 include_directories(${Qt5Widgets_INCLUDE_DIRS})
 include_directories(${Qt5PrintSupport_INCLUDE_DIRS})
+include_directories(${Qt5WebKitWidgets_INCLUDE_DIRS})
 
 qt5_wrap_cpp(tagainijisho_gui_kanjidic2_MOC_SRCS ${tagainijisho_gui_kanjidic2_MOCS})
 qt5_wrap_ui(tagainijisho_gui_kanjidic2_UI_SRCS ${tagainijisho_gui_kanjidic2_UIS})

@@ -28,6 +28,9 @@
     <item>
      <widget class="ToolBarDetailedView" name="_detailedView"/>
     </item>
+    <item>
+     <widget class="DetailedView2" name="_detailedView2" native="true"/>
+    </item>
    </layout>
   </widget>
   <widget class="QMenuBar" name="menubar">
@@ -36,7 +39,7 @@
      <x>0</x>
      <y>0</y>
      <width>720</width>
-     <height>20</height>
+     <height>19</height>
     </rect>
    </property>
    <widget class="QMenu" name="_fileMenu">
@@ -275,6 +278,12 @@
    <class>EntryListWidget</class>
    <extends>QWidget</extends>
    <header location="global">gui/EntryListWidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>DetailedView2</class>
+   <extends>QWidget</extends>
+   <header>gui/DetailedView2.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
