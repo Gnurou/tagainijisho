@@ -264,7 +264,7 @@ QMimeData *EntryListModel::mimeData(const QModelIndexList &indexes) const
 
 // Used to record the items to move in a drag'n drop operation
 struct ListItemPos {
-	qint64 listId;
+	quintptr listId;
 	qint64 row;
 };
 struct ListItemRef : public ListItemPos {
