@@ -16,6 +16,7 @@
  */
 
 #include "gui/DetailedView2.h"
+#include "core/EntriesCache.h"
 
 #include <QWebView>
 #include <QWebFrame>
@@ -35,7 +36,7 @@ DetailedView2::DetailedView2(QWidget *parent) : QWebView(parent)
 
 	connect(this, &QWebView::loadFinished, [this](bool ok) {
 		if (ok)
-			frame->evaluateJavaScript(QString("showEntry(%1, %2)").arg(1).arg(1573150 ));
+			frame->evaluateJavaScript(QString("showEntry(%1, %2)").arg(1).arg(1573150));
 	});
 
 	QString path(QString("file://") + QDir(QDir::currentPath()).filePath("detailedview.html"));
@@ -50,5 +51,6 @@ EntryLoader2::EntryLoader2()
 
 QString EntryLoader2::loadEntry(unsigned int type, unsigned int code)
 {
-	return QString("{ \"id\": \"Tralala\" }");
+	EntryPointer entry(EntryRef(type, code).get());
+	return QString("{ \"id\": \"%1\" }").arg(entry->writings()[0]);
 }
