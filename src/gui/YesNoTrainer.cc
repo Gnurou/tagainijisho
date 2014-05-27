@@ -128,6 +128,7 @@ void YesNoTrainer::train(const EntryPointer &entry)
 	goodAnswerButton->setEnabled(false);
 	wrongAnswerButton->setEnabled(false);
 	skipButton->setEnabled(true);
+	showAnswerButton->setFocus();
 	
 	QTextDocument *document(_detailedView->detailedView()->document());
 
