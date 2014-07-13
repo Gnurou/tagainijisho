@@ -1,0 +1,59 @@
+language: cpp
+
+os:
+  - linux
+  - osx
+
+compiler:
+  - gcc
+  - clang
+
+script: make
+
+matrix:
+  exclude:
+  - os: osx
+    compiler: gcc
+  - os: linux
+    compiler: clang
+
+before_install:
+  - TAGAINI_VERSION=`grep "set(VERSION" CMakeLists.txt | cut -d ' ' -f 2 | tr -d '\)'`
+  - export TAGAINI_VERSION
+  - env | sort
+  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then sudo apt-get -qq update ; sudo apt-get install -qq libtext-multimarkdown-perl sqlite3 qt4-dev-tools rpm ; fi
+  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew update ; brew install cmake multimarkdown qt; fi
+  - qmake -version
+
+before_script:
+  - mkdir build
+  - cd build
+  - cmake ..
+
+after_success:
+  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then cpack -G DEB ; cpack -G RPM ; fi
+  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then sudo -s -- "cpack -G DragNDrop" ; sudo -s -- "chown travis Tagaini\ Jisho-$TAGAINI_VERSION.dmg " ; fi
+
+deploy:
+  - provider: releases
+    skip_cleanup: true
+    api_key:
+      secure: gLeWm6YoQn9Bbxo3okJXS3zodqgb+cn3+J9KvL/JN4p+QQF7LiFUCnJhZMdW1ldcXCoeYsUQJQFMS22gQYq4wN3ohtgCqTaiF4tY18glG3tI51sQaBq+3T99VyGf4IfcjIwbafwxnme6raplUvZvnbn1bUJ5Gx/WsOuyNylD7t8=
+    file:
+      - tagainijisho-$TAGAINI_VERSION.deb
+      - tagainijisho-$TAGAINI_VERSION.rpm
+    on:
+      tags: true
+      all_branches: true
+      condition: $TRAVIS_OS_NAME = linux
+  - provider: releases
+    skip_cleanup: true
+    api_key:
+      secure: gLeWm6YoQn9Bbxo3okJXS3zodqgb+cn3+J9KvL/JN4p+QQF7LiFUCnJhZMdW1ldcXCoeYsUQJQFMS22gQYq4wN3ohtgCqTaiF4tY18glG3tI51sQaBq+3T99VyGf4IfcjIwbafwxnme6raplUvZvnbn1bUJ5Gx/WsOuyNylD7t8=
+    file:
+      - "Tagaini Jisho-$TAGAINI_VERSION.dmg"
+    on:
+      tags: true
+      all_branches: true
+      condition: $TRAVIS_OS_NAME = osx
+
