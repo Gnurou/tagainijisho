@@ -66,6 +66,9 @@ void UpdateChecker::checkForUpdates(bool beta)
 
 void UpdateChecker::finished(QNetworkReply *reply)
 {
+	if (!_buffer)
+		return;
+
 	QString buffer(QString(_buffer->data()).trimmed());
 	// If the first character is not a digit, this means we got another page
 	if (!buffer[0].isDigit()) return;
