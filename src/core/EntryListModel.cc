@@ -350,9 +350,6 @@ bool EntryListModel::dropMimeData(const QMimeData *data, Qt::DropAction action, 
 				// Persistent index after destination, increment its row
 				if (idx.internalId() == list.listId() && idx.row() >= origRow) updatedPIndexes[idx].row++;
 			}
-			EntryRef entry(iRef.node->value().entryRef());
-			if (entry.isLoaded())
-				entry.get()->emitChanged();
 		}
 		// Update the persistent indexes that need to be
 		foreach (const QModelIndex &idx, updatedPIndexes.keys()) {
@@ -364,6 +361,14 @@ bool EntryListModel::dropMimeData(const QMimeData *data, Qt::DropAction action, 
 		if (!EntryListCache::connection()->commit()) goto failure_2;
 		EntryListCache::clearOwnerCache();
 		emit layoutChanged();
+		for (int i = 0; i < iRefs.size(); i++)
+		{
+			struct ListItemRef &iRef = iRefs[i];
+			if (!iRef.node) continue;
+			EntryRef entry(iRef.node->value().entryRef());
+			if (entry.isLoaded())
+				entry.get()->emitChanged();
+		}
 	}
 
 	// No list data, we probably dropped from the results view or something -
