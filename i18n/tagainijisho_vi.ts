@@ -53,12 +53,12 @@
     <message>
         <location line="+18"/>
         <source>Cannot commit transaction</source>
-        <translation type="unfinished"/>
+        <translation>Không thể chuyển dữ liệu.</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Error while trying to commit database transaction.</source>
-        <translation type="unfinished"/>
+        <translation>Có lỗi khi cố gắng chuyển cơ sở dữ liệu</translation>
     </message>
 </context>
 <context>
@@ -1257,12 +1257,12 @@ Một số có thể vẫn còn.</translation>
     <message>
         <location line="+13"/>
         <source>Yodan verb with `hu/fu&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Động từ Yodan đuôi &apos;hu/fu&apos; (cổ)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Yodan verb with `ru&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Động từ Yodan đuôi &apos;ru&apos;  (cổ)</translation>
     </message>
     <message>
         <location line="+22"/>
@@ -1272,7 +1272,7 @@ Một số có thể vẫn còn.</translation>
     <message>
         <location line="+13"/>
         <source>Hokkaido-ben</source>
-        <translation type="unfinished"/>
+        <translation>Thổ ngữ vùng Hokkaido</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -1362,7 +1362,7 @@ Một số có thể vẫn còn.</translation>
     <message>
         <location line="+1"/>
         <source>old or irregular kana form</source>
-        <translation type="unfinished"/>
+        <translation>từ cổ hoặc cách dùng kana đặc biệt</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -1392,17 +1392,17 @@ Một số có thể vẫn còn.</translation>
     <message>
         <location line="+46"/>
         <source>`kari&apos; adjective (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>tính từ &apos;kari&apos; (cổ)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>`ku&apos; adjective (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>tính từ &apos;ku&apos; (cổ)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>`shiku&apos; adjective (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>tính từ &apos;shiku&apos; (cổ)</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -2342,7 +2342,7 @@ Một số có thể vẫn còn.</translation>
     <message>
         <location filename="../src/core/kanjidic2/Kanjidic2Entry.cc" line="+126"/>
         <source>(var) </source>
-        <translation type="unfinished"/>
+        <translation>(var)</translation>
     </message>
 </context>
 <context>
@@ -3084,12 +3084,12 @@ Một số có thể vẫn còn.</translation>
     <message>
         <location line="+20"/>
         <source>Focus results list</source>
-        <translation type="unfinished"/>
+        <translation>Tập trung vào danh sách kết quả</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Ctrl+O</source>
-        <translation type="unfinished"/>
+        <translation>Ctrl+O</translation>
     </message>
     <message>
         <location line="-112"/>
@@ -3393,7 +3393,7 @@ Thông báo này chỉ xuất hiện một lần nhưng bạn vẫn có thể h�
     <message>
         <location line="+0"/>
         <source>Unable to find any entry eligible for reading practice. Entries eligible for this training mode are studied vocabulary entries for which all kanji are also studied, and that match the train settings. Please add entries or modify the train settings accordingly if you want to practice this mode.</source>
-        <translation type="unfinished"/>
+        <translation>Không tìm thấy mục nào phù hợp để luyện đọc. Những mục phù hợp cho luyện tập là những từ đã học mà tất cả các kanji của từ đó đã được biết và phù hợp với tiêu chí luyện tập. Hãy thêm mục hoặc thay đổi cài đặt mục luyện tập để phù hợp nếu bạn muốn sử dụng chế độ luyện tập này.</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -3970,7 +3970,7 @@ Thông báo này chỉ xuất hiện một lần nhưng bạn vẫn có thể h�
         <location line="+10"/>
         <location line="+7"/>
         <source>PushButton</source>
-        <translation type="unfinished"/>
+        <translation>Nhấn nút</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -3990,7 +3990,7 @@ Thông báo này chỉ xuất hiện một lần nhưng bạn vẫn có thể h�
     <message>
         <location line="+20"/>
         <source>Sort bias</source>
-        <translation type="unfinished"/>
+        <translation>Sắp xếp</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -4038,12 +4038,12 @@ Thông báo này chỉ xuất hiện một lần nhưng bạn vẫn có thể h�
     <message>
         <location line="+0"/>
         <source>There are no entries to train as of now. Please add entries to your study list or check the train settings.</source>
-        <translation type="unfinished"/>
+        <translation>Hiện tại không có mục nào để luyện tập. Hãy thêm mục vào danh sách học của bạn hoặc kiểm tra thiết lập của luyện tập.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>All the matching entries have been trained.</source>
-        <translation type="unfinished"/>
+        <translation>Tất cả các mục yêu cầu đã được luyện tập</translation>
     </message>
     <message>
         <location line="+0"/>

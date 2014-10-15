@@ -43,7 +43,7 @@
     <message>
         <location line="+5"/>
         <source>Cannot start transaction</source>
-        <translation>Ei voida käynnistää tietokantatapahtumaa</translation>
+        <translation>Tietokantatapahtuman käynnistäminen epäonnistui</translation>
     </message>
     <message>
         <location line="+0"/>
@@ -53,7 +53,7 @@
     <message>
         <location line="+18"/>
         <source>Cannot commit transaction</source>
-        <translation>Ei voida tehdä tietokannan commit-tapahtumaa</translation>
+        <translation>Tietokannan commit-tapahtumaa tekeminen epäonnistui</translation>
     </message>
     <message>
         <location line="+0"/>
@@ -126,12 +126,12 @@
     <message>
         <location line="+3"/>
         <source>Cannot erase user database</source>
-        <translation>Ei voida poistaa käyttäjätietokantaa</translation>
+        <translation>Käyttäjätietokannan poistaminen epäonnistui</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Unable to erase user database. Please see what is wrong and try to do it manually.</source>
-        <translation>Ei kyetä poistamaan käyttäjätietokantaa. Tarkista, mikä on väärin ja yritä tehdä se manuaalisesti.</translation>
+        <translation>Käyttäjätietokannan poistaminen epäonnistui. Tarkista, mikä on väärin ja yritä tehdä se manuaalisesti.</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -141,7 +141,7 @@
     <message>
         <location line="+0"/>
         <source>User data has been erased. Tagaini Jisho will now exit. You will be back to a blank database when it is restarted.</source>
-        <translation>Käyttäjätiedot on poistettu. Tagaini Jisho sulkeutuu nyt. Uudellenkäynnistyessä sinulla on tyhjä tietokanta.</translation>
+        <translation>Käyttäjätiedot on poistettu. Tagaini Jisho sulkeutuu nyt. Uudelleenkäynnistyessä sinulla on tyhjä tietokanta.</translation>
     </message>
 </context>
 <context>
@@ -154,17 +154,17 @@
     <message>
         <location line="+6"/>
         <source>Wrong user database version: expected %1, got %2.</source>
-        <translation>Väärä käyttäjätietokantaversio: odotettiin %1, saatiin %2</translation>
+        <translation>Väärä käyttäjätietokantaversio: odotettiin %1, saatiin %2.</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Cannot create user database: %1</source>
-        <translation>Ei voida luoda käyttäjätietokantaa: %1</translation>
+        <translation>Käyttäjätietokannan luominen epäonnistui: %1</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Cannot open database: %1</source>
-        <translation>Ei voida avata tietokantaa: %1</translation>
+        <translation>Tietokannan avaaminen epäonnistui: %1</translation>
     </message>
     <message>
         <location line="+27"/>
@@ -263,7 +263,7 @@
     <message>
         <location line="+3"/>
         <source>Existing notes:</source>
-        <translation>Olemassaolevat muistiinpanot</translation>
+        <translation>Olemassaolevat muistiinpanot:</translation>
     </message>
     <message>
         <location line="+17"/>
@@ -375,12 +375,12 @@
         <location line="+4"/>
         <location line="+47"/>
         <source>Cannot write file</source>
-        <translation>Tiedosto ei voi kirjoittaa</translation>
+        <translation>Tiedoston kirjoittaminen epäonnistui</translation>
     </message>
     <message>
         <location line="-47"/>
         <source>Unable to write file %1.</source>
-        <translation>Ei kyetä kirjoittamaan tiedostoa %1.</translation>
+        <translation>Tiedoston %1 kirjoittaminen epäonnistui.</translation>
     </message>
     <message>
         <location line="+27"/>
@@ -405,17 +405,17 @@
     <message>
         <location line="+4"/>
         <source>Unable to write file %1!</source>
-        <translation>Ei kyetä kirjoittamaan tiedostoa %1!</translation>
+        <translation>Tiedoston %1 kirjoittaminen epäonnistui!</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Cannot open template file</source>
-        <translation>Ei voida avata mallinnetiedostoa</translation>
+        <translation>Mallinnetiedoston avaus epäonnistui</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Unable to open template file!</source>
-        <translation>Ei kyetä avaamaan mallinnetiedostoa!</translation>
+        <translation>Mallinnetiedoston avaus epäonnistui!</translation>
     </message>
     <message>
         <location line="-94"/>
@@ -449,7 +449,7 @@
     <message>
         <location filename="../src/gui/PreferencesWindow.cc" line="-196"/>
         <source>Main writing</source>
-        <translation>Pääkirjoittaminen</translation>
+        <translation>Pääasiallinen kirjoittaminen</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -475,12 +475,12 @@
     <message>
         <location filename="../src/gui/EntryFormatter.cc" line="+39"/>
         <source>Cannot find detailed view HTML file!</source>
-        <translation>Ei kyetä löytämään lisätietonäkymän HTML-tiedostoa!</translation>
+        <translation>Lisätietonäkymän HTML-tiedoston löytäminen epäonnistui!</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Cannot find detailed view CSS file!</source>
-        <translation>Ei kyetä löytämään lisätietoanäkymän CSS-tiedostoa!</translation>
+        <translation>Lisätietonäkymän CSS-tiedoston löytäminen epäonnistui!</translation>
     </message>
     <message>
         <location line="+159"/>
@@ -533,7 +533,7 @@
     <message>
         <location line="+93"/>
         <source>Unable to create list</source>
-        <translation>Ei kyetä luomaan luetteloa</translation>
+        <translation>Luettelon luominen epäonnistui</translation>
     </message>
     <message>
         <location line="+0"/>
@@ -587,7 +587,7 @@
     <message>
         <location filename="../src/gui/EntryMenu.cc" line="+28"/>
         <source>Add to &amp;study list</source>
-        <translation>Lisää &amp;opisteluluetteloon</translation>
+        <translation>Lisää &amp;opiskeluluetteloon</translation>
     </message>
     <message>
         <location line="+0"/>
@@ -617,7 +617,7 @@
     <message>
         <location line="+0"/>
         <source>Edit &amp;notes...</source>
-        <translation>Muo&amp;kkaa muistiinpanoja</translation>
+        <translation>Muo&amp;kkaa muistiinpanoja...</translation>
     </message>
     <message>
         <location line="+0"/>
@@ -795,12 +795,12 @@
     <message>
         <location line="+19"/>
         <source>Monday</source>
-        <translation>Maanantai</translation>
+        <translation>maanantai</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Sunday</source>
-        <translation>Sunnuntai</translation>
+        <translation>sunnuntai</translation>
     </message>
     <message>
         <location line="+53"/>
@@ -855,7 +855,7 @@
     <message>
         <location line="+16"/>
         <source>Updates</source>
-        <translation>Pävitykset</translation>
+        <translation>Päivitykset</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -1089,7 +1089,7 @@
     <message>
         <location line="+15"/>
         <source>Dial:</source>
-        <translation>Dial:</translation>
+        <translation>Valitse:</translation>
     </message>
     <message>
         <location line="+15"/>
@@ -1257,12 +1257,12 @@
     <message>
         <location line="+13"/>
         <source>Yodan verb with `hu/fu&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Yodan-verbi päätteellä `hu/fu&apos; (vanhahtava)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Yodan verb with `ru&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Yodan-verbi päätteellä `ru&apos; (vanhahtava)</translation>
     </message>
     <message>
         <location line="+22"/>
@@ -1362,7 +1362,7 @@
     <message>
         <location line="+1"/>
         <source>old or irregular kana form</source>
-        <translation type="unfinished"/>
+        <translation>vanha tai epäsäännöllinen kana-muoto</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -1392,272 +1392,272 @@
     <message>
         <location line="+46"/>
         <source>`kari&apos; adjective (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>`kari&apos;-adjektiivi (vanhahtava)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>`ku&apos; adjective (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>`ku&apos;-adjektiivi (vanhahtava)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>`shiku&apos; adjective (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>`shiku&apos;-adjektiivi (vanhahtava)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>archaic/formal form of na-adjective</source>
-        <translation type="unfinished"/>
+        <translation>na-adjektiivin vanhahtava/muodollinen muoto</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>proper noun</source>
-        <translation type="unfinished"/>
+        <translation>erisnimi</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>verb unspecified</source>
-        <translation type="unfinished"/>
+        <translation>verbi määrittämätön</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Yodan verb with `ku&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Yodan-verbi päätteellä `ku&apos; (vanhahtava)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Yodan verb with `gu&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Yodan-verbi päätteellä`gu&apos; (vanhahtava)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Yodan verb with `su&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Yodan-verbi päätteellä `su&apos; (vanhahtava)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Yodan verb with `tsu&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Yodan-verb päätteellä `tsu&apos; (vanhahtava)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Yodan verb with `nu&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Yodan-verbi päätteellä `nu&apos; (vanhahtava)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Yodan verb with `bu&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Yodan-verbi päätteellä `bu&apos; (vanhahtava)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Yodan verb with `mu&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Yodan-verbi päätteellä `mu&apos; (vanhahtava)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Nidan verb (upper class) with `ku&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Nidan-verbi (ylempi luokka) päätteellä `ku&apos; (vanhahtava)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Nidan verb (upper class) with `gu&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Nidan-verbi (ylempi luokka) päätteellä `gu&apos; (vanhahtava)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Nidan verb (upper class) with `tsu&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Nidan-verbi (ylempi luokka) päätteellä `tsu&apos; (vanhahtava)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Nidan verb (upper class) with `dzu&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Nidan-verbi (ylempi luokka) päätteellä `dzu&apos; (vanhahtava)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Nidan verb (upper class) with `hu/fu&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Nidan-verbi (ylempi luokka) päätteellä `hu/fu&apos;  (vanhahtava)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Nidan verb (upper class) with `bu&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Nidan-verbi (ylempi luokka) päätteellä `bu&apos;  (vanhahtava)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Nidan verb (upper class) with `mu&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Nidan-verbi (ylempi luokka) päätteellä `mu&apos; (vanhahtava)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Nidan verb (upper class) with `yu&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Nidan-verbi (ylempi luokka) päätteellä `yu&apos; (vanhahtava)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Nidan verb (upper class) with `ru&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Nidan-verbi (ylempi luokka) päätteellä `ru&apos; (vanhahtava)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Nidan verb (lower class) with `ku&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Nidan-verbi (alempi luokka) päätteellä `ku&apos; (vanhahtava)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Nidan verb (lower class) with `gu&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Nidan-verbi (alempi luokka) päätteellä `gu&apos; (vanhahtava)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Nidan verb (lower class) with `su&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Nidan-verbi (alempi luokka) päätteellä `su&apos; (vanhahtava)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Nidan verb (lower class) with `zu&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Nidan-verbi (alempi luokka) päätteellä `zu&apos; (vanhahtava)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Nidan verb (lower class) with `tsu&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Nidan-verbi (alempi luokka) päätteellä `tsu&apos; (vanhahtava)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Nidan verb (lower class) with `dzu&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Nidan-verbi (alempi luokka) päätteellä `dzu&apos; (vanhahtava)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Nidan verb (lower class) with `nu&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Nidan-verbi (alempi luokka) päätteellä `nu&apos; (vanhahtava)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Nidan verb (lower class) with `hu/fu&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Nidan-verbi (alempi luokka) päätteellä `hu/fu&apos; (vanhahtava)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Nidan verb (lower class) with `bu&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Nidan-verbi (alempi luokka) päätteellä `bu&apos; (vanhahtava)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Nidan verb (lower class) with `mu&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Nidan-verbi (alempi luokka) päätteellä `mu&apos; (vanhahtava)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Nidan verb (lower class) with `yu&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Nidan-verbi (alempi luokka) päätteellä `yu&apos; (vanhahtava)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Nidan verb (lower class) with `ru&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Nidan-verbi (alempi luokka) päätteellä `ru&apos; (vanhahtava)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Nidan verb (lower class) with `u&apos; ending and `we&apos; conjugation (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>Nidan-verbi (alempi luokka) päätteellä `u&apos; ja `we&apos; konjukaatio (vanhahtava)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>architecture term</source>
-        <translation type="unfinished"/>
+        <translation>arkkitehtuuritermi</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>anatomical term</source>
-        <translation type="unfinished"/>
+        <translation>anatomiatermi</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>astronomy, etc. term</source>
-        <translation type="unfinished"/>
+        <translation>astronominen, jne. termi</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>baseball term</source>
-        <translation type="unfinished"/>
+        <translation>baseball-termi</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>biology term</source>
-        <translation type="unfinished"/>
+        <translation>biologiatermi</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>botany term</source>
-        <translation type="unfinished"/>
+        <translation>kasvitieteellinen termi</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>business term</source>
-        <translation type="unfinished"/>
+        <translation>yritystoimintatermi</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>economics term</source>
-        <translation type="unfinished"/>
+        <translation>taloustiedetermi</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>engineering term</source>
-        <translation type="unfinished"/>
+        <translation>tekniikkatermi</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>finance term</source>
-        <translation type="unfinished"/>
+        <translation>rahoitusopin termi</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>geology, etc. term</source>
-        <translation type="unfinished"/>
+        <translation>geologinen, jne. termi</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>law, etc. term</source>
-        <translation type="unfinished"/>
+        <translation>laki, jne. termi</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>medicine, etc. term</source>
-        <translation type="unfinished"/>
+        <translation>lääketieteellinen, jne. termi</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>music term</source>
-        <translation type="unfinished"/>
+        <translation>musiikkitermi</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Shinto term</source>
-        <translation type="unfinished"/>
+        <translation>shinto-termi</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>sports term</source>
-        <translation type="unfinished"/>
+        <translation>urheilutermi</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>sumo term</source>
-        <translation type="unfinished"/>
+        <translation>sumo-termi</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>zoology term</source>
-        <translation type="unfinished"/>
+        <translation>eläintieteellinen termi</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>jocular, humorous term</source>
-        <translation type="unfinished"/>
+        <translation>vitsikäs, humoristinen termi</translation>
     </message>
     <message>
         <location line="-132"/>
@@ -1782,7 +1782,7 @@
     <message>
         <location line="+31"/>
         <source>irregular ru verb, plain form ends with -ri</source>
-        <translation>epäsäännöllinen ru-verbi, pelkkä muoto loppuu -ri-päätteeseen</translation>
+        <translation>epäsäännöllinen ru-verbi, pelkistetty muoto loppuu -ri-päätteeseen</translation>
     </message>
     <message>
         <location line="-87"/>
@@ -1937,7 +1937,7 @@
     <message>
         <location line="+67"/>
         <source>Nidan verb with &apos;u&apos; ending (archaic)</source>
-        <translation>Nidan-verbo &quot;u&quot;-päätteellä (vanhahtava)</translation>
+        <translation>Nidan-verbi &quot;u&quot;-päätteellä (vanhahtava)</translation>
     </message>
     <message>
         <location line="+25"/>
@@ -2033,7 +2033,7 @@
     <message>
         <location line="+6"/>
         <source>For transitive verbs, look for the equivalent intransitive entry and vice-versa.</source>
-        <translation>Katso transitiiviverbejä varten vastaavaa intransitiiviverbiä ja päin vastoin.</translation>
+        <translation>Katso transitiiviverbejä varten vastaavaa intransitiiviverbiä ja päinvastoin.</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -2130,7 +2130,7 @@
     <message>
         <location line="+6"/>
         <source>Filtered definitions</source>
-        <translation>Muistiinpanot</translation>
+        <translation>Suodatetut määrittelyt</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -2252,7 +2252,7 @@
     <message>
         <location filename="../src/gui/kanjidic2/KanjiPopup.cc" line="+86"/>
         <source>&lt;b&gt;On:&lt;/b&gt; %1</source>
-        <translation>&lt;b&gt;On:&lt;/b&gt; %1</translation>
+        <translation>&lt;b&gt;Päällä:&lt;/b&gt; %1</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -2390,7 +2390,7 @@
     <message>
         <location line="+43"/>
         <source>On</source>
-        <translation>On</translation>
+        <translation>Päällä</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -2488,7 +2488,7 @@
     <message>
         <location line="+9"/>
         <source>Radicals</source>
-        <translation>Radikaaliset</translation>
+        <translation>Perusviivat</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -2674,7 +2674,7 @@
     <message>
         <location line="+20"/>
         <source>Radical search input</source>
-        <translation>Radikaalietsintäsyöte</translation>
+        <translation>Perusviivaetsintäsyöte</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -2740,7 +2740,7 @@
     <message>
         <location line="-436"/>
         <source>Variations</source>
-        <translation>Variaatiot</translation>
+        <translation>Muunnelmat</translation>
     </message>
     <message>
         <location line="-7"/>
@@ -2819,7 +2819,7 @@
         <location line="+14"/>
         <location line="+25"/>
         <source>Studied only</source>
-        <translation>Vain tutkitut:</translation>
+        <translation>Vain opiskellut:</translation>
     </message>
     <message>
         <location line="-14"/>
@@ -2854,7 +2854,7 @@
     <message>
         <location line="+17"/>
         <source>Only studied components</source>
-        <translation>Vain tutkittuja kompnentteja</translation>
+        <translation>Vain opiskeltuja komponentteja</translation>
     </message>
     <message>
         <location line="+12"/>
@@ -2864,12 +2864,12 @@
     <message>
         <location line="+9"/>
         <source>Only studied words</source>
-        <translation>Vain tutkittuja sanoja</translation>
+        <translation>Vain opiskeltuja sanoja</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Kanji drawing style</source>
-        <translation>Kanji-piirrostyylit</translation>
+        <translation>Kanji-piirrostyyli</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -2998,7 +2998,7 @@
     <message>
         <location filename="../src/gui/kanjidic2/Kanjidic2Preferences.cc" line="+27"/>
         <source>Character entries</source>
-        <translation>Merkkejä</translation>
+        <translation>Merkkirivit</translation>
     </message>
     <message>
         <location line="+43"/>
@@ -3084,12 +3084,12 @@
     <message>
         <location line="+20"/>
         <source>Focus results list</source>
-        <translation type="unfinished"/>
+        <translation>Kohdista tulosluetteloon</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Ctrl+O</source>
-        <translation type="unfinished"/>
+        <translation>Ctrl+O</translation>
     </message>
     <message>
         <location line="-112"/>
@@ -3276,7 +3276,7 @@ Tämä viesti on kertaluonteinen muistutus ja se ei enää ilmaannu näkyviin - 
         <location line="+2"/>
         <location line="+15"/>
         <source>Let&apos;s go!</source>
-        <translation>Aloittakaamme</translation>
+        <translation>Aloittakaamme!</translation>
     </message>
     <message>
         <location line="-13"/>
@@ -3393,7 +3393,7 @@ Tämä viesti on kertaluonteinen muistutus ja se ei enää ilmaannu näkyviin - 
     <message>
         <location line="+0"/>
         <source>Unable to find any entry eligible for reading practice. Entries eligible for this training mode are studied vocabulary entries for which all kanji are also studied, and that match the train settings. Please add entries or modify the train settings accordingly if you want to practice this mode.</source>
-        <translation>Ei kyetty löytämään yhtään kelvollista lukemisharjoitusta. Tämän harjoitustilan kelvolliset sanat ovat opiskelusanoja, joiden kaikki kanji-merkit on myös opiskeltu, ja jotka täsmäävät harjoitusasetuksiin. Lisää sanoja tai muokkaa harjoitusasetuksia sen mukaan miten haluat harjoitella tässä tilassa.</translation>
+        <translation>Kelvollisen lukemisharjoituksen löytäminen epäonnistui. Tämän harjoitustilan kelvolliset sanat ovat opiskelusanoja, joiden kaikki kanji-merkit on myös opiskeltu, ja jotka täsmäävät harjoitusasetuksiin. Lisää sanoja tai muokkaa harjoitusasetuksia sen mukaan miten haluat harjoitella tässä tilassa.</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -3678,7 +3678,7 @@ Tämä viesti on kertaluonteinen muistutus ja se ei enää ilmaannu näkyviin - 
     <message>
         <location line="+16"/>
         <source>All compounds</source>
-        <translation>Kaikki yhdistelmät</translation>
+        <translation>Kaikki yhdyssanat</translation>
     </message>
     <message>
         <location line="+0"/>
@@ -3874,7 +3874,7 @@ Tämä viesti on kertaluonteinen muistutus ja se ei enää ilmaannu näkyviin - 
         <location line="-35"/>
         <location line="+35"/>
         <source>&lt;/p&gt;&lt;p&gt;Accepted characters are letters, digits and non-quoting punctuation.&lt;/p&gt;</source>
-        <translation>&lt;/p&gt;&lt;p&gt;Accepted characters are letters, digits and non-quoting punctuation.&lt;/p&gt;</translation>
+        <translation>&lt;/p&gt;&lt;p&gt;Hyväksytyt merkit ovat kirjaimia, numeroita ja ei-lainausmerkkejä sisältäviä välimerkkejä.&lt;/p&gt;</translation>
     </message>
     <message>
         <location line="-35"/>
@@ -3926,7 +3926,7 @@ Tämä viesti on kertaluonteinen muistutus ja se ei enää ilmaannu näkyviin - 
     <message>
         <location line="+2"/>
         <source>If checked, text typed in romaji will be converted to kana and searched as such.</source>
-        <translation>Jos valittu, kirjoitettu romaji - latinalaisilla kirjaimilla kirjoitettu japanin kieli - muunnetaan kanaksi ja etsitään sellaisena.</translation>
+        <translation>Jos valittu, romaji-latinalaisilla kirjaimilla kirjoitettu japanin kieli muunnetaan kanaksi ja etsitään sellaisena.</translation>
     </message>
     <message>
         <location line="+15"/>
