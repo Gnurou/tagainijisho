@@ -143,13 +143,13 @@ if(UNIX)
 		-D "COMPONENT=Templates"
 		-P "${CMAKE_BINARY_DIR}/cmake_install.cmake"
 	)
-	add_dependencies(install_templates templates)
+	#add_dependencies(install_templates templates)
 	add_custom_target(install_icons
 		${CMAKE_COMMAND}
 		-D "COMPONENT=Icons"
 		-P "${CMAKE_BINARY_DIR}/cmake_install.cmake"
 	)
-	add_dependencies(install_icons icons)
+	#add_dependencies(install_icons icons)
 	add_custom_target(install_docs
 		${CMAKE_COMMAND}
 		-D "COMPONENT=Docs"
