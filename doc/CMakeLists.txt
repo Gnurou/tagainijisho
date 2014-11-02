@@ -8,7 +8,7 @@ MACRO(GENERATE_DOCS _doc_files)
     GET_SOURCE_FILE_PROPERTY(output_location ${_abs_FILE} OUTPUT_LOCATION)
     SET(doc "${CMAKE_CURRENT_SOURCE_DIR}/${doc}.html")
     ADD_CUSTOM_COMMAND(OUTPUT ${doc}
-       COMMAND ${MULTI_MARKDOWN} ARGS ${_abs_FILE} -o ${doc} DEPENDS ${_abs_FILE}
+       COMMAND ${MULTI_MARKDOWN} ARGS ${_abs_FILE} > ${doc} DEPENDS ${_abs_FILE}
     )
     SET(${_doc_files} ${${_doc_files}} ${doc})
   ENDFOREACH (_current_FILE)

@@ -457,7 +457,7 @@ void MainWindow::newSavedSearchesFolder()
 	if (!ok) return;
 
 	SQLite::Query query(Database::connection());
-	query.prepare(QString("INSERT INTO sets VALUES(%2, ifnull((SELECT max(position) + 1 FROM sets WHERE parent %1), 0), ?, null)").arg(!parentId ? "is null" : QString("= %1").arg(parentId)).arg(!parentId ? "null" : QString::number(parentId)));
+	query.prepare(QString("INSERT INTO sets VALUES(NULL, %2, ifnull((SELECT max(position) + 1 FROM sets WHERE parent %1), 0), ?, null)").arg(!parentId ? "is null" : QString("= %1").arg(parentId)).arg(!parentId ? "null" : QString::number(parentId)));
 	query.bindValue(setName);
 	// TODO error handling
 	query.exec();
