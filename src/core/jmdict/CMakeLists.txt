@@ -2,7 +2,7 @@
 set(QT_DONT_USE_QTGUI TRUE)
 
 # JMdict
-set(JMDICT_SOURCE ftp://ftp.monash.edu.au/pub/nihongo/JMdict.gz)
+set(JMDICT_SOURCE http://ftp.monash.edu.au/pub/nihongo/JMdict.gz)
 if(NOT EXISTS ${CMAKE_SOURCE_DIR}/3rdparty/JMdict)
 	MESSAGE(STATUS "Downloading JMdict from ${JMDICT_SOURCE}")
 	FILE(DOWNLOAD ${JMDICT_SOURCE} ${CMAKE_SOURCE_DIR}/3rdparty/JMdict.gz SHOW_PROGRESS)
