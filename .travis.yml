@@ -38,7 +38,7 @@ deploy:
   - provider: releases
     skip_cleanup: true
     api_key:
-      secure: gLeWm6YoQn9Bbxo3okJXS3zodqgb+cn3+J9KvL/JN4p+QQF7LiFUCnJhZMdW1ldcXCoeYsUQJQFMS22gQYq4wN3ohtgCqTaiF4tY18glG3tI51sQaBq+3T99VyGf4IfcjIwbafwxnme6raplUvZvnbn1bUJ5Gx/WsOuyNylD7t8=
+      secure: N/wOTfrlb4TxMVHSjUkfX5AnJqlOnTMVPYYf22/AnOU1ecA5r45hF+3Q6rA1UUCf4My/cPCWRaxmKvgZIg3rTCvTZM43JxuUuqqYcmCzrQnnPtiV+CXutPQC2s3Y+Kkecbv+XApPq8D2RMYcw/aiz/dv/KRMoVM2jGZODyqAe9E=
     file:
       - tagainijisho-$TAGAINI_VERSION.deb
       - tagainijisho-$TAGAINI_VERSION.rpm
@@ -49,7 +49,7 @@ deploy:
   - provider: releases
     skip_cleanup: true
     api_key:
-      secure: gLeWm6YoQn9Bbxo3okJXS3zodqgb+cn3+J9KvL/JN4p+QQF7LiFUCnJhZMdW1ldcXCoeYsUQJQFMS22gQYq4wN3ohtgCqTaiF4tY18glG3tI51sQaBq+3T99VyGf4IfcjIwbafwxnme6raplUvZvnbn1bUJ5Gx/WsOuyNylD7t8=
+      secure: N/wOTfrlb4TxMVHSjUkfX5AnJqlOnTMVPYYf22/AnOU1ecA5r45hF+3Q6rA1UUCf4My/cPCWRaxmKvgZIg3rTCvTZM43JxuUuqqYcmCzrQnnPtiV+CXutPQC2s3Y+Kkecbv+XApPq8D2RMYcw/aiz/dv/KRMoVM2jGZODyqAe9E=
     file:
       - "Tagaini Jisho-$TAGAINI_VERSION.dmg"
     on:
