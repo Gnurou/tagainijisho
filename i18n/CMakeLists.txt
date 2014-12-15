@@ -11,7 +11,7 @@ add_custom_target (i18n ALL DEPENDS ${QM_FILES})
 
 set(UI_LANG "")
 foreach(tsfile ${TRANSLATIONS_FILES})
-	string(REGEX REPLACE "[^_]*_(.*)\\.ts" "\\1" rmatch ${tsfile})
+	string(REGEX REPLACE "^.+/tagainijisho_([^/]+)\\.ts$" "\\1" rmatch ${tsfile})
 	set(UI_LANG "${UI_LANG};${rmatch}")
 endforeach(tsfile ${TRANSLATIONS_FILES})
 

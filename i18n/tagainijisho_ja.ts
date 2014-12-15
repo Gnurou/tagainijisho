@@ -761,27 +761,27 @@
     <message>
         <location line="+1"/>
         <source>Portuguese</source>
-        <translation type="unfinished"/>
+        <translation>ポルトガル語</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Swedish</source>
-        <translation type="unfinished"/>
+        <translation>スウェーデン語</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Thai</source>
-        <translation type="unfinished"/>
+        <translation>タイ語</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Turkish</source>
-        <translation type="unfinished"/>
+        <translation>トルコ語</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Vietnamese</source>
-        <translation type="unfinished"/>
+        <translation>ベトナム語</translation>
     </message>
     <message>
         <location line="+24"/>
@@ -901,12 +901,12 @@
     <message>
         <location line="+30"/>
         <source>If checked, English meanings will be shown even if a translation in the preferred language is available.</source>
-        <translation type="unfinished"/>
+        <translation>チェックすると、選択された言語での翻訳が可能であっても英語の意味が表示されます。</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Always show English meanings</source>
-        <translation type="unfinished"/>
+        <translation>常に英語の意味を表示する</translation>
     </message>
     <message>
         <location line="+87"/>
@@ -992,7 +992,7 @@
     <message>
         <location line="+18"/>
         <source>Example sentences</source>
-        <translation type="unfinished"/>
+        <translation>例文</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -1273,7 +1273,7 @@
     <message>
         <location line="+13"/>
         <source>Hokkaido-ben</source>
-        <translation type="unfinished"/>
+        <translation>北海道弁</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -1568,92 +1568,92 @@
     <message>
         <location line="+1"/>
         <source>architecture term</source>
-        <translation type="unfinished"/>
+        <translation>建築用語</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>anatomical term</source>
-        <translation type="unfinished"/>
+        <translation>解剖学用語</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>astronomy, etc. term</source>
-        <translation type="unfinished"/>
+        <translation>天文学他用語</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>baseball term</source>
-        <translation type="unfinished"/>
+        <translation>野球用語</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>biology term</source>
-        <translation type="unfinished"/>
+        <translation>生物学用語</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>botany term</source>
-        <translation type="unfinished"/>
+        <translation>植物学用語</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>business term</source>
-        <translation type="unfinished"/>
+        <translation>ビジネス用語</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>economics term</source>
-        <translation type="unfinished"/>
+        <translation>経済用語</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>engineering term</source>
-        <translation type="unfinished"/>
+        <translation>工学用語</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>finance term</source>
-        <translation type="unfinished"/>
+        <translation>金融用語</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>geology, etc. term</source>
-        <translation type="unfinished"/>
+        <translation>地学他用語</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>law, etc. term</source>
-        <translation type="unfinished"/>
+        <translation>法律他用語</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>medicine, etc. term</source>
-        <translation type="unfinished"/>
+        <translation>薬学他用語</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>music term</source>
-        <translation type="unfinished"/>
+        <translation>音楽用語</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Shinto term</source>
-        <translation type="unfinished"/>
+        <translation>神道用語</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>sports term</source>
-        <translation type="unfinished"/>
+        <translation>スポーツ用語</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>sumo term</source>
-        <translation type="unfinished"/>
+        <translation>相撲用語</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>zoology term</source>
-        <translation type="unfinished"/>
+        <translation>動物学用語</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -2625,7 +2625,7 @@
     <message>
         <location line="+2"/>
         <source>Junior high school</source>
-        <translation type="unfinished"/>
+        <translation>中学校</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -2855,7 +2855,7 @@
     <message>
         <location line="+17"/>
         <source>Only studied components</source>
-        <translation type="unfinished"/>
+        <translation>学習済みのもののみ</translation>
     </message>
     <message>
         <location line="+12"/>
@@ -2875,7 +2875,7 @@
     <message>
         <location line="+8"/>
         <source>Handwriting</source>
-        <translation type="unfinished"/>
+        <translation>手書き</translation>
     </message>
     <message>
         <location line="+7"/>
@@ -2895,7 +2895,7 @@
     <message>
         <location line="+11"/>
         <source>Show stroke numbers</source>
-        <translation type="unfinished"/>
+        <translation>書き順を数字で表示</translation>
     </message>
     <message>
         <location line="+26"/>
@@ -2927,7 +2927,7 @@
     <message>
         <location line="+73"/>
         <source>Stroke animation</source>
-        <translation type="unfinished"/>
+        <translation>書き順をアニメーションで表示</translation>
     </message>
     <message>
         <location line="+181"/>
@@ -2942,18 +2942,18 @@
     <message>
         <location line="+6"/>
         <source>Appearance</source>
-        <translation type="unfinished"/>
+        <translation>字体</translation>
     </message>
     <message>
         <location line="-430"/>
         <location line="+226"/>
         <source>Size:</source>
-        <translation type="unfinished"/>
+        <translation>サイズ</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Drawing speed:</source>
-        <translation type="unfinished"/>
+        <translation>記入スピード</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -2964,12 +2964,12 @@
     <message>
         <location line="-9"/>
         <source>Pause between strokes:</source>
-        <translation type="unfinished"/>
+        <translation>一画ごとに停止する</translation>
     </message>
     <message>
         <location line="+28"/>
         <source>Show numbers</source>
-        <translation type="unfinished"/>
+        <translation>数字の表示</translation>
     </message>
     <message>
         <location line="+20"/>
@@ -2979,12 +2979,12 @@
     <message>
         <location line="+39"/>
         <source>Animation playback</source>
-        <translation type="unfinished"/>
+        <translation>アニメーションをもう一度再生する</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Play animation when the kanji popup appears</source>
-        <translation type="unfinished"/>
+        <translation>漢字をアニメーション再生</translation>
     </message>
     <message>
         <location line="+15"/>
@@ -3115,7 +3115,7 @@
     <message>
         <location line="+9"/>
         <source>Support Tagaini Jisho - Make a &amp;donation!</source>
-        <translation type="unfinished"/>
+        <translation>寄付をして互いに辞書を支援する</translation>
     </message>
     <message>
         <location line="+21"/>
@@ -3167,7 +3167,7 @@
     <message>
         <location filename="../src/gui/MainWindow.cc" line="-51"/>
         <source>Auto-search on clipboard content</source>
-        <translation type="unfinished"/>
+        <translation>クリップボードから自動検索</translation>
     </message>
     <message>
         <location line="+23"/>
@@ -3179,7 +3179,9 @@
         <source>You have now been using Tagaini Jisho for a short while. If you like it, please show your support by making a donation that expresses your appreciation of this software. While Tagaini is free, its development has a cost and your support will have a positive influence on its future. You can donate via Paypal or credit card.
 
 This message is a one-time reminder and will not appear anymore - you can still donate later by choosing the corresponding option in the Help menu.</source>
-        <translation type="unfinished"/>
+        <translation>互いに辞書をお試しいただきありがとうございます。このソフトウェアを気に入って頂けたのであれば、ぜひ寄付にご協力下さい。あなたの支援がこの無料の辞書の発展に役立ちます。ペイパルまたはクレジットカードで寄付できます。
+
+このメッセージは今後表示されることはありません。ヘルプメニューからいつでも寄付していただけます。</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -3687,12 +3689,12 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location line="+0"/>
         <source>Make a new search using only this filter</source>
-        <translation type="unfinished"/>
+        <translation>この条件のみを使用して新規検索する</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Add this filter to the current search</source>
-        <translation type="unfinished"/>
+        <translation>この条件を元の検索に追加する</translation>
     </message>
 </context>
 <context>
@@ -3705,7 +3707,7 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location line="+16"/>
         <source>All words using this kanji</source>
-        <translation type="unfinished"/>
+        <translation>漢字を使用する全ての単語</translation>
     </message>
     <message>
         <location line="+0"/>
@@ -3715,12 +3717,12 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location line="+0"/>
         <source>Make a new search using only this filter</source>
-        <translation type="unfinished"/>
+        <translation>この条件のみを使用して新規検索する</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Add this filter to the current search</source>
-        <translation type="unfinished"/>
+        <translation>検索をこの条件で絞り込みする</translation>
     </message>
 </context>
 <context>
@@ -3879,7 +3881,7 @@ This message is a one-time reminder and will not appear anymore - you can still 
         <location line="-35"/>
         <location line="+35"/>
         <source>&lt;p&gt;These tags have invalid characters: </source>
-        <translation type="unfinished"/>
+        <translation>これらのタグは無効な文字列を含みます</translation>
     </message>
     <message>
         <location line="-7"/>
@@ -3920,12 +3922,12 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location filename="../src/gui/TextFilterWidget.cc" line="+42"/>
         <source>Romaji search</source>
-        <translation type="unfinished"/>
+        <translation>ローマ字検索</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>If checked, text typed in romaji will be converted to kana and searched as such.</source>
-        <translation type="unfinished"/>
+        <translation>チェックすると、ローマ字で入力されたテキストがかな文字に変換され検索されます</translation>
     </message>
     <message>
         <location line="+15"/>

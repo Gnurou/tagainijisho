@@ -9,7 +9,7 @@ endif(APPLE)
 # Set the program name to be the same as the project
 set(tagaini_binary ${CMAKE_PROJECT_NAME})
 
-set(VERSION 1.0.1)
+set(VERSION 1.0.3)
 
 cmake_minimum_required(VERSION 2.8.0)
 
@@ -30,7 +30,7 @@ endif(UNIX AND NOT APPLE AND NOT DATA_DIR)
 # 64 bits Intel binary with 10.6 compatibility 
 if(APPLE)
 	set(CMAKE_OSX_ARCHITECTURES "${ARCHS_STANDARD_64_BIT}")
-	set(CMAKE_OSX_SYSROOT "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk")
+	set(CMAKE_OSX_SYSROOT "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk")
 	set(CMAKE_OSX_DEPLOYMENT_TARGET "10.6")
 	set(CMAKE_PREFIX_PATH "${CMAKE_OSX_SYSROOT}/usr")  
 	set(CMAKE_FRAMEWORK_PATH "${CMAKE_OSX_SYSROOT}/Library/Frameworks:${CMAKE_OSX_SYSROOT}/System/")
