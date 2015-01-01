@@ -102,7 +102,7 @@ JMdictPlugin::~JMdictPlugin()
 
 QString JMdictPlugin::pluginInfo() const
 {
-	return QString("<p><a href=\"http://www.csse.monash.edu.au/~jwb/jmdict.html\">JMDict</a> version %1, distributed under the <a href=\"http://creativecommons.org/licenses/by-sa/3.0/\">Creative Common Attribution Share Alike License, version 3.0</a>.</p>").arg(dictVersion());
+	return QString("<p><a href=\"http://www.csse.monash.edu.au/~jwb/jmdict.html\">JMDict</a> version %1, distributed under the <a href=\"http://creativecommons.org/licenses/by-sa/3.0/\">Creative Common Attribution Share Alike License, version 3.0</a>.</p><p><a href=\"http://www.kanji.org/\">SKIP codes</a> are developed by Jack Halpern and distributed under the <a href=\"http://creativecommons.org/licenses/by-sa/4.0/\">Creative Commons Attribution-ShareAlike 4.0 International</a> licence.</p>").arg(dictVersion());
 }
 
 /* For now, JMdict do not have moved entries information. We can only delete entries that are not present anymore */
