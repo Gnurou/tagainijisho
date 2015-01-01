@@ -177,8 +177,7 @@ Kanjidic2FilterWidget::Kanjidic2FilterWidget(QWidget *parent) : SearchFilterWidg
 	mainLayout->addWidget(_strokeCountGroupBox);
 	mainLayout->addWidget(componentsGroupBox);
 	mainLayout->addWidget(unicodeGroupBox);
-	//mainLayout->addWidget(skipGroupBox);
-	skipGroupBox->setVisible(false);
+	mainLayout->addWidget(skipGroupBox);
 	mainLayout->addWidget(fourCornerGroupBox);
 	mainLayout->addWidget(gradeGroupBox);
 	mainLayout->setContentsMargins(0, 0, 0, 0);

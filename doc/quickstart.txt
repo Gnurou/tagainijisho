@@ -113,6 +113,7 @@ parameters are available:
 * Components: enter some kanjis in this text field, and only kanjis containing
   them will be shown.
 * Unicode: lookup by unicode.
+* SKIP Code: lookup by skip code.
 * Four Corner: lookup with the four corner method.
 * School grade: choose the school grade from which a kanji is learnt.
 

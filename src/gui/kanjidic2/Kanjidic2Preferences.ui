@@ -17,7 +17,7 @@
    <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>2</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="displayTab">
       <attribute name="title">
@@ -44,6 +44,13 @@
             </property>
            </widget>
           </item>
+          <item row="2" column="1">
+           <widget class="QCheckBox" name="showSKIP">
+            <property name="text">
+             <string>SKIP code</string>
+            </property>
+           </widget>
+          </item>
           <item row="0" column="2">
            <widget class="QCheckBox" name="showStrokesNumber">
             <property name="text">
@@ -55,6 +62,34 @@
            <widget class="QCheckBox" name="showNanori">
             <property name="text">
              <string>Nanori</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="2">
+           <widget class="QCheckBox" name="showVariationOf">
+            <property name="text">
+             <string>Original</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="1">
+           <widget class="QCheckBox" name="showVariations">
+            <property name="text">
+             <string>Variations</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="0">
+           <widget class="QCheckBox" name="showFrequency">
+            <property name="text">
+             <string>Frequency</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="2">
+           <widget class="QCheckBox" name="showFourCorner">
+            <property name="text">
+             <string>Four corner code</string>
             </property>
            </widget>
           </item>
@@ -76,34 +111,6 @@
            <widget class="QCheckBox" name="showGrade">
             <property name="text">
              <string>School grade</string>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="1">
-           <widget class="QCheckBox" name="showFourCorner">
-            <property name="text">
-             <string>Four corner code</string>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="2">
-           <widget class="QCheckBox" name="showFrequency">
-            <property name="text">
-             <string>Frequency</string>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="0">
-           <widget class="QCheckBox" name="showVariations">
-            <property name="text">
-             <string>Variations</string>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="1">
-           <widget class="QCheckBox" name="showVariationOf">
-            <property name="text">
-             <string>Original</string>
             </property>
            </widget>
           </item>
@@ -399,8 +406,8 @@
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>499</width>
-               <height>181</height>
+               <width>501</width>
+               <height>166</height>
               </rect>
              </property>
              <layout class="QVBoxLayout" name="verticalLayout_7">
@@ -480,6 +487,13 @@
           <bool>true</bool>
          </property>
          <layout class="QGridLayout" name="gridLayout_5">
+          <item row="3" column="1">
+           <widget class="QCheckBox" name="tooltipShowSKIP">
+            <property name="text">
+             <string>SKIP code</string>
+            </property>
+           </widget>
+          </item>
           <item row="0" column="0">
            <widget class="QCheckBox" name="tooltipShowScore">
             <property name="text">
@@ -522,17 +536,17 @@
             </property>
            </widget>
           </item>
+          <item row="3" column="2">
+           <widget class="QCheckBox" name="tooltipShowFourCorner">
+            <property name="text">
+             <string>Four corner code</string>
+            </property>
+           </widget>
+          </item>
           <item row="0" column="2">
            <widget class="QCheckBox" name="tooltipShowHeisig">
             <property name="text">
              <string>Heisig number</string>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="1">
-           <widget class="QCheckBox" name="tooltipShowFourCorner">
-            <property name="text">
-             <string>Four corner code</string>
             </property>
            </widget>
           </item>
@@ -802,7 +816,12 @@
   <tabstop>showJLPT</tabstop>
   <tabstop>showGrade</tabstop>
   <tabstop>showUnicode</tabstop>
+  <tabstop>showSKIP</tabstop>
+  <tabstop>showFourCorner</tabstop>
   <tabstop>showHeisig</tabstop>
+  <tabstop>showFrequency</tabstop>
+  <tabstop>showVariations</tabstop>
+  <tabstop>showVariationOf</tabstop>
   <tabstop>showRadicals</tabstop>
   <tabstop>showComponents</tabstop>
   <tabstop>maxCompounds</tabstop>
@@ -829,6 +848,8 @@
   <tabstop>tooltipShowGrade</tabstop>
   <tabstop>tooltipShowFrequency</tabstop>
   <tabstop>tooltipShowUnicode</tabstop>
+  <tabstop>tooltipShowSKIP</tabstop>
+  <tabstop>tooltipShowFourCorner</tabstop>
   <tabstop>tooltipShowHeisig</tabstop>
   <tabstop>animSize</tabstop>
   <tabstop>animSpeedDefault</tabstop>
