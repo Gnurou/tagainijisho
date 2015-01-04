@@ -97,7 +97,10 @@ bool isJapaneseChar(const QChar c, const QChar c2) {
 }
 
 bool isJapaneseChar(const QString &s, int pos) {
-	return isKanaChar(s[pos]) || isKanjiChar(s, pos) || isPunctuationChar(s[pos]);
+    if (s == NULL || pos >= s.size())
+        return false;
+    else
+        return isKanaChar(s[pos]) || isKanjiChar(s, pos) || isPunctuationChar(s[pos]);
 }
 
 bool isRomajiChar(const QChar c) {
