@@ -86,8 +86,11 @@ bool isKanjiChar(const QChar c, const QChar c2) {
 
 bool isKanjiChar(const QString &s, int pos)
 {
-	QChar c(s[pos]);
+	QChar c;
 	QChar c2;
+	if (s.isEmpty() || pos >= s.size())
+		return false;
+	c = s[pos];
 	if (c.isHighSurrogate() && pos < s.size() - 1) c2 = s[pos + 1];
 	return isKanjiChar(c, c2);
 }
@@ -97,6 +100,8 @@ bool isJapaneseChar(const QChar c, const QChar c2) {
 }
 
 bool isJapaneseChar(const QString &s, int pos) {
+	if (s.isEmpty() || pos >= s.size())
+		return false;
 	return isKanaChar(s[pos]) || isKanjiChar(s, pos) || isPunctuationChar(s[pos]);
 }
 
