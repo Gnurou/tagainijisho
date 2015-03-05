@@ -236,7 +236,11 @@ void MainWindow::exportUserData()
 	if (to.isEmpty()) return;
 
 	QFile dataFile(Database::instance()->userDBFile());
-	dataFile.copy(to);
+
+        QFile(to).remove(); // QFile::copy does not overwrite, so delete it first (if existent).
+        if (!dataFile.copy(to)) {
+            QMessageBox::critical(this, tr("Export user data..."), tr("Error: Could not export database! Please verify that you have write permissions on the target file."));
+        }
 }
 
 void MainWindow::importUserData()
