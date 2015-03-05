@@ -22,7 +22,7 @@ before_install:
   - export TAGAINI_VERSION
   - env | sort
   - if [ "$TRAVIS_OS_NAME" = "linux" ]; then sudo apt-get -qq update ; sudo apt-get install -qq libtext-multimarkdown-perl sqlite3 qt4-dev-tools rpm ; fi
-  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew update ; brew install cmake multimarkdown qt; fi
+  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew update ; brew install multimarkdown qt; fi
   - qmake -version
 
 before_script:
