@@ -3,9 +3,9 @@ include(${QT_USE_FILE})
 
 set(SQLITE_MIN_VERSION "3007004")
 set(SQLITE_BLACKLIST "3007007;3007008;3008000")
-set(SQLITE_DOWNLOAD_VERSION "3080700")
+set(SQLITE_DOWNLOAD_VERSION "3080803")
 
-set(SQLITE_SOURCE http://www.sqlite.org/2014/sqlite-amalgamation-${SQLITE_DOWNLOAD_VERSION}.zip)
+set(SQLITE_SOURCE http://www.sqlite.org/2015/sqlite-amalgamation-${SQLITE_DOWNLOAD_VERSION}.zip)
 
 option(SHARED_SQLITE_LIBRARY "Build the SQLite library as a shared library (loadable by SQLite's interpreter)" OFF)
 
