@@ -84,6 +84,7 @@ if(UNIX)
 
 		# Desktop and icon files
 		install(FILES ${CMAKE_SOURCE_DIR}/tagainijisho.desktop DESTINATION share/applications PERMISSIONS OWNER_READ GROUP_READ WORLD_READ COMPONENT Runtime)
+		install(FILES ${CMAKE_SOURCE_DIR}/tagainijisho.appdata.xml DESTINATION share/applications PERMISSIONS OWNER_READ GROUP_READ WORLD_READ COMPONENT Runtime)
 		install(FILES ${CMAKE_SOURCE_DIR}/images/tagainijisho-16x16.png DESTINATION share/icons/hicolor/16x16/apps RENAME tagainijisho.png PERMISSIONS OWNER_READ GROUP_READ WORLD_READ COMPONENT Icons)
 		install(FILES ${CMAKE_SOURCE_DIR}/images/tagainijisho-22x22.png DESTINATION share/icons/hicolor/22x22/apps RENAME tagainijisho.png PERMISSIONS OWNER_READ GROUP_READ WORLD_READ COMPONENT Icons)
 		install(FILES ${CMAKE_SOURCE_DIR}/images/tagainijisho-32x32.png DESTINATION share/icons/hicolor/32x32/apps RENAME tagainijisho.png PERMISSIONS OWNER_READ GROUP_READ WORLD_READ COMPONENT Icons)
