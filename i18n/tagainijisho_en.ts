@@ -2554,12 +2554,12 @@
     </message>
     <message>
         <location line="+3"/>
-        <location line="+262"/>
+        <location line="+261"/>
         <source>Grade</source>
         <translation>Grade</translation>
     </message>
     <message>
-        <location line="-248"/>
+        <location line="-247"/>
         <source>All &amp;Kyouiku kanji</source>
         <translation>All &amp;Kyouiku kanji</translation>
     </message>
@@ -2569,7 +2569,7 @@
         <translation>All &amp;Jouyou kanji</translation>
     </message>
     <message>
-        <location line="+220"/>
+        <location line="+219"/>
         <source>, %1 strokes</source>
         <translation>, %1 strokes</translation>
     </message>
@@ -2770,52 +2770,58 @@
     </message>
     <message>
         <location line="+7"/>
-        <location line="+457"/>
+        <location line="+471"/>
         <source>Unicode</source>
         <translation>Unicode</translation>
     </message>
     <message>
-        <location line="-401"/>
+        <location line="-436"/>
         <source>Variations</source>
         <translation>Variations</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="-7"/>
         <source>Original</source>
         <translation>Original</translation>
     </message>
     <message>
-        <location line="-14"/>
-        <location line="+415"/>
+        <location line="+14"/>
+        <location line="+436"/>
         <source>Frequency</source>
         <translation>Frequency</translation>
     </message>
     <message>
-        <location line="-429"/>
-        <location line="+436"/>
+        <location line="-408"/>
+        <location line="+415"/>
         <source>School grade</source>
         <translation>School grade</translation>
     </message>
     <message>
-        <location line="-443"/>
-        <location line="+450"/>
+        <location line="-422"/>
+        <location line="+429"/>
         <source>JLPT level</source>
         <translation>JLPT level</translation>
     </message>
     <message>
-        <location line="-390"/>
+        <location line="-397"/>
         <location line="+109"/>
         <source>Components</source>
         <translation>Components</translation>
     </message>
     <message>
         <location line="-190"/>
-        <location line="+443"/>
+        <location line="+450"/>
         <source># of strokes</source>
         <translation># of strokes</translation>
     </message>
     <message>
-        <location line="-436"/>
+        <location line="-457"/>
+        <location line="+443"/>
+        <source>SKIP code</source>
+        <translation type="unfinished">SKIP code</translation>
+    </message>
+    <message>
+        <location line="-429"/>
         <source>Nanori</source>
         <translation>Nanori</translation>
     </message>
@@ -2826,13 +2832,13 @@
         <translation>Four corner code</translation>
     </message>
     <message>
-        <location line="-471"/>
-        <location line="+464"/>
+        <location line="-443"/>
+        <location line="+450"/>
         <source>Heisig number</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-412"/>
+        <location line="-426"/>
         <source>Additional information</source>
         <translation>Additional information</translation>
     </message>
@@ -2929,18 +2935,18 @@
     </message>
     <message>
         <location line="+26"/>
-        <location line="+295"/>
+        <location line="+302"/>
         <source>px</source>
         <translation>px</translation>
     </message>
     <message>
-        <location line="-277"/>
-        <location line="+403"/>
+        <location line="-284"/>
+        <location line="+410"/>
         <source>Preview</source>
         <translation>Preview</translation>
     </message>
     <message>
-        <location line="-315"/>
+        <location line="-322"/>
         <source>Tooltip</source>
         <translation>Tooltip</translation>
     </message>
@@ -2950,7 +2956,7 @@
         <translation>Kanji tooltip enabled</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+16"/>
         <source>Score</source>
         <translation>Score</translation>
     </message>
@@ -2975,8 +2981,8 @@
         <translation>Appearance</translation>
     </message>
     <message>
-        <location line="-423"/>
-        <location line="+219"/>
+        <location line="-430"/>
+        <location line="+226"/>
         <source>Size:</source>
         <translation>Size:</translation>
     </message>
@@ -3155,12 +3161,13 @@
     <message>
         <location line="-119"/>
         <location filename="../src/gui/MainWindow.cc" line="+235"/>
+        <location line="+7"/>
         <source>Export user data...</source>
         <translation>Export user data...</translation>
     </message>
     <message>
         <location line="+9"/>
-        <location filename="../src/gui/MainWindow.cc" line="+9"/>
+        <location filename="../src/gui/MainWindow.cc" line="+6"/>
         <source>Import user data...</source>
         <translation>Import user data...</translation>
     </message>
@@ -3195,7 +3202,7 @@
         <translation>Whole study list train &amp;settings...</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="-51"/>
+        <location filename="../src/gui/MainWindow.cc" line="-55"/>
         <source>Auto-search on clipboard content</source>
         <translation>Auto-search on clipboard content</translation>
     </message>
@@ -3224,7 +3231,12 @@ This message is a one-time reminder and will not appear anymore - you can still 
         <translation>Nah</translation>
     </message>
     <message>
-        <location line="+25"/>
+        <location line="+20"/>
+        <source>Error: Could not export database! Please verify that you have write permissions on the target file.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+9"/>
         <source>About to replace user data!</source>
         <translation>About to replace user data!</translation>
     </message>
@@ -4068,7 +4080,7 @@ This message is a one-time reminder and will not appear anymore - you can still 
         <translation>Skip (&amp;4)</translation>
     </message>
     <message>
-        <location line="+109"/>
+        <location line="+108"/>
         <source>No entries to train</source>
         <translation>No entries to train</translation>
     </message>
@@ -4088,7 +4100,7 @@ This message is a one-time reminder and will not appear anymore - you can still 
         <translation>No more entries to train</translation>
     </message>
     <message>
-        <location line="-48"/>
+        <location line="-47"/>
         <source>Correct: %1, Wrong: %2, Total: %3</source>
         <translation>Correct: %1, Wrong: %2, Total: %3</translation>
     </message>
