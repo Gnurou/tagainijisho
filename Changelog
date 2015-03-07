@@ -1,6 +1,8 @@
-1.0.3 release on 2015/03/07
+1.0.3 release on 2015/03/08
 * Update to SQLite 3.8.8.3
 * Update JMdict, kanjidic and KanjiVG data
+* Lots of improvements to non-english translations (especially
+  French) thanks to the jmdict-i18n project
 * Re-enable SKIP support now that licensing issues are solved
 * Remove a bunch of invalid entries from the JLPT lists
 * Fix a bug when exporting the database to an existing file
