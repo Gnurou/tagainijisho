@@ -21,6 +21,7 @@ make i18n databases docs -j5
 rm -Rf CMakeCache.txt CMakeFiles
 i686-w64-mingw32-cmake -DCMAKE_BUILD_TYPE=Release -DEMBED_SQLITE=1 $SRCDIR
 make tagainijisho -j5
+i686-w64-mingw32-strip $BUILDDIR/src/gui/tagainijisho.exe
 
 cd $BASEDIR
 makensis -DVERSION=$VERSION -DBUILDDIR=$BUILDDIR -DSRCDIR=$SRCDIR -DQTPATH=$QTPATH $NSIFILE
