@@ -1,4 +1,11 @@
 1000320 1 üreme organı
+1000920 1 hoşgeldiniz!
+1001140 0 evet
+1001140 0 doğru
+1001140 1 şey...
+1001140 2 ne?
+1001140 2 efendim?
+1001140 4 güzel
 1001540 0 tebrik ederim
 1001720 0 lütfen
 1001780 0 iyi geceler
@@ -11,6 +18,7 @@
 1002330 0 büyükanne
 1002340 0 günaydın
 1002430 0 çay (yeşil)
+1002430 1 çay molası (işte)
 1002430 2 çay seramonisi
 1002590 0 baba
 1002610 0 mide
@@ -18,34 +26,65 @@
 1004790 0 bundan sonra
 1005340 0 Bay, Bayan
 1006670 3 sen
+1006780 3 sen
+1006780 3 senin ailen
 1006970 3 sen
+1008460 1 bile
+1008460 1 dahi
+1008460 1 hatta
+1008460 1 üstelik
 1008460 3 sandalye
 1008460 3 tabure
+1008490 1 ve
 1009000 0 sağ ol
 1009000 0 teşekkürler
 1009000 1 karar vermek
 1009000 1 seçmek
+1009000 3 bir şekilde
 1010080 0 evet
 1012550 0 alo
 1012620 0 aynı zamanda
 1012980 0 yapmak
+1012980 10 cinsel ilişkiye girmek
 1012980 2 öldürmek
 1017760 1 apartman
 1017760 1 daire
 1019280 0 alkol
+1019450 0 albüm
+1022210 0 mürekkep
+1025140 0 viski
 1028580 0 yürüyen merdiven
+1029430 0 enerji
 1030630 0 asansör
+1030950 0 motor
+1034660 0 ofis
+1036170 0 araba
+1036400 0 kart
 1038350 0 kamera
 1039140 0 köri
 1039220 0 takvim
 1040060 0 gaz
+1041150 0 mutfak
+1041850 0 kaptan
+1042200 0 kamp
+1042610 0 kilo-
+1042610 0 10^3
 1042610 1 kilo
 1042610 1 kilogram
 1042610 2 kilometre
+1042610 3 kilo-
+1042610 3 2^10
+1042620 0 kilogram
+1042650 0 kilometre
 1042820 0 gitar
+1044020 0 klasik müzik
+1044020 1 klasik
 1044070 0 sınıf
+1044830 0 Noel
 1046810 0 gram
 1047860 0 kek
+1048400 0 oyun
+1049010 0 kod
 1049180 0 kahve
 1050590 0 kopya
 1050590 0 fotokopi
@@ -59,6 +98,10 @@
 1072590 0 kaşık
 1073900 0 terlik
 1076190 0 taksi
+1077250 0 dans
+1077330 0 peynir
+1077360 0 ekip
+1077360 0 takım
 1078630 0 masa
 1078810 0 teyp
 1078810 0 kaset çalar
@@ -67,74 +110,199 @@
 1080000 0 tenis
 1080510 0 televizyon
 1080510 0 TV
+1087630 0 tünel
 1087820 0 kapı (Batı tarzı)
 1089890 0 bıçak
 1091500 0 haberler
+1092820 0 kravat
 1096420 0 mendil
+1096560 0 yakışıklı
 1098390 0 otobüs
 1098390 2 bas
 1098620 0 tereyağı
 1100760 0 parti
+1101510 0 pasaport
+1105360 0 vidyo
 1106400 0 piyano
+1106530 0 piknik
 1108180 0 faks
 1109380 0 film
+1110110 2 şahin
+1115150 0 (yüzme) havuz
 1116840 0 armağan
 1116840 0 hediye
+1117030 0 profesyonel
 1119650 0 yatak
+1120410 0 sayfa
+1120990 0 evcil hayvan
 1120990 1 trompet
 1121380 0 kalem
+1121740 1 ev
 1122650 0 otel
+1123550 0 top
 1123590 0 tükenmez kalem
 1124970 0 cep
+1131990 0 süt
 1132570 0 metre
+1137570 0 Avrupa
 1138860 0 radyo
+1147220 1 roket
 1148520 0 kelime işlemci
+1148850 0 şarap
+1149590 0 çinko (Zn)
 1149830 0 Amerika
+1150410 0 aşk
+1150410 0 sevgi
+1150450 0 aşık olmak
+1150640 0 evcil köpek
+1150860 0 aşk
+1150860 0 sevgi
+1151180 2 gülhatmi
+1151910 0 kısır döngü
+1152530 0 kabus
+1152530 0 kötü rüya
+1153270 0 ezici
+1153270 0 karşı konulamaz
+1153670 0 ucuz
+1153770 0 ötenazi
+1153880 0 ucuz
+1153880 0 ekonomik
+1157070 0 sandalya
+1157070 0 tabure
+1157170 0 yapmak
+1159310 0 yetim
+1159420 0 yaslı aile
+1159420 0 yakınları yeni ölen aile
+1159500 0 gen
+1159500 1 genetik
 1160790 0 bir
 1160820 0 bir
+1161080 0 neden
+1161080 0 sebep
+1161400 1 tek boynuz
+1162120 0 Ocak
 1162130 0 bir ay
+1162740 0 karbonmonoksit
+1162980 0 geçici
+1163270 0 bir hafta
 1163400 0 birlikte
+1163940 3 hey!
+1164250 0 1.000
+1164250 0 bin
+1166220 0 eksantrik
+1166460 0 (bir) adım
+1166460 1 seviye
+1166460 1 aşama
+1166460 1 evre
+1167810 0 anekdot
 1169870 1 içmek (sigara, tütün)
+1169990 0 içecek
+1169990 0 meşrubat
+1170930 0 kafiye
+1170930 0 uyak
 1171010 0 sağ
 1171010 0 sağ taraf
+1171120 0 sağ el
+1171210 0 sağ kanat
+1171400 0 astronot
 1171900 0 yağmur
+1171910 0 yağmur bulutu
 1173100 0 bulut
 1173720 0 film
+1174020 0 diyetisyen
+1174020 0 beslenme uzmanı
+1174030 0 yetersiz beslenme
+1174030 0 beslenme bozukluğu
 1174340 0 yüzmek
 1174420 0 İngilizce
+1174760 0 uydu
+1174980 0 sıvılaşma
 1175140 0 istasyon
 1175570 0 Yen
 1175570 0 para
 1175570 1 daire
+1176240 1 yer
+1176240 1 konum
+1176800 1 ozan
 1177800 0 uzak
+1178070 0 perspektif
 1178590 0 kurşun kalem
+1178630 0 klorid
+1178710 0 hidroklorik asit
+1178750 0 klor (Cl)
 1178940 0 kirli
 1178940 0 pis
+1179140 0 yeğen
+1180000 0 cevap
+1180000 0 yanıt
 1180470 0 basmak
+1180470 8 emin olmak
+1181020 1 Batı dili
+1181190 0 Avrupa
+1181480 0 krallık
+1181480 0 monarşi
+1181490 0 taht
+1181500 0 prens
+1181540 0 kral
+1181540 0 hükümdar
+1181570 0 kral
+1181700 0 kral
+1181760 0 sarı
+1181880 0 Altın Çağı
 1182030 0 sarı
+1182060 0 yumurta sarısı
+1182500 0 açık deniz
 1182620 0 10^8
 1182620 0 100.000.000
 1182620 0 yüz milyon
+1184140 1 alt
+1184140 1 taban
+1186760 0 kimya
+1186940 0 kimyasal silah
+1187570 0 geçici önlem
+1187570 0 geçici tedbir
+1188220 0 maske
+1189290 0 yüzlerce
 1189360 2 kim
 1189370 0 kim?
+1189940 1 Kanada
 1191320 0 yaz
+1191460 0 günötesi
 1191730 2 soy
 1191730 2 soyad
 1191730 2 soyisim
 1192150 0 aile
 1192150 0 aile üyeleri
+1192160 0 aile planlaması
 1192700 0 bilim
+1192970 0 meyve ağacı
+1192990 0 meyve suyu
 1193060 0 meyve
 1193180 0 şarkı
 1193180 2 modern şiir
+1193260 0 opera
+1193610 0 ateş
+1193610 0 alev
+1193720 0 molotof kokteyli
+1193890 0 yangın sigortası
+1194280 0 Salı
 1194290 0 Salı
 1194500 2 ikebana
 1194500 3 Japon oyun kartları
 1194500 4 güzellik
 1195430 1 yük
+1195680 0 şekerci dükkanı
+1197810 0 yeni yıl kartı
 1198550 1 işyeri
+1199280 0 anatomi
+1199390 0 ölüm yıldönümü
+1200330 0 canavar
+1200660 0 sıkıyönetim
+1201120 0 isim değişikliği
 1201190 0 deniz
 1201190 0 sahil
+1201490 0 okyanus suyu
+1201590 0 deniz yosunu
 1201940 0 küllük
 1201940 0 kül tablası
 1202150 1 her şey
@@ -142,37 +310,114 @@
 1203250 1 açık hava
 1203620 0 yurtdışı
 1203650 0 yabancı
+1203770 0 dış tüketim
+1203850 0 yabancı
+1205560 0 nükleik asit
+1205590 0 çekirdek
+1205620 0 nükleer başlık
+1205630 0 atomik yakıt
+1205680 0 nükleer silah
+1205690 0 nükleer parçalanma
+1205700 0 nükleer silah
+1205720 0 nükleer birleşme
 1206110 1 kenar
+1206220 0 kornea
+1206220 0 saydam tabaka
+1206570 0 akademi
+1206570 0 kampüs
 1206730 0 okul
+1207150 0 okul arkadaşı
 1207240 0 eğlenceli
 1207240 0 zevkli
 1207590 13 bağlı olmak
 1207610 1 oturmak
+1207710 0 gölcük
+1209250 0 ördek
+1209480 0 hasat
 1209650 0 kurumak
 1210360 0 soğuk (örn. hava)
+1211640 0 bürokrasi
+1211680 0 devlet idare ofisi
 1213170 0 Çince karakterler
 1213170 0 kanji
 1213870 0 (bayan) hemşire
+1214130 0 orkestra müziği
+1214140 0 orkestra
+1214160 0 kontrol
+1214170 0 kontrol kulesi
+1216170 0 (Güney) Kore
 1217070 0 oyuncak
 1217730 0 yüz (insan)
+1219360 0 sürpriz saldırı
+1219690 0 katkı
+1219690 0 bağış
+1219770 0 parazit
+1219770 0 asalak
+1220010 0 geometri
+1220020 0 geometri
 1220210 0 sıra
+1220640 0 shogi ya da go oyuncusu
+1220770 0 fırsat
+1220770 0 şans
+1220890 0 makineli tüfek
+1221040 0 pilot
+1221300 1 (elektriksel) geribesleme
+1222030 0 nefes borusu
+1222040 0 bronşiyal tüp
+1222280 0 meteoroloji
+1222290 0 meteorolojik rasathane
+1222490 0 silindir
+1222870 0 mevsim rüzgarları
 1223640 1 uyanmak
+1225460 0 kurban
+1225810 0 yapay diş
+1225830 0 özel okul
+1225910 0 zorunlu eğitim
+1225940 0 karınca
+1226770 0 yolcu teknesi
+1227090 0 kontratak
+1227090 0 karşı atak
+1227090 0 karşı saldırı
+1227140 0 paradoks
 1228260 3 öpmek
+1228310 0 vampir
+1228310 0 kan emici
+1228730 0 ani ölüm
+1228830 0 ani ölüm
+1229100 0 ambulans
+1230260 0 su kaynağı
+1230260 0 su rezervi
 1231580 0 sığır eti
 1231590 0 süt (inek)
 1231690 0 geçen sene
 1231690 0 geçen yıl
+1233150 0 balık pazarı
+1234070 0 resital yarışması
+1235350 0 cumhuriyetçilik
+1235690 0 konçerto
 1237150 0 sınıf
 1237150 0 derslik
 1237410 0 köprü
+1239190 0 yoğunlaşma
+1240450 0 Uzak Doğu
+1240650 0 yanardöner
+1241670 0 ambargo
+1242460 0 modern
+1242460 0 çağdaş
+1243150 0 sarı saç
 1243320 0 Cuma
+1243440 1 galaksi
 1243490 0 banka
+1243560 0 gümüş (renk)
 1243600 0 dokuz
+1243660 0 Eylül
 1243850 0 ayın dokuzuncu günü
 1243850 1 dokuz gün
 1244310 0 acı
 1245470 0 hava
 1245470 0 atmosfer
+1245620 0 karate
+1246850 0 ayı
 1249900 0 ağabey
 1251270 0 deneyim
 1251270 0 tecrübe
@@ -180,27 +425,48 @@
 1252390 0 polis
 1252560 4 kolay
 1252560 4 basit
+1252770 0 zayıf deprem
 1253020 0 tavuk eti
 1254790 0 evlilik
 1254790 0 evlenme
+1255150 0 kan grubu
+1255250 0 kan lekesi
+1255350 0 kan şekeri
+1255400 0 hemofili
+1255400 0 kan hastalığı
 1255430 0 ay
 1255430 1 ay
+1255700 0 aylık gelir
 1255890 0 Pazartesi
+1256750 1 süngü
 1257240 0 sevmemek
 1257240 0 nefret etmek
 1257540 0 bina
 1258570 0 laboratuvar
+1258590 0 araştırmacı
 1258710 0 ipek
+1258760 0 ipek
+1258760 0 ipek kumaş
 1259210 0 göstermek
 1259290 4 denemek
 1260490 0 anahtar
 1260490 1 kilit
+1261430 0 hammadde
+1261600 0 atom çekirdeği
+1261870 0 ana renk
+1261950 0 atom ve hidrojen bombası
+1262040 0 nükleer denizaltı
+1263380 0 kaynak
 1264740 2 bireysel
 1266440 2 davet etmek
+1266820 0 yetimhane
+1266820 0 yetimler yurdu
 1266970 0 kapı (Japon tarzı)
 1267280 0 göl
+1267340 3 açık kahverengi
 1268060 0 beş
 1268070 0 beş
+1268170 0 Mayıs
 1268570 0 ayın beşinci günü
 1268570 1 beş gün
 1268990 0 öğleden sonra
@@ -208,49 +474,83 @@
 1269320 1 sonra
 1270590 0 pilav
 1270590 1 yemek
+1270710 1 tahtırevan
 1270910 0 dil
 1270910 0 lisan
+1270910 1 kelime
+1272350 0 trafik kazası
+1272430 0 trafik ağı
 1272780 0 ışık
+1273120 0 ışık yılı
 1275640 0 ağız
+1279870 0 Tokyo'nun eski adı
 1279990 0 liman
 1280770 0 siyah çay
+1281360 0 hava postası
+1283030 0 Hong Kong (Çin)
 1283190 0 yüksek
 1283190 0 uzun
 1283190 1 pahalı
 1283500 0 lise
+1286120 0 devlet yönetimi
+1286290 0 ulusal bayrak
 1286400 0 uluslararası
+1286520 0 uluslararası
+1286520 0 milletlerarası
+1287020 0 ulusal hazine
+1287160 0 ülke adı
 1287410 0 siyah
+1287410 1 koyu
 1287420 0 siyah
+1287420 1 koyu
+1287830 0 zenci
 1289100 0 bu ay
 1289220 0 bu hafta
 1289470 0 bu akşam
 1289480 0 iyi geceler
 1290800 0 sol
+1290900 0 sol el
 1291050 0 güle güle
 1291600 0 şeker
+1294940 0 -yaşında
+1297130 0 Osaka-Kobe
+1298230 0 geçen sene
+1298240 0 dün gece
 1298790 0 fotoğraf çekmek
 1299400 0 dergi
 1299740 0 üç
+1300250 0 Mart
+1301000 0 üç kişi
+1301110 0 3000
 1301330 0 ayın üçüncü günü
 1301330 1 üç gün
 1301940 0 şemsiye
 1302680 0 dağ
 1302680 0 tepe
+1302680 8 vahşi
 1303770 0 endüstri
 1303770 0 sanayi
 1304970 1 iş
+1306860 0 tarihi
+1306860 0 tarihsel
 1307040 0 dört
+1307180 0 Nisan
 1307320 0 ayın dördüncü günü
 1307320 1 dört gün
 1307500 0 başlamak
 1307630 0 abla
+1307640 0 abla
 1307770 0 çocuk
 1307850 0 çocuk
 1308090 0 şehir
 1310730 0 ölmek
+1310740 0 ölüm nedeni
+1310740 0 ölüm sebebi
 1311110 0 ben
 1311530 0 kağıt
+1312800 0 kapitalizm
 1313000 0 diş
+1313070 0 diş fırçası
 1313080 0 diş doktoru
 1314400 0 ofis
 1315140 0 sözlük
@@ -264,24 +564,52 @@
 1317170 1 işitme
 1318290 0 bisiklet
 1318400 0 otomobil
+1318470 0 otomatik
 1318970 0 sözlük
 1318970 1 istifa mektubu
 1319210 0 yedi
 1319220 0 yedi
+1319280 0 Temmuz
 1321900 0 fotoğraf
+1322740 0 sosyalizm
+1322800 0 Sosyalist Parti
 1324300 0 genç
+1325270 2 sosyalist
+1325270 2 komünist
+1325270 2 anarşist
 1326980 1 çalmak
 1327190 0 el
 1327190 0 kol
+1327190 12 hamle (go, shogi vb.)
 1327190 6 el
 1327190 6 el yazısı
 1327720 0 mektup
 1329015 0 alkol
 1329015 0 sake
 1332650 0 sonbahar
+1332960 0 son tren
+1333520 0 hafta sonu
+1334470 0 11
+1334470 0 on bir
+1334480 0 Kasım
+1334560 0 19
+1334560 0 on dokuz
+1334570 0 Ekim
+1334590 0 15
+1334590 0 on beş
+1334610 0 13
+1334610 0 on üç
+1334890 0 12
+1334890 0 on iki
+1334910 0 Aralık
 1335000 0 ayın onuncu günü
 1335000 1 on gün
+1335050 0 18
+1335050 0 on sekiz
+1335140 0 100.000
+1335140 0 yüz bin
 1337270 0 ödev
+1338180 7 başlamak
 1341000 0 bahar
 1341000 1 Yeni Yıl
 1341000 3 ergenlik
@@ -291,6 +619,8 @@
 1343950 1 çizmek
 1344930 0 kadın
 1344970 0 kız
+1348350 1 cüce
+1348750 0 küçük harfler
 1348870 2 kısa mesafe
 1349610 0 davet
 1351360 0 gülmek
@@ -305,9 +635,11 @@
 1352320 15 tutuklamak
 1352320 17 vermek
 1352320 22 kusmak
+1357310 0 botanik bahçesi
 1357600 0 renk
 1358280 0 yemek
 1358340 0 yemek
+1362290 0 Yeni Yıl
 1362360 0 gazete
 1362490 0 orman
 1364670 0 Şinto mabedi
@@ -315,12 +647,26 @@
 1367300 0 nüfus
 1370420 0 kütüphane
 1370760 2 ıslık çalmak
+1371670 0 açık mavi
+1371820 0 akvaryum
+1371840 0 sualtı
+1372190 0 Çarşamba
+1372260 0 hidrolik güç
+1372260 0 su gücü
+1372670 0 sarhoş olmak
 1372980 0 matematik
 1372980 0 aritmetik
+1375190 0 soyad
 1376460 0 açık hava
 1378690 0 doğmak
+1379300 0 ekosistem
+1379550 0 hayat sigortası
+1379850 3 meni
+1379850 3 sperma
+1379850 3 döl
 1380440 0 ses
 1380840 0 batı
+1380900 0 Batı Avrupa
 1381100 0 batı
 1381100 0 Batı ülkeleri
 1381380 0 mavi
@@ -328,9 +674,11 @@
 1381380 2 açık yeşil
 1381390 0 mavi
 1381390 0 yeşil
+1381470 0 mavi gökyüzü
 1382440 0 taş
 1382590 0 sabun
 1383240 0 kırmızı
+1384830 6 başlamak
 1385170 0 bilet
 1385910 1 katlamak
 1385910 1 bükmek
@@ -342,27 +690,43 @@
 1387990 0 doktor
 1388740 0 1.000
 1388740 0 bin
+1390060 1 balık pazarı
 1390360 0 savaş
 1390930 0 yıkamak
 1390930 1 araştırmak
+1392280 0 seçim
 1396860 0 büyükanne
 1401400 0 pencere
 1401910 1 ninja
 1402540 0 koşmak
+1403460 0 nefret
+1403460 0 kin
+1403460 0 düşmanlık
+1403830 1 üçüncü kişi
 1404630 0 ayak
 1404630 1 bacak
+1404840 0 ayak bileği
+1407090 0 cinayet
+1407090 0 adam öldürme
+1408360 0 Pasifik Okyanusu
+1409140 0 vücut
+1409140 0 beden
+1409140 1 sağlık
 1410590 0 beklemek
+1412560 1 destek
 1412640 0 mutfak
 1413890 0 elçilik
 1414170 0 yetişkin
 1415000 0 çok
 1415000 0 büyük ölçüde
+1415000 3 zor
 1415870 0 çok
 1416830 0 kim
 1416840 0 birisi
 1416840 0 biri
 1419110 0 doğum günü
 1419370 0 çalmak (piyano, gitar)
+1419990 0 adam
 1421210 0 deprem
 1421290 0 harita
 1421540 0 coğrafya
@@ -404,8 +768,11 @@
 1464530 0 Japonca
 1464900 0 Pazar
 1465590 0 girmek
+1465610 3 içermek
+1465610 3 dahil etmek
 1467620 0 ıslanmak
 1467640 0 kedi
+1467640 2 geyşa
 1467640 3 el arabası
 1468060 0 yıl
 1468060 0 sene
@@ -419,7 +786,10 @@
 1476960 0 manav
 1477170 0 telaffuz
 1477170 0 söyleniş
+1478750 0 yarı-
+1478750 0 yarım
 1478750 2 tek sayı
+1479890 0 yarım
 1482110 0 gece
 1483070 2 erkek arkadaş
 1485470 0 uçak
@@ -451,6 +821,8 @@
 1518540 0 ölmek
 1520670 0 kuzey
 1521400 2 uşak
+1522150 0 kitap
+1522150 0 cilt
 1523060 0 gerçek
 1523060 0 sahi
 1524590 0 kız kardeş
@@ -482,6 +854,13 @@
 1558050 0 tarih
 1561470 0 ayın altıncı günü
 1561470 1 altı gün
+1562350 2 (bir dili) konuşmak
+1565440 1 Evet
+1565440 1 Doğru
+1565440 1 Gerçekten
+1565440 1 Cidden
+1565440 2 Hey!
+1565440 2 Yo!
 1576050 0 evvelki gün
 1576050 0 evvelsi gün
 1576050 0 dünden önceki gün
@@ -507,15 +886,22 @@
 1579630 1 yedi gün
 1579840 0 10
 1579840 0 on
+1580640 5 erişkin
+1580640 5 yetişkin
 1581930 0 erkek kardeş
 1582310 0 baş
 1582310 0 kafa
 1583090 0 sekiz
 1583095 0 sekiz
 1583250 0 hayır
+1584350 0 her ay
+1584350 0 aylık
+1584360 0 her yıllık
+1584360 0 yıllık
 1584460 0 10.000
 1584460 0 on bin
 1584460 1 sayısız
+1584460 2 her şey
 1584640 0 yarından sonraki gün
 1584660 0 yarın
 1584800 2 bölünme (biyolojik)
@@ -549,13 +935,24 @@
 1603990 2 109.09 m
 1603990 3 0.99 hektar
 1604890 4 bakış açısı
+1605870 1 sık sık
 1620400 2 ortaokul
 1620400 3 Çin
 1929050 0 Afrika
+2020680 0 saat
 2082160 3 ev
 2082160 4 çatı
 2083100 0 Pazar
+2083100 1 gün
+2083100 2 günler için sayma eki
+2084840 1 yıllar için sayma eki
+2147990 2 boy
 2154810 0 güle güle
 2194990 0 çok teşekkür ederim
+2198520 0 tabun (sinir gazı)
 2220600 0 banyo
 2225040 0 ayın birinci günü
+2261490 0 amca
+2261500 0 teyze
+2272760 0 Nasılsın?
+2272760 0 İyi misin?
