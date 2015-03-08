@@ -75,7 +75,8 @@ public:
 	PreferenceItem(const QString &group, const QString &name, const T &defaultValue, bool persistent = false) : PreferenceRoot(group, name), _defaultValue(defaultValue) {
 		_settingsMutex().lock();
 		_prefsSettings().beginGroup(_group);
-		_value = qVariantValue<T>(_prefsSettings().value(_name, _defaultValue));
+		QVariant v = _prefsSettings().value(_name, _defaultValue);
+		_value = v.value<T>();
 		_isDefault = !_prefsSettings().contains(name);
 		_prefsSettings().endGroup();
 		_settingsMutex().unlock();
@@ -114,7 +115,7 @@ public:
 	}
 
 	void setValue(QVariant newValue) {
-		set(qVariantValue<T>(newValue));
+		set(newValue.value<T>());
 	}
 
 	bool isDefault() {

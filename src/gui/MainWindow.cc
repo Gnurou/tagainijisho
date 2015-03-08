@@ -500,7 +500,7 @@ void MainWindow::display(const QModelIndex &clicked)
 	QAbstractItemView *view(qobject_cast<QAbstractItemView *>(sender()));
 	if (view == searchWidget()->resultsView() && !searchWidget()->resultsView()->selectionModel()->isSelected(clicked)) return;
 	else if (view == _entryListWidget->entryListView() && !_entryListWidget->entryListView()->selectionModel()->isSelected(clicked)) return;
-	EntryPointer entry = qVariantValue<EntryPointer>(clicked.data(Entry::EntryRole));
+	EntryPointer entry(clicked.data(Entry::EntryRole).value<EntryPointer>());
 	// Do not redisplay an entry if it is already shown
 	if (_detailedView->detailedView()->entryView()->entry() == entry) return;
 	if (entry) _detailedView->detailedView()->display(entry);
