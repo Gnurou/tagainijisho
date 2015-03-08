@@ -234,7 +234,7 @@ int main(int argc, char *argv[])
 		QStringList allowedLangs(languagesCodes.values());
 		foreach (const QString &lang, langs) {
 			if (!allowedLangs.contains(lang)) {
-				qWarning("Language %s not supported!", lang.toAscii().constData());
+				qWarning("Language %s not supported!", lang.toLatin1().constData());
 				continue;
 			}
 			languages << languagesCodes.key(lang);
