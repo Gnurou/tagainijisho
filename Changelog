@@ -3,6 +3,7 @@
 * Update JMdict, kanjidic and KanjiVG data
 * Lots of improvements to non-english translations (especially
   French) thanks to the jmdict-i18n project
+* New GUI (partial) translations: Persian, Hungarian, Indonesian
 * Re-enable SKIP support now that licensing issues are solved
 * Remove a bunch of invalid entries from the JLPT lists
 * Fix a bug when exporting the database to an existing file

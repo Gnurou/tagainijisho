@@ -1,5 +1,4 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="ar" sourcelanguage="en" version="2.0">
-<defaultcodec>UTF-8</defaultcodec>
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="ar" sourcelanguage="en" version="2.1">
 <context>
     <name>AboutDialog</name>
     <message>
@@ -89,7 +88,7 @@
         <translation>ملف قاعدة بيانات المستخدم</translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="+510"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="+512"/>
         <source>User data</source>
         <translation>بيانات المستخدم</translation>
     </message>
@@ -307,7 +306,7 @@
 <context>
     <name>EntriesViewHelper</name>
     <message>
-        <location filename="../src/gui/EntriesViewHelper.cc" line="+39"/>
+        <location filename="../src/gui/EntriesViewHelper.cc" line="+41"/>
         <source>&amp;Print...</source>
         <translation>طباعة ...</translation>
     </message>
@@ -337,7 +336,7 @@
         <translation>تصدير TSV ...</translation>
     </message>
     <message>
-        <location line="+55"/>
+        <location line="+57"/>
         <source>Abort</source>
         <translation>إلغاء</translation>
     </message>
@@ -352,7 +351,7 @@
         <translation>انتظر من فضلك ...</translation>
     </message>
     <message>
-        <location line="+223"/>
+        <location line="+259"/>
         <source>Print preview</source>
         <translation>معاينة قبل الطباعة</translation>
     </message>
@@ -398,11 +397,6 @@
         <translation>تصدير ملف البطاقات التعليمية على شكل HTML ...</translation>
     </message>
     <message>
-        <location line="+0"/>
-        <source>HTML files (*.html)</source>
-        <translation>ملفات ويب (*.html)</translation>
-    </message>
-    <message>
         <location line="+4"/>
         <source>Unable to write file %1!</source>
         <translation>تعذرت كتابة الملف %1 !</translation>
@@ -419,7 +413,7 @@
     </message>
     <message>
         <location line="-94"/>
-        <location filename="../src/gui/EntriesViewHelper.h" line="+87"/>
+        <location filename="../src/gui/EntriesViewHelper.h" line="+89"/>
         <source>Print</source>
         <translation>طباعة</translation>
     </message>
@@ -624,7 +618,13 @@
         <translation>الكلمات الدليلية المضافة حديثا ...</translation>
     </message>
     <message>
-        <location line="+85"/>
+        <location line="+87"/>
+        <location line="+6"/>
+        <source>Copy &quot;%1&quot; to clipboard</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+21"/>
         <source>Add &quot;%1&quot;</source>
         <translation>إضافة &quot;%1&quot;</translation>
     </message>
@@ -707,52 +707,62 @@
         <translation>اللغة الإنكليزية</translation>
     </message>
     <message>
-        <location line="-1"/>
+        <location line="+2"/>
         <source>German</source>
         <translation>اللغة الألمانية</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="-1"/>
         <source>French</source>
         <translation>اللغة الفرنسية</translation>
     </message>
     <message>
-        <location line="-1"/>
+        <location line="+8"/>
         <source>Spanish</source>
         <translation>اللغة الإسبانية</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="-4"/>
         <source>Norvegian Bokmal</source>
         <translation>Bokmal نرويجي</translation>
     </message>
     <message>
-        <location line="-7"/>
+        <location line="-8"/>
         <source>Czech</source>
         <translation>اللغة التشيكوسلوفاكية</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+1"/>
         <source>Dutch</source>
         <translation>اللغة الهولندية</translation>
     </message>
     <message>
-        <location line="-3"/>
+        <location line="+5"/>
         <source>Italian</source>
         <translation>اللغة الإيطالية</translation>
     </message>
     <message>
-        <location line="+6"/>
+        <location line="+5"/>
         <source>Russian</source>
         <translation>اللغة الروسية</translation>
     </message>
     <message>
-        <location line="-5"/>
+        <location line="-4"/>
         <source>Japanese</source>
         <translation>اللغة اليابانية</translation>
     </message>
     <message>
+        <location line="-8"/>
+        <source>Arabic</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
         <location line="+3"/>
+        <source>Finnish (Finland)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+7"/>
         <source>Polish</source>
         <translation>اللغة البولندية</translation>
     </message>
@@ -762,7 +772,7 @@
         <translation>اللغة البرتغالية</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
         <source>Swedish</source>
         <translation>اللغة السويدية</translation>
     </message>
@@ -877,12 +887,12 @@
         <translation>كل</translation>
     </message>
     <message>
-        <location line="+56"/>
+        <location line="+62"/>
         <source>Defines how many recent entries are kept in memory. High values may improve performance when manipulating a large number of entries.</source>
         <translation>يدلنا على عدد الإدخالات الأخيرة المخزنة في الذاكرة. القيم العالية قد تحسن الأداء عند التعامل مع عدد كبير من الإدخالات.</translation>
     </message>
     <message>
-        <location line="-41"/>
+        <location line="-47"/>
         <source>Also check for development versions</source>
         <translation>تحقق أيضا من إصدارات التطوير</translation>
     </message>
@@ -1149,7 +1159,7 @@
         <translation>مصطلح فنون القتال</translation>
     </message>
     <message>
-        <location line="+46"/>
+        <location line="+47"/>
         <source>military</source>
         <translation>عسكري</translation>
     </message>
@@ -1159,7 +1169,7 @@
         <translation>مصطلح غذاء</translation>
     </message>
     <message>
-        <location line="-9"/>
+        <location line="-10"/>
         <source>computer terminology</source>
         <translation>مصطلح كمبيوتر</translation>
     </message>
@@ -1169,7 +1179,7 @@
         <translation>مصطلح بوذي</translation>
     </message>
     <message>
-        <location line="+24"/>
+        <location line="+25"/>
         <source>linguistics terminology</source>
         <translation>مصطلح لغوي</translation>
     </message>
@@ -1179,12 +1189,12 @@
         <translation>مصطلح هندسة</translation>
     </message>
     <message>
-        <location line="-13"/>
+        <location line="-14"/>
         <source>chemistry term</source>
         <translation>مصطلح كيمياء</translation>
     </message>
     <message>
-        <location line="+47"/>
+        <location line="+48"/>
         <source>physics terminology</source>
         <translation>مصطلح فيزياء</translation>
     </message>
@@ -1194,7 +1204,7 @@
         <translation>رياضيات</translation>
     </message>
     <message>
-        <location line="+64"/>
+        <location line="+66"/>
         <source>Nagano-ben</source>
         <translation>لهجة ناغانو</translation>
     </message>
@@ -1244,7 +1254,7 @@
         <translation>لهجة كانتو</translation>
     </message>
     <message>
-        <location line="-61"/>
+        <location line="-63"/>
         <source>manga slang</source>
         <translation>لغة عامية خاصة بالمانغا</translation>
     </message>
@@ -1254,7 +1264,7 @@
         <translation>لغة مهذبة (teineigo)</translation>
     </message>
     <message>
-        <location line="+13"/>
+        <location line="+16"/>
         <source>Yodan verb with `hu/fu&apos; ending (archaic)</source>
         <translation>فعل يودان ينتهي ب &quot;hu/fu&quot; (مهجور)</translation>
     </message>
@@ -1264,7 +1274,7 @@
         <translation>فعل يودان ينتهي ب &quot;ru&quot; (مهجور)</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+21"/>
         <source>su verb - precursor to the modern suru</source>
         <translation>فعل su - سابق لفعل suru الحديث</translation>
     </message>
@@ -1279,7 +1289,7 @@
         <translation>عبارة أو كلمة مبتذلة</translation>
     </message>
     <message>
-        <location line="-76"/>
+        <location line="-78"/>
         <source>idiomatic expression</source>
         <translation>تعبير اصطلاحي</translation>
     </message>
@@ -1294,12 +1304,7 @@
         <translation>لغة أو مصطلح خاص بالإناث</translation>
     </message>
     <message>
-        <location line="-20"/>
-        <source>former adjective classification (being removed)</source>
-        <translation>تصنيف سابق للصفات (تم الاستغناء عنه)</translation>
-    </message>
-    <message>
-        <location line="+4"/>
+        <location line="-17"/>
         <source>ateji (phonetic) reading</source>
         <translation>قراءة ateji (صوتية)</translation>
     </message>
@@ -1309,7 +1314,12 @@
         <translation>لغة الأطفال</translation>
     </message>
     <message>
-        <location line="+6"/>
+        <location line="+4"/>
+        <source>copula</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>exclusively kanji</source>
         <translation>حصريا كانجي</translation>
     </message>
@@ -1319,7 +1329,17 @@
         <translation>حصريا كانا</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+1"/>
+        <source>expressions (phrases, clauses, etc.)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>gikun (meaning as reading) or jukujikun (special kanji reading)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>word containing irregular kanji usage</source>
         <translation>كلمة تحتوي على استعمال غير نظامي للكانجي</translation>
     </message>
@@ -1389,7 +1409,22 @@
         <translation>حساس</translation>
     </message>
     <message>
-        <location line="+46"/>
+        <location line="+5"/>
+        <source>unclassified</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>yojijukugo</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Ichidan verb - kureru special class</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+40"/>
         <source>`kari&apos; adjective (archaic)</source>
         <translation>صفة &quot;kari&quot; (مهجورة)</translation>
     </message>
@@ -1569,17 +1604,32 @@
         <translation>مصطلح هندسة معمارية</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="+11"/>
+        <source>mahjong term</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>shogi term</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+5"/>
         <source>anatomical term</source>
         <translation>مصطلح تشريح</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-19"/>
         <source>astronomy, etc. term</source>
         <translation>مصطلح علم الفلك، إلخ</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-148"/>
+        <source>adjective (keiyoushi) - yoi/ii class</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+149"/>
         <source>baseball term</source>
         <translation>مصطلح بيسبول</translation>
     </message>
@@ -1624,7 +1674,7 @@
         <translation>مصطلح قانوني، إلخ</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="+2"/>
         <source>medicine, etc. term</source>
         <translation>مصطلح طبي، إلخ</translation>
     </message>
@@ -1639,7 +1689,7 @@
         <translation>مصطلح شنتوني</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="+2"/>
         <source>sports term</source>
         <translation>مصطلح رياضي</translation>
     </message>
@@ -1659,22 +1709,22 @@
         <translation>مصطلح دعابي، فكاهي</translation>
     </message>
     <message>
-        <location line="-132"/>
+        <location line="-135"/>
         <source>humble (kenjougo) language</source>
         <translation>لغة متواضعة (kenjougo)</translation>
     </message>
     <message>
-        <location line="-32"/>
+        <location line="-33"/>
         <source>abbreviation</source>
         <translation>اختصار</translation>
     </message>
     <message>
-        <location line="+26"/>
+        <location line="+27"/>
         <source>familiar language</source>
         <translation>لغة مألوفة</translation>
     </message>
     <message>
-        <location line="-27"/>
+        <location line="-28"/>
         <source>rude or X-rated term (not displayed in educational software)</source>
         <translation>مصطلح وقح أو معيب (لا يظهر في البرامج التعليمية)</translation>
     </message>
@@ -1684,17 +1734,17 @@
         <translation>لفظة مهجورة</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+13"/>
         <source>derogatory</source>
         <translation>ازدرائي</translation>
     </message>
     <message>
-        <location line="-4"/>
+        <location line="-5"/>
         <source>colloquialism</source>
         <translation>كلمة عامية</translation>
     </message>
     <message>
-        <location line="+51"/>
+        <location line="+52"/>
         <source>word usually written using kana alone</source>
         <translation>كلمة تكتب عادة بالكانا فقط</translation>
     </message>
@@ -1714,12 +1764,12 @@
         <translation>مصطلح عفا عليه الزمن</translation>
     </message>
     <message>
-        <location line="-43"/>
+        <location line="-44"/>
         <source>adverb taking the `to&apos; particle</source>
         <translation>حال يستعمل الأداة &quot;to&quot;</translation>
     </message>
     <message>
-        <location line="+40"/>
+        <location line="+41"/>
         <source>noun (temporal) (jisoumeishi)</source>
         <translation>إسم (الزمان) (jisoumeishi)</translation>
     </message>
@@ -1734,12 +1784,7 @@
         <translation>صفة &quot;taru&quot;</translation>
     </message>
     <message>
-        <location line="+25"/>
-        <source>gikun (meaning as reading)  or jukujikun (special kanji reading)</source>
-        <translation>gikun (المعنى كالقراءة) أو jukujikun (قراءة خاصة للكانجي)</translation>
-    </message>
-    <message>
-        <location line="+6"/>
+        <location line="+31"/>
         <source>interjection (kandoushi)</source>
         <translation>صيغة تعجب</translation>
     </message>
@@ -1749,12 +1794,7 @@
         <translation>كلمة تكتب عادة بالكانجي فقط</translation>
     </message>
     <message>
-        <location line="+6"/>
-        <source>Godan verb (not completely classified)</source>
-        <translation>فعل غودان (لم يتم تصنيفه بشكل نهائي)</translation>
-    </message>
-    <message>
-        <location line="+14"/>
+        <location line="+22"/>
         <source>Godan verb - Uru old class verb (old form of Eru)</source>
         <translation>فعل غودان - فعل فئة Uru القديمة (الشكل القديم ل Eru)</translation>
     </message>
@@ -1774,32 +1814,32 @@
         <translation>فعل غير نظامي ينهي ب &quot;nu&quot;</translation>
     </message>
     <message>
-        <location line="-30"/>
+        <location line="-32"/>
         <source>particle</source>
         <translation>أداة</translation>
     </message>
     <message>
-        <location line="+31"/>
+        <location line="+33"/>
         <source>irregular ru verb, plain form ends with -ri</source>
         <translation>فعل غير نظامي، الشكل العادي ينهي ب &quot;ri&quot;</translation>
     </message>
     <message>
-        <location line="-87"/>
+        <location line="-89"/>
         <source>noun or verb acting prenominally</source>
         <translation>اسم أو فعل يتصرف كضمير</translation>
     </message>
     <message>
-        <location line="+103"/>
+        <location line="+105"/>
         <source>transitive verb</source>
         <translation>فعل متعدي</translation>
     </message>
     <message>
-        <location line="-62"/>
+        <location line="-64"/>
         <source>noun, used as a suffix</source>
         <translation>اسم، يستعمل كلاحقة</translation>
     </message>
     <message>
-        <location line="-27"/>
+        <location line="-28"/>
         <source>conjunction</source>
         <translation>أداة ربط</translation>
     </message>
@@ -1809,22 +1849,22 @@
         <translation>صفة (keiyoushi)</translation>
     </message>
     <message>
-        <location line="+88"/>
+        <location line="+91"/>
         <source>Ichidan verb - zuru verb (alternative form of -jiru verbs)</source>
         <translation>فعل إتشيدان - zuru (شكل بديل لأفعال -jiru)</translation>
     </message>
     <message>
-        <location line="-81"/>
+        <location line="-84"/>
         <source>adverb (fukushi)</source>
         <translation>حال (fukushi)</translation>
     </message>
     <message>
-        <location line="+59"/>
+        <location line="+60"/>
         <source>suffix</source>
         <translation>لاحقة</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+11"/>
         <source>Godan verb with `bu&apos; ending</source>
         <translation>فعل غودان ينتهي ب &quot;bu&quot;</translation>
     </message>
@@ -1869,7 +1909,7 @@
         <translation>فعل غودان ينتهي ب &quot;su&quot;</translation>
     </message>
     <message>
-        <location line="-72"/>
+        <location line="-75"/>
         <source>auxiliary</source>
         <translation>مساعد</translation>
     </message>
@@ -1879,12 +1919,12 @@
         <translation>فعل مساعد</translation>
     </message>
     <message>
-        <location line="-11"/>
+        <location line="-10"/>
         <source>adjectival nouns or quasi-adjectives (keiyodoshi)</source>
         <translation>أسماء نعتية أو شبه صفات (keiyodoshi)</translation>
     </message>
     <message>
-        <location line="+77"/>
+        <location line="+79"/>
         <source>Godan verb - Iku/Yuku special class</source>
         <translation>فعل غودان: Iku/Yuku - فئة خاصة</translation>
     </message>
@@ -1899,27 +1939,27 @@
         <translation>فعل غودان ينتهي ب &quot;gu&quot;</translation>
     </message>
     <message>
-        <location line="-74"/>
+        <location line="-76"/>
         <source>nouns which may take the genitive case particle `no&apos;</source>
         <translation>أسماء يمكن استعمالها مع أداة الإضافة &quot;no&quot;</translation>
     </message>
     <message>
-        <location line="+67"/>
+        <location line="+69"/>
         <source>Ichidan verb</source>
         <translation>فعل إيتشيدان</translation>
     </message>
     <message>
-        <location line="-22"/>
+        <location line="-24"/>
         <source>noun, used as a prefix</source>
         <translation>اسم، يستخدم كبادئة</translation>
     </message>
     <message>
-        <location line="-34"/>
+        <location line="-35"/>
         <source>auxiliary adjective</source>
         <translation>صفة مساعدة</translation>
     </message>
     <message>
-        <location line="+36"/>
+        <location line="+37"/>
         <source>numeric</source>
         <translation>عددي</translation>
     </message>
@@ -1934,47 +1974,42 @@
         <translation>صفة تأتي قبل الاسم (rentaishi)</translation>
     </message>
     <message>
-        <location line="+67"/>
+        <location line="+70"/>
         <source>Nidan verb with &apos;u&apos; ending (archaic)</source>
         <translation>فعل نيدان ينتهي ب &quot;u&quot; (مهجور)</translation>
     </message>
     <message>
-        <location line="+25"/>
+        <location line="+24"/>
         <source>suru verb - special class</source>
         <translation>فعل suru - فئة خاصة</translation>
     </message>
     <message>
-        <location line="-51"/>
+        <location line="-53"/>
         <source>noun (common) (futsuumeishi)</source>
         <translation>اسم (شائع) (futsuumeishi)</translation>
     </message>
     <message>
-        <location line="+49"/>
+        <location line="+51"/>
         <source>noun or participle which takes the aux. verb suru</source>
         <translation>اسم أو فعل يستعمل الفعل المساعد suru</translation>
     </message>
     <message>
-        <location line="-69"/>
-        <source>Expressions (phrases, clauses, etc.)</source>
-        <translation>تعابير (العبارات والأحكام، وما إلى ذلك)</translation>
-    </message>
-    <message>
-        <location line="+72"/>
+        <location line="+3"/>
         <source>suru verb - irregular</source>
         <translation>فعل suru - غير نظامي</translation>
     </message>
     <message>
-        <location line="-51"/>
+        <location line="-53"/>
         <source>adverbial noun (fukushitekimeishi)</source>
         <translation>إسم الظرف (fukushitekimeishi)</translation>
     </message>
     <message>
-        <location line="+37"/>
+        <location line="+39"/>
         <source>Godan verb with `ru&apos; ending (irregular verb)</source>
         <translation>فعل غودان ينتهي ب &quot;ru&quot; (فعل غير نظامي)</translation>
     </message>
     <message>
-        <location line="-26"/>
+        <location line="-28"/>
         <source>pronoun</source>
         <translation>ضمير</translation>
     </message>
@@ -2347,7 +2382,7 @@
 <context>
     <name>Kanjidic2EntryFormatter</name>
     <message>
-        <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="+328"/>
+        <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="+327"/>
         <source>&lt;b&gt;Strokes:&lt;/b&gt; %1</source>
         <translation>&lt;b&gt;جرات القلم:&lt;/b&gt; %1</translation>
     </message>
@@ -2367,12 +2402,12 @@
         <translation>&lt;b&gt;4 زوايا:&lt;/b&gt; %1</translation>
     </message>
     <message>
-        <location line="-145"/>
+        <location line="-144"/>
         <source> (%1) </source>
         <translation>(%1)</translation>
     </message>
     <message>
-        <location line="+129"/>
+        <location line="+128"/>
         <source>&lt;b&gt;JLPT:&lt;/b&gt; N%1</source>
         <translation>&lt;b&gt;JLPT:&lt;/b&gt; N%1</translation>
     </message>
@@ -2747,13 +2782,7 @@
         <translation>أصلي</translation>
     </message>
     <message>
-        <location line="-21"/>
-        <location line="+443"/>
-        <source>SKIP code</source>
-        <translation>كود SKIP</translation>
-    </message>
-    <message>
-        <location line="-408"/>
+        <location line="+14"/>
         <location line="+436"/>
         <source>Frequency</source>
         <translation>التردد</translation>
@@ -2783,7 +2812,13 @@
         <translation>عدد جرات القلم</translation>
     </message>
     <message>
-        <location line="-443"/>
+        <location line="-457"/>
+        <location line="+443"/>
+        <source>SKIP code</source>
+        <translation>كود SKIP</translation>
+    </message>
+    <message>
+        <location line="-429"/>
         <source>Nanori</source>
         <translation>Nanori</translation>
     </message>
@@ -3123,12 +3158,13 @@
     <message>
         <location line="-119"/>
         <location filename="../src/gui/MainWindow.cc" line="+235"/>
+        <location line="+7"/>
         <source>Export user data...</source>
         <translation>تصدير بيانات المستخدم ...</translation>
     </message>
     <message>
         <location line="+9"/>
-        <location filename="../src/gui/MainWindow.cc" line="+9"/>
+        <location filename="../src/gui/MainWindow.cc" line="+6"/>
         <source>Import user data...</source>
         <translation>استيراد بيانات المستخدم ...</translation>
     </message>
@@ -3163,7 +3199,7 @@
         <translation>إعدادات التدريب على لائحة الدراسة كاملة...</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="-51"/>
+        <location filename="../src/gui/MainWindow.cc" line="-55"/>
         <source>Auto-search on clipboard content</source>
         <translation>بحث ذاتي باستعمال محتوى الحافظة</translation>
     </message>
@@ -3192,7 +3228,12 @@ This message is a one-time reminder and will not appear anymore - you can still 
         <translation>لا</translation>
     </message>
     <message>
-        <location line="+25"/>
+        <location line="+20"/>
+        <source>Error: Could not export database! Please verify that you have write permissions on the target file.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+9"/>
         <source>About to replace user data!</source>
         <translation>أنت على وشك استبدال بيانات المستخدم!</translation>
     </message>
@@ -3905,7 +3946,13 @@ This message is a one-time reminder and will not appear anymore - you can still 
         <translation>...</translation>
     </message>
     <message>
-        <location line="+59"/>
+        <location line="+6"/>
+        <location line="+62"/>
+        <source>Untagged</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Tags</source>
         <translation>الكلمات الدليلية</translation>
     </message>

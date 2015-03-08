@@ -2816,7 +2816,7 @@ Một số có thể vẫn còn.</translation>
         <location line="-457"/>
         <location line="+443"/>
         <source>SKIP code</source>
-        <translation type="unfinished"/>
+        <translation>Mã SKIP</translation>
     </message>
     <message>
         <location line="-429"/>
@@ -3159,12 +3159,13 @@ Một số có thể vẫn còn.</translation>
     <message>
         <location line="-119"/>
         <location filename="../src/gui/MainWindow.cc" line="+235"/>
+        <location line="+7"/>
         <source>Export user data...</source>
         <translation>Xuất dữ liệu cá nhân...</translation>
     </message>
     <message>
         <location line="+9"/>
-        <location filename="../src/gui/MainWindow.cc" line="+9"/>
+        <location filename="../src/gui/MainWindow.cc" line="+6"/>
         <source>Import user data...</source>
         <translation>Nhập dữ liệu cá nhân...</translation>
     </message>
@@ -3199,7 +3200,7 @@ Một số có thể vẫn còn.</translation>
         <translation>Thiết lập ôn tập toàn bộ danh sách học...</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="-51"/>
+        <location filename="../src/gui/MainWindow.cc" line="-55"/>
         <source>Auto-search on clipboard content</source>
         <translation>Tự động tra từ trong clipboard</translation>
     </message>
@@ -3228,7 +3229,12 @@ Thông báo này chỉ xuất hiện một lần nhưng bạn vẫn có thể h�
         <translation>Nah</translation>
     </message>
     <message>
-        <location line="+25"/>
+        <location line="+20"/>
+        <source>Error: Could not export database! Please verify that you have write permissions on the target file.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+9"/>
         <source>About to replace user data!</source>
         <translation>Chuẩn bị thay thế dữ liệu cá nhân!</translation>
     </message>

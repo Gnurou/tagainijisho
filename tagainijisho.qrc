@@ -1,12 +1,16 @@
 <RCC>
     <qresource prefix="/">
         <file alias="images/tagainijisho.png">images/tagainijisho-128x128.png</file>
+        <file>images/flags/ar.png</file>
         <file>images/flags/cs.png</file>
         <file>images/flags/de.png</file>
         <file>images/flags/en.png</file>
         <file>images/flags/es.png</file>
+        <file>images/flags/fa_IR.png</file>
         <file>images/flags/fi_FI.png</file>
         <file>images/flags/fr.png</file>
+        <file>images/flags/hu.png</file>
+        <file>images/flags/id.png</file>
         <file>images/flags/it.png</file>
         <file>images/flags/ja.png</file>
         <file>images/flags/nb.png</file>

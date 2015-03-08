@@ -2816,7 +2816,7 @@
         <location line="-457"/>
         <location line="+443"/>
         <source>SKIP code</source>
-        <translation type="unfinished"/>
+        <translation>OHITA koodi</translation>
     </message>
     <message>
         <location line="-429"/>
@@ -3159,12 +3159,13 @@
     <message>
         <location line="-119"/>
         <location filename="../src/gui/MainWindow.cc" line="+235"/>
+        <location line="+7"/>
         <source>Export user data...</source>
         <translation>Vie käyttäjätiedot...</translation>
     </message>
     <message>
         <location line="+9"/>
-        <location filename="../src/gui/MainWindow.cc" line="+9"/>
+        <location filename="../src/gui/MainWindow.cc" line="+6"/>
         <source>Import user data...</source>
         <translation>Tuo käyttäjätiedot...</translation>
     </message>
@@ -3199,7 +3200,7 @@
         <translation>Koko opiskeluluetteloharjoitus &amp; asetukset</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="-51"/>
+        <location filename="../src/gui/MainWindow.cc" line="-55"/>
         <source>Auto-search on clipboard content</source>
         <translation>Leikepöydän sisällön automaattietsintä</translation>
     </message>
@@ -3228,7 +3229,12 @@ Tämä viesti on kertaluonteinen muistutus ja se ei enää ilmaannu näkyviin - 
         <translation>Nah</translation>
     </message>
     <message>
-        <location line="+25"/>
+        <location line="+20"/>
+        <source>Error: Could not export database! Please verify that you have write permissions on the target file.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+9"/>
         <source>About to replace user data!</source>
         <translation>Olet korvaamassa käyttäjätietoja!</translation>
     </message>
