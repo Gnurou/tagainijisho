@@ -1,5 +1,4 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="sv" sourcelanguage="en" version="2.0">
-<defaultcodec>UTF-8</defaultcodec>
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="sv" sourcelanguage="en" version="2.1">
 <context>
     <name>AboutDialog</name>
     <message>
@@ -43,22 +42,22 @@
     <message>
         <location line="+5"/>
         <source>Cannot start transaction</source>
-        <translation type="unfinished"/>
+        <translation>Kan inte inleda transaktion</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Error while trying to start database transaction.</source>
-        <translation type="unfinished"/>
+        <translation>Fel vid försök att inleda databastransaktion.</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Cannot commit transaction</source>
-        <translation type="unfinished"/>
+        <translation>Kan inte avsluta transaktion</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Error while trying to commit database transaction.</source>
-        <translation type="unfinished"/>
+        <translation>Fel vid försök att avsluta databastransaktion.</translation>
     </message>
 </context>
 <context>
@@ -89,7 +88,7 @@
         <translation>Fil för användardata:</translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="+510"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="+512"/>
         <source>User data</source>
         <translation>Användardata</translation>
     </message>
@@ -307,7 +306,7 @@
 <context>
     <name>EntriesViewHelper</name>
     <message>
-        <location filename="../src/gui/EntriesViewHelper.cc" line="+39"/>
+        <location filename="../src/gui/EntriesViewHelper.cc" line="+41"/>
         <source>&amp;Print...</source>
         <translation>&amp;Skriv ut…</translation>
     </message>
@@ -337,7 +336,7 @@
         <translation>Exportera som &amp;TSV…</translation>
     </message>
     <message>
-        <location line="+55"/>
+        <location line="+57"/>
         <source>Abort</source>
         <translation>Avbryt</translation>
     </message>
@@ -352,7 +351,7 @@
         <translation>Var god vänta…</translation>
     </message>
     <message>
-        <location line="+223"/>
+        <location line="+259"/>
         <source>Print preview</source>
         <translation>Förhandsgranskning</translation>
     </message>
@@ -395,12 +394,7 @@
     <message>
         <location line="+16"/>
         <source>Export to HTML flashcard file...</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location line="+0"/>
-        <source>HTML files (*.html)</source>
-        <translation>HTML-filer (*.html)</translation>
+        <translation>Exportera övningskort som HTML-fil...</translation>
     </message>
     <message>
         <location line="+4"/>
@@ -419,7 +413,7 @@
     </message>
     <message>
         <location line="-94"/>
-        <location filename="../src/gui/EntriesViewHelper.h" line="+87"/>
+        <location filename="../src/gui/EntriesViewHelper.h" line="+89"/>
         <source>Print</source>
         <translation>Skriv ut</translation>
     </message>
@@ -485,7 +479,7 @@
     <message>
         <location line="+159"/>
         <source>Root list</source>
-        <translation type="unfinished"/>
+        <translation>Rotlista</translation>
     </message>
     <message>
         <location line="+48"/>
@@ -500,7 +494,7 @@
     <message>
         <location line="+2"/>
         <source>Last trained on %1.</source>
-        <translation>Senast tränad %1.</translation>
+        <translation>Senast övad %1.</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -625,7 +619,13 @@ Det är möjligt att det inte togs bort.</translation>
         <translation>Nyligen använda taggar…</translation>
     </message>
     <message>
-        <location line="+85"/>
+        <location line="+87"/>
+        <location line="+6"/>
+        <source>Copy &quot;%1&quot; to clipboard</source>
+        <translation>Kopiera ”%1” till urklipp</translation>
+    </message>
+    <message>
+        <location line="+21"/>
         <source>Add &quot;%1&quot;</source>
         <translation>Lägg till ”%1”</translation>
     </message>
@@ -687,17 +687,17 @@ Det är möjligt att det inte togs bort.</translation>
     <message>
         <location line="-15"/>
         <source>Transitive buddy</source>
-        <translation>transitiv verbpartikel</translation>
+        <translation>Transitiv verbpartikel</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Intransitive buddy</source>
-        <translation>intransitiv verbpartikel</translation>
+        <translation>Intransitiv verbpartikel</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Buddy</source>
-        <translation>verbpartikel</translation>
+        <translation>Verbpartikel</translation>
     </message>
 </context>
 <context>
@@ -705,57 +705,67 @@ Det är möjligt att det inte togs bort.</translation>
     <message>
         <location filename="../src/gui/PreferencesWindow.cc" line="-180"/>
         <source>English</source>
-        <translation>engelska</translation>
+        <translation>Engelska</translation>
     </message>
     <message>
-        <location line="-1"/>
+        <location line="+2"/>
         <source>German</source>
-        <translation>tyska</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>French</source>
-        <translation>franska</translation>
+        <translation>Tyska</translation>
     </message>
     <message>
         <location line="-1"/>
-        <source>Spanish</source>
-        <translation>spanska</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Norvegian Bokmal</source>
-        <translation>norskt bokmål</translation>
-    </message>
-    <message>
-        <location line="-7"/>
-        <source>Czech</source>
-        <translation>tjeckiska</translation>
+        <source>French</source>
+        <translation>Franska</translation>
     </message>
     <message>
         <location line="+8"/>
+        <source>Spanish</source>
+        <translation>Spanska</translation>
+    </message>
+    <message>
+        <location line="-4"/>
+        <source>Norvegian Bokmal</source>
+        <translation>Norska (bokmål)</translation>
+    </message>
+    <message>
+        <location line="-8"/>
+        <source>Czech</source>
+        <translation>Tjeckiska</translation>
+    </message>
+    <message>
+        <location line="+1"/>
         <source>Dutch</source>
-        <translation>nederländska</translation>
+        <translation>Nederländska</translation>
     </message>
     <message>
-        <location line="-3"/>
+        <location line="+5"/>
         <source>Italian</source>
-        <translation>italienska</translation>
+        <translation>Italienska</translation>
     </message>
     <message>
-        <location line="+6"/>
+        <location line="+5"/>
         <source>Russian</source>
-        <translation>ryska</translation>
+        <translation>Ryska</translation>
     </message>
     <message>
-        <location line="-5"/>
+        <location line="-4"/>
         <source>Japanese</source>
-        <translation>japanska</translation>
+        <translation>Japanska</translation>
+    </message>
+    <message>
+        <location line="-8"/>
+        <source>Arabic</source>
+        <translation>Arabiska</translation>
     </message>
     <message>
         <location line="+3"/>
+        <source>Finnish (Finland)</source>
+        <translation>Finska (Finland)</translation>
+    </message>
+    <message>
+        <location line="+7"/>
         <source>Polish</source>
-        <translation>polska</translation>
+        <translation>Polska</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -763,7 +773,7 @@ Det är möjligt att det inte togs bort.</translation>
         <translation>Portugisiska</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
         <source>Swedish</source>
         <translation>Svenska</translation>
     </message>
@@ -795,12 +805,12 @@ Det är möjligt att det inte togs bort.</translation>
     <message>
         <location line="+19"/>
         <source>Monday</source>
-        <translation>måndag</translation>
+        <translation>Måndag</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Sunday</source>
-        <translation>söndag</translation>
+        <translation>Söndag</translation>
     </message>
     <message>
         <location line="+53"/>
@@ -820,7 +830,7 @@ Det är möjligt att det inte togs bort.</translation>
     <message>
         <location line="+35"/>
         <source>System default</source>
-        <translation>systemstandard</translation>
+        <translation>Systemstandard</translation>
     </message>
     <message>
         <location line="-27"/>
@@ -830,7 +840,7 @@ Det är möjligt att det inte togs bort.</translation>
     <message>
         <location line="+41"/>
         <source>The dictionaries will use this language whenever possible. English will be used as a fallback.</source>
-        <translation type="unfinished"/>
+        <translation>Det här språket kommer att användas i ordböckerna när möjligt, i andra fall används engelska.</translation>
     </message>
     <message>
         <location line="+4"/>
@@ -875,15 +885,15 @@ Det är möjligt att det inte togs bort.</translation>
     <message>
         <location line="+3"/>
         <source>every </source>
-        <translation>varje </translation>
+        <translation>var</translation>
     </message>
     <message>
-        <location line="+56"/>
+        <location line="+62"/>
         <source>Defines how many recent entries are kept in memory. High values may improve performance when manipulating a large number of entries.</source>
-        <translation type="unfinished"/>
+        <translation>Sätter en gräns för hur många uppslag som hålls i minnet. Höga värden kan förbättra prestandan när många uppslag hanteras samtidigt.</translation>
     </message>
     <message>
-        <location line="-41"/>
+        <location line="-47"/>
         <source>Also check for development versions</source>
         <translation>Leta även efter utvecklingsversioner</translation>
     </message>
@@ -1133,13 +1143,13 @@ Det är möjligt att det inte togs bort.</translation>
         <location line="+125"/>
         <location line="+20"/>
         <source>Nothing to train</source>
-        <translation>Inget att träna</translation>
+        <translation>Inget att öva</translation>
     </message>
     <message>
         <location line="-20"/>
         <location line="+20"/>
         <source>There are no vocabulary entries in this set to train on.</source>
-        <translation>Det finns inga uppslag i ordlistan att träna i det här setet.</translation>
+        <translation>Det finns inga uppslag i ordlistan att öva i det här setet.</translation>
     </message>
 </context>
 <context>
@@ -1150,7 +1160,7 @@ Det är möjligt att det inte togs bort.</translation>
         <translation>kampsport</translation>
     </message>
     <message>
-        <location line="+46"/>
+        <location line="+47"/>
         <source>military</source>
         <translation>militär</translation>
     </message>
@@ -1160,19 +1170,19 @@ Det är möjligt att det inte togs bort.</translation>
         <translation>mat</translation>
     </message>
     <message>
-        <location line="-9"/>
+        <location line="-10"/>
         <source>computer terminology</source>
-        <translation>dator</translation>
+        <translation>IT</translation>
     </message>
     <message>
         <location line="-4"/>
         <source>Buddhist term</source>
-        <translation>buddhistism</translation>
+        <translation>buddhism</translation>
     </message>
     <message>
-        <location line="+24"/>
+        <location line="+25"/>
         <source>linguistics terminology</source>
-        <translation>lingvistik</translation>
+        <translation>språkvetenskap</translation>
     </message>
     <message>
         <location line="-10"/>
@@ -1180,12 +1190,12 @@ Det är möjligt att det inte togs bort.</translation>
         <translation>geometri</translation>
     </message>
     <message>
-        <location line="-13"/>
+        <location line="-14"/>
         <source>chemistry term</source>
         <translation>kemi</translation>
     </message>
     <message>
-        <location line="+47"/>
+        <location line="+48"/>
         <source>physics terminology</source>
         <translation>fysik</translation>
     </message>
@@ -1195,7 +1205,7 @@ Det är möjligt att det inte togs bort.</translation>
         <translation>matematik</translation>
     </message>
     <message>
-        <location line="+64"/>
+        <location line="+66"/>
         <source>Nagano-ben</source>
         <translation>Nagano-ben</translation>
     </message>
@@ -1245,7 +1255,7 @@ Det är möjligt att det inte togs bort.</translation>
         <translation>Kanto-ben</translation>
     </message>
     <message>
-        <location line="-61"/>
+        <location line="-63"/>
         <source>manga slang</source>
         <translation>mangaslang</translation>
     </message>
@@ -1255,17 +1265,17 @@ Det är möjligt att det inte togs bort.</translation>
         <translation>artigt språk (teineigo)</translation>
     </message>
     <message>
-        <location line="+13"/>
+        <location line="+16"/>
         <source>Yodan verb with `hu/fu&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>yodan-verb med hu/fu-ändelse (ålderdomlig)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Yodan verb with `ru&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>yodan-verb med ru-ändelse (ålderdomlig)</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+21"/>
         <source>su verb - precursor to the modern suru</source>
         <translation>su-verb – föregångare till det moderna suru</translation>
     </message>
@@ -1277,10 +1287,10 @@ Det är möjligt att det inte togs bort.</translation>
     <message>
         <location line="+2"/>
         <source>vulgar expression or word</source>
-        <translation>vulgärt uttryck</translation>
+        <translation>Vulgära uttryck</translation>
     </message>
     <message>
-        <location line="-76"/>
+        <location line="-78"/>
         <source>idiomatic expression</source>
         <translation>idiomatiskt uttryck</translation>
     </message>
@@ -1295,14 +1305,9 @@ Det är möjligt att det inte togs bort.</translation>
         <translation>kvinnligt språk</translation>
     </message>
     <message>
-        <location line="-20"/>
-        <source>former adjective classification (being removed)</source>
-        <translation>tidigare adjektivklassificering (håller på att tas bort)</translation>
-    </message>
-    <message>
-        <location line="+4"/>
+        <location line="-17"/>
         <source>ateji (phonetic) reading</source>
-        <translation>ateji-läsning (fonetisk)</translation>
+        <translation>fonetisk läsning (ateji)</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -1310,7 +1315,12 @@ Det är möjligt att det inte togs bort.</translation>
         <translation>barnspråk</translation>
     </message>
     <message>
-        <location line="+6"/>
+        <location line="+4"/>
+        <source>copula</source>
+        <translation>kopula</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>exclusively kanji</source>
         <translation>endast kanji</translation>
     </message>
@@ -1320,7 +1330,17 @@ Det är möjligt att det inte togs bort.</translation>
         <translation>endast kana</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+1"/>
+        <source>expressions (phrases, clauses, etc.)</source>
+        <translation>uttryck (fraser, meningar m. m.)</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>gikun (meaning as reading) or jukujikun (special kanji reading)</source>
+        <translation>gikun (betydelse som uttal) eller jukujikun (specialuttal)</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>word containing irregular kanji usage</source>
         <translation>oregelbunden användning av kanji</translation>
     </message>
@@ -1362,7 +1382,7 @@ Det är möjligt att det inte togs bort.</translation>
     <message>
         <location line="+1"/>
         <source>old or irregular kana form</source>
-        <translation type="unfinished"/>
+        <translation>äldre eller ovanligt kana-utseende</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -1390,312 +1410,342 @@ Det är möjligt att det inte togs bort.</translation>
         <translation>känsligt uttryck</translation>
     </message>
     <message>
-        <location line="+46"/>
+        <location line="+5"/>
+        <source>unclassified</source>
+        <translation>oklassifierad</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>yojijukugo</source>
+        <translation>yojikukugo</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Ichidan verb - kureru special class</source>
+        <translation>ichidan-verb – speciell kureru-klass</translation>
+    </message>
+    <message>
+        <location line="+40"/>
         <source>`kari&apos; adjective (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>kari-adjektiv (ålderdomlig)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>`ku&apos; adjective (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>ku-adjektiv (ålderdomlig)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>`shiku&apos; adjective (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>shiku-adjektiv (ålderdomlig)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>archaic/formal form of na-adjective</source>
-        <translation type="unfinished"/>
+        <translation>ålderdomlig/formell form av na-adjektiv</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>proper noun</source>
-        <translation type="unfinished"/>
+        <translation>egennamn</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>verb unspecified</source>
-        <translation type="unfinished"/>
+        <translation>ospecificerat verb</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Yodan verb with `ku&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>yodan-verb med ku-ändelse (ålderdomlig)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Yodan verb with `gu&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>yodan-verb med gu-ändelse (ålderdomlig)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Yodan verb with `su&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>yodan-verb med su-ändelse (ålderdomlig)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Yodan verb with `tsu&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>yodan-verb med tsu-ändelse (ålderdomlig)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Yodan verb with `nu&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>yodan-verb med nu-ändelse (ålderdomlig)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Yodan verb with `bu&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>yodan-verb med bu-ändelse (ålderdomlig)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Yodan verb with `mu&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>yodan-verb med mu-ändelse (ålderdomlig)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Nidan verb (upper class) with `ku&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>nidan-verb (övre klassen) med ku-ändelse (ålderdomlig)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Nidan verb (upper class) with `gu&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>nidan-verb (övre klassen) med gu-ändelse (ålderdomlig)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Nidan verb (upper class) with `tsu&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>nidan-verb (övre klassen) med tsu-ändelse (ålderdomlig)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Nidan verb (upper class) with `dzu&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>nidan-verb (övre klassen) med dzu-ändelse (ålderdomlig)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Nidan verb (upper class) with `hu/fu&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>nidan-verb (övre klassen) med hu/fu-ändelse (ålderdomlig)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Nidan verb (upper class) with `bu&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>nidan-verb (övre klassen) med bu-ändelse (ålderdomlig)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Nidan verb (upper class) with `mu&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>nidan-verb (övre klassen) med mu-ändelse (ålderdomlig)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Nidan verb (upper class) with `yu&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>nidan-verb (övre klassen) med yu-ändelse (ålderdomlig)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Nidan verb (upper class) with `ru&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>nidan-verb (övre klassen) med ru-ändelse (ålderdomlig)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Nidan verb (lower class) with `ku&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>nidan-verb (lägre klassen) med ku-ändelse (ålderdomlig)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Nidan verb (lower class) with `gu&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>nidan-verb (lägre klassen) med gu-ändelse (ålderdomlig)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Nidan verb (lower class) with `su&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>nidan-verb (lägre klassen) med su-ändelse (ålderdomlig)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Nidan verb (lower class) with `zu&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>nidan-verb (lägre klassen) med zu-ändelse (ålderdomlig)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Nidan verb (lower class) with `tsu&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>nidan-verb (lägre klassen) med tsu-ändelse (ålderdomlig)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Nidan verb (lower class) with `dzu&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>nidan-verb (lägre klassen) med dzu-ändelse (ålderdomlig)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Nidan verb (lower class) with `nu&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>nidan-verb (lägre klassen) med ru-ändelse (ålderdomlig)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Nidan verb (lower class) with `hu/fu&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>nidan-verb (lägre klassen) med hu/fu-ändelse (ålderdomlig)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Nidan verb (lower class) with `bu&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>nidan-verb (lägre klassen) med bu-ändelse (ålderdomlig)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Nidan verb (lower class) with `mu&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>nidan-verb (lägre klassen) med mu-ändelse (ålderdomlig)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Nidan verb (lower class) with `yu&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>nidan-verb (lägre klassen) med yu-ändelse (ålderdomlig)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Nidan verb (lower class) with `ru&apos; ending (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>nidan-verb (lägre klassen) med ru-ändelse (ålderdomlig)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Nidan verb (lower class) with `u&apos; ending and `we&apos; conjugation (archaic)</source>
-        <translation type="unfinished"/>
+        <translation>nidan-verb (lägre klassen) med u-ändelse och we-konjugation (ålderdomlig)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>architecture term</source>
-        <translation type="unfinished"/>
+        <translation>arkitektur</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="+11"/>
+        <source>mahjong term</source>
+        <translation>mahjong</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>shogi term</source>
+        <translation>shogi</translation>
+    </message>
+    <message>
+        <location line="+5"/>
         <source>anatomical term</source>
-        <translation type="unfinished"/>
+        <translation>anatomi</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-19"/>
         <source>astronomy, etc. term</source>
-        <translation type="unfinished"/>
+        <translation>astronomi m. m.</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-148"/>
+        <source>adjective (keiyoushi) - yoi/ii class</source>
+        <translation>adjektiv (keiyoushi) – yoi/ii-klassen</translation>
+    </message>
+    <message>
+        <location line="+149"/>
         <source>baseball term</source>
-        <translation type="unfinished"/>
+        <translation>baseball</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>biology term</source>
-        <translation type="unfinished"/>
+        <translation>biologi</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>botany term</source>
-        <translation type="unfinished"/>
+        <translation>botanik</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>business term</source>
-        <translation type="unfinished"/>
+        <translation>handel</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>economics term</source>
-        <translation type="unfinished"/>
+        <translation>ekonomi</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>engineering term</source>
-        <translation type="unfinished"/>
+        <translation>Ingenjörskonst</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>finance term</source>
-        <translation type="unfinished"/>
+        <translation>finans</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>geology, etc. term</source>
-        <translation type="unfinished"/>
+        <translation>geologi</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>law, etc. term</source>
-        <translation type="unfinished"/>
+        <translation>juridik</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="+2"/>
         <source>medicine, etc. term</source>
-        <translation type="unfinished"/>
+        <translation>medicin m. m.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>music term</source>
-        <translation type="unfinished"/>
+        <translation>musik</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Shinto term</source>
-        <translation type="unfinished"/>
+        <translation>shinto</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="+2"/>
         <source>sports term</source>
-        <translation type="unfinished"/>
+        <translation>sport</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>sumo term</source>
-        <translation type="unfinished"/>
+        <translation>sumo</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>zoology term</source>
-        <translation type="unfinished"/>
+        <translation>zoologi</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>jocular, humorous term</source>
-        <translation type="unfinished"/>
+        <translation>humor</translation>
     </message>
     <message>
-        <location line="-132"/>
+        <location line="-135"/>
         <source>humble (kenjougo) language</source>
         <translation>ödmjukt språk (kenjougo)</translation>
     </message>
     <message>
-        <location line="-32"/>
+        <location line="-33"/>
         <source>abbreviation</source>
         <translation>förkortning</translation>
     </message>
     <message>
-        <location line="+26"/>
+        <location line="+27"/>
         <source>familiar language</source>
         <translation>familjärt språk</translation>
     </message>
     <message>
-        <location line="-27"/>
+        <location line="-28"/>
         <source>rude or X-rated term (not displayed in educational software)</source>
         <translation>grovt eller fräckt uttryck (visas vanligen inte i pedagogiska sammanhang)</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>archaism</source>
-        <translation>gammelmodigt språk</translation>
+        <translation>ålderdomligt språk</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+13"/>
         <source>derogatory</source>
         <translation>nedlåtande språk</translation>
     </message>
     <message>
-        <location line="-4"/>
+        <location line="-5"/>
         <source>colloquialism</source>
         <translation>vardagligt språk</translation>
     </message>
     <message>
-        <location line="+51"/>
+        <location line="+52"/>
         <source>word usually written using kana alone</source>
         <translation>ord som vanligen skrivs med endast kana</translation>
     </message>
@@ -1715,12 +1765,12 @@ Det är möjligt att det inte togs bort.</translation>
         <translation>föråldrat uttryck</translation>
     </message>
     <message>
-        <location line="-43"/>
+        <location line="-44"/>
         <source>adverb taking the `to&apos; particle</source>
         <translation>adverb som använder to-partikeln</translation>
     </message>
     <message>
-        <location line="+40"/>
+        <location line="+41"/>
         <source>noun (temporal) (jisoumeishi)</source>
         <translation>temporalt substantiv (jisoumeishi)</translation>
     </message>
@@ -1735,12 +1785,7 @@ Det är möjligt att det inte togs bort.</translation>
         <translation>taru-adjektiv</translation>
     </message>
     <message>
-        <location line="+25"/>
-        <source>gikun (meaning as reading)  or jukujikun (special kanji reading)</source>
-        <translation>gikun (betydelse som läsning) eller jukujikun (speciell läsning av kanji)</translation>
-    </message>
-    <message>
-        <location line="+6"/>
+        <location line="+31"/>
         <source>interjection (kandoushi)</source>
         <translation>interjektion (kandoushi)</translation>
     </message>
@@ -1750,12 +1795,7 @@ Det är möjligt att det inte togs bort.</translation>
         <translation>ord som vanligen skrivs endast med kanji</translation>
     </message>
     <message>
-        <location line="+6"/>
-        <source>Godan verb (not completely classified)</source>
-        <translation>godan-verb (ej fullständigt angivna)</translation>
-    </message>
-    <message>
-        <location line="+14"/>
+        <location line="+22"/>
         <source>Godan verb - Uru old class verb (old form of Eru)</source>
         <translation>godan-verb – gammal uru-klass (äldre form av eru)</translation>
     </message>
@@ -1775,32 +1815,32 @@ Det är möjligt att det inte togs bort.</translation>
         <translation>oregelbundet nu-verb</translation>
     </message>
     <message>
-        <location line="-30"/>
+        <location line="-32"/>
         <source>particle</source>
         <translation>partikel</translation>
     </message>
     <message>
-        <location line="+31"/>
+        <location line="+33"/>
         <source>irregular ru verb, plain form ends with -ri</source>
         <translation>oregelbundet ru-verb (grundform har ri-ändelse)</translation>
     </message>
     <message>
-        <location line="-87"/>
+        <location line="-89"/>
         <source>noun or verb acting prenominally</source>
-        <translation type="unfinished"/>
+        <translation>prenominalt substantiv eller verb</translation>
     </message>
     <message>
-        <location line="+103"/>
+        <location line="+105"/>
         <source>transitive verb</source>
         <translation>transitivt verb</translation>
     </message>
     <message>
-        <location line="-62"/>
+        <location line="-64"/>
         <source>noun, used as a suffix</source>
         <translation>substantiv, som suffix</translation>
     </message>
     <message>
-        <location line="-27"/>
+        <location line="-28"/>
         <source>conjunction</source>
         <translation>konjunktion</translation>
     </message>
@@ -1810,22 +1850,22 @@ Det är möjligt att det inte togs bort.</translation>
         <translation>adjektiv (keiyoushi)</translation>
     </message>
     <message>
-        <location line="+88"/>
+        <location line="+91"/>
         <source>Ichidan verb - zuru verb (alternative form of -jiru verbs)</source>
         <translation>ichidan-verb – zuru-verb (alternativ form av jiru-verb)</translation>
     </message>
     <message>
-        <location line="-81"/>
+        <location line="-84"/>
         <source>adverb (fukushi)</source>
         <translation>adverb (fukushi)</translation>
     </message>
     <message>
-        <location line="+59"/>
+        <location line="+60"/>
         <source>suffix</source>
         <translation>suffix</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+11"/>
         <source>Godan verb with `bu&apos; ending</source>
         <translation>godan-verb med bu-ändelse</translation>
     </message>
@@ -1870,7 +1910,7 @@ Det är möjligt att det inte togs bort.</translation>
         <translation>godan-verb med su-ändelse</translation>
     </message>
     <message>
-        <location line="-72"/>
+        <location line="-75"/>
         <source>auxiliary</source>
         <translation>hjälpverb</translation>
     </message>
@@ -1880,12 +1920,12 @@ Det är möjligt att det inte togs bort.</translation>
         <translation>hjälpverb</translation>
     </message>
     <message>
-        <location line="-11"/>
+        <location line="-10"/>
         <source>adjectival nouns or quasi-adjectives (keiyodoshi)</source>
-        <translation type="unfinished"/>
+        <translation>nominaladjektiv (keiyodoshi)</translation>
     </message>
     <message>
-        <location line="+77"/>
+        <location line="+79"/>
         <source>Godan verb - Iku/Yuku special class</source>
         <translation>godan-verb – speciell iku/yuku-klass</translation>
     </message>
@@ -1900,27 +1940,27 @@ Det är möjligt att det inte togs bort.</translation>
         <translation>godan-verb med gu-ändelse</translation>
     </message>
     <message>
-        <location line="-74"/>
+        <location line="-76"/>
         <source>nouns which may take the genitive case particle `no&apos;</source>
         <translation>substantiv som kan ta genitivpartikeln no</translation>
     </message>
     <message>
-        <location line="+67"/>
+        <location line="+69"/>
         <source>Ichidan verb</source>
         <translation>Ichidan-verb</translation>
     </message>
     <message>
-        <location line="-22"/>
+        <location line="-24"/>
         <source>noun, used as a prefix</source>
         <translation>substantiv, som prefix</translation>
     </message>
     <message>
-        <location line="-34"/>
+        <location line="-35"/>
         <source>auxiliary adjective</source>
         <translation>hjälpadjektiv</translation>
     </message>
     <message>
-        <location line="+36"/>
+        <location line="+37"/>
         <source>numeric</source>
         <translation>numerisk</translation>
     </message>
@@ -1932,50 +1972,45 @@ Det är möjligt att det inte togs bort.</translation>
     <message>
         <location line="-17"/>
         <source>pre-noun adjectival (rentaishi)</source>
-        <translation type="unfinished"/>
+        <translation>attributivt adjektiv (rentaishi)</translation>
     </message>
     <message>
-        <location line="+67"/>
+        <location line="+70"/>
         <source>Nidan verb with &apos;u&apos; ending (archaic)</source>
         <translation>nidan-verb med u-ändelse (ålderdomlig)</translation>
     </message>
     <message>
-        <location line="+25"/>
+        <location line="+24"/>
         <source>suru verb - special class</source>
         <translation>suru-verb (speciell klass)</translation>
     </message>
     <message>
-        <location line="-51"/>
+        <location line="-53"/>
         <source>noun (common) (futsuumeishi)</source>
         <translation>substantiv (futsuumeishi)</translation>
     </message>
     <message>
-        <location line="+49"/>
+        <location line="+51"/>
         <source>noun or participle which takes the aux. verb suru</source>
         <translation>substantiv eller partikel som tar hjälpverbet suru</translation>
     </message>
     <message>
-        <location line="-69"/>
-        <source>Expressions (phrases, clauses, etc.)</source>
-        <translation>uttryck (fraser, meningar m. m.)</translation>
-    </message>
-    <message>
-        <location line="+72"/>
+        <location line="+3"/>
         <source>suru verb - irregular</source>
         <translation>suru – oregelbundet verb</translation>
     </message>
     <message>
-        <location line="-51"/>
+        <location line="-53"/>
         <source>adverbial noun (fukushitekimeishi)</source>
-        <translation type="unfinished"/>
+        <translation>Adverbialsubstantiv (fukushitekimeishi)</translation>
     </message>
     <message>
-        <location line="+37"/>
+        <location line="+39"/>
         <source>Godan verb with `ru&apos; ending (irregular verb)</source>
         <translation>godan-verb med ru-ändelse (oregelbundet)</translation>
     </message>
     <message>
-        <location line="-26"/>
+        <location line="-28"/>
         <source>pronoun</source>
         <translation>pronomen</translation>
     </message>
@@ -1985,7 +2020,7 @@ Det är möjligt att det inte togs bort.</translation>
     <message>
         <location filename="../src/core/jmdict/JMdictPlugin.cc" line="+345"/>
         <source>An error seems to have occured while updating the JMdict database records - the program might crash during usage. Please report this bug.</source>
-        <translation type="unfinished"/>
+        <translation>Ett fel verkar ha uppstått under uppdateringen av JMdict-databasen – programmet kan komma att hänga sig. Rapportera gärna den här buggen!</translation>
     </message>
 </context>
 <context>
@@ -2070,12 +2105,12 @@ Det är möjligt att det inte togs bort.</translation>
     <message>
         <location line="+7"/>
         <source>If enabled, display a link that will look for example sentences in your web browser using the selected service</source>
-        <translation type="unfinished"/>
+        <translation>Om aktiverad, visa en länk för att söka efter exempelmeningar i din vävläsare med vald tjänst</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Disabled</source>
-        <translation type="unfinished"/>
+        <translation>Avaktiverad</translation>
     </message>
     <message>
         <location line="+27"/>
@@ -2140,7 +2175,7 @@ Det är möjligt att det inte togs bort.</translation>
     <message>
         <location line="+7"/>
         <source>Definitions types in this list will be searched for and displayed.</source>
-        <translation type="unfinished"/>
+        <translation>Följande definitionstyper kommer att visas.</translation>
     </message>
     <message>
         <location line="+27"/>
@@ -2156,7 +2191,7 @@ Det är möjligt att det inte togs bort.</translation>
     <message>
         <location line="+7"/>
         <source>Definitions types in this list will be ignored when searching and displaying entries.</source>
-        <translation type="unfinished"/>
+        <translation>Följande definitionstyper kommer inte att visas.</translation>
     </message>
 </context>
 <context>
@@ -2203,7 +2238,7 @@ Det är möjligt att det inte togs bort.</translation>
     <message>
         <location filename="../src/gui/kanjidic2/KanjiPopup.cc" line="+100"/>
         <source>%1 (drawn as &quot;%2&quot;)</source>
-        <translation type="unfinished"/>
+        <translation>%1 (som ”%2”)</translation>
     </message>
 </context>
 <context>
@@ -2211,7 +2246,7 @@ Det är möjligt att det inte togs bort.</translation>
     <message>
         <location filename="../src/gui/kanjidic2/KanjiSelector.cc" line="+396"/>
         <source>Triggers the kanji input panel</source>
-        <translation type="unfinished"/>
+        <translation>Aktiverar kanji-inmatning</translation>
     </message>
 </context>
 <context>
@@ -2348,7 +2383,7 @@ Det är möjligt att det inte togs bort.</translation>
 <context>
     <name>Kanjidic2EntryFormatter</name>
     <message>
-        <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="+328"/>
+        <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="+327"/>
         <source>&lt;b&gt;Strokes:&lt;/b&gt; %1</source>
         <translation>&lt;b&gt;Streck:&lt;/b&gt; %1</translation>
     </message>
@@ -2368,12 +2403,12 @@ Det är möjligt att det inte togs bort.</translation>
         <translation>&lt;b&gt;4 hörn:&lt;/b&gt; %1</translation>
     </message>
     <message>
-        <location line="-145"/>
+        <location line="-144"/>
         <source> (%1) </source>
         <translation> (%1) </translation>
     </message>
     <message>
-        <location line="+129"/>
+        <location line="+128"/>
         <source>&lt;b&gt;JLPT:&lt;/b&gt; N%1</source>
         <translation>&lt;b&gt;JLPT:&lt;/b&gt; N%1</translation>
     </message>
@@ -2483,7 +2518,7 @@ Det är möjligt att det inte togs bort.</translation>
     <message>
         <location line="+18"/>
         <source>Range</source>
-        <translation type="unfinished"/>
+        <translation>Omfång</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -2639,7 +2674,7 @@ Det är möjligt att det inte togs bort.</translation>
     <message>
         <location line="+33"/>
         <source>Character flashcards</source>
-        <translation type="unfinished"/>
+        <translation>Övningskort för kanji</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -2684,7 +2719,7 @@ Det är möjligt att det inte togs bort.</translation>
     <message>
         <location line="+4"/>
         <source>Show stroke popup for currently displayed kanji</source>
-        <translation type="unfinished"/>
+        <translation>Visa ruta med streckordning för nuvarande kanji</translation>
     </message>
     <message>
         <location line="+94"/>
@@ -2696,7 +2731,7 @@ Det är möjligt att det inte togs bort.</translation>
         <location line="-18"/>
         <location line="+18"/>
         <source>There are no kanji entries in this set to train on.</source>
-        <translation>Det finns inga kanji att träna i det här setet.</translation>
+        <translation>Det finns inga kanji att öva i det här setet.</translation>
     </message>
     <message>
         <location line="+186"/>
@@ -2706,7 +2741,7 @@ Det är möjligt att det inte togs bort.</translation>
     <message>
         <location line="+25"/>
         <source>Tracing for %1</source>
-        <translation type="unfinished"/>
+        <translation>Konturer för %1</translation>
     </message>
 </context>
 <context>
@@ -2748,13 +2783,7 @@ Det är möjligt att det inte togs bort.</translation>
         <translation>Original</translation>
     </message>
     <message>
-        <location line="-21"/>
-        <location line="+443"/>
-        <source>SKIP code</source>
-        <translation>SKIP-kod</translation>
-    </message>
-    <message>
-        <location line="-408"/>
+        <location line="+14"/>
         <location line="+436"/>
         <source>Frequency</source>
         <translation>Frekvens</translation>
@@ -2784,7 +2813,13 @@ Det är möjligt att det inte togs bort.</translation>
         <translation>Antal streck</translation>
     </message>
     <message>
-        <location line="-443"/>
+        <location line="-457"/>
+        <location line="+443"/>
+        <source>SKIP code</source>
+        <translation>SKIP-kod</translation>
+    </message>
+    <message>
+        <location line="-429"/>
         <source>Nanori</source>
         <translation>Nanori</translation>
     </message>
@@ -3084,12 +3119,12 @@ Det är möjligt att det inte togs bort.</translation>
     <message>
         <location line="+20"/>
         <source>Focus results list</source>
-        <translation type="unfinished"/>
+        <translation>Ge fokus till resultatlistan</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Ctrl+O</source>
-        <translation type="unfinished"/>
+        <translation>Ctrl-O</translation>
     </message>
     <message>
         <location line="-112"/>
@@ -3119,17 +3154,18 @@ Det är möjligt att det inte togs bort.</translation>
     <message>
         <location line="+21"/>
         <source>Focus text search</source>
-        <translation type="unfinished"/>
+        <translation>Ge fokus till sökfältet</translation>
     </message>
     <message>
         <location line="-119"/>
         <location filename="../src/gui/MainWindow.cc" line="+235"/>
+        <location line="+7"/>
         <source>Export user data...</source>
         <translation>Exportera användardata…</translation>
     </message>
     <message>
         <location line="+9"/>
-        <location filename="../src/gui/MainWindow.cc" line="+9"/>
+        <location filename="../src/gui/MainWindow.cc" line="+6"/>
         <source>Import user data...</source>
         <translation>Importera användardata…</translation>
     </message>
@@ -3161,10 +3197,10 @@ Det är möjligt att det inte togs bort.</translation>
     <message>
         <location line="+5"/>
         <source>Whole study list train &amp;settings...</source>
-        <translation>Inställningar för att träna med hela studielistan…</translation>
+        <translation>Inställningar för att öva med hela studielistan…</translation>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="-51"/>
+        <location filename="../src/gui/MainWindow.cc" line="-55"/>
         <source>Auto-search on clipboard content</source>
         <translation>Sök automatiskt på innehållet i urklipp</translation>
     </message>
@@ -3178,7 +3214,9 @@ Det är möjligt att det inte togs bort.</translation>
         <source>You have now been using Tagaini Jisho for a short while. If you like it, please show your support by making a donation that expresses your appreciation of this software. While Tagaini is free, its development has a cost and your support will have a positive influence on its future. You can donate via Paypal or credit card.
 
 This message is a one-time reminder and will not appear anymore - you can still donate later by choosing the corresponding option in the Help menu.</source>
-        <translation type="unfinished"/>
+        <translation>Du har nu använt Tagaini jisho ett litet tag. Om du gillar programmet, överväg gärna att visa din uppskattning genom att göra en donation. Medan Tagaini är gratis kostar utvecklingen av detta program pengar och ditt stöd kommer att ha ett positivt inflytande över dess framtid. Du kan donera via Paypal eller med kreditkort.
+
+Det här meddelandet kommer endast att visas denna gång – du kan välja att ge en gåva senare genom att välja motsvarande alternativ i Hjälp-menyn.</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -3191,14 +3229,19 @@ This message is a one-time reminder and will not appear anymore - you can still 
         <translation>Nä</translation>
     </message>
     <message>
-        <location line="+25"/>
+        <location line="+20"/>
+        <source>Error: Could not export database! Please verify that you have write permissions on the target file.</source>
+        <translation>Fel: Kunde inte exportera databasen! Kontrollera att du kan skriva till målfilen.</translation>
+    </message>
+    <message>
+        <location line="+9"/>
         <source>About to replace user data!</source>
         <translation>På väg att ersätta användardata!</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>&lt;b&gt;WARNING:&lt;/b&gt; All the user data (study list, tags, notes, training, ...) is going to be replaced by the selected user data file. Are you &lt;b&gt;sure&lt;/b&gt; you want to do this?</source>
-        <translation>&lt;b&gt;VARNING:&lt;/b&gt; Alla användardata (studielista, taggar, anteckningar, träning, …) kommer att ersättas med den valda användardatafilen. Är du &lt;b&gt;säker&lt;/b&gt; att du vill fortsätta?</translation>
+        <translation>&lt;b&gt;VARNING:&lt;/b&gt; Alla användardata (studielista, taggar, anteckningar, övning, …) kommer att ersättas med den valda användardatafilen. Är du &lt;b&gt;säker&lt;/b&gt; att du vill fortsätta?</translation>
     </message>
     <message>
         <location line="+7"/>
@@ -3376,12 +3419,12 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location line="+18"/>
         <source>Preparing training session</source>
-        <translation>Förbereder träningspass</translation>
+        <translation>Förbereder övningspass</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Preparing training session, please wait...</source>
-        <translation>Förbereder träningspass, var god vänta…</translation>
+        <translation>Förbereder övningspass, var god vänta…</translation>
     </message>
     <message>
         <location line="+57"/>
@@ -3391,17 +3434,17 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location line="+0"/>
         <source>Unable to find any entry eligible for reading practice. Entries eligible for this training mode are studied vocabulary entries for which all kanji are also studied, and that match the train settings. Please add entries or modify the train settings accordingly if you want to practice this mode.</source>
-        <translation type="unfinished"/>
+        <translation>Kan inte hitta något uppslag som passar för läsövning. Passande uppslag är sådana som redan studerats både i ordlistan och som kanji. Lägg till fler uppslag att öva eller ändra övningsinställningarna om du vill kunna använda den här läsövningen.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>There are no more entries to train for the current train settings.</source>
-        <translation>Det finns inga fler uppslag att träna med nuvarande inställningar.</translation>
+        <translation>Det finns inga fler uppslag att öva med nuvarande inställningar.</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>No more entries to train</source>
-        <translation>Inga fler uppslag att träna</translation>
+        <translation>Inga fler uppslag att öva</translation>
     </message>
     <message>
         <location line="+18"/>
@@ -3502,7 +3545,7 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location filename="../src/gui/RelativeDateEdit.cc" line="+163"/>
         <source>Not set</source>
-        <translation>Ej angiven</translation>
+        <translation>ej angivet</translation>
     </message>
 </context>
 <context>
@@ -3510,7 +3553,7 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location line="-130"/>
         <source>Not set</source>
-        <translation>Ej angivet</translation>
+        <translation>ej angivet</translation>
     </message>
     <message>
         <location line="+5"/>
@@ -3686,12 +3729,12 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location line="+0"/>
         <source>Make a new search using only this filter</source>
-        <translation type="unfinished"/>
+        <translation>Gör en ny sökning med endast det här filtret</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Add this filter to the current search</source>
-        <translation type="unfinished"/>
+        <translation>Lägg till det här filtret i nuvarande sökning</translation>
     </message>
 </context>
 <context>
@@ -3714,12 +3757,12 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location line="+0"/>
         <source>Make a new search using only this filter</source>
-        <translation type="unfinished"/>
+        <translation>Gör en ny sökning med endast det här filtret</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Add this filter to the current search</source>
-        <translation type="unfinished"/>
+        <translation>Lägg till det här filtret i nuvarande sökning</translation>
     </message>
 </context>
 <context>
@@ -3742,7 +3785,7 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location line="+7"/>
         <source>Study date</source>
-        <translation>Träningsdatum</translation>
+        <translation>Övningsdatum</translation>
     </message>
     <message>
         <location line="+24"/>
@@ -3761,7 +3804,7 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location line="-45"/>
         <source>Last trained</source>
-        <translation>Senast tränad</translation>
+        <translation>Senast övad</translation>
     </message>
     <message>
         <location line="+30"/>
@@ -3805,17 +3848,17 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location line="-112"/>
         <source>Study status:</source>
-        <translation>Träningsstatus:</translation>
+        <translation>Övningsstatus:</translation>
     </message>
     <message>
         <location line="+94"/>
         <source>, trained since %1</source>
-        <translation>, tränad sedan %1</translation>
+        <translation>, övad sedan %1</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>, trained until %1</source>
-        <translation>, tränad till %1</translation>
+        <translation>, övad till %1</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -3830,7 +3873,7 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location line="+5"/>
         <source>Study</source>
-        <translation>Träna</translation>
+        <translation>Öva</translation>
     </message>
 </context>
 <context>
@@ -3904,7 +3947,13 @@ This message is a one-time reminder and will not appear anymore - you can still 
         <translation>…</translation>
     </message>
     <message>
-        <location line="+59"/>
+        <location line="+6"/>
+        <location line="+62"/>
+        <source>Untagged</source>
+        <translation>Otaggad</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Tags</source>
         <translation>Taggar</translation>
     </message>
@@ -3924,7 +3973,7 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location line="+2"/>
         <source>If checked, text typed in romaji will be converted to kana and searched as such.</source>
-        <translation type="unfinished"/>
+        <translation>Om ikryssad kommer text inmatad som romaji automatiskt omvandlas till kana innan sökning.</translation>
     </message>
     <message>
         <location line="+15"/>
@@ -3947,12 +3996,12 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location filename="../src/gui/TrainSettings.ui" line="+14"/>
         <source>Train settings</source>
-        <translation>Träningsinställningar</translation>
+        <translation>Övningsinställningar</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Date of last training</source>
-        <translation>Datum för senaste träningspass</translation>
+        <translation>Datum för senaste övningspass</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -3988,17 +4037,17 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location line="+20"/>
         <source>Sort bias</source>
-        <translation type="unfinished"/>
+        <translation>Sortering</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Bias:</source>
-        <translation>Bias:</translation>
+        <translation>Sortera:</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>No bias</source>
-        <translation>Ingen bias</translation>
+        <translation>Ingen sortering</translation>
     </message>
     <message>
         <location line="+5"/>
@@ -4031,22 +4080,22 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location line="+108"/>
         <source>No entries to train</source>
-        <translation>Inga uppslag att träna</translation>
+        <translation>Inga uppslag att öva</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>There are no entries to train as of now. Please add entries to your study list or check the train settings.</source>
-        <translation type="unfinished"/>
+        <translation>Det finns inga uppslag att öva för tillfället. Lägg uppslag till din studielista eller kontrollera övningsinställningarna.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>All the matching entries have been trained.</source>
-        <translation type="unfinished"/>
+        <translation>Alla matchande uppslag har redan övats.</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>No more entries to train</source>
-        <translation>Inga fler uppslag att träna</translation>
+        <translation>Inga fler uppslag att öva</translation>
     </message>
     <message>
         <location line="-47"/>
@@ -4064,7 +4113,7 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <message>
         <location line="+0"/>
         <source>Your user data and settings have successfully been migrated. Tagaini Jisho needs to be restarted and will now exit.</source>
-        <translation type="unfinished"/>
+        <translation>Dina användardata och inställningar har överförts utan problem. Tagaini jisho behöver startas om och kommer nu att avslutas.</translation>
     </message>
 </context>
 </TS>

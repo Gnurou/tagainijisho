@@ -236,7 +236,11 @@ void MainWindow::exportUserData()
 	if (to.isEmpty()) return;
 
 	QFile dataFile(Database::instance()->userDBFile());
-	dataFile.copy(to);
+
+        QFile(to).remove(); // QFile::copy does not overwrite, so delete it first (if existent).
+        if (!dataFile.copy(to)) {
+            QMessageBox::critical(this, tr("Export user data..."), tr("Error: Could not export database! Please verify that you have write permissions on the target file."));
+        }
 }
 
 void MainWindow::importUserData()
@@ -273,7 +277,7 @@ void MainWindow::about()
 #error No version defined - the -DVERSION=<version> flag must be set!
 #endif
 	QString message = QString(
-		"<p>Copyright (C) 2008-2013 Alexandre Courbot.</p>"
+		"<p>Copyright (C) 2008-2015 Alexandre Courbot.</p>"
 		"<p align=\"center\"><a href=\"http://www.tagaini.net\">http://www.tagaini.net</a></p><p>This program comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to redistribute it under the conditions of the <a href=\"http://www.gnu.org/licenses/gpl-3.0.html\">GNU General Public License, version 3.0</a>, or (at your option) any later version.</p><hr/>"
 		);
 	QString credits = "<p>Tagaini Jisho uses data from various sources:</p>";

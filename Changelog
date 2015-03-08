@@ -1,3 +1,17 @@
+1.0.3 release on 2015/03/08
+* Update to SQLite 3.8.8.3
+* Update JMdict, kanjidic and KanjiVG data
+* Lots of improvements to non-english translations (especially
+  French) thanks to the jmdict-i18n project
+* New GUI (partial) translations: Persian, Hungarian, Indonesian
+* Re-enable SKIP support now that licensing issues are solved
+* Remove a bunch of invalid entries from the JLPT lists
+* Fix a bug when exporting the database to an existing file
+* Enable shortcuts for training window on MacOS X
+* Fix a bug that prevented the creation of a search folder
+* Fix a dimension bug in the preferences window
+* Fix a crash when moving an entry to the list below it
+
 1.0.2 release on 2014/04/14
 * Update to SQLite 3.8.4
 * Remove SKIP support due to distribution concerns

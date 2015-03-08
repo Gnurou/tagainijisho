@@ -91,7 +91,7 @@ void Kanjidic2Preferences::refresh()
 	showJLPT->setChecked(Kanjidic2EntryFormatter::showJLPT.value());
 	showStrokesNumber->setChecked(Kanjidic2EntryFormatter::showStrokesNumber.value());
 	showUnicode->setChecked(Kanjidic2EntryFormatter::showUnicode.value());
-	//showSKIP->setChecked(Kanjidic2EntryFormatter::showSKIP.value());
+	showSKIP->setChecked(Kanjidic2EntryFormatter::showSKIP.value());
 	showFourCorner->setChecked(Kanjidic2EntryFormatter::showFourCorner.value());
 	showHeisig->setChecked(Kanjidic2EntryFormatter::showHeisig.value());
 	showVariations->setChecked(Kanjidic2EntryFormatter::showVariations.value());
@@ -109,7 +109,7 @@ void Kanjidic2Preferences::refresh()
 	tooltipShowJLPT->setChecked(Kanjidic2EntryFormatter::tooltipShowJLPT.value());
 	tooltipShowStrokesNumber->setChecked(Kanjidic2EntryFormatter::tooltipShowStrokesNumber.value());
 	tooltipShowUnicode->setChecked(Kanjidic2EntryFormatter::tooltipShowUnicode.value());
-	//tooltipShowSKIP->setChecked(Kanjidic2EntryFormatter::tooltipShowSKIP.value());
+	tooltipShowSKIP->setChecked(Kanjidic2EntryFormatter::tooltipShowSKIP.value());
 	tooltipShowFourCorner->setChecked(Kanjidic2EntryFormatter::tooltipShowFourCorner.value());
 	tooltipShowHeisig->setChecked(Kanjidic2EntryFormatter::tooltipShowHeisig.value());
 
@@ -157,7 +157,7 @@ void Kanjidic2Preferences::applySettings()
 	Kanjidic2EntryFormatter::showJLPT.set(showJLPT->isChecked());
 	Kanjidic2EntryFormatter::showStrokesNumber.set(showStrokesNumber->isChecked());
 	Kanjidic2EntryFormatter::showUnicode.set(showUnicode->isChecked());
-	//Kanjidic2EntryFormatter::showSKIP.set(showSKIP->isChecked());
+	Kanjidic2EntryFormatter::showSKIP.set(showSKIP->isChecked());
 	Kanjidic2EntryFormatter::showFourCorner.set(showFourCorner->isChecked());
 	Kanjidic2EntryFormatter::showHeisig.set(showHeisig->isChecked());
 	Kanjidic2EntryFormatter::showVariations.set(showVariations->isChecked());
@@ -175,7 +175,7 @@ void Kanjidic2Preferences::applySettings()
 	Kanjidic2EntryFormatter::tooltipShowJLPT.set(tooltipShowJLPT->isChecked());
 	Kanjidic2EntryFormatter::tooltipShowStrokesNumber.set(tooltipShowStrokesNumber->isChecked());
 	Kanjidic2EntryFormatter::tooltipShowUnicode.set(tooltipShowUnicode->isChecked());
-	//Kanjidic2EntryFormatter::tooltipShowSKIP.set(tooltipShowSKIP->isChecked());
+	Kanjidic2EntryFormatter::tooltipShowSKIP.set(tooltipShowSKIP->isChecked());
 	Kanjidic2EntryFormatter::tooltipShowFourCorner.set(tooltipShowFourCorner->isChecked());
 	Kanjidic2EntryFormatter::tooltipShowHeisig.set(tooltipShowHeisig->isChecked());
 

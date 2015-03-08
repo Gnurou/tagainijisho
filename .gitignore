@@ -52,6 +52,7 @@ doc/manual.html
 doc/quickstart.html
 *.txt.user
 *.kdev4
+*.kdev_include_paths
 pack/archlinux/pkg
 pack/archlinux/src
 pack/archlinux/*.tar.gz

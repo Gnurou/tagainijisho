@@ -1,5 +1,4 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="tr" sourcelanguage="en" version="2.0">
-<defaultcodec>UTF-8</defaultcodec>
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="tr" sourcelanguage="en" version="2.1">
 <context>
     <name>AboutDialog</name>
     <message>
@@ -89,7 +88,7 @@
         <translation>Kullanıcı veritabanı dosyası:</translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="+510"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="+512"/>
         <source>User data</source>
         <translation>Kullanıcı verisi</translation>
     </message>
@@ -307,7 +306,7 @@
 <context>
     <name>EntriesViewHelper</name>
     <message>
-        <location filename="../src/gui/EntriesViewHelper.cc" line="+39"/>
+        <location filename="../src/gui/EntriesViewHelper.cc" line="+41"/>
         <source>&amp;Print...</source>
         <translation>&amp;Yazdır...</translation>
     </message>
@@ -337,7 +336,7 @@
         <translation>&amp;TSV olarak çıkart...</translation>
     </message>
     <message>
-        <location line="+55"/>
+        <location line="+57"/>
         <source>Abort</source>
         <translation>Vazgeç</translation>
     </message>
@@ -352,7 +351,7 @@
         <translation>Lütfen bekleyin...</translation>
     </message>
     <message>
-        <location line="+223"/>
+        <location line="+259"/>
         <source>Print preview</source>
         <translation>Yazıcı önizlemesi</translation>
     </message>
@@ -398,11 +397,6 @@
         <translation>HTML hafıza kartı dosyası olarak çıkart...</translation>
     </message>
     <message>
-        <location line="+0"/>
-        <source>HTML files (*.html)</source>
-        <translation>HTML dosyaları (*.html)</translation>
-    </message>
-    <message>
         <location line="+4"/>
         <source>Unable to write file %1!</source>
         <translation>%1 dosyası yazılamıyor!</translation>
@@ -419,7 +413,7 @@
     </message>
     <message>
         <location line="-94"/>
-        <location filename="../src/gui/EntriesViewHelper.h" line="+87"/>
+        <location filename="../src/gui/EntriesViewHelper.h" line="+89"/>
         <source>Print</source>
         <translation>Yazdır</translation>
     </message>
@@ -621,7 +615,13 @@
         <translation>Son eklenen etiketler</translation>
     </message>
     <message>
-        <location line="+85"/>
+        <location line="+87"/>
+        <location line="+6"/>
+        <source>Copy &quot;%1&quot; to clipboard</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+21"/>
         <source>Add &quot;%1&quot;</source>
         <translation>Ekle &quot;%1&quot;</translation>
     </message>
@@ -704,52 +704,62 @@
         <translation>İngilizce</translation>
     </message>
     <message>
-        <location line="-1"/>
+        <location line="+2"/>
         <source>German</source>
         <translation>Almanca</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="-1"/>
         <source>French</source>
         <translation>Fransızca</translation>
     </message>
     <message>
-        <location line="-1"/>
+        <location line="+8"/>
         <source>Spanish</source>
         <translation>İspanyolca</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="-4"/>
         <source>Norvegian Bokmal</source>
         <translation>Norvegian Bokmal</translation>
     </message>
     <message>
-        <location line="-7"/>
+        <location line="-8"/>
         <source>Czech</source>
         <translation>Çek dili</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+1"/>
         <source>Dutch</source>
         <translation>Hollandaca</translation>
     </message>
     <message>
-        <location line="-3"/>
+        <location line="+5"/>
         <source>Italian</source>
         <translation>İtalyanca</translation>
     </message>
     <message>
-        <location line="+6"/>
+        <location line="+5"/>
         <source>Russian</source>
         <translation>Rusça</translation>
     </message>
     <message>
-        <location line="-5"/>
+        <location line="-4"/>
         <source>Japanese</source>
         <translation>Japonca</translation>
     </message>
     <message>
+        <location line="-8"/>
+        <source>Arabic</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
         <location line="+3"/>
+        <source>Finnish (Finland)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+7"/>
         <source>Polish</source>
         <translation>Lehçe</translation>
     </message>
@@ -759,7 +769,7 @@
         <translation>Portekizce</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
         <source>Swedish</source>
         <translation>İsveççe</translation>
     </message>
@@ -874,12 +884,12 @@
         <translation>her </translation>
     </message>
     <message>
-        <location line="+56"/>
+        <location line="+62"/>
         <source>Defines how many recent entries are kept in memory. High values may improve performance when manipulating a large number of entries.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="-41"/>
+        <location line="-47"/>
         <source>Also check for development versions</source>
         <translation>Geliştirme sürümleri için de kontrol et</translation>
     </message>
@@ -1146,7 +1156,7 @@
         <translation>dövüş sanatları terimi</translation>
     </message>
     <message>
-        <location line="+46"/>
+        <location line="+47"/>
         <source>military</source>
         <translation>askeri</translation>
     </message>
@@ -1156,7 +1166,7 @@
         <translation>gıda terimi</translation>
     </message>
     <message>
-        <location line="-9"/>
+        <location line="-10"/>
         <source>computer terminology</source>
         <translation>bilgisayar terimi</translation>
     </message>
@@ -1166,7 +1176,7 @@
         <translation>Budist terimi</translation>
     </message>
     <message>
-        <location line="+24"/>
+        <location line="+25"/>
         <source>linguistics terminology</source>
         <translation type="unfinished"/>
     </message>
@@ -1176,12 +1186,12 @@
         <translation>geometrik terim</translation>
     </message>
     <message>
-        <location line="-13"/>
+        <location line="-14"/>
         <source>chemistry term</source>
         <translation>kimya terimi</translation>
     </message>
     <message>
-        <location line="+47"/>
+        <location line="+48"/>
         <source>physics terminology</source>
         <translation>fizik terimi</translation>
     </message>
@@ -1191,7 +1201,7 @@
         <translation>matematik</translation>
     </message>
     <message>
-        <location line="+64"/>
+        <location line="+66"/>
         <source>Nagano-ben</source>
         <translation>Nagano-ben</translation>
     </message>
@@ -1241,7 +1251,7 @@
         <translation>Kantou-ben</translation>
     </message>
     <message>
-        <location line="-61"/>
+        <location line="-63"/>
         <source>manga slang</source>
         <translation>manga argosu</translation>
     </message>
@@ -1251,7 +1261,7 @@
         <translation>kibar (teineigo) lisan</translation>
     </message>
     <message>
-        <location line="+13"/>
+        <location line="+16"/>
         <source>Yodan verb with `hu/fu&apos; ending (archaic)</source>
         <translation type="unfinished"/>
     </message>
@@ -1261,7 +1271,7 @@
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+21"/>
         <source>su verb - precursor to the modern suru</source>
         <translation type="unfinished"/>
     </message>
@@ -1276,7 +1286,7 @@
         <translation>kaba söz veya kelime</translation>
     </message>
     <message>
-        <location line="-76"/>
+        <location line="-78"/>
         <source>idiomatic expression</source>
         <translation>deyimsel ifade</translation>
     </message>
@@ -1291,12 +1301,7 @@
         <translation>kadın terimi veya ağzı</translation>
     </message>
     <message>
-        <location line="-20"/>
-        <source>former adjective classification (being removed)</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location line="+4"/>
+        <location line="-17"/>
         <source>ateji (phonetic) reading</source>
         <translation type="unfinished"/>
     </message>
@@ -1306,7 +1311,12 @@
         <translation>çocuk dili</translation>
     </message>
     <message>
-        <location line="+6"/>
+        <location line="+4"/>
+        <source>copula</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>exclusively kanji</source>
         <translation>özellikle kanji</translation>
     </message>
@@ -1316,7 +1326,17 @@
         <translation>özellikle kana</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+1"/>
+        <source>expressions (phrases, clauses, etc.)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>gikun (meaning as reading) or jukujikun (special kanji reading)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>word containing irregular kanji usage</source>
         <translation type="unfinished"/>
     </message>
@@ -1386,7 +1406,22 @@
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+46"/>
+        <location line="+5"/>
+        <source>unclassified</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>yojijukugo</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Ichidan verb - kureru special class</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+40"/>
         <source>`kari&apos; adjective (archaic)</source>
         <translation type="unfinished"/>
     </message>
@@ -1566,17 +1601,32 @@
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="+11"/>
+        <source>mahjong term</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>shogi term</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+5"/>
         <source>anatomical term</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-19"/>
         <source>astronomy, etc. term</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-148"/>
+        <source>adjective (keiyoushi) - yoi/ii class</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+149"/>
         <source>baseball term</source>
         <translation type="unfinished"/>
     </message>
@@ -1621,7 +1671,7 @@
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="+2"/>
         <source>medicine, etc. term</source>
         <translation type="unfinished"/>
     </message>
@@ -1636,7 +1686,7 @@
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="+2"/>
         <source>sports term</source>
         <translation type="unfinished"/>
     </message>
@@ -1656,22 +1706,22 @@
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="-132"/>
+        <location line="-135"/>
         <source>humble (kenjougo) language</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="-32"/>
+        <location line="-33"/>
         <source>abbreviation</source>
         <translation>kısaltma</translation>
     </message>
     <message>
-        <location line="+26"/>
+        <location line="+27"/>
         <source>familiar language</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="-27"/>
+        <location line="-28"/>
         <source>rude or X-rated term (not displayed in educational software)</source>
         <translation>kaba veya müstehcen terim (eğitim yazılımlarında gösterilmiyor)</translation>
     </message>
@@ -1681,17 +1731,17 @@
         <translation>kullanımdan düşmüş sözcük</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+13"/>
         <source>derogatory</source>
         <translation>küçültücü</translation>
     </message>
     <message>
-        <location line="-4"/>
+        <location line="-5"/>
         <source>colloquialism</source>
         <translation>konuşma dili</translation>
     </message>
     <message>
-        <location line="+51"/>
+        <location line="+52"/>
         <source>word usually written using kana alone</source>
         <translation>genellikle sadece kana ile yazılan kelime</translation>
     </message>
@@ -1711,12 +1761,12 @@
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="-43"/>
+        <location line="-44"/>
         <source>adverb taking the `to&apos; particle</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+40"/>
+        <location line="+41"/>
         <source>noun (temporal) (jisoumeishi)</source>
         <translation type="unfinished"/>
     </message>
@@ -1731,12 +1781,7 @@
         <translation>`taru&apos; sıfatı</translation>
     </message>
     <message>
-        <location line="+25"/>
-        <source>gikun (meaning as reading)  or jukujikun (special kanji reading)</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location line="+6"/>
+        <location line="+31"/>
         <source>interjection (kandoushi)</source>
         <translation>nida (kandoushi)</translation>
     </message>
@@ -1746,12 +1791,7 @@
         <translation>genellikle sadece kanji ile yazılan kelime</translation>
     </message>
     <message>
-        <location line="+6"/>
-        <source>Godan verb (not completely classified)</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location line="+14"/>
+        <location line="+22"/>
         <source>Godan verb - Uru old class verb (old form of Eru)</source>
         <translation type="unfinished"/>
     </message>
@@ -1771,32 +1811,32 @@
         <translation>düzensiz nu fiili</translation>
     </message>
     <message>
-        <location line="-30"/>
+        <location line="-32"/>
         <source>particle</source>
         <translation>edat</translation>
     </message>
     <message>
-        <location line="+31"/>
+        <location line="+33"/>
         <source>irregular ru verb, plain form ends with -ri</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="-87"/>
+        <location line="-89"/>
         <source>noun or verb acting prenominally</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+103"/>
+        <location line="+105"/>
         <source>transitive verb</source>
         <translation>geçişli fiil</translation>
     </message>
     <message>
-        <location line="-62"/>
+        <location line="-64"/>
         <source>noun, used as a suffix</source>
         <translation>isim, sonek olarak kullanılır</translation>
     </message>
     <message>
-        <location line="-27"/>
+        <location line="-28"/>
         <source>conjunction</source>
         <translation>bağlaç</translation>
     </message>
@@ -1806,22 +1846,22 @@
         <translation>sıfat (keiyoushi)</translation>
     </message>
     <message>
-        <location line="+88"/>
+        <location line="+91"/>
         <source>Ichidan verb - zuru verb (alternative form of -jiru verbs)</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="-81"/>
+        <location line="-84"/>
         <source>adverb (fukushi)</source>
         <translation>zarf (fukushi)</translation>
     </message>
     <message>
-        <location line="+59"/>
+        <location line="+60"/>
         <source>suffix</source>
         <translation>sonek</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+11"/>
         <source>Godan verb with `bu&apos; ending</source>
         <translation>`bu&apos; sonekli Godan fiili</translation>
     </message>
@@ -1866,7 +1906,7 @@
         <translation>`su&apos; sonekli Godan fiili</translation>
     </message>
     <message>
-        <location line="-72"/>
+        <location line="-75"/>
         <source>auxiliary</source>
         <translation type="unfinished"/>
     </message>
@@ -1876,12 +1916,12 @@
         <translation>yardımcı fiil</translation>
     </message>
     <message>
-        <location line="-11"/>
+        <location line="-10"/>
         <source>adjectival nouns or quasi-adjectives (keiyodoshi)</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+77"/>
+        <location line="+79"/>
         <source>Godan verb - Iku/Yuku special class</source>
         <translation>Godan fiili - Iku/Yuku özel sınıfı</translation>
     </message>
@@ -1896,27 +1936,27 @@
         <translation>`gu&apos; bitişli Godan fiili</translation>
     </message>
     <message>
-        <location line="-74"/>
+        <location line="-76"/>
         <source>nouns which may take the genitive case particle `no&apos;</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+67"/>
+        <location line="+69"/>
         <source>Ichidan verb</source>
         <translation>Ichidan fiili</translation>
     </message>
     <message>
-        <location line="-22"/>
+        <location line="-24"/>
         <source>noun, used as a prefix</source>
         <translation>isim, önek olarak kullanılır</translation>
     </message>
     <message>
-        <location line="-34"/>
+        <location line="-35"/>
         <source>auxiliary adjective</source>
         <translation>yardımcı sıfat</translation>
     </message>
     <message>
-        <location line="+36"/>
+        <location line="+37"/>
         <source>numeric</source>
         <translation>sayısal</translation>
     </message>
@@ -1931,47 +1971,42 @@
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+67"/>
+        <location line="+70"/>
         <source>Nidan verb with &apos;u&apos; ending (archaic)</source>
         <translation>&apos;u&apos; sonekli Nidan fiili (artık kullanılmayan)</translation>
     </message>
     <message>
-        <location line="+25"/>
+        <location line="+24"/>
         <source>suru verb - special class</source>
         <translation>suru fiili - özel sınıf</translation>
     </message>
     <message>
-        <location line="-51"/>
+        <location line="-53"/>
         <source>noun (common) (futsuumeishi)</source>
         <translation>isim (yaygın) (futsuumeishi)</translation>
     </message>
     <message>
-        <location line="+49"/>
+        <location line="+51"/>
         <source>noun or participle which takes the aux. verb suru</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="-69"/>
-        <source>Expressions (phrases, clauses, etc.)</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location line="+72"/>
+        <location line="+3"/>
         <source>suru verb - irregular</source>
         <translation>suru fiili - düzensiz</translation>
     </message>
     <message>
-        <location line="-51"/>
+        <location line="-53"/>
         <source>adverbial noun (fukushitekimeishi)</source>
         <translation>zarf isim (fukushitekimeishi)</translation>
     </message>
     <message>
-        <location line="+37"/>
+        <location line="+39"/>
         <source>Godan verb with `ru&apos; ending (irregular verb)</source>
         <translation>`ru&apos; sonekli Godan fiili (düzensiz fiil)</translation>
     </message>
     <message>
-        <location line="-26"/>
+        <location line="-28"/>
         <source>pronoun</source>
         <translation>zamir</translation>
     </message>
@@ -2344,7 +2379,7 @@
 <context>
     <name>Kanjidic2EntryFormatter</name>
     <message>
-        <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="+328"/>
+        <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="+327"/>
         <source>&lt;b&gt;Strokes:&lt;/b&gt; %1</source>
         <translation>&lt;b&gt;Çizgi sayısı:&lt;/b&gt; %1</translation>
     </message>
@@ -2364,12 +2399,12 @@
         <translation>&lt;b&gt;4 köşe:&lt;/b&gt; %1</translation>
     </message>
     <message>
-        <location line="-145"/>
+        <location line="-144"/>
         <source> (%1) </source>
         <translation> (%1) </translation>
     </message>
     <message>
-        <location line="+129"/>
+        <location line="+128"/>
         <source>&lt;b&gt;JLPT:&lt;/b&gt; N%1</source>
         <translation>&lt;b&gt;JLPT:&lt;/b&gt; N%1</translation>
     </message>
@@ -2744,13 +2779,7 @@
         <translation>Orijinal</translation>
     </message>
     <message>
-        <location line="-21"/>
-        <location line="+443"/>
-        <source>SKIP code</source>
-        <translation>SKIP code</translation>
-    </message>
-    <message>
-        <location line="-408"/>
+        <location line="+14"/>
         <location line="+436"/>
         <source>Frequency</source>
         <translation>Sıklık</translation>
@@ -2780,7 +2809,13 @@
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="-443"/>
+        <location line="-457"/>
+        <location line="+443"/>
+        <source>SKIP code</source>
+        <translation>SKIP code</translation>
+    </message>
+    <message>
+        <location line="-429"/>
         <source>Nanori</source>
         <translation>Nanori</translation>
     </message>
@@ -3120,12 +3155,13 @@
     <message>
         <location line="-119"/>
         <location filename="../src/gui/MainWindow.cc" line="+235"/>
+        <location line="+7"/>
         <source>Export user data...</source>
         <translation>Kullanıcı verilerini çıkart...</translation>
     </message>
     <message>
         <location line="+9"/>
-        <location filename="../src/gui/MainWindow.cc" line="+9"/>
+        <location filename="../src/gui/MainWindow.cc" line="+6"/>
         <source>Import user data...</source>
         <translation>Kullanıcı verilerini yükle...</translation>
     </message>
@@ -3160,7 +3196,7 @@
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/MainWindow.cc" line="-51"/>
+        <location filename="../src/gui/MainWindow.cc" line="-55"/>
         <source>Auto-search on clipboard content</source>
         <translation type="unfinished"/>
     </message>
@@ -3187,7 +3223,12 @@ This message is a one-time reminder and will not appear anymore - you can still 
         <translation>Hayır</translation>
     </message>
     <message>
-        <location line="+25"/>
+        <location line="+20"/>
+        <source>Error: Could not export database! Please verify that you have write permissions on the target file.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+9"/>
         <source>About to replace user data!</source>
         <translation type="unfinished"/>
     </message>
@@ -3900,7 +3941,13 @@ This message is a one-time reminder and will not appear anymore - you can still 
         <translation>...</translation>
     </message>
     <message>
-        <location line="+59"/>
+        <location line="+6"/>
+        <location line="+62"/>
+        <source>Untagged</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Tags</source>
         <translation>Etiketler</translation>
     </message>

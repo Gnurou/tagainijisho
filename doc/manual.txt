@@ -407,6 +407,11 @@ the number. No two characters have the same value. For instance, the character
 `取` has a Unicode value of `0x53D6`. Putting that in the Unicode field will
 result in the entry for `取` being listed.
 
+The next section is for finding kanji by **SKIP code**. A skip code is a way
+of categorising kanji according to its type. SKIP codes are comprised of three
+numbers and are annotated X-Y-Z. Each slider in the **SKIP code** section
+relates to one of these numbers.[^SKIPfoot]
+
 The fifth section, or second from the right, is labelled **Four corner**. It
 provides four drop down boxes corresponding to each corner of a Chinese
 character and a fifth box for miscellaneous strokes. Four corner method is a
@@ -414,6 +419,8 @@ Chinese input method to used to find kanji.[^FCfoot]
 
 The last section, **School grade**, represents which Japanese school level the
 kanji is taught in. 
+
+[^SKIPfoot]: http://www.basic-japanese.com/Hilfsdateien/skipCode.html  
 
 [^FCfoot]: http://en.wikipedia.org/wiki/Four_Corner_Method
 
@@ -521,6 +528,9 @@ common sections.
 
 **JLPT**
 :   The kanji's JLPT level.  
+
+**SKIP**
+:   The kanji's SKIP code.
 
 **Radicals**
 :   Formal radicals found within the kanji.
@@ -1027,6 +1037,9 @@ element on and off.
 **Unicode**
 :   The kanji's Unicode value.
 
+**SKIP code**
+:   The kanji's SKIP code.
+
 **Four corner code**
 :   The kanji's four corner code.
 
@@ -1113,6 +1126,9 @@ information.
 
 **Unicode**
 :   Show the kanji's Unicode value.
+
+**SKIP code**
+:   Show the kanji's SKIP code.
 
 **Four corner code**
 :   Show the kanji's four corner code.

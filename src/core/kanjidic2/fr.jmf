@@ -10,15 +10,16 @@
 万 myriade
 万 10000
 丈 longueur
-丈 10 pieds (jo)
+丈 dix shaku
 丈 mesure
-丈 M
+丈 M.
 丈 Mme
+丈 hauteur
 丈 taille
-丈 stature
-丈 tout (ce qu'on a)
+丈 tout (ce que l'on a)
 丈 seulement
 丈 c'est tout
+丈 uniquement
 三 trois
 上 au-dessus
 上 haut
@@ -88,10 +89,11 @@
 丸 se rouler en boule
 丸 séduire
 丸 justifier
-丹 couleur de rouille
+丹 couleur rouille
 丹 rouge
 丹 minium
 丹 pilules
+丹 sincérité
 主 maître
 主 seigneur
 主 chef
@@ -108,6 +110,8 @@
 之 de
 之 ceci
 之 avancer (radical shinnyuu)
+乎 point d'interrogation
+乎 ?
 乏 insuffisant
 乏 limité
 乏 indigent
@@ -161,6 +165,7 @@
 事 peut-être
 二 deux
 二 radical deux (no. 2)
+云 dire
 互 mutuel
 互 réciproque
 互 ensemble
@@ -190,11 +195,13 @@
 亥 signe de la 12ème branche terrestre
 亥 signe du Porc (zodiaque)
 亥 21 à 23 h
+享 jouir
 享 recevoir
 享 accepter
 享 répondre (téléphone)
 享 prendre
 享 obtenir
+享 attraper
 京 capitale
 京 10**16
 亭 pavillon
@@ -326,6 +333,7 @@
 伴 amener avec soi
 伴 compagnon
 伴 époux / épouse
+伶 acteur
 伸 allonger
 伸 étirer
 伸 accroître
@@ -386,6 +394,12 @@
 併 cependant
 併 simultané
 使 utiliser
+使 envoyer en mission
+使 ordre
+使 messager
+使 envoyé
+使 ambassadeur
+使 cause
 例 exemple
 例 coutume
 例 usage
@@ -422,9 +436,11 @@
 侶 compagnon
 侶 disciple
 便 commodité
-便 courrier
-便 vol (avion)
-便 nouvelles
+便 facilité
+便 excrément
+便 fèces
+便 lettre
+便 chance
 係 chargé de
 係 liaison
 係 devoir
@@ -438,6 +454,7 @@
 俊 génie
 俊 excellence
 俊 avisé
+俐 astucieux
 俗 vulgaire
 俗 coutumes
 俗 manières
@@ -487,8 +504,10 @@
 倒 dégringoler
 倒 s'effondrer
 候 climat
-候 temps
 候 saison
+候 temps
+候 attendre
+候 espérer
 借 emprunter
 借 louer
 倣 imiter
@@ -544,7 +563,7 @@
 傍 en outre
 傍 pendant que
 傍 tout près
-傍 les autres
+傍 troisième personne
 傑 grandeur
 傑 excellence
 傘 parapluie
@@ -691,7 +710,8 @@
 典 règle
 兼 simultanément
 兼 et
-兼 cumuler
+兼 préalablement
+兼 à l'avance
 内 intérieur
 内 dedans
 内 entre
@@ -744,6 +764,8 @@
 凝 rigide
 凝 être absorbé
 凝 coagulation
+凡 banal
+凡 ordinaire
 凡 médiocre
 処 traiter
 処 se débarrasser
@@ -753,6 +775,7 @@
 処 se comporter
 処 vierge
 処 lieu
+凧 cerf-volant
 凶 vaurien
 凶 mauvais
 凶 malchance
@@ -830,8 +853,9 @@
 制 loi
 制 régime
 制 contrôle
-刷 imprimer
 刷 impression
+刷 tirage
+刷 brosse
 券 ticket
 券 coupon
 刹 temple
@@ -857,9 +881,8 @@
 削 raboter
 削 tailler
 削 affiler
-削 réduire
 削 parer
-削 supprimer
+削 réduire
 前 devant
 前 avant
 剖 disséquer
@@ -882,8 +905,10 @@
 剩 résidus
 剩 restes
 副 vice-
-副 copie
+副 assistant
+副 aide
 副 duplicata
+副 copie
 剰 par dessus le marché
 剰 en outre
 剰 surplus
@@ -950,7 +975,12 @@
 勇 remonter le moral
 勇 bravoure
 勇 héroïsme
-勉 exercice
+勉 effort
+勉 tentative
+勉 encourager
+勉 s'efforcer
+勉 faire des efforts
+勉 diligent
 動 bouger
 動 mouvement
 動 changement
@@ -958,6 +988,9 @@
 動 secouer
 勘 intuition
 勘 perception
+勘 vérifier
+勘 comparer
+勘 sixième sens
 務 tâche
 務 devoir
 務 travail
@@ -1105,16 +1138,18 @@
 却 au lieu de
 却 au contraire
 却 plutôt
+却 reculer
+却 retirer
+却 retraite
 卵 oeuf
 卵 frai
 卸 vente en gros
 厄 malchance
 厄 infortune
 厄 désastre
-厘 un petit peu
-厘 fifrelin
-厘 1/10 de sen = 0.001 yen
-厘 1/10 de bu = 0.303 cm
+厘 rin
+厘 1/10 sen
+厘 1/10 bu
 厚 épais
 厚 lourd
 厚 cordial
@@ -1143,13 +1178,15 @@
 去 divorce
 参 dérouté
 参 déconcerté
-参 trois (III)
+参 trois (dans des documents)
 参 aller
 参 venir
 参 visiter
 参 être battu
 参 mourir
 参 follement amoureux
+参 participer
+参 prendre part à
 又 ou encore
 又 de plus
 又 d'un autre côté
@@ -1280,8 +1317,10 @@
 否 nier
 否 refuser
 否 décliner
+含 contenir
 含 inclure
-含 retenir
+含 tenir dans la bouche
+含 garder à l'esprit
 含 comprendre
 含 chérir
 吸 aspirer
@@ -1305,8 +1344,9 @@
 呈 présenter
 呈 envoyer
 呈 exposer
-呉 tu me donnes
-呉 faire pour moi
+呉 donner
+呉 faire quelque chose pour
+呉 royaume de Wu
 告 révélation
 告 dire
 告 informer
@@ -1335,6 +1375,7 @@
 和 Japon
 咲 fleurir
 咲 floraison
+咽 gorge
 咽 étouffant
 咽 bourratif
 咽 obstrué
@@ -1355,13 +1396,18 @@
 員 personne en charge
 哲 philosophie
 哲 clair
-唄 chanson avec shamisen
+哺 哺
+哺 ホ, はぐく.む, ふく.む
+哺 allaiter
+唄 chanson
+唄 ballade
 唆 inciter
 唆 tenter
 唆 promouvoir
 唇 lèvres
 唐 T'ang
 唐 Chine
+唐 étranger
 唯 seulement
 唯 unique
 唯 simplement
@@ -1386,13 +1432,17 @@
 善 bonté
 善 vertu
 喉 gorge
-喚 hurler
+喚 gueuler
 喚 crier
+喚 appeler
+喚 hurler
+喚 convoquer
 喜 se réjouir
 喜 prendre plaisir à
 喝 gronder
 喝 rauque
 喩 métaphore
+喩 comparer
 喪 perte
 喪 deuil
 喫 consommer
@@ -1412,6 +1462,7 @@
 嘆 soupirer
 嘆 gémir
 嘆 peine
+嘆 soupir d'admiration
 嘘 mensonge
 嘱 charger de
 嘱 appartenir
@@ -1441,6 +1492,7 @@
 嚇 menaçant
 嚇 dignité
 嚇 majesté
+嚇 intimider
 囚 capturer
 囚 criminel
 囚 arrêter
@@ -1475,8 +1527,8 @@
 図 carte
 図 dessin
 図 plan
-図 inattendu
-図 accidentellement
+図 extraordinaire
+図 audacieux
 固 solide
 固 durcir
 固 résolu
@@ -1527,8 +1579,8 @@
 坑 mine
 坑 fosse
 坑 trou
-坪 tsubo (3,306 m² )
 坪 aire de 2 tatamis standards
+坪 environ 3,3 m²
 垂 pendre
 垂 suspendre
 垂 tomber
@@ -1587,7 +1639,7 @@
 堤 digue
 堤 berge
 堤 rive
-堪 résistance
+堪 soutenir
 堪 endurer
 堪 supporter
 堪 résister
@@ -1608,7 +1660,9 @@
 塁 rempart
 塁 murs
 塁 base (base-ball)
-塊 motte
+塊 motte de terre
+塊 bloc
+塊 gros morceau
 塊 caillot
 塊 masse
 塑 plastique
@@ -1631,6 +1685,9 @@
 塞 couvrir
 塞 bloquer
 塞 obstruer
+塡 remplir
+塡 compléter
+塡 réussir
 塩 sel
 填 remplir
 塾 cours du soir
@@ -1675,7 +1732,7 @@
 壮 âge d'homme
 壮 prospérité
 声 voix
-壱 un (I)
+壱 un (dans les documents)
 売 vendre
 変 insolite
 変 étrange
@@ -1869,6 +1926,7 @@
 字 lettre
 字 mot
 字 hameau
+存 exister
 存 supposer
 存 être conscient de
 存 croire
@@ -1916,7 +1974,8 @@
 宗 origine
 宗 essence
 官 fonctionnaire
-官 gouvernemental
+官 gouvernement
+官 organe
 宙 plein ciel
 宙 air
 宙 espace
@@ -2024,6 +2083,8 @@
 寧 plutôt
 寧 de préférence
 寧 paisible
+寧 calme
+寧 tranquillité
 審 audition
 審 audience
 審 jugement
@@ -2032,8 +2093,9 @@
 寮 pavillon
 寮 pavillon de thé
 寸 dimension
+寸 un dixième de shaku
 寸 un peu
-寸 sun = 3,03 cm (1/10 de shaku)
+寸 petit
 寺 temple bouddhiste
 対 vis-à-vis
 対 en face
@@ -2153,14 +2215,16 @@
 層 classe sociale
 層 couche
 層 étage
-履 chausser
-履 enfiler
+履 effectuer
+履 compléter
 履 chaussures
+履 souliers
 履 bottes
-履 expérience
+履 mettre sur (les pieds)
 屯 garnison
 屯 poste de police
-屯 camp militaire
+屯 camp
+屯 tonne
 山 montagne
 岐 bifurcation
 岐 embranchement
@@ -2217,7 +2281,7 @@
 嶌 île
 川 rivière
 川 fleuve
-川 radical rivière (no. 47)
+川 radical de la rivière ou de la rivière en trois traits (nº 47)
 州 province
 州 état
 巡 patrouille
@@ -2247,8 +2311,6 @@
 差 marge
 差 balance
 己 soi
-己 serpent
-己 signe du 6è tronc céleste
 巳 signe de la 6ème branche terrestre
 巳 signe du Serpent (zodiaque)
 巳 9 à 11 heures du matin
@@ -2267,7 +2329,10 @@
 市 marché
 市 ville
 市 cité
-布 linge
+布 lin
+布 tissu
+布 propagation
+布 distribuer
 帆 voile
 希 espoir
 希 demander
@@ -2285,12 +2350,12 @@
 帥 commandant
 帥 mener des troupes
 帥 gouverneur
-師 maître
 師 expert
 師 professeur
-師 exemplaire
+師 maître
 師 modèle
-師 armée
+師 exemplaire
+師 armée (et compteur associé)
 師 guerre
 席 siège
 席 natte
@@ -2309,6 +2374,10 @@
 帳 cahier
 帳 livre de comptes
 帳 album
+帳 rideau
+帳 voile
+帳 filet
+帳 tente
 常 habituel
 常 ordinaire
 常 normal
@@ -2332,6 +2401,10 @@
 幣 papier découpé
 干 sec
 干 dessécher
+干 refluer
+干 reculer
+干 interférer
+干 intercéder
 平 plan(e)
 平 plat
 平 paix
@@ -2352,17 +2425,20 @@
 幼 enfance
 幼 tendre enfance
 幽 isoler
-幽 confiné
+幽 confiner dans une pièce
 幽 profond
-幽 obscur
+幽 encaissé
 幽 isolé
 幽 faible
 幽 sombre
 幽 tranquille
 幽 calme
 幾 combien
-幾 quel
-幾 quelques
+幾 quelle quantité
+幾 jusqu'à quel point
+幾 combien de temps
+幾 certains
+幾 plusieurs
 庁 bureau du gouvernement
 広 vaste
 広 large
@@ -2397,6 +2473,8 @@
 度 occurrence
 度 fois
 度 compteur d'occurrences
+度 considérer
+度 attitude
 座 s'accroupir
 座 s'asseoir
 座 siège
@@ -2447,14 +2525,18 @@
 廷 bureau du gouvernement
 建 construire
 廿 vingt
-弁 éloquence
 弁 valve
 弁 pétale
 弁 tresse
+弁 discours
 弁 dialecte
-弁 discernement
-弁 résoudre
+弁 discrimination
+弁 se débarrasser de
 弁 distinguer
+弁 chapeau conique
+弄 jouer avec
+弄 trafiquer
+弄 se jouer de
 弊 mal
 弊 abus
 弊 vice
@@ -2513,6 +2595,10 @@
 当 juste
 当 approprié
 当 lui-même
+彙 même genre
+彙 recueillir
+彙 classer
+彙 catégorie
 彙 hérisson
 形 forme
 形 style
@@ -2564,7 +2650,7 @@
 徐 petit à petit
 徐 posément
 徐 doucement
-徒 élève
+徒 à pied
 徒 inexpérimenté
 徒 vide
 徒 vanité
@@ -2572,7 +2658,9 @@
 徒 inutilité
 徒 chose éphémère
 徒 bande
+徒 ensemble 
 徒 parti
+徒 personnes
 従 accompagner
 従 obéir
 従 se soumettre à
@@ -2597,9 +2685,8 @@
 復 retourner
 復 restaurer
 復 reprendre
-循 cycle
-循 circulation
-循 camarade
+循 séquentiel
+循 suivre
 微 ténu
 微 délicat
 微 insignifiant
@@ -2911,12 +2998,15 @@
 懲 pénal
 懲 châtiment
 懲 sanction
-懸 suspendre
+懸 état de suspension
 懸 pendre
-懸 10%
-懸 installer
 懸 dépendre
 懸 consulter
+懸 lointain
+懸 éloigné
+戌 signe de la 11ème branche terrestre
+戌 signe du Chien (zodiaque)
+戌 19 à 21 heures
 成 se changer en
 成 devenir
 成 obtenir
@@ -2935,9 +3025,8 @@
 或 un
 或 ou
 或 ou bien
-戚 parenté
-戚 relations familiales
 戚 peine
+戚 relations familiales
 戦 guerre
 戦 bataille
 戦 match
@@ -3085,6 +3174,9 @@
 担 responsable
 担 porter
 担 soutenir
+拉 latin
+拉 enlèvement
+拉 écrasement
 拍 applaudir
 拍 temps (musique)
 拍 battement (coeur)
@@ -3127,7 +3219,8 @@
 拭 balayer
 拭 essuyer
 拳 poing
-拶 imminent
+拶 être imminent
+拶 rapprocher
 拷 torture
 拷 tabasser
 拾 ramasser
@@ -3153,7 +3246,9 @@
 挙 actions
 挟 pincer
 挟 entre deux
-挨 ouvrir
+挨 s'approcher
+挨 rapprocher
+挨 ouvrir en poussant
 挫 écraser
 挫 briser
 挫 entorse, foulure
@@ -3204,8 +3299,10 @@
 掌 gouverner
 排 répudier
 排 exclure
-排 rejeter
 排 expulser
+排 rejeter
+排 s'aligner
+排 organiser
 掘 creuser
 掘 fouiller
 掘 déterrer
@@ -3235,6 +3332,7 @@
 推 deviner
 推 supposer
 推 soutenir
+推 revendiquer
 措 mettre à l'écart
 措 rejeter
 措 abandonner
@@ -3256,7 +3354,11 @@
 提 proposition
 提 emmener
 提 tenir en main
-揚 hisser
+揚 augmenter
+揚 élever
+揚 palan
+揚 louange
+揚 exalter
 揚 frire
 換 échanger
 換 remplacer
@@ -3295,19 +3397,19 @@
 搾 presser
 摂 substitut
 摂 remplaçant
-摂 prendre (ingérer)
 摂 faire simultanément
+摂 intégrer
+摂 absorber
 摘 saisir du bout des doigts
 摘 pincer
 摘 cueillir
 摘 tailler (haie)
 摘 récapituler
-摩 irriter
 摩 gratter
-摩 caresser
-摩 frictionner
+摩 frotter
 摩 polir
 摩 moudre
+摩 racler
 摯 cadeau
 摯 sérieux
 撃 battre
@@ -3366,6 +3468,8 @@
 改 chercher
 攻 agression
 攻 attaque
+攻 critiquer
+攻 polir
 放 libérer
 放 relâcher
 放 renvoyer
@@ -3397,12 +3501,12 @@
 教 enseigner
 教 foi
 教 doctrine
-敢 audace
+敢 audacieux
+敢 courageux
+敢 hardi
 敢 triste
 敢 tragique
 敢 pitoyable
-敢 frêle
-敢 faible
 散 disperser
 散 éparpiller
 散 dépenser
@@ -3447,10 +3551,14 @@
 斎 adorer
 斎 éviter
 斎 semblable
+斑 tache
+斑 défaut
+斑 point
+斑 corrections
 斗 Grande Ourse
-斗 tonnelet de saké
-斗 to (18,039 litres)
-斗 radical points et croix (no. 68)
+斗 louche à saké
+斗 dix sho (volume)
+斗 radical points et croix (nº 68)
 料 redevance
 料 recette
 料 frais
@@ -3488,9 +3596,9 @@
 於 à
 於 en ce qui concerne
 施 donner
+施 accorder
+施 effectuer
 施 aumône
-施 poser des bandages
-施 administrer 1ers secours
 旅 voyage
 旋 rotation
 旋 révolution
@@ -3524,8 +3632,9 @@
 旨 expert
 早 tôt
 早 rapide
-旬 décade
-旬 saison (fruits, poisson, ...)
+旬 décaméron
+旬 période de dix jours
+旬 saison (pour des produits specifiques)
 旭 soleil levant
 旺 florissant
 旺 ayant du succès
@@ -3609,10 +3718,12 @@
 暫 temporaire
 暫 un moment
 暫 depuis longtemps
-暮 mener sa vie
-暮 vivre
-暮 arriver à son terme
-暮 coucher de soleil
+暮 soirée
+暮 crépuscule
+暮 fin de saison
+暮 moyens d'existence
+暮 gagner sa vie
+暮 passer le temps
 暴 explosion
 暴 rage
 暴 agitation
@@ -3645,13 +3756,18 @@
 曲 pencher
 更 se faire tard
 更 veiller
-更 de plus
+更 se coucher tard
 更 bien sûr
+更 renouveler
+更 rénover
+更 encore
+更 de plus en plus
+更 plus
 書 écrire
-曹 élève officier
-曹 sous-officier
-曹 ami
-曹 fils de bonne famille
+曹 bureau
+曹 officiel
+曹 camarade
+曹 compagnon
 曽 anciennement
 曽 ex-
 曽 arrière (-petit-fils)
@@ -3747,11 +3863,12 @@
 杉 cèdre
 杉 cryptomère
 杏 abricot
-材 matériaux
-材 ingrédients
 材 bois de charpente
 材 bille de bois
-材 bûche
+材 bois de construction
+材 bois
+材 matériaux
+材 ingrédients
 材 talent
 村 village
 村 ville
@@ -3830,10 +3947,12 @@
 柄 motif
 柄 construire
 柄 nature
-柄 manche
+柄 caractère
 柄 poignée
-柄 bouton
 柄 manivelle
+柄 prise
+柄 bouton
+柄 manche
 柏 chêne
 某 untel
 某 un certain
@@ -3857,7 +3976,6 @@
 柵 s'entortiller autour
 査 investigation
 柿 kaki
-柿 bardeau
 栃 marronnier d'Inde
 栃 (kokuji)
 栄 florissant
@@ -3957,7 +4075,9 @@
 棺 cercueil
 椅 chaise
 植 planter
+椎 arbre chinquapin
 椎 maillet
+椎 colonne vertébrale
 椙 cèdre japonais
 椙 cryptoméria du Japon
 椙 (kanji d'origine japonaise ou kokuji)
@@ -3982,6 +4102,8 @@
 極 le plus
 極 hautement
 極 10**48
+楷 écriture d'imprimerie
+楷 exactitude
 楼 tour de guet
 楼 poste de guet
 楼 tour (immeuble)
@@ -4029,15 +4151,22 @@
 横 horizontal
 横 largeur
 横 trame (tissu)
+横 déraisonnable
+横 pervers
 樹 grume
+樹 arbres
 樹 bois
+樹 établir
+樹 installer
 橋 pont
 機 métier à tisser
-機 mécanique
-機 opportunité
+機 mécanisme
 機 machine
 機 avion
-機 organique
+機 occasion
+機 puissance
+機 efficacité
+機 occasion
 橿 chêne
 欄 colonne de journal
 欄 rampe
@@ -4143,6 +4272,13 @@
 殿 palais
 殿 temple
 殿 seigneur
+毀 casser
+毀 détruire
+毀 censurer
+毀 être réduit en copeaux
+毀 être rayé
+毀 être brisé
+毀 être ruiné
 母 maman
 母 mère
 毎 chaque
@@ -4238,8 +4374,9 @@
 没 disparaître
 没 mourir
 沢 marais
-沢 ruisseau de montagne
-沢 abondance
+沢 marécage
+沢 éclat
+沢 grâce
 沫 éclaboussures
 沫 mousse (savon)
 河 rivière
@@ -4276,8 +4413,7 @@
 泉 source
 泉 fontaine
 泊 passer la nuit
-泊 loger
-泊 séjour
+泊 s'installer
 泊 être au mouillage
 泌 suinter
 泌 couler
@@ -4315,6 +4451,9 @@
 泰 paix
 泰 tranquille
 泰 Thaïlande
+泰 extrême
+泰 excessif
+泰 grand
 泳 nager
 洋 océan
 洋 style occidental
@@ -4364,9 +4503,11 @@
 浦 rivage
 浦 côte
 浦 plage
-浪 ondes
+浪 errance
 浪 vagues
 浪 flots
+浪 téméraire
+浪 effréné
 浮 flotter
 浮 faire surface
 浮 venir à l'esprit
@@ -4391,6 +4532,8 @@
 涙 compassion
 涯 horizon
 涯 rivage
+涯 limite
+涯 borne
 液 liquide
 液 jus
 液 fluide
@@ -4433,9 +4576,11 @@
 済 excusable
 済 s'en sortir sans
 渉 gué
-渉 bac
 渉 traverser
-渉 port
+渉 transit
+渉 ferry
+渉 importation
+渉 impliquer
 渋 astringent
 渋 hésiter
 渋 rechigner
@@ -4550,18 +4695,18 @@
 漢 sino-
 漢 Chine
 漫 manga
-漫 imprécis
 漫 involontaire
+漫 effréné
 漫 à contre-coeur
 漫 corrompre
 漬 saumure
 漬 tremper
 漬 humecter
 漬 imbiber
-漸 progressivement
-漸 en fin de compte
-漸 finalement
-漸 tout juste
+漸 régulièrement
+漸 avancer progressivement
+漸 enfin
+漸 à peine
 潔 viril
 潔 immaculé
 潔 pur
@@ -4698,12 +4843,13 @@
 照 comparer
 照 timide
 煩 anxiété
-煩 tourment
+煩 difficulté
 煩 souci
 煩 douleur
 煩 malade
-煩 ennuyeux
+煩 agacer
 煩 nuisance
+煩 ennuyeux
 煮 mijoter
 煮 bouillir
 煮 cuire
@@ -4883,7 +5029,7 @@
 瓜 melon
 瓦 tuile
 瓦 gramme
-瓶 pot de fleurs
+瓶 bouteille
 瓶 fiole
 瓶 pot
 瓶 pichet
@@ -4921,13 +5067,12 @@
 由 origine
 由 grave
 甲 armure
-甲 carapace
 甲 haute (voix)
 甲 premier ordre
 甲 première classe
 甲 ancien
 甲 cou-de-pied
-甲 signe du 1er tronc céleste
+甲 carapace
 申 dire (humble)
 申 s'appeler (humble)
 申 j'ai l'honneur de
@@ -4945,6 +5090,7 @@
 画 écran
 画 compteur de traits de kanji
 界 monde
+界 limite
 畏 peur
 畏 majesté
 畏 gracieusement
@@ -4963,9 +5109,9 @@
 畜 bétail
 畜 animaux domestiques
 畝 sillon
-畝 30 tsubo (100 m²)
-畝 raie
-畝 côte (côtelé)
+畝 trente tsubo
+畝 crête
+畝 côte
 略 abréviation
 略 omission
 略 résumé
@@ -4975,11 +5121,12 @@
 番 tour (de rôle)
 番 numéro dans une série
 異 inhabituel
+異 différent
 異 bizarrerie
 異 étrangeté
-異 surprenant
+異 merveilleux
 異 curieux
-異 extraordinaire
+異 insolite
 畳 tatami
 畳 compteur de tatamis
 畳 surface : 182 cm x 91 cm
@@ -4989,13 +5136,12 @@
 畳 fermer, boucler (maison)
 畳 terminer
 畿 capitale
-疎 négligence
-疎 ignorer
 疎 aliéner
-疎 éviter
 疎 grossier
+疎 négligence
+疎 éviter
 疎 clairsemé
-疎 épars
+疎 pénétrer
 疑 douter
 疑 méfiance
 疑 soupçon
@@ -5021,6 +5167,9 @@
 痩 s'affiner
 痴 idiot
 痴 stupide
+瘍 gonflement
+瘍 ébullition
+瘍 tumeur
 療 soins
 療 traitement
 癌 cancer
@@ -5037,7 +5186,6 @@
 癖 frisé
 発 départ
 発 décharge
-発 dégagement
 発 publier
 発 émettre
 発 partir de
@@ -5160,7 +5308,7 @@
 瞬 pétiller (yeux)
 瞭 clair
 瞭 clarifié
-瞳 pupille (oeil)
+瞳 pupille (de l'œil)
 矛 hallebarde
 矛 armes
 矛 char de festival
@@ -5193,7 +5341,9 @@
 砕 populaire
 砲 canon
 砲 fusil
+破 fendre
 破 déchirer
+破 détacher
 破 casser
 破 détruire
 破 défaire
@@ -5371,10 +5521,11 @@
 空 creux
 突 poignarder
 突 saillant
-突 irruption
-突 enfoncer
+突 poussée
 突 percer
 突 piquer
+突 collision
+突 soudain
 窃 cambrioler
 窃 secret
 窃 privé
@@ -5525,6 +5676,12 @@
 籍 domicile
 籍 registre (état civil, domicile)
 籍 adhésion
+籠 panier
+籠 s'adonner à
+籠 s'isoler
+籠 cage
+籠 poulailler
+籠 implicite
 米 grain de riz
 米 Amérique
 米 un mètre
@@ -5617,19 +5774,21 @@
 紡 filage
 索 câble
 索 corde
-索 chercher (index)
+索 chercher
+索 enquêter
 紫 violet
 累 amasser
 累 implication
 累 ennuis
 累 liens
 累 continuellement
-細 menu
-細 long et fin
-細 délicat
-細 mince
-細 fluet
-細 étroit
+細 délicat 
+細 maigrir 
+細 pointu
+細 mince 
+細 étroit 
+細 détaillé 
+細 précis
 紳 gentilhomme
 紳 seigneur
 紳 écharpe de chevalier
@@ -5692,8 +5851,8 @@
 絶 supprimer
 絹 soie
 継 hériter
-継 succession
-継 relais
+継 succéder
+継 continuer
 継 rapiécer
 継 greffe (arbre)
 続 continuer
@@ -5726,12 +5885,13 @@
 総 complet
 総 total
 緑 vert
-緒 bout
-緒 début
-緒 fin
 緒 lanière
+緒 début
+緒 commencement
+緒 fin
 緒 corde
 緒 sangle
+緒 état mental ou émotionnel
 線 ligne
 線 voie
 締 serrer
@@ -5755,7 +5915,8 @@
 緯 horizontal
 緯 trame (tissage)
 緯 gauche et droite
-緯 latitude
+緯 (parallèles de) latitude
+緯 prédiction
 練 pratiquer
 練 lustrer
 練 s'exercer
@@ -5792,8 +5953,9 @@
 縮 raccourcir
 縮 friser
 縮 réduire
-績 performance
-績 cocons non déroulés
+績 exploits
+績 réalisations
+績 dérouler des cocons
 繁 luxuriant
 繁 épais
 繁 envahi (herbes)
@@ -5851,6 +6013,8 @@
 羅 gaze
 羅 soie fine
 羅 Rome
+羅 organiser
+羅 étaler
 羊 mouton
 美 beauté
 美 beau, belle
@@ -5996,9 +6160,11 @@
 脈 espoir
 脊 stature
 脊 taille (d'une personne)
-脚 pied (d'un objet)
 脚 patins
-脚 train d'atterrissage
+脚 jambe
+脚 châssis
+脚 partie inférieure
+脚 base
 脱 déshabiller
 脱 enlever
 脱 s'échapper de
@@ -6101,7 +6267,7 @@
 舎 résidence
 舗 échoppe
 舗 magasin
-舗 étalage
+舗 pavement
 舞 danse
 舞 voltiger
 舞 cercle
@@ -6112,14 +6278,15 @@
 航 faire voile
 航 croiser (voile)
 航 voler
-般 global
-般 général
-般 transporter
 般 transporteur
+般 porter
+般 tous
+般 général
+般 sorte
+般 genre
 舶 paquebot
 舶 bateau
 舷 plat-bord
-舷 bordage
 船 bateau
 船 navire
 艇 barque
@@ -6184,8 +6351,9 @@
 苦 renfrogné
 英 Angleterre
 英 anglais
-英 fleur éclose
-英 brillant
+英 héros
+英 exceptionnel
+英 calice
 茂 pousser dru
 茂 s'épaissir
 茂 luxuriant
@@ -6206,8 +6374,10 @@
 荒 sauvage
 荘 villa
 荘 auberge
-荘 maison de campagne
+荘 cottage
 荘 manoir féodal
+荘 solennel
+荘 digne
 荷 bagages
 荷 balancier
 荷 porter (un fardeau)
@@ -6243,6 +6413,8 @@
 落 tomber
 落 chute
 落 perdre
+落 village
+落 hameau
 葉 feuille
 葉 lobe
 葉 aiguille
@@ -6275,11 +6447,10 @@
 蒸 torride
 蒸 fomenter
 蒸 renfermé
-蓄 accumuler
-蓄 stocker
-蓄 mettre de côté
-蓄 gramophone
-蓄 avoir une maîtresse
+蓄 amasser
+蓄 augmenter
+蓄 magot
+蓄 magasin
 蓋 couvercle
 蔑 ignorer
 蔑 mépriser
@@ -6291,9 +6462,15 @@
 蔵 cacher
 蔵 avoir
 蔵 posséder
+蔽 couvercle
+蔽 ombre
+蔽 manteau
+蔽 chavirage
+蔽 être ruiné
+薄 diluer
 薄 fin
-薄 dilué
 薄 léger (thé)
+薄 herbe de la pampa
 薗 jardin
 薗 ferme
 薦 recommander
@@ -6336,10 +6513,12 @@
 虜 esclave
 虜 barbare
 虜 épithète péjorative pour l'ennemi
-虞 crainte
 虞 peur
-虞 anxiété
 虞 inquiétude
+虞 anxiété
+虞 préoccupation
+虞 attente
+虞 considération
 虫 insecte
 虫 vermine
 虫 ver
@@ -6368,8 +6547,14 @@
 衆 grand nombre
 衆 multitude
 衆 peuple
-行 aller
-行 voyage
+行 aller 
+行 voyage 
+行 effectuer 
+行 conduite 
+行 acte 
+行 ligne 
+行 rangée 
+行 banque
 術 technique
 術 art
 術 moyens
@@ -6474,9 +6659,10 @@
 褐 kimono de laine
 褒 éloge
 褒 louer
-襟 nuque
-襟 col
+襟 collier
+襟 cou
 襟 revers
+襟 sentiments intimes
 襲 attaquer
 襲 assaillir
 襲 agresser
@@ -6555,6 +6741,7 @@
 触 annoncer
 触 conflit
 言 dire
+言 mot
 訂 réviser
 訂 corriger
 訂 décider
@@ -6629,6 +6816,8 @@
 詠 poème
 詠 chanson
 詣 visiter un temple
+詣 arriver
+詣 atteindre
 試 test
 試 essai
 試 tentative
@@ -6698,10 +6887,10 @@
 誤 faute
 誤 mal faire
 誤 induire en erreur
-説 théorie
-説 rumeur
 説 opinion
-説 thèse
+説 théorie
+説 explication
+説 rumeur
 読 lire
 誰 qui
 誰 quelqu'un
@@ -6711,12 +6900,16 @@
 課 service
 課 division
 課 compteur de chapitres
-調 enquête
-調 mélodie
+調 mise au point
 調 ton (majeur/mineur)
+調 mètre
+調 clé (musique)
 調 style d'écriture
 調 préparer
 調 exorciser
+調 enquêter
+調 harmoniser
+調 servir d'intermédiaire
 談 discuter
 談 parler
 請 solliciter
@@ -6727,7 +6920,10 @@
 諌 dissuader
 論 argumentation
 論 discours
+諦 vérité
+諦 clarté
 諦 abandonner
+諦 renoncer
 諧 harmonie
 諭 réprimande
 諭 admonestation
@@ -6762,13 +6958,16 @@
 謙 modestie
 謙 humilité
 謙 condescendre
+謙 être modeste
 講 cours magistral
 講 club
 講 association
 謝 excuses
 謝 remerciements
 謝 refus
+謡 chanson
 謡 chanter
+謡 ballade
 謡 chant Noh
 謹 révérencieusement
 謹 humblement
@@ -6845,6 +7044,8 @@
 販 commercialisation
 販 vente
 販 commerce
+貪 convoiter
+貪 s'adonner à
 貫 percer
 貫 kan (= 3750 g)
 貫 pénétrer
@@ -6976,12 +7177,12 @@
 越 muter
 越 surpasser
 越 Vietnam
-趣 teneur
-趣 fond
-趣 aspect
-趣 apparence
-趣 sens
-趣 tendance
+趣 portée
+趣 essentiel
+趣 élégance
+趣 intérêt
+趣 procéder à
+趣 tendre
 趣 devenir
 足 jambe
 足 pied
@@ -7065,7 +7266,9 @@
 載 monter dans
 載 placer
 載 étaler
-載 10**44
+載 10^44
+載 enregistrer
+載 publier
 輝 étincelant
 輝 étincelle
 輝 briller
@@ -7092,6 +7295,11 @@
 辞 mot
 辞 terme
 辞 expression
+辣 âcre
+辣 épicé
+辣 rude
+辣 cruel
+辣 sévère
 辰 signe de la 5ème branche terrestre
 辰 signe du Dragon (zodiaque)
 辰 7 à 9 heures du matin
@@ -7231,11 +7439,13 @@
 遅 lent
 遅 précédent
 遅 plus tard
-遇 entrevue
-遇 traiter
 遇 rencontrer
-遇 distraire
+遇 rencontrer par hasard
+遇 entretien
+遇 traiter
+遇 divertir
 遇 recevoir
+遇 faire face à
 遊 jouer
 運 porter
 運 chance
@@ -7404,7 +7614,11 @@
 醸 brasser
 醸 causer
 采 dé
+采 forme
 采 apparence
+采 prendre
+采 rassembler
+采 coloration
 釈 explication
 釈 justification
 里 hameau
@@ -7518,6 +7732,8 @@
 鑑 apprendre de
 長 long
 長 chef
+長 supérieur
+長 ainé
 門 portail
 門 compteur de canons
 閉 fermer
@@ -7549,6 +7765,9 @@
 闇 désordre
 闘 lutte
 闘 guerre
+阜 colline
+阜 monticule
+阜 radical du village de gauche (n ° 170)
 阪 coteaux
 阪 pente
 防 prévenir (un danger)
@@ -7586,10 +7805,12 @@
 院 résidence
 院 école
 院 hôpital
-陣 campement
+陣 camp
 陣 ordre de bataille
 陣 rang
 陣 position
+陣 soudain
+陣 peu de temps
 除 exclure
 除 division (opération)
 除 enlever
@@ -7615,7 +7836,9 @@
 陳 raconter
 陳 expliquer
 陵 mausolée
-陵 tombe impériale
+陵 tombeau impérial
+陵 monticule
+陵 colline
 陶 poterie
 陶 porcelaine
 陸 continent
@@ -7766,10 +7989,8 @@
 面 surface
 革 cuir
 革 peau
-革 fourrure
-革 devenir sérieux
-革 rénovation
 革 réforme
+革 devenir sérieux
 靴 chaussure
 鞍 selle
 韓 Corée
@@ -7821,9 +8042,13 @@
 頒 répartition
 頒 disséminer
 頒 comprendre
-頓 soudainement
+頓 tout à coup
 頓 immédiatement
-頓 avec empressement
+頓 à la hâte
+頓 organiser
+頓 tenir en place
+頓 s'incliner
+頓 se prosterner
 領 domaine
 領 juridiction
 領 territoire
@@ -7950,9 +8175,11 @@
 験 vérification
 験 examen
 験 effet
-騰 inflation
-騰 augmentation
-騰 avance
+騰 bondir
+騰 sauter
+騰 augmenter
+騰 avancer
+騰 aller
 驚 étonnement
 驚 surpris
 驚 effrayé
@@ -7965,13 +8192,16 @@
 骸 cadavre, corps
 髄 moelle
 髄 quintessence
+髄 essentiel
 高 haut
 高 élevé
 高 grand
 高 cher
 髪 cheveux
+鬱 tristesse
 鬱 dépression
-鬱 déprimer
+鬱 mélancolie
+鬱 luxuriant
 鬼 démon
 鬼 monstre
 魂 âme
@@ -8024,6 +8254,7 @@
 麺 farine de blé
 麻 chanvre
 麻 lin
+麻 engourdi
 黄 jaune
 黒 noir
 黙 silence
