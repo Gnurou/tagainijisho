@@ -25,6 +25,6 @@ i686-w64-mingw32-strip $BUILDDIR/src/gui/tagainijisho.exe
 
 cd $BASEDIR
 makensis -DVERSION=$VERSION -DBUILDDIR=$BUILDDIR -DSRCDIR=$SRCDIR -DQTPATH=$QTPATH $NSIFILE
-mv install.exe tagainijisho-$VERSION.exe
+mv install.exe $curpath/tagainijisho-$VERSION.exe
 rm -Rf $BUILDDIR
 cd $curpath
