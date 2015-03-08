@@ -16,7 +16,7 @@ tagainijisho.app
 i18n/*.qm
 tagainijisho.pro.user
 install
-build
+build*
 jmdict.db
 kanjidic2.db
 tagainijisho
@@ -51,6 +51,7 @@ doc/manual.html
 doc/quickstart.html
 *.txt.user
 *.kdev4
+*.kdev_include_paths
 pack/archlinux/pkg
 pack/archlinux/src
 pack/archlinux/*.tar.gz
