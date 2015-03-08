@@ -31,7 +31,7 @@ before_script:
   - cmake ..
 
 after_success:
-  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then cpack -G DEB ; cpack -G RPM ; fi
+  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then ../pack/source/buildsourcerelease.sh ; cpack -G DEB ; cpack -G RPM ; fi
   - if [ "$TRAVIS_OS_NAME" = "osx" ]; then sudo -s -- "cpack -G DragNDrop" ; sudo -s -- "chown travis Tagaini\ Jisho-$TAGAINI_VERSION.dmg " ; fi
 
 deploy:
@@ -40,6 +40,7 @@ deploy:
     api_key:
       secure: N/wOTfrlb4TxMVHSjUkfX5AnJqlOnTMVPYYf22/AnOU1ecA5r45hF+3Q6rA1UUCf4My/cPCWRaxmKvgZIg3rTCvTZM43JxuUuqqYcmCzrQnnPtiV+CXutPQC2s3Y+Kkecbv+XApPq8D2RMYcw/aiz/dv/KRMoVM2jGZODyqAe9E=
     file:
+      - tagainijisho-$TAGAINI_VERSION.tar.gz
       - tagainijisho-$TAGAINI_VERSION.deb
       - tagainijisho-$TAGAINI_VERSION.rpm
     on:
