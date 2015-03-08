@@ -17,8 +17,8 @@ cmake ../gitexport
 cmake -DEMBED_SQLITE=1 .
 make docs
 make package_source
-mv tagainijisho-${VERSION}.tar.gz ..
+mv tagainijisho-${VERSION}.tar.gz $curpath
 cd ..
 rm -Rf gitexport build
-echo "Final source release: `pwd`/tagainijisho-${VERSION}.tar.gz"
+echo "Final source release: $curpath/tagainijisho-${VERSION}.tar.gz"
 cd $curpath
