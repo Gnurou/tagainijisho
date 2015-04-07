@@ -307,7 +307,6 @@ void Query::clear()
 		checkQueryError(*this, qtext);
 		_stmt = 0;
 	}
-	
 	_state = INVALID;
 	_bindIndex = 0;
 }
