@@ -104,6 +104,32 @@ Linux users can make a nice deb or rpm package:
     $ cpack -G DEB
     $ cpack -G RPM
 
+Compiling with Microsoft Visual Studio
+--------------------------------------
+The CMake build harness has been tested with Visual Studio 10 under Windows7.   
+First, from your VStudio command environment, invoke CMake to create the VStudio Solution:
+
+    c:\dev\mrosen-tagainijisho> msbuild tagainijisho.sln> cmake -G "Visual Studio 10" -DCMAKE_PREFIX_PATH=c:/Qt/5.4/msvc2010_opengl -DGUNZIP=c:/bin/gzip-1.3.12-1-bin/bin/gunzip.exe
+
+Then, to build the project, including building the databases:
+
+    c:\dev\mrosen-tagainijisho>msbuild tagainijisho.sln
+
+Some notes:
+
+Without the CMAKE_PREFIX_PATH definition, CMAKE was unable to find my Qt 
+library.  It was looking so maybe it will find yours without this.  
+
+Similarly, I needed to tell it where GUNZIP was (required only once, see 
+comments in CMakeLists.txt), hence that definition on the CMake command line.
+You may not need this.
+
+
+
+
+
+
+
 Usage
 -----
 
