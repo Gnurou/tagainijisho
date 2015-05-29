@@ -12,7 +12,8 @@ set(tagaini_binary ${CMAKE_PROJECT_NAME})
 set(VERSION 1.0.3)
 set(QTVERSION 5.2)
 
-cmake_minimum_required(VERSION 2.8.0)
+cmake_minimum_required(VERSION 2.8.11)
+cmake_policy(VERSION 2.8.11)
 
 find_package(Qt5Core ${QTVERSION} REQUIRED)
 find_package(Qt5Widgets ${QTVERSION} REQUIRED)
@@ -44,7 +45,9 @@ if(APPLE)
 	set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/pack/MacOS/")
 endif(APPLE)
 if(WIN32)
+   if (!MSVC)
 	set(extra_link_flags "-static-libgcc -static-libstdc++ -mwindows")
+   endif()
 endif(WIN32)
 
 # By default, enable all languages
