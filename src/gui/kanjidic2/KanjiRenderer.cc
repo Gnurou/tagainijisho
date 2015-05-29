@@ -127,7 +127,7 @@ QPainterPath KanjiRenderer::Stroke::pathFromSVG(QString svgPath)
 
 void KanjiRenderer::Stroke::render(QPainter *painter, qreal dLength, qreal startFrom) const
 {
-	if (dLength < 0.0 or dLength >= length()) painter->drawPath(painterPath());
+	if (dLength < 0.0 || dLength >= length()) painter->drawPath(painterPath());
 	else {
 		painter->save();
 		// We must divide by the width of the pen because

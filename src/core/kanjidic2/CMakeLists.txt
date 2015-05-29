@@ -59,6 +59,7 @@ foreach(LANG ${DICT_LANG})
 endforeach()
 add_custom_command(OUTPUT ${CMAKE_BINARY_DIR}/kanjidic2.db
 	COMMAND build_kanji_db -l${ALL_LANGS} ${CMAKE_SOURCE_DIR} ${CMAKE_BINARY_DIR}
+	WORKING_DIRECTORY ${CMAKE_PREFIX_PATH}/bin
 	DEPENDS build_kanji_db ${CMAKE_SOURCE_DIR}/3rdparty/kanjidic2.xml ${CMAKE_SOURCE_DIR}/3rdparty/kanjivg.xml)
 add_custom_target(kanjidic2-db DEPENDS ${CMAKE_BINARY_DIR}/kanjidic2.db)
 add_dependencies(databases kanjidic2-db)

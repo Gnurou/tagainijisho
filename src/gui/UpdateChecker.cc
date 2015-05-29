@@ -54,7 +54,7 @@ void UpdateChecker::checkForUpdates(bool beta)
 	request.setHeader(QNetworkRequest::UserAgentHeader, QString("Tagaini Jisho %1 (%2)").arg(VERSION).arg(PLATFORM));
 	_http->get(request);
 
-#warning TODO Complete this class
+#pragma warning TODO Complete this class
 	/*
 	QHttpRequestHeader request("GET", _versionURL);
 	request.setValue("Host", "www.tagaini.net");

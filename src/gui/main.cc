@@ -164,7 +164,7 @@ void checkUserProfileDirectory()
 {
 	// Set the user profile location
 	// This is done here because this function requires the QtGui module
-#warning dangerous
+#pragma warning dangerous
 	__userProfile = QStandardPaths::standardLocations(QStandardPaths::DataLocation)[0];
 	// Create the user profile directory if not existing
 	QDir profileDir(userProfile());
@@ -196,7 +196,7 @@ int main(int argc, char *argv[])
 	QCoreApplication::setApplicationVersion(VERSION);
 
 	// Install the error message handler now that we have a GUI
-#warning fix this
+#pragma warning fix this
 	//qInstallMessageHandler(messageHandler);
 
 	//migrateOldData();
