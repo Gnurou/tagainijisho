@@ -405,7 +405,7 @@ QString Kanjidic2EntryFormatter::formatHead(const ConstEntryPointer &_entry) con
 
 	QString res(EntryFormatter::formatHead(entry));
 	if (res.isEmpty()) return res;
-	else return QString("<a href=\"drawkanji://?kanji=%1\">").arg(entry->kanji()) + res + "</a>";
+	else return QString(res);
 }
 
 QString Kanjidic2EntryFormatter::formatMeanings(const ConstEntryPointer &_entry) const
