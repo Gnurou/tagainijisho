@@ -430,6 +430,7 @@ static QMap<QString, QString> __kanaTranscribe()
 	T("ha", "ハ");
 	T("hi", "ヒ");
 	T("hu", "フ");
+        T("fa", "ファ");
 	T("fu", "フ");
 	T("he", "ヘ");
 	T("ho", "ホ");
