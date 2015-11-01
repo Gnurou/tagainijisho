@@ -22,6 +22,7 @@
 #include <QCoreApplication>
 #include <QMutexLocker>
 #include <QWeakPointer>
+#include <QDataStream>
 
 EntriesCache *EntriesCache::_instance = 0;
 PreferenceItem<int> EntriesCache::cacheSize("", "entriesCacheSize", 1000);

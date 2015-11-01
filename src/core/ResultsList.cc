@@ -18,6 +18,7 @@
 #include "core/ResultsList.h"
 
 #include <QtDebug>
+#include <QDataStream>
 
 ResultsList::ResultsList(QObject *parent) : QAbstractListModel(parent), entries(), displayedUntil(0), dbThread(), query(&dbThread)
 {
