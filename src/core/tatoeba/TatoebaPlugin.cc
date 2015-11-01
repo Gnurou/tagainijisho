@@ -44,14 +44,14 @@ bool TatoebaPlugin::onRegister()
 		return false;
 	}
 	if (!Database::attachDictionaryDB(dbFile, "tatoeba", TATOEBADB_REVISION)) {
-		qFatal("Tatoeba plugin fatal error: failed to attach main database %s!", dbFile.toAscii().constData());
+		qFatal("Tatoeba plugin fatal error: failed to attach main database %s!", dbFile.toLatin1().constData());
 		return false;
 	}
 	foreach (const QString &lang, supportedLanguages()) {
 		dbFile = lookForFile(QString("tatoeba-%1.db").arg(lang));
 		if (!dbFile.isEmpty()) {
 			if (!Database::attachDictionaryDB(dbFile, "tatoeba_" + lang, TATOEBADB_REVISION)) {
-				qWarning("Tatoeba plugin fatal error: failed to attach database %s!", dbFile.toAscii().constData());
+				qWarning("Tatoeba plugin fatal error: failed to attach database %s!", dbFile.toLatin1().constData());
 				continue;
 			}
 			_dbLanguages << lang;
