@@ -28,7 +28,7 @@ before_install:
 before_script:
   - mkdir build
   - cd build
-  - cmake -DCMAKE_BUILD_TYPE=Release -DEMBED_SQLITE=1 ..
+  - cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -DEMBED_SQLITE=1 ..
 
 after_success:
   - if [ "$TRAVIS_OS_NAME" = "linux" ]; then ../pack/source/buildsourcerelease.sh ; cpack -G DEB ; cpack -G RPM ; fi
