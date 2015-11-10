@@ -139,7 +139,7 @@ clean database.
 Known bugs
 ----------
 - Kanji stroke order may not always be accurate. Please report incorrect kanji
-  to http://http://groups.google.com/group/tagaini-jisho.
+  to http://groups.google.com/group/tagaini-jisho.
 - Kanji stroke color segmentation is not always accurate.
 - JLPT levels may not always be accurate.
 

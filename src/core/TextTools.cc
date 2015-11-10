@@ -312,7 +312,7 @@ static void initKanaInfos()
 	foreach (const QChar hira, _kanaInfos.keys()) {
 		_kanaInfos[hiraganaChar2Katakana(hira)] = _kanaInfos[hira];
 	}
-	// Other kanatana
+	// Other katakana
 	_kanaInfos[QChar(0x30f7)] = KanaInfo("va", KanaInfo::Normal, KanaInfo::Rare);
 	_kanaInfos[QChar(0x30f8)] = KanaInfo("vi", KanaInfo::Normal, KanaInfo::Rare);
 	_kanaInfos[QChar(0x30f9)] = KanaInfo("ve", KanaInfo::Normal, KanaInfo::Rare);
@@ -461,36 +461,58 @@ static QMap<QString, QString> __kanaTranscribe()
 	T("wu", "ウ");
 	T("we", "ウェ");
 	T("wo", "ヲ");
+	T("va", "ヴァ");
+	T("vi", "ヴィ");
+	T("vu", "ヴ");
+	T("ve", "ヴェ");
+	T("vo", "ヴォ");
+	T("fa", "ファ");
+	T("fi", "フィ");
+	T("fe", "フェ");
+	T("fo", "フォ");
 	T("-", "ー");
+	T("kwa", "クァ");
+	T("kwi", "クィ");
+	T("kwe", "クェ");
+	T("kwo", "クォ");
 	T("kya", "キャ");
 	T("kyu", "キュ");
+	T("kye", "キェ");
 	T("kyo", "キョ");
 	T("gya", "ギャ");
 	T("gyu", "ギュ");
+	T("gye", "ギェ");
 	T("gyo", "ギョ");
 	T("sha", "シャ");
 	T("shu", "シュ");
+	T("she", "シェ");
 	T("sho", "ショ");
 	T("ja", "ジャ");
 	T("ju", "ジュ");
+	T("je", "ジェ");
 	T("jo", "ジョ");
 	T("cha", "チャ");
 	T("chu", "チュ");
+	T("che", "チェ");
 	T("cho", "チョ");
 	T("dja", "ヂャ");
 	T("dju", "ヂュ");
 	T("djo", "ヂョ");
 	T("nya", "ニャ");
 	T("nyu", "ニュ");
+	T("nye", "ニェ");
 	T("nyo", "ニョ");
 	T("hya", "ヒャ");
 	T("hyu", "ヒュ");
+	T("hye", "ヒェ");
 	T("hyo", "ヒョ");
 	T("bya", "ビャ");
 	T("byu", "ビュ");
+	T("bye", "ビェ");
 	T("byo", "ビョ");
 	T("pya", "ピャ");
 	T("pyu", "ピュ");
+	T("pye", "ピェ");
 	T("pyo", "ピョ");
 	T("mya", "ミャ");
 	T("myu", "ミュ");
@@ -498,12 +520,33 @@ static QMap<QString, QString> __kanaTranscribe()
 	T("rya", "リャ");
 	T("ryu", "リュ");
 	T("ryo", "リョ");
+	T("wyu", "ウュ");
+	T("vya", "ヴャ");
+	T("vyu", "ヴュ");
+	T("vye", "ヴィェ");
+	T("vyo", "ヴョ");
+	T("tsa", "ツァ");
+	T("tsi", "ツィ");
+	T("tse", "ツェ");
+	T("tso", "ツォ");
+	T("tsyu", "ツュ");
+	T("tyu", "テュ");
+	T("fya", "フャ");
+	T("fyu", "フュ");
+	T("fye", "フィェ");
+	T("fyo", "フョ");
+	T("mye", "ミェ");
+	T("rye", "リェ");
+
 	T("la", "ァ");
 	T("li", "ィ");
 	T("lu", "ゥ");
 	T("le", "ェ");
 	T("lo", "ォ");
-#undef TR
+	T("yi", "イィ");
+	T("ye", "イェ");
+
+#undef T
 
 	return ret;
 }
