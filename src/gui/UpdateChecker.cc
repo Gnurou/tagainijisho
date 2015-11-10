@@ -23,6 +23,7 @@
 
 #include <QUrl>
 #include <QNetworkRequest>
+#include <QNetworkReply>
 
 #if defined(Q_WS_X11)
 #define PLATFORM "Unix/X11"
@@ -36,7 +37,7 @@
 #define PLATFORM "Unknown"
 #endif
 
-UpdateChecker::UpdateChecker(const QString &versionURL, QObject *parent) : QObject(parent), _buffer(0), _versionURL(versionURL)
+UpdateChecker::UpdateChecker(const QString &versionURL, QObject *parent) : QObject(parent), _versionURL(versionURL)
 {
 	_http = new QNetworkAccessManager(this);
 
@@ -53,23 +54,11 @@ void UpdateChecker::checkForUpdates(bool beta)
 	QNetworkRequest request(QUrl("http://www.tagaini.net" + _versionURL));
 	request.setHeader(QNetworkRequest::UserAgentHeader, QString("Tagaini Jisho %1 (%2)").arg(VERSION).arg(PLATFORM));
 	_http->get(request);
-
-#pragma warning TODO Complete this class
-	/*
-	QHttpRequestHeader request("GET", _versionURL);
-	request.setValue("Host", "www.tagaini.net");
-	request.setValue("User-Agent", QString("Tagaini Jisho %1 (%2)").arg(VERSION).arg(PLATFORM));
-	if (_buffer) delete _buffer;
-	_buffer = new QBuffer(this);
-	_http->request(request, 0, _buffer);*/
 }
 
 void UpdateChecker::finished(QNetworkReply *reply)
 {
-	if (!_buffer)
-		return;
-
-	QString buffer(QString(_buffer->data()).trimmed());
+	QString buffer(QString(reply->readAll()).trimmed());
 	// If the first character is not a digit, this means we got another page
 	if (!buffer[0].isDigit()) return;
 	QString latestVersion(buffer.contains('\n') ? buffer.left(buffer.indexOf('\n')) : buffer);

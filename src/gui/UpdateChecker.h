@@ -26,7 +26,6 @@ class UpdateChecker : public QObject
 {
 	Q_OBJECT
 private:
-	QBuffer *_buffer;
 	QString _versionURL;
 	QNetworkAccessManager *_http;
 
