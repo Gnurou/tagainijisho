@@ -1,12 +1,7 @@
-# FIXME we still have a few dependencies on QtGUI:
-# QColor, QFont, QPalette, QBrush are used by
-# Entry, EntrylistModel, and ResultsList.
-#set(QT_DONT_USE_QTGUI TRUE)
+set(QT_DONT_USE_QTGUI TRUE)
 #include(${QT_USE_FILE})
 
 include_directories(${Qt5Core_INCLUDE_DIRS})
-# TODO remove this - dependency on QColor
-include_directories(${Qt5Widgets_INCLUDE_DIRS})
 
 set(tagainijisho_core_SRCS
 TextTools.cc
@@ -25,10 +20,8 @@ SearchCommand.cc
 EntrySearcher.cc
 EntryLoader.cc
 EntrySearcherManager.cc
-ResultsList.cc
 EntryListDB.cc
 EntryListCache.cc
-EntryListModel.cc
 EntriesCache.cc
 Plugin.cc
 XmlParserHelper.cc
@@ -39,8 +32,6 @@ ASyncQuery.h
 ASyncEntryFinder.h
 ASyncEntryLoader.h
 Entry.h
-ResultsList.h
-EntryListModel.h
 Preferences.h
 Tag.h
 )

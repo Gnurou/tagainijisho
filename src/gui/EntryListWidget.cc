@@ -15,7 +15,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "core/EntryListModel.h"
+#include "gui/EntryListModel.h"
 #include "gui/EntryListWidget.h"
 
 #include <QToolButton>

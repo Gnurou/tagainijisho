@@ -18,7 +18,7 @@
 #ifndef __GUI_RESULTSVIEWWIDGET_H
 #define __GUI_RESULTSVIEWWIDGET_H
 
-#include "core/ResultsList.h"
+#include "gui/ResultsList.h"
 #include "gui/ui_ResultsViewWidget.h"
 
 #include <QWidget>

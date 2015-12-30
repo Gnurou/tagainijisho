@@ -16,8 +16,9 @@
  */
 
 #include "core/Database.h"
-#include "core/EntryListModel.h"
 #include "core/EntryListCache.h"
+#include "gui/EntryListModel.h"
+#include "gui/EntryFormatter.h"
 
 #include <QFont>
 #include <QFontMetrics>
@@ -115,7 +116,7 @@ QVariant EntryListModel::data(const QModelIndex &index, int role) const
 			if (cEntry.isList()) return QPalette().button();
 			EntryPointer entry(cEntry.entryRef().get());
 			if (!entry || !entry->trained()) return QVariant();
-			else return entry->scoreColor();
+			else return EntryFormatter::scoreColor(*entry);
 		}
 		case Qt::FontRole:
 		{

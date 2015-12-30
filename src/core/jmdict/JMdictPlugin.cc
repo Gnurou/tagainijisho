@@ -21,7 +21,6 @@
 #include "core/Lang.h"
 #include "core/Database.h"
 #include "core/EntrySearcherManager.h"
-#include "core/EntryListModel.h"
 #include "core/jmdict/JMdictPlugin.h"
 #include "core/jmdict/JMdictEntry.h"
 #include "core/jmdict/JMdictEntrySearcher.h"
@@ -253,7 +252,7 @@ bool JMdictPlugin::checkForMovedEntries()
 		while (query.next())
 			rowIds << query.valueInt(0);
 		query.clear();
-		foreach (int rowId, rowIds) {
+		//foreach (int rowId, rowIds) {
 			/*int entryId = query.valueInt(1);
 			SQLite::Query query2(Database::connection());
 			query2.prepare("select movedTo from jmdict.deletedEntries where id = ?");
@@ -263,9 +262,16 @@ bool JMdictPlugin::checkForMovedEntries()
 			if (query2.next()) movedTo = query2.valueInt(0);
 			if (!movedTo) {*/
 				// No destination, remove from list
+
+
+#warning TODO reenable this block using lower-level list DB functions, and surrounding foreach!
+				/*
 				EntryListModel listModel;
 				QModelIndex toRemoveIdx(listModel.index(rowId));
 				CHECK(listModel.removeRow(toRemoveIdx.row(), listModel.parent(toRemoveIdx)));
+				*/
+
+
 			/*} else {
 				// Otherwise set the entry id to the new one
 				query2.prepare("update lists set id = ? where rowid = ?");
@@ -273,7 +279,7 @@ bool JMdictPlugin::checkForMovedEntries()
 				query2.bindValue(rowId);
 				CHECK(query2.exec());
 			}*/
-		}
+		//}
 		rowIds.clear();
 		// Finally set our new version number
 		CHECK(query.exec(QString("insert or replace into versions values(\"JMdictDB\", %1)").arg(curVersion)));

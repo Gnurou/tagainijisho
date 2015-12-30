@@ -17,10 +17,11 @@
 
 #include <QtDebug>
 
-#include "gui/kanjidic2/KanaView.h"
 #include "core/TextTools.h"
 #include "core/kanjidic2/Kanjidic2Entry.h"
 #include "core/EntriesCache.h"
+#include "gui/kanjidic2/KanaView.h"
+#include "gui/EntryFormatter.h"
 
 #include <QHeaderView>
 #include <QDrag>
@@ -85,7 +86,7 @@ QVariant KanaModel::data(const QModelIndex &index, int role) const
 	switch (role) {
 	case Qt::BackgroundRole:
 		if (!entry || !entry->trained()) return QVariant();
-		else return entry->scoreColor();
+		else return EntryFormatter::scoreColor(*entry);
 	case Entry::EntryRole:
 		return QVariant::fromValue(entry);
 	default:

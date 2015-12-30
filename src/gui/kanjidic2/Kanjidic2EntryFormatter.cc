@@ -307,7 +307,7 @@ void Kanjidic2EntryFormatter::showToolTip(const ConstKanjidic2EntryPointer entry
 
 	QString s;
 	if (tooltipShowScore.value() && entry->trained()) {
-		QColor scoreColor(entry->scoreColor());
+		QColor scoreColor(EntryFormatter::scoreColor(*entry));
 		s += QString("<div background-color: #%1%2%3;\">%4</div> ").arg(QString::number(scoreColor.red(), 16)).arg(QString::number(scoreColor.green(), 16)).arg(QString::number(scoreColor.blue(), 16)).arg(writing);
 	} else s += writing;
 	s += alt;
@@ -394,7 +394,7 @@ QString Kanjidic2EntryFormatter::shortDesc(const ConstKanjidic2EntryPointer &sha
 		ret += QString(" <b>%1</b>").arg(autoFormat(tr("(JLPT N%1)").arg(entry->jlpt())));
 	ret += QString(" <a href=\"entry://?type=%1&id=%2\"><img src=\"moreicon\"/></a>").arg(entry->type()).arg(entry->id());
 	if (entry->trained()) {
-		ret = QString("<span style=\"background-color:%1\">%2</span>").arg(colorTriplet(entry->scoreColor())).arg(ret);
+		ret = QString("<span style=\"background-color:%1\">%2</span>").arg(colorTriplet(EntryFormatter::scoreColor(*entry))).arg(ret);
 	}
 	return ret;
 }

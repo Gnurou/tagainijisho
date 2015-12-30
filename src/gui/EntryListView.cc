@@ -18,8 +18,8 @@
 #include <QtDebug>
 
 #include "core/Database.h"
-#include "core/EntryListModel.h"
 #include "core/EntryListCache.h"
+#include "gui/EntryListModel.h"
 #include "gui/EntryListView.h"
 
 #include <QInputDialog>

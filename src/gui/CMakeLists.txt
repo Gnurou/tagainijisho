@@ -29,6 +29,8 @@ SearchBuilder.cc
 SmoothScroller.cc
 ScrollBarSmoothScroller.cc
 EntryDelegate.cc
+EntryListModel.cc
+ResultsList.cc
 BatchHandler.cc
 EntriesViewHelper.cc
 ResultsView.cc
@@ -61,6 +63,8 @@ PreferencesWindow.h
 ReadingTrainer.h
 RelativeDateEdit.h
 EntryDelegate.h
+EntryListModel.h
+ResultsList.h
 EntriesViewHelper.h
 ResultsView.h
 ResultsViewWidget.h

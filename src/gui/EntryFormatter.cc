@@ -17,7 +17,7 @@
 
 #include "core/Paths.h"
 #include "core/TextTools.h"
-#include "core/EntryListModel.h"
+#include "gui/EntryListModel.h"
 #include "gui/EntryFormatter.h"
 #include "gui/DetailedView.h"
 
@@ -31,6 +31,14 @@ QMap<int, EntryFormatter *> EntryFormatter::_formatters;
 
 static const int entryTextProperties = Qt::AlignJustify | Qt::TextWordWrap;
 static QFont printFont = QFont("", 14);
+
+QColor EntryFormatter::scoreColor(const Entry &entry)
+{
+	int sc = entry.score() * 5;
+	return QColor(sc > 0xff ? sc < 0x1ff ? 0xff - (sc - 0x100) : 0x00 : 0xff,
+	      sc < 0xff ? sc : 0xff, 0x00).lighter(165);
+}
+
 
 EntryFormatter::EntryFormatter(const QString& _cssFile, const QString& _htmlFile, QObject* parent) : QObject(parent)
 {
@@ -155,7 +163,7 @@ QString EntryFormatter::entryTitle(const ConstEntryPointer& entry) const
 	QString title(entry->mainRepr());
 	title = autoFormat(title);
 	if (entry->trained()) {
-		title = QString("<span style=\"background-color:%1\">%2</span>").arg(colorTriplet(entry->scoreColor())).arg(title);
+		title = QString("<span style=\"background-color:%1\">%2</span>").arg(colorTriplet(scoreColor(*entry))).arg(title);
 	}
 	return title;
 }
@@ -165,7 +173,7 @@ QString EntryFormatter::shortDesc(const ConstEntryPointer &entry) const
 	QString ret(autoFormat(entry->shortVersion(Entry::TinyVersion)));
 	ret += QString(" <a href=\"entry://?type=%1&id=%2\"><img src=\"moreicon\"/></a>").arg(entry->type()).arg(entry->id());
 	if (entry->trained()) {
-		ret = QString("<span style=\"background-color:%1\">%2</span>").arg(colorTriplet(entry->scoreColor())).arg(ret);
+		ret = QString("<span style=\"background-color:%1\">%2</span>").arg(colorTriplet(scoreColor(*entry))).arg(ret);
 	}
 	return ret;
 }
