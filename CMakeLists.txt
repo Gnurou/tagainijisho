@@ -10,7 +10,7 @@ endif(APPLE)
 set(tagaini_binary ${CMAKE_PROJECT_NAME})
 
 set(VERSION 1.0.3)
-set(QTVERSION 5.2)
+set(QTVERSION 5.0)
 
 cmake_minimum_required(VERSION 2.8.7)
 cmake_policy(VERSION 2.8.7)
