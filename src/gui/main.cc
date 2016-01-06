@@ -47,6 +47,7 @@
 #include <QLocale>
 #include <QMessageBox>
 #include <QLibraryInfo>
+#include <QtGlobal>
 
 // The version must be defined by the compiler
 #ifndef VERSION
@@ -62,9 +63,11 @@ void messageHandler(QtMsgType type, const char *msg)
 	case QtDebugMsg:
 		fprintf(stderr, "Debug: %s\n", msg);
 		break;
+#if QT_VERSION >= 0x050500
 	case QtInfoMsg:
 		fprintf(stderr, "Info: %s\n", msg);
 		break;
+#endif
 	case QtWarningMsg:
 		fprintf(stderr, "Warning: %s\n", msg);
 		break;
