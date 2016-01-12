@@ -8,6 +8,7 @@ Exec=tagainijisho
 Icon=tagainijisho
 Terminal=false
 Categories=Languages;Education;Qt;
+Keywords=Japanese;Kanji;Dictionary;Study;Language; 
 
 # Translations
 Name[de]=Tagaini Jisho
