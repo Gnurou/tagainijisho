@@ -25,7 +25,7 @@ before_install:
   - export TAGAINI_VERSION
   - env | sort
   - if [ "$TRAVIS_OS_NAME" = "linux" ]; then sudo add-apt-repository --yes ppa:ubuntu-sdk-team/ppa ; sudo apt-get -qq update ; sudo apt-get install -qq libtext-multimarkdown-perl sqlite3 qt5-default qttools5-dev-tools rpm ; fi
-  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew update ; brew install multimarkdown qt; fi
+  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew update ; brew install multimarkdown qt5; fi
   - qmake -version
 
 before_script:
