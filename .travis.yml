@@ -30,7 +30,8 @@ before_install:
 before_script:
   - mkdir build
   - cd build
-  - cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -DEMBED_SQLITE=1 ..
+  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -DEMBED_SQLITE=1 ..; fi
+  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then cmake -DCMAKE_PREFIX_PATH=`brew --prefix qt5` -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -DEMBED_SQLITE=1 ..; fi
 
 after_success:
   - if [ "$TRAVIS_OS_NAME" = "linux" ]; then ../pack/source/buildsourcerelease.sh ; cpack -G DEB ; cpack -G RPM ; fi
