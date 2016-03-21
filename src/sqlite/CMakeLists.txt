@@ -3,19 +3,15 @@ set(QT_DONT_USE_QTGUI TRUE)
 
 set(SQLITE_MIN_VERSION "3007004")
 set(SQLITE_BLACKLIST "3007007;3007008;3008000")
-set(SQLITE_DOWNLOAD_VERSION "3080803")
+set(SQLITE_DOWNLOAD_VERSION "3110100")
 
-set(SQLITE_SOURCE http://www.sqlite.org/2015/sqlite-amalgamation-${SQLITE_DOWNLOAD_VERSION}.zip)
+set(SQLITE_SOURCE http://www.sqlite.org/2016/sqlite-amalgamation-${SQLITE_DOWNLOAD_VERSION}.zip)
 
 option(SHARED_SQLITE_LIBRARY "Build the SQLite library as a shared library (loadable by SQLite's interpreter)" OFF)
 
 # Embed SQLite even if the system version looks good?
-option(EMBED_SQLITE "Embed SQLite even if a system version is present and valid" OFF)
-
-# Force embedded version on Apple
-if (APPLE)
-	set (EMBED_SQLITE "ON")  
-endif(APPLE)
+# This should be enabled by default as we require features (e.g. FTS3 tokenizer) that may not be enabled on the system
+option(EMBED_SQLITE "Embed SQLite even if a system version is present and valid" ON)
 
 # Look for system SQLite
 find_path(SQLITE_INCLUDE_DIR sqlite3.h)
@@ -89,7 +85,7 @@ else()
 endif()
 
 include_directories(${Qt5Core_INCLUDE_DIRS})
-add_definitions(-DSQLITE_ENABLE_FTS3 -DSQLITE_ENABLE_FTS3_PARENTHESIS -DSQLITE_ENABLE_LOCKING_STYLE=0 -DSQLITE_OMIT_DEPRECATED)
+add_definitions(-DSQLITE_ENABLE_FTS3 -DSQLITE_ENABLE_FTS3_PARENTHESIS -DSQLITE_ENABLE_LOCKING_STYLE=0 -DSQLITE_OMIT_DEPRECATED -DSQLITE_ENABLE_FTS3_TOKENIZER)
 
 if(SHARED_SQLITE_LIBRARY)
 	add_library(tagaini_sqlite SHARED ${tagainijisho_sqlite_SRCS} ${tagainijisho_sqlite_MOC_SRCS})
