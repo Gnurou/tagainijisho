@@ -197,10 +197,16 @@ class KanjiVGDBParser : public KanjiVGParser
 public:
 	virtual bool onItemParsed(KanjiVGItem &kanji);
 private:
+	QSet<int> parsedKanji;
 };
 
 bool KanjiVGDBParser::onItemParsed(KanjiVGItem &kanji)
 {
+	if (parsedKanji.contains(kanji.id)) {
+		qDebug() << "Kanji" << kanji.id << "already parsed, skipping...";
+		return true;
+	}
+
 	// First ensure the kanji is into the DB by attempting to
 	// insert a dummy entry
 	AUTO_BIND(insertOrIgnoreEntryQuery, kanji.id, 0);
@@ -267,6 +273,9 @@ bool KanjiVGDBParser::onItemParsed(KanjiVGItem &kanji)
 			insertedRadicals << rad;
 		}
 	}
+
+	parsedKanji << kanji.id;
+
 	return true;
 }
 
