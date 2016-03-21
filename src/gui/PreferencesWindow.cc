@@ -106,12 +106,14 @@ static const QMap<QString, QString> _langMapping()
 	ret.insert("nb", QT_TRANSLATE_NOOP("GeneralPreferences", "Norvegian Bokmal"));
 	ret.insert("nl", QT_TRANSLATE_NOOP("GeneralPreferences", "Dutch"));
 	ret.insert("pl", QT_TRANSLATE_NOOP("GeneralPreferences", "Polish"));
-	ret.insert("pt", QT_TRANSLATE_NOOP("GeneralPreferences", "Portuguese"));
+	ret.insert("pt_BR", QT_TRANSLATE_NOOP("GeneralPreferences", "Portuguese (Brazil)"));
 	ret.insert("ru", QT_TRANSLATE_NOOP("GeneralPreferences", "Russian"));
 	ret.insert("sv", QT_TRANSLATE_NOOP("GeneralPreferences", "Swedish"));
 	ret.insert("th", QT_TRANSLATE_NOOP("GeneralPreferences", "Thai"));
 	ret.insert("tr", QT_TRANSLATE_NOOP("GeneralPreferences", "Turkish"));
+	ret.insert("uk", QT_TRANSLATE_NOOP("GeneralPreferences", "Ukrainian"));
 	ret.insert("vi", QT_TRANSLATE_NOOP("GeneralPreferences", "Vietnamese"));
+	ret.insert("zh", QT_TRANSLATE_NOOP("GeneralPreferences", "Chinese"));
 	return ret;
 }
 
