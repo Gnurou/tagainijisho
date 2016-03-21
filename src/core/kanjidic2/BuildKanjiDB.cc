@@ -53,7 +53,6 @@ SQLite::Query insertNanoriTextQuery;
 SQLite::Query insertSkipCodeQuery;
 SQLite::Query insertFourCornerQuery;
 SQLite::Query updateJLPTLevelsQuery;
-SQLite::Query updateStrokeCountQuery;
 
 SQLite::Query insertStrokeGroupQuery;
 SQLite::Query updatePathsString;
@@ -326,8 +325,7 @@ bool KanjiDB::prepareQueries()
 	PREPQUERY(insertSkipCodeQuery, "insert into skip values(?, ?, ?, ?)");
 	PREPQUERY(insertFourCornerQuery, "insert into fourCorner values(?, ?, ?, ?, ?, ?)");
 	PREPQUERY(updateJLPTLevelsQuery, "update entries set jlpt = ? where id = ?");
-	PREPQUERY(updateStrokeCountQuery, "update entries set strokeCount = ? where id = ?");
-	
+
 	PREPQUERY(insertStrokeGroupQuery, "insert into strokeGroups values(?, ?, ?, ?, ?)");
 	PREPQUERY(updatePathsString, "update entries set strokeCount = ?, paths = ? where id = ?");
 	
@@ -358,7 +356,6 @@ bool KanjiDB::clearQueries()
 	insertSkipCodeQuery.clear();
 	insertFourCornerQuery.clear();
 	updateJLPTLevelsQuery.clear();
-	updateStrokeCountQuery.clear();
 	
 	insertStrokeGroupQuery.clear();
 	updatePathsString.clear();
