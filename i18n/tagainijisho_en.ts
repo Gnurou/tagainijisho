@@ -65,12 +65,7 @@
 <context>
     <name>DataPreferences</name>
     <message>
-        <location filename="../src/gui/DataPreferences.ui" line="+14"/>
-        <source>Form</source>
-        <translation>Form</translation>
-    </message>
-    <message>
-        <location line="+6"/>
+        <location filename="../src/gui/DataPreferences.ui" line="+17"/>
         <source>Erase user data</source>
         <translation>Erase user data</translation>
     </message>
@@ -90,7 +85,7 @@
         <translation>User database file:</translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="+512"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="+517"/>
         <source>User data</source>
         <translation>User data</translation>
     </message>
@@ -181,7 +176,7 @@
 <context>
     <name>DetailedView</name>
     <message>
-        <location filename="../src/gui/DetailedView.cc" line="+98"/>
+        <location filename="../src/gui/DetailedView.cc" line="+101"/>
         <source>Previous entry</source>
         <translation>Previous entry</translation>
     </message>
@@ -224,12 +219,7 @@
         <translation>Kana</translation>
     </message>
     <message>
-        <location filename="../src/gui/DetailedViewPreferences.ui" line="+14"/>
-        <source>Form</source>
-        <translation>Form</translation>
-    </message>
-    <message>
-        <location line="+6"/>
+        <location filename="../src/gui/DetailedViewPreferences.ui" line="+17"/>
         <source>General</source>
         <translation>General</translation>
     </message>
@@ -415,7 +405,7 @@
     </message>
     <message>
         <location line="-94"/>
-        <location filename="../src/gui/EntriesViewHelper.h" line="+89"/>
+        <location filename="../src/gui/EntriesViewHelper.h" line="+90"/>
         <source>Print</source>
         <translation>Print</translation>
     </message>
@@ -423,24 +413,19 @@
 <context>
     <name>EntryDelegatePreferences</name>
     <message>
-        <location filename="../src/gui/EntryDelegatePreferences.ui" line="+14"/>
-        <source>Form</source>
-        <translation>Form</translation>
-    </message>
-    <message>
-        <location line="+8"/>
+        <location filename="../src/gui/EntryDelegatePreferences.ui" line="+19"/>
         <source>Style:</source>
         <translation>Style:</translation>
     </message>
     <message>
         <location line="+7"/>
-        <source>One line</source>
-        <translation>One line</translation>
+        <source>One &amp;line</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+7"/>
-        <source>Two lines</source>
-        <translation>Two lines</translation>
+        <source>&amp;Two lines</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/PreferencesWindow.cc" line="-196"/>
@@ -461,7 +446,7 @@
 <context>
     <name>EntryDragButton</name>
     <message>
-        <location filename="../src/gui/ToolBarDetailedView.cc" line="+27"/>
+        <location filename="../src/gui/ToolBarDetailedView.cc" line="+29"/>
         <source>Drag the currently displayed entry</source>
         <translation>Drag the currently displayed entry</translation>
     </message>
@@ -469,7 +454,7 @@
 <context>
     <name>EntryFormatter</name>
     <message>
-        <location filename="../src/gui/EntryFormatter.cc" line="+39"/>
+        <location filename="../src/gui/EntryFormatter.cc" line="+49"/>
         <source>Cannot find detailed view HTML file!</source>
         <translation>Cannot find detailed view HTML file!</translation>
     </message>
@@ -484,7 +469,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+48"/>
+        <location line="+52"/>
         <source>Studied since %1.</source>
         <translation>Studied since %1.</translation>
     </message>
@@ -507,7 +492,7 @@
 <context>
     <name>EntryListView</name>
     <message>
-        <location filename="../src/gui/EntryListView.cc" line="+35"/>
+        <location filename="../src/gui/EntryListView.cc" line="+36"/>
         <source>Delete</source>
         <translation>Delete</translation>
     </message>
@@ -567,11 +552,6 @@
 </context>
 <context>
     <name>EntryListWidget</name>
-    <message>
-        <location filename="../src/gui/EntryListWidget.ui" line="+14"/>
-        <source>Form</source>
-        <translation>Form</translation>
-    </message>
     <message>
         <location filename="../src/gui/EntryListWidget.h" line="+33"/>
         <source>Lists</source>
@@ -705,73 +685,88 @@
 <context>
     <name>GeneralPreferences</name>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="-180"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="-186"/>
         <source>English</source>
         <translation>English</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="-1"/>
         <source>German</source>
         <translation>German</translation>
     </message>
     <message>
-        <location line="-1"/>
+        <location line="+5"/>
         <source>French</source>
         <translation>French</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="-3"/>
         <source>Spanish</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-4"/>
+        <location line="+8"/>
         <source>Norvegian Bokmal</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-8"/>
+        <location line="-11"/>
         <source>Czech</source>
         <translation>Czech</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="+12"/>
         <source>Dutch</source>
         <translation>Dutch</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="-3"/>
         <source>Italian</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+5"/>
-        <source>Russian</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="-4"/>
-        <source>Japanese</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="-8"/>
-        <source>Arabic</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Finnish (Finland)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+7"/>
-        <source>Polish</source>
+        <source>Portuguese (Brazil)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Portuguese</source>
+        <source>Russian</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="-5"/>
+        <source>Japanese</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="-11"/>
+        <source>Arabic</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Persian (Iran)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Finnish (Finland)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Hungarian</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Indonesian</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Polish</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -791,7 +786,17 @@
     </message>
     <message>
         <location line="+1"/>
+        <source>Ukrainian</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
         <source>Vietnamese</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Chinese</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -820,12 +825,7 @@
         <translation>Next check: %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/GeneralPreferences.ui" line="+14"/>
-        <source>Form</source>
-        <translation>Form</translation>
-    </message>
-    <message>
-        <location line="+6"/>
+        <location filename="../src/gui/GeneralPreferences.ui" line="+17"/>
         <source>General settings</source>
         <translation>General settings</translation>
     </message>
@@ -840,7 +840,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+41"/>
+        <location line="+7"/>
+        <source>Preferred &amp;GUI language</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+34"/>
         <source>The dictionaries will use this language whenever possible. English will be used as a fallback.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -860,12 +865,7 @@
         <translation>Dates</translation>
     </message>
     <message>
-        <location line="+6"/>
-        <source>Weeks start on</source>
-        <translation>Weeks start on</translation>
-    </message>
-    <message>
-        <location line="+16"/>
+        <location line="+22"/>
         <source>Updates</source>
         <translation>Updates</translation>
     </message>
@@ -900,12 +900,7 @@
         <translation>Also check for development versions</translation>
     </message>
     <message>
-        <location line="-129"/>
-        <source>Preferred GUI language</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+16"/>
+        <location line="-113"/>
         <source>The GUI will use this language whenever possible. English will be used as a fallback.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -920,7 +915,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+87"/>
+        <location line="+28"/>
+        <source>Wee&amp;ks start on</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+59"/>
         <source>Next check:</source>
         <translation>Next check:</translation>
     </message>
@@ -2020,7 +2020,7 @@
 <context>
     <name>JMdictPlugin</name>
     <message>
-        <location filename="../src/core/jmdict/JMdictPlugin.cc" line="+345"/>
+        <location filename="../src/core/jmdict/JMdictPlugin.cc" line="+351"/>
         <source>An error seems to have occured while updating the JMdict database records - the program might crash during usage. Please report this bug.</source>
         <translation>An error seems to have occured while updating the JMdict database records - the program might crash during usage. Please report this bug.</translation>
     </message>
@@ -2230,7 +2230,7 @@
 <context>
     <name>KanaView</name>
     <message>
-        <location filename="../src/gui/kanjidic2/KanaView.cc" line="+161"/>
+        <location filename="../src/gui/kanjidic2/KanaView.cc" line="+162"/>
         <source>Select All</source>
         <translation>Select All</translation>
     </message>
@@ -2623,7 +2623,7 @@
 <context>
     <name>Kanjidic2GUIPlugin</name>
     <message>
-        <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="+46"/>
+        <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="+49"/>
         <location line="+7"/>
         <source>Invalid</source>
         <translation>Invalid</translation>
@@ -3046,12 +3046,7 @@
 <context>
     <name>ListsViewPreferences</name>
     <message>
-        <location filename="../src/gui/ListsViewPreferences.ui" line="+14"/>
-        <source>Form</source>
-        <translation>Form</translation>
-    </message>
-    <message>
-        <location line="+6"/>
+        <location filename="../src/gui/ListsViewPreferences.ui" line="+17"/>
         <source>Lists display</source>
         <translation>Lists display</translation>
     </message>
@@ -3409,7 +3404,7 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <name>ReadingTrainer</name>
     <message>
         <location filename="../src/gui/ReadingTrainer.ui" line="+14"/>
-        <location filename="../src/gui/ReadingTrainer.cc" line="+40"/>
+        <location filename="../src/gui/ReadingTrainer.cc" line="+41"/>
         <source>Reading practice</source>
         <translation>Reading practice</translation>
     </message>
@@ -3596,7 +3591,7 @@ This message is a one-time reminder and will not appear anymore - you can still 
 <context>
     <name>ResultsView</name>
     <message>
-        <location filename="../src/gui/ResultsView.cc" line="+49"/>
+        <location filename="../src/gui/ResultsView.cc" line="+50"/>
         <source>Select All</source>
         <translation>Select All</translation>
     </message>
@@ -3604,12 +3599,7 @@ This message is a one-time reminder and will not appear anymore - you can still 
 <context>
     <name>ResultsViewPreferences</name>
     <message>
-        <location filename="../src/gui/ResultsViewPreferences.ui" line="+14"/>
-        <source>Form</source>
-        <translation>Form</translation>
-    </message>
-    <message>
-        <location line="+6"/>
+        <location filename="../src/gui/ResultsViewPreferences.ui" line="+17"/>
         <source>Results display</source>
         <translation>Results display</translation>
     </message>
@@ -3647,11 +3637,6 @@ This message is a one-time reminder and will not appear anymore - you can still 
 <context>
     <name>ResultsViewWidget</name>
     <message>
-        <location filename="../src/gui/ResultsViewWidget.ui" line="+14"/>
-        <source>Form</source>
-        <translation>Form</translation>
-    </message>
-    <message>
         <location filename="../src/gui/ResultsViewWidget.cc" line="+43"/>
         <source>Searching...</source>
         <translation>Searching...</translation>
@@ -3678,7 +3663,7 @@ This message is a one-time reminder and will not appear anymore - you can still 
 <context>
     <name>SavedSearchesTreeWidget</name>
     <message>
-        <location filename="../src/gui/SavedSearchesOrganizer.cc" line="+143"/>
+        <location filename="../src/gui/SavedSearchesOrganizer.cc" line="+144"/>
         <source>Delete</source>
         <translation>Delete</translation>
     </message>
@@ -4103,19 +4088,6 @@ This message is a one-time reminder and will not appear anymore - you can still 
         <location line="-47"/>
         <source>Correct: %1, Wrong: %2, Total: %3</source>
         <translation>Correct: %1, Wrong: %2, Total: %3</translation>
-    </message>
-</context>
-<context>
-    <name>main.cc</name>
-    <message>
-        <location filename="../src/gui/main.cc" line="+109"/>
-        <source>User data migrated</source>
-        <translation>User data migrated</translation>
-    </message>
-    <message>
-        <location line="+0"/>
-        <source>Your user data and settings have successfully been migrated. Tagaini Jisho needs to be restarted and will now exit.</source>
-        <translation>Your user data and settings have successfully been migrated. Tagaini Jisho needs to be restarted and will now exit.</translation>
     </message>
 </context>
 </TS>
