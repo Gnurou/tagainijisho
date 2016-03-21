@@ -7,11 +7,8 @@
     <x>0</x>
     <y>0</y>
     <width>535</width>
-    <height>428</height>
+    <height>566</height>
    </rect>
-  </property>
-  <property name="windowTitle">
-   <string>Form</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
@@ -32,7 +29,7 @@
         <item row="1" column="0">
          <widget class="QLabel" name="label_2">
           <property name="text">
-           <string>Preferred GUI language</string>
+           <string>Preferred &amp;GUI language</string>
           </property>
           <property name="buddy">
            <cstring>guiLanguage</cstring>
@@ -109,7 +106,7 @@
       <item>
        <widget class="QLabel" name="label">
         <property name="text">
-         <string>Weeks start on</string>
+         <string>Wee&amp;ks start on</string>
         </property>
         <property name="buddy">
          <cstring>firstDayOfWeek</cstring>
