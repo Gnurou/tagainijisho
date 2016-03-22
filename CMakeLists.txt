@@ -19,6 +19,7 @@ find_package(Qt5Core ${QTVERSION} REQUIRED)
 find_package(Qt5Widgets ${QTVERSION} REQUIRED)
 find_package(Qt5PrintSupport ${QTVERSION} REQUIRED)
 find_package(Qt5Network ${QTVERSION} REQUIRED)
+find_package(Qt5LinguistTools ${QTVERSION} REQUIRED)
 # FIXME only required when CMake downloads dictionary files. Not necessary for building from source package.
 find_program(GUNZIP NAMES gunzip REQUIRED)
 
