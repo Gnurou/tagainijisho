@@ -108,7 +108,3 @@ if(APPLE)
 else(APPLE)
         set(DEST_DIR "lib")
 endif(APPLE)
-
-if (BUILD_TESTS)
-add_subdirectory(tests)
-endif()

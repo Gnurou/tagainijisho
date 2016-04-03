@@ -42,7 +42,3 @@ endif(APPLE)
 add_subdirectory(jmdict)
 add_subdirectory(kanjidic2)
 #add_subdirectory(tatoeba)
-
-if (BUILD_TESTS)
-add_subdirectory(tests)
-endif()

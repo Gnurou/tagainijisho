@@ -106,7 +106,3 @@ install(TARGETS ${tagaini_binary} BUNDLE DESTINATION . COMPONENT Runtime RUNTIME
 if (NOT ${tagaini_binary} MATCHES "tagainijisho")
 	add_custom_target(tagainijisho DEPENDS ${tagaini_binary})
 endif()
-
-if (BUILD_TESTS)
-	add_subdirectory(tests)
-endif()

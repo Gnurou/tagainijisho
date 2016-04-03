@@ -67,9 +67,6 @@ option(DEBUG_QUERIES "Debug SQL queries" OFF)
 option(DEBUG_TRANSACTIONS "Debug database transactions" OFF)
 option(DEBUG_LISTS "Debug lists (very slow)" OFF)
 
-# Build tests suite?
-option(BUILD_TESTS "Build tests suite" OFF)
-
 # Databases helper targets
 add_custom_target(databases ALL)
 
