@@ -48,48 +48,6 @@ PreferencesWindow.cc
 MainWindow.cc
 )
 
-set(tagainijisho_gui_MOCS
-TJSpinBox.h
-TJLineEdit.h
-EntryFormatter.h
-DetailedView.h
-EditEntryNotesDialog.h
-EntryMenu.h
-EntriesPrinter.h
-KanjiValidator.h
-MainWindow.h
-MultiStackedWidget.h
-PreferencesWindow.h
-ReadingTrainer.h
-RelativeDateEdit.h
-EntryDelegate.h
-EntryListModel.h
-ResultsList.h
-EntriesViewHelper.h
-ResultsView.h
-ResultsViewWidget.h
-SearchWidget.h
-EntryListView.h
-EntryListWidget.h
-SearchFilterWidget.h
-EntryTypeFilterWidget.h
-TextFilterWidget.h
-StudyFilterWidget.h
-JLPTFilterWidget.h
-TagsFilterWidget.h
-NotesFilterWidget.h
-SearchBuilder.h
-SavedSearchesOrganizer.h
-SingleEntryView.h
-SmoothScroller.h
-ScrollBarSmoothScroller.h
-TagsDialogs.h
-ToolBarDetailedView.h
-TrainSettings.h
-UpdateChecker.h
-YesNoTrainer.h
-)
-
 set(tagainijisho_gui_UIS
 ReadingTrainer.ui
 SavedSearchesOrganizer.ui
@@ -112,19 +70,11 @@ MainWindow.ui
 add_subdirectory(jmdict)
 add_subdirectory(kanjidic2)
 
-qt5_wrap_cpp(tagainijisho_gui_MOC_SRCS ${tagainijisho_gui_MOCS})
 qt5_wrap_ui(tagainijisho_gui_UI_SRCS ${tagainijisho_gui_UIS})
 qt5_add_resources(tagainijisho_gui_RC ${CMAKE_SOURCE_DIR}/tagainijisho.qrc)
 
-#find_package(Qt5WebKit ${QTVERSION} REQUIRED)
-
-include_directories(${Qt5Core_INCLUDE_DIRS})
-include_directories(${Qt5Widgets_INCLUDE_DIRS})
-include_directories(${Qt5PrintSupport_INCLUDE_DIRS})
-include_directories(${Qt5Network_INCLUDE_DIRS})
-#include_directories(${Qt5WebKit_INCLUDE_DIRS})
-
-add_library(tagaini_gui STATIC ${tagainijisho_gui_UI_SRCS} ${tagainijisho_gui_MOC_SRCS} ${tagainijisho_gui_SRCS})
+add_library(tagaini_gui STATIC ${tagainijisho_gui_UI_SRCS} ${tagainijisho_gui_SRCS})
+target_link_libraries(tagaini_gui tagaini_core tagaini_sqlite Qt5::Core Qt5::Widgets Qt5::PrintSupport Qt5::Network ${extra_link_flags})
 
 # Build the main program
 SET(ICON "")
@@ -149,7 +99,7 @@ if (APPLE)
 endif()
 
 add_executable(${tagaini_binary} MACOSX_BUNDLE WIN32 ${tagainijisho_SRCS})
-target_link_libraries(${tagaini_binary} tagaini_gui_jmdict tagaini_gui_kanjidic2 tagaini_gui tagaini_core_jmdict tagaini_core_kanjidic2 tagaini_core tagaini_sqlite ${Qt5Core_LIBRARIES} ${Qt5Widgets_LIBRARIES} ${Qt5PrintSupport_LIBRARIES} ${Qt5Network_LIBRARIES} ${Qt5WebKit_LIBRARIES} ${extra_link_flags})
+target_link_libraries(${tagaini_binary} tagaini_gui_jmdict tagaini_gui_kanjidic2 tagaini_gui tagaini_core_jmdict tagaini_core_kanjidic2 tagaini_core tagaini_sqlite ${extra_link_flags})
 install(TARGETS ${tagaini_binary} BUNDLE DESTINATION . COMPONENT Runtime RUNTIME DESTINATION bin COMPONENT Runtime)
 
 # If needed, add standard dependency to have identical build on all platforms

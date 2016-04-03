@@ -13,19 +13,6 @@ KanaView.cc
 KanaSelector.cc
 )
 
-set(tagainijisho_gui_kanjidic2_MOCS
-Kanjidic2EntryFormatter.h
-Kanjidic2GUIPlugin.h
-Kanjidic2Preferences.h
-KanjiPlayer.h
-KanjiPopup.h
-KanjiResultsView.h
-Kanjidic2FilterWidget.h
-KanjiSelector.h
-KanaView.h
-KanaSelector.h
-)
-
 set(tagainijisho_gui_kanjidic2_UIS
 KanjiPopup.ui
 KanjiSelector.ui
@@ -35,11 +22,6 @@ KanaSelector.ui
 Kanjidic2Preferences.ui
 )
 
-include_directories(${Qt5Core_INCLUDE_DIRS})
-include_directories(${Qt5Widgets_INCLUDE_DIRS})
-include_directories(${Qt5PrintSupport_INCLUDE_DIRS})
-
-qt5_wrap_cpp(tagainijisho_gui_kanjidic2_MOC_SRCS ${tagainijisho_gui_kanjidic2_MOCS})
 qt5_wrap_ui(tagainijisho_gui_kanjidic2_UI_SRCS ${tagainijisho_gui_kanjidic2_UIS})
-add_library(tagaini_gui_kanjidic2 STATIC ${tagainijisho_gui_kanjidic2_UI_SRCS} ${tagainijisho_gui_kanjidic2_MOC_SRCS} ${tagainijisho_gui_kanjidic2_SRCS})
-add_dependencies(tagaini_gui_kanjidic2 tagaini_gui)
+add_library(tagaini_gui_kanjidic2 STATIC ${tagainijisho_gui_kanjidic2_UI_SRCS} ${tagainijisho_gui_kanjidic2_SRCS})
+target_link_libraries(tagaini_gui_kanjidic2 tagaini_gui)
