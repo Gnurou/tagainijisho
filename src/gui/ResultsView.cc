@@ -30,11 +30,12 @@
 #include <QPixmap>
 #include <QScrollBar>
 #include <QDrag>
+#include <QGuiApplication>
 
 PreferenceItem<bool> ResultsView::smoothScrollingSetting("mainWindow/resultsView", "smoothScrolling", true);
 PreferenceItem<QString> ResultsView::textFontSetting("mainWindow/resultsView", "textFont", "");
-PreferenceItem<QString> ResultsView::kanaFontSetting("mainWindow/resultsView", "kanaFont", "");
-PreferenceItem<QString> ResultsView::kanjiFontSetting("mainWindow/resultsView", "kanjiFont", QFont("Helvetica", 15).toString());
+PreferenceItem<QString> ResultsView::kanaFontSetting("mainWindow/resultsView", "kanaFont", QFont("Noto Sans JP").toString());
+PreferenceItem<QString> ResultsView::kanjiFontSetting("mainWindow/resultsView", "kanjiFont", QFont("Noto Sans JP", 15).toString());
 PreferenceItem<int> ResultsView::displayModeSetting("mainWindow/resultsView", "displayMode", EntryDelegateLayout::TwoLines);
 
 ResultsView::ResultsView(QWidget *parent, EntryDelegateLayout *delegateLayout, bool viewOnly) : QListView(parent), _helper(this, delegateLayout, false, viewOnly)

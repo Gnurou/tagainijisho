@@ -78,6 +78,7 @@ QListWidgetItem *ComplementsList::setCurrentStrokeNbr(int strokeNbr)
 {
 	QListWidgetItem *item = new QListWidgetItem(QString::number(strokeNbr), this);
 	item->setFlags(item->flags() & ~Qt::ItemIsSelectable);
+	// TODO no - use a color from the user theme!
 	item->setBackground(Qt::yellow);
 	item->setFont(labelFont);
 	return item;

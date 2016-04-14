@@ -29,8 +29,8 @@
 
 PreferenceItem<bool> EntryListView::smoothScrollingSetting("mainWindow/lists", "smoothScrolling", true);
 PreferenceItem<QString> EntryListView::textFontSetting("mainWindow/lists", "textFont", "");
-PreferenceItem<QString> EntryListView::kanaFontSetting("mainWindow/lists", "kanaFont", "");
-PreferenceItem<QString> EntryListView::kanjiFontSetting("mainWindow/lists", "kanjiFont", QFont("Helvetica", 15).toString());
+PreferenceItem<QString> EntryListView::kanaFontSetting("mainWindow/lists", "kanaFont", QFont("Noto Sans JP").toString());
+PreferenceItem<QString> EntryListView::kanjiFontSetting("mainWindow/lists", "kanjiFont", QFont("Noto Sans JP", 15).toString());
 PreferenceItem<int> EntryListView::displayModeSetting("mainWindow/lists", "displayMode", EntryDelegateLayout::OneLine);
 
 EntryListView::EntryListView(QWidget *parent, EntryDelegateLayout* delegateLayout, bool viewOnly) : QTreeView(parent), _helper(this, delegateLayout, true, viewOnly), _newListAction(QIcon(":/images/icons/document-new.png"), tr("New list..."), 0), _rightClickNewListAction(_newListAction.icon(), _newListAction.text(), 0), _deleteSelectionAction(QIcon(":/images/icons/delete.png"), tr("Delete"), 0), _renameListAction(QIcon(), tr("Rename list..."), 0), _goUpAction(QIcon(":/images/icons/go-up.png"), tr("Go up"), 0)

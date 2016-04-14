@@ -22,12 +22,9 @@
 
 EntryDelegateLayout::EntryDelegateLayout(QObject* parent, EntryDelegateLayout::DisplayMode displayMode, const QString& textFont, const QString& kanjiFont, const QString& kanaFont) : QObject(parent), _displayMode(displayMode)
 {
-	if (!textFont.isEmpty())
-		_font[DefaultText].fromString(textFont);
-	if (!kanjiFont.isEmpty())
-		_font[Kanji].fromString(kanjiFont);
-	if (!kanaFont.isEmpty())
-		_font[Kana].fromString(kanaFont);
+	setTextFont(textFont);
+	setKanjiFont(kanjiFont);
+	setKanaFont(kanaFont);
 }
 
 void EntryDelegateLayout::setFont(FontRole role, const QFont &font)
