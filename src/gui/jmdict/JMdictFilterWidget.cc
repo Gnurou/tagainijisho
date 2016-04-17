@@ -24,6 +24,61 @@
 #include <QVBoxLayout>
 #include <QGridLayout>
 #include <QLabel>
+#include <QRegularExpression>
+
+struct MenuHierarchyEntry {
+	QRegularExpression regex;
+	QString title;
+	QString parent;
+};
+
+// TODO pass this as an argument
+static QList<MenuHierarchyEntry> posHierarchy = {
+	{ QRegularExpression("(v1.*|vz)"), "Ichidan verb", "v.+" },
+	{ QRegularExpression("v2.*"), "Nidan verb", "v.+" },
+	{ QRegularExpression("v4.*"), "Yodan verb", "v.+" },
+	{ QRegularExpression("v5.*"), "Godan verb", "v.+" },
+	{ QRegularExpression("adj.*"), "Adjective", NULL },
+	{ QRegularExpression("adv.*"), "Adverb", NULL },
+	{ QRegularExpression("(n|n-.+)"), "Noun", NULL },
+	{ QRegularExpression("(aux|aux-.+)"), "Auxiliary", NULL },
+	{ QRegularExpression("v.+"), "Verb", NULL },
+};
+
+static QMenu *findParentMenu(const MenuHierarchyEntry &foo, QMap<QString, QMenu *> &subMenus, QMenu *root, const QList<MenuHierarchyEntry> &hierarchy)
+{
+	QMenu *parent = NULL;
+	QMenu *ret;
+
+	// Already exists? Just return it
+	ret = subMenus[foo.regex.pattern()];
+	if (ret)
+		return ret;
+
+	// Else find our parent
+	if (foo.parent == NULL)
+		parent = root;
+	else {
+		for (auto pair : hierarchy)
+			if (pair.regex.pattern() == foo.parent) {
+				parent = findParentMenu(pair, subMenus, root, hierarchy);
+				break;
+			}
+	}
+
+	// Fallback in case we messed up our hierarchy
+	if (parent == NULL)
+		parent = root;
+
+	// And create a menu under it
+	ret = new QMenu(parent);
+	// TODO translate!
+	ret->setTitle(foo.title);
+	parent->addAction(ret->menuAction());
+	subMenus[foo.regex.pattern()] = ret;
+
+	return ret;
+}
 
 JMdictFilterWidget::JMdictFilterWidget(QWidget *parent) : SearchFilterWidget(parent, "wordsdic")
 {
