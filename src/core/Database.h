@@ -43,7 +43,7 @@ private:
 	static Database *_instance;
 
 	SQLite::Connection _connection;
-	Database(const QString &userDBFile = QString());
+	Database();
 	~Database();
 
 	bool createUserDB();
