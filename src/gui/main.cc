@@ -138,16 +138,36 @@ void checkConfigurationVersion()
 	configVersion.setValue(CONFIG_VERSION);
 }
 
+static void moveQt4UserDB()
+{
+	QFile qt4DataFile;
+
+#if defined(Q_OS_WIN)
+	// For windows, move from the local data location to the roaming location
+	qt4DataFile.setFileName(QDir(QStandardPaths::standardLocations(QStandardPaths::DataLocation)[0]).absoluteFilePath("user.db"));
+#elif defined(Q_OS_UNIX)
+	// Genius Qt engineers thought it would be a good idea to not provide a compatibility function, so we can just guess here...
+	qt4DataFile.setFileName(Database::defaultDBFile().replace("share/Tagaini Jisho/user.db", "share/data/Tagaini Jisho/user.db"));
+#else
+	return;
+#endif
+
+	// Do a copy so an older version could keep working
+	if (qt4DataFile.exists()) {
+		qt4DataFile.copy(Database::defaultDBFile());
+		QMessageBox::information(0, QCoreApplication::translate("main.cc", "Data migrated"), QCoreApplication::translate("main.cc", "Welcome to Tagaini Jisho 2.0! Your user data has successfully been migrated from Tagaini 1.0 and you should find it as it was.\n\nIf you still have an old version of Tagaini installed, please note that changes made in Tagaini 2 will not be visible on Tagaini 1 and vice-versa. If you still have your old Tagaini version, it is recommended that you uninstall it to avoid confusion."));
+	}
+}
+
 /**
  * Check if a user DB directory is defined in the application settings, and
  * create a default one in case it doesn't exist.
  */
-void checkUserProfileDirectory()
+static void checkUserProfileDirectory()
 {
 	// Set the user profile location
 	// This is done here because this function requires the QtGui module
-#pragma warning dangerous
-	__userProfile = QStandardPaths::standardLocations(QStandardPaths::DataLocation)[0];
+	__userProfile = QStandardPaths::standardLocations(QStandardPaths::AppDataLocation)[0];
 	// Create the user profile directory if not existing
 	QDir profileDir(userProfile());
 	if (!profileDir.exists()) profileDir.mkpath(".");
@@ -158,7 +178,12 @@ void checkUserProfileDirectory()
 	if (importedDataFile.exists()) {
 		dataFile.remove();
 		importedDataFile.rename(dataFile.fileName());
+		return;
 	}
+
+	// Check if we are upgrading from Qt4
+	if (!dataFile.exists())
+		moveQt4UserDB();
 }
 
 int main(int argc, char *argv[])
