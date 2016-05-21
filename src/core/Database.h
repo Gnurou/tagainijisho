@@ -60,7 +60,7 @@ public:
 	static SQLite::Connection *connection() { return &_instance->_connection; }
 
 	static const QString &userDBFile() { return _userDBFile; }
-	static const QString defaultDBFile() { return QDir(userProfile()).absoluteFilePath("user.db"); }
+	static QString defaultDBFile() { return QDir(userProfile()).absoluteFilePath("user.db"); }
 
 	static bool attachDictionaryDB(const QString &file, const QString &alias, int expectedVersion);
 	static bool detachDictionaryDB(const QString &alias);
