@@ -92,39 +92,6 @@ if(UNIX)
 		-D "COMPONENT=Runtime"
 		-P "${CMAKE_BINARY_DIR}/cmake_install.cmake"
 	)
-	add_dependencies(install_runtime tagainijisho)
-	add_custom_target(install_databases
-		${CMAKE_COMMAND}
-		-D "COMPONENT=Databases"
-		-P "${CMAKE_BINARY_DIR}/cmake_install.cmake"
-	)
-	add_dependencies(install_databases databases)
-	add_custom_target(install_i18n
-		${CMAKE_COMMAND}
-		-D "COMPONENT=I18n"
-		-P "${CMAKE_BINARY_DIR}/cmake_install.cmake"
-	)
-	add_dependencies(install_i18n i18n)
-	add_custom_target(install_templates
-		${CMAKE_COMMAND}
-		-D "COMPONENT=Templates"
-		-P "${CMAKE_BINARY_DIR}/cmake_install.cmake"
-	)
-	#add_dependencies(install_templates templates)
-	add_custom_target(install_icons
-		${CMAKE_COMMAND}
-		-D "COMPONENT=Icons"
-		-P "${CMAKE_BINARY_DIR}/cmake_install.cmake"
-	)
-	#add_dependencies(install_icons icons)
-	add_custom_target(install_docs
-		${CMAKE_COMMAND}
-		-D "COMPONENT=Docs"
-		-P "${CMAKE_BINARY_DIR}/cmake_install.cmake"
-	)
-	add_dependencies(install_docs docs)
-	add_custom_target(install_nonarch)
-	add_dependencies(install_nonarch install_databases install_i18n install_templates install_icons install_docs)
 endif(UNIX)
 
 if(WIN32)
@@ -217,6 +184,39 @@ if (EXISTS ${CMAKE_SOURCE_DIR}/doc/manual.html)
 else(EXISTS ${CMAKE_SOURCE_DIR}/doc/manual.html)
 	MESSAGE(STATUS "Warning, docs were not generated")
 endif()
+
+# Custom install targets
+add_custom_target(install_runtime
+	${CMAKE_COMMAND}
+	-D "COMPONENT=Runtime"
+	-P "${CMAKE_BINARY_DIR}/cmake_install.cmake"
+)
+add_dependencies(install_runtime tagainijisho)
+add_custom_target(install_databases
+	${CMAKE_COMMAND}
+	-D "COMPONENT=Databases"
+	-P "${CMAKE_BINARY_DIR}/cmake_install.cmake"
+)
+add_dependencies(install_databases databases)
+add_custom_target(install_i18n
+	${CMAKE_COMMAND}
+	-D "COMPONENT=I18n"
+	-P "${CMAKE_BINARY_DIR}/cmake_install.cmake"
+)
+add_dependencies(install_i18n i18n)
+add_custom_target(install_icons
+	${CMAKE_COMMAND}
+	-D "COMPONENT=Icons"
+	-P "${CMAKE_BINARY_DIR}/cmake_install.cmake"
+)
+add_custom_target(install_docs
+	${CMAKE_COMMAND}
+	-D "COMPONENT=Docs"
+	-P "${CMAKE_BINARY_DIR}/cmake_install.cmake"
+)
+add_dependencies(install_docs docs)
+add_custom_target(install_nonarch)
+add_dependencies(install_nonarch install_databases install_i18n install_icons install_docs)
 
 set(CPACK_SOURCE_IGNORE_FILES "~$" "\\\\.gitignore$" "^${PROJECT_SOURCE_DIR}/.git/" "^${PROJECT_SOURCE_DIR}/*.kdev4/" )
 
