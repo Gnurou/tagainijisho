@@ -44,6 +44,7 @@ BuildKanjiDB.cc
 ../XmlParserHelper.cc
 )
 
+if(NOT CMAKE_CROSSCOMPILING)
 add_executable(build_kanji_db EXCLUDE_FROM_ALL ${build_kanji_db_SRCS})
 target_link_libraries(build_kanji_db tagaini_sqlite Qt5::Core)
 
@@ -58,3 +59,4 @@ add_custom_command(OUTPUT ${CMAKE_BINARY_DIR}/kanjidic2.db
 	DEPENDS build_kanji_db ${CMAKE_SOURCE_DIR}/3rdparty/kanjidic2.xml ${CMAKE_SOURCE_DIR}/3rdparty/kanjivg.xml)
 add_custom_target(kanjidic2-db DEPENDS ${CMAKE_BINARY_DIR}/kanjidic2.db)
 add_dependencies(databases kanjidic2-db)
+endif(NOT CMAKE_CROSSCOMPILING)

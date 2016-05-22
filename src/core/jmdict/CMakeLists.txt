@@ -39,6 +39,7 @@ BuildJMdictDB.cc
 ../XmlParserHelper.cc
 )
 
+if(NOT CMAKE_CROSSCOMPILING)
 add_executable(build_jmdict_db EXCLUDE_FROM_ALL ${build_jmdict_db_SRCS})
 target_link_libraries(build_jmdict_db tagaini_sqlite Qt5::Core)
 
@@ -53,3 +54,4 @@ add_custom_command(OUTPUT ${CMAKE_BINARY_DIR}/jmdict.db
 	DEPENDS build_jmdict_db ${CMAKE_SOURCE_DIR}/3rdparty/JMdict)
 add_custom_target(jmdict-db DEPENDS ${CMAKE_BINARY_DIR}/jmdict.db)
 add_dependencies(databases jmdict-db)
+endif(NOT CMAKE_CROSSCOMPILING)
