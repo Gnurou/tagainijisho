@@ -95,31 +95,6 @@ void messageHandler(QtMsgType type, const QMessageLogContext& context, const QSt
 #define CONFIG_VERSION 6
 PreferenceItem<int> configVersion("", "configVersion", 0);
 
-/*
-void migrateOldData()
-{
-	QCoreApplication::setApplicationName("tagainijisho");
-	QString oldDataDir(QStandardPaths::standardLocations(QStandardPaths::DataLocation));
-	QCoreApplication::setApplicationName(__APPLICATION_NAME);
-	QString newDataDir(QStandardPaths::standardLocations(QStandardPaths::DataLocation));
-	// If the old DB directory exists, this means we have an old installation there and must
-	// rename it
-	if (QDir(oldDataDir).exists()) {
-		if (!QFile(oldDataDir).rename(newDataDir))
-			qFatal("Error while migrating profile data! Please rename the %s directory to %s.", oldDataDir.toLatin1().data(), newDataDir.toLatin1().data());
-
-		// Also migrate the settings data
-		QSettings newSettings(__ORGANIZATION_NAME, __APPLICATION_NAME);
-		QSettings oldSettings(__ORGANIZATION_NAME, "tagainijisho");
-		foreach (const QString &key, oldSettings.allKeys())
-			newSettings.setValue(key, oldSettings.value(key));
-		oldSettings.clear();
-		QMessageBox::information(0, QCoreApplication::translate("main.cc", "User data migrated"), QCoreApplication::translate("main.cc", "Your user data and settings have successfully been migrated. Tagaini Jisho needs to be restarted and will now exit."));
-		exit(0);
-	}
-}
-*/
-
 void checkConfigurationVersion()
 {
 	// Are we running the program for the first time or updating from a previous version?
@@ -205,7 +180,6 @@ int main(int argc, char *argv[])
 	// Install the error message handler now that we have a GUI
 	qInstallMessageHandler(messageHandler);
 
-	//migrateOldData();
 	checkConfigurationVersion();
 
 	checkUserProfileDirectory();
