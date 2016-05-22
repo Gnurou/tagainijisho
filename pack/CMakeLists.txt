@@ -62,12 +62,12 @@ if(UNIX)
 		foreach(LANG ${UI_LANG})
 			set(QMFILE "/Developer/Applications/Qt/translations/qt_${LANG}.qm")
 			if(EXISTS ${QMFILE})
-				install(FILES ${QMFILE} DESTINATION "${ROOT_DIR}/Translations" COMPONENT Runtime)
+				install(FILES ${QMFILE} DESTINATION "${ROOT_DIR}/i18n" COMPONENT Runtime)
 			endif(EXISTS ${QMFILE})
 		endforeach(LANG ${UI_LANG})
 	
 		# Qt config
-		install(CODE "file(WRITE \"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/${RESOURCES_DIR}/qt.conf\" \"[Paths]\nPlugins = PlugIns\nTranslations = Translations\n\")" COMPONENT Runtime)
+		install(CODE "file(WRITE \"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/${RESOURCES_DIR}/qt.conf\" \"[Paths]\nPlugins = PlugIns\nTranslations = i18n\n\")" COMPONENT Runtime)
 		
 		# Qt plugins
 		install(CODE "
