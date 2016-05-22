@@ -57,30 +57,31 @@
 /**
  * Message handler
  */
-void messageHandler(QtMsgType type, const char *msg)
+void messageHandler(QtMsgType type, const QMessageLogContext& context, const QString &msg)
 {
+	const char *str = msg.toLatin1().constData();
 	switch (type) {
 	case QtDebugMsg:
-		fprintf(stderr, "Debug: %s\n", msg);
+		fprintf(stderr, "Debug: %s\n", str);
 		break;
 #if QT_VERSION >= 0x050500
 	case QtInfoMsg:
-		fprintf(stderr, "Info: %s\n", msg);
+		fprintf(stderr, "Info: %s\n", str);
 		break;
 #endif
 	case QtWarningMsg:
-		fprintf(stderr, "Warning: %s\n", msg);
+		fprintf(stderr, "Warning: %s\n", str);
 		break;
 	case QtCriticalMsg:
-		fprintf(stderr, "Critical: %s\n", msg);
-		QMessageBox::critical(0, "Critical", msg);
+		fprintf(stderr, "Critical: %s\n", str);
+		QMessageBox::critical(0, "Critical", str);
 		break;
 	case QtFatalMsg:
 		// TODO here a message should be emitted and caught by the main thread in
 		// order to display the message box. This is because fatal errors may occur
 		// in auxiliary threads too.
 		//QMessageBox::critical(0, "Tagaini Jisho fatal error", msg);
-		fprintf(stderr, "Fatal: %s\n", msg);
+		fprintf(stderr, "Fatal: %s\n", str);
 		QMessageBox::critical(0, "Fatal error", QString("%1\n\nUnrecoverable error, the program will now exit.").arg(msg));
 		exit(1);
 	}
@@ -202,8 +203,7 @@ int main(int argc, char *argv[])
 	QCoreApplication::setApplicationVersion(VERSION);
 
 	// Install the error message handler now that we have a GUI
-#pragma warning fix this
-	//qInstallMessageHandler(messageHandler);
+	qInstallMessageHandler(messageHandler);
 
 	//migrateOldData();
 	checkConfigurationVersion();
