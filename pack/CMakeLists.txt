@@ -86,14 +86,6 @@ if(UNIX)
 		install(FILES ${CMAKE_SOURCE_DIR}/images/tagainijisho-128x128.png DESTINATION share/icons/hicolor/128x128/apps RENAME tagainijisho.png PERMISSIONS OWNER_READ GROUP_READ WORLD_READ COMPONENT Icons)
 	endif(APPLE)
 
-	# Documentation
-	if (EXISTS ${CMAKE_SOURCE_DIR}/doc/manual.html)
-		install(FILES ${CMAKE_SOURCE_DIR}/doc/manual.html DESTINATION ${DOC_DIR} COMPONENT Docs)
-		install(DIRECTORY ${CMAKE_SOURCE_DIR}/doc/images DESTINATION ${DOC_DIR} COMPONENT Docs)
-	else(EXISTS ${CMAKE_SOURCE_DIR}/doc/manual.html)
-		MESSAGE(STATUS "Warning, docs were not generated")
-	endif()
-
 	# Custom install targets
 	add_custom_target(install_runtime
 		${CMAKE_COMMAND}
@@ -161,6 +153,14 @@ if (EXISTS ${SYS_QT_I18N_DIR})
 		endif(EXISTS ${QMFILE})
 	endforeach(LANG ${UI_LANG})
 endif (EXISTS ${SYS_QT_I18N_DIR})
+
+# Documentation
+if (EXISTS ${CMAKE_SOURCE_DIR}/doc/manual.html)
+	install(FILES ${CMAKE_SOURCE_DIR}/doc/manual.html DESTINATION ${DOC_DIR} COMPONENT Docs)
+	install(DIRECTORY ${CMAKE_SOURCE_DIR}/doc/images DESTINATION ${DOC_DIR} COMPONENT Docs)
+else(EXISTS ${CMAKE_SOURCE_DIR}/doc/manual.html)
+	MESSAGE(STATUS "Warning, docs were not generated")
+endif()
 
 set(CPACK_SOURCE_IGNORE_FILES "~$" "\\\\.gitignore$" "^${PROJECT_SOURCE_DIR}/.git/" "^${PROJECT_SOURCE_DIR}/*.kdev4/" )
 
