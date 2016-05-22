@@ -33,76 +33,62 @@ set(CPACK_SOURCE_TGZ "OFF")
 set(CPACK_SOURCE_TZ "OFF")
 set(CPACK_SOURCE_ZIP "OFF")
 
-if(UNIX)
-	set(CPACK_SOURCE_TGZ ON)
-	if(APPLE)
-		set(CPACK_BINARY_DRAGNDROP ON)
-		set(CPACK_DMG_VOLUME_NAME "Tagaini Jisho")
-		set(CPACK_DMG_DS_STORE "${CMAKE_CURRENT_SOURCE_DIR}/MacOS/DS_Store")
-		set(CPACK_DMG_BACKGROUND_IMAGE "${CMAKE_CURRENT_SOURCE_DIR}/MacOS/background.png")
-		set_target_properties(${tagaini_binary} PROPERTIES
-			MACOSX_BUNDLE_BUNDLE_NAME "Tagaini Jisho"
-			MACOSX_BUNDLE_BUNDLE_VERSION ${VERSION}
-			MACOSX_BUNDLE_SHORT_VERSION_STRING ${VERSION}
-			MACOSX_BUNDLE_LONG_VERSION_STRING ${VERSION}
-			MACOSX_BUNDLE_GUI_IDENTIFIER "net.tagaini.TagainiJisho"
-			MACOSX_BUNDLE_ICON_FILE appicon.icns
-			MACOSX_BUNDLE_COPYRIGHT "© 2008 - 2016, Alexandre Courbot."
-		)
-		
-		set(ROOT_DIR "${tagaini_binary}.app/Contents")
-		set(EXE_DIR "${ROOT_DIR}/MacOS")
-		set(DB_DIR ${EXE_DIR})
-		set(I18N_DIR "${EXE_DIR}/i18n")
-		set(DOC_DIR "${EXE_DIR}/doc")
-		set(RESOURCES_DIR "${ROOT_DIR}/Resources")
-		set(APPS "\${CMAKE_INSTALL_PREFIX}/${tagaini_binary}.app")
-		set(SYS_QT_I18N_DIR "/Developer/Applications/Qt/translations")
-
-		# Qt config
-		install(CODE "file(WRITE \"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/${RESOURCES_DIR}/qt.conf\" \"[Paths]\nPlugins = PlugIns\nTranslations = i18n\n\")" COMPONENT Runtime)
-
-		# Qt plugins
-		install(CODE "
-			file(GLOB_RECURSE QTPLUGINS \"\${CMAKE_INSTALL_PREFIX}/${EXE_DIR}/plugins/*${CMAKE_SHARED_LIBRARY_SUFFIX}\")
-		include(BundleUtilities)
-		fixup_bundle(\"${APPS}\" \"${QTPLUGINS}\" \"${QT_LIBRARY_DIRS}\")" COMPONENT Runtime)
-	else(APPLE)
-		set(CPACK_PACKAGE_NAME "tagainijisho")	
-		set(ROOT_DIR share/tagainijisho)
-		set(DB_DIR ${ROOT_DIR})
-		set(I18N_DIR ${ROOT_DIR}/i18n)
-		set(DOC_DIR ${ROOT_DIR}/doc)
-		set(RESOURCES_DIR ${ROOT_DIR})
-
-		# Desktop and icon files
-		install(FILES ${CMAKE_SOURCE_DIR}/tagainijisho.desktop DESTINATION share/applications PERMISSIONS OWNER_READ GROUP_READ WORLD_READ COMPONENT Runtime)
-		install(FILES ${CMAKE_SOURCE_DIR}/tagainijisho.appdata.xml DESTINATION share/applications PERMISSIONS OWNER_READ GROUP_READ WORLD_READ COMPONENT Runtime)
-		install(FILES ${CMAKE_SOURCE_DIR}/images/tagainijisho-16x16.png DESTINATION share/icons/hicolor/16x16/apps RENAME tagainijisho.png PERMISSIONS OWNER_READ GROUP_READ WORLD_READ COMPONENT Icons)
-		install(FILES ${CMAKE_SOURCE_DIR}/images/tagainijisho-22x22.png DESTINATION share/icons/hicolor/22x22/apps RENAME tagainijisho.png PERMISSIONS OWNER_READ GROUP_READ WORLD_READ COMPONENT Icons)
-		install(FILES ${CMAKE_SOURCE_DIR}/images/tagainijisho-32x32.png DESTINATION share/icons/hicolor/32x32/apps RENAME tagainijisho.png PERMISSIONS OWNER_READ GROUP_READ WORLD_READ COMPONENT Icons)
-		install(FILES ${CMAKE_SOURCE_DIR}/images/tagainijisho-48x48.png DESTINATION share/icons/hicolor/48x48/apps RENAME tagainijisho.png PERMISSIONS OWNER_READ GROUP_READ WORLD_READ COMPONENT Icons)
-		install(FILES ${CMAKE_SOURCE_DIR}/images/tagainijisho-64x64.png DESTINATION share/icons/hicolor/64x64/apps RENAME tagainijisho.png PERMISSIONS OWNER_READ GROUP_READ WORLD_READ COMPONENT Icons)
-		install(FILES ${CMAKE_SOURCE_DIR}/images/tagainijisho-128x128.png DESTINATION share/icons/hicolor/128x128/apps RENAME tagainijisho.png PERMISSIONS OWNER_READ GROUP_READ WORLD_READ COMPONENT Icons)
-	endif(APPLE)
-
-	# Custom install targets
-	add_custom_target(install_runtime
-		${CMAKE_COMMAND}
-		-D "COMPONENT=Runtime"
-		-P "${CMAKE_BINARY_DIR}/cmake_install.cmake"
+# OSX?
+if(UNIX AND APPLE)
+	set(CPACK_BINARY_DRAGNDROP ON)
+	set(CPACK_DMG_VOLUME_NAME "Tagaini Jisho")
+	set(CPACK_DMG_DS_STORE "${CMAKE_CURRENT_SOURCE_DIR}/MacOS/DS_Store")
+	set(CPACK_DMG_BACKGROUND_IMAGE "${CMAKE_CURRENT_SOURCE_DIR}/MacOS/background.png")
+	set_target_properties(${tagaini_binary} PROPERTIES
+		MACOSX_BUNDLE_BUNDLE_NAME "Tagaini Jisho"
+		MACOSX_BUNDLE_BUNDLE_VERSION ${VERSION}
+		MACOSX_BUNDLE_SHORT_VERSION_STRING ${VERSION}
+		MACOSX_BUNDLE_LONG_VERSION_STRING ${VERSION}
+		MACOSX_BUNDLE_GUI_IDENTIFIER "net.tagaini.TagainiJisho"
+		MACOSX_BUNDLE_ICON_FILE appicon.icns
+		MACOSX_BUNDLE_COPYRIGHT "© 2008 - 2016, Alexandre Courbot."
 	)
-endif(UNIX)
 
-if(WIN32)
+	set(ROOT_DIR "${tagaini_binary}.app/Contents")
+	set(EXE_DIR "${ROOT_DIR}/MacOS")
+	set(DB_DIR ${EXE_DIR})
+	set(I18N_DIR "${EXE_DIR}/i18n")
+	set(DOC_DIR "${EXE_DIR}/doc")
+	set(RESOURCES_DIR "${ROOT_DIR}/Resources")
+	set(APPS "\${CMAKE_INSTALL_PREFIX}/${tagaini_binary}.app")
+	set(SYS_QT_I18N_DIR "/Developer/Applications/Qt/translations")
+
+	# Qt config
+	install(CODE "file(WRITE \"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/${RESOURCES_DIR}/qt.conf\" \"[Paths]\nPlugins = PlugIns\nTranslations = i18n\n\")" COMPONENT Runtime)
+
+	# Qt plugins
+	install(CODE "
+		file(GLOB_RECURSE QTPLUGINS \"\${CMAKE_INSTALL_PREFIX}/${EXE_DIR}/plugins/*${CMAKE_SHARED_LIBRARY_SUFFIX}\")
+	include(BundleUtilities)
+	fixup_bundle(\"${APPS}\" \"${QTPLUGINS}\" \"${QT_LIBRARY_DIRS}\")" COMPONENT Runtime)
+# Other UNIX?
+elseif(UNIX)
+	set(CPACK_PACKAGE_NAME "tagainijisho")
+	set(ROOT_DIR share/tagainijisho)
+	set(DB_DIR ${ROOT_DIR})
+	set(I18N_DIR ${ROOT_DIR}/i18n)
+	set(DOC_DIR ${ROOT_DIR}/doc)
+	set(RESOURCES_DIR ${ROOT_DIR})
+
+	# Desktop and icon files
+	install(FILES ${CMAKE_SOURCE_DIR}/tagainijisho.desktop DESTINATION share/applications PERMISSIONS OWNER_READ GROUP_READ WORLD_READ COMPONENT Runtime)
+	install(FILES ${CMAKE_SOURCE_DIR}/tagainijisho.appdata.xml DESTINATION share/applications PERMISSIONS OWNER_READ GROUP_READ WORLD_READ COMPONENT Runtime)
+	install(FILES ${CMAKE_SOURCE_DIR}/images/tagainijisho-16x16.png DESTINATION share/icons/hicolor/16x16/apps RENAME tagainijisho.png PERMISSIONS OWNER_READ GROUP_READ WORLD_READ COMPONENT Icons)
+	install(FILES ${CMAKE_SOURCE_DIR}/images/tagainijisho-22x22.png DESTINATION share/icons/hicolor/22x22/apps RENAME tagainijisho.png PERMISSIONS OWNER_READ GROUP_READ WORLD_READ COMPONENT Icons)
+	install(FILES ${CMAKE_SOURCE_DIR}/images/tagainijisho-32x32.png DESTINATION share/icons/hicolor/32x32/apps RENAME tagainijisho.png PERMISSIONS OWNER_READ GROUP_READ WORLD_READ COMPONENT Icons)
+	install(FILES ${CMAKE_SOURCE_DIR}/images/tagainijisho-48x48.png DESTINATION share/icons/hicolor/48x48/apps RENAME tagainijisho.png PERMISSIONS OWNER_READ GROUP_READ WORLD_READ COMPONENT Icons)
+	install(FILES ${CMAKE_SOURCE_DIR}/images/tagainijisho-64x64.png DESTINATION share/icons/hicolor/64x64/apps RENAME tagainijisho.png PERMISSIONS OWNER_READ GROUP_READ WORLD_READ COMPONENT Icons)
+	install(FILES ${CMAKE_SOURCE_DIR}/images/tagainijisho-128x128.png DESTINATION share/icons/hicolor/128x128/apps RENAME tagainijisho.png PERMISSIONS OWNER_READ GROUP_READ WORLD_READ COMPONENT Icons)
+# Windows? (32 or 64-bit)
+elseif(WIN32)
 	set(CPACK_MONOLITHIC_INSTALL 1)
 	set(CPACK_NSIS_ENABLE_UNINSTALL_BEFORE_INSTALL 1)
 	set(CPACK_NSIS_MUI_FINISHPAGE_RUN "tagainijisho")
-
-	set(CPACK_PACKAGE_NAME "Tagaini Jisho")
-	set(CPACK_PACKAGE_VERSION "${VERSION}")
-	set(CPACK_PACKAGE_VENDOR "tagaini.net")
-	set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "A Free Japanese Dictionary and Study Assistant")
 	set(CPACK_PACKAGE_INSTALL_DIRECTORY "Tagaini Jisho")
 	set(CPACK_NSIS_EXECUTABLES_DIRECTORY ".")
 	set(CPACK_PACKAGE_EXECUTABLES "tagainijisho" "Tagaini Jisho")
@@ -152,7 +138,7 @@ ${CMAKE_SOURCE_DIR}/images/appicon.ico)
 	install(CODE
 		"file(WRITE \"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/${RESOURCES_DIR}/qt.conf\" \"[Paths]\n\rPlugins = plugins\n\rTranslations = i18n\n\r\")"
 		COMPONENT Runtime)
-endif(WIN32)
+endif(UNIX AND APPLE)
 
 # Databases
 install(FILES ${CMAKE_BINARY_DIR}/jmdict.db DESTINATION ${DB_DIR} PERMISSIONS OWNER_READ GROUP_READ WORLD_READ COMPONENT Databases)
