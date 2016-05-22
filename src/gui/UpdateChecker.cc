@@ -25,14 +25,14 @@
 #include <QNetworkRequest>
 #include <QNetworkReply>
 
-#if defined(Q_WS_X11)
-#define PLATFORM "Unix/X11"
-#elif defined(Q_WS_WIN)
+#if defined(Q_OS_LINUX)
+#define PLATFORM "Linux"
+#elif defined(Q_OS_WIN)
 #define PLATFORM "Windows"
-#elif defined(Q_WS_MAC)
-#define PLATFORM "Mac"
-#elif defined(Q_WS_QWS)
-#define PLATFORM "Unix/Embedded"
+#elif defined(Q_OS_OSX)
+#define PLATFORM "Mac OS X"
+#elif defined(Q_OS_ANDROID)
+#define PLATFORM "Android"
 #else
 #define PLATFORM "Unknown"
 #endif
