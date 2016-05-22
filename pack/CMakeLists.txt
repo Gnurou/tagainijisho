@@ -128,7 +128,63 @@ if(UNIX)
 endif(UNIX)
 
 if(WIN32)
-	MESSAGE(STATUS "Not implemented")
+	set(CPACK_MONOLITHIC_INSTALL 1)
+	set(CPACK_NSIS_ENABLE_UNINSTALL_BEFORE_INSTALL 1)
+	set(CPACK_NSIS_MUI_FINISHPAGE_RUN "tagainijisho")
+
+	set(CPACK_PACKAGE_NAME "Tagaini Jisho")
+	set(CPACK_PACKAGE_VERSION "${VERSION}")
+	set(CPACK_PACKAGE_VENDOR "tagaini.net")
+	set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "A Free Japanese Dictionary and Study Assistant")
+	set(CPACK_PACKAGE_INSTALL_DIRECTORY "Tagaini Jisho")
+	set(CPACK_NSIS_EXECUTABLES_DIRECTORY ".")
+	set(CPACK_PACKAGE_EXECUTABLES "tagainijisho" "Tagaini Jisho")
+	set(CPACK_NSIS_INSTALLED_ICON_NAME "tagainijisho")
+	set(CPACK_PACKAGE_ICON
+${CMAKE_SOURCE_DIR}/images/appicon.ico)
+	set(CPACK_NSIS_INSTALLED_ICON_NAME ${CMAKE_SOURCE_DIR}/images/appicon.ico)
+
+	set(DB_DIR ".")
+	set(I18N_DIR "./i18n")
+	set(DOC_DIR "./doc")
+	set(SYS_QT_I18N_DIR "${CMAKE_INSTALL_PREFIX}/share/qt/translations")
+
+	# Dependency libraries - if we ever manage to build a static binary,
+	# we won't need that anymore...
+	install(FILES
+		${CMAKE_INSTALL_PREFIX}/bin/Qt5Core.dll
+		${CMAKE_INSTALL_PREFIX}/bin/Qt5Gui.dll
+		${CMAKE_INSTALL_PREFIX}/bin/Qt5Network.dll
+		${CMAKE_INSTALL_PREFIX}/bin/Qt5PrintSupport.dll
+		${CMAKE_INSTALL_PREFIX}/bin/Qt5Widgets.dll
+		${CMAKE_INSTALL_PREFIX}/bin/zlib1.dll
+		${CMAKE_INSTALL_PREFIX}/bin/libpng16-16.dll
+		${CMAKE_INSTALL_PREFIX}/bin/libwinpthread-1.dll
+		${CMAKE_INSTALL_PREFIX}/bin/libgcc_s_seh-1.dll
+		${CMAKE_INSTALL_PREFIX}/bin/libstdc++-6.dll
+		${CMAKE_INSTALL_PREFIX}/bin/libpcre16-0.dll
+		${CMAKE_INSTALL_PREFIX}/bin/libharfbuzz-0.dll
+		${CMAKE_INSTALL_PREFIX}/bin/libfreetype-6.dll
+		${CMAKE_INSTALL_PREFIX}/bin/libbz2-1.dll
+		${CMAKE_INSTALL_PREFIX}/bin/libglib-2.0-0.dll
+		${CMAKE_INSTALL_PREFIX}/bin/libintl-8.dll
+		${CMAKE_INSTALL_PREFIX}/bin/libiconv-2.dll
+		${CMAKE_INSTALL_PREFIX}/bin/libpcre-1.dll
+		${CMAKE_INSTALL_PREFIX}/bin/libGLESv2.dll
+		COMPONENT Runtime
+		DESTINATION ".")
+
+	# Qt runtime plugins - will become unneeded if we can build a static
+	# binary
+	install(DIRECTORY ${CMAKE_INSTALL_PREFIX}/lib/qt/plugins
+		DESTINATION "."
+		COMPONENT Runtime
+		PATTERN "*.a" EXCLUDE)
+
+	# Qt config file
+	install(CODE
+		"file(WRITE \"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/${RESOURCES_DIR}/qt.conf\" \"[Paths]\n\rPlugins = plugins\n\rTranslations = i18n\n\r\")"
+		COMPONENT Runtime)
 endif(WIN32)
 
 # Databases

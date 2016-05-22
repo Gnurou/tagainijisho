@@ -100,7 +100,13 @@ endif()
 
 add_executable(${tagaini_binary} MACOSX_BUNDLE WIN32 ${tagainijisho_SRCS})
 target_link_libraries(${tagaini_binary} tagaini_gui_jmdict tagaini_gui_kanjidic2 tagaini_gui tagaini_core_jmdict tagaini_core_kanjidic2 tagaini_core tagaini_sqlite ${extra_link_flags})
-install(TARGETS ${tagaini_binary} BUNDLE DESTINATION . COMPONENT Runtime RUNTIME DESTINATION bin COMPONENT Runtime)
+
+# TODO not clean!
+if(NOT WIN32)
+install(TARGETS ${tagaini_binary} BUNDLE DESTINATION . RUNTIME DESTINATION bin)
+else(NOT WIN32)
+install(TARGETS ${tagaini_binary} BUNDLE DESTINATION . RUNTIME DESTINATION ".")
+endif(NOT WIN32)
 
 # If needed, add standard dependency to have identical build on all platforms
 if (NOT ${tagaini_binary} MATCHES "tagainijisho")
