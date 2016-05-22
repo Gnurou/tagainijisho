@@ -106,12 +106,6 @@ if(UNIX)
 		install(FILES ${CMAKE_BINARY_DIR}/i18n/tagainijisho_${LANG}.qm DESTINATION ${I18N_DIR} PERMISSIONS OWNER_READ GROUP_READ WORLD_READ COMPONENT I18n)
 	endforeach(LANG ${UI_LANG})
 
-	# Template files
-	install(FILES ${CMAKE_SOURCE_DIR}/src/gui/jmdict/detailed_jmdict.html ${CMAKE_SOURCE_DIR}/src/gui/jmdict/detailed_jmdict.css DESTINATION ${RESOURCES_DIR} PERMISSIONS OWNER_READ GROUP_READ WORLD_READ COMPONENT Templates)
-	install(FILES ${CMAKE_SOURCE_DIR}/src/gui/kanjidic2/detailed_kanjidic2.html ${CMAKE_SOURCE_DIR}/src/gui/kanjidic2/detailed_kanjidic2.css DESTINATION ${RESOURCES_DIR} PERMISSIONS OWNER_READ GROUP_READ WORLD_READ COMPONENT Templates)
-	install(FILES ${CMAKE_SOURCE_DIR}/src/gui/export_template.html DESTINATION ${RESOURCES_DIR} PERMISSIONS OWNER_READ GROUP_READ WORLD_READ COMPONENT Templates)
-	install(FILES ${CMAKE_SOURCE_DIR}/src/gui/detailed_default.html ${CMAKE_SOURCE_DIR}/src/gui/detailed_default.css DESTINATION ${RESOURCES_DIR} PERMISSIONS OWNER_READ GROUP_READ WORLD_READ COMPONENT Templates)
-
 	# Documentation
 	if (EXISTS ${CMAKE_SOURCE_DIR}/doc/manual.html)
 		install(FILES ${CMAKE_SOURCE_DIR}/doc/manual.html DESTINATION ${DOC_DIR} COMPONENT Docs)
