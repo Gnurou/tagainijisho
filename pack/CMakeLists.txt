@@ -57,18 +57,11 @@ if(UNIX)
 		set(DOC_DIR "${EXE_DIR}/doc")
 		set(RESOURCES_DIR "${ROOT_DIR}/Resources")
 		set(APPS "\${CMAKE_INSTALL_PREFIX}/${tagaini_binary}.app")
+		set(SYS_QT_I18N_DIR "/Developer/Applications/Qt/translations")
 
-		# Extra Qt translations
-		foreach(LANG ${UI_LANG})
-			set(QMFILE "/Developer/Applications/Qt/translations/qt_${LANG}.qm")
-			if(EXISTS ${QMFILE})
-				install(FILES ${QMFILE} DESTINATION "${ROOT_DIR}/i18n" COMPONENT Runtime)
-			endif(EXISTS ${QMFILE})
-		endforeach(LANG ${UI_LANG})
-	
 		# Qt config
 		install(CODE "file(WRITE \"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/${RESOURCES_DIR}/qt.conf\" \"[Paths]\nPlugins = PlugIns\nTranslations = i18n\n\")" COMPONENT Runtime)
-		
+
 		# Qt plugins
 		install(CODE "
 			file(GLOB_RECURSE QTPLUGINS \"\${CMAKE_INSTALL_PREFIX}/${EXE_DIR}/plugins/*${CMAKE_SHARED_LIBRARY_SUFFIX}\")
@@ -158,6 +151,16 @@ endif(UNIX)
 if(WIN32)
 	MESSAGE(STATUS "Not implemented")
 endif(WIN32)
+
+# Extra Qt translations
+if (EXISTS ${SYS_QT_I18N_DIR})
+	foreach(LANG ${UI_LANG})
+		set(QMFILE "${SYS_QT_I18N_DIR}/qt_${LANG}.qm")
+		if(EXISTS ${QMFILE})
+			install(FILES ${QMFILE} DESTINATION "${I18N_DIR}" COMPONENT Runtime)
+		endif(EXISTS ${QMFILE})
+	endforeach(LANG ${UI_LANG})
+endif (EXISTS ${SYS_QT_I18N_DIR})
 
 set(CPACK_SOURCE_IGNORE_FILES "~$" "\\\\.gitignore$" "^${PROJECT_SOURCE_DIR}/.git/" "^${PROJECT_SOURCE_DIR}/*.kdev4/" )
 
