@@ -94,11 +94,6 @@ if(UNIX)
 		install(FILES ${CMAKE_BINARY_DIR}/kanjidic2-${LANG}.db DESTINATION ${DB_DIR} PERMISSIONS OWNER_READ GROUP_READ WORLD_READ COMPONENT Databases)
 	endforeach(LANG en;${DICT_LANG})
 
-	# i18n files
-	foreach(LANG ${UI_LANG})
-		install(FILES ${CMAKE_BINARY_DIR}/i18n/tagainijisho_${LANG}.qm DESTINATION ${I18N_DIR} PERMISSIONS OWNER_READ GROUP_READ WORLD_READ COMPONENT I18n)
-	endforeach(LANG ${UI_LANG})
-
 	# Documentation
 	if (EXISTS ${CMAKE_SOURCE_DIR}/doc/manual.html)
 		install(FILES ${CMAKE_SOURCE_DIR}/doc/manual.html DESTINATION ${DOC_DIR} COMPONENT Docs)
@@ -151,6 +146,11 @@ endif(UNIX)
 if(WIN32)
 	MESSAGE(STATUS "Not implemented")
 endif(WIN32)
+
+# i18n files
+foreach(LANG ${UI_LANG})
+	install(FILES ${CMAKE_BINARY_DIR}/i18n/tagainijisho_${LANG}.qm DESTINATION ${I18N_DIR} PERMISSIONS OWNER_READ GROUP_READ WORLD_READ COMPONENT I18n)
+endforeach(LANG ${UI_LANG})
 
 # Extra Qt translations
 if (EXISTS ${SYS_QT_I18N_DIR})
