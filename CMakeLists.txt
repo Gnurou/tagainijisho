@@ -9,7 +9,7 @@ endif(APPLE)
 # Set the program name to be the same as the project
 set(tagaini_binary ${CMAKE_PROJECT_NAME})
 
-set(VERSION 1.0.3)
+set(VERSION 1.0.90)
 set(QTVERSION 5.4)
 set(CMAKE_AUTOMOC ON)
 
