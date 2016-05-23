@@ -132,6 +132,8 @@ ${CMAKE_SOURCE_DIR}/images/appicon.ico)
 	install(DIRECTORY ${CMAKE_INSTALL_PREFIX}/lib/qt/plugins
 		DESTINATION "."
 		COMPONENT Runtime
+		# If we include the .a archives the dynamic loader will attempt
+		# to load them first! (and obviously fail)
 		PATTERN "*.a" EXCLUDE)
 
 	# Qt config file
