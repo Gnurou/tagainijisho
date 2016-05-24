@@ -24,13 +24,13 @@ before_install:
   - TAGAINI_VERSION=`grep "set(VERSION" CMakeLists.txt | cut -d ' ' -f 2 | tr -d '\)'`
   - export TAGAINI_VERSION
   - env | sort
-  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then sudo add-apt-repository --yes ppa:ubuntu-sdk-team/ppa ; sudo apt-get -qq update ; sudo apt-get install -qq libtext-multimarkdown-perl sqlite3 qt5-default qttools5-dev-tools qttools5-dev rpm ; fi
+  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then sudo add-apt-repository ppa:beineri/opt-qt551-trusty -y ; sudo apt-get -qq update ; sudo apt-get install -qq libtext-multimarkdown-perl sqlite3 rpm qt55base qt55websockets qt55translations qt55tools; fi
   - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew update ; brew install multimarkdown qt5; fi
 
 before_script:
   - mkdir build
   - cd build
-  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -DEMBED_SQLITE=1 ..; fi
+  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then source /opt/qt55/bin/qt55-env.sh ; cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -DEMBED_SQLITE=1 ..; fi
   - if [ "$TRAVIS_OS_NAME" = "osx" ]; then cmake -DCMAKE_PREFIX_PATH=`brew --prefix qt5` -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -DEMBED_SQLITE=1 ..; fi
 
 after_success:
