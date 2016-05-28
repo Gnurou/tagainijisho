@@ -326,7 +326,7 @@ void MainWindow::manual()
 #else
 	QString f = QDir(QCoreApplication::applicationDirPath()).filePath("doc/manual.html");
 #endif
-	QDesktopServices::openUrl(f);
+	QDesktopServices::openUrl(QUrl::fromLocalFile(f));
 }
 
 void MainWindow::bugReport()
