@@ -118,8 +118,6 @@ protected slots:
 
 	void trainSettings();
 
-	void openUrl(const QUrl &url);
-
 public:
 	MainWindow(QWidget *parent = 0);
 	~MainWindow();
