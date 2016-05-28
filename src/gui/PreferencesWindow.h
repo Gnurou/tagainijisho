@@ -91,7 +91,6 @@ public slots:
 
 	void onCheckUpdatesChecked(int checked);
 	void updateNextCheckLabel();
-	void onCacheSizeDefaultChecked(bool checked);
 
 public:
 	GeneralPreferences(QWidget *parent = 0);

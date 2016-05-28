@@ -165,8 +165,6 @@ GeneralPreferences::GeneralPreferences(QWidget *parent) : PreferencesWindowCateg
 
 	connect(checkForUpdates, SIGNAL(stateChanged(int)), this, SLOT(onCheckUpdatesChecked(int)));
 	connect(checkInterval, SIGNAL(valueChanged(int)), this, SLOT(updateNextCheckLabel()));
-
-	connect(cacheSizeDefault, SIGNAL(toggled(bool)), this, SLOT(onCacheSizeDefaultChecked(bool)));
 }
 
 void GeneralPreferences::refresh()
@@ -192,9 +190,6 @@ void GeneralPreferences::refresh()
 	checkForUpdates->setChecked(MainWindow::autoCheckUpdates.value());
 	checkForBetaUpdates->setChecked(MainWindow::autoCheckBetaUpdates.value());
 	checkInterval->setValue(MainWindow::updateCheckInterval.value());
-
-	cacheSize->setValue(EntriesCache::cacheSize.value());
-	cacheSizeDefault->setChecked(EntriesCache::cacheSize.isDefault());
 }
 
 void GeneralPreferences::onCheckUpdatesChecked(int checked)
@@ -217,17 +212,6 @@ void GeneralPreferences::updateNextCheckLabel()
 		nextCheck->setText(tr("Next check: %1").arg(dt.addDays(updateCheckInterval).toString()));
 	} else {
 		nextCheck->setText("");
-	}
-}
-
-void GeneralPreferences::onCacheSizeDefaultChecked(bool checked)
-{
-	if (checked) {
-		cacheSize->setValue(EntriesCache::cacheSize.defaultValue());
-		cacheSize->setEnabled(false);
-	}
-	else {
-		cacheSize->setEnabled(true);
 	}
 }
 
@@ -254,10 +238,6 @@ void GeneralPreferences::applySettings()
 	MainWindow::autoCheckUpdates.set(checkForUpdates->isChecked());
 	MainWindow::autoCheckBetaUpdates.set(checkForBetaUpdates->isChecked());
 	MainWindow::updateCheckInterval.set(checkInterval->value());
-
-	// Cache size
-	if (cacheSizeDefault->isChecked()) EntriesCache::cacheSize.reset();
-	else EntriesCache::cacheSize.set(cacheSize->value());
 }
 
 EntryDelegatePreferences::EntryDelegatePreferences(QWidget *parent) : QWidget(parent)

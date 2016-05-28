@@ -92,7 +92,7 @@ void messageHandler(QtMsgType type, const QMessageLogContext& context, const QSt
  * to update configuration options that have changed or to remove obsolete
  * ones.
  */
-#define CONFIG_VERSION 6
+#define CONFIG_VERSION 7
 PreferenceItem<int> configVersion("", "configVersion", 0);
 
 void checkConfigurationVersion()
@@ -129,6 +129,8 @@ void checkConfigurationVersion()
 			Lang::preferredDictLanguage.setValue(settings.value("preferredLanguages"));
 			Lang::preferredGUILanguage.setValue(settings.value("preferredLanguages"));
 			settings.remove("preferredLanguages");
+		case 6:
+			settings.remove("entriesCacheSize");
 		default:
 			// If we arrive here, this means we are running an pre-tracking version - do nothing in that case
 			break;
