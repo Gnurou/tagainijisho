@@ -140,12 +140,12 @@ void checkConfigurationVersion()
 	configVersion.setValue(CONFIG_VERSION);
 }
 
-static void moveQt4UserDB()
+static void copyQt4UserDB()
 {
 	QFile qt4DataFile;
 
 #if defined(Q_OS_WIN)
-	// For windows, move from the local data location to the roaming location
+	// For windows, copy from the local data location to the roaming location
 	qt4DataFile.setFileName(QDir(QStandardPaths::standardLocations(QStandardPaths::DataLocation)[0]).absoluteFilePath("user.db"));
 #elif defined(Q_OS_UNIX)
 	// Genius Qt engineers thought it would be a good idea to not provide a compatibility function, so we can just guess here...
@@ -185,7 +185,7 @@ static void checkUserProfileDirectory()
 
 	// Check if we are upgrading from Qt4
 	if (!dataFile.exists())
-		moveQt4UserDB();
+		copyQt4UserDB();
 }
 
 int main(int argc, char *argv[])
