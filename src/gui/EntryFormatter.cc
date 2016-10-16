@@ -35,8 +35,14 @@ static QFont printFont = QFont("", 14);
 QColor EntryFormatter::scoreColor(const Entry &entry)
 {
 	int sc = entry.score() * 5;
-	return QColor(sc > 0xff ? sc < 0x1ff ? 0xff - (sc - 0x100) : 0x00 : 0xff,
-	      sc < 0xff ? sc : 0xff, 0x00).lighter(165);
+	static const float r = 0.3;
+	QColor base(QPalette().color(QPalette::Base));
+	QColor score(QColor(sc > 0xff ? sc < 0x1ff ? 0xff - (sc - 0x100) : 0x00 : 0xff,
+	      sc < 0xff ? sc : 0xff, 0x00).lighter(165));
+
+	return QColor(base.red() * (1 - r) + score.red() * r,
+		      base.green() * (1 - r) + score.green() * r,
+		      base.blue() * (1 - r) + score.blue() * r);
 }
 
 
