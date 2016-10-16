@@ -72,7 +72,7 @@ EntryFormatter::EntryFormatter(const QString& _cssFile, const QString& _htmlFile
 	_css += QString(".subinfo .title {\n\tbackground-color: #%1;\n}\n").arg(
 		(QPalette().color(QPalette::Midlight).rgb() & 0xffffff), 0, 16);
 	_css += QString(".subinfo .contents {\n\tbackground-color: #%1;\n}\n").arg(
-		(QPalette().color(QPalette::Light).rgb() & 0xffffff), 0, 16);
+		(QPalette().color(QPalette::Midlight).rgb() & 0xffffff), 0, 16);
 	_css += QString(".notes {\n\tbackground-color: #%1; \n\tcolor: #%2;\n}\n").arg(
 		(QPalette().color(QPalette::ToolTipBase).rgb() & 0xffffff), 0, 16).arg(
 		(QPalette().color(QPalette::ToolTipText).rgb() & 0xffffff), 0, 16);
