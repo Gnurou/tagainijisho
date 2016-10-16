@@ -94,7 +94,7 @@ void EntryDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
 	}
 
 	// Draw the background
-	QStyleOptionViewItemV4 opt = option;
+	QStyleOptionViewItem opt = option;
 	initStyleOption(&opt, index);
 	QStyle *style = QApplication::style();
 	style->drawPrimitive(QStyle::PE_PanelItemViewItem, &opt, painter);
