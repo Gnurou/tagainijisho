@@ -233,7 +233,6 @@ void KanjiPlayer::renderCurrentState()
 	renderer.renderStrokes(&painter);
 	if (highlightedComponent()) {
 		outLinePen.setColor(palette().color(QPalette::Highlight));
-		outLinePen.setWidth(outline_size + 1);
 		painter.setPen(outLinePen);
 		renderer.renderComponentStrokes(*highlightedComponent(), &painter);
 	}
@@ -257,11 +256,20 @@ void KanjiPlayer::renderCurrentState()
 	// Render full strokes
 	for (int i = 0; i < _strokesCpt; i++) {
 		const KanjiComponent *parent(0);
-		if (highlightedComponent() && highlightedComponent()->strokes().contains(&kStrokes[i])) { parent = highlightedComponent(); }
-		else foreach (const KanjiComponent *comp, kComponents) if (comp->strokes().contains(&kStrokes[i])) { parent = comp; break; }
-		if (!parent) strokesPen.setColor(colList[0]);
-		else strokesPen.setColor(colList[kComponents.indexOf(parent) + 1]);
-		if (highlightedComponent() && parent == highlightedComponent()) strokesPen.setColor(strokesPen.color().lighter(HIGHLIGHT_RATIO));
+		if (highlightedComponent() && highlightedComponent()->strokes().contains(&kStrokes[i]))
+			parent = highlightedComponent();
+		else foreach (const KanjiComponent *comp, kComponents) {
+			if (comp->strokes().contains(&kStrokes[i])) {
+				parent = comp;
+				break;
+			}
+		}
+		if (!parent)
+			strokesPen.setColor(colList[0]);
+		else
+			strokesPen.setColor(colList[kComponents.indexOf(parent) + 1]);
+		if (highlightedComponent() && parent == highlightedComponent())
+			strokesPen.setColor(palette().color(QPalette::Highlight));
 		painter.setPen(strokesPen);
 		renderer.strokes()[i].render(&painter);
 	}
@@ -269,11 +277,20 @@ void KanjiPlayer::renderCurrentState()
 	if (_state == STATE_STROKE && _strokesCpt < renderer.strokes().size()) {
 		const KanjiRenderer::Stroke &currentStroke(renderer.strokes()[_strokesCpt]);
 		const KanjiComponent *parent(0);
-		if (highlightedComponent() && highlightedComponent()->strokes().contains(currentStroke.stroke())) { parent = highlightedComponent(); }
-		else foreach (const KanjiComponent *comp, kComponents) if (comp->strokes().contains(currentStroke.stroke())) { parent = comp; break; }
-		if (!parent) strokesPen.setColor(colList[0]);
-		else strokesPen.setColor(colList[kComponents.indexOf(parent) + 1]);
-		if (highlightedComponent() && parent == highlightedComponent()) strokesPen.setColor(strokesPen.color().lighter(HIGHLIGHT_RATIO));
+		if (highlightedComponent() && highlightedComponent()->strokes().contains(currentStroke.stroke()))
+			parent = highlightedComponent();
+		else foreach (const KanjiComponent *comp, kComponents) {
+			if (comp->strokes().contains(currentStroke.stroke())) {
+				parent = comp;
+				break;
+			}
+		}
+		if (!parent)
+			strokesPen.setColor(colList[0]);
+		else
+			strokesPen.setColor(colList[kComponents.indexOf(parent) + 1]);
+		if (highlightedComponent() && parent == highlightedComponent())
+			strokesPen.setColor(strokesPen.color().lighter(HIGHLIGHT_RATIO));
 		painter.setPen(strokesPen);
 		currentStroke.render(&painter, _lengthCpt);
 	}
