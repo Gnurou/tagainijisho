@@ -197,8 +197,10 @@ void KanjiRenderer::renderStroke(const KanjiStroke &stroke, QPainter *painter)
 
 void KanjiRenderer::renderStrokeNumber(const KanjiStroke &stroke, QPainter *painter, qreal baseSize)
 {
+	QPalette palette;
+
 	painter->save();
-	painter->setBrush(QBrush(Qt::white));
+	painter->setBrush(QBrush(palette.color(QPalette::ToolTipBase)));
 	QPen pen(painter->pen());
 	pen.setWidth(1);
 	painter->setPen(Qt::NoPen);
@@ -210,7 +212,7 @@ void KanjiRenderer::renderStrokeNumber(const KanjiStroke &stroke, QPainter *pain
 	//line.setAngle(path.angleAtPercent(0.05));
 	QRectF elipseRect(line.p2() - QPointF(baseSize, baseSize), QSizeF((baseSize * 2), (baseSize * 2)));
 	painter->drawEllipse(elipseRect);
-	pen.setColor(Qt::black);
+	pen.setColor(palette.color(QPalette::ToolTipText));
 	painter->setPen(pen);
 	painter->setBrush(Qt::NoBrush);
 	//painter->drawLine(line);

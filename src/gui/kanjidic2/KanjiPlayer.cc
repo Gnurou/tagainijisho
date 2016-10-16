@@ -207,7 +207,7 @@ void KanjiPlayer::unHighlightComponent()
 void KanjiPlayer::renderCurrentState()
 {
 	static const int strokes_size = 4;
-	static const int outline_size = strokes_size + 3;
+	static const int outline_size = strokes_size + 2;
 	static const Qt::PenCapStyle strokeCapStyle = Qt::RoundCap;
 
 	QPainter painter(&_picture);
@@ -226,13 +226,13 @@ void KanjiPlayer::renderCurrentState()
 	
 	// Render the outline
 	QPen outLinePen;
-	outLinePen.setColor(palette().color(QPalette::Dark));
+	outLinePen.setColor(palette().color(QPalette::WindowText));
 	outLinePen.setCapStyle(strokeCapStyle);
 	outLinePen.setWidth(outline_size);
 	painter.setPen(outLinePen);
 	renderer.renderStrokes(&painter);
 	if (highlightedComponent()) {
-		outLinePen.setColor(palette().color(QPalette::Dark).darker());
+		outLinePen.setColor(palette().color(QPalette::Highlight));
 		outLinePen.setWidth(outline_size + 1);
 		painter.setPen(outLinePen);
 		renderer.renderComponentStrokes(*highlightedComponent(), &painter);
