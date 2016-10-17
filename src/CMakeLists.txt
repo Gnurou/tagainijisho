@@ -1,4 +1,4 @@
-include(${QT_USE_FILE})
+#include(${QT_USE_FILE})
 
 # Make useful CMake definitions visible to the code
 configure_file(tagaini_config.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/tagaini_config.h)

@@ -21,6 +21,7 @@
 #include "core/Entry.h"
 #include "core/EntriesCache.h"
 #include "core/jmdict/JMdictEntry.h"
+#include "core/jmdict/JMdictPlugin.h"
 #include "core/kanjidic2/Kanjidic2Entry.h"
 #include "gui/TrainSettings.h"
 #include "gui/EntryFormatter.h"
@@ -81,7 +82,7 @@ void ReadingTrainer::newSession()
 	QApplication::processEvents();
 
 	// Get the train settings and build the query string
-	QString queryString(QString("select k1.id from training cross join jmdict.kanjiChar as k1 on training.type = %1 and training.id = k1.kanji cross join training as t2 on t2.type = %2 and t2.id = k1.id cross join jmdict.entries on entries.id = t2.id where k1.priority = 0").arg(KANJIDIC2ENTRY_GLOBALID).arg(JMDICTENTRY_GLOBALID));
+	QString queryString(QString("select k1.id from training cross join jmdict.kanjiChar as k1 on training.type = %1 and training.id = k1.kanji cross join training as t2 on t2.type = %2 and t2.id = k1.id cross join jmdict.entries on entries.id = t2.id cross join jmdict.senses on senses.id = k1.id and senses.priority = 0 where k1.priority = 0 and (senses.misc & %3) = 0").arg(KANJIDIC2ENTRY_GLOBALID).arg(JMDICTENTRY_GLOBALID).arg(1 << JMdictPlugin::miscBitShifts()["uk"]));
 	RelativeDate minDate(TrainSettings::minDatePref.value());
 	if (minDate.isSet()) queryString += QString(" and (t2.dateLastTrain < %1 OR t2.dateLastTrain is null)").arg(QDateTime(minDate.date()).toTime_t());
 	RelativeDate maxDate(TrainSettings::maxDatePref.value());

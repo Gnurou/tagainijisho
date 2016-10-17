@@ -27,7 +27,6 @@
 #define JMDICTENTRY_GLOBALID 1
 #define JMDICTDB_REVISION 4
 
-class QFont;
 class KanaReading;
 
 class KanjiReading
@@ -119,8 +118,6 @@ private:
 	QList<KanaReading> kanas;
 	QList<Sense> senses;
 	qint8 _jlpt;
-
-	static QFont printFont;
 
 	void addKanaReading(const KanaReading &reading);
 

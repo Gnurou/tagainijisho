@@ -59,8 +59,7 @@ out or are ambiguous. If so, please feel free to contact the author or the
 Tagaini mailing list. Contact details can be found in the [contact
 section][Contact] on either the website or this document.
 
-[^OSS]: Open Source Software: Software that has been released for free by its
-author, along with its source code. 
+[^OSS]: Open Source Software: Software that has been released for free by its author, along with its source code.
 
 The GUI
 -------
@@ -199,8 +198,7 @@ then then `大?` would be any two character entry where the first was 大 and
 `?す` would be any two character entry that ends with す. Wild-cards are
 especially useful for looking up a word you cannot read entirely.
 
-[^wildcards]: Wild cards are characters used to represent unknown characters
-	      in search terms. 
+[^wildcards]: Wild cards are characters used to represent unknown characters in search terms.
 
 The Study Filter
 ----------------
@@ -239,12 +237,9 @@ The last trained section allows you to set a time range for finding entries
 according to when you last practised it, and the last mistaken section allows
 you to set a time range for when you last made a mistake on the entry.
 
-[^practicefoot]: See [Study List][] for more information on practising with
-your study list, as well as manipulating it. 
+[^practicefoot]: See [Study List][] for more information on practising with your study list, as well as manipulating it.
 
-[^studynum]: Just setting the status to *not studied* without any other search
-criteria will cause every entry not in the study list to be listed. This is
-likely to be a very large number of entries.
+[^studynum]: Just setting the status to *not studied* without any other search criteria will cause every entry not in the study list to be listed. This is likely to be a very large number of entries.
 
 The JLPT Filter
 ---------------
@@ -266,7 +261,6 @@ N5, former level 3 to N4, former level 2 to N2 and former level 1 to N1. There
 are not as yet vocabulary lists of known vocabulary associated to the N3 level.
 
 [^jlptfoot]: http://en.wikipedia.org/wiki/Japanese_Language_Proficiency_Test  
-http://www.jlpt.jp/e/
 
 ![The JLPT Extender](images/search_jlpt.png)
 
@@ -305,10 +299,7 @@ can be entered here. Despite the **Add tags...** button not bringing up tags
 that have already been set on an entry, adding new ones does not overwrite the
 existing ones, it just appends them to the list.
 
-[^tagainisession]: A session is started each time you run the program. If you
-run Tagaini, use it for five minutes and close it, then that is one session.
-If you run it again five minutes later then you are running a different
-session.
+[^tagainisession]: A session is started each time you run the program. If you run Tagaini, use it for five minutes and close it, then that is one session. If you run it again five minutes later then you are running a different session.
 
 [^contextmenu]: Right click menu.
 
@@ -492,8 +483,7 @@ entry 取る it references its intransitive buddy;
 Clicking on the magnifying glass at the end of this line would display the
 entry for 取れる in the detailed view. This does not affect your current set.
 
-[^pos]: The part-of-speech can be clicked in order to display its complete
-definition.
+[^pos]: The part-of-speech can be clicked in order to display its complete definition.
 
 ### Kanji Entries
 

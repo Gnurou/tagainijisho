@@ -19,7 +19,7 @@
 #define __GUI_PREFERENCESWINDOW_H_
 
 #include "core/Preferences.h"
-#include "core/ResultsList.h"
+#include "gui/ResultsList.h"
 #include "gui/DetailedView.h"
 #include "gui/EntryDelegate.h"
 #include "gui/ResultsView.h"
@@ -91,7 +91,6 @@ public slots:
 
 	void onCheckUpdatesChecked(int checked);
 	void updateNextCheckLabel();
-	void onCacheSizeDefaultChecked(bool checked);
 
 public:
 	GeneralPreferences(QWidget *parent = 0);

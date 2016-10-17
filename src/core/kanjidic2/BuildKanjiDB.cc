@@ -53,7 +53,6 @@ SQLite::Query insertNanoriTextQuery;
 SQLite::Query insertSkipCodeQuery;
 SQLite::Query insertFourCornerQuery;
 SQLite::Query updateJLPTLevelsQuery;
-SQLite::Query updateStrokeCountQuery;
 
 SQLite::Query insertStrokeGroupQuery;
 SQLite::Query updatePathsString;
@@ -197,10 +196,16 @@ class KanjiVGDBParser : public KanjiVGParser
 public:
 	virtual bool onItemParsed(KanjiVGItem &kanji);
 private:
+	QSet<int> parsedKanji;
 };
 
 bool KanjiVGDBParser::onItemParsed(KanjiVGItem &kanji)
 {
+	if (parsedKanji.contains(kanji.id)) {
+		qDebug() << "Kanji" << kanji.id << "already parsed, skipping...";
+		return true;
+	}
+
 	// First ensure the kanji is into the DB by attempting to
 	// insert a dummy entry
 	AUTO_BIND(insertOrIgnoreEntryQuery, kanji.id, 0);
@@ -267,6 +272,9 @@ bool KanjiVGDBParser::onItemParsed(KanjiVGItem &kanji)
 			insertedRadicals << rad;
 		}
 	}
+
+	parsedKanji << kanji.id;
+
 	return true;
 }
 
@@ -317,8 +325,7 @@ bool KanjiDB::prepareQueries()
 	PREPQUERY(insertSkipCodeQuery, "insert into skip values(?, ?, ?, ?)");
 	PREPQUERY(insertFourCornerQuery, "insert into fourCorner values(?, ?, ?, ?, ?, ?)");
 	PREPQUERY(updateJLPTLevelsQuery, "update entries set jlpt = ? where id = ?");
-	PREPQUERY(updateStrokeCountQuery, "update entries set strokeCount = ? where id = ?");
-	
+
 	PREPQUERY(insertStrokeGroupQuery, "insert into strokeGroups values(?, ?, ?, ?, ?)");
 	PREPQUERY(updatePathsString, "update entries set strokeCount = ?, paths = ? where id = ?");
 	
@@ -349,7 +356,6 @@ bool KanjiDB::clearQueries()
 	insertSkipCodeQuery.clear();
 	insertFourCornerQuery.clear();
 	updateJLPTLevelsQuery.clear();
-	updateStrokeCountQuery.clear();
 	
 	insertStrokeGroupQuery.clear();
 	updatePathsString.clear();

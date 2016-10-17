@@ -1,5 +1,4 @@
 set(QT_USE_QTNETWORK TRUE)
-include(${QT_USE_FILE})
 
 set(tagainijisho_gui_SRCS
 TJSpinBox.cc
@@ -30,6 +29,8 @@ SearchBuilder.cc
 SmoothScroller.cc
 ScrollBarSmoothScroller.cc
 EntryDelegate.cc
+EntryListModel.cc
+ResultsList.cc
 BatchHandler.cc
 EntriesViewHelper.cc
 ResultsView.cc
@@ -45,46 +46,6 @@ YesNoTrainer.cc
 ReadingTrainer.cc
 PreferencesWindow.cc
 MainWindow.cc
-)
-
-set(tagainijisho_gui_MOCS
-TJSpinBox.h
-TJLineEdit.h
-EntryFormatter.h
-DetailedView.h
-EditEntryNotesDialog.h
-EntryMenu.h
-EntriesPrinter.h
-KanjiValidator.h
-MainWindow.h
-MultiStackedWidget.h
-PreferencesWindow.h
-ReadingTrainer.h
-RelativeDateEdit.h
-EntryDelegate.h
-EntriesViewHelper.h
-ResultsView.h
-ResultsViewWidget.h
-SearchWidget.h
-EntryListView.h
-EntryListWidget.h
-SearchFilterWidget.h
-EntryTypeFilterWidget.h
-TextFilterWidget.h
-StudyFilterWidget.h
-JLPTFilterWidget.h
-TagsFilterWidget.h
-NotesFilterWidget.h
-SearchBuilder.h
-SavedSearchesOrganizer.h
-SingleEntryView.h
-SmoothScroller.h
-ScrollBarSmoothScroller.h
-TagsDialogs.h
-ToolBarDetailedView.h
-TrainSettings.h
-UpdateChecker.h
-YesNoTrainer.h
 )
 
 set(tagainijisho_gui_UIS
@@ -109,13 +70,11 @@ MainWindow.ui
 add_subdirectory(jmdict)
 add_subdirectory(kanjidic2)
 
-qt4_wrap_cpp(tagainijisho_gui_MOC_SRCS ${tagainijisho_gui_MOCS})
-qt4_wrap_ui(tagainijisho_gui_UI_SRCS ${tagainijisho_gui_UIS})
-qt4_add_resources(tagainijisho_gui_RC ${CMAKE_SOURCE_DIR}/tagainijisho.qrc)
+qt5_wrap_ui(tagainijisho_gui_UI_SRCS ${tagainijisho_gui_UIS})
+qt5_add_resources(tagainijisho_gui_RC ${CMAKE_SOURCE_DIR}/tagainijisho.qrc)
 
-include_directories(${QT_INCLUDE_DIR})
-
-add_library(tagaini_gui STATIC ${tagainijisho_gui_UI_SRCS} ${tagainijisho_gui_MOC_SRCS} ${tagainijisho_gui_SRCS})
+add_library(tagaini_gui STATIC ${tagainijisho_gui_UI_SRCS} ${tagainijisho_gui_SRCS})
+target_link_libraries(tagaini_gui tagaini_core tagaini_sqlite Qt5::Core Qt5::Widgets Qt5::PrintSupport Qt5::Network ${extra_link_flags})
 
 # Build the main program
 SET(ICON "")
@@ -127,8 +86,12 @@ endif(APPLE)
 set(tagainijisho_SRCS main.cc ${tagainijisho_gui_RC} ${ICON})
 
 if (WIN32)
-	add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/tagainijisho_rc.obj COMMAND ${CMAKE_RC_COMPILER} -I${CMAKE_SOURCE_DIR}/src/gui -i${CMAKE_SOURCE_DIR}/src/gui/tagainijisho.rc -o ${CMAKE_CURRENT_BINARY_DIR}/tagainijisho_rc.obj)
-	set(tagainijisho_SRCS ${tagainijisho_SRCS} ${CMAKE_CURRENT_BINARY_DIR}/tagainijisho_rc.obj)
+	if (MSVC)
+		add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/tagainijisho_rc.obj COMMAND ${CMAKE_RC_COMPILER} -I${CMAKE_SOURCE_DIR}/src/gui -i${CMAKE_SOURCE_DIR}/src/gui/tagainijisho.rc  ${CMAKE_CURRENT_BINARY_DIR}/tagainijisho_rc.res)
+	else()
+		add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/tagainijisho_rc.obj COMMAND ${CMAKE_RC_COMPILER} -I${CMAKE_SOURCE_DIR}/src/gui -i${CMAKE_SOURCE_DIR}/src/gui/tagainijisho.rc -o ${CMAKE_CURRENT_BINARY_DIR}/tagainijisho_rc.obj)
+		set(tagainijisho_SRCS ${tagainijisho_SRCS} ${CMAKE_CURRENT_BINARY_DIR}/tagainijisho_rc.obj)
+	endif()
 endif()
 
 if (APPLE)
@@ -136,14 +99,16 @@ if (APPLE)
 endif()
 
 add_executable(${tagaini_binary} MACOSX_BUNDLE WIN32 ${tagainijisho_SRCS})
-target_link_libraries(${tagaini_binary} tagaini_gui_jmdict tagaini_gui_kanjidic2 tagaini_gui tagaini_core_jmdict tagaini_core_kanjidic2 tagaini_core tagaini_sqlite ${QT_LIBRARIES} ${extra_link_flags})
-install(TARGETS ${tagaini_binary} BUNDLE DESTINATION . COMPONENT Runtime RUNTIME DESTINATION bin COMPONENT Runtime)
+target_link_libraries(${tagaini_binary} tagaini_gui_jmdict tagaini_gui_kanjidic2 tagaini_gui tagaini_core_jmdict tagaini_core_kanjidic2 tagaini_core tagaini_sqlite ${extra_link_flags})
+
+# TODO not clean!
+if(NOT WIN32)
+install(TARGETS ${tagaini_binary} BUNDLE DESTINATION . RUNTIME DESTINATION bin)
+else(NOT WIN32)
+install(TARGETS ${tagaini_binary} BUNDLE DESTINATION . RUNTIME DESTINATION ".")
+endif(NOT WIN32)
 
 # If needed, add standard dependency to have identical build on all platforms
 if (NOT ${tagaini_binary} MATCHES "tagainijisho")
 	add_custom_target(tagainijisho DEPENDS ${tagaini_binary})
-endif()
-
-if (BUILD_TESTS)
-	add_subdirectory(tests)
 endif()

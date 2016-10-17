@@ -21,7 +21,6 @@
 #include "sqlite/Connection.h"
 
 #include "core/Paths.h"
-#include "core/Preferences.h"
 
 #include <QString>
 #include <QVector>
@@ -44,7 +43,7 @@ private:
 	static Database *_instance;
 
 	SQLite::Connection _connection;
-	Database(const QString &userDBFile = QString());
+	Database();
 	~Database();
 
 	bool createUserDB();
@@ -61,7 +60,7 @@ public:
 	static SQLite::Connection *connection() { return &_instance->_connection; }
 
 	static const QString &userDBFile() { return _userDBFile; }
-	static const QString defaultDBFile() { return QDir(userProfile()).absoluteFilePath("user.db"); }
+	static QString defaultDBFile() { return QDir(userProfile()).absoluteFilePath("user.db"); }
 
 	static bool attachDictionaryDB(const QString &file, const QString &alias, int expectedVersion);
 	static bool detachDictionaryDB(const QString &alias);

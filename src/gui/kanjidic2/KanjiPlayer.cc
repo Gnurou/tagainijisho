@@ -207,7 +207,7 @@ void KanjiPlayer::unHighlightComponent()
 void KanjiPlayer::renderCurrentState()
 {
 	static const int strokes_size = 4;
-	static const int outline_size = strokes_size + 3;
+	static const int outline_size = strokes_size + 2;
 	static const Qt::PenCapStyle strokeCapStyle = Qt::RoundCap;
 
 	QPainter painter(&_picture);
@@ -226,14 +226,13 @@ void KanjiPlayer::renderCurrentState()
 	
 	// Render the outline
 	QPen outLinePen;
-	outLinePen.setColor(palette().color(QPalette::Dark));
+	outLinePen.setColor(palette().color(QPalette::WindowText));
 	outLinePen.setCapStyle(strokeCapStyle);
 	outLinePen.setWidth(outline_size);
 	painter.setPen(outLinePen);
 	renderer.renderStrokes(&painter);
 	if (highlightedComponent()) {
-		outLinePen.setColor(palette().color(QPalette::Dark).darker());
-		outLinePen.setWidth(outline_size + 1);
+		outLinePen.setColor(palette().color(QPalette::Highlight));
 		painter.setPen(outLinePen);
 		renderer.renderComponentStrokes(*highlightedComponent(), &painter);
 	}
@@ -257,11 +256,20 @@ void KanjiPlayer::renderCurrentState()
 	// Render full strokes
 	for (int i = 0; i < _strokesCpt; i++) {
 		const KanjiComponent *parent(0);
-		if (highlightedComponent() && highlightedComponent()->strokes().contains(&kStrokes[i])) { parent = highlightedComponent(); }
-		else foreach (const KanjiComponent *comp, kComponents) if (comp->strokes().contains(&kStrokes[i])) { parent = comp; break; }
-		if (!parent) strokesPen.setColor(colList[0]);
-		else strokesPen.setColor(colList[kComponents.indexOf(parent) + 1]);
-		if (highlightedComponent() && parent == highlightedComponent()) strokesPen.setColor(strokesPen.color().lighter(HIGHLIGHT_RATIO));
+		if (highlightedComponent() && highlightedComponent()->strokes().contains(&kStrokes[i]))
+			parent = highlightedComponent();
+		else foreach (const KanjiComponent *comp, kComponents) {
+			if (comp->strokes().contains(&kStrokes[i])) {
+				parent = comp;
+				break;
+			}
+		}
+		if (!parent)
+			strokesPen.setColor(colList[0]);
+		else
+			strokesPen.setColor(colList[kComponents.indexOf(parent) + 1]);
+		if (highlightedComponent() && parent == highlightedComponent())
+			strokesPen.setColor(palette().color(QPalette::Highlight));
 		painter.setPen(strokesPen);
 		renderer.strokes()[i].render(&painter);
 	}
@@ -269,11 +277,20 @@ void KanjiPlayer::renderCurrentState()
 	if (_state == STATE_STROKE && _strokesCpt < renderer.strokes().size()) {
 		const KanjiRenderer::Stroke &currentStroke(renderer.strokes()[_strokesCpt]);
 		const KanjiComponent *parent(0);
-		if (highlightedComponent() && highlightedComponent()->strokes().contains(currentStroke.stroke())) { parent = highlightedComponent(); }
-		else foreach (const KanjiComponent *comp, kComponents) if (comp->strokes().contains(currentStroke.stroke())) { parent = comp; break; }
-		if (!parent) strokesPen.setColor(colList[0]);
-		else strokesPen.setColor(colList[kComponents.indexOf(parent) + 1]);
-		if (highlightedComponent() && parent == highlightedComponent()) strokesPen.setColor(strokesPen.color().lighter(HIGHLIGHT_RATIO));
+		if (highlightedComponent() && highlightedComponent()->strokes().contains(currentStroke.stroke()))
+			parent = highlightedComponent();
+		else foreach (const KanjiComponent *comp, kComponents) {
+			if (comp->strokes().contains(currentStroke.stroke())) {
+				parent = comp;
+				break;
+			}
+		}
+		if (!parent)
+			strokesPen.setColor(colList[0]);
+		else
+			strokesPen.setColor(colList[kComponents.indexOf(parent) + 1]);
+		if (highlightedComponent() && parent == highlightedComponent())
+			strokesPen.setColor(strokesPen.color().lighter(HIGHLIGHT_RATIO));
 		painter.setPen(strokesPen);
 		currentStroke.render(&painter, _lengthCpt);
 	}
@@ -301,7 +318,7 @@ bool KanjiPlayer::eventFilter(QObject *obj, QEvent *event)
 	if (event->type() == QEvent::MouseMove) {
 		QMouseEvent *mEvent = static_cast<QMouseEvent *>(event);
 		// First translate the coordinates to the strokes coordinates system
-		QPointF pos(mEvent->posF());
+		QPointF pos(mEvent->localPos());
 		QPointF fPos(pos.x() * (KANJI_AREA_WIDTH / pictureSize()), pos.y() * (KANJI_AREA_HEIGHT / pictureSize()));
 		const QList<KanjiRenderer::Stroke> &strokes(renderer.strokes());
 		QPainterPathStroker stroker;

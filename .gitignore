@@ -16,7 +16,8 @@ tagainijisho.app
 i18n/*.qm
 tagainijisho.pro.user
 install
-build*
+build
+build-*
 jmdict.db
 kanjidic2.db
 tagainijisho

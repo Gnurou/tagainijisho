@@ -7,11 +7,8 @@
     <x>0</x>
     <y>0</y>
     <width>535</width>
-    <height>428</height>
+    <height>566</height>
    </rect>
-  </property>
-  <property name="windowTitle">
-   <string>Form</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
@@ -32,7 +29,7 @@
         <item row="1" column="0">
          <widget class="QLabel" name="label_2">
           <property name="text">
-           <string>Preferred GUI language</string>
+           <string>Preferred &amp;GUI language</string>
           </property>
           <property name="buddy">
            <cstring>guiLanguage</cstring>
@@ -109,7 +106,7 @@
       <item>
        <widget class="QLabel" name="label">
         <property name="text">
-         <string>Weeks start on</string>
+         <string>Wee&amp;ks start on</string>
         </property>
         <property name="buddy">
          <cstring>firstDayOfWeek</cstring>
@@ -175,52 +172,6 @@
      </layout>
     </widget>
    </item>
-   <item>
-    <widget class="QGroupBox" name="advancedGroupBox">
-     <property name="title">
-      <string>Entries cache (advanced)</string>
-     </property>
-     <layout class="QVBoxLayout" name="verticalLayout_4">
-      <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_4">
-        <item>
-         <widget class="QCheckBox" name="cacheSizeDefault">
-          <property name="text">
-           <string>Default</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QSpinBox" name="cacheSize">
-          <property name="maximum">
-           <number>1000000</number>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-      <item>
-       <widget class="QLabel" name="label_4">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="text">
-         <string>Defines how many recent entries are kept in memory. High values may improve performance when manipulating a large number of entries.</string>
-        </property>
-        <property name="textFormat">
-         <enum>Qt::PlainText</enum>
-        </property>
-        <property name="wordWrap">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </widget>
-   </item>
   </layout>
  </widget>
  <tabstops>
@@ -230,8 +181,6 @@
   <tabstop>checkForUpdates</tabstop>
   <tabstop>checkInterval</tabstop>
   <tabstop>checkForBetaUpdates</tabstop>
-  <tabstop>cacheSizeDefault</tabstop>
-  <tabstop>cacheSize</tabstop>
  </tabstops>
  <resources/>
  <connections>

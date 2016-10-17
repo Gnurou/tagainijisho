@@ -51,6 +51,8 @@ public:
 	const QString &CSS() const { return _css; }
 	const QString &htmlTemplate() const { return _html; }
 	
+	/// Returns the color associated to the score of this entry
+	static QColor scoreColor(const Entry &entry);
 	static QString colorTriplet(const QColor &color);
 	QString autoFormat(const QString &str) const;
 

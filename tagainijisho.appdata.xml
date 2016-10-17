@@ -21,5 +21,11 @@
   </screenshot>
  </screenshots>
  <url type="homepage">http://www.tagaini.net</url>
- <updatecontact>gnurou@gmail.com</updatecontact>
+ <update_contact>gnurou@gmail.com</update_contact>
+ <keywords>
+   <keyword>Japanese</keyword>
+   <keyword>Kanji</keyword>
+   <keyword>Dictionary</keyword>
+   <keyword>Language</keyword>
+ </keywords>
 </component>

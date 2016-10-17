@@ -14,22 +14,14 @@ td {
 }
 
 .subinfo {
-	background-color: #ddeedd;
-	color: black;
 	width: 100%;
 }
 
 .subinfo .title {
-	background-color: #ccddcc;
 	font-weight: bold;
-}
-
-.subinfo .contents {
-	background-color: #ddeedd;
 }
 
 .notes {
 	width: 100%;
 	padding: 5px;
-	background-color: #ffff88;
 }

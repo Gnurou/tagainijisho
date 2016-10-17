@@ -277,7 +277,7 @@ void MainWindow::about()
 #error No version defined - the -DVERSION=<version> flag must be set!
 #endif
 	QString message = QString(
-		"<p>Copyright (C) 2008-2015 Alexandre Courbot.</p>"
+		"<p>Copyright (C) 2008-2016 Alexandre Courbot.</p>"
 		"<p align=\"center\"><a href=\"http://www.tagaini.net\">http://www.tagaini.net</a></p><p>This program comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to redistribute it under the conditions of the <a href=\"http://www.gnu.org/licenses/gpl-3.0.html\">GNU General Public License, version 3.0</a>, or (at your option) any later version.</p><hr/>"
 		);
 	QString credits = "<p>Tagaini Jisho uses data from various sources:</p>";
@@ -318,11 +318,6 @@ void MainWindow::about()
 	aboutDialog.exec();
 }
 
-void MainWindow::openUrl(const QUrl &url)
-{
-	QDesktopServices::openUrl(url);
-}
-
 void MainWindow::manual()
 {
 	// First check if we have an installation prefix
@@ -331,7 +326,7 @@ void MainWindow::manual()
 #else
 	QString f = QDir(QCoreApplication::applicationDirPath()).filePath("doc/manual.html");
 #endif
-	QDesktopServices::openUrl(f);
+	QDesktopServices::openUrl(QUrl::fromLocalFile(f));
 }
 
 void MainWindow::bugReport()

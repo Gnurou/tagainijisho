@@ -67,10 +67,10 @@ bool Connection::connect(const QString &dbFile, OpenFlags flags)
 	sqlite3_busy_timeout(_handler, 20000);
 	// Register our tokenizers (extensions can be handled by SQLite's auto mechanism, not tokenizers
 	// as they need the connection to be opened
-	   sqlite3ext_register_tokenizers(_handler);
+	sqlite3ext_register_tokenizers(_handler);
 	// Configure the connection
 	exec("pragma encoding=\"UTF-16le\"");
-	if (!flags & JournalInFile) exec("pragma journal_mode=MEMORY");
+	if (!(flags & JournalInFile)) exec("pragma journal_mode=MEMORY");
 	// Set read-uncommited mode so that read queries can not block
 	exec("pragma read_uncommitted=1");
 

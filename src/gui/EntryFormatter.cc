@@ -17,11 +17,13 @@
 
 #include "core/Paths.h"
 #include "core/TextTools.h"
-#include "core/EntryListModel.h"
+#include "gui/EntryListModel.h"
 #include "gui/EntryFormatter.h"
 #include "gui/DetailedView.h"
 
 #include <QFile>
+#include <QUrl>
+#include <QUrlQuery>
 
 PreferenceItem<bool> EntryFormatter::shortDescShowJLPT("mainWindow/detailedView", "shortEntryShowJLPT", false);
 
@@ -29,6 +31,20 @@ QMap<int, EntryFormatter *> EntryFormatter::_formatters;
 
 static const int entryTextProperties = Qt::AlignJustify | Qt::TextWordWrap;
 static QFont printFont = QFont("", 14);
+
+QColor EntryFormatter::scoreColor(const Entry &entry)
+{
+	int sc = entry.score() * 5;
+	static const float r = 0.3;
+	QColor base(QPalette().color(QPalette::Base));
+	QColor score(QColor(sc > 0xff ? sc < 0x1ff ? 0xff - (sc - 0x100) : 0x00 : 0xff,
+	      sc < 0xff ? sc : 0xff, 0x00).lighter(165));
+
+	return QColor(base.red() * (1 - r) + score.red() * r,
+		      base.green() * (1 - r) + score.green() * r,
+		      base.blue() * (1 - r) + score.blue() * r);
+}
+
 
 EntryFormatter::EntryFormatter(const QString& _cssFile, const QString& _htmlFile, QObject* parent) : QObject(parent)
 {
@@ -50,6 +66,17 @@ EntryFormatter::EntryFormatter(const QString& _cssFile, const QString& _htmlFile
 		f.open(QIODevice::ReadOnly);
 		_css = QString::fromUtf8(f.readAll());
 	}
+	// Append colors
+	_css += QString(".subinfo {\n\tbackground-color: #%1;\n}\n").arg(
+		(QPalette().color(QPalette::Dark).rgb() & 0xffffff), 0, 16);
+	_css += QString(".subinfo .title {\n\tbackground-color: #%1;\n}\n").arg(
+		(QPalette().color(QPalette::Midlight).rgb() & 0xffffff), 0, 16);
+	_css += QString(".subinfo .contents {\n\tbackground-color: #%1;\n}\n").arg(
+		(QPalette().color(QPalette::Midlight).rgb() & 0xffffff), 0, 16);
+	_css += QString(".notes {\n\tbackground-color: #%1; \n\tcolor: #%2;\n}\n").arg(
+		(QPalette().color(QPalette::ToolTipBase).rgb() & 0xffffff), 0, 16).arg(
+		(QPalette().color(QPalette::ToolTipText).rgb() & 0xffffff), 0, 16);
+
 	// Append custom CSS if specified
 	if (!_cssFile.isEmpty()) {
 		cssFile = lookForFile(_cssFile);
@@ -153,7 +180,7 @@ QString EntryFormatter::entryTitle(const ConstEntryPointer& entry) const
 	QString title(entry->mainRepr());
 	title = autoFormat(title);
 	if (entry->trained()) {
-		title = QString("<span style=\"background-color:%1\">%2</span>").arg(colorTriplet(entry->scoreColor())).arg(title);
+		title = QString("<span style=\"background-color:%1\">%2</span>").arg(colorTriplet(scoreColor(*entry))).arg(title);
 	}
 	return title;
 }
@@ -163,7 +190,7 @@ QString EntryFormatter::shortDesc(const ConstEntryPointer &entry) const
 	QString ret(autoFormat(entry->shortVersion(Entry::TinyVersion)));
 	ret += QString(" <a href=\"entry://?type=%1&id=%2\"><img src=\"moreicon\"/></a>").arg(entry->type()).arg(entry->id());
 	if (entry->trained()) {
-		ret = QString("<span style=\"background-color:%1\">%2</span>").arg(colorTriplet(entry->scoreColor())).arg(ret);
+		ret = QString("<span style=\"background-color:%1\">%2</span>").arg(colorTriplet(scoreColor(*entry))).arg(ret);
 	}
 	return ret;
 }
@@ -205,7 +232,9 @@ QString EntryFormatter::formatLists(const ConstEntryPointer &entry) const
 			QString label(listModel.data(idx.parent(), Qt::DisplayRole).toString());
 			if (label.isEmpty()) label = tr("Root list");
 			QUrl url("list://");
-			url.addQueryItem("rowid", QString("%1").arg(rowid));
+			QUrlQuery query;
+			query.addQueryItem("rowid", QString("%1").arg(rowid));
+			url.setQuery(query);
 			ret << QString("<a href=\"%1\">%2</a>").arg(QString(url.toEncoded())).arg(autoFormat(label));
 		}
 		return ret.join(" ");
@@ -222,7 +251,9 @@ QString EntryFormatter::formatTags(const ConstEntryPointer &entry) const
 			if (!first) ret += "   ";
 			else first = false;
 			QUrl url("tag://");
-			url.addQueryItem("tag", tag.name());
+			QUrlQuery query;
+			query.addQueryItem("tag", tag.name());
+			url.setQuery(query);
 			ret += QString("<a href=\"%1\">%2</a>").arg(QString(url.toEncoded())).arg(autoFormat(tag.name()));
 		}
 		return ret;

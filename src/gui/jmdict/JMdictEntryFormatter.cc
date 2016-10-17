@@ -206,7 +206,7 @@ QString JMdictEntryFormatter::shortDesc(const ConstEntryPointer &_entry) const
 	}
 	ret += QString(" <a href=\"entry://?type=%1&id=%2\"><img src=\"moreicon\"/></a>").arg(entry->type()).arg(entry->id());
 	if (entry->trained()) {
-		ret = QString("<span style=\"background-color:%1\">%2</span>").arg(colorTriplet(entry->scoreColor())).arg(ret);
+		ret = QString("<span style=\"background-color:%1\">%2</span>").arg(colorTriplet(EntryFormatter::scoreColor(*entry))).arg(ret);
 	}
 	return ret;
 }

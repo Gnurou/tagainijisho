@@ -361,7 +361,7 @@ bool Database::connectToTemporaryDatabase(QStringList &errors)
 
 bool Database::init(const QString &userDBFile, bool temporary, QStringList &errors)
 {
-	_instance = new Database(userDBFile);
+	_instance = new Database();
 
 	// Temporary database explicitly required or cannot connect to user DB:
 	// Switch to the temporary database
@@ -397,7 +397,7 @@ void Database::stop()
 	_instance = 0;
 }
 
-Database::Database(const QString &userDBFile) : _tFile(0)
+Database::Database() : _tFile(0)
 {
 	sqlite3ext_init();
 }

@@ -20,7 +20,7 @@
 
 #include "gui/ui_MainWindow.h"
 #include "core/Preferences.h"
-#include "core/EntryListModel.h"
+#include "gui/EntryListModel.h"
 #include "gui/ToolBarDetailedView.h"
 
 #include <QSplitter>
@@ -117,8 +117,6 @@ protected slots:
 	void onSavedSearchSelected();
 
 	void trainSettings();
-
-	void openUrl(const QUrl &url);
 
 public:
 	MainWindow(QWidget *parent = 0);

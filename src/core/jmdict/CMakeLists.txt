@@ -29,25 +29,19 @@ JMdictEntryLoader.cc
 JMdictPlugin.cc
 )
 
-set(tagainijisho_core_jmdict_MOCS
-JMdictEntry.h
-JMdictEntrySearcher.h
-)
-
-qt4_wrap_cpp(tagainijisho_core_jmdict_MOC_SRCS ${tagainijisho_core_jmdict_MOCS})
-add_library(tagaini_core_jmdict STATIC ${tagainijisho_core_jmdict_MOC_SRCS} ${tagainijisho_core_jmdict_SRCS})
+add_library(tagaini_core_jmdict STATIC ${tagainijisho_core_jmdict_SRCS})
+target_link_libraries(tagaini_core_jmdict tagaini_sqlite Qt5::Core)
 
 # Database builder
-set(QT_USE_QTXML TRUE)
 set(build_jmdict_db_SRCS
 JMdictParser.cc
 BuildJMdictDB.cc
 ../XmlParserHelper.cc
 )
 
-include(${QT_USE_FILE})
+if(NOT CMAKE_CROSSCOMPILING)
 add_executable(build_jmdict_db EXCLUDE_FROM_ALL ${build_jmdict_db_SRCS})
-target_link_libraries(build_jmdict_db tagaini_sqlite ${QT_LIBRARIES})
+target_link_libraries(build_jmdict_db tagaini_sqlite Qt5::Core)
 
 # Database target. Always build the english DB, other languages are optional.
 set(ALL_LANGS "en")
@@ -56,6 +50,8 @@ foreach(LANG ${DICT_LANG})
 endforeach()
 add_custom_command(OUTPUT ${CMAKE_BINARY_DIR}/jmdict.db
 	COMMAND build_jmdict_db -l${ALL_LANGS} ${CMAKE_SOURCE_DIR} ${CMAKE_BINARY_DIR}
+	WORKING_DIRECTORY ${CMAKE_PREFIX_PATH}/bin
 	DEPENDS build_jmdict_db ${CMAKE_SOURCE_DIR}/3rdparty/JMdict)
 add_custom_target(jmdict-db DEPENDS ${CMAKE_BINARY_DIR}/jmdict.db)
 add_dependencies(databases jmdict-db)
+endif(NOT CMAKE_CROSSCOMPILING)

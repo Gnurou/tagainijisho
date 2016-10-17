@@ -88,13 +88,11 @@ void EntryDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
 		else textColor = option.palette.color(QPalette::Active, QPalette::HighlightedText);
 	}
 	else {
-		// If the entry is trained, the background color is fixed because we know the background color
-		if (entry->trained()) textColor = Qt::black;
-		else textColor = option.palette.color(QPalette::Text);
+		textColor = option.palette.color(QPalette::Text);
 	}
 
 	// Draw the background
-	QStyleOptionViewItemV4 opt = option;
+	QStyleOptionViewItem opt = option;
 	initStyleOption(&opt, index);
 	QStyle *style = QApplication::style();
 	style->drawPrimitive(QStyle::PE_PanelItemViewItem, &opt, painter);

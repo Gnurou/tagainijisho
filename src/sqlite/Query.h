@@ -43,7 +43,7 @@ private:
 	quint8 _bindIndex;
 
 	/// Copy is forbidden
-	Query &operator =(const Query &query);
+	//Query &operator =(const Query &query);
 
 	bool checkBind(int &col);
 	bool checkBindRes();

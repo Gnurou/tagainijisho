@@ -18,7 +18,7 @@
 #ifndef __GUI_UPDATECHECKER_H_
 #define __GUI_UPDATECHECKER_H_
 
-#include <QHttp>
+#include <QNetworkAccessManager>
 #include <QObject>
 #include <QBuffer>
 
@@ -26,9 +26,8 @@ class UpdateChecker : public QObject
 {
 	Q_OBJECT
 private:
-	QBuffer *_buffer;
 	QString _versionURL;
-	QHttp *_http;
+	QNetworkAccessManager *_http;
 
 public:
 	UpdateChecker(const QString &versionURL, QObject *parent = 0);
@@ -36,7 +35,7 @@ public:
 	virtual ~UpdateChecker();
 
 private slots:
-	void requestFinished(int id, bool error);
+	void finished(QNetworkReply *);
 
 signals:
 	void updateAvailable(const QString &version);

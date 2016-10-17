@@ -28,7 +28,7 @@
 MultiStackedWidgetButton::MultiStackedWidgetButton(QAction *action, QAction *resetAction, QWidget *parent) : ElidedPushButton<QToolButton>(parent), _action(action), _resetAction(resetAction)
 {
 	setAttribute(Qt::WA_MacMiniSize);
-#ifndef Q_WS_MAC
+#ifndef Q_OS_OSX
 	QFont fnt(font());
 	fnt.setPointSize(fnt.pointSize() - 1);
 	setFont(fnt);

@@ -33,137 +33,178 @@ set(CPACK_SOURCE_TGZ "OFF")
 set(CPACK_SOURCE_TZ "OFF")
 set(CPACK_SOURCE_ZIP "OFF")
 
-if(UNIX)
-	set(CPACK_SOURCE_TGZ ON)
-	if(APPLE)
-		set(CPACK_BINARY_DRAGNDROP ON)
-		set(CPACK_DMG_VOLUME_NAME "Tagaini Jisho")
-		set(CPACK_DMG_DS_STORE "${CMAKE_CURRENT_SOURCE_DIR}/MacOS/DS_Store")
-		set(CPACK_DMG_BACKGROUND_IMAGE "${CMAKE_CURRENT_SOURCE_DIR}/MacOS/background.png")
-		set_target_properties(${tagaini_binary} PROPERTIES
-			MACOSX_BUNDLE_BUNDLE_NAME "Tagaini Jisho"
-			MACOSX_BUNDLE_BUNDLE_VERSION ${VERSION}
-			MACOSX_BUNDLE_SHORT_VERSION_STRING ${VERSION}
-			MACOSX_BUNDLE_LONG_VERSION_STRING ${VERSION}
-			MACOSX_BUNDLE_GUI_IDENTIFIER "net.tagaini.TagainiJisho"
-			MACOSX_BUNDLE_ICON_FILE appicon.icns
-			MACOSX_BUNDLE_COPYRIGHT "© 2008 - 2013, Alexandre Courbot."
-		)
-		
-		set(ROOT_DIR "${tagaini_binary}.app/Contents")
-		set(EXE_DIR "${ROOT_DIR}/MacOS")
-		set(DB_DIR ${EXE_DIR})
-		set(I18N_DIR "${EXE_DIR}/i18n")
-		set(DOC_DIR "${EXE_DIR}/doc")
-		set(RESOURCES_DIR "${ROOT_DIR}/Resources")
-		set(APPS "\${CMAKE_INSTALL_PREFIX}/${tagaini_binary}.app")
+# OSX?
+if(UNIX AND APPLE)
+	set(CPACK_BINARY_DRAGNDROP ON)
+	set(CPACK_DMG_VOLUME_NAME "Tagaini Jisho")
+	set(CPACK_DMG_DS_STORE "${CMAKE_CURRENT_SOURCE_DIR}/MacOS/DS_Store")
+	set(CPACK_DMG_BACKGROUND_IMAGE "${CMAKE_CURRENT_SOURCE_DIR}/MacOS/background.png")
+	set_target_properties(${tagaini_binary} PROPERTIES
+		MACOSX_BUNDLE_BUNDLE_NAME "Tagaini Jisho"
+		MACOSX_BUNDLE_BUNDLE_VERSION ${VERSION}
+		MACOSX_BUNDLE_SHORT_VERSION_STRING ${VERSION}
+		MACOSX_BUNDLE_LONG_VERSION_STRING ${VERSION}
+		MACOSX_BUNDLE_GUI_IDENTIFIER "net.tagaini.TagainiJisho"
+		MACOSX_BUNDLE_ICON_FILE appicon.icns
+		MACOSX_BUNDLE_COPYRIGHT "© 2008 - 2016, Alexandre Courbot."
+	)
 
-		# Extra Qt translations
-		foreach(LANG ${UI_LANG})
-			set(QMFILE "/Developer/Applications/Qt/translations/qt_${LANG}.qm")
-			if(EXISTS ${QMFILE})
-				install(FILES ${QMFILE} DESTINATION "${ROOT_DIR}/Translations" COMPONENT Runtime)
-			endif(EXISTS ${QMFILE})
-		endforeach(LANG ${UI_LANG})
-	
-		# Qt config
-		install(CODE "file(WRITE \"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/${RESOURCES_DIR}/qt.conf\" \"[Paths]\nPlugins = PlugIns\nTranslations = Translations\n\")" COMPONENT Runtime)
-		
-		# Qt plugins
-		install(CODE "
-			file(GLOB_RECURSE QTPLUGINS \"\${CMAKE_INSTALL_PREFIX}/${EXE_DIR}/plugins/*${CMAKE_SHARED_LIBRARY_SUFFIX}\")
-		include(BundleUtilities)
-		fixup_bundle(\"${APPS}\" \"${QTPLUGINS}\" \"${QT_LIBRARY_DIRS}\")" COMPONENT Runtime)
-	else(APPLE)
-		set(CPACK_PACKAGE_NAME "tagainijisho")	
-		set(ROOT_DIR share/tagainijisho)
-		set(DB_DIR ${ROOT_DIR})
-		set(I18N_DIR ${ROOT_DIR}/i18n)
-		set(DOC_DIR ${ROOT_DIR}/doc)
-		set(RESOURCES_DIR ${ROOT_DIR})
+	set(ROOT_DIR "${tagaini_binary}.app/Contents")
+	set(EXE_DIR "${ROOT_DIR}/MacOS")
+	set(DB_DIR ${EXE_DIR})
+	set(I18N_DIR "${EXE_DIR}/i18n")
+	set(DOC_DIR "${EXE_DIR}/doc")
+	set(RESOURCES_DIR "${ROOT_DIR}/Resources")
+	set(APPS "\${CMAKE_INSTALL_PREFIX}/${tagaini_binary}.app")
+	set(SYS_QT_I18N_DIR "/Developer/Applications/Qt/translations")
 
-		# Desktop and icon files
-		install(FILES ${CMAKE_SOURCE_DIR}/tagainijisho.desktop DESTINATION share/applications PERMISSIONS OWNER_READ GROUP_READ WORLD_READ COMPONENT Runtime)
-		install(FILES ${CMAKE_SOURCE_DIR}/tagainijisho.appdata.xml DESTINATION share/applications PERMISSIONS OWNER_READ GROUP_READ WORLD_READ COMPONENT Runtime)
-		install(FILES ${CMAKE_SOURCE_DIR}/images/tagainijisho-16x16.png DESTINATION share/icons/hicolor/16x16/apps RENAME tagainijisho.png PERMISSIONS OWNER_READ GROUP_READ WORLD_READ COMPONENT Icons)
-		install(FILES ${CMAKE_SOURCE_DIR}/images/tagainijisho-22x22.png DESTINATION share/icons/hicolor/22x22/apps RENAME tagainijisho.png PERMISSIONS OWNER_READ GROUP_READ WORLD_READ COMPONENT Icons)
-		install(FILES ${CMAKE_SOURCE_DIR}/images/tagainijisho-32x32.png DESTINATION share/icons/hicolor/32x32/apps RENAME tagainijisho.png PERMISSIONS OWNER_READ GROUP_READ WORLD_READ COMPONENT Icons)
-		install(FILES ${CMAKE_SOURCE_DIR}/images/tagainijisho-48x48.png DESTINATION share/icons/hicolor/48x48/apps RENAME tagainijisho.png PERMISSIONS OWNER_READ GROUP_READ WORLD_READ COMPONENT Icons)
-		install(FILES ${CMAKE_SOURCE_DIR}/images/tagainijisho-64x64.png DESTINATION share/icons/hicolor/64x64/apps RENAME tagainijisho.png PERMISSIONS OWNER_READ GROUP_READ WORLD_READ COMPONENT Icons)
-		install(FILES ${CMAKE_SOURCE_DIR}/images/tagainijisho-128x128.png DESTINATION share/icons/hicolor/128x128/apps RENAME tagainijisho.png PERMISSIONS OWNER_READ GROUP_READ WORLD_READ COMPONENT Icons)
-	endif(APPLE)
+	# Qt config
+	install(CODE "file(WRITE \"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/${RESOURCES_DIR}/qt.conf\" \"[Paths]\nPlugins = PlugIns\nTranslations = i18n\n\")" COMPONENT Runtime)
 
-	# Databases
-	install(FILES ${CMAKE_BINARY_DIR}/jmdict.db DESTINATION ${DB_DIR} PERMISSIONS OWNER_READ GROUP_READ WORLD_READ COMPONENT Databases)
-	install(FILES ${CMAKE_BINARY_DIR}/kanjidic2.db DESTINATION ${DB_DIR} PERMISSIONS OWNER_READ GROUP_READ WORLD_READ COMPONENT Databases)
-	foreach(LANG en;${DICT_LANG})
-		install(FILES ${CMAKE_BINARY_DIR}/jmdict-${LANG}.db DESTINATION ${DB_DIR} PERMISSIONS OWNER_READ GROUP_READ WORLD_READ COMPONENT Databases)
-		install(FILES ${CMAKE_BINARY_DIR}/kanjidic2-${LANG}.db DESTINATION ${DB_DIR} PERMISSIONS OWNER_READ GROUP_READ WORLD_READ COMPONENT Databases)
-	endforeach(LANG en;${DICT_LANG})
+	# Qt plugins
+	install(CODE "
+		file(GLOB_RECURSE QTPLUGINS \"\${CMAKE_INSTALL_PREFIX}/${EXE_DIR}/plugins/*${CMAKE_SHARED_LIBRARY_SUFFIX}\")
+	include(BundleUtilities)
+	fixup_bundle(\"${APPS}\" \"${QTPLUGINS}\" \"${QT_LIBRARY_DIRS}\")" COMPONENT Runtime)
+# Other UNIX?
+elseif(UNIX)
+	set(CPACK_PACKAGE_NAME "tagainijisho")
+	set(ROOT_DIR share/tagainijisho)
+	set(DB_DIR ${ROOT_DIR})
+	set(I18N_DIR ${ROOT_DIR}/i18n)
+	set(DOC_DIR ${ROOT_DIR}/doc)
+	set(RESOURCES_DIR ${ROOT_DIR})
 
-	# i18n files
+	# Desktop and icon files
+	install(FILES ${CMAKE_SOURCE_DIR}/tagainijisho.desktop DESTINATION share/applications PERMISSIONS OWNER_READ GROUP_READ WORLD_READ COMPONENT Runtime)
+	install(FILES ${CMAKE_SOURCE_DIR}/tagainijisho.appdata.xml DESTINATION share/applications PERMISSIONS OWNER_READ GROUP_READ WORLD_READ COMPONENT Runtime)
+	install(FILES ${CMAKE_SOURCE_DIR}/images/tagainijisho-16x16.png DESTINATION share/icons/hicolor/16x16/apps RENAME tagainijisho.png PERMISSIONS OWNER_READ GROUP_READ WORLD_READ COMPONENT Icons)
+	install(FILES ${CMAKE_SOURCE_DIR}/images/tagainijisho-22x22.png DESTINATION share/icons/hicolor/22x22/apps RENAME tagainijisho.png PERMISSIONS OWNER_READ GROUP_READ WORLD_READ COMPONENT Icons)
+	install(FILES ${CMAKE_SOURCE_DIR}/images/tagainijisho-32x32.png DESTINATION share/icons/hicolor/32x32/apps RENAME tagainijisho.png PERMISSIONS OWNER_READ GROUP_READ WORLD_READ COMPONENT Icons)
+	install(FILES ${CMAKE_SOURCE_DIR}/images/tagainijisho-48x48.png DESTINATION share/icons/hicolor/48x48/apps RENAME tagainijisho.png PERMISSIONS OWNER_READ GROUP_READ WORLD_READ COMPONENT Icons)
+	install(FILES ${CMAKE_SOURCE_DIR}/images/tagainijisho-64x64.png DESTINATION share/icons/hicolor/64x64/apps RENAME tagainijisho.png PERMISSIONS OWNER_READ GROUP_READ WORLD_READ COMPONENT Icons)
+	install(FILES ${CMAKE_SOURCE_DIR}/images/tagainijisho-128x128.png DESTINATION share/icons/hicolor/128x128/apps RENAME tagainijisho.png PERMISSIONS OWNER_READ GROUP_READ WORLD_READ COMPONENT Icons)
+# Windows? (32 or 64-bit)
+elseif(WIN32)
+	set(CPACK_MONOLITHIC_INSTALL 1)
+	set(CPACK_NSIS_ENABLE_UNINSTALL_BEFORE_INSTALL 1)
+	set(CPACK_NSIS_MUI_FINISHPAGE_RUN "tagainijisho")
+	set(CPACK_PACKAGE_INSTALL_DIRECTORY "Tagaini Jisho")
+	set(CPACK_NSIS_EXECUTABLES_DIRECTORY ".")
+	set(CPACK_PACKAGE_EXECUTABLES "tagainijisho" "Tagaini Jisho")
+	set(CPACK_NSIS_INSTALLED_ICON_NAME "tagainijisho")
+	set(CPACK_PACKAGE_ICON
+${CMAKE_SOURCE_DIR}/images/appicon.ico)
+	set(CPACK_NSIS_INSTALLED_ICON_NAME ${CMAKE_SOURCE_DIR}/images/appicon.ico)
+
+	set(DB_DIR ".")
+	set(I18N_DIR "./i18n")
+	set(DOC_DIR "./doc")
+	set(SYS_QT_I18N_DIR "${CMAKE_INSTALL_PREFIX}/share/qt/translations")
+
+	# Dependency libraries - if we ever manage to build a static binary,
+	# we won't need that anymore...
+	install(FILES
+		${CMAKE_INSTALL_PREFIX}/bin/Qt5Core.dll
+		${CMAKE_INSTALL_PREFIX}/bin/Qt5Gui.dll
+		${CMAKE_INSTALL_PREFIX}/bin/Qt5Network.dll
+		${CMAKE_INSTALL_PREFIX}/bin/Qt5PrintSupport.dll
+		${CMAKE_INSTALL_PREFIX}/bin/Qt5Widgets.dll
+		${CMAKE_INSTALL_PREFIX}/bin/zlib1.dll
+		${CMAKE_INSTALL_PREFIX}/bin/libpng16-16.dll
+		${CMAKE_INSTALL_PREFIX}/bin/libwinpthread-1.dll
+		${CMAKE_INSTALL_PREFIX}/bin/libgcc_s_seh-1.dll
+		${CMAKE_INSTALL_PREFIX}/bin/libstdc++-6.dll
+		${CMAKE_INSTALL_PREFIX}/bin/libpcre16-0.dll
+		${CMAKE_INSTALL_PREFIX}/bin/libharfbuzz-0.dll
+		${CMAKE_INSTALL_PREFIX}/bin/libfreetype-6.dll
+		${CMAKE_INSTALL_PREFIX}/bin/libbz2-1.dll
+		${CMAKE_INSTALL_PREFIX}/bin/libglib-2.0-0.dll
+		${CMAKE_INSTALL_PREFIX}/bin/libintl-8.dll
+		${CMAKE_INSTALL_PREFIX}/bin/libiconv-2.dll
+		${CMAKE_INSTALL_PREFIX}/bin/libpcre-1.dll
+		${CMAKE_INSTALL_PREFIX}/bin/libGLESv2.dll
+		COMPONENT Runtime
+		DESTINATION ".")
+
+	# Qt runtime plugins - will become unneeded if we can build a static
+	# binary
+	install(DIRECTORY ${CMAKE_INSTALL_PREFIX}/lib/qt/plugins
+		DESTINATION "."
+		COMPONENT Runtime
+		# If we include the .a archives the dynamic loader will attempt
+		# to load them first! (and obviously fail)
+		PATTERN "*.a" EXCLUDE)
+
+	# Qt config file
+	install(CODE
+		"file(WRITE \"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/${RESOURCES_DIR}/qt.conf\" \"[Paths]\n\rPlugins = plugins\n\rTranslations = i18n\n\r\")"
+		COMPONENT Runtime)
+endif(UNIX AND APPLE)
+
+# Databases
+install(FILES ${CMAKE_BINARY_DIR}/jmdict.db DESTINATION ${DB_DIR} PERMISSIONS OWNER_READ GROUP_READ WORLD_READ COMPONENT Databases)
+install(FILES ${CMAKE_BINARY_DIR}/kanjidic2.db DESTINATION ${DB_DIR} PERMISSIONS OWNER_READ GROUP_READ WORLD_READ COMPONENT Databases)
+foreach(LANG en;${DICT_LANG})
+	install(FILES ${CMAKE_BINARY_DIR}/jmdict-${LANG}.db DESTINATION ${DB_DIR} PERMISSIONS OWNER_READ GROUP_READ WORLD_READ COMPONENT Databases)
+	install(FILES ${CMAKE_BINARY_DIR}/kanjidic2-${LANG}.db DESTINATION ${DB_DIR} PERMISSIONS OWNER_READ GROUP_READ WORLD_READ COMPONENT Databases)
+endforeach(LANG en;${DICT_LANG})
+
+# i18n files
+foreach(LANG ${UI_LANG})
+	install(FILES ${CMAKE_BINARY_DIR}/i18n/tagainijisho_${LANG}.qm DESTINATION ${I18N_DIR} PERMISSIONS OWNER_READ GROUP_READ WORLD_READ COMPONENT I18n)
+endforeach(LANG ${UI_LANG})
+
+# Extra Qt translations
+if (EXISTS ${SYS_QT_I18N_DIR})
 	foreach(LANG ${UI_LANG})
-		install(FILES ${CMAKE_BINARY_DIR}/i18n/tagainijisho_${LANG}.qm DESTINATION ${I18N_DIR} PERMISSIONS OWNER_READ GROUP_READ WORLD_READ COMPONENT I18n)
+		set(QMFILE "${SYS_QT_I18N_DIR}/qt_${LANG}.qm")
+		if(EXISTS ${QMFILE})
+			install(FILES ${QMFILE} DESTINATION "${I18N_DIR}" COMPONENT Runtime)
+		endif(EXISTS ${QMFILE})
 	endforeach(LANG ${UI_LANG})
+endif (EXISTS ${SYS_QT_I18N_DIR})
 
-	# Template files
-	install(FILES ${CMAKE_SOURCE_DIR}/src/gui/jmdict/detailed_jmdict.html ${CMAKE_SOURCE_DIR}/src/gui/jmdict/detailed_jmdict.css DESTINATION ${RESOURCES_DIR} PERMISSIONS OWNER_READ GROUP_READ WORLD_READ COMPONENT Templates)
-	install(FILES ${CMAKE_SOURCE_DIR}/src/gui/kanjidic2/detailed_kanjidic2.html ${CMAKE_SOURCE_DIR}/src/gui/kanjidic2/detailed_kanjidic2.css DESTINATION ${RESOURCES_DIR} PERMISSIONS OWNER_READ GROUP_READ WORLD_READ COMPONENT Templates)
-	install(FILES ${CMAKE_SOURCE_DIR}/src/gui/export_template.html DESTINATION ${RESOURCES_DIR} PERMISSIONS OWNER_READ GROUP_READ WORLD_READ COMPONENT Templates)
-	install(FILES ${CMAKE_SOURCE_DIR}/src/gui/detailed_default.html ${CMAKE_SOURCE_DIR}/src/gui/detailed_default.css DESTINATION ${RESOURCES_DIR} PERMISSIONS OWNER_READ GROUP_READ WORLD_READ COMPONENT Templates)
+# Documentation
+if (EXISTS ${CMAKE_SOURCE_DIR}/doc/manual.html)
+	install(FILES ${CMAKE_SOURCE_DIR}/doc/manual.html DESTINATION ${DOC_DIR} COMPONENT Docs)
+	install(DIRECTORY ${CMAKE_SOURCE_DIR}/doc/images DESTINATION ${DOC_DIR} COMPONENT Docs)
+else(EXISTS ${CMAKE_SOURCE_DIR}/doc/manual.html)
+	MESSAGE(STATUS "Warning, docs were not generated")
+endif()
 
-	# Documentation
-	if (EXISTS ${CMAKE_SOURCE_DIR}/doc/manual.html)
-		install(FILES ${CMAKE_SOURCE_DIR}/doc/manual.html DESTINATION ${DOC_DIR} COMPONENT Docs)
-		install(DIRECTORY ${CMAKE_SOURCE_DIR}/doc/images DESTINATION ${DOC_DIR} COMPONENT Docs)
-	else(EXISTS ${CMAKE_SOURCE_DIR}/doc/manual.html)
-		MESSAGE(STATUS "Warning, docs were not generated")
-	endif()
-
-	# Custom install targets
-	add_custom_target(install_runtime
-		${CMAKE_COMMAND}
-		-D "COMPONENT=Runtime"
-		-P "${CMAKE_BINARY_DIR}/cmake_install.cmake"
-	)
-	add_dependencies(install_runtime tagainijisho)
-	add_custom_target(install_databases
-		${CMAKE_COMMAND}
-		-D "COMPONENT=Databases"
-		-P "${CMAKE_BINARY_DIR}/cmake_install.cmake"
-	)
-	add_dependencies(install_databases databases)
-	add_custom_target(install_i18n
-		${CMAKE_COMMAND}
-		-D "COMPONENT=I18n"
-		-P "${CMAKE_BINARY_DIR}/cmake_install.cmake"
-	)
-	add_dependencies(install_i18n i18n)
-	add_custom_target(install_templates
-		${CMAKE_COMMAND}
-		-D "COMPONENT=Templates"
-		-P "${CMAKE_BINARY_DIR}/cmake_install.cmake"
-	)
-	#add_dependencies(install_templates templates)
-	add_custom_target(install_icons
-		${CMAKE_COMMAND}
-		-D "COMPONENT=Icons"
-		-P "${CMAKE_BINARY_DIR}/cmake_install.cmake"
-	)
-	#add_dependencies(install_icons icons)
-	add_custom_target(install_docs
-		${CMAKE_COMMAND}
-		-D "COMPONENT=Docs"
-		-P "${CMAKE_BINARY_DIR}/cmake_install.cmake"
-	)
-	add_dependencies(install_docs docs)
-	add_custom_target(install_nonarch)
-	add_dependencies(install_nonarch install_databases install_i18n install_templates install_icons install_docs)
-endif(UNIX)
-
-if(WIN32)
-	MESSAGE(STATUS "Not implemented")
-endif(WIN32)
+# Custom install targets
+add_custom_target(install_runtime
+	${CMAKE_COMMAND}
+	-D "COMPONENT=Runtime"
+	-P "${CMAKE_BINARY_DIR}/cmake_install.cmake"
+)
+add_dependencies(install_runtime tagainijisho)
+add_custom_target(install_databases
+	${CMAKE_COMMAND}
+	-D "COMPONENT=Databases"
+	-P "${CMAKE_BINARY_DIR}/cmake_install.cmake"
+)
+add_dependencies(install_databases databases)
+add_custom_target(install_i18n
+	${CMAKE_COMMAND}
+	-D "COMPONENT=I18n"
+	-P "${CMAKE_BINARY_DIR}/cmake_install.cmake"
+)
+add_dependencies(install_i18n i18n)
+add_custom_target(install_icons
+	${CMAKE_COMMAND}
+	-D "COMPONENT=Icons"
+	-P "${CMAKE_BINARY_DIR}/cmake_install.cmake"
+)
+add_custom_target(install_docs
+	${CMAKE_COMMAND}
+	-D "COMPONENT=Docs"
+	-P "${CMAKE_BINARY_DIR}/cmake_install.cmake"
+)
+add_dependencies(install_docs docs)
+add_custom_target(install_nonarch)
+add_dependencies(install_nonarch install_databases install_i18n install_icons install_docs)
 
 set(CPACK_SOURCE_IGNORE_FILES "~$" "\\\\.gitignore$" "^${PROJECT_SOURCE_DIR}/.git/" "^${PROJECT_SOURCE_DIR}/*.kdev4/" )
 

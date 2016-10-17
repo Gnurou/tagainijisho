@@ -22,6 +22,7 @@
 #include <QCoreApplication>
 #include <QMutexLocker>
 #include <QWeakPointer>
+#include <QDataStream>
 
 EntriesCache *EntriesCache::_instance = 0;
 PreferenceItem<int> EntriesCache::cacheSize("", "entriesCacheSize", 1000);
@@ -123,7 +124,7 @@ void EntriesCache::_removeAndDelete(const Entry *entry)
 	QMutexLocker loadedEntriesLock(&_instance->_loadedEntriesMutex);
 	// From here we know that the reference counter of our entry will not be changed
 	// Have we created a new reference to this entry by the meantime?
-	if (entry->ref > 0) return;
+	if (entry->ref.load() > 0) return;
 	// No, we can safely remove and delete it then!
 	_instance->_loadedEntries.remove(EntryRef(entry->type(), entry->id()));
 #ifdef DEBUG_ENTRIES_CACHE

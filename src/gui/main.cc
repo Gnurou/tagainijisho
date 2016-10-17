@@ -42,11 +42,12 @@
 
 #include <QApplication>
 #include <QSettings>
-#include <QDesktopServices>
+#include <QStandardPaths>
 #include <QTranslator>
 #include <QLocale>
 #include <QMessageBox>
 #include <QLibraryInfo>
+#include <QtGlobal>
 
 // The version must be defined by the compiler
 #ifndef VERSION
@@ -56,25 +57,31 @@
 /**
  * Message handler
  */
-void messageHandler(QtMsgType type, const char *msg)
+void messageHandler(QtMsgType type, const QMessageLogContext& context, const QString &msg)
 {
+	const char *str = msg.toLatin1().constData();
 	switch (type) {
 	case QtDebugMsg:
-		fprintf(stderr, "Debug: %s\n", msg);
+		fprintf(stderr, "Debug: %s\n", str);
 		break;
+#if QT_VERSION >= 0x050500
+	case QtInfoMsg:
+		fprintf(stderr, "Info: %s\n", str);
+		break;
+#endif
 	case QtWarningMsg:
-		fprintf(stderr, "Warning: %s\n", msg);
+		fprintf(stderr, "Warning: %s\n", str);
 		break;
 	case QtCriticalMsg:
-		fprintf(stderr, "Critical: %s\n", msg);
-		QMessageBox::critical(0, "Critical", msg);
+		fprintf(stderr, "Critical: %s\n", str);
+		QMessageBox::critical(0, "Critical", str);
 		break;
 	case QtFatalMsg:
 		// TODO here a message should be emitted and caught by the main thread in
 		// order to display the message box. This is because fatal errors may occur
 		// in auxiliary threads too.
 		//QMessageBox::critical(0, "Tagaini Jisho fatal error", msg);
-		fprintf(stderr, "Fatal: %s\n", msg);
+		fprintf(stderr, "Fatal: %s\n", str);
 		QMessageBox::critical(0, "Fatal error", QString("%1\n\nUnrecoverable error, the program will now exit.").arg(msg));
 		exit(1);
 	}
@@ -85,31 +92,8 @@ void messageHandler(QtMsgType type, const char *msg)
  * to update configuration options that have changed or to remove obsolete
  * ones.
  */
-#define CONFIG_VERSION 6
+#define CONFIG_VERSION 7
 PreferenceItem<int> configVersion("", "configVersion", 0);
-
-void migrateOldData()
-{
-	QCoreApplication::setApplicationName("tagainijisho");
-	QString oldDataDir(QDesktopServices::storageLocation(QDesktopServices::DataLocation));
-	QCoreApplication::setApplicationName(__APPLICATION_NAME);
-	QString newDataDir(QDesktopServices::storageLocation(QDesktopServices::DataLocation));
-	// If the old DB directory exists, this means we have an old installation there and must
-	// rename it
-	if (QDir(oldDataDir).exists()) {
-		if (!QFile(oldDataDir).rename(newDataDir))
-			qFatal("Error while migrating profile data! Please rename the %s directory to %s.", oldDataDir.toLatin1().data(), newDataDir.toLatin1().data());
-
-		// Also migrate the settings data
-		QSettings newSettings(__ORGANIZATION_NAME, __APPLICATION_NAME);
-		QSettings oldSettings(__ORGANIZATION_NAME, "tagainijisho");
-		foreach (const QString &key, oldSettings.allKeys())
-			newSettings.setValue(key, oldSettings.value(key));
-		oldSettings.clear();
-		QMessageBox::information(0, QCoreApplication::translate("main.cc", "User data migrated"), QCoreApplication::translate("main.cc", "Your user data and settings have successfully been migrated. Tagaini Jisho needs to be restarted and will now exit."));
-		exit(0);
-	}
-}
 
 void checkConfigurationVersion()
 {
@@ -145,6 +129,8 @@ void checkConfigurationVersion()
 			Lang::preferredDictLanguage.setValue(settings.value("preferredLanguages"));
 			Lang::preferredGUILanguage.setValue(settings.value("preferredLanguages"));
 			settings.remove("preferredLanguages");
+		case 6:
+			settings.remove("entriesCacheSize");
 		default:
 			// If we arrive here, this means we are running an pre-tracking version - do nothing in that case
 			break;
@@ -154,15 +140,36 @@ void checkConfigurationVersion()
 	configVersion.setValue(CONFIG_VERSION);
 }
 
+static void copyQt4UserDB()
+{
+	QFile qt4DataFile;
+
+#if defined(Q_OS_WIN)
+	// For windows, copy from the local data location to the roaming location
+	qt4DataFile.setFileName(QDir(QStandardPaths::standardLocations(QStandardPaths::DataLocation)[0]).absoluteFilePath("user.db"));
+#elif defined(Q_OS_UNIX)
+	// Genius Qt engineers thought it would be a good idea to not provide a compatibility function, so we can just guess here...
+	qt4DataFile.setFileName(Database::defaultDBFile().replace("share/Tagaini Jisho/user.db", "share/data/Tagaini Jisho/user.db"));
+#else
+	return;
+#endif
+
+	// Do a copy so an older version could keep working
+	if (qt4DataFile.exists()) {
+		qt4DataFile.copy(Database::defaultDBFile());
+		QMessageBox::information(0, QCoreApplication::translate("main.cc", "Data migrated"), QCoreApplication::translate("main.cc", "Welcome to Tagaini Jisho 2.0! Your user data has successfully been migrated from Tagaini 1.0 and you should find it as it was.\n\nIf you still have an old version of Tagaini installed, please note that changes made in Tagaini 2 will not be visible on Tagaini 1 and vice-versa. If you still have your old Tagaini version, it is recommended that you uninstall it to avoid confusion."));
+	}
+}
+
 /**
  * Check if a user DB directory is defined in the application settings, and
  * create a default one in case it doesn't exist.
  */
-void checkUserProfileDirectory()
+static void checkUserProfileDirectory()
 {
 	// Set the user profile location
 	// This is done here because this function requires the QtGui module
-	__userProfile = QDesktopServices::storageLocation(QDesktopServices::DataLocation);
+	__userProfile = QStandardPaths::standardLocations(QStandardPaths::AppDataLocation)[0];
 	// Create the user profile directory if not existing
 	QDir profileDir(userProfile());
 	if (!profileDir.exists()) profileDir.mkpath(".");
@@ -173,7 +180,12 @@ void checkUserProfileDirectory()
 	if (importedDataFile.exists()) {
 		dataFile.remove();
 		importedDataFile.rename(dataFile.fileName());
+		return;
 	}
+
+	// Check if we are upgrading from Qt4
+	if (!dataFile.exists())
+		copyQt4UserDB();
 }
 
 int main(int argc, char *argv[])
@@ -193,9 +205,8 @@ int main(int argc, char *argv[])
 	QCoreApplication::setApplicationVersion(VERSION);
 
 	// Install the error message handler now that we have a GUI
-	qInstallMsgHandler(messageHandler);
+	qInstallMessageHandler(messageHandler);
 
-	migrateOldData();
 	checkConfigurationVersion();
 
 	checkUserProfileDirectory();

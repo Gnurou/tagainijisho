@@ -301,9 +301,10 @@ bool Query::valueIsNull(int column) const
 void Query::clear()
 {
 	if (_stmt) {
+		QString qtext = queryText();
 		sqlite3_finalize(_stmt);
 		_lastError = _connection->updateError();
-		checkQueryError(*this, queryText());
+		checkQueryError(*this, qtext);
 		_stmt = 0;
 	}
 	_state = INVALID;

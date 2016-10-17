@@ -55,7 +55,7 @@ bool KanjiVGParser::parse_strokegr(QXmlStreamReader &reader, KanjiVGItem &kanji,
 				// will be zero anyway)
 				if (part > 1) {
 					foreach (const KanjiVGGroupItem &tGroup, kanji.groups) {
-						if (tGroup.element == element and tGroup.number == number) {
+						if (tGroup.element == element && tGroup.number == number) {
 							// Foreach won't let us loop on a non-const reference
 							group = const_cast<KanjiVGGroupItem *>(&tGroup);
 							break;

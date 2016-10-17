@@ -32,7 +32,7 @@ set(tagainijisho_core_tatoeba_MOCS
 TatoebaEntry.h
 )
 
-qt4_wrap_cpp(tagainijisho_core_tatoeba_MOC_SRCS ${tagainijisho_core_tatoeba_MOCS})
+qt5_wrap_cpp(tagainijisho_core_tatoeba_MOC_SRCS ${tagainijisho_core_tatoeba_MOCS})
 add_library(tagaini_core_tatoeba STATIC ${tagainijisho_core_tatoeba_MOC_SRCS} ${tagainijisho_core_tatoeba_SRCS})
 add_dependencies(tagaini_core_tatoeba tagaini_core)
 

@@ -15,9 +15,12 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "core/ResultsList.h"
+#include "gui/ResultsList.h"
+#include "gui/EntryFormatter.h"
 
 #include <QtDebug>
+#include <QDataStream>
+#include <QColor>
 
 ResultsList::ResultsList(QObject *parent) : QAbstractListModel(parent), entries(), displayedUntil(0), dbThread(), query(&dbThread)
 {
@@ -52,7 +55,7 @@ QVariant ResultsList::data(const QModelIndex &index, int role) const
 	switch (role) {
 	case Qt::BackgroundRole:
 		if (!entry.data() || !entry->trained()) return QVariant();
-		else return entry->scoreColor();
+		else return EntryFormatter::scoreColor(*entry);
 	case Entry::EntryRole:
 		return QVariant::fromValue(entry);
 	case Qt::DisplayRole:

@@ -42,6 +42,9 @@
 #include <QDir>
 #include <QMap>
 #include <QDesktopServices>
+#include <QDrag>
+#include <QUrl>
+#include <QUrlQuery>
 
 DetailedViewFonts *DetailedViewFonts::_instance = 0;
 PreferenceItem<QString> DetailedViewFonts::textFont("mainWindow/detailedView", "textFont", "");
@@ -284,7 +287,7 @@ void DetailedView::mousePressEvent(QMouseEvent *e)
 		QUrl url(anchor);
 		_dragStarted = true;
 		_dragStartPos = e->pos();
-		_dragEntryRef = EntryRef(url.queryItemValue("type").toInt(), url.queryItemValue("id").toInt());
+		_dragEntryRef = EntryRef(QUrlQuery(url).queryItemValue("type").toInt(), QUrlQuery(url).queryItemValue("id").toInt());
 		e->accept();
 	} else {
 		_dragStarted = false;
@@ -548,7 +551,7 @@ EntryMenuHandler::EntryMenuHandler() : DetailedViewLinkHandler("entry")
 
 void EntryMenuHandler::handleUrl(const QUrl &url, DetailedView *view)
 {
-	EntryPointer entry(EntryRef(url.queryItemValue("type").toInt(), url.queryItemValue("id").toInt()).get());
+	EntryPointer entry(EntryRef(QUrlQuery(url).queryItemValue("type").toInt(), QUrlQuery(url).queryItemValue("id").toInt()).get());
 	if (entry) MainWindow::instance()->detailedView()->display(entry);
 }
 
@@ -558,7 +561,7 @@ ListLinkHandler::ListLinkHandler() : DetailedViewLinkHandler("list")
 
 void ListLinkHandler::handleUrl(const QUrl &url, DetailedView *view)
 {
-	int rowId = url.queryItemValue("rowid").toInt();
+	int rowId = QUrlQuery(url).queryItemValue("rowid").toInt();
 
 	QAbstractItemView *aView = MainWindow::instance()->entryListWidget()->entryListView();
 	EntryListModel *model = qobject_cast<EntryListModel *>(aView->model());
@@ -579,9 +582,9 @@ void TagsLinkHandler::handleUrl(const QUrl &url, DetailedView *view)
 	TagsFilterWidget *extender = qobject_cast<TagsFilterWidget *>(mainWindow->searchWidget()->getSearchFilter("tagssearch"));
 	if (!extender) return;
 
-	if (url.hasQueryItem("reset")) mainWindow->searchWidget()->searchBuilder()->reset();
+	if (QUrlQuery(url).hasQueryItem("reset")) mainWindow->searchWidget()->searchBuilder()->reset();
 	extender->setAutoUpdateQuery(false);
-	extender->setTags(url.queryItemValue("tag") + " ");
+	extender->setTags(QUrlQuery(url).queryItemValue("tag") + " ");
 	extender->setAutoUpdateQuery(true);
 	MainWindow::instance()->searchDockWidget()->setVisible(true);
 	mainWindow->searchWidget()->searchBuilder()->runSearch();

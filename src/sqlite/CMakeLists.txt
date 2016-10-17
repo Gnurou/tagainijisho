@@ -1,21 +1,17 @@
 set(QT_DONT_USE_QTGUI TRUE)
-include(${QT_USE_FILE})
+#include(${QT_USE_FILE})
 
 set(SQLITE_MIN_VERSION "3007004")
 set(SQLITE_BLACKLIST "3007007;3007008;3008000")
-set(SQLITE_DOWNLOAD_VERSION "3080803")
+set(SQLITE_DOWNLOAD_VERSION "3120200")
 
-set(SQLITE_SOURCE http://www.sqlite.org/2015/sqlite-amalgamation-${SQLITE_DOWNLOAD_VERSION}.zip)
+set(SQLITE_SOURCE http://www.sqlite.org/2016/sqlite-amalgamation-${SQLITE_DOWNLOAD_VERSION}.zip)
 
 option(SHARED_SQLITE_LIBRARY "Build the SQLite library as a shared library (loadable by SQLite's interpreter)" OFF)
 
 # Embed SQLite even if the system version looks good?
-option(EMBED_SQLITE "Embed SQLite even if a system version is present and valid" OFF)
-
-# Force embedded version on Apple
-if (APPLE)
-	set (EMBED_SQLITE "ON")  
-endif(APPLE)
+# This should be enabled by default as we require features (e.g. FTS3 tokenizer) that may not be enabled on the system
+option(EMBED_SQLITE "Embed SQLite even if a system version is present and valid" ON)
 
 # Look for system SQLite
 find_path(SQLITE_INCLUDE_DIR sqlite3.h)
@@ -88,15 +84,15 @@ else()
 	include_directories(${SQLITE_INCLUDE_DIR})
 endif()
 
-include_directories(${QT_INCLUDE_DIR})
-add_definitions(-DSQLITE_ENABLE_FTS3 -DSQLITE_ENABLE_FTS3_PARENTHESIS -DSQLITE_ENABLE_LOCKING_STYLE=0 -DSQLITE_OMIT_DEPRECATED)
+add_definitions(-DSQLITE_ENABLE_FTS3 -DSQLITE_ENABLE_FTS3_PARENTHESIS -DSQLITE_ENABLE_LOCKING_STYLE=0 -DSQLITE_OMIT_DEPRECATED -DSQLITE_ENABLE_FTS3_TOKENIZER)
 
 if(SHARED_SQLITE_LIBRARY)
 	add_library(tagaini_sqlite SHARED ${tagainijisho_sqlite_SRCS} ${tagainijisho_sqlite_MOC_SRCS})
-	target_link_libraries(tagaini_sqlite ${QT_LIBRARIES} ${extra_link_flags})
+	target_link_libraries(tagaini_sqlite Qt5::Core ${extra_link_flags})
 	install(TARGETS tagaini_sqlite BUNDLE DESTINATION . COMPONENT Runtime LIBRARY DESTINATION lib COMPONENT Runtime)
 else()
 	add_library(tagaini_sqlite STATIC ${tagainijisho_sqlite_SRCS} ${tagainijisho_sqlite_MOC_SRCS})
+	target_link_libraries(tagaini_sqlite Qt5::Core)
 endif()
 if(NOT EMBED_SQLITE)
 	target_link_libraries(tagaini_sqlite sqlite3)
@@ -112,7 +108,3 @@ if(APPLE)
 else(APPLE)
         set(DEST_DIR "lib")
 endif(APPLE)
-
-if (BUILD_TESTS)
-add_subdirectory(tests)
-endif()

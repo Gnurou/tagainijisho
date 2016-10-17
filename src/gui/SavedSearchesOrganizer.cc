@@ -23,6 +23,7 @@
 #include <QMenu>
 #include <QPushButton>
 #include <QMessageBox>
+#include <QMimeData>
 
 SavedSearchTreeItem::SavedSearchTreeItem(int setId, int position, bool isFolder, const QString &label) : QTreeWidgetItem(isFolder ? FolderType : SavedSearchType), _setId(setId), _position(position), _parentCopy(0)
 {

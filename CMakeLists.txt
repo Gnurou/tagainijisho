@@ -9,18 +9,28 @@ endif(APPLE)
 # Set the program name to be the same as the project
 set(tagaini_binary ${CMAKE_PROJECT_NAME})
 
-set(VERSION 1.0.3)
+set(VERSION 1.0.90)
+set(QTVERSION 5.4)
+set(CMAKE_AUTOMOC ON)
 
-cmake_minimum_required(VERSION 2.8.0)
+cmake_minimum_required(VERSION 2.8.12)
+cmake_policy(VERSION 2.8.12)
 
-find_package(Qt4 4.5 REQUIRED)
+find_package(Qt5Core ${QTVERSION} REQUIRED)
+find_package(Qt5Widgets ${QTVERSION} REQUIRED)
+find_package(Qt5PrintSupport ${QTVERSION} REQUIRED)
+find_package(Qt5Network ${QTVERSION} REQUIRED)
+find_package(Qt5LinguistTools ${QTVERSION} REQUIRED)
 # FIXME only required when CMake downloads dictionary files. Not necessary for building from source package.
 find_program(GUNZIP NAMES gunzip REQUIRED)
 
 # Global GCC options
 if(CMAKE_COMPILER_IS_GNUCC)
-	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wnon-virtual-dtor -Wno-unused-parameter -fno-exceptions -fno-rtti")
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -Wextra -Wnon-virtual-dtor -Wno-unused-parameter")
 endif(CMAKE_COMPILER_IS_GNUCC)
+
+# CMake-required compiler flags
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${Qt5Widgets_EXECUTABLE_COMPILE_FLAGS}")
 
 # Add the default database lookup data path for Linux if not defined
 if(UNIX AND NOT APPLE AND NOT DATA_DIR)
@@ -37,7 +47,9 @@ if(APPLE)
 	set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/pack/MacOS/")
 endif(APPLE)
 if(WIN32)
+   if (!MSVC)
 	set(extra_link_flags "-static-libgcc -static-libstdc++ -mwindows")
+   endif()
 endif(WIN32)
 
 # By default, enable all languages
@@ -54,9 +66,6 @@ option(DEBUG_DETAILED_VIEW "Debug detailed view output" OFF)
 option(DEBUG_QUERIES "Debug SQL queries" OFF)
 option(DEBUG_TRANSACTIONS "Debug database transactions" OFF)
 option(DEBUG_LISTS "Debug lists (very slow)" OFF)
-
-# Build tests suite?
-option(BUILD_TESTS "Build tests suite" OFF)
 
 # Databases helper targets
 add_custom_target(databases ALL)

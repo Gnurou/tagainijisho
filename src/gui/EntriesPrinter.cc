@@ -80,7 +80,7 @@ void EntriesPrinter::prepareAndPrintJob(QPrinter* printer)
 		QRectF usedSpace;
 		QPicture tPicture;
 		QPainter picPainter(&tPicture);
-		ConstEntryPointer entry = _entries[i].data(Entry::EntryRole).value<EntryPointer>();
+		ConstEntryPointer entry(_entries[i].data(Entry::EntryRole).value<EntryPointer>());
 		// An entry, print it
 		if (entry) {
 			const EntryFormatter *formatter(EntryFormatter::getFormatter(entry));
