@@ -37,11 +37,11 @@ if(UNIX AND NOT APPLE AND NOT DATA_DIR)
 	set(DATA_DIR "${CMAKE_INSTALL_PREFIX}/share/tagainijisho")
 endif(UNIX AND NOT APPLE AND NOT DATA_DIR)
 
-# 64 bits Intel binary with 10.6 compatibility 
+# 64 bits Intel binary with 10.9 compatibility
 if(APPLE)
 	set(CMAKE_OSX_ARCHITECTURES "${ARCHS_STANDARD_64_BIT}")
-	set(CMAKE_OSX_SYSROOT "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk")
-	set(CMAKE_OSX_DEPLOYMENT_TARGET "10.6")
+	set(CMAKE_OSX_SYSROOT "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.11.sdk")
+	set(CMAKE_OSX_DEPLOYMENT_TARGET "10.9")
 	set(CMAKE_PREFIX_PATH "${CMAKE_OSX_SYSROOT}/usr")  
 	set(CMAKE_FRAMEWORK_PATH "${CMAKE_OSX_SYSROOT}/Library/Frameworks:${CMAKE_OSX_SYSROOT}/System/")
 	set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/pack/MacOS/")
