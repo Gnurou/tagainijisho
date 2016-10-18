@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>562</width>
-    <height>484</height>
+    <height>486</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -300,7 +300,7 @@
             <item>
              <widget class="QRadioButton" name="fontButton">
               <property name="text">
-               <string>Default font</string>
+               <string>Defa&amp;ult font</string>
               </property>
              </widget>
             </item>
@@ -406,8 +406,8 @@
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>501</width>
-               <height>166</height>
+               <width>490</width>
+               <height>140</height>
               </rect>
              </property>
              <layout class="QVBoxLayout" name="verticalLayout_7">
@@ -416,6 +416,24 @@
                 <property name="palette">
                  <palette>
                   <active>
+                   <colorrole role="WindowText">
+                    <brush brushstyle="SolidPattern">
+                     <color alpha="255">
+                      <red>0</red>
+                      <green>0</green>
+                      <blue>0</blue>
+                     </color>
+                    </brush>
+                   </colorrole>
+                   <colorrole role="Text">
+                    <brush brushstyle="SolidPattern">
+                     <color alpha="255">
+                      <red>0</red>
+                      <green>0</green>
+                      <blue>0</blue>
+                     </color>
+                    </brush>
+                   </colorrole>
                    <colorrole role="Window">
                     <brush brushstyle="SolidPattern">
                      <color alpha="255">
@@ -427,6 +445,24 @@
                    </colorrole>
                   </active>
                   <inactive>
+                   <colorrole role="WindowText">
+                    <brush brushstyle="SolidPattern">
+                     <color alpha="255">
+                      <red>0</red>
+                      <green>0</green>
+                      <blue>0</blue>
+                     </color>
+                    </brush>
+                   </colorrole>
+                   <colorrole role="Text">
+                    <brush brushstyle="SolidPattern">
+                     <color alpha="255">
+                      <red>0</red>
+                      <green>0</green>
+                      <blue>0</blue>
+                     </color>
+                    </brush>
+                   </colorrole>
                    <colorrole role="Window">
                     <brush brushstyle="SolidPattern">
                      <color alpha="255">
@@ -438,6 +474,24 @@
                    </colorrole>
                   </inactive>
                   <disabled>
+                   <colorrole role="WindowText">
+                    <brush brushstyle="SolidPattern">
+                     <color alpha="255">
+                      <red>110</red>
+                      <green>113</green>
+                      <blue>117</blue>
+                     </color>
+                    </brush>
+                   </colorrole>
+                   <colorrole role="Text">
+                    <brush brushstyle="SolidPattern">
+                     <color alpha="255">
+                      <red>101</red>
+                      <green>104</green>
+                      <blue>106</blue>
+                     </color>
+                    </brush>
+                   </colorrole>
                    <colorrole role="Window">
                     <brush brushstyle="SolidPattern">
                      <color alpha="255">
@@ -481,7 +535,7 @@
        <item>
         <widget class="QGroupBox" name="kanjiTooltipEnabled">
          <property name="title">
-          <string>Kanji tooltip enabled</string>
+          <string>Kan&amp;ji tooltip enabled</string>
          </property>
          <property name="checkable">
           <bool>true</bool>
