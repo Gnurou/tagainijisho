@@ -4,6 +4,8 @@ README file for Tagaini Jisho
 This is Tagaini Jisho, a free software Japanese dictionary and learning
 assistant.
 
+[![Build Status](https://travis-ci.org/Gnurou/tagainijisho.svg?branch=master)](https://travis-ci.org/Gnurou/tagainijisho)
+
 About
 -----
 
