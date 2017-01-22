@@ -23,34 +23,6 @@ QRegExp JMdictParser::versionRegExp(" JMdict created: (\\d\\d\\d\\d\\-\\d\\d\\-\
 QRegExp JMdictParser::deletedItemRegExp(" *Deleted: *(\\d\\d\\d\\d\\d\\d\\d).*");
 QRegExp JMdictParser::mergedItemRegExp(" *Deleted: *(\\d\\d\\d\\d\\d\\d\\d) with (\\d\\d\\d\\d\\d\\d\\d).*");
 
-quint64 JMdictSenseItem::posBitField(const JMdictParser &parser) const {
-	quint64 ret(0);
-	foreach (const QString &str, pos)
-		ret |= ((quint64)1) << parser.posBitFields[str];
-	return ret;
-}
-
-quint64 JMdictSenseItem::fieldBitField(const JMdictParser &parser) const {
-	quint64 ret(0);
-	foreach (const QString &str, field)
-		ret |= ((quint64)1) << parser.fieldBitFields[str];
-	return ret;
-}
-
-quint64 JMdictSenseItem::miscBitField(const JMdictParser &parser) const {
-	quint64 ret(0);
-	foreach (const QString &str, misc)
-		ret |= ((quint64)1) << parser.miscBitFields[str];
-	return ret;
-}
-
-quint64 JMdictSenseItem::dialectBitField(const JMdictParser &parser) const {
-	quint64 ret(0);
-	foreach (const QString &str, dialect)
-		ret |= ((quint64)1) << parser.dialectBitFields[str];
-	return ret;
-}
-
 JMdictParser::JMdictParser(const QStringList &langs) : languages(langs), gotVersion(false), posBitFieldsCount(0), fieldBitFieldsCount(0), miscBitFieldsCount(0), dialectBitFieldsCount(0)
 {
 }
@@ -184,8 +156,8 @@ bool JMdictParser::parse(QXmlStreamReader &reader)
 						QString key(reversedEntities[TEXT]);
 						sense.dialect << key;
 						// If not met yet, calculate the bit field for this entity
-						if (!dialectBitFields.contains(key))
-							dialectBitFields[key] = dialectBitFieldsCount++;
+						if (!dialBitFields.contains(key))
+							 dialBitFields[key] = dialectBitFieldsCount++;
 					ENDTAG
 					TAG(stagk)
 						CHARACTERS

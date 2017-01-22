@@ -45,9 +45,11 @@ private:
 	QPushButton *_miscButton;
 	QStringList _miscList;
 
+	void __onPropertyTriggered(QAction *action, QStringList &list, QPushButton *button);
+
 protected:
 	virtual void _reset();
-	static QActionGroup *addCheckableProperties(const QVector< QPair< QString, QString > >& defs, QMenu* menu);
+	static QActionGroup *addCheckableProperties(const QMap<QString, QPair<QString, quint16> >&map, QMenu* menu);
 
 protected slots:
 	void updateMiscFilteredProperties();

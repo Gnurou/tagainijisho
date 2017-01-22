@@ -48,6 +48,7 @@ public:
 	bool createMainDatabase();
 	bool createMainTables();
 	bool createMainIndexes();
+	bool finalizeSensesTable();
 	bool finalizeMainDatabase();
 	bool prepareMainQueries();
 	bool clearMainQueries();
@@ -145,10 +146,10 @@ bool JMdictDBParser::onItemParsed(const JMdictItem &entry)
 	foreach (const JMdictSenseItem &sense, entry.senses) {
 		BIND(insertSenseQuery, entry.id);
 		BIND(insertSenseQuery, idx);
-		BIND(insertSenseQuery, sense.posBitField(*this));
-		BIND(insertSenseQuery, sense.miscBitField(*this));
-		BIND(insertSenseQuery, sense.dialectBitField(*this));
-		BIND(insertSenseQuery, sense.fieldBitField(*this));
+		BIND(insertSenseQuery, sense.pos.join(','));
+		BIND(insertSenseQuery, sense.misc.join(','));
+		BIND(insertSenseQuery, sense.dialect.join(','));
+		BIND(insertSenseQuery, sense.field.join(','));
 		QStringList restrictedToList;
 		foreach (quint8 res, sense.restrictedToKanji) restrictedToList << QString::number(res);
 		AUTO_BIND(insertSenseQuery, restrictedToList.join(","), "");
@@ -269,7 +270,7 @@ bool JMdictDBParser::prepareMainQueries()
 	PREPQUERY(insertKanjiCharQuery, "insert into kanjiChar values(?, ?, ?)");
 	PREPQUERY(insertKanaTextQuery, "insert into kanaText values(?)");
 	PREPQUERY(insertKanaQuery, "insert into kana values(?, ?, ?, ?, ?, ?)");
-	PREPQUERY(insertSenseQuery, "insert into senses values(?, ?, ?, ?, ?, ?, ?, ?)");
+	PREPQUERY(insertSenseQuery, "insert into sensesTMP values(?, ?, ?, ?, ?, ?, ?, ?)");
 	PREPQUERY(insertJLPTQuery, "insert or ignore into jlpt values(?, ?)");
 	PREPQUERY(insertDeletedEntryQuery, "insert into deletedEntries values(?, ?)");
 #undef PREPQUERY
@@ -308,7 +309,8 @@ bool JMdictDBParser::createMainTables()
 	EXEC_STMT(query, "create virtual table kanjiText using fts4(reading)");
 	EXEC_STMT(query, "create table kana(id INTEGER SECONDARY KEY REFERENCES entries, priority TINYINT, docid INTEGER PRIMARY KEY, nokanji BOOLEAN, frequency TINYINT, restrictedTo TEXT)");
 	EXEC_STMT(query, "create virtual table kanaText using fts4(reading, TOKENIZE katakana)");
-	EXEC_STMT(query, "create table senses(id INTEGER SECONDARY KEY REFERENCES entries, priority TINYINT, pos INT, misc INT, dial INT, field INT, restrictedToKanji TEXT, restrictedToKana TEXT)");
+	// Temporary table until we figure out how many pos, misc,... columns we need
+	EXEC_STMT(query, "create table sensesTMP(id INTEGER SECONDARY KEY REFERENCES entries, priority TINYINT, pos TEXT, misc TEXT, dial TEXT, field TEXT, restrictedToKanji TEXT, restrictedToKana TEXT)");
 	EXEC_STMT(query, "create table kanjiChar(kanji INTEGER, id INTEGER SECONDARY KEY REFERENCES entries, priority INT)");
 	EXEC_STMT(query, "create table jlpt(id INTEGER PRIMARY KEY, level TINYINT)");
 	EXEC_STMT(query, "create table deletedEntries(id INTEGER PRIMARY KEY, movedTo INTEGER REFERENCES entries)");
@@ -325,6 +327,86 @@ bool JMdictDBParser::createMainIndexes()
 	EXEC_STMT(query, "create index idx_kanjichar on kanjiChar(kanji)");
 	EXEC_STMT(query, "create index idx_kanjichar_id on kanjiChar(id)");
 	EXEC_STMT(query, "create index idx_jlpt on jlpt(level)");
+	return true;
+}
+
+static QString entityString(const int count, const QString &entity, const QString &suffix = "")
+{
+	QStringList l;
+
+	for (int i = 0; i <= count / 64; i++)
+		l.append(QString("%1%2%3").arg(entity).arg(i).arg(suffix));
+
+	return l.join(", ");
+}
+
+static QVector<quint64> entityInsert(const QString &entities, const QHash<QString, quint16> &entityBitFields)
+{
+	QVector<quint64> columns((entityBitFields.size() / 64) + 1, 0);
+
+	foreach (const QString &entity, entities.split(',', QString::SkipEmptyParts)) {
+		const int idx = entityBitFields[entity] / 64;
+		const quint16 bit = entityBitFields[entity] % 64;
+		const quint64 mask = ((quint64)1) << bit;
+
+		columns[idx] |= mask;
+	}
+
+	return columns;
+}
+
+bool JMdictDBParser::finalizeSensesTable()
+{
+	SQLite::Query query(&connections["main"]);
+	SQLite::Query query2(&connections["main"]);
+	int posCount, miscCount, dialCount, fieldCount;
+	QString posStr, miscStr, dialStr, fieldStr;
+
+	// First figure out how many 64-bit integer columns we need to encode the entities
+	posCount = posBitFields.size();
+	miscCount = miscBitFields.size();
+	dialCount = dialBitFields.size();
+	fieldCount = fieldBitFields.size();
+
+	posStr = entityString(posCount, "pos", " INT");
+	miscStr = entityString(miscCount, "misc", " INT");
+	dialStr = entityString(dialCount, "dial", " INT");
+	fieldStr = entityString(fieldCount, "field", " INT");
+
+	// Create final senses table
+	EXEC_STMT(query, QString("create table senses(id INTEGER SECONDARY KEY REFERENCES entries, priority TINYINT, %1, %2, %3, %4, restrictedToKanji TEXT, restrictedToKana TEXT)").arg(posStr).arg(miscStr).arg(dialStr).arg(fieldStr));
+
+	// Copy data from temporary table into final one
+	query2.prepare(QString("insert into senses(rowid, id, priority, %1, %2, %3, %4, restrictedToKanji, restrictedToKana) values(?, ?, ?, %5%6%7%8?, ?)")
+		.arg(entityString(posCount, "pos"))
+		.arg(entityString(miscCount, "misc"))
+		.arg(entityString(dialCount, "dial"))
+		.arg(entityString(fieldCount, "field"))
+		.arg(QString("?, ").repeated((posCount / 64) + 1))
+		.arg(QString("?, ").repeated((miscCount / 64) + 1))
+		.arg(QString("?, ").repeated((dialCount / 64) + 1))
+		.arg(QString("?, ").repeated((fieldCount / 64) + 1)));
+	EXEC_STMT(query, "select rowid, * from sensesTMP");
+	while (query.next()) {
+		BIND(query2, query.valueInt64(0));
+		BIND(query2, query.valueInt64(1));
+		BIND(query2, query.valueInt(2));
+		foreach (quint64 mask, entityInsert(query.valueString(3), posBitFields))
+			BIND(query2, mask);
+		foreach (quint64 mask, entityInsert(query.valueString(4), miscBitFields))
+			BIND(query2, mask);
+		foreach (quint64 mask, entityInsert(query.valueString(5), dialBitFields))
+			BIND(query2, mask);
+		foreach (quint64 mask, entityInsert(query.valueString(6), fieldBitFields))
+			BIND(query2, mask);
+		BIND(query2, query.valueString(7));
+		BIND(query2, query.valueString(8));
+		EXEC(query2)
+	}
+
+	// Delete temporary senses table
+	EXEC_STMT(query, "drop table sensesTMP");
+
 	return true;
 }
 
@@ -446,8 +528,8 @@ bool JMdictDBParser::populateEntitiesTable()
 		ASSERT(entitiesQuery.exec());
 	}
 	entitiesQuery.prepare("insert into dialectEntities values(?, ?, ?)");
-	foreach (const QString &name, dialectBitFields.keys()) {
-		entitiesQuery.bindValue(dialectBitFields[name]);
+	foreach (const QString &name, dialBitFields.keys()) {
+		entitiesQuery.bindValue(dialBitFields[name]);
 		entitiesQuery.bindValue(name);
 		entitiesQuery.bindValue(entities[name]);
 		ASSERT(entitiesQuery.exec());
@@ -521,6 +603,7 @@ bool buildDB(const QStringList &languages, const QString &srcDir, const QString 
 	parser.fillLanguagesInfoTable();
 	parser.insertJLPTLevels();
 	parser.populateEntitiesTable();
+	parser.finalizeSensesTable();
 	parser.createMainIndexes();
 	parser.createLanguagesIndexes();
 

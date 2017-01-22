@@ -29,65 +29,21 @@
 #include <QtDebug>
 #include <QFile>
 #include <QDir>
+#include <bits/c++config.h>
 
 #define dictFileConfigString "jmdict/database"
 #define dictFileConfigDefault "jmdict.db"
 
 JMdictPlugin *JMdictPlugin::_instance = 0;
 
-QVector<QPair<QString, QString> > JMdictPlugin::_posEntities;
-QVector<QPair<QString, QString> > JMdictPlugin::_miscEntities;
-QVector<QPair<QString, QString> > JMdictPlugin::_dialectEntities;
-QVector<QPair<QString, QString> > JMdictPlugin::_fieldEntities;
-
-QMap<QString, quint8> JMdictPlugin::_posBitShift;
-QMap<QString, quint8> JMdictPlugin::_miscBitShift;
-QMap<QString, quint8> JMdictPlugin::_dialectBitShift;
-QMap<QString, quint8> JMdictPlugin::_fieldBitShift;
-
-QList<const QPair<QString, QString> *> JMdictPlugin::posEntitiesList(quint64 mask)
-{
-	QList<const QPair<QString, QString> *> res;
-	int cpt(0);
-	while (mask != 0 && cpt < _posEntities.size()) {
-		if (mask & 1) res << &_posEntities[cpt];
-		++cpt; mask >>= 1;
-	}
-	return res;
-}
-
-QList<const QPair<QString, QString> *> JMdictPlugin::miscEntitiesList(quint64 mask)
-{
-	QList<const QPair<QString, QString> *> res;
-	int cpt(0);
-	while (mask != 0 && cpt < _miscEntities.size()) {
-		if (mask & 1) res << &_miscEntities[cpt];
-		++cpt; mask >>= 1;
-	}
-	return res;
-}
-
-QList<const QPair<QString, QString> *> JMdictPlugin::dialectEntitiesList(quint64 mask)
-{
-	QList<const QPair<QString, QString> *> res;
-	int cpt(0);
-	while (mask != 0 && cpt < _dialectEntities.size()) {
-		if (mask & 1) res << &_dialectEntities[cpt];
-		++cpt; mask >>= 1;
-	}
-	return res;
-}
-
-QList<const QPair<QString, QString> *> JMdictPlugin::fieldEntitiesList(quint64 mask)
-{
-	QList<const QPair<QString, QString> *> res;
-	int cpt(0);
-	while (mask != 0 && cpt < _fieldEntities.size()) {
-		if (mask & 1) res << &_fieldEntities[cpt];
-		++cpt; mask >>= 1;
-	}
-	return res;
-}
+QMap<QString, QPair<QString, quint16>> JMdictPlugin::_posMap;
+QVector<QString> JMdictPlugin::_posShift;
+QMap<QString, QPair<QString, quint16>> JMdictPlugin::_miscMap;
+QVector<QString> JMdictPlugin::_miscShift;
+QMap<QString, QPair<QString, quint16>> JMdictPlugin::_dialMap;
+QVector<QString> JMdictPlugin::_dialShift;
+QMap<QString, QPair<QString, quint16>> JMdictPlugin::_fieldMap;
+QVector<QString> JMdictPlugin::_fieldShift;
 
 JMdictPlugin::JMdictPlugin() : Plugin("JMdict")
 {
@@ -308,7 +264,7 @@ bool JMdictPlugin::attachAllDatabases()
 	}
 
 	_attachedDBs[""] = dbFile;
-	
+
 	// Then look for language databases
 	foreach (const QString &lang, Lang::preferredDictLanguages()) {
 		dbFile = lookForFile(QString("jmdict-%1.db").arg(lang));
@@ -320,7 +276,7 @@ bool JMdictPlugin::attachAllDatabases()
 		qFatal("JMdict plugin fatal error: no language database present!");
 		return false;
 	}
-	
+
 	return true;
 }
 
@@ -335,6 +291,20 @@ void JMdictPlugin::detachAllDatabases()
 	_attachedDBs.clear();
 }
 
+void JMdictPlugin::queryEntities(SQLite::Query *query, const QString &entity, QMap<QString, QPair<QString, quint16>> *map, QVector<QString> *shift)
+{
+	QString queryString = QString("select bitShift, name, description from jmdict.%1Entities order by bitShift").arg(entity);
+	query->exec(queryString);
+	while (query->next()) {
+		quint8 bitShift(query->valueUInt(0));
+		QString name(query->valueString(1));
+		QString desc(query->valueString(2));
+		(*map)[name] = QPair<QString, quint8>(desc, bitShift);
+		Q_ASSERT(shift->size() == bitShift);
+		shift->append(name);
+	}
+}
+
 bool JMdictPlugin::onRegister()
 {
 	if (!attachAllDatabases()) {
@@ -346,37 +316,17 @@ bool JMdictPlugin::onRegister()
 	query.exec("select JMdictVersion from jmdict.info");
 	if (query.next()) _dictVersion = query.valueString(0);
 	query.clear();
-	
+
 	if (!checkForMovedEntries()) {
 		qCritical("%s", QCoreApplication::translate("JMdictPlugin", "An error seems to have occured while updating the JMdict database records - the program might crash during usage. Please report this bug.").toUtf8().constData());
 	}
 
 	// Populate the entities tables
-	query.exec("select bitShift, name, description from jmdict.posEntities order by bitShift");
-	while (query.next()) {
-		QString name(query.valueString(1));
-		_posEntities << QPair<QString, QString>(name, query.valueString(2));
-		_posBitShift[name] = query.valueInt(0);
-	}
-	query.exec("select bitShift, name, description from jmdict.miscEntities order by bitShift");
-	while (query.next()) {
-		QString name(query.valueString(1));
-		_miscEntities << QPair<QString, QString>(name, query.valueString(2));
-		_miscBitShift[name] = query.valueInt(0);
-	}
-	query.exec("select bitShift, name, description from jmdict.dialectEntities order by bitShift");
-	while (query.next()) {
-		QString name(query.valueString(1));
-		_dialectEntities << QPair<QString, QString>(name, query.valueString(2));
-		_dialectBitShift[name] = query.valueInt(0);
-	}
-	query.exec("select bitShift, name, description from jmdict.fieldEntities order by bitShift");
-	while (query.next()) {
-		QString name(query.valueString(1));
-		_fieldEntities << QPair<QString, QString>(name, query.valueString(2));
-		_fieldBitShift[name] = query.valueInt(0);
-	}
-	
+	queryEntities(&query, "pos", &_posMap, &_posShift);
+	queryEntities(&query, "misc", &_miscMap, &_miscShift);
+	queryEntities(&query, "dialect", &_dialMap, &_dialShift );
+	queryEntities(&query, "field", &_fieldMap, &_fieldShift);
+
 	// Register our entry searcher
 	searcher = new JMdictEntrySearcher();
 	EntrySearcherManager::instance().addInstance(searcher);
@@ -385,7 +335,7 @@ bool JMdictPlugin::onRegister()
 	loader = new JMdictEntryLoader();
 	if (!EntriesCache::instance().addLoader(JMDICTENTRY_GLOBALID, loader)) return false;
 
-	return true;	
+	return true;
 }
 
 bool JMdictPlugin::onUnregister()
@@ -399,13 +349,44 @@ bool JMdictPlugin::onUnregister()
 	delete searcher;
 
 	// Clear all entities tables
-	_posEntities.clear();
-	_miscEntities.clear();
-	_dialectEntities.clear();
-	_fieldEntities.clear();
-	
+	_posMap.clear();
+	_posShift.clear();
+	_miscMap.clear();
+	_miscShift.clear();
+	_dialMap.clear();
+	_dialShift.clear();
+	_fieldMap.clear();
+	_fieldShift.clear();
+
 	// Detach our databases
 	detachAllDatabases();
 
 	return true;
+}
+
+QSet<QString> JMdictPlugin::shiftsToSet(const QVector<QString>& shift, QVector<quint64> bits) {
+	QSet<QString> ret;
+	int cpt = 0;
+
+	for (int i = 0; i < bits.size(); i++) {
+		while (bits[i] != 0) {
+			if (bits[i] & 1)
+				ret << shift[cpt + (i * 64)];
+			bits[i] >>= 1;
+			cpt++;
+		}
+	}
+	return ret;
+}
+
+std::size_t JMdictPlugin::numColumns(const QMap<QString, QPair<QString, quint16>> &map) {
+	return (map.size() + 63) / 64;
+}
+
+QString JMdictPlugin::dbColumns(const QMap<QString, QPair<QString, quint16>> &map, const QString &column_name) {
+	QStringList columns;
+	for (std::size_t i = 0; i < numColumns(map); i++)
+		columns << QString("%1%2").arg(column_name).arg(i);
+
+	return columns.join(", ");
 }

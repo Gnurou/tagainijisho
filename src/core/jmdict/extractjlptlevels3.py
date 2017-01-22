@@ -46,7 +46,7 @@ def findMatches(kanji, kana):
 	if len(r) == 0 and len(kanji) == 0:
 		# Find word that can only be written in kanji
 		for kn in kana:
-			qString = "select kana.id from kanaText join kana on kana.docid = kanaText.docid left join kanji on kana.id = kanji.id join entries on entries.id = kana.id join senses on senses.id == kana.id where kanaText.reading match ? and (kanji.docid is null or (senses.misc & 4 != 0)) order by entries.frequency desc"
+			qString = "select kana.id from kanaText join kana on kana.docid = kanaText.docid left join kanji on kana.id = kanji.id join entries on entries.id = kana.id join senses on senses.id == kana.id where kanaText.reading match ? and (kanji.docid is null or (senses.misc0 & 4 != 0)) order by entries.frequency desc"
 			r = r.union(set([e[0] for e in cursor.execute(qString, (kn,)).fetchall()]))
 	# Find anything matching the kana in despair
 	if (len(r) == 0):

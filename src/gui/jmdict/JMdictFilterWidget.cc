@@ -59,25 +59,25 @@ JMdictFilterWidget::JMdictFilterWidget(QWidget *parent) : SearchFilterWidget(par
 
 		_posButton = new QPushButton(tr("Part of speech"), this);
 		QMenu *menu = new QMenu(this);
-		QActionGroup *actionGroup = addCheckableProperties(JMdictPlugin::posEntities(), menu);
+		QActionGroup *actionGroup = addCheckableProperties(JMdictPlugin::posMap(), menu);
 		_posButton->setMenu(menu);
 		hLayout->addWidget(_posButton);
 		connect(actionGroup, SIGNAL(triggered(QAction *)), this, SLOT(onPosTriggered(QAction *)));
 		_dialButton = new QPushButton(tr("Dialect"), this);
 		menu = new QMenu(this);
-		actionGroup = addCheckableProperties(JMdictPlugin::dialectEntities(), menu);
+		actionGroup = addCheckableProperties(JMdictPlugin::dialMap(), menu);
 		_dialButton->setMenu(menu);
 		hLayout->addWidget(_dialButton);
 		connect(actionGroup, SIGNAL(triggered(QAction *)), this, SLOT(onDialTriggered(QAction *)));
 		_fieldButton = new QPushButton(tr("Field"), this);
 		menu = new QMenu(this);
-		actionGroup = addCheckableProperties(JMdictPlugin::fieldEntities(), menu);
+		actionGroup = addCheckableProperties(JMdictPlugin::fieldMap(), menu);
 		_fieldButton->setMenu(menu);
 		hLayout->addWidget(_fieldButton);
 		connect(actionGroup, SIGNAL(triggered(QAction *)), this, SLOT(onFieldTriggered(QAction *)));
 		_miscButton = new QPushButton(tr("Misc"), this);
 		menu = new QMenu(this);
-		actionGroup = addCheckableProperties(JMdictPlugin::miscEntities(), menu);
+		actionGroup = addCheckableProperties(JMdictPlugin::miscMap(), menu);
 		_miscButton->setMenu(menu);
 		hLayout->addWidget(_miscButton);
 		connect(actionGroup, SIGNAL(triggered(QAction *)), this, SLOT(onMiscTriggered(QAction *)));
@@ -163,64 +163,39 @@ QString JMdictFilterWidget::currentTitle() const
 	return ret;
 }
 
+void JMdictFilterWidget::__onPropertyTriggered(QAction *action, QStringList &list, QPushButton *button)
+{
+	QString tag = action->property("TJpropertyIndex").toString();
+
+	if (action->isChecked())
+		list << tag;
+	else
+		list.removeOne(tag);
+	if (!list.isEmpty())
+		button->setText(tr("Pos:") + list.join(","));
+	else
+		button->setText(tr("Part of speech"));
+	commandUpdate();
+}
+
 void JMdictFilterWidget::onPosTriggered(QAction *action)
 {
-	if (action->isChecked()) {
-		int propertyIndex = action->property("TJpropertyIndex").toInt();
-		_posList << JMdictPlugin::posEntities()[propertyIndex].first;
-	}
-	else {
-		int propertyIndex = action->property("TJpropertyIndex").toInt();
-		_posList.removeOne(JMdictPlugin::posEntities()[propertyIndex].first);
-	}
-	if (!_posList.isEmpty()) _posButton->setText(tr("Pos:") + _posList.join(","));
-	else _posButton->setText(tr("Part of speech"));
-	commandUpdate();
+	__onPropertyTriggered(action, _posList, _posButton);
 }
 
 void JMdictFilterWidget::onDialTriggered(QAction *action)
 {
-	if (action->isChecked()) {
-		int propertyIndex = action->property("TJpropertyIndex").toInt();
-		_dialList << JMdictPlugin::dialectEntities()[propertyIndex].first;
-	}
-	else {
-		int propertyIndex = action->property("TJpropertyIndex").toInt();
-		_dialList.removeOne(JMdictPlugin::dialectEntities()[propertyIndex].first);
-	}
-	if (!_dialList.isEmpty()) _dialButton->setText(tr("Dial:") + _dialList.join(","));
-	else _dialButton->setText(tr("Dialect"));
-	commandUpdate();
+	__onPropertyTriggered(action, _dialList, _dialButton);
 }
 
 void JMdictFilterWidget::onFieldTriggered(QAction *action)
 {
-	if (action->isChecked()) {
-		int propertyIndex = action->property("TJpropertyIndex").toInt();
-		_fieldList << JMdictPlugin::fieldEntities()[propertyIndex].first;
-	}
-	else {
-		int propertyIndex = action->property("TJpropertyIndex").toInt();
-		_fieldList.removeOne(JMdictPlugin::fieldEntities()[propertyIndex].first);
-	}
-	if (!_fieldList.isEmpty()) _fieldButton->setText(tr("Field:") + _fieldList.join(","));
-	else _fieldButton->setText(tr("Field"));
-	emit commandUpdate();
+	__onPropertyTriggered(action, _fieldList, _fieldButton);
 }
 
 void JMdictFilterWidget::onMiscTriggered(QAction *action)
 {
-	if (action->isChecked()) {
-		int propertyIndex = action->property("TJpropertyIndex").toInt();
-		_miscList << JMdictPlugin::miscEntities()[propertyIndex].first;
-	}
-	else {
-		int propertyIndex = action->property("TJpropertyIndex").toInt();
-		_miscList.removeOne(JMdictPlugin::miscEntities()[propertyIndex].first);
-	}
-	if (!_miscList.isEmpty()) _miscButton->setText(tr("Misc:") + _miscList.join(","));
-	else _miscButton->setText(tr("Misc"));
-	emit commandUpdate();
+	__onPropertyTriggered(action, _miscList, _miscButton);
 }
 
 void JMdictFilterWidget::_reset()
@@ -250,7 +225,7 @@ void JMdictFilterWidget::setPos(const QStringList &list)
 	_posList.clear();
 	foreach(QAction *action, _posButton->menu()->actions()) {
 		if (action->isChecked()) action->trigger();
-		if (list.contains(JMdictPlugin::posEntities()[action->property("TJpropertyIndex").toInt()].first))
+		if (list.contains(JMdictPlugin::posMap()[action->property("TJpropertyIndex").toString()].first))
 			action->trigger();
 	}
 }
@@ -260,7 +235,7 @@ void JMdictFilterWidget::setDial(const QStringList &list)
 	_dialList.clear();
 	foreach(QAction *action, _dialButton->menu()->actions()) {
 		if (action->isChecked()) action->trigger();
-		if (list.contains(JMdictPlugin::dialectEntities()[action->property("TJpropertyIndex").toInt()].first))
+		if (list.contains(JMdictPlugin::dialMap()[action->property("TJpropertyIndex").toString()].first))
 			action->trigger();
 	}
 }
@@ -270,7 +245,7 @@ void JMdictFilterWidget::setField(const QStringList &list)
 	_fieldList.clear();
 	foreach(QAction *action, _fieldButton->menu()->actions()) {
 		if (action->isChecked()) action->trigger();
-		if (list.contains(JMdictPlugin::fieldEntities()[action->property("TJpropertyIndex").toInt()].first))
+		if (list.contains(JMdictPlugin::fieldMap()[action->property("TJpropertyIndex").toString()].first))
 			action->trigger();
 	}
 }
@@ -280,7 +255,31 @@ void JMdictFilterWidget::setMisc(const QStringList &list)
 	_miscList.clear();
 	foreach(QAction *action, _miscButton->menu()->actions()) {
 		if (action->isChecked()) action->trigger();
-		if (list.contains(JMdictPlugin::miscEntities()[action->property("TJpropertyIndex").toInt()].first))
+		if (list.contains(JMdictPlugin::miscMap()[action->property("TJpropertyIndex").toString()].first))
 			action->trigger();
 	}
+}
+
+QActionGroup *JMdictFilterWidget::addCheckableProperties(const QMap<QString, QPair<QString, quint16> >&map, QMenu *menu)
+{
+	QMap<QString, QString> strMap;
+	QStringList strList;
+	for (const auto &tag : map.keys()) {
+		QString translated = QCoreApplication::translate("JMdictLongDescs", map[tag].first.toLatin1());
+		translated = translated.replace(0, 1, translated[0].toUpper());
+		strList << translated;
+		strMap[translated] = tag;
+	}
+
+	std::sort(strList.begin(), strList.end());
+	QActionGroup *actionGroup = new QActionGroup(menu);
+	actionGroup->setExclusive(false);
+	foreach(QString str, strList) {
+		QString tag = strMap[str];
+		QAction *action = actionGroup->addAction(str);
+		action->setCheckable(true);
+		menu->addAction(action);
+		action->setProperty("TJpropertyIndex", tag);
+	}
+	return actionGroup;
 }

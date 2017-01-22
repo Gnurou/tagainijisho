@@ -107,13 +107,14 @@ void JMdictPreferences::refresh()
 	filteredDefs->clear();
 	displayedDefs->clear();
 	const QStringList &filtered(JMdictEntrySearcher::miscPropertiesFilter.value().split(','));
-	for (int i = 0; i < JMdictPlugin::miscEntities().size(); i++) {
-		QPair<QString, QString> entity(JMdictPlugin::miscEntities()[i]);
-		QString s(QCoreApplication::translate("JMdictLongDescs", entity.second.toLatin1()));
+	for (int i = 0; i < JMdictPlugin::miscShift().size(); i++) {
+		const QString& shortName = JMdictPlugin::miscShift()[i];
+		QPair<QString, quint16> entity = JMdictPlugin::miscMap()[shortName];
+		QString s(QCoreApplication::translate("JMdictLongDescs", entity.first.toLatin1()));
 		s[0] = s[0].toUpper();
 		QListWidgetItem *item = new QListWidgetItem(s);
-		item->setData(Qt::UserRole, entity.first);
-		if (filtered.contains(entity.first))
+		item->setData(Qt::UserRole, shortName);
+		if (filtered.contains(shortName))
 			filteredDefs->addItem(item);
 		else
 			displayedDefs->addItem(item);
@@ -144,11 +145,10 @@ void JMdictPreferences::applySettings()
 	QStringList filtered, res;
 	for (int i = 0; i < filteredDefs->model()->rowCount(); i++)
 		filtered << filteredDefs->item(i)->data(Qt::UserRole).toString();
-	for (int i = 0; i < JMdictPlugin::miscEntities().size(); i++) {
-		QPair<QString, QString> entity(JMdictPlugin::miscEntities()[i]);
-		QString s(entity.first);
-		if (filtered.contains(s))
-			res << entity.first;
+	for (int i = 0; i < JMdictPlugin::miscShift().size(); i++) {
+		const QString& shortName = JMdictPlugin::miscShift()[i];
+		if (filtered.contains(shortName))
+			res << shortName;
 	}
 	JMdictEntrySearcher::miscPropertiesFilter.set(res.join(","));
 }

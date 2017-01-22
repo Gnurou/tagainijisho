@@ -43,7 +43,7 @@ Gloss::Gloss(const QString &lang, const QString &gloss) : _lang(lang), _gloss(gl
 {
 }
 
-Sense::Sense(quint64 partOfSpeech, quint64 misc, quint64 dialect, quint64 field) : _partOfSpeech(partOfSpeech), _misc(misc), _dialect(dialect), _field(field)
+Sense::Sense(const QSet<QString> &partOfSpeech, const QSet<QString> &misc, const QSet<QString> &dialect, const QSet<QString> &field) : _partOfSpeech(partOfSpeech), _misc(misc), _dialect(dialect), _field(field)
 {
 }
 
@@ -120,14 +120,15 @@ QStringList JMdictEntry::meanings() const
 QList<const Sense *> JMdictEntry::getSenses() const
 {
 	QList<const Sense *> res;
-	quint64 filter(JMdictEntrySearcher::miscFilterMask() & ~JMdictEntrySearcher::explicitlyRequestedMiscs());
+	QSet<QString> filter(JMdictEntrySearcher::miscFilterEntities() - JMdictEntrySearcher::explicitlyRequestedMiscs());
 	foreach (const Sense &sense, getAllSenses()) {
-		if (!(sense.misc() & filter)) res << &sense;
+		if ((sense.misc() & filter).isEmpty())
+			res << &sense;
 	}
 	return res;
 }
 
 bool JMdictEntry::writtenInKana() const
 {
-	return (!senses.isEmpty() && senses[0].misc() & (1 << JMdictPlugin::miscBitShifts()["uk"]));
+	return (!senses.isEmpty() && senses[0].misc().contains("uk"));
 }

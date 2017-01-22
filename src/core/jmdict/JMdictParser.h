@@ -47,20 +47,16 @@ public:
 class JMdictParser;
 class JMdictSenseItem {
 public:
-	QSet<QString> pos;
-	QSet<QString> field;
-	QSet<QString> misc;
-	QSet<QString> dialect;
+	QStringList pos;
+	QStringList field;
+	QStringList misc;
+	QStringList dialect;
 	QList<quint8> restrictedToKanji;
 	QList<quint8> restrictedToKana;
 	/// Maps a language to its glosses
 	QMap<QString, QStringList> gloss;
 	
 	JMdictSenseItem() {}
-	quint64 posBitField(const JMdictParser &parser) const;
-	quint64 fieldBitField(const JMdictParser &parser) const;
-	quint64 miscBitField(const JMdictParser &parser) const;
-	quint64 dialectBitField(const JMdictParser &parser) const;
 };
 
 class JMdictItem {
@@ -93,13 +89,13 @@ protected:
 	QString _dictVersion;
 
 public:
-	QHash<QString, quint8> posBitFields;
+	QHash<QString, quint16> posBitFields;
 	int posBitFieldsCount;
-	QHash<QString, quint8> fieldBitFields;
+	QHash<QString, quint16> fieldBitFields;
 	int fieldBitFieldsCount;
-	QHash<QString, quint8> miscBitFields;
+	QHash<QString, quint16> miscBitFields;
 	int miscBitFieldsCount;
-	QHash<QString, quint8> dialectBitFields;
+	QHash<QString, quint16> dialBitFields;
 	int dialectBitFieldsCount;
 	
 	QHash<QString, QString> entities;

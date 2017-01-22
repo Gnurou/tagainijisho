@@ -21,6 +21,7 @@
 #include <QList>
 #include <QStringList>
 #include <QMap>
+#include <QSet>
 
 #include "core/EntriesCache.h"
 
@@ -86,20 +87,20 @@ private:
 	QStringList infos;
 	QList<qint32> _stagK;
 	QList<qint32> _stagR;
-	quint64 _partOfSpeech;
-	quint64 _misc;
-	quint64 _dialect;
-	quint64 _field;
+	QSet<QString> _partOfSpeech;
+	QSet<QString> _misc;
+	QSet<QString> _dialect;
+	QSet<QString> _field;
 
 public:
-	Sense(quint64 partOfSpeech, quint64 misc, quint64 dialect, quint64 field);
+	Sense(const QSet<QString> &partOfSpeech, const QSet<QString> &misc, const QSet<QString> &dialect, const QSet<QString> &field);
 	const QList<Gloss> &getGlosses() const { return glosses; }
 	const QStringList &getInfos() const { return infos; }
 
-	quint64 partOfSpeech() const { return _partOfSpeech; }
-	quint64 misc() const { return _misc; }
-	quint64 dialect() const { return _dialect; }
-	quint64 field() const { return _field; }
+	const QSet<QString> &partOfSpeech() const { return _partOfSpeech; }
+	const QSet<QString> &misc() const { return _misc; }
+	const QSet<QString> &dialect() const { return _dialect; }
+	const QSet<QString> &field() const { return _field; }
 	const QList<qint32> &stagK() const { return _stagK; }
 	void addStagK(qint32 index) { _stagK << index; }
 	const QList<qint32> &stagR() const { return _stagR; }

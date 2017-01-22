@@ -22,8 +22,8 @@
 #include "sqlite/SQLite.h"
 
 PreferenceItem<QString> JMdictEntrySearcher::miscPropertiesFilter("jmdict", "miscPropertiesFilter", "arch,obs");
-quint64 JMdictEntrySearcher::_miscFilterMask = 0;
-quint64 JMdictEntrySearcher::_explicitlyRequestedMiscs = 0;
+QSet<QString> JMdictEntrySearcher::_miscFilterMask;
+QSet<QString> JMdictEntrySearcher::_explicitlyRequestedMiscs;
 
 JMdictEntrySearcher::JMdictEntrySearcher() : EntrySearcher(JMDICTENTRY_GLOBALID)
 {
@@ -130,11 +130,14 @@ void JMdictEntrySearcher::buildStatement(QList<SearchCommand> &commands, QueryBu
 	QStringList romajiSearch;
 	QStringList hasKanjiSearch;
 	QStringList hasComponentSearch;
-	quint64 posFilter(0), miscFilter(0), dialectFilter(0), fieldFilter(0);
+	quint64 miscFilter(0), dialectFilter(0), fieldFilter(0);
+	QSet<quint16> posFilter;
 
 	QSet<QString> allCommands;
 	// First build the global list of all commands
 	foreach(const SearchCommand &command, commands) allCommands << command.command();
+
+	_explicitlyRequestedMiscs.clear();
 
 	foreach(const SearchCommand &command, commands) {
 		const QString &commandLabel = command.command();
@@ -265,10 +268,11 @@ void JMdictEntrySearcher::buildStatement(QList<SearchCommand> &commands, QueryBu
 			bool allArgsProcessed = true;
 			foreach (const QString &arg, command.args()) {
 				// Check if the argument is defined
-				if (JMdictPlugin::posBitShifts().contains(arg)) {
-					quint8 bitShift(JMdictPlugin::posBitShifts()[arg]);
-					posFilter |= 1ULL << bitShift;
-				} else allArgsProcessed = false;
+				auto it = JMdictPlugin::posMap().find(arg);
+				if (it != JMdictPlugin::posMap().end())
+					posFilter << it->second;
+				else
+					allArgsProcessed = false;
 			}
 			if (!allArgsProcessed) continue;
 			commands.removeOne(command);
@@ -277,10 +281,13 @@ void JMdictEntrySearcher::buildStatement(QList<SearchCommand> &commands, QueryBu
 			bool allArgsProcessed = true;
 			foreach (const QString &arg, command.args()) {
 				// Check if the argument is defined
-				if (JMdictPlugin::miscBitShifts().contains(arg)) {
-					quint8 bitShift(JMdictPlugin::miscBitShifts()[arg]);
-					miscFilter |= 1ULL << bitShift;
-				} else allArgsProcessed = false;
+				auto it = JMdictPlugin::miscMap().find(arg);
+				if (it != JMdictPlugin::miscMap().end()) {
+					miscFilter |= 1ULL << it->second;
+					_explicitlyRequestedMiscs << arg;
+				} else {
+					allArgsProcessed = false;
+				}
 			}
 			if (!allArgsProcessed) continue;
 			commands.removeOne(command);
@@ -289,10 +296,11 @@ void JMdictEntrySearcher::buildStatement(QList<SearchCommand> &commands, QueryBu
 			bool allArgsProcessed = true;
 			foreach (const QString &arg, command.args()) {
 				// Check if the argument is defined
-				if (JMdictPlugin::dialectBitShifts().contains(arg)) {
-					quint8 bitShift(JMdictPlugin::dialectBitShifts()[arg]);
-					dialectFilter |= 1ULL << bitShift;
-				} else allArgsProcessed = false;
+				auto it = JMdictPlugin::dialMap().find(arg);
+				if (it != JMdictPlugin::dialMap().end())
+					dialectFilter |= 1ULL << it->second;
+				else
+					allArgsProcessed = false;
 			}
 			if (!allArgsProcessed) continue;
 			commands.removeOne(command);
@@ -301,10 +309,11 @@ void JMdictEntrySearcher::buildStatement(QList<SearchCommand> &commands, QueryBu
 			bool allArgsProcessed = true;
 			foreach (const QString &arg, command.args()) {
 				// Check if the argument is defined
-				if (JMdictPlugin::fieldBitShifts().contains(arg)) {
-					quint8 bitShift(JMdictPlugin::fieldBitShifts()[arg]);
-					fieldFilter |= 1ULL << bitShift;
-				} else allArgsProcessed = false;
+				auto it = JMdictPlugin::fieldMap().find(arg);
+				if (it != JMdictPlugin::fieldMap().end())
+					fieldFilter |= 1ULL << it->second;
+				else
+					allArgsProcessed = false;
 			}
 			if (!allArgsProcessed) continue;
 			commands.removeOne(command);
@@ -328,18 +337,30 @@ void JMdictEntrySearcher::buildStatement(QList<SearchCommand> &commands, QueryBu
 
 	// Add where statements for sense filters
 	// Cancel misc filters that have explicitly been required
-	_explicitlyRequestedMiscs = miscFilter;
-	quint64 _miscFilterMask = miscFilterMask() & ~_explicitlyRequestedMiscs;
+	quint64 filteredMisc = 0;
+	for (const auto &misc : miscFilterEntities() - _explicitlyRequestedMiscs) {
+		auto it = JMdictPlugin::miscMap().find(misc);
+		if (it != JMdictPlugin::miscMap().end())
+			filteredMisc |= 1ULL << it->second;
+	}
 
-	bool mustJoinSenses = _miscFilterMask | posFilter | miscFilter | dialectFilter | fieldFilter;
+	bool mustJoinSenses = filteredMisc | !posFilter.isEmpty() | miscFilter | dialectFilter | fieldFilter;
 	if (mustJoinSenses) {
 		statement.addJoin(QueryBuilder::Join(QueryBuilder::Column("jmdict.senses", "id")));
-		if (posFilter) statement.addWhere(QString("jmdict.senses.pos & %2 == %2").arg(posFilter));
-		if (miscFilter) statement.addWhere(QString("jmdict.senses.misc & %2 == %2").arg(miscFilter));
-		if (dialectFilter) statement.addWhere(QString("jmdict.senses.dial & %2 == %2").arg(dialectFilter));
-		if (fieldFilter) statement.addWhere(QString("jmdict.senses.field & %2 == %2").arg(fieldFilter));
+		if (!posFilter.isEmpty()) {
+			std::vector<quint64> masks;
+			masks.resize((JMdictPlugin::posMap().size() + 63) / 64);
+			for (auto shift : posFilter)
+				masks[shift / 64] |= 1ULL << (shift % 64);
+			for (unsigned long i = 0; i < masks.size(); i++)
+				statement.addWhere(QString("jmdict.senses.pos%1 & %2 == %2").arg(i).arg(masks[i]));
+		}
+
+		if (miscFilter) statement.addWhere(QString("jmdict.senses.misc0 & %2 == %2").arg(miscFilter));
+		if (dialectFilter) statement.addWhere(QString("jmdict.senses.dial0 & %2 == %2").arg(dialectFilter));
+		if (fieldFilter) statement.addWhere(QString("jmdict.senses.field0 & %2 == %2").arg(fieldFilter));
 		// Implicitely masked misc properties
-		if (_miscFilterMask) statement.addWhere(QString("jmdict.senses.misc & %1 == 0").arg(_miscFilterMask));
+		if (filteredMisc) statement.addWhere(QString("jmdict.senses.misc0 & %1 == 0").arg(filteredMisc));
 	}
 
 	// TODO it should be ensure that kanjisearch and componentsearch are applied on the same writing
@@ -383,8 +404,8 @@ void JMdictEntrySearcher::buildStatement(QList<SearchCommand> &commands, QueryBu
 
 void JMdictEntrySearcher::updateMiscFilterMask()
 {
-	_miscFilterMask = 0;
-	foreach (const QString &str, miscPropertiesFilter.value().split(',')) if (JMdictPlugin::miscBitShifts().contains(str)) _miscFilterMask |= 1ULL << JMdictPlugin::miscBitShifts()[str];
+	_miscFilterMask.clear();
+	foreach (const QString &str, miscPropertiesFilter.value().split(',')) if (JMdictPlugin::miscMap().contains(str)) _miscFilterMask << str;
 }
 
 QueryBuilder::Column JMdictEntrySearcher::canSort(const QString &sort, const QueryBuilder::Statement &statement)
@@ -405,4 +426,16 @@ QueryBuilder::Column JMdictEntrySearcher::canSort(const QString &sort, const Que
 	else if (sort == "freq") return QueryBuilder::Column("jmdict.entries", "frequency");
 	else if (sort == "jlpt") return QueryBuilder::Column("jmdict.jlpt", "level");
 	return res;
+}
+
+QVector<quint64> JMdictEntrySearcher::miscFilterMask() {
+	QVector<quint64> ret;
+
+	quint64 miscMask = 0;
+	for (const QString &misc : JMdictEntrySearcher::miscFilterEntities()) {
+		miscMask |= (1 << JMdictPlugin::miscMap()[misc].second);
+	}
+
+	ret.append(miscMask);
+	return ret;
 }

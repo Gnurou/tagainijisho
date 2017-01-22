@@ -85,14 +85,14 @@ QString Kanjidic2EntryFormatter::getQueryUsedInWordsSql(int kanji, int limit, bo
 		"join jmdict.kanjiChar on jmdict.kanjiChar.id = jmdict.entries.id "
 		"join jmdict.senses as senses on senses.id = jmdict.entries.id "
 			"and senses.priority = 0 "
-			"and senses.misc & %4 = 0 "
+			"and senses.misc0 & %4 = 0 "
 		"%3join training on training.id = jmdict.entries.id and training.type = " QUOTEMACRO(JMDICTENTRY_GLOBALID) " "
 		"left join jmdict.jlpt on jmdict.entries.id = jmdict.jlpt.id "
 		"where jmdict.kanjiChar.kanji = %1 and jmdict.kanjiChar.priority = 0 "
 		"order by training.dateAdded is null ASC, training.score ASC, jmdict.jlpt.level DESC, jmdict.entries.frequency DESC "
 		"limit %2");
 
-	return queryUsedInWordsSql.arg(kanji).arg(limit).arg(onlyStudied ? "" : "left ").arg(JMdictEntrySearcher::miscFilterMask() | (1 << JMdictPlugin::miscBitShifts()["uk"]));
+	return queryUsedInWordsSql.arg(kanji).arg(limit).arg(onlyStudied ? "" : "left ").arg(JMdictEntrySearcher::miscFilterMask()[0] | (1 << JMdictPlugin::miscMap()["uk"].second));
 }
 
 QString Kanjidic2EntryFormatter::getQueryUsedInKanjiSql(int kanji, int limit, bool onlyStudied)
@@ -183,7 +183,7 @@ void Kanjidic2EntryFormatter::drawCustom(const ConstKanjidic2EntryPointer& entry
 		painter.drawText(leftArea, Qt::AlignHCenter | Qt::AlignTop, entry->kanji());
 		painter.restore();
 	}
-	
+
 	if (printStrokesNumbers) {
 		KanjiRenderer renderer(entry);
 		painter.save();
@@ -205,7 +205,7 @@ void Kanjidic2EntryFormatter::drawCustom(const ConstKanjidic2EntryPointer& entry
 		foreach(const KanjiComponent *c, entry->rootComponents()) {
 			ConstKanjidic2EntryPointer original(getMeaningEntry(c));
 			ConstKanjidic2EntryPointer element(getShapeEntry(c));
-			
+
 			if (printOnlyStudiedComponents && !original->trained()) continue;
 			QString s = original->kanji();
 			if (original != element) s += tr(" (%1) ").arg(element->kanji());
@@ -219,7 +219,7 @@ void Kanjidic2EntryFormatter::drawCustom(const ConstKanjidic2EntryPointer& entry
 			leftArea.setTop(textBB.bottom());
 		}
 	}
-	
+
 	QRectF rightArea = rectangle;
 	QString str;
 	rightArea.setTopLeft(QPointF(rectangle.left() + leftArea.width() + leftArea.width() / 20.0, rectangle.top()));
@@ -389,7 +389,7 @@ QString Kanjidic2EntryFormatter::shortDesc(const ConstKanjidic2EntryPointer &sha
 	if (shape != entry) str += QString(" (%1) ").arg(shape->kanji());
 	if (!entry->meanings().isEmpty()) str += ": " + entry->meaningsString();
 	ret += autoFormat(str);
-	
+
 	if (shortDescShowJLPT.value() && entry->jlpt() != -1)
 		ret += QString(" <b>%1</b>").arg(autoFormat(tr("(JLPT N%1)").arg(entry->jlpt())));
 	ret += QString(" <a href=\"entry://?type=%1&id=%2\"><img src=\"moreicon\"/></a>").arg(entry->type()).arg(entry->id());
@@ -461,7 +461,7 @@ QString Kanjidic2EntryFormatter::formatNanori(const ConstEntryPointer &_entry) c
 	return "";
 }
 
-	
+
 QString Kanjidic2EntryFormatter::formatStrokesCount(const ConstEntryPointer &_entry) const
 {
 	ConstKanjidic2EntryPointer entry(_entry.staticCast<const Kanjidic2Entry>());
@@ -580,7 +580,7 @@ QString Kanjidic2EntryFormatter::formatRadicals(const ConstEntryPointer &_entry)
 			// TODO
 			//view->addWatchEntry(kEntry);
 			formats << QString("%1 (%2)").arg(entryTitle(kEntry)).arg(radical.second);
-		} 
+		}
 		return QString("<b>%1:</b> %2").arg(tr("Radicals")).arg(formats.join(" "));
 	}
 	return "";

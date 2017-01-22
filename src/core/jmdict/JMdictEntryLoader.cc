@@ -18,6 +18,7 @@
 #include "core/Lang.h"
 #include "core/jmdict/JMdictEntryLoader.h"
 #include "core/jmdict/JMdictPlugin.h"
+#include <bits/c++config.h>
 
 JMdictEntryLoader::JMdictEntryLoader() : EntryLoader(), kanjiQuery(&connection), kanaQuery(&connection), sensesQuery(&connection), jlptQuery(&connection)
 {
@@ -32,9 +33,9 @@ JMdictEntryLoader::JMdictEntryLoader() : EntryLoader(), kanjiQuery(&connection),
 	// Prepare queries so that we just have to bind and execute them
 	kanjiQuery.prepare("select reading, frequency from jmdict.kanji join jmdict.kanjiText on kanji.docid == kanjiText.docid where id=? order by priority");
 	kanaQuery.prepare("select reading, nokanji, frequency, restrictedTo from jmdict.kana join jmdict.kanaText on kana.docid == kanaText.docid where id=? order by priority");
-	sensesQuery.prepare("select pos, misc, dial, field, restrictedToKanji, restrictedToKana from jmdict.senses where id=? order by priority asc");
+	sensesQuery.prepare("select " + JMdictPlugin::dbColumns(JMdictPlugin::posMap(), "pos") + ", " + JMdictPlugin::dbColumns(JMdictPlugin::miscMap(), "misc") + ", " + JMdictPlugin::dbColumns(JMdictPlugin::dialMap(), "dial") + ", " + JMdictPlugin::dbColumns(JMdictPlugin::fieldMap(), "field") + ", restrictedToKanji, restrictedToKana from jmdict.senses where id=? order by priority asc");
 	jlptQuery.prepare("select jlpt.level from jmdict.jlpt where jlpt.id=?");
-	
+
 	foreach (const QString &lang, allDBs.keys()) {
 		if (lang.isEmpty()) continue;
 		SQLite::Query &query = glossQueries[lang];
@@ -88,11 +89,29 @@ Entry *JMdictEntryLoader::loadEntry(EntryId id)
 	sensesQuery.exec();
 	const QMap<QString, QString> allDBs = JMdictPlugin::instance()->attachedDBs();
 	while(sensesQuery.next()) {
-		Sense sense(sensesQuery.valueUInt64(0), sensesQuery.valueUInt64(1), sensesQuery.valueUInt64(2), sensesQuery.valueUInt64(3));
+		int pos = 0;
+		QVector<quint64> columns;
+		for (std::size_t i = 0; i < JMdictPlugin::numColumns(JMdictPlugin::posMap()); i++)
+			columns << sensesQuery.valueUInt64(pos++);
+		QSet<QString> posStr = JMdictPlugin::shiftsToSet(JMdictPlugin::posShift(), columns);
+		columns.clear();
+		for (std::size_t i = 0; i < JMdictPlugin::numColumns(JMdictPlugin::miscMap()); i++)
+			columns << sensesQuery.valueUInt64(pos++);
+		QSet<QString> miscStr = JMdictPlugin::shiftsToSet(JMdictPlugin::miscShift(), columns);
+		columns.clear();
+		for (std::size_t i = 0; i < JMdictPlugin::numColumns(JMdictPlugin::dialMap()); i++)
+			columns << sensesQuery.valueUInt64(pos++);
+		QSet<QString> dialStr = JMdictPlugin::shiftsToSet(JMdictPlugin::dialShift(), columns);
+		columns.clear();
+		for (std::size_t i = 0; i < JMdictPlugin::numColumns(JMdictPlugin::fieldMap()); i++)
+			columns << sensesQuery.valueUInt64(pos++);
+		QSet<QString> fieldStr = JMdictPlugin::shiftsToSet(JMdictPlugin::fieldShift(), columns);
+
+		Sense sense(posStr, miscStr, dialStr, fieldStr);
 		// Get restricted readings/writing
-		QStringList restrictedTo(sensesQuery.valueString(4).split(',', QString::SkipEmptyParts));
+		QStringList restrictedTo(sensesQuery.valueString(pos++).split(',', QString::SkipEmptyParts));
 		foreach (const QString &idx, restrictedTo) sense.addStagK(idx.toInt());
-		restrictedTo = sensesQuery.valueString(5).split(',', QString::SkipEmptyParts);
+		restrictedTo = sensesQuery.valueString(pos++).split(',', QString::SkipEmptyParts);
 		foreach (const QString &idx, restrictedTo) sense.addStagR(idx.toInt());
 
 		entry->senses << sense;
