@@ -33,6 +33,28 @@ set(CPACK_SOURCE_TGZ "OFF")
 set(CPACK_SOURCE_TZ "OFF")
 set(CPACK_SOURCE_ZIP "OFF")
 
+# This macro can copy system installed QT plugin to custom location in bundle.
+macro(install_qt5_plugin _qt_plugin_name _qt_plugins_var _dest_dir)
+	get_target_property(_qt_plugin_path "${_qt_plugin_name}" LOCATION)
+	if(EXISTS "${_qt_plugin_path}")
+		get_filename_component(_qt_plugin_file "${_qt_plugin_path}" NAME)
+		get_filename_component(_qt_plugin_type "${_qt_plugin_path}" PATH)
+		get_filename_component(_qt_plugin_type "${_qt_plugin_type}" NAME)
+		set(_qt_plugin_dest "${_dest_dir}/${_qt_plugin_type}")
+		install(FILES "${_qt_plugin_path}" DESTINATION "${_qt_plugin_dest}" COMPONENT Runtime)
+		set(${_qt_plugins_var} "${${_qt_plugins_var}};\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/${_qt_plugin_dest}/${_qt_plugin_file}")
+	else()
+		message(FATAL_ERROR "QT plugin ${_qt_plugin_name} not found")
+	endif()
+endmacro()
+
+# Determine location of QT libraries and frameworks
+get_property(_Qt5_Core_LOCATION TARGET Qt5::Core PROPERTY LOCATION)
+get_filename_component(Qt_LIB_DIR "${_Qt5_Core_LOCATION}" PATH)
+if(APPLE)
+	get_filename_component(Qt_LIB_DIR "${Qt_LIB_DIR}" PATH)
+endif(APPLE)
+
 # OSX?
 if(UNIX AND APPLE)
 	set(CPACK_BINARY_DRAGNDROP ON)
@@ -54,19 +76,21 @@ if(UNIX AND APPLE)
 	set(EXE_DIR "${ROOT_DIR}/MacOS")
 	set(DB_DIR ${EXE_DIR})
 	set(I18N_DIR "${EXE_DIR}/i18n")
+	set(PLUGINS_DIR "${ROOT_DIR}/PlugIns")
 	set(DOC_DIR "${EXE_DIR}/doc")
 	set(RESOURCES_DIR "${ROOT_DIR}/Resources")
 	set(APPS "\${CMAKE_INSTALL_PREFIX}/${tagaini_binary}.app")
 	set(SYS_QT_I18N_DIR "/Developer/Applications/Qt/translations")
 
+	install_qt5_plugin("Qt5::QCocoaIntegrationPlugin" QT_PLUGINS "${PLUGINS_DIR}")
+
 	# Qt config
 	install(CODE "file(WRITE \"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/${RESOURCES_DIR}/qt.conf\" \"[Paths]\nPlugins = PlugIns\nTranslations = i18n\n\")" COMPONENT Runtime)
 
-	# Qt plugins
+	# Qt plugins & bundle
 	install(CODE "
-		file(GLOB_RECURSE QTPLUGINS \"\${CMAKE_INSTALL_PREFIX}/${EXE_DIR}/plugins/*${CMAKE_SHARED_LIBRARY_SUFFIX}\")
-	include(BundleUtilities)
-	fixup_bundle(\"${APPS}\" \"${QTPLUGINS}\" \"${QT_LIBRARY_DIRS}\")" COMPONENT Runtime)
+		include(BundleUtilities)
+		fixup_bundle(\"${APPS}\" \"${QT_PLUGINS}\" \"${Qt_LIB_DIR}\")" COMPONENT Runtime)
 # Other UNIX?
 elseif(UNIX)
 	set(CPACK_PACKAGE_NAME "tagainijisho")
