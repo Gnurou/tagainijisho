@@ -2,7 +2,6 @@
 if(APPLE)
 	set(CMAKE_OSX_ARCHITECTURES "${ARCHS_STANDARD_64_BIT}")
 	set(CMAKE_OSX_DEPLOYMENT_TARGET "10.6")
-	set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/pack/MacOS/")
 endif(APPLE)
 
 # The project name decides the naming pattern of many things - choose it according
