@@ -90,6 +90,7 @@ if(UNIX AND APPLE)
 	# Qt plugins & bundle
 	install(CODE "
 		include(BundleUtilities)
+		set(BU_CHMOD_BUNDLE_ITEMS ON)
 		fixup_bundle(\"${APPS}\" \"${QT_PLUGINS}\" \"${Qt_LIB_DIR}\")" COMPONENT Runtime)
 # Other UNIX?
 elseif(UNIX)
