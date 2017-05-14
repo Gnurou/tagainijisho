@@ -57,7 +57,7 @@ Features
 Compiling
 ---------
 
-The only runtime dependency to run Tagaini Jisho is Qt 4.5 or higher. In order
+The only runtime dependency to run Tagaini Jisho is Qt 5.4 or higher. In order
 to compile it, you will also need CMake 2.8.1 or higher.
 
 Compilation requires two steps: first, the program is compiled, and second, the
@@ -103,6 +103,36 @@ Linux users can make a nice deb or rpm package:
 
     $ cpack -G DEB
     $ cpack -G RPM
+
+Compiling on macOS
+------------------
+
+Add your Qt bin dir to PATH so CMake can automatically find it.
+
+For Qt from Homebrew:
+
+    $ export PATH=$PATH:/usr/local/opt/qt/bin
+
+For Qt from official package (for ex Qt 5.6):
+
+    $ export PATH=$PATH:$HOME/Qt/5.6/clang_64/bin
+
+Make build directory:
+
+    $ cd $PROJECT
+    $ mkdir build && cd build
+
+Configure:
+
+    $ cmake -DCMAKE_INSTALL_PREFIX=$HOME/Applications -DEMBED_SQLITE=1 ..
+
+Build:
+
+    $ make
+
+Install (application bundle will be installed to $HOME/Applications):
+
+    $ make install
 
 Compiling with Microsoft Visual Studio
 --------------------------------------
