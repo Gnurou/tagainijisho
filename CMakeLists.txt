@@ -16,11 +16,8 @@ set(CMAKE_AUTOMOC ON)
 cmake_minimum_required(VERSION 2.8.12)
 cmake_policy(VERSION 2.8.12)
 
-find_package(Qt5Core ${QTVERSION} REQUIRED)
-find_package(Qt5Widgets ${QTVERSION} REQUIRED)
-find_package(Qt5PrintSupport ${QTVERSION} REQUIRED)
-find_package(Qt5Network ${QTVERSION} REQUIRED)
-find_package(Qt5LinguistTools ${QTVERSION} REQUIRED)
+find_package(Qt5 ${QTVERSION} REQUIRED COMPONENTS Core Widgets PrintSupport Network LinguistTools)
+
 # FIXME only required when CMake downloads dictionary files. Not necessary for building from source package.
 find_program(GUNZIP NAMES gunzip REQUIRED)
 
