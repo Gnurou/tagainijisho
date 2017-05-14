@@ -1,3 +1,10 @@
+# 64 bits Intel binary with 10.6 compatibility (these variables should be set before any project command)
+if(APPLE)
+	set(CMAKE_OSX_ARCHITECTURES "${ARCHS_STANDARD_64_BIT}")
+	set(CMAKE_OSX_DEPLOYMENT_TARGET "10.6")
+	set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/pack/MacOS/")
+endif(APPLE)
+
 # The project name decides the naming pattern of many things - choose it according
 # to the standard of the platform we run on.
 if(APPLE)
@@ -34,12 +41,6 @@ if(UNIX AND NOT APPLE AND NOT DATA_DIR)
 	set(DATA_DIR "${CMAKE_INSTALL_PREFIX}/share/tagainijisho")
 endif(UNIX AND NOT APPLE AND NOT DATA_DIR)
 
-# 64 bits Intel binary with 10.6 compatibility 
-if(APPLE)
-	set(CMAKE_OSX_ARCHITECTURES "${ARCHS_STANDARD_64_BIT}")
-	set(CMAKE_OSX_DEPLOYMENT_TARGET "10.6")
-	set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/pack/MacOS/")
-endif(APPLE)
 if(WIN32)
    if (!MSVC)
 	set(extra_link_flags "-static-libgcc -static-libstdc++ -mwindows")
