@@ -40,6 +40,7 @@ if(UNIX AND APPLE)
 	set(CPACK_DMG_DS_STORE "${CMAKE_CURRENT_SOURCE_DIR}/MacOS/DS_Store")
 	set(CPACK_DMG_BACKGROUND_IMAGE "${CMAKE_CURRENT_SOURCE_DIR}/MacOS/background.png")
 	set_target_properties(${tagaini_binary} PROPERTIES
+		MACOSX_BUNDLE_INFO_PLIST "${CMAKE_CURRENT_SOURCE_DIR}/MacOS/MacOSXBundleInfo.plist.in"
 		MACOSX_BUNDLE_BUNDLE_NAME "Tagaini Jisho"
 		MACOSX_BUNDLE_BUNDLE_VERSION ${VERSION}
 		MACOSX_BUNDLE_SHORT_VERSION_STRING ${VERSION}
@@ -54,18 +55,8 @@ if(UNIX AND APPLE)
 	set(DB_DIR ${EXE_DIR})
 	set(I18N_DIR "${EXE_DIR}/i18n")
 	set(DOC_DIR "${EXE_DIR}/doc")
-	set(RESOURCES_DIR "${ROOT_DIR}/Resources")
-	set(APPS "\${CMAKE_INSTALL_PREFIX}/${tagaini_binary}.app")
 	set(SYS_QT_I18N_DIR "/Developer/Applications/Qt/translations")
 
-	# Qt config
-	install(CODE "file(WRITE \"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/${RESOURCES_DIR}/qt.conf\" \"[Paths]\nPlugins = PlugIns\nTranslations = i18n\n\")" COMPONENT Runtime)
-
-	# Qt plugins
-	install(CODE "
-		file(GLOB_RECURSE QTPLUGINS \"\${CMAKE_INSTALL_PREFIX}/${EXE_DIR}/plugins/*${CMAKE_SHARED_LIBRARY_SUFFIX}\")
-	include(BundleUtilities)
-	fixup_bundle(\"${APPS}\" \"${QTPLUGINS}\" \"${QT_LIBRARY_DIRS}\")" COMPONENT Runtime)
 # Other UNIX?
 elseif(UNIX)
 	set(CPACK_PACKAGE_NAME "tagainijisho")
