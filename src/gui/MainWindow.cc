@@ -318,6 +318,11 @@ void MainWindow::about()
 	aboutDialog.exec();
 }
 
+void MainWindow::openUrl(const QUrl &url)
+{
+	QDesktopServices::openUrl(url);
+}
+
 void MainWindow::manual()
 {
 	// First check if we have an installation prefix
