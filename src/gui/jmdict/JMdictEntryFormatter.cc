@@ -182,6 +182,7 @@ void JMdictEntryFormatter::drawCustom(const ConstEntryPointer& _entry, QPainter&
 		if (!posList.isEmpty()) posText = QString(" (") + posList.join(",") + ") ";
 		QString s(sense->senseText());
 		if (!s.isEmpty()) s[0] = s[0].toUpper();
+		else continue;
 		s = " " + posText + s;
 		textBB = painter.boundingRect(rightArea, Qt::AlignLeft | Qt::TextWordWrap, s);
 		painter.drawText(rightArea, Qt::AlignLeft | Qt::TextWordWrap, s);

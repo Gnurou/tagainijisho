@@ -59,8 +59,9 @@ QString Sense::senseText() const
 	foreach(const Gloss &gloss, glosses) {
 		strList << QString(gloss.gloss()).replace("\n", ", ");
 	}
-	QString res(strList.join(" - ") + ".");
-	return res;
+	QString res(strList.join(" - "));
+	if (res.isEmpty()) return res;
+	else return res + ".";
 }
 
 
@@ -109,7 +110,10 @@ QStringList JMdictEntry::readings() const
 QStringList JMdictEntry::meanings() const
 {
 	QStringList res;
-	foreach (const Sense *sense, getSenses()) res << sense->senseText();
+	foreach (const Sense *sense, getSenses()) {
+		if (sense->senseText().isEmpty()) continue;
+		res << sense->senseText();
+	}
 	return res;
 }
 
