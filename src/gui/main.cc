@@ -107,7 +107,7 @@ void checkConfigurationVersion()
 		case 0:
 			settings.remove("userProfile");
 			settings.remove("kanjidic/delayBetweenStrokes");
-			settings.remove("kanjidic/animationSpeed");
+			settings.remove("kanjidic/animationSpeed"); // fallthrough
 		case 1:
 			settings.remove("lastUpdateCheck");
 			if (settings.contains("defaultFont")) settings.setValue("mainWindow/defaultFont", settings.value("defaultFont"));
@@ -119,18 +119,18 @@ void checkConfigurationVersion()
 			settings.remove("guiLanguage");
 			settings.remove("autoCheckUpdates");
 			settings.remove("autoCheckBetaUpdates");
-			settings.remove("updateCheckInterval");
+			settings.remove("updateCheckInterval"); // fallthrough
 		case 3:
-			settings.remove("mainWindow/resultsView/resultsPerPage");
+			settings.remove("mainWindow/resultsView/resultsPerPage"); // fallthrough
 		case 4:
 			if (settings.contains("mainWindow/guiLanguage")) settings.setValue("preferredLanguages", settings.value("mainWindow/guiLanguage"));
-			settings.remove("mainWindow/guiLanguage");
+			settings.remove("mainWindow/guiLanguage"); // fallthrough
 		case 5:
 			Lang::preferredDictLanguage.setValue(settings.value("preferredLanguages"));
 			Lang::preferredGUILanguage.setValue(settings.value("preferredLanguages"));
-			settings.remove("preferredLanguages");
+			settings.remove("preferredLanguages"); // fallthrough
 		case 6:
-			settings.remove("entriesCacheSize");
+			settings.remove("entriesCacheSize"); // fallthrough
 		default:
 			// If we arrive here, this means we are running an pre-tracking version - do nothing in that case
 			break;
