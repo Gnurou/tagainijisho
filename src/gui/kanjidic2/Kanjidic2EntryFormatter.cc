@@ -455,7 +455,7 @@ QString Kanjidic2EntryFormatter::formatNanori(const ConstEntryPointer &_entry) c
 	if (showReadings.value()) {
 		ConstKanjidic2EntryPointer entry(_entry.staticCast<const Kanjidic2Entry>());
 		QStringList nanori = entry->nanoris();
-		if (!nanori.isEmpty())
+		if (!nanori.isEmpty() && showNanori.value())
 			return QString("<b>%1:</b> %2").arg(tr("Nanori")).arg(autoFormat(nanori.join(", ")));
 	}
 	return "";
