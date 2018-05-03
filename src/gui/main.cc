@@ -226,7 +226,7 @@ int main(int argc, char *argv[])
 	// Otherwise try the system default
 	} else {
 		QString name = QLocale::system().name();
-#ifdef Q_OS_MAC
+#ifdef Q_OS_OSX
 		// QLocale::system() ignores per-app configuration on MacOS.
 		QSettings settings;
 		QStringList appleLanguages = settings.value("AppleLanguages").toStringList();
