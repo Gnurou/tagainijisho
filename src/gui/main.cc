@@ -225,7 +225,15 @@ int main(int argc, char *argv[])
 		locale = Lang::preferredGUILanguage.value();
 	// Otherwise try the system default
 	} else {
-		locale = QLocale::system().name().left(2);
+		QString name = QLocale::system().name();
+#ifdef Q_OS_MAC
+		// QLocale::system() ignores per-app configuration on MacOS.
+		QSettings settings;
+		QStringList appleLanguages = settings.value("AppleLanguages").toStringList();
+		if (!appleLanguages.isEmpty())
+			name = appleLanguages.first();
+#endif
+		locale = name.left(2);
 	}
 	QLocale::setDefault(QLocale(locale));
 	
