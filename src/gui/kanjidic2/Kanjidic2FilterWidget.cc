@@ -28,16 +28,16 @@
 static void prepareFourCornerComboBox(QComboBox *box)
 {
 	box->addItem("");
-	box->addItem(QString::fromUtf8("亠"));
-	box->addItem(QString::fromUtf8("一"));
-	box->addItem(QString::fromUtf8("｜"));
-	box->addItem(QString::fromUtf8("丶"));
-	box->addItem(QString::fromUtf8("十"));
-	box->addItem(QString::fromUtf8("キ"));
-	box->addItem(QString::fromUtf8("口"));
-	box->addItem(QString::fromUtf8("厂"));
-	box->addItem(QString::fromUtf8("八"));
-	box->addItem(QString::fromUtf8("小"));
+	box->addItem(QString::fromUtf8("0:  亠"));
+	box->addItem(QString::fromUtf8("1:  一"));
+	box->addItem(QString::fromUtf8("2:  ｜"));
+	box->addItem(QString::fromUtf8("3:  丶"));
+	box->addItem(QString::fromUtf8("4:  十"));
+	box->addItem(QString::fromUtf8("5:  キ"));
+	box->addItem(QString::fromUtf8("6:  口"));
+	box->addItem(QString::fromUtf8("7:  厂"));
+	box->addItem(QString::fromUtf8("8:  八"));
+	box->addItem(QString::fromUtf8("9:  小"));
 }
 
 Kanjidic2FilterWidget::Kanjidic2FilterWidget(QWidget *parent) : SearchFilterWidget(parent, "kanjidic")
