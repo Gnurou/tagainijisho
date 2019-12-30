@@ -94,7 +94,7 @@ DockTitleBar::DockTitleBar(QWidget *widget, QDockWidget *parent) : QWidget(paren
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), _clipboardEnabled(false)
 {
 	_instance = this;
-	
+
 	setupUi(this);
 
 	// Setup the corners
@@ -102,10 +102,10 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), _clipboardEnabled
 	setCorner(Qt::BottomLeftCorner, Qt::LeftDockWidgetArea);
 	setCorner(Qt::TopRightCorner, Qt::RightDockWidgetArea);
 	setCorner(Qt::BottomRightCorner, Qt::RightDockWidgetArea);
-	
+
 	// Strangely this is not done properly by Qt designer...
 	connect(_setsMenu, SIGNAL(aboutToShow()), this, SLOT(populateSavedSearchesMenu()));
-	
+
 	// Reset search action
 	_searchWidget->resetSearchAction()->setShortcut(QKeySequence("Ctrl+R"));
 	_searchMenu->addAction(_searchWidget->resetSearchAction());
@@ -113,7 +113,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), _clipboardEnabled
 	_searchMenu->addSeparator();
 	setupSearchWidget();
 	setupListWidget();
-	
+
 	// Updates checker
 	_updateChecker = new UpdateChecker("/updates/latestversion.php", this);
 	_betaUpdateChecker = new UpdateChecker("/updates/latestbetaversion.php", this);
@@ -153,12 +153,12 @@ void MainWindow::setupSearchWidget()
 	DockTitleBar *dBar = new DockTitleBar(filtersToolBar, _searchDockWidget);
 	dBar->setAttribute(Qt::WA_MacMiniSize);
 	_searchDockWidget->setTitleBarWidget(dBar);
-	
+
 	connect(searchWidget()->resultsView(), SIGNAL(entrySelected(EntryPointer)), detailedView(), SLOT(display(EntryPointer)));
 
 	// Focus on the text input on startup
 	actionFocus_text_search->trigger();
-	
+
 	// Toggle action
 	QAction *action = _searchDockWidget->toggleViewAction();
 	action->setShortcut(QKeySequence("F2"));
@@ -177,9 +177,9 @@ void MainWindow::setupListWidget()
 	_listDockWidget->setTitleBarWidget(dBar);
 	// Not visible on first start
 	_listDockWidget->setVisible(false);
-	
+
 	connect(_entryListWidget->entryListView(), SIGNAL(entrySelected(EntryPointer)), detailedView(), SLOT(display(EntryPointer)));
-	
+
 	// Toggle action
 	QAction *action = _listDockWidget->toggleViewAction();
 	action->setShortcut(QKeySequence("F3"));
@@ -224,7 +224,7 @@ void MainWindow::donationReminderCheck()
 			if (messageBox.exec() == QMessageBox::AcceptRole) {
 				donate();
 			}
-			
+
 			donationReminderDisplayed.setValue(true);
 		}
 	}
