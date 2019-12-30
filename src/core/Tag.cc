@@ -29,7 +29,7 @@ void TagsListModel::operator<<(const QString &str)
 {
 	 if (!_data.contains(str)) {
 		 _data << str;
-		 qSort(_data.begin(), _data.end());
+		 std::sort(_data.begin(), _data.end());
 	 }
 }
 

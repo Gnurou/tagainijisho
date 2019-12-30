@@ -138,7 +138,7 @@ QueryBuilder::Column QueryBuilder::Statement::leftColumn() const
 		previousTablePriority = QueryBuilder::Join::tablePriority(firstTable());
 		QueryBuilder::Join::addTablePriority(firstTable(), 65536);
 	}
-	qSort(jList.begin(), jList.end());
+	std::sort(jList.begin(), jList.end());
 	if (!firstTable().isEmpty()) {
 		QueryBuilder::Join::addTablePriority(firstTable(), previousTablePriority);
 	}
@@ -175,7 +175,7 @@ QString QueryBuilder::Statement::sqlStatementRightPart() const
 		previousTablePriority = QueryBuilder::Join::tablePriority(firstTable());
 		QueryBuilder::Join::addTablePriority(firstTable(), 65536);
 	}
-	qSort(jList.begin(), jList.end());
+	std::sort(jList.begin(), jList.end());
 	if (!firstTable().isEmpty()) {
 		QueryBuilder::Join::addTablePriority(firstTable(), previousTablePriority);
 	}

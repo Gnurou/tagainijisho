@@ -16,6 +16,7 @@
  */
 
 #include "core/Paths.h"
+#include <algorithm>
 #include <core/Database.h>
 #include "gui/EntriesViewHelper.h"
 #include "gui/EntryMenu.h"
@@ -304,7 +305,7 @@ QModelIndexList EntriesViewHelper::getAllIndexes(const QModelIndexList& indexes)
 {
 	QSet<QModelIndex> alreadyIn;
 	QModelIndexList ret(getAllIndexes(indexes, alreadyIn));
-	qStableSort(ret.begin(), ret.end(), modelIndexLessThan);
+	std::stable_sort(ret.begin(), ret.end(), modelIndexLessThan);
 	return ret;
 }
 
@@ -324,7 +325,7 @@ QModelIndexList EntriesViewHelper::getAllIndexes(const QModelIndexList& indexes,
 			// Non entries indexes must be list - see if they have children
 			QModelIndexList childs;
 			int childsCount = idx.model()->rowCount(idx);
-			for (int i = 0; i < childsCount; i++) childs << idx.child(i, 0);
+			for (int i = 0; i < childsCount; i++) childs << idx.model()->index(i, 0);
 			ret += getAllIndexes(childs, alreadyIn);
 		}
 	}

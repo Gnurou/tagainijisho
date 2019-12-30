@@ -42,7 +42,7 @@ int BookletPrintEngine::metric(QPaintDevice::PaintDeviceMetric id) const
 void BookletPrintEngine::resetPainter()
 {
 	QPainter *painter = ProxyPaintEngine::painter();
-	painter->resetMatrix();
+	painter->resetTransform();
 
 	painter->setViewport(proxyPainter()->viewport());
 	painter->setWindow(proxyPainter()->window());

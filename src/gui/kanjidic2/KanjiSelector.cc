@@ -49,11 +49,12 @@ void ComplementsList::setupGridSize()
 	int maxFontSize = qMax(fm.maxWidth(), fm.height()) + 2;
 	int maxBoldSize = 0;
 	for (int i = 0; i < 10; i++) {
-		int w = lfm.width(QString::number(i));
+		int w = lfm.horizontalAdvance(QString::number(i));
 		if (w > maxBoldSize) maxBoldSize = w;
 	}
-	maxBoldSize += qMax(lfm.width("0"), lfm.width("1"));
-	int gridSize = qMax(maxBoldSize, maxFontSize) + 5;
+        maxBoldSize +=
+            qMax(lfm.horizontalAdvance("0"), lfm.horizontalAdvance("1"));
+        int gridSize = qMax(maxBoldSize, maxFontSize) + 5;
 	setGridSize(QSize(gridSize, gridSize));
 }
 
