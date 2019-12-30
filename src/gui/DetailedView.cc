@@ -476,11 +476,16 @@ void DetailedViewJob::__init()
 DetailedViewFonts::DetailedViewFonts(QWidget *parent) : QObject(parent)
 {
 	// Init fonts and colors with the default values
-	_font[DefaultText].fromString(textFont.value());
-	_font[Kanji].fromString(kanjiFont.value());
-	_font[Kana].fromString(kanaFont.value());
-	_font[KanjiHeader].fromString(kanjiHeaderFont.value());
-	_font[KanaHeader].fromString(kanaHeaderFont.value());
+	if (!textFont.value().isEmpty())
+		_font[DefaultText].fromString(textFont.value());
+	if (!kanjiFont.value().isEmpty())
+		_font[Kanji].fromString(kanjiFont.value());
+	if (!kanaFont.value().isEmpty())
+		_font[Kana].fromString(kanaFont.value());
+	if (!kanjiHeaderFont.value().isEmpty())
+		_font[KanjiHeader].fromString(kanjiHeaderFont.value());
+	if (!kanaHeaderFont.value().isEmpty())
+		_font[KanaHeader].fromString(kanaHeaderFont.value());
 
 	_color[DefaultText] = defaultColor(DefaultText);
 	_color[Kanji] = defaultColor(Kanji);

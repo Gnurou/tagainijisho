@@ -350,7 +350,7 @@ QChar hiraganaChar2Katakana(const QChar hira)
 
 QString hiragana2Katakana(const QString &hira)
 {
-	QString kata(hira.size());
+	QString kata(hira.size(), ' ');
 	for (int i = 0; i < hira.size(); i++) {
 		if (isHiraganaChar(hira[i])) kata[i] = hiraganaChar2Katakana(hira[i]);
 		else kata[i] = hira[i];

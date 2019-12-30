@@ -24,6 +24,7 @@
 #include <QPushButton>
 #include <QMessageBox>
 #include <QMimeData>
+#include <qtreewidget.h>
 
 SavedSearchTreeItem::SavedSearchTreeItem(int setId, int position, bool isFolder, const QString &label) : QTreeWidgetItem(isFolder ? FolderType : SavedSearchType), _setId(setId), _position(position), _parentCopy(0)
 {
@@ -38,7 +39,7 @@ SavedSearchTreeItem::SavedSearchTreeItem(int setId, int position, bool isFolder,
 
 SavedSearchTreeItem::SavedSearchTreeItem(const SavedSearchTreeItem &other) : QTreeWidgetItem(other.type())
 {
-	*this = other;
+	QTreeWidgetItem::operator=(other);
 	_parentCopy = other.parent();
 }
 

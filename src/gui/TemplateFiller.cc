@@ -80,7 +80,7 @@ QString TemplateFiller::fill(const QString &tmpl, const EntryFormatter *formatte
 		}
 		ret.replace(matchPos, whole.size(), repl);
 		// If we did not output anything, remove ending newline of space
-		if (repl.isEmpty()) while (ret[matchPos] == '\n' || ret[matchPos] == ' ') ret.remove(matchPos, 1);
+		if (repl.isEmpty()) while (matchPos < ret.size() && (ret[matchPos] == '\n' || ret[matchPos] == ' ')) ret.remove(matchPos, 1);
 		pos = matchPos;
 	}
 	return ret;
