@@ -17,8 +17,6 @@ matrix:
   exclude:
   - os: osx
     compiler: gcc
-  - os: linux
-    compiler: clang
 
 before_install:
   - TAGAINI_VERSION=`grep "set(VERSION" CMakeLists.txt | cut -d ' ' -f 2 | tr -d '\)'`
