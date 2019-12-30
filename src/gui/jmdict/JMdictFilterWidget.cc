@@ -225,7 +225,7 @@ void JMdictFilterWidget::setPos(const QStringList &list)
 	_posList.clear();
 	foreach(QAction *action, _posButton->menu()->actions()) {
 		if (action->isChecked()) action->trigger();
-		if (list.contains(JMdictPlugin::posMap()[action->property("TJpropertyIndex").toString()].first))
+		if (list.contains(action->property("TJpropertyIndex").toString()))
 			action->trigger();
 	}
 }
@@ -235,7 +235,7 @@ void JMdictFilterWidget::setDial(const QStringList &list)
 	_dialList.clear();
 	foreach(QAction *action, _dialButton->menu()->actions()) {
 		if (action->isChecked()) action->trigger();
-		if (list.contains(JMdictPlugin::dialMap()[action->property("TJpropertyIndex").toString()].first))
+		if (list.contains(action->property("TJpropertyIndex").toString()))
 			action->trigger();
 	}
 }
@@ -245,7 +245,7 @@ void JMdictFilterWidget::setField(const QStringList &list)
 	_fieldList.clear();
 	foreach(QAction *action, _fieldButton->menu()->actions()) {
 		if (action->isChecked()) action->trigger();
-		if (list.contains(JMdictPlugin::fieldMap()[action->property("TJpropertyIndex").toString()].first))
+		if (list.contains(action->property("TJpropertyIndex").toString()))
 			action->trigger();
 	}
 }
@@ -255,7 +255,7 @@ void JMdictFilterWidget::setMisc(const QStringList &list)
 	_miscList.clear();
 	foreach(QAction *action, _miscButton->menu()->actions()) {
 		if (action->isChecked()) action->trigger();
-		if (list.contains(JMdictPlugin::miscMap()[action->property("TJpropertyIndex").toString()].first))
+		if (list.contains(action->property("TJpropertyIndex").toString()))
 			action->trigger();
 	}
 }
