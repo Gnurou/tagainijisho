@@ -29,7 +29,6 @@
 #include <QtDebug>
 #include <QFile>
 #include <QDir>
-#include <bits/c++config.h>
 
 #define dictFileConfigString "jmdict/database"
 #define dictFileConfigDefault "jmdict.db"

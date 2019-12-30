@@ -23,7 +23,6 @@
 #include <QVector>
 #include <QPair>
 #include <QMap>
-#include <bits/c++config.h>
 
 class JMdictEntrySearcher;
 class JMdictEntryLoader;

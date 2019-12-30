@@ -18,7 +18,6 @@
 #include "core/Lang.h"
 #include "core/jmdict/JMdictEntryLoader.h"
 #include "core/jmdict/JMdictPlugin.h"
-#include <bits/c++config.h>
 
 JMdictEntryLoader::JMdictEntryLoader() : EntryLoader(), kanjiQuery(&connection), kanaQuery(&connection), sensesQuery(&connection), jlptQuery(&connection)
 {
