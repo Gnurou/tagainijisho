@@ -348,7 +348,7 @@ void JMdictEntrySearcher::buildStatement(QList<SearchCommand> &commands, QueryBu
 	if (mustJoinSenses) {
 		statement.addJoin(QueryBuilder::Join(QueryBuilder::Column("jmdict.senses", "id")));
 		if (!posFilter.isEmpty()) {
-			std::vector<quint64> masks;
+			std::vector<qint64> masks;
 			masks.resize((JMdictPlugin::posMap().size() + 63) / 64);
 			for (auto shift : posFilter)
 				masks[shift / 64] |= 1ULL << (shift % 64);
