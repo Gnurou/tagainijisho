@@ -79,7 +79,7 @@ public:
 	static const QMap<QString, QPair<QString, quint16>> &fieldMap() { return _fieldMap; }
 	static const QVector<QString> &fieldShift() { return _fieldShift; }
 
-	static QSet<QString> shiftsToSet(const QVector<QString>& shift, QVector<quint64> bits);
+	static QSet<QString> shiftsToSet(const QVector<QString>& shift, const QVector<quint64>& bits);
 
 	// Helpers for building queries
 	static std::size_t numColumns(const QMap<QString, QPair<QString, quint16>> &map);

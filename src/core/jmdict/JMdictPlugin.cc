@@ -363,15 +363,16 @@ bool JMdictPlugin::onUnregister()
 	return true;
 }
 
-QSet<QString> JMdictPlugin::shiftsToSet(const QVector<QString>& shift, QVector<quint64> bits) {
+QSet<QString> JMdictPlugin::shiftsToSet(const QVector<QString>& shift, const QVector<quint64>& bits) {
 	QSet<QString> ret;
-	int cpt = 0;
 
 	for (int i = 0; i < bits.size(); i++) {
-		while (bits[i] != 0) {
-			if (bits[i] & 1)
+		int cpt = 0;
+		quint64 bits_set = bits[i];
+		while (bits_set != 0) {
+			if (bits_set & 1)
 				ret << shift[cpt + (i * 64)];
-			bits[i] >>= 1;
+			bits_set >>= 1;
 			cpt++;
 		}
 	}
