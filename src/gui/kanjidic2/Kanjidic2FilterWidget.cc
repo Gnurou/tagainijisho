@@ -22,6 +22,7 @@
 #include "gui/kanjidic2/Kanjidic2FilterWidget.h"
 #include "gui/kanjidic2/Kanjidic2GUIPlugin.h"
 
+#include <QFont>
 #include <QGroupBox>
 
 static void prepareFourCornerComboBox(QComboBox *box)
@@ -94,9 +95,15 @@ Kanjidic2FilterWidget::Kanjidic2FilterWidget(QWidget *parent) : SearchFilterWidg
 	QGroupBox *unicodeGroupBox = new QGroupBox(tr("Unicode"), this);
 	{
 		QHBoxLayout *hLayout = new QHBoxLayout(unicodeGroupBox);
-		_unicode = new TJSpinBox(unicodeGroupBox, "[0-9a-fA-f]{0,6}", 16);
+		hLayout->setSpacing(0);  // Bring the "U+" and the hex code closer
+		QLabel *label;
+		label = new QLabel("U+", unicodeGroupBox);
+		hLayout->addWidget(label);
+		_unicode = new TJSpinBox(unicodeGroupBox, "[0-9a-fA-F]{0,6}", 16);
 		_unicode->setRange(0, 0x2A6DF);
-		_unicode->setPrefix("0x");
+		QFont font = _unicode->font();
+		font.setCapitalization(QFont::AllUppercase);
+		_unicode->setFont(font);
 		connect(_unicode, SIGNAL(valueChanged(int)), this, SLOT(delayedCommandUpdate()));
 		hLayout->addWidget(_unicode);
 	}
