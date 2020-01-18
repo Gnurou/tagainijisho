@@ -344,7 +344,7 @@ void Kanjidic2EntryFormatter::showToolTip(const ConstKanjidic2EntryPointer entry
 		CLOSE_TAB;
 	}
 	if (tooltipShowUnicode.value()) {
-		QString body(tr("<b>Unicode:</b> 0x%1").arg(QString::number(TextTools::singleCharToUnicode(entry->kanji()), 16)));
+		QString body(tr("<b>Unicode:</b> U+%1").arg(QString::number(TextTools::singleCharToUnicode(entry->kanji()), 16).toUpper()));
 		CLOSE_TAB;
 	}
 	if (tooltipShowSKIP.value() && !entry->skipCode().isEmpty()) {
@@ -546,7 +546,7 @@ QString Kanjidic2EntryFormatter::formatUnicode(const ConstEntryPointer &_entry) 
 {
 	ConstKanjidic2EntryPointer entry(_entry.staticCast<const Kanjidic2Entry>());
 	if (showUnicode.value()) {
-		return QString("<b>%1:</b> 0x%2").arg(tr("Unicode")).arg(QString::number(TextTools::singleCharToUnicode(entry->kanji()), 16));
+		return QString("<b>%1:</b> U+%2").arg(tr("Unicode")).arg(QString::number(TextTools::singleCharToUnicode(entry->kanji()), 16).toUpper());
 	}
 	return "";
 }
