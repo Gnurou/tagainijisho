@@ -42,6 +42,7 @@ public:
 	QMap<QString, QStringList> meanings;
 	QStringList nanori;
 	QList<QPair<quint8, RadicalType> > radicals;
+	QString dictionaries;
 	
 	Kanjidic2Item() : id(0), grade(0), stroke_count(0), freq(0), jlpt(0), heisig(0) {}
 };
@@ -64,6 +65,11 @@ public:
 	// a behavior when an item is finished being parsed.
 	// Returns true if the processing completed successfully, false otherwise
 	virtual bool onItemParsed(Kanjidic2Item &entry) { return true; }
+	
+	// This method can be overloaded by subclasses in order to implement
+	// a behavior when the DTD is read.
+	// Returns true if the processing completed successfully, false otherwise
+	virtual bool onDTD(const QString &dtd) { return true; }
 };
 
 #endif

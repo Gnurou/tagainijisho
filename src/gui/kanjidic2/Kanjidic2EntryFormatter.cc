@@ -46,6 +46,7 @@ PreferenceItem<bool> Kanjidic2EntryFormatter::showHeisig("kanjidic", "showHeisig
 PreferenceItem<bool> Kanjidic2EntryFormatter::showGrade("kanjidic", "showGrade", true);
 PreferenceItem<bool> Kanjidic2EntryFormatter::showRadicals("kanjidic", "showRadicals", true);
 PreferenceItem<bool> Kanjidic2EntryFormatter::showComponents("kanjidic", "showComponents", true);
+PreferenceItem<bool> Kanjidic2EntryFormatter::showDictionaries("kanjidic", "showDictionaries", false);
 PreferenceItem<bool> Kanjidic2EntryFormatter::showStrokesNumber("kanjidic", "showStrokesNumber", true);
 PreferenceItem<bool> Kanjidic2EntryFormatter::showFrequency("kanjidic", "showFrequency", true);
 PreferenceItem<bool> Kanjidic2EntryFormatter::showVariations("kanjidic", "showVariations", true);
@@ -77,6 +78,16 @@ PreferenceItem<bool> Kanjidic2EntryFormatter::printOnlyStudiedVocab("kanjidic", 
 PreferenceItem<bool> Kanjidic2EntryFormatter::printStrokesNumbers("kanjidic", "printStrokesNumbers", false);
 PreferenceItem<int> Kanjidic2EntryFormatter::strokesNumbersSize("kanjidic", "strokesNumbersSize", 6);
 PreferenceItem<bool> Kanjidic2EntryFormatter::printGrid("kanjidic", "printStrokesGrid", false);
+const QMap<QString, const char *> Kanjidic2EntryFormatter::dictTypes = initializeDictTypes();
+
+QMap<QString, const char *> Kanjidic2EntryFormatter::initializeDictTypes()
+{
+	QMap<QString, const char *> dictTypes;
+#	define DICTIONARY_DESCRIPTION(name, desc) dictTypes[name] = desc
+#	include "core/kanjidic2/DictionaryDescriptions.cc"
+#	undef DICTIONARY_DESCRIPTION
+	return dictTypes;
+};
 
 QString Kanjidic2EntryFormatter::getQueryUsedInWordsSql(int kanji, int limit, bool onlyStudied)
 {
@@ -604,6 +615,46 @@ QString Kanjidic2EntryFormatter::formatComponents(const ConstEntryPointer &_entr
 			formats << shortDesc(shape, kEntry);
 		}
 		return buildSubInfoBlock(tr("Components"), formats.join("<br/>"));
+	}
+	return "";
+}
+
+QString Kanjidic2EntryFormatter::formatDictionaries(const ConstEntryPointer &_entry) const
+{
+	ConstKanjidic2EntryPointer entry(_entry.staticCast<const Kanjidic2Entry>());
+	const QString &dictionaries = entry->dictionaries();
+	if (!dictionaries.isEmpty() && showDictionaries.value()) {
+		QString table = QString("<table width=\"100%\" class=\"subinfo\"><tr><td class=\"title\" colspan=\"3\">%1</td></tr>").arg(tr("Dictionaries"));
+		uint n = 0;
+		QStringList lines(dictionaries.split('\n', Qt::SkipEmptyParts));
+		foreach (const QString &line, lines) {
+			QStringList parts(line.split('\t'));
+			const QString &dictType = parts[0];
+			const QString &dictEntry = parts[1];
+			if ((n % 3) == 0)
+				table += "<tr>";
+			table += "<td class=\"contents\"";
+			if (dictTypes.contains(dictType)) {
+				table += " title=\"";
+				table += tr(dictTypes[dictType]).toHtmlEscaped();
+				table += "\"";
+			}
+			table += ">";
+			table += dictType;
+			table += ": ";
+			table += dictEntry;
+			table += "</td>";
+			++ n;
+			if ((n % 3) == 0)
+				table += "</tr>";
+		}
+		if ((n % 3) != 0) {
+			for (; (n % 3) != 0; ++n)
+				table += "<td class=\"contents\"></td>";
+			table += "</tr>";
+		}
+		table += "</table>";
+		return table;
 	}
 	return "";
 }

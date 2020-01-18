@@ -23,6 +23,9 @@ const QStringList Kanjidic2Parser::_validReadings(QString("ja_on,ja_kun").split(
 bool Kanjidic2Parser::parse(QXmlStreamReader &reader)
 {
 	DOCUMENT_BEGIN(reader)
+		DOCUMENT_TYPE_DEFINITION
+		if (!onDTD(TEXT)) return false;
+		DONE
 		TAG(kanjidic2)
 			TAG_PRE(character)
 			Kanjidic2Item kanji;
@@ -77,6 +80,10 @@ bool Kanjidic2Parser::parse(QXmlStreamReader &reader)
 					TAG_BEGIN(dic_ref)
 					CHARACTERS
 						if (dr_type == "heisig") kanji.heisig = TEXT.toUInt();
+						kanji.dictionaries += dr_type;
+						kanji.dictionaries += '\t';
+						kanji.dictionaries += TEXT;
+						kanji.dictionaries += '\n';
 					DONE
 					ENDTAG
 				ENDTAG
