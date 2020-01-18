@@ -2,10 +2,23 @@
 set(QT_DONT_USE_QTGUI TRUE)
 
 # JMdict
-set(JMDICT_SOURCE http://ftp.monash.edu.au/pub/nihongo/JMdict.gz)
+set(JMDICT_MIRRORS http://ftp.monash.edu.au/pub/nihongo/JMdict.gz
+		   ftp://ftp.edrdg.org/pub/Nihongo/JMdict.gz
+		   http://www.bcit-broadcast.com/monash/JMdict.gz
+		   ftp://ftp.net.usf.edu/pub/ftp.monash.edu.au/pub/nihongo/JMdict.gz)
+
 if(NOT EXISTS ${CMAKE_SOURCE_DIR}/3rdparty/JMdict)
-	MESSAGE(STATUS "Downloading JMdict from ${JMDICT_SOURCE}")
-	FILE(DOWNLOAD ${JMDICT_SOURCE} ${CMAKE_SOURCE_DIR}/3rdparty/JMdict.gz SHOW_PROGRESS)
+	foreach(JMDICT_SOURCE ${JMDICT_MIRRORS})
+		MESSAGE(STATUS "Downloading JMdict from ${JMDICT_SOURCE}")
+		FILE(DOWNLOAD ${JMDICT_SOURCE} ${CMAKE_SOURCE_DIR}/3rdparty/JMdict.gz STATUS DLSTATUS SHOW_PROGRESS)
+		LIST(GET DLSTATUS 0 ERRCODE)
+		LIST(GET DLSTATUS 1 ERRMSG)
+		if(NOT ERRCODE STREQUAL 0)
+			MESSAGE(WARNING "Error downloading. " ${ERRMSG} " (Error Code " ${ERRCODE} ")")
+		else()
+			break()
+		endif()
+	endforeach()
 	execute_process(COMMAND ${GUNZIP} ${CMAKE_SOURCE_DIR}/3rdparty/JMdict.gz WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/3rdparty RESULT_VARIABLE result)
 	if(NOT "${result}" STREQUAL 0)
 		MESSAGE(FATAL_ERROR "Unable to run [${GUNZIP} ${CMAKE_SOURCE_DIR}/3rdparty/JMdict.gz]. Reported error was [${result}]")
