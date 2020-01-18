@@ -20,7 +20,7 @@
 #include "core/kanjidic2/Kanjidic2Entry.h"
 #include "core/kanjidic2/Kanjidic2Plugin.h"
 
-Kanjidic2EntryLoader::Kanjidic2EntryLoader() : EntryLoader(), kanjiQuery(&connection), variationsQuery(&connection), readingsQuery(&connection), nanoriQuery(&connection), componentsQuery(&connection), radicalsQuery(&connection), skipQuery(&connection), fourCornerQuery(&connection)
+Kanjidic2EntryLoader::Kanjidic2EntryLoader() : EntryLoader(), kanjiQuery(&connection), variationsQuery(&connection), readingsQuery(&connection), nanoriQuery(&connection), componentsQuery(&connection), radicalsQuery(&connection), skipQuery(&connection), fourCornerQuery(&connection), dictionariesQuery(&connection)
 {
 	const QMap<QString, QString> &allDBs = Kanjidic2Plugin::instance()->attachedDBs();
 	foreach (const QString &lang, allDBs.keys()) {
@@ -39,6 +39,7 @@ Kanjidic2EntryLoader::Kanjidic2EntryLoader() : EntryLoader(), kanjiQuery(&connec
 	radicalsQuery.prepare("select rl.number, rl.kanji from kanjidic2.radicals as r join kanjidic2.radicalsList as rl on r.number = rl.number where r.kanji = ? and r.type is not null order by rl.number, rl.rowid");
 	skipQuery.prepare("select type, c1, c2 from skip where entry = ? limit 1");
 	fourCornerQuery.prepare("select topLeft, topRight, botLeft, botRight, extra from fourCorner where entry = ? limit 1");
+	dictionariesQuery.prepare("select dictType, dictRef from dictionaries where kanji = ?");
 
 	foreach (const QString &lang, allDBs.keys()) {
 		if (lang.isEmpty()) continue;
@@ -199,5 +200,13 @@ Entry *Kanjidic2EntryLoader::loadEntry(EntryId id)
 	}
 	fourCornerQuery.reset();
 	
+	// Load dictionary entries
+	dictionariesQuery.bindValue(id);
+	dictionariesQuery.exec();
+	while (dictionariesQuery.next()) {
+		entry->_dictionaries[dictionariesQuery.valueString(0)] = dictionariesQuery.valueString(1);
+	}
+	dictionariesQuery.reset();
+
 	return entry;
 }

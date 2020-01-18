@@ -119,6 +119,7 @@ private:
 	QList<KanjiComponent> _components;
 	QList<const KanjiComponent *> _rootComponents;
 	QList<QPair<uint, quint8> > _radicals;
+	QMap<QString, QString> _dictionaries;
 
 	/**
 	 * Contains the strokes of the kanji, in their order of appearance.
@@ -154,6 +155,7 @@ public:
 	const QList<KanjiComponent> &components() const { return _components; }
 	const QList<QPair<uint, quint8> > &radicals() const { return _radicals; }
 	const QList<KanjiStroke> &strokes() const { return _strokes; }
+	const QMap<QString, QString> &dictionaries() const { return _dictionaries; }
 	/**
 	 * Returns the root components, i.e. the minimum set of components that are sufficient
 	 * to cover as many strokes of this kanji as possible.

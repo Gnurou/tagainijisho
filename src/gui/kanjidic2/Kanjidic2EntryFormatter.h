@@ -70,6 +70,7 @@ public:
 	static PreferenceItem<bool> showGrade;
 	static PreferenceItem<bool> showRadicals;
 	static PreferenceItem<bool> showComponents;
+	static PreferenceItem<bool> showDictionaries;
 	static PreferenceItem<bool> showStrokesNumber;
 	static PreferenceItem<bool> showFrequency;
 	static PreferenceItem<bool> showVariations;
@@ -101,6 +102,8 @@ public:
 	static PreferenceItem<bool> printStrokesNumbers;
 	static PreferenceItem<int> strokesNumbersSize;
 	static PreferenceItem<bool> printGrid;
+	static const QMap<QString, QString> dictTypes;
+	static QMap<QString, QString> initializeDictTypes();
 
 public slots:
 	virtual QString formatHead(const ConstEntryPointer &entry) const;
@@ -120,6 +123,7 @@ public slots:
 	virtual QString formatHeisig(const ConstEntryPointer &entry) const;
 	virtual QString formatRadicals(const ConstEntryPointer &entry) const;
 	virtual QString formatComponents(const ConstEntryPointer &entry) const;
+	virtual QString formatDictionaries(const ConstEntryPointer &entry) const;
 
 	virtual QList<DetailedViewJob *> jobUsedInKanji(const ConstEntryPointer &_entry, const QTextCursor &cursor) const;
 	virtual QList<DetailedViewJob *> jobUsedInWords(const ConstEntryPointer &_entry, const QTextCursor &cursor) const;

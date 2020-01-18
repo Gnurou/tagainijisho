@@ -86,6 +86,7 @@ void Kanjidic2Preferences::refresh()
 	showNanori->setChecked(Kanjidic2EntryFormatter::showNanori.value());
 	showRadicals->setChecked(Kanjidic2EntryFormatter::showRadicals.value());
 	showComponents->setChecked(Kanjidic2EntryFormatter::showComponents.value());
+	showDictionaries->setChecked(Kanjidic2EntryFormatter::showDictionaries.value());
 	showFrequency->setChecked(Kanjidic2EntryFormatter::showFrequency.value());
 	showGrade->setChecked(Kanjidic2EntryFormatter::showGrade.value());
 	showJLPT->setChecked(Kanjidic2EntryFormatter::showJLPT.value());
@@ -152,6 +153,7 @@ void Kanjidic2Preferences::applySettings()
 	Kanjidic2EntryFormatter::showNanori.set(showNanori->isChecked());
 	Kanjidic2EntryFormatter::showRadicals.set(showRadicals->isChecked());
 	Kanjidic2EntryFormatter::showComponents.set(showComponents->isChecked());
+	Kanjidic2EntryFormatter::showDictionaries.set(showDictionaries->isChecked());
 	Kanjidic2EntryFormatter::showFrequency.set(showFrequency->isChecked());
 	Kanjidic2EntryFormatter::showGrade.set(showGrade->isChecked());
 	Kanjidic2EntryFormatter::showJLPT.set(showJLPT->isChecked());
