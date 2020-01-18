@@ -196,7 +196,8 @@ bool JMdictParser::parse(QXmlStreamReader &reader)
 				if (sense.gloss.isEmpty()) entry.senses.removeLast();
 				DONE
 			TAG_POST
-			onItemParsed(entry);
+			if (!onItemParsed(entry))
+				return false;
 			DONE
 			COMMENT
 				const QString comment(TEXT);
