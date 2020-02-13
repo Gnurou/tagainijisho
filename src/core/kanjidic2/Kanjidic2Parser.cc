@@ -77,7 +77,10 @@ bool Kanjidic2Parser::parse(QXmlStreamReader &reader)
 					TAG_BEGIN(dic_ref)
 					CHARACTERS
 						if (dr_type == "heisig") kanji.heisig = TEXT.toUInt();
-						kanji.dictionaries[dr_type] = TEXT;
+						kanji.dictionaries += dr_type;
+						kanji.dictionaries += "\t";
+						kanji.dictionaries += TEXT;
+						kanji.dictionaries += "\n";
 					DONE
 					ENDTAG
 				ENDTAG

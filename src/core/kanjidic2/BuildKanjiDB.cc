@@ -44,7 +44,6 @@ SQLite::Query insertRadicalQuery;
 
 SQLite::Query addRadicalQuery;
 SQLite::Query insertRootComponentQuery;
-SQLite::Query insertDictionaryQuery;
 
 SQLite::Query insertEntryQuery;
 SQLite::Query insertReadingQuery;
@@ -81,6 +80,7 @@ bool Kanjidic2DBParser::onItemParsed(Kanjidic2Item &kanji)
 	AUTO_BIND(insertEntryQuery, (kanji.freq == 0 ? 0 : 2502 - kanji.freq), 0);
 	AUTO_BIND(insertEntryQuery, (kanji.jlpt >= 3 ? kanji.jlpt + 1 : kanji.jlpt), 0);
 	AUTO_BIND(insertEntryQuery, kanji.heisig, 0);
+	BIND(insertEntryQuery, kanji.dictionaries);
 	EXEC(insertEntryQuery);
 	
 	// Readings
@@ -162,14 +162,6 @@ bool Kanjidic2DBParser::onItemParsed(Kanjidic2Item &kanji)
 		EXEC(insertRadicalQuery);
 		insertedRadicals << QPair<uint, quint8>(kanji.id, rad.first);
 	}
-	
-	// Dictionary entries
-	foreach (const QString &dictType, kanji.dictionaries.keys()) {
-		BIND(insertDictionaryQuery, dictType);
-		BIND(insertDictionaryQuery, kanji.id);
-		BIND(insertDictionaryQuery, kanji.dictionaries[dictType]);
-		EXEC(insertDictionaryQuery);
-	}
 	return true;
 }
 
@@ -218,6 +210,7 @@ bool KanjiVGDBParser::onItemParsed(KanjiVGItem &kanji)
 	// First ensure the kanji is into the DB by attempting to
 	// insert a dummy entry
 	AUTO_BIND(insertOrIgnoreEntryQuery, kanji.id, 0);
+	BINDNULL(insertOrIgnoreEntryQuery);
 	BINDNULL(insertOrIgnoreEntryQuery);
 	BINDNULL(insertOrIgnoreEntryQuery);
 	BINDNULL(insertOrIgnoreEntryQuery);
@@ -322,12 +315,11 @@ bool KanjiDB::prepareQueries()
 {
 #define PREPQUERY(query, text) query.useWith(&connections["main"]); query.prepare(text)
 	PREPQUERY(insertRadicalQuery, "insert into radicals values(?, ?, ?)");
-	PREPQUERY(insertOrIgnoreEntryQuery, "insert or ignore into entries values(?, ?, ?, ?, ?, ?, null)");
+	PREPQUERY(insertOrIgnoreEntryQuery, "insert or ignore into entries values(?, ?, ?, ?, ?, ?, ?, null)");
 	PREPQUERY(addRadicalQuery, "insert into radicalsList values(?, ?)");
 	PREPQUERY(insertRootComponentQuery, "insert into rootComponents values(?)");
-	PREPQUERY(insertDictionaryQuery, "insert into dictionaries values(?, ?, ?)");
 	
-	PREPQUERY(insertEntryQuery, "insert into entries values(?, ?, ?, ?, ?, ?, null)");
+	PREPQUERY(insertEntryQuery, "insert into entries values(?, ?, ?, ?, ?, ?, ?, null)");
 	PREPQUERY(insertReadingQuery, "insert into reading values(?, ?, ?)");
 	PREPQUERY(insertReadingTextQuery, "insert into readingText values(?)");
 	PREPQUERY(insertNanoriQuery, "insert into nanori values(?, ?)");
@@ -366,7 +358,6 @@ bool KanjiDB::clearQueries()
 	insertSkipCodeQuery.clear();
 	insertFourCornerQuery.clear();
 	updateJLPTLevelsQuery.clear();
-	insertDictionaryQuery.clear();
 	
 	insertStrokeGroupQuery.clear();
 	updatePathsString.clear();
@@ -451,7 +442,7 @@ bool KanjiDB::createTables()
 {
 	SQLite::Query query(&connections["main"]);
 	EXEC_STMT(query, "create table info(version INT, kanjidic2Version TEXT, kanjiVGVersion TEXT)");
-	EXEC_STMT(query, "create table entries(id INTEGER PRIMARY KEY, grade TINYINT, strokeCount TINYINT, frequency SMALLINT, jlpt TINYINT, heisig SMALLINT, paths BLOB)");
+	EXEC_STMT(query, "create table entries(id INTEGER PRIMARY KEY, grade TINYINT, strokeCount TINYINT, frequency SMALLINT, jlpt TINYINT, heisig SMALLINT, dictionaries TEXT, paths BLOB)");
 	EXEC_STMT(query, "create table reading(docid INTEGER PRIMARY KEY, entry INTEGER SECONDARY KEY REFERENCES entries, type TEXT)");
 	EXEC_STMT(query, "create virtual table readingText using fts4(reading, TOKENIZE katakana)");
 	EXEC_STMT(query, "create table nanori(docid INTEGER PRIMARY KEY, entry INTEGER SECONDARY KEY REFERENCES entries)");
@@ -462,7 +453,6 @@ bool KanjiDB::createTables()
 	EXEC_STMT(query, "create table fourCorner(entry INTEGER, topLeft TINYINT, topRight TINYINT, botLeft TINYINT, botRight TINYINT, extra TINYINT)");
 	EXEC_STMT(query, "create table radicalsList(kanji INTEGER REFERENCES entries, number SHORTINT)");
 	EXEC_STMT(query, "create table radicals(number INTEGER REFERENCES radicalsList, kanji INTEGER REFERENCES entries, type TINYINT)");
-	EXEC_STMT(query, "create table dictionaries(dictType TEXT, kanji INTEGER REFERENCES entries, dictRef TEXT)");
 
 	foreach (const QString &lang, languages) {
 		query.useWith(&connections[lang]);
@@ -489,7 +479,6 @@ bool KanjiDB::createIndexes()
 	EXEC_STMT(query, "create index idx_fourCorner on fourCorner(entry)");
 	EXEC_STMT(query, "create index idx_radicalsList_number on radicalsList(number)");
 	EXEC_STMT(query, "create index idx_radicals on radicals(kanji)");
-	EXEC_STMT(query, "create index idx_dictionaries on dictionaries(kanji, dictType)");
 
 	foreach (const QString &lang, languages) {
 		query.useWith(&connections[lang]);

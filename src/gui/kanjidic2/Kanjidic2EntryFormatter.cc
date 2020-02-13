@@ -643,11 +643,15 @@ QString Kanjidic2EntryFormatter::formatComponents(const ConstEntryPointer &_entr
 QString Kanjidic2EntryFormatter::formatDictionaries(const ConstEntryPointer &_entry) const
 {
 	ConstKanjidic2EntryPointer entry(_entry.staticCast<const Kanjidic2Entry>());
-	QMap<QString, QString> dictionaries(entry->dictionaries());
+	const QString &dictionaries = entry->dictionaries();
 	if (!dictionaries.isEmpty() && showDictionaries.value()) {
 		QString table = QString("<table width=\"100%\" class=\"subinfo\"><tr><td class=\"title\" colspan=\"3\">%1</td></tr>").arg(tr("Dictionaries"));
 		uint n = 0;
-		foreach (const QString &dictType, dictionaries.keys()) {
+		QStringList lines(dictionaries.split('\n', QString::SkipEmptyParts));
+		foreach (const QString &line, lines) {
+			QStringList parts(line.split('\t'));
+			const QString &dictType = parts[0];
+			const QString &dictEntry = parts[1];
 			if ((n % 3) == 0)
 				table += "<tr>";
 			table += "<td class=\"contents\"";
@@ -659,7 +663,7 @@ QString Kanjidic2EntryFormatter::formatDictionaries(const ConstEntryPointer &_en
 			table += ">";
 			table += dictType;
 			table += ": ";
-			table += dictionaries[dictType];
+			table += dictEntry;
 			table += "</td>";
 			++ n;
 			if ((n % 3) == 0)

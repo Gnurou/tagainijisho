@@ -119,7 +119,7 @@ private:
 	QList<KanjiComponent> _components;
 	QList<const KanjiComponent *> _rootComponents;
 	QList<QPair<uint, quint8> > _radicals;
-	QMap<QString, QString> _dictionaries;
+	QString _dictionaries;
 
 	/**
 	 * Contains the strokes of the kanji, in their order of appearance.
@@ -134,7 +134,7 @@ protected:
 	KanjiStroke *addStroke(const QChar &type, const QString &path);
 
 protected:
-	Kanjidic2Entry(const QString &kanji, bool inDB, int grade = -1, int strokeCount = -1, qint32 kanjiFrequency = -1, int jlpt = -1, int heisig = -1);
+	Kanjidic2Entry(const QString &kanji, bool inDB, int grade = -1, int strokeCount = -1, qint32 kanjiFrequency = -1, int jlpt = -1, int heisig = -1, const QString &dictionaries = "");
 
 public:
 	virtual ~Kanjidic2Entry() {}
@@ -155,7 +155,7 @@ public:
 	const QList<KanjiComponent> &components() const { return _components; }
 	const QList<QPair<uint, quint8> > &radicals() const { return _radicals; }
 	const QList<KanjiStroke> &strokes() const { return _strokes; }
-	const QMap<QString, QString> &dictionaries() const { return _dictionaries; }
+	const QString &dictionaries() const { return _dictionaries; }
 	/**
 	 * Returns the root components, i.e. the minimum set of components that are sufficient
 	 * to cover as many strokes of this kanji as possible.

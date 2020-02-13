@@ -20,7 +20,7 @@
 #include "core/kanjidic2/Kanjidic2Entry.h"
 #include "core/kanjidic2/Kanjidic2Plugin.h"
 
-Kanjidic2EntryLoader::Kanjidic2EntryLoader() : EntryLoader(), kanjiQuery(&connection), variationsQuery(&connection), readingsQuery(&connection), nanoriQuery(&connection), componentsQuery(&connection), radicalsQuery(&connection), skipQuery(&connection), fourCornerQuery(&connection), dictionariesQuery(&connection)
+Kanjidic2EntryLoader::Kanjidic2EntryLoader() : EntryLoader(), kanjiQuery(&connection), variationsQuery(&connection), readingsQuery(&connection), nanoriQuery(&connection), componentsQuery(&connection), radicalsQuery(&connection), skipQuery(&connection), fourCornerQuery(&connection)
 {
 	const QMap<QString, QString> &allDBs = Kanjidic2Plugin::instance()->attachedDBs();
 	foreach (const QString &lang, allDBs.keys()) {
@@ -31,7 +31,7 @@ Kanjidic2EntryLoader::Kanjidic2EntryLoader() : EntryLoader(), kanjiQuery(&connec
 	}
 
 	// Prepare loading queries for faster execution
-	kanjiQuery.prepare("select grade, strokeCount, frequency, jlpt, heisig, paths from kanjidic2.entries where id = ?");
+	kanjiQuery.prepare("select grade, strokeCount, frequency, jlpt, heisig, dictionaries, paths dictionaries from kanjidic2.entries where id = ?");
 	variationsQuery.prepare("select distinct original from strokeGroups where element = ? and original not null");
 	readingsQuery.prepare("select type, reading from kanjidic2.reading join kanjidic2.readingText on kanjidic2.reading.docid = kanjidic2.readingText.docid where entry = ? order by type");
 	nanoriQuery.prepare("select reading from kanjidic2.nanori join kanjidic2.nanoriText on kanjidic2.nanori.docid = kanjidic2.nanoriText.docid where entry = ?");
@@ -39,7 +39,6 @@ Kanjidic2EntryLoader::Kanjidic2EntryLoader() : EntryLoader(), kanjiQuery(&connec
 	radicalsQuery.prepare("select rl.number, rl.kanji from kanjidic2.radicals as r join kanjidic2.radicalsList as rl on r.number = rl.number where r.kanji = ? and r.type is not null order by rl.number, rl.rowid");
 	skipQuery.prepare("select type, c1, c2 from skip where entry = ? limit 1");
 	fourCornerQuery.prepare("select topLeft, topRight, botLeft, botRight, extra from fourCorner where entry = ? limit 1");
-	dictionariesQuery.prepare("select dictType, dictRef from dictionaries where kanji = ?");
 
 	foreach (const QString &lang, allDBs.keys()) {
 		if (lang.isEmpty()) continue;
@@ -101,11 +100,12 @@ Entry *Kanjidic2EntryLoader::loadEntry(EntryId id)
 		qint32 frequency = kanjiQuery.valueIsNull(2) ? -1 : kanjiQuery.valueInt(2);
 		int jlpt = kanjiQuery.valueIsNull(3) ? -1 : kanjiQuery.valueInt(3);
 		int heisig = kanjiQuery.valueIsNull(4) ? -1 : kanjiQuery.valueInt(4);
+		const QString &dictionaries = kanjiQuery.valueString(5);
 		// Get the strokes paths for later processing
-		QByteArray pathsBA(kanjiQuery.valueBlob(5));
+		QByteArray pathsBA(kanjiQuery.valueBlob(6));
 		if (!pathsBA.isEmpty()) paths = QString(qUncompress(pathsBA)).split('|');
 
-		entry = new Kanjidic2Entry(character, true, grade, strokeCount, frequency, jlpt, heisig);
+		entry = new Kanjidic2Entry(character, true, grade, strokeCount, frequency, jlpt, heisig, dictionaries);
 	}
 	kanjiQuery.reset();
 	
@@ -200,13 +200,5 @@ Entry *Kanjidic2EntryLoader::loadEntry(EntryId id)
 	}
 	fourCornerQuery.reset();
 	
-	// Load dictionary entries
-	dictionariesQuery.bindValue(id);
-	dictionariesQuery.exec();
-	while (dictionariesQuery.next()) {
-		entry->_dictionaries[dictionariesQuery.valueString(0)] = dictionariesQuery.valueString(1);
-	}
-	dictionariesQuery.reset();
-
 	return entry;
 }
