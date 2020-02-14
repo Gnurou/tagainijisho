@@ -1,4 +1,6 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="fr" sourcelanguage="en" version="2.1">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="fr" sourcelanguage="en">
 <context>
     <name>AboutDialog</name>
     <message>
@@ -2506,6 +2508,127 @@ Certaines d&apos;entre elles sont peut-être toujours présentes.</translation>
         <location line="+4"/>
         <source>&lt;b&gt;SKIP:&lt;/b&gt; %1</source>
         <translation>&lt;b&gt;SKIP:&lt;/b&gt; %1</translation>
+    </message>
+    <message>
+        <location filename="../src/core/kanjidic2/DictionaryDescriptions.cc" line="+2"/>
+        <source>&quot;Japanese For Busy People&quot; vols I-III, published by the AJLT. The codes are the volume.chapter.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>&quot;The Kanji Way to Japanese Language Power&quot; by Dale Crowley.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>&quot;A New Dictionary of Kanji Usage&quot; (Gakken)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>&quot;Kodansha Kanji Dictionary&quot;, (2nd Ed. of the NJECD) edited by Jack Halpern.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>&quot;Kanji Learners Dictionary&quot; (Kodansha) edited by Jack Halpern.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>&quot;Kanji Learners Dictionary&quot; (Kodansha), 2nd edition (2013) edited by Jack Halpern.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>&quot;New Japanese-English Character Dictionary&quot;, edited by Jack Halpern.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>&quot;Remembering The Kanji&quot; by James Heisig.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>&quot;Remembering The Kanji, Sixth Ed.&quot; by James Heisig.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>&quot;A Guide To Remembering Japanese Characters&quot; by Kenneth G. Henshall.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>&quot;A Guide To Reading and Writing Japanese&quot; 3rd edition, edited by Henshall, Seeley and De Groot.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Japanese Kanji Flashcards, by Max Hodges and Tomoko Okazaki. (Series 1)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>&quot;Kanji in Context&quot; by Nishiguchi and Kono.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>the &quot;Kodansha Compact Kanji Guide&quot;.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>codes from Yves Maniette&apos;s &quot;Les Kanjis dans la tete&quot; French adaptation of Heisig.</source>
+        <translatorcomment>http://www.pollen-difpop.com/A-87654-les-kanjis-dans-la-tete.aspx#.Xka5ji2AMmJ</translatorcomment>
+        <translation type="unfinished">&lt;i&gt;Les Kanjis dans la tête&lt;/i&gt; de Yves Maniette (Une création francophone de &lt;i&gt;Remembering the Kanji&lt;/i&gt;, de James W. Heisig)</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>&quot;Daikanwajiten&quot; compiled by Morohashi. For some kanji two additional attributes are used: m_vol: the volume of the dictionary in which the kanji is found, and m_page: the page number in the volume.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>&quot;Modern Reader&apos;s Japanese-English Character Dictionary&quot;, edited by Andrew Nelson (now published as the &quot;Classic&quot; Nelson).</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>&quot;The New Nelson Japanese-English Character Dictionary&quot;, edited by John Haig.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>&quot;Essential Kanji&quot; by P.G. O&apos;Neill.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>&quot;Japanese Names&quot;, by P.G. O&apos;Neill.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>&quot;A Guide To Reading and Writing Japanese&quot; edited by Florence Sakade.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>&quot;Kanji and Kana&quot; by Spahn and Hadamitzky.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>&quot;Kanji and Kana&quot; by Spahn and Hadamitzky (2011 edition).</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Tuttle Kanji Cards, compiled by Alexander Kask.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
