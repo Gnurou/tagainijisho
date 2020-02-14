@@ -102,8 +102,8 @@ public:
 	static PreferenceItem<bool> printStrokesNumbers;
 	static PreferenceItem<int> strokesNumbersSize;
 	static PreferenceItem<bool> printGrid;
-	static const QMap<QString, QString> dictTypes;
-	static QMap<QString, QString> initializeDictTypes();
+	static const QMap<QString, const char *> dictTypes;
+	static QMap<QString, const char *> initializeDictTypes();
 
 public slots:
 	virtual QString formatHead(const ConstEntryPointer &entry) const;

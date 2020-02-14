@@ -78,35 +78,14 @@ PreferenceItem<bool> Kanjidic2EntryFormatter::printOnlyStudiedVocab("kanjidic", 
 PreferenceItem<bool> Kanjidic2EntryFormatter::printStrokesNumbers("kanjidic", "printStrokesNumbers", false);
 PreferenceItem<int> Kanjidic2EntryFormatter::strokesNumbersSize("kanjidic", "strokesNumbersSize", 6);
 PreferenceItem<bool> Kanjidic2EntryFormatter::printGrid("kanjidic", "printStrokesGrid", false);
-const QMap<QString, QString> Kanjidic2EntryFormatter::dictTypes = initializeDictTypes();
+const QMap<QString, const char *> Kanjidic2EntryFormatter::dictTypes = initializeDictTypes();
 
-QMap<QString, QString> Kanjidic2EntryFormatter::initializeDictTypes()
+QMap<QString, const char *> Kanjidic2EntryFormatter::initializeDictTypes()
 {
-	QMap<QString, QString> dictTypes;
-	dictTypes["nelson_c"] = "<i>Modern Reader's Japanese-English Character Dictionary</i>, edited by Andrew Nelson (now published as the Classic Nelson).";
-	dictTypes["nelson_n"] = "<i>The New Nelson Japanese-English Character Dictionary</i>, edited by John Haig.";
-	dictTypes["halpern_njecd"] = "<i>New Japanese-English Character Dictionary</i>, edited by Jack Halpern.";
-	dictTypes["halpern_kkd"] = "<i>Kodansha Kanji Dictionary</i>, (2nd Ed. of the NJECD) edited by Jack Halpern.";
-	dictTypes["halpern_kkld"] = "<i>Kanji Learners Dictionary</i> (Kodansha) edited by Jack Halpern.";
-	dictTypes["halpern_kkld_2ed"] = "<i>Kanji Learners Dictionary</i> (Kodansha), 2nd edition (2013) edited by Jack Halpern.";
-	dictTypes["heisig"] = "<i>Remembering The  Kanji</i>  by  James Heisig.";
-	dictTypes["heisig6"] = "<i>Remembering The  Kanji, Sixth Ed.</i>  by  James Heisig.";
-	dictTypes["gakken"] = "<i>A  New Dictionary of Kanji Usage</i> (Gakken)";
-	dictTypes["oneill_names"] = "<i>Japanese Names</i>, by P.G. O'Neill. ";
-	dictTypes["oneill_kk"] = "<i>Essential Kanji</i> by P.G. O'Neill.";
-	dictTypes["moro"] = "<i>Daikanwajiten</i> compiled by Morohashi.";
-	dictTypes["henshall"] = "<i>A Guide To Remembering Japanese Characters</i> by Kenneth G.  Henshall.";
-	dictTypes["sh_kk"] = "<i>Kanji and Kana</i> by Spahn and Hadamitzky.";
-	dictTypes["sh_kk2"] = "<i>Kanji and Kana</i> by Spahn and Hadamitzky (2011 edition).";
-	dictTypes["sakade"] = "<i>A Guide To Reading and Writing Japanese</i> edited by Florence Sakade.";
-	dictTypes["jf_cards"] = "Japanese Kanji Flashcards, by Max Hodges and Tomoko Okazaki. (Series 1)";
-	dictTypes["henshall3"] = "<i>A Guide To Reading and Writing Japanese</i> 3rd edition, edited by Henshall, Seeley and De Groot.";
-	dictTypes["tutt_cards"] = "Tuttle Kanji Cards, compiled by Alexander Kask.";
-	dictTypes["crowley"] = "<i>The Kanji Way to Japanese Language Power</i> by Dale Crowley.";
-	dictTypes["kanji_in_context"] = "<i>Kanji in Context</i> by Nishiguchi and Kono.";
-	dictTypes["busy_people"] = "<i>Japanese For Busy People</i> vols I-III, published by the AJLT. The codes are the volume.chapter.";
-	dictTypes["kodansha_compact"] = "the <i>Kodansha Compact Kanji Guide</i>.";
-	dictTypes["maniette"] = "codes from Yves Maniette's <i>Les Kanjis dans la tete</i> French adaptation of Heisig.";
+	QMap<QString, const char *> dictTypes;
+#	define DICTIONARY_DESCRIPTION(name, desc) dictTypes[name] = desc
+#	include "core/kanjidic2/DictionaryDescriptions.cc"
+#	undef DICTIONARY_DESCRIPTION
 	return dictTypes;
 };
 
@@ -657,7 +636,7 @@ QString Kanjidic2EntryFormatter::formatDictionaries(const ConstEntryPointer &_en
 			table += "<td class=\"contents\"";
 			if (dictTypes.contains(dictType)) {
 				table += " title=\"";
-				table += dictTypes[dictType];
+				table += tr(dictTypes[dictType]).toHtmlEscaped();
 				table += "\"";
 			}
 			table += ">";

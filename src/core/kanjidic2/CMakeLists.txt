@@ -14,6 +14,16 @@ if(NOT EXISTS ${CMAKE_SOURCE_DIR}/3rdparty/kanjidic2.xml)
 	endif(NOT "${result}" STREQUAL 0)
 endif()
 
+# Kanjidic2Descs
+if(NOT EXISTS ${CMAKE_SOURCE_DIR}/3rdparty/Kanjidic2Descs.cc)
+	MESSAGE(STATUS "Generating Kanjidic2Descs")
+	#	FILE(STRINGS ${CMAKE_SOURCE_DIR}/3rdparty/JMdict LINES REGEX ENTITY)
+	#	foreach(LINE ${LINES})
+	#		STRING(REGEX REPLACE ".*\\\"(.*)\\\">" "\\1" result "${LINE}" )
+	#		FILE(APPEND ${CMAKE_SOURCE_DIR}/3rdparty/Kanjidic2Descs.cc "QT_TRANSLATE_NOOP(\"JMdictLongDescs\", \"${result}\");\n")
+	#	endforeach(LINE ${LINES})
+endif()
+
 # KanjiVG
 if(NOT EXISTS ${CMAKE_SOURCE_DIR}/3rdparty/kanjivg.xml)
 	MESSAGE(STATUS "Downloading KanjiVG from ${KANJIVG_SOURCE}")
