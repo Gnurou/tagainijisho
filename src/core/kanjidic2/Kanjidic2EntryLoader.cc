@@ -31,7 +31,7 @@ Kanjidic2EntryLoader::Kanjidic2EntryLoader() : EntryLoader(), kanjiQuery(&connec
 	}
 
 	// Prepare loading queries for faster execution
-	kanjiQuery.prepare("select grade, strokeCount, frequency, jlpt, heisig, dictionaries, paths dictionaries from kanjidic2.entries where id = ?");
+	kanjiQuery.prepare("select grade, strokeCount, frequency, jlpt, heisig, dictionaries, paths from kanjidic2.entries where id = ?");
 	variationsQuery.prepare("select distinct original from strokeGroups where element = ? and original not null");
 	readingsQuery.prepare("select type, reading from kanjidic2.reading join kanjidic2.readingText on kanjidic2.reading.docid = kanjidic2.readingText.docid where entry = ? order by type");
 	nanoriQuery.prepare("select reading from kanjidic2.nanori join kanjidic2.nanoriText on kanjidic2.nanori.docid = kanjidic2.nanoriText.docid where entry = ?");
