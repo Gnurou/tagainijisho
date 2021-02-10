@@ -55,7 +55,7 @@ bool ScrollBarSmoothScroller::eventFilter(QObject *watched, QEvent *event)
 {
 	if (event->type() == QEvent::Wheel) {
 		QWheelEvent *wEvent = static_cast<QWheelEvent *>(event);
-		_delta += wEvent->delta();
+		_delta += wEvent->angleDelta().y();
 		int steps = _delta / 120;
 		_delta %= 120;
 		if (!_timer.isActive()) _destination = _scrollee->value();

@@ -109,7 +109,7 @@ bool SmoothScroller::eventFilter(QObject *src, QEvent *event)
 {
 	if (event->type() != QEvent::Wheel) return false;
 	QWheelEvent *wheelEvent = static_cast<QWheelEvent*>(event);
-	_steps += -wheelEvent->delta();
+	_steps += -wheelEvent->angleDelta().y();
 	int scrollValue;
 	QListView *listView(qobject_cast<QListView *>(_user));
 	if (listView && listView->uniformItemSizes()) {
