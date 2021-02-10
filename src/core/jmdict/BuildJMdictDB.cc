@@ -180,7 +180,7 @@ bool JMdictDBParser::onItemParsed(const JMdictItem &entry)
 	// For every language, insert all glosses of an entry (load table)
 	foreach (const QString &lang, languages) {
 		QString all(allGlosses[lang].join("\n\n"));
-		if (all.split("\n", QString::SkipEmptyParts).empty()) continue;
+		if (all.split("\n", Qt::SkipEmptyParts).empty()) continue;
 		BIND(insertGlossesQueries[lang], entry.id);
 		BIND(insertGlossesQueries[lang], qCompress(all.toUtf8(), 9));
 		EXEC(insertGlossesQueries[lang])
@@ -344,7 +344,7 @@ static QVector<quint64> entityInsert(const QString &entities, const QHash<QStrin
 {
 	QVector<quint64> columns((entityBitFields.size() / 64) + 1, 0);
 
-	foreach (const QString &entity, entities.split(',', QString::SkipEmptyParts)) {
+	foreach (const QString &entity, entities.split(',', Qt::SkipEmptyParts)) {
 		const int idx = entityBitFields[entity] / 64;
 		const quint16 bit = entityBitFields[entity] % 64;
 		const quint64 mask = ((quint64)1) << bit;
@@ -633,7 +633,7 @@ int main(int argc, char *argv[])
 			printUsage(argv);
 			return 1;
 		}
-		QStringList langs(param.mid(2).split(',', QString::SkipEmptyParts));
+		QStringList langs(param.mid(2).split(',', Qt::SkipEmptyParts));
 		foreach (const QString &lang, langs) {
 			languages << lang;
 		};
