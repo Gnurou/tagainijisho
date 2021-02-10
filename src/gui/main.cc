@@ -48,6 +48,7 @@
 #include <QMessageBox>
 #include <QLibraryInfo>
 #include <QtGlobal>
+#include <QRandomGenerator>
 
 // The version must be defined by the compiler
 #ifndef VERSION
@@ -193,7 +194,7 @@ int main(int argc, char *argv[])
 	extern void qt_set_sequence_auto_mnemonic(bool b);
 
 	// Seed the random number generator
-	qsrand(QDateTime::currentDateTime().toTime_t());
+	QRandomGenerator(QDateTime::currentDateTime().toTime_t());
 	QApplication app(argc, argv);
 
 	// Enable auto-mnemonics for Mac OS X. Ideally this would only
