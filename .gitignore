@@ -60,3 +60,4 @@ pack/archlinux/*.tar.xz
 .clangd
 compile_commands.json
 tagainijisho.code-workspace
+.cache
