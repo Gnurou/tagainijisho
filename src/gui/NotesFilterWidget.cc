@@ -48,7 +48,7 @@ void NotesFilterWidget::setNotes(const QString &notes)
 QString NotesFilterWidget::currentTitle() const
 {
 	if (words->text().isEmpty()) return tr("Notes");
-	QStringList args(words->text().split(QRegExp("[ ,\\.]"), QString::SkipEmptyParts));
+	QStringList args(words->text().split(QRegExp("[ ,\\.]"), Qt::SkipEmptyParts));
 	if (args.size() == 1 && args[0] == "*") return tr("Has note");
 	return tr("Note contains %1").arg(words->text());
 }
@@ -56,7 +56,7 @@ QString NotesFilterWidget::currentTitle() const
 QString NotesFilterWidget::currentCommand() const
 {
 	if (words->text().isEmpty()) return "";
-	QStringList args(words->text().split(QRegExp("[ ,\\.]"), QString::SkipEmptyParts));
+	QStringList args(words->text().split(QRegExp("[ ,\\.]"), Qt::SkipEmptyParts));
 	if (args.size() == 1 && args[0] == "*") return ":note";
 	return QString(":note=%1").arg(args.join(","));
 }

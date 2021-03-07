@@ -84,9 +84,9 @@ void ReadingTrainer::newSession()
 	// Get the train settings and build the query string
 	QString queryString(QString("select k1.id from training cross join jmdict.kanjiChar as k1 on training.type = %1 and training.id = k1.kanji cross join training as t2 on t2.type = %2 and t2.id = k1.id cross join jmdict.entries on entries.id = t2.id cross join jmdict.senses on senses.id = k1.id and senses.priority = 0 where k1.priority = 0 and (senses.misc0 & %3) = 0").arg(KANJIDIC2ENTRY_GLOBALID).arg(JMDICTENTRY_GLOBALID).arg(1 << JMdictPlugin::miscMap()["uk"].second));
 	RelativeDate minDate(TrainSettings::minDatePref.value());
-	if (minDate.isSet()) queryString += QString(" and (t2.dateLastTrain < %1 OR t2.dateLastTrain is null)").arg(QDateTime(minDate.date()).toTime_t());
+	if (minDate.isSet()) queryString += QString(" and (t2.dateLastTrain < %1 OR t2.dateLastTrain is null)").arg(minDate.date().startOfDay().toTime_t());
 	RelativeDate maxDate(TrainSettings::maxDatePref.value());
-	if (maxDate.isSet()) queryString += QString(" and t2.dateLastTrain > %1").arg(QDateTime(maxDate.date()).toTime_t());
+	if (maxDate.isSet()) queryString += QString(" and t2.dateLastTrain > %1").arg(maxDate.date().startOfDay().toTime_t());
 	int minScore(TrainSettings::minScorePref.value());
 	if (minScore != TrainSettings::MINSCORE_DEFAULT) queryString += QString(" and t2.score >= %1").arg(minScore);
 	int maxScore(TrainSettings::maxScorePref.value());
@@ -173,7 +173,7 @@ void ReadingTrainer::onShowMeaningChecked(bool checked)
 		parts << "back";
 		document->setDefaultStyleSheet(formatter->CSS());
 		QString html(filler.fill(filler.extract(formatter->htmlTemplate(), parts), formatter, entry));
-		document->setHtml(html);	
+		document->setHtml(html);
 	}
 }
 

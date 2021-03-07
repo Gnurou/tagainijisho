@@ -68,7 +68,7 @@ private slots:
 	void applySettings();
 
 public:
-	PreferencesWindow(QWidget *parent = 0, Qt::WindowFlags f = 0);
+	PreferencesWindow(QWidget *parent = 0, Qt::WindowFlags f = Qt::WindowFlags());
 	void addCategory(PreferencesWindowCategory *category);
 
 	static void addPanel(const QMetaObject *panel) { _pluginPanels << panel; }
@@ -122,7 +122,7 @@ public:
 	EntryDelegatePreferences(QWidget *parent = 0);
 	/**
 	 * Sets which preferences are changed by this preferences instance. This
-	 * method MUST be called before any call to refresh or whatever else 
+	 * method MUST be called before any call to refresh or whatever else
 	 * is performed!
 	 */
 	void setPrefsToWatch(PreferenceItem< int >* twoLinesPref, PreferenceItem< QString >* defaultFontPref, PreferenceItem< QString >* kanjiFontPref, PreferenceItem< QString >* kanaFontPref);

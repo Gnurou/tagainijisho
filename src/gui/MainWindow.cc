@@ -68,7 +68,7 @@ PreferenceItem<int> MainWindow::updateCheckInterval("mainWindow", "updateCheckIn
 PreferenceItem<QByteArray> MainWindow::windowGeometry("mainWindow", "geometry", "");
 PreferenceItem<QByteArray> MainWindow::windowState("mainWindow", "state", "");
 
-PreferenceItem<QDateTime> MainWindow::lastUpdateCheck("mainWindow", "lastUpdateCheck", QDateTime(QDate(2000, 1, 1)));
+PreferenceItem<QDateTime> MainWindow::lastUpdateCheck("mainWindow", "lastUpdateCheck", QDate(2000, 1, 1).startOfDay());
 PreferenceItem<bool> MainWindow::donationReminderDisplayed("mainWindow", "donationReminderDisplayed", false, true);
 PreferenceItem<QDateTime> MainWindow::firstRunTime("mainWindow", "firstRunTime", QDateTime::currentDateTime(), true);
 
@@ -292,7 +292,7 @@ void MainWindow::about()
 	aboutDialogUI.setupUi(&aboutDialog);
 	aboutDialog.setWindowIcon(windowIcon());
 	aboutDialogUI.title->setText(aboutDialogUI.title->text() + " " + VERSION);
-	aboutDialogUI.logo->setPixmap(aboutDialogUI.logo->pixmap()->scaledToWidth(75, Qt::SmoothTransformation));
+	aboutDialogUI.logo->setPixmap(aboutDialogUI.logo->pixmap(Qt::ReturnByValueConstant::ReturnByValue).scaledToWidth(75, Qt::SmoothTransformation));
 	aboutDialogUI.credits->setHtml(message + credits);
 	aboutDialogUI.credits->viewport()->setAutoFillBackground(false);
 	ScrollBarSmoothScroller scroller;

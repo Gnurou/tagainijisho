@@ -117,8 +117,8 @@ bool BookletPrintEngine::begin(QPaintDevice *pdev)
 	bool ret = ProxyPaintEngine::begin(pdev);
 	if (ret) {
 		// Setup our transformation properties
-		QRect window = _printer->pageRect();
-		QRect paperRect = _printer->paperRect();
+		QRect window = _printer->pageLayout().paintRectPixels(_printer->resolution());
+		QRect paperRect = _printer->pageLayout().fullRectPixels(_printer->resolution());
 
 		// Authorized printing size for every page
 		_subPageWidth = window.height() / 4.0;

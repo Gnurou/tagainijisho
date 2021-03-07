@@ -71,8 +71,8 @@ void EntrySearcher::buildStatement(QList<SearchCommand> &commands, QueryBuilder:
 			if (command.args().size() >= 1) s1 = command.args()[0];
 			if (command.args().size() >= 2) s2 = command.args()[1];
 			QPair<QDate, QDate> interval = timeInterval(s1, s2);
-			if (interval.first.isValid()) statement.addWhere(QString("training.dateAdded >= %1").arg(QDateTime(interval.first).toTime_t()));
-			if (interval.second.isValid()) statement.addWhere(QString("training.dateAdded < %1").arg(QDateTime(interval.second).toTime_t()));
+			if (interval.first.isValid()) statement.addWhere(QString("training.dateAdded >= %1").arg(interval.first.startOfDay().toTime_t()));
+			if (interval.second.isValid()) statement.addWhere(QString("training.dateAdded < %1").arg(interval.second.startOfDay().toTime_t()));
 		}
 		else if (command.command() == "nostudy")
 			statement.addWhere(QString("training.dateAdded is null"));
@@ -116,8 +116,8 @@ void EntrySearcher::buildStatement(QList<SearchCommand> &commands, QueryBuilder:
 			if (command.args().size() >= 1) s1 = command.args()[0];
 			if (command.args().size() >= 2) s2 = command.args()[1];
 			QPair<QDate, QDate> interval = timeInterval(s1, s2);
-			if (interval.first.isValid()) statement.addWhere(QString("training.dateLastTrain >= %1").arg(QDateTime(interval.first).toTime_t()));
-			if (interval.second.isValid()) statement.addWhere(QString("(training.dateLastTrain < %1 or training.dateLastTrain is null)").arg(QDateTime(interval.second).toTime_t()));
+			if (interval.first.isValid()) statement.addWhere(QString("training.dateLastTrain >= %1").arg(interval.first.startOfDay().toTime_t()));
+			if (interval.second.isValid()) statement.addWhere(QString("(training.dateLastTrain < %1 or training.dateLastTrain is null)").arg(interval.second.startOfDay().toTime_t()));
 			if (!interval.first.isValid() && !interval.second.isValid()) statement.addWhere(QString("training.dateLastTrain not null"));
 		}
 		else if (command.command() == "mistaken") {
@@ -127,8 +127,8 @@ void EntrySearcher::buildStatement(QList<SearchCommand> &commands, QueryBuilder:
 			if (command.args().size() >= 1) s1 = command.args()[0];
 			if (command.args().size() >= 2) s2 = command.args()[1];
 			QPair<QDate, QDate> interval = timeInterval(s1, s2);
-			if (interval.first.isValid()) statement.addWhere(QString("training.dateLastMistake >= %1").arg(QDateTime(interval.first).toTime_t()));
-			if (interval.second.isValid()) statement.addWhere(QString("training.dateLastMistake < %1").arg(QDateTime(interval.second).toTime_t()));
+			if (interval.first.isValid()) statement.addWhere(QString("training.dateLastMistake >= %1").arg(interval.first.startOfDay().toTime_t()));
+			if (interval.second.isValid()) statement.addWhere(QString("training.dateLastMistake < %1").arg(interval.second.startOfDay().toTime_t()));
 			if (!interval.first.isValid() && !interval.second.isValid()) statement.addWhere(QString("training.dateLastMistake not null"));
 		}
 		else processed = false;
