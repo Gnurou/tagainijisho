@@ -2,8 +2,7 @@
 set(QT_DONT_USE_QTGUI TRUE)
 
 # JMdict
-set(JMDICT_MIRRORS http://ftp.monash.edu.au/pub/nihongo/JMdict.gz
-		   ftp://ftp.edrdg.org/pub/Nihongo/JMdict.gz
+set(JMDICT_MIRRORS http://ftp.edrdg.org/pub/Nihongo/JMdict.gz
 		   http://www.bcit-broadcast.com/monash/JMdict.gz
 		   ftp://ftp.net.usf.edu/pub/ftp.monash.edu.au/pub/nihongo/JMdict.gz)
 
