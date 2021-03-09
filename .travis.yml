@@ -22,13 +22,13 @@ before_install:
   - TAGAINI_VERSION=`grep "set(VERSION" CMakeLists.txt | cut -d ' ' -f 2 | tr -d '\)'`
   - export TAGAINI_VERSION
   - env | sort
-  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then sudo add-apt-repository ppa:beineri/opt-qt-5.11.2-xenial -y ; sudo apt-get -qq update ; sudo apt-get install -qq libtext-multimarkdown-perl sqlite3 rpm libgl1-mesa-dev qt511base qt511websockets qt511translations qt511tools; fi
+  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then sudo add-apt-repository ppa:beineri/opt-qt-5.15.2-xenial -y ; sudo apt-get -qq update ; sudo apt-get install -qq libtext-multimarkdown-perl sqlite3 rpm libgl1-mesa-dev qt515base qt515websockets qt515translations qt515tools; fi
   - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew update ; brew install multimarkdown qt5; fi
 
 before_script:
   - mkdir build
   - cd build
-  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then source /opt/qt511/bin/qt511-env.sh ; cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -DEMBED_SQLITE=1 ..; fi
+  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then source /opt/qt515/bin/qt515-env.sh ; cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -DEMBED_SQLITE=1 ..; fi
   - if [ "$TRAVIS_OS_NAME" = "osx" ]; then cmake -DCMAKE_PREFIX_PATH=`brew --prefix qt5` -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -DEMBED_SQLITE=1 ..; fi
 
 after_success:
