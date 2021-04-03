@@ -26,7 +26,7 @@ class JMdictEntryLoader : public EntryLoader
 private:
 
 protected:
-	SQLite::Query kanjiQuery, kanaQuery, sensesQuery, jlptQuery;
+	SQLite::Query validEntryQuery, kanjiQuery, kanaQuery, sensesQuery, jlptQuery;
 	QMap<QString, SQLite::Query> glossQueries;
 
 public:

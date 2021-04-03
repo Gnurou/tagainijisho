@@ -97,6 +97,11 @@ QStringList JMdictEntry::writings() const
 	QStringList res;
 	if (hasKanjiReadings()) foreach (const KanjiReading &reading, getKanjiReadings()) res << reading.getReading();
 	else foreach (const KanaReading &reading, getKanaReadings()) res << reading.getReading();
+
+	if (res.isEmpty()) {
+		res.append(tr("INVALID ENTRY"));
+	}
+
 	return res;
 }
 
@@ -113,6 +118,10 @@ QStringList JMdictEntry::meanings() const
 	foreach (const Sense *sense, getSenses()) {
 		if (sense->senseText().isEmpty()) continue;
 		res << sense->senseText();
+	}
+
+	if (res.isEmpty()) {
+		res.append(tr("This entry has been removed from the JMdict and we have no information about its original content or potential replacement. Sorry about this. Please remove it."));
 	}
 	return res;
 }

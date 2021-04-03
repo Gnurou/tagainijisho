@@ -19,7 +19,7 @@
 #include "core/jmdict/JMdictEntryLoader.h"
 #include "core/jmdict/JMdictPlugin.h"
 
-JMdictEntryLoader::JMdictEntryLoader() : EntryLoader(), kanjiQuery(&connection), kanaQuery(&connection), sensesQuery(&connection), jlptQuery(&connection)
+JMdictEntryLoader::JMdictEntryLoader() : EntryLoader(), validEntryQuery(&connection), kanjiQuery(&connection), kanaQuery(&connection), sensesQuery(&connection), jlptQuery(&connection)
 {
 	const QMap<QString, QString> &allDBs = JMdictPlugin::instance()->attachedDBs();
 	foreach (const QString &lang, allDBs.keys()) {
@@ -30,6 +30,7 @@ JMdictEntryLoader::JMdictEntryLoader() : EntryLoader(), kanjiQuery(&connection),
 	}
 
 	// Prepare queries so that we just have to bind and execute them
+	validEntryQuery.prepare("select id from jmdict.entries where jmdict.entries.id = ?");
 	kanjiQuery.prepare("select reading, frequency from jmdict.kanji join jmdict.kanjiText on kanji.docid == kanjiText.docid where id=? order by priority");
 	kanaQuery.prepare("select reading, nokanji, frequency, restrictedTo from jmdict.kana join jmdict.kanaText on kana.docid == kanaText.docid where id=? order by priority");
 	sensesQuery.prepare("select " + JMdictPlugin::dbColumns(JMdictPlugin::posMap(), "pos") + ", " + JMdictPlugin::dbColumns(JMdictPlugin::miscMap(), "misc") + ", " + JMdictPlugin::dbColumns(JMdictPlugin::dialMap(), "dial") + ", " + JMdictPlugin::dbColumns(JMdictPlugin::fieldMap(), "field") + ", restrictedToKanji, restrictedToKana from jmdict.senses where id=? order by priority asc");
@@ -53,6 +54,14 @@ Entry *JMdictEntryLoader::loadEntry(EntryId id)
 	JMdictEntry *entry = new JMdictEntry(id);
 
 	loadMiscData(entry);
+
+	validEntryQuery.bindValue(entry->id());
+	validEntryQuery.exec();
+	if (!validEntryQuery.next()) {
+		// If the entry does not exist in the main database, try to load it from the obsolete entries list and add an OBSOLETE tag.
+		return entry;
+	}
+	validEntryQuery.reset();
 
 	// Now load readings
 	// Kanji readings

@@ -331,8 +331,14 @@ QString JMdictEntryFormatter::formatSenses(const ConstEntryPointer &_entry) cons
 	QSet<QString> oldDialect;
 	QSet<QString> oldField;
 	QStringList oldWritingString;
-
 	QString ret;
+
+	if (senses.isEmpty()) {
+		ret += "<div class=\"glosses\">\n";
+		ret += entry->meanings()[0];
+		ret += "</div>";
+	}
+
 	foreach (const Sense *sense, senses) {
 		ret += "<div class=\"sense\">\n";
 		// Shall we output the part of speech?
