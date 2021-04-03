@@ -47,7 +47,7 @@ EntryLoader::~EntryLoader()
 static QDateTime variantToDate(const SQLite::Query &query, int col)
 {
 	if (query.valueType(col) == SQLite::Integer)
-		return QDateTime::fromTime_t(query.valueUInt64(col));
+		return QDateTime::fromSecsSinceEpoch(query.valueUInt64(col));
 	else return QDateTime();
 }
 
@@ -81,7 +81,7 @@ void EntryLoader::loadMiscData(Entry *entry)
 	notesQuery.bindValue(entry->id());
 	notesQuery.exec();
 	while (notesQuery.next()) {
-		entry->_notes << Entry::Note(notesQuery.valueInt(0), QDateTime::fromTime_t(notesQuery.valueInt(1)), QDateTime::fromTime_t(notesQuery.valueInt(2)), notesQuery.valueString(3));
+		entry->_notes << Entry::Note(notesQuery.valueInt(0), QDateTime::fromSecsSinceEpoch(notesQuery.valueInt(1)), QDateTime::fromSecsSinceEpoch(notesQuery.valueInt(2)), notesQuery.valueString(3));
 	}
 	notesQuery.reset();
 	

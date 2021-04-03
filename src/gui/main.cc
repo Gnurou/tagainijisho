@@ -194,7 +194,7 @@ int main(int argc, char *argv[])
 	extern void qt_set_sequence_auto_mnemonic(bool b);
 
 	// Seed the random number generator
-	QRandomGenerator(QDateTime::currentDateTime().toTime_t());
+	QRandomGenerator(QDateTime::currentDateTime().toSecsSinceEpoch());
 	QApplication app(argc, argv);
 
 	// Enable auto-mnemonics for Mac OS X. Ideally this would only

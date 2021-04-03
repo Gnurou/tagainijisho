@@ -89,9 +89,9 @@ QString TrainSettings::buildQueryString(int entryType)
 {
 	QString queryString(QString("select type, id from training where type = %1").arg(entryType));
 	RelativeDate minDate(minDatePref.value());
-	if (minDate.isSet()) queryString += QString(" and (dateLastTrain < %1 OR dateLastTrain is null)").arg(minDate.date().startOfDay().toTime_t());
+	if (minDate.isSet()) queryString += QString(" and (dateLastTrain < %1 OR dateLastTrain is null)").arg(minDate.date().startOfDay().toSecsSinceEpoch());
 	RelativeDate maxDate(maxDatePref.value());
-	if (maxDate.isSet()) queryString += QString(" and dateLastTrain > %1").arg(maxDate.date().startOfDay().toTime_t());
+	if (maxDate.isSet()) queryString += QString(" and dateLastTrain > %1").arg(maxDate.date().startOfDay().toSecsSinceEpoch());
 	int minScore(minScorePref.value());
 	if (minScore > minScorePref.defaultValue()) queryString += QString(" and score >= %1").arg(minScore);
 	int maxScore(maxScorePref.value());

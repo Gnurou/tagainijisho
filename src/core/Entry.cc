@@ -33,7 +33,7 @@ Entry::~Entry()
 static QString dateToString(const QDateTime &date)
 {
 	if (!date.isValid()) return "null";
-	return QString::number(date.toTime_t());
+	return QString::number(date.toSecsSinceEpoch());
 }
 
 void Entry::updateTrainingData()
@@ -181,8 +181,8 @@ void Entry::Note::writeToDB(const Entry *entry)
 	if (_id != -1) query.bindValue(_id);
 	query.bindValue(entry->type());
 	query.bindValue(entry->id());
-	query.bindValue(QString::number(dateAdded().toTime_t()));
-	query.bindValue(QString::number(dateLastChange().toTime_t()));
+	query.bindValue(QString::number(dateAdded().toSecsSinceEpoch()));
+	query.bindValue(QString::number(dateLastChange().toSecsSinceEpoch()));
 	if (!query.exec()) {
 		qCritical() << "Error executing query: " << query.lastError().message();
 		return;
@@ -221,7 +221,7 @@ void Entry::setTags(const QStringList &tags)
 void Entry::addTags(const QStringList &tags)
 {
 	SQLite::Query query(Database::connection());
-	query.prepare(QString("insert into taggedEntries values(%1, %2, ?, %3)").arg(type()).arg(id()).arg(QDateTime::currentDateTime().toTime_t()));
+	query.prepare(QString("insert into taggedEntries values(%1, %2, ?, %3)").arg(type()).arg(id()).arg(QDateTime::currentDateTime().toSecsSinceEpoch()));
 	foreach(const QString &tag, tags) {
 		Tag t = Tag::getOrCreateTag(tag);
 		if (!t.isValid()) {
