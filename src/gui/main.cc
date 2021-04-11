@@ -29,6 +29,7 @@
 #include "core/jmdict/JMdictPlugin.h"
 #include "core/kanjidic2/Kanjidic2Plugin.h"
 //#include "core/tatoeba/TatoebaPlugin.h"
+#include "gui/Font.h"
 #include "gui/PreferencesWindow.h"
 #include "gui/MainWindow.h"
 
@@ -93,7 +94,7 @@ void messageHandler(QtMsgType type, const QMessageLogContext& context, const QSt
  * to update configuration options that have changed or to remove obsolete
  * ones.
  */
-#define CONFIG_VERSION 7
+#define CONFIG_VERSION 8
 PreferenceItem<int> configVersion("", "configVersion", 0);
 
 void checkConfigurationVersion()
@@ -132,6 +133,12 @@ void checkConfigurationVersion()
 			settings.remove("preferredLanguages"); // fallthrough
 		case 6:
 			settings.remove("entriesCacheSize"); // fallthrough
+		case 7:
+			settings.remove("mainWindow/detailedView/textFont"); // fallthrough
+			settings.remove("mainWindow/detailedView/kanjiFont");
+			settings.remove("mainWindow/detailedView/kanaFont");
+			settings.remove("mainWindow/detailedView/kanjiHeaderFont");
+			settings.remove("mainWindow/detailedView/kanaHeaderFont");
 		default:
 			// If we arrive here, this means we are running an pre-tracking version - do nothing in that case
 			break;
@@ -211,6 +218,8 @@ int main(int argc, char *argv[])
 	checkConfigurationVersion();
 
 	checkUserProfileDirectory();
+
+	Font::init();
 
 	// Get the default font from the settings, if set
 	if (!MainWindow::applicationFont.value().isEmpty()) {

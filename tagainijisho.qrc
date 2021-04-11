@@ -72,6 +72,7 @@
         <file>images/icons/clipboard-search.png</file>
         <file>images/icons/focus-text-search.png</file>
         <file>images/icons/edit-clear-locationbar-rtl.png</file>
+        <file alias="fonts/NotoSansJP-Regular.otf">3rdparty/NotoSansJP-Regular.otf</file>
         <file alias="export_template.html">src/gui/export_template.html</file>
         <file alias="detailed_default.html">src/gui/detailed_default.html</file>
         <file alias="detailed_default.css">src/gui/detailed_default.css</file>

@@ -1,6 +1,14 @@
 set(QT_USE_QTNETWORK TRUE)
 
+# Noto CJK font
+set(NOTO_JP_SOURCE https://github.com/googlefonts/noto-cjk/raw/main/Sans/OTF/Japanese/NotoSansCJKjp-Regular.otf)
+if(NOT EXISTS ${CMAKE_SOURCE_DIR}/3rdparty/NotoSansJP-Regular.otf)
+	MESSAGE(STATUS "Downloading Noto Japanese font...")
+	FILE(DOWNLOAD ${NOTO_JP_SOURCE} ${CMAKE_SOURCE_DIR}/3rdparty/NotoSansJP-Regular.otf SHOW_PROGRESS)
+endif()
+
 set(tagainijisho_gui_SRCS
+Font.cc
 TJSpinBox.cc
 TJLineEdit.cc
 EntryFormatter.cc

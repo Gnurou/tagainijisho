@@ -415,6 +415,7 @@ DetailedViewPreferences::DetailedViewPreferences(QWidget *parent) : PreferencesW
 	}
 
 	{
+		/*
 		QGridLayout *gridLayout = new QGridLayout(fontsBox);
 
 		QFont kFont;
@@ -448,6 +449,7 @@ DetailedViewPreferences::DetailedViewPreferences(QWidget *parent) : PreferencesW
 		connect(kanafontChooser, SIGNAL(fontChanged(const QFont &)), detailedExample, SLOT(redrawKanas(const QFont &)));
 		connect(romajifontChooser, SIGNAL(fontChanged(const QFont &)), kanafontChooser, SLOT(checkDefaultState(const QFont &)));
 		gridLayout->addWidget(kanafontChooser, 2, 1);
+		*/
 	}
 }
 
@@ -455,6 +457,7 @@ void DetailedViewPreferences::refresh()
 {
 	smoothScrolling->setChecked(DetailedView::smoothScrolling.value());
 	shortDescShowJLPT->setChecked(EntryFormatter::shortDescShowJLPT.value());
+	/*
 	romajifontChooser->setDefault(DetailedViewFonts::textFont.isDefault());
 	romajifontChooser->setFont(DetailedViewFonts::font(DetailedViewFonts::DefaultText));
 	kanaHeaderfontChooser->setDefault(DetailedViewFonts::kanaHeaderFont.isDefault());
@@ -465,6 +468,7 @@ void DetailedViewPreferences::refresh()
 	kanjifontChooser->setFont(DetailedViewFonts::font(DetailedViewFonts::Kanji));
 	kanafontChooser->setDefault(DetailedViewFonts::kanaFont.isDefault());
 	kanafontChooser->setFont(DetailedViewFonts::font(DetailedViewFonts::Kana));
+	*/
 }
 
 void DetailedViewPreferences::applyFontSetting(PreferencesFontChooser *fontChooser, PreferenceItem<QString> *prefItem,
@@ -481,11 +485,13 @@ void DetailedViewPreferences::applySettings()
 	DetailedView::smoothScrolling.set(smoothScrolling->isChecked());
 	EntryFormatter::shortDescShowJLPT.set(shortDescShowJLPT->isChecked());
 	// Detailed view fonts
+	/*
 	applyFontSetting(romajifontChooser, &DetailedViewFonts::textFont, DetailedViewFonts::DefaultText);
 	applyFontSetting(kanaHeaderfontChooser, &DetailedViewFonts::kanaHeaderFont, DetailedViewFonts::KanaHeader);
 	applyFontSetting(kanjiHeaderfontChooser, &DetailedViewFonts::kanjiHeaderFont, DetailedViewFonts::KanjiHeader);
 	applyFontSetting(kanafontChooser, &DetailedViewFonts::kanaFont, DetailedViewFonts::Kana);
 	applyFontSetting(kanjifontChooser, &DetailedViewFonts::kanjiFont, DetailedViewFonts::Kanji);
+	*/
 }
 
 void DetailedViewPreferences::updateUI()
@@ -566,6 +572,10 @@ void PreferencesFontChooser::checkDefaultState(const QFont &f)
 		_font = f;
 		emit fontChanged(font());
 	}
+}
+
+PreferencesFontSizeChooser::PreferencesFontSizeChooser(const QString &whatFor, const QFont &font, int defaultSize, QWidget *parent) : QWidget(parent)
+{
 }
 
 PreferencesDetailedViewExample::PreferencesDetailedViewExample(QWidget *parent) : DetailedView(parent)

@@ -27,7 +27,7 @@
 #include <QDrag>
 #include <QMimeData>
 
-PreferenceItem<QString> KanaView::characterFont("kanjidic2/kanaSelector", "characterFont", QFont("Helvetica", 15).toString());
+PreferenceItem<QString> KanaView::characterFont("kanjidic2/kanaSelector", "characterFont", QFont("Noto Sans JP", 15).toString());
 
 KanaModel::KanaModel(QObject *parent) : QAbstractTableModel(parent), _showObsolete(false), _mode(Hiragana), _kanaTable(&TextTools::hiraganaTable)
 {

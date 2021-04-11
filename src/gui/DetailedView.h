@@ -98,11 +98,11 @@ class DetailedViewFonts : public QObject
 	Q_OBJECT
 public:
 	typedef enum { DefaultText, Kana, Kanji, KanaHeader, KanjiHeader, MAX_FONTS } FontRole;
-	static PreferenceItem<QString> textFont;
-	static PreferenceItem<QString> kanjiFont;
-	static PreferenceItem<QString> kanaFont;
-	static PreferenceItem<QString> kanjiHeaderFont;
-	static PreferenceItem<QString> kanaHeaderFont;
+	static PreferenceItem<int> textFontSize;
+	static PreferenceItem<int> kanjiFontSize;
+	static PreferenceItem<int> kanaFontSize;
+	static PreferenceItem<int> kanjiHeaderFontSize;
+	static PreferenceItem<int> kanaHeaderFontSize;
 
 private:
 	static DetailedViewFonts *_instance;

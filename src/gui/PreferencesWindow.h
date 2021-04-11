@@ -249,4 +249,11 @@ signals:
 	void fontChanged(const QFont &font);
 };
 
+class PreferencesFontSizeChooser : public QWidget
+{
+	Q_OBJECT
+public:
+	PreferencesFontSizeChooser(const QString &whatFor, const QFont &font, int defaultSize, QWidget *parent = 0);
+};
+
 #endif
