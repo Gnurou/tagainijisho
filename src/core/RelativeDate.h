@@ -36,7 +36,7 @@ public:
 private:
 	DateType _type;
 	QDate _absoluteDate;
-	quint32 _ago;
+	qint64 _ago;
 
 public:
 	static PreferenceItem<int> firstDayOfWeek;
@@ -54,8 +54,8 @@ public:
 	const QDate &absoluteDate() const { return _absoluteDate; }
 	void setAbsoluteDate(const QDate &date) { _absoluteDate = date; }
 
-	quint32 ago() const { return _ago; }
-	void setAgo(quint32 value) { _ago = value; }
+	qint64 ago() const { return _ago; }
+	void setAgo(qint64 value) { _ago = value; }
 
 	/**
 	 * Returns a string representing the current date, i.e. either an absolute
