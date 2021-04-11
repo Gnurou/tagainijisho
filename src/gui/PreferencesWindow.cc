@@ -415,41 +415,29 @@ DetailedViewPreferences::DetailedViewPreferences(QWidget *parent) : PreferencesW
 	}
 
 	{
-		/*
 		QGridLayout *gridLayout = new QGridLayout(fontsBox);
 
-		QFont kFont;
-		kFont.fromString(DetailedViewFonts::textFont.defaultValue());
-		romajifontChooser = new PreferencesFontChooser(tr("Default text"), kFont, fontsBox);
-		connect(romajifontChooser, SIGNAL(fontChanged(const QFont &)), detailedExample, SLOT(redrawRomajis(const QFont &)));
-		gridLayout->addWidget(romajifontChooser, 0, 0, 1, 2);
+		romajifontSizeChooser = new PreferencesFontSizeChooser(tr("Default text"), DetailedViewFonts::font(DetailedViewFonts::DefaultText), fontsBox);
+		connect(romajifontSizeChooser, SIGNAL(fontChanged(const QFont &)), detailedExample, SLOT(redrawRomajis(const QFont &)));
+		gridLayout->addWidget(romajifontSizeChooser, 0, 0, 1, 2);
 
-		kFont = QFont();
-		kFont.fromString(DetailedViewFonts::kanaHeaderFont.defaultValue());
-		kanaHeaderfontChooser = new PreferencesFontChooser(tr("Kana header"), kFont, fontsBox);
-		connect(kanaHeaderfontChooser, SIGNAL(fontChanged(const QFont &)), detailedExample, SLOT(redrawKanasHeader(const QFont &)));
-		gridLayout->addWidget(kanaHeaderfontChooser, 1, 0);
+		kanaHeaderfontSizeChooser = new PreferencesFontSizeChooser(tr("Kana header"), DetailedViewFonts::font(DetailedViewFonts::KanaHeader), fontsBox);
+		connect(kanaHeaderfontSizeChooser, SIGNAL(fontChanged(const QFont &)), detailedExample, SLOT(redrawKanasHeader(const QFont &)));
+		gridLayout->addWidget(kanaHeaderfontSizeChooser, 1, 0);
 
-		kFont = QFont();
-		kFont.fromString(DetailedViewFonts::kanjiHeaderFont.defaultValue());
-		kanjiHeaderfontChooser = new PreferencesFontChooser(tr("Kanji header"), kFont, fontsBox);
-		connect(kanjiHeaderfontChooser, SIGNAL(fontChanged(const QFont &)), detailedExample, SLOT(redrawKanjisHeader(const QFont &)));
-		gridLayout->addWidget(kanjiHeaderfontChooser, 2, 0);
+		kanjiHeaderfontSizeChooser = new PreferencesFontSizeChooser(tr("Kanji header"), DetailedViewFonts::font(DetailedViewFonts::KanjiHeader), fontsBox);
+		connect(kanjiHeaderfontSizeChooser, SIGNAL(fontChanged(const QFont &)), detailedExample, SLOT(redrawKanjisHeader(const QFont &)));
+		gridLayout->addWidget(kanjiHeaderfontSizeChooser, 2, 0);
 
-		kFont = QFont();
-		kFont.fromString(DetailedViewFonts::kanjiFont.defaultValue());
-		kanjifontChooser = new PreferencesFontChooser(tr("Kanji"), kFont, fontsBox);
-		connect(kanjifontChooser, SIGNAL(fontChanged(const QFont &)), detailedExample, SLOT(redrawKanjis(const QFont &)));
-		connect(romajifontChooser, SIGNAL(fontChanged(const QFont &)), kanjifontChooser, SLOT(checkDefaultState(const QFont &)));
-		gridLayout->addWidget(kanjifontChooser, 1, 1);
+		kanjifontSizeChooser = new PreferencesFontSizeChooser(tr("Kanji"), DetailedViewFonts::font(DetailedViewFonts::Kanji), fontsBox);
+		connect(kanjifontSizeChooser, SIGNAL(fontChanged(const QFont &)), detailedExample, SLOT(redrawKanjis(const QFont &)));
+		//connect(kanjifontSizeChooser, SIGNAL(fontChanged(const QFont &)), kanafontSizeChooser, SLOT(checkDefaultState(const QFont &)));
+		gridLayout->addWidget(kanjifontSizeChooser, 1, 1);
 
-		kFont = QFont();
-		kFont.fromString(DetailedViewFonts::kanaFont.defaultValue());
-		kanafontChooser = new PreferencesFontChooser(tr("Kana"), kFont, fontsBox);
-		connect(kanafontChooser, SIGNAL(fontChanged(const QFont &)), detailedExample, SLOT(redrawKanas(const QFont &)));
-		connect(romajifontChooser, SIGNAL(fontChanged(const QFont &)), kanafontChooser, SLOT(checkDefaultState(const QFont &)));
-		gridLayout->addWidget(kanafontChooser, 2, 1);
-		*/
+		kanafontSizeChooser = new PreferencesFontSizeChooser(tr("Kana"), DetailedViewFonts::font(DetailedViewFonts::Kana), fontsBox);
+		connect(kanafontSizeChooser, SIGNAL(fontChanged(const QFont &)), detailedExample, SLOT(redrawKanas(const QFont &)));
+		//connect(kanafontSizeChooser, SIGNAL(fontChanged(const QFont &)), kanafontSizeChooser, SLOT(checkDefaultState(const QFont &)));
+		gridLayout->addWidget(kanafontSizeChooser, 2, 1);
 	}
 }
 
@@ -457,26 +445,24 @@ void DetailedViewPreferences::refresh()
 {
 	smoothScrolling->setChecked(DetailedView::smoothScrolling.value());
 	shortDescShowJLPT->setChecked(EntryFormatter::shortDescShowJLPT.value());
-	/*
-	romajifontChooser->setDefault(DetailedViewFonts::textFont.isDefault());
-	romajifontChooser->setFont(DetailedViewFonts::font(DetailedViewFonts::DefaultText));
-	kanaHeaderfontChooser->setDefault(DetailedViewFonts::kanaHeaderFont.isDefault());
-	kanaHeaderfontChooser->setFont(DetailedViewFonts::font(DetailedViewFonts::KanaHeader));
-	kanjiHeaderfontChooser->setDefault(DetailedViewFonts::kanjiHeaderFont.isDefault());
-	kanjiHeaderfontChooser->setFont(DetailedViewFonts::font(DetailedViewFonts::KanjiHeader));
-	kanjifontChooser->setDefault(DetailedViewFonts::kanjiFont.isDefault());
-	kanjifontChooser->setFont(DetailedViewFonts::font(DetailedViewFonts::Kanji));
-	kanafontChooser->setDefault(DetailedViewFonts::kanaFont.isDefault());
-	kanafontChooser->setFont(DetailedViewFonts::font(DetailedViewFonts::Kana));
-	*/
+
+	//romajifontChooser->setDefault(DetailedViewFonts::textFont.isDefault());
+	romajifontSizeChooser->changeSize(DetailedViewFonts::font(DetailedViewFonts::DefaultText).pointSize());
+	//kanaHeaderfontChooser->setDefault(DetailedViewFonts::kanaHeaderFont.isDefault());
+	kanaHeaderfontSizeChooser->changeSize(DetailedViewFonts::font(DetailedViewFonts::KanaHeader).pointSize());
+	//kanjiHeaderfontChooser->setDefault(DetailedViewFonts::kanjiHeaderFont.isDefault());
+	kanjiHeaderfontSizeChooser->changeSize(DetailedViewFonts::font(DetailedViewFonts::KanjiHeader).pointSize());
+	//kanjifontChooser->setDefault(DetailedViewFonts::kanjiFont.isDefault());
+	kanjifontSizeChooser->changeSize(DetailedViewFonts::font(DetailedViewFonts::Kanji).pointSize());
+	//kanafontChooser->setDefault(DetailedViewFonts::kanaFont.isDefault());
+	kanafontSizeChooser->changeSize(DetailedViewFonts::font(DetailedViewFonts::Kana).pointSize());
 }
 
-void DetailedViewPreferences::applyFontSetting(PreferencesFontChooser *fontChooser, PreferenceItem<QString> *prefItem,
+void DetailedViewPreferences::applyFontSetting(PreferencesFontSizeChooser *fontChooser, PreferenceItem<int> *prefItem,
 		const DetailedViewFonts::FontRole fontRole)
 {
 	const QFont &font = fontChooser->font();
-	if (fontChooser->isDefault()) prefItem->reset();
-	else prefItem->set(font.toString());
+	prefItem->set(font.pointSize());
 	DetailedViewFonts::setFont(fontRole, font);
 }
 
@@ -484,14 +470,13 @@ void DetailedViewPreferences::applySettings()
 {
 	DetailedView::smoothScrolling.set(smoothScrolling->isChecked());
 	EntryFormatter::shortDescShowJLPT.set(shortDescShowJLPT->isChecked());
+
 	// Detailed view fonts
-	/*
-	applyFontSetting(romajifontChooser, &DetailedViewFonts::textFont, DetailedViewFonts::DefaultText);
-	applyFontSetting(kanaHeaderfontChooser, &DetailedViewFonts::kanaHeaderFont, DetailedViewFonts::KanaHeader);
-	applyFontSetting(kanjiHeaderfontChooser, &DetailedViewFonts::kanjiHeaderFont, DetailedViewFonts::KanjiHeader);
-	applyFontSetting(kanafontChooser, &DetailedViewFonts::kanaFont, DetailedViewFonts::Kana);
-	applyFontSetting(kanjifontChooser, &DetailedViewFonts::kanjiFont, DetailedViewFonts::Kanji);
-	*/
+	applyFontSetting(romajifontSizeChooser, &DetailedViewFonts::textFontSize, DetailedViewFonts::DefaultText);
+	applyFontSetting(kanaHeaderfontSizeChooser, &DetailedViewFonts::kanaHeaderFontSize, DetailedViewFonts::KanaHeader);
+	applyFontSetting(kanjiHeaderfontSizeChooser, &DetailedViewFonts::kanjiHeaderFontSize, DetailedViewFonts::KanjiHeader);
+	applyFontSetting(kanafontSizeChooser, &DetailedViewFonts::kanaFontSize, DetailedViewFonts::Kana);
+	applyFontSetting(kanjifontSizeChooser, &DetailedViewFonts::kanjiFontSize, DetailedViewFonts::Kanji);
 }
 
 void DetailedViewPreferences::updateUI()
@@ -574,9 +559,25 @@ void PreferencesFontChooser::checkDefaultState(const QFont &f)
 	}
 }
 
-PreferencesFontSizeChooser::PreferencesFontSizeChooser(const QString &whatFor, const QFont &font, int defaultSize, QWidget *parent) : QWidget(parent)
+PreferencesFontSizeChooser::PreferencesFontSizeChooser(const QString &whatFor, const QFont &font, QWidget *parent) : QWidget(parent), _font(font)
 {
+	QHBoxLayout *layout = new QHBoxLayout(this);
+	layout->addWidget(new QLabel(QString(tr("%1:").arg(whatFor))));
+	layout->addStretch();
+	_size = new QSpinBox(this);
+	_size->setMinimum(1);
+	_size->setMaximum(40);
+	_size->setValue(_font.pointSize());
+	connect(_size, SIGNAL(valueChanged(int)), this, SLOT(changeSize(int)));
+	layout->addWidget(_size);
 }
+
+void PreferencesFontSizeChooser::changeSize(int size)
+{
+	_font.setPointSize(size);
+	emit fontChanged(_font);
+}
+
 
 PreferencesDetailedViewExample::PreferencesDetailedViewExample(QWidget *parent) : DetailedView(parent)
 {

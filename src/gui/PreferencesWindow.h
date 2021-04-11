@@ -76,6 +76,7 @@ public:
 };
 
 class PreferencesFontChooser;
+class PreferencesFontSizeChooser;
 
 class GeneralPreferences : public PreferencesWindowCategory, private Ui::GeneralPreferences
 {
@@ -190,14 +191,14 @@ class DetailedViewPreferences : public PreferencesWindowCategory, private Ui::De
 {
 	Q_OBJECT
 private:
-	PreferencesFontChooser *romajifontChooser;
-	PreferencesFontChooser *kanaHeaderfontChooser;
-	PreferencesFontChooser *kanjiHeaderfontChooser;
-	PreferencesFontChooser *kanjifontChooser;
-	PreferencesFontChooser *kanafontChooser;
+	PreferencesFontSizeChooser *romajifontSizeChooser;
+	PreferencesFontSizeChooser *kanaHeaderfontSizeChooser;
+	PreferencesFontSizeChooser *kanjiHeaderfontSizeChooser;
+	PreferencesFontSizeChooser *kanjifontSizeChooser;
+	PreferencesFontSizeChooser *kanafontSizeChooser;
 	PreferencesDetailedViewExample *detailedExample;
 
-	void applyFontSetting(PreferencesFontChooser *fontChooser, PreferenceItem<QString> *prefItem, const DetailedViewFonts::FontRole fontRole);
+	void applyFontSetting(PreferencesFontSizeChooser *fontChooser, PreferenceItem<int> *prefItem, const DetailedViewFonts::FontRole fontRole);
 
 protected slots:
 	void onSmoothScrollingToggled(bool value) { this->detailedExample->setSmoothScrolling(value); }
@@ -253,7 +254,18 @@ class PreferencesFontSizeChooser : public QWidget
 {
 	Q_OBJECT
 public:
-	PreferencesFontSizeChooser(const QString &whatFor, const QFont &font, int defaultSize, QWidget *parent = 0);
+	PreferencesFontSizeChooser(const QString &whatFor, const QFont &font, QWidget *parent = 0);
+	const QFont &font() const { return _font; }
+	
+public slots:
+	void changeSize(int size);
+
+signals:
+	void fontChanged(const QFont &font);
+	
+private:
+	QFont _font;
+	QSpinBox * _size;
 };
 
 #endif

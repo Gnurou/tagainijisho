@@ -37,7 +37,7 @@
    <item>
     <widget class="QGroupBox" name="fontsBox">
      <property name="title">
-      <string>Fonts</string>
+      <string>Fonts size</string>
      </property>
     </widget>
    </item>
