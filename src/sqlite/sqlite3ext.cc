@@ -24,6 +24,7 @@
 #include <QtDebug>
 #include <QRegExp>
 #include <QRandomGenerator>
+#include <qrandom.h>
 
 static QSet<QString> ignoredWords;
 static QByteArray kanasConverted;
@@ -50,9 +51,8 @@ static void biased_random(sqlite3_context *context, int nParams, sqlite3_value *
 		return;
 	}
 	int score = sqlite3_value_int(values[0]);
-//	int minVal = score == 0 ? 0 : qrand() % score;
-	QRandomGenerator rand;
-	int res = rand.generate() % (101 - score);
+	quint32 rand_num = QRandomGenerator::global()->generate();
+	int res = rand_num % (101 - score);
 	sqlite3_result_int(context, res);
 }
 
