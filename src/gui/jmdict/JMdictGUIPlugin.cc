@@ -175,7 +175,6 @@ void JMdictGUIPlugin::trainingJapaneseSet()
 
 	QString queryString(stat->buildSqlStatement());
 	queryString += " " + TrainSettings::buildOrderString("score");
-	qDebug() << queryString;
 	training(YesNoTrainer::Japanese, queryString);
 }
 
