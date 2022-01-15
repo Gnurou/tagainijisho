@@ -48,14 +48,6 @@ private:
 
 	static void queryEntities(SQLite::Query *query, const QString &entity, QMap<QString, QPair<QString, quint16>> *map, QVector<QString> *shift);
 
-	/**
-	 * If the version if the JMdict database has been updated, this
-	 * method checks whether JMdict entries that may have moved or been
-	 * deleted are referenced in user data tables. If so, these entries
-	 * are updated or deleted as appropriate.
-	 */
-	bool checkForMovedEntries();
-
 	bool attachAllDatabases();
 	void detachAllDatabases();
 

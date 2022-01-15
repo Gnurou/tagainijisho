@@ -20,8 +20,6 @@
 #include "core/jmdict/JMdictParser.h"
 
 QRegExp JMdictParser::versionRegExp(" JMdict created: (\\d\\d\\d\\d\\-\\d\\d\\-\\d\\d) ");
-QRegExp JMdictParser::deletedItemRegExp(" *Deleted: *(\\d\\d\\d\\d\\d\\d\\d).*");
-QRegExp JMdictParser::mergedItemRegExp(" *Deleted: *(\\d\\d\\d\\d\\d\\d\\d) with (\\d\\d\\d\\d\\d\\d\\d).*");
 
 JMdictParser::JMdictParser(const QStringList &langs) : languages(langs), gotVersion(false), posBitFieldsCount(0), fieldBitFieldsCount(0), miscBitFieldsCount(0), dialectBitFieldsCount(0)
 {
@@ -198,11 +196,6 @@ bool JMdictParser::parse(QXmlStreamReader &reader)
 			TAG_POST
 			if (!onItemParsed(entry))
 				return false;
-			DONE
-			COMMENT
-				const QString comment(TEXT);
-				if (mergedItemRegExp.exactMatch(comment)) onDeletedItemParsed(JMdictDeletedItem(mergedItemRegExp.capturedTexts()[1].toInt(), mergedItemRegExp.capturedTexts()[2].toInt()));
-				else if (deletedItemRegExp.exactMatch(comment)) onDeletedItemParsed(JMdictDeletedItem(deletedItemRegExp.capturedTexts()[1].toInt(), 0));
 			DONE
 		ENDTAG
 		COMMENT

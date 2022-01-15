@@ -44,7 +44,6 @@ public:
 		dstDir = destinationDirectory;
 	}
 	virtual bool onItemParsed(const JMdictItem &entry);
-	virtual bool onDeletedItemParsed(const JMdictDeletedItem &entry);
 	bool createMainDatabase();
 	bool createMainTables();
 	bool createMainIndexes();
@@ -76,7 +75,6 @@ private:
 	SQLite::Query insertKanaQuery;
 	SQLite::Query insertSenseQuery;
 	SQLite::Query insertJLPTQuery;
-	SQLite::Query insertDeletedEntryQuery;
 	QMap<QString, SQLite::Query> insertGlossTextQueries;
 	QMap<QString, SQLite::Query> insertGlossQueries;
 	QMap<QString, SQLite::Query> insertGlossesQueries;
@@ -194,18 +192,6 @@ bool JMdictDBParser::onItemParsed(const JMdictItem &entry)
 	return true;
 }
 
-bool JMdictDBParser::onDeletedItemParsed(const JMdictDeletedItem &entry)
-{
-	BIND(insertDeletedEntryQuery, entry.id);
-	if (entry.replacedBy) {
-		BIND(insertDeletedEntryQuery, entry.replacedBy);
-	} else {
-		BINDNULL(insertDeletedEntryQuery);
-	}
-	EXEC(insertDeletedEntryQuery);
-	return true;
-}
-
 bool JMdictDBParser::insertJLPTLevel(const QString &fName, int level)
 {
 	QFile file(fName);
@@ -272,7 +258,6 @@ bool JMdictDBParser::prepareMainQueries()
 	PREPQUERY(insertKanaQuery, "insert into kana values(?, ?, ?, ?, ?, ?)");
 	PREPQUERY(insertSenseQuery, "insert into sensesTMP values(?, ?, ?, ?, ?, ?, ?, ?)");
 	PREPQUERY(insertJLPTQuery, "insert or ignore into jlpt values(?, ?)");
-	PREPQUERY(insertDeletedEntryQuery, "insert into deletedEntries values(?, ?)");
 #undef PREPQUERY
 	return true;
 }
@@ -287,7 +272,6 @@ bool JMdictDBParser::clearMainQueries()
 	insertKanaQuery.clear();
 	insertSenseQuery.clear();
 	insertJLPTQuery.clear();
-	insertDeletedEntryQuery.clear();
 	return true;
 }
 
@@ -313,7 +297,6 @@ bool JMdictDBParser::createMainTables()
 	EXEC_STMT(query, "create table sensesTMP(id INTEGER SECONDARY KEY REFERENCES entries, priority TINYINT, pos TEXT, misc TEXT, dial TEXT, field TEXT, restrictedToKanji TEXT, restrictedToKana TEXT)");
 	EXEC_STMT(query, "create table kanjiChar(kanji INTEGER, id INTEGER SECONDARY KEY REFERENCES entries, priority INT)");
 	EXEC_STMT(query, "create table jlpt(id INTEGER PRIMARY KEY, level TINYINT)");
-	EXEC_STMT(query, "create table deletedEntries(id INTEGER PRIMARY KEY, movedTo INTEGER REFERENCES entries)");
 	return true;
 }
 

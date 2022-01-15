@@ -30,7 +30,7 @@ class JMdictKanjiWritingItem {
 public:
 	QString writing;
 	int frequency;
-	
+
 	JMdictKanjiWritingItem() : writing(), frequency(0) {}
 };
 
@@ -55,7 +55,7 @@ public:
 	QList<quint8> restrictedToKana;
 	/// Maps a language to its glosses
 	QMap<QString, QStringList> gloss;
-	
+
 	JMdictSenseItem() {}
 };
 
@@ -66,7 +66,7 @@ public:
 	QList<JMdictKanjiWritingItem> kanji;
 	QList<JMdictKanaReadingItem> kana;
 	QList<JMdictSenseItem> senses;
-	
+
 	JMdictItem() : id(0), frequency(0) {}
 };
 
@@ -83,7 +83,7 @@ protected:
 	static QRegExp versionRegExp;
 	static QRegExp deletedItemRegExp;
 	static QRegExp mergedItemRegExp;
-	
+
 	QStringList languages;
 	bool gotVersion;
 	QString _dictVersion;
@@ -97,20 +97,19 @@ public:
 	int miscBitFieldsCount;
 	QHash<QString, quint16> dialBitFields;
 	int dialectBitFieldsCount;
-	
+
 	QHash<QString, QString> entities;
 	QHash<QString, QString> reversedEntities;
-	
+
 	JMdictParser(const QStringList &langs);
 	virtual ~JMdictParser() {}
 	bool parse(QXmlStreamReader &reader);
 	const QString &dictVersion() const { return _dictVersion; }
-	
+
 	// These methods can be overloaded by subclasses in order to implement
 	// a behavior when an item is finished being parsed.
 	// Returns true if the processing completed successfully, false otherwise
 	virtual bool onItemParsed(const JMdictItem &entry) { return true; }
-	virtual bool onDeletedItemParsed(const JMdictDeletedItem &entry) { return true; }
 };
 
 #endif
