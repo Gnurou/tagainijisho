@@ -335,7 +335,8 @@ QString JMdictEntryFormatter::formatSenses(const ConstEntryPointer &_entry) cons
 
 	if (senses.isEmpty()) {
 		ret += "<div class=\"glosses\">\n";
-		ret += entry->meanings()[0];
+		ret += tr("<p>This entry has been removed from the JMdict and cannot be displayed.</p>");
+		ret += tr("<p>Please find a replacement and remove this entry from your study list, tags, and notes. To help you find a replacement, the legacy content of this entry is visible <a href=\"%1\">here</a>.").arg(QString("http://www.edrdg.org/jmdictdb/cgi-bin/entr.py?svc=jmdict&sid=&q=%1").arg(entry->id()));
 		ret += "</div>";
 	}
 

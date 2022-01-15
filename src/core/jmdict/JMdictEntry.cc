@@ -99,7 +99,7 @@ QStringList JMdictEntry::writings() const
 	else foreach (const KanaReading &reading, getKanaReadings()) res << reading.getReading();
 
 	if (res.isEmpty()) {
-		res.append(tr("INVALID ENTRY"));
+		res.append(tr("DELETED ENTRY"));
 	}
 
 	return res;
@@ -121,7 +121,7 @@ QStringList JMdictEntry::meanings() const
 	}
 
 	if (res.isEmpty()) {
-		res.append(tr("This entry has been removed from the JMdict and we have no information about its original content or potential replacement. Sorry about this. Please remove it."));
+		res.append(tr("Click for details"));
 	}
 	return res;
 }

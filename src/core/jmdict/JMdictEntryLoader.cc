@@ -58,7 +58,7 @@ Entry *JMdictEntryLoader::loadEntry(EntryId id)
 	validEntryQuery.bindValue(entry->id());
 	validEntryQuery.exec();
 	if (!validEntryQuery.next()) {
-		// If the entry does not exist in the main database, try to load it from the obsolete entries list and add an OBSOLETE tag.
+		validEntryQuery.reset();
 		return entry;
 	}
 	validEntryQuery.reset();
