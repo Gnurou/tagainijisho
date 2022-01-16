@@ -19,7 +19,7 @@
 #include "tagaini_config.h"
 #include <QLocale>
 
-static const QStringList _dictLangs(QStringList(QString(DICT_LANG).split(';')));
+static const QStringList _dictLangs(QStringList((QString("en;") + QString(DICT_LANG)).split(';')));
 static const QStringList _guiLangs(QStringList(QString(UI_LANG).split(';')));
 
 PreferenceItem<QString> Lang::preferredDictLanguage("", "preferredDictLanguage", "");
@@ -40,7 +40,10 @@ QStringList Lang::preferredDictLanguages()
 {
 	QStringList ret;
 	QString userLang;
+
+	// If no preferred content language is set, but a GUI language is, use that as the content language.
 	if (preferredDictLanguage.isDefault() && _dictLangs.contains(preferredGUILanguage.value())) userLang = preferredGUILanguage.value();
+	// Otherwise, use the explicitly set preferred content language.
 	else if (_dictLangs.contains(preferredDictLanguage.value())) userLang = preferredDictLanguage.value();
 	// Check if the user explicitely set a preferred language
 	if (!userLang.isEmpty()) ret << userLang;
@@ -49,7 +52,10 @@ QStringList Lang::preferredDictLanguages()
 		QString locale(QLocale::system().name().left(2));
 		if (locale != "en" && _dictLangs.contains(locale)) ret << locale;
 	}
+
 	// English should always be here as last ressort
-	ret << "en";
+	if (!ret.contains("en"))
+		ret << "en";
+
 	return ret;
 }
