@@ -26,11 +26,11 @@ Copyright (C) 2008-2013 Alexandre Courbot.
 This program is free software: you can redistribute it and/or modify it under
 the terms of the GNU General Public License as published by the Free Software
 Foundation, either version 3 of the License, or (at your option) any later
-version. 
+version.
 
 This program is distributed in the hope that it will be useful, but WITHOUT ANY
 WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
-PARTICULAR PURPOSE.  See the COPYING file for more details. 
+PARTICULAR PURPOSE.  See the COPYING file for more details.
 
 Documentation is Copyright (C) 2010 Neil Caldwell & Alexandre Courbot,
 distributed under the Creative Commons Attribution-Share Alike 3.0 license.
@@ -47,7 +47,7 @@ Features
 - Training mode for studied entries, where lowest score entries are more likely
   to be trained.
 - Lists based on your training history. Get a convenient list of all the
-  entries you mistaken today, yesterday or this week! 
+  entries you mistaken today, yesterday or this week!
 - Tagging of entries.
 - Annotation of entries.
 - Print feature with connections between studied kanji and vocabulary, in a
@@ -180,11 +180,11 @@ Tagaini Jisho makes heavy use of the embedded SQLite database. Many thanks to
 all its developers for making such a great embedded database available, and for
 their kind support.
 
-Qt4 is used as a development framework and ensures portability between Linux,
+Qt5 is used as a development framework and ensures portability between Linux,
 Mac OS, and Windows.
 
 Words definitions are provided by the
-[JMDict](http://www.csse.monash.edu.au/~jwb/jmdict.html). 
+[JMDict](http://www.csse.monash.edu.au/~jwb/jmdict.html).
 
 Kanji information come from the [kanjidic2
 project](http://www.csse.monash.edu.au/~jwb/kanjidic.html).
