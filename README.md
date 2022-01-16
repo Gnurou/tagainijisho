@@ -85,9 +85,11 @@ you run into troubles.
 After your build directory is configured, compilation may be performed. On Unix
 systems, invoking make will be enough:
 
-    $ make
+    $ make -j8
 
 This will take some time, especially to generate the dictionaries databases.
+You can adjust the `-j` parameter to accurately reflect the number of CPU cores
+on your machine to accelerate the build.
 
 Finally, you can install the program to its destination:
 
