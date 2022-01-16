@@ -95,17 +95,6 @@ Finally, you can install the program to its destination:
 
     # make install
 
-But you may prefer to generate installers or packages for your platform using
-CPack. Mac users can obtain an installable DMG image by running the following
-command:
-
-    $ cpack -G DragNDrop
-
-Linux users can make a nice deb or rpm package:
-
-    $ cpack -G DEB
-    $ cpack -G RPM
-
 Compiling on macOS
 ------------------
 
