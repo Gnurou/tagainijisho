@@ -563,12 +563,14 @@ static QSet<QChar> __nodouble()
 static const QMap<QString, QString> kanaTranscribe(__kanaTranscribe());
 static const QSet<QChar> nodouble(__nodouble());
 
-QString romajiToKana(const QString &src)
+QString romajiToKana(const QString &_src)
 {
 	static QString nn = QString::fromUtf8("ン");
 	static QString tt = QString::fromUtf8("ッ");
 	QString ret;
 	int i;
+
+	QString src = _src.toLower();
 
 	for (i = 0; i < src.size();) {
 		QString part = src.mid(i);
