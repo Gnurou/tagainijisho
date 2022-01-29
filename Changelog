@@ -1,3 +1,15 @@
+1.1.90 release on 2022/01/29
+* Port to Qt 5.15.
+* Update to SQLite 3.37.2.
+* Embed SQLite by default.
+* Support for more than 64 POS for JMdict entries.
+* Romaji search is now case-insensitive.
+* Show more data for kanjidic2 entries.
+* Entries deleted from the JMdict are now displayed as such instead of being
+  silently removed, potentially leading to user data loss.
+* Fix bug in randomizer for entries flashcards.
+* Improved support for dark themes.
+
 1.0.3 release on 2015/03/08
 * Update to SQLite 3.8.8.3
 * Update JMdict, kanjidic and KanjiVG data
@@ -110,7 +122,7 @@
 * Translation files now available as external files to ease testing and
   replacement of translations
 * Lists now navigable, and lists an entry belongs to are displayed in the
-  detailed view 
+  detailed view
 * Option to display stroke order numbers in kanji popup and printed material
 * Added option to print grid with kanji entries
 * Homographs of dictionary entries now displayed in the detailed view
@@ -268,7 +280,7 @@
 * Dramatically improved print output, with detailed information about both
   vocabulary and kanji entries, plus references to studied material
 * Booklet output with adapted font size
-* Uses better kanji component and radical information from the soon-to-be 
+* Uses better kanji component and radical information from the soon-to-be
   KanjiVG project
 * Tooltip with kanji meaning now appears when the mouse cursor is over a kanji
 * Added "Add tags..." menu entry
