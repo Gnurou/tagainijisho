@@ -25,6 +25,7 @@
 #include <QCoreApplication>
 #include <QGraphicsSimpleTextItem>
 #include <QToolTip>
+#include <QGuiApplication>
 
 #define KANJI_SIZE 50
 #define PADDING 5
@@ -94,6 +95,7 @@ void KanjiResultsView::addItem(const QString &kanji)
 {
 	QGraphicsSimpleTextItem *item = new KanjiGraphicsItem(kanji, 0);
 	item->setFont(kanjiFont);
+	item->setBrush(QGuiApplication::palette().brush(QPalette::ColorRole::WindowText));
 	_scene.addItem(item);
 	item->setPos(ITEM_POSITION(items.size()), 0);
 	item->setFlags(QGraphicsItem::ItemIsSelectable);

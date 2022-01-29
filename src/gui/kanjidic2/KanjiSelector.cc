@@ -30,11 +30,12 @@
 
 #include <QComboBox>
 #include <QDesktopWidget>
+#include <QGuiApplication>
 
 ComplementsList::ComplementsList(QWidget *parent) : QListWidget(parent), baseFont(font()), labelFont(baseFont), _sscroll(verticalScrollBar())
 {
 	// Setup the fonts and size of the grid
-	baseFont.setPointSize(baseFont.pointSize() + 2);
+	baseFont.setPointSize(baseFont.pointSize() * 2);
 	setFont(baseFont);
 	setupGridSize();
 	setMouseTracking(true);
@@ -46,15 +47,14 @@ void ComplementsList::setupGridSize()
 	QFontMetrics fm(baseFont);
 	labelFont.setBold(true);
 	QFontMetrics lfm(labelFont);
-	int maxFontSize = qMax(fm.maxWidth(), fm.height()) + 2;
+	int maxFontSize = qMax(fm.boundingRect("黒").width(), fm.height());
 	int maxBoldSize = 0;
 	for (int i = 0; i < 10; i++) {
-		int w = lfm.horizontalAdvance(QString::number(i));
+		int w = lfm.boundingRect(QString::number(i)).width();
 		if (w > maxBoldSize) maxBoldSize = w;
 	}
-        maxBoldSize +=
-            qMax(lfm.horizontalAdvance("0"), lfm.horizontalAdvance("1"));
-        int gridSize = qMax(maxBoldSize, maxFontSize) + 5;
+        maxBoldSize += lfm.boundingRect("1").width();
+        int gridSize = qMax(maxBoldSize, maxFontSize);
 	setGridSize(QSize(gridSize, gridSize));
 }
 
@@ -78,7 +78,8 @@ QListWidgetItem *ComplementsList::setCurrentStrokeNbr(int strokeNbr)
 {
 	QListWidgetItem *item = new QListWidgetItem(QString::number(strokeNbr), this);
 	item->setFlags(item->flags() & ~Qt::ItemIsSelectable);
-	item->setBackground(Qt::yellow);
+	item->setBackground(QGuiApplication::palette().brush(QPalette::ColorRole::Highlight));
+	item->setForeground(QGuiApplication::palette().brush(QPalette::ColorRole::HighlightedText));
 	item->setFont(labelFont);
 	return item;
 }
@@ -279,13 +280,13 @@ QValidator::State KanjiSelectorValidator::validate(QString &input, int &pos) con
 
 	return QValidator::Acceptable;
 }
-	
+
 QString RadicalKanjiSelector::getCandidatesQuery(const QSet<uint> &selection) const
 {
 	if (selection.isEmpty()) return "";
 	QStringList select;
 	foreach (uint sel, selection) select << QString::number(sel);
-	
+
 	return QString("select r1.kanji from kanjidic2.radicals as r1 join kanjidic2.entries as e on r1.kanji = e.id where r1.number in (%1) and r1.type is not null group by r1.kanji having uniquecount(r1.number) >= %2 order by e.strokeCount, e.frequency, e.id").arg(select.join(", ")).arg(select.size());
 }
 
@@ -335,7 +336,7 @@ QString ComponentKanjiSelector::getCandidatesQuery(const QSet<uint> &selection) 
 	if (selection.isEmpty()) return "";
 	QStringList select;
 	foreach (uint sel, selection) select << QString::number(sel);
-	
+
 	return QString("select ks1.kanji from kanjidic2.strokeGroups as ks1 left join kanjidic2.entries as e on ks1.kanji = e.id where (ks1.element in (%1) or ks1.original in (%1)) group by ks1.kanji having uniquecount(CASE WHEN ks1.element IN (%1) THEN ks1.element ELSE NULL END, CASE WHEN ks1.original IN (%1) THEN ks1.original ELSE NULL END) >= %2 order by strokeCount").arg(select.join(", ")).arg(select.size());
 }
 

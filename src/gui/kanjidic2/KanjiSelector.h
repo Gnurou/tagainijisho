@@ -90,7 +90,7 @@ protected:
 	/// Returns the SQL query that should be run in order to get the complements list
 	/// corresponding to the given selection
 	virtual QString getComplementsQuery(const QSet<uint> &selection, const QSet<uint> &candidates) const = 0;
-	
+
 	/**
 	 * Returns the list of candidates corresponding to the given selection. Also
 	 * emits the startQuery, foundResult and endQuery signals as results are found.
@@ -98,7 +98,7 @@ protected:
 	virtual QSet<uint> getCandidates(const QSet<uint> &selection);
 	virtual void updateComplementsList(const QSet<uint> &selection, const QSet<uint> &candidates);
 	virtual void showEvent (QShowEvent *event);
-	
+
 protected slots:
 	virtual void onSelectionChanged();
 	virtual void onAssociateChanged();
@@ -158,7 +158,7 @@ protected:
 	/// Returns the kanji associated with the given radical code
 	virtual QString complementRepr(uint kanji) const;
 	virtual uint complementCode(const QString &repr) const;
-	
+
 public:
 	RadicalKanjiSelector(QWidget *parent = 0) : KanjiSelector(parent) {}
 	virtual void reset();
