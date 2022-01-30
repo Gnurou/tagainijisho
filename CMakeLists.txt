@@ -1,7 +1,7 @@
-# 64 bits Intel binary with 10.6 compatibility (these variables should be set before any project command)
+# 64 bits Intel binary with 10.13 compatibility (these variables should be set before any project command)
 if(APPLE)
 	set(CMAKE_OSX_ARCHITECTURES "${ARCHS_STANDARD_64_BIT}")
-	set(CMAKE_OSX_DEPLOYMENT_TARGET "10.6")
+	set(CMAKE_OSX_DEPLOYMENT_TARGET "10.13")
 endif(APPLE)
 
 # The project name decides the naming pattern of many things - choose it according

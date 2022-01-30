@@ -100,7 +100,7 @@ Add your Qt bin dir to PATH so CMake can automatically find it.
 
 For Qt from Homebrew:
 
-    $ export PATH=$PATH:/usr/local/opt/qt/bin
+    $ export PATH=$PATH:/usr/local/opt/qt5/bin
 
 For Qt from official package (for ex Qt 5.15):
 
@@ -122,6 +122,10 @@ Build:
 Install (application bundle will be installed to $HOME/Applications):
 
     $ make install
+
+Or generate a drag'n drop installer:
+
+    $ cpack -G DragNDrop
 
 Compiling with Microsoft Visual Studio
 --------------------------------------
