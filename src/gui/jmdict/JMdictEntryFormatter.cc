@@ -33,8 +33,8 @@
 #include <QPair>
 #include <qglobal.h>
 
-static QString tatoebaTemplate("http://tatoeba.org/eng/sentences/search?query=%1&from=jpn&to=eng");
-static QString jishoTemplate("http://jisho.org/sentences?jap=%1&eng=");
+static QString tatoebaTemplate("https://tatoeba.org/eng/sentences/search?query=%1&from=jpn&to=eng");
+static QString jishoTemplate("https://jisho.org/sentences?jap=%1&eng=");
 
 PreferenceItem<bool> JMdictEntryFormatter::showJLPT("jmdict", "showJLPT", true);
 PreferenceItem<bool> JMdictEntryFormatter::showKanjis("jmdict", "showKanjis", true);

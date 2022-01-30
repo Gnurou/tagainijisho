@@ -42,7 +42,7 @@ Features
 --------
 
 - Japanese dictionary based on [JMdict](https://www.edrdg.org/jmdict/j_jmdict.html).
-- Kanji dictionary based on [kanjidic2](http://nihongo.monash.edu/kanjidic2/index.html) and
+- Kanji dictionary based on [kanjidic2](https://www.edrdg.org/wiki/index.php/KANJIDIC_Project) and
   [KanjiVG](https://kanjivg.tagaini.net/).
 - Powerful search engine with many search options: JLPT level, part-of-speech, etc.
 - Entries can be marked for study and have a score that evolves as you correctly recognize them.
@@ -149,7 +149,7 @@ CMakeLists.txt), hence that definition on the CMake command line. You may not ne
 Usage
 -----
 
-For a detailed user manual, please see http://www.tagaini.net/manual.
+For a detailed user manual, please see https://www.tagaini.net/manual.
 
 In addition to Qt's standard arguments, Tagaini also supports the following command-line arguments:
 
@@ -159,7 +159,7 @@ exits. This is useful for testing new things on a clean database.
 Known bugs
 ----------
 - Kanji stroke order may not always be accurate. Please report incorrect kanji to
-  http://groups.google.com/group/tagaini-jisho.
+  https://groups.google.com/group/tagaini-jisho.
 - Kanji stroke color segmentation is not always accurate.
 - JLPT levels may not always be accurate.
 
@@ -171,28 +171,28 @@ making such a great embedded database available, and for their kind support.
 
 Qt5 is used as a development framework and ensures portability between Linux, Mac OS, and Windows.
 
-Words definitions are provided by the [JMDict](http://www.csse.monash.edu.au/~jwb/jmdict.html).
+Words definitions are provided by the [JMDict](https://www.csse.monash.edu.au/~jwb/jmdict.html).
 
 Kanji information come from the [kanjidic2
-project](http://www.csse.monash.edu.au/~jwb/kanjidic.html).
+project](https://www.edrdg.org/wiki/index.php/KANJIDIC_Project).
 
-Kanji components, and stroke animations come from the [KanjiVG project](http://kanjivg.tagaini.net).
+Kanji components, and stroke animations come from the [KanjiVG project](https://kanjivg.tagaini.net).
 
 JLPT levels for words come from the now-defunct JLPT Study Page, the [JLPT Resource
 Page](http://www.tanos.co.uk/jlpt/), as well as lists provided by [Thierry
 Bézecourt](http://www.thbz.org/kanjimots/jlpt.php3) and Alain Côté.
 
-Application icon has been contributed by [Philip Seyfi](http://divita.eu/).
+Application icon has been contributed by [Philip Seyfi](https://divita.eu/).
 
 Flag images by [Mark James](http://www.famfamfam.com/lab/icons/flags/).
 
-Fugue Icons Copyright (C) 2010 [Yusuke Kamiyamane](http://p.yusukekamiyamane.com/), licensed under a
-[Creative Commons Attribution 3.0 license](http://creativecommons.org/licenses/by/3.0/).
+Fugue Icons Copyright (C) 2010 [Yusuke Kamiyamane](https://p.yusukekamiyamane.com/), licensed under a
+[Creative Commons Attribution 3.0 license](https://creativecommons.org/licenses/by/3.0/).
 
 Contact
 -------
 
-Website: http://www.tagaini.net
+Website: https://www.tagaini.net
 
 Development, bug reports, feature requests and general questions are handled on GitHub:
 https://github.com/Gnurou/tagainijisho
