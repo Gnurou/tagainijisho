@@ -242,7 +242,7 @@ bool JMdictDBParser::closeDatabase(QString handle)
 	ASSERT(connection.exec("ANALYZE"));
 	ASSERT(connection.commit());
 	ASSERT(connection.exec("VACUUM"));
-	QFile(connection.dbFileName()).setPermissions(QFile::ReadOwner | QFile::ReadUser | QFile::ReadGroup | QFile::ReadOther);
+	QFile(connection.dbFileName()).setPermissions(QFile::ReadOwner | QFile::WriteOwner | QFile::ReadUser | QFile::ReadGroup | QFile::ReadOther);
 	ASSERT(connection.close());
 	return true;
 }

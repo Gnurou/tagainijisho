@@ -84,7 +84,7 @@ bool Kanjidic2DBParser::onItemParsed(Kanjidic2Item &kanji)
 	AUTO_BIND(insertEntryQuery, kanji.heisig, 0);
 	BIND(insertEntryQuery, kanji.dictionaries);
 	EXEC(insertEntryQuery);
-	
+
 	// Readings
 	foreach (const QString &readingType, kanji.readings.keys()) {
 		foreach (const QString &reading, kanji.readings[readingType]) {
@@ -98,7 +98,7 @@ bool Kanjidic2DBParser::onItemParsed(Kanjidic2Item &kanji)
 			EXEC(insertReadingQuery);
 		}
 	}
-	
+
 	// Meanings - output the first language that we can satisfy
 	foreach (const QString &lang, kanji.meanings.keys()) {
 		if (languages.contains(lang)) {
@@ -115,7 +115,7 @@ bool Kanjidic2DBParser::onItemParsed(Kanjidic2Item &kanji)
 			}
 		}
 	}
-	
+
 	// Nanori
 	foreach (const QString &n, kanji.nanori) {
 		// TODO factorize identical nanoris! Record the row id into a hash table
@@ -125,7 +125,7 @@ bool Kanjidic2DBParser::onItemParsed(Kanjidic2Item &kanji)
 		BIND(insertNanoriQuery, kanji.id);
 		EXEC(insertNanoriQuery);
 	}
-	
+
 	// Skip code
 	if (!kanji.skip.isEmpty()) {
 		QStringList code(kanji.skip.split('-'));
@@ -137,7 +137,7 @@ bool Kanjidic2DBParser::onItemParsed(Kanjidic2Item &kanji)
 			EXEC(insertSkipCodeQuery);
 		}
 	}
-	
+
 	// Four corner
 	if (!kanji.fourCorner.isEmpty()) {
 		quint8 topLeft(kanji.fourCorner[0].toLatin1() - '0');
@@ -145,7 +145,7 @@ bool Kanjidic2DBParser::onItemParsed(Kanjidic2Item &kanji)
 		quint8 botLeft(kanji.fourCorner[2].toLatin1() - '0');
 		quint8 botRight(kanji.fourCorner[3].toLatin1() - '0');
 		quint8 extra(kanji.fourCorner[5].toLatin1() - '0');
-		
+
 		BIND(insertFourCornerQuery, kanji.id);
 		BIND(insertFourCornerQuery, topLeft);
 		BIND(insertFourCornerQuery, topRight);
@@ -154,7 +154,7 @@ bool Kanjidic2DBParser::onItemParsed(Kanjidic2Item &kanji)
 		BIND(insertFourCornerQuery, extra);
 		EXEC(insertFourCornerQuery);
 	}
-	
+
 	// Radicals
 	typedef QPair<quint8, Kanjidic2Item::RadicalType> KRadType;
 	foreach (const KRadType &rad, kanji.radicals) {
@@ -256,7 +256,7 @@ bool KanjiVGDBParser::onItemParsed(KanjiVGItem &kanji)
 	BINDNULL(insertOrIgnoreEntryQuery);
 	BINDNULL(insertOrIgnoreEntryQuery);
 	EXEC(insertOrIgnoreEntryQuery);
-	
+
 	// Insert groups
 	//bool skipFirst = false;
 	foreach (const KanjiVGGroupItem &group, kanji.groups) {
@@ -271,7 +271,7 @@ bool KanjiVGDBParser::onItemParsed(KanjiVGItem &kanji)
 		BIND(insertStrokeGroupQuery, pathsIndexes);
 		EXEC(insertStrokeGroupQuery);
 	}
-	
+
 	// Insert strokes
 	QStringList paths;
 	foreach (const KanjiVGStrokeItem &stroke, kanji.strokes) {
@@ -294,7 +294,7 @@ bool KanjiVGDBParser::onItemParsed(KanjiVGItem &kanji)
 			else if (group.original && knownRadicals.contains(group.original)) {
 				radCode = knownRadicals[group.original];
 			} else {
-				qDebug("Radical (%s,%s) for kanji %s not in the radicals list", 
+				qDebug("Radical (%s,%s) for kanji %s not in the radicals list",
 					   TextTools::unicodeToSingleChar(group.element).toUtf8().constData(),
 					   TextTools::unicodeToSingleChar(group.original).toUtf8().constData(),
 					   TextTools::unicodeToSingleChar(kanji.id).toUtf8().constData());
@@ -358,7 +358,7 @@ bool KanjiDB::prepareQueries()
 	PREPQUERY(insertOrIgnoreEntryQuery, "insert or ignore into entries values(?, ?, ?, ?, ?, ?, ?, null)");
 	PREPQUERY(addRadicalQuery, "insert into radicalsList values(?, ?)");
 	PREPQUERY(insertRootComponentQuery, "insert into rootComponents values(?)");
-	
+
 	PREPQUERY(insertEntryQuery, "insert into entries values(?, ?, ?, ?, ?, ?, ?, null)");
 	PREPQUERY(insertReadingQuery, "insert into reading values(?, ?, ?)");
 	PREPQUERY(insertReadingTextQuery, "insert into readingText values(?)");
@@ -370,7 +370,7 @@ bool KanjiDB::prepareQueries()
 
 	PREPQUERY(insertStrokeGroupQuery, "insert into strokeGroups values(?, ?, ?, ?, ?)");
 	PREPQUERY(updatePathsString, "update entries set strokeCount = ?, paths = ? where id = ?");
-	
+
 #undef PREPQUERY
 
 	foreach (const QString &lang, languages) {
@@ -386,10 +386,10 @@ bool KanjiDB::clearQueries()
 {
 	insertRadicalQuery.clear();
 	insertOrIgnoreEntryQuery.clear();
-	
+
 	addRadicalQuery.clear();
 	insertRootComponentQuery.clear();
-	
+
 	insertEntryQuery.clear();
 	insertReadingQuery.clear();
 	insertReadingTextQuery.clear();
@@ -398,10 +398,10 @@ bool KanjiDB::clearQueries()
 	insertSkipCodeQuery.clear();
 	insertFourCornerQuery.clear();
 	updateJLPTLevelsQuery.clear();
-	
+
 	insertStrokeGroupQuery.clear();
 	updatePathsString.clear();
-	
+
 	foreach (const QString &lang, languages) {
 		insertMeaningQueries[lang].clear();
 		insertMeaningTextQueries[lang].clear();
@@ -411,7 +411,7 @@ bool KanjiDB::clearQueries()
 }
 
 bool KanjiDB::openDatabase(QString databaseName, QString handle)
-{	
+{
 	QString dbFile = QDir(dstDir).absoluteFilePath(databaseName);
 	QFile dst(dbFile);
 	SQLite::Connection &connection = connections[handle];
@@ -424,16 +424,16 @@ bool KanjiDB::openDatabase(QString databaseName, QString handle)
 		return false;
 	}
 	connection.transaction();
-	return true;	
+	return true;
 }
 
 bool KanjiDB::closeDatabase(QString handle)
-{	
+{
 	SQLite::Connection &connection = connections[handle];
 	connection.exec("analyze");
 	ASSERT(connection.commit());
 	ASSERT(connection.exec("VACUUM"));
-	QFile(connection.dbFileName()).setPermissions(QFile::ReadOwner | QFile::ReadUser | QFile::ReadGroup | QFile::ReadOther);
+	QFile(connection.dbFileName()).setPermissions(QFile::ReadOwner | QFile::WriteOwner | QFile::ReadUser | QFile::ReadGroup | QFile::ReadOther);
 	ASSERT(connection.close());
 	return true;
 }
@@ -631,9 +631,9 @@ bool KanjiDB::parse()
 		return 1;
 	}
 	file.close();
-	
+
 	ASSERT(createRadicalsTable(QDir(srcDir).absoluteFilePath("src/core/kanjidic2/radicals.txt")));
-	
+
 	// Parse and insert KanjiVG data
 	file.setFileName(QDir(srcDir).absoluteFilePath("3rdparty/kanjivg.xml"));
 	ASSERT(file.open(QFile::ReadOnly | QFile::Text));
@@ -643,10 +643,10 @@ bool KanjiDB::parse()
 		return 1;
 	}
 	file.close();
-	
+
 	ASSERT(createRootComponentsTable());
-	ASSERT(fillMainInfoTable());	
-	ASSERT(fillLanguagesInfoTable());	
+	ASSERT(fillMainInfoTable());
+	ASSERT(fillLanguagesInfoTable());
 	ASSERT(kdicParser->updateJLPTLevels());
 	return true;
 }
@@ -681,8 +681,8 @@ bool buildDB(const QStringList &languages, const QString &srcDir, const QString 
 int main(int argc, char *argv[])
 {
 	QCoreApplication app(argc, argv);
-	
-	if (argc < 3) { 
+
+	if (argc < 3) {
 		printUsage(argv);
 		return 1;
 	}
@@ -704,13 +704,13 @@ int main(int argc, char *argv[])
 		printUsage(argv);
 		return -1;
 	}
-	
+
 	QString srcDir(argv[argCpt]);
 	QString dstDir(argv[argCpt + 1]);
-	
+
 	// English is used as a backup if nothing else is available
 	languages << "en";
 	languages.removeDuplicates();
-	
+
 	return !buildDB(languages, srcDir, dstDir);
 }
