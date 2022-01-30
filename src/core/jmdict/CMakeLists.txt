@@ -62,7 +62,7 @@ foreach(LANG ${DICT_LANG})
 endforeach()
 add_custom_command(OUTPUT ${CMAKE_BINARY_DIR}/jmdict.db
 	COMMAND build_jmdict_db -l${ALL_LANGS} ${CMAKE_SOURCE_DIR} ${CMAKE_BINARY_DIR}
-	WORKING_DIRECTORY ${CMAKE_PREFIX_PATH}/bin
+	WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
 	DEPENDS build_jmdict_db ${CMAKE_SOURCE_DIR}/3rdparty/JMdict)
 add_custom_target(jmdict-db DEPENDS ${CMAKE_BINARY_DIR}/jmdict.db)
 add_dependencies(databases jmdict-db)
