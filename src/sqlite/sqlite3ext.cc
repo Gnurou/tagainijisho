@@ -213,7 +213,7 @@ static int ignoreDestroy(sqlite3_tokenizer *pTokenizer){
 /*
 ** Prepare to begin tokenizing a particular string.  The input
 ** string to be tokenized is pInput[0..nBytes-1].  A cursor
-** used to incrementally tokenize this string is returned in 
+** used to incrementally tokenize this string is returned in
 ** *ppCursor.
 */
 static int ignoreOpen(
@@ -410,7 +410,7 @@ static int katakanaDestroy(sqlite3_tokenizer *pTokenizer){
 /*
 ** Prepare to begin tokenizing a particular string.  The input
 ** string to be tokenized is pInput[0..nBytes-1].  A cursor
-** used to incrementally tokenize this string is returned in 
+** used to incrementally tokenize this string is returned in
 ** *ppCursor.
 */
 static int katakanaOpen(
@@ -523,7 +523,7 @@ static int katakanaNext(
 	      QString replayString(katakanaString);
 	      replayString.remove('.');
 	      c->replay = true;
-	      c->replayToken = strdup(replayString.toUtf8().constData());
+	      c->replayToken = qstrdup(replayString.toUtf8().constData());
 	      katakanaString = katakanaString.left(katakanaString.indexOf('.'));
 	      c->replayStart = iStartOffset;
 	      c->replayEnd = c->iOffset;
