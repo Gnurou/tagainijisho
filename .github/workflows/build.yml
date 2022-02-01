@@ -17,6 +17,7 @@ jobs:
       matrix:
         sys:
           - { os: ubuntu-20.04, shell: bash }
+          - { os: windows-latest, shell: 'msys2 {0}' }
 
     defaults:
       run:
@@ -36,8 +37,25 @@ jobs:
         update: true
         install: qt515base qt515tools libgl-dev
 
+    - name: Install MSYS2 and Qt5
+      if: runner.os == 'Windows'
+      uses: msys2/setup-msys2@v2
+      with:
+        msystem: MINGW64
+        update: true
+        install: gzip mingw-w64-x86_64-toolchain mingw-w64-x86_64-qt5-static mingw-w64-x86_64-cmake mingw-w64-x86_64-ninja mingw-w64-x86_64-nsis
+
+    # On Windows we need to fix the path to the workspace so MSYS can use it. Use an environment
+    # variable for that.
+    - name: Fix workspace path on Windows
+      if: runner.os == 'Windows'
+      run: echo "fixed_workspace=`cygpath -u '${{github.workspace}}'`" >> $GITHUB_ENV
+    - name: Propagate workspace path
+      if: runner.os != 'Windows'
+      run: echo "fixed_workspace='${{github.workspace}}'" >> $GITHUB_ENV
+
     - name: Configure
-      run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
+      run: cmake -B ${{env.fixed_workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
 
     - name: Build
-      run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}} -j2
+      run: cmake --build ${{env.fixed_workspace}}/build --config ${{env.BUILD_TYPE}} -j2
