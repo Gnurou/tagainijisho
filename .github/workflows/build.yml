@@ -11,15 +11,22 @@ env:
 
 jobs:
   build:
-    # The CMake configure and build commands are platform agnostic and should work equally well on Windows or Mac.
-    # You can convert this to a matrix build if you need cross-platform coverage.
-    # See: https://docs.github.com/en/free-pro-team@latest/actions/learn-github-actions/managing-complex-workflows#using-a-build-matrix
-    runs-on: ubuntu-20.04
+    runs-on: ${{ matrix.sys.os }}
+
+    strategy:
+      matrix:
+        sys:
+          - { os: ubuntu-20.04, shell: bash }
+
+    defaults:
+      run:
+        shell: ${{ matrix.sys.shell }}
 
     steps:
     - uses: actions/checkout@v2
 
     - name: Add Qt 5.15 PPA
+      if: runner.os == 'Linux'
       uses: myci-actions/add-deb-repo@10
       with:
         repo: deb https://ppa.launchpadcontent.net/beineri/opt-qt-5.15.2-focal/ubuntu focal main
@@ -34,4 +41,3 @@ jobs:
 
     - name: Build
       run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}} -j2
-
