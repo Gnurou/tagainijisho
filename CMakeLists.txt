@@ -25,7 +25,7 @@ cmake_policy(VERSION 2.8.12)
 find_package(Qt5 ${QTVERSION} REQUIRED COMPONENTS Core Widgets PrintSupport Network LinguistTools)
 
 # FIXME only required when CMake downloads dictionary files. Not necessary for building from source package.
-find_program(GUNZIP NAMES gunzip REQUIRED)
+find_program(GZIP NAMES gzip REQUIRED)
 
 # Global GCC options
 if(CMAKE_COMPILER_IS_GNUCC)
