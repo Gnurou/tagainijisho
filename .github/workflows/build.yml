@@ -70,7 +70,8 @@ jobs:
         Qt5_DIR: /usr/local/opt/qt5/lib/cmake
 
     - name: Build
-      run: cmake --build ${{env.fixed_workspace}}/build --config ${{env.BUILD_TYPE}} -j2
+      run: cmake --build . -j2
+      working-directory: ${{github.workspace}}/build
 
     # Package is broken for now as it tries to embed Qt libraries
     #- name: Create NSIS installer (Windows)
