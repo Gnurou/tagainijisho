@@ -27,7 +27,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: Add Qt 5.15 PPA
+    - name: Install Qt5 (Ubuntu)
       if: runner.os == 'Linux'
       uses: myci-actions/add-deb-repo@10
       with:
@@ -38,7 +38,7 @@ jobs:
         update: true
         install: qt515base qt515tools libgl-dev
 
-    - name: Install MSYS2 and Qt5
+    - name: Install MSYS2 and Qt5 (Windows)
       if: runner.os == 'Windows'
       uses: msys2/setup-msys2@v2
       with:
@@ -46,20 +46,20 @@ jobs:
         update: true
         install: gzip mingw-w64-x86_64-toolchain mingw-w64-x86_64-qt5-static mingw-w64-x86_64-cmake mingw-w64-x86_64-ninja mingw-w64-x86_64-nsis
 
-    - name: Install Qt5
+    - name: Install Qt5 (Mac OS)
       if: runner.os == 'macos'
       run: brew install qt@5
 
     # On Windows we need to fix the path to the workspace so MSYS can use it. Use an environment
     # variable for that.
-    - name: Fix workspace path on Windows
+    - name: Fixup workspace path (Windows)
       if: runner.os == 'Windows'
       run: echo "fixed_workspace=`cygpath -u '${{github.workspace}}'`" >> $GITHUB_ENV
     - name: Propagate workspace path
       if: runner.os != 'Windows'
       run: echo "fixed_workspace='${{github.workspace}}'" >> $GITHUB_ENV
 
-    - name: Configure
+    - name: Configure (Ubuntu and Windows)
       if: runner.os != 'macos'
       run: cmake -B ${{env.fixed_workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
 
