@@ -16,9 +16,9 @@ jobs:
     strategy:
       matrix:
         sys:
-          - { os: ubuntu-20.04, shell: bash }
-          - { os: windows-latest, shell: 'msys2 {0}' }
-          - { os: macos-11, shell: bash }
+          - { os: ubuntu-20.04, shell: bash, install_prefix: /usr }
+          - { os: windows-latest, shell: 'msys2 {0}', install_prefix: '$HOME/Applications'  }
+          - { os: macos-11, shell: bash, install_prefix: 'c:/Program Files/Tagaini Jisho' }
 
     defaults:
       run:
@@ -61,11 +61,11 @@ jobs:
 
     - name: Configure (Ubuntu and Windows)
       if: runner.os != 'macos'
-      run: cmake -B ${{env.fixed_workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
+      run: cmake -B ${{env.fixed_workspace}}/build -DCMAKE_INSTALL_PREFIX=${{env.install_prefix}} -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
 
     - name: Configure (Mac OS)
       if: runner.os == 'macos'
-      run: cmake -B ${{env.fixed_workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
+      run: cmake -B ${{env.fixed_workspace}}/build -DCMAKE_INSTALL_PREFIX=${{env.install_prefix}} -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
       env:
         Qt5_DIR: /usr/local/opt/qt5/lib/cmake
 
