@@ -10,6 +10,28 @@ env:
   BUILD_TYPE: Release
 
 jobs:
+  build-and-package-source:
+    runs-on: ubuntu-20.04
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install Qt5 from PPA
+      uses: myci-actions/add-deb-repo@10
+      with:
+        repo: deb https://ppa.launchpadcontent.net/beineri/opt-qt-5.15.2-focal/ubuntu focal main
+        repo-name: qt515
+        keys: C65D51784EDC19A871DBDBB710C56D0DE9977759
+        key-server: keyserver.ubuntu.com
+        update: true
+        install: qt515base qt515tools libgl-dev
+    - name: Create source package
+      run: ./pack/source/buildsourcerelease.sh
+    - name: Upload source package
+      uses: actions/upload-artifact@v2
+      with:
+        name: Source package
+        path: ${{github.workspace}}/tagainijisho-*.tar.gz
+
+
   build:
     runs-on: ${{ matrix.sys.os }}
 
