@@ -73,11 +73,10 @@ jobs:
       run: cmake --build . -j2
       working-directory: ${{github.workspace}}/build
 
-    # Package is broken for now as it tries to embed Qt libraries
-    #- name: Create NSIS installer (Windows)
-      #if: runner.os == 'Windows'
-      #run: cpack -G NSIS
-      #working-directory: ${{github.workspace}}/build
+    - name: Create NSIS installer (Windows)
+      if: runner.os == 'Windows'
+      run: cpack -G NSIS
+      working-directory: ${{github.workspace}}/build
 
     - name: Create DragNDrop installer (Mac OS)
       if: runner.os == 'macos'
