@@ -10,7 +10,8 @@ env:
   BUILD_TYPE: Release
 
 jobs:
-  build-and-package-source:
+  package-source:
+    name: Create source package
     runs-on: ubuntu-20.04
     steps:
     - uses: actions/checkout@v2
@@ -31,8 +32,9 @@ jobs:
         name: Source package
         path: ${{github.workspace}}/tagainijisho-*.tar.gz
 
-
   build:
+    name: Build binaries and installers
+    needs: package-source
     runs-on: ${{ matrix.sys.os }}
 
     strategy:
@@ -53,7 +55,9 @@ jobs:
         shell: ${{ matrix.sys.shell }}
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/download-artifact@v2
+      with:
+        name: Source package
 
     - name: Install Qt5 (Ubuntu)
       if: runner.os == 'Linux'
@@ -77,6 +81,9 @@ jobs:
     - name: Install Qt5 (Mac OS)
       if: runner.os == 'macos'
       run: brew install qt@5
+
+    - name: Extract source package
+      run: tar xvf tagainijisho-*.tar.gz --strip 1
 
     # On Windows we need to fix the path to the workspace so MSYS can use it. Use an environment
     # variable for that.
