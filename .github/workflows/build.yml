@@ -88,3 +88,17 @@ jobs:
       if: runner.os == 'macos'
       run: cpack -G DragNDrop
       working-directory: ${{github.workspace}}/build
+
+    - name: Upload NSIS installer (Windows)
+      if: runner.os == 'Windows'
+      uses: actions/upload-artifact@v2
+      with:
+        name: Windows installer
+        path: ${{github.workspace}}/build/tagainijisho-*.exe
+
+    - name: Upload DragNDrop installer (Mac OS)
+      if: runner.os == 'macos'
+      uses: actions/upload-artifact@v2
+      with:
+        name: Mac OS installer
+        path: ${{github.workspace}}/build/Tagaini Jisho-*.dmg
