@@ -18,6 +18,7 @@ jobs:
         sys:
           - { os: ubuntu-20.04, shell: bash }
           - { os: windows-latest, shell: 'msys2 {0}' }
+          - { os: macos-11, shell: bash }
 
     defaults:
       run:
@@ -45,6 +46,10 @@ jobs:
         update: true
         install: gzip mingw-w64-x86_64-toolchain mingw-w64-x86_64-qt5-static mingw-w64-x86_64-cmake mingw-w64-x86_64-ninja mingw-w64-x86_64-nsis
 
+    - name: Install Qt5
+      if: runner.os == 'macos'
+      run: brew install qt@5
+
     # On Windows we need to fix the path to the workspace so MSYS can use it. Use an environment
     # variable for that.
     - name: Fix workspace path on Windows
@@ -55,7 +60,14 @@ jobs:
       run: echo "fixed_workspace='${{github.workspace}}'" >> $GITHUB_ENV
 
     - name: Configure
+      if: runner.os != 'macos'
       run: cmake -B ${{env.fixed_workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
+
+    - name: Configure (Mac OS)
+      if: runner.os == 'macos'
+      run: cmake -B ${{env.fixed_workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
+      env:
+        Qt5_DIR: /usr/local/opt/qt5/lib/cmake
 
     - name: Build
       run: cmake --build ${{env.fixed_workspace}}/build --config ${{env.BUILD_TYPE}} -j2
