@@ -16,9 +16,15 @@ jobs:
     strategy:
       matrix:
         sys:
-          - { os: ubuntu-20.04, shell: bash, install_prefix: /usr }
-          - { os: windows-latest, shell: 'msys2 {0}', install_prefix: '$HOME/Applications'  }
-          - { os: macos-latest, shell: bash, install_prefix: 'c:/Program Files/Tagaini Jisho' }
+          - os: ubuntu-20.04
+            shell: bash
+            install_prefix: /usr
+          - os: windows-latest
+            shell: 'msys2 {0}'
+            install_prefix: '$HOME/Applications'
+          - os: macos-latest
+            shell: bash
+            install_prefix: 'c:/Program Files/Tagaini Jisho'
 
     defaults:
       run:
