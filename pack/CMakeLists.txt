@@ -8,6 +8,8 @@ set(CPACK_PACKAGE_VERSION ${VERSION})
 set(CPACK_PACKAGE_FILE_NAME "${CMAKE_PROJECT_NAME}-${VERSION}")
 # Source package should always be named the same regardless of the platform on which we build
 set(CPACK_SOURCE_PACKAGE_FILE_NAME "tagainijisho-${VERSION}")
+set(CPACK_SOURCE_GENERATOR "TGZ")
+set(CPACK_SOURCE_IGNORE_FILES "~$" "\\\\.gitignore$" "^${PROJECT_SOURCE_DIR}/.git/" "^${PROJECT_SOURCE_DIR}/*.kdev4/" )
 set(CPACK_SOURCE_STRIP_FILES true)
 set(CPACK_STRIP_FILES true)
 set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_SOURCE_DIR}/COPYING.txt")
@@ -27,11 +29,6 @@ set(CPACK_BINARY_TBZ2 "OFF")
 set(CPACK_BINARY_TGZ "OFF")
 set(CPACK_BINARY_TZ "OFF")
 set(CPACK_BINARY_ZIP "OFF")
-
-set(CPACK_SOURCE_TBZ2 "OFF")
-set(CPACK_SOURCE_TGZ "OFF")
-set(CPACK_SOURCE_TZ "OFF")
-set(CPACK_SOURCE_ZIP "OFF")
 
 # OSX?
 if(UNIX AND APPLE)
@@ -173,8 +170,6 @@ add_custom_target(install_docs
 add_dependencies(install_docs docs)
 add_custom_target(install_nonarch)
 add_dependencies(install_nonarch install_databases install_i18n install_icons install_docs)
-
-set(CPACK_SOURCE_IGNORE_FILES "~$" "\\\\.gitignore$" "^${PROJECT_SOURCE_DIR}/.git/" "^${PROJECT_SOURCE_DIR}/*.kdev4/" )
 
 include(CPack)
 
