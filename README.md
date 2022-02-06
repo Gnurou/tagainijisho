@@ -52,74 +52,65 @@ Features
 - Print feature with connections between studied kanji and vocabulary, in a format that allows both
   studying and use as flashcards.
 
-Compiling
----------
+Building on Linux
+-----------------
 
-The only runtime dependency to run Tagaini Jisho is Qt 5.15 or higher. In order to compile it, you
+The only runtime dependency to run Tagaini Jisho is Qt 5.15 or higher. In order to build it, you
 will also need CMake 2.8.1 or higher.
 
-To compile the program, you first need to invoke cmake in order to generate Makefiles for your
-platform:
+First configure the build using `cmake`:
 
     $ cmake .
 
-Unix users: by default, the program will be installed into /usr/local. You can change this by
-setting the `CMAKE_INSTALL_PREFIX` variable when invoking CMake:
+By default, the program is installed into `/usr/local`, but you can change this by setting the
+`CMAKE_INSTALL_PREFIX` variable. For instance:
 
-    $ cmake . -DCMAKE_INSTALL_PREFIX=/path/to/install/dir
+    $ cmake . -DCMAKE_INSTALL_PREFIX=/usr
 
-You may want to produce a debug build, especially if you are trying a development version and want
-to be able to reports problems. Adding the `-DCMAKE_BUILD_TYPE=Debug` option to CMake's command line
-will produce a binary with debug symbols built-in.
+If you want to produce a debug build (useful if you are trying a development version and want to
+reports problems), add the `-DCMAKE_BUILD_TYPE=Debug` option to the command line above to produce a
+binary with debug symbols built-in.
 
-You can also use `ccmake .` after having run CMake to change these options or enable further
-debugging options that are useful to report problems.
+You can also use `ccmake .` after running `cmake` to change these options or enable more debugging
+options.
 
-After your build directory is configured, compilation can be done. On Unix systems, invoking make
-will be enough:
+You can then build the program using `make`.
 
     $ make -j8
 
-This will take some time, especially to generate the dictionaries databases. You can adjust the `-j`
-parameter to accurately reflect the number of CPU cores on your machine to accelerate the build.
+This will take some time, especially to generate the dictionaries databases. Adjust the `-j`
+parameter to accurately reflect the number of CPU cores on your machine.
 
-Finally, you can (optionally) install the program to its destination:
+Finally, you can (optionally) install the program:
 
     # make install
 
-If you prefer to run it in-place, just do
+Or if you prefer to run it in-place, just run
 
     $ ./src/gui/tagainijisho
 
 From the build directory.
 
-Compiling on macOS
-------------------
+Building on Mac OS with Homebrew
+--------------------------------
 
-Add your Qt bin dir to PATH so CMake can automatically find it.
+If you don't have Qt5 and installed yet, install them:
 
-For Qt from Homebrew:
-
-    $ export PATH=$PATH:/usr/local/opt/qt5/bin
-
-For Qt from official package (for ex Qt 5.15):
-
-    $ export PATH=$PATH:$HOME/Qt/5.15/clang_64/bin
-
-Make build directory:
-
-    $ cd $PROJECT
-    $ mkdir build && cd build
+    $ brew install qt@5 cmake
 
 Configure:
 
-    $ cmake -DCMAKE_INSTALL_PREFIX=$HOME/Applications -DEMBED_SQLITE=1 ..
+    $ Qt5_DIR=/usr/local/opt/qt5/lib/cmake cmake -DCMAKE_INSTALL_PREFIX=$HOME/Applications .
 
 Build:
 
     $ make
 
-Install (application bundle will be installed to $HOME/Applications):
+Run in-place:
+
+    $ ./src/gui/tagainijisho
+
+Install (application bundle will be installed to `$HOME/Applications`):
 
     $ make install
 
@@ -127,31 +118,42 @@ Or generate a drag'n drop installer:
 
     $ cpack -G DragNDrop
 
-Compiling with Microsoft Visual Studio
---------------------------------------
-The CMake build harness has been tested with Visual Studio 10 under Windows7. First, from your
-VStudio command environment, invoke CMake to create the VStudio Solution:
+Building on Windows with MSYS2
+------------------------------
 
-    c:\dev\mrosen-tagainijisho> msbuild tagainijisho.sln> cmake -G "Visual Studio 10" -DCMAKE_PREFIX_PATH=c:/Qt/5.4/msvc2010_opengl -DGUNZIP=c:/bin/gzip-1.3.12-1-bin/bin/gunzip.exe
+Make sure the following MSYS2 packages are installed:
 
-Then, to build the project, including building the databases:
+    gzip mingw-w64-x86_64-toolchain mingw-w64-x86_64-qt5-static mingw-w64-x86_64-cmake mingw-w64-x86_64-ninja mingw-w64-x86_64-nsis
 
-    c:\dev\mrosen-tagainijisho>msbuild tagainijisho.sln
+We use a static Qt5 package to facilitate packaging, but feel free to use the non-static Qt5 package
+if you don't plan to create an installer.
 
-Some notes:
+`/mingw64/bin` will also need to be in your `PATH`, so add it if it is not already there:
 
-Without the `CMAKE_PREFIX_PATH` definition, CMAKE was unable to find my Qt library.  It was looking
-so maybe it will find yours without this.
+    $ export PATH="/mingw64/bin:$PATH"
 
-Similarly, I needed to tell it where GUNZIP was (required only once, see comments in
-CMakeLists.txt), hence that definition on the CMake command line. You may not need this.
+Invoke CMake:
+
+    $ cmake -G Ninja .
+
+Build:
+
+    $ ninja
+
+The program can now be run in-place:
+
+    $ ./src/gui/tagainijisho
+
+Or you may want to create an installer (static Qt5 only):
+
+    $ cpack -G NSIS
 
 Usage
 -----
 
 For a detailed user manual, please see https://www.tagaini.net/manual.
 
-In addition to Qt's standard arguments, Tagaini also supports the following command-line arguments:
+Tagaini supports the following command-line arguments:
 
 `--temp-db` start the program on an empty, temporary database that will be removed once the program
 exits. This is useful for testing new things on a clean database.
@@ -161,7 +163,8 @@ Known bugs
 - Kanji stroke order may not always be accurate. Please report incorrect kanji to
   https://groups.google.com/group/tagaini-jisho.
 - Kanji stroke color segmentation is not always accurate.
-- JLPT levels may not always be accurate.
+- JLPT levels may not always be accurate (as there are no official JLPT lists, these are gathered on
+  a voluntary basis).
 
 Credits
 -------
