@@ -325,13 +325,15 @@ void MainWindow::openUrl(const QUrl &url)
 
 void MainWindow::manual()
 {
+/*
 	// First check if we have an installation prefix
 #ifdef DATA_DIR
 	QString f = QDir(DATA_DIR).filePath("doc/manual.html");
 #else
 	QString f = QDir(QCoreApplication::applicationDirPath()).filePath("doc/manual.html");
 #endif
-	QDesktopServices::openUrl(QUrl::fromLocalFile(f));
+*/
+	QDesktopServices::openUrl(QUrl("https://www.tagaini.net/manual/"));
 }
 
 void MainWindow::bugReport()
