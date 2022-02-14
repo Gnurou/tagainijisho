@@ -1,3 +1,7 @@
+1.1.91 releese on 2022/02/14
+* Fixed Windows and Mac builds.
+* Release flow using Github Actions.
+
 1.1.90 release on 2022/01/29
 * Port to Qt 5.15.
 * Update to SQLite 3.37.2.
