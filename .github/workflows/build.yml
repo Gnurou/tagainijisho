@@ -3,6 +3,7 @@ name: Build
 on:
   push:
     branches: '*'
+    tags: '*'
   pull_request:
     branches: [ master ]
 
@@ -131,3 +132,28 @@ jobs:
       with:
         name: Mac OS installer
         path: ${{github.workspace}}/build/Tagaini Jisho-*.dmg
+
+  # If this version is tagged, release the assets on the corresponding Github release page.
+  release:
+    name: Upload release assets
+    if: startsWith(github.ref, 'refs/tags/')
+    needs: [package-source, build]
+    runs-on: ubuntu-20.04
+
+    steps:
+    - uses: actions/download-artifact@v2
+      with:
+        name: Source package
+    - uses: actions/download-artifact@v2
+      with:
+        name: Windows installer
+    - uses: actions/download-artifact@v2
+      with:
+        name: Mac OS installer
+    - name: Upload assets
+      uses: softprops/action-gh-release@v1
+      with:
+        files: |
+          tagainijisho-*.tar.gz
+          tagainijisho-*.exe
+          Tagaini Jisho-*.dmg
