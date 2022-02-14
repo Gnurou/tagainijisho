@@ -110,6 +110,16 @@ jobs:
       run: cmake --build . -j2
       working-directory: ${{github.workspace}}/build
 
+    - name: Create DEB package (Ubuntu)
+      if: runner.os == 'Linux'
+      run: cpack -G DEB
+      working-directory: ${{github.workspace}}/build
+
+    - name: Create RPM package (Ubuntu)
+      if: runner.os == 'Linux'
+      run: cpack -G RPM
+      working-directory: ${{github.workspace}}/build
+
     - name: Create NSIS installer (Windows)
       if: runner.os == 'Windows'
       run: cpack -G NSIS
@@ -119,6 +129,22 @@ jobs:
       if: runner.os == 'macos'
       run: cpack -G DragNDrop
       working-directory: ${{github.workspace}}/build
+
+    - name: Upload DEB package (Ubuntu)
+      if: runner.os == 'Linux'
+      uses: actions/upload-artifact@v2
+      with:
+        name: DEB package
+        path: ${{github.workspace}}/build/tagainijisho-*.deb
+        retention-days: 7
+
+    - name: Upload RPM package (Ubuntu)
+      if: runner.os == 'Linux'
+      uses: actions/upload-artifact@v2
+      with:
+        name: RPM package
+        path: ${{github.workspace}}/build/tagainijisho-*.rpm
+        retention-days: 7
 
     - name: Upload NSIS installer (Windows)
       if: runner.os == 'Windows'
@@ -149,6 +175,12 @@ jobs:
         name: Source package
     - uses: actions/download-artifact@v2
       with:
+        name: DEB package
+    - uses: actions/download-artifact@v2
+      with:
+        name: RPM package
+    - uses: actions/download-artifact@v2
+      with:
         name: Windows installer
     - uses: actions/download-artifact@v2
       with:
@@ -158,5 +190,7 @@ jobs:
       with:
         files: |
           tagainijisho-*.tar.gz
+          tagainijisho-*.deb
+          tagainijisho-*.rpm
           tagainijisho-*.exe
           Tagaini Jisho-*.dmg
