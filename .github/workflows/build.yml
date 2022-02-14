@@ -32,6 +32,7 @@ jobs:
       with:
         name: Source package
         path: ${{github.workspace}}/tagainijisho-*.tar.gz
+        retention-days: 7
 
   build:
     name: Build binaries and installers
@@ -125,6 +126,7 @@ jobs:
       with:
         name: Windows installer
         path: ${{github.workspace}}/build/tagainijisho-*.exe
+        retention-days: 7
 
     - name: Upload DragNDrop installer (Mac OS)
       if: runner.os == 'macos'
@@ -132,6 +134,7 @@ jobs:
       with:
         name: Mac OS installer
         path: ${{github.workspace}}/build/Tagaini Jisho-*.dmg
+        retention-days: 7
 
   # If this version is tagged, release the assets on the corresponding Github release page.
   release:
