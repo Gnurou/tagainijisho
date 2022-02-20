@@ -50,10 +50,10 @@ private:
 
 	QMap<EntryType, EntryLoader *> _loaders;
 	QHash<EntryRef, QWeakPointer<Entry> > _loadedEntries;
-	QRecursiveMutex _loadedEntriesMutex;
+	QMutex _loadedEntriesMutex;
 
 	QQueue<EntryPointer> _cache;
-	QRecursiveMutex _cacheMutex;
+	QMutex _cacheMutex;
 
 	/**
 	 * This method is automatically called when the reference count of
@@ -68,7 +68,7 @@ private:
 	friend class Entry;
 
 	EntryPointer _get(EntryType type, EntryId id);
-	EntriesCache() = default;
+	EntriesCache();
 	~EntriesCache();
 
 	/**
