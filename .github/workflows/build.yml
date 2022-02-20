@@ -38,7 +38,7 @@ jobs:
           - os: ubuntu-20.04
             shell: bash
             install_prefix: /usr
-          - os: windows-latest
+          - os: windows-2019
             shell: 'msys2 {0}'
             install_prefix: '$HOME/Applications'
           - os: macos-latest
