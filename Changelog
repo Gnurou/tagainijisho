@@ -1,4 +1,4 @@
-1.1.91 releese on 2022/02/14
+1.1.91 released on 2022/02/14
 * Fixed Windows and Mac builds.
 * Release flow using Github Actions.
 
