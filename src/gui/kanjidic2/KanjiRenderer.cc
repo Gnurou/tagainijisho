@@ -40,7 +40,7 @@ QPainterPath KanjiRenderer::Stroke::pathFromSVG(QString svgPath)
 	int idx;
 	while ((idx = svgPath.indexOf(QRegExp("[a-zA-Z]\\d|\\d[a-zA-Z]|\\w-"))) != -1) svgPath.insert(idx + 1, ' ');
 
-	QStringList tokens = svgPath.split(QRegExp(" +|,"), Qt::SkipEmptyParts);
+	QStringList tokens = svgPath.split(QRegExp(" +|,"), QString::SkipEmptyParts);
 
 	SVGPathCommand curAction = None;
 	QPointF dest;

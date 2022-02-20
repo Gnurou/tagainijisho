@@ -626,7 +626,7 @@ QString Kanjidic2EntryFormatter::formatDictionaries(const ConstEntryPointer &_en
 	if (!dictionaries.isEmpty() && showDictionaries.value()) {
 		QString table = QString("<table width=\"100%\" class=\"subinfo\"><tr><td class=\"title\" colspan=\"3\">%1</td></tr>").arg(tr("Dictionaries"));
 		uint n = 0;
-		QStringList lines(dictionaries.split('\n', Qt::SkipEmptyParts));
+		QStringList lines(dictionaries.split('\n', QString::SkipEmptyParts));
 		foreach (const QString &line, lines) {
 			QStringList parts(line.split('\t'));
 			const QString &dictType = parts[0];
