@@ -55,7 +55,7 @@ Features
 Building on Linux
 -----------------
 
-The only runtime dependency to run Tagaini Jisho is Qt 5.15 or higher. In order to build it, you
+The only runtime dependency to run Tagaini Jisho is Qt 5.12 or higher. In order to build it, you
 will also need CMake 2.8.1 or higher.
 
 First configure the build using `cmake`:

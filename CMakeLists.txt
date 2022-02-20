@@ -16,7 +16,7 @@ endif(APPLE)
 set(tagaini_binary ${CMAKE_PROJECT_NAME})
 
 set(VERSION 1.1.91)
-set(QTVERSION 5.15)
+set(QTVERSION 5.12)
 set(CMAKE_AUTOMOC ON)
 
 cmake_minimum_required(VERSION 2.8.12)
