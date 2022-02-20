@@ -78,7 +78,7 @@ jobs:
       with:
         msystem: MINGW64
         update: true
-        install: gzip mingw-w64-x86_64-toolchain mingw-w64-x86_64-qt5-static mingw-w64-x86_64-cmake mingw-w64-x86_64-ninja mingw-w64-x86_64-nsis
+        install: gzip mingw-w64-x86_64-toolchain mingw-w64-x86_64-zlib mingw-w64-x86_64-qt5-static mingw-w64-x86_64-cmake mingw-w64-x86_64-ninja mingw-w64-x86_64-nsis
 
     - name: Install Qt5 (Mac OS)
       if: runner.os == 'macos'
