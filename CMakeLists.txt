@@ -27,9 +27,11 @@ find_package(Qt5 ${QTVERSION} REQUIRED COMPONENTS Core Widgets PrintSupport Netw
 # FIXME only required when CMake downloads dictionary files. Not necessary for building from source package.
 find_program(GZIP NAMES gzip REQUIRED)
 
-# Global GCC options
+# Global compiler options
+# Disable deprecation warnings so we can keep building a Qt 5.12 compatible version with Qt 5.15
+# installed.
 if(CMAKE_COMPILER_IS_GNUCC)
-	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -Wextra -Wnon-virtual-dtor -Wno-unused-parameter")
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wno-deprecated-declarations -Wall -Wextra -Wnon-virtual-dtor -Wno-unused-parameter")
 endif(CMAKE_COMPILER_IS_GNUCC)
 
 # CMake-required compiler flags
