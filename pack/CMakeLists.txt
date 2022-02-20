@@ -14,6 +14,7 @@ set(CPACK_SOURCE_STRIP_FILES true)
 set(CPACK_STRIP_FILES true)
 set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_SOURCE_DIR}/COPYING.txt")
 set(CPACK_RESOURCE_FILE_README "${CMAKE_SOURCE_DIR}/README.md")
+set(CPACK_DEBIAN_PACKAGE_SHLIBDEPS "ON")
 
 # Disable all build type for safer operation. Per doc one should not set CPACK_GENERATOR directly
 set(CPACK_BINARY_BUNDLE "OFF")
