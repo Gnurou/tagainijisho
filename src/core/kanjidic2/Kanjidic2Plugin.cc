@@ -52,11 +52,17 @@ QString Kanjidic2Plugin::pluginInfo() const
 bool Kanjidic2Plugin::attachAllDatabases()
 {
 	QString dbFile;
-	
+
 	// First attach the main db
 	dbFile = lookForFile("kanjidic2.db");
 	if (dbFile.isEmpty()) {
-		qFatal("kanjidic2 plugin fatal error: cannot find main database file!");
+		#ifdef DATA_DIR
+		const char *system_path = DATA_DIR;
+		#else
+		const char *system_path = "";
+		#endif
+
+		qFatal("kanjidic2 plugin fatal error: cannot find main database file!\n\nSystem path: %s", QDir(system_path).filePath("kanjidic2.db").toStdString().c_str());
 		return false;
 	}
 	if (!Database::attachDictionaryDB(dbFile, "kanjidic2", KANJIDIC2DB_REVISION)) {
@@ -65,7 +71,7 @@ bool Kanjidic2Plugin::attachAllDatabases()
 	}
 
 	_attachedDBs[""] = dbFile;
-	
+
 	// Then look for language databases
 	foreach (const QString &lang, Lang::preferredDictLanguages()) {
 		dbFile = lookForFile(QString("kanjidic2-%1.db").arg(lang));
@@ -77,7 +83,7 @@ bool Kanjidic2Plugin::attachAllDatabases()
 		qFatal("kanjidic2 plugin fatal error: no language database present!");
 		return false;
 	}
-	
+
 	return true;
 }
 

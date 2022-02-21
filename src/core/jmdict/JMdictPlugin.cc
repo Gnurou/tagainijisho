@@ -66,7 +66,13 @@ bool JMdictPlugin::attachAllDatabases()
 	// First attach the main db
 	dbFile = lookForFile("jmdict.db");
 	if (dbFile.isEmpty()) {
-		qFatal("JMdict plugin fatal error: cannot find main database file!");
+		#ifdef DATA_DIR
+		const char *system_path = DATA_DIR;
+		#else
+		const char *system_path = "";
+		#endif
+
+		qFatal("JMdict plugin fatal error: cannot find main database file!\n\nSystem path: %s", QDir(system_path).filePath("jmdict.db").toStdString().c_str());
 		return false;
 	}
 	if (!Database::attachDictionaryDB(dbFile, "jmdict", JMDICTDB_REVISION)) {
