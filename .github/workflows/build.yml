@@ -40,10 +40,10 @@ jobs:
             install_prefix: /usr
           - os: windows-2019
             shell: 'msys2 {0}'
-            install_prefix: '$HOME/Applications'
+            install_prefix: 'c:/Program Files/Tagaini Jisho'
           - os: macos-latest
             shell: bash
-            install_prefix: 'c:/Program Files/Tagaini Jisho'
+            install_prefix: '/Applications'
 
     defaults:
       run:
@@ -84,11 +84,11 @@ jobs:
 
     - name: Configure (Ubuntu and Windows)
       if: runner.os != 'macos'
-      run: cmake -B ${{env.fixed_workspace}}/build -DCMAKE_INSTALL_PREFIX=${{env.install_prefix}} -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
+      run: cmake -B ${{env.fixed_workspace}}/build -DCMAKE_INSTALL_PREFIX="${{matrix.sys.install_prefix}}" -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
 
     - name: Configure (Mac OS)
       if: runner.os == 'macos'
-      run: cmake -B ${{env.fixed_workspace}}/build -DCMAKE_INSTALL_PREFIX=${{env.install_prefix}} -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
+      run: cmake -B ${{env.fixed_workspace}}/build -DCMAKE_INSTALL_PREFIX="${{matrix.sys.install_prefix}}" -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
       env:
         Qt5_DIR: /usr/local/opt/qt5/lib/cmake
 
