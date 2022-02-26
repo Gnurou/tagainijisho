@@ -1,3 +1,6 @@
+1.1.93 released on 2022/02/26
+* Fixed deb and rpm packages.
+
 1.1.92 released on 2022/02/20
 * Target Qt 5.12 so we can build on Ubuntu 20.04.
 
