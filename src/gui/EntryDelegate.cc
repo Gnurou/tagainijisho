@@ -79,20 +79,10 @@ void EntryDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
 {
 	EntryPointer entry = index.data(Entry::EntryRole).value<EntryPointer>();
 	if (!entry) { QStyledItemDelegate::paint(painter, option, index); return; }
+	const bool enabled = option.state & QStyle::State_Enabled;
 
-	QRect rect = option.rect.adjusted(2, 2, -2, 2);
-	//QRect rect = option.rect.adjusted(2, 0, -2, 0);
+	QRect wholeAreaRect = option.rect.adjusted(2, 2, -2, 2);
 	painter->save();
-
-	QColor textColor;
-	if (option.state & QStyle::State_Selected) {
-		if (QApplication::style()->styleHint(QStyle::SH_ItemView_ChangeHighlightOnFocus, &option) && !(option.state & QStyle::State_HasFocus)) textColor = option.palette.color(QPalette::Inactive, QPalette::Text);
-		else if (!(option.state & QStyle::State_HasFocus)) textColor = option.palette.color(QPalette::Inactive, QPalette::HighlightedText);
-		else textColor = option.palette.color(QPalette::Active, QPalette::HighlightedText);
-	}
-	else {
-		textColor = option.palette.color(QPalette::Text);
-	}
 
 	// Draw the background
 	QStyleOptionViewItem opt = option;
@@ -100,26 +90,20 @@ void EntryDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
 	QStyle *style = QApplication::style();
 	style->drawPrimitive(QStyle::PE_PanelItemViewItem, &opt, painter);
 
-	int topLineAscent;
-	if (layout->displayMode() == EntryDelegateLayout::OneLine) {
-		topLineAscent = qMax(qMax(QFontMetrics(layout->kanjiFont()).ascent(), QFontMetrics(layout->kanaFont()).ascent()), QFontMetrics(layout->textFont()).ascent());
-	} else {
-		topLineAscent = qMax(QFontMetrics(layout->kanjiFont()).ascent(), QFontMetrics(layout->kanaFont()).ascent());
-	}
-	QRect bbox;
-	painter->setPen(textColor);
+	QRect mainBbox;
 	painter->setFont(layout->kanjiFont());
+	int mainDescent = painter->fontMetrics().descent();
 	QString mainRepr(entry->mainRepr());
 	QStringList writings(entry->writings());
 	QStringList readings(entry->readings());
-	bbox = painter->boundingRect(rect, 0, mainRepr);
-	painter->drawText(QPoint(rect.left(), rect.top() + topLineAscent),
-	          mainRepr);
+	mainBbox = painter->boundingRect(wholeAreaRect, Qt::AlignTop | Qt::AlignLeft, mainRepr);
+	style->drawItemText(painter, mainBbox, Qt::AlignBaseline, QApplication::palette(), enabled, mainRepr);
+
 	// Used for alternate writings and readings
-	QString s = " ";
+	QString s = "  ";
 	if (layout->displayMode() == EntryDelegateLayout::OneLine) {
 		// The first reading is only needed if the main representation is part of the writings
-		if (!readings.isEmpty() && writings.contains(mainRepr)) s += "(" + readings[0] + "): ";
+		if (!readings.isEmpty() && writings.contains(mainRepr)) s += "(" + readings[0] + ")  ";
 	} else {
 		writings.removeAll(mainRepr);
 		readings.removeAll(mainRepr);
@@ -130,11 +114,13 @@ void EntryDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
 		}
 	}
 	painter->setFont(layout->kanaFont());
-	s = QFontMetrics(layout->kanaFont()).elidedText(s, Qt::ElideRight, rect.width() - bbox.width());
-	QRect rect2(rect);
-	rect2.setLeft(bbox.right());
-	QRect bbox2 = painter->boundingRect(rect2, 0, s);
-	painter->drawText(QPoint(bbox.right(), rect.top() + topLineAscent), s);
+	int readDescent = painter->fontMetrics().descent();
+	s = QFontMetrics(layout->kanaFont()).elidedText(s, Qt::ElideRight, wholeAreaRect.width() - mainBbox.width());
+	QRect readRect(wholeAreaRect);
+	readRect.setLeft(mainBbox.right());
+	readRect.setBottom(mainBbox.bottom() - mainDescent + readDescent);
+	QRect readBbox = painter->boundingRect(readRect, Qt::AlignLeft | Qt::AlignBottom, s);
+	style->drawItemText(painter, readBbox, Qt::AlignBaseline, QApplication::palette(), enabled, s);
 
 	s.clear();
 	if (entry->meanings().size() == 1) {
@@ -145,28 +131,37 @@ void EntryDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
 		s += QString("(%1) %2 ").arg(i + 1).arg(entry->meanings()[i]);
 	}
 	painter->setFont(layout->textFont());
+	int defDescent = painter->fontMetrics().descent();
+	QRect defRect(wholeAreaRect);
+	QRect defBbox;
 	if (layout->displayMode() == EntryDelegateLayout::OneLine) {
-		s = QFontMetrics(layout->textFont()).elidedText(s, Qt::ElideRight, rect.width() - (bbox.width() + bbox2.width()));
-		painter->drawText(QPoint(bbox2.right(), rect.top() + topLineAscent), s);
+		defRect.setLeft(readBbox.right());
+		defRect.setBottom(mainBbox.bottom() - mainDescent + defDescent);
+		defBbox = painter->boundingRect(defRect, Qt::AlignLeft | Qt::AlignBottom, s);
+		s = QFontMetrics(layout->textFont()).elidedText(s, Qt::ElideRight, wholeAreaRect.width() - (mainBbox.width() + readBbox.width()));
 	} else {
-		s = QFontMetrics(layout->textFont()).elidedText(s, Qt::ElideRight, rect.width());
-		painter->drawText(QPoint(rect.left(), rect.top() +
-				qMax(QFontMetrics(layout->kanjiFont()).height(), QFontMetrics(layout->kanaFont()).height()) + QFontMetrics(layout->textFont()).ascent()), s);
+		defRect.setBottom(defRect.bottom() - defDescent);
+		defBbox = painter->boundingRect(defRect, Qt::AlignLeft | Qt::AlignBottom, s);
+		s = QFontMetrics(layout->textFont()).elidedText(s, Qt::ElideRight, wholeAreaRect.width());
 	}
+	style->drawItemText(painter, defBbox, Qt::AlignLeft | Qt::AlignBottom, QApplication::palette(), enabled, s);
 
 	// Now display property icons if the entry has any.
-	int iconPos = rect.right() - 5;
+	int iconPos = wholeAreaRect.right() - 5;
 	if (!entry->notes().isEmpty() && !isHidden(NOTES_ICON)) {
 		iconPos -= _notesIcon.width() + 5;
-		painter->drawPixmap(iconPos, rect.top(), _notesIcon);
+		QRect rect = QRect(iconPos, wholeAreaRect.top(), _notesIcon.width(), _notesIcon.height());
+		style->drawItemPixmap(painter, rect, 0, _notesIcon);
 	}
 	if (!entry->tags().isEmpty() && !isHidden(TAGS_ICON)) {
 		iconPos -= _tagsIcon.width() + 5;
-		painter->drawPixmap(iconPos, rect.top(), _tagsIcon);
+		QRect rect = QRect(iconPos, wholeAreaRect.top(), _tagsIcon.width(), _tagsIcon.height());
+		style->drawItemPixmap(painter, rect, 0, _tagsIcon);
 	}
 	if (!entry->lists().isEmpty() && !isHidden(LISTS_ICON)) {
 		iconPos -= _listsIcon.width() + 5;
-		painter->drawPixmap(iconPos, rect.top(), _listsIcon);
+		QRect rect = QRect(iconPos, wholeAreaRect.top(), _listsIcon.width(), _listsIcon.height());
+		style->drawItemPixmap(painter, rect, 0, _listsIcon);
 	}
 	painter->restore();
 }
