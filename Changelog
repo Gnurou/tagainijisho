@@ -1,3 +1,6 @@
+1.1.94 released on 2022/02/27
+* Fixed color issue with results view on Windows.
+
 1.1.93 released on 2022/02/26
 * Fixed deb and rpm packages.
 
