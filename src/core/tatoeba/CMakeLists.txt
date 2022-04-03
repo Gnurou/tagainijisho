@@ -1,6 +1,3 @@
-# Tatoeba core
-set(QT_DONT_USE_QTGUI TRUE)
-
 set(TATOEBA_SENTENCES_SOURCE http://tatoeba.org/files/downloads/sentences.csv)
 set(TATOEBA_LINKS_SOURCE http://tatoeba.org/files/downloads/links.csv)
 set(TATOEBA_INDICES_SOURCE http://tatoeba.org/files/downloads/jpn_indices.csv)

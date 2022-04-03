@@ -1,6 +1,3 @@
-# kanjidic2 and KanjiVG core
-set(QT_DONT_USE_QTGUI TRUE)
-
 set(KANJIDIC2_SOURCE https://www.edrdg.org/kanjidic/kanjidic2.xml.gz)
 set(KANJIVG_SOURCE https://github.com/KanjiVG/kanjivg/releases/download/r20160426/kanjivg-20160426.xml.gz)
 

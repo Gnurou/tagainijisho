@@ -1,6 +1,3 @@
-# JMdict core
-set(QT_DONT_USE_QTGUI TRUE)
-
 # JMdict
 set(JMDICT_MIRRORS http://ftp.edrdg.org/pub/Nihongo/JMdict.gz
 		   http://www.bcit-broadcast.com/monash/JMdict.gz

@@ -1,6 +1,3 @@
-set(QT_DONT_USE_QTGUI TRUE)
-#include(${QT_USE_FILE})
-
 set(tagainijisho_core_SRCS
 TextTools.cc
 Paths.cc
@@ -35,7 +32,7 @@ target_link_libraries(tagaini_core tagaini_sqlite Qt5::Core)
 if(APPLE)
 	set(DEST_DIR "${tagaini_binary}.app/Contents/MacOS")
 else(APPLE)
-	set(DEST_DIR "lib")	
+	set(DEST_DIR "lib")
 endif(APPLE)
 
 # Add rules for sub-components
