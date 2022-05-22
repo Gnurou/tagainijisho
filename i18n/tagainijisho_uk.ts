@@ -63,12 +63,7 @@
 <context>
     <name>DataPreferences</name>
     <message>
-        <location filename="../src/gui/DataPreferences.ui" line="+14"/>
-        <source>Form</source>
-        <translation>Форма</translation>
-    </message>
-    <message>
-        <location line="+6"/>
+        <location filename="../src/gui/DataPreferences.ui" line="+17"/>
         <source>Erase user data</source>
         <translation>Стерти дані користувача</translation>
     </message>
@@ -88,7 +83,7 @@
         <translation>Файл бази даних користувача:</translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="+512"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="+497"/>
         <source>User data</source>
         <translation>Дані користувача</translation>
     </message>
@@ -179,7 +174,7 @@
 <context>
     <name>DetailedView</name>
     <message>
-        <location filename="../src/gui/DetailedView.cc" line="+98"/>
+        <location filename="../src/gui/DetailedView.cc" line="+101"/>
         <source>Previous entry</source>
         <translation>Попередній запис</translation>
     </message>
@@ -222,12 +217,7 @@
         <translation>Кана</translation>
     </message>
     <message>
-        <location filename="../src/gui/DetailedViewPreferences.ui" line="+14"/>
-        <source>Form</source>
-        <translation>Форма</translation>
-    </message>
-    <message>
-        <location line="+6"/>
+        <location filename="../src/gui/DetailedViewPreferences.ui" line="+17"/>
         <source>General</source>
         <translation>Загальне</translation>
     </message>
@@ -239,7 +229,7 @@
     <message>
         <location line="+7"/>
         <source>Show JLPT level in short descriptions</source>
-        <translation>Показати КТЗЯМ  рівень у стислому описі</translation>
+        <translation>Показати JPLT-рівень у стислому описі</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -306,7 +296,7 @@
 <context>
     <name>EntriesViewHelper</name>
     <message>
-        <location filename="../src/gui/EntriesViewHelper.cc" line="+41"/>
+        <location filename="../src/gui/EntriesViewHelper.cc" line="+42"/>
         <source>&amp;Print...</source>
         <translation>&amp;Друк</translation>
     </message>
@@ -413,7 +403,7 @@
     </message>
     <message>
         <location line="-94"/>
-        <location filename="../src/gui/EntriesViewHelper.h" line="+89"/>
+        <location filename="../src/gui/EntriesViewHelper.h" line="+90"/>
         <source>Print</source>
         <translation>Друк</translation>
     </message>
@@ -421,24 +411,19 @@
 <context>
     <name>EntryDelegatePreferences</name>
     <message>
-        <location filename="../src/gui/EntryDelegatePreferences.ui" line="+14"/>
-        <source>Form</source>
-        <translation>Форма</translation>
-    </message>
-    <message>
-        <location line="+8"/>
+        <location filename="../src/gui/EntryDelegatePreferences.ui" line="+19"/>
         <source>Style:</source>
         <translation>Стиль:</translation>
     </message>
     <message>
         <location line="+7"/>
-        <source>One line</source>
-        <translation>Один рядок</translation>
+        <source>One &amp;line</source>
+        <translation>Один &amp;рядок</translation>
     </message>
     <message>
         <location line="+7"/>
-        <source>Two lines</source>
-        <translation>Два рядки</translation>
+        <source>&amp;Two lines</source>
+        <translation>&amp;Два рядки</translation>
     </message>
     <message>
         <location filename="../src/gui/PreferencesWindow.cc" line="-196"/>
@@ -459,7 +444,7 @@
 <context>
     <name>EntryDragButton</name>
     <message>
-        <location filename="../src/gui/ToolBarDetailedView.cc" line="+27"/>
+        <location filename="../src/gui/ToolBarDetailedView.cc" line="+29"/>
         <source>Drag the currently displayed entry</source>
         <translation>Перетягнути поточний відображений запис</translation>
     </message>
@@ -467,7 +452,7 @@
 <context>
     <name>EntryFormatter</name>
     <message>
-        <location filename="../src/gui/EntryFormatter.cc" line="+39"/>
+        <location filename="../src/gui/EntryFormatter.cc" line="+55"/>
         <source>Cannot find detailed view HTML file!</source>
         <translation>Не в змозі віднайти деталізований вигляд HTML файлу!</translation>
     </message>
@@ -477,12 +462,12 @@
         <translation>Не в змозі віднайти деталізований вигляд CSS файлу!</translation>
     </message>
     <message>
-        <location line="+159"/>
+        <location line="+170"/>
         <source>Root list</source>
         <translation>Кореневий перелік</translation>
     </message>
     <message>
-        <location line="+48"/>
+        <location line="+52"/>
         <source>Studied since %1.</source>
         <translation>Вивчається з %1.</translation>
     </message>
@@ -505,7 +490,7 @@
 <context>
     <name>EntryListView</name>
     <message>
-        <location filename="../src/gui/EntryListView.cc" line="+35"/>
+        <location filename="../src/gui/EntryListView.cc" line="+36"/>
         <source>Delete</source>
         <translation>Видалити</translation>
     </message>
@@ -565,11 +550,6 @@
 </context>
 <context>
     <name>EntryListWidget</name>
-    <message>
-        <location filename="../src/gui/EntryListWidget.ui" line="+14"/>
-        <source>Form</source>
-        <translation>Форма</translation>
-    </message>
     <message>
         <location filename="../src/gui/EntryListWidget.h" line="+33"/>
         <source>Lists</source>
@@ -669,7 +649,7 @@
 <context>
     <name>FindHomographsJob</name>
     <message>
-        <location filename="../src/gui/jmdict/JMdictEntryFormatter.cc" line="+610"/>
+        <location filename="../src/gui/jmdict/JMdictEntryFormatter.cc" line="+618"/>
         <source>Homographs</source>
         <translation>Омографи</translation>
     </message>
@@ -703,74 +683,89 @@
 <context>
     <name>GeneralPreferences</name>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="-180"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="-166"/>
         <source>English</source>
         <translation>Англійська мова</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="-1"/>
         <source>German</source>
         <translation>Німецька мова</translation>
     </message>
     <message>
-        <location line="-1"/>
+        <location line="+5"/>
         <source>French</source>
         <translation>Французька мова</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="-3"/>
         <source>Spanish</source>
         <translation>Іспанська мова</translation>
     </message>
     <message>
-        <location line="-4"/>
+        <location line="+8"/>
         <source>Norvegian Bokmal</source>
         <translation>Норвезька мова - Бокмаль</translation>
     </message>
     <message>
-        <location line="-8"/>
+        <location line="-11"/>
         <source>Czech</source>
         <translation>Чеська мова</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="+12"/>
         <source>Dutch</source>
         <translation>Голландська мова</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="-3"/>
         <source>Italian</source>
         <translation>Італійська мова</translation>
     </message>
     <message>
         <location line="+5"/>
+        <source>Portuguese (Brazil)</source>
+        <translation>Португальська (Бразилія)</translation>
+    </message>
+    <message>
+        <location line="+1"/>
         <source>Russian</source>
         <translation>Російська мова</translation>
     </message>
     <message>
-        <location line="-4"/>
+        <location line="-5"/>
         <source>Japanese</source>
         <translation>Японська мова</translation>
     </message>
     <message>
-        <location line="-8"/>
+        <location line="-11"/>
         <source>Arabic</source>
         <translation>Арабська мова</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+5"/>
+        <source>Persian (Iran)</source>
+        <translation>Перська (Іран)</translation>
+    </message>
+    <message>
+        <location line="+1"/>
         <source>Finnish (Finland)</source>
         <translation>Фінська мова (Фінляндія)</translation>
     </message>
     <message>
-        <location line="+7"/>
-        <source>Polish</source>
-        <translation>Польська мова</translation>
+        <location line="+2"/>
+        <source>Hungarian</source>
+        <translation>Угорська</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Portuguese</source>
-        <translation>Португальська мова</translation>
+        <source>Indonesian</source>
+        <translation>Індонезійська</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Polish</source>
+        <translation>Польська мова</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -789,8 +784,18 @@
     </message>
     <message>
         <location line="+1"/>
+        <source>Ukrainian</source>
+        <translation>Українська</translation>
+    </message>
+    <message>
+        <location line="+1"/>
         <source>Vietnamese</source>
         <translation>В’єтнамська мова</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Chinese</source>
+        <translation>Китайська</translation>
     </message>
     <message>
         <location line="+24"/>
@@ -813,17 +818,12 @@
         <translation>Неділя</translation>
     </message>
     <message>
-        <location line="+53"/>
+        <location line="+48"/>
         <source>Next check: %1</source>
         <translation>Наступна перевірка: %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/GeneralPreferences.ui" line="+14"/>
-        <source>Form</source>
-        <translation>Форма</translation>
-    </message>
-    <message>
-        <location line="+6"/>
+        <location filename="../src/gui/GeneralPreferences.ui" line="+17"/>
         <source>General settings</source>
         <translation>Загальні налаштування</translation>
     </message>
@@ -838,7 +838,12 @@
         <translation>Бажана мова словника</translation>
     </message>
     <message>
-        <location line="+41"/>
+        <location line="+7"/>
+        <source>Preferred &amp;GUI language</source>
+        <translation>Бажана мова &amp;інтерфейсу</translation>
+    </message>
+    <message>
+        <location line="+34"/>
         <source>The dictionaries will use this language whenever possible. English will be used as a fallback.</source>
         <translation>Неможливо використати словники для цієї мови. Замість них буде використано Англійські словники.</translation>
     </message>
@@ -858,12 +863,7 @@
         <translation>Дати</translation>
     </message>
     <message>
-        <location line="+6"/>
-        <source>Weeks start on</source>
-        <translation>День початку тижня</translation>
-    </message>
-    <message>
-        <location line="+16"/>
+        <location line="+22"/>
         <source>Updates</source>
         <translation>Оновлення</translation>
     </message>
@@ -888,22 +888,12 @@
         <translation>кожні</translation>
     </message>
     <message>
-        <location line="+62"/>
-        <source>Defines how many recent entries are kept in memory. High values may improve performance when manipulating a large number of entries.</source>
-        <translation>Визначає скільки нещодавніх записів буде зберігатися у пам’яті. Високий показник може покращити продуктивність при обробці великої кількості записів.</translation>
-    </message>
-    <message>
-        <location line="-47"/>
+        <location line="+15"/>
         <source>Also check for development versions</source>
         <translation>Також перевірити на наявність бета-версій</translation>
     </message>
     <message>
-        <location line="-129"/>
-        <source>Preferred GUI language</source>
-        <translation>Бажана мова інтерфейсу</translation>
-    </message>
-    <message>
-        <location line="+16"/>
+        <location line="-113"/>
         <source>The GUI will use this language whenever possible. English will be used as a fallback.</source>
         <translation>Перекладу інтерфейсу на цю мову не існує. Замість даної мови буде використана англійська.</translation>
     </message>
@@ -918,19 +908,14 @@
         <translation>Завжди показувати англійські значення</translation>
     </message>
     <message>
-        <location line="+87"/>
+        <location line="+28"/>
+        <source>Wee&amp;ks start on</source>
+        <translation>Тиждень &amp;починається з</translation>
+    </message>
+    <message>
+        <location line="+59"/>
         <source>Next check:</source>
         <translation>Наступна перевірка:</translation>
-    </message>
-    <message>
-        <location line="+10"/>
-        <source>Entries cache (advanced)</source>
-        <translation>Кеш записів (для досвідчених користувачів)</translation>
-    </message>
-    <message>
-        <location line="+8"/>
-        <source>Default</source>
-        <translation>Поточний показник</translation>
     </message>
 </context>
 <context>
@@ -963,20 +948,20 @@
     <message>
         <location line="+78"/>
         <source>JLPT:</source>
-        <translation>КТЗЯМ:</translation>
+        <translation>JLPT:</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>JLPT</source>
-        <translation>КТЗЯМ</translation>
+        <translation>JLPT</translation>
     </message>
 </context>
 <context>
     <name>JMdictEntryFormatter</name>
     <message>
-        <location filename="../src/gui/jmdict/JMdictEntryFormatter.cc" line="-367"/>
+        <location filename="../src/gui/jmdict/JMdictEntryFormatter.cc" line="-362"/>
         <source>(JLPT N%1)</source>
-        <translation>(КТЗЯМ Н%1)</translation>
+        <translation>(JLPT Н%1)</translation>
     </message>
     <message>
         <location line="+38"/>
@@ -989,9 +974,9 @@
         <translation>Альтернативні написання:</translation>
     </message>
     <message>
-        <location line="+119"/>
+        <location line="+120"/>
         <source>JLPT</source>
-        <translation>КТЗЯМ</translation>
+        <translation>JLPT</translation>
     </message>
     <message>
         <location line="+24"/>
@@ -1039,24 +1024,21 @@
     </message>
     <message>
         <location line="-111"/>
-        <location line="+126"/>
         <source>Dialect</source>
         <translation>Діалект</translation>
     </message>
     <message>
-        <location line="-120"/>
-        <location line="+135"/>
+        <location line="+6"/>
         <source>Field</source>
         <translation>Галузь</translation>
     </message>
     <message>
-        <location line="-129"/>
-        <location line="+144"/>
+        <location line="+6"/>
         <source>Misc</source>
         <translation>Змішане</translation>
     </message>
     <message>
-        <location line="-91"/>
+        <location line="+53"/>
         <source> with </source>
         <translation>з</translation>
     </message>
@@ -1092,24 +1074,9 @@
         <translation>Словник</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="+13"/>
         <source>Pos:</source>
         <translation>ЧМ:</translation>
-    </message>
-    <message>
-        <location line="+15"/>
-        <source>Dial:</source>
-        <translation>Діал.:</translation>
-    </message>
-    <message>
-        <location line="+15"/>
-        <source>Field:</source>
-        <translation>Галузь:</translation>
-    </message>
-    <message>
-        <location line="+15"/>
-        <source>Misc:</source>
-        <translation>Змішане:</translation>
     </message>
 </context>
 <context>
@@ -1140,7 +1107,7 @@
         <translation>З &amp;Перекладу, поточний набір</translation>
     </message>
     <message>
-        <location line="+125"/>
+        <location line="+104"/>
         <location line="+20"/>
         <source>Nothing to train</source>
         <translation>Нічого вправляти</translation>
@@ -1205,7 +1172,7 @@
         <translation>математика</translation>
     </message>
     <message>
-        <location line="+66"/>
+        <location line="+67"/>
         <source>Nagano-ben</source>
         <translation>діалект Наґано</translation>
     </message>
@@ -1255,7 +1222,7 @@
         <translation>діалект Канто</translation>
     </message>
     <message>
-        <location line="-63"/>
+        <location line="-64"/>
         <source>manga slang</source>
         <translation>манґа-жаргон</translation>
     </message>
@@ -1265,7 +1232,7 @@
         <translation>ввічлива мова (теінейго)</translation>
     </message>
     <message>
-        <location line="+16"/>
+        <location line="+17"/>
         <source>Yodan verb with `hu/fu&apos; ending (archaic)</source>
         <translation>Дієслова Йодан із закінченнями ’ху/фу’ (застарілі)</translation>
     </message>
@@ -1290,7 +1257,7 @@
         <translation>грубий вислів чи слово</translation>
     </message>
     <message>
-        <location line="-78"/>
+        <location line="-79"/>
         <source>idiomatic expression</source>
         <translation>ідіоматичний зворот</translation>
     </message>
@@ -1401,6 +1368,11 @@
     </message>
     <message>
         <location line="+3"/>
+        <source>quotation</source>
+        <translation>цитата</translation>
+    </message>
+    <message>
+        <location line="+1"/>
         <source>rare</source>
         <translation>рідкісний</translation>
     </message>
@@ -1425,7 +1397,12 @@
         <translation>Дієслово Ічідан - особливий ’куреру’ клас </translation>
     </message>
     <message>
-        <location line="+40"/>
+        <location line="+26"/>
+        <source>suru verb - included</source>
+        <translation>«суру»-дієслово - включно</translation>
+    </message>
+    <message>
+        <location line="+14"/>
         <source>`kari&apos; adjective (archaic)</source>
         <translation>’карі’ прикметник (застарілий)</translation>
     </message>
@@ -1620,17 +1597,92 @@
         <translation>анатомічний термін</translation>
     </message>
     <message>
-        <location line="-19"/>
+        <location line="+1"/>
+        <source>Christian term</source>
+        <translation>Християнський термін</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Internet slang</source>
+        <translation>Інтернет-сленг</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>dated term</source>
+        <translation>застарілий термін</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>historical term</source>
+        <translation>історичний термін</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>literary or formal term</source>
+        <translation>літературний чи офіційний термін</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>family or surname</source>
+        <translation>родина чи прізвище</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>place name</source>
+        <translation>назва місця</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>unclassified name</source>
+        <translation>некласифікована назва</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>company name</source>
+        <translation>назва компанії</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>product name</source>
+        <translation>назва товару</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>work of art, literature, music, etc. name</source>
+        <translation>назва витвору мистецтва, літературного чи музичного твору абощо</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>full name of a particular person</source>
+        <translation>повне ім&apos;я конкретної людини</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>given name or forename, gender not specified</source>
+        <translation>ім&apos;я, стать не визначено</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>railway station</source>
+        <translation>залізнична станція</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>organization name</source>
+        <translation>назва організації</translation>
+    </message>
+    <message>
+        <location line="-34"/>
         <source>astronomy, etc. term</source>
         <translation>астрономічний і т.д. термін</translation>
     </message>
     <message>
-        <location line="-148"/>
+        <location line="-149"/>
         <source>adjective (keiyoushi) - yoi/ii class</source>
         <translation>прикметник (кеійоуші) - йоі/іі класу</translation>
     </message>
     <message>
-        <location line="+149"/>
+        <location line="+150"/>
         <source>baseball term</source>
         <translation>бейсбольний термін</translation>
     </message>
@@ -1710,7 +1762,7 @@
         <translation>гумористичний, сатиричний термін</translation>
     </message>
     <message>
-        <location line="-135"/>
+        <location line="-136"/>
         <source>humble (kenjougo) language</source>
         <translation>проста мова (кенджоуґо)</translation>
     </message>
@@ -1745,7 +1797,7 @@
         <translation>розмовний вислів</translation>
     </message>
     <message>
-        <location line="+52"/>
+        <location line="+53"/>
         <source>word usually written using kana alone</source>
         <translation>слово, що зазвичай записується лише Каною</translation>
     </message>
@@ -1755,7 +1807,7 @@
         <translation>жаргон</translation>
     </message>
     <message>
-        <location line="-25"/>
+        <location line="-26"/>
         <source>male term or language</source>
         <translation>чоловічий термін або мова</translation>
     </message>
@@ -1790,7 +1842,7 @@
         <translation>вигук (кандоуші)</translation>
     </message>
     <message>
-        <location line="+32"/>
+        <location line="+33"/>
         <source>word usually written using kanji alone</source>
         <translation>слово, що зазвичай записується виключно канджі</translation>
     </message>
@@ -1815,27 +1867,27 @@
         <translation>Неправильне ну дієслово</translation>
     </message>
     <message>
-        <location line="-32"/>
+        <location line="-33"/>
         <source>particle</source>
         <translation>незмінювана частка</translation>
     </message>
     <message>
-        <location line="+33"/>
+        <location line="+34"/>
         <source>irregular ru verb, plain form ends with -ri</source>
         <translation>неправильне ру-дієслово, проста форма із закінченням рі</translation>
     </message>
     <message>
-        <location line="-89"/>
+        <location line="-90"/>
         <source>noun or verb acting prenominally</source>
         <translation>іменник чи дієслово, що мають незвичний вжиток</translation>
     </message>
     <message>
-        <location line="+105"/>
+        <location line="+106"/>
         <source>transitive verb</source>
         <translation>перехідне дієслово</translation>
     </message>
     <message>
-        <location line="-64"/>
+        <location line="-65"/>
         <source>noun, used as a suffix</source>
         <translation>іменник, що використовується у якості суфіксу</translation>
     </message>
@@ -1850,17 +1902,17 @@
         <translation>прикметник (кеійоуші)</translation>
     </message>
     <message>
-        <location line="+91"/>
+        <location line="+92"/>
         <source>Ichidan verb - zuru verb (alternative form of -jiru verbs)</source>
         <translation>Дієслово Ічідан - дзуру-дієслово (альтернативна форма дієслів -джіру)</translation>
     </message>
     <message>
-        <location line="-84"/>
+        <location line="-85"/>
         <source>adverb (fukushi)</source>
         <translation>прислівник (фукуші)</translation>
     </message>
     <message>
-        <location line="+60"/>
+        <location line="+61"/>
         <source>suffix</source>
         <translation>суфікс</translation>
     </message>
@@ -1910,7 +1962,7 @@
         <translation>Дієслово Ґодан із закінченням ’су’</translation>
     </message>
     <message>
-        <location line="-75"/>
+        <location line="-76"/>
         <source>auxiliary</source>
         <translation>допоміжний</translation>
     </message>
@@ -1925,7 +1977,7 @@
         <translation>прикметникові іменники або квазі-прикметники (кеійодоші)</translation>
     </message>
     <message>
-        <location line="+79"/>
+        <location line="+80"/>
         <source>Godan verb - Iku/Yuku special class</source>
         <translation>Дієслово Ґодан - особливий ’Іку/Юку’ клас</translation>
     </message>
@@ -1940,17 +1992,17 @@
         <translation>Дієслово Ґодан із закінченням ’гу’</translation>
     </message>
     <message>
-        <location line="-76"/>
+        <location line="-77"/>
         <source>nouns which may take the genitive case particle `no&apos;</source>
         <translation>іменники, які утворюють родовий відмінок з незмінюваною часткою ’но’</translation>
     </message>
     <message>
-        <location line="+69"/>
+        <location line="+70"/>
         <source>Ichidan verb</source>
         <translation>Дієслово Ічідан</translation>
     </message>
     <message>
-        <location line="-24"/>
+        <location line="-25"/>
         <source>noun, used as a prefix</source>
         <translation>іменник, що використовується у якості префіксу</translation>
     </message>
@@ -1975,7 +2027,7 @@
         <translation>Прикметниковий передіменник (рентаіші)</translation>
     </message>
     <message>
-        <location line="+70"/>
+        <location line="+71"/>
         <source>Nidan verb with &apos;u&apos; ending (archaic)</source>
         <translation>Дієслово Нідан із закінченням ’у’ (застаріле)</translation>
     </message>
@@ -1985,32 +2037,27 @@
         <translation>дієслово ’Суру’ - особливий клас</translation>
     </message>
     <message>
-        <location line="-53"/>
+        <location line="-54"/>
         <source>noun (common) (futsuumeishi)</source>
         <translation>іменник (загальний) (фуцуумейші)</translation>
     </message>
     <message>
-        <location line="+51"/>
+        <location line="+52"/>
         <source>noun or participle which takes the aux. verb suru</source>
         <translation>іменник чи дієприкметник, який використовує допоміжне дієслово ’Суру’</translation>
     </message>
     <message>
-        <location line="+3"/>
-        <source>suru verb - irregular</source>
-        <translation>Дієслово ’Суру&apos; - неправильне</translation>
-    </message>
-    <message>
-        <location line="-53"/>
+        <location line="-51"/>
         <source>adverbial noun (fukushitekimeishi)</source>
         <translation>Прислівниковий іменник (фукушітекімейші)</translation>
     </message>
     <message>
-        <location line="+39"/>
+        <location line="+40"/>
         <source>Godan verb with `ru&apos; ending (irregular verb)</source>
         <translation>Дієслово Ґодан із закінченням ’ру’ (неправильне дієслово)</translation>
     </message>
     <message>
-        <location line="-28"/>
+        <location line="-29"/>
         <source>pronoun</source>
         <translation>займенник</translation>
     </message>
@@ -2018,7 +2065,7 @@
 <context>
     <name>JMdictPlugin</name>
     <message>
-        <location filename="../src/core/jmdict/JMdictPlugin.cc" line="+345"/>
+        <location filename="../src/core/jmdict/JMdictPlugin.cc" line="+320"/>
         <source>An error seems to have occured while updating the JMdict database records - the program might crash during usage. Please report this bug.</source>
         <translation>Схоже, що сталася помилка під час оновлення записів бази даних для JMdict - дана програма може вийти з ладу впродовж вжитку. Будь ласка повідомте про цю ваду.</translation>
     </message>
@@ -2048,7 +2095,7 @@
     <message>
         <location line="+6"/>
         <source>JLPT level</source>
-        <translation>Рівень КТЗЯМ</translation>
+        <translation>Рівень JLPT</translation>
     </message>
     <message>
         <location line="+7"/>
@@ -2158,7 +2205,7 @@
         <translation>Попередній перегляд</translation>
     </message>
     <message>
-        <location line="+88"/>
+        <location line="+142"/>
         <source>Definitions filtering</source>
         <translation>Фільтрування визначень</translation>
     </message>
@@ -2228,7 +2275,7 @@
 <context>
     <name>KanaView</name>
     <message>
-        <location filename="../src/gui/kanjidic2/KanaView.cc" line="+161"/>
+        <location filename="../src/gui/kanjidic2/KanaView.cc" line="+162"/>
         <source>Select All</source>
         <translation>Обрати Усе</translation>
     </message>
@@ -2244,7 +2291,7 @@
 <context>
     <name>KanjiInputPopupAction</name>
     <message>
-        <location filename="../src/gui/kanjidic2/KanjiSelector.cc" line="+396"/>
+        <location filename="../src/gui/kanjidic2/KanjiSelector.cc" line="+397"/>
         <source>Triggers the kanji input panel</source>
         <translation>Застосувати панель вводу канджі</translation>
     </message>
@@ -2307,7 +2354,7 @@
     <message>
         <location line="+2"/>
         <source>&lt;b&gt;JLPT:&lt;/b&gt; N%1&lt;br/&gt;</source>
-        <translation>&lt;b&gt;КТЗЯМ:&lt;/b&gt; Н%1&lt;br/&gt;</translation>
+        <translation>&lt;b&gt;JLPT:&lt;/b&gt; Н%1&lt;br/&gt;</translation>
     </message>
     <message>
         <location line="+22"/>
@@ -2383,7 +2430,7 @@
 <context>
     <name>Kanjidic2EntryFormatter</name>
     <message>
-        <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="+327"/>
+        <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="+338"/>
         <source>&lt;b&gt;Strokes:&lt;/b&gt; %1</source>
         <translation>&lt;b&gt;Штрихи:&lt;/b&gt; %1</translation>
     </message>
@@ -2410,7 +2457,7 @@
     <message>
         <location line="+128"/>
         <source>&lt;b&gt;JLPT:&lt;/b&gt; N%1</source>
-        <translation>&lt;b&gt;КТЗЯМ:&lt;/b&gt; Н%1</translation>
+        <translation>&lt;b&gt;JLPT:&lt;/b&gt; Н%1</translation>
     </message>
     <message>
         <location line="+4"/>
@@ -2418,9 +2465,14 @@
         <translation>&lt;b&gt;Хайзіґ:&lt;/b&gt; %1</translation>
     </message>
     <message>
-        <location line="+51"/>
+        <location line="+4"/>
+        <source>&lt;b&gt;Unicode:&lt;/b&gt; U+%1</source>
+        <translation>&lt;b&gt;Unicode:&lt;/b&gt; U+%1</translation>
+    </message>
+    <message>
+        <location line="+47"/>
         <source>(JLPT N%1)</source>
-        <translation>(КТЗЯМ Н%1)</translation>
+        <translation>(JLPT Н%1)</translation>
     </message>
     <message>
         <location line="+43"/>
@@ -2455,7 +2507,7 @@
     <message>
         <location line="+9"/>
         <source>JLPT</source>
-        <translation>КТЗЯМ</translation>
+        <translation>JLPT</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -2498,20 +2550,140 @@
         <translation>Складові</translation>
     </message>
     <message>
-        <location line="-259"/>
-        <source>&lt;b&gt;Unicode:&lt;/b&gt; 0x%1</source>
-        <translation>&lt;b&gt;Unicode:&lt;/b&gt; 0x%1</translation>
+        <location line="+10"/>
+        <source>Dictionaries</source>
+        <translation>Словники</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="-265"/>
         <source>&lt;b&gt;SKIP:&lt;/b&gt; %1</source>
         <translation>&lt;b&gt;SKIP:&lt;/b&gt; %1</translation>
+    </message>
+    <message>
+        <location filename="../src/core/kanjidic2/DictionaryDescriptions.cc" line="+2"/>
+        <source>&quot;Japanese For Busy People&quot; vols I-III, published by the AJLT. The codes are the volume.chapter.</source>
+        <translation>«Japanese For Busy People» томи I-III, видано «AJLT». Наявні коди відповідають розділам томів.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>&quot;The Kanji Way to Japanese Language Power&quot; by Dale Crowley.</source>
+        <translation>«The Kanji Way to Japanese Language Power», Дейл Кроулі.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>&quot;A New Dictionary of Kanji Usage&quot; (Gakken)</source>
+        <translation>«A New Dictionary of Kanji Usage» (Gakken)</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>&quot;Kodansha Kanji Dictionary&quot;, (2nd Ed. of the NJECD) edited by Jack Halpern.</source>
+        <translation>«Kodansha Kanji Dictionary» (2-ге видання від «NJECD») під редакцією Джек Гальперн.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>&quot;Kanji Learners Dictionary&quot; (Kodansha) edited by Jack Halpern.</source>
+        <translation>«Kanji Learners Dictionary» (Kodansha) під редакцією Джек Гальперн.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>&quot;Kanji Learners Dictionary&quot; (Kodansha), 2nd edition (2013) edited by Jack Halpern.</source>
+        <translation>«Kanji Learners Dictionary» (Kodansha), 2-ге видання (2013) під редакцією Джек Гальперн.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>&quot;New Japanese-English Character Dictionary&quot;, edited by Jack Halpern.</source>
+        <translation>«New Japanese-English Character Dictionary» під редакцією Джек Гальперн.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>&quot;Remembering The Kanji&quot; by James Heisig.</source>
+        <translation>«Remembering The Kanji», Джеймс Гейсіґ.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>&quot;Remembering The Kanji, Sixth Ed.&quot; by James Heisig.</source>
+        <translation>«Remembering The Kanji, Sixth Ed.», Джеймс Гейсіґ.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>&quot;A Guide To Remembering Japanese Characters&quot; by Kenneth G. Henshall.</source>
+        <translation>«A Guide To Remembering Japanese Characters», Кеннет Дж. Геншелл.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>&quot;A Guide To Reading and Writing Japanese&quot; 3rd edition, edited by Henshall, Seeley and De Groot.</source>
+        <translation>«A Guide To Reading and Writing Japanese» 3-тє видання під редакцією Геншелл, Сілі та Де Ґрут.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Japanese Kanji Flashcards, by Max Hodges and Tomoko Okazaki. (Series 1)</source>
+        <translation>«Japanese Kanji Flashcards», автори Макс Годжес і Томоко Окадзакі. (Серія 1)</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>&quot;Kanji in Context&quot; by Nishiguchi and Kono.</source>
+        <translation>«Kanji in Context», автори: Нішіґучі та Коно.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>the &quot;Kodansha Compact Kanji Guide&quot;.</source>
+        <translation>«Kodansha Compact Kanji Guide».</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>codes from Yves Maniette&apos;s &quot;Les Kanjis dans la tete&quot; French adaptation of Heisig.</source>
+        <translation>коди від Іва Ман&apos;єтта «Les Kanjis dans la tete» французька адаптація Гейсіґа.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>&quot;Daikanwajiten&quot; compiled by Morohashi. For some kanji two additional attributes are used: m_vol: the volume of the dictionary in which the kanji is found, and m_page: the page number in the volume.</source>
+        <translation>«Daikanwajiten» складений Морохаші. Для деяких канджі використано два додаткових позначення: «m_vol» - том словника в якому було знайдено відповідне канджі, «m_page» - сторінка у відповідному томі.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>&quot;Modern Reader&apos;s Japanese-English Character Dictionary&quot;, edited by Andrew Nelson (now published as the &quot;Classic&quot; Nelson).</source>
+        <translation>«Modern Reader&apos;s Japanese-English Character Dictionary» під редакцією Ендрю Нельсона (зараз видається як «класичний» Нельсон).</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>&quot;The New Nelson Japanese-English Character Dictionary&quot;, edited by John Haig.</source>
+        <translation>«The New Nelson Japanese-English Character Dictionary» під редакцією Джона Гейґа.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>&quot;Essential Kanji&quot; by P.G. O&apos;Neill.</source>
+        <translation>«Essential Kanji», Пі.Джей. О&apos;Нілл.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>&quot;Japanese Names&quot;, by P.G. O&apos;Neill.</source>
+        <translation>«Japanese Names», Пі.Джей. О&apos;Нілл.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>&quot;A Guide To Reading and Writing Japanese&quot; edited by Florence Sakade.</source>
+        <translation>«A Guide To Reading and Writing Japanese» під редакцією Флоренс Сакаде.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>&quot;Kanji and Kana&quot; by Spahn and Hadamitzky.</source>
+        <translation>«Kanji and Kana», автори: Спан і Гадаміцкі.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>&quot;Kanji and Kana&quot; by Spahn and Hadamitzky (2011 edition).</source>
+        <translation>«Kanji and Kana», автори: Спан і Гадаміцкі (видання 2011 року).</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Tuttle Kanji Cards, compiled by Alexander Kask.</source>
+        <translation>«Tuttle Kanji Cards» створено Александром Каском.</translation>
     </message>
 </context>
 <context>
     <name>Kanjidic2FilterWidget</name>
     <message>
-        <location filename="../src/gui/kanjidic2/Kanjidic2FilterWidget.cc" line="+46"/>
+        <location filename="../src/gui/kanjidic2/Kanjidic2FilterWidget.cc" line="+47"/>
         <source>Stroke count</source>
         <translation>Кількість штрихів</translation>
     </message>
@@ -2536,7 +2708,7 @@
         <translation>Unicode</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+15"/>
         <source>SKIP code</source>
         <translation>Код SKIP</translation>
     </message>
@@ -2621,7 +2793,7 @@
 <context>
     <name>Kanjidic2GUIPlugin</name>
     <message>
-        <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="+46"/>
+        <location filename="../src/gui/kanjidic2/Kanjidic2GUIPlugin.cc" line="+49"/>
         <location line="+7"/>
         <source>Invalid</source>
         <translation>Хибно</translation>
@@ -2768,12 +2940,12 @@
     </message>
     <message>
         <location line="+7"/>
-        <location line="+471"/>
+        <location line="+532"/>
         <source>Unicode</source>
         <translation>Unicode</translation>
     </message>
     <message>
-        <location line="-436"/>
+        <location line="-497"/>
         <source>Variations</source>
         <translation>Різновиди</translation>
     </message>
@@ -2784,59 +2956,59 @@
     </message>
     <message>
         <location line="+14"/>
-        <location line="+436"/>
+        <location line="+497"/>
         <source>Frequency</source>
         <translation>Частота</translation>
     </message>
     <message>
-        <location line="-408"/>
-        <location line="+415"/>
+        <location line="-469"/>
+        <location line="+476"/>
         <source>School grade</source>
         <translation>Шкільний ґатунок</translation>
     </message>
     <message>
-        <location line="-422"/>
-        <location line="+429"/>
+        <location line="-483"/>
+        <location line="+490"/>
         <source>JLPT level</source>
-        <translation>Рівень КТЗЯМ</translation>
+        <translation>Рівень JLPT</translation>
     </message>
     <message>
-        <location line="-397"/>
-        <location line="+109"/>
+        <location line="-458"/>
+        <location line="+116"/>
         <source>Components</source>
         <translation>Складові</translation>
     </message>
     <message>
-        <location line="-190"/>
-        <location line="+450"/>
+        <location line="-197"/>
+        <location line="+511"/>
         <source># of strokes</source>
         <translation># штрихів</translation>
     </message>
     <message>
-        <location line="-457"/>
-        <location line="+443"/>
+        <location line="-518"/>
+        <location line="+504"/>
         <source>SKIP code</source>
         <translation>Код SKIP</translation>
     </message>
     <message>
-        <location line="-429"/>
+        <location line="-490"/>
         <source>Nanori</source>
         <translation>Нанорі</translation>
     </message>
     <message>
         <location line="+28"/>
-        <location line="+450"/>
+        <location line="+511"/>
         <source>Four corner code</source>
         <translation>Код Чотирьох кутів</translation>
     </message>
     <message>
-        <location line="-443"/>
-        <location line="+450"/>
+        <location line="-504"/>
+        <location line="+511"/>
         <source>Heisig number</source>
         <translation>Число Хайзіґа</translation>
     </message>
     <message>
-        <location line="-426"/>
+        <location line="-487"/>
         <source>Additional information</source>
         <translation>Додаткова інформація</translation>
     </message>
@@ -2846,7 +3018,12 @@
         <translation>Корені</translation>
     </message>
     <message>
-        <location line="+18"/>
+        <location line="+14"/>
+        <source>Dictionaries</source>
+        <translation>Словники</translation>
+    </message>
+    <message>
+        <location line="+11"/>
         <source>Compounds:</source>
         <translation>Сполучення:</translation>
     </message>
@@ -2912,12 +3089,7 @@
         <translation>Рукописний почерк</translation>
     </message>
     <message>
-        <location line="+7"/>
-        <source>Default font</source>
-        <translation>Поточний шрифт</translation>
-    </message>
-    <message>
-        <location line="+13"/>
+        <location line="+20"/>
         <source>Kanji header size:</source>
         <translation>Заголовок розміру Канджі:</translation>
     </message>
@@ -2933,13 +3105,13 @@
     </message>
     <message>
         <location line="+26"/>
-        <location line="+302"/>
+        <location line="+356"/>
         <source>px</source>
         <translation>px</translation>
     </message>
     <message>
-        <location line="-284"/>
-        <location line="+410"/>
+        <location line="-338"/>
+        <location line="+464"/>
         <source>Preview</source>
         <translation>Попередній перегляд</translation>
     </message>
@@ -2949,12 +3121,7 @@
         <translation>Навідна підказка</translation>
     </message>
     <message>
-        <location line="+6"/>
-        <source>Kanji tooltip enabled</source>
-        <translation>Навідну підказку для Канджі увімкнено</translation>
-    </message>
-    <message>
-        <location line="+16"/>
+        <location line="+22"/>
         <source>Score</source>
         <translation>Бали</translation>
     </message>
@@ -2979,13 +3146,23 @@
         <translation>Зовнішній вигляд</translation>
     </message>
     <message>
-        <location line="-430"/>
-        <location line="+226"/>
+        <location line="-484"/>
+        <location line="+280"/>
         <source>Size:</source>
         <translation>Розмір:</translation>
     </message>
     <message>
-        <location line="+17"/>
+        <location line="-339"/>
+        <source>Defa&amp;ult font</source>
+        <translation>Стандартний шрифт</translation>
+    </message>
+    <message>
+        <location line="+235"/>
+        <source>Kan&amp;ji tooltip enabled</source>
+        <translation>Дозволити підказку при наведенні курсором</translation>
+    </message>
+    <message>
+        <location line="+121"/>
         <source>Drawing speed:</source>
         <translation>Швидкість написання:</translation>
     </message>
@@ -3044,12 +3221,7 @@
 <context>
     <name>ListsViewPreferences</name>
     <message>
-        <location filename="../src/gui/ListsViewPreferences.ui" line="+14"/>
-        <source>Form</source>
-        <translation>Форма</translation>
-    </message>
-    <message>
-        <location line="+6"/>
+        <location filename="../src/gui/ListsViewPreferences.ui" line="+17"/>
         <source>Lists display</source>
         <translation>Екран переліків</translation>
     </message>
@@ -3064,7 +3236,7 @@
         <translation>Попередній перегляд</translation>
     </message>
     <message>
-        <location filename="../src/gui/PreferencesWindow.cc" line="+177"/>
+        <location filename="../src/gui/PreferencesWindow.cc" line="+162"/>
         <source>Lists</source>
         <translation>Переліки</translation>
     </message>
@@ -3107,7 +3279,12 @@
         <translation>Переліки</translation>
     </message>
     <message>
-        <location line="+81"/>
+        <location line="+55"/>
+        <source>Ctrl+Q</source>
+        <translation>Ctrl+Q</translation>
+    </message>
+    <message>
+        <location line="+29"/>
         <source>&amp;Manual</source>
         <translation>&amp;Підручник</translation>
     </message>
@@ -3127,12 +3304,12 @@
         <translation>Ctrl+O</translation>
     </message>
     <message>
-        <location line="-112"/>
+        <location line="-115"/>
         <source>Preferences...</source>
         <translation>Налаштування...</translation>
     </message>
     <message>
-        <location line="+53"/>
+        <location line="+56"/>
         <source>&amp;Report a bug...</source>
         <translation>&amp;Повідомити про ваду...</translation>
     </message>
@@ -3157,7 +3334,7 @@
         <translation>Зібрати пошук тексту</translation>
     </message>
     <message>
-        <location line="-119"/>
+        <location line="-122"/>
         <location filename="../src/gui/MainWindow.cc" line="+235"/>
         <location line="+7"/>
         <source>Export user data...</source>
@@ -3180,7 +3357,7 @@
         <translation>Пошук</translation>
     </message>
     <message>
-        <location line="+72"/>
+        <location line="+75"/>
         <source>&amp;Save current search...</source>
         <translation>&amp;Зберегти поточний пошук...</translation>
     </message>
@@ -3407,7 +3584,7 @@ This message is a one-time reminder and will not appear anymore - you can still 
     <name>ReadingTrainer</name>
     <message>
         <location filename="../src/gui/ReadingTrainer.ui" line="+14"/>
-        <location filename="../src/gui/ReadingTrainer.cc" line="+40"/>
+        <location filename="../src/gui/ReadingTrainer.cc" line="+41"/>
         <source>Reading practice</source>
         <translation>Вправляння у читанні</translation>
     </message>
@@ -3594,7 +3771,7 @@ This message is a one-time reminder and will not appear anymore - you can still 
 <context>
     <name>ResultsView</name>
     <message>
-        <location filename="../src/gui/ResultsView.cc" line="+49"/>
+        <location filename="../src/gui/ResultsView.cc" line="+50"/>
         <source>Select All</source>
         <translation>Обрати Усе</translation>
     </message>
@@ -3602,12 +3779,7 @@ This message is a one-time reminder and will not appear anymore - you can still 
 <context>
     <name>ResultsViewPreferences</name>
     <message>
-        <location filename="../src/gui/ResultsViewPreferences.ui" line="+14"/>
-        <source>Form</source>
-        <translation>Форма</translation>
-    </message>
-    <message>
-        <location line="+6"/>
+        <location filename="../src/gui/ResultsViewPreferences.ui" line="+17"/>
         <source>Results display</source>
         <translation>Екран результатів</translation>
     </message>
@@ -3645,11 +3817,6 @@ This message is a one-time reminder and will not appear anymore - you can still 
 <context>
     <name>ResultsViewWidget</name>
     <message>
-        <location filename="../src/gui/ResultsViewWidget.ui" line="+14"/>
-        <source>Form</source>
-        <translation>Форма</translation>
-    </message>
-    <message>
         <location filename="../src/gui/ResultsViewWidget.cc" line="+43"/>
         <source>Searching...</source>
         <translation>Пошук...</translation>
@@ -3676,7 +3843,7 @@ This message is a one-time reminder and will not appear anymore - you can still 
 <context>
     <name>SavedSearchesTreeWidget</name>
     <message>
-        <location filename="../src/gui/SavedSearchesOrganizer.cc" line="+143"/>
+        <location filename="../src/gui/SavedSearchesOrganizer.cc" line="+145"/>
         <source>Delete</source>
         <translation>Видалити</translation>
     </message>
@@ -3712,7 +3879,7 @@ This message is a one-time reminder and will not appear anymore - you can still 
 <context>
     <name>ShowUsedInJob</name>
     <message>
-        <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="+283"/>
+        <location filename="../src/gui/kanjidic2/Kanjidic2EntryFormatter.cc" line="+323"/>
         <source>Direct compounds</source>
         <translation>Прямі сполучення</translation>
     </message>
@@ -4106,14 +4273,18 @@ This message is a one-time reminder and will not appear anymore - you can still 
 <context>
     <name>main.cc</name>
     <message>
-        <location filename="../src/gui/main.cc" line="+109"/>
-        <source>User data migrated</source>
-        <translation>Дані користувача перенесено</translation>
+        <location filename="../src/gui/main.cc" line="+161"/>
+        <source>Data migrated</source>
+        <translation>Дані перенесено</translation>
     </message>
     <message>
         <location line="+0"/>
-        <source>Your user data and settings have successfully been migrated. Tagaini Jisho needs to be restarted and will now exit.</source>
-        <translation>Ваші дані користувача та налаштування було вдало перенесено. Tagaini Jisho потребує перезавантаження і тому зараз вимкнеться.</translation>
+        <source>Welcome to Tagaini Jisho 1.2! Your user data has successfully been migrated from Tagaini 1.0 and you should find it as it was.
+
+If you still have an old version of Tagaini installed, please note that changes made in Tagaini 1.2 will not be visible on Tagaini 1.0 and vice-versa. If you still have your old Tagaini version, it is recommended that you uninstall it to avoid confusion.</source>
+        <translation>Вітаємо у «Tagaini Jisho 1.2»! Ваші користувацькі дані було успішно перенесено з «Tagaini 1.0» і ваші налаштування мають лишитися незмінними.
+
+Якщо у вас все ще встановлено стару версію «Tagaini», будь ласка, зверніть увагу, що зміни зроблені в «Tagaini 1.2» не будуть помітними у «Tagaini 1.0» і навпаки. Якщо у вас все ще встановлено стару версію «Tagaini», ми радимо вам видалити її, щоб уникнути непорозумінь.</translation>
     </message>
 </context>
 </TS>
