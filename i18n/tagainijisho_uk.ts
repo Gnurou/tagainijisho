@@ -1,4 +1,4 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="uk" sourcelanguage="en" version="2.1">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="uk" sourcelanguage="en">
 <context>
     <name>AboutDialog</name>
     <message>
@@ -649,7 +649,7 @@
 <context>
     <name>FindHomographsJob</name>
     <message>
-        <location filename="../src/gui/jmdict/JMdictEntryFormatter.cc" line="+618"/>
+        <location filename="../src/gui/jmdict/JMdictEntryFormatter.cc" line="+625"/>
         <source>Homographs</source>
         <translation>Омографи</translation>
     </message>
@@ -957,9 +957,22 @@
     </message>
 </context>
 <context>
+    <name>JMdictEntry</name>
+    <message>
+        <location filename="../src/core/jmdict/JMdictEntry.cc" line="+102"/>
+        <source>DELETED ENTRY</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+22"/>
+        <source>Click for details</source>
+        <translation type="unfinished"/>
+    </message>
+</context>
+<context>
     <name>JMdictEntryFormatter</name>
     <message>
-        <location filename="../src/gui/jmdict/JMdictEntryFormatter.cc" line="-362"/>
+        <location filename="../src/gui/jmdict/JMdictEntryFormatter.cc" line="-369"/>
         <source>(JLPT N%1)</source>
         <translation>(JLPT Н%1)</translation>
     </message>
@@ -974,7 +987,17 @@
         <translation>Альтернативні написання:</translation>
     </message>
     <message>
-        <location line="+120"/>
+        <location line="+64"/>
+        <source>&lt;p&gt;This entry has been removed from the JMdict and cannot be displayed.&lt;/p&gt;</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>&lt;p&gt;Please find a replacement and remove this entry from your study list, tags, and notes. To help you find a replacement, the legacy content of this entry is visible &lt;a href=&quot;%1&quot;&gt;here&lt;/a&gt;.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+62"/>
         <source>JLPT</source>
         <translation>JLPT</translation>
     </message>
@@ -1108,13 +1131,13 @@
     </message>
     <message>
         <location line="+104"/>
-        <location line="+20"/>
+        <location line="+19"/>
         <source>Nothing to train</source>
         <translation>Нічого вправляти</translation>
     </message>
     <message>
-        <location line="-20"/>
-        <location line="+20"/>
+        <location line="-19"/>
+        <location line="+19"/>
         <source>There are no vocabulary entries in this set to train on.</source>
         <translation>У цьому наборі немає жодного словникового запису для вправляння.</translation>
     </message>
@@ -1122,82 +1145,42 @@
 <context>
     <name>JMdictLongDescs</name>
     <message>
-        <location filename="../3rdparty/JMdictDescs.cc" line="+1"/>
-        <source>martial arts term</source>
-        <translation>термін бойових мистецтв</translation>
-    </message>
-    <message>
-        <location line="+47"/>
+        <location filename="../3rdparty/JMdictDescs.cc" line="+62"/>
         <source>military</source>
         <translation>військовий</translation>
     </message>
     <message>
-        <location line="-16"/>
-        <source>food term</source>
-        <translation>харчовий термін</translation>
-    </message>
-    <message>
-        <location line="-10"/>
-        <source>computer terminology</source>
-        <translation>комп’ютерна термінологія</translation>
-    </message>
-    <message>
         <location line="-4"/>
-        <source>Buddhist term</source>
-        <translation>Буддійський термін</translation>
-    </message>
-    <message>
-        <location line="+25"/>
-        <source>linguistics terminology</source>
-        <translation>мовознавча термінологія</translation>
-    </message>
-    <message>
-        <location line="-10"/>
-        <source>geometry term</source>
-        <translation>геометричний термін</translation>
-    </message>
-    <message>
-        <location line="-14"/>
-        <source>chemistry term</source>
-        <translation>хімічний термін</translation>
-    </message>
-    <message>
-        <location line="+48"/>
-        <source>physics terminology</source>
-        <translation>фізичний термін</translation>
-    </message>
-    <message>
-        <location line="-20"/>
         <source>mathematics</source>
         <translation>математика</translation>
     </message>
     <message>
-        <location line="+67"/>
+        <location line="-51"/>
         <source>Nagano-ben</source>
         <translation>діалект Наґано</translation>
     </message>
     <message>
-        <location line="-9"/>
+        <location line="-2"/>
         <source>Kyoto-ben</source>
         <translation>діалект Кіото</translation>
     </message>
     <message>
-        <location line="+6"/>
+        <location line="+7"/>
         <source>Tsugaru-ben</source>
         <translation>діалект Цуґару</translation>
     </message>
     <message>
-        <location line="-2"/>
+        <location line="-1"/>
         <source>Tosa-ben</source>
         <translation>діалект Тоса</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="-5"/>
         <source>Kyuushuu-ben</source>
         <translation>діалект Кюсю</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="+3"/>
         <source>Ryuukyuu-ben</source>
         <translation>діалект Рююкю</translation>
     </message>
@@ -1207,157 +1190,583 @@
         <translation>діалект Кансай</translation>
     </message>
     <message>
-        <location line="-1"/>
+        <location line="+5"/>
         <source>Osaka-ben</source>
         <translation>діалект Осака</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+2"/>
         <source>Touhoku-ben</source>
         <translation>діалект Тоухоку</translation>
     </message>
     <message>
-        <location line="-2"/>
+        <location line="-6"/>
         <source>Kantou-ben</source>
         <translation>діалект Канто</translation>
     </message>
     <message>
-        <location line="-64"/>
+        <location line="+111"/>
         <source>manga slang</source>
         <translation>манґа-жаргон</translation>
     </message>
     <message>
-        <location line="+19"/>
+        <location line="+13"/>
         <source>polite (teineigo) language</source>
         <translation>ввічлива мова (теінейго)</translation>
     </message>
     <message>
-        <location line="+17"/>
-        <source>Yodan verb with `hu/fu&apos; ending (archaic)</source>
-        <translation>Дієслова Йодан із закінченнями ’ху/фу’ (застарілі)</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Yodan verb with `ru&apos; ending (archaic)</source>
-        <translation>Дієслова Йодан із закінченням ’ру’ (застарілі)</translation>
-    </message>
-    <message>
-        <location line="+21"/>
+        <location line="+104"/>
         <source>su verb - precursor to the modern suru</source>
         <translation>дієслово су - попередник сучасного дієслова ’суру’</translation>
     </message>
     <message>
-        <location line="+13"/>
+        <location line="-230"/>
         <source>Hokkaido-ben</source>
         <translation>діалект Хоккайдо</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+139"/>
         <source>vulgar expression or word</source>
         <translation>грубий вислів чи слово</translation>
     </message>
     <message>
-        <location line="-79"/>
+        <location line="-29"/>
         <source>idiomatic expression</source>
         <translation>ідіоматичний зворот</translation>
     </message>
     <message>
-        <location line="-3"/>
+        <location line="-2"/>
         <source>honorific or respectful (sonkeigo) language</source>
         <translation>шаноблива чи поважна мова (сонкейго)</translation>
     </message>
     <message>
-        <location line="-4"/>
+        <location line="-6"/>
         <source>female term or language</source>
         <translation>жіночий термін чи мова</translation>
     </message>
     <message>
-        <location line="-17"/>
+        <location line="-103"/>
+        <source>Brazilian</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+12"/>
+        <source>agriculture</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>anatomy</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>archeology</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>architecture</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>art, aesthetics</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>astronomy</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>audiovisual</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>aviation</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>baseball</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>biochemistry</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>biology</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>botany</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Buddhism</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>business</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>chemistry</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Christianity</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>clothing</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>computing</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>crystallography</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>ecology</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>economics</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>electricity, elec. eng.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>electronics</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>embryology</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>engineering</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>entomology</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>finance</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>fishing</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>food, cooking</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>gardening, horticulture</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>genetics</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>geography</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>geology</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>geometry</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>go (game)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>golf</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>grammar</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Greek mythology</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>hanafuda</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>horse racing</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>law</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>linguistics</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>logic</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>martial arts</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>mahjong</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>mechanical engineering</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>medicine</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>meteorology</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>music</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>ornithology</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>paleontology</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>pathology</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>pharmacy</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>philosophy</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>photography</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>physics</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>physiology</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>printing</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>psychiatry</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>psychology</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>railway</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Shinto</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>shogi</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>sports</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>statistics</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>sumo</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>telecommunications</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>trademark</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>video games</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>zoology</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
         <source>ateji (phonetic) reading</source>
         <translation>атеджі (фонетичне) читання</translation>
     </message>
     <message>
-        <location line="+6"/>
+        <location line="+4"/>
+        <source>word containing out-dated kanji or kanji usage</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>rarely-used kanji form</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>character</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
         <source>children&apos;s language</source>
         <translation>дитяча мова</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+3"/>
+        <source>creature</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>deity</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>document</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>event</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>fiction</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>formal or literary term</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>group</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+6"/>
+        <source>legend</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>mythology</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>object</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>other</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>religion</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>service</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>&apos;kari&apos; adjective (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>&apos;ku&apos; adjective (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>nouns which may take the genitive case particle &apos;no&apos;</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>&apos;shiku&apos; adjective (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>&apos;taru&apos; adjective</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>adverb taking the &apos;to&apos; particle</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+5"/>
         <source>copula</source>
         <translation>дієслово-зв’язка</translation>
     </message>
     <message>
-        <location line="+3"/>
-        <source>exclusively kanji</source>
-        <translation>виключно канджі</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>exclusively kana</source>
-        <translation>виключно кана</translation>
-    </message>
-    <message>
-        <location line="+1"/>
+        <location line="+2"/>
         <source>expressions (phrases, clauses, etc.)</source>
         <translation>вирази (фрази, речення і т.д.)</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+73"/>
         <source>gikun (meaning as reading) or jukujikun (special kanji reading)</source>
         <translation>ґікун (значення у якості читання) або джюкуджікун (особливе читання канджі)</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="-150"/>
         <source>word containing irregular kanji usage</source>
         <translation>слово, що містить неправильне використання канджі</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="-1"/>
+        <location line="+152"/>
         <source>word containing irregular kana usage</source>
         <translation>слово, що містить неправильне використання Кани</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="-150"/>
         <source>irregular okurigana usage</source>
         <translation>неправильне використання окуріґани</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <source>irregular verb</source>
-        <translation>неправильне дієслово</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>male slang</source>
-        <translation>чоловічий жаргон</translation>
-    </message>
-    <message>
-        <location line="+9"/>
-        <source>word containing out-dated kanji</source>
-        <translation>слово, що містить застарілі канджі</translation>
-    </message>
-    <message>
-        <location line="+2"/>
+        <location line="+33"/>
         <source>obscure term</source>
         <translation>невідомий термін</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="+118"/>
         <source>out-dated or obsolete kana usage</source>
         <translation>застаріле чи вже невживане використання Кани</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <source>old or irregular kana form</source>
-        <translation>стара чи неправильна форма Кани</translation>
-    </message>
-    <message>
-        <location line="+1"/>
+        <location line="-117"/>
         <source>onomatopoeic or mimetic word</source>
         <translation>звуконаслідувальне чи наслідувальне слово</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+5"/>
         <source>poetical term</source>
         <translation>поетичний термін</translation>
     </message>
@@ -1367,7 +1776,7 @@
         <translation>прислів’я</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+1"/>
         <source>quotation</source>
         <translation>цитата</translation>
     </message>
@@ -1377,417 +1786,147 @@
         <translation>рідкісний</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="+2"/>
         <source>sensitive</source>
         <translation>чутливий</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+43"/>
         <source>unclassified</source>
         <translation>некласифікований</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-33"/>
         <source>yojijukugo</source>
         <translation>йоджіджюкуґо</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+36"/>
         <source>Ichidan verb - kureru special class</source>
         <translation>Дієслово Ічідан - особливий ’куреру’ клас </translation>
     </message>
     <message>
-        <location line="+26"/>
+        <location line="+53"/>
         <source>suru verb - included</source>
         <translation>«суру»-дієслово - включно</translation>
     </message>
     <message>
-        <location line="+14"/>
-        <source>`kari&apos; adjective (archaic)</source>
-        <translation>’карі’ прикметник (застарілий)</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>`ku&apos; adjective (archaic)</source>
-        <translation>’ку’ прикметник (застарілий)</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>`shiku&apos; adjective (archaic)</source>
-        <translation>’шіку’ прикметник (застарілий)</translation>
-    </message>
-    <message>
-        <location line="+1"/>
+        <location line="-82"/>
         <source>archaic/formal form of na-adjective</source>
         <translation>застаріла/формальна форма на-прикметника</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="+17"/>
         <source>proper noun</source>
         <translation>власна назва</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="+10"/>
         <source>verb unspecified</source>
         <translation>невизначене дієслово</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <source>Yodan verb with `ku&apos; ending (archaic)</source>
-        <translation>Дієслово Йодан із закінченням ’ку’ (застаріле)</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Yodan verb with `gu&apos; ending (archaic)</source>
-        <translation>Дієслово Йодан із закінченням &apos;гу’ (застаріле)</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Yodan verb with `su&apos; ending (archaic)</source>
-        <translation>Дієслово Йодан із закінченням ’су’ (застаріле)</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Yodan verb with `tsu&apos; ending (archaic)</source>
-        <translation>Дієслово Йодан із закінченням ’цу’ (застаріле)</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Yodan verb with `nu&apos; ending (archaic)</source>
-        <translation>Дієслово Йодан із закінченням ’ну’ (застаріле)</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Yodan verb with `bu&apos; ending (archaic)</source>
-        <translation>Дієслово Йодан із закінченням ’бу’ (застаріле)</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Yodan verb with `mu&apos; ending (archaic)</source>
-        <translation>Дієслово Йодан із закінченням ’му’ (застаріле)</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Nidan verb (upper class) with `ku&apos; ending (archaic)</source>
-        <translation>Дієслово Нідан (вищого ґатунку) із закінченням ’ку’ (застаріле)</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Nidan verb (upper class) with `gu&apos; ending (archaic)</source>
-        <translation>Дієслово Нідан (вищого ґатунку) із закінченням ’гу’ (застаріле)</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Nidan verb (upper class) with `tsu&apos; ending (archaic)</source>
-        <translation>Дієслово Нідан (вищого ґатунку) із закінченням ’цу’ (застаріле)</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Nidan verb (upper class) with `dzu&apos; ending (archaic)</source>
-        <translation>Дієслово Нідан (вищого ґатунку) із закінченням ’дзу’ (застаріле)</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Nidan verb (upper class) with `hu/fu&apos; ending (archaic)</source>
-        <translation>Дієслово Нідан (вищого ґатунку) із закінченням ’ху/фу’ (застаріле)</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Nidan verb (upper class) with `bu&apos; ending (archaic)</source>
-        <translation>Дієслово Нідан (вищого ґатунку) із закінченням ’бу’ (застаріле)</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Nidan verb (upper class) with `mu&apos; ending (archaic)</source>
-        <translation>Дієслово Нідан (вищого ґатунку) із закінченням ’му’ (застаріле)</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Nidan verb (upper class) with `yu&apos; ending (archaic)</source>
-        <translation>Дієслово Нідан (вищого ґатунку) із закінченням ’ю’ (застаріле)</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Nidan verb (upper class) with `ru&apos; ending (archaic)</source>
-        <translation>Дієслово Нідан (вищого ґатунку) із закінченням ’ру’ (застаріле)</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Nidan verb (lower class) with `ku&apos; ending (archaic)</source>
-        <translation>Дієслово Нідан (нижчого ґатунку) із закінченням ’ку’ (застаріле)</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Nidan verb (lower class) with `gu&apos; ending (archaic)</source>
-        <translation>Дієслово Нідан (нижчого ґатунку) із закінченням ’гу’ (застаріле)</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Nidan verb (lower class) with `su&apos; ending (archaic)</source>
-        <translation>Дієслово Нідан (нижчого ґатунку) із закінченням ’су’ (застаріле)</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Nidan verb (lower class) with `zu&apos; ending (archaic)</source>
-        <translation>Дієслово Нідан (нижчого ґатунку) із закінченням ’зу’ (застраріле)</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Nidan verb (lower class) with `tsu&apos; ending (archaic)</source>
-        <translation>Дієслово Нідан (нижчого ґатунку) із закінченням ’цу’ (застаріле)</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Nidan verb (lower class) with `dzu&apos; ending (archaic)</source>
-        <translation>Дієслово Нідан (нижчого ґатунку) із закінченням ’дзу’ (застаріле)</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Nidan verb (lower class) with `nu&apos; ending (archaic)</source>
-        <translation>Дієслово Нідан (нижчого ґатунку) із закінченням ’ну’ (застаріле)</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Nidan verb (lower class) with `hu/fu&apos; ending (archaic)</source>
-        <translation>Дієслово Нідан (нижчого ґатунку) із закінченням ’ху/фу’ (застаріле)</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Nidan verb (lower class) with `bu&apos; ending (archaic)</source>
-        <translation>Дієслово Нідан (нижчого ґатунку) із закінченням ’бу’ (застаріле)</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Nidan verb (lower class) with `mu&apos; ending (archaic)</source>
-        <translation>Дієслово Нідан (нижчого ґатунку) із закінченням ’му’ (застаріле)</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Nidan verb (lower class) with `yu&apos; ending (archaic)</source>
-        <translation>Дієслово Нідан (нижчого ґатунку) із закінченням ’ю’ (застаріле)</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Nidan verb (lower class) with `ru&apos; ending (archaic)</source>
-        <translation>Дієслово Нідан (нижчого ґатунку) із закінченням ’ру’ (застаріле)</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Nidan verb (lower class) with `u&apos; ending and `we&apos; conjugation (archaic)</source>
-        <translation>Дієслово Нідан (нижчого ґатунку) із закінченням ’у’ і дієвідміною ’ми’ (застаріле)</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>architecture term</source>
-        <translation>архітектурний термін</translation>
-    </message>
-    <message>
-        <location line="+11"/>
-        <source>mahjong term</source>
-        <translation>термін з маджонґ</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>shogi term</source>
-        <translation>термін з шоґі</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>anatomical term</source>
-        <translation>анатомічний термін</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Christian term</source>
-        <translation>Християнський термін</translation>
-    </message>
-    <message>
-        <location line="+1"/>
+        <location line="-60"/>
         <source>Internet slang</source>
         <translation>Інтернет-сленг</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-20"/>
         <source>dated term</source>
         <translation>застарілий термін</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="+11"/>
         <source>historical term</source>
         <translation>історичний термін</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <source>literary or formal term</source>
-        <translation>літературний чи офіційний термін</translation>
-    </message>
-    <message>
-        <location line="+1"/>
+        <location line="+29"/>
         <source>family or surname</source>
         <translation>родина чи прізвище</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-12"/>
         <source>place name</source>
         <translation>назва місця</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="+14"/>
         <source>unclassified name</source>
         <translation>некласифікована назва</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-44"/>
         <source>company name</source>
         <translation>назва компанії</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="+33"/>
         <source>product name</source>
         <translation>назва товару</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="+13"/>
         <source>work of art, literature, music, etc. name</source>
         <translation>назва витвору мистецтва, літературного чи музичного твору абощо</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-17"/>
         <source>full name of a particular person</source>
         <translation>повне ім&apos;я конкретної людини</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-18"/>
         <source>given name or forename, gender not specified</source>
         <translation>ім&apos;я, стать не визначено</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="+30"/>
         <source>railway station</source>
         <translation>залізнична станція</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-14"/>
         <source>organization name</source>
         <translation>назва організації</translation>
     </message>
     <message>
-        <location line="-34"/>
-        <source>astronomy, etc. term</source>
-        <translation>астрономічний і т.д. термін</translation>
-    </message>
-    <message>
-        <location line="-149"/>
+        <location line="+24"/>
         <source>adjective (keiyoushi) - yoi/ii class</source>
         <translation>прикметник (кеійоуші) - йоі/іі класу</translation>
     </message>
     <message>
-        <location line="+150"/>
-        <source>baseball term</source>
-        <translation>бейсбольний термін</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>biology term</source>
-        <translation>біологічний термін</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>botany term</source>
-        <translation>ботанічний термін</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>business term</source>
-        <translation>бізнесовий термін</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>economics term</source>
-        <translation>економічний термін</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>engineering term</source>
-        <translation>інженерний термін</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>finance term</source>
-        <translation>фінансовий термін</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>geology, etc. term</source>
-        <translation>геологічний і т.д. термін</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>law, etc. term</source>
-        <translation>юридичний і т.д. термін</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>medicine, etc. term</source>
-        <translation>медичний і т.д. термін</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>music term</source>
-        <translation>музичний термін</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Shinto term</source>
-        <translation>Синтоїстський термін</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>sports term</source>
-        <translation>спортивний термін</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>sumo term</source>
-        <translation>термін з сумо</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>zoology term</source>
-        <translation>зоологічний термін</translation>
-    </message>
-    <message>
-        <location line="+1"/>
+        <location line="-34"/>
         <source>jocular, humorous term</source>
         <translation>гумористичний, сатиричний термін</translation>
     </message>
     <message>
-        <location line="-136"/>
+        <location line="-2"/>
         <source>humble (kenjougo) language</source>
         <translation>проста мова (кенджоуґо)</translation>
     </message>
     <message>
-        <location line="-33"/>
+        <location line="-20"/>
         <source>abbreviation</source>
         <translation>скорочення</translation>
     </message>
     <message>
-        <location line="+27"/>
+        <location line="+12"/>
         <source>familiar language</source>
         <translation>дружня мова</translation>
     </message>
     <message>
-        <location line="-28"/>
+        <location line="+40"/>
         <source>rude or X-rated term (not displayed in educational software)</source>
         <translation>грубий або порнографічний термін (не відображується у освітньому програмному забезпеченні)</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="-51"/>
         <source>archaism</source>
         <translation>архаїзм</translation>
     </message>
     <message>
-        <location line="+13"/>
+        <location line="+8"/>
         <source>derogatory</source>
         <translation>принизливе</translation>
     </message>
@@ -1797,7 +1936,7 @@
         <translation>розмовний вислів</translation>
     </message>
     <message>
-        <location line="+53"/>
+        <location line="+44"/>
         <source>word usually written using kana alone</source>
         <translation>слово, що зазвичай записується лише Каною</translation>
     </message>
@@ -1807,49 +1946,249 @@
         <translation>жаргон</translation>
     </message>
     <message>
-        <location line="-26"/>
+        <location line="-20"/>
         <source>male term or language</source>
         <translation>чоловічий термін або мова</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+4"/>
         <source>obsolete term</source>
         <translation>термін, що вийшов з ужитку</translation>
     </message>
     <message>
-        <location line="-44"/>
-        <source>adverb taking the `to&apos; particle</source>
-        <translation>прислівник з незмінюваною часткою ’то’</translation>
-    </message>
-    <message>
-        <location line="+41"/>
+        <location line="+51"/>
         <source>noun (temporal) (jisoumeishi)</source>
         <translation>іменник (часовий) (джісоумейші)</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+3"/>
         <source>prefix</source>
         <translation>префікс</translation>
     </message>
     <message>
-        <location line="-55"/>
-        <source>`taru&apos; adjective</source>
-        <translation>прикметник ’тару’</translation>
-    </message>
-    <message>
-        <location line="+31"/>
+        <location line="-9"/>
         <source>interjection (kandoushi)</source>
         <translation>вигук (кандоуші)</translation>
     </message>
     <message>
-        <location line="+33"/>
+        <location line="+75"/>
         <source>word usually written using kanji alone</source>
         <translation>слово, що зазвичай записується виключно канджі</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="-14"/>
         <source>Godan verb - Uru old class verb (old form of Eru)</source>
         <translation>Дієслово Ґодан - дієслово старого класу Уру (стара форма Еру)</translation>
+    </message>
+    <message>
+        <location line="-44"/>
+        <source>Nidan verb (upper class) with &apos;bu&apos; ending (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Nidan verb (lower class) with &apos;bu&apos; ending (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Nidan verb (upper class) with &apos;dzu&apos; ending (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Nidan verb (lower class) with &apos;dzu&apos; ending (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Nidan verb (upper class) with &apos;gu&apos; ending (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Nidan verb (lower class) with &apos;gu&apos; ending (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Nidan verb (upper class) with &apos;hu/fu&apos; ending (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Nidan verb (lower class) with &apos;hu/fu&apos; ending (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Nidan verb (upper class) with &apos;ku&apos; ending (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Nidan verb (lower class) with &apos;ku&apos; ending (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Nidan verb (upper class) with &apos;mu&apos; ending (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Nidan verb (lower class) with &apos;mu&apos; ending (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Nidan verb (lower class) with &apos;nu&apos; ending (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Nidan verb (upper class) with &apos;ru&apos; ending (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Nidan verb (lower class) with &apos;ru&apos; ending (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Nidan verb (lower class) with &apos;su&apos; ending (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Nidan verb (upper class) with &apos;tsu&apos; ending (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Nidan verb (lower class) with &apos;tsu&apos; ending (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Nidan verb (lower class) with &apos;u&apos; ending and &apos;we&apos; conjugation (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Nidan verb (upper class) with &apos;yu&apos; ending (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Nidan verb (lower class) with &apos;yu&apos; ending (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Nidan verb (lower class) with &apos;zu&apos; ending (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Yodan verb with &apos;bu&apos; ending (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Yodan verb with &apos;gu&apos; ending (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Yodan verb with &apos;hu/fu&apos; ending (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Yodan verb with &apos;ku&apos; ending (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Yodan verb with &apos;mu&apos; ending (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Yodan verb with &apos;nu&apos; ending (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Yodan verb with &apos;ru&apos; ending (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Yodan verb with &apos;su&apos; ending (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Yodan verb with &apos;tsu&apos; ending (archaic)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Godan verb with &apos;bu&apos; ending</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Godan verb with &apos;gu&apos; ending</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Godan verb with &apos;ku&apos; ending</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Godan verb with &apos;mu&apos; ending</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Godan verb with &apos;nu&apos; ending</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Godan verb with &apos;ru&apos; ending</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Godan verb with &apos;ru&apos; ending (irregular verb)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Godan verb with &apos;su&apos; ending</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Godan verb with &apos;tsu&apos; ending</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Godan verb with &apos;u&apos; ending</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Godan verb with &apos;u&apos; ending (special class)</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+2"/>
@@ -1867,22 +2206,22 @@
         <translation>Неправильне ну дієслово</translation>
     </message>
     <message>
-        <location line="-33"/>
+        <location line="-54"/>
         <source>particle</source>
         <translation>незмінювана частка</translation>
     </message>
     <message>
-        <location line="+34"/>
+        <location line="+55"/>
         <source>irregular ru verb, plain form ends with -ri</source>
         <translation>неправильне ру-дієслово, проста форма із закінченням рі</translation>
     </message>
     <message>
-        <location line="-90"/>
+        <location line="-85"/>
         <source>noun or verb acting prenominally</source>
         <translation>іменник чи дієслово, що мають незвичний вжиток</translation>
     </message>
     <message>
-        <location line="+106"/>
+        <location line="+90"/>
         <source>transitive verb</source>
         <translation>перехідне дієслово</translation>
     </message>
@@ -1892,82 +2231,42 @@
         <translation>іменник, що використовується у якості суфіксу</translation>
     </message>
     <message>
-        <location line="-28"/>
+        <location line="-9"/>
         <source>conjunction</source>
         <translation>сполучник</translation>
     </message>
     <message>
-        <location line="-19"/>
+        <location line="-15"/>
         <source>adjective (keiyoushi)</source>
         <translation>прикметник (кеійоуші)</translation>
     </message>
     <message>
-        <location line="+92"/>
+        <location line="+90"/>
         <source>Ichidan verb - zuru verb (alternative form of -jiru verbs)</source>
         <translation>Дієслово Ічідан - дзуру-дієслово (альтернативна форма дієслів -джіру)</translation>
     </message>
     <message>
-        <location line="-85"/>
+        <location line="-80"/>
         <source>adverb (fukushi)</source>
         <translation>прислівник (фукуші)</translation>
     </message>
     <message>
-        <location line="+61"/>
+        <location line="+20"/>
         <source>suffix</source>
         <translation>суфікс</translation>
     </message>
     <message>
-        <location line="+11"/>
-        <source>Godan verb with `bu&apos; ending</source>
-        <translation>Дієслово Ґодан із закінченням ’бу’</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Godan verb with `nu&apos; ending</source>
-        <translation>Дієслово Ґодан із закінченням ’ну’</translation>
-    </message>
-    <message>
-        <location line="-6"/>
+        <location line="+37"/>
         <source>Godan verb - -aru special class</source>
         <translation>Дієслово Ґодан - особливий ’ару’ клас</translation>
     </message>
     <message>
-        <location line="+5"/>
-        <source>Godan verb with `mu&apos; ending</source>
-        <translation>Дієслово Ґодан із закінченням ’му’</translation>
-    </message>
-    <message>
-        <location line="-2"/>
-        <source>Godan verb with `ku&apos; ending</source>
-        <translation>Дієслово Ґодан із закінченням ’ку’</translation>
-    </message>
-    <message>
-        <location line="+7"/>
-        <source>Godan verb with `tsu&apos; ending</source>
-        <translation>Дієслово Ґодан із закінченням ’цу’</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Godan verb with `u&apos; ending</source>
-        <translation>Дієслово Ґодан із закінченням ’у’</translation>
-    </message>
-    <message>
-        <location line="-4"/>
-        <source>Godan verb with `ru&apos; ending</source>
-        <translation>Дієслово Ґодан із закінченням ’ру’</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Godan verb with `su&apos; ending</source>
-        <translation>Дієслово Ґодан із закінченням ’су’</translation>
-    </message>
-    <message>
-        <location line="-76"/>
+        <location line="-55"/>
         <source>auxiliary</source>
         <translation>допоміжний</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="+2"/>
         <source>auxiliary verb</source>
         <translation>допоміжне дієслово</translation>
     </message>
@@ -1977,97 +2276,69 @@
         <translation>прикметникові іменники або квазі-прикметники (кеійодоші)</translation>
     </message>
     <message>
-        <location line="+80"/>
+        <location line="+67"/>
         <source>Godan verb - Iku/Yuku special class</source>
         <translation>Дієслово Ґодан - особливий ’Іку/Юку’ клас</translation>
     </message>
     <message>
-        <location line="+8"/>
-        <source>Godan verb with `u&apos; ending (special class)</source>
-        <translation>Дієслово Ґодан із закінченням ’у’ (особливий клас)</translation>
-    </message>
-    <message>
-        <location line="-10"/>
-        <source>Godan verb with `gu&apos; ending</source>
-        <translation>Дієслово Ґодан із закінченням ’гу’</translation>
-    </message>
-    <message>
-        <location line="-77"/>
-        <source>nouns which may take the genitive case particle `no&apos;</source>
-        <translation>іменники, які утворюють родовий відмінок з незмінюваною часткою ’но’</translation>
-    </message>
-    <message>
-        <location line="+70"/>
+        <location line="-38"/>
         <source>Ichidan verb</source>
         <translation>Дієслово Ічідан</translation>
     </message>
     <message>
-        <location line="-25"/>
+        <location line="-10"/>
         <source>noun, used as a prefix</source>
         <translation>іменник, що використовується у якості префіксу</translation>
     </message>
     <message>
-        <location line="-35"/>
+        <location line="-10"/>
         <source>auxiliary adjective</source>
         <translation>допоміжний прикметник</translation>
     </message>
     <message>
-        <location line="+37"/>
+        <location line="+13"/>
         <source>numeric</source>
         <translation>числовий</translation>
     </message>
     <message>
-        <location line="-29"/>
+        <location line="-9"/>
         <source>counter</source>
         <translation>лічильник</translation>
     </message>
     <message>
-        <location line="-17"/>
+        <location line="-10"/>
         <source>pre-noun adjectival (rentaishi)</source>
         <translation>Прикметниковий передіменник (рентаіші)</translation>
     </message>
     <message>
-        <location line="+71"/>
+        <location line="+28"/>
         <source>Nidan verb with &apos;u&apos; ending (archaic)</source>
         <translation>Дієслово Нідан із закінченням ’у’ (застаріле)</translation>
     </message>
     <message>
-        <location line="+24"/>
+        <location line="+53"/>
         <source>suru verb - special class</source>
         <translation>дієслово ’Суру’ - особливий клас</translation>
     </message>
     <message>
-        <location line="-54"/>
+        <location line="-68"/>
         <source>noun (common) (futsuumeishi)</source>
         <translation>іменник (загальний) (фуцуумейші)</translation>
     </message>
     <message>
-        <location line="+52"/>
+        <location line="+65"/>
         <source>noun or participle which takes the aux. verb suru</source>
         <translation>іменник чи дієприкметник, який використовує допоміжне дієслово ’Суру’</translation>
     </message>
     <message>
-        <location line="-51"/>
+        <location line="-64"/>
         <source>adverbial noun (fukushitekimeishi)</source>
         <translation>Прислівниковий іменник (фукушітекімейші)</translation>
     </message>
     <message>
-        <location line="+40"/>
-        <source>Godan verb with `ru&apos; ending (irregular verb)</source>
-        <translation>Дієслово Ґодан із закінченням ’ру’ (неправильне дієслово)</translation>
-    </message>
-    <message>
-        <location line="-29"/>
+        <location line="+6"/>
         <source>pronoun</source>
         <translation>займенник</translation>
-    </message>
-</context>
-<context>
-    <name>JMdictPlugin</name>
-    <message>
-        <location filename="../src/core/jmdict/JMdictPlugin.cc" line="+320"/>
-        <source>An error seems to have occured while updating the JMdict database records - the program might crash during usage. Please report this bug.</source>
-        <translation>Схоже, що сталася помилка під час оновлення записів бази даних для JMdict - дана програма може вийти з ладу впродовж вжитку. Будь ласка повідомте про цю ваду.</translation>
     </message>
 </context>
 <context>
@@ -2291,7 +2562,7 @@
 <context>
     <name>KanjiInputPopupAction</name>
     <message>
-        <location filename="../src/gui/kanjidic2/KanjiSelector.cc" line="+397"/>
+        <location filename="../src/gui/kanjidic2/KanjiSelector.cc" line="+398"/>
         <source>Triggers the kanji input panel</source>
         <translation>Застосувати панель вводу канджі</translation>
     </message>
@@ -3431,7 +3702,7 @@ This message is a one-time reminder and will not appear anymore - you can still 
         <translation>Внесені дані будуть доступними при наступному запуску Tagaini Jisho. Усі віднині виконані зміни будуть втрачені. Ви бажаєте вийти з Tagaini Jisho зараз?</translation>
     </message>
     <message>
-        <location line="+111"/>
+        <location line="+113"/>
         <source>A development update is available!</source>
         <translation>Доступне оновлення від розробників!</translation>
     </message>
@@ -4279,12 +4550,10 @@ This message is a one-time reminder and will not appear anymore - you can still 
     </message>
     <message>
         <location line="+0"/>
-        <source>Welcome to Tagaini Jisho 1.2! Your user data has successfully been migrated from Tagaini 1.0 and you should find it as it was.
+        <source>Welcome to Tagaini Jisho %1! Your user data has successfully been migrated from your old version of Tagaini and you should find it as it was.
 
-If you still have an old version of Tagaini installed, please note that changes made in Tagaini 1.2 will not be visible on Tagaini 1.0 and vice-versa. If you still have your old Tagaini version, it is recommended that you uninstall it to avoid confusion.</source>
-        <translation>Вітаємо у «Tagaini Jisho 1.2»! Ваші користувацькі дані було успішно перенесено з «Tagaini 1.0» і ваші налаштування мають лишитися незмінними.
-
-Якщо у вас все ще встановлено стару версію «Tagaini», будь ласка, зверніть увагу, що зміни зроблені в «Tagaini 1.2» не будуть помітними у «Tagaini 1.0» і навпаки. Якщо у вас все ще встановлено стару версію «Tagaini», ми радимо вам видалити її, щоб уникнути непорозумінь.</translation>
+If you still have an old version of Tagaini installed, please note that changes made in Tagaini %1 will not be visible on it and vice-versa. It is recommended that you uninstall your old Tagaini version after checking that everything is working here.</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 </TS>
