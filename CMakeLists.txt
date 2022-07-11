@@ -15,7 +15,7 @@ endif(APPLE)
 # Set the program name to be the same as the project
 set(tagaini_binary ${CMAKE_PROJECT_NAME})
 
-set(VERSION 1.2.0)
+set(VERSION 1.2.1)
 set(QTVERSION 5.12)
 set(CMAKE_AUTOMOC ON)
 

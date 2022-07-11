@@ -1,3 +1,7 @@
+1.2.1 released on 2022/07/11
+* Update SQLite to 3.39.0.
+* Fix a crash when trying to print entry lists.
+
 1.2.0 released on 2022/05/22
 * Update SQLite to 3.38.5.
 * Update translations from Transifex.
