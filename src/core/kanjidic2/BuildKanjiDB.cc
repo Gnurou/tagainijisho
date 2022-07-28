@@ -322,8 +322,10 @@ bool KanjiVGDBParser::onItemParsed(KanjiVGItem &kanji)
 
 class KanjiDB {
 public:
-	KanjiDB(const QStringList &lngs, QString sourceDirectory, QString destinationDirectory) {
+	KanjiDB(const QStringList &lngs, QString kanjidic2File_, QString kanjivgFile_, QString sourceDirectory, QString destinationDirectory) {
 		languages = lngs;
+		kanjidic2File = kanjidic2File_;
+		kanjivgFile = kanjivgFile_;
 		srcDir = sourceDirectory;
 		dstDir = destinationDirectory;
 		kdicParser = new Kanjidic2DBParser(languages);
@@ -346,6 +348,8 @@ public:
 
 private:
 	QStringList languages;
+	QString kanjidic2File;
+	QString kanjivgFile;
 	KanjiVGDBParser kvgParser;
 	Kanjidic2DBParser* kdicParser;
 	QMap<QString, SQLite::Connection> connections;
@@ -623,7 +627,7 @@ bool KanjiDB::updateTranslation(const QString &fName, const QString &lang)
 bool KanjiDB::parse()
 {
 	// Parse and insert kanjidic2
-	QFile file(QDir(srcDir).absoluteFilePath("3rdparty/kanjidic2.xml"));
+	QFile file(kanjidic2File);
 	ASSERT(file.open(QFile::ReadOnly | QFile::Text));
 	QXmlStreamReader reader(&file);
 	if (!kdicParser->parse(reader)) {
@@ -635,7 +639,7 @@ bool KanjiDB::parse()
 	ASSERT(createRadicalsTable(QDir(srcDir).absoluteFilePath("src/core/kanjidic2/radicals.txt")));
 
 	// Parse and insert KanjiVG data
-	file.setFileName(QDir(srcDir).absoluteFilePath("3rdparty/kanjivg.xml"));
+	file.setFileName(kanjivgFile);
 	ASSERT(file.open(QFile::ReadOnly | QFile::Text));
 	reader.setDevice(&file);
 	if (!kvgParser.parse(reader)) {
@@ -653,12 +657,12 @@ bool KanjiDB::parse()
 
 void printUsage(char *argv[])
 {
-	qCritical("Usage: %s [-l<lang>] source_dir dest_file\nWhere <lang> is a two-letters language code (en, fr, de, es or ru)", argv[0]);
+	qCritical("Usage: %s [-l<lang>] kanjidic2.xml_file kanjivg_xml_file source_dir dest_dir\nWhere <lang> is a two-letters language code (en, fr, de, es or ru)", argv[0]);
 }
 
-bool buildDB(const QStringList &languages, const QString &srcDir, const QString &dstDir)
+bool buildDB(const QStringList &languages, const QString &kanjidic2File, const QString &kanjivgFile, const QString &srcDir, const QString &dstDir)
 {
-	KanjiDB kanjiDB(languages, srcDir, dstDir);
+	KanjiDB kanjiDB(languages, kanjidic2File, kanjivgFile, srcDir, dstDir);
 
 	ASSERT(kanjiDB.openDatabase("kanjidic2.db", "main"));
 	foreach (const QString &lang, languages) {
@@ -682,7 +686,7 @@ int main(int argc, char *argv[])
 {
 	QCoreApplication app(argc, argv);
 
-	if (argc < 3) {
+	if (argc < 5) {
 		printUsage(argv);
 		return 1;
 	}
@@ -700,17 +704,19 @@ int main(int argc, char *argv[])
 		};
 		++argCpt;
 	}
-	if (argCpt > argc - 2) {
+	if (argCpt > argc - 4) {
 		printUsage(argv);
 		return -1;
 	}
 
-	QString srcDir(argv[argCpt]);
-	QString dstDir(argv[argCpt + 1]);
+	QString kanjidic2File(argv[argCpt]);
+	QString kanjivgFile(argv[argCpt + 1]);
+	QString srcDir(argv[argCpt + 2]);
+	QString dstDir(argv[argCpt + 3]);
 
 	// English is used as a backup if nothing else is available
 	languages << "en";
 	languages.removeDuplicates();
 
-	return !buildDB(languages, srcDir, dstDir);
+	return !buildDB(languages, kanjidic2File, kanjivgFile, srcDir, dstDir);
 }
