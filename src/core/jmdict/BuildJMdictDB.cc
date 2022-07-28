@@ -558,10 +558,10 @@ bool JMdictDBParser::parseJMFs(const QStringList &supportedLanguages)
 
 void printUsage(char *argv[])
 {
-	qCritical("Usage: %s [-l<lang>] source_dir dest_dir\nWhere <lang> is a two-letters language code (en, fr, de, es or ru)", argv[0]);
+	qCritical("Usage: %s [-l<lang>] JMdict_file source_dir dest_dir\nWhere <lang> is a two-letters language code (en, fr, de, es or ru)", argv[0]);
 }
 
-bool buildDB(const QStringList &languages, const QString &srcDir, const QString &dstDir)
+bool buildDB(const QStringList &languages, const QString &JMdictFile, const QString &srcDir, const QString &dstDir)
 {
 	JMdictDBParser parser(languages, srcDir, dstDir);
 
@@ -574,7 +574,7 @@ bool buildDB(const QStringList &languages, const QString &srcDir, const QString 
 	parser.createLanguagesTables();
 	parser.prepareLanguagesQueries();
 
-	QFile file(QDir(srcDir).absoluteFilePath("3rdparty/JMdict"));
+	QFile file(JMdictFile);
 	ASSERT(file.open(QFile::ReadOnly | QFile::Text));
 	QXmlStreamReader reader(&file);
 	if (!parser.parse(reader)) {
@@ -605,7 +605,7 @@ int main(int argc, char *argv[])
 	QCoreApplication app(argc, argv);
 	sqlite3ext_init();
 
-	if (argc < 3) {
+	if (argc < 4) {
 		printUsage(argv); return 1;
 	}
 	QStringList languages;
@@ -622,17 +622,18 @@ int main(int argc, char *argv[])
 		};
 		++argCpt;
 	}
-	if (argCpt > argc - 2) {
+	if (argCpt > argc - 3) {
 		printUsage(argv);
 		return -1;
 	}
 
-	QString srcDir(argv[argCpt]);
-	QString dstDir(argv[argCpt + 1]);
+	QString JMdictFile(argv[argCpt]);
+	QString srcDir(argv[argCpt + 1]);
+	QString dstDir(argv[argCpt + 2]);
 
 	// English is used as a backup if nothing else is available
 	languages << "en";
 	languages.removeDuplicates();
 
-	return (!buildDB(languages, srcDir, dstDir));
+	return (!buildDB(languages, JMdictFile, srcDir, dstDir));
 }
