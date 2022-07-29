@@ -2,7 +2,7 @@ set(KANJIDIC2_FILE "" CACHE FILEPATH "Path to kanjidic2.xml file")
 set(KANJIVG_FILE "" CACHE FILEPATH "Path to KanjiVG XML file")
 
 set(KANJIDIC2_SOURCE https://www.edrdg.org/kanjidic/kanjidic2.xml.gz)
-set(KANJIVG_SOURCE https://github.com/KanjiVG/kanjivg/releases/download/r20160426/kanjivg-20160426.xml.gz)
+set(KANJIVG_SOURCE https://github.com/KanjiVG/kanjivg/releases/download/r20220427/kanjivg-20220427.xml.gz)
 
 # Kanjidic2
 if(KANJIDIC2_FILE)
