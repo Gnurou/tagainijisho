@@ -1,9 +1,7 @@
 set(JMDICT_FILE "" CACHE FILEPATH "Path to JMdict file")
 
 # JMdict
-set(JMDICT_MIRRORS https://www.edrdg.org/pub/Nihongo/JMdict.gz
-		   http://www.bcit-broadcast.com/monash/JMdict.gz
-		   ftp://ftp.net.usf.edu/pub/ftp.monash.edu.au/pub/nihongo/JMdict.gz)
+set(JMDICT_MIRRORS https://www.edrdg.org/pub/Nihongo/JMdict.gz)
 
 if(JMDICT_FILE)
 	if(NOT EXISTS ${JMDICT_FILE})
