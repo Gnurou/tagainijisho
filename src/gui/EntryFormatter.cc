@@ -225,17 +225,32 @@ QString EntryFormatter::formatLists(const ConstEntryPointer &entry) const
 	if (!entry->lists().isEmpty()) {
 		EntryListModel listModel;
 		QStringList ret;
-		ret << "<img src=\"listicon\"/>   ";
+		// Display all the lists.
 		foreach (quint64 rowid, entry->lists()) {
 			QModelIndex idx(listModel.index(rowid));
 			if (!idx.isValid()) continue;
-			QString label(listModel.data(idx.parent(), Qt::DisplayRole).toString());
-			if (label.isEmpty()) label = tr("Root list");
+
+			// Get whole list hierarchy.
+			QStringList labels;
+			idx = idx.parent();
+			for (; idx.isValid(); idx = idx.parent())
+				labels << listModel.data(idx, Qt::DisplayRole).toString();
+
+			// Put folder list in the right order.
+			QStringList reversedLabels;
+			auto it = labels.end();
+			do {
+				it--;
+				reversedLabels << *it;
+			} while (it != labels.begin());
+
+			QString label(reversedLabels.join("/"));
+			if (reversedLabels.isEmpty()) label = tr("Root list");
 			QUrl url("list://");
 			QUrlQuery query;
 			query.addQueryItem("rowid", QString("%1").arg(rowid));
 			url.setQuery(query);
-			ret << QString("<a href=\"%1\">%2</a>").arg(QString(url.toEncoded())).arg(autoFormat(label));
+			ret << QString("<img src=\"listicon\"/>   <a href=\"%1\">%2</a><br />").arg(QString(url.toEncoded())).arg(autoFormat(label));
 		}
 		return ret.join(" ");
 	}
