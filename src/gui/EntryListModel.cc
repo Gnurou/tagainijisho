@@ -122,8 +122,9 @@ QVariant EntryListModel::data(const QModelIndex &index, int role) const
 		{
 			if (cEntry.isList()) {
 				QFont font;
+				font.setFamily("Noto Sans JP");
+				font.setWeight(QFont::Normal);
 				font.setPointSize(font.pointSize() + 1);
-				font.setItalic(true);
 				return font;
 			}
 			else return QVariant();
@@ -131,8 +132,9 @@ QVariant EntryListModel::data(const QModelIndex &index, int role) const
 		case Qt::SizeHintRole:
 			if (cEntry.isList()) {
 				QFont font;
+				font.setFamily("Noto Sans JP");
+				font.setWeight(QFont::Normal);
 				font.setPointSize(font.pointSize() + 1);
-				font.setItalic(true);
 				return QSize(300, QFontMetrics(font).height());
 			}
 			else return QVariant();
