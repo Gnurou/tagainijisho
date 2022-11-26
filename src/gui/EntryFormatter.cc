@@ -15,6 +15,8 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <algorithm>
+
 #include "core/Paths.h"
 #include "core/TextTools.h"
 #include "gui/EntryListModel.h"
@@ -233,19 +235,15 @@ QString EntryFormatter::formatLists(const ConstEntryPointer &entry) const
 			// Get whole list hierarchy.
 			QStringList labels;
 			idx = idx.parent();
+			// Stop when we reach the root node.
 			for (; idx.isValid(); idx = idx.parent())
 				labels << listModel.data(idx, Qt::DisplayRole).toString();
 
 			// Put folder list in the right order.
-			QStringList reversedLabels;
-			auto it = labels.end();
-			do {
-				it--;
-				reversedLabels << *it;
-			} while (it != labels.begin());
+			std::reverse(labels.begin(), labels.end());
 
-			QString label(reversedLabels.join("/"));
-			if (reversedLabels.isEmpty()) label = tr("Root list");
+			QString label(labels.join("/"));
+			if (labels.isEmpty()) label = tr("Root list");
 			QUrl url("list://");
 			QUrlQuery query;
 			query.addQueryItem("rowid", QString("%1").arg(rowid));
