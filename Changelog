@@ -1,3 +1,8 @@
+1.2.2 released on 2022/11/27
+* Update SQLIte to 3.40.0.
+* Display whole list paths in detailed view.
+* Fix a crash when deleting lists with children.
+
 1.2.1 released on 2022/07/11
 * Update SQLite to 3.39.0.
 * Fix a crash when trying to print entry lists.
