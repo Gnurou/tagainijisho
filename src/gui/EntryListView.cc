@@ -151,7 +151,7 @@ bool EntryListView::deleteEntries(const QModelIndex &index)
 	int nRows = m->rowCount(index);
 	// Delete all children
 	while (nRows--)
-		if (!deleteEntries(index.model()->index(0, 0))) return false;
+		if (!deleteEntries(index.model()->index(0, 0, index))) return false;
 
 	// Remove ourselves from the model
 	EntryRef ref(index.data(Entry::EntryRefRole).value<EntryRef>());
