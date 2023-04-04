@@ -77,6 +77,12 @@ public:
 	 * Shortcut method.
 	 */
 	void updateStatus(const ConstEntryPointer& entry);
+	/**
+	 * Enable/disable items based on when multiple entries
+	 * have been selected. Avoids the need for creating the
+	 * list of entries with large selections.
+	 */
+	void updateStatusMultiSelect(int numSelectedEntries);
 
 signals:
 	/**
