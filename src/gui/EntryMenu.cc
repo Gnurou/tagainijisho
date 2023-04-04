@@ -123,8 +123,7 @@ void EntryMenu::updateStatus(const QList<ConstEntryPointer>& entries)
 			copyReadingAction.setVisible(false);
 		}
 	} else {
-		copyWritingAction.setVisible(false);
-		copyReadingAction.setVisible(false);
+		updateStatusMultiSelect(entries.size());
 	}
 }
 
@@ -133,6 +132,13 @@ void EntryMenu::updateStatus(const ConstEntryPointer& entry)
 	QList<ConstEntryPointer> entries;
 	if (entry) entries << entry;
 	updateStatus(entries);
+}
+
+void EntryMenu::updateStatusMultiSelect(int numSelectedEntries) {
+	copyWritingAction.setVisible(true);
+	copyReadingAction.setVisible(true);
+	copyWritingAction.setText(tr("Copy writings to clipboard"));
+	copyReadingAction.setText(tr("Copy readings to clipboard"));
 }
 
 void EntryMenu::makeLastTagsMenu()

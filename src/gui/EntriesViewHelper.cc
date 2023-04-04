@@ -126,6 +126,11 @@ void EntriesViewHelper::applyOnSelection(const BatchHandler &handler)
 		client()->update(index);
 }
 
+void addToClipboard(const QString &text) {
+	const QString clipboardText = QApplication::clipboard()->text();
+	QApplication::clipboard()->setText(clipboardText.isEmpty() ? text : clipboardText + "\n" + text);
+}
+
 struct StudyHandler : BatchHandler
 {
 	void apply(const EntryPointer &e) const
@@ -143,7 +148,7 @@ struct CopyWritingHandler : BatchHandler
 		if (writings.isEmpty())
 			return;
 
-		QApplication::clipboard()->setText(writings[0]);
+		addToClipboard(writings[0]);
 	}
 };
 
@@ -156,17 +161,19 @@ struct CopyReadingHandler : BatchHandler
 		if (readings.isEmpty())
 			return;
 
-		QApplication::clipboard()->setText(readings[0]);
+		addToClipboard(readings[0]);
 	}
 };
 
 void EntriesViewHelper::copyWriting()
 {
+	QApplication::clipboard()->setText("");
 	applyOnSelection(CopyWritingHandler());
 }
 
 void EntriesViewHelper::copyReading()
 {
+	QApplication::clipboard()->setText("");
 	applyOnSelection(CopyReadingHandler());
 }
 
@@ -485,13 +492,15 @@ bool EntriesViewHelper::eventFilter(QObject *obj, QEvent *ev)
 				if (menu->actions().isEmpty()) return true;
 				QContextMenuEvent *cev(static_cast<QContextMenuEvent *>(ev));
 				QList<ConstEntryPointer> cSelectedEntries;
-				if (client()->selectionModel()->selectedIndexes().size() < 250) {
+				const int numSelectedEntries = client()->selectionModel()->selectedIndexes().size();
+				if (numSelectedEntries < 250) {
 					QList<EntryPointer> _selectedEntries(selectedEntries());
 					// This is stupid, but const-safety forces us here
 					foreach (const EntryPointer &entry, _selectedEntries) cSelectedEntries << entry;
 					updateStatus(cSelectedEntries);
 				} else {
 					setEnabledAll(true);
+					updateStatusMultiSelect(numSelectedEntries);
 				}
 				menu->exec(client()->mapToGlobal(cev->pos()));
 				return false;
