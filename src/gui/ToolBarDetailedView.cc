@@ -17,72 +17,66 @@
 
 #include "gui/ToolBarDetailedView.h"
 
-#include <QVBoxLayout>
 #include <QApplication>
 #include <QDrag>
 #include <QMimeData>
+#include <QVBoxLayout>
 
-EntryDragButton::EntryDragButton(const SingleEntryView *view, QWidget *parent) : QToolButton(parent), _view(view)
-{
-	setAutoRaise(true);
-	setIcon(QPixmap(":/images/icons/move.png"));
-	setToolTip(tr("Drag the currently displayed entry"));
-	connect(_view, SIGNAL(entrySet(Entry*)), this, SLOT(onViewEntryChanged(Entry*)));
-	onViewEntryChanged(_view->entry().data());
+EntryDragButton::EntryDragButton(const SingleEntryView *view, QWidget *parent)
+    : QToolButton(parent), _view(view) {
+    setAutoRaise(true);
+    setIcon(QPixmap(":/images/icons/move.png"));
+    setToolTip(tr("Drag the currently displayed entry"));
+    connect(_view, SIGNAL(entrySet(Entry *)), this, SLOT(onViewEntryChanged(Entry *)));
+    onViewEntryChanged(_view->entry().data());
 }
 
-void EntryDragButton::onViewEntryChanged(Entry *newEntry)
-{
-	setEnabled(newEntry != 0);
+void EntryDragButton::onViewEntryChanged(Entry *newEntry) { setEnabled(newEntry != 0); }
+
+void EntryDragButton::mousePressEvent(QMouseEvent *e) {
+    if (e->button() == Qt::LeftButton) {
+        _dragStarted = true;
+        _dragPos = e->pos();
+    }
+    e->accept();
 }
 
-void EntryDragButton::mousePressEvent(QMouseEvent *e)
-{
-	if (e->button() == Qt::LeftButton) {
-		_dragStarted = true;
-		_dragPos = e->pos();
-	}
-	e->accept();
+void EntryDragButton::mouseMoveEvent(QMouseEvent *e) {
+    if ((e->buttons() & Qt::LeftButton) && _dragStarted) {
+        if ((e->pos() - _dragPos).manhattanLength() >= QApplication::startDragDistance()) {
+            _dragStarted = false;
+            QDrag *drag = new QDrag(this);
+            QMimeData *data = new QMimeData();
+            QByteArray encodedData;
+            QDataStream stream(&encodedData, QIODevice::WriteOnly);
+            stream << EntryRef(_view->entry());
+            data->setData("tagainijisho/entry", encodedData);
+            drag->setMimeData(data);
+            drag->exec(Qt::CopyAction, Qt::CopyAction);
+        }
+    }
+    e->accept();
 }
 
-void EntryDragButton::mouseMoveEvent(QMouseEvent *e)
-{
-	if ((e->buttons() & Qt::LeftButton) && _dragStarted) {
-		if ((e->pos() - _dragPos).manhattanLength() >= QApplication::startDragDistance()) {
-			_dragStarted = false;
-			QDrag *drag = new QDrag(this);
-			QMimeData *data = new QMimeData();
-			QByteArray encodedData;
-			QDataStream stream(&encodedData, QIODevice::WriteOnly);
-			stream << EntryRef(_view->entry());
-			data->setData("tagainijisho/entry", encodedData);
-			drag->setMimeData(data);
-			drag->exec(Qt::CopyAction, Qt::CopyAction);
-		}
-	}
-	e->accept();
+void EntryDragButton::mouseReleaseEvent(QMouseEvent *e) {
+    _dragStarted = false;
+    e->accept();
 }
 
-void EntryDragButton::mouseReleaseEvent(QMouseEvent *e)
-{
-	_dragStarted = false;
-	e->accept();
-}
+ToolBarDetailedView::ToolBarDetailedView(QWidget *parent) : QWidget(parent) {
+    QVBoxLayout *layout = new QVBoxLayout(this);
+    layout->setContentsMargins(0, 0, 0, 0);
+    layout->setSpacing(0);
 
-ToolBarDetailedView::ToolBarDetailedView(QWidget *parent) : QWidget(parent)
-{
-	QVBoxLayout *layout = new QVBoxLayout(this);
-	layout->setContentsMargins(0, 0, 0, 0);
-	layout->setSpacing(0);
-
-	_toolBar = new QToolBar(this);
-	_toolBar->layout()->setContentsMargins(0, 0, 0, 0);
-	_toolBar->setStyleSheet("QToolBar { background: none; border-style: none; border-width: 0px; margin: 0px; padding: 0px; }");
-	_detailedView = new DetailedView(this);
-	_detailedView->populateToolBar(_toolBar);
-	_toolBar->addSeparator();
-	dragButton = new EntryDragButton(_detailedView->entryView(), this);
-	_toolBar->addWidget(dragButton);
-	layout->addWidget(_toolBar);
-	layout->addWidget(_detailedView);
+    _toolBar = new QToolBar(this);
+    _toolBar->layout()->setContentsMargins(0, 0, 0, 0);
+    _toolBar->setStyleSheet("QToolBar { background: none; border-style: none; "
+                            "border-width: 0px; margin: 0px; padding: 0px; }");
+    _detailedView = new DetailedView(this);
+    _detailedView->populateToolBar(_toolBar);
+    _toolBar->addSeparator();
+    dragButton = new EntryDragButton(_detailedView->entryView(), this);
+    _toolBar->addWidget(dragButton);
+    layout->addWidget(_toolBar);
+    layout->addWidget(_detailedView);
 }

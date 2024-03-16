@@ -26,36 +26,34 @@ PreferenceItem<QString> Lang::preferredDictLanguage("", "preferredDictLanguage",
 PreferenceItem<QString> Lang::preferredGUILanguage("", "preferredGUILanguage", "");
 PreferenceItem<bool> Lang::alwaysShowEnglish("", "alwaysShowEnglish", false);
 
-const QStringList &Lang::supportedDictLanguages()
-{
-	return _dictLangs;
-}
+const QStringList &Lang::supportedDictLanguages() { return _dictLangs; }
 
-const QStringList &Lang::supportedGUILanguages()
-{
-	return _guiLangs;
-}
+const QStringList &Lang::supportedGUILanguages() { return _guiLangs; }
 
-QStringList Lang::preferredDictLanguages()
-{
-	QStringList ret;
-	QString userLang;
+QStringList Lang::preferredDictLanguages() {
+    QStringList ret;
+    QString userLang;
 
-	// If no preferred content language is set, but a GUI language is, use that as the content language.
-	if (preferredDictLanguage.isDefault() && _dictLangs.contains(preferredGUILanguage.value())) userLang = preferredGUILanguage.value();
-	// Otherwise, use the explicitly set preferred content language.
-	else if (_dictLangs.contains(preferredDictLanguage.value())) userLang = preferredDictLanguage.value();
-	// Check if the user explicitely set a preferred language
-	if (!userLang.isEmpty()) ret << userLang;
-	// Otherwise check the locale
-	else {
-		QString locale(QLocale::system().name().left(2));
-		if (locale != "en" && _dictLangs.contains(locale)) ret << locale;
-	}
+    // If no preferred content language is set, but a GUI language is, use that
+    // as the content language.
+    if (preferredDictLanguage.isDefault() && _dictLangs.contains(preferredGUILanguage.value()))
+        userLang = preferredGUILanguage.value();
+    // Otherwise, use the explicitly set preferred content language.
+    else if (_dictLangs.contains(preferredDictLanguage.value()))
+        userLang = preferredDictLanguage.value();
+    // Check if the user explicitely set a preferred language
+    if (!userLang.isEmpty())
+        ret << userLang;
+    // Otherwise check the locale
+    else {
+        QString locale(QLocale::system().name().left(2));
+        if (locale != "en" && _dictLangs.contains(locale))
+            ret << locale;
+    }
 
-	// English should always be here as last ressort
-	if (!ret.contains("en"))
-		ret << "en";
+    // English should always be here as last ressort
+    if (!ret.contains("en"))
+        ret << "en";
 
-	return ret;
+    return ret;
 }

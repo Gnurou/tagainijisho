@@ -17,25 +17,22 @@
 
 #include "KanaSelector.h"
 
-#include <QToolBar>
 #include <QBoxLayout>
+#include <QToolBar>
 
-KanaSelector::KanaSelector(QWidget *parent) : QWidget(parent)
-{
-	setupUi(this);
+KanaSelector::KanaSelector(QWidget *parent) : QWidget(parent) {
+    setupUi(this);
 
-	QToolBar *_toolBar = kanaView()->helper()->defaultToolBar(this);
-	// Steal the widgets from the 1st layout and insert them into the
-	// toolbar
-	QBoxLayout *_layout = static_cast<QBoxLayout *>(layout());
-	QBoxLayout *_layout2 = static_cast<QBoxLayout *>(_layout->itemAt(0)->layout());
-	while (_layout2->count())
-		_toolBar->addWidget(_layout2->takeAt(0)->widget());
-	delete _layout2;
+    QToolBar *_toolBar = kanaView()->helper()->defaultToolBar(this);
+    // Steal the widgets from the 1st layout and insert them into the
+    // toolbar
+    QBoxLayout *_layout = static_cast<QBoxLayout *>(layout());
+    QBoxLayout *_layout2 = static_cast<QBoxLayout *>(_layout->itemAt(0)->layout());
+    while (_layout2->count())
+        _toolBar->addWidget(_layout2->takeAt(0)->widget());
+    delete _layout2;
 
-	_layout->insertWidget(0, _toolBar);
+    _layout->insertWidget(0, _toolBar);
 }
 
-KanaSelector::~KanaSelector()
-{
-}
+KanaSelector::~KanaSelector() {}

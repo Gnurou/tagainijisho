@@ -20,39 +20,38 @@
 #include "core/Preferences.h"
 #include "gui/ui_ReadingTrainer.h"
 
-#include <QFrame>
 #include "sqlite/Query.h"
 #include <QCheckBox>
+#include <QFrame>
 
-class ReadingTrainer : public QFrame
-{
-	Q_OBJECT
-private:
-	static PreferenceItem<QByteArray> windowGeometry;
+class ReadingTrainer : public QFrame {
+    Q_OBJECT
+  private:
+    static PreferenceItem<QByteArray> windowGeometry;
 
-	Ui::ReadingTrainer ui;
-	EntryPointer entry;
-	unsigned int _goodCount, _wrongCount, _totalCount;
-	SQLite::Query query;
-	QCheckBox *_showMeaning;
-	QAction *_showMeaningAction;
+    Ui::ReadingTrainer ui;
+    EntryPointer entry;
+    unsigned int _goodCount, _wrongCount, _totalCount;
+    SQLite::Query query;
+    QCheckBox *_showMeaning;
+    QAction *_showMeaningAction;
 
-protected:
-	void updateStatusLabel();
+  protected:
+    void updateStatusLabel();
 
-public:
-	ReadingTrainer(QWidget *parent = 0);
-	~ReadingTrainer();
+  public:
+    ReadingTrainer(QWidget *parent = 0);
+    ~ReadingTrainer();
 
-	void newSession();
-	static PreferenceItem<bool> showMeaning;
+    void newSession();
+    static PreferenceItem<bool> showMeaning;
 
-protected slots:
-	void checkAnswer();
-	void onShowMeaningChecked(bool checked);
+  protected slots:
+    void checkAnswer();
+    void onShowMeaningChecked(bool checked);
 
-public slots:
-	void train();
+  public slots:
+    void train();
 };
 
 #endif

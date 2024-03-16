@@ -22,51 +22,50 @@
 
 #include "core/Paths.h"
 
-#include <QString>
-#include <QVector>
-#include <QMap>
-#include <QTemporaryFile>
-#include <QDir>
 #include <QCoreApplication>
+#include <QDir>
+#include <QMap>
+#include <QString>
+#include <QTemporaryFile>
+#include <QVector>
 
 struct sqlite3;
 
-class Database
-{
-Q_DECLARE_TR_FUNCTIONS(Database)
-private:
-	/// Set to the name of the current user DB file
-	static QString _userDBFile;
-	/// Temporary file used to create the temporary user DB
-	QTemporaryFile *_tFile;
-	static QMap<QString, QString> _attachedDBs;
-	static Database *_instance;
+class Database {
+    Q_DECLARE_TR_FUNCTIONS(Database)
+  private:
+    /// Set to the name of the current user DB file
+    static QString _userDBFile;
+    /// Temporary file used to create the temporary user DB
+    QTemporaryFile *_tFile;
+    static QMap<QString, QString> _attachedDBs;
+    static Database *_instance;
 
-	SQLite::Connection _connection;
-	Database();
-	~Database();
+    SQLite::Connection _connection;
+    Database();
+    ~Database();
 
-	bool createUserDB();
-	bool updateUserDB(int currentVersion);
-	bool connectUserDB(QString filename, QStringList &errors);
-	bool checkUserDB(QStringList &errors);
-	bool connectToTemporaryDatabase(QStringList &errors);
-	void closeDB();
+    bool createUserDB();
+    bool updateUserDB(int currentVersion);
+    bool connectUserDB(QString filename, QStringList &errors);
+    bool checkUserDB(QStringList &errors);
+    bool connectToTemporaryDatabase(QStringList &errors);
+    void closeDB();
 
-public:
-	static bool init(const QString &userDBFile, bool temporary, QStringList &errors);
-	static void stop();
-	static Database *instance() { return _instance; }
-	static SQLite::Connection *connection() { return &_instance->_connection; }
+  public:
+    static bool init(const QString &userDBFile, bool temporary, QStringList &errors);
+    static void stop();
+    static Database *instance() { return _instance; }
+    static SQLite::Connection *connection() { return &_instance->_connection; }
 
-	static const QString &userDBFile() { return _userDBFile; }
-	static QString defaultDBFile() { return QDir(userProfile()).absoluteFilePath("user.db"); }
+    static const QString &userDBFile() { return _userDBFile; }
+    static QString defaultDBFile() { return QDir(userProfile()).absoluteFilePath("user.db"); }
 
-	static bool attachDictionaryDB(const QString &file, const QString &alias, int expectedVersion);
-	static bool detachDictionaryDB(const QString &alias);
-	static const QMap<QString, QString> &attachedDBs() { return _attachedDBs; }
+    static bool attachDictionaryDB(const QString &file, const QString &alias, int expectedVersion);
+    static bool detachDictionaryDB(const QString &alias);
+    static const QMap<QString, QString> &attachedDBs() { return _attachedDBs; }
 
-	static const SQLite::Error &lastError() { return _instance->_connection.lastError(); }
+    static const SQLite::Error &lastError() { return _instance->_connection.lastError(); }
 };
 
 #endif

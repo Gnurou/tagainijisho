@@ -19,46 +19,44 @@
 #define __GUI_JMDICTGUIPLUGIN_H
 
 #include "core/Plugin.h"
-#include "gui/jmdict/JMdictYesNoTrainer.h"
 #include "gui/jmdict/JMdictFilterWidget.h"
+#include "gui/jmdict/JMdictYesNoTrainer.h"
 
 class JMdictLinkHandler;
 class JMdictFilterWidget;
 
-class JMdictGUIPlugin : public QObject, public Plugin
-{
-	Q_OBJECT
-private:
-	QAction *_flashJL, *_flashJS, *_flashTL, *_flashTS;
-	JMdictLinkHandler *_linkhandler;
-	JMdictFilterWidget *_filter;
-	JMdictYesNoTrainer *_trainer;
+class JMdictGUIPlugin : public QObject, public Plugin {
+    Q_OBJECT
+  private:
+    QAction *_flashJL, *_flashJS, *_flashTL, *_flashTS;
+    JMdictLinkHandler *_linkhandler;
+    JMdictFilterWidget *_filter;
+    JMdictYesNoTrainer *_trainer;
 
-	void training(YesNoTrainer::TrainingMode mode, const QString &queryString);
+    void training(YesNoTrainer::TrainingMode mode, const QString &queryString);
 
-private slots:
-	void trainerDeleted();
+  private slots:
+    void trainerDeleted();
 
-protected slots:
-	void trainingJapaneseList();
-	void trainingJapaneseSet();
-	void trainingTranslationList();
-	void trainingTranslationSet();
+  protected slots:
+    void trainingJapaneseList();
+    void trainingJapaneseSet();
+    void trainingTranslationList();
+    void trainingTranslationSet();
 
-public:
-	static PreferenceItem<bool> furiganasForTraining;
+  public:
+    static PreferenceItem<bool> furiganasForTraining;
 
-	JMdictGUIPlugin();
-	virtual ~JMdictGUIPlugin();
-	bool onRegister();
-	bool onUnregister();
+    JMdictGUIPlugin();
+    virtual ~JMdictGUIPlugin();
+    bool onRegister();
+    bool onUnregister();
 };
 
-class JMdictLinkHandler : public DetailedViewLinkHandler
-{
-public:
-	JMdictLinkHandler();
-	void handleUrl(const QUrl &url, DetailedView *view);
+class JMdictLinkHandler : public DetailedViewLinkHandler {
+  public:
+    JMdictLinkHandler();
+    void handleUrl(const QUrl &url, DetailedView *view);
 };
 
 #endif // JMDICTGUIPLUGIN_H

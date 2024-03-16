@@ -19,67 +19,70 @@
 #define __GUI_ENTRYLISTVIEW_H
 
 #include "core/EntriesCache.h"
-#include "gui/ScrollBarSmoothScroller.h"
-#include "gui/EntryDelegate.h"
 #include "gui/EntriesViewHelper.h"
+#include "gui/EntryDelegate.h"
+#include "gui/ScrollBarSmoothScroller.h"
 
-#include <QTreeWidget>
-#include <QTreeView>
 #include <QAction>
 #include <QDragEnterEvent>
 #include <QDragMoveEvent>
+#include <QTreeView>
+#include <QTreeWidget>
 
-class EntryListView : public QTreeView
-{
-	Q_OBJECT
-private:
-	ScrollBarSmoothScroller scroller;
-	EntriesViewHelper _helper;
-	QAction _newListAction, _rightClickNewListAction, _deleteSelectionAction, _renameListAction, _goUpAction;
-	/**
-	 * Recursively delete the given index and all indexes below it.
-	 */
-	bool deleteEntries(const QModelIndex &index);
-	
-private slots:
-	void rightClickNewList();
+class EntryListView : public QTreeView {
+    Q_OBJECT
+  private:
+    ScrollBarSmoothScroller scroller;
+    EntriesViewHelper _helper;
+    QAction _newListAction, _rightClickNewListAction, _deleteSelectionAction, _renameListAction,
+        _goUpAction;
+    /**
+     * Recursively delete the given index and all indexes below it.
+     */
+    bool deleteEntries(const QModelIndex &index);
 
-protected:
-	virtual void startDrag(Qt::DropActions supportedActions);
-	virtual void selectionChanged(const QItemSelection &selected, const QItemSelection &deselected);
+  private slots:
+    void rightClickNewList();
 
-public:
-	EntryListView(QWidget* parent = 0, EntryDelegateLayout* delegateLayout = 0, bool viewOnly = false);
-	EntriesViewHelper *helper() { return &_helper; }
-	
-	virtual void setModel(QAbstractItemModel *model);
-	
-	bool smoothScrolling() const { return verticalScrollMode() == QAbstractItemView::ScrollPerPixel; }
-	void setSmoothScrolling(bool value);
-	Q_PROPERTY(bool smoothScrolling READ smoothScrolling WRITE setSmoothScrolling);
+  protected:
+    virtual void startDrag(Qt::DropActions supportedActions);
+    virtual void selectionChanged(const QItemSelection &selected, const QItemSelection &deselected);
 
-	QAction *newListAction() { return &_newListAction; }
-	QAction *deleteSelectionAction() { return &_deleteSelectionAction; }
-	QAction *goUpAction() { return &_goUpAction; }
-	
-	static PreferenceItem<bool> smoothScrollingSetting;
-	static PreferenceItem<QString> kanjiFontSetting;
-	static PreferenceItem<QString> kanaFontSetting;
-	static PreferenceItem<QString> textFontSetting;
-	static PreferenceItem<int> displayModeSetting;
+  public:
+    EntryListView(QWidget *parent = 0, EntryDelegateLayout *delegateLayout = 0,
+                  bool viewOnly = false);
+    EntriesViewHelper *helper() { return &_helper; }
 
-public slots:
-	void newList(QModelIndex parent = QModelIndex());
-	void editSelectedList();
-	void deleteSelectedItems();
-	void goUp();
-	void setRootIndex(const QModelIndex &idx);
-	
-signals:
-	void selectionHasChanged(const QItemSelection &selected, const QItemSelection &deselected);
-	void entrySelected(const EntryPointer &entry);
-	/// Propagates the same signal from the model
-	void rootHasChanged(const QModelIndex &newRoot);
+    virtual void setModel(QAbstractItemModel *model);
+
+    bool smoothScrolling() const {
+        return verticalScrollMode() == QAbstractItemView::ScrollPerPixel;
+    }
+    void setSmoothScrolling(bool value);
+    Q_PROPERTY(bool smoothScrolling READ smoothScrolling WRITE setSmoothScrolling);
+
+    QAction *newListAction() { return &_newListAction; }
+    QAction *deleteSelectionAction() { return &_deleteSelectionAction; }
+    QAction *goUpAction() { return &_goUpAction; }
+
+    static PreferenceItem<bool> smoothScrollingSetting;
+    static PreferenceItem<QString> kanjiFontSetting;
+    static PreferenceItem<QString> kanaFontSetting;
+    static PreferenceItem<QString> textFontSetting;
+    static PreferenceItem<int> displayModeSetting;
+
+  public slots:
+    void newList(QModelIndex parent = QModelIndex());
+    void editSelectedList();
+    void deleteSelectedItems();
+    void goUp();
+    void setRootIndex(const QModelIndex &idx);
+
+  signals:
+    void selectionHasChanged(const QItemSelection &selected, const QItemSelection &deselected);
+    void entrySelected(const EntryPointer &entry);
+    /// Propagates the same signal from the model
+    void rootHasChanged(const QModelIndex &newRoot);
 };
 
 #endif

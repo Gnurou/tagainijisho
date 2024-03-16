@@ -15,7 +15,6 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 #ifndef __CORE_ASYNCENTRYLOADER_H_
 #define __CORE_ASYNCENTRYLOADER_H_
 
@@ -38,16 +37,16 @@
  * up to the receiver to check the validity of the entries.
  */
 class ASyncEntryLoader : public ASyncEntryFinder {
-	Q_OBJECT
-protected slots:
-	void _loadEntry(const EntryRef &ref);
+    Q_OBJECT
+  protected slots:
+    void _loadEntry(const EntryRef &ref);
 
-public:
-	ASyncEntryLoader(DatabaseThread *dbConn);
-	virtual ~ASyncEntryLoader();
+  public:
+    ASyncEntryLoader(DatabaseThread *dbConn);
+    virtual ~ASyncEntryLoader();
 
-signals:
-	void result(EntryPointer result);
+  signals:
+    void result(EntryPointer result);
 };
 
 #endif /* ASYNCENTRYLOADER_H_ */

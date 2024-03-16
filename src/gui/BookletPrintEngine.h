@@ -22,37 +22,36 @@
 
 #include "gui/ProxyPaintEngine.h"
 
-class BookletPrintEngine : public QPrintEngine, public ProxyPaintEngine
-{
-private:
-	QPrinter *_printer;
-	QPrintEngine *_engine;
-	int _pageCpt;
+class BookletPrintEngine : public QPrintEngine, public ProxyPaintEngine {
+  private:
+    QPrinter *_printer;
+    QPrintEngine *_engine;
+    int _pageCpt;
 
-	qreal _subPageWidth;
-	qreal _subPageHeight;
-	qreal _subPageScaleFactor;
-	qreal _xDecay;
-	qreal _yDecay;
+    qreal _subPageWidth;
+    qreal _subPageHeight;
+    qreal _subPageScaleFactor;
+    qreal _xDecay;
+    qreal _yDecay;
 
-protected:
-	void resetPainter();
-	void setupPainterForPage(int pageNbr);
-	void drawPageLayout();
-public:
-	BookletPrintEngine(QPrinter *printer);
-	virtual ~BookletPrintEngine();
+  protected:
+    void resetPainter();
+    void setupPainterForPage(int pageNbr);
+    void drawPageLayout();
 
-	virtual bool abort();
-	virtual int metric(QPaintDevice::PaintDeviceMetric id) const;
-	virtual bool newPage();
-	virtual QPrinter::PrinterState printerState() const;
-	virtual QVariant property(PrintEnginePropertyKey key) const;
-	virtual void setProperty(PrintEnginePropertyKey key, const QVariant & value);
+  public:
+    BookletPrintEngine(QPrinter *printer);
+    virtual ~BookletPrintEngine();
 
-	virtual bool begin(QPaintDevice *pdev);
-	virtual bool end();
+    virtual bool abort();
+    virtual int metric(QPaintDevice::PaintDeviceMetric id) const;
+    virtual bool newPage();
+    virtual QPrinter::PrinterState printerState() const;
+    virtual QVariant property(PrintEnginePropertyKey key) const;
+    virtual void setProperty(PrintEnginePropertyKey key, const QVariant &value);
 
+    virtual bool begin(QPaintDevice *pdev);
+    virtual bool end();
 };
 
 #endif

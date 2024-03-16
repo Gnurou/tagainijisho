@@ -18,54 +18,55 @@
 #include "core/EntryListDB.h"
 #include "core/EntryListCache.h"
 
-template <> QString DBListEntry<EntryListData>::tableDataMembers()
-{
-	//return "listId INTEGER, type TINYINT, id INTEGER";
-	return "type TINYINT, id INTEGER";
+template <> QString DBListEntry<EntryListData>::tableDataMembers() {
+    // return "listId INTEGER, type TINYINT, id INTEGER";
+    return "type TINYINT, id INTEGER";
 }
 
-template <> void DBListEntry<EntryListData>::bindDataValues(SQLite::Query &query) const
-{
-	//query.bindValue(data.listId);
-	query.bindValue(data.type);
-	//if (data.type == 0) query.bindValue(data.name);
-	query.bindValue(data.id);
+template <> void DBListEntry<EntryListData>::bindDataValues(SQLite::Query &query) const {
+    // query.bindValue(data.listId);
+    query.bindValue(data.type);
+    // if (data.type == 0) query.bindValue(data.name);
+    query.bindValue(data.id);
 }
 
-template <> void DBListEntry<EntryListData>::readDataValues(SQLite::Query &query, int start)
-{
-	data.type = query.valueUInt(start++);
-	data.id = query.valueUInt(start++);
+template <> void DBListEntry<EntryListData>::readDataValues(SQLite::Query &query, int start) {
+    data.type = query.valueUInt(start++);
+    data.id = query.valueUInt(start++);
 }
 
-EntryListDBAccess::EntryListDBAccess(const QString &tableName, SQLite::Connection *connection) : DBList<EntryListData>(tableName, connection)
-{
+EntryListDBAccess::EntryListDBAccess(const QString &tableName, SQLite::Connection *connection)
+    : DBList<EntryListData>(tableName, connection) {}
+
+bool EntryListDBAccess::createDataIndexes(SQLite::Connection *connection) {
+    if (!connection->exec(QString("CREATE INDEX idx_%1_type_id ON %1(type,id)").arg(tableName())))
+        return false;
+    if (!connection->exec(
+            QString("CREATE INDEX idx_%1Roots_rootId ON %1Roots(rootId)").arg(tableName())))
+        return false;
+    return true;
 }
 
-bool EntryListDBAccess::createDataIndexes(SQLite::Connection *connection)
-{
-	if (!connection->exec(QString("CREATE INDEX idx_%1_type_id ON %1(type,id)").arg(tableName()))) return false;
-	if (!connection->exec(QString("CREATE INDEX idx_%1Roots_rootId ON %1Roots(rootId)").arg(tableName()))) return false;
-	return true;
-}
-
-bool EntryList::remove(int index)
-{
-	TreeType::Node *node = getNode(index);
-	if (!node) return false;
-	const EntryListData &data = node->value();
-	// We have to recursively erase the child list
-	if (data.isList()) {
-		EntryList *list = EntryListCache::get(data.id);
-		while(1) {
-			int ls = list->size();
-			if (ls == 0) break;
-			while (ls--) if (!list->remove(0)) return false;
-		}
-		// Invalidate the cache for the removed list
-		EntryListCache::clearListCache(data.id);
-		// Finally, delete the list
-		list->tree()->removeList();
-	}
-	return OrderedRBTree<OrderedRBDBTree<EntryListData> >::remove(index);
+bool EntryList::remove(int index) {
+    TreeType::Node *node = getNode(index);
+    if (!node)
+        return false;
+    const EntryListData &data = node->value();
+    // We have to recursively erase the child list
+    if (data.isList()) {
+        EntryList *list = EntryListCache::get(data.id);
+        while (1) {
+            int ls = list->size();
+            if (ls == 0)
+                break;
+            while (ls--)
+                if (!list->remove(0))
+                    return false;
+        }
+        // Invalidate the cache for the removed list
+        EntryListCache::clearListCache(data.id);
+        // Finally, delete the list
+        list->tree()->removeList();
+    }
+    return OrderedRBTree<OrderedRBDBTree<EntryListData>>::remove(index);
 }

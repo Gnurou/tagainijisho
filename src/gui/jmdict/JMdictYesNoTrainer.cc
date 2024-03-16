@@ -18,31 +18,30 @@
 #include "gui/jmdict/JMdictYesNoTrainer.h"
 #include "gui/jmdict/JMdictGUIPlugin.h"
 
-JMdictYesNoTrainer::JMdictYesNoTrainer(QWidget *parent) : YesNoTrainer(parent)
-{
-	_showFuriganas = new QCheckBox(tr("Show &furigana"), this);
-	connect(_showFuriganas, SIGNAL(toggled(bool)), this, SLOT(onShowFuriganasChecked(bool)));
-	_showFuriganas->setChecked(JMdictGUIPlugin::furiganasForTraining.value());
-	_showFuriganas->setShortcut(QKeySequence(_showFuriganas->shortcut()[0] & 0x00ffffff));
-	_showFuriganasAction = _detailedView->toolBar()->addWidget(_showFuriganas);
+JMdictYesNoTrainer::JMdictYesNoTrainer(QWidget *parent) : YesNoTrainer(parent) {
+    _showFuriganas = new QCheckBox(tr("Show &furigana"), this);
+    connect(_showFuriganas, SIGNAL(toggled(bool)), this, SLOT(onShowFuriganasChecked(bool)));
+    _showFuriganas->setChecked(JMdictGUIPlugin::furiganasForTraining.value());
+    _showFuriganas->setShortcut(QKeySequence(_showFuriganas->shortcut()[0] & 0x00ffffff));
+    _showFuriganasAction = _detailedView->toolBar()->addWidget(_showFuriganas);
 }
 
-void JMdictYesNoTrainer::onShowFuriganasChecked(bool checked)
-{
-	JMdictGUIPlugin::furiganasForTraining.set(checked);
-	if (checked) frontParts << "furigana";
-	else frontParts.removeAll("furigana");
+void JMdictYesNoTrainer::onShowFuriganasChecked(bool checked) {
+    JMdictGUIPlugin::furiganasForTraining.set(checked);
+    if (checked)
+        frontParts << "furigana";
+    else
+        frontParts.removeAll("furigana");
 
-	if (showAnswerButton->isEnabled()) {
-		// Necessary to instanciate a new EntryPointer because train received a 
-		// const reference to an EntryPointer and starts by reseting currentEntry -
-		// therefore if we pass it here we will lose the value
-		train(EntryPointer(currentEntry));
-	}
+    if (showAnswerButton->isEnabled()) {
+        // Necessary to instanciate a new EntryPointer because train received a
+        // const reference to an EntryPointer and starts by reseting
+        // currentEntry - therefore if we pass it here we will lose the value
+        train(EntryPointer(currentEntry));
+    }
 }
 
-void JMdictYesNoTrainer::setTrainingMode(TrainingMode mode)
-{
-	YesNoTrainer::setTrainingMode(mode);
-	_showFuriganasAction->setVisible(mode == YesNoTrainer::Japanese);
+void JMdictYesNoTrainer::setTrainingMode(TrainingMode mode) {
+    YesNoTrainer::setTrainingMode(mode);
+    _showFuriganasAction->setVisible(mode == YesNoTrainer::Japanese);
 }

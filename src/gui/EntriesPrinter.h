@@ -21,44 +21,43 @@
 #include "core/Entry.h"
 
 #include <QAbstractItemModel>
-#include <QModelIndexList>
-#include <QWidget>
 #include <QFont>
-#include <QPrinter>
+#include <QModelIndexList>
 #include <QPicture>
+#include <QPrinter>
+#include <QWidget>
 
 /**
  * Pretty-prints entries, either in regular of booklet form.
  */
-class EntriesPrinter : public QObject
-{
-	Q_OBJECT
-private:
-	QFont _baseFont; 
-	QModelIndexList _entries;
+class EntriesPrinter : public QObject {
+    Q_OBJECT
+  private:
+    QFont _baseFont;
+    QModelIndexList _entries;
 
-	/**
-	 * Prints all the given entries (pre-printed into QPictures) on one page. The
-	 * entries must all fit within the range 0..height, and height must not be higher
-	 * than the available height of the painter.
-	 */
-	void printPageOfEntries(const QList<QPicture> &entries, QPainter *painter, qreal height);
+    /**
+     * Prints all the given entries (pre-printed into QPictures) on one page.
+     * The entries must all fit within the range 0..height, and height must not
+     * be higher than the available height of the painter.
+     */
+    void printPageOfEntries(const QList<QPicture> &entries, QPainter *painter, qreal height);
 
-protected slots:
-	/**
-	 * Print the job on the given printer, using the default print font.
-	 * An alternative font can be specified if font is not null.
-	 */
-	void prepareAndPrintJob(QPrinter* printer);
-	void prepareAndPrintBookletJob(QPrinter* printer);
+  protected slots:
+    /**
+     * Print the job on the given printer, using the default print font.
+     * An alternative font can be specified if font is not null.
+     */
+    void prepareAndPrintJob(QPrinter *printer);
+    void prepareAndPrintBookletJob(QPrinter *printer);
 
-public:
-	EntriesPrinter(QWidget *parent = 0);
-	
-	void print(const QModelIndexList &entries, QPrinter* printer);
-	void printPreview(const QModelIndexList &entries, QPrinter* printer);
-	void printBooklet(const QModelIndexList &entries, QPrinter* printer);
-	void printBookletPreview(const QModelIndexList &entries, QPrinter* printer);
+  public:
+    EntriesPrinter(QWidget *parent = 0);
+
+    void print(const QModelIndexList &entries, QPrinter *printer);
+    void printPreview(const QModelIndexList &entries, QPrinter *printer);
+    void printBooklet(const QModelIndexList &entries, QPrinter *printer);
+    void printBookletPreview(const QModelIndexList &entries, QPrinter *printer);
 };
 
 #endif

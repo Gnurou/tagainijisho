@@ -25,23 +25,22 @@
 
 class TatoebaEntryLoader;
 
-class TatoebaPlugin : public Plugin
-{
-private:
-	static TatoebaPlugin *_instance;
-	QStringList _dbLanguages;
+class TatoebaPlugin : public Plugin {
+  private:
+    static TatoebaPlugin *_instance;
+    QStringList _dbLanguages;
 
-	TatoebaEntryLoader *loader;
+    TatoebaEntryLoader *loader;
 
-public:
-	static TatoebaPlugin *instance() { return _instance; }
+  public:
+    static TatoebaPlugin *instance() { return _instance; }
 
-	TatoebaPlugin();
-	~TatoebaPlugin();
+    TatoebaPlugin();
+    ~TatoebaPlugin();
 
-	virtual bool onRegister();
-	virtual bool onUnregister();
-	virtual QString pluginInfo() const;
+    virtual bool onRegister();
+    virtual bool onUnregister();
+    virtual QString pluginInfo() const;
 };
 
 #endif

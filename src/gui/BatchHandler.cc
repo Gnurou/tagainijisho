@@ -15,40 +15,43 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "core/Database.h"
 #include "gui/BatchHandler.h"
+#include "core/Database.h"
 
-#include <QProgressDialog>
 #include <QMessageBox>
+#include <QProgressDialog>
 
-void BatchHandler::applyOnEntries(const BatchHandler &handler, const QList<EntryPointer> &entries, QWidget *parent)
-{
-	QProgressDialog progressDialog(tr("Marking entries..."), tr("Abort"), 0, entries.size(), parent);
-	progressDialog.setMinimumDuration(1000);
-	progressDialog.setWindowTitle(tr("Please wait..."));
-	progressDialog.setWindowModality(Qt::WindowModal);
+void BatchHandler::applyOnEntries(const BatchHandler &handler, const QList<EntryPointer> &entries,
+                                  QWidget *parent) {
+    QProgressDialog progressDialog(tr("Marking entries..."), tr("Abort"), 0, entries.size(),
+                                   parent);
+    progressDialog.setMinimumDuration(1000);
+    progressDialog.setWindowTitle(tr("Please wait..."));
+    progressDialog.setWindowModality(Qt::WindowModal);
 
-	int i = 0;
-	if (!Database::connection()->transaction()) {
-		QMessageBox::warning(0, tr("Cannot start transaction"), QString(tr("Error while trying to start database transaction.")));
-		return;
-	}
-	bool completed = true;
-	foreach (const EntryPointer &entry, entries) {
-		if (progressDialog.wasCanceled()) {
-			completed = false;
-			break;
-		}
-		progressDialog.setValue(i++);
-		if (!entry) continue;
-		handler.apply(entry);
-	}
-	if (!completed) {
-		Database::connection()->rollback();
-	}
-	else if (!Database::connection()->commit()) {
-		Database::connection()->rollback();
-		QMessageBox::warning(0, tr("Cannot commit transaction"), QString(tr("Error while trying to commit database transaction.")));
-		return;
-	}
+    int i = 0;
+    if (!Database::connection()->transaction()) {
+        QMessageBox::warning(0, tr("Cannot start transaction"),
+                             QString(tr("Error while trying to start database transaction.")));
+        return;
+    }
+    bool completed = true;
+    foreach (const EntryPointer &entry, entries) {
+        if (progressDialog.wasCanceled()) {
+            completed = false;
+            break;
+        }
+        progressDialog.setValue(i++);
+        if (!entry)
+            continue;
+        handler.apply(entry);
+    }
+    if (!completed) {
+        Database::connection()->rollback();
+    } else if (!Database::connection()->commit()) {
+        Database::connection()->rollback();
+        QMessageBox::warning(0, tr("Cannot commit transaction"),
+                             QString(tr("Error while trying to commit database transaction.")));
+        return;
+    }
 }

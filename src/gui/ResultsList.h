@@ -18,61 +18,60 @@
 #ifndef __GUI_RESULTS_LIST_H__
 #define __GUI_RESULTS_LIST_H__
 
-#include "core/Entry.h"
-#include "core/EntriesCache.h"
-#include "core/QueryBuilder.h"
 #include "core/ASyncEntryFinder.h"
+#include "core/EntriesCache.h"
+#include "core/Entry.h"
+#include "core/QueryBuilder.h"
 
 #include <QAbstractListModel>
 #include <QList>
-#include <QTimer>
 #include <QMimeData>
+#include <QTimer>
 
 /**
  * An entity that fetches and store results emitted by a query in pages of
  * given size. It can also be used as a list model to display the results.
  */
-class ResultsList : public QAbstractListModel
-{
-	Q_OBJECT
-private:
-	QList<EntryRef> entries;
-	QTimer timer;
-	int displayedUntil;
+class ResultsList : public QAbstractListModel {
+    Q_OBJECT
+  private:
+    QList<EntryRef> entries;
+    QTimer timer;
+    int displayedUntil;
 
-	DatabaseThread dbThread;
-	ASyncEntryFinder query;
+    DatabaseThread dbThread;
+    ASyncEntryFinder query;
 
-	void startPreparedQuery();
-	
-protected slots:
-	void updateViews();
-	void onEntryChanged(const EntryPointer &entry);
+    void startPreparedQuery();
 
-public:
-	ResultsList(QObject *parent = 0);
-	~ResultsList();
+  protected slots:
+    void updateViews();
+    void onEntryChanged(const EntryPointer &entry);
 
-	int rowCount(const QModelIndex &parent = QModelIndex()) const { return nbResults(); }
-	int nbResults() const { return entries.size(); }
-	QVariant data(const QModelIndex &index, int role) const;
-	QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
+  public:
+    ResultsList(QObject *parent = 0);
+    ~ResultsList();
 
-	Qt::ItemFlags flags(const QModelIndex &index) const;
-	virtual QMimeData *mimeData(const QModelIndexList & indexes) const;
+    int rowCount(const QModelIndex &parent = QModelIndex()) const { return nbResults(); }
+    int nbResults() const { return entries.size(); }
+    QVariant data(const QModelIndex &index, int role) const;
+    QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
 
-public slots:
-	void search(const QueryBuilder &qBuilder);
-	void abortSearch();
+    Qt::ItemFlags flags(const QModelIndex &index) const;
+    virtual QMimeData *mimeData(const QModelIndexList &indexes) const;
 
-	void startReceive();
-	void endReceive();
-	void addResult(EntryRef entry);
-	void clear();
+  public slots:
+    void search(const QueryBuilder &qBuilder);
+    void abortSearch();
 
-signals:
-	void queryStarted();
-	void queryEnded();
+    void startReceive();
+    void endReceive();
+    void addResult(EntryRef entry);
+    void clear();
+
+  signals:
+    void queryStarted();
+    void queryEnded();
 };
 
 #endif

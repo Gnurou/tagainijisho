@@ -18,287 +18,279 @@
 #ifndef __GUI_DETAILED_VIEW_H
 #define __GUI_DETAILED_VIEW_H
 
-#include "core/EntriesCache.h"
 #include "core/ASyncEntryLoader.h"
-#include "gui/SingleEntryView.h"
+#include "core/EntriesCache.h"
 #include "gui/AbstractHistory.h"
 #include "gui/ScrollBarSmoothScroller.h"
+#include "gui/SingleEntryView.h"
 
-#include <QTextBrowser>
-#include <QTextCursor>
 #include <QItemSelection>
 #include <QMap>
-#include <QPair>
 #include <QMouseEvent>
+#include <QPair>
 #include <QQueue>
 #include <QSet>
+#include <QTextBrowser>
+#include <QTextCursor>
 
 class DetailedView;
 
 /**
  * An asynchronous database job to be performed by the dedicated thread of this
- * detailed view. A query is executed and a slot is called when a result is found.
+ * detailed view. A query is executed and a slot is called when a result is
+ * found.
  *
  * The slot to be invoked MUST be of the form slot(EntryPointer<Entry>).
  */
-class DetailedViewJob
-{
-private:
-	void __init();
+class DetailedViewJob {
+  private:
+    void __init();
 
-protected:
-	QString _sql;
-	QTextCursor _cursor;
+  protected:
+    QString _sql;
+    QTextCursor _cursor;
 
-public:
-	DetailedViewJob(const QString &sql, const QTextCursor &cursor);
-	DetailedViewJob(const QTextCursor &cursor);
-	virtual ~DetailedViewJob() {}
+  public:
+    DetailedViewJob(const QString &sql, const QTextCursor &cursor);
+    DetailedViewJob(const QTextCursor &cursor);
+    virtual ~DetailedViewJob() {}
 
-	QTextCursor &cursor() { return _cursor; }
-	const QString &sql() const { return _sql; }
+    QTextCursor &cursor() { return _cursor; }
+    const QString &sql() const { return _sql; }
 
-	virtual void firstResult() { }
-	virtual void result(EntryPointer entry) { }
-	virtual void completed() { }
+    virtual void firstResult() {}
+    virtual void result(EntryPointer entry) {}
+    virtual void completed() {}
 };
 
-class DetailedViewJobRunner : public QObject
-{
-	Q_OBJECT
-protected:
-	DetailedView *_view;
-	DatabaseThread *_dbThread;
-	ASyncEntryLoader *_aQuery;
+class DetailedViewJobRunner : public QObject {
+    Q_OBJECT
+  protected:
+    DetailedView *_view;
+    DatabaseThread *_dbThread;
+    ASyncEntryLoader *_aQuery;
 
-	QQueue<DetailedViewJob *> _jobs;
-	DetailedViewJob *_currentJob;
-	bool _ignoreJobs;
+    QQueue<DetailedViewJob *> _jobs;
+    DetailedViewJob *_currentJob;
+    bool _ignoreJobs;
 
-protected slots:
-	void onFirstResult();
-	void onResult(EntryPointer entry);
-	void onCompleted();
-	void onAborted();
-	void onError(const QString &error);
-	void runNextJob();
+  protected slots:
+    void onFirstResult();
+    void onResult(EntryPointer entry);
+    void onCompleted();
+    void onAborted();
+    void onError(const QString &error);
+    void runNextJob();
 
-public:
-	DetailedViewJobRunner(DetailedView *view, QObject *parent = 0);
-	virtual ~DetailedViewJobRunner();
+  public:
+    DetailedViewJobRunner(DetailedView *view, QObject *parent = 0);
+    virtual ~DetailedViewJobRunner();
 
-	void addJob(DetailedViewJob *job);
-	void runAllJobs();
-	void abortCurrentJob();
-	void abortAllJobs();
+    void addJob(DetailedViewJob *job);
+    void runAllJobs();
+    void abortCurrentJob();
+    void abortAllJobs();
 };
 
-class DetailedViewFonts : public QObject
-{
-	Q_OBJECT
-public:
-	typedef enum { DefaultText, Kana, Kanji, KanaHeader, KanjiHeader, MAX_FONTS } FontRole;
-	static PreferenceItem<QString> textFont;
-	static PreferenceItem<QString> kanjiFont;
-	static PreferenceItem<QString> kanaFont;
-	static PreferenceItem<QString> kanjiHeaderFont;
-	static PreferenceItem<QString> kanaHeaderFont;
+class DetailedViewFonts : public QObject {
+    Q_OBJECT
+  public:
+    typedef enum { DefaultText, Kana, Kanji, KanaHeader, KanjiHeader, MAX_FONTS } FontRole;
+    static PreferenceItem<QString> textFont;
+    static PreferenceItem<QString> kanjiFont;
+    static PreferenceItem<QString> kanaFont;
+    static PreferenceItem<QString> kanjiHeaderFont;
+    static PreferenceItem<QString> kanaHeaderFont;
 
-private:
-	static DetailedViewFonts *_instance;
+  private:
+    static DetailedViewFonts *_instance;
 
-	QFont _font[MAX_FONTS];
-	QColor _color[MAX_FONTS];
+    QFont _font[MAX_FONTS];
+    QColor _color[MAX_FONTS];
 
-	void _setFont(FontRole role, const QFont &font);
-	void _fontsChanged();
-	QColor _defaultColor(FontRole role) const;
-	QTextCharFormat _charFormat(FontRole role) const;
-	QString _CSS(FontRole role) const;
-	QString _HTML(FontRole role) const;
+    void _setFont(FontRole role, const QFont &font);
+    void _fontsChanged();
+    QColor _defaultColor(FontRole role) const;
+    QTextCharFormat _charFormat(FontRole role) const;
+    QString _CSS(FontRole role) const;
+    QString _HTML(FontRole role) const;
 
-public:
-	DetailedViewFonts(QWidget *parent = 0);
+  public:
+    DetailedViewFonts(QWidget *parent = 0);
 
-	static void setFont(FontRole role, const QFont &font) { _instance->_setFont(role, font); }
-	static void fontsChanged() { _instance->_fontsChanged(); }
-	static const QFont &font(FontRole role) { return _instance->_font[role]; }
-	static const QColor &color(FontRole role) { return _instance->_color[role]; }
-	static QColor defaultColor(FontRole role) { return _instance->_defaultColor(role); }
-	static QTextCharFormat charFormat(FontRole role) { return _instance->_charFormat(role); }
-	static QString CSS(FontRole role) { return _instance->_CSS(role); }
-	static QString HTML(FontRole role) { return _instance->_HTML(role); }
+    static void setFont(FontRole role, const QFont &font) { _instance->_setFont(role, font); }
+    static void fontsChanged() { _instance->_fontsChanged(); }
+    static const QFont &font(FontRole role) { return _instance->_font[role]; }
+    static const QColor &color(FontRole role) { return _instance->_color[role]; }
+    static QColor defaultColor(FontRole role) { return _instance->_defaultColor(role); }
+    static QTextCharFormat charFormat(FontRole role) { return _instance->_charFormat(role); }
+    static QString CSS(FontRole role) { return _instance->_CSS(role); }
+    static QString HTML(FontRole role) { return _instance->_HTML(role); }
 
-signals:
-	void fontsHaveChanged();
+  signals:
+    void fontsHaveChanged();
 
-friend class DetailedView;
+    friend class DetailedView;
 };
 
 /**
  * Handles links when clicked inside the detailed view.
  */
-class DetailedViewLinkHandler
-{
-private:
-	QString _scheme;
+class DetailedViewLinkHandler {
+  private:
+    QString _scheme;
 
-public:
-	DetailedViewLinkHandler(const QString &scheme) : _scheme(scheme) {}
-	virtual ~DetailedViewLinkHandler() {}
+  public:
+    DetailedViewLinkHandler(const QString &scheme) : _scheme(scheme) {}
+    virtual ~DetailedViewLinkHandler() {}
 
-	const QString &scheme() const { return _scheme; }
-	virtual void handleUrl(const QUrl &url, DetailedView *view) = 0;
+    const QString &scheme() const { return _scheme; }
+    virtual void handleUrl(const QUrl &url, DetailedView *view) = 0;
 };
 
-class DetailedViewLinkManager : public QObject
-{
-	Q_OBJECT
-private:
-	static DetailedViewLinkManager _instance;
-	static QMap<QString, DetailedViewLinkHandler *> _handlers;
-	DetailedViewLinkManager() : QObject(0) {}
+class DetailedViewLinkManager : public QObject {
+    Q_OBJECT
+  private:
+    static DetailedViewLinkManager _instance;
+    static QMap<QString, DetailedViewLinkHandler *> _handlers;
+    DetailedViewLinkManager() : QObject(0) {}
 
-public:
-	static DetailedViewLinkManager *instance() { return &_instance; }
+  public:
+    static DetailedViewLinkManager *instance() { return &_instance; }
 
-	static bool registerHandler(DetailedViewLinkHandler *handler);
-	static DetailedViewLinkHandler *getHandler(const QString &scheme);
-	static bool removeHandler(DetailedViewLinkHandler *handler);
-	static bool removeHandler(const QString &scheme);
+    static bool registerHandler(DetailedViewLinkHandler *handler);
+    static DetailedViewLinkHandler *getHandler(const QString &scheme);
+    static bool removeHandler(DetailedViewLinkHandler *handler);
+    static bool removeHandler(const QString &scheme);
 
-public slots:
-	void handleUrl(const QUrl &url);
+  public slots:
+    void handleUrl(const QUrl &url);
 };
 
 /**
  * Default handler to manage open partially displayed entries
  */
-class EntryMenuHandler : public DetailedViewLinkHandler
-{
-public:
-	EntryMenuHandler();
-	void handleUrl(const QUrl &url, DetailedView *view);
+class EntryMenuHandler : public DetailedViewLinkHandler {
+  public:
+    EntryMenuHandler();
+    void handleUrl(const QUrl &url, DetailedView *view);
 };
 
-class ListLinkHandler : public DetailedViewLinkHandler
-{
-public:
-	ListLinkHandler();
-	void handleUrl(const QUrl &url, DetailedView *view);
+class ListLinkHandler : public DetailedViewLinkHandler {
+  public:
+    ListLinkHandler();
+    void handleUrl(const QUrl &url, DetailedView *view);
 };
 
 class SearchBar;
 /**
  * Handles when tags are clicked
  */
-class TagsLinkHandler : public DetailedViewLinkHandler
-{
-public:
-	TagsLinkHandler();
-	void handleUrl(const QUrl &url, DetailedView *view);
+class TagsLinkHandler : public DetailedViewLinkHandler {
+  public:
+    TagsLinkHandler();
+    void handleUrl(const QUrl &url, DetailedView *view);
 };
 
 /**
  * A rich-text widget suitable for displaying details about entries
  * and doing basic manipulations on them.
  */
-class DetailedView : public QTextBrowser
-{
-	Q_OBJECT
-private:
-	// Set of event filters used by all detailed views
-	static QSet<QObject *> _eventFilters;
-	// Set of all the instances of detailed views, so we can install the event filters
-	// even after instanciation
-	static QSet<DetailedView *> _instances;
-	static EntryMenuHandler _entryHandler;
-	static TagsLinkHandler _tagsLinkHandler;
-	static ListLinkHandler _listLinkHandler;
-	bool _kanjiClickable;
-	bool _historyEnabled;
-	ScrollBarSmoothScroller _scroller;
-	/// Used to know whether we are about to drag the entry currently displayed
-	EntryRef _dragEntryRef;
-	QPoint _dragStartPos;
-	bool _dragStarted;
+class DetailedView : public QTextBrowser {
+    Q_OBJECT
+  private:
+    // Set of event filters used by all detailed views
+    static QSet<QObject *> _eventFilters;
+    // Set of all the instances of detailed views, so we can install the event
+    // filters even after instanciation
+    static QSet<DetailedView *> _instances;
+    static EntryMenuHandler _entryHandler;
+    static TagsLinkHandler _tagsLinkHandler;
+    static ListLinkHandler _listLinkHandler;
+    bool _kanjiClickable;
+    bool _historyEnabled;
+    ScrollBarSmoothScroller _scroller;
+    /// Used to know whether we are about to drag the entry currently displayed
+    EntryRef _dragEntryRef;
+    QPoint _dragStartPos;
+    bool _dragStarted;
 
-protected:
-	AbstractHistory<EntryRef, QList<EntryRef> > _history;
-	SingleEntryView _entryView;
-	DetailedViewJobRunner _jobsRunner;
-	QList<ConstEntryPointer> _watchedEntries;
-	QAction *_historyPrevAction;
-	QAction *_historyNextAction;
-	
-	virtual void mousePressEvent(QMouseEvent *e);
-	virtual void mouseMoveEvent(QMouseEvent *e);
-	virtual void mouseReleaseEvent(QMouseEvent *e);
+  protected:
+    AbstractHistory<EntryRef, QList<EntryRef>> _history;
+    SingleEntryView _entryView;
+    DetailedViewJobRunner _jobsRunner;
+    QList<ConstEntryPointer> _watchedEntries;
+    QAction *_historyPrevAction;
+    QAction *_historyNextAction;
 
-public:
-	static void registerEventFilter(QObject *obj);
-	static void removeEventFilter(QObject *obj);
+    virtual void mousePressEvent(QMouseEvent *e);
+    virtual void mouseMoveEvent(QMouseEvent *e);
+    virtual void mouseReleaseEvent(QMouseEvent *e);
 
-	DetailedView(QWidget *parent = 0);
-	virtual ~DetailedView();
-	void setSmoothScrolling(bool value);
+  public:
+    static void registerEventFilter(QObject *obj);
+    static void removeEventFilter(QObject *obj);
 
-	bool kanjiClickable() const { return _kanjiClickable; }
-	void setKanjiClickable(bool clickable);
-	void setHistoryEnabled(bool enabled);
-	const SingleEntryView *entryView() const { return &_entryView; }
+    DetailedView(QWidget *parent = 0);
+    virtual ~DetailedView();
+    void setSmoothScrolling(bool value);
 
-	void addBackgroundJob(DetailedViewJob *job);
-	static const QSet<DetailedView *> &instances() { return _instances; }
+    bool kanjiClickable() const { return _kanjiClickable; }
+    void setKanjiClickable(bool clickable);
+    void setHistoryEnabled(bool enabled);
+    const SingleEntryView *entryView() const { return &_entryView; }
 
-	/**
-	 * Fake a click event on the provided URL.
-	 */
-	void fakeClick(const QUrl &url) { emit anchorClicked(url); }
-	/**
-	 * Add an entry to watch, i.e. the view will be
-	 * redrawn if this entry changes.
-	 */
-	void addWatchEntry(const ConstEntryPointer &entry);
+    void addBackgroundJob(DetailedViewJob *job);
+    static const QSet<DetailedView *> &instances() { return _instances; }
 
-	static PreferenceItem<int> historySize;
-	static PreferenceItem<bool> smoothScrolling;
+    /**
+     * Fake a click event on the provided URL.
+     */
+    void fakeClick(const QUrl &url) { emit anchorClicked(url); }
+    /**
+     * Add an entry to watch, i.e. the view will be
+     * redrawn if this entry changes.
+     */
+    void addWatchEntry(const ConstEntryPointer &entry);
 
-	void populateToolBar(QToolBar *toolbar);
-	
-protected slots:
-	/// Display previous item in history, if any.
-	void previous();
-	/// Display next item in history, if any.
-	void next();
-	/**
-	 * Display an entry without updating history.
-	 * If update is true, then the entry is redisplayed
-	 * regardless of whether it is the same as before.
-	 */
-	virtual void _display(const EntryPointer &entry, bool update = false);
+    static PreferenceItem<int> historySize;
+    static PreferenceItem<bool> smoothScrolling;
 
-public slots:
-	/// Display an entry, updating the history.
-	void display(const EntryPointer& entry);
-	/// Redraw the current entry, if any.
-	void redisplay();
-	/// Clear the display (keep history)
-	void clear();
+    void populateToolBar(QToolBar *toolbar);
 
-	/**
-	 * Manually inform the view about which entry it is displaying. Calling
-	 * display() is enough to do this, but there are times when this
-	 * the entry is drawn manually using the QTextBrowser interface (for instance,
-	 * when drawing only part of the entry for flashcards). In these cases, calling
-	 * this function allows to use the right-click menu entries.
-	 *
-	 * Note that the history is not updated by this function.
-	 */
-	void setEntry(const EntryPointer &entry) { _entryView.setEntry(entry); }
+  protected slots:
+    /// Display previous item in history, if any.
+    void previous();
+    /// Display next item in history, if any.
+    void next();
+    /**
+     * Display an entry without updating history.
+     * If update is true, then the entry is redisplayed
+     * regardless of whether it is the same as before.
+     */
+    virtual void _display(const EntryPointer &entry, bool update = false);
 
-signals:
-	void entryDisplayed(const ConstEntryPointer &entry);
+  public slots:
+    /// Display an entry, updating the history.
+    void display(const EntryPointer &entry);
+    /// Redraw the current entry, if any.
+    void redisplay();
+    /// Clear the display (keep history)
+    void clear();
+
+    /**
+     * Manually inform the view about which entry it is displaying. Calling
+     * display() is enough to do this, but there are times when this
+     * the entry is drawn manually using the QTextBrowser interface (for
+     * instance, when drawing only part of the entry for flashcards). In these
+     * cases, calling this function allows to use the right-click menu entries.
+     *
+     * Note that the history is not updated by this function.
+     */
+    void setEntry(const EntryPointer &entry) { _entryView.setEntry(entry); }
+
+  signals:
+    void entryDisplayed(const ConstEntryPointer &entry);
 };
 
 #endif

@@ -19,80 +19,79 @@
 #define __GUI_KANJI_POPUP_H
 
 #include <QFrame>
-#include <QLabel>
-#include <QPushButton>
-#include <QToolButton>
-#include <QList>
+#include <QGraphicsItem>
 #include <QGraphicsScene>
 #include <QGraphicsView>
-#include <QGraphicsItem>
+#include <QLabel>
+#include <QList>
+#include <QPushButton>
+#include <QToolButton>
 
 #include "core/kanjidic2/Kanjidic2Entry.h"
-#include "gui/kanjidic2/KanjiPlayer.h"
-#include "gui/SingleEntryView.h"
 #include "gui/AbstractHistory.h"
+#include "gui/SingleEntryView.h"
+#include "gui/kanjidic2/KanjiPlayer.h"
 
-class KanjiComponentWidget : public QWidget
-{
-	Q_OBJECT
-private:
-	const KanjiComponent *_component;
-	ConstKanjidic2EntryPointer _kanji;
+class KanjiComponentWidget : public QWidget {
+    Q_OBJECT
+  private:
+    const KanjiComponent *_component;
+    ConstKanjidic2EntryPointer _kanji;
 
-protected:
-	virtual void paintEvent(QPaintEvent *event);
+  protected:
+    virtual void paintEvent(QPaintEvent *event);
 
-public:
-	KanjiComponentWidget(QWidget *parent = 0);
-	virtual QSize sizeHint() const;
-	void setComponent(const KanjiComponent *component);
-	const KanjiComponent *component() const { return _component; }
-	const ConstKanjidic2EntryPointer &kanji() const { return _kanji; }
+  public:
+    KanjiComponentWidget(QWidget *parent = 0);
+    virtual QSize sizeHint() const;
+    void setComponent(const KanjiComponent *component);
+    const KanjiComponent *component() const { return _component; }
+    const ConstKanjidic2EntryPointer &kanji() const { return _kanji; }
 };
 
 #include "gui/kanjidic2/ui_KanjiPopup.h"
 
 class KanjiPopup : public QFrame, public Ui::KanjiPopup {
-	Q_OBJECT
-private:
-	AbstractHistory<QString, QList<QString> > _history;
-	SingleEntryView entryView;
-	QPoint dragPos;
+    Q_OBJECT
+  private:
+    AbstractHistory<QString, QList<QString>> _history;
+    SingleEntryView entryView;
+    QPoint dragPos;
 
-	void setComponentsLabelText(int highlightPos = -1);
+    void setComponentsLabelText(int highlightPos = -1);
 
-protected:
-	bool eventFilter(QObject *obj, QEvent *event);
-	virtual void mousePressEvent(QMouseEvent *event);
-	virtual void mouseMoveEvent(QMouseEvent *event);
+  protected:
+    bool eventFilter(QObject *obj, QEvent *event);
+    virtual void mousePressEvent(QMouseEvent *event);
+    virtual void mouseMoveEvent(QMouseEvent *event);
 
-private slots:
-	void showKanji(const Kanjidic2EntryPointer& entry);
-	void onOpenClick();
-	void onPreviousClick();
-	void onNextClick();
-	void onComponentHighlighted(const KanjiComponent *component);
-	void onComponentUnHighlighted();
-	void onComponentClicked(const KanjiComponent *component);
+  private slots:
+    void showKanji(const Kanjidic2EntryPointer &entry);
+    void onOpenClick();
+    void onPreviousClick();
+    void onNextClick();
+    void onComponentHighlighted(const KanjiComponent *component);
+    void onComponentUnHighlighted();
+    void onComponentClicked(const KanjiComponent *component);
 
-	void onComponentLinkHovered(const QString &link);
-	void onComponentLinkActivated(const QString &link);
+    void onComponentLinkHovered(const QString &link);
+    void onComponentLinkActivated(const QString &link);
 
-public:
-	KanjiPopup(QWidget *parent = 0);
-	~KanjiPopup();
+  public:
+    KanjiPopup(QWidget *parent = 0);
+    ~KanjiPopup();
 
-	void display(const Kanjidic2EntryPointer& entry);
+    void display(const Kanjidic2EntryPointer &entry);
 
-	static PreferenceItem<int> historySize;
-	static PreferenceItem<int> animationSize;
-	static PreferenceItem<bool> autoStartAnim;
+    static PreferenceItem<int> historySize;
+    static PreferenceItem<int> animationSize;
+    static PreferenceItem<bool> autoStartAnim;
 
-public slots:
-	void updateInfo();
+  public slots:
+    void updateInfo();
 
-signals:
-	void requestDisplay(const EntryPointer &);
+  signals:
+    void requestDisplay(const EntryPointer &);
 };
 
 #endif

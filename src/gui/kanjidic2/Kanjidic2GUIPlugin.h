@@ -33,83 +33,79 @@ class KanjiAllComponentsOfHandler;
 class Kanjidic2FilterWidget;
 class KanaSelector;
 
-class Kanjidic2GUIPlugin : public QObject, public Plugin
-{
-	Q_OBJECT
-private:
-	QAction *_flashKL, *_flashKS, *_flashML, *_flashMS, *_readingPractice, *_showKanjiPopup;
-	KanjiLinkHandler *_linkHandler;
-	KanjiAllWordsHandler *_wordsLinkHandler;
-	KanjiAllComponentsOfHandler *_componentsLinkHandler;
-	Kanjidic2FilterWidget *_filter;
-	YesNoTrainer *_trainer;
-	ReadingTrainer *_readingTrainer;
-	KanjiInputPopupAction * _cAction, *_kAction;
-	KanaSelector *_kanaSelector;
-	QDockWidget *_kanaDockWidget;
-	/// Used for drag'n drop of kanji from the detailed view
-	bool _dragStarted;
-	QPoint _dragPos;
-	KanjiEntryRef _dragEntryRef;
+class Kanjidic2GUIPlugin : public QObject, public Plugin {
+    Q_OBJECT
+  private:
+    QAction *_flashKL, *_flashKS, *_flashML, *_flashMS, *_readingPractice, *_showKanjiPopup;
+    KanjiLinkHandler *_linkHandler;
+    KanjiAllWordsHandler *_wordsLinkHandler;
+    KanjiAllComponentsOfHandler *_componentsLinkHandler;
+    Kanjidic2FilterWidget *_filter;
+    YesNoTrainer *_trainer;
+    ReadingTrainer *_readingTrainer;
+    KanjiInputPopupAction *_cAction, *_kAction;
+    KanaSelector *_kanaSelector;
+    QDockWidget *_kanaDockWidget;
+    /// Used for drag'n drop of kanji from the detailed view
+    bool _dragStarted;
+    QPoint _dragPos;
+    KanjiEntryRef _dragEntryRef;
 
-	static Kanjidic2GUIPlugin *_instance;
+    static Kanjidic2GUIPlugin *_instance;
 
-	void training(YesNoTrainer::TrainingMode mode, const QString &queryString);
+    void training(YesNoTrainer::TrainingMode mode, const QString &queryString);
 
-private slots:
-	void trainerDeleted();
-	void readingTrainerDeleted();
+  private slots:
+    void trainerDeleted();
+    void readingTrainerDeleted();
 
-protected slots:
-	void trainingKanjiList();
-	void trainingKanjiSet();
-	void trainingMeaningList();
-	void trainingMeaningSet();
-	void readingPractice();
-	void popupDetailedViewKanjiEntry();
+  protected slots:
+    void trainingKanjiList();
+    void trainingKanjiSet();
+    void trainingMeaningList();
+    void trainingMeaningSet();
+    void readingPractice();
+    void popupDetailedViewKanjiEntry();
 
-public:
-	Kanjidic2GUIPlugin();
-	virtual ~Kanjidic2GUIPlugin();
-	virtual bool onRegister();
-	virtual bool onUnregister();
+  public:
+    Kanjidic2GUIPlugin();
+    virtual ~Kanjidic2GUIPlugin();
+    virtual bool onRegister();
+    virtual bool onUnregister();
 
-	static Kanjidic2GUIPlugin *instance() { return _instance; }
+    static Kanjidic2GUIPlugin *instance() { return _instance; }
 
-	/**
-	 * Used to filter the events of the detailed views and
-	 * handle mouse hover and clicks on kanjis.
-	 */
-	bool eventFilter(QObject *obj, QEvent *_event);
+    /**
+     * Used to filter the events of the detailed views and
+     * handle mouse hover and clicks on kanjis.
+     */
+    bool eventFilter(QObject *obj, QEvent *_event);
 
-	KanaSelector *kanaSelector() { return _kanaSelector; }
+    KanaSelector *kanaSelector() { return _kanaSelector; }
 
-	static const QString kanjiGrades[];
+    static const QString kanjiGrades[];
 
-	static PreferenceItem<bool> kanjiTooltipEnabled;
-	static void showPopup(const Kanjidic2EntryPointer &entry, const QPoint &pos);
+    static PreferenceItem<bool> kanjiTooltipEnabled;
+    static void showPopup(const Kanjidic2EntryPointer &entry, const QPoint &pos);
 };
 
-class KanjiLinkHandler : public DetailedViewLinkHandler
-{
-	Q_DECLARE_TR_FUNCTIONS(KanjiLinkHandler)
-public:
-	KanjiLinkHandler();
-	void handleUrl(const QUrl &url, DetailedView *view);
+class KanjiLinkHandler : public DetailedViewLinkHandler {
+    Q_DECLARE_TR_FUNCTIONS(KanjiLinkHandler)
+  public:
+    KanjiLinkHandler();
+    void handleUrl(const QUrl &url, DetailedView *view);
 };
 
-class KanjiAllWordsHandler : public DetailedViewLinkHandler
-{
-public:
-	KanjiAllWordsHandler();
-	void handleUrl(const QUrl &url, DetailedView *view);
+class KanjiAllWordsHandler : public DetailedViewLinkHandler {
+  public:
+    KanjiAllWordsHandler();
+    void handleUrl(const QUrl &url, DetailedView *view);
 };
 
-class KanjiAllComponentsOfHandler : public DetailedViewLinkHandler
-{
-public:
-	KanjiAllComponentsOfHandler();
-	void handleUrl(const QUrl &url, DetailedView *view);
+class KanjiAllComponentsOfHandler : public DetailedViewLinkHandler {
+  public:
+    KanjiAllComponentsOfHandler();
+    void handleUrl(const QUrl &url, DetailedView *view);
 };
 
 #endif // KANJIDIC2GUIPLUGIN_H

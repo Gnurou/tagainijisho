@@ -19,65 +19,57 @@
 
 #include <QHBoxLayout>
 
-EntryTypeFilterWidget::EntryTypeFilterWidget(QWidget *parent) : SearchFilterWidget(parent)
-{
-	_propsToSave << "type";
-	
-	_comboBox = new QComboBox(this);
+EntryTypeFilterWidget::EntryTypeFilterWidget(QWidget *parent) : SearchFilterWidget(parent) {
+    _propsToSave << "type";
+
+    _comboBox = new QComboBox(this);
 #ifndef Q_OS_OSX
-	QFont fnt(font());
-	fnt.setPointSize(fnt.pointSize() - 1);
-	setFont(fnt);
-	_comboBox->setFont(fnt);
+    QFont fnt(font());
+    fnt.setPointSize(fnt.pointSize() - 1);
+    setFont(fnt);
+    _comboBox->setFont(fnt);
 #endif
-	_comboBox->addItem(tr("All"), 0);
-	_comboBox->addItem(tr("Vocabulary"), 1);
-	_comboBox->addItem(tr("Characters"), 2);
-	connect(_comboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(onComboBoxChanged(int)));
-	_comboBox->setAttribute(Qt::WA_MacMiniSize);
+    _comboBox->addItem(tr("All"), 0);
+    _comboBox->addItem(tr("Vocabulary"), 1);
+    _comboBox->addItem(tr("Characters"), 2);
+    connect(_comboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(onComboBoxChanged(int)));
+    _comboBox->setAttribute(Qt::WA_MacMiniSize);
 
-	QHBoxLayout *hLayout = new QHBoxLayout(this);
-	hLayout->setContentsMargins(0, 0, 0, 0);
-	hLayout->addWidget(_comboBox);
+    QHBoxLayout *hLayout = new QHBoxLayout(this);
+    hLayout->setContentsMargins(0, 0, 0, 0);
+    hLayout->addWidget(_comboBox);
 }
 
-QString EntryTypeFilterWidget::currentCommand() const
-{
-	switch (_comboBox->itemData(_comboBox->currentIndex()).toInt())
-	{
-		case 1:
-			return ":jmdict";
-		case 2:
-			return ":kanjidic";
-		default:
-			return "";
-	}
+QString EntryTypeFilterWidget::currentCommand() const {
+    switch (_comboBox->itemData(_comboBox->currentIndex()).toInt()) {
+    case 1:
+        return ":jmdict";
+    case 2:
+        return ":kanjidic";
+    default:
+        return "";
+    }
 }
 
-void EntryTypeFilterWidget::onComboBoxChanged(int index)
-{
-	switch (_comboBox->itemData(_comboBox->currentIndex()).toInt())
-	{
-		case 1:
-			emit disableFeature("kanjidic");
-			emit enableFeature("wordsdic");
-			break;
-		case 2:
-			emit disableFeature("wordsdic");
-			emit enableFeature("kanjidic");
-			break;
-		default:
-			// TODO
-			// We cannot emit the feature that way - we must first check whether other widgets
-			// allow us to do so.
-			emit enableFeature("wordsdic");
-			emit enableFeature("kanjidic");
-			break;
-	}
-	commandUpdate();
+void EntryTypeFilterWidget::onComboBoxChanged(int index) {
+    switch (_comboBox->itemData(_comboBox->currentIndex()).toInt()) {
+    case 1:
+        emit disableFeature("kanjidic");
+        emit enableFeature("wordsdic");
+        break;
+    case 2:
+        emit disableFeature("wordsdic");
+        emit enableFeature("kanjidic");
+        break;
+    default:
+        // TODO
+        // We cannot emit the feature that way - we must first check whether
+        // other widgets allow us to do so.
+        emit enableFeature("wordsdic");
+        emit enableFeature("kanjidic");
+        break;
+    }
+    commandUpdate();
 }
 
-void EntryTypeFilterWidget::_reset()
-{
-	_comboBox->setCurrentIndex(0);
-}
+void EntryTypeFilterWidget::_reset() { _comboBox->setCurrentIndex(0); }

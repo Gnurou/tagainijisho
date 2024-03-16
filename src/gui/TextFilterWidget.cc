@@ -15,101 +15,96 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "core/EntrySearcher.h"
 #include "gui/TextFilterWidget.h"
+#include "core/EntrySearcher.h"
 #include "gui/TJLineEdit.h"
 
-#include <QHBoxLayout>
 #include <QApplication>
+#include <QHBoxLayout>
 
-PreferenceItem<int> TextFilterWidget::textSearchHistorySize("mainWindow", "searchBarHistorySize", 100);
+PreferenceItem<int> TextFilterWidget::textSearchHistorySize("mainWindow", "searchBarHistorySize",
+                                                            100);
 
-TextFilterWidget::TextFilterWidget(QWidget *parent) : SearchFilterWidget(parent), _reseted(true)
-{
-	_propsToSave << "text" << "allowRomajiSearch";
+TextFilterWidget::TextFilterWidget(QWidget *parent) : SearchFilterWidget(parent), _reseted(true) {
+    _propsToSave << "text" << "allowRomajiSearch";
 
-	_searchField = new QComboBox(this);
-	_searchField->setMinimumWidth(150);
-	_searchField->setEditable(true);
-	_searchField->setMaxCount(textSearchHistorySize.value());
-	_searchField->setSizePolicy(QSizePolicy::Expanding, _searchField->sizePolicy().verticalPolicy());
-	_searchField->setInsertPolicy(QComboBox::NoInsert);
-	//_searchField->setLineEdit(new TJLineEdit());
-	connect(_searchField->lineEdit(), SIGNAL(returnPressed()), this, SLOT(runSearch()));
-	connect(_searchField->lineEdit(), SIGNAL(textChanged(QString)), this, SLOT(onSearchTextChanged(QString)));
-	connect(_searchField, SIGNAL(activated(int)), this, SLOT(onItemSelected(int)));
+    _searchField = new QComboBox(this);
+    _searchField->setMinimumWidth(150);
+    _searchField->setEditable(true);
+    _searchField->setMaxCount(textSearchHistorySize.value());
+    _searchField->setSizePolicy(QSizePolicy::Expanding,
+                                _searchField->sizePolicy().verticalPolicy());
+    _searchField->setInsertPolicy(QComboBox::NoInsert);
+    //_searchField->setLineEdit(new TJLineEdit());
+    connect(_searchField->lineEdit(), SIGNAL(returnPressed()), this, SLOT(runSearch()));
+    connect(_searchField->lineEdit(), SIGNAL(textChanged(QString)), this,
+            SLOT(onSearchTextChanged(QString)));
+    connect(_searchField, SIGNAL(activated(int)), this, SLOT(onItemSelected(int)));
 
-	_romajiSearchAllowed = new QCheckBox(tr("Romaji search"), this);
-	_romajiSearchAllowed->setChecked(EntrySearcher::allowRomajiSearch());
-	_romajiSearchAllowed->setToolTip(tr("If checked, text typed in romaji will be converted to kana and searched as such."));
-	connect(_romajiSearchAllowed, SIGNAL(toggled(bool)), this, SLOT(onRomajiChanged(bool)));
+    _romajiSearchAllowed = new QCheckBox(tr("Romaji search"), this);
+    _romajiSearchAllowed->setChecked(EntrySearcher::allowRomajiSearch());
+    _romajiSearchAllowed->setToolTip(
+        tr("If checked, text typed in romaji will be converted to kana and "
+           "searched as such."));
+    connect(_romajiSearchAllowed, SIGNAL(toggled(bool)), this, SLOT(onRomajiChanged(bool)));
 
-	QHBoxLayout *hLayout = new QHBoxLayout(this);
-	hLayout->setContentsMargins(0, 0, 0, 0);
-	hLayout->setSpacing(5);
-	hLayout->addWidget(_searchField);
-	hLayout->addWidget(_romajiSearchAllowed);
-	
-	setFocusProxy(_searchField);	
+    QHBoxLayout *hLayout = new QHBoxLayout(this);
+    hLayout->setContentsMargins(0, 0, 0, 0);
+    hLayout->setSpacing(5);
+    hLayout->addWidget(_searchField);
+    hLayout->addWidget(_romajiSearchAllowed);
+
+    setFocusProxy(_searchField);
 }
 
-QString TextFilterWidget::currentTitle() const
-{
-	if (!_searchField->lineEdit()->text().isEmpty()) return _searchField->lineEdit()->text();
-	return tr("Text search");
+QString TextFilterWidget::currentTitle() const {
+    if (!_searchField->lineEdit()->text().isEmpty())
+        return _searchField->lineEdit()->text();
+    return tr("Text search");
 }
 
-void TextFilterWidget::setText(const QString &text)
-{
-	_searchField->lineEdit()->setText(text);
-	commandUpdate();
+void TextFilterWidget::setText(const QString &text) {
+    _searchField->lineEdit()->setText(text);
+    commandUpdate();
 }
 
-void TextFilterWidget::onItemSelected(int item)
-{
-	if (item != 0) {
-		QString itemString(_searchField->itemText(item));
-		_searchField->removeItem(item);
-		setText(itemString);
-		runSearch();
-	}
+void TextFilterWidget::onItemSelected(int item) {
+    if (item != 0) {
+        QString itemString(_searchField->itemText(item));
+        _searchField->removeItem(item);
+        setText(itemString);
+        runSearch();
+    }
 }
 
-void TextFilterWidget::runSearch()
-{
-	QString input(_searchField->lineEdit()->text().trimmed());
-	if (!input.isEmpty() && (_reseted || _searchField->itemText(0) != input)) {
-		_searchField->insertItem(0, input);
-		_searchField->setCurrentIndex(0);
-		_reseted = false;
-		commandUpdate();
-	}
+void TextFilterWidget::runSearch() {
+    QString input(_searchField->lineEdit()->text().trimmed());
+    if (!input.isEmpty() && (_reseted || _searchField->itemText(0) != input)) {
+        _searchField->insertItem(0, input);
+        _searchField->setCurrentIndex(0);
+        _reseted = false;
+        commandUpdate();
+    }
 }
 
-void TextFilterWidget::onSearchTextChanged(const QString &text)
-{
-	delayedCommandUpdate();
+void TextFilterWidget::onSearchTextChanged(const QString &text) { delayedCommandUpdate(); }
+
+void TextFilterWidget::resetSearchText() {
+    if (text().isEmpty())
+        return;
+    _reseted = true;
+    _searchField->clearEditText();
+    _searchField->setFocus();
+    commandUpdate();
 }
 
-void TextFilterWidget::resetSearchText()
-{
-	if (text().isEmpty()) return;
-	_reseted = true;
-	_searchField->clearEditText();
-	_searchField->setFocus();
-	commandUpdate();
+void TextFilterWidget::onRomajiChanged(bool state) {
+    EntrySearcher::allowRomajiSearch = (bool)state;
+    _searchField->setFocus();
+    commandUpdate();
 }
 
-void TextFilterWidget::onRomajiChanged(bool state)
-{
-	EntrySearcher::allowRomajiSearch = (bool)state;
-	_searchField->setFocus();
-	commandUpdate();
-}
-
-
-void TextFilterWidget::_reset()
-{
-	resetSearchText();
-	_romajiSearchAllowed->setChecked(EntrySearcher::allowRomajiSearch());
+void TextFilterWidget::_reset() {
+    resetSearchText();
+    _romajiSearchAllowed->setChecked(EntrySearcher::allowRomajiSearch());
 }

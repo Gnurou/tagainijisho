@@ -22,13 +22,13 @@
 
 #include "gui/BookletPrintEngine.h"
 
-class BookletPrinter : public QPrinter
-{
-private:
-	BookletPrintEngine _printEngine;
-public:
-	BookletPrinter(QPrinter *printer, PrinterMode mode = ScreenResolution);
-	virtual ~BookletPrinter();
+class BookletPrinter : public QPrinter {
+  private:
+    BookletPrintEngine _printEngine;
+
+  public:
+    BookletPrinter(QPrinter *printer, PrinterMode mode = ScreenResolution);
+    virtual ~BookletPrinter();
 };
 
 #endif

@@ -18,43 +18,42 @@
 #ifndef __CORE__ENTRY_LOADER_H_
 #define __CORE__ENTRY_LOADER_H_
 
+#include "core/Entry.h"
 #include "sqlite/Connection.h"
 #include "sqlite/Query.h"
-#include "core/Entry.h"
 
 /**
  * Base class for loading entries of a given type.
  */
-class EntryLoader
-{
-private:
-	SQLite::Query trainQuery, tagsQuery, notesQuery, listsQuery;
+class EntryLoader {
+  private:
+    SQLite::Query trainQuery, tagsQuery, notesQuery, listsQuery;
 
-protected:
-	/**
-	 * Connection to the user db file (and possibly other dbs)
-	 * that is used to load the entries.
-	 */
-	SQLite::Connection connection;
+  protected:
+    /**
+     * Connection to the user db file (and possibly other dbs)
+     * that is used to load the entries.
+     */
+    SQLite::Connection connection;
 
-	/**
-	 * Loads misc data about this entry. This includes user tags,
-	 * training information, and notes. This function should always
-	 * be called as soon as the loadEntry() method of an entry searcher
-	 * has created the right instance for its entry.
-	 */
-	void loadMiscData(Entry *entry);
+    /**
+     * Loads misc data about this entry. This includes user tags,
+     * training information, and notes. This function should always
+     * be called as soon as the loadEntry() method of an entry searcher
+     * has created the right instance for its entry.
+     */
+    void loadMiscData(Entry *entry);
 
-public:
-	EntryLoader();
-	virtual ~EntryLoader();
+  public:
+    EntryLoader();
+    virtual ~EntryLoader();
 
-	/**
-	 * Being given a reference to a result, load it
-	 * from the database and return it. Returns null in
-	 * case of problem, for instance if there is no other result.
-	 */
-	virtual Entry *loadEntry(EntryId id) = 0;
+    /**
+     * Being given a reference to a result, load it
+     * from the database and return it. Returns null in
+     * case of problem, for instance if there is no other result.
+     */
+    virtual Entry *loadEntry(EntryId id) = 0;
 };
 
 #endif

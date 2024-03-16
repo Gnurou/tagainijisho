@@ -18,15 +18,15 @@
 #ifndef __CORE_ENTRIES_CACHE_H
 #define __CORE_ENTRIES_CACHE_H
 
-#include "core/Preferences.h"
 #include "core/Entry.h"
 #include "core/EntryLoader.h"
+#include "core/Preferences.h"
 
 #include <QHash>
-#include <QPair>
-#include <QObject>
-#include <QQueue>
 #include <QMutex>
+#include <QObject>
+#include <QPair>
+#include <QQueue>
 
 class EntryRef;
 
@@ -43,58 +43,55 @@ class EntryRef;
  * is the only one allowed to access the Entry loaders. Respecting this rule
  * ensures data consistency and safety, and greatly simplify the UI design.
  */
-class EntriesCache
-{
-private:
-	static EntriesCache * _instance;
+class EntriesCache {
+  private:
+    static EntriesCache *_instance;
 
-	QMap<EntryType, EntryLoader *> _loaders;
-	QHash<EntryRef, QWeakPointer<Entry> > _loadedEntries;
-	QMutex _loadedEntriesMutex;
+    QMap<EntryType, EntryLoader *> _loaders;
+    QHash<EntryRef, QWeakPointer<Entry>> _loadedEntries;
+    QMutex _loadedEntriesMutex;
 
-	QQueue<EntryPointer> _cache;
-	QMutex _cacheMutex;
+    QQueue<EntryPointer> _cache;
+    QMutex _cacheMutex;
 
-	/**
-	 * This method is automatically called when the reference count of
-	 * an entry pointer reaches 0. It removes the entry from the list
-	 * of loaded entries list and takes care to delete the entry.
-	 *
-	 * This operation is atomic, i.e. it ensures no reference to the
-	 * deleted entry is created by the meantime.
-	 */
-	static void _removeAndDelete(const Entry *entry);
+    /**
+     * This method is automatically called when the reference count of
+     * an entry pointer reaches 0. It removes the entry from the list
+     * of loaded entries list and takes care to delete the entry.
+     *
+     * This operation is atomic, i.e. it ensures no reference to the
+     * deleted entry is created by the meantime.
+     */
+    static void _removeAndDelete(const Entry *entry);
 
-	friend class Entry;
+    friend class Entry;
 
-	EntryPointer _get(EntryType type, EntryId id);
-	EntriesCache();
-	~EntriesCache();
+    EntryPointer _get(EntryType type, EntryId id);
+    EntriesCache();
+    ~EntriesCache();
 
-	/**
-	 * Returns the unique instance of the entry given as argument,
-	 * loading it from the database if necessary. Returns null
-	 * if the entry could not be loaded.
-	 */
-	static EntryPointer get(EntryType type, EntryId id) {
-		return _instance->_get(type, id);
-	}
+    /**
+     * Returns the unique instance of the entry given as argument,
+     * loading it from the database if necessary. Returns null
+     * if the entry could not be loaded.
+     */
+    static EntryPointer get(EntryType type, EntryId id) { return _instance->_get(type, id); }
 
-public:
-	static void init();
-	static void cleanup();
+  public:
+    static void init();
+    static void cleanup();
 
-	static EntriesCache &instance() { return *_instance; }
+    static EntriesCache &instance() { return *_instance; }
 
-	bool addLoader(EntryType type, EntryLoader *loader);
-	bool removeLoader(EntryType type);
-	EntryLoader *loaderFor(EntryType type);
+    bool addLoader(EntryType type, EntryLoader *loader);
+    bool removeLoader(EntryType type);
+    EntryLoader *loaderFor(EntryType type);
 
-	/**
-	 * The size of the cache can be modified in real-time through this value.
-	 */
-	static PreferenceItem<int> cacheSize;
-friend class EntryRef;
+    /**
+     * The size of the cache can be modified in real-time through this value.
+     */
+    static PreferenceItem<int> cacheSize;
+    friend class EntryRef;
 };
 
 /**
@@ -104,43 +101,44 @@ friend class EntryRef;
  * a QVariant, making it the preferred solution to keep track of an entry
  * we do not need to be loaded now but might need later.
  */
-class EntryRef : protected QPair<EntryType, EntryId>
-{
-public:
-	/// Constructs an invalid reference
-	EntryRef() : QPair<EntryType, EntryId>(0, 0) {}
-	EntryRef(const ConstEntryPointer &entry) : QPair<quint8, quint32>(entry->type(), entry->id()) {}
-	EntryRef(EntryType type, EntryId id) : QPair<quint8, quint32>(type, id) {}
-	bool isValid() const { return first != 0; }
-	EntryType type() const { return first; }
-	EntryId id() const { return second; }
+class EntryRef : protected QPair<EntryType, EntryId> {
+  public:
+    /// Constructs an invalid reference
+    EntryRef() : QPair<EntryType, EntryId>(0, 0) {}
+    EntryRef(const ConstEntryPointer &entry) : QPair<quint8, quint32>(entry->type(), entry->id()) {}
+    EntryRef(EntryType type, EntryId id) : QPair<quint8, quint32>(type, id) {}
+    bool isValid() const { return first != 0; }
+    EntryType type() const { return first; }
+    EntryId id() const { return second; }
 
-	/**
-	 * Returns true if the entry accessible through this reference is already loaded
-	 * into the cache.
-	 */
-	bool isLoaded() const { return EntriesCache::_instance->_loadedEntries.contains(*this); }
+    /**
+     * Returns true if the entry accessible through this reference is already
+     * loaded into the cache.
+     */
+    bool isLoaded() const { return EntriesCache::_instance->_loadedEntries.contains(*this); }
 
-	/**
-	 * Returns a pointer to the entry corresponding to this reference. If needed, the entry will
-	 * be loaded from the database.
-	 *
-	 * Note that the referenced entry may not exist - it is a good idea to check whether the 
-	 * returned pointer actually points to something before using it.
-	 */
-	EntryPointer get() const { return EntriesCache::get(type(), id()); }
-	bool operator==(const EntryRef &other) const { return static_cast<const QPair<quint8, quint32> >(*this) == other; }
-	bool operator!=(const EntryRef &other) const { return !(*this == other); }
-	friend QDataStream &operator<<(QDataStream &out, const EntryRef &ref);
-	friend QDataStream &operator>>(QDataStream &in, EntryRef &ref);
+    /**
+     * Returns a pointer to the entry corresponding to this reference. If
+     * needed, the entry will be loaded from the database.
+     *
+     * Note that the referenced entry may not exist - it is a good idea to check
+     * whether the returned pointer actually points to something before using
+     * it.
+     */
+    EntryPointer get() const { return EntriesCache::get(type(), id()); }
+    bool operator==(const EntryRef &other) const {
+        return static_cast<const QPair<quint8, quint32>>(*this) == other;
+    }
+    bool operator!=(const EntryRef &other) const { return !(*this == other); }
+    friend QDataStream &operator<<(QDataStream &out, const EntryRef &ref);
+    friend QDataStream &operator>>(QDataStream &in, EntryRef &ref);
 };
 Q_DECLARE_METATYPE(EntryRef)
 
-inline uint qHash(const EntryRef &key)
-{
-	uint h1 = qHash(key.type());
-	uint h2 = qHash(key.id());
-	return ((h1 << 16) | (h1 >> 16)) ^ h2;
+inline uint qHash(const EntryRef &key) {
+    uint h1 = qHash(key.type());
+    uint h2 = qHash(key.id());
+    return ((h1 << 16) | (h1 >> 16)) ^ h2;
 }
 
 #endif

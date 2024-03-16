@@ -20,84 +20,86 @@
 
 #include "gui/SearchFilterWidget.h"
 
-#include <QLineEdit>
-#include <QCheckBox>
-#include <QPushButton>
-#include <QMenu>
-#include <QStringList>
 #include <QAction>
+#include <QCheckBox>
+#include <QLineEdit>
+#include <QMenu>
+#include <QPushButton>
+#include <QStringList>
 
-class JMdictFilterWidget : public SearchFilterWidget
-{
-	Q_OBJECT
-private:
-	QLineEdit *_containedKanjis;
-	QLineEdit *_containedComponents;
-	QCheckBox *_studiedKanjisCheckBox;
-	QCheckBox *_kanaOnlyCheckBox;
+class JMdictFilterWidget : public SearchFilterWidget {
+    Q_OBJECT
+  private:
+    QLineEdit *_containedKanjis;
+    QLineEdit *_containedComponents;
+    QCheckBox *_studiedKanjisCheckBox;
+    QCheckBox *_kanaOnlyCheckBox;
 
-	QPushButton *_posButton;
-	QStringList _posList;
-	QPushButton *_dialButton;
-	QStringList _dialList;
-	QPushButton *_fieldButton;
-	QStringList _fieldList;
-	QPushButton *_miscButton;
-	QStringList _miscList;
+    QPushButton *_posButton;
+    QStringList _posList;
+    QPushButton *_dialButton;
+    QStringList _dialList;
+    QPushButton *_fieldButton;
+    QStringList _fieldList;
+    QPushButton *_miscButton;
+    QStringList _miscList;
 
-	void __onPropertyTriggered(QAction *action, QStringList &list, QPushButton *button);
+    void __onPropertyTriggered(QAction *action, QStringList &list, QPushButton *button);
 
-protected:
-	virtual void _reset();
-	static QActionGroup *addCheckableProperties(const QMap<QString, QPair<QString, quint16> >&map, QMenu* menu);
+  protected:
+    virtual void _reset();
+    static QActionGroup *addCheckableProperties(const QMap<QString, QPair<QString, quint16>> &map,
+                                                QMenu *menu);
 
-protected slots:
-	void updateMiscFilteredProperties();
+  protected slots:
+    void updateMiscFilteredProperties();
 
-public:
-	JMdictFilterWidget(QWidget *parent = 0);
-	virtual QString name() const { return "jmdictoptions"; }
-	virtual QString currentTitle() const;
-	virtual QString currentCommand() const;
-	virtual void updateFeatures();
+  public:
+    JMdictFilterWidget(QWidget *parent = 0);
+    virtual QString name() const { return "jmdictoptions"; }
+    virtual QString currentTitle() const;
+    virtual QString currentCommand() const;
+    virtual void updateFeatures();
 
-	QString containedKanjis() const { return _containedKanjis->text(); }
-	void setContainedKanjis(const QString &kanjis) { _containedKanjis->setText(kanjis); }
-	Q_PROPERTY(QString containedKanjis READ containedKanjis WRITE setContainedKanjis)
+    QString containedKanjis() const { return _containedKanjis->text(); }
+    void setContainedKanjis(const QString &kanjis) { _containedKanjis->setText(kanjis); }
+    Q_PROPERTY(QString containedKanjis READ containedKanjis WRITE setContainedKanjis)
 
-	 QString containedComponents() const { return _containedComponents->text(); }
-	 void setContainedComponents(const QString &components) { _containedComponents->setText(components); }
-	 Q_PROPERTY(QString containedComponents READ containedComponents WRITE setContainedComponents)
+    QString containedComponents() const { return _containedComponents->text(); }
+    void setContainedComponents(const QString &components) {
+        _containedComponents->setText(components);
+    }
+    Q_PROPERTY(QString containedComponents READ containedComponents WRITE setContainedComponents)
 
-	bool studiedKanjisOnly() const { return _studiedKanjisCheckBox->isChecked(); }
-	void setStudiedKanjisOnly(bool value) { _studiedKanjisCheckBox->setChecked(value); }
-	Q_PROPERTY(bool studiedKanjisOnly READ studiedKanjisOnly WRITE setStudiedKanjisOnly)
+    bool studiedKanjisOnly() const { return _studiedKanjisCheckBox->isChecked(); }
+    void setStudiedKanjisOnly(bool value) { _studiedKanjisCheckBox->setChecked(value); }
+    Q_PROPERTY(bool studiedKanjisOnly READ studiedKanjisOnly WRITE setStudiedKanjisOnly)
 
-	bool kanaOnlyWords() const { return _kanaOnlyCheckBox->isChecked(); }
-	void setKanaOnlyWords(bool value) { _kanaOnlyCheckBox->setChecked(value); }
-	Q_PROPERTY(bool kanaOnlyWords READ kanaOnlyWords WRITE setKanaOnlyWords)
+    bool kanaOnlyWords() const { return _kanaOnlyCheckBox->isChecked(); }
+    void setKanaOnlyWords(bool value) { _kanaOnlyCheckBox->setChecked(value); }
+    Q_PROPERTY(bool kanaOnlyWords READ kanaOnlyWords WRITE setKanaOnlyWords)
 
-	QStringList pos() const { return _posList; }
-	void setPos(const QStringList &list);
-	Q_PROPERTY(QStringList pos READ pos WRITE setPos)
+    QStringList pos() const { return _posList; }
+    void setPos(const QStringList &list);
+    Q_PROPERTY(QStringList pos READ pos WRITE setPos)
 
-	QStringList dial() const { return _dialList; }
-	void setDial(const QStringList &list);
-	Q_PROPERTY(QStringList dial READ dial WRITE setDial)
+    QStringList dial() const { return _dialList; }
+    void setDial(const QStringList &list);
+    Q_PROPERTY(QStringList dial READ dial WRITE setDial)
 
-	QStringList field() const { return _fieldList; }
-	void setField(const QStringList &list);
-	Q_PROPERTY(QStringList field READ field WRITE setField)
+    QStringList field() const { return _fieldList; }
+    void setField(const QStringList &list);
+    Q_PROPERTY(QStringList field READ field WRITE setField)
 
-	QStringList misc() const { return _miscList; }
-	void setMisc(const QStringList &list);
-	Q_PROPERTY(QStringList misc READ misc WRITE setMisc)
+    QStringList misc() const { return _miscList; }
+    void setMisc(const QStringList &list);
+    Q_PROPERTY(QStringList misc READ misc WRITE setMisc)
 
-protected slots:
-	void onPosTriggered(QAction *action);
-	void onDialTriggered(QAction *action);
-	void onFieldTriggered(QAction *action);
-	void onMiscTriggered(QAction *action);
+  protected slots:
+    void onPosTriggered(QAction *action);
+    void onDialTriggered(QAction *action);
+    void onFieldTriggered(QAction *action);
+    void onMiscTriggered(QAction *action);
 };
 
 #endif

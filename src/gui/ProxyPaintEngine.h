@@ -27,30 +27,30 @@
  * It uses a local QPainter that applies transformations to drawing operations
  * before playing them on a QPaintDevice.
  */
-class ProxyPaintEngine : public QPaintEngine
-{
-protected:
-	QPaintDevice *_target;
-	QPainter _painter;
-public:
-	ProxyPaintEngine(QPaintDevice *target);
-	virtual ~ProxyPaintEngine();
+class ProxyPaintEngine : public QPaintEngine {
+  protected:
+    QPaintDevice *_target;
+    QPainter _painter;
 
-	QPainter *proxyPainter() { return &_painter; }
+  public:
+    ProxyPaintEngine(QPaintDevice *target);
+    virtual ~ProxyPaintEngine();
 
-	virtual bool begin(QPaintDevice *pdev);
-	virtual bool end();
+    QPainter *proxyPainter() { return &_painter; }
 
-	virtual void drawImage(const QRectF &rectangle, const QImage &image, const QRectF &sr,
-			Qt::ImageConversionFlags flags = Qt::AutoColor);
-	virtual void drawPixmap(const QRectF &r, const QPixmap &pm, const QRectF &sr );
-	virtual void drawPath(const QPainterPath & path);
-	virtual void drawPoints(const QPointF *points, int pointCount);
-	virtual void drawPolygon(const QPointF *points, int pointCount, PolygonDrawMode mode);
-	virtual void drawTextItem(const QPointF &p, const QTextItem &textItem);
-	virtual void drawTiledPixmap(const QRectF &rect, const QPixmap &pixmap, const QPointF &p);
-	virtual Type type() const;
-	virtual void updateState(const QPaintEngineState &state );
+    virtual bool begin(QPaintDevice *pdev);
+    virtual bool end();
+
+    virtual void drawImage(const QRectF &rectangle, const QImage &image, const QRectF &sr,
+                           Qt::ImageConversionFlags flags = Qt::AutoColor);
+    virtual void drawPixmap(const QRectF &r, const QPixmap &pm, const QRectF &sr);
+    virtual void drawPath(const QPainterPath &path);
+    virtual void drawPoints(const QPointF *points, int pointCount);
+    virtual void drawPolygon(const QPointF *points, int pointCount, PolygonDrawMode mode);
+    virtual void drawTextItem(const QPointF &p, const QTextItem &textItem);
+    virtual void drawTiledPixmap(const QRectF &rect, const QPixmap &pixmap, const QPointF &p);
+    virtual Type type() const;
+    virtual void updateState(const QPaintEngineState &state);
 };
 
 #endif

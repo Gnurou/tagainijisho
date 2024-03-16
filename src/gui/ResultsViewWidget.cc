@@ -17,41 +17,38 @@
 
 #include "gui/ResultsViewWidget.h"
 
-ResultsViewWidget::ResultsViewWidget(QWidget *parent) : QWidget(parent), _results(0)
-{
-	setupUi(this);
+ResultsViewWidget::ResultsViewWidget(QWidget *parent) : QWidget(parent), _results(0) {
+    setupUi(this);
 }
 
-void ResultsViewWidget::setModel(ResultsList *rList)
-{
-	if (_results) {
-		disconnect(_results, SIGNAL(rowsRemoved(QModelIndex, int, int)), this, SLOT(updateResultsCount()));
-		disconnect(_results, SIGNAL(queryEnded()), this, SLOT(onSearchFinished()));
-		disconnect(_results, SIGNAL(queryStarted()), this, SLOT(onSearchStarted()));
-	}
-	_results = rList;
-	if (_results) {
-		connect(_results, SIGNAL(queryStarted()), this, SLOT(onSearchStarted()));
-		connect(_results, SIGNAL(queryEnded()), this, SLOT(onSearchFinished()));
-		connect(_results, SIGNAL(rowsRemoved(QModelIndex, int, int)), this, SLOT(updateResultsCount()));
-	}
-	_resultsView->setModel(rList);
+void ResultsViewWidget::setModel(ResultsList *rList) {
+    if (_results) {
+        disconnect(_results, SIGNAL(rowsRemoved(QModelIndex, int, int)), this,
+                   SLOT(updateResultsCount()));
+        disconnect(_results, SIGNAL(queryEnded()), this, SLOT(onSearchFinished()));
+        disconnect(_results, SIGNAL(queryStarted()), this, SLOT(onSearchStarted()));
+    }
+    _results = rList;
+    if (_results) {
+        connect(_results, SIGNAL(queryStarted()), this, SLOT(onSearchStarted()));
+        connect(_results, SIGNAL(queryEnded()), this, SLOT(onSearchFinished()));
+        connect(_results, SIGNAL(rowsRemoved(QModelIndex, int, int)), this,
+                SLOT(updateResultsCount()));
+    }
+    _resultsView->setModel(rList);
 }
 
-void ResultsViewWidget::onSearchStarted()
-{
-	nbResultsLabel->setText(tr("Searching..."));
+void ResultsViewWidget::onSearchStarted() { nbResultsLabel->setText(tr("Searching...")); }
+
+void ResultsViewWidget::onSearchFinished() {
+    nbResultsLabel->clear();
+    updateResultsCount();
 }
 
-void ResultsViewWidget::onSearchFinished()
-{
-	nbResultsLabel->clear();
-	updateResultsCount();
-}
-
-void ResultsViewWidget::updateResultsCount()
-{
-	int nbResults = _resultsView->model()->rowCount();
-	if (nbResults == 0) nbResultsLabel->clear();
-	else nbResultsLabel->setText(QString(tr("%1 Results")).arg(nbResults));
+void ResultsViewWidget::updateResultsCount() {
+    int nbResults = _resultsView->model()->rowCount();
+    if (nbResults == 0)
+        nbResultsLabel->clear();
+    else
+        nbResultsLabel->setText(QString(tr("%1 Results")).arg(nbResults));
 }

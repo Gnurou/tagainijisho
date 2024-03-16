@@ -18,93 +18,94 @@
 #ifndef __GUI_MULTISTACKEDWIDGET_H_
 #define __GUI_MULTISTACKEDWIDGET_H_
 
-#include <QWidget>
 #include <QMap>
 #include <QToolButton>
 #include <QVBoxLayout>
+#include <QWidget>
 #include <QWidgetAction>
 
 #include "gui/ElidedPushButton.h"
 
 class MultiStackedWidgetButton : public ElidedPushButton<QToolButton> {
-	Q_OBJECT
-private:
-	QWidget *_altWidget;
-	QString _currentTitle;
-	QAction *const _action, *const _resetAction;
+    Q_OBJECT
+  private:
+    QWidget *_altWidget;
+    QString _currentTitle;
+    QAction *const _action, *const _resetAction;
 
-	void rewriteCurrentTitle();
+    void rewriteCurrentTitle();
 
-private slots:
-	void onActionChanged();
-	void onResetActionChanged();
+  private slots:
+    void onActionChanged();
+    void onResetActionChanged();
 
-public:
-	MultiStackedWidgetButton(QAction* action, QAction* resetAction, QWidget* parent = 0);
-	QWidget *altWidget() { return _altWidget; }
-	void setAltWidget(QWidget *widget) { _altWidget = widget; }
+  public:
+    MultiStackedWidgetButton(QAction *action, QAction *resetAction, QWidget *parent = 0);
+    QWidget *altWidget() { return _altWidget; }
+    void setAltWidget(QWidget *widget) { _altWidget = widget; }
 
-	void setText(const QString &str);
-	void showAltWidget();
-	void hideAltWidget();
+    void setText(const QString &str);
+    void showAltWidget();
+    void hideAltWidget();
 
-	virtual void resizeEvent(QResizeEvent *event);
+    virtual void resizeEvent(QResizeEvent *event);
 };
 
-class ToolBarWidget : public QWidgetAction
-{
-	Q_OBJECT
-private:
-	QPair<QAction *, QAction *> _actions;
-protected:
-	virtual QWidget *createWidget(QWidget *parent)
-	{
-		MultiStackedWidgetButton *button = new MultiStackedWidgetButton(_actions.first, _actions.second, parent);
-		return button;
-	}
-public:
-	ToolBarWidget(QPair<QAction *, QAction *> actions, QObject *parent = 0) : QWidgetAction(parent), _actions(actions) { }
+class ToolBarWidget : public QWidgetAction {
+    Q_OBJECT
+  private:
+    QPair<QAction *, QAction *> _actions;
+
+  protected:
+    virtual QWidget *createWidget(QWidget *parent) {
+        MultiStackedWidgetButton *button =
+            new MultiStackedWidgetButton(_actions.first, _actions.second, parent);
+        return button;
+    }
+
+  public:
+    ToolBarWidget(QPair<QAction *, QAction *> actions, QObject *parent = 0)
+        : QWidgetAction(parent), _actions(actions) {}
 };
 
 struct StackedWidgetEntryInfo {
-	QString label;
-	QPair<QAction *, QAction *> actions;
+    QString label;
+    QPair<QAction *, QAction *> actions;
 };
 
 class MultiStackedWidget : public QWidget {
-	Q_OBJECT
-private:
-	QVBoxLayout *_layout;
-	QMap<QWidget *, StackedWidgetEntryInfo> _buttonMap;
-	QList<QAction *> _orderedActions;
+    Q_OBJECT
+  private:
+    QVBoxLayout *_layout;
+    QMap<QWidget *, StackedWidgetEntryInfo> _buttonMap;
+    QList<QAction *> _orderedActions;
 
-protected:
-	QWidget *getWidgetByLabel(const QString &label);
-	virtual bool eventFilter(QObject *watched, QEvent *event);
+  protected:
+    QWidget *getWidgetByLabel(const QString &label);
+    virtual bool eventFilter(QObject *watched, QEvent *event);
 
-public:
-	MultiStackedWidget(QWidget *parent = 0);
+  public:
+    MultiStackedWidget(QWidget *parent = 0);
 
-	QPair<QAction *, QAction *> addWidget(const QString &label, QWidget *widget);
-	void removeWidget(QWidget *widget);
+    QPair<QAction *, QAction *> addWidget(const QString &label, QWidget *widget);
+    void removeWidget(QWidget *widget);
 
-	void setWidgetEnabled(QWidget *widget, bool enabled);
+    void setWidgetEnabled(QWidget *widget, bool enabled);
 
-private slots:
-	void onButtonToggled();
-	void onShortcutTriggered();
+  private slots:
+    void onButtonToggled();
+    void onShortcutTriggered();
 
-public slots:
-	void showWidget(QWidget *widget);
-	void hideWidget(QWidget *widget);
-	/**
-	 * Changes the title of the sender widget
-	 */
-	void onTitleChanged(const QString &newTitle);
+  public slots:
+    void showWidget(QWidget *widget);
+    void hideWidget(QWidget *widget);
+    /**
+     * Changes the title of the sender widget
+     */
+    void onTitleChanged(const QString &newTitle);
 
-	void hideAllExtenders();
-signals:
-	
+    void hideAllExtenders();
+  signals:
 };
 
 #endif

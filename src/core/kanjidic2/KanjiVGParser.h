@@ -20,58 +20,59 @@
 
 #include "core/XmlParserHelper.h"
 
-#include <QStringList>
 #include <QMap>
-#include <QStack>
 #include <QRegExp>
+#include <QStack>
+#include <QStringList>
 
 class KanjiVGGroupItem {
-public:
-	typedef enum { NONE, GENERAL, TRADIT, NELSON } RadicalType;
-	int number;
-	int element;
-	int original;
-	bool isRoot;
-	RadicalType radicalType;
-	// List of stroke numbers that are part of this group
-	QList<quint8> pathsIndexes;
-	KanjiVGGroupItem() : number(0), element(0), original(0), isRoot(false), radicalType(NONE) {}
+  public:
+    typedef enum { NONE, GENERAL, TRADIT, NELSON } RadicalType;
+    int number;
+    int element;
+    int original;
+    bool isRoot;
+    RadicalType radicalType;
+    // List of stroke numbers that are part of this group
+    QList<quint8> pathsIndexes;
+    KanjiVGGroupItem() : number(0), element(0), original(0), isRoot(false), radicalType(NONE) {}
 };
 
 class KanjiVGStrokeItem {
-public:
-	int type;
-	QString path;
-	
-	KanjiVGStrokeItem() : type(0) {}
+  public:
+    int type;
+    QString path;
+
+    KanjiVGStrokeItem() : type(0) {}
 };
 
 class KanjiVGItem {
-public:
-	int id;
-	QList<KanjiVGGroupItem> groups;
-	QList<KanjiVGStrokeItem> strokes;
-	KanjiVGItem() : id(0) {}
+  public:
+    int id;
+    QList<KanjiVGGroupItem> groups;
+    QList<KanjiVGStrokeItem> strokes;
+    KanjiVGItem() : id(0) {}
 };
 
 class KanjiVGParser {
-private:
-	static QRegExp versionRegExp;
-	
-	QString _version;
-	bool gotVersion;
-	bool parse_strokegr(QXmlStreamReader& reader, KanjiVGItem& kanji, QStack< KanjiVGGroupItem* > gStack, quint8& strokeCounter);
-	
-public:
-	KanjiVGParser() : gotVersion(false) {}
-	virtual ~KanjiVGParser() {}
-	bool parse(QXmlStreamReader &reader);
-	const QString &version() const { return _version; }
-	
-	// This method can be overloaded by subclasses in order to implement
-	// a behavior when an item is finished being parsed.
-	// Returns true if the processing completed successfully, false otherwise
-	virtual bool onItemParsed(KanjiVGItem &kanji) { return true; }
+  private:
+    static QRegExp versionRegExp;
+
+    QString _version;
+    bool gotVersion;
+    bool parse_strokegr(QXmlStreamReader &reader, KanjiVGItem &kanji,
+                        QStack<KanjiVGGroupItem *> gStack, quint8 &strokeCounter);
+
+  public:
+    KanjiVGParser() : gotVersion(false) {}
+    virtual ~KanjiVGParser() {}
+    bool parse(QXmlStreamReader &reader);
+    const QString &version() const { return _version; }
+
+    // This method can be overloaded by subclasses in order to implement
+    // a behavior when an item is finished being parsed.
+    // Returns true if the processing completed successfully, false otherwise
+    virtual bool onItemParsed(KanjiVGItem &kanji) { return true; }
 };
 
 #endif

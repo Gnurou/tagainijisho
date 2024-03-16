@@ -15,7 +15,6 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 #ifndef __CORE_ASYNCENTRYFINDER_H_
 #define __CORE_ASYNCENTRYFINDER_H_
 
@@ -35,16 +34,16 @@
  *
  */
 class ASyncEntryFinder : public ASyncQuery {
-	Q_OBJECT
-protected slots:
-	void _loadEntry(const QList<QVariant> &record);
+    Q_OBJECT
+  protected slots:
+    void _loadEntry(const QList<QVariant> &record);
 
-public:
-	ASyncEntryFinder(DatabaseThread *dbConn);
-	virtual ~ASyncEntryFinder();
+  public:
+    ASyncEntryFinder(DatabaseThread *dbConn);
+    virtual ~ASyncEntryFinder();
 
-signals:
-	void result(const EntryRef &result);
+  signals:
+    void result(const EntryRef &result);
 };
 
 #endif /* ASYNCENTRYLOADER_H_ */

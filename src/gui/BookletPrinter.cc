@@ -19,11 +19,9 @@
 
 #include <QtDebug>
 
-BookletPrinter::BookletPrinter(QPrinter *printer, PrinterMode mode) : QPrinter(mode), _printEngine(printer)
-{
-	setEngines(&_printEngine, &_printEngine);
+BookletPrinter::BookletPrinter(QPrinter *printer, PrinterMode mode)
+    : QPrinter(mode), _printEngine(printer) {
+    setEngines(&_printEngine, &_printEngine);
 }
 
-BookletPrinter::~BookletPrinter()
-{
-}
+BookletPrinter::~BookletPrinter() {}

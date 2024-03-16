@@ -18,52 +18,56 @@
 #include "core/Paths.h"
 #include "tagaini_config.h"
 
-#include <QFile>
 #include <QCoreApplication>
 #include <QDir>
+#include <QFile>
 
 #include <QtDebug>
 
 QString __userProfile;
 
-QString lookForFile(const QString &name)
-{
-	// First look in the current directory
-	QFile resFile(name);
+QString lookForFile(const QString &name) {
+    // First look in the current directory
+    QFile resFile(name);
 #ifdef DEBUG_PATHS
-	qDebug("Looking file %s: %s", resFile.fileName().toLatin1().constData(), resFile.exists() ? "found" : "not found");
-#endif  // DEBUG_PATHS
-	// Then look in the user personal directory
-	if (!resFile.exists()) {
-		resFile.setFileName(QDir(userProfile()).filePath(name));
-#ifdef DEBUG_PATHS
-		qDebug("Looking file %s: %s", resFile.fileName().toLatin1().constData(), resFile.exists() ? "found" : "not found");
+    qDebug("Looking file %s: %s", resFile.fileName().toLatin1().constData(),
+           resFile.exists() ? "found" : "not found");
 #endif // DEBUG_PATHS
-	}
+       // Then look in the user personal directory
+    if (!resFile.exists()) {
+        resFile.setFileName(QDir(userProfile()).filePath(name));
+#ifdef DEBUG_PATHS
+        qDebug("Looking file %s: %s", resFile.fileName().toLatin1().constData(),
+               resFile.exists() ? "found" : "not found");
+#endif // DEBUG_PATHS
+    }
 #ifdef DATA_DIR
-	// Otherwise, check for the default installation prefix, if set	
-	if (!resFile.exists()) {
-		resFile.setFileName(QDir(DATA_DIR).filePath(name));
+    // Otherwise, check for the default installation prefix, if set
+    if (!resFile.exists()) {
+        resFile.setFileName(QDir(DATA_DIR).filePath(name));
 #ifdef DEBUG_PATHS
-		qDebug("Looking file %s: %s", resFile.fileName().toLatin1().constData(), resFile.exists() ? "found" : "not found");
+        qDebug("Looking file %s: %s", resFile.fileName().toLatin1().constData(),
+               resFile.exists() ? "found" : "not found");
 #endif // DEBUG_PATHS
-	}
+    }
 #endif
-	// Still no clue, then look in the binary directory
-	if (!resFile.exists()) {
-		resFile.setFileName(QDir(QCoreApplication::applicationDirPath()).filePath(name));
+    // Still no clue, then look in the binary directory
+    if (!resFile.exists()) {
+        resFile.setFileName(QDir(QCoreApplication::applicationDirPath()).filePath(name));
 #ifdef DEBUG_PATHS
-		qDebug("Looking file %s: %s", resFile.fileName().toLatin1().constData(), resFile.exists() ? "found" : "not found");
+        qDebug("Looking file %s: %s", resFile.fileName().toLatin1().constData(),
+               resFile.exists() ? "found" : "not found");
 #endif // DEBUG_PATHS
-	}
-	// Resource is our last chance
-	if (!resFile.exists()) {
-		resFile.setFileName(QDir(":/").filePath(name));
+    }
+    // Resource is our last chance
+    if (!resFile.exists()) {
+        resFile.setFileName(QDir(":/").filePath(name));
 #ifdef DEBUG_PATHS
-		qDebug("Looking file %s: %s", resFile.fileName().toLatin1().constData(), resFile.exists() ? "found" : "not found");
+        qDebug("Looking file %s: %s", resFile.fileName().toLatin1().constData(),
+               resFile.exists() ? "found" : "not found");
 #endif // DEBUG_PATHS
-	}
-	if (!resFile.exists()) return "";
-	return resFile.fileName();
-	
+    }
+    if (!resFile.exists())
+        return "";
+    return resFile.fileName();
 }

@@ -23,31 +23,30 @@
 #include <QCheckBox>
 
 class JLPTFilterWidget : public SearchFilterWidget {
-	Q_OBJECT
-private:
-	QCheckBox *JLPTN5CheckBox, *JLPTN4CheckBox,
-		*JLPTN3CheckBox, *JLPTN2CheckBox, *JLPTN1CheckBox;
+    Q_OBJECT
+  private:
+    QCheckBox *JLPTN5CheckBox, *JLPTN4CheckBox, *JLPTN3CheckBox, *JLPTN2CheckBox, *JLPTN1CheckBox;
 
-protected:
-	virtual void _reset();
+  protected:
+    virtual void _reset();
 
-public:
-	JLPTFilterWidget(QWidget *parent = 0);
-	virtual QString name() const { return "jlptoptions"; }
-	virtual QString currentTitle() const;
-	virtual QString currentCommand() const;
+  public:
+    JLPTFilterWidget(QWidget *parent = 0);
+    virtual QString name() const { return "jlptoptions"; }
+    virtual QString currentTitle() const;
+    virtual QString currentCommand() const;
 
-	/**
-	 * Returns the list of currently checked levels. The returned
-	 * list contains integers exclusively.
-	 */
-	QList<QVariant> levels() const;
-	/**
-	 * Set the list of currently checked levels. The list
-	 * must contains integers exclusively.
-	 */
-	void setLevels(const QList<QVariant> &filter);
-	Q_PROPERTY(QList<QVariant> levels READ levels WRITE setLevels)
+    /**
+     * Returns the list of currently checked levels. The returned
+     * list contains integers exclusively.
+     */
+    QList<QVariant> levels() const;
+    /**
+     * Set the list of currently checked levels. The list
+     * must contains integers exclusively.
+     */
+    void setLevels(const QList<QVariant> &filter);
+    Q_PROPERTY(QList<QVariant> levels READ levels WRITE setLevels)
 };
 
 #endif

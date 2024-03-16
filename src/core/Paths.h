@@ -24,10 +24,7 @@
 #define QUOTEMACRO(x) _QUOTEMACRO(x)
 
 extern QString __userProfile;
-inline const QString& userProfile()
-{
-	return __userProfile;
-}
+inline const QString &userProfile() { return __userProfile; }
 
 /**
  * Searches in the standard paths for a file that matches, and

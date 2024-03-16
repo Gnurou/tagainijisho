@@ -18,69 +18,66 @@
 #ifndef __GUI_EDITENTRYNOTESDIALOG_H__
 #define __GUI_EDITENTRYNOTESDIALOG_H__
 
-#include "core/Preferences.h"
 #include "core/Entry.h"
+#include "core/Preferences.h"
 
-#include <QListView>
-#include <QTextEdit>
-#include <QLabel>
 #include <QDialog>
 #include <QDialogButtonBox>
+#include <QLabel>
+#include <QListView>
 #include <QStyledItemDelegate>
+#include <QTextEdit>
 
-class EntryNotesModel : public QAbstractListModel
-{
-	Q_OBJECT
-private:
-	Entry &_entry;
+class EntryNotesModel : public QAbstractListModel {
+    Q_OBJECT
+  private:
+    Entry &_entry;
 
-public:
-	enum { NoteRole = Qt::UserRole };
-	EntryNotesModel(Entry &entry, QObject *parent = 0) : QAbstractListModel(parent), _entry(entry) {}
+  public:
+    enum { NoteRole = Qt::UserRole };
+    EntryNotesModel(Entry &entry, QObject *parent = 0)
+        : QAbstractListModel(parent), _entry(entry) {}
 
-	int rowCount(const QModelIndex &parent = QModelIndex()) const { return _entry.notes().size(); }
-	QVariant data(const QModelIndex &index, int role) const;
-	QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
-	bool setData(const QModelIndex & index, const QVariant & value, int role = Qt::EditRole);
-	bool insertRows(int row, int count, const QModelIndex & parent = QModelIndex());
- 	bool removeRows(int row, int count, const QModelIndex & parent = QModelIndex());
+    int rowCount(const QModelIndex &parent = QModelIndex()) const { return _entry.notes().size(); }
+    QVariant data(const QModelIndex &index, int role) const;
+    QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
+    bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole);
+    bool insertRows(int row, int count, const QModelIndex &parent = QModelIndex());
+    bool removeRows(int row, int count, const QModelIndex &parent = QModelIndex());
 
-	Entry & entry() { return _entry; }
+    Entry &entry() { return _entry; }
 };
 
-class EditEntryNotesDialogEntryDelegate : public QStyledItemDelegate
-{
-	Q_OBJECT
-public:
-	EditEntryNotesDialogEntryDelegate(QObject *parent = 0) : QStyledItemDelegate(parent) {}
-	virtual QString displayText(const QVariant & value, const QLocale & locale) const;
-	QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index ) const;
+class EditEntryNotesDialogEntryDelegate : public QStyledItemDelegate {
+    Q_OBJECT
+  public:
+    EditEntryNotesDialogEntryDelegate(QObject *parent = 0) : QStyledItemDelegate(parent) {}
+    virtual QString displayText(const QVariant &value, const QLocale &locale) const;
+    QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const;
 };
 
-class EditEntryNotesDialog : public QDialog
-{
-	Q_OBJECT
-private:
-	static PreferenceItem<QByteArray> windowGeometry;
+class EditEntryNotesDialog : public QDialog {
+    Q_OBJECT
+  private:
+    static PreferenceItem<QByteArray> windowGeometry;
 
-	EntryNotesModel *model;
-	QListView *view;
-	QTextEdit *textEdit;
-	QDialogButtonBox *buttonBox;
-	QPushButton *deleteButton;
-	Entry::Note *currentNote;
+    EntryNotesModel *model;
+    QListView *view;
+    QTextEdit *textEdit;
+    QDialogButtonBox *buttonBox;
+    QPushButton *deleteButton;
+    Entry::Note *currentNote;
 
-protected slots:
-	void displayNote(const QItemSelection &selected, const QItemSelection & deselected);
-	void newNote();
-	void deleteNote();
+  protected slots:
+    void displayNote(const QItemSelection &selected, const QItemSelection &deselected);
+    void newNote();
+    void deleteNote();
 
-public:
-	EditEntryNotesDialog(Entry &entry, QWidget *parent = 0);
-	~EditEntryNotesDialog();
+  public:
+    EditEntryNotesDialog(Entry &entry, QWidget *parent = 0);
+    ~EditEntryNotesDialog();
 
-	virtual void closeEvent(QCloseEvent *event);
+    virtual void closeEvent(QCloseEvent *event);
 };
 
 #endif
-

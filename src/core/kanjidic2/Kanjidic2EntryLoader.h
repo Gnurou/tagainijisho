@@ -21,21 +21,20 @@
 #include "core/EntryLoader.h"
 #include "core/kanjidic2/Kanjidic2Entry.h"
 
-class Kanjidic2EntryLoader : public EntryLoader
-{
-private:
-	SQLite::Query kanjiQuery, variationsQuery, readingsQuery, nanoriQuery,
-		componentsQuery, radicalsQuery, skipQuery, fourCornerQuery;
-	QMap<QString, SQLite::Query> meaningsQueries;
+class Kanjidic2EntryLoader : public EntryLoader {
+  private:
+    SQLite::Query kanjiQuery, variationsQuery, readingsQuery, nanoriQuery, componentsQuery,
+        radicalsQuery, skipQuery, fourCornerQuery;
+    QMap<QString, SQLite::Query> meaningsQueries;
 
-protected:
-	QList<Kanjidic2Entry::KanjiMeaning> getMeanings(int id);
-public:
-	Kanjidic2EntryLoader();
-	virtual ~Kanjidic2EntryLoader() {}
+  protected:
+    QList<Kanjidic2Entry::KanjiMeaning> getMeanings(int id);
 
-	virtual Entry *loadEntry(EntryId id);
+  public:
+    Kanjidic2EntryLoader();
+    virtual ~Kanjidic2EntryLoader() {}
+
+    virtual Entry *loadEntry(EntryId id);
 };
 
 #endif
-

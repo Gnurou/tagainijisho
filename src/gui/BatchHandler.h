@@ -20,17 +20,17 @@
 
 #include "core/Entry.h"
 
-#include <QModelIndexList>
 #include <QCoreApplication>
+#include <QModelIndexList>
 #include <QWidget>
 
-class BatchHandler
-{
-	Q_DECLARE_TR_FUNCTIONS(BatchHandler)
-public:
-	virtual ~BatchHandler() {}
-	virtual void apply(const EntryPointer &e) const = 0;
-	static void applyOnEntries(const BatchHandler &handler, const QList<EntryPointer> &entries, QWidget *parent = 0);
+class BatchHandler {
+    Q_DECLARE_TR_FUNCTIONS(BatchHandler)
+  public:
+    virtual ~BatchHandler() {}
+    virtual void apply(const EntryPointer &e) const = 0;
+    static void applyOnEntries(const BatchHandler &handler, const QList<EntryPointer> &entries,
+                               QWidget *parent = 0);
 };
 
 #endif

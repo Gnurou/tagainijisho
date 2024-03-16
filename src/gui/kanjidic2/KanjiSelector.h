@@ -23,33 +23,32 @@
 
 #include <QAction>
 #include <QHash>
-#include <QValidator>
 #include <QListWidget>
+#include <QValidator>
 
 /**
  * A List view designed to display the complements of the current selection.
  */
-class ComplementsList : public QListWidget
-{
-	Q_OBJECT
-private:
-	QFont baseFont;
-	QFont labelFont;
-	ScrollBarSmoothScroller _sscroll;
-	void setupGridSize();
+class ComplementsList : public QListWidget {
+    Q_OBJECT
+  private:
+    QFont baseFont;
+    QFont labelFont;
+    ScrollBarSmoothScroller _sscroll;
+    void setupGridSize();
 
-protected slots:
-	void onItemEntered(QListWidgetItem *item);
+  protected slots:
+    void onItemEntered(QListWidgetItem *item);
 
-public:
-	ComplementsList(QWidget *parent = 0);
-	QSet<uint> currentSelection() const;
+  public:
+    ComplementsList(QWidget *parent = 0);
+    QSet<uint> currentSelection() const;
 
-public slots:
-	/// Add a complement character to the list
-	QListWidgetItem *addComplement(const QString &repr, uint kanji);
-	/// Start a new series of characters with the given stroke number
-	QListWidgetItem *setCurrentStrokeNbr(int strokeNbr);
+  public slots:
+    /// Add a complement character to the list
+    QListWidgetItem *addComplement(const QString &repr, uint kanji);
+    /// Start a new series of characters with the given stroke number
+    QListWidgetItem *setCurrentStrokeNbr(int strokeNbr);
 };
 
 #include "gui/kanjidic2/ui_KanjiSelector.h"
@@ -58,78 +57,79 @@ class QLineEdit;
 /**
  * A base class for building kanji selectors based on some of their components.
  */
-class KanjiSelector : public QFrame, protected Ui::KanjiSelector
-{
-	Q_OBJECT
-private:
-	QLineEdit *_associate;
-	/// Used when the widget is hidden to tell it should update
-	/// itself once shown again
-	bool _outOfSyncWithAssociate;
-	/// The currently displayed complements, code and representation
-	QSet<QPair<uint, QString > > _currentComplements;
-	bool _ignoreAssociateSignals;
-	/**
-	 * Returns all the complements that have been inputted into
-	 * the associate
-	 */
-	QSet<uint> associateComplements() const;
+class KanjiSelector : public QFrame, protected Ui::KanjiSelector {
+    Q_OBJECT
+  private:
+    QLineEdit *_associate;
+    /// Used when the widget is hidden to tell it should update
+    /// itself once shown again
+    bool _outOfSyncWithAssociate;
+    /// The currently displayed complements, code and representation
+    QSet<QPair<uint, QString>> _currentComplements;
+    bool _ignoreAssociateSignals;
+    /**
+     * Returns all the complements that have been inputted into
+     * the associate
+     */
+    QSet<uint> associateComplements() const;
 
-protected:
-	KanjiSelector(QWidget *parent = 0);
-	/// Returns the string representation suitable for the given complement kanji.
-	/// The default is to return the string corresponding to the unicode of the
-	/// given character.
-	virtual QString complementRepr(uint kanji) const;
-	/// Invert method of complementRepr
-	virtual uint complementCode(const QString &repr) const;
-	/// Returns the SQL query that should be run in order to get the results list
-	/// corresponding to the given selection. Results should comprehend a single
-	/// column with the kanji ids.
-	virtual QString getCandidatesQuery(const QSet<uint> &selection) const = 0;
-	/// Returns the SQL query that should be run in order to get the complements list
-	/// corresponding to the given selection
-	virtual QString getComplementsQuery(const QSet<uint> &selection, const QSet<uint> &candidates) const = 0;
+  protected:
+    KanjiSelector(QWidget *parent = 0);
+    /// Returns the string representation suitable for the given complement
+    /// kanji. The default is to return the string corresponding to the unicode
+    /// of the given character.
+    virtual QString complementRepr(uint kanji) const;
+    /// Invert method of complementRepr
+    virtual uint complementCode(const QString &repr) const;
+    /// Returns the SQL query that should be run in order to get the results
+    /// list corresponding to the given selection. Results should comprehend a
+    /// single column with the kanji ids.
+    virtual QString getCandidatesQuery(const QSet<uint> &selection) const = 0;
+    /// Returns the SQL query that should be run in order to get the complements
+    /// list corresponding to the given selection
+    virtual QString getComplementsQuery(const QSet<uint> &selection,
+                                        const QSet<uint> &candidates) const = 0;
 
-	/**
-	 * Returns the list of candidates corresponding to the given selection. Also
-	 * emits the startQuery, foundResult and endQuery signals as results are found.
-	 */
-	virtual QSet<uint> getCandidates(const QSet<uint> &selection);
-	virtual void updateComplementsList(const QSet<uint> &selection, const QSet<uint> &candidates);
-	virtual void showEvent (QShowEvent *event);
+    /**
+     * Returns the list of candidates corresponding to the given selection. Also
+     * emits the startQuery, foundResult and endQuery signals as results are
+     * found.
+     */
+    virtual QSet<uint> getCandidates(const QSet<uint> &selection);
+    virtual void updateComplementsList(const QSet<uint> &selection, const QSet<uint> &candidates);
+    virtual void showEvent(QShowEvent *event);
 
-protected slots:
-	virtual void onSelectionChanged();
-	virtual void onAssociateChanged();
-	void updateAssociateFromSelection(QSet<uint> selection);
+  protected slots:
+    virtual void onSelectionChanged();
+    virtual void onAssociateChanged();
+    void updateAssociateFromSelection(QSet<uint> selection);
 
-public:
-	virtual ~KanjiSelector() {}
-	virtual void reset() = 0;
-	const QSet<QPair<uint, QString> > &currentComplements() const { return _currentComplements; }
-	/**
-	 * Set the current selection to the given list of complements.
-	 */
-	void setSelection(const QSet<uint> &selection);
-	/**
-	 * Associate this selector to a given line edit. Doing so provides
-	 * an additional selection method for the user, who can input or
-	 * delete complementary characters using the line edit.
-	 */
-	void associateTo(QLineEdit *associate);
-	QLineEdit *associate() { return _associate; }
-	ComplementsList *complementsList() { return _complementsList; }
+  public:
+    virtual ~KanjiSelector() {}
+    virtual void reset() = 0;
+    const QSet<QPair<uint, QString>> &currentComplements() const { return _currentComplements; }
+    /**
+     * Set the current selection to the given list of complements.
+     */
+    void setSelection(const QSet<uint> &selection);
+    /**
+     * Associate this selector to a given line edit. Doing so provides
+     * an additional selection method for the user, who can input or
+     * delete complementary characters using the line edit.
+     */
+    void associateTo(QLineEdit *associate);
+    QLineEdit *associate() { return _associate; }
+    ComplementsList *complementsList() { return _complementsList; }
 
-signals:
-	/**
-	 * Emitted when the complements selection is changed.
-	 */
-	void selectionChanged(const QSet<uint> &selection);
+  signals:
+    /**
+     * Emitted when the complements selection is changed.
+     */
+    void selectionChanged(const QSet<uint> &selection);
 
-	void startQuery();
-	void foundResult(const QString &kanji);
-	void endQuery();
+    void startQuery();
+    void foundResult(const QString &kanji);
+    void endQuery();
 };
 
 /**
@@ -137,46 +137,47 @@ signals:
  * of a given kanji selector.
  */
 class KanjiSelectorValidator : public QValidator {
-Q_OBJECT
-private:
-	KanjiSelector *_filter;
-public:
-	KanjiSelectorValidator(KanjiSelector *filter, QObject *parent = 0);
-	KanjiSelector *filter() { return _filter; }
-	virtual State validate(QString &input, int &pos) const;
+    Q_OBJECT
+  private:
+    KanjiSelector *_filter;
+
+  public:
+    KanjiSelectorValidator(KanjiSelector *filter, QObject *parent = 0);
+    KanjiSelector *filter() { return _filter; }
+    virtual State validate(QString &input, int &pos) const;
 };
 
 /**
  * A kanji selector based on radicals.
  */
-class RadicalKanjiSelector : public KanjiSelector
-{
-	Q_OBJECT
-protected:
-	virtual QString getCandidatesQuery(const QSet<uint> &selection) const;
-	virtual QString getComplementsQuery(const QSet<uint> &selection, const QSet<uint> &candidates) const;
-	/// Returns the kanji associated with the given radical code
-	virtual QString complementRepr(uint kanji) const;
-	virtual uint complementCode(const QString &repr) const;
+class RadicalKanjiSelector : public KanjiSelector {
+    Q_OBJECT
+  protected:
+    virtual QString getCandidatesQuery(const QSet<uint> &selection) const;
+    virtual QString getComplementsQuery(const QSet<uint> &selection,
+                                        const QSet<uint> &candidates) const;
+    /// Returns the kanji associated with the given radical code
+    virtual QString complementRepr(uint kanji) const;
+    virtual uint complementCode(const QString &repr) const;
 
-public:
-	RadicalKanjiSelector(QWidget *parent = 0) : KanjiSelector(parent) {}
-	virtual void reset();
+  public:
+    RadicalKanjiSelector(QWidget *parent = 0) : KanjiSelector(parent) {}
+    virtual void reset();
 };
 
 /**
  * A kanji selector based on components.
  */
-class ComponentKanjiSelector : public KanjiSelector
-{
-	Q_OBJECT
-protected:
-	virtual QString getCandidatesQuery(const QSet<uint> &selection) const;
-	virtual QString getComplementsQuery(const QSet<uint> &selection, const QSet<uint> &candidates) const;
+class ComponentKanjiSelector : public KanjiSelector {
+    Q_OBJECT
+  protected:
+    virtual QString getCandidatesQuery(const QSet<uint> &selection) const;
+    virtual QString getComplementsQuery(const QSet<uint> &selection,
+                                        const QSet<uint> &candidates) const;
 
-public:
-	ComponentKanjiSelector(QWidget *parent = 0);
-	virtual void reset();
+  public:
+    ComponentKanjiSelector(QWidget *parent = 0);
+    virtual void reset();
 };
 
 /**
@@ -184,46 +185,45 @@ public:
  * a complete component-based kanji input widget.
  */
 class KanjiInputter : public QFrame {
-	Q_OBJECT
-private:
-	KanjiSelector *_selector;
-	KanjiResultsView *_results;
+    Q_OBJECT
+  private:
+    KanjiSelector *_selector;
+    KanjiResultsView *_results;
 
-public:
-	/**
-	 * Constructor. The inputter takes ownership of the passed selector which
-	 * cannot be used elsewhere.
-	 * If useLineEdit is true, a line edit will be associated with the selector
-	 * in order to allow the user to directly input kanji.
-	 */
-	KanjiInputter(KanjiSelector *selector, bool useLineEdit = false, QWidget *parent = 0);
-	KanjiSelector *selector() { return _selector; }
-	void reset();
+  public:
+    /**
+     * Constructor. The inputter takes ownership of the passed selector which
+     * cannot be used elsewhere.
+     * If useLineEdit is true, a line edit will be associated with the selector
+     * in order to allow the user to directly input kanji.
+     */
+    KanjiInputter(KanjiSelector *selector, bool useLineEdit = false, QWidget *parent = 0);
+    KanjiSelector *selector() { return _selector; }
+    void reset();
 
-signals:
-	void kanjiSelected(const QString &kanji);
+  signals:
+    void kanjiSelected(const QString &kanji);
 };
 
 /**
  * An action that shows/hides a given kanji selector.
  */
-class KanjiInputPopupAction : public QAction
-{
-	Q_OBJECT
-private:
-	KanjiInputter * _popup;
-	QWidget *focusWidget;
+class KanjiInputPopupAction : public QAction {
+    Q_OBJECT
+  private:
+    KanjiInputter *_popup;
+    QWidget *focusWidget;
 
-protected:
-	virtual bool eventFilter(QObject *obj, QEvent *event);
+  protected:
+    virtual bool eventFilter(QObject *obj, QEvent *event);
 
-protected slots:
-	void togglePopup(bool status);
-	void onComponentSearchKanjiSelected(const QString &kString);
-	void onFocusChanged(QWidget *old, QWidget *now);
+  protected slots:
+    void togglePopup(bool status);
+    void onComponentSearchKanjiSelected(const QString &kString);
+    void onFocusChanged(QWidget *old, QWidget *now);
 
-public:
-	KanjiInputPopupAction(KanjiInputter* popup, const QString& title, QWidget* parent = 0);
+  public:
+    KanjiInputPopupAction(KanjiInputter *popup, const QString &title, QWidget *parent = 0);
 };
 
 #endif

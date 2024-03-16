@@ -20,62 +20,63 @@
 
 #include "core/Plugin.h"
 
-#include <QVector>
-#include <QPair>
 #include <QMap>
+#include <QPair>
+#include <QVector>
 
 class JMdictEntrySearcher;
 class JMdictEntryLoader;
 
-class JMdictPlugin : public Plugin
-{
-private:
-	static JMdictPlugin *_instance;
-	QString _dictVersion;
-	QMap<QString, QString> _attachedDBs;
+class JMdictPlugin : public Plugin {
+  private:
+    static JMdictPlugin *_instance;
+    QString _dictVersion;
+    QMap<QString, QString> _attachedDBs;
 
-	JMdictEntrySearcher *searcher;
-	JMdictEntryLoader *loader;
+    JMdictEntrySearcher *searcher;
+    JMdictEntryLoader *loader;
 
-	static QMap<QString, QPair<QString, quint16>> _posMap;
-	static QVector<QString> _posShift;
-	static QMap<QString, QPair<QString, quint16>> _miscMap;
-	static QVector<QString> _miscShift;
-	static QMap<QString, QPair<QString, quint16>> _dialMap;
-	static QVector<QString> _dialShift;
-	static QMap<QString, QPair<QString, quint16>> _fieldMap;
-	static QVector<QString> _fieldShift;
+    static QMap<QString, QPair<QString, quint16>> _posMap;
+    static QVector<QString> _posShift;
+    static QMap<QString, QPair<QString, quint16>> _miscMap;
+    static QVector<QString> _miscShift;
+    static QMap<QString, QPair<QString, quint16>> _dialMap;
+    static QVector<QString> _dialShift;
+    static QMap<QString, QPair<QString, quint16>> _fieldMap;
+    static QVector<QString> _fieldShift;
 
-	static void queryEntities(SQLite::Query *query, const QString &entity, QMap<QString, QPair<QString, quint16>> *map, QVector<QString> *shift);
+    static void queryEntities(SQLite::Query *query, const QString &entity,
+                              QMap<QString, QPair<QString, quint16>> *map, QVector<QString> *shift);
 
-	bool attachAllDatabases();
-	void detachAllDatabases();
+    bool attachAllDatabases();
+    void detachAllDatabases();
 
-public:
-	JMdictPlugin();
-	virtual ~JMdictPlugin();
-	static JMdictPlugin *instance() { return _instance; }
-	virtual bool onRegister();
-	virtual bool onUnregister();
-	const QString &dictVersion() const { return _dictVersion; }
-	virtual QString pluginInfo() const;
-	const QMap<QString, QString> &attachedDBs() const { return _attachedDBs; }
+  public:
+    JMdictPlugin();
+    virtual ~JMdictPlugin();
+    static JMdictPlugin *instance() { return _instance; }
+    virtual bool onRegister();
+    virtual bool onUnregister();
+    const QString &dictVersion() const { return _dictVersion; }
+    virtual QString pluginInfo() const;
+    const QMap<QString, QString> &attachedDBs() const { return _attachedDBs; }
 
-	// Maps the short string to long description and bitshift
-	static const QMap<QString, QPair<QString, quint16>> &posMap() { return _posMap; }
-	static const QVector<QString> &posShift() { return _posShift; }
-	static const QMap<QString, QPair<QString, quint16>> &miscMap() { return _miscMap; }
-	static const QVector<QString> &miscShift() { return _miscShift; }
-	static const QMap<QString, QPair<QString, quint16>> &dialMap() { return _dialMap; }
-	static const QVector<QString> &dialShift() { return _dialShift; }
-	static const QMap<QString, QPair<QString, quint16>> &fieldMap() { return _fieldMap; }
-	static const QVector<QString> &fieldShift() { return _fieldShift; }
+    // Maps the short string to long description and bitshift
+    static const QMap<QString, QPair<QString, quint16>> &posMap() { return _posMap; }
+    static const QVector<QString> &posShift() { return _posShift; }
+    static const QMap<QString, QPair<QString, quint16>> &miscMap() { return _miscMap; }
+    static const QVector<QString> &miscShift() { return _miscShift; }
+    static const QMap<QString, QPair<QString, quint16>> &dialMap() { return _dialMap; }
+    static const QVector<QString> &dialShift() { return _dialShift; }
+    static const QMap<QString, QPair<QString, quint16>> &fieldMap() { return _fieldMap; }
+    static const QVector<QString> &fieldShift() { return _fieldShift; }
 
-	static QSet<QString> shiftsToSet(const QVector<QString>& shift, const QVector<quint64>& bits);
+    static QSet<QString> shiftsToSet(const QVector<QString> &shift, const QVector<quint64> &bits);
 
-	// Helpers for building queries
-	static std::size_t numColumns(const QMap<QString, QPair<QString, quint16>> &map);
-	static QString dbColumns(const QMap<QString, QPair<QString, quint16>> &map, const QString &column_name);
+    // Helpers for building queries
+    static std::size_t numColumns(const QMap<QString, QPair<QString, quint16>> &map);
+    static QString dbColumns(const QMap<QString, QPair<QString, quint16>> &map,
+                             const QString &column_name);
 };
 
 #endif

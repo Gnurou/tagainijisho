@@ -17,24 +17,23 @@
 #ifndef __GUI_TJSPINBOX_H
 #define __GUI_TJSPINBOX_H
 
-#include <QSpinBox>
 #include <QRegExpValidator>
+#include <QSpinBox>
 
-class TJSpinBox : public QSpinBox
-{
-	Q_OBJECT
-private:
-	QRegExpValidator *_validator;
-	unsigned int _base;
+class TJSpinBox : public QSpinBox {
+    Q_OBJECT
+  private:
+    QRegExpValidator *_validator;
+    unsigned int _base;
 
-protected:
-	virtual QValidator::State validate(QString &input, int &pos) const;
-	virtual int valueFromText(const QString &text) const;
-	virtual QString textFromValue(int val) const;
+  protected:
+    virtual QValidator::State validate(QString &input, int &pos) const;
+    virtual int valueFromText(const QString &text) const;
+    virtual QString textFromValue(int val) const;
 
-public:
-	TJSpinBox(QWidget *parent = 0, const QString &validRegExp = "[0-9]*", unsigned int base = 10);
-	unsigned int base() const { return _base; }
+  public:
+    TJSpinBox(QWidget *parent = 0, const QString &validRegExp = "[0-9]*", unsigned int base = 10);
+    unsigned int base() const { return _base; }
 };
 
 #endif

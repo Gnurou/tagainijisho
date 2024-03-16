@@ -23,13 +23,12 @@
 /**
  * A validator class that only accepts kanjis.
  */
-class KanjiValidator : public QValidator
-{
-	Q_OBJECT
-public:
-	KanjiValidator(QObject *parent = 0);
+class KanjiValidator : public QValidator {
+    Q_OBJECT
+  public:
+    KanjiValidator(QObject *parent = 0);
 
-	virtual State validate(QString &input, int &pos) const;
+    virtual State validate(QString &input, int &pos) const;
 };
 
 #endif

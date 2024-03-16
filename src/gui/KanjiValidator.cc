@@ -15,30 +15,31 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "core/TextTools.h"
 #include "gui/KanjiValidator.h"
+#include "core/TextTools.h"
 
-KanjiValidator::KanjiValidator(QObject *parent) : QValidator(parent)
-{
-}
+KanjiValidator::KanjiValidator(QObject *parent) : QValidator(parent) {}
 
-QValidator::State KanjiValidator::validate(QString &input, int &pos) const
-{
-	int i = 0;
-	while (i < input.size()) {
-		const QChar &c = input[i];
-		bool isKanji;
-		int isSurrogate = c.isHighSurrogate() ? 1 : 0;
-		// Should never happen, but done for safety
-		if (isSurrogate && i == input.size() - 1) isSurrogate = 0;
-		if (!isSurrogate) isKanji = TextTools::isKanjiChar(c);
-		else isKanji = TextTools::isKanjiChar(c, input[i + 1]);
-		if (!isKanji) {
-			input.remove(i, 1 + isSurrogate);
-			if (i < pos) pos -= 1 + isSurrogate;
-		}
-		else i += 1 + isSurrogate;
-	}
+QValidator::State KanjiValidator::validate(QString &input, int &pos) const {
+    int i = 0;
+    while (i < input.size()) {
+        const QChar &c = input[i];
+        bool isKanji;
+        int isSurrogate = c.isHighSurrogate() ? 1 : 0;
+        // Should never happen, but done for safety
+        if (isSurrogate && i == input.size() - 1)
+            isSurrogate = 0;
+        if (!isSurrogate)
+            isKanji = TextTools::isKanjiChar(c);
+        else
+            isKanji = TextTools::isKanjiChar(c, input[i + 1]);
+        if (!isKanji) {
+            input.remove(i, 1 + isSurrogate);
+            if (i < pos)
+                pos -= 1 + isSurrogate;
+        } else
+            i += 1 + isSurrogate;
+    }
 
-	return QValidator::Acceptable;
+    return QValidator::Acceptable;
 }

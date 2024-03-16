@@ -20,42 +20,33 @@
 PluginManager PluginManager::_instance;
 
 // Default version that does nothing.
-void Plugin::registerLinkHandlers(NavigationManager *navManager)
-{
-}
+void Plugin::registerLinkHandlers(NavigationManager *navManager) {}
 
 // Default version does nothing.
-void Plugin::registerMainMenuEntries(MainWindow *mainWindow)
-{
+void Plugin::registerMainMenuEntries(MainWindow *mainWindow) {}
+
+void Plugin::registerExtenders(SearchBar *bar) {}
+
+PluginManager::PluginManager() : QMap<QString, Plugin *>() {}
+
+PluginManager::~PluginManager() {
+    // Delete all plugins when we are destructed.
+    QMap<QString, Plugin *>::iterator it;
+    for (it = _instance.begin(); it != _instance.end(); it++)
+        delete it.value();
 }
 
-void Plugin::registerExtenders(SearchBar *bar)
-{
+bool PluginManager::registerPlugin(Plugin *plugin) {
+    Plugin *oldPlugin = _instance[plugin->name()];
+    if (oldPlugin)
+        return false;
+    _instance[plugin->name()] = plugin;
+    return true;
 }
 
-PluginManager::PluginManager() : QMap<QString, Plugin *>()
-{
-}
-
-PluginManager::~PluginManager()
-{
-	// Delete all plugins when we are destructed.
-	QMap<QString, Plugin *>::iterator it;
-	for (it = _instance.begin(); it != _instance.end(); it++)
-		delete it.value();
-}
-
-bool PluginManager::registerPlugin(Plugin *plugin)
-{
-	Plugin *oldPlugin = _instance[plugin->name()];
-	if (oldPlugin) return false;
-	_instance[plugin->name()] = plugin;
-	return true;
-}
-
-bool PluginManager::removePlugin(Plugin *plugin)
-{
-	if (!_instance.contains(plugin->name())) return false;
-	_instance.remove(plugin->name());
-	return true;
+bool PluginManager::removePlugin(Plugin *plugin) {
+    if (!_instance.contains(plugin->name()))
+        return false;
+    _instance.remove(plugin->name());
+    return true;
 }

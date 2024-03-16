@@ -20,8 +20,8 @@
 
 #include "gui/ScrollBarSmoothScroller.h"
 
-#include <QGraphicsView>
 #include <QGraphicsScene>
+#include <QGraphicsView>
 #include <QWheelEvent>
 
 class QGraphicsSimpleTextItem;
@@ -30,32 +30,31 @@ class QGraphicsSimpleTextItem;
  * A horizontally-scrollable results view designed to display kanji
  * in an easily selectable way.
  */
-class KanjiResultsView : public QGraphicsView
-{
-	Q_OBJECT
-private:
-	QGraphicsScene _scene;
-	QList<QGraphicsSimpleTextItem *> items;
-	ScrollBarSmoothScroller _smoothScroller;
-	QFont kanjiFont;
+class KanjiResultsView : public QGraphicsView {
+    Q_OBJECT
+  private:
+    QGraphicsScene _scene;
+    QList<QGraphicsSimpleTextItem *> items;
+    ScrollBarSmoothScroller _smoothScroller;
+    QFont kanjiFont;
 
-protected slots:
-	void onSelectionChanged();
-	void wheelEvent(QWheelEvent *event);
+  protected slots:
+    void onSelectionChanged();
+    void wheelEvent(QWheelEvent *event);
 
-public:
-	KanjiResultsView(QWidget *parent = 0);
-	virtual QSize sizeHint() const;
-	void clear();
-	QGraphicsScene *scene() { return &_scene; }
+  public:
+    KanjiResultsView(QWidget *parent = 0);
+    virtual QSize sizeHint() const;
+    void clear();
+    QGraphicsScene *scene() { return &_scene; }
 
-public slots:
-	void addItem(const QString &kanji);
-	void startReceive();
-	void endReceive();
+  public slots:
+    void addItem(const QString &kanji);
+    void startReceive();
+    void endReceive();
 
-signals:
-	void kanjiSelected(const QString &kanji);
+  signals:
+    void kanjiSelected(const QString &kanji);
 };
 
 #endif

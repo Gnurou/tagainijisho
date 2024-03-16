@@ -17,20 +17,19 @@
 #ifndef __GUI_KANJIDIC2_KANASELECTOR_H
 #define __GUI_KANJIDIC2_KANASELECTOR_H
 
-#include <QWidget>
 #include "gui/kanjidic2/ui_KanaSelector.h"
+#include <QWidget>
 
 class KanaView;
 
 namespace Ui {
-    class KanaSelector;
+class KanaSelector;
 }
 
-class KanaSelector : public QWidget, private Ui::KanaSelector
-{
+class KanaSelector : public QWidget, private Ui::KanaSelector {
     Q_OBJECT
 
-public:
+  public:
     explicit KanaSelector(QWidget *parent = 0);
     ~KanaSelector();
 

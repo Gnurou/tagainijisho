@@ -20,12 +20,12 @@
 
 #include "core/EntriesCache.h"
 
-#include <QCoreApplication>
-#include <QAction>
-#include <QObject>
-#include <QMenu>
-#include <QToolBar>
 #include <QAbstractItemView>
+#include <QAction>
+#include <QCoreApplication>
+#include <QMenu>
+#include <QObject>
+#include <QToolBar>
 
 class Entry;
 class QMenu;
@@ -35,62 +35,61 @@ class QMenu;
  * an entry is displayed. Inheritors can connect slots to the actions to
  * implement the desired behavior.
  */
-class EntryMenu : public QObject
-{
-	Q_OBJECT
-protected:
-	QAction copyWritingAction;
-	QAction copyReadingAction;
-	QAction addToStudyAction;
-	QAction removeFromStudyAction;
-	QAction alreadyKnownAction;
-	QAction resetTrainingAction;
-	QAction setTagsAction;
-	QAction addTagsAction;
-	QAction setNotesAction;
-	QMenu lastTagsMenu;
+class EntryMenu : public QObject {
+    Q_OBJECT
+  protected:
+    QAction copyWritingAction;
+    QAction copyReadingAction;
+    QAction addToStudyAction;
+    QAction removeFromStudyAction;
+    QAction alreadyKnownAction;
+    QAction resetTrainingAction;
+    QAction setTagsAction;
+    QAction addTagsAction;
+    QAction setNotesAction;
+    QMenu lastTagsMenu;
 
-protected slots:
-	void makeLastTagsMenu();
-	void onLastTagsActionTriggered();
-	
-public:
-	EntryMenu(QObject* parent = 0);
+  protected slots:
+    void makeLastTagsMenu();
+    void onLastTagsActionTriggered();
 
-	/**
-	 * Populates the given menu with the entry-related options
-	 */
-	void populateMenu(QMenu *menu);
-	/**
-	 * Populates the given toolbar with the entry-related options
-	 */
-	void populateToolBar(QToolBar *bar);
+  public:
+    EntryMenu(QObject *parent = 0);
 
-	void setEnabledAll(bool enabled);
+    /**
+     * Populates the given menu with the entry-related options
+     */
+    void populateMenu(QMenu *menu);
+    /**
+     * Populates the given toolbar with the entry-related options
+     */
+    void populateToolBar(QToolBar *bar);
 
-	/**
-	 * Enable/disable items according to the properties of the
-	 * entries list given as argument.
-	 */
-	void updateStatus(const QList<ConstEntryPointer>& entries);
-	/**
-	 * Shortcut method.
-	 */
-	void updateStatus(const ConstEntryPointer& entry);
-	/**
-	 * Enable/disable items based on when multiple entries
-	 * have been selected. Avoids the need for creating the
-	 * list of entries with large selections.
-	 */
-	void updateStatusMultiSelect(int numSelectedEntries);
+    void setEnabledAll(bool enabled);
 
-signals:
-	/**
-	 * Raised when a menu entry of the added tags history has
-	 * been selected. The string list contains the tags to
-	 * be added to the selected entry/entries.
-	 */
-	void tagsHistorySelected(const QStringList &tags);
+    /**
+     * Enable/disable items according to the properties of the
+     * entries list given as argument.
+     */
+    void updateStatus(const QList<ConstEntryPointer> &entries);
+    /**
+     * Shortcut method.
+     */
+    void updateStatus(const ConstEntryPointer &entry);
+    /**
+     * Enable/disable items based on when multiple entries
+     * have been selected. Avoids the need for creating the
+     * list of entries with large selections.
+     */
+    void updateStatusMultiSelect(int numSelectedEntries);
+
+  signals:
+    /**
+     * Raised when a menu entry of the added tags history has
+     * been selected. The string list contains the tags to
+     * be added to the selected entry/entries.
+     */
+    void tagsHistorySelected(const QStringList &tags);
 };
 
 #endif

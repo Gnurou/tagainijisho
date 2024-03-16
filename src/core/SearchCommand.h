@@ -18,56 +18,55 @@
 #ifndef __CORE_SEARCHCOMMAND_H
 #define __CORE_SEARCHCOMMAND_H
 
-#include <QStringList>
 #include <QRegExp>
+#include <QStringList>
 
 /**
  * Describes a command, as recognized by instances of the
  * EntrySearcher class.
  */
-class SearchCommand
-{
-private:
-	QString _command;
-	QStringList _args;
-	static SearchCommand _invalid;
+class SearchCommand {
+  private:
+    QString _command;
+    QStringList _args;
+    static SearchCommand _invalid;
 
-	static QRegExp _singleWordMatch;
-	static QRegExp _quotedWordsMatch;
-	static QRegExp _argMatch;
-	static QRegExp _commandMatch;
+    static QRegExp _singleWordMatch;
+    static QRegExp _quotedWordsMatch;
+    static QRegExp _argMatch;
+    static QRegExp _commandMatch;
 
-public:
-	static const QRegExp singleWordMatch() { return _singleWordMatch; }
-	static const QRegExp quotedWordsMatch() { return _quotedWordsMatch; }
-	static const QRegExp argMatch() { return _argMatch; }
-	static const QRegExp commandMatch() { return _commandMatch; }
-	
-public:
-	SearchCommand() {}
-	SearchCommand(const QString &command) : _command(command) {}
+  public:
+    static const QRegExp singleWordMatch() { return _singleWordMatch; }
+    static const QRegExp quotedWordsMatch() { return _quotedWordsMatch; }
+    static const QRegExp argMatch() { return _argMatch; }
+    static const QRegExp commandMatch() { return _commandMatch; }
 
-	void setCommand(const QString &command) { _command = command; }
-	void addArgument(const QString &arg) { _args << arg; }
-	const QString &command() const { return _command; }
-	const QStringList &args() const { return _args; }
+  public:
+    SearchCommand() {}
+    SearchCommand(const QString &command) : _command(command) {}
 
-	bool isValid() const { return command() != "invalid"; }
+    void setCommand(const QString &command) { _command = command; }
+    void addArgument(const QString &arg) { _args << arg; }
+    const QString &command() const { return _command; }
+    const QStringList &args() const { return _args; }
 
-	/**
-	 * Returns the unique instance that is used to represent
-	 * invalid commands.
-	 */
-	static const SearchCommand &invalid() { return _invalid; }
+    bool isValid() const { return command() != "invalid"; }
 
-	/**
-	 * Builds the command corresponding to the given string
-	 * (that must be in command format). Returns an invalid
-	 * entry if the string is not parseable as a command.
-	 */
-	static SearchCommand fromString(const QString &string);
+    /**
+     * Returns the unique instance that is used to represent
+     * invalid commands.
+     */
+    static const SearchCommand &invalid() { return _invalid; }
 
-	bool operator==(const SearchCommand &c) const;
+    /**
+     * Builds the command corresponding to the given string
+     * (that must be in command format). Returns an invalid
+     * entry if the string is not parseable as a command.
+     */
+    static SearchCommand fromString(const QString &string);
+
+    bool operator==(const SearchCommand &c) const;
 };
 
 #endif

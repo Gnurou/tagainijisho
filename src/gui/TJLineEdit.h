@@ -24,26 +24,24 @@ class QToolButton;
 
 /**
  * An improved LineEdit with a clear button.
- * 
+ *
  * Largely inspired by Girish Ramakrishnan's example.
  * See http://labs.qt.nokia.com/2007/06/06/lineedit-with-a-clear-button/ for
  * the original.
  */
-class TJLineEdit : public QLineEdit
-{
-	Q_OBJECT
-private:
-	QToolButton *_resetButton;
+class TJLineEdit : public QLineEdit {
+    Q_OBJECT
+  private:
+    QToolButton *_resetButton;
 
-protected:
-	void resizeEvent(QResizeEvent *event);
+  protected:
+    void resizeEvent(QResizeEvent *event);
 
-public:
-	TJLineEdit(QWidget *parent = 0);
+  public:
+    TJLineEdit(QWidget *parent = 0);
 
-private slots:
-	void updateResetButton(const QString &text);
-
+  private slots:
+    void updateResetButton(const QString &text);
 };
 
 #endif

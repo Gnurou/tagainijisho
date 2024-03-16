@@ -20,18 +20,20 @@
 
 #include "core/EntrySearcher.h"
 
-class Kanjidic2EntrySearcher : public EntrySearcher
-{
-public:
-	Kanjidic2EntrySearcher();
-	virtual ~Kanjidic2EntrySearcher() {}
+class Kanjidic2EntrySearcher : public EntrySearcher {
+  public:
+    Kanjidic2EntrySearcher();
+    virtual ~Kanjidic2EntrySearcher() {}
 
-	virtual QueryBuilder::Column entryId() const { return QueryBuilder::Column("kanjidic2.entries", "id"); }
+    virtual QueryBuilder::Column entryId() const {
+        return QueryBuilder::Column("kanjidic2.entries", "id");
+    }
 
-	virtual SearchCommand commandFromWord(const QString &word) const;
+    virtual SearchCommand commandFromWord(const QString &word) const;
 
-	virtual void buildStatement(QList<SearchCommand> &commands, QueryBuilder::Statement &statement);
-	virtual QueryBuilder::Column canSort(const QString &sort, const QueryBuilder::Statement &statement);
+    virtual void buildStatement(QList<SearchCommand> &commands, QueryBuilder::Statement &statement);
+    virtual QueryBuilder::Column canSort(const QString &sort,
+                                         const QueryBuilder::Statement &statement);
 };
 
 #endif

@@ -25,30 +25,29 @@
 /**
  * Let the user select the entry type (vocabulary of kanji) to filter.
  */
-class EntryTypeFilterWidget : public SearchFilterWidget
-{
-	Q_OBJECT
-public:
-	typedef enum { All = 0, Vocabulary = 1, Kanjis = 2 } Type;
+class EntryTypeFilterWidget : public SearchFilterWidget {
+    Q_OBJECT
+  public:
+    typedef enum { All = 0, Vocabulary = 1, Kanjis = 2 } Type;
 
-private:
-	QComboBox *_comboBox;
+  private:
+    QComboBox *_comboBox;
 
-protected:
-	virtual void _reset();
+  protected:
+    virtual void _reset();
 
-public:
-	EntryTypeFilterWidget(QWidget *parent = 0);
-	virtual QString name() const { return "entrytypeselector"; }
-	virtual QString currentTitle() const { return tr("Entry type filter"); }
-	virtual QString currentCommand() const;
+  public:
+    EntryTypeFilterWidget(QWidget *parent = 0);
+    virtual QString name() const { return "entrytypeselector"; }
+    virtual QString currentTitle() const { return tr("Entry type filter"); }
+    virtual QString currentCommand() const;
 
-	int type() const { return _comboBox->currentIndex(); }
-	void setType(int newType) { _comboBox->setCurrentIndex(newType); }
-	Q_PROPERTY(int type READ type WRITE setType)
+    int type() const { return _comboBox->currentIndex(); }
+    void setType(int newType) { _comboBox->setCurrentIndex(newType); }
+    Q_PROPERTY(int type READ type WRITE setType)
 
-private slots:
-	void onComboBoxChanged(int index);
+  private slots:
+    void onComboBoxChanged(int index);
 };
 
 #endif

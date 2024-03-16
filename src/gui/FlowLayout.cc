@@ -25,107 +25,78 @@
 
 #include "gui/FlowLayout.h"
 
-FlowLayout::FlowLayout(QWidget *parent, int margin, int spacing)
-	: QLayout(parent)
-{
-	setMargin(margin);
-	setSpacing(spacing);
+FlowLayout::FlowLayout(QWidget *parent, int margin, int spacing) : QLayout(parent) {
+    setMargin(margin);
+    setSpacing(spacing);
 }
 
-FlowLayout::FlowLayout(int spacing)
-{
-	setSpacing(spacing);
+FlowLayout::FlowLayout(int spacing) { setSpacing(spacing); }
+
+FlowLayout::~FlowLayout() {
+    QLayoutItem *item;
+    while ((item = takeAt(0)))
+        delete item;
 }
 
-FlowLayout::~FlowLayout()
-{
-	QLayoutItem *item;
-	while ((item = takeAt(0)))
-		delete item;
+void FlowLayout::addItem(QLayoutItem *item) { itemList.append(item); }
+
+int FlowLayout::count() const { return itemList.size(); }
+
+QLayoutItem *FlowLayout::itemAt(int index) const { return itemList.value(index); }
+
+QLayoutItem *FlowLayout::takeAt(int index) {
+    if (index >= 0 && index < itemList.size())
+        return itemList.takeAt(index);
+    else
+        return 0;
 }
 
-void FlowLayout::addItem(QLayoutItem *item)
-{
-	itemList.append(item);
+Qt::Orientations FlowLayout::expandingDirections() const { return Qt::Orientations(); }
+
+bool FlowLayout::hasHeightForWidth() const { return true; }
+
+int FlowLayout::heightForWidth(int width) const {
+    int height = doLayout(QRect(0, 0, width, 0), true);
+    return height;
 }
 
-int FlowLayout::count() const
-{
-	return itemList.size();
+void FlowLayout::setGeometry(const QRect &rect) {
+    QLayout::setGeometry(rect);
+    doLayout(rect, false);
 }
 
-QLayoutItem *FlowLayout::itemAt(int index) const
-{
-	return itemList.value(index);
+QSize FlowLayout::sizeHint() const { return minimumSize(); }
+
+QSize FlowLayout::minimumSize() const {
+    QSize size;
+    QLayoutItem *item;
+    foreach (item, itemList)
+        size = size.expandedTo(item->minimumSize());
+
+    size += QSize(2 * margin(), 2 * margin());
+    return size;
 }
 
-QLayoutItem *FlowLayout::takeAt(int index)
-{
-	if (index >= 0 && index < itemList.size())
-		return itemList.takeAt(index);
-	else
-		return 0;
-}
+int FlowLayout::doLayout(const QRect &rect, bool testOnly) const {
+    int x = rect.x();
+    int y = rect.y();
+    int lineHeight = 0;
 
-Qt::Orientations FlowLayout::expandingDirections() const
-{
-	return Qt::Orientations();
-}
+    QLayoutItem *item;
+    foreach (item, itemList) {
+        int nextX = x + item->sizeHint().width() + spacing();
+        if (nextX - spacing() > rect.right() && lineHeight > 0) {
+            x = rect.x();
+            y = y + lineHeight + spacing();
+            nextX = x + item->sizeHint().width() + spacing();
+            lineHeight = 0;
+        }
 
-bool FlowLayout::hasHeightForWidth() const
-{
-	return true;
-}
+        if (!testOnly)
+            item->setGeometry(QRect(QPoint(x, y), item->sizeHint()));
 
-int FlowLayout::heightForWidth(int width) const
-{
-	int height = doLayout(QRect(0, 0, width, 0), true);
-	return height;
-}
-
-void FlowLayout::setGeometry(const QRect &rect)
-{
-	QLayout::setGeometry(rect);
-	doLayout(rect, false);
-}
-
-QSize FlowLayout::sizeHint() const
-{
-	return minimumSize();
-}
-
-QSize FlowLayout::minimumSize() const
-{
-	QSize size;
-	QLayoutItem *item;
-	foreach (item, itemList)
-		size = size.expandedTo(item->minimumSize());
-
-	size += QSize(2*margin(), 2*margin());
-	return size;
-}
-
-int FlowLayout::doLayout(const QRect &rect, bool testOnly) const
-{
-	int x = rect.x();
-	int y = rect.y();
-	int lineHeight = 0;
-
-	QLayoutItem *item;
-	foreach (item, itemList) {
-		int nextX = x + item->sizeHint().width() + spacing();
-		if (nextX - spacing() > rect.right() && lineHeight > 0) {
-			x = rect.x();
-			y = y + lineHeight + spacing();
-			nextX = x + item->sizeHint().width() + spacing();
-			lineHeight = 0;
-		}
-
-		if (!testOnly)
-			item->setGeometry(QRect(QPoint(x, y), item->sizeHint()));
-
-		x = nextX;
-		lineHeight = qMax(lineHeight, item->sizeHint().height());
-	}
-	return y + lineHeight - rect.y();
+        x = nextX;
+        lineHeight = qMax(lineHeight, item->sizeHint().height());
+    }
+    return y + lineHeight - rect.y();
 }

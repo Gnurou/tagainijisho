@@ -20,91 +20,91 @@
 
 #include "gui/ToolBarDetailedView.h"
 
-#include <QFrame>
-#include <QPushButton>
 #include "sqlite/Query.h"
+#include <QFrame>
 #include <QLabel>
+#include <QPushButton>
 
 class YesNoTrainer : public QWidget {
-	Q_OBJECT
-public:
-	typedef enum { Japanese, Translation } TrainingMode;
+    Q_OBJECT
+  public:
+    typedef enum { Japanese, Translation } TrainingMode;
 
-private:
-	static PreferenceItem<QByteArray> windowGeometry;
+  private:
+    static PreferenceItem<QByteArray> windowGeometry;
 
-	TrainingMode _trainingMode;
-	unsigned int _goodCount, _wrongCount, _totalCount;
+    TrainingMode _trainingMode;
+    unsigned int _goodCount, _wrongCount, _totalCount;
 
-	void getNextEntry();
-	void _train();
+    void getNextEntry();
+    void _train();
 
-protected:
-	// List of parts to display for front and back of the card
-	QStringList frontParts, backParts;
-	EntryPointer currentEntry;
-	SQLite::Query _query;
-	ToolBarDetailedView *_detailedView;
+  protected:
+    // List of parts to display for front and back of the card
+    QStringList frontParts, backParts;
+    EntryPointer currentEntry;
+    SQLite::Query _query;
+    ToolBarDetailedView *_detailedView;
 
-	QPushButton *showAnswerButton;
-	QPushButton *goodAnswerButton;
-	QPushButton *wrongAnswerButton;
-	QPushButton *skipButton;
-	QLabel *_counterLabel;
-	QString _queryString;
+    QPushButton *showAnswerButton;
+    QPushButton *goodAnswerButton;
+    QPushButton *wrongAnswerButton;
+    QPushButton *skipButton;
+    QLabel *_counterLabel;
+    QString _queryString;
 
-public:
-	YesNoTrainer(QWidget *parent = 0);
-	~YesNoTrainer();
+  public:
+    YesNoTrainer(QWidget *parent = 0);
+    ~YesNoTrainer();
 
-	const QString &query() const { return _queryString; }
-	void setQuery(QString queryString);
-	virtual void setTrainingMode(TrainingMode mode) { _trainingMode = mode; }
-	TrainingMode trainingMode() const { return _trainingMode; }
-	DetailedView *detailedView() { return _detailedView->detailedView(); }
-	bool answerShown() const { return !showAnswerButton->isEnabled(); }
+    const QString &query() const { return _queryString; }
+    void setQuery(QString queryString);
+    virtual void setTrainingMode(TrainingMode mode) { _trainingMode = mode; }
+    TrainingMode trainingMode() const { return _trainingMode; }
+    DetailedView *detailedView() { return _detailedView->detailedView(); }
+    bool answerShown() const { return !showAnswerButton->isEnabled(); }
 
-protected slots:
-	/**
-	 * Show the answer and enable the correct/wrong
-	 * buttons.
-	 */
-	void showAnswer();
+  protected slots:
+    /**
+     * Show the answer and enable the correct/wrong
+     * buttons.
+     */
+    void showAnswer();
 
-	/**
-	 * Update the entry for a good answer.
-	 */
-	void goodAnswer();
+    /**
+     * Update the entry for a good answer.
+     */
+    void goodAnswer();
 
-	/**
-	 * Update the entry for a wrong answer.
-	 */
-	void wrongAnswer();
+    /**
+     * Update the entry for a wrong answer.
+     */
+    void wrongAnswer();
 
-	/**
-	 * Just skip without recording anything.
-	 */
-	void skip();
+    /**
+     * Just skip without recording anything.
+     */
+    void skip();
 
-	/**
-	 * Train the given entry. Its score will be modified
-	 * and its database entry will be updated according to
-	 * the result.
-	 */
-	void train(const EntryPointer& entry);
+    /**
+     * Train the given entry. Its score will be modified
+     * and its database entry will be updated according to
+     * the result.
+     */
+    void train(const EntryPointer &entry);
 
-	void hasResults(unsigned int nbResults);
+    void hasResults(unsigned int nbResults);
 
-public slots:
-	/**
-	 * Starts training.
-	 */
-	void train();
+  public slots:
+    /**
+     * Starts training.
+     */
+    void train();
 
-	void clear();
+    void clear();
 
-signals:
-	void currentEntryChanged();
+  signals:
+    void currentEntryChanged();
 };
 
 #endif

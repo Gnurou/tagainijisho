@@ -23,14 +23,13 @@
 #define TATOEBAENTRY_GLOBALID 3
 #define TATOEBADB_REVISION 1
 
-class TatoebaEntry : public Entry
-{
-	Q_OBJECT
+class TatoebaEntry : public Entry {
+    Q_OBJECT
 
-public:
-	TatoebaEntry(int id);
+  public:
+    TatoebaEntry(int id);
 
-	friend class TatoebaEntrySearcher;
+    friend class TatoebaEntrySearcher;
 };
 
 typedef QSharedPointer<TatoebaEntry> TatoebaEntryPointer;
@@ -38,11 +37,10 @@ Q_DECLARE_METATYPE(TatoebaEntryPointer)
 typedef QSharedPointer<const TatoebaEntry> ConstTatoebaEntryPointer;
 Q_DECLARE_METATYPE(ConstTatoebaEntryPointer)
 
-class TatoebaEntryRef : public EntryRef
-{
-public:
-	TatoebaEntryRef(quint32 id) : EntryRef(TATOEBAENTRY_GLOBALID, id) {}
-	TatoebaEntryPointer get() const { return EntryRef::get().staticCast<TatoebaEntry>(); }
+class TatoebaEntryRef : public EntryRef {
+  public:
+    TatoebaEntryRef(quint32 id) : EntryRef(TATOEBAENTRY_GLOBALID, id) {}
+    TatoebaEntryPointer get() const { return EntryRef::get().staticCast<TatoebaEntry>(); }
 };
 
 #endif

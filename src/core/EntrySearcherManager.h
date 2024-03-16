@@ -18,50 +18,48 @@
 #ifndef __CORE_ENTRY_SEARCHER_MANAGER_H_
 #define __CORE_ENTRY_SEARCHER_MANAGER_H_
 
-#include "core/Preferences.h"
 #include "core/EntrySearcher.h"
+#include "core/Preferences.h"
 #include "core/QueryBuilder.h"
 
 #include <QRegExp>
 
-class EntrySearcherManager
-{
-private:
-	static EntrySearcherManager *_instance;
-	QList<EntrySearcher *> _instances;
+class EntrySearcherManager {
+  private:
+    static EntrySearcherManager *_instance;
+    QList<EntrySearcher *> _instances;
 
-	QRegExp quotedWordsMatch;
-	QRegExp validSearchCompoundMatch;
-	QRegExp validSearchMatch;
+    QRegExp quotedWordsMatch;
+    QRegExp validSearchCompoundMatch;
+    QRegExp validSearchMatch;
 
-public:
-	EntrySearcherManager();
+  public:
+    EntrySearcherManager();
 
-	void addInstance(EntrySearcher *searcher);
-	const QList<EntrySearcher *> &instances() { return _instances; }
-	bool removeInstance(EntrySearcher *searcher);
+    void addInstance(EntrySearcher *searcher);
+    const QList<EntrySearcher *> &instances() { return _instances; }
+    bool removeInstance(EntrySearcher *searcher);
 
-	static EntrySearcherManager &instance();
+    static EntrySearcherManager &instance();
 
-	QStringList splitSearchString(const QString &searchString);
+    QStringList splitSearchString(const QString &searchString);
 
-	/**
-	 * Attempts to build the query corresponding to the search string
-	 * using the attached entry searchers. Returns true if a query
-	 * has been build, false otherwise - in which case the content
-	 * of the query is unspecified.
-	 */
-	bool buildQuery(const QString &search, QueryBuilder &query);
+    /**
+     * Attempts to build the query corresponding to the search string
+     * using the attached entry searchers. Returns true if a query
+     * has been build, false otherwise - in which case the content
+     * of the query is unspecified.
+     */
+    bool buildQuery(const QString &search, QueryBuilder &query);
 
-	/**
-	 * Returns a pointer to the entry searcher capable of handling
-	 * entries of type entryType. Returns null if no such entry
-	 * searcher has been registered.
-	 */
-	EntrySearcher *getEntrySearcher(EntryType entryType);
+    /**
+     * Returns a pointer to the entry searcher capable of handling
+     * entries of type entryType. Returns null if no such entry
+     * searcher has been registered.
+     */
+    EntrySearcher *getEntrySearcher(EntryType entryType);
 
-	static PreferenceItem<bool> studiedEntriesFirst;
+    static PreferenceItem<bool> studiedEntriesFirst;
 };
 
 #endif
-

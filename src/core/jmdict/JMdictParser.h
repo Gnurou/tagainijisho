@@ -20,96 +20,96 @@
 
 #include "core/XmlParserHelper.h"
 
-#include <QStringList>
-#include <QMap>
-#include <QSet>
 #include <QHash>
+#include <QMap>
 #include <QRegExp>
+#include <QSet>
+#include <QStringList>
 
 class JMdictKanjiWritingItem {
-public:
-	QString writing;
-	int frequency;
+  public:
+    QString writing;
+    int frequency;
 
-	JMdictKanjiWritingItem() : writing(), frequency(0) {}
+    JMdictKanjiWritingItem() : writing(), frequency(0) {}
 };
 
 class JMdictKanaReadingItem {
-public:
-	QString reading;
-	bool noKanji;
-	int frequency;
-	QList<quint8> restrictedTo;
+  public:
+    QString reading;
+    bool noKanji;
+    int frequency;
+    QList<quint8> restrictedTo;
 
-	JMdictKanaReadingItem() : reading(), noKanji(false), frequency(0) {}
+    JMdictKanaReadingItem() : reading(), noKanji(false), frequency(0) {}
 };
 
 class JMdictParser;
 class JMdictSenseItem {
-public:
-	QStringList pos;
-	QStringList field;
-	QStringList misc;
-	QStringList dialect;
-	QList<quint8> restrictedToKanji;
-	QList<quint8> restrictedToKana;
-	/// Maps a language to its glosses
-	QMap<QString, QStringList> gloss;
+  public:
+    QStringList pos;
+    QStringList field;
+    QStringList misc;
+    QStringList dialect;
+    QList<quint8> restrictedToKanji;
+    QList<quint8> restrictedToKana;
+    /// Maps a language to its glosses
+    QMap<QString, QStringList> gloss;
 
-	JMdictSenseItem() {}
+    JMdictSenseItem() {}
 };
 
 class JMdictItem {
-public:
-	int id;
-	int frequency;
-	QList<JMdictKanjiWritingItem> kanji;
-	QList<JMdictKanaReadingItem> kana;
-	QList<JMdictSenseItem> senses;
+  public:
+    int id;
+    int frequency;
+    QList<JMdictKanjiWritingItem> kanji;
+    QList<JMdictKanaReadingItem> kana;
+    QList<JMdictSenseItem> senses;
 
-	JMdictItem() : id(0), frequency(0) {}
+    JMdictItem() : id(0), frequency(0) {}
 };
 
 class JMdictDeletedItem {
-public:
-	quint32 id;
-	quint32 replacedBy;
+  public:
+    quint32 id;
+    quint32 replacedBy;
 
-	JMdictDeletedItem(quint32 _id, quint32 _replacedBy) : id(_id), replacedBy(_replacedBy) {}
+    JMdictDeletedItem(quint32 _id, quint32 _replacedBy) : id(_id), replacedBy(_replacedBy) {}
 };
 
 class JMdictParser {
-protected:
-	static QRegExp versionRegExp;
-	static QRegExp deletedItemRegExp;
-	static QRegExp mergedItemRegExp;
+  protected:
+    static QRegExp versionRegExp;
+    static QRegExp deletedItemRegExp;
+    static QRegExp mergedItemRegExp;
 
-	QStringList languages;
-	bool gotVersion;
-	QString _dictVersion;
+    QStringList languages;
+    bool gotVersion;
+    QString _dictVersion;
 
-public:
-	QHash<QString, quint16> posBitFields;
-	int posBitFieldsCount;
-	QHash<QString, quint16> fieldBitFields;
-	int fieldBitFieldsCount;
-	QHash<QString, quint16> miscBitFields;
-	int miscBitFieldsCount;
-	QHash<QString, quint16> dialBitFields;
-	int dialectBitFieldsCount;
+  public:
+    QHash<QString, quint16> posBitFields;
+    int posBitFieldsCount;
+    QHash<QString, quint16> fieldBitFields;
+    int fieldBitFieldsCount;
+    QHash<QString, quint16> miscBitFields;
+    int miscBitFieldsCount;
+    QHash<QString, quint16> dialBitFields;
+    int dialectBitFieldsCount;
 
-	QHash<QString, QString> entities;
-	QHash<QString, QString> reversedEntities;
+    QHash<QString, QString> entities;
+    QHash<QString, QString> reversedEntities;
 
-	JMdictParser(const QStringList &langs);
-	virtual ~JMdictParser() {}
-	bool parse(QXmlStreamReader &reader);
-	const QString &dictVersion() const { return _dictVersion; }
+    JMdictParser(const QStringList &langs);
+    virtual ~JMdictParser() {}
+    bool parse(QXmlStreamReader &reader);
+    const QString &dictVersion() const { return _dictVersion; }
 
-	// These methods can be overloaded by subclasses in order to implement
-	// a behavior when an item is finished being parsed.
-	// Returns true if the processing completed successfully, false otherwise
-	virtual bool onItemParsed(const JMdictItem &entry) { return true; }
+    // These methods can be overloaded by subclasses in order to implement
+    // a behavior when an item is finished being parsed.
+    // Returns true if the processing completed successfully, false otherwise
+    virtual bool onItemParsed(const JMdictItem &entry) { return true; }
 };
 
 #endif

@@ -23,23 +23,22 @@
 
 #include <QWidget>
 
-class ResultsViewWidget : public QWidget, private Ui::ResultsViewWidget
-{
-	Q_OBJECT
-private:
-	ResultsList *_results;
-	
-protected slots:
-	void onSearchStarted();
-	void onSearchFinished();
-	void updateResultsCount();
+class ResultsViewWidget : public QWidget, private Ui::ResultsViewWidget {
+    Q_OBJECT
+  private:
+    ResultsList *_results;
 
-public:
-	ResultsViewWidget(QWidget *parent);
-	
-	void setModel(ResultsList *rList);
-	ResultsView *resultsView() { return _resultsView; }
-	QHBoxLayout *buttonsLayout() { return _buttonsLayout; }
+  protected slots:
+    void onSearchStarted();
+    void onSearchFinished();
+    void updateResultsCount();
+
+  public:
+    ResultsViewWidget(QWidget *parent);
+
+    void setModel(ResultsList *rList);
+    ResultsView *resultsView() { return _resultsView; }
+    QHBoxLayout *buttonsLayout() { return _buttonsLayout; }
 };
 
 #endif

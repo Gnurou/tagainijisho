@@ -18,102 +18,79 @@
 #include <QApplication>
 #include <QClipboard>
 
-#include "gui/TagsDialogs.h"
-#include "gui/SingleEntryView.h"
 #include "gui/EditEntryNotesDialog.h"
+#include "gui/SingleEntryView.h"
+#include "gui/TagsDialogs.h"
 
-SingleEntryView::SingleEntryView(QObject *parent) : EntryMenu(parent), _entry(0)
-{
-	connect(&copyWritingAction, SIGNAL(triggered()), this, SLOT(copyWriting()));
-	connect(&copyReadingAction, SIGNAL(triggered()), this, SLOT(copyReading()));
-	connect(&addToStudyAction, SIGNAL(triggered()), this, SLOT(addToStudy()));
-	connect(&removeFromStudyAction, SIGNAL(triggered()), this, SLOT(removeFromStudy()));
-	connect(&alreadyKnownAction, SIGNAL(triggered()), this, SLOT(alreadyKnown()));
-	connect(&resetTrainingAction, SIGNAL(triggered()), this, SLOT(resetTraining()));
-	connect(&setTagsAction, SIGNAL(triggered()), this, SLOT(setTags()));
-	connect(&addTagsAction, SIGNAL(triggered()), this, SLOT(addTags()));
-	connect(&setNotesAction, SIGNAL(triggered()), this, SLOT(setNotes()));
-	connect(this, SIGNAL(tagsHistorySelected(const QStringList &)),
-	this, SLOT(setTagsFromHistory(const QStringList &)));
+SingleEntryView::SingleEntryView(QObject *parent) : EntryMenu(parent), _entry(0) {
+    connect(&copyWritingAction, SIGNAL(triggered()), this, SLOT(copyWriting()));
+    connect(&copyReadingAction, SIGNAL(triggered()), this, SLOT(copyReading()));
+    connect(&addToStudyAction, SIGNAL(triggered()), this, SLOT(addToStudy()));
+    connect(&removeFromStudyAction, SIGNAL(triggered()), this, SLOT(removeFromStudy()));
+    connect(&alreadyKnownAction, SIGNAL(triggered()), this, SLOT(alreadyKnown()));
+    connect(&resetTrainingAction, SIGNAL(triggered()), this, SLOT(resetTraining()));
+    connect(&setTagsAction, SIGNAL(triggered()), this, SLOT(setTags()));
+    connect(&addTagsAction, SIGNAL(triggered()), this, SLOT(addTags()));
+    connect(&setNotesAction, SIGNAL(triggered()), this, SLOT(setNotes()));
+    connect(this, SIGNAL(tagsHistorySelected(const QStringList &)), this,
+            SLOT(setTagsFromHistory(const QStringList &)));
 }
 
-void SingleEntryView::setEntry(const EntryPointer &entry)
-{
-	if (_entry) disconnect(_entry.data(), SIGNAL(entryChanged(Entry *)), this, SIGNAL(entryChanged(Entry *)));
-	if (entry) connect(entry.data(), SIGNAL(entryChanged(Entry *)), this, SIGNAL(entryChanged(Entry *)));
-	_entry = entry;
-	updateStatus(_entry);
-	emit entrySet(entry.data());
+void SingleEntryView::setEntry(const EntryPointer &entry) {
+    if (_entry)
+        disconnect(_entry.data(), SIGNAL(entryChanged(Entry *)), this,
+                   SIGNAL(entryChanged(Entry *)));
+    if (entry)
+        connect(entry.data(), SIGNAL(entryChanged(Entry *)), this, SIGNAL(entryChanged(Entry *)));
+    _entry = entry;
+    updateStatus(_entry);
+    emit entrySet(entry.data());
 }
 
-void SingleEntryView::copyWriting()
-{
+void SingleEntryView::copyWriting() {
 
-	const QStringList& writings(entry()->writings());
+    const QStringList &writings(entry()->writings());
 
-	if (writings.isEmpty())
-		return;
+    if (writings.isEmpty())
+        return;
 
-	QApplication::clipboard()->setText(writings[0]);
+    QApplication::clipboard()->setText(writings[0]);
 }
 
-void SingleEntryView::copyReading()
-{
-	const QStringList& readings(entry()->readings());
+void SingleEntryView::copyReading() {
+    const QStringList &readings(entry()->readings());
 
-	if (readings.isEmpty())
-		return;
+    if (readings.isEmpty())
+        return;
 
-	QApplication::clipboard()->setText(readings[0]);
+    QApplication::clipboard()->setText(readings[0]);
 }
 
-void SingleEntryView::addToStudy()
-{
-	entry()->addToTraining();
+void SingleEntryView::addToStudy() { entry()->addToTraining(); }
+
+void SingleEntryView::removeFromStudy() { entry()->removeFromTraining(); }
+
+void SingleEntryView::alreadyKnown() { entry()->setAlreadyKnown(); }
+
+void SingleEntryView::resetTraining() { entry()->resetScore(); }
+
+void SingleEntryView::setTags() {
+    QList<EntryPointer> list;
+    list << entry();
+    TagsDialogs::setTagsDialog(list);
 }
 
-void SingleEntryView::removeFromStudy()
-{
-	entry()->removeFromTraining();
+void SingleEntryView::addTags() {
+    QList<EntryPointer> list;
+    list << entry();
+    TagsDialogs::addTagsDialog(list);
 }
 
-void SingleEntryView::alreadyKnown()
-{
-	entry()->setAlreadyKnown();
+void SingleEntryView::setNotes() {
+    EditEntryNotesDialog dialog(*entry());
+    dialog.exec();
 }
 
-void SingleEntryView::resetTraining()
-{
-	entry()->resetScore();
-}
+void SingleEntryView::updateMenuEntries() { EntryMenu::updateStatus(entry()); }
 
-void SingleEntryView::setTags()
-{
-	QList<EntryPointer> list;
-	list << entry();
-	TagsDialogs::setTagsDialog(list);
-}
-
-void SingleEntryView::addTags()
-{
-	QList<EntryPointer> list;
-	list << entry();
-	TagsDialogs::addTagsDialog(list);
-}
-
-void SingleEntryView::setNotes()
-{
-	EditEntryNotesDialog dialog(*entry());
-	dialog.exec();
-}
-
-void SingleEntryView::updateMenuEntries()
-{
-	EntryMenu::updateStatus(entry());
-}
-
-void SingleEntryView::setTagsFromHistory(const QStringList &tags)
-{
-	entry()->addTags(tags);
-}
-
+void SingleEntryView::setTagsFromHistory(const QStringList &tags) { entry()->addTags(tags); }

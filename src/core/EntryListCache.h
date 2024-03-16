@@ -31,45 +31,51 @@
  * Methods of this class are thread-safe.
  */
 class EntryListCache {
-private:
-	static EntryListCache *_instance;
-	SQLite::Connection _connection;
-	SQLite::Query ownerQuery, goUpQuery, listFromRootQuery;
-	EntryListDBAccess _dbAccess;
-	QMap<quint64, EntryList *> _cachedLists;
-	QMap<quint64, QPair<const EntryList *, quint32> > _cachedParents;
-	QMutex _cacheLock;
+  private:
+    static EntryListCache *_instance;
+    SQLite::Connection _connection;
+    SQLite::Query ownerQuery, goUpQuery, listFromRootQuery;
+    EntryListDBAccess _dbAccess;
+    QMap<quint64, EntryList *> _cachedLists;
+    QMap<quint64, QPair<const EntryList *, quint32>> _cachedParents;
+    QMutex _cacheLock;
 
-	EntryListCache();
-	~EntryListCache();
+    EntryListCache();
+    ~EntryListCache();
 
-	EntryList *_get(quint64 id);
-	EntryList *_newList();
-	void _clearListCache(quint64 id);
-	QPair <const EntryList *, quint32> _getOwner(quint64 id);
-	QPair<const EntryList *, quint32> _getIndexFromRowId(quint64 rowid);
-	quint64 _getRowIdFromIndex(const QPair<const EntryList *, quint32> &idx);
-	void _clearOwnerCache(quint64 id);
-	void _clearOwnerCache();
+    EntryList *_get(quint64 id);
+    EntryList *_newList();
+    void _clearListCache(quint64 id);
+    QPair<const EntryList *, quint32> _getOwner(quint64 id);
+    QPair<const EntryList *, quint32> _getIndexFromRowId(quint64 rowid);
+    quint64 _getRowIdFromIndex(const QPair<const EntryList *, quint32> &idx);
+    void _clearOwnerCache(quint64 id);
+    void _clearOwnerCache();
 
-public:
-	/// Returns a reference to the unique instance of this class.
-	static EntryListCache &instance();
-	/// Clears all resources used by the cache. instance() can be called
-	/// again in order to allocate a new one.
-	static void cleanup();
+  public:
+    /// Returns a reference to the unique instance of this class.
+    static EntryListCache &instance();
+    /// Clears all resources used by the cache. instance() can be called
+    /// again in order to allocate a new one.
+    static void cleanup();
 
-	static EntryList *get(quint64 id) { return instance()._get(id); }
-	static EntryList *newList() { return instance()._newList(); }
-	static void clearListCache(quint64 id) { return instance()._clearListCache(id); }
-	/// Returns the list that contains the list which id is given in parameter.
-	static QPair<const EntryList *, quint32> getOwner(quint64 id) { return instance()._getOwner(id); }
-	static QPair<const EntryList *, quint32> getIndexFromRowId(quint64 rowid) { return instance()._getIndexFromRowId(rowid); }
-	static quint64 getRowIdFromIndex(const QPair<const EntryList *, quint32> &idx) { return instance()._getRowIdFromIndex(idx); }
-	static void clearOwnerCache(quint64 id) { instance()._clearOwnerCache(id); }
-	static void clearOwnerCache() { instance()._clearOwnerCache(); }
-	/// Returns the database connection used by the entry list system
-	static SQLite::Connection *connection() { return &instance()._connection; }
+    static EntryList *get(quint64 id) { return instance()._get(id); }
+    static EntryList *newList() { return instance()._newList(); }
+    static void clearListCache(quint64 id) { return instance()._clearListCache(id); }
+    /// Returns the list that contains the list which id is given in parameter.
+    static QPair<const EntryList *, quint32> getOwner(quint64 id) {
+        return instance()._getOwner(id);
+    }
+    static QPair<const EntryList *, quint32> getIndexFromRowId(quint64 rowid) {
+        return instance()._getIndexFromRowId(rowid);
+    }
+    static quint64 getRowIdFromIndex(const QPair<const EntryList *, quint32> &idx) {
+        return instance()._getRowIdFromIndex(idx);
+    }
+    static void clearOwnerCache(quint64 id) { instance()._clearOwnerCache(id); }
+    static void clearOwnerCache() { instance()._clearOwnerCache(); }
+    /// Returns the database connection used by the entry list system
+    static SQLite::Connection *connection() { return &instance()._connection; }
 };
 
 #endif

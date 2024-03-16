@@ -19,39 +19,30 @@
 
 QMap<QString, Plugin *> Plugin::_plugins;
 
-bool Plugin::registerPlugin(Plugin *plugin)
-{
-	if (_plugins.contains(plugin->name())) return false;
-	_plugins[plugin->name()] = plugin;
-	if (!plugin->onRegister()) {
-		_plugins.remove(plugin->name());
-		return false;
-	}
-	return true;
+bool Plugin::registerPlugin(Plugin *plugin) {
+    if (_plugins.contains(plugin->name()))
+        return false;
+    _plugins[plugin->name()] = plugin;
+    if (!plugin->onRegister()) {
+        _plugins.remove(plugin->name());
+        return false;
+    }
+    return true;
 }
 
-bool Plugin::removePlugin(const QString &name)
-{
-	if (!_plugins.contains(name)) return false;
-	if (!_plugins[name]->onUnregister()) return false;
-	_plugins.remove(name);
-	return true;
+bool Plugin::removePlugin(const QString &name) {
+    if (!_plugins.contains(name))
+        return false;
+    if (!_plugins[name]->onUnregister())
+        return false;
+    _plugins.remove(name);
+    return true;
 }
 
-Plugin::Plugin(const QString &name) : _name(name)
-{
-}
+Plugin::Plugin(const QString &name) : _name(name) {}
 
-Plugin::~Plugin()
-{
-}
+Plugin::~Plugin() {}
 
-bool Plugin::onRegister()
-{
-	return true;
-}
+bool Plugin::onRegister() { return true; }
 
-bool Plugin::onUnregister()
-{
-	return true;
-}
+bool Plugin::onUnregister() { return true; }

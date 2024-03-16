@@ -18,24 +18,23 @@
 #ifndef __GUI_ENTRYLISTWIDGET_H
 #define __GUI_ENTRYLISTWIDGET_H
 
-#include "gui/ui_EntryListWidget.h"
 #include "gui/SearchFilterWidget.h"
+#include "gui/ui_EntryListWidget.h"
 
-class EntryListWidget : public SearchFilterWidget, private Ui::EntryListWidget
-{
-	Q_OBJECT
-protected:
-	virtual void _reset() {}
+class EntryListWidget : public SearchFilterWidget, private Ui::EntryListWidget {
+    Q_OBJECT
+  protected:
+    virtual void _reset() {}
 
-public:
-	EntryListWidget(QWidget *parent = 0);
-	virtual QString name() const { return "lists"; }
-	virtual QString currentTitle() const { return tr("Lists"); }
-	virtual QString currentCommand() const { return ""; }
-	EntryListView *entryListView() const { return _lists; }
+  public:
+    EntryListWidget(QWidget *parent = 0);
+    virtual QString name() const { return "lists"; }
+    virtual QString currentTitle() const { return tr("Lists"); }
+    virtual QString currentCommand() const { return ""; }
+    EntryListView *entryListView() const { return _lists; }
 
-public slots:
-	void onModelRootChanged(const QModelIndex &idx);
+  public slots:
+    void onModelRootChanged(const QModelIndex &idx);
 };
 
 #endif

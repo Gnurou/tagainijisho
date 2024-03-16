@@ -15,38 +15,37 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "gui/EntryListModel.h"
 #include "gui/EntryListWidget.h"
+#include "gui/EntryListModel.h"
 
 #include <QToolButton>
 
-EntryListWidget::EntryListWidget(QWidget *parent) : SearchFilterWidget(parent)
-{
-	setupUi(this);
-	_titleLabel->setVisible(false);
-	QFont titleFont;
-	titleFont.setPointSize(titleFont.pointSize() + 2);
-	titleFont.setBold(true);
-	_titleLabel->setFont(titleFont);
-	
-	QToolBar *_toolBar = entryListView()->helper()->defaultToolBar(this);
+EntryListWidget::EntryListWidget(QWidget *parent) : SearchFilterWidget(parent) {
+    setupUi(this);
+    _titleLabel->setVisible(false);
+    QFont titleFont;
+    titleFont.setPointSize(titleFont.pointSize() + 2);
+    titleFont.setBold(true);
+    _titleLabel->setFont(titleFont);
 
-	_toolBar->addAction(entryListView()->goUpAction());
-	_toolBar->addAction(entryListView()->newListAction());
-	_toolBar->addAction(entryListView()->deleteSelectionAction());
-	
-	vLayout->insertWidget(0, _toolBar);
-	
-	connect(entryListView(), SIGNAL(rootHasChanged(QModelIndex)), this, SLOT(onModelRootChanged(QModelIndex)));
+    QToolBar *_toolBar = entryListView()->helper()->defaultToolBar(this);
+
+    _toolBar->addAction(entryListView()->goUpAction());
+    _toolBar->addAction(entryListView()->newListAction());
+    _toolBar->addAction(entryListView()->deleteSelectionAction());
+
+    vLayout->insertWidget(0, _toolBar);
+
+    connect(entryListView(), SIGNAL(rootHasChanged(QModelIndex)), this,
+            SLOT(onModelRootChanged(QModelIndex)));
 }
 
-void EntryListWidget::onModelRootChanged(const QModelIndex &idx)
-{
-	if (!idx.isValid()) {
-		_titleLabel->setText("");
-		_titleLabel->setVisible(false);
-	} else {
-		_titleLabel->setText(idx.data(Qt::DisplayRole).toString());
-		_titleLabel->setVisible(true);
-	}
+void EntryListWidget::onModelRootChanged(const QModelIndex &idx) {
+    if (!idx.isValid()) {
+        _titleLabel->setText("");
+        _titleLabel->setVisible(false);
+    } else {
+        _titleLabel->setText(idx.data(Qt::DisplayRole).toString());
+        _titleLabel->setVisible(true);
+    }
 }

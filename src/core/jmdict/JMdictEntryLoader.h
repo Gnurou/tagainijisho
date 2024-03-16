@@ -21,19 +21,17 @@
 #include "core/EntryLoader.h"
 #include "core/jmdict/JMdictEntry.h"
 
-class JMdictEntryLoader : public EntryLoader
-{
-private:
+class JMdictEntryLoader : public EntryLoader {
+  private:
+  protected:
+    SQLite::Query validEntryQuery, kanjiQuery, kanaQuery, sensesQuery, jlptQuery;
+    QMap<QString, SQLite::Query> glossQueries;
 
-protected:
-	SQLite::Query validEntryQuery, kanjiQuery, kanaQuery, sensesQuery, jlptQuery;
-	QMap<QString, SQLite::Query> glossQueries;
+  public:
+    JMdictEntryLoader();
+    virtual ~JMdictEntryLoader();
 
-public:
-	JMdictEntryLoader();
-	virtual ~JMdictEntryLoader();
-
-	virtual Entry *loadEntry(EntryId id);
+    virtual Entry *loadEntry(EntryId id);
 };
 
 #endif

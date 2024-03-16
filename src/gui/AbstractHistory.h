@@ -24,116 +24,111 @@
  * An abstract implementation of the history pattern. The
  * data to be tracked and the way to retrieve it are free.
  */
-template <class T, class S>
-class AbstractHistory
-{
-private:
-	S _storage;
-	int _pos;
-	int _maxSize;
-	bool _lastIsTemporary;
+template <class T, class S> class AbstractHistory {
+  private:
+    S _storage;
+    int _pos;
+    int _maxSize;
+    bool _lastIsTemporary;
 
-	/**
-	 * Ensures that the history size does not exceeds _maxSize
-	 * and resizes the history (erasing oldest elements) if needed.
-	 */
-	void checkCapacity();
+    /**
+     * Ensures that the history size does not exceeds _maxSize
+     * and resizes the history (erasing oldest elements) if needed.
+     */
+    void checkCapacity();
 
-public:
-	AbstractHistory(int maxSize) : _storage(), _pos(0), _maxSize(maxSize), _lastIsTemporary(false) {}
-	/**
-	 * @arg temporary set to true if this entry should just be a placeholder
-	 * and should be replaced by the next item
-	 */
-	void add(const T &item, bool temporary = false);
-	bool next(T &item);
-	bool previous(T &item);
-	bool first(T &item);
-	bool last(T &item);
-	bool goTo(unsigned int pos, T &item);
+  public:
+    AbstractHistory(int maxSize)
+        : _storage(), _pos(0), _maxSize(maxSize), _lastIsTemporary(false) {}
+    /**
+     * @arg temporary set to true if this entry should just be a placeholder
+     * and should be replaced by the next item
+     */
+    void add(const T &item, bool temporary = false);
+    bool next(T &item);
+    bool previous(T &item);
+    bool first(T &item);
+    bool last(T &item);
+    bool goTo(unsigned int pos, T &item);
 
-	void clear();
+    void clear();
 
-	int pos() const { return _pos; }
-	int size() const { return _storage.size(); }
-	int capacity() const { return _maxSize; }
-	void setCapacity(int capacity) { _maxSize = capacity; checkCapacity(); }
-	bool hasPrevious() const { return pos() > 1; }
-	bool hasNext() const { return pos() < size(); }
+    int pos() const { return _pos; }
+    int size() const { return _storage.size(); }
+    int capacity() const { return _maxSize; }
+    void setCapacity(int capacity) {
+        _maxSize = capacity;
+        checkCapacity();
+    }
+    bool hasPrevious() const { return pos() > 1; }
+    bool hasNext() const { return pos() < size(); }
 };
 
-template <class T, class S>
-void AbstractHistory<T, S>::checkCapacity()
-{
-	if (size() > capacity()) {
-		int diff = size() - capacity();
-		_pos -= diff;
-		if (_pos <= 0) {
-			if (size()) _pos = 1;
-			else _pos = 0;
-		}
-		while (diff--) _storage.removeFirst();
-	}
+template <class T, class S> void AbstractHistory<T, S>::checkCapacity() {
+    if (size() > capacity()) {
+        int diff = size() - capacity();
+        _pos -= diff;
+        if (_pos <= 0) {
+            if (size())
+                _pos = 1;
+            else
+                _pos = 0;
+        }
+        while (diff--)
+            _storage.removeFirst();
+    }
 }
 
-template <class T, class S>
-void AbstractHistory<T, S>::add(const T &item, bool temporary)
-{
-	// Replace the last added item if it was a temporary
-	if (_lastIsTemporary) { _storage.removeLast(); --_pos; }
-	// Clear items after the current one
-	while (pos() < size()) _storage.removeLast();
-	// Do not add the same item twice
-	if (pos() > 0 && _storage[pos() - 1] == item) return;
-	_storage.append(item);
-	++_pos;
-	_lastIsTemporary = temporary;
-	
-	checkCapacity();
+template <class T, class S> void AbstractHistory<T, S>::add(const T &item, bool temporary) {
+    // Replace the last added item if it was a temporary
+    if (_lastIsTemporary) {
+        _storage.removeLast();
+        --_pos;
+    }
+    // Clear items after the current one
+    while (pos() < size())
+        _storage.removeLast();
+    // Do not add the same item twice
+    if (pos() > 0 && _storage[pos() - 1] == item)
+        return;
+    _storage.append(item);
+    ++_pos;
+    _lastIsTemporary = temporary;
+
+    checkCapacity();
 }
 
-template <class T, class S>
-bool AbstractHistory<T, S>::next(T &item)
-{
-	if (!hasNext()) return false;
-	item = _storage[_pos++];
-	return true;
+template <class T, class S> bool AbstractHistory<T, S>::next(T &item) {
+    if (!hasNext())
+        return false;
+    item = _storage[_pos++];
+    return true;
 }
 
-template <class T, class S>
-bool AbstractHistory<T, S>::previous(T &item)
-{
-	if (!hasPrevious()) return false;
-	item = _storage[--_pos - 1];
-	return true;
+template <class T, class S> bool AbstractHistory<T, S>::previous(T &item) {
+    if (!hasPrevious())
+        return false;
+    item = _storage[--_pos - 1];
+    return true;
 }
 
-template <class T, class S>
-bool AbstractHistory<T, S>::first(T &item)
-{
-	return goTo(0, item);
+template <class T, class S> bool AbstractHistory<T, S>::first(T &item) { return goTo(0, item); }
+
+template <class T, class S> bool AbstractHistory<T, S>::last(T &item) {
+    return goTo(_storage.size(), item);
 }
 
-template <class T, class S>
-bool AbstractHistory<T, S>::last(T &item)
-{
-	return goTo(_storage.size(), item);
+template <class T, class S> bool AbstractHistory<T, S>::goTo(unsigned int pos, T &item) {
+    if (_storage.size() == 0)
+        return false;
+    _pos = pos;
+    item = _storage[_pos - 1];
+    return true;
 }
 
-template <class T, class S>
-bool AbstractHistory<T, S>::goTo(unsigned int pos, T &item)
-{
-	if (_storage.size() == 0) return false;
-	_pos = pos;
-	item = _storage[_pos - 1];
-	return true;
-}
-
-template <class T, class S>
-void AbstractHistory<T, S>::clear()
-{
-	_pos = 0;
-	_storage.clear();
+template <class T, class S> void AbstractHistory<T, S>::clear() {
+    _pos = 0;
+    _storage.clear();
 }
 
 #endif

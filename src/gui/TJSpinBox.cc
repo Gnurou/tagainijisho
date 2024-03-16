@@ -16,30 +16,32 @@
  */
 #include "gui/TJSpinBox.h"
 
-TJSpinBox::TJSpinBox(QWidget *parent, const QString &validRegExp, unsigned int base) : QSpinBox(parent), _base(base)
-{
-	_validator = new QRegExpValidator(QRegExp(validRegExp), this);
+TJSpinBox::TJSpinBox(QWidget *parent, const QString &validRegExp, unsigned int base)
+    : QSpinBox(parent), _base(base) {
+    _validator = new QRegExpValidator(QRegExp(validRegExp), this);
 }
 
-QValidator::State TJSpinBox::validate(QString &input, int &pos) const
-{
-	QString cleanInput(input);
-	if (input.startsWith(prefix())) cleanInput.remove(0, prefix().size());
-	QValidator::State valid = _validator->validate(cleanInput, pos);
-	if (valid == QValidator::Invalid) return QValidator::Invalid;
-	int value = cleanInput.toInt(0, base());
-	if (value < minimum() || value > maximum()) return QValidator::Invalid;
-	return valid;
+QValidator::State TJSpinBox::validate(QString &input, int &pos) const {
+    QString cleanInput(input);
+    if (input.startsWith(prefix()))
+        cleanInput.remove(0, prefix().size());
+    QValidator::State valid = _validator->validate(cleanInput, pos);
+    if (valid == QValidator::Invalid)
+        return QValidator::Invalid;
+    int value = cleanInput.toInt(0, base());
+    if (value < minimum() || value > maximum())
+        return QValidator::Invalid;
+    return valid;
 }
 
-int TJSpinBox::valueFromText(const QString &text) const
-{
-	if (text.isEmpty()) return 0;
-	return text.toInt(0, base());
+int TJSpinBox::valueFromText(const QString &text) const {
+    if (text.isEmpty())
+        return 0;
+    return text.toInt(0, base());
 }
 
-QString TJSpinBox::textFromValue(int val) const
-{
-	if (val == 0) return "";
-	return QString::number(val, base());
+QString TJSpinBox::textFromValue(int val) const {
+    if (val == 0)
+        return "";
+    return QString::number(val, base());
 }

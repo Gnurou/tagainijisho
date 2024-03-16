@@ -24,27 +24,26 @@
 
 #include <QPicture>
 
-class JMdictPreferences : public PreferencesWindowCategory, private Ui::JMdictPreferences
-{
-	Q_OBJECT
-private:
-	QPicture previewPic;
-	ConstJMdictEntryPointer previewEntry;
+class JMdictPreferences : public PreferencesWindowCategory, private Ui::JMdictPreferences {
+    Q_OBJECT
+  private:
+    QPicture previewPic;
+    ConstJMdictEntryPointer previewEntry;
 
-protected:
-	virtual bool eventFilter(QObject *obj, QEvent *event);
+  protected:
+    virtual bool eventFilter(QObject *obj, QEvent *event);
 
-protected slots:
-	void onFilterButtonClicked();
-	void onUnFilterButtonClicked();
+  protected slots:
+    void onFilterButtonClicked();
+    void onUnFilterButtonClicked();
 
-public slots:
-	void applySettings();
-	void refresh();
-	void updatePrintPreview();
+  public slots:
+    void applySettings();
+    void refresh();
+    void updatePrintPreview();
 
-public:
-	Q_INVOKABLE JMdictPreferences(QWidget *parent = 0);
+  public:
+    Q_INVOKABLE JMdictPreferences(QWidget *parent = 0);
 };
 
 #endif

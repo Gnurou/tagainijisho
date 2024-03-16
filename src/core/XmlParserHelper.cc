@@ -17,13 +17,13 @@
 
 #include "core/XmlParserHelper.h"
 
-bool skipTag(QXmlStreamReader& reader, const QStringRef &tag)
-{
-	__TAG_BEGIN(tag)
-	if (reader.tokenType() == QXmlStreamReader::StartElement) {
-		if (!skipTag(reader, reader.name())) return false;
-		continue;
-	}
-	TAG_POST
-	return true;
+bool skipTag(QXmlStreamReader &reader, const QStringRef &tag) {
+    __TAG_BEGIN(tag)
+    if (reader.tokenType() == QXmlStreamReader::StartElement) {
+        if (!skipTag(reader, reader.name()))
+            return false;
+        continue;
+    }
+    TAG_POST
+    return true;
 }

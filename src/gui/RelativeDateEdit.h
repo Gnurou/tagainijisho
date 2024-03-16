@@ -21,79 +21,84 @@
 #include "core/RelativeDate.h"
 #include "gui/ElidedPushButton.h"
 
-#include <QPushButton>
-#include <QMenu>
 #include <QActionGroup>
 #include <QCalendarWidget>
+#include <QComboBox>
 #include <QFrame>
+#include <QMenu>
+#include <QPushButton>
 #include <QRadioButton>
 #include <QSpinBox>
-#include <QComboBox>
 
 class RelativeDatePopup : public QFrame {
-	Q_OBJECT
-friend class RelativeDateEdit;
-private:
-	QRadioButton *_notSetButton;
-	QSpinBox *_counterBox;
-	QComboBox *_whatBox;
-	QCalendarWidget *_calendar;
-	RelativeDate &_date;
+    Q_OBJECT
+    friend class RelativeDateEdit;
 
-public:
-	RelativeDatePopup(RelativeDate &date, QWidget *parent = 0);
-	void show();
+  private:
+    QRadioButton *_notSetButton;
+    QSpinBox *_counterBox;
+    QComboBox *_whatBox;
+    QCalendarWidget *_calendar;
+    RelativeDate &_date;
 
-private slots:
-	void onNotSetSelected();
-	void onRelativeDateSelected();
-	void onAbsoluteDateSelected(const QDate &date);
+  public:
+    RelativeDatePopup(RelativeDate &date, QWidget *parent = 0);
+    void show();
 
-public slots:
-	/**
-	 * Synchronizes the state of widgets with the date
-	 */
-	void sync();
+  private slots:
+    void onNotSetSelected();
+    void onRelativeDateSelected();
+    void onAbsoluteDateSelected(const QDate &date);
 
-signals:
-	void dateSelected();
+  public slots:
+    /**
+     * Synchronizes the state of widgets with the date
+     */
+    void sync();
+
+  signals:
+    void dateSelected();
 };
 
-class RelativeDateEdit : public ElidedPushButton<QPushButton>
-{
-	Q_OBJECT
-private:
-	RelativeDate _date;
-	RelativeDatePopup _popup;
+class RelativeDateEdit : public ElidedPushButton<QPushButton> {
+    Q_OBJECT
+  private:
+    RelativeDate _date;
+    RelativeDatePopup _popup;
 
-public:
-	RelativeDateEdit(QWidget *parent = 0);
+  public:
+    RelativeDateEdit(QWidget *parent = 0);
 
-	QString dateString() const { return _date.dateString(); }
-	void setDateString(const QString &string) { _date.setDateString(string); updateButtonTitle(); _popup.sync(); emit dateChanged(_date); }
-	QString translatedDateString() const { return _date.translatedDateString(); }
+    QString dateString() const { return _date.dateString(); }
+    void setDateString(const QString &string) {
+        _date.setDateString(string);
+        updateButtonTitle();
+        _popup.sync();
+        emit dateChanged(_date);
+    }
+    QString translatedDateString() const { return _date.translatedDateString(); }
 
-	const RelativeDate &date() const { return _date; }
+    const RelativeDate &date() const { return _date; }
 
-	virtual bool eventFilter(QObject *obj, QEvent *event);
-	virtual void wheelEvent(QWheelEvent *event);
+    virtual bool eventFilter(QObject *obj, QEvent *event);
+    virtual void wheelEvent(QWheelEvent *event);
 
-protected slots:
-	void togglePopup(bool status);
-	void onDateSelected();
-	void updateButtonTitle();
+  protected slots:
+    void togglePopup(bool status);
+    void onDateSelected();
+    void updateButtonTitle();
 
-signals:
-	/**
-	 * Indicates the user clearly selected a date
-	 */
-	void dateSelected(const RelativeDate &date);
+  signals:
+    /**
+     * Indicates the user clearly selected a date
+     */
+    void dateSelected(const RelativeDate &date);
 
-	/**
-	 * Indicates the date has changed, but may be changed again in
-	 * a short amount of time (e.g. wheel scroll)
-	 */
-	void dateChanged(const RelativeDate &date);
+    /**
+     * Indicates the date has changed, but may be changed again in
+     * a short amount of time (e.g. wheel scroll)
+     */
+    void dateChanged(const RelativeDate &date);
 };
 
 #endif

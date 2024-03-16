@@ -17,296 +17,293 @@
 
 #include "core/QueryBuilder.h"
 
-#include <QtDebug>
 #include <QStringList>
+#include <QtDebug>
 
 QHash<QString, int> QueryBuilder::Join::_tablePriority;
 QHash<QString, QueryBuilder::Order::Way> QueryBuilder::Order::orderingWay;
 
-bool QueryBuilder::Column::operator==(const Column &c) const
-{
-	return table() == c.table() && column() == c.column();
+bool QueryBuilder::Column::operator==(const Column &c) const {
+    return table() == c.table() && column() == c.column();
 }
 
-QString QueryBuilder::Column::toString() const
-{
-	QString s;
-	if (!table().isEmpty()) s += table() + ".";
-	s += column();
-	if (!function().isEmpty()) s = function() + ("(") + s + (")");
- 	return s;
+QString QueryBuilder::Column::toString() const {
+    QString s;
+    if (!table().isEmpty())
+        s += table() + ".";
+    s += column();
+    if (!function().isEmpty())
+        s = function() + ("(") + s + (")");
+    return s;
 }
 
-void QueryBuilder::Join::addTablePriority(const QString &table, int priority)
-{
-	_tablePriority[table] = priority;
+void QueryBuilder::Join::addTablePriority(const QString &table, int priority) {
+    _tablePriority[table] = priority;
 }
 
-int QueryBuilder::Join::tablePriority(const QString &table)
-{
-	return _tablePriority[table];
+int QueryBuilder::Join::tablePriority(const QString &table) { return _tablePriority[table]; }
+
+bool QueryBuilder::Join::operator<(const Join &join) const {
+    return (tablePriority(table1()) > tablePriority(join.table1()));
 }
 
-bool QueryBuilder::Join::operator<(const Join &join) const
-{
-	return (tablePriority(table1()) > tablePriority(join.table1()));
+bool QueryBuilder::Join::operator==(const Join &j) const {
+    return column1() == j.column1() && column2() == j.column2() &&
+           additionalCondition() == j.additionalCondition();
 }
 
-bool QueryBuilder::Join::operator==(const Join &j) const
-{
-	return column1() == j.column1() && column2() == j.column2() && additionalCondition() == j.additionalCondition();
+QString QueryBuilder::Join::toString(const Column &with) const {
+    QString res;
+    switch (type()) {
+    case Join::Cross:
+        res += "JOIN ";
+        break;
+    case Join::Left:
+        res += "LEFT JOIN ";
+        break;
+    }
+    res += table1() + " ON (" + column1().toString() + " = ";
+    if (!hasRightPart())
+        res += with.toString();
+    else
+        res += column2().toString();
+    res += ")";
+    if (additionalCondition() != "")
+        res += " AND (" + additionalCondition() + ")";
+    return res;
 }
 
-QString QueryBuilder::Join::toString(const Column &with) const
-{
-	QString res;
-	switch (type()) {
-	case Join::Cross:
-		res += "JOIN ";
-		break;
-	case Join::Left:
-		res += "LEFT JOIN ";
-		break;
-	}
-	res += table1() + " ON (" + column1().toString() + " = ";
-	if (!hasRightPart()) res += with.toString();
-	else res += column2().toString();
-	res += ")";
-	if (additionalCondition() != "") res += " AND (" + additionalCondition() + ")";
-	return res;
+bool QueryBuilder::Where::operator==(const Where &w) const {
+    return constraint() == w.constraint();
 }
 
-bool QueryBuilder::Where::operator==(const Where &w) const
-{
-	return constraint() == w.constraint();
+QString QueryBuilder::Order::toString() const {
+    return factor() + (way() == ASC ? " ASC" : " DESC");
 }
 
-QString QueryBuilder::Order::toString() const
-{
-	return factor() + (way() == ASC ? " ASC" : " DESC");
+bool QueryBuilder::Order::operator==(const Order &o) const {
+    return factor() == o.factor() && way() == o.way();
 }
 
-bool QueryBuilder::Order::operator==(const Order &o) const
-{
-	return factor() == o.factor() && way() == o.way();
+QString QueryBuilder::GroupBy::toString() const {
+    QString ret;
+
+    if (active()) {
+        ret += "GROUP BY " + group();
+        if (!having().isEmpty())
+            ret += " HAVING " + having();
+    }
+
+    return ret;
 }
 
-QString QueryBuilder::GroupBy::toString() const
-{
-	QString ret;
-
-	if (active()) {
-		ret += "GROUP BY " + group();
-		if (!having().isEmpty()) ret += " HAVING " + having();
-	}
-
-	return ret;
+QString QueryBuilder::Limit::toString() const {
+    if (!active())
+        return "";
+    else
+        return QString("LIMIT %1,%2").arg(start()).arg(nbResults());
 }
 
-QString QueryBuilder::Limit::toString() const
-{
-	if (!active()) return "";
-	else return QString("LIMIT %1,%2").arg(start()).arg(nbResults());
+int QueryBuilder::Statement::addColumn(const Column &column, int pos) {
+    if (pos == -1)
+        pos = _columns.size();
+    _columns.insert(pos, column);
+    return pos;
 }
 
-int QueryBuilder::Statement::addColumn(const Column &column, int pos)
-{
-	if (pos == -1) pos = _columns.size();
-	_columns.insert(pos, column);
-	return pos;
+void QueryBuilder::Statement::addJoin(const Join &join) {
+    if (_joins.contains(join))
+        return;
+    _joins << join;
 }
 
-void QueryBuilder::Statement::addJoin(const Join &join)
-{
-	if (_joins.contains(join)) return;
-	_joins << join;
+void QueryBuilder::Statement::addWhere(const Where &where, int pos) {
+    if (_wheres.contains(where))
+        return;
+
+    if (pos == -1)
+        pos = _wheres.size();
+    _wheres.insert(pos, where);
 }
 
-void QueryBuilder::Statement::addWhere(const Where &where, int pos)
-{
-	if (_wheres.contains(where)) return;
-
-	if (pos == -1) pos = _wheres.size();
-	_wheres.insert(pos, where);
-}
-
-QueryBuilder::Column QueryBuilder::Statement::leftColumn() const
-{
-	QList<Join> jList(joins());
-	int previousTablePriority = 0;
-	if (!firstTable().isEmpty()) {
-		previousTablePriority = QueryBuilder::Join::tablePriority(firstTable());
-		QueryBuilder::Join::addTablePriority(firstTable(), 65536);
-	}
-	std::sort(jList.begin(), jList.end());
-	if (!firstTable().isEmpty()) {
-		QueryBuilder::Join::addTablePriority(firstTable(), previousTablePriority);
-	}
-	return jList[0].column1();
+QueryBuilder::Column QueryBuilder::Statement::leftColumn() const {
+    QList<Join> jList(joins());
+    int previousTablePriority = 0;
+    if (!firstTable().isEmpty()) {
+        previousTablePriority = QueryBuilder::Join::tablePriority(firstTable());
+        QueryBuilder::Join::addTablePriority(firstTable(), 65536);
+    }
+    std::sort(jList.begin(), jList.end());
+    if (!firstTable().isEmpty()) {
+        QueryBuilder::Join::addTablePriority(firstTable(), previousTablePriority);
+    }
+    return jList[0].column1();
 }
 
 QString QueryBuilder::Where::toString() const {
-	if (_wheres.isEmpty())
-		return _constraint;
-	else {
-		QStringList s;
-		foreach (const Where &where, _wheres)
-			s << where.toString();
-		return "(" + s.join(QString(" %1 ").arg(_constraint)) + ")";
-	}
+    if (_wheres.isEmpty())
+        return _constraint;
+    else {
+        QStringList s;
+        foreach (const Where &where, _wheres)
+            s << where.toString();
+        return "(" + s.join(QString(" %1 ").arg(_constraint)) + ")";
+    }
 }
 
-void QueryBuilder::Where::addWhere(const Where &where, int pos)
-{
-	if (_wheres.contains(where)) return;
+void QueryBuilder::Where::addWhere(const Where &where, int pos) {
+    if (_wheres.contains(where))
+        return;
 
-	if (pos == -1) pos = _wheres.size();
-	_wheres.insert(pos, where);
+    if (pos == -1)
+        pos = _wheres.size();
+    _wheres.insert(pos, where);
 }
 
-QString QueryBuilder::Statement::sqlStatementRightPart() const
-{
-	QString res;
+QString QueryBuilder::Statement::sqlStatementRightPart() const {
+    QString res;
 
-	const Join *leftJoin = 0;
-	QList<Join> jList(joins());
-	int previousTablePriority = 0;
-	if (!firstTable().isEmpty()) {
-		previousTablePriority = QueryBuilder::Join::tablePriority(firstTable());
-		QueryBuilder::Join::addTablePriority(firstTable(), 65536);
-	}
-	std::sort(jList.begin(), jList.end());
-	if (!firstTable().isEmpty()) {
-		QueryBuilder::Join::addTablePriority(firstTable(), previousTablePriority);
-	}
+    const Join *leftJoin = 0;
+    QList<Join> jList(joins());
+    int previousTablePriority = 0;
+    if (!firstTable().isEmpty()) {
+        previousTablePriority = QueryBuilder::Join::tablePriority(firstTable());
+        QueryBuilder::Join::addTablePriority(firstTable(), 65536);
+    }
+    std::sort(jList.begin(), jList.end());
+    if (!firstTable().isEmpty()) {
+        QueryBuilder::Join::addTablePriority(firstTable(), previousTablePriority);
+    }
 
-	if (!_joins.isEmpty()) {
-		res += " FROM ";
+    if (!_joins.isEmpty()) {
+        res += " FROM ";
 
-		leftJoin = &jList[0];
-		res += leftJoin->column1().table();
+        leftJoin = &jList[0];
+        res += leftJoin->column1().table();
 
-		for (int i = 1; i < jList.size(); i++) {
-			const Join &j = jList[i];
-			res += " " + j.toString(leftJoin->column1());
-		}
-	}
+        for (int i = 1; i < jList.size(); i++) {
+            const Join &j = jList[i];
+            res += " " + j.toString(leftJoin->column1());
+        }
+    }
 
-	if (!_wheres.isEmpty() || (leftJoin && leftJoin->hasAdditionalCondition())) {
-		res += " WHERE ";
+    if (!_wheres.isEmpty() || (leftJoin && leftJoin->hasAdditionalCondition())) {
+        res += " WHERE ";
 
-		QStringList whereStrs;
-		if (leftJoin->hasAdditionalCondition()) whereStrs << "(" + leftJoin->additionalCondition() + ")";
+        QStringList whereStrs;
+        if (leftJoin->hasAdditionalCondition())
+            whereStrs << "(" + leftJoin->additionalCondition() + ")";
 
-		foreach (const Where &where, wheres()) {
-			whereStrs << "(" + where.toString() + ")";
-		}
-		res += whereStrs.join(" AND ");
-	}
+        foreach (const Where &where, wheres()) {
+            whereStrs << "(" + where.toString() + ")";
+        }
+        res += whereStrs.join(" AND ");
+    }
 
-	return res;
+    return res;
 }
 
-QString QueryBuilder::Statement::sqlStatementGroupPart() const
-{
-	if (_groupBy.active()) return " " + _groupBy.toString();
+QString QueryBuilder::Statement::sqlStatementGroupPart() const {
+    if (_groupBy.active())
+        return " " + _groupBy.toString();
 
-	return "";
+    return "";
 }
 
+QString QueryBuilder::Statement::buildSqlStatement() const {
+    QString res = "SELECT ";
 
-QString QueryBuilder::Statement::buildSqlStatement() const
-{
-	QString res = "SELECT ";
+    if (distinct())
+        res += "DISTINCT ";
 
-	if (distinct()) res += "DISTINCT ";
+    for (int i = 0; i < _columns.size(); i++) {
+        if (i > 0)
+            res += ", ";
+        res += _columns[i].toString();
+    }
 
-	for (int i = 0; i < _columns.size(); i++) {
-		if (i > 0) res += ", ";
-		res += _columns[i].toString();
-	}
+    res += sqlStatementRightPart() + sqlStatementGroupPart();
 
-	res += sqlStatementRightPart() + sqlStatementGroupPart();
+    QString lC = leftColumn().toString();
+    res.replace("{{leftcolumn}}", lC);
 
-	QString lC = leftColumn().toString();
-	res.replace("{{leftcolumn}}", lC);
-
-	return res;
+    return res;
 }
 
-void QueryBuilder::Statement::autoJoin()
-{
-	foreach (const Column &column, columns()) {
-		const QString &table = column.table();
-		bool found = false;
-		foreach(const Join &join, joins()) {
-			if (join.column1().table() == table || join.column2().table() == table) {
-				found = true;
-				break;
-			}
-		}
-		if (found) continue;
-		addJoin(QueryBuilder::Join(QueryBuilder::Column(table, "id"), "", QueryBuilder::Join::Left));
-	}
+void QueryBuilder::Statement::autoJoin() {
+    foreach (const Column &column, columns()) {
+        const QString &table = column.table();
+        bool found = false;
+        foreach (const Join &join, joins()) {
+            if (join.column1().table() == table || join.column2().table() == table) {
+                found = true;
+                break;
+            }
+        }
+        if (found)
+            continue;
+        addJoin(
+            QueryBuilder::Join(QueryBuilder::Column(table, "id"), "", QueryBuilder::Join::Left));
+    }
 
-	// Now do the same for where statements
-	// TODO would be nice to analyze where statements as well!
-/*	foreach (const Where &where, wheres()) {
-		QRegExp regexp("[a-zA-Z][\w.]*\w* *[^\\(]");
-	}*/
+    // Now do the same for where statements
+    // TODO would be nice to analyze where statements as well!
+    /*	foreach (const Where &where, wheres()) {
+                    QRegExp regexp("[a-zA-Z][\w.]*\w* *[^\\(]");
+            }*/
 }
 
-QueryBuilder::QueryBuilder()
-{
+QueryBuilder::QueryBuilder() {}
+
+void QueryBuilder::clear() {
+    _statements.clear();
+    _orders.clear();
+    _limit = Limit();
 }
 
-void QueryBuilder::clear()
-{
-	_statements.clear();
-	_orders.clear();
-	_limit = Limit();
+QString QueryBuilder::buildSqlStatement(bool order) const {
+    if (statements().size() == 0)
+        return "";
+    QStringList statementsList;
+    foreach (const Statement &statement, statements())
+        statementsList << statement.buildSqlStatement();
+
+    QString res = statementsList.join(" UNION ALL ");
+
+    if (!_orders.isEmpty() && order) {
+        res += " ORDER BY ";
+        for (int i = 0; i < _orders.size(); i++) {
+            if (i > 0)
+                res += ", ";
+            res += _orders[i].toString();
+        }
+    }
+
+    if (_limit.active())
+        res += " " + _limit.toString();
+
+    return res;
 }
 
-QString QueryBuilder::buildSqlStatement(bool order) const
-{
-	if (statements().size() == 0) return "";
-	QStringList statementsList;
-	foreach(const Statement &statement, statements())
-		statementsList << statement.buildSqlStatement();
-
-	QString res = statementsList.join(" UNION ALL ");
-
-	if (!_orders.isEmpty() && order) {
-		res += " ORDER BY ";
-		for (int i = 0; i < _orders.size(); i++) {
-			if (i > 0) res += ", ";
-			res += _orders[i].toString();
-		}
-	}
-
-	if (_limit.active()) res += " " + _limit.toString();
-
-	return res;
+void QueryBuilder::addStatement(const Statement &statement, int pos) {
+    if (pos == -1)
+        pos = _statements.size();
+    _statements.insert(pos, statement);
 }
 
-void QueryBuilder::addStatement(const Statement &statement, int pos)
-{
-	if (pos == -1) pos = _statements.size();
-	_statements.insert(pos, statement);
+void QueryBuilder::addOrder(const Order &order, int pos) {
+    if (_orders.contains(order))
+        return;
+
+    if (pos == -1)
+        pos = _orders.size();
+    _orders.insert(pos, order);
 }
 
-void QueryBuilder::addOrder(const Order &order, int pos)
-{
-	if (_orders.contains(order)) return;
-
-	if (pos == -1) pos = _orders.size();
-	_orders.insert(pos, order);
-}
-
-const QueryBuilder::Statement *QueryBuilder::getStatementForEntryType(int entryType) const
-{
-	foreach (const Statement &statement, _statements) {
-		if (statement.columns()[0].toString().toInt() == entryType) return &statement;
-	}
-	return 0;
+const QueryBuilder::Statement *QueryBuilder::getStatementForEntryType(int entryType) const {
+    foreach (const Statement &statement, _statements) {
+        if (statement.columns()[0].toString().toInt() == entryType)
+            return &statement;
+    }
+    return 0;
 }

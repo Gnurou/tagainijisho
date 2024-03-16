@@ -28,49 +28,48 @@
  * that is a holder for the pointer to that entry, plus menu items
  * that are useful to manipulate it.
  */
-class SingleEntryView : public EntryMenu
-{
-	Q_OBJECT
-private:
-	EntryPointer _entry;
+class SingleEntryView : public EntryMenu {
+    Q_OBJECT
+  private:
+    EntryPointer _entry;
 
-protected slots:
-	virtual void copyWriting();
-	virtual void copyReading();
-	virtual void addToStudy();
-	virtual void removeFromStudy();
-	virtual void alreadyKnown();
-	virtual void resetTraining();
-	virtual void setTags();
-	virtual void addTags();
-	virtual void setNotes();
-	virtual void setTagsFromHistory(const QStringList &tags);
+  protected slots:
+    virtual void copyWriting();
+    virtual void copyReading();
+    virtual void addToStudy();
+    virtual void removeFromStudy();
+    virtual void alreadyKnown();
+    virtual void resetTraining();
+    virtual void setTags();
+    virtual void addTags();
+    virtual void setNotes();
+    virtual void setTagsFromHistory(const QStringList &tags);
 
-public:
-	SingleEntryView(QObject *parent = 0);
+  public:
+    SingleEntryView(QObject *parent = 0);
 
-	const EntryPointer &entry() const { return _entry; }
-	void setEntry(const EntryPointer &entry);
-	void populateMenu(QMenu *menu) { EntryMenu::populateMenu(menu); }
-	void populateToolBar(QToolBar *bar) { EntryMenu::populateToolBar(bar); }
+    const EntryPointer &entry() const { return _entry; }
+    void setEntry(const EntryPointer &entry);
+    void populateMenu(QMenu *menu) { EntryMenu::populateMenu(menu); }
+    void populateToolBar(QToolBar *bar) { EntryMenu::populateToolBar(bar); }
 
-public slots:
-	/**
-	 * Update the menu options according to the current entry.
-	 * to be called if the entry state has changed somehow.
-	 */
-	void updateMenuEntries();
+  public slots:
+    /**
+     * Update the menu options according to the current entry.
+     * to be called if the entry state has changed somehow.
+     */
+    void updateMenuEntries();
 
-signals:
-	/**
-	 * Emited every time the entry status has been changed.
-	 */
-	void entryChanged(Entry *);
-	
-	/**
-	 * Emited when the watched entry changes.
-	 */
-	void entrySet(Entry *);
+  signals:
+    /**
+     * Emited every time the entry status has been changed.
+     */
+    void entryChanged(Entry *);
+
+    /**
+     * Emited when the watched entry changes.
+     */
+    void entrySet(Entry *);
 };
 
 #endif

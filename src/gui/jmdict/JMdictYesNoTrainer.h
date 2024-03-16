@@ -21,18 +21,18 @@
 
 #include <QCheckBox>
 
-class JMdictYesNoTrainer : public YesNoTrainer
-{
-	Q_OBJECT
-private:
-	QCheckBox *_showFuriganas;
-	QAction *_showFuriganasAction;
-public:
-	JMdictYesNoTrainer(QWidget *parent);
-	virtual void setTrainingMode(TrainingMode mode);
+class JMdictYesNoTrainer : public YesNoTrainer {
+    Q_OBJECT
+  private:
+    QCheckBox *_showFuriganas;
+    QAction *_showFuriganasAction;
 
-public slots:
-	void onShowFuriganasChecked(bool checked);
+  public:
+    JMdictYesNoTrainer(QWidget *parent);
+    virtual void setTrainingMode(TrainingMode mode);
+
+  public slots:
+    void onShowFuriganasChecked(bool checked);
 };
 
 #endif

@@ -20,36 +20,35 @@
 
 #include "gui/ui_TrainSettings.h"
 
-class TrainSettings : public QDialog, private Ui::TrainSettings
-{
-	Q_OBJECT
-public:
-	static PreferenceItem<QString> minDatePref;
-	static PreferenceItem<QString> maxDatePref;
-	static PreferenceItem<int> minScorePref;
-	static PreferenceItem<int> maxScorePref;
-	static PreferenceItem<int> biasPref;
+class TrainSettings : public QDialog, private Ui::TrainSettings {
+    Q_OBJECT
+  public:
+    static PreferenceItem<QString> minDatePref;
+    static PreferenceItem<QString> maxDatePref;
+    static PreferenceItem<int> minScorePref;
+    static PreferenceItem<int> maxScorePref;
+    static PreferenceItem<int> biasPref;
 
-	enum { BIAS_RANDOM = 0, BIAS_SCORE = 1 };
-	TrainSettings(QWidget *parent = 0);
+    enum { BIAS_RANDOM = 0, BIAS_SCORE = 1 };
+    TrainSettings(QWidget *parent = 0);
 
-	static const QString MINDATE_DEFAULT;
-	static const QString MAXDATE_DEFAULT;
-	static const int MINSCORE_DEFAULT = 0;
-	static const int MAXSCORE_DEFAULT = 100;
-	static const int BIAS_DEFAULT = BIAS_SCORE;
+    static const QString MINDATE_DEFAULT;
+    static const QString MAXDATE_DEFAULT;
+    static const int MINSCORE_DEFAULT = 0;
+    static const int MAXSCORE_DEFAULT = 100;
+    static const int BIAS_DEFAULT = BIAS_SCORE;
 
-	static QString buildQueryString(int entryType);
-	static QString buildOrderString(const QString &scoreColumn);
+    static QString buildQueryString(int entryType);
+    static QString buildOrderString(const QString &scoreColumn);
 
-private slots:
-	void updateBiasExplanation(int bias);
-	void checkMinScoreValue(int newMaxValue);
-	void checkMaxScoreValue(int newMinValue);
+  private slots:
+    void updateBiasExplanation(int bias);
+    void checkMinScoreValue(int newMaxValue);
+    void checkMaxScoreValue(int newMinValue);
 
-public slots:
-	void restoreDefaults();
-	void applySettings();
+  public slots:
+    void restoreDefaults();
+    void applySettings();
 };
 
 #endif // TRAINSETTINGS_H

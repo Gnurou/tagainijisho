@@ -18,23 +18,22 @@
 #ifndef __CORE_LANG_H
 #define __CORE_LANG_H
 
-#include <QStringList>
 #include "core/Preferences.h"
+#include <QStringList>
 
-class Lang
-{
-public:
-	static PreferenceItem<QString> preferredDictLanguage;
-	static PreferenceItem<QString> preferredGUILanguage;
-	static PreferenceItem<bool> alwaysShowEnglish;
+class Lang {
+  public:
+    static PreferenceItem<QString> preferredDictLanguage;
+    static PreferenceItem<QString> preferredGUILanguage;
+    static PreferenceItem<bool> alwaysShowEnglish;
 
-	/**
-	* Returns the list of languages supported for the user interface and database
-	* searches.
-	*/
-	static const QStringList &supportedDictLanguages();
-	static const QStringList &supportedGUILanguages();
-	static QStringList preferredDictLanguages();
+    /**
+     * Returns the list of languages supported for the user interface and
+     * database searches.
+     */
+    static const QStringList &supportedDictLanguages();
+    static const QStringList &supportedGUILanguages();
+    static QStringList preferredDictLanguages();
 };
 
 #endif

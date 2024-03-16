@@ -21,71 +21,90 @@
 #include "core/EntriesCache.h"
 #include <QStyledItemDelegate>
 
-class EntryDelegateLayout : public QObject
-{
-	Q_OBJECT
-public:
-	typedef enum { DefaultText = 0, Kana, Kanji, MAX_FONTS } FontRole;
-	typedef enum { OneLine = 0, TwoLines, MAX_MODES } DisplayMode;
-	
-private:
-	QFont _font[MAX_FONTS];
-	DisplayMode _displayMode;
+class EntryDelegateLayout : public QObject {
+    Q_OBJECT
+  public:
+    typedef enum { DefaultText = 0, Kana, Kanji, MAX_FONTS } FontRole;
+    typedef enum { OneLine = 0, TwoLines, MAX_MODES } DisplayMode;
 
-	void _fontsChanged();
-	QFont _defaultFont(FontRole role) const;
+  private:
+    QFont _font[MAX_FONTS];
+    DisplayMode _displayMode;
 
-public:
-	EntryDelegateLayout(QObject* parent = 0, EntryDelegateLayout::DisplayMode displayMode = OneLine, const QString& textFont = "", const QString& kanjiFont = "", const QString& kanaFont = "");
-	const QFont &font(FontRole role) const { return _font[role]; }
-	const QFont &textFont() const { return _font[DefaultText]; }
-	const QFont &kanaFont() const { return _font[Kana]; }
-	const QFont &kanjiFont() const { return _font[Kanji]; }
-	DisplayMode displayMode() const { return _displayMode; }
+    void _fontsChanged();
+    QFont _defaultFont(FontRole role) const;
 
-	void setFont(FontRole role, const QFont &font);
-	void setDisplayMode(DisplayMode mode);
-	void setDisplayModeInt(int mode) { setDisplayMode(static_cast<DisplayMode>(mode)); }
-	Q_PROPERTY(int displayMode READ displayMode WRITE setDisplayModeInt);
-	QString getKanjiFont() const { return font(Kanji).toString(); }
-	void setKanjiFont(const QString &font) { QFont f; if (!font.isEmpty()) f.fromString(font); setFont(Kanji, f); }
-	Q_PROPERTY(QString kanjiFont READ getKanjiFont WRITE setKanjiFont);
-	QString getKanaFont() const { return font(Kana).toString(); }
-	void setKanaFont(const QString &font) { QFont f; if (!font.isEmpty()) f.fromString(font); setFont(Kana, f); }
-	Q_PROPERTY(QString kanaFont READ getKanaFont WRITE setKanaFont);
-	QString getTextFont() const { return font(DefaultText).toString(); }
-	void setTextFont(const QString &font) { QFont f; if (!font.isEmpty()) f.fromString(font); setFont(DefaultText, f); }
-	Q_PROPERTY(QString textFont READ getTextFont WRITE setTextFont);
+  public:
+    EntryDelegateLayout(QObject *parent = 0, EntryDelegateLayout::DisplayMode displayMode = OneLine,
+                        const QString &textFont = "", const QString &kanjiFont = "",
+                        const QString &kanaFont = "");
+    const QFont &font(FontRole role) const { return _font[role]; }
+    const QFont &textFont() const { return _font[DefaultText]; }
+    const QFont &kanaFont() const { return _font[Kana]; }
+    const QFont &kanjiFont() const { return _font[Kanji]; }
+    DisplayMode displayMode() const { return _displayMode; }
 
-public slots:
-	void updateConfig(const QVariant &value);
-	
-signals:
-	void layoutHasChanged();
+    void setFont(FontRole role, const QFont &font);
+    void setDisplayMode(DisplayMode mode);
+    void setDisplayModeInt(int mode) { setDisplayMode(static_cast<DisplayMode>(mode)); }
+    Q_PROPERTY(int displayMode READ displayMode WRITE setDisplayModeInt);
+    QString getKanjiFont() const { return font(Kanji).toString(); }
+    void setKanjiFont(const QString &font) {
+        QFont f;
+        if (!font.isEmpty())
+            f.fromString(font);
+        setFont(Kanji, f);
+    }
+    Q_PROPERTY(QString kanjiFont READ getKanjiFont WRITE setKanjiFont);
+    QString getKanaFont() const { return font(Kana).toString(); }
+    void setKanaFont(const QString &font) {
+        QFont f;
+        if (!font.isEmpty())
+            f.fromString(font);
+        setFont(Kana, f);
+    }
+    Q_PROPERTY(QString kanaFont READ getKanaFont WRITE setKanaFont);
+    QString getTextFont() const { return font(DefaultText).toString(); }
+    void setTextFont(const QString &font) {
+        QFont f;
+        if (!font.isEmpty())
+            f.fromString(font);
+        setFont(DefaultText, f);
+    }
+    Q_PROPERTY(QString textFont READ getTextFont WRITE setTextFont);
+
+  public slots:
+    void updateConfig(const QVariant &value);
+
+  signals:
+    void layoutHasChanged();
 };
 
-class EntryDelegate : public QStyledItemDelegate
-{
-	Q_OBJECT
-protected:
-	EntryDelegateLayout *layout;
-	QPixmap _tagsIcon, _notesIcon, _listsIcon;
-	/**
-	 * Used to prevent displaying some icons in views where they are implicit, e.g. list views
-	 */
-	quint8 _hiddenIcons;
+class EntryDelegate : public QStyledItemDelegate {
+    Q_OBJECT
+  protected:
+    EntryDelegateLayout *layout;
+    QPixmap _tagsIcon, _notesIcon, _listsIcon;
+    /**
+     * Used to prevent displaying some icons in views where they are implicit,
+     * e.g. list views
+     */
+    quint8 _hiddenIcons;
 
-public:
-	EntryDelegate(EntryDelegateLayout *dLayout, QObject *parent = 0);
-	QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index ) const;
-	virtual void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
-	
-	static const quint8 TAGS_ICON = 1;
-	static const quint8 NOTES_ICON = 2;
-	static const quint8 LISTS_ICON = 3;
+  public:
+    EntryDelegate(EntryDelegateLayout *dLayout, QObject *parent = 0);
+    QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const;
+    virtual void paint(QPainter *painter, const QStyleOptionViewItem &option,
+                       const QModelIndex &index) const;
 
-	bool isHidden(quint8 icon) const { return _hiddenIcons & icon; }
-	void setHidden(quint8 icon, bool hide) { _hiddenIcons = (hide ? _hiddenIcons | icon : _hiddenIcons & ~icon); }
+    static const quint8 TAGS_ICON = 1;
+    static const quint8 NOTES_ICON = 2;
+    static const quint8 LISTS_ICON = 3;
+
+    bool isHidden(quint8 icon) const { return _hiddenIcons & icon; }
+    void setHidden(quint8 icon, bool hide) {
+        _hiddenIcons = (hide ? _hiddenIcons | icon : _hiddenIcons & ~icon);
+    }
 };
 
 #endif

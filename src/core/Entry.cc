@@ -15,287 +15,307 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "core/Tag.h"
 #include "core/Entry.h"
 #include "core/Database.h"
+#include "core/Tag.h"
 #include "sqlite/Query.h"
 
 #include <QDebug>
 
-Entry::Entry(EntryType type, EntryId id) : QObject(0), _type(type), _id(id), _dateAdded(), _dateLastTrain(), _dateLastMistake(), _nbTrained(0), _nbSuccess(0), _score(0), _frequency(-1)
-{
+Entry::Entry(EntryType type, EntryId id)
+    : QObject(0), _type(type), _id(id), _dateAdded(), _dateLastTrain(), _dateLastMistake(),
+      _nbTrained(0), _nbSuccess(0), _score(0), _frequency(-1) {}
+
+Entry::~Entry() {}
+
+static QString dateToString(const QDateTime &date) {
+    if (!date.isValid())
+        return "null";
+    return QString::number(date.toSecsSinceEpoch());
 }
 
-Entry::~Entry()
-{
+void Entry::updateTrainingData() {
+    QString qString;
+    if (!trained())
+        removeFromTraining();
+    else {
+        SQLite::Query query(Database::connection());
+
+        qString = "insert or replace into training values(" + QString::number(type()) + ", " +
+                  QString::number(id()) + ", " + QString::number(score()) + ", " +
+                  dateToString(dateAdded()) + ", " + dateToString(dateLastTrain()) + ", " +
+                  QString::number(nbTrained()) + ", " + QString::number(nbSuccess()) + ", " +
+                  dateToString(dateLastMistake()) + ")";
+        if (!query.exec(qString))
+            qCritical() << "Error executing query: " << query.lastError().message();
+        emit entryChanged(this);
+    }
 }
 
-static QString dateToString(const QDateTime &date)
-{
-	if (!date.isValid()) return "null";
-	return QString::number(date.toSecsSinceEpoch());
+void Entry::train(bool success, float factor) {
+    // Can not train entries that are not in our study list
+    if (!trained())
+        return;
+    QDateTime currentTime(QDateTime::currentDateTime());
+    QDateTime lastTrainTime(dateLastTrain());
+    // If this is the first time we train the entry
+    if (!lastTrainTime.isValid())
+        lastTrainTime = dateAdded();
+    // Should never happen
+    if (!lastTrainTime.isValid())
+        lastTrainTime = currentTime.addDays(-7);
+
+    // The new score depends on:
+    // - Whether we succeeded or not (of course!)
+    // - When was the last time we trained - a long time means a bigger positive
+    // factor
+    // - The factor argument.
+    int daysNotSeen = lastTrainTime.daysTo(currentTime);
+
+    int scoreChange = (int)(5 + (daysNotSeen * 2) * factor);
+    if (scoreChange > 30)
+        scoreChange = 30;
+    if (!success)
+        scoreChange = -scoreChange;
+
+    int newScore(score());
+
+    newScore += scoreChange;
+    if (newScore < 0)
+        newScore = 0;
+    else if (newScore > 100)
+        newScore = 100;
+
+    _score = newScore;
+
+    _nbTrained++;
+    if (success)
+        _nbSuccess++;
+    setDateLastTrained(currentTime);
+    if (!success)
+        setDateLastMistake(currentTime);
+    updateTrainingData();
 }
 
-void Entry::updateTrainingData()
-{
-	QString qString;
-	if (!trained()) removeFromTraining();
-	else {
-	        SQLite::Query query(Database::connection());
-
-		qString = "insert or replace into training values(" + QString::number(type()) + ", " + QString::number(id()) + ", " + QString::number(score()) + ", " + dateToString(dateAdded()) + ", " + dateToString(dateLastTrain()) + ", " + QString::number(nbTrained()) + ", " + QString::number(nbSuccess()) + ", " + dateToString(dateLastMistake()) + ")";
-		if (!query.exec(qString)) qCritical() << "Error executing query: " << query.lastError().message();
-		emit entryChanged(this);
-	}
+void Entry::addToTraining() {
+    if (trained())
+        return;
+    setDateAdded(QDateTime::currentDateTime());
+    setDateLastTrained(QDateTime());
+    setDateLastMistake(QDateTime());
+    updateTrainingData();
 }
 
-void Entry::train(bool success, float factor)
-{
-	// Can not train entries that are not in our study list
-	if (!trained()) return;
-	QDateTime currentTime(QDateTime::currentDateTime());
-	QDateTime lastTrainTime(dateLastTrain());
-	// If this is the first time we train the entry
-	if (!lastTrainTime.isValid()) lastTrainTime = dateAdded();
-	// Should never happen
-	if (!lastTrainTime.isValid()) lastTrainTime = currentTime.addDays(-7);
-
-	// The new score depends on:
-	// - Whether we succeeded or not (of course!)
-	// - When was the last time we trained - a long time means a bigger positive factor
-	// - The factor argument.
-	int daysNotSeen = lastTrainTime.daysTo(currentTime);
-
-	int scoreChange = (int) (5 + (daysNotSeen * 2) * factor);
-	if (scoreChange > 30) scoreChange = 30;
-	if (!success) scoreChange = -scoreChange;
-
-	int newScore(score());
-
-	newScore += scoreChange;
-	if (newScore < 0) newScore = 0;
-	else if (newScore > 100) newScore = 100;
-
-	_score = newScore;
-
-	_nbTrained++;
-	if (success) _nbSuccess++;
-	setDateLastTrained(currentTime);
-	if (!success) setDateLastMistake(currentTime);
-	updateTrainingData();
+void Entry::removeFromTraining() {
+    if (!trained())
+        return;
+    // Reset all values to those of a non-trained entry
+    setDateAdded(QDateTime());
+    setDateLastTrained(QDateTime());
+    setDateLastMistake(QDateTime());
+    setNbTrained(0);
+    setNbSuccess(0);
+    _score = 0;
+    // And delete the entry row from the training table
+    QString qString =
+        QString("delete from training where type = %1 and id = %2").arg(type()).arg(id());
+    SQLite::Query query(Database::connection());
+    if (!query.exec(qString))
+        qCritical() << "Error executing query: " << query.lastError().message();
+    emit entryChanged(this);
 }
 
-void Entry::addToTraining()
-{
-	if (trained()) return;
-	setDateAdded(QDateTime::currentDateTime());
-	setDateLastTrained(QDateTime());
-	setDateLastMistake(QDateTime());
-	updateTrainingData();
+void Entry::setAlreadyKnown() {
+    if (!trained())
+        addToTraining();
+    if (score() < 95) {
+        _score = 95;
+    }
+    updateTrainingData();
 }
 
-void Entry::removeFromTraining()
-{
-	if (!trained()) return;
-	// Reset all values to those of a non-trained entry
-	setDateAdded(QDateTime());
-	setDateLastTrained(QDateTime());
-	setDateLastMistake(QDateTime());
-	setNbTrained(0);
-	setNbSuccess(0);
-	_score = 0;
-	// And delete the entry row from the training table
-	QString qString = QString("delete from training where type = %1 and id = %2").arg(type()).arg(id());
-	SQLite::Query query(Database::connection());
-	if (!query.exec(qString)) qCritical() << "Error executing query: " << query.lastError().message();
-	emit entryChanged(this);
+void Entry::resetScore() {
+    if (!trained())
+        return;
+    _score = 0;
+    updateTrainingData();
 }
 
-void Entry::setAlreadyKnown()
-{
-	if (!trained()) addToTraining();
-	if (score() < 95) {
-		_score = 95;
-	}
-	updateTrainingData();
+const Entry::Note &Entry::addNote(const QString &note) {
+    Note newNote(note);
+    newNote.writeToDB(this);
+    _notes << newNote;
+    emit entryChanged(this);
+    return _notes.last();
 }
 
-void Entry::resetScore()
-{
-	if (!trained()) return;
-	_score = 0;
-	updateTrainingData();
+void Entry::updateNote(Note &note, const QString &noteText) {
+    note.update(noteText);
+    note.writeToDB(this);
+    emit entryChanged(this);
 }
 
-const Entry::Note &Entry::addNote(const QString &note)
-{
-	Note newNote(note);
-	newNote.writeToDB(this);
-	_notes << newNote;
-	emit entryChanged(this);
-	return _notes.last();
+void Entry::deleteNote(Note &note) {
+    note.deleteFromDB(this);
+    _notes.removeOne(note);
+    emit entryChanged(this);
 }
 
-void Entry::updateNote(Note &note, const QString &noteText)
-{
-	note.update(noteText);
-	note.writeToDB(this);
-	emit entryChanged(this);
+void Entry::Note::update(const QString &newNote) {
+    _note = newNote;
+    _dateLastChange = QDateTime::currentDateTime();
 }
 
-void Entry::deleteNote(Note &note)
-{
-	note.deleteFromDB(this);
-	_notes.removeOne(note);
-	emit entryChanged(this);
+void Entry::addToList(quint64 listId) {
+    if (!_lists.contains(listId)) {
+        _lists << listId;
+        emit entryChanged(this);
+    }
 }
 
-void Entry::Note::update(const QString &newNote)
-{
-	_note = newNote;
-	_dateLastChange = QDateTime::currentDateTime();
+void Entry::removeFromList(quint64 listId) {
+    if (_lists.remove(listId))
+        emit entryChanged(this);
 }
 
-void Entry::addToList (quint64 listId)
-{
-	if (!_lists.contains(listId)) {
-		_lists << listId;
-		emit entryChanged(this);
-	}
+void Entry::Note::writeToDB(const Entry *entry) {
+    SQLite::Query query(Database::connection());
+    QString qString;
+
+    // Insert the notes properties
+    qString = QString("insert or replace into notes values(%1, ?, ?, ?, ?)")
+                  .arg(_id == -1 ? "null" : "?");
+    query.prepare(qString);
+    if (_id != -1)
+        query.bindValue(_id);
+    query.bindValue(entry->type());
+    query.bindValue(entry->id());
+    query.bindValue(QString::number(dateAdded().toSecsSinceEpoch()));
+    query.bindValue(QString::number(dateLastChange().toSecsSinceEpoch()));
+    if (!query.exec()) {
+        qCritical() << "Error executing query: " << query.lastError().message();
+        return;
+    }
+
+    if (_id == -1) {
+        _id = query.lastInsertId();
+        qString = QString("insert or replace into notesText(docid, note) values(%1, ?)").arg(_id);
+    } else
+        qString = QString("update notesText set note = ? where docid = %1").arg(_id);
+    // Now insert the note text
+    query.prepare(qString);
+    query.bindValue(note());
+    if (!query.exec())
+        qCritical() << "Error executing query: " << query.lastError().message();
 }
 
-void Entry::removeFromList (quint64 listId)
-{
-	if (_lists.remove(listId))
-		emit entryChanged(this);
+void Entry::Note::deleteFromDB(const Entry *entry) {
+    SQLite::Query query(Database::connection());
+    query.prepare("delete from notes where noteId = ?");
+    query.bindValue(_id);
+    if (!query.exec())
+        qCritical() << "Error executing query: " << query.lastError().message();
+    query.prepare("delete from notesText where docid = ?");
+    query.bindValue(_id);
+    if (!query.exec())
+        qCritical() << "Error executing query: " << query.lastError().message();
 }
 
-void Entry::Note::writeToDB(const Entry *entry)
-{
-	SQLite::Query query(Database::connection());
-	QString qString;
-
-	// Insert the notes properties
-	qString = QString("insert or replace into notes values(%1, ?, ?, ?, ?)").arg(_id == -1 ? "null" : "?");
-	query.prepare(qString);
-	if (_id != -1) query.bindValue(_id);
-	query.bindValue(entry->type());
-	query.bindValue(entry->id());
-	query.bindValue(QString::number(dateAdded().toSecsSinceEpoch()));
-	query.bindValue(QString::number(dateLastChange().toSecsSinceEpoch()));
-	if (!query.exec()) {
-		qCritical() << "Error executing query: " << query.lastError().message();
-		return;
-	}
-
-	if (_id == -1) {
-		_id = query.lastInsertId();
-		qString = QString("insert or replace into notesText(docid, note) values(%1, ?)").arg(_id);
-	}
-	else qString = QString("update notesText set note = ? where docid = %1").arg(_id);
-	// Now insert the note text
-	query.prepare(qString);
-	query.bindValue(note());
-	if (!query.exec()) qCritical() << "Error executing query: " << query.lastError().message();
+void Entry::setTags(const QStringList &tags) {
+    SQLite::Query query(Database::connection());
+    if (!query.exec(
+            QString("delete from taggedEntries where type = %1 and id = %2").arg(type()).arg(id())))
+        qCritical() << "Error executing query: " << query.lastError().message();
+    _tags.clear();
+    addTags(tags);
 }
 
-void Entry::Note::deleteFromDB(const Entry *entry)
-{
-	SQLite::Query query(Database::connection());
-	query.prepare("delete from notes where noteId = ?");
-	query.bindValue(_id);
-	if (!query.exec()) qCritical() << "Error executing query: " << query.lastError().message();
-	query.prepare("delete from notesText where docid = ?");
-	query.bindValue(_id);
-	if (!query.exec()) qCritical() << "Error executing query: " << query.lastError().message();
+void Entry::addTags(const QStringList &tags) {
+    SQLite::Query query(Database::connection());
+    query.prepare(QString("insert into taggedEntries values(%1, %2, ?, %3)")
+                      .arg(type())
+                      .arg(id())
+                      .arg(QDateTime::currentDateTime().toSecsSinceEpoch()));
+    foreach (const QString &tag, tags) {
+        Tag t = Tag::getOrCreateTag(tag);
+        if (!t.isValid()) {
+            qCritical() << "Could not get valid tag for" << t.name();
+            continue;
+        }
+        // Do not add tags that we already have
+        if (_tags.contains(t))
+            continue;
+        query.bindValue(t.id());
+        if (!query.exec())
+            qCritical() << "Error executing query: " << query.lastError().message();
+        _tags << t;
+    }
+    emit entryChanged(this);
 }
 
-void Entry::setTags(const QStringList &tags)
-{
-	SQLite::Query query(Database::connection());
-	if (!query.exec(QString("delete from taggedEntries where type = %1 and id = %2").arg(type()).arg(id()))) qCritical() << "Error executing query: " << query.lastError().message();
-	_tags.clear();
-	addTags(tags);
-}
-
-void Entry::addTags(const QStringList &tags)
-{
-	SQLite::Query query(Database::connection());
-	query.prepare(QString("insert into taggedEntries values(%1, %2, ?, %3)").arg(type()).arg(id()).arg(QDateTime::currentDateTime().toSecsSinceEpoch()));
-	foreach(const QString &tag, tags) {
-		Tag t = Tag::getOrCreateTag(tag);
-		if (!t.isValid()) {
-			qCritical() << "Could not get valid tag for" << t.name();
-			continue;
-		}
-		// Do not add tags that we already have
-		if (_tags.contains(t)) continue;
-		query.bindValue(t.id());
-		if (!query.exec()) qCritical() << "Error executing query: " << query.lastError().message();
-		_tags << t;
-	}
-	emit entryChanged(this);
-}
-
-bool Entry::Note::operator==(const Note &note)
-{
-	return _id == note._id;
-}
+bool Entry::Note::operator==(const Note &note) { return _id == note._id; }
 
 QString Entry::mainRepr() const {
-	QStringList strList(writings());
-	if (!strList.isEmpty()) return strList[0];
-	strList = readings();
-	if (!strList.isEmpty()) return strList[0];
-	return "";
+    QStringList strList(writings());
+    if (!strList.isEmpty())
+        return strList[0];
+    strList = readings();
+    if (!strList.isEmpty())
+        return strList[0];
+    return "";
 }
 
 QString Entry::shortVersion(VersionLength length) const {
-	QString text;
-	QStringList writes;
-	QString mRepr(mainRepr());
-	
-	text += mRepr;
+    QString text;
+    QStringList writes;
+    QString mRepr(mainRepr());
 
-	writes = writings();
-	QStringList reads(readings());
-	bool reprIsWriting = writes.contains(mRepr);
-	if (reprIsWriting) writes.removeAll(mRepr);
-	else reads.removeAll(mRepr);
-	// Show alternate writings if needed
-	if (!writes.isEmpty() && length != TinyVersion) text += ", " + writes.join(", ");
-	
-	if (reprIsWriting && !reads.isEmpty()) {
-		text += " (";
-		if (length != TinyVersion) text += reads.join(", ");
-		else text += reads[0];
-		text += ")";
-	}
-	else if (!reads.isEmpty() && length != TinyVersion) text += ", " + reads.join(", ");
+    text += mRepr;
 
-	// Senses
-	QStringList means = meanings();
-	bool hasMeaning = !means.isEmpty();
-	if (hasMeaning) {
-		text += ":";
-		if (means.size() == 1 || length == TinyVersion) text += " " + means[0];
-		else {
-			int cpt = 1;
-			foreach (const QString &str, means)
-				text += QString(" (%1) %2").arg(cpt++).arg(str);
-		}
-	}
-	return text;
+    writes = writings();
+    QStringList reads(readings());
+    bool reprIsWriting = writes.contains(mRepr);
+    if (reprIsWriting)
+        writes.removeAll(mRepr);
+    else
+        reads.removeAll(mRepr);
+    // Show alternate writings if needed
+    if (!writes.isEmpty() && length != TinyVersion)
+        text += ", " + writes.join(", ");
+
+    if (reprIsWriting && !reads.isEmpty()) {
+        text += " (";
+        if (length != TinyVersion)
+            text += reads.join(", ");
+        else
+            text += reads[0];
+        text += ")";
+    } else if (!reads.isEmpty() && length != TinyVersion)
+        text += ", " + reads.join(", ");
+
+    // Senses
+    QStringList means = meanings();
+    bool hasMeaning = !means.isEmpty();
+    if (hasMeaning) {
+        text += ":";
+        if (means.size() == 1 || length == TinyVersion)
+            text += " " + means[0];
+        else {
+            int cpt = 1;
+            foreach (const QString &str, means)
+                text += QString(" (%1) %2").arg(cpt++).arg(str);
+        }
+    }
+    return text;
 }
 
-QString Entry::name() const
-{
-	if (!writings().isEmpty()) {
-		return writings()[0];
-	}
+QString Entry::name() const {
+    if (!writings().isEmpty()) {
+        return writings()[0];
+    }
 
-	if (!readings().isEmpty()) {
-		return readings()[0];
-	}
-	return "";
+    if (!readings().isEmpty()) {
+        return readings()[0];
+    }
+    return "";
 }

@@ -19,57 +19,60 @@
 #define __GUI_RESULTS_VIEW_H
 
 #include "core/Preferences.h"
+#include "gui/EntriesViewHelper.h"
+#include "gui/EntryDelegate.h"
 #include "gui/EntryMenu.h"
 #include "gui/SmoothScroller.h"
-#include "gui/EntryDelegate.h"
-#include "gui/EntriesViewHelper.h"
 
 #include <QDialog>
 #include <QDialogButtonBox>
-#include <QListView>
 #include <QLabel>
 #include <QLineEdit>
+#include <QListView>
+#include <QPixmap>
 #include <QStyledItemDelegate>
 #include <QTextCharFormat>
-#include <QPixmap>
 
 /**
- * A list view suitable for displaying entries that come as the result of a query.
+ * A list view suitable for displaying entries that come as the result of a
+ * query.
  */
-class ResultsView : public QListView
-{
-	Q_OBJECT
-protected:
-	EntriesViewHelper _helper;
-	QAction *selectAllAction;
-	SmoothScroller _charm;
-	
-	void contextMenuEvent(QContextMenuEvent *event);
-	virtual void startDrag(Qt::DropActions supportedActions);
-	/**
-	 * Reimplemented to emit the listSelectionChanged signal
-	 */
-	void selectionChanged(const QItemSelection &selected, const QItemSelection &deselected);
+class ResultsView : public QListView {
+    Q_OBJECT
+  protected:
+    EntriesViewHelper _helper;
+    QAction *selectAllAction;
+    SmoothScroller _charm;
 
-public:
-	ResultsView(QWidget* parent = 0, EntryDelegateLayout* delegateLayout = 0, bool viewOnly = false);
-	EntriesViewHelper *helper() { return &_helper; }
+    void contextMenuEvent(QContextMenuEvent *event);
+    virtual void startDrag(Qt::DropActions supportedActions);
+    /**
+     * Reimplemented to emit the listSelectionChanged signal
+     */
+    void selectionChanged(const QItemSelection &selected, const QItemSelection &deselected);
 
-	bool smoothScrolling() const { return verticalScrollMode() == QAbstractItemView::ScrollPerPixel; }
-	void setSmoothScrolling(bool value);
-	Q_PROPERTY(bool smoothScrolling READ smoothScrolling WRITE setSmoothScrolling);
+  public:
+    ResultsView(QWidget *parent = 0, EntryDelegateLayout *delegateLayout = 0,
+                bool viewOnly = false);
+    EntriesViewHelper *helper() { return &_helper; }
 
-	static PreferenceItem<bool> smoothScrollingSetting;
-	static PreferenceItem<QString> kanjiFontSetting;
-	static PreferenceItem<QString> kanaFontSetting;
-	static PreferenceItem<QString> textFontSetting;
-	static PreferenceItem<int> displayModeSetting;
-	
-signals:
-	// Used to abstract the selection model which may not be consistent
-	// if the user changes fonts
-	void listSelectionChanged(const QItemSelection &selected, const QItemSelection &deselected);
-	void entrySelected(const EntryPointer &entry);
+    bool smoothScrolling() const {
+        return verticalScrollMode() == QAbstractItemView::ScrollPerPixel;
+    }
+    void setSmoothScrolling(bool value);
+    Q_PROPERTY(bool smoothScrolling READ smoothScrolling WRITE setSmoothScrolling);
+
+    static PreferenceItem<bool> smoothScrollingSetting;
+    static PreferenceItem<QString> kanjiFontSetting;
+    static PreferenceItem<QString> kanaFontSetting;
+    static PreferenceItem<QString> textFontSetting;
+    static PreferenceItem<int> displayModeSetting;
+
+  signals:
+    // Used to abstract the selection model which may not be consistent
+    // if the user changes fonts
+    void listSelectionChanged(const QItemSelection &selected, const QItemSelection &deselected);
+    void entrySelected(const EntryPointer &entry);
 };
 
 #endif

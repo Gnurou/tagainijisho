@@ -18,118 +18,127 @@
 #ifndef __GUI_KANJI_PLAYER_H
 #define __GUI_KANJI_PLAYER_H
 
-#include <QWidget>
-#include <QLabel>
-#include <QPainterPath>
-#include <QPainter>
-#include <QTimer>
-#include <QPixmap>
-#include <QList>
-#include <QToolButton>
 #include <QAction>
+#include <QLabel>
+#include <QList>
+#include <QPainter>
+#include <QPainterPath>
+#include <QPixmap>
+#include <QTimer>
+#include <QToolButton>
+#include <QWidget>
 
 #include "core/kanjidic2/Kanjidic2Entry.h"
 #include "gui/kanjidic2/KanjiRenderer.h"
 
 class KanjiPlayer : public QWidget {
-	Q_OBJECT
-private:
-	QTimer _timer;
-	ConstKanjidic2EntryPointer _kanji;
+    Q_OBJECT
+  private:
+    QTimer _timer;
+    ConstKanjidic2EntryPointer _kanji;
 
-	QLabel *strokeCountLabel;
-	KanjiRenderer renderer;
-	// Off-screen rendering of the kanji
-	QPicture _picture;
-	// Actual display of the kanji
-	QLabel *kanjiView;
-	int _pictureSize;
-	qreal _animationSpeed;
-	int _delayBetweenStrokes;
-	int _animationLoopDelay;
-	int _strokesCpt;
-	int _state;
-	qreal _lengthCpt;
-	bool _showGrid;
-	bool _showStrokesNumbers;
-	int _strokesNumbersSize;
-	const KanjiComponent *_highlightedComponent;
-	QToolButton *playButton;
-	QToolButton *resetButton;
-	QToolButton *nextButton;
-	QToolButton *prevButton;
-	
-	QAction *_playAction, *_pauseAction, *_gotoEndAction, *_nextStrokeAction, *_prevStrokeAction;
+    QLabel *strokeCountLabel;
+    KanjiRenderer renderer;
+    // Off-screen rendering of the kanji
+    QPicture _picture;
+    // Actual display of the kanji
+    QLabel *kanjiView;
+    int _pictureSize;
+    qreal _animationSpeed;
+    int _delayBetweenStrokes;
+    int _animationLoopDelay;
+    int _strokesCpt;
+    int _state;
+    qreal _lengthCpt;
+    bool _showGrid;
+    bool _showStrokesNumbers;
+    int _strokesNumbersSize;
+    const KanjiComponent *_highlightedComponent;
+    QToolButton *playButton;
+    QToolButton *resetButton;
+    QToolButton *nextButton;
+    QToolButton *prevButton;
 
-protected:
-	/**
-	 * Render the state of the animation into _picture
-	 */
-	void renderCurrentState();
-	virtual void paintEvent(QPaintEvent * event);
-	virtual bool eventFilter(QObject *obj, QEvent *event);
-	void updateStrokesCountLabel();
-	void updateActionsState();
+    QAction *_playAction, *_pauseAction, *_gotoEndAction, *_nextStrokeAction, *_prevStrokeAction;
 
-protected slots:
-	virtual void updateAnimationState();
-	void onPlayButtonPushed();
+  protected:
+    /**
+     * Render the state of the animation into _picture
+     */
+    void renderCurrentState();
+    virtual void paintEvent(QPaintEvent *event);
+    virtual bool eventFilter(QObject *obj, QEvent *event);
+    void updateStrokesCountLabel();
+    void updateActionsState();
 
-public:
-	KanjiPlayer(QWidget *parent = 0);
+  protected slots:
+    virtual void updateAnimationState();
+    void onPlayButtonPushed();
 
-	const KanjiComponent *highlightedComponent() const { return _highlightedComponent; }
-	int pictureSize() const { return _pictureSize; }
-	void setPictureSize(int newSize);
+  public:
+    KanjiPlayer(QWidget *parent = 0);
 
-	void setKanji(const ConstKanjidic2EntryPointer &entry);
-	void setPosition(int strokeNbr);
-	
-	bool showGrid() const { return _showGrid; }
-	bool showStrokesNumbers() const { return _showStrokesNumbers; }
-	int strokesNumbersSize() const { return _strokesNumbersSize; }
-	
-	QAction *playAction() { return _playAction; }
-	QAction *pauseAction() { return _pauseAction; }
-	QAction *resetAction() { return _gotoEndAction; }
-	QAction *nextStrokeAction() { return _nextStrokeAction; }
-	QAction *prevStrokeAction() { return _prevStrokeAction; }
+    const KanjiComponent *highlightedComponent() const { return _highlightedComponent; }
+    int pictureSize() const { return _pictureSize; }
+    void setPictureSize(int newSize);
 
-	static PreferenceItem<int> animationSpeed;
-	static PreferenceItem<int> delayBetweenStrokes;
-	static PreferenceItem<int> animationLoopDelay;
-	static PreferenceItem<bool> showGridPref;
-	static PreferenceItem<bool> showStrokesNumbersPref;
-	static PreferenceItem<int> strokesNumbersSizePref;
+    void setKanji(const ConstKanjidic2EntryPointer &entry);
+    void setPosition(int strokeNbr);
 
-public slots:
-	void setAnimationSpeed(int speed) { _animationSpeed = speed / 10.0; }
-	void setDelayBetweenStrokes(int delay) { _delayBetweenStrokes = delay; }
-	void setAnimationLoopDelay(int delay) { _animationLoopDelay = delay; }
-	void setShowGrid(bool show) { _showGrid = show; update(); }
-	void setShowStrokesNumbers(bool show) { _showStrokesNumbers = show; update(); }
-	void setStrokesNumbersSize(int size) { _strokesNumbersSize = size; update(); }
+    bool showGrid() const { return _showGrid; }
+    bool showStrokesNumbers() const { return _showStrokesNumbers; }
+    int strokesNumbersSize() const { return _strokesNumbersSize; }
 
-	void highlightComponent(const KanjiComponent *component);
-	void unHighlightComponent();
+    QAction *playAction() { return _playAction; }
+    QAction *pauseAction() { return _pauseAction; }
+    QAction *resetAction() { return _gotoEndAction; }
+    QAction *nextStrokeAction() { return _nextStrokeAction; }
+    QAction *prevStrokeAction() { return _prevStrokeAction; }
 
-	void play();
-	void stop();
-	void gotoEnd();
-	void reset();
-	void nextStroke();
-	void prevStroke();
+    static PreferenceItem<int> animationSpeed;
+    static PreferenceItem<int> delayBetweenStrokes;
+    static PreferenceItem<int> animationLoopDelay;
+    static PreferenceItem<bool> showGridPref;
+    static PreferenceItem<bool> showStrokesNumbersPref;
+    static PreferenceItem<int> strokesNumbersSizePref;
 
-signals:
-	void animationStarted();
-	void animationStopped();
-	void animationReset();
-	void componentHighlighted(const KanjiComponent *component);
-	void componentUnHighlighted(const KanjiComponent *component);
-	void componentClicked(const KanjiComponent *component);
+  public slots:
+    void setAnimationSpeed(int speed) { _animationSpeed = speed / 10.0; }
+    void setDelayBetweenStrokes(int delay) { _delayBetweenStrokes = delay; }
+    void setAnimationLoopDelay(int delay) { _animationLoopDelay = delay; }
+    void setShowGrid(bool show) {
+        _showGrid = show;
+        update();
+    }
+    void setShowStrokesNumbers(bool show) {
+        _showStrokesNumbers = show;
+        update();
+    }
+    void setStrokesNumbersSize(int size) {
+        _strokesNumbersSize = size;
+        update();
+    }
 
-	void strokeStarted(int number);
-	void strokeCompleted(int number);
+    void highlightComponent(const KanjiComponent *component);
+    void unHighlightComponent();
+
+    void play();
+    void stop();
+    void gotoEnd();
+    void reset();
+    void nextStroke();
+    void prevStroke();
+
+  signals:
+    void animationStarted();
+    void animationStopped();
+    void animationReset();
+    void componentHighlighted(const KanjiComponent *component);
+    void componentUnHighlighted(const KanjiComponent *component);
+    void componentClicked(const KanjiComponent *component);
+
+    void strokeStarted(int number);
+    void strokeCompleted(int number);
 };
 
 #endif

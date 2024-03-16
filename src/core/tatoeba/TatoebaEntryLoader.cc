@@ -18,16 +18,10 @@
 #include "core/tatoeba/TatoebaEntryLoader.h"
 #include "core/jmdict/JMdictPlugin.h"
 
-TatoebaEntryLoader::TatoebaEntryLoader() : EntryLoader(), sentencesQuery(&connection)
-{
-	// Prepare queries
+TatoebaEntryLoader::TatoebaEntryLoader() : EntryLoader(), sentencesQuery(&connection) {
+    // Prepare queries
 }
 
-TatoebaEntryLoader::~TatoebaEntryLoader()
-{
-}
+TatoebaEntryLoader::~TatoebaEntryLoader() {}
 
-Entry *TatoebaEntryLoader::loadEntry(EntryId id)
-{
-	return 0;
-}
+Entry *TatoebaEntryLoader::loadEntry(EntryId id) { return 0; }

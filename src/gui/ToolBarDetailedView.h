@@ -23,39 +23,37 @@
 
 #include "gui/DetailedView.h"
 
-class EntryDragButton : public QToolButton
-{
-	Q_OBJECT
-private:
-	const SingleEntryView *const _view;
-	bool _dragStarted;
-	QPoint _dragPos;
+class EntryDragButton : public QToolButton {
+    Q_OBJECT
+  private:
+    const SingleEntryView *const _view;
+    bool _dragStarted;
+    QPoint _dragPos;
 
-protected:
-	virtual void mousePressEvent(QMouseEvent *e);
-	virtual void mouseMoveEvent(QMouseEvent *e);
-	virtual void mouseReleaseEvent(QMouseEvent *e);
+  protected:
+    virtual void mousePressEvent(QMouseEvent *e);
+    virtual void mouseMoveEvent(QMouseEvent *e);
+    virtual void mouseReleaseEvent(QMouseEvent *e);
 
-protected slots:
-	void onViewEntryChanged(Entry *newEntry);
+  protected slots:
+    void onViewEntryChanged(Entry *newEntry);
 
-public:
-	EntryDragButton(const SingleEntryView *view, QWidget *parent = 0);
+  public:
+    EntryDragButton(const SingleEntryView *view, QWidget *parent = 0);
 };
 
 /// TODO remove and layout things manually?
-class ToolBarDetailedView : public QWidget
-{
-	Q_OBJECT
-private:
-	QToolBar *_toolBar;
-	DetailedView *_detailedView;
-	EntryDragButton *dragButton;
+class ToolBarDetailedView : public QWidget {
+    Q_OBJECT
+  private:
+    QToolBar *_toolBar;
+    DetailedView *_detailedView;
+    EntryDragButton *dragButton;
 
-public:
-	ToolBarDetailedView(QWidget *parent = 0);
-	DetailedView *detailedView() { return _detailedView; }
-	QToolBar *toolBar() { return _toolBar; }
+  public:
+    ToolBarDetailedView(QWidget *parent = 0);
+    DetailedView *detailedView() { return _detailedView; }
+    QToolBar *toolBar() { return _toolBar; }
 };
 
 #endif

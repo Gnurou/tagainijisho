@@ -17,13 +17,13 @@
 
 #include <QtDebug>
 
-#include "tagaini_config.h"
 #include "core/Paths.h"
 #include "gui/UpdateChecker.h"
+#include "tagaini_config.h"
 
-#include <QUrl>
-#include <QNetworkRequest>
 #include <QNetworkReply>
+#include <QNetworkRequest>
+#include <QUrl>
 
 #if defined(Q_OS_LINUX)
 #define PLATFORM "Linux"
@@ -37,31 +37,28 @@
 #define PLATFORM "Unknown"
 #endif
 
-UpdateChecker::UpdateChecker(const QString &versionURL, QObject *parent) : QObject(parent), _versionURL(versionURL)
-{
-	_http = new QNetworkAccessManager(this);
+UpdateChecker::UpdateChecker(const QString &versionURL, QObject *parent)
+    : QObject(parent), _versionURL(versionURL) {
+    _http = new QNetworkAccessManager(this);
 
-	connect(_http, SIGNAL(finished(QNetworkReply *)),
-		this, SLOT(finished(QNetworkReply *)));
+    connect(_http, SIGNAL(finished(QNetworkReply *)), this, SLOT(finished(QNetworkReply *)));
 }
 
-UpdateChecker::~UpdateChecker()
-{
+UpdateChecker::~UpdateChecker() {}
+
+void UpdateChecker::checkForUpdates(bool beta) {
+    QNetworkRequest request(QUrl("http://www.tagaini.net" + _versionURL));
+    request.setHeader(QNetworkRequest::UserAgentHeader,
+                      QString("Tagaini Jisho %1 (%2)").arg(VERSION).arg(PLATFORM));
+    _http->get(request);
 }
 
-void UpdateChecker::checkForUpdates(bool beta)
-{
-	QNetworkRequest request(QUrl("http://www.tagaini.net" + _versionURL));
-	request.setHeader(QNetworkRequest::UserAgentHeader, QString("Tagaini Jisho %1 (%2)").arg(VERSION).arg(PLATFORM));
-	_http->get(request);
+void UpdateChecker::finished(QNetworkReply *reply) {
+    QString buffer(QString(reply->readAll()).trimmed());
+    // If the first character is not a digit, this means we got another page
+    if (!buffer[0].isDigit())
+        return;
+    QString latestVersion(buffer.contains('\n') ? buffer.left(buffer.indexOf('\n')) : buffer);
+    if (QString(VERSION).compare(latestVersion) < 0)
+        emit updateAvailable(latestVersion);
 }
-
-void UpdateChecker::finished(QNetworkReply *reply)
-{
-	QString buffer(QString(reply->readAll()).trimmed());
-	// If the first character is not a digit, this means we got another page
-	if (!buffer[0].isDigit()) return;
-	QString latestVersion(buffer.contains('\n') ? buffer.left(buffer.indexOf('\n')) : buffer);
-	if (QString(VERSION).compare(latestVersion) < 0) emit updateAvailable(latestVersion);
-}
-

@@ -18,11 +18,11 @@
 #include "core/Preferences.h"
 
 QMutex &_settingsMutex() {
-	static QMutex settingsMutex;
-	return settingsMutex;
+    static QMutex settingsMutex;
+    return settingsMutex;
 }
 
 QSettings &_prefsSettings() {
-	static QSettings prefsSettings(__ORGANIZATION_NAME, __APPLICATION_NAME);
-	return prefsSettings;
+    static QSettings prefsSettings(__ORGANIZATION_NAME, __APPLICATION_NAME);
+    return prefsSettings;
 }

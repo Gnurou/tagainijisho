@@ -18,38 +18,38 @@
 #ifndef __CORE_KANJIDIC2_PLUGIN_H
 #define __CORE_KANJIDIC2_PLUGIN_H
 
-#include "core/kanjidic2/Kanjidic2EntrySearcher.h"
-#include "core/kanjidic2/Kanjidic2EntryLoader.h"
 #include "core/Plugin.h"
+#include "core/kanjidic2/Kanjidic2EntryLoader.h"
+#include "core/kanjidic2/Kanjidic2EntrySearcher.h"
 
 class Kanjidic2EntrySearcher;
 
-class Kanjidic2Plugin : public Plugin
-{
-private:
-	static Kanjidic2Plugin *_instance;
-	QString _dbFile;
-	QString _kanjidic2Version;
-	QString _kanjiVGVersion;
-	QMap<QString, QString> _attachedDBs;
+class Kanjidic2Plugin : public Plugin {
+  private:
+    static Kanjidic2Plugin *_instance;
+    QString _dbFile;
+    QString _kanjidic2Version;
+    QString _kanjiVGVersion;
+    QMap<QString, QString> _attachedDBs;
 
-	Kanjidic2EntrySearcher *searcher;
-	Kanjidic2EntryLoader *loader;
+    Kanjidic2EntrySearcher *searcher;
+    Kanjidic2EntryLoader *loader;
 
-	bool attachAllDatabases();
-	void detachAllDatabases();
-public:
-	Kanjidic2Plugin();
-	virtual ~Kanjidic2Plugin();
-	static Kanjidic2Plugin *instance() { return _instance; }
-	const QString &dbFile() const { return _dbFile; }
-	const QString &kanjidic2Version() const { return _kanjidic2Version; }
-	const QString &kanjiVGVersion() const { return _kanjiVGVersion; }
-	virtual QString pluginInfo() const;
-	const QMap<QString, QString> &attachedDBs() const { return _attachedDBs; }
-	
-	virtual bool onRegister();
-	virtual bool onUnregister();
+    bool attachAllDatabases();
+    void detachAllDatabases();
+
+  public:
+    Kanjidic2Plugin();
+    virtual ~Kanjidic2Plugin();
+    static Kanjidic2Plugin *instance() { return _instance; }
+    const QString &dbFile() const { return _dbFile; }
+    const QString &kanjidic2Version() const { return _kanjidic2Version; }
+    const QString &kanjiVGVersion() const { return _kanjiVGVersion; }
+    virtual QString pluginInfo() const;
+    const QMap<QString, QString> &attachedDBs() const { return _attachedDBs; }
+
+    virtual bool onRegister();
+    virtual bool onUnregister();
 };
 
 #endif

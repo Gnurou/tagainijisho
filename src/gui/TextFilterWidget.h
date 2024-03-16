@@ -18,49 +18,48 @@
 #ifndef __GUI_TEXTFILTERWIDGET_H
 #define __GUI_TEXTFILTERWIDGET_H
 
-#include "gui/SearchFilterWidget.h"
 #include "core/Preferences.h"
+#include "gui/SearchFilterWidget.h"
 
-#include <QComboBox>
-#include <QCheckBox>
-#include <QLineEdit>
-#include <QToolButton>
-#include <QPushButton>
 #include <QAction>
+#include <QCheckBox>
+#include <QComboBox>
+#include <QLineEdit>
+#include <QPushButton>
+#include <QToolButton>
 
-class TextFilterWidget : public SearchFilterWidget
-{
-	Q_OBJECT
-private:
-	QComboBox *_searchField;
-	QCheckBox *_romajiSearchAllowed;
-	bool _reseted;
-	
-private slots:
-	void runSearch();
-	void onItemSelected(int item);
-	void resetSearchText();
-	void onSearchTextChanged(const QString &text);
-	void onRomajiChanged(bool state);
+class TextFilterWidget : public SearchFilterWidget {
+    Q_OBJECT
+  private:
+    QComboBox *_searchField;
+    QCheckBox *_romajiSearchAllowed;
+    bool _reseted;
 
-protected:
-	virtual void _reset();
-	
-public:
-	TextFilterWidget(QWidget *parent = 0);
-	virtual QString name() const { return "searchtext"; }
-	virtual QString currentTitle() const;
-	virtual QString currentCommand() const { return text(); }
-	QComboBox *searchField() { return _searchField; }
-	
-	QString text() const { return _searchField->lineEdit()->text(); }
-	void setText(const QString &text);
-	bool romajiSearchAllowed() const  { return _romajiSearchAllowed->isChecked(); }
-	void setRomajiSearchAllowed(bool value) { _romajiSearchAllowed->setChecked(value); }
-	Q_PROPERTY(QString text READ text WRITE setText)
-	Q_PROPERTY(bool allowRomajiSearch READ romajiSearchAllowed WRITE setRomajiSearchAllowed)
-	
-	static PreferenceItem<int> textSearchHistorySize;
+  private slots:
+    void runSearch();
+    void onItemSelected(int item);
+    void resetSearchText();
+    void onSearchTextChanged(const QString &text);
+    void onRomajiChanged(bool state);
+
+  protected:
+    virtual void _reset();
+
+  public:
+    TextFilterWidget(QWidget *parent = 0);
+    virtual QString name() const { return "searchtext"; }
+    virtual QString currentTitle() const;
+    virtual QString currentCommand() const { return text(); }
+    QComboBox *searchField() { return _searchField; }
+
+    QString text() const { return _searchField->lineEdit()->text(); }
+    void setText(const QString &text);
+    bool romajiSearchAllowed() const { return _romajiSearchAllowed->isChecked(); }
+    void setRomajiSearchAllowed(bool value) { _romajiSearchAllowed->setChecked(value); }
+    Q_PROPERTY(QString text READ text WRITE setText)
+    Q_PROPERTY(bool allowRomajiSearch READ romajiSearchAllowed WRITE setRomajiSearchAllowed)
+
+    static PreferenceItem<int> textSearchHistorySize;
 };
 
 #endif

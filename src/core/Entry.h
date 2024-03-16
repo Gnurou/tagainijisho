@@ -18,10 +18,10 @@
 #ifndef __CORE_ENTRY_H
 #define __CORE_ENTRY_H
 
-#include <QMetaType>
 #include <QDate>
-#include <QSet>
+#include <QMetaType>
 #include <QObject>
+#include <QSet>
 #include <QSharedPointer>
 
 #include "core/Tag.h"
@@ -29,166 +29,170 @@
 typedef quint8 EntryType;
 typedef quint32 EntryId;
 
-class Entry : public QObject, public QSharedData
-{
-	Q_OBJECT
-public:
-	// TODO move outside of entry!
-	class Note
-	{
-	private:
-		int _id;
-		QDateTime _dateAdded;
-		QDateTime _dateLastChange;
-		QString _note;
+class Entry : public QObject, public QSharedData {
+    Q_OBJECT
+  public:
+    // TODO move outside of entry!
+    class Note {
+      private:
+        int _id;
+        QDateTime _dateAdded;
+        QDateTime _dateLastChange;
+        QString _note;
 
-		/// For notes that are already inside the database - used by EntrySearcher
-		Note(int id, const QDateTime &dateAdded, const QDateTime &dateLastChange, const QString &note) : _id(id), _dateAdded(dateAdded), _dateLastChange(dateLastChange), _note(note) {}
-		/// For new notes to be created from Entry::addNote()
-		Note(const QString &note) : _id(-1), _dateAdded(QDateTime::currentDateTime()), _dateLastChange(QDateTime::currentDateTime()), _note(note) {}
-		/// Update the note from Entry::updateNote()
-		void update(const QString &newNote);
+        /// For notes that are already inside the database - used by
+        /// EntrySearcher
+        Note(int id, const QDateTime &dateAdded, const QDateTime &dateLastChange,
+             const QString &note)
+            : _id(id), _dateAdded(dateAdded), _dateLastChange(dateLastChange), _note(note) {}
+        /// For new notes to be created from Entry::addNote()
+        Note(const QString &note)
+            : _id(-1), _dateAdded(QDateTime::currentDateTime()),
+              _dateLastChange(QDateTime::currentDateTime()), _note(note) {}
+        /// Update the note from Entry::updateNote()
+        void update(const QString &newNote);
 
-		/// Resync the DB with the current state of this note. The Entry that the note belongs
-		/// to must be given as parameter.
-		void writeToDB(const Entry *entry);
+        /// Resync the DB with the current state of this note. The Entry that
+        /// the note belongs to must be given as parameter.
+        void writeToDB(const Entry *entry);
 
-		/// Delete this note from the database. To be called from Entry::deleteNote()
-		void deleteFromDB(const Entry *entry);
+        /// Delete this note from the database. To be called from
+        /// Entry::deleteNote()
+        void deleteFromDB(const Entry *entry);
 
-	public:
-		const QDateTime &dateAdded() const { return _dateAdded; }
-		const QDateTime &dateLastChange() const { return _dateLastChange; }
-		const QString &note() const { return _note; }
-		bool operator==(const Note &note);
+      public:
+        const QDateTime &dateAdded() const { return _dateAdded; }
+        const QDateTime &dateLastChange() const { return _dateLastChange; }
+        const QString &note() const { return _note; }
+        bool operator==(const Note &note);
 
-	friend class Entry;
-	friend class EntryLoader;
-	};
+        friend class Entry;
+        friend class EntryLoader;
+    };
 
-private:
-	EntryType _type;
-	EntryId _id;
-	QDateTime _dateAdded;
-	QDateTime _dateLastTrain;
-	QDateTime _dateLastMistake;
-	unsigned int _nbTrained;
-	unsigned int _nbSuccess;
-	int _score;
+  private:
+    EntryType _type;
+    EntryId _id;
+    QDateTime _dateAdded;
+    QDateTime _dateLastTrain;
+    QDateTime _dateLastMistake;
+    unsigned int _nbTrained;
+    unsigned int _nbSuccess;
+    int _score;
 
-	QSet<Tag> _tags;
-	QList<Note> _notes;
-	QSet<quint64> _lists;
+    QSet<Tag> _tags;
+    QList<Note> _notes;
+    QSet<quint64> _lists;
 
-	/**
-	 * Updates the database with new training information about this
-	 * entry. Automatically called by related methods.
-	 */
-	void updateTrainingData();
+    /**
+     * Updates the database with new training information about this
+     * entry. Automatically called by related methods.
+     */
+    void updateTrainingData();
 
-	void setDateAdded(const QDateTime &date) { _dateAdded = date; }
-	void setDateLastTrained(const QDateTime &date) { _dateLastTrain = date; }
-	void setDateLastMistake(const QDateTime &date) { _dateLastMistake = date; }
-	void setNbTrained(unsigned int nb) { _nbTrained = nb; }
-	void setNbSuccess(unsigned int nb) { _nbSuccess = nb; }
+    void setDateAdded(const QDateTime &date) { _dateAdded = date; }
+    void setDateLastTrained(const QDateTime &date) { _dateLastTrain = date; }
+    void setDateLastMistake(const QDateTime &date) { _dateLastMistake = date; }
+    void setNbTrained(unsigned int nb) { _nbTrained = nb; }
+    void setNbSuccess(unsigned int nb) { _nbSuccess = nb; }
 
-	// No copy, ever!
-	Entry(const Entry &);
+    // No copy, ever!
+    Entry(const Entry &);
 
-protected:
-	qint32 _frequency;
-	Entry(EntryType type, EntryId id);
+  protected:
+    qint32 _frequency;
+    Entry(EntryType type, EntryId id);
 
-public:
-	// Role used for models that allow accessing entries
-	enum { EntryRole = Qt::UserRole, EntryRefRole };
-	
-	// Must be public or QSharedPointer won't work
-	virtual ~Entry();
+  public:
+    // Role used for models that allow accessing entries
+    enum { EntryRole = Qt::UserRole, EntryRefRole };
 
-	EntryType type() const { return _type; }
-	EntryId id() const { return _id; }
-	QDateTime dateAdded() const { return _dateAdded; }
-	QDateTime dateLastTrain() const { return _dateLastTrain; }
-	QDateTime dateLastMistake() const { return _dateLastMistake; }
-	unsigned int nbTrained() const { return _nbTrained; }
-	unsigned int nbSuccess() const { return _nbSuccess; }
+    // Must be public or QSharedPointer won't work
+    virtual ~Entry();
 
-	void addToTraining();
-	void removeFromTraining();
-	void setAlreadyKnown();
-	void resetScore();
+    EntryType type() const { return _type; }
+    EntryId id() const { return _id; }
+    QDateTime dateAdded() const { return _dateAdded; }
+    QDateTime dateLastTrain() const { return _dateLastTrain; }
+    QDateTime dateLastMistake() const { return _dateLastMistake; }
+    unsigned int nbTrained() const { return _nbTrained; }
+    unsigned int nbSuccess() const { return _nbSuccess; }
 
-	/**
-	 * Emit the entryChanged() signal unconditionally.
-	 * This may be needed if something around the entry has changed
-	 * that may affect it.
-	 */
-	void emitChanged() { emit entryChanged(this); }
-	/**
-	 * An entry is considered to be under training if it has been added to the
-	 * training list at some point.
-	 */
-	bool trained() const { return dateAdded().isValid(); }
-	int score() const { return _score; }
+    void addToTraining();
+    void removeFromTraining();
+    void setAlreadyKnown();
+    void resetScore();
 
-	/**
-	 * An entry is considered as assimilated if its score is at least 95.
-	 */
-	bool alreadyKnown() const { return score() >= 95; }
+    /**
+     * Emit the entryChanged() signal unconditionally.
+     * This may be needed if something around the entry has changed
+     * that may affect it.
+     */
+    void emitChanged() { emit entryChanged(this); }
+    /**
+     * An entry is considered to be under training if it has been added to the
+     * training list at some point.
+     */
+    bool trained() const { return dateAdded().isValid(); }
+    int score() const { return _score; }
 
-	qint32 frequency() const { return _frequency; }
+    /**
+     * An entry is considered as assimilated if its score is at least 95.
+     */
+    bool alreadyKnown() const { return score() >= 95; }
 
-	const QSet<Tag> &tags() const { return _tags; }
-	QSet<Tag> &tags() { return _tags; }
-	void setTags(const QStringList &tags);
-	void addTags(const QStringList &tags);
+    qint32 frequency() const { return _frequency; }
 
-	const QList<Note> &notes() const { return _notes; }
-	QList<Note> &notes() { return _notes; }
-	const Note &addNote(const QString &note);
-	void updateNote(Note &note, const QString &noteText);
-	void deleteNote(Note &note);
+    const QSet<Tag> &tags() const { return _tags; }
+    QSet<Tag> &tags() { return _tags; }
+    void setTags(const QStringList &tags);
+    void addTags(const QStringList &tags);
 
-	/**
-	 * Returns the lists indexes this entry belongs to. Indexes are just identified by
-	 * their row number.
-	 */
-	const QSet<quint64> &lists() const { return _lists; }
-	void addToList(quint64 listId);
-	void removeFromList(quint64 listId);
+    const QList<Note> &notes() const { return _notes; }
+    QList<Note> &notes() { return _notes; }
+    const Note &addNote(const QString &note);
+    void updateNote(Note &note, const QString &noteText);
+    void deleteNote(Note &note);
 
-	void train(bool success, float factor = 1.0f);
+    /**
+     * Returns the lists indexes this entry belongs to. Indexes are just
+     * identified by their row number.
+     */
+    const QSet<quint64> &lists() const { return _lists; }
+    void addToList(quint64 listId);
+    void removeFromList(quint64 listId);
 
-	typedef enum { ShortVersion, TinyVersion } VersionLength;
+    void train(bool success, float factor = 1.0f);
 
-	/// Returns the main representation of the entry
-	virtual QString mainRepr() const;
+    typedef enum { ShortVersion, TinyVersion } VersionLength;
 
-	/**
-	 * Returns a string that describes the entry in a manner suitable for being displayed
-	 * in menus, etc.
-	 */
-	virtual QString shortVersion(VersionLength length = ShortVersion) const;
-	virtual QString name() const;
+    /// Returns the main representation of the entry
+    virtual QString mainRepr() const;
 
-	virtual QStringList writings() const = 0;
-	virtual QStringList readings() const = 0;
-	virtual QStringList meanings() const = 0;
+    /**
+     * Returns a string that describes the entry in a manner suitable for being
+     * displayed in menus, etc.
+     */
+    virtual QString shortVersion(VersionLength length = ShortVersion) const;
+    virtual QString name() const;
 
-signals:
-	/**
-	 * Emitted when the entry has changed and its views
-	 * need to be redrawn.
-	 * TODO should we not use a ConstEntryPointer for safety here?
-	 */
-	void entryChanged(Entry *);
+    virtual QStringList writings() const = 0;
+    virtual QStringList readings() const = 0;
+    virtual QStringList meanings() const = 0;
 
-/**
- * EntryLoader needs to access our private methods in order to completely
- * load the entry.
- */
-friend class EntryLoader;
+  signals:
+    /**
+     * Emitted when the entry has changed and its views
+     * need to be redrawn.
+     * TODO should we not use a ConstEntryPointer for safety here?
+     */
+    void entryChanged(Entry *);
+
+    /**
+     * EntryLoader needs to access our private methods in order to completely
+     * load the entry.
+     */
+    friend class EntryLoader;
 };
 
 // TODO try to remove this, needed by the notes edit dialog

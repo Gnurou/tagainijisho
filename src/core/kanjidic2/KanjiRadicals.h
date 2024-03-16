@@ -26,17 +26,17 @@
  * to a given radical code, and vice-versa.
  */
 class KanjiRadicals {
-private:
-	QHash<uint, quint8> kanji2rad;
-	/// Sometimes a radical can have additional kanjis representing it.
-	QHash<quint8, QList<uint> > rad2kanji;
+  private:
+    QHash<uint, quint8> kanji2rad;
+    /// Sometimes a radical can have additional kanjis representing it.
+    QHash<quint8, QList<uint>> rad2kanji;
 
-	KanjiRadicals();
+    KanjiRadicals();
 
-public:
-	static const KanjiRadicals &instance();
-	quint8 kanji2Rad(uint kanji) const { return kanji2rad[kanji]; }
-	const QList<uint> rad2Kanji(quint8 rad) const { return rad2kanji[rad]; }
+  public:
+    static const KanjiRadicals &instance();
+    quint8 kanji2Rad(uint kanji) const { return kanji2rad[kanji]; }
+    const QList<uint> rad2Kanji(quint8 rad) const { return rad2kanji[rad]; }
 };
 
 #endif

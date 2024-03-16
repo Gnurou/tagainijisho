@@ -18,9 +18,9 @@
 #ifndef __GUI_SMOOTHSCROLLER_H
 #define __GUI_SMOOTHSCROLLER_H
 
-#include <QObject>
-#include <QBasicTimer>
 #include <QAbstractScrollArea>
+#include <QBasicTimer>
+#include <QObject>
 
 /**
  * This class allows smooth scrolling on list views and
@@ -28,27 +28,26 @@
  * the FlickCharm example available on Qt labs.
  *
  */
-class SmoothScroller : public QObject
-{
-	Q_OBJECT
-private:
-	QBasicTimer _timer;
-	QAbstractScrollArea *_user;
-	enum { Stopped, Scrolling } _state;
-	int _dest, _steps;
+class SmoothScroller : public QObject {
+    Q_OBJECT
+  private:
+    QBasicTimer _timer;
+    QAbstractScrollArea *_user;
+    enum { Stopped, Scrolling } _state;
+    int _dest, _steps;
 
-protected:
-	void timerEvent(QTimerEvent *event);
-protected slots:
-	void scrollBarReleased();
-	void scrollBarValueChanged(int value);
+  protected:
+    void timerEvent(QTimerEvent *event);
+  protected slots:
+    void scrollBarReleased();
+    void scrollBarValueChanged(int value);
 
-public:
-	SmoothScroller(QObject *parent = 0);
-	~SmoothScroller();
-	void activateOn(QAbstractScrollArea *scrollArea);
-	void deactivate();
-	bool eventFilter(QObject *src, QEvent *event);
+  public:
+    SmoothScroller(QObject *parent = 0);
+    ~SmoothScroller();
+    void activateOn(QAbstractScrollArea *scrollArea);
+    void deactivate();
+    bool eventFilter(QObject *src, QEvent *event);
 };
 
 #endif

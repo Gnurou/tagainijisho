@@ -21,17 +21,16 @@
 #include "core/EntryLoader.h"
 #include "core/tatoeba/TatoebaEntry.h"
 
-class TatoebaEntryLoader : public EntryLoader
-{
-private:
+class TatoebaEntryLoader : public EntryLoader {
+  private:
+  protected:
+    SQLite::Query sentencesQuery;
 
-protected:
-	SQLite::Query sentencesQuery;
-public:
-	TatoebaEntryLoader();
-	virtual ~TatoebaEntryLoader();
+  public:
+    TatoebaEntryLoader();
+    virtual ~TatoebaEntryLoader();
 
-	virtual Entry *loadEntry(EntryId id);
+    virtual Entry *loadEntry(EntryId id);
 };
 
 #endif

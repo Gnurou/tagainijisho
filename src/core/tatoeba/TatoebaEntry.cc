@@ -17,6 +17,4 @@
 
 #include "core/tatoeba/TatoebaEntry.h"
 
-TatoebaEntry::TatoebaEntry(int id) : Entry(TATOEBAENTRY_GLOBALID, id)
-{
-}
+TatoebaEntry::TatoebaEntry(int id) : Entry(TATOEBAENTRY_GLOBALID, id) {}

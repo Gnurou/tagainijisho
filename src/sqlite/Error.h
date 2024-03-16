@@ -24,25 +24,26 @@ namespace SQLite {
 
 class Connection;
 
-class Error
-{
-friend class Connection;
-friend class Query;
-private:
-	int _code;
+class Error {
+    friend class Connection;
+    friend class Query;
 
-	QString _message;
+  private:
+    int _code;
 
-	Error() : _code(0) {}
-	Error(int code, const QString &message);
-	Error(const Connection &connection);
-public:
-	int code() const { return _code; }
-	const QString &message() const { return _message; }
-	bool isError() const;
-	bool isInterrupted() const;
+    QString _message;
+
+    Error() : _code(0) {}
+    Error(int code, const QString &message);
+    Error(const Connection &connection);
+
+  public:
+    int code() const { return _code; }
+    const QString &message() const { return _message; }
+    bool isError() const;
+    bool isInterrupted() const;
 };
 
-}
+} // namespace SQLite
 
 #endif

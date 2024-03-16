@@ -22,41 +22,41 @@
 
 #include <QMap>
 
-class Plugin
-{
-private:
-	static QMap<QString, Plugin *> _plugins;
-	const QString _name;
-public:
-	static bool registerPlugin(Plugin *plugin);
-	static Plugin *getPlugin(const QString &name) { return _plugins[name]; }
-	static bool pluginExists(const QString &name) { return _plugins.contains(name); }
-	static bool removePlugin(const QString &name);
-	static const QMap<QString, Plugin *> &plugins() { return _plugins; }
+class Plugin {
+  private:
+    static QMap<QString, Plugin *> _plugins;
+    const QString _name;
 
-	Plugin(const QString &name);
-	virtual ~Plugin();
+  public:
+    static bool registerPlugin(Plugin *plugin);
+    static Plugin *getPlugin(const QString &name) { return _plugins[name]; }
+    static bool pluginExists(const QString &name) { return _plugins.contains(name); }
+    static bool removePlugin(const QString &name);
+    static const QMap<QString, Plugin *> &plugins() { return _plugins; }
 
-	const QString &name() const { return _name; }
+    Plugin(const QString &name);
+    virtual ~Plugin();
 
-	/**
-	 * Returns a string giving version and license information about
-	 * this plugin and the data it uses.
-	 */
-	virtual QString pluginInfo() const { return ""; }
+    const QString &name() const { return _name; }
 
-	/**
-	 * Called when the plugin is registered.
-	 *
-	 * @return true if the plugin is successfully registered, false otherwise.
-	 */
-	virtual bool onRegister();
-	/**
-	 * Called when the plugin is unregistered.
-	 *
-	 * @return true if the plugin is successfully unregistered, false otherwise.
-	 */
-	virtual bool onUnregister();
+    /**
+     * Returns a string giving version and license information about
+     * this plugin and the data it uses.
+     */
+    virtual QString pluginInfo() const { return ""; }
+
+    /**
+     * Called when the plugin is registered.
+     *
+     * @return true if the plugin is successfully registered, false otherwise.
+     */
+    virtual bool onRegister();
+    /**
+     * Called when the plugin is unregistered.
+     *
+     * @return true if the plugin is successfully unregistered, false otherwise.
+     */
+    virtual bool onUnregister();
 };
 
 #endif

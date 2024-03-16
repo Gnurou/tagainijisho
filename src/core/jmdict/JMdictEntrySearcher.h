@@ -18,43 +18,45 @@
 #ifndef __CORE_JMDICT_ENTRY_SEARCHER_H_
 #define __CORE_JMDICT_ENTRY_SEARCHER_H_
 
-#include <QVector>
 #include <QMap>
 #include <QSet>
 #include <QString>
+#include <QVector>
 
 #include "core/EntrySearcher.h"
 #include "core/Preferences.h"
 
 #include <QObject>
 
-class JMdictEntrySearcher : public QObject, public EntrySearcher
-{
-	Q_OBJECT
-private:
-	static QSet<QString> _miscFilterMask;
-	static QSet<QString> _explicitlyRequestedMiscs;
+class JMdictEntrySearcher : public QObject, public EntrySearcher {
+    Q_OBJECT
+  private:
+    static QSet<QString> _miscFilterMask;
+    static QSet<QString> _explicitlyRequestedMiscs;
 
-protected slots:
-	void updateMiscFilterMask();
+  protected slots:
+    void updateMiscFilterMask();
 
-public:
-	static QSet<QString> miscFilterEntities() { return _miscFilterMask; }
-	static QVector<quint64> miscFilterMask();
+  public:
+    static QSet<QString> miscFilterEntities() { return _miscFilterMask; }
+    static QVector<quint64> miscFilterMask();
 
-	static QSet<QString> explicitlyRequestedMiscs() { return _explicitlyRequestedMiscs; }
+    static QSet<QString> explicitlyRequestedMiscs() { return _explicitlyRequestedMiscs; }
 
-	JMdictEntrySearcher();
-	virtual ~JMdictEntrySearcher() {}
+    JMdictEntrySearcher();
+    virtual ~JMdictEntrySearcher() {}
 
-	virtual QueryBuilder::Column entryId() const { return QueryBuilder::Column("jmdict.entries", "id"); }
+    virtual QueryBuilder::Column entryId() const {
+        return QueryBuilder::Column("jmdict.entries", "id");
+    }
 
-	virtual SearchCommand commandFromWord(const QString &word) const;
+    virtual SearchCommand commandFromWord(const QString &word) const;
 
-	virtual void buildStatement(QList<SearchCommand> &commands, QueryBuilder::Statement &statement);
-	virtual QueryBuilder::Column canSort(const QString &sort, const QueryBuilder::Statement &statement);
+    virtual void buildStatement(QList<SearchCommand> &commands, QueryBuilder::Statement &statement);
+    virtual QueryBuilder::Column canSort(const QString &sort,
+                                         const QueryBuilder::Statement &statement);
 
-	static PreferenceItem<QString> miscPropertiesFilter;
+    static PreferenceItem<QString> miscPropertiesFilter;
 };
 
 #endif

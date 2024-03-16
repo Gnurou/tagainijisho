@@ -28,73 +28,73 @@
 struct sqlite3;
 namespace SQLite {
 
-class Connection
-{
-friend class Error;
-friend class Query;
-private:
-	sqlite3 *_handler;
-	QString _dbFile;
-	mutable Error _lastError;
+class Connection {
+    friend class Error;
+    friend class Query;
 
-	QList<Query> _queries;
+  private:
+    sqlite3 *_handler;
+    QString _dbFile;
+    mutable Error _lastError;
 
-	const Error &updateError() const;
+    QList<Query> _queries;
+
+    const Error &updateError() const;
 
 #ifdef DEBUG_TRANSACTIONS
-	int _tr_count;
+    int _tr_count;
 #endif
-	
-public:
-	Connection();
-	~Connection();
 
-	typedef enum { None = 0, JournalInFile = (1 << 0), ReadOnly = (1 << 1) } OpenFlags;
-	/**
-	 * Connect to the database file given as parameter. Returns true in case
-	 * of success, false otherwise.
-	 */
-	bool connect(const QString &dbFile, OpenFlags flags = None);
+  public:
+    Connection();
+    ~Connection();
 
-	bool connected() const { return _handler != 0; }
+    typedef enum { None = 0, JournalInFile = (1 << 0), ReadOnly = (1 << 1) } OpenFlags;
+    /**
+     * Connect to the database file given as parameter. Returns true in case
+     * of success, false otherwise.
+     */
+    bool connect(const QString &dbFile, OpenFlags flags = None);
 
-	const QString &dbFileName() const { return _dbFile; }
+    bool connected() const { return _handler != 0; }
 
-	bool close();
+    const QString &dbFileName() const { return _dbFile; }
 
-	/**
-	 * Attach the database file given as parameter to alias. Returns true
-	 * in case of success, false otherwise.
-	 */
-	bool attach(const QString &dbFile, const QString &alias);
+    bool close();
 
-	/**
-	 * Detach the previously attached database alias.
-	 */
-	bool detach(const QString &alias);
+    /**
+     * Attach the database file given as parameter to alias. Returns true
+     * in case of success, false otherwise.
+     */
+    bool attach(const QString &dbFile, const QString &alias);
 
-	/// Returns the last error that happened on this connection
-	const Error &lastError() const;
+    /**
+     * Detach the previously attached database alias.
+     */
+    bool detach(const QString &alias);
 
-	sqlite3 *sqlite3Handler() { return _handler; }
+    /// Returns the last error that happened on this connection
+    const Error &lastError() const;
 
-	/**
-	 * Execute a single statement directly. Should only be used
-	 * to execute non-queries like table creation or pragmas.
-	 */
-	bool exec(const QString &statement);
+    sqlite3 *sqlite3Handler() { return _handler; }
 
-	bool transaction();
-	bool commit();
-	bool rollback();
+    /**
+     * Execute a single statement directly. Should only be used
+     * to execute non-queries like table creation or pragmas.
+     */
+    bool exec(const QString &statement);
 
-	/**
-	 * Interrupts all queries being executed on this connection.
-	 * Interrupted queries will return SQLITE_INTERRUPT.
-	 */
-	void interrupt();
+    bool transaction();
+    bool commit();
+    bool rollback();
+
+    /**
+     * Interrupts all queries being executed on this connection.
+     * Interrupted queries will return SQLITE_INTERRUPT.
+     */
+    void interrupt();
 };
 
-}
+} // namespace SQLite
 
 #endif

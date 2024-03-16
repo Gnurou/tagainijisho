@@ -15,19 +15,13 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "core/EntriesCache.h"
 #include "core/ASyncEntryLoader.h"
+#include "core/EntriesCache.h"
 
-ASyncEntryLoader::ASyncEntryLoader(DatabaseThread *dbConn) : ASyncEntryFinder(dbConn)
-{
-	connect(this, SIGNAL(result(EntryRef)), this, SLOT(_loadEntry(EntryRef)));
+ASyncEntryLoader::ASyncEntryLoader(DatabaseThread *dbConn) : ASyncEntryFinder(dbConn) {
+    connect(this, SIGNAL(result(EntryRef)), this, SLOT(_loadEntry(EntryRef)));
 }
 
-void ASyncEntryLoader::_loadEntry(const EntryRef &ref)
-{
-	emit result(ref.get());
-}
+void ASyncEntryLoader::_loadEntry(const EntryRef &ref) { emit result(ref.get()); }
 
-ASyncEntryLoader::~ASyncEntryLoader()
-{
-}
+ASyncEntryLoader::~ASyncEntryLoader() {}

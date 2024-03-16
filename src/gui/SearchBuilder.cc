@@ -19,91 +19,82 @@
 
 #include "gui/SearchBuilder.h"
 
-SearchBuilder::SearchBuilder(QObject *parent) : QObject(parent)
-{
+SearchBuilder::SearchBuilder(QObject *parent) : QObject(parent) {}
+
+void SearchBuilder::reset() {
+    foreach (SearchFilterWidget *filter, _filters.values()) {
+        filter->setAutoUpdateQuery(false);
+        filter->reset();
+        filter->setAutoUpdateQuery(true);
+    }
+    runSearch();
 }
 
-void SearchBuilder::reset()
-{
-	foreach (SearchFilterWidget *filter, _filters.values()) {
-		filter->setAutoUpdateQuery(false);
-		filter->reset();
-		filter->setAutoUpdateQuery(true);
-	}
-	runSearch();
+QString SearchBuilder::commands() const {
+    QStringList cmds;
+    foreach (const SearchFilterWidget *filter, _filters.values()) {
+        if (filter->isEnabled()) {
+            QString command(filter->currentCommand().trimmed());
+            if (!command.isEmpty())
+                cmds << command;
+        }
+    }
+    return cmds.join(" ");
 }
 
-QString SearchBuilder::commands() const
-{
-	QStringList cmds;
-	foreach (const SearchFilterWidget *filter, _filters.values()) {
-		if (filter->isEnabled()) {
-			QString command(filter->currentCommand().trimmed());
-			if (!command.isEmpty()) cmds << command;
-		}
-	}
-	return cmds.join(" ");
+void SearchBuilder::runSearch() { emit queryRequested(commands()); }
+
+bool SearchBuilder::addSearchFilter(SearchFilterWidget *filter) {
+    if (_filters.contains(filter->name()))
+        return false;
+    connect(filter, SIGNAL(commandUpdated()), this, SLOT(runSearch()));
+    connect(filter, SIGNAL(enableFeature(QString)), this, SLOT(onFeatureEnabled(QString)));
+    connect(filter, SIGNAL(disableFeature(QString)), this, SLOT(onFeatureDisabled(QString)));
+    _filters[filter->name()] = filter;
+    return true;
 }
 
-void SearchBuilder::runSearch()
-{
-	emit queryRequested(commands());
+void SearchBuilder::removeSearchFilter(const QString &name) {
+    if (_filters.contains(name)) {
+        SearchFilterWidget *filter = _filters[name];
+        disconnect(filter, SIGNAL(disableFeature(QString)), this, SLOT(onFeatureDisabled(QString)));
+        disconnect(filter, SIGNAL(enableFeature(QString)), this, SLOT(onFeatureEnabled(QString)));
+        disconnect(filter, SIGNAL(commandUpdated()), this, SLOT(runSearch()));
+        _filters.remove(name);
+    }
 }
 
-bool SearchBuilder::addSearchFilter(SearchFilterWidget *filter)
-{
-	if (_filters.contains(filter->name())) return false;
-	connect(filter, SIGNAL(commandUpdated()), this, SLOT(runSearch()));
-	connect(filter, SIGNAL(enableFeature(QString)), this, SLOT(onFeatureEnabled(QString)));
-	connect(filter, SIGNAL(disableFeature(QString)), this, SLOT(onFeatureDisabled(QString)));
-	_filters[filter->name()] = filter;
-	return true;
+QMap<QString, QVariant> SearchBuilder::getState() const {
+    QMap<QString, QVariant> ret;
+    foreach (SearchFilterWidget *filter, _filters.values()) {
+        QMap<QString, QVariant> state = filter->getState();
+        ret[filter->name()] = state;
+    }
+
+    return ret;
 }
 
-void SearchBuilder::removeSearchFilter(const QString &name)
-{
-	if (_filters.contains(name)) {
-		SearchFilterWidget *filter = _filters[name];
-		disconnect(filter, SIGNAL(disableFeature(QString)), this, SLOT(onFeatureDisabled(QString)));
-		disconnect(filter, SIGNAL(enableFeature(QString)), this, SLOT(onFeatureEnabled(QString)));
-		disconnect(filter, SIGNAL(commandUpdated()), this, SLOT(runSearch()));
-		_filters.remove(name);
-	}
+void SearchBuilder::restoreState(const QMap<QString, QVariant> &state) {
+    foreach (SearchFilterWidget *filter, _filters.values()) {
+        filter->setAutoUpdateQuery(false);
+        filter->reset();
+        if (state.contains(filter->name())) {
+            filter->restoreState(state.value(filter->name()).toMap());
+        }
+        filter->setAutoUpdateQuery(true);
+    }
 }
 
-QMap<QString, QVariant> SearchBuilder::getState() const
-{
-	QMap<QString, QVariant> ret;
-	foreach (SearchFilterWidget *filter, _filters.values()) {
-		QMap<QString, QVariant> state = filter->getState();
-		ret[filter->name()] = state;
-	}
-
-	return ret;
+void SearchBuilder::onFeatureEnabled(const QString &feature) {
+    foreach (SearchFilterWidget *filter, _filters.values()) {
+        if (filter->feature() == feature)
+            filter->setEnabled(true);
+    }
 }
 
-void SearchBuilder::restoreState(const QMap<QString, QVariant> &state)
-{
-	foreach (SearchFilterWidget *filter, _filters.values()) {
-		filter->setAutoUpdateQuery(false);
-		filter->reset();
-		if (state.contains(filter->name())) {
-			filter->restoreState(state.value(filter->name()).toMap());
-		}
-		filter->setAutoUpdateQuery(true);
-	}
-}
-
-void SearchBuilder::onFeatureEnabled(const QString &feature)
-{
-	foreach (SearchFilterWidget *filter, _filters.values()) {
-		if (filter->feature() == feature) filter->setEnabled(true);
-	}
-}
-
-void SearchBuilder::onFeatureDisabled(const QString &feature)
-{
-	foreach (SearchFilterWidget *filter, _filters.values()) {
-		if (filter->feature() == feature) filter->setEnabled(false);
-	}
+void SearchBuilder::onFeatureDisabled(const QString &feature) {
+    foreach (SearchFilterWidget *filter, _filters.values()) {
+        if (filter->feature() == feature)
+            filter->setEnabled(false);
+    }
 }

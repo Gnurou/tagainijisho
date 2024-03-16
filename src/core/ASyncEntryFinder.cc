@@ -15,20 +15,18 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "core/EntriesCache.h"
 #include "core/ASyncEntryFinder.h"
+#include "core/EntriesCache.h"
 
-ASyncEntryFinder::ASyncEntryFinder(DatabaseThread *dbConn) : ASyncQuery(dbConn)
-{
-	connect(this, SIGNAL(result(const QList<QVariant> &)), this, SLOT(_loadEntry(const QList<QVariant> &)));
+ASyncEntryFinder::ASyncEntryFinder(DatabaseThread *dbConn) : ASyncQuery(dbConn) {
+    connect(this, SIGNAL(result(const QList<QVariant> &)), this,
+            SLOT(_loadEntry(const QList<QVariant> &)));
 }
 
-ASyncEntryFinder::~ASyncEntryFinder()
-{
-}
+ASyncEntryFinder::~ASyncEntryFinder() {}
 
-void ASyncEntryFinder::_loadEntry(const QList<QVariant> &record)
-{
-	if (record.size() < 2) return;
-	emit result(EntryRef(record[0].toUInt(), record[1].toUInt()));
+void ASyncEntryFinder::_loadEntry(const QList<QVariant> &record) {
+    if (record.size() < 2)
+        return;
+    emit result(EntryRef(record[0].toUInt(), record[1].toUInt()));
 }

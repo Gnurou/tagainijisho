@@ -18,6 +18,8 @@
 #ifndef __SQLITE_SQLITE_H
 #define __SQLITE_SQLITE_H
 
+#include "sqlite3.h"
+
 #ifdef __cplusplus
 extern "C" {
 #endif

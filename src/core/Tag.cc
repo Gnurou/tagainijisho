@@ -15,105 +15,99 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "core/TextTools.h"
-#include "core/Database.h"
 #include "core/Tag.h"
+#include "core/Database.h"
 #include "core/Entry.h"
+#include "core/TextTools.h"
 
 #include <QtDebug>
 
 Tag Tag::_invalid(0, "");
 TagsListModel Tag::knownTags;
 
-void TagsListModel::operator<<(const QString &str)
-{
-	 if (!_data.contains(str)) {
-		 _data << str;
-		 std::sort(_data.begin(), _data.end());
-	 }
+void TagsListModel::operator<<(const QString &str) {
+    if (!_data.contains(str)) {
+        _data << str;
+        std::sort(_data.begin(), _data.end());
+    }
 }
 
-QVariant TagsListModel::data(const QModelIndex &index, int role) const
-{
-	if (role == Qt::DisplayRole || role == Qt::EditRole) return _data[index.row()];
-	return QVariant();
+QVariant TagsListModel::data(const QModelIndex &index, int role) const {
+    if (role == Qt::DisplayRole || role == Qt::EditRole)
+        return _data[index.row()];
+    return QVariant();
 }
 
-void Tag::init()
-{
-	SQLite::Query query(Database::connection());
-	query.exec("select tag from tags");
-	while (query.next()) {
-		knownTags << query.valueString(0);
-	}
+void Tag::init() {
+    SQLite::Query query(Database::connection());
+    query.exec("select tag from tags");
+    while (query.next()) {
+        knownTags << query.valueString(0);
+    }
 }
 
-void Tag::cleanup()
-{
+void Tag::cleanup() {}
+
+Tag Tag::getTag(const QString &tagString) {
+    SQLite::Query query(Database::connection());
+
+    query.exec(QString("select docid, tag from tags where tag match '%1'").arg(tagString));
+    if (!query.next())
+        return _invalid;
+    return Tag(query.valueInt(0), query.valueString(1));
 }
 
-Tag Tag::getTag(const QString &tagString)
-{
-	SQLite::Query query(Database::connection());
+Tag Tag::getTag(quint32 id) {
+    SQLite::Query query(Database::connection());
 
-	query.exec(QString("select docid, tag from tags where tag match '%1'").arg(tagString));
-	if (!query.next()) return _invalid;
-	return Tag(query.valueInt(0), query.valueString(1));
+    query.exec(QString("select docid, tag from tags where docid = %1").arg(id));
+    if (!query.next())
+        return _invalid;
+    return Tag(query.valueInt(0), query.valueString(1));
 }
 
-Tag Tag::getTag(quint32 id)
-{
-	SQLite::Query query(Database::connection());
+Tag Tag::getOrCreateTag(const QString &tagString) {
+    Tag tag(getTag(tagString));
+    if (tag.isValid())
+        return tag;
 
-	query.exec(QString("select docid, tag from tags where docid = %1").arg(id));
-	if (!query.next()) return _invalid;
-	return Tag(query.valueInt(0), query.valueString(1));
+    SQLite::Query query(Database::connection());
+    if (!query.exec(QString("insert into tags values('%1')").arg(tagString))) {
+        qCritical() << "Error executing query: " << query.lastError().message();
+        return _invalid;
+    }
+    if (!query.exec(QString("select docid from tags where tag match '%1'").arg(tagString))) {
+        qCritical() << "Error executing query: " << query.lastError().message();
+        return _invalid;
+    }
+    query.next();
+    int id = query.valueInt(0);
+    knownTags << tagString;
+    return Tag(id, tagString);
 }
 
-Tag Tag::getOrCreateTag(const QString &tagString)
-{
-	Tag tag(getTag(tagString));
-	if (tag.isValid()) return tag;
+bool Tag::operator==(const Tag &tag) const { return id() == tag.id(); }
 
-	SQLite::Query query(Database::connection());
-	if (!query.exec(QString("insert into tags values('%1')").arg(tagString))) {
-		qCritical() << "Error executing query: " << query.lastError().message();
-		return _invalid;
-	}
-	if (!query.exec(QString("select docid from tags where tag match '%1'").arg(tagString))) {
-		qCritical() << "Error executing query: " << query.lastError().message();
-		return _invalid;
-	}
-	query.next();
-	int id = query.valueInt(0);
-	knownTags << tagString;
-	return Tag(id, tagString);
-}
+bool Tag::isValidTag(const QString &string) {
+    if (string.isEmpty())
+        return false;
 
-bool Tag::operator==(const Tag &tag) const
-{
-	return id() == tag.id();
-}
+    // return (TextTools::isRomaji(string) || TextTools::isJapanese(string));
 
-bool Tag::isValidTag(const QString &string)
-{
-	if (string.isEmpty()) return false;
-
-	//return (TextTools::isRomaji(string) || TextTools::isJapanese(string));
-
-	// A tag is valid if it is made of letters, digits, or Japanese characters
-	foreach(const QChar &c, string) {
-		switch (c.category()) {
-			case QChar::Punctuation_InitialQuote:
-			case QChar::Punctuation_FinalQuote:
-			case QChar::Separator_Space:
-			case QChar::Separator_Line:
-				return false;
-			default:
-				continue;
-		}
-		//if (!(c.category() & (QChar::Number_DecimalDigit | QChar::Letter_Lowercase | QChar::Letter_Uppercase) ||
-		//		TextTools::isJapaneseChar(c))) return false;
-	}
-	return true;
+    // A tag is valid if it is made of letters, digits, or Japanese characters
+    foreach (const QChar &c, string) {
+        switch (c.category()) {
+        case QChar::Punctuation_InitialQuote:
+        case QChar::Punctuation_FinalQuote:
+        case QChar::Separator_Space:
+        case QChar::Separator_Line:
+            return false;
+        default:
+            continue;
+        }
+        // if (!(c.category() & (QChar::Number_DecimalDigit |
+        // QChar::Letter_Lowercase | QChar::Letter_Uppercase) ||
+        //		TextTools::isJapaneseChar(c))) return false;
+    }
+    return true;
 }

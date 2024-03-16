@@ -31,42 +31,42 @@
  * executed.
  */
 class SearchBuilder : public QObject {
-	Q_OBJECT
-private:	
-	QMap<QString, SearchFilterWidget *> _filters;
-	
-protected slots:
-	void onFeatureEnabled(const QString &feature);
-	void onFeatureDisabled(const QString &feature);
-		
-public:
-	SearchBuilder(QObject *parent = 0);
-	
-	/**
-	 * Asks this SearchBuilder to manage a filter widget.
-	 * The builder does NOT take ownership of the widget -
-	 * it just receives its signals and reacts to them
-	 * accordingly.
-	 */
-	bool addSearchFilter(SearchFilterWidget* filter);
-	void removeSearchFilter(const QString& name);
-	bool contains(const QString& name) { return _filters.contains(name); }
-	SearchFilterWidget *get(const QString &name) { return contains(name) ? _filters[name] : 0; }
-	QString commands() const;
-	
-	QMap<QString, QVariant> getState() const;
-	void restoreState(const QMap<QString, QVariant> &state);
-	
-public slots:
-	/**
-	 * Emit a query that corresponds to the current state of
-	 * the registered filters.
-	 */
-	void runSearch();
-	void reset();
+    Q_OBJECT
+  private:
+    QMap<QString, SearchFilterWidget *> _filters;
 
-signals:
-	void queryRequested(const QString &query);
+  protected slots:
+    void onFeatureEnabled(const QString &feature);
+    void onFeatureDisabled(const QString &feature);
+
+  public:
+    SearchBuilder(QObject *parent = 0);
+
+    /**
+     * Asks this SearchBuilder to manage a filter widget.
+     * The builder does NOT take ownership of the widget -
+     * it just receives its signals and reacts to them
+     * accordingly.
+     */
+    bool addSearchFilter(SearchFilterWidget *filter);
+    void removeSearchFilter(const QString &name);
+    bool contains(const QString &name) { return _filters.contains(name); }
+    SearchFilterWidget *get(const QString &name) { return contains(name) ? _filters[name] : 0; }
+    QString commands() const;
+
+    QMap<QString, QVariant> getState() const;
+    void restoreState(const QMap<QString, QVariant> &state);
+
+  public slots:
+    /**
+     * Emit a query that corresponds to the current state of
+     * the registered filters.
+     */
+    void runSearch();
+    void reset();
+
+  signals:
+    void queryRequested(const QString &query);
 };
 
 #endif

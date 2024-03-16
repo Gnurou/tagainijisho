@@ -15,74 +15,73 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 #ifndef __GUI_SEARCH_WIDGET_H
 #define __GUI_SEARCH_WIDGET_H
 
 #include "core/QueryBuilder.h"
+#include "gui/AbstractHistory.h"
 #include "gui/ResultsList.h"
 #include "gui/ResultsView.h"
-#include "gui/SearchFilterWidget.h"
 #include "gui/SearchBuilder.h"
-#include "gui/AbstractHistory.h"
+#include "gui/SearchFilterWidget.h"
 
 #include "gui/ui_SearchWidget.h"
 
 #include <QWidget>
 
 /**
- * A widget that features all the necessary to search entries and display search results.
+ * A widget that features all the necessary to search entries and display search
+ * results.
  *
- * It features a toolbar from which filters can be accessed, and a results view that displays
- * the entries set corresponding to the current filters state. It also handles history and
- * various operations the user may want to perform on the set of displayed entries, like
- * printing or exporting.
+ * It features a toolbar from which filters can be accessed, and a results view
+ * that displays the entries set corresponding to the current filters state. It
+ * also handles history and various operations the user may want to perform on
+ * the set of displayed entries, like printing or exporting.
  */
-class SearchWidget : public QWidget, private Ui::SearchWidget
-{
-Q_OBJECT
-private:
-	QToolBar *_filtersToolBar;
-	AbstractHistory<QMap<QString, QVariant>, QList<QMap<QString, QVariant> > > _history;
+class SearchWidget : public QWidget, private Ui::SearchWidget {
+    Q_OBJECT
+  private:
+    QToolBar *_filtersToolBar;
+    AbstractHistory<QMap<QString, QVariant>, QList<QMap<QString, QVariant>>> _history;
 
-	QMap<QString, SearchFilterWidget *> _searchFilterWidgets;
-	SearchBuilder _searchBuilder;
-	ResultsList *_results;
-	QueryBuilder _queryBuilder;
+    QMap<QString, SearchFilterWidget *> _searchFilterWidgets;
+    SearchBuilder _searchBuilder;
+    ResultsList *_results;
+    QueryBuilder _queryBuilder;
 
-protected:
-	virtual bool eventFilter(QObject *obj, QEvent *event);
+  protected:
+    virtual bool eventFilter(QObject *obj, QEvent *event);
 
-	/// Run the search without touching the history.
-	void _search(const QString &commands);
+    /// Run the search without touching the history.
+    void _search(const QString &commands);
 
-protected slots:
-	/// Start a search with the given commands
-	void search(const QString &commands);
+  protected slots:
+    /// Start a search with the given commands
+    void search(const QString &commands);
 
-public:
-	SearchWidget(QWidget *parent = 0);
+  public:
+    SearchWidget(QWidget *parent = 0);
 
-	SearchBuilder *searchBuilder() { return &_searchBuilder; }
-	ResultsList *resultsList() { return _results; }
-	ResultsView *resultsView() { return _resultsView->resultsView(); }
-	QueryBuilder *queryBuilder() { return &_queryBuilder; }
-	MultiStackedWidget *searchFilters() { return _searchFilters; }
-	QAction *resetSearchAction() { return actionResetSearch; }
-	
-	void addSearchFilter(SearchFilterWidget *widget);
-	SearchFilterWidget *getSearchFilter(const QString &name);
-	void removeSearchFilterWidget(const QString &name);
+    SearchBuilder *searchBuilder() { return &_searchBuilder; }
+    ResultsList *resultsList() { return _results; }
+    ResultsView *resultsView() { return _resultsView->resultsView(); }
+    QueryBuilder *queryBuilder() { return &_queryBuilder; }
+    MultiStackedWidget *searchFilters() { return _searchFilters; }
+    QAction *resetSearchAction() { return actionResetSearch; }
 
-	static PreferenceItem<int> historySize;
+    void addSearchFilter(SearchFilterWidget *widget);
+    SearchFilterWidget *getSearchFilter(const QString &name);
+    void removeSearchFilterWidget(const QString &name);
 
-public slots:
-	void resetSearch();
+    static PreferenceItem<int> historySize;
 
-	void goPrev();
-	void goNext();
-	
-signals:
+  public slots:
+    void resetSearch();
+
+    void goPrev();
+    void goNext();
+
+  signals:
 };
 
 #endif

@@ -23,25 +23,25 @@
 #include <QLineEdit>
 
 class NotesFilterWidget : public SearchFilterWidget {
-	Q_OBJECT
-private:
-	QLineEdit *words;
+    Q_OBJECT
+  private:
+    QLineEdit *words;
 
-private slots:
-	void onTextChanged(const QString &newText);
+  private slots:
+    void onTextChanged(const QString &newText);
 
-protected:
-	virtual void _reset();
+  protected:
+    virtual void _reset();
 
-public:
-	NotesFilterWidget(QWidget *parent = 0);
-	virtual QString name() const { return "notessearch"; }
-	virtual QString currentTitle() const;
-	virtual QString currentCommand() const;
+  public:
+    NotesFilterWidget(QWidget *parent = 0);
+    virtual QString name() const { return "notessearch"; }
+    virtual QString currentTitle() const;
+    virtual QString currentCommand() const;
 
-	QString notes() const { return words->text(); }
-	void setNotes(const QString &notes);
-	Q_PROPERTY(QString notes READ notes WRITE setNotes)
+    QString notes() const { return words->text(); }
+    void setNotes(const QString &notes);
+    Q_PROPERTY(QString notes READ notes WRITE setNotes)
 };
 
 #endif

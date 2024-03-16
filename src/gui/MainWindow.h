@@ -18,142 +18,140 @@
 #ifndef __GUI_MAIN_WINDOW_H_
 #define __GUI_MAIN_WINDOW_H_
 
-#include "gui/ui_MainWindow.h"
 #include "core/Preferences.h"
 #include "gui/EntryListModel.h"
 #include "gui/ToolBarDetailedView.h"
+#include "gui/ui_MainWindow.h"
 
-#include <QSplitter>
+#include <QActionGroup>
+#include <QClipboard>
+#include <QDialog>
 #include <QList>
 #include <QMainWindow>
-#include <QMenu>
 #include <QMap>
-#include <QActionGroup>
-#include <QDialog>
+#include <QMenu>
 #include <QSpinBox>
+#include <QSplitter>
 #include <QTimer>
-#include <QClipboard>
 
 /*class SearchFilterDock : public QDockWidget
 {
-	Q_OBJECT
+        Q_OBJECT
 protected:
-	/// Resets the state of the search widget when the dock is closed
-	virtual void closeEvent(QCloseEvent *event);
+        /// Resets the state of the search widget when the dock is closed
+        virtual void closeEvent(QCloseEvent *event);
 
 public:
-	SearchFilterDock(QWidget *parent = 0) : QDockWidget(parent) {}
+        SearchFilterDock(QWidget *parent = 0) : QDockWidget(parent) {}
 };*/
 
-class DockTitleBar : public QWidget
-{
-	Q_OBJECT
-private:
-public:
-	DockTitleBar(QWidget *widget, QDockWidget *parent = 0);
+class DockTitleBar : public QWidget {
+    Q_OBJECT
+  private:
+  public:
+    DockTitleBar(QWidget *widget, QDockWidget *parent = 0);
 };
 
-class MainWindow : public QMainWindow, private Ui::MainWindow
-{
-	Q_OBJECT
-private:
-	static PreferenceItem<QByteArray> windowGeometry;
-	static PreferenceItem<QByteArray> windowState;
-	static MainWindow *_instance;
+class MainWindow : public QMainWindow, private Ui::MainWindow {
+    Q_OBJECT
+  private:
+    static PreferenceItem<QByteArray> windowGeometry;
+    static PreferenceItem<QByteArray> windowState;
+    static MainWindow *_instance;
 
-	// Used by sets
-	QList<QAction *> _rootActions;
-	QList<QMenu *> _rootMenus;
-	
-	QTimer _updateTimer;
-	
-	bool _clipboardEnabled;
-	
-	EntryListModel _listModel;
-	
-	void setupSearchWidget();
-	void setupClipboardSearchShortcut();
-	void setupListWidget();
+    // Used by sets
+    QList<QAction *> _rootActions;
+    QList<QMenu *> _rootMenus;
 
-private slots:
-	void populateMenu(QMenu *menu, int parentId);
-	void resetSearch();
+    QTimer _updateTimer;
 
-	void onClipboardChanged(QClipboard::Mode mode);
-	void enableClipboardInput(bool enable);
+    bool _clipboardEnabled;
 
-protected:
-	virtual void closeEvent(QCloseEvent *event);
+    EntryListModel _listModel;
 
-protected slots:
-	/// Display the latest selected result in the detailed view
-	void display(const QModelIndex& clicked);
+    void setupSearchWidget();
+    void setupClipboardSearchShortcut();
+    void setupListWidget();
 
-	void focusTextSearch();
-	void focusResultsList();
-	
-	void exportUserData();
-	void importUserData();
+  private slots:
+    void populateMenu(QMenu *menu, int parentId);
+    void resetSearch();
 
-	void preferences();
+    void onClipboardChanged(QClipboard::Mode mode);
+    void enableClipboardInput(bool enable);
 
-	void organizeSavedSearches();
+  protected:
+    virtual void closeEvent(QCloseEvent *event);
 
-	void about();
-	void donate();
-	void manual();
-	void bugReport();
-	void featureRequest();
-	void askQuestion();
-	void updateAvailable(const QString &version);
-	void betaUpdateAvailable(const QString &version);
-	void updateCheck();
-	void donationReminderCheck();
+  protected slots:
+    /// Display the latest selected result in the detailed view
+    void display(const QModelIndex &clicked);
 
-	void populateSavedSearchesMenu();
-	void populateSubMenu();
-	void newSavedSearch();
-	void newSavedSearchesFolder();
-	void onSavedSearchSelected();
+    void focusTextSearch();
+    void focusResultsList();
 
-	void trainSettings();
+    void exportUserData();
+    void importUserData();
 
-	void openUrl(const QUrl &url);
+    void preferences();
 
-public:
-	MainWindow(QWidget *parent = 0);
-	~MainWindow();
-	static MainWindow *instance() { return _instance; }
-	
-	QMenu *fileMenu() { return _fileMenu; }
-	QMenu *searchMenu() { return _searchMenu; }
-	QMenu *trainMenu() { return _trainMenu; }
-	QMenu *helpMenu() { return _helpMenu; }
+    void organizeSavedSearches();
 
-	static PreferenceItem<QString> applicationFont;
-	static PreferenceItem<bool> autoCheckUpdates;
-	static PreferenceItem<bool> autoCheckBetaUpdates;
-	static PreferenceItem<int> updateCheckInterval;
-	static PreferenceItem<QDateTime> lastUpdateCheck;
-	// Keep track of when the user started the program for the first time
-	// so that we can bother him with a donation reminder
-	static PreferenceItem<bool> donationReminderDisplayed;
-	static PreferenceItem<QDateTime> firstRunTime;
-	
-	SearchWidget *searchWidget() { return _searchWidget; }
-	EntryListWidget *entryListWidget() { return _entryListWidget; }
-	DetailedView *detailedView() { return _detailedView->detailedView(); }
-	
-	QDockWidget *searchDockWidget() { return _searchDockWidget; }
-	QDockWidget *listDockWidget() { return _listDockWidget; }
-	
-	/**
-	 * Ensures the widget fits within the screen, i.e. adjust its position
-	 * if it is out of bounds
-	 */
-	static void fitToScreen(QWidget *widget);
+    void about();
+    void donate();
+    void manual();
+    void bugReport();
+    void featureRequest();
+    void askQuestion();
+    void updateAvailable(const QString &version);
+    void betaUpdateAvailable(const QString &version);
+    void updateCheck();
+    void donationReminderCheck();
 
-	void restoreWholeState();
+    void populateSavedSearchesMenu();
+    void populateSubMenu();
+    void newSavedSearch();
+    void newSavedSearchesFolder();
+    void onSavedSearchSelected();
+
+    void trainSettings();
+
+    void openUrl(const QUrl &url);
+
+  public:
+    MainWindow(QWidget *parent = 0);
+    ~MainWindow();
+    static MainWindow *instance() { return _instance; }
+
+    QMenu *fileMenu() { return _fileMenu; }
+    QMenu *searchMenu() { return _searchMenu; }
+    QMenu *trainMenu() { return _trainMenu; }
+    QMenu *helpMenu() { return _helpMenu; }
+
+    static PreferenceItem<QString> applicationFont;
+    static PreferenceItem<bool> autoCheckUpdates;
+    static PreferenceItem<bool> autoCheckBetaUpdates;
+    static PreferenceItem<int> updateCheckInterval;
+    static PreferenceItem<QDateTime> lastUpdateCheck;
+    // Keep track of when the user started the program for the first time
+    // so that we can bother him with a donation reminder
+    static PreferenceItem<bool> donationReminderDisplayed;
+    static PreferenceItem<QDateTime> firstRunTime;
+
+    SearchWidget *searchWidget() { return _searchWidget; }
+    EntryListWidget *entryListWidget() { return _entryListWidget; }
+    DetailedView *detailedView() { return _detailedView->detailedView(); }
+
+    QDockWidget *searchDockWidget() { return _searchDockWidget; }
+    QDockWidget *listDockWidget() { return _listDockWidget; }
+
+    /**
+     * Ensures the widget fits within the screen, i.e. adjust its position
+     * if it is out of bounds
+     */
+    static void fitToScreen(QWidget *widget);
+
+    void restoreWholeState();
 };
 
 #endif

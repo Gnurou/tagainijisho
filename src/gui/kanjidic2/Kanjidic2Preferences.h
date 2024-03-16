@@ -18,8 +18,8 @@
 #ifndef __GUI_KANJIDIC2_PREFERENCES_H
 #define __GUI_KANJIDIC2_PREFERENCES_H
 
-#include "core/kanjidic2/Kanjidic2Entry.h"
 #include "core/EntriesCache.h"
+#include "core/kanjidic2/Kanjidic2Entry.h"
 #include "gui/PreferencesWindow.h"
 #include "gui/kanjidic2/ui_Kanjidic2Preferences.h"
 
@@ -28,31 +28,30 @@
 class KanaView;
 
 class KanjiPlayer;
-class Kanjidic2Preferences : public PreferencesWindowCategory, private Ui::Kanjidic2Preferences
-{
-	Q_OBJECT
-private:
-	KanjiPlayer *_player;
-	QPicture previewPic;
-	ConstKanjidic2EntryPointer previewEntry;
-	PreferencesFontChooser * _kanaSelectorFont;
-	KanaView *_kanaSelectorPreview;
+class Kanjidic2Preferences : public PreferencesWindowCategory, private Ui::Kanjidic2Preferences {
+    Q_OBJECT
+  private:
+    KanjiPlayer *_player;
+    QPicture previewPic;
+    ConstKanjidic2EntryPointer previewEntry;
+    PreferencesFontChooser *_kanaSelectorFont;
+    KanaView *_kanaSelectorPreview;
 
-protected:
-	virtual bool eventFilter(QObject *obj, QEvent *event);
+  protected:
+    virtual bool eventFilter(QObject *obj, QEvent *event);
 
-protected slots:
-	void updatePrintPreview();
-	void onAnimSpeedDefaultChecked(bool checked);
-	void onAnimDelayDefaultChecked(bool checked);
-	void onSizeChanged(int newSize);
+  protected slots:
+    void updatePrintPreview();
+    void onAnimSpeedDefaultChecked(bool checked);
+    void onAnimDelayDefaultChecked(bool checked);
+    void onSizeChanged(int newSize);
 
-public slots:
-	void applySettings();
-	void refresh();
+  public slots:
+    void applySettings();
+    void refresh();
 
-public:
-	Q_INVOKABLE Kanjidic2Preferences(QWidget *parent = 0);
+  public:
+    Q_INVOKABLE Kanjidic2Preferences(QWidget *parent = 0);
 };
 
 #endif

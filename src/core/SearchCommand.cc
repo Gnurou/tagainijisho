@@ -28,27 +28,29 @@ static QString argString = singleWordString + "|" + quotedWordsString;
 QRegExp SearchCommand::_singleWordMatch(singleWordString);
 QRegExp SearchCommand::_quotedWordsMatch(quotedWordsString);
 QRegExp SearchCommand::_argMatch(argString);
-QRegExp SearchCommand::_commandMatch(":(\\w+)(?:=(?:(?:" + argString + QString::fromUtf8(")(?:[,、](?:") + argString + "))*))?");
+QRegExp SearchCommand::_commandMatch(":(\\w+)(?:=(?:(?:" + argString +
+                                     QString::fromUtf8(")(?:[,、](?:") + argString + "))*))?");
 
-SearchCommand SearchCommand::fromString(const QString &string)
-{
-	if (!_commandMatch.exactMatch(string)) {
-		qDebug("Cannot match command string!");
-		return SearchCommand::invalid();
-	}
-	QStringList caps;
-	SearchCommand ret(_commandMatch.cap(1));
-	int pos = string.indexOf('=');
-	if (pos != -1) while((pos = _argMatch.indexIn(string, pos)) != -1) {
-		// Whether we matched a single word or a string
-		if (_argMatch.cap(1) == "") ret.addArgument(_argMatch.cap(2));
-		else ret.addArgument(_argMatch.cap(1));
-		pos += _argMatch.matchedLength();
-	}
-	return ret;
+SearchCommand SearchCommand::fromString(const QString &string) {
+    if (!_commandMatch.exactMatch(string)) {
+        qDebug("Cannot match command string!");
+        return SearchCommand::invalid();
+    }
+    QStringList caps;
+    SearchCommand ret(_commandMatch.cap(1));
+    int pos = string.indexOf('=');
+    if (pos != -1)
+        while ((pos = _argMatch.indexIn(string, pos)) != -1) {
+            // Whether we matched a single word or a string
+            if (_argMatch.cap(1) == "")
+                ret.addArgument(_argMatch.cap(2));
+            else
+                ret.addArgument(_argMatch.cap(1));
+            pos += _argMatch.matchedLength();
+        }
+    return ret;
 }
 
-bool SearchCommand::operator==(const SearchCommand &c) const
-{
-	return command() == c.command() && args() == c.args();
+bool SearchCommand::operator==(const SearchCommand &c) const {
+    return command() == c.command() && args() == c.args();
 }

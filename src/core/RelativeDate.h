@@ -28,60 +28,67 @@
  * A date class that allows to express either absolute dates (ala QDate) or
  * dates relative from the current day (x days ago, weeks ago, ...).
  */
-class RelativeDate
-{
-	Q_DECLARE_TR_FUNCTIONS(RelativeDate)
-public:
-	typedef enum { NotSet = 0, DaysAgo = 1, WeeksAgo = 2, MonthsAgo = 3, YearsAgo = 4, AbsoluteDate = 255 } DateType;
-private:
-	DateType _type;
-	QDate _absoluteDate;
-	qint64 _ago;
+class RelativeDate {
+    Q_DECLARE_TR_FUNCTIONS(RelativeDate)
+  public:
+    typedef enum {
+        NotSet = 0,
+        DaysAgo = 1,
+        WeeksAgo = 2,
+        MonthsAgo = 3,
+        YearsAgo = 4,
+        AbsoluteDate = 255
+    } DateType;
 
-public:
-	static PreferenceItem<int> firstDayOfWeek;
-	RelativeDate();
-	/**
-	 * Constructs a relative date according to the string
-	 * representation given as parameter.
-	 */
-	RelativeDate(const QString &string);
+  private:
+    DateType _type;
+    QDate _absoluteDate;
+    qint64 _ago;
 
-	DateType dateType() const { return _type; }
-	void setDateType(int type) { _type = (DateType) type; }
-	bool isSet() const { return dateType() != NotSet; }
+  public:
+    static PreferenceItem<int> firstDayOfWeek;
+    RelativeDate();
+    /**
+     * Constructs a relative date according to the string
+     * representation given as parameter.
+     */
+    RelativeDate(const QString &string);
 
-	const QDate &absoluteDate() const { return _absoluteDate; }
-	void setAbsoluteDate(const QDate &date) { _absoluteDate = date; }
+    DateType dateType() const { return _type; }
+    void setDateType(int type) { _type = (DateType)type; }
+    bool isSet() const { return dateType() != NotSet; }
 
-	qint64 ago() const { return _ago; }
-	void setAgo(qint64 value) { _ago = value; }
+    const QDate &absoluteDate() const { return _absoluteDate; }
+    void setAbsoluteDate(const QDate &date) { _absoluteDate = date; }
 
-	/**
-	 * Returns a string representing the current date, i.e. either an absolute
-	 * date in ISO format, or "xx days/weeks/months/years ago", or an empty string
-	 * if no date is set.
-	 */
-	QString dateString() const;
-	/**
-	 * Sets all the date parameters from a single string built upon the model of
-	 * getDate().
-	 */
-	void setDateString(const QString &date);
+    qint64 ago() const { return _ago; }
+    void setAgo(qint64 value) { _ago = value; }
 
-	/**
-	 * Returns a translated string of the relative date held. This should only be used
-	 * for display purpose ; any attempt to use this string as an argument to setDateString()
-	 * will fail!
-	 */
-	QString translatedDateString() const;
+    /**
+     * Returns a string representing the current date, i.e. either an absolute
+     * date in ISO format, or "xx days/weeks/months/years ago", or an empty
+     * string if no date is set.
+     */
+    QString dateString() const;
+    /**
+     * Sets all the date parameters from a single string built upon the model of
+     * getDate().
+     */
+    void setDateString(const QString &date);
 
-	/**
-	 * Returns the actual date represented by this relative date,
-	 * according to the current date. If the string does not comply
-	 * to the format, nothing happens.
-	 */
-	QDate date() const;
+    /**
+     * Returns a translated string of the relative date held. This should only
+     * be used for display purpose ; any attempt to use this string as an
+     * argument to setDateString() will fail!
+     */
+    QString translatedDateString() const;
+
+    /**
+     * Returns the actual date represented by this relative date,
+     * according to the current date. If the string does not comply
+     * to the format, nothing happens.
+     */
+    QDate date() const;
 };
 
 #endif // RELATIVEDATE_H

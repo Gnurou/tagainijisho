@@ -19,70 +19,56 @@
 
 #include <QtDebug>
 
-ProxyPaintEngine::ProxyPaintEngine(QPaintDevice *target) : QPaintEngine(QPaintEngine::AllFeatures), _target(target)
-{
+ProxyPaintEngine::ProxyPaintEngine(QPaintDevice *target)
+    : QPaintEngine(QPaintEngine::AllFeatures), _target(target) {}
+
+ProxyPaintEngine::~ProxyPaintEngine() {}
+
+bool ProxyPaintEngine::begin(QPaintDevice *pdev) {
+    bool ret = _painter.begin(_target);
+    if (ret)
+        setActive(true);
+    return ret;
 }
 
-ProxyPaintEngine::~ProxyPaintEngine()
-{
+bool ProxyPaintEngine::end() {
+    bool ret = _painter.end();
+    if (ret)
+        setActive(false);
+    return ret;
 }
 
-bool ProxyPaintEngine::begin(QPaintDevice *pdev)
-{
-	bool ret = _painter.begin(_target);
-	if (ret) setActive(true);
-	return ret;
+void ProxyPaintEngine::drawImage(const QRectF &rectangle, const QImage &image, const QRectF &sr,
+                                 Qt::ImageConversionFlags flags) {
+    _painter.drawImage(rectangle, image, sr, flags);
 }
 
-bool ProxyPaintEngine::end()
-{
-	bool ret = _painter.end();
-	if (ret) setActive(false);
-	return ret;
+void ProxyPaintEngine::drawPixmap(const QRectF &r, const QPixmap &pm, const QRectF &sr) {
+    _painter.drawPixmap(r, pm, sr);
 }
 
-void ProxyPaintEngine::drawImage(const QRectF &rectangle, const QImage &image, const QRectF &sr, Qt::ImageConversionFlags flags)
-{
-	_painter.drawImage(rectangle, image, sr, flags);
+void ProxyPaintEngine::drawPath(const QPainterPath &path) { _painter.drawPath(path); }
+
+void ProxyPaintEngine::drawPoints(const QPointF *points, int pointCount) {
+    _painter.drawPoints(points, pointCount);
 }
 
-void ProxyPaintEngine::drawPixmap(const QRectF &r, const QPixmap &pm, const QRectF &sr)
-{
-	_painter.drawPixmap(r, pm, sr);
+void ProxyPaintEngine::drawPolygon(const QPointF *points, int pointCount, PolygonDrawMode mode) {
+    Qt::FillRule drawRule = (mode == QPaintEngine::OddEvenMode ? Qt::OddEvenFill : Qt::WindingFill);
+    _painter.drawPolygon(points, pointCount, drawRule);
 }
 
-void ProxyPaintEngine::drawPath(const QPainterPath & path)
-{
-	_painter.drawPath(path);
+void ProxyPaintEngine::drawTextItem(const QPointF &p, const QTextItem &textItem) {
+    _painter.drawTextItem(p, textItem);
 }
 
-void ProxyPaintEngine::drawPoints(const QPointF *points, int pointCount)
-{
-	_painter.drawPoints(points, pointCount);
+void ProxyPaintEngine::drawTiledPixmap(const QRectF &rect, const QPixmap &pixmap,
+                                       const QPointF &p) {
+    _painter.drawTiledPixmap(rect, pixmap, p);
 }
 
-void ProxyPaintEngine::drawPolygon(const QPointF *points, int pointCount, PolygonDrawMode mode)
-{
-	Qt::FillRule drawRule = (mode == QPaintEngine::OddEvenMode ? Qt::OddEvenFill : Qt::WindingFill);
-	_painter.drawPolygon(points, pointCount, drawRule);
-}
+QPaintEngine::Type ProxyPaintEngine::type() const { return _painter.paintEngine()->type(); }
 
-void ProxyPaintEngine::drawTextItem(const QPointF &p, const QTextItem &textItem)
-{
-	_painter.drawTextItem(p, textItem);
-}
-
-void ProxyPaintEngine::drawTiledPixmap(const QRectF &rect, const QPixmap &pixmap, const QPointF &p)
-{
-	_painter.drawTiledPixmap(rect, pixmap, p);
-}
-
-QPaintEngine::Type ProxyPaintEngine::type() const
-{
-	return _painter.paintEngine()->type();
-}
-
-void ProxyPaintEngine::updateState(const QPaintEngineState &state)
-{
-	_painter.paintEngine()->updateState(state);
+void ProxyPaintEngine::updateState(const QPaintEngineState &state) {
+    _painter.paintEngine()->updateState(state);
 }

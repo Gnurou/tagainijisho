@@ -19,36 +19,37 @@
 
 #include <QDebug>
 
+#include <QFontMetrics>
 #include <QPushButton>
 #include <QString>
-#include <QFontMetrics>
 
-template <class T>
-class ElidedPushButton : public T
-{
-private:
-	int _maxTextWidth;
+template <class T> class ElidedPushButton : public T {
+  private:
+    int _maxTextWidth;
 
-protected:
-	QString textToDisplay(const QString &str) {
-		if (maxTextWidth() == -1) return str;
-		else return QFontMetrics(T::font()).elidedText(str, Qt::ElideRight, maxTextWidth(), Qt::TextShowMnemonic);
-	}
+  protected:
+    QString textToDisplay(const QString &str) {
+        if (maxTextWidth() == -1)
+            return str;
+        else
+            return QFontMetrics(T::font()).elidedText(str, Qt::ElideRight, maxTextWidth(),
+                                                      Qt::TextShowMnemonic);
+    }
 
-public:
-	ElidedPushButton(QWidget *parent = 0) : T(parent), _maxTextWidth(-1) {}
+  public:
+    ElidedPushButton(QWidget *parent = 0) : T(parent), _maxTextWidth(-1) {}
 
-	int maxTextWidth() const { return _maxTextWidth; }
-	void setMaxTextWidth(int width) { _maxTextWidth = width; }
+    int maxTextWidth() const { return _maxTextWidth; }
+    void setMaxTextWidth(int width) { _maxTextWidth = width; }
 
-	void setText(const QString &str) {
-		QString realText(textToDisplay(str));
-		T::setText(realText);
-		if (realText != str) {
-			T::setToolTip(str);
-		}
-		else T::setToolTip("");
-	}
+    void setText(const QString &str) {
+        QString realText(textToDisplay(str));
+        T::setText(realText);
+        if (realText != str) {
+            T::setToolTip(str);
+        } else
+            T::setToolTip("");
+    }
 };
 
 #endif

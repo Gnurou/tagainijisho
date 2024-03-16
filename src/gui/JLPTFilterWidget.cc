@@ -21,125 +21,146 @@
 #include <QGroupBox>
 #include <QHBoxLayout>
 
-JLPTFilterWidget::JLPTFilterWidget(QWidget *parent) : SearchFilterWidget(parent)
-{
-	_propsToSave << "levels";
+JLPTFilterWidget::JLPTFilterWidget(QWidget *parent) : SearchFilterWidget(parent) {
+    _propsToSave << "levels";
 
-	JLPTN5CheckBox = new QCheckBox(tr("N5"), this);
-	connect(JLPTN5CheckBox, SIGNAL(toggled(bool)), this, SLOT(commandUpdate()));
-	JLPTN4CheckBox = new QCheckBox(tr("N4"), this);
-	connect(JLPTN4CheckBox, SIGNAL(toggled(bool)), this, SLOT(commandUpdate()));
-	JLPTN3CheckBox = new QCheckBox(tr("N3"), this);
-	connect(JLPTN3CheckBox, SIGNAL(toggled(bool)), this, SLOT(commandUpdate()));
-	JLPTN2CheckBox = new QCheckBox(tr("N2"), this);
-	connect(JLPTN2CheckBox, SIGNAL(toggled(bool)), this, SLOT(commandUpdate()));
-	JLPTN1CheckBox = new QCheckBox(tr("N1"), this);
-	connect(JLPTN1CheckBox, SIGNAL(toggled(bool)), this, SLOT(commandUpdate()));
+    JLPTN5CheckBox = new QCheckBox(tr("N5"), this);
+    connect(JLPTN5CheckBox, SIGNAL(toggled(bool)), this, SLOT(commandUpdate()));
+    JLPTN4CheckBox = new QCheckBox(tr("N4"), this);
+    connect(JLPTN4CheckBox, SIGNAL(toggled(bool)), this, SLOT(commandUpdate()));
+    JLPTN3CheckBox = new QCheckBox(tr("N3"), this);
+    connect(JLPTN3CheckBox, SIGNAL(toggled(bool)), this, SLOT(commandUpdate()));
+    JLPTN2CheckBox = new QCheckBox(tr("N2"), this);
+    connect(JLPTN2CheckBox, SIGNAL(toggled(bool)), this, SLOT(commandUpdate()));
+    JLPTN1CheckBox = new QCheckBox(tr("N1"), this);
+    connect(JLPTN1CheckBox, SIGNAL(toggled(bool)), this, SLOT(commandUpdate()));
 
-	QHBoxLayout *hLayout = new QHBoxLayout(this);
-	hLayout->addWidget(JLPTN5CheckBox);
-	hLayout->addWidget(JLPTN4CheckBox);
-	hLayout->addWidget(JLPTN3CheckBox);
-	hLayout->addWidget(JLPTN2CheckBox);
-	hLayout->addWidget(JLPTN1CheckBox);
+    QHBoxLayout *hLayout = new QHBoxLayout(this);
+    hLayout->addWidget(JLPTN5CheckBox);
+    hLayout->addWidget(JLPTN4CheckBox);
+    hLayout->addWidget(JLPTN3CheckBox);
+    hLayout->addWidget(JLPTN2CheckBox);
+    hLayout->addWidget(JLPTN1CheckBox);
 }
 
-QString JLPTFilterWidget::currentCommand() const
-{
-	QString ret;
+QString JLPTFilterWidget::currentCommand() const {
+    QString ret;
 
-	if (JLPTN5CheckBox->isChecked() || JLPTN4CheckBox->isChecked() || JLPTN3CheckBox->isChecked() ||
-		JLPTN2CheckBox->isChecked() || JLPTN1CheckBox->isChecked()) {
-		bool first = true;
-		if (JLPTN5CheckBox->isChecked()) {
-			if (first) first = false;
-			else ret += ",";
-			ret += "5";
-		}
-		if (JLPTN4CheckBox->isChecked()) {
-			if (first) first = false;
-			else ret += ",";
-			ret += "4";
-		}
-		if (JLPTN3CheckBox->isChecked()) {
-			if (first) first = false;
-			else ret += ",";
-			ret += "3";
-		}
-		if (JLPTN2CheckBox->isChecked()) {
-			if (first) first = false;
-			else ret += ",";
-			ret += "2";
-		}
-		if (JLPTN1CheckBox->isChecked()) {
-			if (first) first = false;
-			else ret += ",";
-			ret += "1";
-		}
-		ret = ":jlpt=" + ret;
-	}
-	return ret;
+    if (JLPTN5CheckBox->isChecked() || JLPTN4CheckBox->isChecked() || JLPTN3CheckBox->isChecked() ||
+        JLPTN2CheckBox->isChecked() || JLPTN1CheckBox->isChecked()) {
+        bool first = true;
+        if (JLPTN5CheckBox->isChecked()) {
+            if (first)
+                first = false;
+            else
+                ret += ",";
+            ret += "5";
+        }
+        if (JLPTN4CheckBox->isChecked()) {
+            if (first)
+                first = false;
+            else
+                ret += ",";
+            ret += "4";
+        }
+        if (JLPTN3CheckBox->isChecked()) {
+            if (first)
+                first = false;
+            else
+                ret += ",";
+            ret += "3";
+        }
+        if (JLPTN2CheckBox->isChecked()) {
+            if (first)
+                first = false;
+            else
+                ret += ",";
+            ret += "2";
+        }
+        if (JLPTN1CheckBox->isChecked()) {
+            if (first)
+                first = false;
+            else
+                ret += ",";
+            ret += "1";
+        }
+        ret = ":jlpt=" + ret;
+    }
+    return ret;
 }
 
-QString JLPTFilterWidget::currentTitle() const
-{
-	QString ret;
-	bool first = true;
+QString JLPTFilterWidget::currentTitle() const {
+    QString ret;
+    bool first = true;
 
-	if (JLPTN5CheckBox->isChecked()) {
-		if (first) first = false;
-		else ret += ",";
-		ret += "5";
-	}
-	if (JLPTN4CheckBox->isChecked()) {
-		if (first) first = false;
-		else ret += ",";
-		ret += "4";
-	}
-	if (JLPTN3CheckBox->isChecked()) {
-		if (first) first = false;
-		else ret += ",";
-		ret += "3";
-	}
-	if (JLPTN2CheckBox->isChecked()) {
-		if (first) first = false;
-		else ret += ",";
-		ret += "2";
-	}
-	if (JLPTN1CheckBox->isChecked()) {
-		if (first) first = false;
-		else ret += ",";
-		ret += "1";
-	}
-	if (!ret.isEmpty()) return tr("JLPT:") + ret;
-	else return tr("JLPT");
+    if (JLPTN5CheckBox->isChecked()) {
+        if (first)
+            first = false;
+        else
+            ret += ",";
+        ret += "5";
+    }
+    if (JLPTN4CheckBox->isChecked()) {
+        if (first)
+            first = false;
+        else
+            ret += ",";
+        ret += "4";
+    }
+    if (JLPTN3CheckBox->isChecked()) {
+        if (first)
+            first = false;
+        else
+            ret += ",";
+        ret += "3";
+    }
+    if (JLPTN2CheckBox->isChecked()) {
+        if (first)
+            first = false;
+        else
+            ret += ",";
+        ret += "2";
+    }
+    if (JLPTN1CheckBox->isChecked()) {
+        if (first)
+            first = false;
+        else
+            ret += ",";
+        ret += "1";
+    }
+    if (!ret.isEmpty())
+        return tr("JLPT:") + ret;
+    else
+        return tr("JLPT");
 }
 
-QList<QVariant> JLPTFilterWidget::levels() const
-{
-	QList<QVariant> ret;
-	if (JLPTN5CheckBox->isChecked()) ret << 5;
-	if (JLPTN4CheckBox->isChecked()) ret << 4;
-	if (JLPTN3CheckBox->isChecked()) ret << 3;
-	if (JLPTN2CheckBox->isChecked()) ret << 2;
-	if (JLPTN1CheckBox->isChecked()) ret << 1;
-	return ret;
+QList<QVariant> JLPTFilterWidget::levels() const {
+    QList<QVariant> ret;
+    if (JLPTN5CheckBox->isChecked())
+        ret << 5;
+    if (JLPTN4CheckBox->isChecked())
+        ret << 4;
+    if (JLPTN3CheckBox->isChecked())
+        ret << 3;
+    if (JLPTN2CheckBox->isChecked())
+        ret << 2;
+    if (JLPTN1CheckBox->isChecked())
+        ret << 1;
+    return ret;
 }
 
-void JLPTFilterWidget::setLevels(const QList<QVariant> &filter)
-{
-	   JLPTN5CheckBox->setChecked(filter.contains(5));
-	   JLPTN4CheckBox->setChecked(filter.contains(4));
-	   JLPTN3CheckBox->setChecked(filter.contains(3));
-	   JLPTN2CheckBox->setChecked(filter.contains(2));
-	   JLPTN1CheckBox->setChecked(filter.contains(1));
+void JLPTFilterWidget::setLevels(const QList<QVariant> &filter) {
+    JLPTN5CheckBox->setChecked(filter.contains(5));
+    JLPTN4CheckBox->setChecked(filter.contains(4));
+    JLPTN3CheckBox->setChecked(filter.contains(3));
+    JLPTN2CheckBox->setChecked(filter.contains(2));
+    JLPTN1CheckBox->setChecked(filter.contains(1));
 }
 
-void JLPTFilterWidget::_reset()
-{
-	   JLPTN5CheckBox->setChecked(false);
-	   JLPTN4CheckBox->setChecked(false);
-	   JLPTN3CheckBox->setChecked(false);
-	   JLPTN2CheckBox->setChecked(false);
-	   JLPTN1CheckBox->setChecked(false);
+void JLPTFilterWidget::_reset() {
+    JLPTN5CheckBox->setChecked(false);
+    JLPTN4CheckBox->setChecked(false);
+    JLPTN3CheckBox->setChecked(false);
+    JLPTN2CheckBox->setChecked(false);
+    JLPTN1CheckBox->setChecked(false);
 }

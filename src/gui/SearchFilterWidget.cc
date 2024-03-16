@@ -19,63 +19,58 @@
 
 #include <gui/SearchFilterWidget.h>
 
-SearchFilterWidget::SearchFilterWidget(QWidget *parent, const QString &feature) : QWidget(parent), _feature(feature), _autoUpdateQuery(true), _propsToSave()
-{
-	_timer.setSingleShot(true);
-	_timer.setInterval(500);
-	connect(&_timer, SIGNAL(timeout()), this, SIGNAL(commandUpdated()));
+SearchFilterWidget::SearchFilterWidget(QWidget *parent, const QString &feature)
+    : QWidget(parent), _feature(feature), _autoUpdateQuery(true), _propsToSave() {
+    _timer.setSingleShot(true);
+    _timer.setInterval(500);
+    connect(&_timer, SIGNAL(timeout()), this, SIGNAL(commandUpdated()));
 }
 
-void SearchFilterWidget::updateVisualState()
-{
-	// Update the title
-	emit updateTitle(currentTitle());
-	// Update the features
-	updateFeatures();
+void SearchFilterWidget::updateVisualState() {
+    // Update the title
+    emit updateTitle(currentTitle());
+    // Update the features
+    updateFeatures();
 }
 
-void SearchFilterWidget::commandUpdate()
-{
-	if (_timer.isActive()) _timer.stop();
-	updateVisualState();
-	if (autoUpdateQuery()) emit commandUpdated();
+void SearchFilterWidget::commandUpdate() {
+    if (_timer.isActive())
+        _timer.stop();
+    updateVisualState();
+    if (autoUpdateQuery())
+        emit commandUpdated();
 }
 
-void SearchFilterWidget::delayedCommandUpdate()
-{
-	updateVisualState();
-	if (autoUpdateQuery()) _timer.start();
+void SearchFilterWidget::delayedCommandUpdate() {
+    updateVisualState();
+    if (autoUpdateQuery())
+        _timer.start();
 }
 
-void SearchFilterWidget::reset()
-{
-	bool autoUpdateStatus = autoUpdateQuery();
-	setAutoUpdateQuery(false);
-	_reset();
-	setAutoUpdateQuery(autoUpdateStatus);
-	commandUpdate();
+void SearchFilterWidget::reset() {
+    bool autoUpdateStatus = autoUpdateQuery();
+    setAutoUpdateQuery(false);
+    _reset();
+    setAutoUpdateQuery(autoUpdateStatus);
+    commandUpdate();
 }
 
-QMap<QString, QVariant> SearchFilterWidget::getState() const
-{
-	QStringList toSave = propertiesToSave();
-	QMap<QString, QVariant> ret;
-	foreach(const QString &prop, toSave) {
-		ret[prop] = property(prop.toLatin1().data());
-	}
-	return ret;
+QMap<QString, QVariant> SearchFilterWidget::getState() const {
+    QStringList toSave = propertiesToSave();
+    QMap<QString, QVariant> ret;
+    foreach (const QString &prop, toSave) {
+        ret[prop] = property(prop.toLatin1().data());
+    }
+    return ret;
 }
 
-void SearchFilterWidget::restoreState(const QMap<QString, QVariant> &state)
-{
-	setAutoUpdateQuery(false);
-	foreach(const QString &prop, state.keys()) {
-		setProperty(prop.toLatin1().data(), state.value(prop));
-	}
-	updateTitle(currentTitle());
-	setAutoUpdateQuery(true);
+void SearchFilterWidget::restoreState(const QMap<QString, QVariant> &state) {
+    setAutoUpdateQuery(false);
+    foreach (const QString &prop, state.keys()) {
+        setProperty(prop.toLatin1().data(), state.value(prop));
+    }
+    updateTitle(currentTitle());
+    setAutoUpdateQuery(true);
 }
 
-void SearchFilterWidget::updateFeatures()
-{
-}
+void SearchFilterWidget::updateFeatures() {}

@@ -32,75 +32,75 @@ typedef enum { None, Null, Integer, Float, String, Blob } Type;
  * A lightweight Qt/SQLite query wrapper class that provides an interface
  * similar to that of SQLite::Query but does not require QtSql.
  */
-class Query
-{
-friend class Connection;
-private:
-	sqlite3_stmt *_stmt;
-	Connection *_connection;
-	Error _lastError;
-	enum { INVALID, ERROR, BLANK, PREPARED, RUN, FIRSTRES } _state;
-	quint8 _bindIndex;
+class Query {
+    friend class Connection;
 
-	/// Copy is forbidden
-	//Query &operator =(const Query &query);
+  private:
+    sqlite3_stmt *_stmt;
+    Connection *_connection;
+    Error _lastError;
+    enum { INVALID, ERROR, BLANK, PREPARED, RUN, FIRSTRES } _state;
+    quint8 _bindIndex;
 
-	bool checkBind(int &col);
-	bool checkBindRes();
+    /// Copy is forbidden
+    // Query &operator =(const Query &query);
 
-public:
-	/**
-	 * Makes an invalid query. Useful only as a placeholder.
-	 */
-	Query();
-	Query(Connection *connection);
-	~Query();
+    bool checkBind(int &col);
+    bool checkBindRes();
 
-	void useWith(Connection *connection);
+  public:
+    /**
+     * Makes an invalid query. Useful only as a placeholder.
+     */
+    Query();
+    Query(Connection *connection);
+    ~Query();
 
-	bool isValid() const { return _connection != 0; }
-	bool active() const { return _state == RUN || _state == FIRSTRES; }
-	Connection *connection() { return _connection; }
+    void useWith(Connection *connection);
 
-	void reset();
-	bool prepare(const QString &query);
-	bool exec();
-	bool exec(const QString &query);
+    bool isValid() const { return _connection != 0; }
+    bool active() const { return _state == RUN || _state == FIRSTRES; }
+    Connection *connection() { return _connection; }
 
-	bool bindValue(const bool val, int col = 0);
-	bool bindValue(const qint32 val, int col = 0);
-	bool bindValue(const quint32 val, int col = 0);
-	bool bindValue(const qint64 val, int col = 0);
-	bool bindValue(const quint64 val, int col = 0);
-	bool bindValue(const double val, int col = 0);
-	bool bindValue(const QString &val, int col = 0);
-	bool bindValue(const QByteArray &val, int col = 0);
-	bool bindNullValue(int col = 0);
-	
-	bool next();
-	qint64 lastInsertId() const;
+    void reset();
+    bool prepare(const QString &query);
+    bool exec();
+    bool exec(const QString &query);
 
-	/// Returns the number of columns in a results row, or
-	/// 0 if the statement does not yield any result.
-	int columnsCount() const;
-	bool valueAvailable(int column) const;
-	Type valueType(int column) const;
-	bool valueBool(int column) const;
-	qint32 valueInt(int column) const;
-	quint32 valueUInt(int column) const;
-	qint64 valueInt64(int column) const;
-	quint64 valueUInt64(int column) const;
-	double valueDouble(int column) const;
-	QString valueString(int column) const;
-	QByteArray valueBlob(int column) const;
-	bool valueIsNull(int column) const;
+    bool bindValue(const bool val, int col = 0);
+    bool bindValue(const qint32 val, int col = 0);
+    bool bindValue(const quint32 val, int col = 0);
+    bool bindValue(const qint64 val, int col = 0);
+    bool bindValue(const quint64 val, int col = 0);
+    bool bindValue(const double val, int col = 0);
+    bool bindValue(const QString &val, int col = 0);
+    bool bindValue(const QByteArray &val, int col = 0);
+    bool bindNullValue(int col = 0);
 
-	void clear();
+    bool next();
+    qint64 lastInsertId() const;
 
-	const Error &lastError() const { return _lastError; }
-	QString queryText() const;
+    /// Returns the number of columns in a results row, or
+    /// 0 if the statement does not yield any result.
+    int columnsCount() const;
+    bool valueAvailable(int column) const;
+    Type valueType(int column) const;
+    bool valueBool(int column) const;
+    qint32 valueInt(int column) const;
+    quint32 valueUInt(int column) const;
+    qint64 valueInt64(int column) const;
+    quint64 valueUInt64(int column) const;
+    double valueDouble(int column) const;
+    QString valueString(int column) const;
+    QByteArray valueBlob(int column) const;
+    bool valueIsNull(int column) const;
+
+    void clear();
+
+    const Error &lastError() const { return _lastError; }
+    QString queryText() const;
 };
 
-}
+} // namespace SQLite
 
 #endif
