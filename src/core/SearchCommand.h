@@ -18,7 +18,7 @@
 #ifndef __CORE_SEARCHCOMMAND_H
 #define __CORE_SEARCHCOMMAND_H
 
-#include <QRegExp>
+#include <QRegularExpression>
 #include <QStringList>
 
 /**
@@ -31,16 +31,16 @@ class SearchCommand {
     QStringList _args;
     static SearchCommand _invalid;
 
-    static QRegExp _singleWordMatch;
-    static QRegExp _quotedWordsMatch;
-    static QRegExp _argMatch;
-    static QRegExp _commandMatch;
+    static QRegularExpression _singleWordMatch;
+    static QRegularExpression _quotedWordsMatch;
+    static QRegularExpression _argMatch;
+    static QRegularExpression _commandMatch;
 
   public:
-    static const QRegExp singleWordMatch() { return _singleWordMatch; }
-    static const QRegExp quotedWordsMatch() { return _quotedWordsMatch; }
-    static const QRegExp argMatch() { return _argMatch; }
-    static const QRegExp commandMatch() { return _commandMatch; }
+    static const QRegularExpression &singleWordMatch() { return _singleWordMatch; }
+    static const QRegularExpression &quotedWordsMatch() { return _quotedWordsMatch; }
+    static const QRegularExpression &argMatch() { return _argMatch; }
+    static const QRegularExpression &commandMatch() { return _commandMatch; }
 
   public:
     SearchCommand() {}

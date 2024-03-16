@@ -19,7 +19,8 @@
 
 #include "core/jmdict/JMdictParser.h"
 
-QRegExp JMdictParser::versionRegExp(" JMdict created: (\\d\\d\\d\\d\\-\\d\\d\\-\\d\\d) ");
+QRegularExpression
+    JMdictParser::versionRegExp(" JMdict created: (\\d\\d\\d\\d\\-\\d\\d\\-\\d\\d) ");
 
 JMdictParser::JMdictParser(const QStringList &langs)
     : languages(langs), gotVersion(false), posBitFieldsCount(0), fieldBitFieldsCount(0),
@@ -182,9 +183,12 @@ bool JMdictParser::parse(QXmlStreamReader &reader) {
         // We are not interested in senses for which there is no gloss!
         if (sense.gloss.isEmpty()) entry.senses.removeLast();
     DONE TAG_POST if (!onItemParsed(entry)) return false;
-    DONE ENDTAG COMMENT if (!gotVersion && versionRegExp.exactMatch(TEXT)) {
-        _dictVersion = versionRegExp.capturedTexts()[1];
-        gotVersion = true;
+    DONE ENDTAG COMMENT if (!gotVersion) {
+        QRegularExpressionMatch match = versionRegExp.match(TEXT);
+        if (match.hasMatch()) {
+            _dictVersion = match.captured(1);
+            gotVersion = true;
+        }
     }
     DONE DOCUMENT_END
 }

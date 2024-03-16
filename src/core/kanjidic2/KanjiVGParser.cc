@@ -20,7 +20,7 @@
 #include "core/TextTools.h"
 #include "core/kanjidic2/KanjiVGParser.h"
 
-QRegExp KanjiVGParser::versionRegExp(
+QRegularExpression KanjiVGParser::versionRegExp(
     "This file has been generated on (\\d\\d\\d\\d\\-\\d\\d\\-\\d\\d)");
 
 #define TAG_KANJIVG kanjivg
@@ -159,9 +159,12 @@ bool KanjiVGParser::parse(QXmlStreamReader &reader) {
     }
     TAG_POST
     onItemParsed(kanji);
-    DONE ENDTAG COMMENT if (!gotVersion && versionRegExp.indexIn(TEXT) != -1) {
-        _version = versionRegExp.capturedTexts()[1];
-        gotVersion = true;
+    DONE ENDTAG COMMENT if (!gotVersion) {
+        QRegularExpressionMatch match = versionRegExp.match(TEXT);
+        if (match.hasMatch()) {
+            _version = match.captured(1);
+            gotVersion = true;
+        }
     }
     DONE DOCUMENT_END
 }

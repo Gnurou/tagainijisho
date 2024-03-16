@@ -18,7 +18,7 @@
 
 TJSpinBox::TJSpinBox(QWidget *parent, const QString &validRegExp, unsigned int base)
     : QSpinBox(parent), _base(base) {
-    _validator = new QRegExpValidator(QRegExp(validRegExp), this);
+    _validator = new QRegularExpressionValidator(QRegularExpression(validRegExp), this);
 }
 
 QValidator::State TJSpinBox::validate(QString &input, int &pos) const {

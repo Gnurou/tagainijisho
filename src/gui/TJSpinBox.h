@@ -17,13 +17,13 @@
 #ifndef __GUI_TJSPINBOX_H
 #define __GUI_TJSPINBOX_H
 
-#include <QRegExpValidator>
+#include <QRegularExpressionValidator>
 #include <QSpinBox>
 
 class TJSpinBox : public QSpinBox {
     Q_OBJECT
   private:
-    QRegExpValidator *_validator;
+    QRegularExpressionValidator *_validator;
     unsigned int _base;
 
   protected:

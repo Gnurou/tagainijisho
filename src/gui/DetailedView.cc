@@ -167,11 +167,11 @@ void DetailedView::_display(const EntryPointer &entry, bool update) {
         document()->setDefaultStyleSheet(css);
         document()->setHtml(html);
         // Now find the jobs that need to be run from the document
-        QRegExp funcMatch("\\$\\!\\$(\\w+)");
+        QRegularExpression funcMatch("\\$\\!\\$(\\w+)");
         QTextCursor pos(document()), matchPos;
         while (!(matchPos = document()->find(funcMatch, pos)).isNull()) {
-            funcMatch.exactMatch(matchPos.selectedText());
-            QString jobClass(funcMatch.cap(1));
+            QRegularExpressionMatch match = funcMatch.match(matchPos.selectedText());
+            QString jobClass(match.captured(1));
             // Remove the matched text and update the current position
             matchPos.removeSelectedText();
             pos = matchPos;

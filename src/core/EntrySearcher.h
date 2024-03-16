@@ -24,6 +24,7 @@
 #include "core/SearchCommand.h"
 
 #include <QList>
+#include <QRegularExpression>
 #include <QStringList>
 
 /**
@@ -32,7 +33,6 @@
  */
 class EntrySearcher {
   private:
-    QRegExp commandMatch;
     EntryType _entryType;
 
   protected:

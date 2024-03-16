@@ -50,10 +50,10 @@ QPainterPath KanjiRenderer::Stroke::pathFromSVG(QString svgPath) {
 
     // Process the string - add spaces between unseparated tokens
     int idx;
-    while ((idx = svgPath.indexOf(QRegExp("[a-zA-Z]\\d|\\d[a-zA-Z]|\\w-"))) != -1)
+    while ((idx = svgPath.indexOf(QRegularExpression("[a-zA-Z]\\d|\\d[a-zA-Z]|\\w-"))) != -1)
         svgPath.insert(idx + 1, ' ');
 
-    QStringList tokens = svgPath.split(QRegExp(" +|,"), QString::SkipEmptyParts);
+    QStringList tokens = svgPath.split(QRegularExpression(" +|,"), QString::SkipEmptyParts);
 
     SVGPathCommand curAction = None;
     QPointF dest;

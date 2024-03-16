@@ -18,7 +18,7 @@
 #include "core/RelativeDate.h"
 #include "core/Preferences.h"
 
-#include <QRegExp>
+#include <QRegularExpression>
 
 PreferenceItem<int> RelativeDate::firstDayOfWeek("", "firstDayOfWeek", Qt::Monday);
 
@@ -61,16 +61,23 @@ QString RelativeDate::dateString() const {
 }
 
 void RelativeDate::setDateString(const QString &date) {
-    static QRegExp isoDatePattern("\\d\\d\\d\\d-\\d\\d-\\d\\d");
-    static QRegExp relativeDatePattern("(\\d+) (days|weeks|months|years) ago");
-    static QRegExp naturalReadingPattern("(this|last) (week|month|year)");
+    static QRegularExpression isoDatePattern(
+        QRegularExpression::anchoredPattern("\\d\\d\\d\\d-\\d\\d-\\d\\d"));
+    static QRegularExpression relativeDatePattern(
+        QRegularExpression::anchoredPattern("(\\d+) (days|weeks|months|years) ago"));
+    static QRegularExpression naturalReadingPattern(
+        QRegularExpression::anchoredPattern("(this|last) (week|month|year)"));
 
-    if (isoDatePattern.exactMatch(date)) {
+    if (isoDatePattern.match(date).hasMatch()) {
         setDateType(AbsoluteDate);
         setAbsoluteDate(QDate::fromString(date, Qt::ISODate));
-    } else if (naturalReadingPattern.exactMatch(date)) {
-        QString when(naturalReadingPattern.cap(1));
-        QString what(naturalReadingPattern.cap(2));
+        return;
+    }
+
+    QRegularExpressionMatch match = naturalReadingPattern.match(date);
+    if (match.hasMatch()) {
+        QString when(match.captured(1));
+        QString what(match.captured(2));
         if (when == "this")
             setAgo(0);
         else
@@ -81,9 +88,13 @@ void RelativeDate::setDateString(const QString &date) {
             setDateType(MonthsAgo);
         else if (what == "year")
             setDateType(YearsAgo);
-    } else if (relativeDatePattern.exactMatch(date)) {
-        setAgo(relativeDatePattern.cap(1).toInt());
-        QString what(relativeDatePattern.cap(2));
+        return;
+    }
+
+    match = relativeDatePattern.match(date);
+    if (match.hasMatch()) {
+        setAgo(match.captured(1).toInt());
+        QString what(match.captured(2));
         if (what == "days")
             setDateType(DaysAgo);
         else if (what == "weeks")
@@ -92,7 +103,10 @@ void RelativeDate::setDateString(const QString &date) {
             setDateType(MonthsAgo);
         else if (what == "years")
             setDateType(YearsAgo);
-    } else if (date == "today" || date == "yesterday") {
+        return;
+    }
+
+    if (date == "today" || date == "yesterday") {
         setDateType(DaysAgo);
         if (date == "today")
             setAgo(0);

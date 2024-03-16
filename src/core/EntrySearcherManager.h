@@ -22,16 +22,16 @@
 #include "core/Preferences.h"
 #include "core/QueryBuilder.h"
 
-#include <QRegExp>
+#include <QRegularExpression>
 
 class EntrySearcherManager {
   private:
     static EntrySearcherManager *_instance;
     QList<EntrySearcher *> _instances;
 
-    QRegExp quotedWordsMatch;
-    QRegExp validSearchCompoundMatch;
-    QRegExp validSearchMatch;
+    QRegularExpression quotedWordsMatch;
+    QRegularExpression validSearchCompoundMatch;
+    QRegularExpression validSearchMatch;
 
   public:
     EntrySearcherManager();
