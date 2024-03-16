@@ -1,3 +1,6 @@
+cmake_minimum_required(VERSION 2.8.12)
+cmake_policy(VERSION 2.8.12)
+
 # 64 bits Intel binary with 10.13 compatibility (these variables should be set
 # before any project command)
 if(APPLE)
@@ -19,9 +22,6 @@ set(tagaini_binary ${CMAKE_PROJECT_NAME})
 set(VERSION 1.2.2)
 set(QTVERSION 5.12)
 set(CMAKE_AUTOMOC ON)
-
-cmake_minimum_required(VERSION 2.8.12)
-cmake_policy(VERSION 2.8.12)
 
 find_package(Qt5 ${QTVERSION} REQUIRED COMPONENTS Core Widgets PrintSupport
                                                   Network LinguistTools)
