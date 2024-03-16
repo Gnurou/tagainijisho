@@ -23,6 +23,7 @@
 #include <QDateTime>
 #include <QHash>
 #include <QList>
+#include <QRegularExpression>
 #include <QString>
 #include <QStringList>
 
@@ -41,7 +42,9 @@ class TagsListModel : public QAbstractListModel {
     QVariant data(const QModelIndex &index, int role) const;
     bool contains(const QString &str) const { return _data.contains(str, Qt::CaseInsensitive); }
     bool containsMatch(const QString &str) const {
-        return _data.indexOf(QRegExp(str, Qt::CaseInsensitive, QRegExp::Wildcard)) != -1;
+        return _data.indexOf(
+                   QRegularExpression(QRegularExpression::wildcardToRegularExpression(str),
+                                      QRegularExpression::CaseInsensitiveOption)) != -1;
     }
     const QStringList &contents() const { return _data; }
 

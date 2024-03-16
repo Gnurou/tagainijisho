@@ -19,8 +19,7 @@
 #include "core/Entry.h"
 
 #include <QMetaObject>
-#include <QRegExp>
-
+#include <QRegularExpression>
 #include <QtDebug>
 
 QString TemplateFiller::fill(const QString &tmpl, const EntryFormatter *formatter,
@@ -28,14 +27,17 @@ QString TemplateFiller::fill(const QString &tmpl, const EntryFormatter *formatte
     // For 'T' option
     int tablePos = -1;
     int colCpt = 0;
+    int tmplPos = 0;
 
-    QString ret(tmpl);
-    QRegExp funcMatch("\\$\\$(\\w+)(?:\\[([^\\]]+)\\]){0,1}");
-    int pos = 0, matchPos;
-    while ((matchPos = funcMatch.indexIn(ret, pos)) != -1) {
-        QString whole = funcMatch.cap(0);
-        QString meth = funcMatch.cap(1);
-        QStringList options = funcMatch.cap(2).split(',', QString::SkipEmptyParts);
+    QString ret;
+    QRegularExpression funcMatch("\\$\\$(\\w+)(?:\\[([^\\]]+)\\]){0,1}");
+    QRegularExpressionMatchIterator matches = funcMatch.globalMatch(tmpl);
+    while (matches.hasNext()) {
+        QRegularExpressionMatch match = matches.next();
+        int matchPos = match.capturedStart();
+        QString whole = match.captured(0);
+        QString meth = match.captured(1);
+        QStringList options = match.captured(2).split(',', QString::SkipEmptyParts);
         QString repl;
         // Try to invoke the format method
         QMetaObject::invokeMethod(const_cast<EntryFormatter *>(formatter),
@@ -51,17 +53,17 @@ QString TemplateFiller::fill(const QString &tmpl, const EntryFormatter *formatte
                     break;
                 QString tag(option.mid(1));
                 // Extend the match position to the tag we want to remove
-                int nPos = ret.lastIndexOf("<" + tag, matchPos);
+                int nPos = tmpl.lastIndexOf("<" + tag, matchPos);
                 if (nPos == -1)
                     break;
                 matchPos = nPos;
-                nPos = ret.indexOf("</" + tag, matchPos);
+                nPos = tmpl.indexOf("</" + tag, matchPos);
                 if (nPos != -1)
-                    nPos = ret.indexOf(">", nPos);
+                    nPos = tmpl.indexOf(">", nPos);
                 if (nPos == -1)
                     break;
                 ++nPos;
-                whole = ret.mid(matchPos, nPos - matchPos);
+                whole = tmpl.mid(matchPos, nPos - matchPos);
                 break;
             }
             // Output the result as a table cell according to the given number
@@ -70,7 +72,7 @@ QString TemplateFiller::fill(const QString &tmpl, const EntryFormatter *formatte
                 // Do not output cell for empty string
                 if (repl.isEmpty())
                     break;
-                int tPos = ret.lastIndexOf("<table", matchPos);
+                int tPos = tmpl.lastIndexOf("<table", matchPos);
                 // Found matching table?
                 if (tPos != -1) {
                     int maxCols = option.mid(1).toInt();
@@ -89,42 +91,47 @@ QString TemplateFiller::fill(const QString &tmpl, const EntryFormatter *formatte
             default:
                 break;
             }
-        ret.replace(matchPos, whole.size(), repl);
+        ret += tmpl.mid(tmplPos, matchPos - tmplPos);
+        ret += repl;
+        tmplPos = match.capturedEnd();
         // If we did not output anything, remove ending newline of space
         if (repl.isEmpty())
             while (matchPos < ret.size() && (ret[matchPos] == '\n' || ret[matchPos] == ' '))
                 ret.remove(matchPos, 1);
-        pos = matchPos;
     }
+    ret += tmpl.chopped(tmplPos);
     return ret;
 }
 
 QString TemplateFiller::extract(const QString &tmpl, const QStringList &parts,
                                 bool includeRootText) {
     QString ret;
-    int pos = 0, cPos = -0;
-    QRegExp partMatch("<!-- *PART *: *(\\w+) *-->"), closePartMatch("<!-- */PART *-->");
+    int cPos = -0;
+    QRegularExpression partMatch("<!-- *PART *: *(\\w+) *-->"), closePartMatch("<!-- */PART *-->");
 
     // Find an opening part tag
-    while ((pos = partMatch.indexIn(tmpl, pos)) != -1) {
+    QRegularExpressionMatchIterator matches = partMatch.globalMatch(tmpl);
+    while ((matches.hasNext())) {
+        QRegularExpressionMatch match = matches.next();
+        int pos = match.capturedStart();
         // If the root text is to be included, do so
         if (includeRootText)
             ret += tmpl.mid(cPos, pos - cPos);
 
         // Find the associated closing tag
-        cPos = closePartMatch.indexIn(tmpl, pos);
+        QRegularExpressionMatch closeMatch = closePartMatch.match(tmpl, pos);
         // No closing tag, assume end of document
-        if (cPos < 0)
+        if (!closeMatch.hasMatch())
             cPos = tmpl.size() - 1;
         // Otherwise remove trailing spaces and end of line after closing tag
         else {
-            cPos += closePartMatch.cap().size();
+            cPos = closeMatch.capturedEnd();
             while (cPos < tmpl.size() && (tmpl[cPos] == '\n' || tmpl[cPos] == ' '))
                 ++cPos;
         }
 
         // Now decide whether or not to output this part
-        QString partName(partMatch.cap(1));
+        QString partName(match.captured(1));
         if (parts.contains(partName))
             ret += tmpl.mid(pos, cPos - pos);
 

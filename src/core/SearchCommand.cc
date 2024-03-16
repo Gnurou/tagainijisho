@@ -25,29 +25,37 @@ static QString singleWordString = "(-?[\\w\\*\\?\\-\\._:]+)";
 static QString quotedWordsString = "\"([^\"]*)\"";
 static QString argString = singleWordString + "|" + quotedWordsString;
 
-QRegExp SearchCommand::_singleWordMatch(singleWordString);
-QRegExp SearchCommand::_quotedWordsMatch(quotedWordsString);
-QRegExp SearchCommand::_argMatch(argString);
-QRegExp SearchCommand::_commandMatch(":(\\w+)(?:=(?:(?:" + argString +
-                                     QString::fromUtf8(")(?:[,、](?:") + argString + "))*))?");
+QRegularExpression SearchCommand::_singleWordMatch(singleWordString);
+QRegularExpression SearchCommand::_quotedWordsMatch(quotedWordsString);
+QRegularExpression SearchCommand::_argMatch(argString);
+QRegularExpression SearchCommand::_commandMatch(":(\\w+)(?:=(?:(?:" + argString +
+                                                QString::fromUtf8(")(?:[,、](?:") + argString +
+                                                "))*))?");
 
 SearchCommand SearchCommand::fromString(const QString &string) {
-    if (!_commandMatch.exactMatch(string)) {
+    QRegularExpressionMatch match = _commandMatch.match(string, 0, QRegularExpression::NormalMatch,
+                                                        QRegularExpression::AnchoredMatchOption);
+
+    if (!match.hasMatch()) {
         qDebug("Cannot match command string!");
         return SearchCommand::invalid();
     }
+
     QStringList caps;
-    SearchCommand ret(_commandMatch.cap(1));
+    SearchCommand ret(match.captured(1));
     int pos = string.indexOf('=');
-    if (pos != -1)
-        while ((pos = _argMatch.indexIn(string, pos)) != -1) {
+    if (pos != -1) {
+        QRegularExpressionMatchIterator i = _argMatch.globalMatch(string.mid(pos));
+
+        while (i.hasNext()) {
+            QRegularExpressionMatch match = i.next();
             // Whether we matched a single word or a string
-            if (_argMatch.cap(1) == "")
-                ret.addArgument(_argMatch.cap(2));
+            if (match.captured(1) == "")
+                ret.addArgument(match.captured(2));
             else
-                ret.addArgument(_argMatch.cap(1));
-            pos += _argMatch.matchedLength();
+                ret.addArgument(match.captured(1));
         }
+    }
     return ret;
 }
 

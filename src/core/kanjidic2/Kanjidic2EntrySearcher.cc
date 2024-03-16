@@ -19,7 +19,6 @@
 #include "core/TextTools.h"
 #include "core/kanjidic2/Kanjidic2Entry.h"
 #include "core/kanjidic2/Kanjidic2Plugin.h"
-#include "sqlite/SQLite.h"
 
 #include <QtDebug>
 
@@ -44,7 +43,7 @@ SearchCommand Kanjidic2EntrySearcher::commandFromWord(const QString &word) const
 
     QString checkString(word);
     // Remove all wild cards
-    checkString.remove(QRegExp("[\\?\\*]"));
+    checkString.remove(QRegularExpression("[\\?\\*]"));
 
     // We have a kanji command if the string is of size 1 and the character is a
     // kanji.
@@ -64,7 +63,7 @@ SearchCommand Kanjidic2EntrySearcher::commandFromWord(const QString &word) const
 }
 
 static QString buildTextSearchCondition(const QStringList &words, const QString &table) {
-    static QRegExp regExpChars = QRegExp("[\\?\\*]");
+    static QRegularExpression regExpChars = QRegularExpression("[\\?\\*]");
     static QString ftsMatch("kanjidic2%3.%2Text.reading MATCH '%1'");
     static QString regexpMatch("kanjidic2%3.%2Text.reading REGEXP '%1'");
     static QString glossRegexpMatch(
@@ -87,8 +86,11 @@ static QString buildTextSearchCondition(const QStringList &words, const QString 
                 // First check if we can optimize by using the FTS index (i.e.
                 // the first character is not a wildcard)
                 int wildcardIdx = 0;
-                while (!regExpChars.exactMatch(w[wildcardIdx]))
+                QRegularExpressionMatch match = regExpChars.match(w[wildcardIdx]);
+                while (!match.hasMatch()) {
                     wildcardIdx++;
+                    match = regExpChars.match(w[wildcardIdx]);
+                }
                 if (wildcardIdx != 0)
                     fts << "\"" + w.mid(0, wildcardIdx) + "*\"";
                 // If the wildcard we found is the last character and a star,
