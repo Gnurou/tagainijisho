@@ -1,5 +1,5 @@
-cmake_minimum_required(VERSION 2.8.12)
-cmake_policy(VERSION 2.8.12)
+cmake_minimum_required(VERSION 3.5)
+cmake_policy(VERSION 3.5)
 
 # 64 bits Intel binary with 10.13 compatibility (these variables should be set
 # before any project command)
