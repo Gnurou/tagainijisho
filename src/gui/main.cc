@@ -59,7 +59,7 @@
  * Message handler
  */
 void messageHandler(QtMsgType type, const QMessageLogContext &context, const QString &msg) {
-    const char *str = msg.toLatin1().constData();
+    const char *str = msg.toUtf8().constData();
     switch (type) {
     case QtDebugMsg:
         fprintf(stderr, "Debug: %s\n", str);
