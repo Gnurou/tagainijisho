@@ -33,7 +33,7 @@ static void regexpFunc(sqlite3_context *context, int argc, sqlite3_value **argv)
         TextTools::hiragana2Katakana(QString::fromUtf8((const char *)sqlite3_value_text(argv[1]))));
     QRegularExpression regexp = QRegularExpression(
         TextTools::hiragana2Katakana(QString::fromUtf8((const char *)sqlite3_value_text(argv[0]))),
-        QRegularExpression::CaseInsensitiveOption);
+        QRegularExpression::CaseInsensitiveOption | QRegularExpression::UseUnicodePropertiesOption);
 
     bool res = text.contains(regexp);
     sqlite3_result_int(context, res);

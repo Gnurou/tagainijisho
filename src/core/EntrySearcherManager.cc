@@ -24,11 +24,13 @@ PreferenceItem<bool> EntrySearcherManager::studiedEntriesFirst("mainWindow/resul
                                                                "studiedEntriesFirst", true);
 
 EntrySearcherManager::EntrySearcherManager()
-    : quotedWordsMatch(SearchCommand::quotedWordsMatch().pattern()),
+    : quotedWordsMatch(SearchCommand::quotedWordsMatch()),
       validSearchCompoundMatch(SearchCommand::commandMatch().pattern() + "|" +
-                               SearchCommand::singleWordMatch().pattern() + "|" +
-                               SearchCommand::quotedWordsMatch().pattern()),
-      validSearchMatch(" *((" + validSearchCompoundMatch.pattern() + ") *)* *") {
+                                   SearchCommand::singleWordMatch().pattern() + "|" +
+                                   SearchCommand::quotedWordsMatch().pattern(),
+                               QRegularExpression::UseUnicodePropertiesOption),
+      validSearchMatch(" *((" + validSearchCompoundMatch.pattern() + ") *)* *",
+                       QRegularExpression::UseUnicodePropertiesOption) {
     QueryBuilder::Order::orderingWay["jlpt"] = QueryBuilder::Order::DESC;
 }
 

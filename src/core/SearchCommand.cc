@@ -25,12 +25,16 @@ static QString singleWordString = "(-?[\\w\\*\\?\\-\\._:]+)";
 static QString quotedWordsString = "\"([^\"]*)\"";
 static QString argString = singleWordString + "|" + quotedWordsString;
 
-QRegularExpression SearchCommand::_singleWordMatch(singleWordString);
-QRegularExpression SearchCommand::_quotedWordsMatch(quotedWordsString);
-QRegularExpression SearchCommand::_argMatch(argString);
+QRegularExpression SearchCommand::_singleWordMatch(singleWordString,
+                                                   QRegularExpression::UseUnicodePropertiesOption);
+QRegularExpression SearchCommand::_quotedWordsMatch(quotedWordsString,
+                                                    QRegularExpression::UseUnicodePropertiesOption);
+QRegularExpression SearchCommand::_argMatch(argString,
+                                            QRegularExpression::UseUnicodePropertiesOption);
 QRegularExpression SearchCommand::_commandMatch(":(\\w+)(?:=(?:(?:" + argString +
-                                                QString::fromUtf8(")(?:[,、](?:") + argString +
-                                                "))*))?");
+                                                    QString::fromUtf8(")(?:[,、](?:") + argString +
+                                                    "))*))?",
+                                                QRegularExpression::UseUnicodePropertiesOption);
 
 SearchCommand SearchCommand::fromString(const QString &string) {
     QRegularExpressionMatch match = _commandMatch.match(string, 0, QRegularExpression::NormalMatch,
