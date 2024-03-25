@@ -16,14 +16,18 @@
  */
 
 #include "core/EntrySearcher.h"
+#include "core/EntryListCache.h"
 #include "core/RelativeDate.h"
 
-#include <QStringList>
 #include <QtDebug>
+
+#include <QRegExp>
+#include <QStringList>
 
 PreferenceItem<bool> EntrySearcher::allowRomajiSearch("", "allowRomajiSearch", false);
 
-EntrySearcher::EntrySearcher(EntryType entryType) : _entryType(entryType) {
+EntrySearcher::EntrySearcher(EntryType entryType)
+    : commandMatch(SearchCommand::commandMatch().pattern()), _entryType(entryType) {
     QueryBuilder::Join::addTablePriority("training", -100);
     QueryBuilder::Join::addTablePriority("notes", -40);
     QueryBuilder::Join::addTablePriority("notesText", -45);
@@ -207,7 +211,7 @@ QueryBuilder::Column EntrySearcher::canSort(const QString &sort,
 bool EntrySearcher::searchToCommands(const QStringList &searches,
                                      QList<SearchCommand> &commands) const {
     foreach (const QString &search, searches) {
-        if (SearchCommand::commandMatch().match(search).hasMatch()) {
+        if (commandMatch.exactMatch(search)) {
             SearchCommand command = SearchCommand::fromString(search);
             if (validCommands.contains(command.command()))
                 commands << command;

@@ -23,11 +23,10 @@
 
 #include <QFile>
 #include <QHash>
-#include <QRegularExpression>
+#include <QRegExp>
 #include <QString>
 
 #include <QtDebug>
-#include <qregularexpression.h>
 
 static QMap<QString, SQLite::Connection> connection;
 static SQLite::Connection jmdictConnection;
@@ -103,9 +102,9 @@ static bool createTables(SQLite::Connection &connection, const QString &lang) {
 // matching word. The sentence id is recorded into sentencesToRecord, with an
 // empty list of sentences to be filled by parse_links and parse_sentences
 static bool parseIndices(const QString &sfile) {
-    QRegularExpression lineRegExp("(\\d+)\t(-?\\d+)\t(.*)\n");
-    QRegularExpression wordRegExp("(\\w+)(?:\\|\\d*)?(?:\\(([^\\)]+)\\))?(?:\\[([^\\]]+)\\])"
-                                  "?(?:\\{([^\\}]+)\\})?~?");
+    QRegExp lineRegExp("(\\d+)\t(-?\\d+)\t(.*)\n");
+    QRegExp wordRegExp("(\\w+)(?:\\|\\d*)?(?:\\(([^\\)]+)\\))?(?:\\[([^\\]]+)\\])"
+                       "?(?:\\{([^\\}]+)\\})?~?");
     // wordRegExp.setMinimal(true);
     QFile f(sfile);
     if (!f.open(QIODevice::ReadOnly))
@@ -119,17 +118,15 @@ static bool parseIndices(const QString &sfile) {
         line = QString::fromUtf8(f.readLine());
         if (line.isEmpty())
             break;
-        QRegularExpressionMatch match = lineRegExp.match(line, 0, QRegularExpression::NormalMatch,
-                                                         QRegularExpression::AnchoredMatchOption);
-        if (!match.hasMatch()) {
+        if (!lineRegExp.exactMatch(line)) {
 #ifdef TATOEBA_DB_DEBUG
             qDebug("Cannot match line %d", lineCpt);
 #endif
             continue;
         }
-        sid jid = match.captured(1).toInt();
+        sid jid = lineRegExp.cap(1).toInt();
         // sid eNbr = lineRegExp.cap(2).toInt();
-        QString sentenceBits(match.captured(3));
+        QString sentenceBits(lineRegExp.cap(3));
 
         // if (eNbr == -1) continue;
 
@@ -138,16 +135,14 @@ static bool parseIndices(const QString &sfile) {
         for (int wordPos = 0; wordPos < words.size(); wordPos++) {
             const QString &word = words[wordPos];
 
-            QRegularExpressionMatch match = wordRegExp.match(
-                word, 0, QRegularExpression::NormalMatch, QRegularExpression::AnchoredMatchOption);
-            if (!match.hasMatch()) {
+            if (!wordRegExp.exactMatch(word)) {
 #ifdef TATOEBA_DB_DEBUG
                 qDebug("Cannot match word %s at line %d", word.toUtf8().data(), lineCpt);
 #endif
                 continue;
             }
-            QString writing(match.captured(1));
-            QString reading(match.captured(2));
+            QString writing(wordRegExp.cap(1));
+            QString reading(wordRegExp.cap(2));
             // unsigned int meaning(wordRegExp.cap(3).toUInt());
             // QString original(wordRegExp.cap(4));
             bool checked = word.contains('~');
@@ -196,7 +191,7 @@ static bool parseIndices(const QString &sfile) {
 }
 
 static bool parseLinks(const QString &sfile) {
-    QRegularExpression lineRegExp("(\\d+)\t(\\d+)\n");
+    QRegExp lineRegExp("(\\d+)\t(\\d+)\n");
     QFile f(sfile);
     if (!f.open(QIODevice::ReadOnly))
         return false;
@@ -204,21 +199,19 @@ static bool parseLinks(const QString &sfile) {
         QString line = QString::fromUtf8(f.readLine());
         if (line.isEmpty())
             break;
-        QRegularExpressionMatch match = lineRegExp.match(line, 0, QRegularExpression::NormalMatch,
-                                                         QRegularExpression::AnchoredMatchOption);
-        if (!match.hasMatch())
+        if (!lineRegExp.exactMatch(line))
             continue;
-        sid jid = match.captured(2).toInt();
+        sid jid = lineRegExp.cap(2).toInt();
         if (!sentencesToRecord.contains(jid))
             continue;
-        sid fid = match.captured(1).toInt();
+        sid fid = lineRegExp.cap(1).toInt();
         links[fid] = jid;
     }
     return true;
 }
 
 static bool parseSentences(const QString &sfile) {
-    QRegularExpression lineRegExp("(\\d+)\t(...)\t(.*)\n");
+    QRegExp lineRegExp("(\\d+)\t(...)\t(.*)\n");
     QFile f(sfile);
     if (!f.open(QIODevice::ReadOnly))
         return false;
@@ -226,18 +219,16 @@ static bool parseSentences(const QString &sfile) {
         QString line = QString::fromUtf8(f.readLine());
         if (line.isEmpty())
             break;
-        QRegularExpressionMatch match = lineRegExp.match(line, 0, QRegularExpression::NormalMatch,
-                                                         QRegularExpression::AnchoredMatchOption);
-        if (!match.hasMatch())
+        if (!lineRegExp.exactMatch(line))
             continue;
-        sid fid = match.captured(1).toInt();
+        sid fid = lineRegExp.cap(1).toInt();
         if (!links.contains(fid))
             continue;
-        QString lang(match.captured(2));
+        QString lang(lineRegExp.cap(2));
         if (!languages.contains(lang))
             continue;
         sid jid = links[fid];
-        QString sentence(match.captured(3));
+        QString sentence(lineRegExp.cap(3));
         if (!sentencesToRecord[jid].contains(lang))
             sentencesToRecord[jid].insert(lang, sentence);
     }

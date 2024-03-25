@@ -249,7 +249,7 @@ void QueryBuilder::Statement::autoJoin() {
     // Now do the same for where statements
     // TODO would be nice to analyze where statements as well!
     /*	foreach (const Where &where, wheres()) {
-                    QRegularExpression regexp("[a-zA-Z][\w.]*\w* *[^\\(]");
+                    QRegExp regexp("[a-zA-Z][\w.]*\w* *[^\\(]");
             }*/
 }
 

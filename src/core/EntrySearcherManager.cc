@@ -17,11 +17,12 @@
 
 #include "core/EntrySearcherManager.h"
 #include "core/Preferences.h"
-#include <qregularexpression.h>
 
 EntrySearcherManager *EntrySearcherManager::_instance = 0;
 PreferenceItem<bool> EntrySearcherManager::studiedEntriesFirst("mainWindow/resultsView",
                                                                "studiedEntriesFirst", true);
+
+const int resultsPerPage = 50;
 
 EntrySearcherManager::EntrySearcherManager()
     : quotedWordsMatch(SearchCommand::quotedWordsMatch().pattern()),
@@ -33,23 +34,17 @@ EntrySearcherManager::EntrySearcherManager()
 }
 
 QStringList EntrySearcherManager::splitSearchString(const QString &searchString) {
-    if (!validSearchMatch
-             .match(searchString, 0, QRegularExpression::NormalMatch,
-                    QRegularExpression::AnchoredMatchOption)
-             .hasMatch())
+    if (!validSearchMatch.exactMatch(searchString))
         return QStringList();
+    int pos = 0;
     QStringList res;
-    QRegularExpressionMatchIterator matches = validSearchCompoundMatch.globalMatch(searchString);
-    while (matches.hasNext()) {
-        QRegularExpressionMatch match = matches.next();
-        QString compound = match.captured();
+    while ((pos = validSearchCompoundMatch.indexIn(searchString, pos)) != -1) {
+        QString compound = validSearchCompoundMatch.cap();
         // Special handling for quoted words
-        if (quotedWordsMatch
-                .match(compound, 0, QRegularExpression::NormalMatch,
-                       QRegularExpression::AnchoredMatchOption)
-                .hasMatch())
+        if (quotedWordsMatch.exactMatch(compound))
             compound.remove(compound.size() - 1, 1).remove(0, 1);
         res << compound;
+        pos += validSearchCompoundMatch.matchedLength();
     }
     return res;
 }

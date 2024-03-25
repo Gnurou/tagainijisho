@@ -19,6 +19,7 @@
 #include "core/TextTools.h"
 #include "core/jmdict/JMdictEntry.h"
 #include "core/jmdict/JMdictPlugin.h"
+#include "sqlite/SQLite.h"
 
 PreferenceItem<QString> JMdictEntrySearcher::miscPropertiesFilter("jmdict", "miscPropertiesFilter",
                                                                   "arch,obs");
@@ -63,7 +64,7 @@ SearchCommand JMdictEntrySearcher::commandFromWord(const QString &word) const {
 
     QString checkString(word);
     // Remove all wild cards
-    checkString.remove(QRegularExpression("[\\?\\*]"));
+    checkString.remove(QRegExp("[\\?\\*]"));
     // Only wildcards? Lets assume romaji
     if (checkString.size() == 0)
         return SearchCommand::fromString(QString(":mean=\"%1\"").arg(word));
@@ -87,7 +88,7 @@ SearchCommand JMdictEntrySearcher::commandFromWord(const QString &word) const {
 }
 
 static QString buildTextSearchCondition(const QStringList &words, const QString &table) {
-    static QRegularExpression regExpChars = QRegularExpression("[\\?\\*]");
+    static QRegExp regExpChars = QRegExp("[\\?\\*]");
     static QString ftsMatch("jmdict%3.%2Text.reading MATCH '%1'");
     static QString regexpMatch("jmdict%3.%2Text.reading REGEXP '%1'");
     static QString glossRegexpMatch("{{leftcolumn}} in (select id from jmdict_%2.glosses where "
@@ -108,11 +109,8 @@ static QString buildTextSearchCondition(const QStringList &words, const QString 
                 // First check if we can optimize by using the FTS index (i.e.
                 // the first character is not a wildcard)
                 int wildcardIdx = 0;
-                QRegularExpressionMatch match = regExpChars.match(w[wildcardIdx]);
-                while (!match.hasMatch()) {
+                while (!regExpChars.exactMatch(w[wildcardIdx]))
                     wildcardIdx++;
-                    match = regExpChars.match(w[wildcardIdx]);
-                }
                 if (wildcardIdx != 0)
                     fts << "\"" + w.mid(0, wildcardIdx) + "*\"";
                 // If the wildcard we found is the last character and a star,

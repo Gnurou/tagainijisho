@@ -22,7 +22,7 @@
 
 #include <QHash>
 #include <QMap>
-#include <QRegularExpression>
+#include <QRegExp>
 #include <QSet>
 #include <QStringList>
 
@@ -80,7 +80,9 @@ class JMdictDeletedItem {
 
 class JMdictParser {
   protected:
-    static QRegularExpression versionRegExp;
+    static QRegExp versionRegExp;
+    static QRegExp deletedItemRegExp;
+    static QRegExp mergedItemRegExp;
 
     QStringList languages;
     bool gotVersion;

@@ -46,7 +46,7 @@ TagsLineInput::TagsLineInput(QWidget *parent) : TJLineEdit(parent) {
 }
 
 void TagsLineInput::onTextChanged(const QString &newText) {
-    QStringList tags = newText.split(QRegularExpression("[ ,\\.]"), QString::SkipEmptyParts);
+    QStringList tags = newText.split(QRegExp("[ ,\\.]"), QString::SkipEmptyParts);
     foreach (const QString &tag, tags) {
         if (tag.endsWith('*')) {
             if (!Tag::knownTagsModel()->containsMatch(tag))
@@ -74,7 +74,7 @@ void TagsLineInput::checkCompletion() {
 
     // We have a potential completion to perform, let's isolate the interesting
     // portion
-    int pos = curText.lastIndexOf(QRegularExpression("[ ,.!?]")) + 1;
+    int pos = curText.lastIndexOf(QRegExp("[ ,.!?]")) + 1;
 
     curText = curText.right(curText.size() - pos);
 
@@ -123,7 +123,7 @@ TagsInputDialog::TagsInputDialog(const QString &title, const QString &message,
 
 bool TagsDialogs::splitTagsString(const QString &string, QStringList &tagsList,
                                   QStringList &invalidTags) {
-    tagsList = string.split(QRegularExpression("[ ,\\.]"), QString::SkipEmptyParts);
+    tagsList = string.split(QRegExp("[ ,\\.]"), QString::SkipEmptyParts);
     for (int j = 0; j < tagsList.size(); j++) {
         tagsList[j] = tagsList[j].trimmed();
         if (tagsList[j].isEmpty())

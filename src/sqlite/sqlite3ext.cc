@@ -20,7 +20,7 @@
 #include "sqlite/fts3_tokenizer.h"
 
 #include <QRandomGenerator>
-#include <QRegularExpression>
+#include <QRegExp>
 #include <QSet>
 #include <QtDebug>
 #include <qrandom.h>
@@ -31,9 +31,9 @@ static QByteArray kanasConverted;
 static void regexpFunc(sqlite3_context *context, int argc, sqlite3_value **argv) {
     const QString text(
         TextTools::hiragana2Katakana(QString::fromUtf8((const char *)sqlite3_value_text(argv[1]))));
-    QRegularExpression regexp = QRegularExpression(
-        TextTools::hiragana2Katakana(QString::fromUtf8((const char *)sqlite3_value_text(argv[0]))),
-        QRegularExpression::CaseInsensitiveOption);
+    QRegExp regexp = QRegExp(
+        TextTools::hiragana2Katakana(QString::fromUtf8((const char *)sqlite3_value_text(argv[0]))));
+    regexp.setCaseSensitivity(Qt::CaseInsensitive);
 
     bool res = text.contains(regexp);
     sqlite3_result_int(context, res);

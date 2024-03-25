@@ -21,7 +21,6 @@
 #include <QFocusEvent>
 #include <QGroupBox>
 #include <QHBoxLayout>
-#include <QRegularExpression>
 
 NotesFilterWidget::NotesFilterWidget(QWidget *parent) : SearchFilterWidget(parent) {
     _propsToSave << "notes";
@@ -48,7 +47,7 @@ void NotesFilterWidget::setNotes(const QString &notes) {
 QString NotesFilterWidget::currentTitle() const {
     if (words->text().isEmpty())
         return tr("Notes");
-    QStringList args(words->text().split(QRegularExpression("[ ,\\.]"), QString::SkipEmptyParts));
+    QStringList args(words->text().split(QRegExp("[ ,\\.]"), QString::SkipEmptyParts));
     if (args.size() == 1 && args[0] == "*")
         return tr("Has note");
     return tr("Note contains %1").arg(words->text());
@@ -57,17 +56,14 @@ QString NotesFilterWidget::currentTitle() const {
 QString NotesFilterWidget::currentCommand() const {
     if (words->text().isEmpty())
         return "";
-    QStringList args(words->text().split(QRegularExpression("[ ,\\.]"), QString::SkipEmptyParts));
+    QStringList args(words->text().split(QRegExp("[ ,\\.]"), QString::SkipEmptyParts));
     if (args.size() == 1 && args[0] == "*")
         return ":note";
     return QString(":note=%1").arg(args.join(","));
 }
 
 void NotesFilterWidget::onTextChanged(const QString &newText) {
-    if (newText.isEmpty() ||
-        QRegularExpression(QRegularExpression::anchoredPattern("^.*[ ,\\.\\*]$"))
-            .match(newText)
-            .hasMatch())
+    if (newText.isEmpty() || QRegExp("^.*[ ,\\.\\*]$").exactMatch(newText))
         commandUpdate();
 }
 

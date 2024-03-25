@@ -21,7 +21,7 @@
 #include "core/XmlParserHelper.h"
 
 #include <QMap>
-#include <QRegularExpression>
+#include <QRegExp>
 #include <QStack>
 #include <QStringList>
 
@@ -56,7 +56,7 @@ class KanjiVGItem {
 
 class KanjiVGParser {
   private:
-    static QRegularExpression versionRegExp;
+    static QRegExp versionRegExp;
 
     QString _version;
     bool gotVersion;
