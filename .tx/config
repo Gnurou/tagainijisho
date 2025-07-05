@@ -1,14 +1,18 @@
-[tagaini-jisho.gui]
-file_filter = i18n/tagainijisho_<lang>.ts
-source_file = i18n/tagainijisho_en.ts
-source_lang = en
-type = QT
-
-[tagaini-jisho.desktop]
-source_file = tagainijisho.desktop
-source_lang = en
-type = DESKTOP
-
 [main]
-host = https://www.transifex.com
+host = https://app.transifex.com
+
+[o:tagaini:p:tagaini-jisho:r:desktop]
+source_file            = tagainijisho.desktop
+source_lang            = en
+type                   = DESKTOP
+replace_edited_strings = false
+keep_translations      = false
+
+[o:tagaini:p:tagaini-jisho:r:gui]
+file_filter            = i18n/tagainijisho_<lang>.ts
+source_file            = i18n/tagainijisho_en.ts
+source_lang            = en
+type                   = QT
+replace_edited_strings = false
+keep_translations      = false
 
