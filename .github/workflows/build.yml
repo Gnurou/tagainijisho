@@ -23,7 +23,7 @@ jobs:
       - name: Create source package
         run: ./pack/source/buildsourcerelease.sh
       - name: Upload source package
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: Source package
           path: ${{github.workspace}}/tagainijisho-*.tar.gz
@@ -52,7 +52,7 @@ jobs:
         shell: ${{ matrix.sys.shell }}
 
     steps:
-      - uses: actions/download-artifact@v2
+      - uses: actions/download-artifact@v4
         with:
           name: Source package
 
@@ -124,7 +124,7 @@ jobs:
 
       - name: Upload DEB package (Ubuntu)
         if: runner.os == 'Linux'
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: DEB package
           path: ${{github.workspace}}/build/tagainijisho-*.deb
@@ -132,7 +132,7 @@ jobs:
 
       - name: Upload RPM package (Ubuntu)
         if: runner.os == 'Linux'
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: RPM package
           path: ${{github.workspace}}/build/tagainijisho-*.rpm
@@ -140,7 +140,7 @@ jobs:
 
       - name: Upload NSIS installer (Windows)
         if: runner.os == 'Windows'
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: Windows installer
           path: ${{github.workspace}}/build/tagainijisho-*.exe
@@ -148,7 +148,7 @@ jobs:
 
       - name: Upload DragNDrop installer (Mac OS)
         if: runner.os == 'macos'
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: Mac OS installer
           path: ${{github.workspace}}/build/Tagaini Jisho-*.dmg
@@ -162,19 +162,19 @@ jobs:
     runs-on: ubuntu-22.04
 
     steps:
-      - uses: actions/download-artifact@v2
+      - uses: actions/download-artifact@v4
         with:
           name: Source package
-      - uses: actions/download-artifact@v2
+      - uses: actions/download-artifact@v4
         with:
           name: DEB package
-      - uses: actions/download-artifact@v2
+      - uses: actions/download-artifact@v4
         with:
           name: RPM package
-      - uses: actions/download-artifact@v2
+      - uses: actions/download-artifact@v4
         with:
           name: Windows installer
-      - uses: actions/download-artifact@v2
+      - uses: actions/download-artifact@v4
         with:
           name: Mac OS installer
       - name: Upload assets
