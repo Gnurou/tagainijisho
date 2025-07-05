@@ -452,7 +452,7 @@
 <context>
     <name>EntryFormatter</name>
     <message>
-        <location filename="../src/gui/EntryFormatter.cc" line="+55"/>
+        <location filename="../src/gui/EntryFormatter.cc" line="+57"/>
         <source>Cannot find detailed view HTML file!</source>
         <translation>Kan inte hitta HTML-filen för detaljerad visning.</translation>
     </message>
@@ -462,7 +462,7 @@
         <translation>Kan inte hitta CSS-filen för detaljerad visning.</translation>
     </message>
     <message>
-        <location line="+170"/>
+        <location line="+181"/>
         <source>Root list</source>
         <translation>Rotlista</translation>
     </message>
@@ -1145,7 +1145,7 @@ Det är möjligt att det inte togs bort.</translation>
 <context>
     <name>JMdictLongDescs</name>
     <message>
-        <location filename="../3rdparty/JMdictDescs.cc" line="+62"/>
+        <location filename="../3rdparty/JMdictDescs.cc" line="+67"/>
         <source>military</source>
         <translation>militär</translation>
     </message>
@@ -1155,7 +1155,7 @@ Det är möjligt att det inte togs bort.</translation>
         <translation>matematik</translation>
     </message>
     <message>
-        <location line="-51"/>
+        <location line="-56"/>
         <source>Nagano-ben</source>
         <translation>Nagano-ben</translation>
     </message>
@@ -1205,27 +1205,27 @@ Det är möjligt att det inte togs bort.</translation>
         <translation>Kanto-ben</translation>
     </message>
     <message>
-        <location line="+111"/>
+        <location line="+126"/>
         <source>manga slang</source>
         <translation>mangaslang</translation>
     </message>
     <message>
-        <location line="+13"/>
+        <location line="+12"/>
         <source>polite (teineigo) language</source>
         <translation>artigt språk (teineigo)</translation>
     </message>
     <message>
-        <location line="+104"/>
+        <location line="+105"/>
         <source>su verb - precursor to the modern suru</source>
         <translation>su-verb – föregångare till det moderna suru</translation>
     </message>
     <message>
-        <location line="-230"/>
+        <location line="-245"/>
         <source>Hokkaido-ben</source>
         <translation>Hokkaido-ben</translation>
     </message>
     <message>
-        <location line="+139"/>
+        <location line="+154"/>
         <source>vulgar expression or word</source>
         <translation>Vulgära uttryck</translation>
     </message>
@@ -1245,7 +1245,7 @@ Det är möjligt att det inte togs bort.</translation>
         <translation>kvinnligt språk</translation>
     </message>
     <message>
-        <location line="-103"/>
+        <location line="-118"/>
         <source>Brazilian</source>
         <translation type="unfinished"/>
     </message>
@@ -1321,6 +1321,11 @@ Det är möjligt att det inte togs bort.</translation>
     </message>
     <message>
         <location line="+1"/>
+        <source>card games</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
         <source>chemistry</source>
         <translation type="unfinished"/>
     </message>
@@ -1342,6 +1347,11 @@ Det är möjligt att det inte togs bort.</translation>
     <message>
         <location line="+1"/>
         <source>crystallography</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>dentistry</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -1377,6 +1387,11 @@ Det är möjligt att det inte togs bort.</translation>
     <message>
         <location line="+1"/>
         <source>entomology</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>film</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -1451,6 +1466,11 @@ Det är möjligt att det inte togs bort.</translation>
     </message>
     <message>
         <location line="+1"/>
+        <source>kabuki</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
         <source>law</source>
         <translation type="unfinished"/>
     </message>
@@ -1475,6 +1495,11 @@ Det är möjligt att det inte togs bort.</translation>
         <translation type="unfinished"/>
     </message>
     <message>
+        <location line="+1"/>
+        <source>manga</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
         <location line="+2"/>
         <source>mechanical engineering</source>
         <translation type="unfinished"/>
@@ -1491,7 +1516,17 @@ Det är möjligt att det inte togs bort.</translation>
     </message>
     <message>
         <location line="+2"/>
+        <source>mining</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
         <source>music</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>noh</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -1510,12 +1545,12 @@ Det är möjligt att det inte togs bort.</translation>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+1"/>
-        <source>pharmacy</source>
+        <location line="+182"/>
+        <source>search-only kana form</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-180"/>
         <source>philosophy</source>
         <translation type="unfinished"/>
     </message>
@@ -1535,7 +1570,7 @@ Det är möjligt att det inte togs bort.</translation>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="+2"/>
         <source>printing</source>
         <translation type="unfinished"/>
     </message>
@@ -1545,7 +1580,7 @@ Det är möjligt att det inte togs bort.</translation>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="+2"/>
         <source>psychology</source>
         <translation type="unfinished"/>
     </message>
@@ -1555,7 +1590,7 @@ Det är möjligt att det inte togs bort.</translation>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="+2"/>
         <source>Shinto</source>
         <translation type="unfinished"/>
     </message>
@@ -1565,7 +1600,7 @@ Det är möjligt att det inte togs bort.</translation>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="+2"/>
         <source>sports</source>
         <translation type="unfinished"/>
     </message>
@@ -1575,7 +1610,7 @@ Det är möjligt att det inte togs bort.</translation>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="+2"/>
         <source>sumo</source>
         <translation type="unfinished"/>
     </message>
@@ -1590,7 +1625,7 @@ Det är möjligt att det inte togs bort.</translation>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="+2"/>
         <source>video games</source>
         <translation type="unfinished"/>
     </message>
@@ -1615,7 +1650,7 @@ Det är möjligt att det inte togs bort.</translation>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>character</source>
         <translation type="unfinished"/>
     </message>
@@ -1640,7 +1675,7 @@ Det är möjligt att det inte togs bort.</translation>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="+2"/>
         <source>event</source>
         <translation type="unfinished"/>
     </message>
@@ -1675,7 +1710,7 @@ Det är möjligt att det inte togs bort.</translation>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+4"/>
         <source>other</source>
         <translation type="unfinished"/>
     </message>
@@ -1690,7 +1725,7 @@ Det är möjligt att det inte togs bort.</translation>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+13"/>
+        <location line="+14"/>
         <source>&apos;kari&apos; adjective (archaic)</source>
         <translation type="unfinished"/>
     </message>
@@ -1735,33 +1770,28 @@ Det är möjligt att det inte togs bort.</translation>
         <translation>gikun (betydelse som uttal) eller jukujikun (specialuttal)</translation>
     </message>
     <message>
-        <location line="-150"/>
+        <location line="-152"/>
         <source>word containing irregular kanji usage</source>
         <translation>oregelbunden användning av kanji</translation>
     </message>
     <message>
         <location line="-1"/>
-        <location line="+152"/>
+        <location line="+154"/>
         <source>word containing irregular kana usage</source>
         <translation>oregelbunden användning av kana</translation>
     </message>
     <message>
-        <location line="-150"/>
+        <location line="-152"/>
         <source>irregular okurigana usage</source>
         <translation>oregelbunden användning av okurigana</translation>
     </message>
     <message>
-        <location line="+33"/>
-        <source>obscure term</source>
-        <translation>obskyrt uttryck</translation>
-    </message>
-    <message>
-        <location line="+118"/>
+        <location line="+153"/>
         <source>out-dated or obsolete kana usage</source>
         <translation>föråldrad användning av kana</translation>
     </message>
     <message>
-        <location line="-117"/>
+        <location line="-118"/>
         <source>onomatopoeic or mimetic word</source>
         <translation>onomatopoetiskt eller mimetiskt ord</translation>
     </message>
@@ -1781,17 +1811,12 @@ Det är möjligt att det inte togs bort.</translation>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+1"/>
-        <source>rare</source>
-        <translation>ovanlig</translation>
-    </message>
-    <message>
-        <location line="+2"/>
+        <location line="+3"/>
         <source>sensitive</source>
         <translation>känsligt uttryck</translation>
     </message>
     <message>
-        <location line="+43"/>
+        <location line="+44"/>
         <source>unclassified</source>
         <translation>oklassifierad</translation>
     </message>
@@ -1831,12 +1856,12 @@ Det är möjligt att det inte togs bort.</translation>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="-20"/>
+        <location line="-21"/>
         <source>dated term</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+12"/>
         <source>historical term</source>
         <translation type="unfinished"/>
     </message>
@@ -1846,17 +1871,17 @@ Det är möjligt att det inte togs bort.</translation>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="-12"/>
+        <location line="-13"/>
         <source>place name</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="+15"/>
         <source>unclassified name</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="-44"/>
+        <location line="-45"/>
         <source>company name</source>
         <translation type="unfinished"/>
     </message>
@@ -1866,17 +1891,17 @@ Det är möjligt att det inte togs bort.</translation>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+13"/>
+        <location line="+14"/>
         <source>work of art, literature, music, etc. name</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="-17"/>
+        <location line="-18"/>
         <source>full name of a particular person</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="-18"/>
+        <location line="-17"/>
         <source>given name or forename, gender not specified</source>
         <translation type="unfinished"/>
     </message>
@@ -1886,12 +1911,12 @@ Det är möjligt att det inte togs bort.</translation>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="-14"/>
+        <location line="-15"/>
         <source>organization name</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+24"/>
+        <location line="+25"/>
         <source>adjective (keiyoushi) - yoi/ii class</source>
         <translation>adjektiv (keiyoushi) – yoi/ii-klassen</translation>
     </message>
@@ -1906,12 +1931,12 @@ Det är möjligt att det inte togs bort.</translation>
         <translation>ödmjukt språk (kenjougo)</translation>
     </message>
     <message>
-        <location line="-20"/>
+        <location line="-21"/>
         <source>abbreviation</source>
         <translation>förkortning</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+13"/>
         <source>familiar language</source>
         <translation>familjärt språk</translation>
     </message>
@@ -1921,22 +1946,12 @@ Det är möjligt att det inte togs bort.</translation>
         <translation>grovt eller fräckt uttryck (visas vanligen inte i pedagogiska sammanhang)</translation>
     </message>
     <message>
-        <location line="-51"/>
-        <source>archaism</source>
-        <translation>ålderdomligt språk</translation>
-    </message>
-    <message>
-        <location line="+8"/>
+        <location line="-44"/>
         <source>derogatory</source>
         <translation>nedlåtande språk</translation>
     </message>
     <message>
-        <location line="-5"/>
-        <source>colloquialism</source>
-        <translation>vardagligt språk</translation>
-    </message>
-    <message>
-        <location line="+44"/>
+        <location line="+40"/>
         <source>word usually written using kana alone</source>
         <translation>ord som vanligen skrivs med endast kana</translation>
     </message>
@@ -1971,12 +1986,7 @@ Det är möjligt att det inte togs bort.</translation>
         <translation>interjektion (kandoushi)</translation>
     </message>
     <message>
-        <location line="+75"/>
-        <source>word usually written using kanji alone</source>
-        <translation>ord som vanligen skrivs endast med kanji</translation>
-    </message>
-    <message>
-        <location line="-14"/>
+        <location line="+61"/>
         <source>Godan verb - Uru old class verb (old form of Eru)</source>
         <translation>godan-verb – gammal uru-klass (äldre form av eru)</translation>
     </message>
@@ -1986,7 +1996,72 @@ Det är möjligt att det inte togs bort.</translation>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-123"/>
+        <source>pharmacology</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>politics</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>psychoanalysis</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Roman mythology</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>skiing</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>stock market</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>television</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>search-only kanji form</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>archaic</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>colloquial</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>euphemistic</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+30"/>
+        <source>rare term</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>ship name</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+48"/>
         <source>Nidan verb (lower class) with &apos;bu&apos; ending (archaic)</source>
         <translation type="unfinished"/>
     </message>
