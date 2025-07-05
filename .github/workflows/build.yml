@@ -74,7 +74,12 @@ jobs:
 
       - name: Install Qt5 (Mac OS)
         if: runner.os == 'macos'
-        run: brew install qt@5
+        uses: jurplel/install-qt-action@v4
+        with:
+          version: 5.15.2
+          archives: "qtbase"
+          cache: "true"
+          cache-key-prefix: "install-qt-action"
 
       - name: Extract source package
         run: tar xvf tagainijisho-*.tar.gz --strip 1
@@ -94,9 +99,7 @@ jobs:
 
       - name: Configure (Mac OS)
         if: runner.os == 'macos'
-        run: cmake -B ${{env.fixed_workspace}}/build -DCMAKE_INSTALL_PREFIX="${{matrix.sys.install_prefix}}" -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
-        env:
-          Qt5_DIR: /usr/local/opt/qt5/lib/cmake
+        run: cmake -B ${{env.fixed_workspace}}/build -DCMAKE_INSTALL_PREFIX="${{matrix.sys.install_prefix}}" -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DQt5LinguistTools_DIR=${QT_ROOT_DIR}/lib/cmake/Qt5LinguistTools
 
       - name: Build
         run: cmake --build . -j2
