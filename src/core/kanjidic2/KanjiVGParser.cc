@@ -83,6 +83,8 @@ bool KanjiVGParser::parse_strokegr(QXmlStreamReader &reader, KanjiVGItem &kanji,
                     group->radicalType = KanjiVGGroupItem::TRADIT;
                 else if (rad == "nelson")
                     group->radicalType = KanjiVGGroupItem::NELSON;
+                else if (rad == "jis")
+                    group->radicalType = KanjiVGGroupItem::JIS;
                 else
                     qDebug("Unknown radical type: %s", rad.toLatin1().constData());
             }
@@ -140,6 +142,8 @@ bool KanjiVGParser::parse(QXmlStreamReader &reader) {
                 group->radicalType = KanjiVGGroupItem::TRADIT;
             else if (rad == "nelson")
                 group->radicalType = KanjiVGGroupItem::NELSON;
+            else if (rad == "jis")
+                group->radicalType = KanjiVGGroupItem::JIS;
             else
                 qDebug("Unknown radical type: %s", rad.toLatin1().constData());
         }

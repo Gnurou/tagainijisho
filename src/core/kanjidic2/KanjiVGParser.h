@@ -27,7 +27,7 @@
 
 class KanjiVGGroupItem {
   public:
-    typedef enum { NONE, GENERAL, TRADIT, NELSON } RadicalType;
+    typedef enum { NONE, GENERAL, TRADIT, NELSON, JIS } RadicalType;
     int number;
     int element;
     int original;
