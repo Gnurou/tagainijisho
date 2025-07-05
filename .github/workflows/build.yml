@@ -2,10 +2,10 @@ name: Build
 
 on:
   push:
-    branches: '*'
-    tags: '*'
+    branches: "*"
+    tags: "*"
   pull_request:
-    branches: [ master ]
+    branches: [master]
 
 env:
   BUILD_TYPE: Release
@@ -13,21 +13,21 @@ env:
 jobs:
   package-source:
     name: Create source package
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
-    - uses: actions/checkout@v2
-    - name: Update packages database
-      run: sudo apt-get update
-    - name: Install Qt5
-      run: sudo apt-get install -y qtbase5-dev qtbase5-dev-tools qttools5-dev
-    - name: Create source package
-      run: ./pack/source/buildsourcerelease.sh
-    - name: Upload source package
-      uses: actions/upload-artifact@v2
-      with:
-        name: Source package
-        path: ${{github.workspace}}/tagainijisho-*.tar.gz
-        retention-days: 7
+      - uses: actions/checkout@v2
+      - name: Update packages database
+        run: sudo apt-get update
+      - name: Install Qt5
+        run: sudo apt-get install -y qtbase5-dev qtbase5-dev-tools qttools5-dev
+      - name: Create source package
+        run: ./pack/source/buildsourcerelease.sh
+      - name: Upload source package
+        uses: actions/upload-artifact@v2
+        with:
+          name: Source package
+          path: ${{github.workspace}}/tagainijisho-*.tar.gz
+          retention-days: 7
 
   build:
     name: Build binaries and installers
@@ -37,152 +37,152 @@ jobs:
     strategy:
       matrix:
         sys:
-          - os: ubuntu-20.04
+          - os: ubuntu-22.04
             shell: bash
             install_prefix: /usr
           - os: windows-2019
-            shell: 'msys2 {0}'
-            install_prefix: 'c:/Program Files/Tagaini Jisho'
+            shell: "msys2 {0}"
+            install_prefix: "c:/Program Files/Tagaini Jisho"
           - os: macos-latest
             shell: bash
-            install_prefix: '/Applications'
+            install_prefix: "/Applications"
 
     defaults:
       run:
         shell: ${{ matrix.sys.shell }}
 
     steps:
-    - uses: actions/download-artifact@v2
-      with:
-        name: Source package
+      - uses: actions/download-artifact@v2
+        with:
+          name: Source package
 
-    - name: Update packages database (Ubuntu)
-      if: runner.os == 'Linux'
-      run: sudo apt-get update
+      - name: Update packages database (Ubuntu)
+        if: runner.os == 'Linux'
+        run: sudo apt-get update
 
-    - name: Install Qt5 (Ubuntu)
-      if: runner.os == 'Linux'
-      run: sudo apt-get install -y qtbase5-dev qtbase5-dev-tools qttools5-dev
+      - name: Install Qt5 (Ubuntu)
+        if: runner.os == 'Linux'
+        run: sudo apt-get install -y qtbase5-dev qtbase5-dev-tools qttools5-dev
 
-    - name: Install MSYS2 and Qt5 (Windows)
-      if: runner.os == 'Windows'
-      uses: msys2/setup-msys2@v2
-      with:
-        msystem: MINGW64
-        update: true
-        install: gzip mingw-w64-x86_64-toolchain mingw-w64-x86_64-zlib mingw-w64-x86_64-qt5-static mingw-w64-x86_64-cmake mingw-w64-x86_64-ninja mingw-w64-x86_64-nsis
+      - name: Install MSYS2 and Qt5 (Windows)
+        if: runner.os == 'Windows'
+        uses: msys2/setup-msys2@v2
+        with:
+          msystem: MINGW64
+          update: true
+          install: gzip mingw-w64-x86_64-toolchain mingw-w64-x86_64-zlib mingw-w64-x86_64-qt5-static mingw-w64-x86_64-cmake mingw-w64-x86_64-ninja mingw-w64-x86_64-nsis
 
-    - name: Install Qt5 (Mac OS)
-      if: runner.os == 'macos'
-      run: brew install qt@5
+      - name: Install Qt5 (Mac OS)
+        if: runner.os == 'macos'
+        run: brew install qt@5
 
-    - name: Extract source package
-      run: tar xvf tagainijisho-*.tar.gz --strip 1
+      - name: Extract source package
+        run: tar xvf tagainijisho-*.tar.gz --strip 1
 
-    # On Windows we need to fix the path to the workspace so MSYS can use it. Use an environment
-    # variable for that.
-    - name: Fixup workspace path (Windows)
-      if: runner.os == 'Windows'
-      run: echo "fixed_workspace=`cygpath -u '${{github.workspace}}'`" >> $GITHUB_ENV
-    - name: Propagate workspace path
-      if: runner.os != 'Windows'
-      run: echo "fixed_workspace='${{github.workspace}}'" >> $GITHUB_ENV
+      # On Windows we need to fix the path to the workspace so MSYS can use it. Use an environment
+      # variable for that.
+      - name: Fixup workspace path (Windows)
+        if: runner.os == 'Windows'
+        run: echo "fixed_workspace=`cygpath -u '${{github.workspace}}'`" >> $GITHUB_ENV
+      - name: Propagate workspace path
+        if: runner.os != 'Windows'
+        run: echo "fixed_workspace='${{github.workspace}}'" >> $GITHUB_ENV
 
-    - name: Configure (Ubuntu and Windows)
-      if: runner.os != 'macos'
-      run: cmake -B ${{env.fixed_workspace}}/build -DCMAKE_INSTALL_PREFIX="${{matrix.sys.install_prefix}}" -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
+      - name: Configure (Ubuntu and Windows)
+        if: runner.os != 'macos'
+        run: cmake -B ${{env.fixed_workspace}}/build -DCMAKE_INSTALL_PREFIX="${{matrix.sys.install_prefix}}" -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
 
-    - name: Configure (Mac OS)
-      if: runner.os == 'macos'
-      run: cmake -B ${{env.fixed_workspace}}/build -DCMAKE_INSTALL_PREFIX="${{matrix.sys.install_prefix}}" -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
-      env:
-        Qt5_DIR: /usr/local/opt/qt5/lib/cmake
+      - name: Configure (Mac OS)
+        if: runner.os == 'macos'
+        run: cmake -B ${{env.fixed_workspace}}/build -DCMAKE_INSTALL_PREFIX="${{matrix.sys.install_prefix}}" -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
+        env:
+          Qt5_DIR: /usr/local/opt/qt5/lib/cmake
 
-    - name: Build
-      run: cmake --build . -j2
-      working-directory: ${{github.workspace}}/build
+      - name: Build
+        run: cmake --build . -j2
+        working-directory: ${{github.workspace}}/build
 
-    - name: Create DEB package (Ubuntu)
-      if: runner.os == 'Linux'
-      run: cpack -G DEB
-      working-directory: ${{github.workspace}}/build
+      - name: Create DEB package (Ubuntu)
+        if: runner.os == 'Linux'
+        run: cpack -G DEB
+        working-directory: ${{github.workspace}}/build
 
-    - name: Create RPM package (Ubuntu)
-      if: runner.os == 'Linux'
-      run: cpack -G RPM
-      working-directory: ${{github.workspace}}/build
+      - name: Create RPM package (Ubuntu)
+        if: runner.os == 'Linux'
+        run: cpack -G RPM
+        working-directory: ${{github.workspace}}/build
 
-    - name: Create NSIS installer (Windows)
-      if: runner.os == 'Windows'
-      run: cpack -G NSIS
-      working-directory: ${{github.workspace}}/build
+      - name: Create NSIS installer (Windows)
+        if: runner.os == 'Windows'
+        run: cpack -G NSIS
+        working-directory: ${{github.workspace}}/build
 
-    - name: Create DragNDrop installer (Mac OS)
-      if: runner.os == 'macos'
-      run: cpack -G DragNDrop
-      working-directory: ${{github.workspace}}/build
+      - name: Create DragNDrop installer (Mac OS)
+        if: runner.os == 'macos'
+        run: cpack -G DragNDrop
+        working-directory: ${{github.workspace}}/build
 
-    - name: Upload DEB package (Ubuntu)
-      if: runner.os == 'Linux'
-      uses: actions/upload-artifact@v2
-      with:
-        name: DEB package
-        path: ${{github.workspace}}/build/tagainijisho-*.deb
-        retention-days: 7
+      - name: Upload DEB package (Ubuntu)
+        if: runner.os == 'Linux'
+        uses: actions/upload-artifact@v2
+        with:
+          name: DEB package
+          path: ${{github.workspace}}/build/tagainijisho-*.deb
+          retention-days: 7
 
-    - name: Upload RPM package (Ubuntu)
-      if: runner.os == 'Linux'
-      uses: actions/upload-artifact@v2
-      with:
-        name: RPM package
-        path: ${{github.workspace}}/build/tagainijisho-*.rpm
-        retention-days: 7
+      - name: Upload RPM package (Ubuntu)
+        if: runner.os == 'Linux'
+        uses: actions/upload-artifact@v2
+        with:
+          name: RPM package
+          path: ${{github.workspace}}/build/tagainijisho-*.rpm
+          retention-days: 7
 
-    - name: Upload NSIS installer (Windows)
-      if: runner.os == 'Windows'
-      uses: actions/upload-artifact@v2
-      with:
-        name: Windows installer
-        path: ${{github.workspace}}/build/tagainijisho-*.exe
-        retention-days: 7
+      - name: Upload NSIS installer (Windows)
+        if: runner.os == 'Windows'
+        uses: actions/upload-artifact@v2
+        with:
+          name: Windows installer
+          path: ${{github.workspace}}/build/tagainijisho-*.exe
+          retention-days: 7
 
-    - name: Upload DragNDrop installer (Mac OS)
-      if: runner.os == 'macos'
-      uses: actions/upload-artifact@v2
-      with:
-        name: Mac OS installer
-        path: ${{github.workspace}}/build/Tagaini Jisho-*.dmg
-        retention-days: 7
+      - name: Upload DragNDrop installer (Mac OS)
+        if: runner.os == 'macos'
+        uses: actions/upload-artifact@v2
+        with:
+          name: Mac OS installer
+          path: ${{github.workspace}}/build/Tagaini Jisho-*.dmg
+          retention-days: 7
 
   # If this version is tagged, release the assets on the corresponding Github release page.
   release:
     name: Upload release assets
     if: startsWith(github.ref, 'refs/tags/')
     needs: [package-source, build]
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
 
     steps:
-    - uses: actions/download-artifact@v2
-      with:
-        name: Source package
-    - uses: actions/download-artifact@v2
-      with:
-        name: DEB package
-    - uses: actions/download-artifact@v2
-      with:
-        name: RPM package
-    - uses: actions/download-artifact@v2
-      with:
-        name: Windows installer
-    - uses: actions/download-artifact@v2
-      with:
-        name: Mac OS installer
-    - name: Upload assets
-      uses: softprops/action-gh-release@v1
-      with:
-        files: |
-          tagainijisho-*.tar.gz
-          tagainijisho-*.deb
-          tagainijisho-*.rpm
-          tagainijisho-*.exe
-          Tagaini Jisho-*.dmg
+      - uses: actions/download-artifact@v2
+        with:
+          name: Source package
+      - uses: actions/download-artifact@v2
+        with:
+          name: DEB package
+      - uses: actions/download-artifact@v2
+        with:
+          name: RPM package
+      - uses: actions/download-artifact@v2
+        with:
+          name: Windows installer
+      - uses: actions/download-artifact@v2
+        with:
+          name: Mac OS installer
+      - name: Upload assets
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            tagainijisho-*.tar.gz
+            tagainijisho-*.deb
+            tagainijisho-*.rpm
+            tagainijisho-*.exe
+            Tagaini Jisho-*.dmg
