@@ -64,7 +64,7 @@ QSize EntryDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIn
     int maxHeight = -1;
     if (index.isValid()) {
         QVariant sizeHint(index.model()->data(index, Qt::SizeHintRole));
-        if (!sizeHint.isNull() && sizeHint.type() == QVariant::Size)
+        if (!sizeHint.isNull() && sizeHint.canConvert<QSize>())
             maxHeight = sizeHint.toSize().height();
     }
     if (maxHeight < 0) {
