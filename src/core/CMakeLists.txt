@@ -26,7 +26,7 @@ set(tagainijisho_core_SRCS
 include_directories(${CMAKE_SOURCE_DIR}/3rdparty/sqlite)
 
 add_library(tagaini_core STATIC ${tagainijisho_core_SRCS})
-target_link_libraries(tagaini_core tagaini_sqlite Qt5::Core)
+target_link_libraries(tagaini_core tagaini_sqlite Qt::Core)
 
 if(APPLE)
   set(DEST_DIR "${tagaini_binary}.app/Contents/MacOS")

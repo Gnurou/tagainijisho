@@ -68,8 +68,8 @@ set(tagainijisho_gui_UIS
 add_subdirectory(jmdict)
 add_subdirectory(kanjidic2)
 
-qt5_wrap_ui(tagainijisho_gui_UI_SRCS ${tagainijisho_gui_UIS})
-qt5_add_resources(tagainijisho_gui_RC ${CMAKE_SOURCE_DIR}/tagainijisho.qrc)
+qt6_wrap_ui(tagainijisho_gui_UI_SRCS ${tagainijisho_gui_UIS})
+qt6_add_resources(tagainijisho_gui_RC ${CMAKE_SOURCE_DIR}/tagainijisho.qrc)
 
 add_library(tagaini_gui STATIC ${tagainijisho_gui_UI_SRCS}
                                ${tagainijisho_gui_SRCS})
@@ -77,10 +77,10 @@ target_link_libraries(
   tagaini_gui
   tagaini_core
   tagaini_sqlite
-  Qt5::Core
-  Qt5::Widgets
-  Qt5::PrintSupport
-  Qt5::Network
+  Qt::Core
+  Qt::Widgets
+  Qt::PrintSupport
+  Qt::Network
   ${extra_link_flags})
 
 # Build the main program
@@ -143,7 +143,7 @@ else(NOT WIN32)
 endif(NOT WIN32)
 
 # This macro can copy system installed QT plugin to custom location in bundle.
-macro(install_qt5_plugin _qt_plugin_name _qt_plugins_var _dest_dir)
+macro(install_qt_plugin _qt_plugin_name _qt_plugins_var _dest_dir)
   get_target_property(_qt_plugin_path "${_qt_plugin_name}" LOCATION)
   if(EXISTS "${_qt_plugin_path}")
     get_filename_component(_qt_plugin_file "${_qt_plugin_path}" NAME)
@@ -164,18 +164,18 @@ endmacro()
 
 # Determine location of QT libraries and frameworks
 get_property(
-  _Qt5_Core_LOCATION
-  TARGET Qt5::Core
+  _Qt_Core_LOCATION
+  TARGET Qt::Core
   PROPERTY LOCATION)
-get_filename_component(Qt_LIB_DIR "${_Qt5_Core_LOCATION}" PATH)
+get_filename_component(Qt_LIB_DIR "${_Qt_Core_LOCATION}" PATH)
 if(APPLE)
   get_filename_component(Qt_LIB_DIR "${Qt_LIB_DIR}" PATH)
 endif(APPLE)
 
 if(APPLE)
   set(BUNDLE_DIR "${tagaini_binary}.app")
-  install_qt5_plugin("Qt5::QCocoaIntegrationPlugin" plugins_to_fixup
-                     "${BUNDLE_DIR}/Contents/PlugIns")
+  install_qt_plugin("Qt6::QCocoaIntegrationPlugin" plugins_to_fixup
+                      "${BUNDLE_DIR}/Contents/PlugIns")
 
   # Qt config
   install(

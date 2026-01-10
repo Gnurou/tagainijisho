@@ -20,26 +20,21 @@ endif(APPLE)
 set(tagaini_binary ${CMAKE_PROJECT_NAME})
 
 set(VERSION 1.2.2)
-set(QTVERSION 5.12)
 set(CMAKE_AUTOMOC ON)
 
-find_package(Qt5 ${QTVERSION} REQUIRED COMPONENTS Core Widgets PrintSupport
-                                                  Network LinguistTools)
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+find_package(Qt6 REQUIRED COMPONENTS Core Widgets PrintSupport Network LinguistTools)
 
 # FIXME only required when CMake downloads dictionary files. Not necessary for
 # building from source package.
 find_program(GZIP NAMES gzip REQUIRED)
 
-# Global compiler options Disable deprecation warnings so we can keep building a
-# Qt 5.12 compatible version with Qt 5.15 installed.
+# Global compiler options
 if(CMAKE_COMPILER_IS_GNUCC)
-  set(CMAKE_CXX_FLAGS
-      "${CMAKE_CXX_FLAGS} -std=c++11 -Wno-deprecated-declarations -Wall -Wextra -Wnon-virtual-dtor -Wno-unused-parameter"
-  )
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wnon-virtual-dtor -Wno-unused-parameter")
 endif(CMAKE_COMPILER_IS_GNUCC)
-
-# CMake-required compiler flags
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${Qt5Widgets_EXECUTABLE_COMPILE_FLAGS}")
 
 # Add the default database lookup data path for Linux if not defined
 if(UNIX
