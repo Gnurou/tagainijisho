@@ -36,7 +36,7 @@ bool isKanjiChar(const uint c);
  * Returns true if c is a kanji. c2 should be given when
  * c is the high part of a surrogate character.
  */
-bool isKanjiChar(const QChar c, const QChar c2 = 0);
+bool isKanjiChar(const QChar c, const QChar c2 = QChar());
 /**
  * Returns true if s[pos] is a kanji. Takes automatically
  * care of the surrogate problem by using the next character
@@ -47,7 +47,7 @@ bool isKanjiChar(const QString &s, int pos = 0);
  * Returns true if c is a japanese character. c2 should be
  * given when c is the high part of a surrogate character.
  */
-bool isJapaneseChar(const QChar c, const QChar c2 = 0);
+bool isJapaneseChar(const QChar c, const QChar c2 = QChar());
 /**
  * Returns true if s[pos] is a japanese character. Takes
  * automatically care of the surrogate problem by using the
