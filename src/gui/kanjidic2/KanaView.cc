@@ -112,7 +112,8 @@ QVariant KanaModel::headerData(int section, Qt::Orientation orientation, int rol
         return "";
     case Qt::SizeHintRole: {
         QFontMetrics fm(_font);
-        return QSize(fm.maxWidth(), fm.height());
+        // Use height as width approximation for square CJK characters
+        return QSize(fm.height(), fm.height());
     }
     case Qt::TextAlignmentRole:
         return Qt::AlignCenter;
