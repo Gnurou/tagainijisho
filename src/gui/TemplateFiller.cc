@@ -37,7 +37,7 @@ QString TemplateFiller::fill(const QString &tmpl, const EntryFormatter *formatte
         int matchPos = match.capturedStart();
         QString whole = match.captured(0);
         QString meth = match.captured(1);
-        QStringList options = match.captured(2).split(',', QString::SkipEmptyParts);
+        QStringList options = match.captured(2).split(',', Qt::SkipEmptyParts);
         QString repl;
         // Try to invoke the format method
         QMetaObject::invokeMethod(const_cast<EntryFormatter *>(formatter),

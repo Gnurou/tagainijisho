@@ -723,7 +723,7 @@ QString Kanjidic2EntryFormatter::formatDictionaries(const ConstEntryPointer &_en
                                 "class=\"title\" colspan=\"3\">%1</td></tr>")
                             .arg(tr("Dictionaries"));
         uint n = 0;
-        QStringList lines(dictionaries.split('\n', QString::SkipEmptyParts));
+        QStringList lines(dictionaries.split('\n', Qt::SkipEmptyParts));
         foreach (const QString &line, lines) {
             QStringList parts(line.split('\t'));
             const QString &dictType = parts[0];

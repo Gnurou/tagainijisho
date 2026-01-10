@@ -134,7 +134,7 @@ static bool parseIndices(const QString &sfile) {
         // if (eNbr == -1) continue;
 
         // Break the sentence
-        QStringList words(sentenceBits.split(' ', QString::SkipEmptyParts));
+        QStringList words(sentenceBits.split(' ', Qt::SkipEmptyParts));
         for (int wordPos = 0; wordPos < words.size(); wordPos++) {
             const QString &word = words[wordPos];
 
@@ -286,7 +286,7 @@ int main(int argc, char *argv[]) {
             printUsage(argv);
             return 1;
         }
-        QStringList langs(param.mid(2).split(',', QString::SkipEmptyParts));
+        QStringList langs(param.mid(2).split(',', Qt::SkipEmptyParts));
         QStringList allowedLangs(languagesCodes.values());
         foreach (const QString &lang, langs) {
             if (!allowedLangs.contains(lang)) {

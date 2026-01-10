@@ -751,7 +751,7 @@ int main(int argc, char *argv[]) {
             printUsage(argv);
             return 1;
         }
-        QStringList langs(param.mid(2).split(',', QString::SkipEmptyParts));
+        QStringList langs(param.mid(2).split(',', Qt::SkipEmptyParts));
         foreach (const QString &lang, langs) {
             languages << lang;
         };

@@ -86,7 +86,7 @@ Entry *JMdictEntryLoader::loadEntry(EntryId id) {
         KanaReading kana(kanaQuery.valueString(0), 0, kanaQuery.valueUInt(2));
         // Get kana readings
         if (kanaQuery.valueBool(1) == false) {
-            QStringList restrictedTo(kanaQuery.valueString(3).split(',', QString::SkipEmptyParts));
+            QStringList restrictedTo(kanaQuery.valueString(3).split(',', Qt::SkipEmptyParts));
             if (restrictedTo.isEmpty())
                 for (int i = 0; i < entry->getKanjiReadings().size(); i++) {
                     kana.addKanjiReading(i);
@@ -126,10 +126,10 @@ Entry *JMdictEntryLoader::loadEntry(EntryId id) {
         Sense sense(posStr, miscStr, dialStr, fieldStr);
         // Get restricted readings/writing
         QStringList restrictedTo(
-            sensesQuery.valueString(pos++).split(',', QString::SkipEmptyParts));
+            sensesQuery.valueString(pos++).split(',', Qt::SkipEmptyParts));
         foreach (const QString &idx, restrictedTo)
             sense.addStagK(idx.toInt());
-        restrictedTo = sensesQuery.valueString(pos++).split(',', QString::SkipEmptyParts);
+        restrictedTo = sensesQuery.valueString(pos++).split(',', Qt::SkipEmptyParts);
         foreach (const QString &idx, restrictedTo)
             sense.addStagR(idx.toInt());
 

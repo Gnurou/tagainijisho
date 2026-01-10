@@ -46,7 +46,7 @@ TagsLineInput::TagsLineInput(QWidget *parent) : TJLineEdit(parent) {
 }
 
 void TagsLineInput::onTextChanged(const QString &newText) {
-    QStringList tags = newText.split(QRegularExpression("[ ,\\.]"), QString::SkipEmptyParts);
+    QStringList tags = newText.split(QRegularExpression("[ ,\\.]"), Qt::SkipEmptyParts);
     foreach (const QString &tag, tags) {
         if (tag.endsWith('*')) {
             if (!Tag::knownTagsModel()->containsMatch(tag))
@@ -123,7 +123,7 @@ TagsInputDialog::TagsInputDialog(const QString &title, const QString &message,
 
 bool TagsDialogs::splitTagsString(const QString &string, QStringList &tagsList,
                                   QStringList &invalidTags) {
-    tagsList = string.split(QRegularExpression("[ ,\\.]"), QString::SkipEmptyParts);
+    tagsList = string.split(QRegularExpression("[ ,\\.]"), Qt::SkipEmptyParts);
     for (int j = 0; j < tagsList.size(); j++) {
         tagsList[j] = tagsList[j].trimmed();
         if (tagsList[j].isEmpty())

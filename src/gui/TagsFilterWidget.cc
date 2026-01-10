@@ -51,7 +51,7 @@ void TagsFilterWidget::populateTagsMenu() {
     QMenu *menu = tagsButton->menu();
     menu->clear();
     QStringList tags(
-        lineInput->text().toLower().split(QRegularExpression("[ ,\\.]"), QString::SkipEmptyParts));
+        lineInput->text().toLower().split(QRegularExpression("[ ,\\.]"), Qt::SkipEmptyParts));
     foreach (QString tag, Tag::knownTagsModel()->contents()) {
         QString tagStr = tag;
         QAction *action = menu->addAction(tag.replace(0, 1, tag[0].toUpper()));
@@ -64,7 +64,7 @@ void TagsFilterWidget::populateTagsMenu() {
 
 void TagsFilterWidget::tagMenuClicked(QAction *action) {
     QStringList tags(
-        lineInput->text().toLower().split(QRegularExpression("[ ,\\.]"), QString::SkipEmptyParts));
+        lineInput->text().toLower().split(QRegularExpression("[ ,\\.]"), Qt::SkipEmptyParts));
     QString tag(action->property("TJtag").toString());
     if (!tags.contains(tag)) {
         QString str(lineInput->text());
@@ -96,7 +96,7 @@ QString TagsFilterWidget::currentTitle() const {
         return tr("Untagged");
 
     QStringList tags(
-        lineInput->text().split(QRegularExpression("[ ,\\.]"), QString::SkipEmptyParts));
+        lineInput->text().split(QRegularExpression("[ ,\\.]"), Qt::SkipEmptyParts));
     if (tags.isEmpty())
         return tr("Tags");
     else
@@ -108,7 +108,7 @@ QString TagsFilterWidget::currentCommand() const {
         return QString(":untagged");
 
     QStringList tags(
-        lineInput->text().split(QRegularExpression("[ ,\\.]"), QString::SkipEmptyParts));
+        lineInput->text().split(QRegularExpression("[ ,\\.]"), Qt::SkipEmptyParts));
     if (tags.isEmpty())
         return "";
     return QString(":tag%1%2").arg(tags.isEmpty() ? "" : "=").arg(tags.join(","));
