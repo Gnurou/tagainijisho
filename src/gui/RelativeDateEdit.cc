@@ -21,7 +21,8 @@
 #include <QtDebug>
 
 #include <QApplication>
-#include <QDesktopWidget>
+#include <QGuiApplication>
+#include <QScreen>
 #include <QFontMetrics>
 #include <QLabel>
 #include <QList>
@@ -129,15 +130,19 @@ void RelativeDateEdit::togglePopup(bool status) {
     if (status) {
         _popup.move(mapToGlobal(rect().bottomLeft()));
         _popup.show();
-        QDesktopWidget *desktopWidget = QApplication::desktop();
-        QRect popupRect = _popup.geometry();
-        QRect screenRect(desktopWidget->screenGeometry(this));
-        if (!screenRect.contains(_popup.geometry())) {
-            if (screenRect.right() < popupRect.right())
-                popupRect.moveRight(screenRect.right());
-            if (screenRect.bottom() < popupRect.bottom())
-                popupRect.moveBottom(screenRect.bottom());
-            _popup.setGeometry(popupRect);
+        QScreen *screen = this->screen();
+        if (!screen)
+            screen = QGuiApplication::primaryScreen();
+        if (screen) {
+            QRect popupRect = _popup.geometry();
+            QRect screenRect = screen->geometry();
+            if (!screenRect.contains(_popup.geometry())) {
+                if (screenRect.right() < popupRect.right())
+                    popupRect.moveRight(screenRect.right());
+                if (screenRect.bottom() < popupRect.bottom())
+                    popupRect.moveBottom(screenRect.bottom());
+                _popup.setGeometry(popupRect);
+            }
         }
     } else {
         _popup.hide();

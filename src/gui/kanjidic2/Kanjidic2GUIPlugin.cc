@@ -31,7 +31,6 @@
 #include <QAction>
 #include <QApplication>
 #include <QCoreApplication>
-#include <QDesktopWidget>
 #include <QDrag>
 #include <QFrame>
 #include <QHBoxLayout>

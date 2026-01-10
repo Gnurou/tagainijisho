@@ -29,7 +29,6 @@
 #include "sqlite/Query.h"
 
 #include <QComboBox>
-#include <QDesktopWidget>
 #include <QGuiApplication>
 
 ComplementsList::ComplementsList(QWidget *parent)

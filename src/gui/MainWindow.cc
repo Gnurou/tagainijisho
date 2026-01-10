@@ -37,8 +37,9 @@
 #include "sqlite/Query.h"
 #include <QApplication>
 #include <QDataStream>
+#include <QGuiApplication>
 #include <QDesktopServices>
-#include <QDesktopWidget>
+#include <QScreen>
 #include <QDialogButtonBox>
 #include <QDockWidget>
 #include <QFileDialog>
@@ -632,7 +633,13 @@ void MainWindow::onClipboardChanged(QClipboard::Mode mode) {
 }
 
 void MainWindow::fitToScreen(QWidget *widget) {
-    QRect screenRect = QApplication::desktop()->availableGeometry(widget);
+    QScreen *screen = widget->screen();
+    if (!screen)
+        screen = QGuiApplication::primaryScreen();
+    if (!screen)
+        return;
+
+    QRect screenRect = screen->availableGeometry();
     QRect popupRect(widget->geometry());
     if (screenRect.left() > popupRect.left())
         popupRect.moveLeft(screenRect.left());
