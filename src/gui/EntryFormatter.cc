@@ -61,8 +61,9 @@ EntryFormatter::EntryFormatter(const QString &_cssFile, const QString &_htmlFile
         qCritical("%s", tr("Cannot find detailed view HTML file!").toUtf8().constData());
     else {
         QFile f(htmlFile);
-        f.open(QIODevice::ReadOnly);
-        _html = QString::fromUtf8(f.readAll());
+        if (f.open(QIODevice::ReadOnly)) {
+            _html = QString::fromUtf8(f.readAll());
+        }
     }
     // Load default css file
     QString cssFile(lookForFile("detailed_default.css"));
@@ -70,8 +71,9 @@ EntryFormatter::EntryFormatter(const QString &_cssFile, const QString &_htmlFile
         qCritical("%s", tr("Cannot find detailed view CSS file!").toUtf8().constData());
     else {
         QFile f(cssFile);
-        f.open(QIODevice::ReadOnly);
-        _css = QString::fromUtf8(f.readAll());
+        if (f.open(QIODevice::ReadOnly)) {
+            _css = QString::fromUtf8(f.readAll());
+        }
     }
     // Append colors
     _css += QString(".subinfo {\n\tbackground-color: %1;\n}\n")
@@ -89,8 +91,9 @@ EntryFormatter::EntryFormatter(const QString &_cssFile, const QString &_htmlFile
         cssFile = lookForFile(_cssFile);
         if (!cssFile.isEmpty()) {
             QFile f(cssFile);
-            f.open(QIODevice::ReadOnly);
-            _css += QString::fromUtf8(f.readAll());
+            if (f.open(QIODevice::ReadOnly)) {
+                _css += QString::fromUtf8(f.readAll());
+            }
         }
     }
 }
