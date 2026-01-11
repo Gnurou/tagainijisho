@@ -209,7 +209,7 @@ bool Kanjidic2DBParser::onDTD(const QString &dtd) {
     ASSERT((attlistStart >= 0));
     ASSERT((commentStart >= 0));
     ASSERT((commentEnd >= 0));
-    const QStringRef &comment = dtd.midRef(commentStart, commentEnd - commentStart);
+    const QString comment = dtd.mid(commentStart, commentEnd - commentStart);
 
     QRegularExpression descRx("\n\\s+(?<name>\\w+) - (?<desc>.*(\n(?!\\s+\\w+ - ).*)*)");
     QRegularExpression whitespaceRx("\\s\\s+");
