@@ -183,7 +183,7 @@ Entry *Kanjidic2EntryLoader::loadEntry(EntryId id) {
 
     // Insert the strokes
     foreach (const QString &path, paths)
-        entry->addStroke(0, path);
+        entry->addStroke(QChar(), path);
 
     // Load components
     componentsQuery.bindValue(id);

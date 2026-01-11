@@ -53,16 +53,16 @@ QString escapeForRegexp(const QString &string) {
 }
 
 bool isHiraganaChar(const QChar c) {
-    return c >= UNICODE_HIRAGANA_BEGIN && c <= UNICODE_HIRAGANA_END;
+    return c.unicode() >= UNICODE_HIRAGANA_BEGIN && c.unicode() <= UNICODE_HIRAGANA_END;
 }
 
 bool isKatakanaChar(const QChar c) {
-    return ((c >= UNICODE_KATAKANA_BEGIN && c <= UNICODE_KATAKANA_END) ||
-            (c >= UNICODE_KATAKANA_EXT_BEGIN && c <= UNICODE_KATAKANA_EXT_END));
+    return ((c.unicode() >= UNICODE_KATAKANA_BEGIN && c.unicode() <= UNICODE_KATAKANA_END) ||
+            (c.unicode() >= UNICODE_KATAKANA_EXT_BEGIN && c.unicode() <= UNICODE_KATAKANA_EXT_END));
 }
 
 bool isPunctuationChar(const QChar c) {
-    return c >= UNICODE_PUNCTUATION_BEGIN && c <= UNICODE_PUNCTUATION_END;
+    return c.unicode() >= UNICODE_PUNCTUATION_BEGIN && c.unicode() <= UNICODE_PUNCTUATION_END;
 }
 
 bool isKanaChar(const QChar c) { return (isHiraganaChar(c) || isKatakanaChar(c)); }
@@ -104,7 +104,7 @@ bool isJapaneseChar(const QString &s, int pos) {
     return isKanaChar(s[pos]) || isKanjiChar(s, pos) || isPunctuationChar(s[pos]);
 }
 
-bool isRomajiChar(const QChar c) { return c <= 255; }
+bool isRomajiChar(const QChar c) { return c.unicode() <= 255; }
 
 bool isHiragana(const QString &string) {
     for (int i = 0; i < string.size(); i++)
