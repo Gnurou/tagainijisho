@@ -86,7 +86,7 @@ jobs:
         run: echo "fixed_workspace=`cygpath -u '${{github.workspace}}'`" >> $GITHUB_ENV
       - name: Propagate workspace path
         if: runner.os != 'Windows'
-        run: echo "fixed_workspace='${{github.workspace}}'" >> $GITHUB_ENV
+        run: echo "fixed_workspace=${{github.workspace}}" >> $GITHUB_ENV
 
       - name: Configure (Ubuntu and Windows)
         if: runner.os != 'macos'
