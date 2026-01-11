@@ -17,7 +17,7 @@
 
 #include "core/XmlParserHelper.h"
 
-bool skipTag(QXmlStreamReader &reader, const QStringRef &tag) {
+bool skipTag(QXmlStreamReader &reader, QStringView tag) {
     __TAG_BEGIN(tag)
     if (reader.tokenType() == QXmlStreamReader::StartElement) {
         if (!skipTag(reader, reader.name()))

@@ -20,7 +20,7 @@
 
 #include <QXmlStreamReader>
 
-bool skipTag(QXmlStreamReader &reader, const QStringRef &tag);
+bool skipTag(QXmlStreamReader &reader, QStringView tag);
 
 #define HAS_ATTR(attr) reader.attributes().hasAttribute(attr)
 #define ATTR(attr) reader.attributes().value(attr).toString()
@@ -54,7 +54,7 @@ bool skipTag(QXmlStreamReader &reader, const QStringRef &tag);
     return false;                                                                                  \
     }
 
-bool skipTag(QXmlStreamReader &reader, const QStringRef &tag);
+bool skipTag(QXmlStreamReader &reader, QStringView tag);
 
 #define DOCUMENT_BEGIN(reader)                                                                     \
     if (reader.readNext() != QXmlStreamReader::StartDocument)                                      \
