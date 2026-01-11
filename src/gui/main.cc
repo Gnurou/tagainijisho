@@ -273,7 +273,7 @@ int main(int argc, char *argv[]) {
     if (appTranslator.load(lookForFile("i18n/tagainijisho_" + locale + ".qm")))
         app.installTranslator(&appTranslator);
     // Load the translations for Qt
-    if (qtTranslator.load(QDir(QLibraryInfo::location(QLibraryInfo::TranslationsPath))
+    if (qtTranslator.load(QDir(QLibraryInfo::path(QLibraryInfo::TranslationsPath))
                               .absoluteFilePath(QString("qt_%1.qm").arg(locale))) ||
         qtTranslator.load(lookForFile(QString("i18n/qt_%1.qm").arg(locale))))
         app.installTranslator(&qtTranslator);
