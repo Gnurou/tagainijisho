@@ -70,7 +70,7 @@ PreferenceItem<QByteArray> MainWindow::windowGeometry("mainWindow", "geometry", 
 PreferenceItem<QByteArray> MainWindow::windowState("mainWindow", "state", "");
 
 PreferenceItem<QDateTime> MainWindow::lastUpdateCheck("mainWindow", "lastUpdateCheck",
-                                                      QDateTime(QDate(2000, 1, 1)));
+                                                      QDate(2000, 1, 1).startOfDay());
 PreferenceItem<bool>
     MainWindow::donationReminderDisplayed("mainWindow", "donationReminderDisplayed", false, true);
 PreferenceItem<QDateTime> MainWindow::firstRunTime("mainWindow", "firstRunTime",
@@ -534,7 +534,9 @@ void MainWindow::onSavedSearchSelected() {
         return;
     QByteArray bState(action->property("T_state").toByteArray());
     QDataStream ds(&bState, QIODevice::ReadOnly);
-    QMap<QString, QVariant> state(QVariant(ds).toMap());
+    QVariant stateVar;
+    ds >> stateVar;
+    QMap<QString, QVariant> state(stateVar.toMap());
     searchWidget()->searchBuilder()->restoreState(state);
     searchWidget()->searchBuilder()->runSearch();
     if (_searchDockWidget->isHidden())
