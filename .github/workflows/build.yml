@@ -60,9 +60,9 @@ jobs:
         if: runner.os == 'Linux'
         run: sudo apt-get update
 
-      - name: Install Qt6 (Ubuntu)
+      - name: Install Qt6 and build dependencies (Ubuntu)
         if: runner.os == 'Linux'
-        run: sudo apt-get install -y qt6-base-dev qt6-base-dev-tools qt6-tools-dev qt6-tools-dev-tools qt6-l10n-tools
+        run: sudo apt-get install -y qt6-base-dev qt6-base-dev-tools qt6-tools-dev qt6-tools-dev-tools qt6-l10n-tools rpm
 
       - name: Install MSYS2 and Qt6 (Windows)
         if: runner.os == 'Windows'
