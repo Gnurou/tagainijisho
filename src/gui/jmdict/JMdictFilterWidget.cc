@@ -20,6 +20,7 @@
 #include "core/jmdict/JMdictPlugin.h"
 #include "gui/KanjiValidator.h"
 
+#include <QActionGroup>
 #include <QGridLayout>
 #include <QHBoxLayout>
 #include <QLabel>
