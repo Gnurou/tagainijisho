@@ -26,7 +26,7 @@
 #include "gui/FlowLayout.h"
 
 FlowLayout::FlowLayout(QWidget *parent, int margin, int spacing) : QLayout(parent) {
-    setMargin(margin);
+    setContentsMargins(margin, margin, margin, margin);
     setSpacing(spacing);
 }
 
@@ -73,7 +73,8 @@ QSize FlowLayout::minimumSize() const {
     foreach (item, itemList)
         size = size.expandedTo(item->minimumSize());
 
-    size += QSize(2 * margin(), 2 * margin());
+    QMargins margins = contentsMargins();
+    size += QSize(margins.left() + margins.right(), margins.top() + margins.bottom());
     return size;
 }
 
