@@ -243,7 +243,7 @@ quint64 Query::valueUInt64(int column) const {
 double Query::valueDouble(int column) const { return sqlite3_column_double(_stmt, column); }
 
 QString Query::valueString(int column) const {
-    return QString::fromUtf16((const ushort *)sqlite3_column_text16(_stmt, column));
+    return QString::fromUtf16((const char16_t *)sqlite3_column_text16(_stmt, column));
 }
 
 QByteArray Query::valueBlob(int column) const {
