@@ -33,7 +33,7 @@ bool skipTag(QXmlStreamReader &reader, QStringView tag);
         if (reader.tokenType() == QXmlStreamReader::EndElement && reader.name() == tag)            \
             break;
 
-#define _TAG_BEGIN(tag) __TAG_BEGIN(#tag)
+#define _TAG_BEGIN(tag) __TAG_BEGIN(u ## #tag)
 #define TAG_BEGIN(tag) _TAG_BEGIN(tag)
 
 // Skip all tags and characters that we did not treat, return an error if an
@@ -76,7 +76,7 @@ bool skipTag(QXmlStreamReader &reader, QStringView tag);
 
 #define __TAG_PRE(tag)                                                                             \
     if (reader.tokenType() == QXmlStreamReader::StartElement && reader.name() == tag) {
-#define _TAG_PRE(tag) __TAG_PRE(#tag)
+#define _TAG_PRE(tag) __TAG_PRE(u ## #tag)
 #define TAG_PRE(tag) _TAG_PRE(tag)
 
 #define TAG(tag)                                                                                   \
