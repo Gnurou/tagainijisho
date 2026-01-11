@@ -120,7 +120,7 @@ static bool parseIndices(const QString &sfile) {
         if (line.isEmpty())
             break;
         QRegularExpressionMatch match = lineRegExp.match(line, 0, QRegularExpression::NormalMatch,
-                                                         QRegularExpression::AnchoredMatchOption);
+                                                         QRegularExpression::AnchorAtOffsetMatchOption);
         if (!match.hasMatch()) {
 #ifdef TATOEBA_DB_DEBUG
             qDebug("Cannot match line %d", lineCpt);
@@ -139,7 +139,7 @@ static bool parseIndices(const QString &sfile) {
             const QString &word = words[wordPos];
 
             QRegularExpressionMatch match = wordRegExp.match(
-                word, 0, QRegularExpression::NormalMatch, QRegularExpression::AnchoredMatchOption);
+                word, 0, QRegularExpression::NormalMatch, QRegularExpression::AnchorAtOffsetMatchOption);
             if (!match.hasMatch()) {
 #ifdef TATOEBA_DB_DEBUG
                 qDebug("Cannot match word %s at line %d", word.toUtf8().data(), lineCpt);
@@ -205,7 +205,7 @@ static bool parseLinks(const QString &sfile) {
         if (line.isEmpty())
             break;
         QRegularExpressionMatch match = lineRegExp.match(line, 0, QRegularExpression::NormalMatch,
-                                                         QRegularExpression::AnchoredMatchOption);
+                                                         QRegularExpression::AnchorAtOffsetMatchOption);
         if (!match.hasMatch())
             continue;
         sid jid = match.captured(2).toInt();
@@ -227,7 +227,7 @@ static bool parseSentences(const QString &sfile) {
         if (line.isEmpty())
             break;
         QRegularExpressionMatch match = lineRegExp.match(line, 0, QRegularExpression::NormalMatch,
-                                                         QRegularExpression::AnchoredMatchOption);
+                                                         QRegularExpression::AnchorAtOffsetMatchOption);
         if (!match.hasMatch())
             continue;
         sid fid = match.captured(1).toInt();

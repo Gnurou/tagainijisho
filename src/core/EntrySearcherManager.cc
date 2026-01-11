@@ -37,7 +37,7 @@ EntrySearcherManager::EntrySearcherManager()
 QStringList EntrySearcherManager::splitSearchString(const QString &searchString) {
     if (!validSearchMatch
              .match(searchString, 0, QRegularExpression::NormalMatch,
-                    QRegularExpression::AnchoredMatchOption)
+                    QRegularExpression::AnchorAtOffsetMatchOption)
              .hasMatch())
         return QStringList();
     QStringList res;
@@ -48,7 +48,7 @@ QStringList EntrySearcherManager::splitSearchString(const QString &searchString)
         // Special handling for quoted words
         if (quotedWordsMatch
                 .match(compound, 0, QRegularExpression::NormalMatch,
-                       QRegularExpression::AnchoredMatchOption)
+                       QRegularExpression::AnchorAtOffsetMatchOption)
                 .hasMatch())
             compound.remove(compound.size() - 1, 1).remove(0, 1);
         res << compound;
