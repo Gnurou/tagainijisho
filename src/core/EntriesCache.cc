@@ -37,8 +37,7 @@ QDataStream &operator>>(QDataStream &in, EntryRef &ref) {
     return in;
 }
 
-EntriesCache::EntriesCache()
-    : _loadedEntriesMutex(QMutex::Recursive), _cacheMutex(QMutex::Recursive) {}
+EntriesCache::EntriesCache() {}
 
 EntriesCache::~EntriesCache() {
     // Clear the cache to (hopefully) remove all loaded entries
