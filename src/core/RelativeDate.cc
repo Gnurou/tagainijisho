@@ -18,6 +18,7 @@
 #include "core/RelativeDate.h"
 #include "core/Preferences.h"
 
+#include <QLocale>
 #include <QRegularExpression>
 
 PreferenceItem<int> RelativeDate::firstDayOfWeek("", "firstDayOfWeek", Qt::Monday);
@@ -143,7 +144,7 @@ QString RelativeDate::translatedDateString() const {
             return tr("last year");
         return tr("%1 years ago").arg(ago());
     case AbsoluteDate:
-        return absoluteDate().toString(Qt::DefaultLocaleShortDate);
+        return QLocale().toString(absoluteDate(), QLocale::ShortFormat);
     case NotSet:
     default:
         return "";
