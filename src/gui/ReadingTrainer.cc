@@ -91,11 +91,11 @@ void ReadingTrainer::newSession() {
     RelativeDate minDate(TrainSettings::minDatePref.value());
     if (minDate.isSet())
         queryString += QString(" and (t2.dateLastTrain < %1 OR t2.dateLastTrain is null)")
-                           .arg(QDateTime(minDate.date()).toSecsSinceEpoch());
+                           .arg(minDate.date().startOfDay().toSecsSinceEpoch());
     RelativeDate maxDate(TrainSettings::maxDatePref.value());
     if (maxDate.isSet())
         queryString +=
-            QString(" and t2.dateLastTrain > %1").arg(QDateTime(maxDate.date()).toSecsSinceEpoch());
+            QString(" and t2.dateLastTrain > %1").arg(maxDate.date().startOfDay().toSecsSinceEpoch());
     int minScore(TrainSettings::minScorePref.value());
     if (minScore != TrainSettings::MINSCORE_DEFAULT)
         queryString += QString(" and t2.score >= %1").arg(minScore);

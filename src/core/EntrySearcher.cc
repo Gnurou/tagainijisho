@@ -69,10 +69,10 @@ void EntrySearcher::buildStatement(QList<SearchCommand> &commands,
             QPair<QDate, QDate> interval = timeInterval(s1, s2);
             if (interval.first.isValid())
                 statement.addWhere(QString("training.dateAdded >= %1")
-                                       .arg(QDateTime(interval.first).toSecsSinceEpoch()));
+                                       .arg(interval.first.startOfDay().toSecsSinceEpoch()));
             if (interval.second.isValid())
                 statement.addWhere(QString("training.dateAdded < %1")
-                                       .arg(QDateTime(interval.second).toSecsSinceEpoch()));
+                                       .arg(interval.second.startOfDay().toSecsSinceEpoch()));
         } else if (command.command() == "nostudy")
             statement.addWhere(QString("training.dateAdded is null"));
         else if (command.command() == "score") {
@@ -139,12 +139,12 @@ void EntrySearcher::buildStatement(QList<SearchCommand> &commands,
             QPair<QDate, QDate> interval = timeInterval(s1, s2);
             if (interval.first.isValid())
                 statement.addWhere(QString("training.dateLastTrain >= %1")
-                                       .arg(QDateTime(interval.first).toSecsSinceEpoch()));
+                                       .arg(interval.first.startOfDay().toSecsSinceEpoch()));
             if (interval.second.isValid())
                 statement.addWhere(QString("(training.dateLastTrain < %1 or "
                                            "training.dateLastTrain is "
                                            "null)")
-                                       .arg(QDateTime(interval.second).toSecsSinceEpoch()));
+                                       .arg(interval.second.startOfDay().toSecsSinceEpoch()));
             if (!interval.first.isValid() && !interval.second.isValid())
                 statement.addWhere(QString("training.dateLastTrain not null"));
         } else if (command.command() == "mistaken") {
@@ -159,10 +159,10 @@ void EntrySearcher::buildStatement(QList<SearchCommand> &commands,
             QPair<QDate, QDate> interval = timeInterval(s1, s2);
             if (interval.first.isValid())
                 statement.addWhere(QString("training.dateLastMistake >= %1")
-                                       .arg(QDateTime(interval.first).toSecsSinceEpoch()));
+                                       .arg(interval.first.startOfDay().toSecsSinceEpoch()));
             if (interval.second.isValid())
                 statement.addWhere(QString("training.dateLastMistake < %1")
-                                       .arg(QDateTime(interval.second).toSecsSinceEpoch()));
+                                       .arg(interval.second.startOfDay().toSecsSinceEpoch()));
             if (!interval.first.isValid() && !interval.second.isValid())
                 statement.addWhere(QString("training.dateLastMistake not null"));
         } else

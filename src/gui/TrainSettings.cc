@@ -87,11 +87,11 @@ QString TrainSettings::buildQueryString(int entryType) {
     RelativeDate minDate(minDatePref.value());
     if (minDate.isSet())
         queryString += QString(" and (dateLastTrain < %1 OR dateLastTrain is null)")
-                           .arg(QDateTime(minDate.date()).toSecsSinceEpoch());
+                           .arg(minDate.date().startOfDay().toSecsSinceEpoch());
     RelativeDate maxDate(maxDatePref.value());
     if (maxDate.isSet())
         queryString +=
-            QString(" and dateLastTrain > %1").arg(QDateTime(maxDate.date()).toSecsSinceEpoch());
+            QString(" and dateLastTrain > %1").arg(maxDate.date().startOfDay().toSecsSinceEpoch());
     int minScore(minScorePref.value());
     if (minScore > minScorePref.defaultValue())
         queryString += QString(" and score >= %1").arg(minScore);
