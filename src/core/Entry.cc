@@ -253,7 +253,7 @@ void Entry::addTags(const QStringList &tags) {
     emit entryChanged(this);
 }
 
-bool Entry::Note::operator==(const Note &note) { return _id == note._id; }
+bool Entry::Note::operator==(const Note &note) const { return _id == note._id; }
 
 QString Entry::mainRepr() const {
     QStringList strList(writings());

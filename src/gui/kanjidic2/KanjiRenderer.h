@@ -58,7 +58,7 @@ class KanjiRenderer {
          */
         void render(QPainter *painter, qreal length = -1.0, qreal startFrom = 0.0) const;
 
-        bool operator==(const Stroke &s) { return this == &s; }
+        bool operator==(const Stroke &s) const { return this == &s; }
 
         // KanjiRenderer needs to center the strokes with respect to the grid
         // (for kana characters)

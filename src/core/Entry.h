@@ -64,7 +64,7 @@ class Entry : public QObject, public QSharedData {
         const QDateTime &dateAdded() const { return _dateAdded; }
         const QDateTime &dateLastChange() const { return _dateLastChange; }
         const QString &note() const { return _note; }
-        bool operator==(const Note &note);
+        bool operator==(const Note &note) const;
 
         friend class Entry;
         friend class EntryLoader;
