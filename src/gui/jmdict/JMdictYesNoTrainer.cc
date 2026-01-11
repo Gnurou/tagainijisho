@@ -22,7 +22,7 @@ JMdictYesNoTrainer::JMdictYesNoTrainer(QWidget *parent) : YesNoTrainer(parent) {
     _showFuriganas = new QCheckBox(tr("Show &furigana"), this);
     connect(_showFuriganas, SIGNAL(toggled(bool)), this, SLOT(onShowFuriganasChecked(bool)));
     _showFuriganas->setChecked(JMdictGUIPlugin::furiganasForTraining.value());
-    _showFuriganas->setShortcut(QKeySequence(_showFuriganas->shortcut()[0] & 0x00ffffff));
+    _showFuriganas->setShortcut(QKeySequence(_showFuriganas->shortcut()[0].key()));
     _showFuriganasAction = _detailedView->toolBar()->addWidget(_showFuriganas);
 }
 

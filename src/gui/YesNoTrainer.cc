@@ -43,20 +43,20 @@ YesNoTrainer::YesNoTrainer(QWidget *parent)
     QHBoxLayout *hLayout = new QHBoxLayout();
     showAnswerButton = new QPushButton(tr("Answer (&1)"), this);
     // Replace shortcut to remove all controller keys
-    showAnswerButton->setShortcut(QKeySequence(showAnswerButton->shortcut()[0] & 0x00ffffff));
+    showAnswerButton->setShortcut(QKeySequence(showAnswerButton->shortcut()[0].key()));
     connect(showAnswerButton, SIGNAL(clicked()), this, SLOT(showAnswer()));
     hLayout->addWidget(showAnswerButton);
     goodAnswerButton = new QPushButton(QIcon(":/images/icons/good.png"), tr("Correct! (&2)"), this);
-    goodAnswerButton->setShortcut(QKeySequence(goodAnswerButton->shortcut()[0] & 0x00ffffff));
+    goodAnswerButton->setShortcut(QKeySequence(goodAnswerButton->shortcut()[0].key()));
     connect(goodAnswerButton, SIGNAL(clicked()), this, SLOT(goodAnswer()));
     hLayout->addWidget(goodAnswerButton);
     wrongAnswerButton =
         new QPushButton(QIcon(":/images/icons/wrong.png"), tr("Wrong... (&3)"), this);
-    wrongAnswerButton->setShortcut(QKeySequence(wrongAnswerButton->shortcut()[0] & 0x00ffffff));
+    wrongAnswerButton->setShortcut(QKeySequence(wrongAnswerButton->shortcut()[0].key()));
     connect(wrongAnswerButton, SIGNAL(clicked()), this, SLOT(wrongAnswer()));
     hLayout->addWidget(wrongAnswerButton);
     skipButton = new QPushButton(tr("Skip (&4)"), this);
-    skipButton->setShortcut(QKeySequence(skipButton->shortcut()[0] & 0x00ffffff));
+    skipButton->setShortcut(QKeySequence(skipButton->shortcut()[0].key()));
     connect(skipButton, SIGNAL(clicked()), this, SLOT(skip()));
     hLayout->addWidget(skipButton);
 
