@@ -1,9 +1,9 @@
 set(SQLITE_MIN_VERSION "3007004")
 set(SQLITE_BLACKLIST "3007007;3007008;3008000")
-set(SQLITE_DOWNLOAD_VERSION "3500200")
+set(SQLITE_DOWNLOAD_VERSION "3510200")
 
 set(SQLITE_SOURCE
-    https://www.sqlite.org/2025/sqlite-amalgamation-${SQLITE_DOWNLOAD_VERSION}.zip
+    https://www.sqlite.org/2026/sqlite-amalgamation-${SQLITE_DOWNLOAD_VERSION}.zip
 )
 
 option(
