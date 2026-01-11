@@ -153,7 +153,7 @@ KanjiPopup::~KanjiPopup() {}
 void KanjiPopup::mousePressEvent(QMouseEvent *event) {
     event->accept();
     if (event->buttons() & Qt::LeftButton) {
-        dragPos = event->globalPos();
+        dragPos = event->globalPosition().toPoint();
     }
     QFrame::mousePressEvent(event);
 }
@@ -161,8 +161,8 @@ void KanjiPopup::mousePressEvent(QMouseEvent *event) {
 void KanjiPopup::mouseMoveEvent(QMouseEvent *event) {
     event->accept();
     if (event->buttons() & Qt::LeftButton) {
-        move(pos() - dragPos + event->globalPos());
-        dragPos = event->globalPos();
+        move(pos() - dragPos + event->globalPosition().toPoint());
+        dragPos = event->globalPosition().toPoint();
     }
 }
 
