@@ -178,7 +178,12 @@ KanjiRenderer::KanjiRenderer(ConstKanjidic2EntryPointer kanji) { setKanji(kanji)
 void KanjiRenderer::setKanji(ConstKanjidic2EntryPointer kanji) {
     _kanji = kanji;
     _strokes.clear();
+    _strokesMap.clear();
     const QList<KanjiStroke> &strokes(kanji->strokes());
+    // Reserve space to prevent reallocation, which would invalidate pointers
+    // stored in _strokesMap. This is critical in Qt6 where QList stores
+    // elements contiguously (like QVector in Qt5).
+    _strokes.reserve(strokes.size());
     foreach (const KanjiStroke &stroke, strokes) {
         _strokes << Stroke(&stroke);
         _strokesMap.insert(&stroke, &_strokes.last());
