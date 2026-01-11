@@ -472,7 +472,7 @@ QString JMdictEntryFormatter::formatSenses(const ConstEntryPointer &_entry) cons
 
         QStringList senseHeaders;
         // Check if the writing is restricted
-        if (!sense->stagK().isEmpty())
+        if (!sense->stagK().isEmpty()) {
             foreach (int idx, sense->stagK()) {
                 const KanjiReading &kReading = kanjis[idx];
                 QString str(kReading.getReading());
@@ -485,11 +485,13 @@ QString JMdictEntryFormatter::formatSenses(const ConstEntryPointer &_entry) cons
                 }
                 senseHeaders << str;
             }
-        if (!sense->stagR().isEmpty())
+        }
+        if (!sense->stagR().isEmpty()) {
             foreach (int idx, sense->stagR()) {
                 const KanaReading &kReading = kanas[idx];
                 senseHeaders << kReading.getReading();
             }
+        }
         if (!senseHeaders.isEmpty()) {
             QTextCharFormat bold;
             bold.setForeground(QColor(60, 60, 60));
