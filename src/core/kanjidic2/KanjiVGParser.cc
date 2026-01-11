@@ -37,7 +37,7 @@ QRegularExpression KanjiVGParser::versionRegExp(
 
 // Used to support the recursivity of the strokegr tag
 bool KanjiVGParser::parse_strokegr(QXmlStreamReader &reader, KanjiVGItem &kanji,
-                                   QStack<KanjiVGGroupItem *> gStack, quint8 &strokeCounter) {
+                                   QStack<qsizetype> &gStack, quint8 &strokeCounter) {
     TAG_BEGIN(TAG_GROUP)
     TAG_PRE(TAG_GROUP)
     // For now we do not consider groups without any element
@@ -48,52 +48,56 @@ bool KanjiVGParser::parse_strokegr(QXmlStreamReader &reader, KanjiVGItem &kanji,
         int original(TextTools::singleCharToUnicode(ATTR(ATTR_ORIGINAL)));
         int part(ATTR(ATTR_PART).toInt());
         int number(ATTR(ATTR_NUMBER).toInt());
-        KanjiVGGroupItem *group = 0;
+        int groupIdx = -1;
         // Part > 1, we must find a
         // group for which element and number match
         // (in the case there is no number, both numbers
         // will be zero anyway)
         if (part > 1) {
+            int pos = 0;
             foreach (const KanjiVGGroupItem &tGroup, kanji.groups) {
                 if (tGroup.element == element && tGroup.number == number) {
                     // Foreach won't let us loop on a non-const reference
-                    group = const_cast<KanjiVGGroupItem *>(&tGroup);
+                    groupIdx = pos;
                     break;
                 }
+                pos++;
             }
         } else {
             // Otherwise the group is allocated
+            groupIdx = kanji.groups.size();
             kanji.groups << KanjiVGGroupItem();
-            group = &kanji.groups.last();
         }
-        if (!group) {
+        if (groupIdx == -1) {
             qDebug("Warning - orphan group found for kanji %x", kanji.id);
             // To prevent the group to be popped from the stack, since we
             // won't push it
             hasElement = false;
         } else {
-            group->element = element;
-            group->original = original;
-            group->number = number;
+            KanjiVGGroupItem &group = kanji.groups[groupIdx];
+
+            group.element = element;
+            group.original = original;
+            group.number = number;
             if (HAS_ATTR(ATTR_RADICAL)) {
                 QString rad(ATTR(ATTR_RADICAL));
                 if (rad == "general")
-                    group->radicalType = KanjiVGGroupItem::GENERAL;
+                    group.radicalType = KanjiVGGroupItem::GENERAL;
                 else if (rad == "tradit")
-                    group->radicalType = KanjiVGGroupItem::TRADIT;
+                    group.radicalType = KanjiVGGroupItem::TRADIT;
                 else if (rad == "nelson")
-                    group->radicalType = KanjiVGGroupItem::NELSON;
+                    group.radicalType = KanjiVGGroupItem::NELSON;
                 else if (rad == "jis")
-                    group->radicalType = KanjiVGGroupItem::JIS;
+                    group.radicalType = KanjiVGGroupItem::JIS;
                 else
                     qDebug("Unknown radical type: %s", rad.toLatin1().constData());
             }
             if (gStack.isEmpty())
-                group->isRoot = true;
+                group.isRoot = true;
             // Do not push the group if it is already in the stack
-            alreadyInStack = gStack.contains(group);
+            alreadyInStack = gStack.contains(groupIdx);
             if (!alreadyInStack)
-                gStack << group;
+                gStack << groupIdx;
         }
     }
     if (!parse_strokegr(reader, kanji, gStack, strokeCounter))
@@ -104,8 +108,11 @@ bool KanjiVGParser::parse_strokegr(QXmlStreamReader &reader, KanjiVGItem &kanji,
     kanji.strokes << KanjiVGStrokeItem();
     KanjiVGStrokeItem &stroke = kanji.strokes.last();
     stroke.path = path;
-    foreach (KanjiVGGroupItem *group, gStack)
-        group->pathsIndexes << strokeCounter;
+    foreach (qsizetype idx, gStack) {
+        KanjiVGGroupItem &group = kanji.groups[idx];
+
+        group.pathsIndexes << strokeCounter;
+    }
     ++strokeCounter;
     TAG_BEGIN(TAG_PATH)
     ENDTAG
@@ -128,7 +135,7 @@ bool KanjiVGParser::parse(QXmlStreamReader &reader) {
         TAG_PRE(TAG_GROUP)
         int element(TextTools::singleCharToUnicode(ATTR(ATTR_ELEMENT)));
         int original(TextTools::singleCharToUnicode(ATTR(ATTR_ORIGINAL)));
-        QStack<KanjiVGGroupItem *> gStack;
+        QStack<qsizetype> gStack;
 
         kanji.groups << KanjiVGGroupItem();
         KanjiVGGroupItem *group = &kanji.groups.last();

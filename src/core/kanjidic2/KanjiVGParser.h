@@ -60,8 +60,8 @@ class KanjiVGParser {
 
     QString _version;
     bool gotVersion;
-    bool parse_strokegr(QXmlStreamReader &reader, KanjiVGItem &kanji,
-                        QStack<KanjiVGGroupItem *> gStack, quint8 &strokeCounter);
+    bool parse_strokegr(QXmlStreamReader &reader, KanjiVGItem &kanji, QStack<qsizetype> &gStack,
+                        quint8 &strokeCounter);
 
   public:
     KanjiVGParser() : gotVersion(false) {}
