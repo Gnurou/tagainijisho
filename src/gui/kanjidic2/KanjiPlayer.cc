@@ -341,7 +341,7 @@ bool KanjiPlayer::eventFilter(QObject *obj, QEvent *event) {
     if (event->type() == QEvent::MouseMove) {
         QMouseEvent *mEvent = static_cast<QMouseEvent *>(event);
         // First translate the coordinates to the strokes coordinates system
-        QPointF pos(mEvent->localPos());
+        QPointF pos(mEvent->position());
         QPointF fPos(pos.x() * (KANJI_AREA_WIDTH / pictureSize()),
                      pos.y() * (KANJI_AREA_HEIGHT / pictureSize()));
         const QList<KanjiRenderer::Stroke> &strokes(renderer.strokes());
