@@ -182,6 +182,10 @@ Entry *Kanjidic2EntryLoader::loadEntry(EntryId id) {
     nanoriQuery.reset();
 
     // Insert the strokes
+    // Reserve space to prevent reallocation, which would invalidate pointers
+    // stored in components. This is critical in Qt6 where QList stores
+    // elements contiguously (like QVector in Qt5).
+    entry->_strokes.reserve(paths.size());
     foreach (const QString &path, paths)
         entry->addStroke(QChar(), path);
 
@@ -202,6 +206,9 @@ Entry *Kanjidic2EntryLoader::loadEntry(EntryId id) {
         }
     }
     componentsQuery.reset();
+    // Build root components list now that all components have been added
+    // and the list won't reallocate anymore
+    entry->buildRootComponents();
 
     // Load radicals
     radicalsQuery.bindValue(id);

@@ -22,8 +22,8 @@
 
 #include <QtDebug>
 
-KanjiComponent::KanjiComponent(const QString &element, const QString &original)
-    : _element(element), _original(original) {}
+KanjiComponent::KanjiComponent(const QString &element, const QString &original, bool isRoot)
+    : _element(element), _original(original), _isRoot(isRoot) {}
 
 KanjiComponent::~KanjiComponent() {}
 
@@ -53,10 +53,16 @@ Kanjidic2Entry::Kanjidic2Entry(const QString &kanji, bool inDB, int grade, int s
 
 KanjiComponent *Kanjidic2Entry::addComponent(const QString &element, const QString &original,
                                              bool isRoot) {
-    _components << KanjiComponent(element, original);
-    if (isRoot)
-        _rootComponents << &_components.last();
+    _components << KanjiComponent(element, original, isRoot);
     return &_components.last();
+}
+
+void Kanjidic2Entry::buildRootComponents() {
+    _rootComponents.clear();
+    for (int i = 0; i < _components.size(); ++i) {
+        if (_components[i].isRoot())
+            _rootComponents << &_components[i];
+    }
 }
 
 KanjiStroke *Kanjidic2Entry::addStroke(const QChar &type, const QString &path) {

@@ -33,15 +33,18 @@ class KanjiComponent {
     QList<const KanjiStroke *> _strokes;
     QString _element;
     QString _original;
+    bool _isRoot;
 
   public:
-    KanjiComponent(const QString &element = "", const QString &original = "");
+    KanjiComponent(const QString &element = "", const QString &original = "",
+                   bool isRoot = false);
     virtual ~KanjiComponent();
 
     const QList<const KanjiStroke *> &strokes() const { return _strokes; }
     void addStroke(KanjiStroke *stroke) { _strokes << stroke; }
     const QString &element() const { return _element; }
     const QString &original() const { return _original; }
+    bool isRoot() const { return _isRoot; }
 
     /**
      * Returns the representation of this group (if any) according to whether we
@@ -132,6 +135,7 @@ class Kanjidic2Entry : public Entry {
     KanjiComponent *addComponent(const QString &element, const QString &original,
                                  bool isRoot = false);
     KanjiStroke *addStroke(const QChar &type, const QString &path);
+    void buildRootComponents();
 
   protected:
     Kanjidic2Entry(const QString &kanji, bool inDB, int grade = -1, int strokeCount = -1,
