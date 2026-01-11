@@ -19,7 +19,7 @@ jobs:
       - name: Update packages database
         run: sudo apt-get update
       - name: Install Qt6
-        run: sudo apt-get install -y qt6-base-dev qt6-base-dev-tools qt6-tools-dev qt6-tools-dev-tools qt6-l10n-tools
+        run: sudo apt-get install -y qt6-base-dev qt6-base-dev-tools qt6-tools-dev qt6-tools-dev-tools qt6-l10n-tools libgl1-mesa-dev
       - name: Create source package
         run: ./pack/source/buildsourcerelease.sh
       - name: Upload source package
@@ -62,7 +62,7 @@ jobs:
 
       - name: Install Qt6 and build dependencies (Ubuntu)
         if: runner.os == 'Linux'
-        run: sudo apt-get install -y qt6-base-dev qt6-base-dev-tools qt6-tools-dev qt6-tools-dev-tools qt6-l10n-tools rpm
+        run: sudo apt-get install -y qt6-base-dev qt6-base-dev-tools qt6-tools-dev qt6-tools-dev-tools qt6-l10n-tools libgl1-mesa-dev rpm
 
       - name: Install MSYS2 and Qt6 (Windows)
         if: runner.os == 'Windows'
