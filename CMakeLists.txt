@@ -11,13 +11,7 @@ if(APPLE)
   set(CMAKE_OSX_DEPLOYMENT_TARGET "10.13")
 endif(APPLE)
 
-# The project name decides the naming pattern of many things - choose it
-# according to the standard of the platform we run on.
-if(APPLE)
-  project("Tagaini Jisho")
-else(APPLE)
-  project("tagainijisho")
-endif(APPLE)
+project("tagainijisho")
 
 # Set the program name to be the same as the project
 set(tagaini_binary ${CMAKE_PROJECT_NAME})
