@@ -25,7 +25,7 @@ Tagaini Jisho runs on Linux/Unix, MacOS X, and Microsoft Windows.
 License
 -------
 
-Copyright (C) 2008-2022 Alexandre Courbot.
+Copyright (C) 2008-2025 Alexandre Courbot.
 
 This program is free software: you can redistribute it and/or modify it under the terms of the GNU
 General Public License as published by the Free Software Foundation, either version 3 of the
@@ -55,77 +55,93 @@ Features
 Building on Linux
 -----------------
 
-The only runtime dependency to run Tagaini Jisho is Qt 5.12 or higher. In order to build it, you
-will also need CMake 2.8.1 or higher.
+The only runtime dependency to run Tagaini Jisho is Qt 6.4 or higher. In order to build it, you
+will also need CMake 3.16 or higher and Ninja.
+
+On Debian/Ubuntu, install the dependencies with:
+
+    $ sudo apt-get install qt6-base-dev qt6-tools-dev cmake ninja-build
+
+### Using CMake Presets (recommended)
+
+Configure and build using the provided presets:
+
+    $ cmake --preset debug      # Debug build
+    $ cmake --build build/debug
+
+Or for a release build:
+
+    $ cmake --preset release
+    $ cmake --build build/release
+
+### Manual Configuration
 
 First configure the build using `cmake`:
 
-    $ cmake .
+    $ cmake -B build -GNinja
 
 By default, the program is installed into `/usr/local`, but you can change this by setting the
 `CMAKE_INSTALL_PREFIX` variable. For instance:
 
-    $ cmake . -DCMAKE_INSTALL_PREFIX=/usr
+    $ cmake -B build -GNinja -DCMAKE_INSTALL_PREFIX=/usr
 
 If you want to produce a debug build (useful if you are trying a development version and want to
-reports problems), add the `-DCMAKE_BUILD_TYPE=Debug` option to the command line above to produce a
-binary with debug symbols built-in.
+report problems), add the `-DCMAKE_BUILD_TYPE=Debug` option.
 
-You can also use `ccmake .` after running `cmake` to change these options or enable more debugging
-options.
+You can also use `ccmake build` after running `cmake` to change these options or enable more
+debugging options.
 
-You can then build the program using `make`.
+You can then build the program using `ninja`:
 
-    $ make -j8
+    $ ninja -C build
 
-This will take some time, especially to generate the dictionaries databases. Adjust the `-j`
-parameter to accurately reflect the number of CPU cores on your machine.
+This will take some time, especially to generate the dictionaries databases.
 
 Finally, you can (optionally) install the program:
 
-    # make install
+    # ninja -C build install
 
 Or if you prefer to run it in-place, just run
 
-    $ ./src/gui/tagainijisho
+    $ ./build/src/gui/tagainijisho
 
-From the build directory.
+From the source directory.
 
-Building on Mac OS with Homebrew
---------------------------------
+Building on macOS with Homebrew
+-------------------------------
 
-If you don't have Qt5 and installed yet, install them:
+If you don't have Qt6 installed yet, install the dependencies:
 
-    $ brew install qt@5 cmake
+    $ brew install qt@6 cmake ninja
 
 Configure:
 
-    $ Qt5_DIR=/usr/local/opt/qt5/lib/cmake cmake -DCMAKE_INSTALL_PREFIX=$HOME/Applications .
+    $ cmake -B build -GNinja -DCMAKE_INSTALL_PREFIX=$HOME/Applications -DCMAKE_PREFIX_PATH=$(brew --prefix qt@6)
 
 Build:
 
-    $ make
+    $ ninja -C build
 
 Run in-place:
 
-    $ ./src/gui/tagainijisho
+    $ ./build/src/gui/tagainijisho.app/Contents/MacOS/tagainijisho
 
 Install (application bundle will be installed to `$HOME/Applications`):
 
-    $ make install
+    $ ninja -C build install
 
 Or generate a drag'n drop installer:
 
-    $ cpack -G DragNDrop
+    $ ninja -C build && cpack -G DragNDrop -B build
 
 Building on Windows with MSYS2
 ------------------------------
 
 Make sure the following MSYS2 packages are installed:
 
-    gzip mingw-w64-x86_64-toolchain mingw-w64-x86_64-qt5-static mingw-w64-x86_64-cmake mingw-w64-x86_64-ninja mingw-w64-x86_64-nsis
+    gzip mingw-w64-x86_64-toolchain mingw-w64-x86_64-zlib mingw-w64-x86_64-pcre2 mingw-w64-x86_64-libpng mingw-w64-x86_64-harfbuzz mingw-w64-x86_64-libwebp mingw-w64-x86_64-qt6-static mingw-w64-x86_64-cmake mingw-w64-x86_64-ninja mingw-w64-x86_64-nsis
 
-We use a static Qt5 package to facilitate packaging, but feel free to use the non-static Qt5 package
+We use a static Qt6 package to facilitate packaging, but feel free to use the non-static Qt6 package
 if you don't plan to create an installer.
 
 `/mingw64/bin` will also need to be in your `PATH`, so add it if it is not already there:
@@ -134,19 +150,19 @@ if you don't plan to create an installer.
 
 Invoke CMake:
 
-    $ cmake -G Ninja .
+    $ cmake -B build -GNinja
 
 Build:
 
-    $ ninja
+    $ ninja -C build
 
 The program can now be run in-place:
 
-    $ ./src/gui/tagainijisho
+    $ ./build/src/gui/tagainijisho
 
-Or you may want to create an installer (static Qt5 only):
+Or you may want to create an installer (static Qt6 only):
 
-    $ cpack -G NSIS
+    $ cpack -G NSIS -B build
 
 Usage
 -----
@@ -172,7 +188,7 @@ Credits
 Tagaini Jisho makes heavy use of the embedded SQLite database. Many thanks to all its developers for
 making such a great embedded database available, and for their kind support.
 
-Qt5 is used as a development framework and ensures portability between Linux, Mac OS, and Windows.
+Qt6 is used as a development framework and ensures portability between Linux, macOS, and Windows.
 
 Words definitions are provided by the [JMDict](https://www.csse.monash.edu.au/~jwb/jmdict.html).
 
