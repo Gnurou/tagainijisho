@@ -158,7 +158,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: Mac OS installer
-          path: ${{github.workspace}}/build/Tagaini Jisho-*.dmg
+          path: ${{github.workspace}}/build/tagainijisho-*.dmg
           retention-days: 7
 
   # If this version is tagged, release the assets on the corresponding Github release page.
@@ -192,4 +192,4 @@ jobs:
             tagainijisho-*.deb
             tagainijisho-*.rpm
             tagainijisho-*.exe
-            Tagaini Jisho-*.dmg
+            tagainijisho-*.dmg
