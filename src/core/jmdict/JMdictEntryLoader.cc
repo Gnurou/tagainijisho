@@ -125,8 +125,7 @@ Entry *JMdictEntryLoader::loadEntry(EntryId id) {
 
         Sense sense(posStr, miscStr, dialStr, fieldStr);
         // Get restricted readings/writing
-        QStringList restrictedTo(
-            sensesQuery.valueString(pos++).split(',', Qt::SkipEmptyParts));
+        QStringList restrictedTo(sensesQuery.valueString(pos++).split(',', Qt::SkipEmptyParts));
         foreach (const QString &idx, restrictedTo)
             sense.addStagK(idx.toInt());
         restrictedTo = sensesQuery.valueString(pos++).split(',', Qt::SkipEmptyParts);

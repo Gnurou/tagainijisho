@@ -36,8 +36,7 @@ class KanjiComponent {
     bool _isRoot;
 
   public:
-    KanjiComponent(const QString &element = "", const QString &original = "",
-                   bool isRoot = false);
+    KanjiComponent(const QString &element = "", const QString &original = "", bool isRoot = false);
     virtual ~KanjiComponent();
 
     const QList<const KanjiStroke *> &strokes() const { return _strokes; }

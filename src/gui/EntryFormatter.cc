@@ -324,11 +324,12 @@ QString EntryFormatter::formatTrainingData(const ConstEntryPointer &entry) const
         ret << tr("Score: %1.").arg(entry->score());
         if (entry->dateLastTrain().isValid()) {
             ret << tr("Last trained on %1.")
-                       .arg(QLocale().toString(entry->dateLastTrain().date(), QLocale::ShortFormat));
+                       .arg(
+                           QLocale().toString(entry->dateLastTrain().date(), QLocale::ShortFormat));
             if (entry->dateLastMistake().isValid()) {
                 ret << tr("Last mistaken on %1.")
                            .arg(QLocale().toString(entry->dateLastMistake().date(),
-                               QLocale::ShortFormat));
+                                                   QLocale::ShortFormat));
             }
         }
         return ret.join(" ");

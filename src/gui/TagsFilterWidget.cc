@@ -95,8 +95,7 @@ QString TagsFilterWidget::currentTitle() const {
     if (untaggedBox->isChecked())
         return tr("Untagged");
 
-    QStringList tags(
-        lineInput->text().split(QRegularExpression("[ ,\\.]"), Qt::SkipEmptyParts));
+    QStringList tags(lineInput->text().split(QRegularExpression("[ ,\\.]"), Qt::SkipEmptyParts));
     if (tags.isEmpty())
         return tr("Tags");
     else
@@ -107,8 +106,7 @@ QString TagsFilterWidget::currentCommand() const {
     if (untaggedBox->isChecked())
         return QString(":untagged");
 
-    QStringList tags(
-        lineInput->text().split(QRegularExpression("[ ,\\.]"), Qt::SkipEmptyParts));
+    QStringList tags(lineInput->text().split(QRegularExpression("[ ,\\.]"), Qt::SkipEmptyParts));
     if (tags.isEmpty())
         return "";
     return QString(":tag%1%2").arg(tags.isEmpty() ? "" : "=").arg(tags.join(","));

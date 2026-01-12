@@ -159,13 +159,14 @@ static void copyLegacyUserDB() {
 
 #if defined(Q_OS_WIN)
     // For windows, copy from the local data location to the roaming location
-    legacyDataFile.setFileName(QDir(QStandardPaths::standardLocations(QStandardPaths::AppLocalDataLocation)[0])
-                                .absoluteFilePath("user.db"));
+    legacyDataFile.setFileName(
+        QDir(QStandardPaths::standardLocations(QStandardPaths::AppLocalDataLocation)[0])
+            .absoluteFilePath("user.db"));
 #elif defined(Q_OS_UNIX)
     // Genius Qt engineers thought it would be a good idea to not provide a
     // compatibility function, so we can just guess here...
-    legacyDataFile.setFileName(Database::defaultDBFile().replace("share/Tagaini Jisho/user.db",
-                                                              "share/data/Tagaini Jisho/user.db"));
+    legacyDataFile.setFileName(Database::defaultDBFile().replace(
+        "share/Tagaini Jisho/user.db", "share/data/Tagaini Jisho/user.db"));
 #else
     return;
 #endif

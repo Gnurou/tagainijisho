@@ -391,7 +391,7 @@ bool Database::connectUserDB(QString filename, QStringList &errors) {
 bool Database::connectToTemporaryDatabase(QStringList &errors) {
     _tFile = new QTemporaryFile();
     if (!_tFile->open())
-      return false;
+        return false;
     _tFile->close();
 
     // Now reopen the DB using the temporary file and create a clear database

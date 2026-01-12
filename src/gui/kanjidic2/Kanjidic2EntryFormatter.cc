@@ -214,7 +214,8 @@ void Kanjidic2EntryFormatter::drawCustom(const ConstKanjidic2EntryPointer &entry
     QRectF leftArea = rectangle;
     leftArea.setWidth(rectangle.width() / 3.5);
     // Adjust font size if needed - use the actual kanji's bounding rect
-    while (QFontMetrics(kanjiFont, painter.device()).boundingRect(entry->kanji()).width() > leftArea.width())
+    while (QFontMetrics(kanjiFont, painter.device()).boundingRect(entry->kanji()).width() >
+           leftArea.width())
         kanjiFont.setPointSize(kanjiFont.pointSize() - 1);
 
     QRectF textBB;

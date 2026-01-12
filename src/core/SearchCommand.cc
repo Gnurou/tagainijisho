@@ -37,8 +37,8 @@ QRegularExpression SearchCommand::_commandMatch(":(\\w+)(?:=(?:(?:" + argString 
                                                 QRegularExpression::UseUnicodePropertiesOption);
 
 SearchCommand SearchCommand::fromString(const QString &string) {
-    QRegularExpressionMatch match = _commandMatch.match(string, 0, QRegularExpression::NormalMatch,
-                                                        QRegularExpression::AnchorAtOffsetMatchOption);
+    QRegularExpressionMatch match = _commandMatch.match(
+        string, 0, QRegularExpression::NormalMatch, QRegularExpression::AnchorAtOffsetMatchOption);
 
     if (!match.hasMatch()) {
         qDebug("Cannot match command string!");

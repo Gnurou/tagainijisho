@@ -21,11 +21,11 @@
 #include <QtDebug>
 
 #include <QApplication>
-#include <QGuiApplication>
-#include <QScreen>
 #include <QFontMetrics>
+#include <QGuiApplication>
 #include <QLabel>
 #include <QList>
+#include <QScreen>
 #include <QVBoxLayout>
 #include <QWheelEvent>
 
