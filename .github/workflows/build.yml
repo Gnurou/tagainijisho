@@ -43,11 +43,11 @@ jobs:
           - os: windows-2022
             shell: "msys2 {0}"
             install_prefix: "c:/Program Files/Tagaini Jisho"
-          - os: macos-13
+          - os: macos-15
             shell: bash
             install_prefix: "/Applications"
             arch: x86_64
-          - os: macos-14
+          - os: macos-15
             shell: bash
             install_prefix: "/Applications"
             arch: arm64
