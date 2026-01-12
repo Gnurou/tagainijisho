@@ -75,14 +75,13 @@ QString romajiToKana(const QString &src);
 
 class KanaInfo {
   public:
-    typedef enum { Small, Normal } Size;
-    typedef enum { Common, Rare } Usage;
+    enum Size { Small, Normal };
+    enum Usage { Common, Rare };
     QString reading;
-    Size size;
-    Usage usage;
+    Size size = Normal;
+    Usage usage = Common;
 
-    // For QMap
-    KanaInfo() {}
+    KanaInfo() = default;
     KanaInfo(const QString &_reading, Size _size = Normal, Usage _usage = Common)
         : reading(_reading), size(_size), usage(_usage) {}
 };
