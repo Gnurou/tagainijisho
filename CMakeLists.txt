@@ -4,11 +4,10 @@ if(POLICY CMP0177)
   cmake_policy(SET CMP0177 NEW)
 endif()
 
-# 64 bits Intel binary with 10.13 compatibility (these variables should be set
-# before any project command)
+# macOS deployment target (these variables should be set before any project command)
+# Qt6 requires 10.15+ due to std::filesystem usage in headers
 if(APPLE)
-  set(CMAKE_OSX_ARCHITECTURES "${ARCHS_STANDARD_64_BIT}")
-  set(CMAKE_OSX_DEPLOYMENT_TARGET "10.13")
+  set(CMAKE_OSX_DEPLOYMENT_TARGET "10.15")
 endif(APPLE)
 
 project("tagainijisho")
