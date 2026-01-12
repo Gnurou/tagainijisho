@@ -54,15 +54,14 @@ Kanjidic2FilterWidget::Kanjidic2FilterWidget(QWidget *parent)
         _strokeCountSpinBox->setSpecialValueText("");
         _strokeCountSpinBox->setRange(0, 34);
         hLayout->addWidget(_strokeCountSpinBox);
-        connect(_strokeCountSpinBox, SIGNAL(valueChanged(QString)), this,
-                SLOT(onStrokeRangeChanged()));
+        connect(_strokeCountSpinBox, SIGNAL(valueChanged(int)), this, SLOT(onStrokeRangeChanged()));
         _maxStrokeCountSpinBox = new TJSpinBox(this);
         _maxStrokeCountSpinBox->setSpecialValueText("");
         _maxStrokeCountSpinBox->setRange(0, 34);
         _maxStrokeCountSpinBox->setVisible(false);
         _maxStrokeCountSpinBox->setEnabled(false);
         hLayout->addWidget(_maxStrokeCountSpinBox);
-        connect(_maxStrokeCountSpinBox, SIGNAL(valueChanged(QString)), this,
+        connect(_maxStrokeCountSpinBox, SIGNAL(valueChanged(int)), this,
                 SLOT(onStrokeRangeChanged()));
         _rangeCheckBox = new QCheckBox(tr("Range"), _strokeCountGroupBox);
         vLayout->addLayout(hLayout);
