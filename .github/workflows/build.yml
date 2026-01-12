@@ -70,7 +70,7 @@ jobs:
         with:
           msystem: MINGW64
           update: true
-          install: gzip mingw-w64-x86_64-toolchain mingw-w64-x86_64-zlib mingw-w64-x86_64-qt6-static mingw-w64-x86_64-cmake mingw-w64-x86_64-ninja mingw-w64-x86_64-nsis
+          install: gzip mingw-w64-x86_64-toolchain mingw-w64-x86_64-zlib mingw-w64-x86_64-pcre2 mingw-w64-x86_64-libpng mingw-w64-x86_64-harfbuzz mingw-w64-x86_64-libwebp mingw-w64-x86_64-qt6-static mingw-w64-x86_64-cmake mingw-w64-x86_64-ninja mingw-w64-x86_64-nsis
 
       - name: Install Qt6 (Mac OS)
         if: runner.os == 'macos'
