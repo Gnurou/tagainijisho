@@ -43,9 +43,14 @@ jobs:
           - os: windows-2022
             shell: "msys2 {0}"
             install_prefix: "c:/Program Files/Tagaini Jisho"
-          - os: macos-latest
+          - os: macos-13
             shell: bash
             install_prefix: "/Applications"
+            arch: x86_64
+          - os: macos-14
+            shell: bash
+            install_prefix: "/Applications"
+            arch: arm64
 
     defaults:
       run:
@@ -126,7 +131,9 @@ jobs:
 
       - name: Create DragNDrop installer (Mac OS)
         if: runner.os == 'macos'
-        run: cpack -G DragNDrop
+        run: |
+          cpack -G DragNDrop
+          for f in tagainijisho-*.dmg; do mv "$f" "${f%.dmg}-${{matrix.sys.arch}}.dmg"; done
         working-directory: ${{github.workspace}}/build
 
       - name: Upload DEB package (Ubuntu)
@@ -157,7 +164,7 @@ jobs:
         if: runner.os == 'macos'
         uses: actions/upload-artifact@v4
         with:
-          name: Mac OS installer
+          name: Mac OS installer (${{matrix.sys.arch}})
           path: ${{github.workspace}}/build/tagainijisho-*.dmg
           retention-days: 7
 
@@ -183,7 +190,10 @@ jobs:
           name: Windows installer
       - uses: actions/download-artifact@v4
         with:
-          name: Mac OS installer
+          name: Mac OS installer (x86_64)
+      - uses: actions/download-artifact@v4
+        with:
+          name: Mac OS installer (arm64)
       - name: Upload assets
         uses: softprops/action-gh-release@v2
         with:
