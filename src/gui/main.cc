@@ -154,25 +154,25 @@ void checkConfigurationVersion() {
     configVersion.setValue(CONFIG_VERSION);
 }
 
-static void copyQt4UserDB() {
-    QFile qt4DataFile;
+static void copyLegacyUserDB() {
+    QFile legacyDataFile;
 
 #if defined(Q_OS_WIN)
     // For windows, copy from the local data location to the roaming location
-    qt4DataFile.setFileName(QDir(QStandardPaths::standardLocations(QStandardPaths::AppLocalDataLocation)[0])
+    legacyDataFile.setFileName(QDir(QStandardPaths::standardLocations(QStandardPaths::AppLocalDataLocation)[0])
                                 .absoluteFilePath("user.db"));
 #elif defined(Q_OS_UNIX)
     // Genius Qt engineers thought it would be a good idea to not provide a
     // compatibility function, so we can just guess here...
-    qt4DataFile.setFileName(Database::defaultDBFile().replace("share/Tagaini Jisho/user.db",
+    legacyDataFile.setFileName(Database::defaultDBFile().replace("share/Tagaini Jisho/user.db",
                                                               "share/data/Tagaini Jisho/user.db"));
 #else
     return;
 #endif
 
     // Do a copy so an older version could keep working
-    if (qt4DataFile.exists()) {
-        qt4DataFile.copy(Database::defaultDBFile());
+    if (legacyDataFile.exists()) {
+        legacyDataFile.copy(Database::defaultDBFile());
         QMessageBox::information(
             0, QCoreApplication::translate("main.cc", "Data migrated"),
             QCoreApplication::translate(
@@ -215,7 +215,7 @@ static void checkUserProfileDirectory() {
 
     // Check if we are upgrading from Qt4
     if (!dataFile.exists())
-        copyQt4UserDB();
+        copyLegacyUserDB();
 }
 
 int main(int argc, char *argv[]) {
