@@ -119,6 +119,11 @@ jobs:
         run: cpack -G NSIS
         working-directory: ${{github.workspace}}/build
 
+      - name: Bundle Qt dependencies (Mac OS)
+        if: runner.os == 'macos'
+        run: $(brew --prefix qt@6)/bin/macdeployqt src/gui/tagainijisho.app
+        working-directory: ${{github.workspace}}/build
+
       - name: Create DragNDrop installer (Mac OS)
         if: runner.os == 'macos'
         run: cpack -G DragNDrop
