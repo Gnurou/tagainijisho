@@ -88,9 +88,13 @@ jobs:
         if: runner.os != 'Windows'
         run: echo "fixed_workspace=${{github.workspace}}" >> $GITHUB_ENV
 
-      - name: Configure (Ubuntu and Windows)
-        if: runner.os != 'macos'
+      - name: Configure (Ubuntu)
+        if: runner.os == 'Linux'
         run: cmake -B ${{env.fixed_workspace}}/build -DCMAKE_INSTALL_PREFIX="${{matrix.sys.install_prefix}}" -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
+
+      - name: Configure (Windows)
+        if: runner.os == 'Windows'
+        run: cmake -B ${{env.fixed_workspace}}/build -DCMAKE_INSTALL_PREFIX="${{matrix.sys.install_prefix}}" -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DMINGW_DIR=/mingw64
 
       - name: Configure (Mac OS)
         if: runner.os == 'macos'
