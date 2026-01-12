@@ -1,5 +1,8 @@
 cmake_minimum_required(VERSION 3.16)
 cmake_policy(VERSION 3.16)
+if(POLICY CMP0177)
+  cmake_policy(SET CMP0177 NEW)
+endif()
 
 # 64 bits Intel binary with 10.13 compatibility (these variables should be set
 # before any project command)
