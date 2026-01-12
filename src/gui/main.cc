@@ -159,7 +159,7 @@ static void copyQt4UserDB() {
 
 #if defined(Q_OS_WIN)
     // For windows, copy from the local data location to the roaming location
-    qt4DataFile.setFileName(QDir(QStandardPaths::standardLocations(QStandardPaths::DataLocation)[0])
+    qt4DataFile.setFileName(QDir(QStandardPaths::standardLocations(QStandardPaths::AppLocalDataLocation)[0])
                                 .absoluteFilePath("user.db"));
 #elif defined(Q_OS_UNIX)
     // Genius Qt engineers thought it would be a good idea to not provide a
