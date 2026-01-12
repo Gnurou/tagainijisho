@@ -21,7 +21,7 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(Qt6 REQUIRED COMPONENTS Core Widgets PrintSupport Network LinguistTools)
+find_package(Qt6 6.4 REQUIRED COMPONENTS Core Widgets PrintSupport Network LinguistTools)
 
 # FIXME only required when CMake downloads dictionary files. Not necessary for
 # building from source package.
