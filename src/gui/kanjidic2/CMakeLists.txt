@@ -21,4 +21,10 @@ qt6_wrap_ui(tagainijisho_gui_kanjidic2_UI_SRCS ${tagainijisho_gui_kanjidic2_UIS}
 
 add_library(tagaini_gui_kanjidic2 STATIC ${tagainijisho_gui_kanjidic2_UI_SRCS}
                                          ${tagainijisho_gui_kanjidic2_SRCS})
-target_link_libraries(tagaini_gui_kanjidic2 tagaini_gui)
+target_link_libraries(tagaini_gui_kanjidic2
+                      PUBLIC tagaini_gui tagaini_core_kanjidic2)
+target_include_directories(
+  tagaini_gui_kanjidic2
+  PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}
+  PRIVATE ${CMAKE_CURRENT_BINARY_DIR} # For generated UI headers
+)

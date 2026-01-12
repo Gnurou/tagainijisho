@@ -118,17 +118,13 @@ set(tagainijisho_sqlite_SRCS
     ${CMAKE_SOURCE_DIR}/src/core/TextTools.cc)
 
 if(EMBED_SQLITE)
-  include_directories(${CMAKE_SOURCE_DIR}/3rdparty/sqlite)
   set(tagainijisho_sqlite_SRCS ${tagainijisho_sqlite_SRCS}
                                ${CMAKE_SOURCE_DIR}/3rdparty/sqlite/sqlite3.c)
-else()
-  include_directories(${SQLITE_INCLUDE_DIR})
 endif()
 
 if(SHARED_SQLITE_LIBRARY)
   add_library(tagaini_sqlite SHARED ${tagainijisho_sqlite_SRCS}
                                     ${tagainijisho_sqlite_MOC_SRCS})
-  target_link_libraries(tagaini_sqlite Qt::Core ${extra_link_flags})
   install(
     TARGETS tagaini_sqlite
     BUNDLE DESTINATION . COMPONENT Runtime
@@ -136,10 +132,9 @@ if(SHARED_SQLITE_LIBRARY)
 else()
   add_library(tagaini_sqlite STATIC ${tagainijisho_sqlite_SRCS}
                                     ${tagainijisho_sqlite_MOC_SRCS})
-  target_link_libraries(tagaini_sqlite Qt::Core)
 endif()
 
-# SQLite compile definitions - applied after target is created
+# SQLite compile definitions
 target_compile_definitions(
   tagaini_sqlite
   PRIVATE SQLITE_ENABLE_FTS3
@@ -147,14 +142,27 @@ target_compile_definitions(
           SQLITE_ENABLE_LOCKING_STYLE=0
           SQLITE_OMIT_DEPRECATED
           SQLITE_ENABLE_FTS3_TOKENIZER)
-if(NOT EMBED_SQLITE)
-  target_link_libraries(tagaini_sqlite sqlite3)
+
+# SQLite include directories - PUBLIC so dependents can use sqlite headers
+if(EMBED_SQLITE)
+  target_include_directories(tagaini_sqlite
+                             PUBLIC ${CMAKE_SOURCE_DIR}/3rdparty/sqlite)
+else()
+  target_include_directories(tagaini_sqlite PUBLIC ${SQLITE_INCLUDE_DIR})
 endif()
 
+# Link dependencies - use keyword form consistently
+set(SQLITE_LINK_LIBS Qt::Core tagaini_common)
+if(NOT EMBED_SQLITE)
+  list(APPEND SQLITE_LINK_LIBS sqlite3)
+endif()
 if(UNIX)
-  target_link_libraries(tagaini_sqlite pthread)
-  target_link_libraries(tagaini_sqlite dl)
-endif(UNIX)
+  list(APPEND SQLITE_LINK_LIBS pthread dl)
+endif()
+if(SHARED_SQLITE_LIBRARY)
+  list(APPEND SQLITE_LINK_LIBS ${extra_link_flags})
+endif()
+target_link_libraries(tagaini_sqlite PUBLIC ${SQLITE_LINK_LIBS})
 
 if(APPLE)
   set(DEST_DIR "${tagaini_binary}.app/Contents/MacOS")

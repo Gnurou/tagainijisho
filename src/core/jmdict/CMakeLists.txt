@@ -56,14 +56,16 @@ set(tagainijisho_core_jmdict_SRCS JMdictEntry.cc JMdictEntrySearcher.cc
                                   JMdictEntryLoader.cc JMdictPlugin.cc)
 
 add_library(tagaini_core_jmdict STATIC ${tagainijisho_core_jmdict_SRCS})
-target_link_libraries(tagaini_core_jmdict tagaini_sqlite Qt::Core)
+target_link_libraries(tagaini_core_jmdict PUBLIC tagaini_core)
+target_include_directories(tagaini_core_jmdict
+                           PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
 # Database builder
 set(build_jmdict_db_SRCS JMdictParser.cc BuildJMdictDB.cc ../XmlParserHelper.cc)
 
 if(NOT CMAKE_CROSSCOMPILING)
   add_executable(build_jmdict_db EXCLUDE_FROM_ALL ${build_jmdict_db_SRCS})
-  target_link_libraries(build_jmdict_db tagaini_sqlite Qt::Core)
+  target_link_libraries(build_jmdict_db tagaini_core)
 
   # Database target. Always build the english DB, other languages are optional.
   set(ALL_LANGS "en")

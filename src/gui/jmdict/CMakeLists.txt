@@ -11,4 +11,9 @@ add_library(
   tagaini_gui_jmdict STATIC
   ${tagainijisho_gui_jmdict_UI_SRCS} ${tagainijisho_gui_jmdict_MOC_SRCS}
   ${tagainijisho_gui_jmdict_SRCS})
-target_link_libraries(tagaini_gui_jmdict tagaini_gui)
+target_link_libraries(tagaini_gui_jmdict PUBLIC tagaini_gui tagaini_core_jmdict)
+target_include_directories(
+  tagaini_gui_jmdict
+  PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}
+  PRIVATE ${CMAKE_CURRENT_BINARY_DIR} # For generated UI headers
+)

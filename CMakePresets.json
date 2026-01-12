@@ -9,6 +9,7 @@
     {
       "name": "base",
       "hidden": true,
+      "generator": "Ninja",
       "binaryDir": "${sourceDir}/build/${presetName}",
       "cacheVariables": {
         "CMAKE_EXPORT_COMPILE_COMMANDS": "ON"
@@ -54,7 +55,6 @@
       "description": "Release build for Windows CI (MSYS2/MinGW)",
       "inherits": "base",
       "binaryDir": "${sourceDir}/build",
-      "generator": "Ninja",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Release",
         "CMAKE_INSTALL_PREFIX": "c:/Program Files/Tagaini Jisho",

@@ -73,15 +73,18 @@ qt6_add_resources(tagainijisho_gui_RC ${CMAKE_SOURCE_DIR}/tagainijisho.qrc)
 
 add_library(tagaini_gui STATIC ${tagainijisho_gui_UI_SRCS}
                                ${tagainijisho_gui_SRCS})
+# Include directories inherited from tagaini_core (sqlite headers + common + core)
+# Qt modules are PUBLIC because headers include Qt classes from multiple modules
 target_link_libraries(
   tagaini_gui
-  tagaini_core
-  tagaini_sqlite
-  Qt::Core
-  Qt::Widgets
-  Qt::PrintSupport
-  Qt::Network
-  ${extra_link_flags})
+  PUBLIC tagaini_core Qt::Widgets Qt::PrintSupport Qt::Network
+  PRIVATE tagaini_sqlite Qt::Core ${extra_link_flags})
+# Add local headers and generated UI headers for this module
+target_include_directories(
+  tagaini_gui
+  PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}
+         ${CMAKE_CURRENT_BINARY_DIR} # For generated UI headers (needed by submodules)
+)
 
 # Build the main program
 set(ICON "")

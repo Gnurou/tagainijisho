@@ -21,12 +21,11 @@ set(tagainijisho_core_SRCS
     Plugin.cc
     XmlParserHelper.cc)
 
-# include_directories(${QT_INCLUDE_DIR}) TODO remove once the SQLite stuff is
-# entirely moved into the sqlite module
-include_directories(${CMAKE_SOURCE_DIR}/3rdparty/sqlite)
-
 add_library(tagaini_core STATIC ${tagainijisho_core_SRCS})
-target_link_libraries(tagaini_core tagaini_sqlite Qt::Core)
+# Include directories inherited from tagaini_sqlite (sqlite headers + common)
+target_link_libraries(tagaini_core PUBLIC tagaini_sqlite Qt::Core)
+# Add local headers for this module
+target_include_directories(tagaini_core PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
 if(APPLE)
   set(DEST_DIR "${tagaini_binary}.app/Contents/MacOS")
