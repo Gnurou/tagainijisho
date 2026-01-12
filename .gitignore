@@ -59,5 +59,6 @@ pack/archlinux/*.tar.gz
 pack/archlinux/*.tar.xz
 .clangd
 compile_commands.json
+CMakeUserPresets.json
 tagainijisho.code-workspace
 .cache
