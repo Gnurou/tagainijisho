@@ -76,3 +76,9 @@ The application uses a plugin architecture for dictionary types:
 ## Code style and layout
 
 The project is very old (started in 2008), so the C++ style is out-of-date. Improve the code to use more safe and modern patterns whenever possible, especially if this reduces the code complexity and size.
+
+## Commit logs format
+
+Unless the change is in a root file, or several modules are affected, always prefix each commit title with the module it affects, e.g. `core: do something` or `github: fix Windows build`.
+
+Use short but descriptive commit logs, avoiding bullet points unless they absolutely make sense.
