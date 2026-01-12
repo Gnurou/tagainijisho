@@ -125,11 +125,6 @@ else()
   include_directories(${SQLITE_INCLUDE_DIR})
 endif()
 
-add_definitions(
-  -DSQLITE_ENABLE_FTS3 -DSQLITE_ENABLE_FTS3_PARENTHESIS
-  -DSQLITE_ENABLE_LOCKING_STYLE=0 -DSQLITE_OMIT_DEPRECATED
-  -DSQLITE_ENABLE_FTS3_TOKENIZER)
-
 if(SHARED_SQLITE_LIBRARY)
   add_library(tagaini_sqlite SHARED ${tagainijisho_sqlite_SRCS}
                                     ${tagainijisho_sqlite_MOC_SRCS})
@@ -143,6 +138,15 @@ else()
                                     ${tagainijisho_sqlite_MOC_SRCS})
   target_link_libraries(tagaini_sqlite Qt::Core)
 endif()
+
+# SQLite compile definitions - applied after target is created
+target_compile_definitions(
+  tagaini_sqlite
+  PRIVATE SQLITE_ENABLE_FTS3
+          SQLITE_ENABLE_FTS3_PARENTHESIS
+          SQLITE_ENABLE_LOCKING_STYLE=0
+          SQLITE_OMIT_DEPRECATED
+          SQLITE_ENABLE_FTS3_TOKENIZER)
 if(NOT EMBED_SQLITE)
   target_link_libraries(tagaini_sqlite sqlite3)
 endif()

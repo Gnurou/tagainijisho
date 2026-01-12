@@ -27,10 +27,10 @@ find_package(Qt6 6.4 REQUIRED COMPONENTS Core Widgets PrintSupport Network Lingu
 # building from source package.
 find_program(GZIP NAMES gzip REQUIRED)
 
-# Global compiler options
-if(CMAKE_COMPILER_IS_GNUCC)
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wnon-virtual-dtor -Wno-unused-parameter")
-endif(CMAKE_COMPILER_IS_GNUCC)
+# Global compiler options - applied to all targets via add_compile_options
+if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+  add_compile_options(-Wall -Wextra -Wnon-virtual-dtor -Wno-unused-parameter)
+endif()
 
 # Add the default database lookup data path for Linux if not defined
 if(UNIX
