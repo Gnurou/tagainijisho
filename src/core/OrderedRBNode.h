@@ -68,15 +68,15 @@ template <typename Node> inline void deleteAllTreeNodes(Node *&root) {
  */
 template <class T> class OrderedRBNodeBase {
   public:
-    typedef enum { BLACK, RED } Color;
+    enum class Color { Black, Red };
 
   protected:
     quint32 _leftSize;
     Color _color;
 
   public:
-    typedef T ValueType;
-    OrderedRBNodeBase() : _leftSize(0), _color(RED) {}
+    using ValueType = T;
+    OrderedRBNodeBase() : _leftSize(0), _color(Color::Red) {}
 
     Color color() const { return _color; }
     void setColor(Color col) { _color = col; }
@@ -93,14 +93,13 @@ template <class T> class OrderedRBNode : public OrderedRBNodeBase<T> {
     friend class OrderedRBTreeTests;
 
   private:
-    OrderedRBNode<T> *_left, *_right, *_parent;
+    OrderedRBNode<T> *_left = nullptr;
+    OrderedRBNode<T> *_right = nullptr;
+    OrderedRBNode<T> *_parent = nullptr;
     T _value;
 
   public:
-    OrderedRBNode(OrderedRBMemTree<T> *tree, const T &va)
-        : OrderedRBNodeBase<T>(), _left(0), _right(0), _parent(0), _value(va) {}
-
-    ~OrderedRBNode() {}
+    OrderedRBNode(OrderedRBMemTree<T> *, const T &va) : OrderedRBNodeBase<T>(), _value(va) {}
 
     const T &value() const { return _value; }
     void setValue(const T &nv) { _value = nv; }
@@ -119,7 +118,7 @@ template <class T> class OrderedRBNode : public OrderedRBNodeBase<T> {
             nr->setParent(this);
     }
     void setParent(OrderedRBNode<T> *np) { _parent = np; }
-    void attachToTree(OrderedRBMemTree<T> *tree) {}
+    void attachToTree(OrderedRBMemTree<T> *) {}
 
     friend class OrderedRBMemTree<T>;
 };
@@ -149,9 +148,11 @@ template <class T> class OrderedRBMemTree {
 template <class TreeBase> class OrderedRBTree {
   private:
     using Node = typename TreeBase::Node;
+    using Color = typename Node::Color;
+    enum class Side { Left, Right };
 
-    OrderedRBTree(const OrderedRBTree &);
-    OrderedRBTree &operator=(const OrderedRBTree &);
+    OrderedRBTree(const OrderedRBTree &) = delete;
+    OrderedRBTree &operator=(const OrderedRBTree &) = delete;
 
     TreeBase _tree;
 
@@ -169,8 +170,6 @@ template <class TreeBase> class OrderedRBTree {
     void insertCase3(Node *inserted);
     void insertCase4(Node *inserted);
     void insertCase5(Node *inserted);
-
-    typedef enum { Left, Right } Side;
 
     /**
      * Remove a node which has at most one child.
@@ -197,20 +196,19 @@ template <class TreeBase> class OrderedRBTree {
     void removeCase5(Node *parent, Side side);
     void removeCase6(Node *parent, Side side);
 
-    bool _isBlack(const Node *node) const {
+    bool isBlack(const Node *node) const {
         // Property 1 (all nodes are either red or black) is implicitly
         // enforced. Property 3: all leaves are black
-        return !node || node->color() == Node::BLACK;
+        return !node || node->color() == Color::Black;
     }
 
-    unsigned int _treeValid(const Node *node, int depth, int &maxdepth) const;
+    unsigned int treeValid(const Node *node, int depth, int &maxdepth) const;
 
   public:
-    typedef TreeBase TreeType;
+    using TreeType = TreeBase;
 
-    OrderedRBTree() {}
-
-    ~OrderedRBTree() {}
+    OrderedRBTree() = default;
+    ~OrderedRBTree() = default;
 
     /**
      * Complexity: O(log n)
@@ -267,8 +265,8 @@ template <class TreeBase> class OrderedRBTree {
 #ifndef QT_NO_DEBUG
         int maxdepth = -1;
         // Property 2: root is black
-        Q_ASSERT(!tree()->root() || tree()->root()->color() == Node::BLACK);
-        Q_ASSERT(_treeValid(tree()->root(), 0, maxdepth) == size());
+        Q_ASSERT(!tree()->root() || tree()->root()->color() == Color::Black);
+        Q_ASSERT(treeValid(tree()->root(), 0, maxdepth) == size());
 #endif
     }
     friend class OrderedRBTreeTests;
@@ -283,17 +281,17 @@ template <class TreeBase> void OrderedRBTree<TreeBase>::setRoot(Node *node) {
 template <class TreeBase>
 typename OrderedRBTree<TreeBase>::Node *OrderedRBTree<TreeBase>::grandParent(const Node *node) {
     Node *p = node->parent();
-    if (p != 0)
+    if (p)
         return p->parent();
     else
-        return 0;
+        return nullptr;
 }
 
 template <class TreeBase>
 typename OrderedRBTree<TreeBase>::Node *OrderedRBTree<TreeBase>::uncle(const Node *node) {
     Node *gp = grandParent(node);
     if (!gp)
-        return 0;
+        return nullptr;
     if (node->parent() == gp->left())
         return gp->right();
     else
@@ -320,10 +318,10 @@ template <class TreeBase> void OrderedRBTree<TreeBase>::calculateLeftSize(Node *
 template <class TreeBase> void OrderedRBTree<TreeBase>::detach(Node *node) {
     if (node->parent()) {
         if (node->parent()->left() == node)
-            node->parent()->setLeft(0);
+            node->parent()->setLeft(nullptr);
         else if (node->parent()->right() == node)
-            node->parent()->setRight(0);
-        node->setParent(0);
+            node->parent()->setRight(nullptr);
+        node->setParent(nullptr);
     }
 }
 
@@ -384,14 +382,14 @@ template <class TreeBase> void OrderedRBTree<TreeBase>::rotateRight(Node *pivot)
 template <class TreeBase> void OrderedRBTree<TreeBase>::insertCase1(Node *inserted) {
     // Added a root node?
     if (!inserted->parent())
-        inserted->setColor(Node::BLACK);
+        inserted->setColor(Color::Black);
     else
         insertCase2(inserted);
 }
 
 template <class TreeBase> void OrderedRBTree<TreeBase>::insertCase2(Node *inserted) {
     // Parent black? Tree still valid
-    if (inserted->parent()->color() == Node::BLACK)
+    if (inserted->parent()->color() == Color::Black)
         return;
     else
         insertCase3(inserted);
@@ -400,11 +398,11 @@ template <class TreeBase> void OrderedRBTree<TreeBase>::insertCase2(Node *insert
 template <class TreeBase> void OrderedRBTree<TreeBase>::insertCase3(Node *inserted) {
     Node *_uncle = uncle(inserted);
     // Parent and uncle red? Recolor them.
-    if (_uncle != 0 && _uncle->color() == Node::RED) {
+    if (_uncle != 0 && _uncle->color() == Color::Red) {
         Node *_grandParent = grandParent(inserted);
-        inserted->parent()->setColor(Node::BLACK);
-        _uncle->setColor(Node::BLACK);
-        _grandParent->setColor(Node::RED);
+        inserted->parent()->setColor(Color::Black);
+        _uncle->setColor(Color::Black);
+        _grandParent->setColor(Color::Red);
         insertCase1(_grandParent);
     } else
         insertCase4(inserted);
@@ -429,8 +427,8 @@ template <class TreeBase> void OrderedRBTree<TreeBase>::insertCase5(Node *insert
     // Parent red, uncle black, inserted node and parent on
     // same side from their parent
     Node *_grandParent = grandParent(inserted);
-    inserted->parent()->setColor(Node::BLACK);
-    _grandParent->setColor(Node::RED);
+    inserted->parent()->setColor(Color::Black);
+    _grandParent->setColor(Color::Red);
     if (inserted == inserted->parent()->left() && inserted->parent() == _grandParent->left()) {
         rotateRight(_grandParent);
     } else {
@@ -442,7 +440,7 @@ template <class TreeBase> void OrderedRBTree<TreeBase>::removeOneChildNode(Node 
     // Update leftSizes
     for (Node *n = node;;) {
         Node *p = n->parent();
-        if (p == 0)
+        if (!p)
             break;
         if (n == p->left())
             p->setLeftSize(p->leftSize() - 1);
@@ -450,25 +448,25 @@ template <class TreeBase> void OrderedRBTree<TreeBase>::removeOneChildNode(Node 
     }
     Node *parent = node->parent();
     Node *child = node->left() ? node->left() : node->right();
-    Side side = Right;
+    Side side = Side::Right;
     // Are we deleting the root?
     if (!parent)
         setRoot(child);
     else if (parent->left() == node) {
         parent->setLeft(child);
-        side = Left;
+        side = Side::Left;
     } else {
         parent->setRight(child);
-        side = Right;
+        side = Side::Right;
     }
     // child will only be null if both childs of node are leaves. In that case
     // child can have no sibling!
 
     // Perform balancing
-    if (node->color() == Node::BLACK) {
+    if (node->color() == Color::Black) {
         // Black node replaced with red one: recolor into black
-        if (child && child->color() == Node::RED)
-            child->setColor(Node::BLACK);
+        if (child && child->color() == Color::Red)
+            child->setColor(Color::Black);
         // Black node replaced by black: black count in path changed, needs
         // rebalancing
         // This can only happen if node only had two leaf children, that is, if
@@ -479,9 +477,9 @@ template <class TreeBase> void OrderedRBTree<TreeBase>::removeOneChildNode(Node 
 
     // The node is now out of the tree, so reset it
     detach(node);
-    node->setLeft(0);
-    node->setRight(0);
-    node->setColor(Node::RED);
+    node->setLeft(nullptr);
+    node->setRight(nullptr);
+    node->setColor(Color::Red);
     node->setLeftSize(0);
 }
 
@@ -540,10 +538,10 @@ template <class TreeBase> void OrderedRBTree<TreeBase>::removeCase1(Node *parent
 // to be red, let the sibling become black, and rotate before continuing
 // balancing
 template <class TreeBase> void OrderedRBTree<TreeBase>::removeCase2(Node *parent, Side side) {
-    Node *sibling = side == Left ? parent->right() : parent->left();
-    if (sibling->color() == Node::RED) {
-        parent->setColor(Node::RED);
-        sibling->setColor(Node::BLACK);
+    Node *sibling = side == Side::Left ? parent->right() : parent->left();
+    if (sibling->color() == Color::Red) {
+        parent->setColor(Color::Red);
+        sibling->setColor(Color::Black);
         if (sibling == parent->left())
             rotateRight(parent);
         else
@@ -555,13 +553,14 @@ template <class TreeBase> void OrderedRBTree<TreeBase>::removeCase2(Node *parent
 // Parent is black, as well as sibling and its children - just repaint sibling
 // red.
 template <class TreeBase> void OrderedRBTree<TreeBase>::removeCase3(Node *parent, Side side) {
-    Node *sibling = side == Left ? parent->right() : parent->left();
-    if (parent->color() == Node::BLACK && sibling->color() == Node::BLACK &&
-        (!sibling->left() || sibling->left()->color() == Node::BLACK) &&
-        (!sibling->right() || sibling->right()->color() == Node::BLACK)) {
-        sibling->setColor(Node::RED);
-        removeCase1(parent->parent(),
-                    parent->parent() && parent == parent->parent()->left() ? Left : Right);
+    Node *sibling = side == Side::Left ? parent->right() : parent->left();
+    if (parent->color() == Color::Black && sibling->color() == Color::Black &&
+        (!sibling->left() || sibling->left()->color() == Color::Black) &&
+        (!sibling->right() || sibling->right()->color() == Color::Black)) {
+        sibling->setColor(Color::Red);
+        removeCase1(parent->parent(), parent->parent() && parent == parent->parent()->left()
+                                          ? Side::Left
+                                          : Side::Right);
     } else
         removeCase4(parent, side);
 }
@@ -569,30 +568,30 @@ template <class TreeBase> void OrderedRBTree<TreeBase>::removeCase3(Node *parent
 // Parent is red and sibling and its childs are black. Exchange the color of
 // parent and sibling.
 template <class TreeBase> void OrderedRBTree<TreeBase>::removeCase4(Node *parent, Side side) {
-    Node *sibling = side == Left ? parent->right() : parent->left();
-    if (parent->color() == Node::RED && sibling->color() == Node::BLACK &&
-        (!sibling->left() || sibling->left()->color() == Node::BLACK) &&
-        (!sibling->right() || sibling->right()->color() == Node::BLACK)) {
-        sibling->setColor(Node::RED);
-        parent->setColor(Node::BLACK);
+    Node *sibling = side == Side::Left ? parent->right() : parent->left();
+    if (parent->color() == Color::Red && sibling->color() == Color::Black &&
+        (!sibling->left() || sibling->left()->color() == Color::Black) &&
+        (!sibling->right() || sibling->right()->color() == Color::Black)) {
+        sibling->setColor(Color::Red);
+        parent->setColor(Color::Black);
     } else
         removeCase5(parent, side);
 }
 
 template <class TreeBase> void OrderedRBTree<TreeBase>::removeCase5(Node *parent, Side side) {
-    Node *sibling = side == Left ? parent->right() : parent->left();
-    if (sibling->color() == Node::BLACK) {
+    Node *sibling = side == Side::Left ? parent->right() : parent->left();
+    if (sibling->color() == Color::Black) {
         if (sibling == parent->right() &&
-            (!sibling->right() || sibling->right()->color() == Node::BLACK) &&
-            (sibling->left() && sibling->left()->color() == Node::RED)) {
-            sibling->setColor(Node::RED);
-            sibling->left()->setColor(Node::BLACK);
+            (!sibling->right() || sibling->right()->color() == Color::Black) &&
+            (sibling->left() && sibling->left()->color() == Color::Red)) {
+            sibling->setColor(Color::Red);
+            sibling->left()->setColor(Color::Black);
             rotateRight(sibling);
         } else if (sibling == parent->left() &&
-                   (!sibling->left() || sibling->left()->color() == Node::BLACK) &&
-                   (sibling->right() && sibling->right()->color() == Node::RED)) {
-            sibling->setColor(Node::RED);
-            sibling->right()->setColor(Node::BLACK);
+                   (!sibling->left() || sibling->left()->color() == Color::Black) &&
+                   (sibling->right() && sibling->right()->color() == Color::Red)) {
+            sibling->setColor(Color::Red);
+            sibling->right()->setColor(Color::Black);
             rotateLeft(sibling);
         }
     }
@@ -600,17 +599,17 @@ template <class TreeBase> void OrderedRBTree<TreeBase>::removeCase5(Node *parent
 }
 
 template <class TreeBase> void OrderedRBTree<TreeBase>::removeCase6(Node *parent, Side side) {
-    Node *sibling = side == Left ? parent->right() : parent->left();
+    Node *sibling = side == Side::Left ? parent->right() : parent->left();
     sibling->setColor(parent->color());
-    parent->setColor(Node::BLACK);
+    parent->setColor(Color::Black);
 
     if (sibling == parent->right()) {
         if (sibling->right())
-            sibling->right()->setColor(Node::BLACK);
+            sibling->right()->setColor(Color::Black);
         rotateLeft(parent);
     } else {
         if (sibling->left())
-            sibling->left()->setColor(Node::BLACK);
+            sibling->left()->setColor(Color::Black);
         rotateRight(parent);
     }
 }
@@ -786,15 +785,15 @@ template <class TreeBase> bool OrderedRBTree<TreeBase>::clear() {
             switch (sideToClear) {
             case ROOT:
                 _tree.removeNode(_tree.root());
-                setRoot(0);
+                setRoot(nullptr);
                 break;
             case LEFT:
                 _tree.removeNode(parent->left());
-                parent->setLeft(0);
+                parent->setLeft(nullptr);
                 break;
             case RIGHT:
                 _tree.removeNode(parent->right());
-                parent->setRight(0);
+                parent->setRight(nullptr);
                 break;
             }
             current = parent;
@@ -807,10 +806,10 @@ template <class TreeBase> bool OrderedRBTree<TreeBase>::clear() {
 }
 
 template <class TreeBase>
-unsigned int OrderedRBTree<TreeBase>::_treeValid(const Node *node, int depth, int &maxdepth) const {
+unsigned int OrderedRBTree<TreeBase>::treeValid(const Node *node, int depth, int &maxdepth) const {
     // Property 5: every path from a node to any of its descendant contains the
     // same number of black nodes
-    if (_isBlack(node))
+    if (isBlack(node))
         ++depth;
     if (!node) {
         if (maxdepth == -1) {
@@ -823,7 +822,7 @@ unsigned int OrderedRBTree<TreeBase>::_treeValid(const Node *node, int depth, in
     }
 
     // Property 4: both children of every red node are black
-    Q_ASSERT(_isBlack(node) || ((_isBlack(node->left()) && _isBlack(node->right()))));
+    Q_ASSERT(isBlack(node) || ((isBlack(node->left()) && isBlack(node->right()))));
 
     // Check that the tree can be parsed two-ways
     Q_ASSERT(!node->left() || node->left()->parent() == node);
@@ -832,8 +831,8 @@ unsigned int OrderedRBTree<TreeBase>::_treeValid(const Node *node, int depth, in
     // Check that we are not looping on ourselves
     Q_ASSERT(node->parent() != node);
 
-    unsigned int leftSize = _treeValid(node->left(), depth, maxdepth);
-    unsigned int rightSize = _treeValid(node->right(), depth, maxdepth);
+    unsigned int leftSize = treeValid(node->left(), depth, maxdepth);
+    unsigned int rightSize = treeValid(node->right(), depth, maxdepth);
     // Check that the leftSize of the node is valid
     Q_ASSERT(leftSize == node->leftSize());
     return leftSize + rightSize + 1;

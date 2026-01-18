@@ -41,22 +41,24 @@ template <class T> class OrderedRBDBNode : public OrderedRBNodeBase<T> {
 
   public:
     OrderedRBDBNode(OrderedRBDBTree<T> *tree, const T &va)
-        : OrderedRBNodeBase<T>(), _tree(tree), _left(0), _right(0), _parent(0), e() {
+        : OrderedRBNodeBase<T>(), _tree(tree), _left(nullptr), _right(nullptr), _parent(nullptr),
+          e() {
         // Here a new node is to be inserted in the tree - we need to insert it
         // right now into the DB in order to get its ID.
         setValue(va);
         // Propage the color information up to the DB layer (e.red is false at
         // construction time)
-        setColor(OrderedRBDBNode<T>::RED);
+        setColor(OrderedRBNodeBase<T>::Color::Red);
         updateDB();
     }
 
     OrderedRBDBNode(OrderedRBDBTree<T> *tree, quint32 rowid)
-        : OrderedRBNodeBase<T>(), _tree(tree), _left(0), _right(0), _parent(0), e() {
+        : OrderedRBNodeBase<T>(), _tree(tree), _left(nullptr), _right(nullptr), _parent(nullptr),
+          e() {
         // The new node is expected to exist in the DB with the given ID - just
         // load it.
         e = _tree->dbAccess()->getEntry(rowid);
-        setColor(e.red ? OrderedRBNodeBase<T>::RED : OrderedRBNodeBase<T>::BLACK);
+        setColor(e.red ? OrderedRBNodeBase<T>::Color::Red : OrderedRBNodeBase<T>::Color::Black);
         setLeftSize(e.leftSize);
     }
 
@@ -68,7 +70,7 @@ template <class T> class OrderedRBDBNode : public OrderedRBNodeBase<T> {
 
     void setColor(typename OrderedRBNodeBase<T>::Color col) {
         OrderedRBNodeBase<T>::setColor(col);
-        e.red = (col == OrderedRBNodeBase<T>::RED);
+        e.red = (col == OrderedRBNodeBase<T>::Color::Red);
         _tree->nodeChanged(this);
     }
 
@@ -168,7 +170,7 @@ template <class T> class OrderedRBDBTree {
     DBList<T> *_ldb;
 
   public:
-    OrderedRBDBTree() : _listInfo(), _root(0), mustUpdateRootTable(false), _ldb(0) {}
+    OrderedRBDBTree() : _listInfo(), _root(nullptr), mustUpdateRootTable(false), _ldb(nullptr) {}
 
     /// Remove all the in-memory structures, leaving the database unchanged
     ~OrderedRBDBTree() { clearMemCache(); }
