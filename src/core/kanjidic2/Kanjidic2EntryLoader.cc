@@ -90,7 +90,12 @@ QList<Kanjidic2Entry::KanjiMeaning> Kanjidic2EntryLoader::getMeanings(int id) {
     // Here we probably have a kana or roman character that we can build up
     if (ret.isEmpty()) {
         QString character(TextTools::unicodeToSingleChar(id));
-        TextTools::KanaInfo kInfo(TextTools::kanaInfo(QChar(id)));
+        TextTools::KanaInfo kInfo;
+        // Only query kana info if the character is in the BMP (QChar only
+        // supports U+0000-U+FFFF), otherwise the QChar constructor will crash.
+        if (id <= 0xFFFF) {
+            kInfo = TextTools::kanaInfo(QChar(id));
+        }
         QString reading(kInfo.reading);
         QString info(reading.isEmpty() || kInfo.size == TextTools::KanaInfo::Normal ? ""
                                                                                     : " (small)");
