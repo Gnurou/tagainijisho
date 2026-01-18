@@ -35,6 +35,35 @@
 #endif
 
 /**
+ * Post-order traversal that deletes all nodes in a tree.
+ * Requires Node to have _left, _right, _parent members accessible from caller.
+ * Must be called from a context that has friend access to Node's private members.
+ */
+template <typename Node> inline void deleteAllTreeNodes(Node *&root) {
+    Node *current = root;
+    while (current) {
+        if (current->_left)
+            current = current->_left;
+        else if (current->_right)
+            current = current->_right;
+        else {
+            Node *parent = current->_parent;
+            if (current == root) {
+                delete root;
+                root = nullptr;
+            } else if (current == parent->_left) {
+                delete parent->_left;
+                parent->_left = nullptr;
+            } else {
+                delete parent->_right;
+                parent->_right = nullptr;
+            }
+            current = parent;
+        }
+    }
+}
+
+/**
  * Base node type lacking the logic to access parent or child nodes.
  */
 template <class T> class OrderedRBNodeBase {
@@ -103,32 +132,10 @@ template <class T> class OrderedRBMemTree {
     Node *_root;
 
   public:
-    OrderedRBMemTree() : _root(0) {}
+    OrderedRBMemTree() : _root(nullptr) {}
 
     /// Remove all the in-memory structures, without side-effect on the storage
-    ~OrderedRBMemTree() {
-        Node *current = _root;
-        while (current) {
-            if (current->_left)
-                current = current->_left;
-            else if (current->_right)
-                current = current->_right;
-            else {
-                Node *parent = current->_parent;
-                if (current == _root) {
-                    delete _root;
-                    _root = 0;
-                } else if (current == parent->_left) {
-                    delete parent->_left;
-                    parent->_left = 0;
-                } else {
-                    delete parent->_right;
-                    parent->_right = 0;
-                }
-                current = parent;
-            }
-        }
-    }
+    ~OrderedRBMemTree() { deleteAllTreeNodes(_root); }
 
     Node *root() const { return _root; }
     void setRoot(Node *node) { _root = node; }

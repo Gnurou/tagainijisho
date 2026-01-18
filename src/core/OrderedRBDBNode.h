@@ -30,6 +30,8 @@ template <class T> class OrderedRBDBTree;
  * node is created and loaded.
  */
 template <class T> class OrderedRBDBNode : public OrderedRBNodeBase<T> {
+    template <typename Node> friend void deleteAllTreeNodes(Node *&);
+
   private:
     OrderedRBDBTree<T> *_tree;
     mutable OrderedRBDBNode<T> *_left;
@@ -277,27 +279,7 @@ template <class T> class OrderedRBDBTree {
 };
 
 template <class T> void OrderedRBDBTree<T>::clearMemCache() {
-    Node *current = _root;
-    while (current) {
-        if (current->_left)
-            current = current->_left;
-        else if (current->_right)
-            current = current->_right;
-        else {
-            Node *parent = current->_parent;
-            if (current == _root) {
-                delete _root;
-                _root = 0;
-            } else if (current == parent->_left) {
-                delete parent->_left;
-                parent->_left = 0;
-            } else {
-                delete parent->_right;
-                parent->_right = 0;
-            }
-            current = parent;
-        }
-    }
+    deleteAllTreeNodes(_root);
     // Restore the root node, otherwise the tree will not work anymore
     if (_listInfo.rootId != 0)
         _root = new Node(const_cast<OrderedRBDBTree<T> *>(this), _listInfo.rootId);
