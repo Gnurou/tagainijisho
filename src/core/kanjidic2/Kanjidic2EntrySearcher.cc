@@ -48,7 +48,7 @@ SearchCommand Kanjidic2EntrySearcher::commandFromWord(const QString &word) const
     // We have a kanji command if the string is of size 1 and the character is a
     // kanji.
     if (word.size() == 1 && TextTools::isKanji(word[0]))
-        return SearchCommand::fromString(QString(":kanji=\"%1\"").arg(word[0]));
+        return SearchCommand::fromString(QString(":kanji=\"%1\"").arg(word));
     else if (TextTools::isKana(checkString))
         return SearchCommand::fromString(QString(":kana=\"%1\"").arg(word));
     else if (TextTools::isRomaji(checkString)) {
