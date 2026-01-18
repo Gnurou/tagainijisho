@@ -137,7 +137,7 @@ void Kanjidic2EntrySearcher::buildStatement(QList<SearchCommand> &commands,
                 if (command.args()[0].size() != 1)
                     continue;
                 statement.addWhere(
-                    QString("kanjidic2.entries.id = %1").arg(command.args()[0][0].unicode()));
+                    QString("kanjidic2.entries.id = %1").arg(static_cast<uint>(command.args()[0][0].unicode())));
             }
         } else if (command.command() == "kana") {
             foreach (const QString &arg, command.args())
