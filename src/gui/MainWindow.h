@@ -151,6 +151,9 @@ class MainWindow : public QMainWindow, private Ui::MainWindow {
      */
     static void fitToScreen(QWidget *widget);
 
+    /// Start a fresh text lookup and select the query for replacement.
+    void searchText(const QString &text);
+
     void restoreWholeState();
 };
 

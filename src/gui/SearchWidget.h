@@ -77,6 +77,8 @@ class SearchWidget : public QWidget, private Ui::SearchWidget {
 
   public slots:
     void resetSearch();
+    /// Replace the current filters with a text lookup in one history step.
+    void searchText(const QString &text);
 
     void goPrev();
     void goNext();

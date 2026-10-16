@@ -94,7 +94,8 @@ if(APPLE)
   set(ICON ${CMAKE_CURRENT_SOURCE_DIR}/appicon.icns)
 endif(APPLE)
 
-set(tagainijisho_SRCS main.cc ${tagainijisho_gui_RC} ${ICON})
+set(tagainijisho_SRCS main.cc LookupApplication.cc LookupUrl.cc
+                     ${tagainijisho_gui_RC} ${ICON})
 
 if(WIN32)
   if(MSVC)

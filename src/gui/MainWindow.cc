@@ -574,6 +574,12 @@ void MainWindow::display(const QModelIndex &clicked) {
 
 void MainWindow::resetSearch() { searchWidget()->resetSearch(); }
 
+void MainWindow::searchText(const QString &text) {
+    searchWidget()->searchText(text);
+    searchDockWidget()->show();
+    focusTextSearch();
+}
+
 void MainWindow::focusTextSearch() {
     TextFilterWidget *tWidget =
         qobject_cast<TextFilterWidget *>(searchWidget()->getSearchFilter("searchtext"));
