@@ -46,7 +46,7 @@ class Query {
     // Query &operator =(const Query &query);
 
     bool checkBind(int &col);
-    bool checkBindRes();
+    bool checkBindRes(int res);
 
   public:
     /**

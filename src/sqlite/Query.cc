@@ -78,10 +78,10 @@ bool Query::checkBind(int &col) {
     return true;
 }
 
-bool Query::checkBindRes() {
+bool Query::checkBindRes(int res) {
     _lastError = _connection->updateError();
     checkQueryError(*this, queryText());
-    if (_lastError.code() != SQLITE_OK) {
+    if (res != SQLITE_OK) {
         _state = ERROR;
         return false;
     }
@@ -91,8 +91,8 @@ bool Query::checkBindRes() {
 bool Query::bindValue(const qint32 val, int col) {
     if (!checkBind(col))
         return false;
-    sqlite3_bind_int(_stmt, col, val);
-    return checkBindRes();
+    int res = sqlite3_bind_int(_stmt, col, val);
+    return checkBindRes(res);
 }
 
 bool Query::bindValue(const quint32 val, int col) { return bindValue((qint32)val, col); }
@@ -102,8 +102,8 @@ bool Query::bindValue(const bool val, int col) { return bindValue((qint32)val, c
 bool Query::bindValue(const qint64 val, int col) {
     if (!checkBind(col))
         return false;
-    sqlite3_bind_int64(_stmt, col, val);
-    return checkBindRes();
+    int res = sqlite3_bind_int64(_stmt, col, val);
+    return checkBindRes(res);
 }
 
 bool Query::bindValue(const quint64 val, int col) { return bindValue((qint64)val, col); }
@@ -111,29 +111,29 @@ bool Query::bindValue(const quint64 val, int col) { return bindValue((qint64)val
 bool Query::bindValue(const double val, int col) {
     if (!checkBind(col))
         return false;
-    sqlite3_bind_double(_stmt, col, val);
-    return checkBindRes();
+    int res = sqlite3_bind_double(_stmt, col, val);
+    return checkBindRes(res);
 }
 
 bool Query::bindValue(const QString &val, int col) {
     if (!checkBind(col))
         return false;
-    sqlite3_bind_text(_stmt, col, val.toUtf8().data(), -1, SQLITE_TRANSIENT);
-    return checkBindRes();
+    int res = sqlite3_bind_text(_stmt, col, val.toUtf8().data(), -1, SQLITE_TRANSIENT);
+    return checkBindRes(res);
 }
 
 bool Query::bindValue(const QByteArray &val, int col) {
     if (!checkBind(col))
         return false;
-    sqlite3_bind_blob(_stmt, col, val.data(), val.length(), SQLITE_TRANSIENT);
-    return checkBindRes();
+    int res = sqlite3_bind_blob(_stmt, col, val.data(), val.length(), SQLITE_TRANSIENT);
+    return checkBindRes(res);
 }
 
 bool Query::bindNullValue(int col) {
     if (!checkBind(col))
         return false;
-    sqlite3_bind_null(_stmt, col);
-    return checkBindRes();
+    int res = sqlite3_bind_null(_stmt, col);
+    return checkBindRes(res);
 }
 
 void Query::reset() {
